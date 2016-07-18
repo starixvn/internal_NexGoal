@@ -1,0 +1,23 @@
+﻿namespace NexGoal.Criteria.TargetEmployeeSetting
+{
+    using Fanex.Data.Repository;
+
+    public class AssignTargetTemplateToEmployeeCriteria : CriteriaBase
+    {
+        public int TargetTemplateId { get; set; }
+
+        public string EmployeeIds { get; set; }
+
+        public int ModifiedBy { get; set; }
+
+        public override bool IsValid()
+        {
+            return true;
+        }
+
+        public override string GetSettingKey()
+        {
+            return "EpaTargetTemplateEmployee_Assign";
+        }
+    }
+}

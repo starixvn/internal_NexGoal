@@ -1,0 +1,7 @@
+﻿<span><i class="glyphicon glyphicon-minus-sign" ng-click="deptCtrl.toggleCollapseExpand()"></i></span>
+<a href="javascript:;" ng-click="deptCtrl.viewDetails(dept)">
+    {{dept.Name}}
+</a>
+<ul>
+    <li ng-repeat="dept in dept.Childrens" ng-include src="'/SourceApp/Components/Department/Templates/tree.html'"></li>
+</ul>

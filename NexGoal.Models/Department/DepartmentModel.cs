@@ -1,0 +1,31 @@
+﻿namespace NexGoal.Model.Department
+{
+    using System;
+    using System.Collections.Generic;
+    using NexGoal.Model.Enitites;
+
+    [Serializable]
+    public class DepartmentModel
+    {
+        public DepartmentModel()
+        {
+            Childrens = new List<DepartmentModel>();
+        }
+
+        public int DepartmentId { get; set; }
+
+        public string Code { get; set; }
+
+        public string Name { get; set; }
+
+        public int? ParentId { get; set; }
+
+        public bool IsActive { get; set; }
+
+        public bool IsGroup { get; set; }
+
+        public Employee Manager { get; set; }
+
+        public List<DepartmentModel> Childrens { get; set; }
+    }
+}

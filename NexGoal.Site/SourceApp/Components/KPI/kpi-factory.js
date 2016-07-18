@@ -1,0 +1,44 @@
+﻿'use strict';
+/*global kpiModule*/
+
+kpiModule.factory('kpiFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
+    return {
+        getKPI: function (kpiGroupId, isActive, isRequiredEvaluate) {
+            return $http.get(baseUrl + 'api/KPI/GetKPI', {
+                params: {
+                    kpiGroupId: kpiGroupId,
+                    isActive: isActive,
+                    isRequiredEvaluate: isRequiredEvaluate
+                }
+            });
+        },
+        createKPI: function (kpi) {
+            return $http.post(baseUrl + 'api/KPI/CreateKPI', kpi);
+        },
+        updateKPI: function (kpi) {
+            return $http.put(baseUrl + 'api/KPI/UpdateKPI', kpi);
+        },
+        updateStatusKPI: function (kpi) {
+            return $http.put(baseUrl + 'api/KPI/UpdateStatusKPI', kpi);
+        },
+        updateRequiredEvaluateKPI: function (kpi) {
+            return $http.put(baseUrl + 'api/KPI/UpdateRequiredEvaluateKPI', kpi);
+        },
+        deleteKPI: function (kpiId) {
+            return $http['delete'](baseUrl + 'api/KPI/DeleteKPI', { params: { kpiId: kpiId} });
+        },
+        getUserPermissionOnKPI: function () {
+            return $http.get(baseUrl + 'api/KPI/GetUserPermissionOnKPI');
+        }
+    };
+}]);
+
+kpiModule.directive('updateTrigger', function () {
+    return {
+        link: function (scope, iElement, attrs) {
+            scope.$watch(attrs.ngModel, function () {
+                iElement.trigger('chosen:updated');
+            });
+        }
+    };
+});

@@ -1,0 +1,232 @@
+﻿<div ng-controller="EmployeeSettingMonthlyPeriodController as empSettingCtrl">
+    <form class="row form-horizontal filter">
+        <div class="form-group">
+            <label class="control-label col-sm-2" data-translate="DepartmentSection"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="empSettingCtrl.filter.departmentId"
+                        ng-options="opt.DepartmentId as opt.Name for opt in empSettingCtrl.departmentOptions">
+                    <option value="">-- {{"All" | translate}} --</option>
+                </select>
+            </div>
+            <label class="control-label col-sm-1" data-translate="Category"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="empSettingCtrl.filter.isLocal">
+                    <option value="">-- {{"All" | translate}} --</option>
+                    <option value="false">{{"Expat" | translate}}</option>
+                    <option value="true">{{"Local" | translate}}</option>
+                </select>
+            </div>
+            <div class="col-sm-3 col-sm-offset-1">
+                <label>
+                    <input type="checkbox" ng-model="empSettingCtrl.filter.isExcludedEmployee" /> {{"ShowExcludedEmployee" | translate}}
+                </label>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="control-label col-sm-2" data-translate="EPAGeneratedStatus"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="empSettingCtrl.filter.isGeneratedEPA">
+                    <option selected value="">-- {{"All" | translate}} --</option>
+                    <option value="true" data-translate="GeneratedEPA"></option>
+                    <option value="false" data-translate="NoneGeneratedEPA"></option>
+                </select>
+            </div>
+            <label class="control-label col-sm-1" data-translate="EvaluatedStatus"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="empSettingCtrl.filter.isEvaluated">
+                    <option selected value="">-- {{"All" | translate}} --</option>
+                    <option value="1" data-translate="NotEvaluated"></option>
+                    <option value="2" data-translate="Evaluated"></option>
+                </select>
+            </div>
+            <label class="control-label col-sm-1" data-translate="EPAStatus"></label>
+            <div class="col-sm-2">
+                <select class="form-control" ng-model="empSettingCtrl.filter.epaStatus">
+                    <option selected value="">-- {{"All" | translate}} --</option>
+                    <option value="0" data-translate="InProgress"></option>
+                    <option value="1" data-translate="Closed"></option>
+                </select>
+            </div>
+            <div class="col-sm-1">
+                <button class="button" ng-click="empSettingCtrl.query(empSettingCtrl.filter)" data-translate="Search"></button>
+            </div>
+        </div>
+    </form>
+    <table class="row table table-bordered table-striped" id="data">
+        <thead>
+            <tr class="header-table">
+                <th colspan="14">
+                    <div class="pull-left div-period-department-setting" name="multiSelectOption" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
+                        <label class="control-label" data-translate="DepartmentSection"></label>
+                        <add-class-to-role-filter multi-select input-model="empSettingCtrl.departmentOptions" button-label="Name" helper-elements="all reset"
+                                                  item-label="Name" tick-property="ticked" max-labels="0" class="multi-select period-department-select">
+                        </add-class-to-role-filter>
+                    </div>
+                    <div class="pull-left div-period-employee-setting" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
+                        <label class="control-label" data-translate="Employee"></label>
+                        <input class="form-control period-employee" ng-model="empSettingCtrl.searchEmployee"
+                               placeholder="Enter full name or nick name" search-auto-complete search-employees="empSettingCtrl.getEmployee()"
+                               ng-change="empSettingCtrl.unSelectEmployee()" employee="empSettingCtrl.filterAssign.employee" />
+                    </div>
+                    <button class="button pull-left period-add" ng-click="empSettingCtrl.addEmployeeToMonthlyPeriod(empSettingCtrl.filterAssign)"
+                            ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Add"></button>
+                    <input type="text" ng-model="empSettingCtrl.searchKey" ng-change="empSettingCtrl.search()" class="search-inline-textbox search pull-right">
+                </th>
+            </tr>
+            <tr class="header-table" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
+                <th colspan="14">
+                    <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.manageSetting()">
+                        <span class="icon-edit glyphicon glyphicon-edit"></span>
+                        <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
+                    </a>
+                    <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.generateEvaluation()">
+                        <span class="icon-edit glyphicon glyphicon-edit"></span>
+                        <span class="button-text btn-edit-employee-setting" data-translate="GenerateEvaluation"></span>
+                    </a>
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th>
+                    <input type="checkbox" ng-click="empSettingCtrl.checkAll(empSettingCtrl.selectedAll)"
+                           ng-model="empSettingCtrl.selectedAll" />
+                </th>
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="DepartmentSection"></th>
+                <th data-translate="Employee"></th>
+                <th data-translate="TargetTemplate"></th>
+                <th data-translate="Step"></th>
+                <th data-translate="Name"></th>
+                <th data-translate="Status"></th>
+                <th data-translate="StartDate"></th>
+                <th data-translate="EndDate"></th>
+                <th data-translate="EPAGenerated"></th>
+                <th data-translate="Include"></th>
+                <th data-translate="Edit"></th>
+            </tr>
+        </thead>
+        <tbody class="table-body" dir-paginate="employee in empSettingCtrl.filteredItems | itemsPerPage: empSettingCtrl.pageSize"
+               current-page="empSettingCtrl.currentPage">
+            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <input type="checkbox" ng-model="employee.Selected" ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
+                </td>
+                <td class="text-center" ng-bind="empSettingCtrl.getIndex($index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
+                    rowspan="{{employee.NumberEvaluators}}"></td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
+                </td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <div ng-bind="employee.Employee.FullName"></div>
+                    <div ng-bind="employee.Employee.Code"></div>
+                    <div>({{employee.Employee.NickName}})</div>
+                    <div ng-bind="employee.JobTitle.JobTitleName"></div>
+                </td>
+                <td class="width-190" ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
+                <td data-translate="SelfEvaluator"></td>
+                <td ng-bind="employee.Employee.NickName"></td>
+                <td class="width-120">
+                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 0" data-translate="NotAvailable"></span>
+                    <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 1" data-translate="Open"></span>
+                    <div ng-show="employee.SelfEvaluators[0].ProcessStatus == 2">
+                        <span data-translate="InProgress"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </div>
+                    <div ng-show="employee.SelfEvaluators[0].ProcessStatus == 3">
+                        <span data-translate="Closed"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </div>
+                </td>
+                <td class="width-100" ng-bind="employee.SelfEvaluators[0].StartDate | date: empSettingCtrl.dateFormat"></td>
+                <td class="width-100" ng-bind="employee.SelfEvaluators[0].EndDate | date: empSettingCtrl.dateFormat"></td>
+                <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}">
+                    <span class="glyphicon glyphicon-ok-circle epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
+                </td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="empSettingCtrl.includeExcludeEmployee(employee)"
+                           ng-disabled="updateCtrl.permission != updateCtrl.policyEnum.Host" />
+                </td>
+                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                    <div class="btn-group">
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="evaluator in employee.Evaluators">
+                <td data-translate="Evaluator" rowspan="{{employee.Evaluators.length}}" ng-show="$first"></td>
+                <td ng-bind="evaluator.EvaluatorInfo.NickName"></td>
+                <td class="width-100">
+                    <span ng-show="evaluator.ProcessStatus == 0" data-translate="NotAvailable"></span>
+                    <span ng-show="evaluator.ProcessStatus == 1" data-translate="Open"></span>
+                    <div ng-show="evaluator.ProcessStatus == 2">
+                        <span data-translate="InProgress"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="evaluator.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="evaluator.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </div>
+                    <div ng-show="evaluator.ProcessStatus == 3">
+                        <span data-translate="Closed"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="evaluator.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="evaluator.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </div>
+                </td>
+                <td class="width-100" ng-bind="evaluator.StartDate | date: empSettingCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
+                <td class="width-100" ng-bind="evaluator.EndDate | date: empSettingCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Evaluators.length}}"></td>
+            </tr>
+            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="reviewer in employee.Reviewers">
+                <td data-translate="Reviewer" rowspan="{{employee.Reviewers.length}}" ng-show="$first"></td>
+                <td ng-bind="reviewer.EvaluatorInfo.NickName"></td>
+                <td class="width-120">
+                    <span ng-show="reviewer.ProcessStatus == 0" data-translate="NotAvailable"></span>
+                    <span ng-show="reviewer.ProcessStatus == 1" data-translate="Open"></span>
+                    <div ng-show="reviewer.ProcessStatus == 2">
+                        <span data-translate="InProgress"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="reviewer.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                    </div>
+                    <div ng-show="reviewer.ProcessStatus == 3">
+                        <span data-translate="Closed"></span>
+                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                              ng-show="reviewer.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
+                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                              ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
+                        </divng-show>
+                </td>
+                <td class="width-100" ng-bind="reviewer.StartDate | date: empSettingCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
+                <td class="width-100" ng-bind="reviewer.EndDate | date: empSettingCtrl.dateFormat"
+                    ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
+            </tr>
+        </tbody>
+        <tbody ng-show="empSettingCtrl.filteredItems.length == 0">
+            <tr>
+                <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot ng-show="empSettingCtrl.filteredItems.length > 0">
+            <tr>
+                <td colspan="14" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry form-control" ng-model="empSettingCtrl.pageSize"
+                            ng-options="entry for entry in empSettingCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

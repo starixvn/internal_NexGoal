@@ -1,0 +1,94 @@
+﻿.epa-summary-report, .epa-detail-report {
+    max-width: 1240px;
+
+    .filter {
+        &.form-horizontal {
+            .form-group {
+                .col-percent-14 {
+                    width: 14%;
+                }
+
+                &.last {
+                    margin-bottom: 0;
+                }
+            }
+        }
+
+        .multiSelect { 
+            .checkboxLayer {
+                min-width: 180px;
+                .acol {
+                    label{
+                        height:22px;
+                    }
+                }
+            }
+
+            .multiSelectItem {
+                min-width: 180px;
+            }
+
+            .checkboxLayer.show {
+                max-height: 300px;
+            }
+        }
+
+        .btn-search {
+            margin-left: 5px;
+        }
+    }
+
+    .grid-title {
+        background: #818181 !important;
+        margin-bottom: 0;
+        border: none;
+
+        .grid-title-label {
+            color: #fff;
+        }
+    }
+
+    .freegrid {
+        border-top: 1px solid #373737;
+
+        .freegrid thead th, .grid-fixed-table thead th {
+            border-color: #373737;
+        }
+
+        .grid-fixed-table {
+            thead th {
+                .column-truncate {
+                    top: 4px;
+                }
+            }
+
+            tbody tr {
+                td {
+                background-color: #fff !important;
+                }
+
+                &:nth-child(even) {
+                    td {
+                        background: #ececec !important;
+                    }
+                }
+            }
+        }
+
+        .col_footer_content.grid-fixed-table thead th, .row_footer_content.grid-fixed-table thead th, .grid-fixed-table thead th.free-cell-bottom-left {
+            border-color: #c5c5c5;
+        }
+
+        .free-top-left table thead th, .col_header table thead th {
+            background: #606060;
+        }
+
+        tr.parent-row-background td {
+            background: #a0bbd2;
+        }
+
+        #itemperpage {
+            height: 20px;
+        }
+    }
+}

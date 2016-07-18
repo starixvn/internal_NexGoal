@@ -1,0 +1,257 @@
+﻿namespace NexGoal.Site.Controllers.API
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Utilities;
+    using NexGoal.Criteria.Department;
+    using NexGoal.Criteria.Employee;
+    using NexGoal.Criteria.EmployeeEPA;
+    using NexGoal.Criteria.EPAHistory;
+    using NexGoal.Criteria.KPI;
+    using NexGoal.Criteria.KPIGroup;
+    using NexGoal.Criteria.Period;
+    using NexGoal.Criteria.TargetTemplate;
+    using NexGoal.Criteria.TargetType;
+    using NexGoal.Model.Department;
+    using NexGoal.Model.Employee;
+    using NexGoal.Model.EmployeeEPA;
+    using NexGoal.Model.Enitites;
+    using NexGoal.Model.KPI;
+    using NexGoal.Model.KPIGroup;
+    using NexGoal.Model.Period;
+    using NexGoal.Model.TargetTemplate;
+    using NexGoal.Model.TargetType;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
+
+    public class CommonController : BaseController
+    {
+        private readonly ICommonService commonService;
+        private readonly IExportPdfService exportPdfService;
+
+        public CommonController()
+            : this(null, null)
+        {
+        }
+
+        public CommonController(ICommonService commonService, IExportPdfService exportPdfService)
+        {
+            this.commonService = commonService ?? new CommonService();
+            this.exportPdfService = exportPdfService ?? new ExportPdfService();
+        }
+
+        [HttpGet]
+        public IEnumerable<TargetTypeModel> GetTargetType(
+            bool? isActive = true,
+            string excludeTargetTypeIds = "")
+        {
+            var criteria = new GetTargetTypeCriteria()
+            {
+                IsActive = isActive,
+                ExcludeTargetTypeIds = excludeTargetTypeIds
+            };
+
+            return commonService.GetTargetType(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<KPIModel> GetKPI(
+            int? kpiGroupId = null,
+            bool? isActive = null,
+            bool? isRequiredEvaluate = null)
+        {
+            var criteria = new GetKPICriteria()
+            {
+                KPIGroupId = kpiGroupId,
+                IsActive = isActive,
+                IsRequiredEvaluate = isRequiredEvaluate
+            };
+
+            return commonService.GetKPI(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
+        {
+            var criteria = new GetKPIGroupCriteria()
+            {
+                IsActive = isActive
+            };
+
+            return commonService.GetKPIGroup(criteria);
+        }
+
+        public List<object> GetSystemRoles(bool exceptNone)
+        {
+            var roles = new List<object>();
+
+            foreach (SystemRole roleEnum in (SystemRole[])System.Enum.GetValues(typeof(SystemRole)))
+            {
+                var role = new
+                {
+                    RoleId = (int)roleEnum,
+                    RoleCode = Enumerations.GetDescription(roleEnum)
+                };
+
+                if (exceptNone && roleEnum != 0)
+                {
+                    roles.Add(role);
+                }
+                else if (!exceptNone)
+                {
+                    roles.Add(role);
+                }
+            }
+
+            return roles;
+        }
+
+        public IEnumerable<EmployeeModel> GetAllEmployee(
+            string query = "",
+            int? groupId = null,
+            bool? isSpecialUser = null,
+            bool? isDisabledUser = null,
+            bool? getByApprover = null,
+            bool? includeVerifier = null)
+        {
+            var criteria = new GetAllEmployeeCriteria()
+            {
+                Query = query,
+                GroupId = groupId,
+                IsSpecialUser = isSpecialUser,
+                IsDisabledUser = isDisabledUser,
+                ApproverId = getByApprover == true && CurrentUser != null ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null,
+                IncludeVerifier = includeVerifier
+            };
+
+            return commonService.GetAllEmployee(criteria);
+        }
+
+        public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId = null)
+        {
+            var criteria = new GetEmployeeByDepartmentIdCriteria()
+            {
+                DepartmentId = departmentId
+            };
+
+            return commonService.GetEmployeeByDepartmentId(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
+        {
+            var criteria = new GetEmployeeByGroupIdCriteria()
+            {
+                GroupId = groupId
+            };
+
+            return commonService.GetEmployeeByGroupId(criteria);
+        }
+
+        [HttpGet]
+        public EmployeeModel GetEmployeeById(int employeeId)
+        {
+            var criteria = new GetEmployeeByIdCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return commonService.GetEmployeeById(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<Group> GetAllGroup()
+        {
+            var criteria = new GetAllGroupCriteria();
+
+            return commonService.GetAllGroup(criteria);
+        }
+
+        [HttpGet]
+        public DepartmentInfoModel GetDepartment(
+            int? parentId = null,
+            bool? isActive = null)
+        {
+            var criteria = new GetDepartmentCriteria()
+            {
+                ParentId = parentId,
+                IsActive = isActive
+            };
+
+            return commonService.GetDepartment(criteria);
+        }
+
+        public List<object> GetAllStatus()
+        {
+            List<object> statusList = ((EPAStatus[])System.Enum.GetValues(typeof(EPAStatus)))
+                .Select(x => new
+                {
+                    StatusId = (int)x,
+                    Name = Enumerations.GetDescription(x)
+                }).Cast<object>().ToList();
+
+            return statusList;
+        }
+
+        [HttpGet]
+        public IEnumerable<PeriodModel> GetPeriod(
+            int? targetTypeId = null,
+            bool? isActive = true)
+        {
+            var criteria = new GetPeriodCriteria
+            {
+                TargetTypeId = targetTypeId,
+                IsActive = isActive
+            };
+
+            return commonService.GetPeriod(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<StandardGradeModel> GetStandardGrade()
+        {
+            var criteria = new GetStandardGradeCriteria();
+
+            return commonService.GetStandardGrade(criteria);
+        }
+
+        [HttpGet]
+        public IList<PeriodModel> GetAllPeriodIncludeImport()
+        {
+            var criteria = new GetAllPeriodIncludeImportCriteria();
+
+            return commonService.GetAllPeriodIncludeImport(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(int epaId)
+        {
+            var criteria = new GetOtherViolationDetailByEPAIdCriteria()
+            {
+                EPAId = epaId
+            };
+
+            return commonService.GetOtherViolationDetailByEPAId(criteria);
+        }
+
+        [HttpGet]
+        public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
+        {
+            var criteria = new GetAllTargetTemplateCriteria
+            {
+                TargetTypeId = targetTypeId,
+                IsActive = isActive
+            };
+
+            return commonService.GetAllTargetTemplate(criteria);
+        }
+
+        [HttpGet]
+        public bool DisplayOnNormalWidthPage(int epaId)
+        {
+            return exportPdfService.DisplayOnNormalWidthPage(epaId);
+        }
+    }
+}

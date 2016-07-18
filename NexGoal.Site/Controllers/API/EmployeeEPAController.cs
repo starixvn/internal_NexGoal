@@ -1,0 +1,768 @@
+﻿namespace NexGoal.Site.Controllers.API
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Model;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.EmployeeEPA;
+    using NexGoal.Criteria.EmployeeEPA.RatingByKPI;
+    using NexGoal.Model.EmployeeEPA;
+    using NexGoal.Model.EmployeeEPA.RatingByKPI;
+    using NexGoal.Model.Enitites;
+    using NexGoal.Model.TargetTemplate;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
+    using NexGoal.Web.ApiAuthorizeAttribute;
+    using NexGoal.Web.Services;
+
+    public class EmployeeEPAController : BaseController
+    {
+        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IWebCommonService _webCommonService;
+
+        public EmployeeEPAController()
+            : this(null, null)
+        {
+        }
+
+        public EmployeeEPAController(
+            IEmployeeEPAService employeeEPAService,
+            IWebCommonService webCommonService)
+        {
+            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            _webCommonService = webCommonService ?? new WebCommonService();
+        }
+
+        #region Self
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
+        public IEnumerable<EPAModel> GetEPAByEmployee()
+        {
+            var criteria = new GetEPAByEmployeeCriteria
+            {
+                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeEPAService.GetEPAByEmployee(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Read)]
+        public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
+        {
+            EPAModel epaInfo = new EPAModel();
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Self);
+
+            switch (permission)
+            {
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByEmployeeCriteria()
+                    {
+                        EPAId = epaId,
+                        EmployeeId = CurrentUser.EmployeeInfo.EmployeeId
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Self, Policy = Policy.Host)]
+        public CommandResult UpdateEPAScoreByEmployee(UpdateEPAScoreCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria != null)
+            {
+                criteria.ProcessId = (int)ProcessType.Self;
+                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+
+                commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public int GetUserPermissionOnEmployee()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Self);
+            return permission;
+        }
+
+        #endregion Self
+
+        #region Evaluator
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
+        public IEnumerable<Group> GetGroupByEvaluator()
+        {
+            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
+        public IEnumerable<Employee> GetMemberByEvaluator(
+            int? groupId = null,
+            bool? isLocal = null,
+            bool? isMonthly = null)
+        {
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator, groupId, isLocal, isMonthly);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
+        public IEnumerable<EPAModel> GetEPAByEvaluator(
+            int? groupId = null,
+            bool? isLocal = null,
+            bool isMonthly = false,
+            string employeeIds = null)
+        {
+            var criteria = new GetEPAByEvaluatorCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                GroupId = groupId,
+                IsLocal = isLocal,
+                IsMonthly = isMonthly,
+                EmployeeIds = employeeIds
+            };
+
+            return _employeeEPAService.GetEPAByEvaluator(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
+        public HttpResponseMessage GetEPAInfoByEvaluator(int epaId, int? evaluatorId = null)
+        {
+            var epaInfo = new EPAModel();
+            var processId = evaluatorId == null ? (int?)ProcessType.Evaluator : null;
+            evaluatorId = evaluatorId ?? CurrentUser.EmployeeInfo.EmployeeId;
+
+            int permission = CheckEmployeePermission(epaId, evaluatorId.Value, processId);
+
+            switch (permission)
+            {
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByEvaluatorCriteria()
+                    {
+                        EPAId = epaId,
+                        EvaluatorId = evaluatorId.Value
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Evaluator, Policy = Policy.Host)]
+        public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
+        {
+            CommandResult commandResult = new CommandResult();
+
+            if (criteria != null)
+            {
+                criteria.ProcessId = (int)ProcessType.Evaluator;
+                criteria.EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+
+                commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public int GetUserPermissionOnEvaluator()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Evaluator);
+            return permission;
+        }
+
+        #endregion Evaluator
+
+        #region Reviewer
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
+        public IEnumerable<Group> GetGroupByReviewer()
+        {
+            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Reviewer);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
+        public IEnumerable<Employee> GetMemberByReviewer(
+            int? groupId = null,
+            bool? isLocal = null,
+            bool? isMonthly = null)
+        {
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Reviewer, groupId, isLocal, isMonthly);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
+        public IEnumerable<EPAModel> GetEPAByReviewer(
+            int? groupId = null,
+            bool? isLocal = null,
+            bool isMonthly = false,
+            string employeeIds = null)
+        {
+            var criteria = new GetEPAByReviewerCriteria()
+            {
+                ReviewerId = CurrentUser.EmployeeInfo.EmployeeId,
+                GroupId = groupId,
+                IsLocal = isLocal,
+                IsMonthly = isMonthly,
+                EmployeeIds = employeeIds
+            };
+
+            return _employeeEPAService.GetEPAByReviewer(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Read)]
+        public HttpResponseMessage GetEPAInfoByReviewer(int epaId)
+        {
+            EPAModel epaInfo = new EPAModel();
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Reviewer);
+
+            switch (permission)
+            {
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByReviewerCriteria()
+                    {
+                        EPAId = epaId,
+                        ReviewerId = CurrentUser.EmployeeInfo.EmployeeId
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Reviewer, Policy = Policy.Host)]
+        public CommandResult AdjustScoreByReviewer(IEnumerable<EPAModel> memberEPAs)
+        {
+            var criteria = new AdjustScoreByReviewerOrManagementCriteria()
+            {
+                ProcessId = (int)ProcessType.Reviewer,
+                MemberEPAs = memberEPAs,
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return AdjustScoreByReviewerOrManagement(criteria);
+        }
+
+        public int GetUserPermissionOnReviewer()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Reviewer);
+            return permission;
+        }
+
+        #endregion Reviewer
+
+        #region Management
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
+        public IEnumerable<Group> GetGroupByManagement()
+        {
+            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Management);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
+        public IEnumerable<Employee> GetMemberByManagement(
+            int? groupId = null,
+            bool? isLocal = null)
+        {
+            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Management, groupId, isLocal);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
+        public IEnumerable<EPAModel> GetEPAByManagement(
+            int? groupId = null,
+            bool? isLocal = null,
+            string employeeIds = null)
+        {
+            var criteria = new GetEPAByManagementCriteria()
+            {
+                ManagementId = CurrentUser.EmployeeInfo.EmployeeId,
+                GroupId = groupId,
+                IsLocal = isLocal,
+                EmployeeIds = employeeIds
+            };
+
+            return _employeeEPAService.GetEPAByManagement(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Read)]
+        public HttpResponseMessage GetEPAInfoByManagement(int epaId)
+        {
+            EPAModel epaInfo = new EPAModel();
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId, (int)ProcessType.Management);
+
+            switch (permission)
+            {
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByManagementCriteria()
+                    {
+                        EPAId = epaId,
+                        ManagementId = CurrentUser.EmployeeInfo.EmployeeId
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.Management, Policy = Policy.Host)]
+        public CommandResult AdjustScoreByManagement(IEnumerable<EPAModel> memberEPAs)
+        {
+            CommandResult commandResult = new CommandResult();
+
+            if (memberEPAs != null && memberEPAs.Any())
+            {
+                var criteria = new AdjustScoreByReviewerOrManagementCriteria()
+                {
+                    ProcessId = (int)ProcessType.Management,
+                    MemberEPAs = memberEPAs,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                commandResult = AdjustScoreByReviewerOrManagement(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public int GetUserPermissionOnManagement()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.Management);
+            return permission;
+        }
+
+        #endregion Management
+
+        #region Rating By KPI
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
+        public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator()
+        {
+            var criteria = new GetPeriodByEvaluatorCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeEPAService.GetPeriodByEvaluator(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
+        public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(int periodId)
+        {
+            var criteria = new GetTargetTemplateByEvaluatorCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                PeriodId = periodId
+            };
+
+            return _employeeEPAService.GetTargetTemplateByEvaluator(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
+        public IEnumerable<EPAPeriodModel> GetPeriodToView()
+        {
+            var criteria = new GetPeriodToViewCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId
+            };
+
+            return _employeeEPAService.GetPeriodToView(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(int periodId)
+        {
+            var criteria = new GetTargetTemplateToViewCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                PeriodId = periodId
+            };
+
+            return _employeeEPAService.GetTargetTemplateToView(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(
+            int periodId,
+            int targetTemplateId)
+        {
+            var criteria = new GetEvaluatorsByTargetTemplateCriteria()
+            {
+                PeriodId = periodId,
+                TargetTemplateId = targetTemplateId
+            };
+
+            return _employeeEPAService.GetEvaluatorsByTargetTemplate(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<TemporaryKPIModel> GetKPIToView(
+            int periodId,
+            int targetTemplateId,
+            int evaluatorId)
+        {
+            var criteria = new GetKPIToViewCriteria()
+            {
+                EvaluatorId = evaluatorId,
+                PeriodId = periodId,
+                TargetTemplateId = targetTemplateId
+            };
+
+            return _employeeEPAService.GetKPIToView(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPAByKPI, Policy = Policy.Read)]
+        public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(
+            int periodId,
+            int targetTemplateId,
+            int kpiId,
+            int evaluatorId)
+        {
+            var criteria = new GetEmployeeEPAToViewCriteria()
+            {
+                EvaluatorId = evaluatorId,
+                PeriodId = periodId,
+                TargetTemplateId = targetTemplateId,
+                KPIId = kpiId
+            };
+
+            return _employeeEPAService.GetEmployeeEPAToView(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
+        public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(
+            int periodId,
+            int targetTemplateId)
+        {
+            var criteria = new GetKPIByTargetTemplateCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                TargetTemplateId = targetTemplateId,
+                PeriodId = periodId
+            };
+
+            return _employeeEPAService.GetKPIByTargetTemplate(criteria);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Read)]
+        public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(
+            int periodId,
+            int targetTemplateId,
+            int kpiId,
+            int? groupId = null,
+            string employeeIds = null)
+        {
+            var criteria = new GetEmployeeEPAByKPICriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                PeriodId = periodId,
+                TargetTemplateId = targetTemplateId,
+                KPIId = kpiId,
+                GroupId = groupId,
+                EmployeeIds = employeeIds
+            };
+
+            return _employeeEPAService.GetEmployeeEPAByKPI(criteria);
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.RatingByKPI, Policy = Policy.Host)]
+        public CommandResult UpdateKPIScore(IEnumerable<RatingByKPIModel> epaInfos)
+        {
+            var criteria = new UpdateKPIScoreCriteria()
+            {
+                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EpaInfos = epaInfos
+            };
+
+            return _employeeEPAService.UpdateKPIScore(criteria);
+        }
+
+        public int GetUserPermissionOnRatingByKPI()
+        {
+            int permission = _webCommonService.GetPermission(EPAFunctionKey.RatingByKPI);
+            return permission;
+        }
+
+        #endregion Rating By KPI
+
+        [HttpGet]
+        public HttpResponseMessage GetEPAInfoById(int epaId)
+        {
+            EPAModel epaInfo = new EPAModel();
+            int permission = CheckEmployeePermission(epaId, CurrentUser.EmployeeInfo.EmployeeId);
+
+            switch (permission)
+            {
+                case (int)Policy.None:
+                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+
+                default:
+                    var criteria = new GetEPAInfoByIdCriteria()
+                    {
+                        EPAId = epaId
+                    };
+
+                    epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+
+                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+            }
+        }
+
+        [HttpPut]
+        public CommandResult ConvertEPA()
+        {
+            var getEPASummaryImportCriteria = new GetEPASummaryImportCriteria();
+            IEnumerable<EPASummaryImportModel> memberEPAs = _employeeEPAService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
+            var criteria = new UpdateEPASummaryImportCriteria()
+            {
+                MemberEPAs = memberEPAs
+            };
+
+            CommandResult result = _employeeEPAService.UpdateEPASummaryImport(criteria);
+            return result;
+        }
+
+        [HttpPut]
+        public HttpResponseMessage ResetScore(GetEPAInfoByIdCriteria criteria)
+        {
+            HttpResponseMessage response = null;
+
+            if (CurrentUser.Roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
+            {
+                EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+
+                var resetScoreCriteria = new ResetScoreCriteria()
+                {
+                    EPAId = epaInfo.EPAId,
+                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                };
+
+                CommandResult commandResult;
+                if (epaInfo.HasMonthlyEPA
+                    && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                {
+                    if (epaInfo.Process.Reviewers.Any()
+                        && epaInfo.Process.Reviewers.First().StartDate.Date <= DateTime.Now.Date)
+                    {
+                        resetScoreCriteria.EPAInfo = epaInfo;
+
+                        commandResult = _employeeEPAService.ResetScore(resetScoreCriteria);
+                        response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
+                    }
+                }
+                else
+                {
+                    resetScoreCriteria.EPAInfo = epaInfo;
+
+                    commandResult = _employeeEPAService.ResetScore(resetScoreCriteria);
+                    response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
+                }
+            }
+            else
+            {
+                response = Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
+            }
+
+            return response;
+        }
+
+        #region Update Final Score
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
+        public HttpResponseMessage GetPeriodToUpdateFinalScore()
+        {
+            var criteria = new GetPeriodToUpdateFinalScoreCriteria();
+            IList<EPAPeriodModel> periods = _employeeEPAService.GetPeriodToUpdateFinalScore(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, periods);
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
+        public HttpResponseMessage GetEmployeeToUpdateFinalScore(
+            int periodId,
+            int? groupId = null,
+            string query = "")
+        {
+            var criteria = new GetEmployeeToUpdateFinalScoreCriteria
+            {
+                PeriodId = periodId,
+                GroupId = groupId,
+                Query = query
+            };
+            IList<EPAEmployeeModel> employees = _employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, employees);
+        }
+
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Read)]
+        public HttpResponseMessage GetEPAToUpdateFinalScore(
+            int periodId,
+            int? groupId = null,
+            int? employeeId = null)
+        {
+            var criteria = new GetEPAToUpdateFinalScoreCriteria
+            {
+                PeriodId = periodId,
+                GroupId = groupId,
+                EmployeeId = employeeId
+            };
+            IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey = EPAFunctionKey.UpdateFinalScore, Policy = Policy.Host)]
+        public HttpResponseMessage UpdateFinalScore(IList<EPAModel> selectedEPAs)
+        {
+            var getStandardGradeCriteria = new GetStandardGradeCriteria();
+            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
+
+            foreach (EPAModel epaInfo in selectedEPAs)
+            {
+                float averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
+                    finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
+
+                finalScore = finalScore >= 0 ? finalScore : 0;
+                epaInfo.FinalScore = EncodeService.Encode(finalScore.ToString());
+                string grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                epaInfo.Grade = EncodeService.Encode(grade);
+            }
+
+            var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria
+            {
+                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                EPAInfos = selectedEPAs
+            };
+
+            CommandResult commandResult = _employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
+            HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
+
+            return response;
+        }
+
+        #endregion Update Final Score
+
+        private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
+        {
+            return _employeeEPAService.UpdateEPAScore(criteria);
+        }
+
+        private IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(
+            int processId,
+            int? groupId = null,
+            bool? isLocal = null,
+            bool? isMonthly = null)
+        {
+            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
+            {
+                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ProcessId = processId,
+                GroupId = groupId,
+                IsLocal = isLocal,
+                IsMonthly = isMonthly
+            };
+
+            return _employeeEPAService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+        }
+
+        private IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(int processId)
+        {
+            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
+            {
+                ActorUserId = CurrentUser.EmployeeInfo.EmployeeId,
+                ProcessId = processId
+            };
+
+            return _employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+        }
+
+        private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
+        {
+            return _employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
+        }
+
+        private int CheckEmployeePermission(
+            int epaId,
+            int actorUserId,
+            int? processId = null)
+        {
+            var checkPermissionCriteria = new GetEmployeePermissionCriteria()
+            {
+                EPAId = epaId,
+                ActorUserId = actorUserId,
+                ProcessId = processId
+            };
+
+            return _employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
+        }
+
+        private float GetFinalScoreOfEPA(EPAModel epaInfo)
+        {
+            float finalScore = 0;
+
+            if (epaInfo.Process.Managements.Any())
+            {
+                finalScore = epaInfo.Process.AverageScoreByManagements;
+            }
+            else if (epaInfo.Process.Reviewers.Any())
+            {
+                finalScore = epaInfo.Process.AverageScoreByReviewers;
+            }
+
+            return finalScore;
+        }
+    }
+}

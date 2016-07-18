@@ -1,0 +1,17 @@
+﻿<div class="col-sm-12" ng-controller="TargetSettingTemplateController as targetCtrl">
+    <div class="sub-header">
+        <ul class="row breadcrumb">
+            <li class="current" data-translate="TargetEmployeeSettingTemplate"></li>
+        </ul>
+    </div>
+    <div class="target-tabset">
+        <tabset id="TargetTemplateTab">
+            <tab heading="DEPARTMENT" class="tab-cursor" active="targetCtrl.dataTab.department" select="targetCtrl.tabDepartmentSelect()">
+                <div ng-include src="'/SourceApp/Components/TargetEmployeeSetting/Templates/department.html'"></div>
+            </tab>
+            <tab heading="PERSONNEL" class="tab-cursor" active="targetCtrl.dataTab.personnel" select="targetCtrl.tabPersonnelSelect()">
+                <div ng-include src="'/SourceApp/Components/TargetEmployeeSetting/Templates/personnel.html'"></div>
+            </tab>
+        </tabset>
+    </div>
+</div>

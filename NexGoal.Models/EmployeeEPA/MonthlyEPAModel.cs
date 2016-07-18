@@ -1,0 +1,96 @@
+﻿namespace NexGoal.Model.EmployeeEPA
+{
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
+
+    public class MonthlyEPAModel
+    {
+        public MonthlyEPAModel()
+        {
+            MonthlyEPAs = new List<EPAModel>();
+        }
+
+        public IList<EPAModel> MonthlyEPAs { get; set; }
+
+        public float AverageSelfScore
+        {
+            get
+            {
+                return CalculateAverageScore((int)ProcessType.Self);
+            }
+        }
+
+        public float AverageEvaluatorScores
+        {
+            get
+            {
+                return CalculateAverageScore((int)ProcessType.Evaluator);
+            }
+        }
+
+        public float AverageReviewerScores
+        {
+            get
+            {
+                return CalculateAverageScore((int)ProcessType.Reviewer);
+            }
+        }
+
+        public float AverageSelfScoreConverted { get; set; }
+
+        public float AverageEvaluatorScoreConverted { get; set; }
+
+        public float AverageReviewerScoreConverted { get; set; }
+
+        private float CalculateAverageScore(int processType)
+        {
+            float average = 0;
+            int count = 0;
+
+            var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.Period.IsEndPeriod);
+            foreach (EPAModel monthlyEPA in finishedMonthlyEPAs)
+            {
+                switch (processType)
+                {
+                    case (int)ProcessType.Self:
+                        if (!string.IsNullOrEmpty(monthlyEPA.Process.Self.TotalScore))
+                        {
+                            count++;
+                            average += float.Parse(monthlyEPA.Process.Self.TotalScore);
+                        }
+
+                        break;
+
+                    case (int)ProcessType.Evaluator:
+                        if (monthlyEPA.Process.AverageScoreByEvaluators > 0)
+                        {
+                            count++;
+                            average += monthlyEPA.Process.AverageScoreByEvaluators;
+                        }
+
+                        break;
+
+                    case (int)ProcessType.Reviewer:
+                        if (monthlyEPA.Process.AverageScoreByReviewers > 0)
+                        {
+                            count++;
+                            average += monthlyEPA.Process.AverageScoreByReviewers;
+                        }
+
+                        break;
+                }
+            }
+
+            if (count > 0)
+            {
+                average = average / count;
+                return (float)Math.Round(average, Constants.NumberOfDecimalDefault);
+            }
+
+            return average;
+        }
+    }
+}
