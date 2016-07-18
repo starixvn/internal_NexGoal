@@ -55,7 +55,7 @@
                 ApproverId = CurrentUser.EmployeeInfo.EmployeeId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
-            SessionManager.Set<IEnumerable<AttendanceSummaryModel>>(Constants.DisciplineSummaryReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceEmployees);
+
             return attendanceEmployees;
         }
 
@@ -142,7 +142,7 @@
             };
 
             IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceSummaryService.GetAttendanceDetail(criteria);
-            SessionManager.Set<IEnumerable<AttendanceDetailModel>>(Constants.DisciplineDetailReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId, attendanceViolations);
+
             return attendanceViolations;
         }
 

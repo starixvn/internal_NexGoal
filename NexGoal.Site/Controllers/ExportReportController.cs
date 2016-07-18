@@ -54,23 +54,12 @@
 
         public ActionResult ExportEmployeeSettingReport(GetPeriodEmployeeSettingCriteria criteria)
         {
-            IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings = null;
-
-            employeeFlowSettings = SessionManager.Get<IEnumerable<PeriodEmployeeSettingModel>>(
-                Constants.PeriodEmployeeSettingReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
-
             if (criteria != null)
             {
-                if (employeeFlowSettings == null)
-                {
-                    employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
-                }
+                var employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
 
-                if (employeeFlowSettings != null)
-                {
-                    string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
-                    _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
-                }
+                string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
+                _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
             }
 
             return new EmptyResult();
@@ -125,15 +114,8 @@
 
         public ActionResult ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria)
         {
-            IEnumerable<AttendanceSummaryModel> attendanceEmployees = null;
-            attendanceEmployees = SessionManager.Get<IEnumerable<AttendanceSummaryModel>>(
-                Constants.DisciplineSummaryReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
-
-            if (attendanceEmployees == null && criteria != null)
-            {
-                criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-                attendanceEmployees = _attendanceService.GetAttendanceSummary(criteria);
-            }
+            criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+            IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceService.GetAttendanceSummary(criteria);
 
             if (attendanceEmployees != null)
             {
@@ -146,17 +128,10 @@
 
         public ActionResult ExportAttendanceDetailReport(GetDetailAttendanceCriteria criteria)
         {
-            IEnumerable<AttendanceDetailModel> attendanceViolations = null;
-            attendanceViolations = SessionManager.Get<IEnumerable<AttendanceDetailModel>>(
-                Constants.DisciplineDetailReportSessionKey + SessionManager.CurrentUser.EmployeeInfo.EmployeeId);
-
             if (criteria != null)
             {
-                if (criteria.HasChanged || attendanceViolations == null)
-                {
-                    criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
-                    attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
-                }
+                criteria.ApproverId = SessionManager.CurrentUser.EmployeeInfo.EmployeeId;
+                IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
 
                 if (attendanceViolations != null)
                 {

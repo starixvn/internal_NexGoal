@@ -201,9 +201,6 @@
                         periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
                         break;
                 }
-
-                var sessionKey = Constants.PeriodEmployeeSettingReportSessionKey + CurrentUser.EmployeeInfo.EmployeeId;
-                SessionManager.Set(sessionKey, periodEmployeeSettings);
             }
 
             return periodEmployeeSettings;

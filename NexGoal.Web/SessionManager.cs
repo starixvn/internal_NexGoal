@@ -15,10 +15,8 @@
                 {
                     return (UserSession)HttpContext.Current.Session[Constants.CurrentSessionKey];
                 }
-                else
-                {
-                    return null;
-                }
+
+                return null;
             }
 
             set
@@ -35,24 +33,6 @@
                 HttpContext.Current.Session.Clear();
                 HttpContext.Current.Session.Abandon();
                 HttpContext.Current.Response.Cookies.Clear();
-            }
-        }
-
-        public static void Set<T>(string sessionKey, T value)
-        {
-            HttpContext.Current.Session[sessionKey] = value;
-        }
-
-        public static T Get<T>(string sessionKey)
-        {
-            try
-            {
-                T value = (T)HttpContext.Current.Session[sessionKey];
-                return value;
-            }
-            catch (NullReferenceException)
-            {
-                return default(T);
             }
         }
     }

@@ -33,11 +33,8 @@
                 {
                     switch (policy)
                     {
-                        case Policy.None:
-                            return false;
-
                         case Policy.Read:
-                            return currentFunction.IsRead || currentFunction.IsHost;
+                            return currentFunction.IsRead;
 
                         case Policy.Host:
                             return currentFunction.IsHost;
