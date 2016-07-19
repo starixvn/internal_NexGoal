@@ -1,24 +1,43 @@
-﻿@white: #fff;
+﻿//---------------------------------- Color palette ----------------------------//
+@white: #fff;
 @gray-Mine: #2b2b2b;
 @orange-Jaffa: #f5783e;
+@orange-Apricot: #fcd5b4;
 @gray-Silver: #aaaaaa;
 @gray-Scorpion: #606060;
 @gray-Gallery: #eeeeee;
 @gray-Ship: #484550;
 @gray-SilverChalice: #a9a9a9;
 @black: #000;
+@yellow-Beeswax: #fdf2c5;
+@brown-Kabul: #61463B;
+@brown-Sandy: #f5a07d;
+@blue-Sky: #70c9ea;
+@white-Rock: #ebe4d4;
+@white-Alto: #d6d6d6;
 
+//---------------------------------- Variables ----------------------------//
 @color-body: @gray-Ship;
-
 @color-border: @gray-Silver;
 
 @bg-panel-title: @gray-Gallery;
 @color-panel-title: @gray-Ship;
 
+@color-process-dark: @brown-Kabul;
+@color-process-light: @white;
+@bg-process-end: @brown-Sandy;
+@bg-process-in: @blue-Sky;
+@bg-process-final: @white-Rock;
+@bg-process-open: @white-Alto;
+
+@bg-sub-menu-title: @orange-Apricot;
+@color-menu-active: @orange-Jaffa;
+
 @bg-table-header: @gray-Scorpion;
 @color-table-header: @white;
 @color-table-body: @black;
 @color-table-border: @gray-SilverChalice;
+@bg-table-hover: @yellow-Beeswax;
 
 html {
     font-size: 62.5%;
@@ -72,11 +91,17 @@ a {
             a {
                 padding: 6px 7px;
                 color: @color-body;
+
+                &:hover {
+                    color: @color-menu-active;
+                }
             }
 
             &.has-sub {
+                padding-bottom: 0;
+
                 .sub-menu-title {
-                    background: #fcd5b4;
+                    background: @bg-sub-menu-title;
                     color: @gray-Mine;
                     display: block;
                     font-weight: 500;
@@ -92,29 +117,29 @@ a {
                     padding-left: 32px;
 
                     a {
-                        padding-left: 0;                        
+                        padding-left: 0;
                         transition: 0.3s all ease;
                     }
 
                     &.active {
                         a {
-                            color: @orange-Jaffa;
+                            color: @color-menu-active;
                         }
                     }
 
                     &:hover {
                         a {
-                            color: @orange-Jaffa;
+                            color: @color-menu-active;
                         }
                     }
                 }
             }
-            
+
             &.active {
                 background-color: transparent;
 
                 a {
-                    color: @orange-Jaffa;
+                    color: @color-menu-active;
                     font-weight: 500;
                 }
             }
@@ -165,6 +190,11 @@ a {
             padding: 2px 10px;
             background: #d8d8d8;
             border-color: @color-border;
+        }
+
+        .dropdown-menu {
+            width: 100%;
+            padding: 0;
         }
     }
 }
@@ -253,9 +283,6 @@ a {
 }
 
 //----------------------------- EVALUATION PROCESS-------------------------//
-@color_1: inherit;
-@color_2: #61463b;
-@color_3: #fff;
 
 .evaluation-process-section {
     ul.evaluation-process {
@@ -297,7 +324,7 @@ a {
                 box-shadow: none;
                 background-color: transparent;
                 text-align: left;
-                color: @color_1;
+                color: inherit;
             }
 
             .fa {
@@ -333,60 +360,60 @@ a {
         }
 
         li.open {
-            background-color: #d6d6d6;
-            color: @color_2;
+            background-color: @bg-process-open;
+            color: @color-process-dark;
 
             &:after {
-                border-left: 40px solid #d6d6d6;
+                border-left: 40px solid @bg-process-open;
             }
 
             &:before {
-                border-color: #d6d6d6 #d6d6d6 #d6d6d6 transparent;
+                border-color: @bg-process-open @bg-process-open @bg-process-open transparent;
             }
         }
 
         li.end-process {
-            background: #f5a07d;
-            color: @color_3;
+            background: @bg-process-end;
+            color: @color-process-light;
 
             &:after {
-                border-left: 40px solid #f5a07d;
+                border-left: 40px solid @bg-process-end;
             }
 
             &:before {
-                border-color: #f5a07d #f5a07d #f5a07d transparent;
+                border-color: @bg-process-end @bg-process-end @bg-process-end transparent;
             }
         }
 
         li.in-process {
-            background: #70c9ea;
-            color: @color_3;
+            background: @bg-process-in;
+            color: @color-process-light;
 
             &:after {
-                border-left: 40px solid #70c9ea;
+                border-left: 40px solid @bg-process-in;
             }
 
             &:before {
-                border-color: #70c9ea #70c9ea #70c9ea transparent;
+                border-color: @bg-process-in @bg-process-in @bg-process-in transparent;
             }
         }
 
         li.final {
-            background-color: #ebe4d4;
-            color: @color_2;
+            background-color: @bg-process-final;
+            color: @color-process-dark;
 
             &:after {
-                border-left: 40px solid #ebe4d4;
+                border-left: 40px solid @bg-process-final;
             }
 
             &:before {
-                border-color: #ebe4d4 #ebe4d4 #ebe4d4 transparent;
+                border-color: @bg-process-final @bg-process-final @bg-process-final transparent;
             }
         }
     }
 }
 
-/*@media (min-width: 1201px) and (max-width: 1450px) {
+@media (min-width: 1201px) and (max-width: 1450px) {
     ul.evaluation-process {
         li {
             &:nth-child(n + 5) {
@@ -401,7 +428,7 @@ a {
     }
 }
 
-}
+
 
 @media (max-width: 1200px) {
     ul.evaluation-process {
@@ -439,7 +466,7 @@ a {
             }
         }
     }
-}*/
+}
 
 
 //----------------------------- TABLE -------------------------//
@@ -467,8 +494,14 @@ a {
             cursor: pointer;
         }
 
-        tr:nth-child(2n+1) > td {
-            background: #ececec;
+        tr {
+            &:nth-child(2n+1) > td {
+                background: #ececec;
+            }
+
+            &:hover td {
+                background: @bg-table-hover;
+            }
         }
     }
 }
