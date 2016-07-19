@@ -13,9 +13,12 @@
     <base href="@Url.Content("~/")" />
 </head>
 <body>
-    <div class="container-fluid page">
+    @*<div class="container-fluid page">
         @RenderBody()
-    </div>
+    </div>*@
+
+    @RenderBody();
+
     @Scripts.Render("~/bundles/vendor",
         "~/bundles/app",
         "~/bundles/common/js")
