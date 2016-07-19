@@ -266,16 +266,6 @@ a:focus {
         font-weight: normal;
     }
 
-    .table {
-        thead tr {
-            th {
-                label {
-                    font-weight: bold;
-                }
-            }
-        }
-    }
-
     .active-div {
         margin-top: 5px;
     }
@@ -690,24 +680,50 @@ select.ddlMenu {
 /********************************************************/
 /*					       Table                        */
 /********************************************************/
+
 .table {
-    margin: 10px 0 20px;
+    margin: 0;
     font-size: @font-size;
     border: none;
     background-color: #fff;
     width: 100%;
 
-    thead tr {
+    thead {
+        background: @bg-table-header;
+        color: @color-table-header;
+
         th {
-            background: @header-bg repeat-x;
-            border-right: 1px solid @header-border-color;
-            color: @header-color;
-            height: 20px;
+            border-bottom-width: 1px !important;
+            font-weight: 500;
+            border-color: @color-table-border !important;
             text-align: center;
-            text-shadow: 0 1px 1px rgba(0, 0, 0, 0.8);
-            font-size: @font-size - 1;
+        }
+    }
+
+    tbody {
+        td {
+            color: @color-table-body;
+            border-color: @color-table-border !important;
         }
 
+        .fa-search {
+            cursor: pointer;
+        }
+
+        tr {
+            &:nth-child(2n+1) > td {
+                background: #ececec;
+            }
+
+            &:hover td {
+                background: @bg-table-hover;
+            }
+        }
+    }
+}
+
+
+/*.table {
         &.header-table th {
             background: #818181;
             border: 1px solid #515151;
@@ -822,7 +838,7 @@ select.ddlMenu {
     &.table-striped > tbody > tr:nth-child(2n+1) > th {
         background-color: @odd-td-bg;
     }
-    /* Paging */
+
     .pagingactive {
         color: #fff !important;
         background-color: #428bca !important;
@@ -854,7 +870,7 @@ select.ddlMenu {
     tfoot tr {
         border: 0;
     }
-}
+}*/
 
 .table-custom {
     thead tr {
