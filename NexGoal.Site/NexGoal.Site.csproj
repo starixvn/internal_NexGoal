@@ -211,6 +211,9 @@
     <Content Include="Content\Common\bootstrap-theme.min.css" />
     <Content Include="Content\Common\chosen-sprite.png" />
     <Content Include="Content\Common\chosen.min.css" />
+    <Content Include="Content\Common\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\Common\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\Common\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Common\Images\animated-overlay.gif" />
     <Content Include="Content\Common\Images\auth-bg.png" />
     <Content Include="Content\Common\Images\collapse-small.png" />
@@ -243,9 +246,9 @@
     <Content Include="Content\Common\toastr.css" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Prototype\assets\css\bootstrap.min.css" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\css\font-awesome.css" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\css\font-awesome.min.css" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\css\font-awesome.css" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\css\font-awesome.min.css" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Prototype\assets\images\avatar.jpg" />
     <Content Include="Content\Prototype\assets\images\favicon\apple-touch-icon-152x152.png" />
     <Content Include="Content\Prototype\assets\images\favicon\favicon-32x32.png" />
@@ -718,17 +721,23 @@
     <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
     <Content Include="Libs\angular-filter\license.md" />
     <Content Include="Content\Site\_evaluationProcess.less" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\css\font-awesome.css.map" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\fonts\fontawesome-webfont.eot" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\fonts\fontawesome-webfont.woff" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Content\Prototype\assets\font\font-awesome-4.6.3\fonts\FontAwesome.otf" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\css\font-awesome.css.map" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Prototype\assets\font\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="Content\Prototype\assets\site.less" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
     </None>
+    <Content Include="Content\Common\font-awesome\css\font-awesome.css.map" />
+    <Content Include="Content\Common\font-awesome\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Common\font-awesome\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Common\font-awesome\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Common\font-awesome\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Content\Common\font-awesome\fonts\FontAwesome.otf" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />

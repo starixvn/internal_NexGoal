@@ -1,11 +1,25 @@
 ﻿.dashboard {
     background-color: #fefefe;
-    margin: 10px 1%;
     border: 1px solid #c8c8c8;
     color: #61463b;
 
-    .row {
-        margin: 0;
+    .row-item {
+        padding: 5px 0;
+
+        &.line {
+            border-bottom: 1px solid #aaaaaa;
+        }
+    }
+
+    .img-user {
+        text-align: left;
+    }
+
+    .img-default {
+        width: 10rem;
+        height: 10rem;
+        border: 1px solid #aaaaaa;
+        border-radius: 3px;
     }
 
     .boxtitle {
@@ -29,14 +43,6 @@
                 width: 95px;
                 height: 95px;
                 margin-top: 5px;
-            }
-        }
-
-        .row-item {
-            padding: 5px 0;
-
-            &.line {
-                border-bottom: 1px solid #e5e3e3;
             }
         }
 

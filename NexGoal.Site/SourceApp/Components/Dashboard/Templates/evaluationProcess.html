@@ -5,7 +5,7 @@
         {{"EvaluationProcess" | translate}} for Period: {{epaInfo.Period.Name}}
     </div>
     <div class="row boxcontent" collapse="dashboardCtrl.collapses[epaInfo.Period.Name]">
-        <ul class="evaluation-process" class="evaluation-process">
+        <ul class="evaluation-process">
             <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Self.StatusEndProcess)" class="process-item"
                 ng-if="!(epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual)">
                 <div><strong data-translate="Self"></strong></div>

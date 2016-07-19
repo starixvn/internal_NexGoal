@@ -80,10 +80,155 @@ a:focus {
 }
 
 /********************************************************/
-/*					    Sidebar                          */
+/*					    Panel                          */
 /********************************************************/
 
+.panel-group {
+    .panel {
+        border-radius: 0;
+        box-shadow: none;
 
+        + .panel {
+            margin-top: 0;
+            border-top: 0;
+        }
+    }
+}
+
+.panel-default {
+    border: 1px solid @color-border;
+
+    > .panel-heading {
+        color: @color-panel-title;
+        background-color: @bg-panel-title;
+        padding: 6px 10px;
+        border-radius: 0;
+
+        .panel-title {
+            font-size: 14px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .panel-body {
+        padding: 10px;
+        border-top: 1px solid @color-border !important;
+    }
+}
+
+/********************************************************/
+/*					    Sidebar                         */
+/********************************************************/
+
+.sidebar {
+    padding-right: 10px;
+
+    .list-group {
+        margin: 0;
+
+        .fa {
+            font-size: 16px;
+            width: 25px;
+        }
+
+        .fa-chevron-down {
+            font-size: 10px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            transform: rotate(0);
+            transition: 0.3s ease all;
+        }
+
+        .list-group-item {
+            border: none;
+            border-radius: 0;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-right: 0;
+            padding-left: 5px;
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            a {
+                padding: 6px 7px;
+                color: @color-body;
+
+                &:hover, &:active, &:focus {
+                    text-decoration: none;
+                }
+            }
+
+            &.has-sub {
+                .sub-menu-title {
+                    background: #fcd5b4;
+                    color: @gray-Mine;
+                    display: block;
+                    font-weight: 500;
+
+                    &.collapsed {
+                        .fa-chevron-down {
+                            transform: rotate(-90deg);
+                        }
+                    }
+                }
+
+                .sub-menu {
+                    padding-left: 32px;
+
+                    a {
+                        padding-left: 0;
+                        transition: 0.3s all ease;
+                    }
+
+                    &.active {
+                        a {
+                            color: @orange-Jaffa;
+                        }
+                    }
+
+                    &:hover {
+                        a {
+                            color: @orange-Jaffa;
+                        }
+                    }
+                }
+            }
+
+            &.active {
+                background-color: transparent;
+                background-image: none;
+                text-shadow: none;
+
+                a {
+                    color: @orange-Jaffa;
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    .panel-body {
+        padding: 0;
+    }
+}
+
+/********************************************************/
+/*					    Main Page                         */
+/********************************************************/
+
+.main {
+    padding: 0 10px;
+
+    .page-header {
+        margin-top: 0;
+    }
+}
 
 .container-fluid.page {
     width: 100%;
@@ -133,181 +278,6 @@ a:focus {
 
     .active-div {
         margin-top: 5px;
-    }
-    /********************************************************/
-    /*					    Header                          */
-    /********************************************************/
-    .header {
-        #gradient .vertical(#E4E4E4, #DCDCDC);
-        padding: 0;
-        border-bottom: 1px solid #aaa;
-
-        .logo {
-            padding: 0;
-            float: left;
-
-            img {
-                margin: 0 10px 0 14px;
-            }
-        }
-
-        .top-menu {
-            margin: 0;
-            line-height: 18px;
-            padding: 0;
-            min-height: 35px;
-            float: left;
-
-            ul {
-                margin: 0;
-                padding: 0;
-            }
-
-            li {
-                font-weight: bold;
-
-                a {
-                    color: @menu-color;
-                    padding: 9px 15px;
-                    text-shadow: 0 1px 0 #F5F5F5;
-                    background: url(images/line-menu.png) top right no-repeat;
-
-                    &.no-bg {
-                        background: none;
-                    }
-                }
-
-                &.dropdown .dropdown-menu {
-                    background: #E4E4E4;
-                    left: -2px;
-                    z-index: 9999;
-
-                    a {
-                        padding: 6px 20px;
-                        background: none;
-                        border-top: 1px solid #fff;
-                        border-bottom: 1px solid #cccbcb;
-                        font-size: 13px;
-                    }
-                }
-
-                .caret {
-                    position: relative;
-                    left: 5px;
-                }
-            }
-
-            .nav li > a:hover, .nav li > a:focus {
-                background-color: #EEE;
-            }
-        }
-
-        #user_utilities {
-            display: block;
-            min-width: 130px;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-            z-index: 10;
-
-            h2 {
-                background: url("/Content/Common/Images/sprite_btn.png") no-repeat scroll -126px 0;
-                clear: none;
-                color: #535353;
-                display: block;
-                float: left;
-                font-size: 13px !important;
-                height: 28px;
-                margin: 0;
-                min-width: 50px;
-                padding: 6px 7px 0 10px;
-                width: auto !important;
-                text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-                font-weight: bold;
-                white-space: nowrap;
-            }
-
-            ol {
-                border-bottom-left-radius: 3px;
-                border-bottom-right-radius: 3px;
-                border-left: 1px solid #a0a0a0;
-                border-right: 1px solid #a0a0a0;
-                display: none;
-                left: 0;
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                position: absolute;
-                top: 28px;
-                width: 100%;
-                z-index: 500;
-            }
-
-            .dropdown-arrow {
-                background: url("/Content/Common/Images/sprite_btn.png") no-repeat scroll -474px 0;
-                display: block;
-                float: right;
-                height: 28px;
-                margin: 0;
-                width: 32px;
-            }
-        }
-
-        #user_utilities:hover ol {
-            display: block;
-        }
-
-        .info {
-            color: @menu-color;
-            float: right;
-            line-height: 17px;
-            margin: 6px 0 5px;
-            position: relative;
-            text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
-
-            &:hover {
-                .username {
-                    background-position: -126px -28px;
-                }
-
-                .dropdown-arrow {
-                    background-position: -474px -28px;
-                }
-            }
-
-            ol {
-                border-bottom-left-radius: 3px;
-                border-bottom-right-radius: 3px;
-                border-left: 1px solid #A0A0A0;
-                border-right: 1px solid #A0A0A0;
-                list-style-type: none;
-                margin: 0;
-                padding: 0;
-                position: absolute;
-                top: 28px;
-                width: 100%;
-                z-index: 500;
-
-                li {
-                    border-bottom: 1px solid #A0A0A0;
-                    border-top: 1px solid #F5F5F5;
-                    position: relative;
-                    width: 100%;
-                    z-index: 501;
-                    background-color: #E5E5E5;
-
-                    a {
-                        border-left: 1px solid #f5f5f5;
-                        padding: 3px 0 5px 8px;
-                        color: #535353;
-                        display: block;
-                        text-decoration: none;
-                    }
-
-                    &:hover {
-                        background-color: #EEE;
-                    }
-                }
-            }
-        }
     }
     /********************************************************/
     /*					    Title                          */

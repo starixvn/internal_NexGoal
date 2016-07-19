@@ -18,7 +18,8 @@
                             "~/Content/Common/toastr.css",
                             "~/Content/Common/angular-multi-select.css",
                             "~/Content/Common/jquery-ui.min.css",
-                            "~/Content/Common/chosen.min.css")
+                            "~/Content/Common/chosen.min.css",
+                            "~/Content/Common/font-awesome/css/font-awesome.min.css")
                             .Include("~/Libs/FanexGrid/Fanex.Grid.css", new CssRewriteUrlTransform())
                             .Include("~/Libs/FanexGrid/Fanex.Pagination.css", new CssRewriteUrlTransform())
                             .Include("~/Libs/BootstrapStarRating/css/star-rating.min.css", new CssRewriteUrlTransform()));
