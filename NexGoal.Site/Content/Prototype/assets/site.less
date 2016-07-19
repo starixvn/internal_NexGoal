@@ -71,10 +71,11 @@ a {
 
             a {
                 padding: 6px 7px;
+                color: @color-body;
             }
 
             &.has-sub {
-                a {
+                .sub-menu-title {
                     background: #fcd5b4;
                     color: @gray-Mine;
                     display: block;
@@ -86,12 +87,29 @@ a {
                         }
                     }
                 }
-            }
 
-            &.sub-menu {
-                padding-left: 32px;
-            }
+                .sub-menu {
+                    padding-left: 32px;
 
+                    a {
+                        padding-left: 0;                        
+                        transition: 0.3s all ease;
+                    }
+
+                    &.active {
+                        a {
+                            color: @orange-Jaffa;
+                        }
+                    }
+
+                    &:hover {
+                        a {
+                            color: @orange-Jaffa;
+                        }
+                    }
+                }
+            }
+            
             &.active {
                 background-color: transparent;
 

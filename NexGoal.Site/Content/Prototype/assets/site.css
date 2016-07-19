@@ -40,18 +40,29 @@ a:focus {
 }
 .sidebar .list-group .list-group-item a {
   padding: 6px 7px;
+  color: #484550;
 }
-.sidebar .list-group .list-group-item.has-sub a {
+.sidebar .list-group .list-group-item.has-sub .sub-menu-title {
   background: #fcd5b4;
   color: #2b2b2b;
   display: block;
   font-weight: 500;
 }
-.sidebar .list-group .list-group-item.has-sub a.collapsed .fa-chevron-down {
+.sidebar .list-group .list-group-item.has-sub .sub-menu-title.collapsed .fa-chevron-down {
   transform: rotate(-90deg);
 }
-.sidebar .list-group .list-group-item.sub-menu {
+.sidebar .list-group .list-group-item.has-sub .sub-menu {
   padding-left: 32px;
+}
+.sidebar .list-group .list-group-item.has-sub .sub-menu a {
+  padding-left: 0;
+  transition: 0.3s all ease;
+}
+.sidebar .list-group .list-group-item.has-sub .sub-menu.active a {
+  color: #f5783e;
+}
+.sidebar .list-group .list-group-item.has-sub .sub-menu:hover a {
+  color: #f5783e;
 }
 .sidebar .list-group .list-group-item.active {
   background-color: transparent;
