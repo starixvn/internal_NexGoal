@@ -18,9 +18,10 @@
     <UseIISExpress>false</UseIISExpress>
     <WebGreaseLibPath>..\packages\WebGrease.1.5.2\lib</WebGreaseLibPath>
     <JSLintSkip>\Libs\</JSLintSkip>
-    <IISExpressSSLPort>44300</IISExpressSSLPort>
-    <IISExpressAnonymousAuthentication>enabled</IISExpressAnonymousAuthentication>
-    <IISExpressWindowsAuthentication>disabled</IISExpressWindowsAuthentication>
+    <IISExpressSSLPort>
+    </IISExpressSSLPort>
+    <IISExpressAnonymousAuthentication>disabled</IISExpressAnonymousAuthentication>
+    <IISExpressWindowsAuthentication>enabled</IISExpressWindowsAuthentication>
     <IISExpressUseClassicPipelineMode>false</IISExpressUseClassicPipelineMode>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
@@ -197,7 +198,6 @@
     <Compile Include="Controllers\ExportPDFController.cs" />
     <Compile Include="Controllers\ExportReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -748,7 +748,6 @@
     <Content Include="Libs\BootstrapStarRating\package.json" />
     <Content Include="Libs\BootstrapStarRating\README.md" />
     <None Include="Libs\jquery-2.1.0.min.map" />
-    <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="SourceApp\Components\KPI\kpi.less" />
     <Content Include="SourceApp\Components\Employee\employee.less" />
     <Content Include="SourceApp\Components\Role\role.less" />

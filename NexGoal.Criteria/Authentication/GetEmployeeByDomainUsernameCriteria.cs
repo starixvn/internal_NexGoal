@@ -4,17 +4,8 @@
 
     public class GetEmployeeByDomainUsernameCriteria : CriteriaBase
     {
-        [SpParam(Ignored = true)]
-        public string Username { get; set; }
-
-        public string DomainUsername
-        {
-            get
-            {
-                return Username.Contains("sms") ? Username : string.Format("sms\\{0}", Username);
-            }
-        }
-
+        public string DomainUsername { get; set; }
+        
         public override bool IsValid()
         {
             return !string.IsNullOrWhiteSpace(DomainUsername);

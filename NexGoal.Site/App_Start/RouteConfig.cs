@@ -12,11 +12,6 @@
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(
-               name: "Login",
-               url: "Auth/Login",
-               defaults: new { controller = "Auth", action = "Login" });
-
             var homeRouteUrls = new List<string>
             {
                 "Employee/Index",

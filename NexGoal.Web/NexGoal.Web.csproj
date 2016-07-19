@@ -34,6 +34,10 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Fanex.Data, Version=0.5.404.63, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fanex.Data.0.5.404.63\lib\net40\Fanex.Data.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Fanex.Logging">
       <HintPath>..\packages\Fanex.Logging.1.0.0.0\lib\net40\Fanex.Logging.dll</HintPath>
     </Reference>
@@ -44,6 +48,10 @@
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\EnterpriseLibrary.Common.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Data.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -62,6 +70,7 @@
       <HintPath>..\packages\EnterpriseLibrary.Unity.5.0.414.0\lib\net40\Microsoft.Practices.Unity.Interception.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
@@ -94,9 +103,17 @@
       <Project>{76EE2DA4-7127-4C21-B218-ADFF51B2B74E}</Project>
       <Name>NexGoal.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NexGoal.Criteria\NexGoal.Criteria.csproj">
+      <Project>{23bd1141-64a1-4684-8a1e-83e8cc0d46aa}</Project>
+      <Name>NexGoal.Criteria</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NexGoal.Models\NexGoal.Model.csproj">
       <Project>{235C8D9E-97EC-4183-BAF2-3783F2F816CC}</Project>
       <Name>NexGoal.Model</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj">
+      <Project>{8eb3d578-b2a0-4b11-9386-50f394de396c}</Project>
+      <Name>NexGoal.Services</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
