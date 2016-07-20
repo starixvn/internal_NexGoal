@@ -3274,7 +3274,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to SMS-EPA.
+        ///   Looks up a localized string similar to Nex Goal.
         /// </summary>
         public static string TitlePage {
             get {

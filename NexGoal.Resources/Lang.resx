@@ -226,7 +226,7 @@
     <value>Title</value>
   </data>
   <data name="TitlePage" xml:space="preserve">
-    <value>SMS-EPA</value>
+    <value>Nex Goal</value>
   </data>
   <data name="UserManagement" xml:space="preserve">
     <value>User Management</value>
@@ -1317,7 +1317,7 @@
   <data name="MonthlyEPAHistory" xml:space="preserve">
     <value>Monthly EPA History</value>
   </data>
-   <data name="ManagementScore" xml:space="preserve">
+  <data name="ManagementScore" xml:space="preserve">
     <value>Management Score</value>
   </data>
   <data name="UpdateFinalScore" xml:space="preserve">
