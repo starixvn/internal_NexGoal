@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -13,8 +11,11 @@
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using NexGoal.Web.Services;
+    using System.Collections.Generic;
+    using System.Web.Http;
 
     public class TargetTemplateController : BaseController
     {
@@ -70,7 +71,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _targetTemplateService.CreateTargetTemplate(criteria);
@@ -83,7 +84,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _targetTemplateService.UpdateStatusTargetTemplate(criteria);
@@ -101,7 +102,7 @@
                 var updateTargetTemplateCriteria = new UpdateTargetTemplateBasicInformationCriteria()
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                    ModifiedBy = SessionManager.CurrentUserId,
                     Name = targetTemplate.Name,
                     TargetTypeId = targetTemplate.TargetTypeId,
                     ScoreRatingTypeId = targetTemplate.ScoreRatingTypeId,
@@ -127,7 +128,7 @@
                 var updateTargetTemplateCriteria = new UpdateTargetTemplateCriteria()
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                    ModifiedBy = SessionManager.CurrentUserId,
                     KPIs = targetTemplate.ConvertKPIItemToXml(targetTemplate.KPIIds)
                 };
 
@@ -144,7 +145,7 @@
             var criteria = new DeleteTargetTemplateCriteria
             {
                 TargetTemplateId = targetTemplateId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _targetTemplateService.DeleteTargetTemplate(criteria);
@@ -162,7 +163,7 @@
                 {
                     TargetTemplateId = model.TargetTemplateId,
                     KPIGroups = model.ConvertKPIGroupWeightToXml,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = SessionManager.CurrentUserId
                 };
 
                 commandResult = _targetTemplateService.AddKPIGroupWeight(criteria);
@@ -203,7 +204,7 @@
             {
                 TargetTemplateId = targetTemplateId,
                 KPIGroupId = kpiGroupId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _targetTemplateService.DeleteKPIGroup(criteria);

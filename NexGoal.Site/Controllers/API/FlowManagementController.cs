@@ -1,9 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -13,8 +9,13 @@
     using NexGoal.Model.FlowManagement;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using NexGoal.Web.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
 
     public class FlowManagementController : BaseController
     {
@@ -69,7 +70,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = SessionManager.CurrentUserId;
             }
 
             return _flowManagementService.CreateFlowTemplate(criteria);
@@ -81,7 +82,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             return _flowManagementService.UpdateFlowTemplate(criteria);
@@ -93,7 +94,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             return _flowManagementService.UpdateStatusFlowTemplate(criteria);
@@ -106,7 +107,7 @@
             var criteria = new DeleteFlowTemplateCriteria()
             {
                 FlowTemplateId = flowTemplateId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             return _flowManagementService.DeleteFlowTemplate(criteria);
@@ -157,7 +158,7 @@
                     DepartmentId = Math.Abs(model.DepartmentId),
                     FlowTemplateId = model.FlowTemplateId,
                     IsGroup = model.DepartmentId <= 0,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId,
+                    ModifiedBy = SessionManager.CurrentUserId,
                     FlowDetails = model.FlowDetails
                 };
 
@@ -178,7 +179,7 @@
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
                 IsGroup = departmentId <= 0,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             return _flowManagementService.DeleteDepartmentFlow(criteria);
@@ -240,7 +241,7 @@
                     EmployeeId = model.Selfs.Employees[0].EmployeeId,
                     FlowTemplateId = model.FlowTemplateId,
                     FlowDetails = model.FlowDetails,
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = SessionManager.CurrentUserId
                 };
 
                 commandResult = _flowManagementService.CreatePersonalFlow(criteria);
@@ -259,7 +260,7 @@
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             return _flowManagementService.DeletePersonalFlow(criteria);

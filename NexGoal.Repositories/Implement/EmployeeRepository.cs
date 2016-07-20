@@ -62,16 +62,12 @@
                     if (employees != null && employees.Any())
                     {
                         EmployeeModel employee = employees.First();
-                        IEnumerable<SystemRoleModel> roles = multi.Read<SystemRoleModel>();
                         IEnumerable<FunctionModel> functions = multi.Read<FunctionModel>();
-                        IEnumerable<MenuItemModel> menuItems = multi.Read<MenuItemModel>();
 
                         userSession = new UserSession
                         {
                             EmployeeInfo = employee,
-                            Roles = roles,
-                            Functions = functions,
-                            Menus = GroupMenuItem(menuItems)
+                            Functions = functions
                         };
                     }
 
@@ -104,29 +100,6 @@
                     return employee;
                 }
             }
-        }
-
-        private IEnumerable<MenuGroupModel> GroupMenuItem(IEnumerable<MenuItemModel> menuItems)
-        {
-            var menuGroups = new List<MenuGroupModel>();
-            IEnumerable<MenuItemModel> parentMenu = menuItems.Where(item => item.ParentId == null).OrderBy(item => item.DisplayOrder).ToList();
-
-            foreach (MenuItemModel parent in parentMenu)
-            {
-                var menuGroupItem = new MenuGroupModel
-                {
-                    MenuId = parent.MenuId,
-                    Name = parent.Name,
-                    Url = parent.Url
-                };
-
-                menuGroupItem.MenuItems = menuItems.Where(menuItem => menuItem.ParentId == menuGroupItem.MenuId)
-                    .OrderBy(menuItem => menuItem.DisplayOrder);
-
-                menuGroups.Add(menuGroupItem);
-            }
-
-            return menuGroups;
         }
     }
 }

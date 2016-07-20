@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -9,8 +7,11 @@
     using NexGoal.Model.TargetEmployeeSetting;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using NexGoal.Web.Services;
+    using System.Collections.Generic;
+    using System.Web.Http;
 
     public class TargetEmployeeSettingController : BaseController
     {
@@ -55,7 +56,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
@@ -70,7 +71,7 @@
             {
                 TargetTemplateId = targetTemplateId,
                 EmployeeId = employeeId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
@@ -107,7 +108,7 @@
                 {
                     TargetTemplateId = model.TargetTemplateId,
                     Departments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = SessionManager.CurrentUserId
                 };
 
                 commandResult = _targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
@@ -128,7 +129,7 @@
                 TargetTemplateId = targetTemplateId,
                 DepartmentId = departmentId,
                 IsGroup = isGroup,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);

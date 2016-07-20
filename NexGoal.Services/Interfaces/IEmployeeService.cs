@@ -18,7 +18,7 @@
 
         IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria);
 
-        EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria);
+        EmployeeModel GetEmployeeById(int employeeId);
 
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 
@@ -29,6 +29,8 @@
         IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
 
         CommandResult ChangePassword(ChangePasswordCriteria criteria);
+
+        CommandResult ResetPassword(ResetPasswordCriteria criteria);
 
         CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);
 

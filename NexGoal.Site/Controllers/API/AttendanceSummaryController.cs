@@ -1,36 +1,40 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.AttendanceSummary;
     using NexGoal.Model.AttendanceSummary;
+    using NexGoal.Model.RoleManagement;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
     using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using NexGoal.Web.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
 
     public class AttendanceSummaryController : BaseController
     {
         private readonly IAttendanceSummaryService _attendanceSummaryService;
         private readonly IWebCommonService _webCommonService;
+        private readonly IRoleService roleService;
 
         public AttendanceSummaryController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public AttendanceSummaryController(
             IAttendanceSummaryService attendanceSummaryService,
-            IWebCommonService webCommonService)
+            IWebCommonService webCommonService,
+            IRoleService roleService)
         {
             _attendanceSummaryService = attendanceSummaryService ?? new AttendanceSummaryService();
             _webCommonService = webCommonService ?? new WebCommonService();
+            this.roleService = roleService ?? new RoleService();
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
@@ -52,7 +56,7 @@
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
                 ShowAll = showAll,
-                ApproverId = CurrentUser.EmployeeInfo.EmployeeId
+                ApproverId = SessionManager.CurrentUserId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
 
@@ -84,7 +88,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _attendanceSummaryService.InsertOtherViolation(criteria);
@@ -103,7 +107,7 @@
                 EmployeeId = employeeId,
                 WorkDate = workDate,
                 Name = name,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _attendanceSummaryService.DeleteOtherViolation(criteria);
@@ -136,7 +140,7 @@
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 ReasonId = reasonId,
-                ApproverId = CurrentUser.EmployeeInfo.EmployeeId,
+                ApproverId = SessionManager.CurrentUserId,
                 HasIgnored = hasIgnored,
                 ShowAll = showAll
             };
@@ -152,7 +156,7 @@
         {
             var criteria = new UpdateIgnoredViolationCriteria
             {
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             criteria.IgnoredViolations = criteria.ConvertViolationItemToXml(violations);
@@ -181,7 +185,8 @@
         [HttpGet]
         public bool CheckUserPermissionIsAdmin()
         {
-            return CurrentUser != null && CurrentUser.Roles.Any(x => x.RoleId == (int)SystemRole.SystemAdmin);
+            IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(SessionManager.CurrentUserId);
+            return roles.Any(x => x.RoleId == (int)SystemRole.SystemAdmin);
         }
     }
 }

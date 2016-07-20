@@ -34,7 +34,7 @@
 
         IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria);
 
-        EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria);
+        EmployeeModel GetEmployeeById(int employeeId);
 
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 

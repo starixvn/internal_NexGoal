@@ -1,28 +1,32 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.EPAHistory;
     using NexGoal.Model.EPAHistory;
+    using NexGoal.Model.RoleManagement;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
 
     public class EPAHistoryController : BaseController
     {
         private readonly IEPAHistoryService _epaHistoryService;
+        private readonly IRoleService roleService;
 
         public EPAHistoryController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EPAHistoryController(IEPAHistoryService epaHistoryService)
+        public EPAHistoryController(IEPAHistoryService epaHistoryService, IRoleService roleService)
         {
             _epaHistoryService = epaHistoryService ?? new EPAHistoryService();
+            this.roleService = roleService ?? new RoleService();
         }
 
         [HttpGet]
@@ -32,7 +36,7 @@
             var criteria = new GetEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = SessionManager.CurrentUserId,
                 EmployeeId = employeeId
             };
 
@@ -46,7 +50,7 @@
             var criteria = new GetMonthlyEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = CurrentUser.EmployeeInfo.EmployeeId,
+                EvaluatorId = SessionManager.CurrentUserId,
                 EmployeeId = employeeId
             };
 
@@ -57,7 +61,8 @@
         [HttpGet]
         public bool HasOnlyEmployeeRole()
         {
-            bool onlyEmployeeRole = CurrentUser.Roles.All(x => x.RoleId == (int)SystemRole.Employee);
+            IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(SessionManager.CurrentUserId);
+            bool onlyEmployeeRole = roles.All(x => x.RoleId == (int)SystemRole.Employee);
             return onlyEmployeeRole;
         }
     }

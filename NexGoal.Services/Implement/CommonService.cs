@@ -91,9 +91,9 @@
             return employeeService.GetEmployeeByGroupId(criteria);
         }
 
-        public EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria)
+        public EmployeeModel GetEmployeeById(int employeeId)
         {
-            return employeeService.GetEmployeeById(criteria);
+            return employeeService.GetEmployeeById(employeeId);
         }
 
         public IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria)

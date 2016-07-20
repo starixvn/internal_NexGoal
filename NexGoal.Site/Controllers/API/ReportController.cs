@@ -1,10 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.Report;
@@ -13,7 +8,13 @@
     using NexGoal.Model.Report.EPASummary;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
 
     public class ReportController : BaseController
     {
@@ -46,7 +47,7 @@
         {
             var criteria = new GetEPASummaryCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = SessionManager.CurrentUserId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -75,7 +76,7 @@
         {
             var criteria = new GetEPADetailCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = SessionManager.CurrentUserId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -104,7 +105,7 @@
         {
             var criteria = new GetMonthlyEPADetailCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = SessionManager.CurrentUserId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -132,7 +133,7 @@
         {
             var criteria = new GetMonthlyEPASummaryCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeInfo.EmployeeId,
+                EmployeeId = SessionManager.CurrentUserId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,

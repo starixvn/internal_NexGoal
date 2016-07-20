@@ -5,6 +5,7 @@
     using NexGoal.Model.Employee;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using System.Collections.Generic;
 
@@ -25,7 +26,7 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MenuManagement, Policy = Policy.Read)]
         public IEnumerable<MenuItemModel> GetMenusByEmployeeId()
         {
-            IEnumerable<MenuItemModel> menus = this.menuService.GetMenusByUserId(CurrentUser.EmployeeInfo.EmployeeId);
+            var id = employeeId.HasValue ? employeeId.Value : SessionManager.CurrentUserId;
 
             return menus;
         }

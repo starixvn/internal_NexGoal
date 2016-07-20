@@ -3,7 +3,7 @@
   <Function Name="Authentication">
     <Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="NexGoal" Plain="0">
     </Setting>
-    <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="NexGoal" Plain="0">
+    <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername_razor" DbName="NexGoal" Plain="0">
     </Setting>
     <Setting Key="EpaEmployeeIpAddress_Insert" SpName="EpaEmployeeIpAddress_Insert" DbName="NexGoal" Plain="0">
     </Setting>

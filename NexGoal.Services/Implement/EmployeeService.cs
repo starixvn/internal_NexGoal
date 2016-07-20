@@ -75,10 +75,10 @@
             return employees;
         }
 
-        public EmployeeModel GetEmployeeById(GetEmployeeByIdCriteria criteria)
+        public EmployeeModel GetEmployeeById(int employeeId)
         {
             var employee = new EmployeeModel();
-
+            var criteria = new GetEmployeeByIdCriteria { EmployeeId = employeeId };
             if (criteria != null && criteria.IsValid())
             {
                 employee = _employeeRepository.GetEmployeeById(criteria);
@@ -138,6 +138,20 @@
         public CommandResult ChangePassword(ChangePasswordCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                criteria.NewPassword = Encryption.ComputeHash(HashProvider.Sha1, criteria.NewPassword);
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+
+        public CommandResult ResetPassword(ResetPasswordCriteria criteria)
+        {
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

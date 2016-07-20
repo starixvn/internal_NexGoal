@@ -102,6 +102,7 @@
     <Compile Include="EmployeeEPA\ResetScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPASummaryImportCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateFinalScoreEPAEndEvaluationCriteria.cs" />
+    <Compile Include="Employee\ResetPasswordCriteria.cs" />
     <Compile Include="Employee\UpdateHasMonthlyEPACriteria.cs" />
     <Compile Include="EPAHistory\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -187,6 +188,7 @@
     <Compile Include="Report\GetMonthlyEPADetailCriteria.cs" />
     <Compile Include="Report\GetEPADetailCriteria.cs" />
     <Compile Include="Report\GetEPASummaryCriteria.cs" />
+    <Compile Include="RoleManagement\GetRolesByUserIdCriteria.cs" />
     <Compile Include="ScoreRatingType\GetScoreRatingTypeCriteria.cs" />
     <Compile Include="TargetEmployeeSetting\AssignTargetDepartmentSettingCriteria.cs" />
     <Compile Include="TargetEmployeeSetting\AssignTargetTemplateToEmployeeCriteria.cs" />

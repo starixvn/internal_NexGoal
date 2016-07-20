@@ -12,7 +12,7 @@
     [ApiAuthorize]
     public class BaseController : ApiController
     {
-        public UserSession CurrentUser
+        public int CurrentUserId
         {
             get
             {
@@ -21,8 +21,8 @@
                     FormsAuthentication.RedirectToLoginPage();
                 }
 
-                var currentUser = SessionManager.CurrentUser;
-                if (currentUser == null)
+                var currentUser = SessionManager.CurrentUserId;
+                if (currentUser == 0)
                 {
                     FormsAuthentication.RedirectToLoginPage();
                 }

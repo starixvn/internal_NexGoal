@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -9,8 +7,11 @@
     using NexGoal.Model.KPIGroup;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using NexGoal.Web.Services;
+    using System.Collections.Generic;
+    using System.Web.Http;
 
     public class KPIGroupController : BaseController
     {
@@ -60,7 +61,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _kpiGroupService.CreateKPIGroup(criteria);
@@ -74,7 +75,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _kpiGroupService.UpdateKPIGroup(criteria);
@@ -88,7 +89,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _kpiGroupService.UpdateStatusKPIGroup(criteria);
@@ -103,7 +104,7 @@
             var criteria = new DeleteKPIGroupCriteria
             {
                 KPIGroupId = kpiGroupId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _kpiGroupService.DeleteKPIGroup(criteria);

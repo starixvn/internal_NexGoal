@@ -1,9 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -14,8 +10,13 @@
     using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using NexGoal.Web.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
 
     public class MonthlyPeriodController : BaseController
     {
@@ -83,7 +84,7 @@
             {
                 criteria.TargetTypeId = (int)TargetType.Monthly;
                 criteria.IsActive = true;
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = SessionManager.CurrentUserId;
                 commandResult = _periodService.CreatePeriod(criteria);
             }
             else
@@ -105,7 +106,7 @@
             {
                 criteria.TargetTypeId = (int)TargetType.Monthly;
                 criteria.IsActive = true;
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
                 commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
             }
             else
@@ -138,7 +139,7 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
 
                 commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
             }
@@ -158,7 +159,7 @@
             var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _periodService.DeletePeriod(criteria);
@@ -207,7 +208,7 @@
                     PeriodId = model.PeriodId,
                     EmployeeId = model.EmployeeId,
                     Departments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = SessionManager.CurrentUserId
                 };
 
                 commandResult = _periodService.AddEmployeeToPeriod(criteria);
@@ -235,7 +236,7 @@
                     EmployeeIds = model.EmployeeIds,
                     TargetTemplateId = model.TargetTemplateId,
                     EmployeeAssignments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = SessionManager.CurrentUserId
                 };
 
                 commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
@@ -276,7 +277,7 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
                 commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
             }
             else

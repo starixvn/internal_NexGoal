@@ -81,7 +81,7 @@
 
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = SessionManager.CurrentUserId;
                 commandResult = _periodService.CreatePeriod(criteria);
             }
             else
@@ -101,7 +101,7 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
                 commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
             }
             else
@@ -133,7 +133,7 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
                 commandResult = _periodService.UpdateStatusPeriod(criteria);
             }
             else
@@ -152,7 +152,7 @@
             var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _periodService.DeletePeriod(criteria);
@@ -219,7 +219,7 @@
                     PeriodId = model.PeriodId,
                     EmployeeId = model.EmployeeId,
                     Departments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = SessionManager.CurrentUserId
                 };
 
                 commandResult = _periodService.AddEmployeeToPeriod(criteria);
@@ -247,7 +247,7 @@
                     EmployeeIds = model.EmployeeIds,
                     TargetTemplateId = model.TargetTemplateId,
                     EmployeeAssignments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                    ModifiedBy = SessionManager.CurrentUserId
                 };
 
                 commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
@@ -269,7 +269,7 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
                 commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
             }
             else
@@ -320,7 +320,7 @@
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
                 commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
             }
             else

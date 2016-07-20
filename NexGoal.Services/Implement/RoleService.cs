@@ -10,6 +10,18 @@
 
     public class RoleService : BaseService, IRoleService
     {
+        public IEnumerable<SystemRoleModel> GetRolesByEmployeeId(int employeeId)
+        {
+            var criteria = new GetRolesByEmployeeIdCriteria { EmployeeId = employeeId };
+            IEnumerable<SystemRoleModel> roles = new List<SystemRoleModel>();
+            if (criteria.IsValid())
+            {
+                roles = GetData<SystemRoleModel>(criteria);
+            }
+
+            return roles;
+        }
+
         public IEnumerable<RoleFunctionModel> GetFunctionByRoleId(GetFunctionByRoleIdCriteria criteria)
         {
             IEnumerable<RoleFunctionModel> functions = new List<RoleFunctionModel>();

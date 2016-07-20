@@ -4,6 +4,8 @@
     {
         public const string CurrentSessionKey = "NexGoal.CurrentSession";
 
+        public const string CurrentSessionUserId = "NexGoal.CurrentUserId";
+
         public const string DefaultPassword = "SMSep@1320$!";
 
         public const string ResetDefaultPassword = "123456";

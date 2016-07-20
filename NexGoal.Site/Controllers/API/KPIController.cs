@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -9,8 +7,11 @@
     using NexGoal.Model.KPI;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using NexGoal.Web.Services;
+    using System.Collections.Generic;
+    using System.Web.Http;
 
     public class KPIController : BaseController
     {
@@ -53,7 +54,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _kpiService.CreateKPI(criteria);
@@ -67,7 +68,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _kpiService.UpdateKPI(criteria);
@@ -81,7 +82,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _kpiService.UpdateStatusKPI(criteria);
@@ -95,7 +96,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _kpiService.UpdateRequiredEvaluateKPI(criteria);
@@ -110,7 +111,7 @@
             var criteria = new DeleteKPICriteria
             {
                 KPIId = kpiId,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
             CommandResult commandResult = _kpiService.DeleteKPI(criteria);

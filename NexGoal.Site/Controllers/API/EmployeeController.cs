@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -12,8 +10,11 @@
     using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using NexGoal.Web.Services;
+    using System.Collections.Generic;
+    using System.Web.Http;
 
     public class EmployeeController : BaseController
     {
@@ -71,7 +72,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.CreatedBy = SessionManager.CurrentUserId;
                 criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
             }
 
@@ -85,7 +86,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _employeeService.UpdateSpecialEmployee(criteria);
@@ -105,10 +106,11 @@
             CommandResult commandResult = new CommandResult();
             if (criteria != null)
             {
-                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, CurrentUser.EmployeeInfo.Password))
+                var user = this._employeeService.GetEmployeeById(SessionManager.CurrentUserId);
+                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, user.Password))
                 {
-                    criteria.EmployeeId = CurrentUser.EmployeeInfo.EmployeeId;
-                    criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                    criteria.EmployeeId = SessionManager.CurrentUserId;
+                    criteria.ModifiedBy = SessionManager.CurrentUserId;
 
                     commandResult = _employeeService.ChangePassword(criteria);
                 }
@@ -127,7 +129,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
@@ -139,16 +141,14 @@
         [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult ResetPassword(int employeeId)
         {
-            var criteria = new ChangePasswordCriteria()
+            var criteria = new ResetPasswordCriteria()
             {
                 EmployeeId = employeeId,
-                OldPassword = CurrentUser.EmployeeInfo.Password,
                 NewPassword = Constants.ResetDefaultPassword,
-                ConfirmPassword = Constants.ResetDefaultPassword,
-                ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId
+                ModifiedBy = SessionManager.CurrentUserId
             };
 
-            return _employeeService.ChangePassword(criteria);
+            return _employeeService.ResetPassword(criteria);
         }
 
         [HttpPut]
@@ -157,7 +157,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeInfo.EmployeeId;
+                criteria.ModifiedBy = SessionManager.CurrentUserId;
             }
 
             CommandResult commandResult = _employeeService.UpdateHasMonthlyEPA(criteria);

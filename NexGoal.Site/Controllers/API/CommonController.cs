@@ -22,6 +22,7 @@
     using NexGoal.Model.TargetType;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Web;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;
@@ -122,7 +123,7 @@
                 GroupId = groupId,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true && CurrentUser != null ? (int?)CurrentUser.EmployeeInfo.EmployeeId : null,
+                ApproverId = getByApprover == true ? (int?)SessionManager.CurrentUserId : null,
                 IncludeVerifier = includeVerifier
             };
 
@@ -153,12 +154,7 @@
         [HttpGet]
         public EmployeeModel GetEmployeeById(int employeeId)
         {
-            var criteria = new GetEmployeeByIdCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return commonService.GetEmployeeById(criteria);
+            return commonService.GetEmployeeById(employeeId);
         }
 
         [HttpGet]
