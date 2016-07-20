@@ -11,19 +11,13 @@
         model.menus = {};
 
         model.getMenus = function () {
-            //return menuFactory.getMenus()
-            //.success(function (menus) {
-            //    model.menus = menus
-            //})
-            //.error(function (response, status) {
-            //    errorFactory.errorHandle(status);
-            //})
-
-            var menus = menuFactory.getMenus();
-
-            model.menus = menus;
-
-            return menus;
+            return menuFactory.getMenus()
+            .success(function (menus) {
+                model.menus = menus
+            })
+            .error(function (response, status) {
+                errorFactory.errorHandle(status);
+            })
         };
 
         return model;

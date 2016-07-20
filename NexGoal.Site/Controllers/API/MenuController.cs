@@ -23,11 +23,9 @@
         }
 
         [ApiAuthorize(FunctionKey = EPAFunctionKey.MenuManagement, Policy = Policy.Read)]
-        public IEnumerable<MenuItemModel> GetMenusByEmployeeId(int? employeeId)
+        public IEnumerable<MenuGroupModel> GetMenusByEmployeeId()
         {
-            var id = employeeId.HasValue ? employeeId.Value : CurrentUser.EmployeeInfo.EmployeeId;
-
-            IEnumerable<MenuItemModel> menus = this.menuService.GetMenusByUserId(id);
+            IEnumerable<MenuGroupModel> menus = this.menuService.GetMenusByUserId(CurrentUser.EmployeeInfo.EmployeeId);
 
             return menus;
         }

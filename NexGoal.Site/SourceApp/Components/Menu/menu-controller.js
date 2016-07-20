@@ -1,5 +1,6 @@
-﻿(function (menuModule) {
-    "use strict";
+﻿"use strict";
+
+(function (menuModule) {
 
     menuModule.controller("MenuController", menuController);
 
@@ -8,7 +9,7 @@
     function menuController(menuModel) {
         var vm = this;
 
-        this.menus = menuModel.getMenus();
+        vm.menus = menuModel.getMenus();
     }
 
 })(angular.module("menuModule"));
