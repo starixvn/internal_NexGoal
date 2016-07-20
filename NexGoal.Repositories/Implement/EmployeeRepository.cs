@@ -116,8 +116,8 @@
                 var menuGroupItem = new MenuGroupModel
                 {
                     MenuId = parent.MenuId,
-                    MenuName = parent.MenuName,
-                    MenuLink = parent.MenuLink
+                    Name = parent.Name,
+                    Url = parent.Url
                 };
 
                 menuGroupItem.MenuItems = menuItems.Where(menuItem => menuItem.ParentId == menuGroupItem.MenuId)

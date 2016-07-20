@@ -5,6 +5,6 @@
 
     public interface IMenuService
     {
-        IEnumerable<MenuGroupModel> GetMenusByUserId(int userId);
+        IEnumerable<MenuItemModel> GetMenusByUserId(int userId);
     }
 }

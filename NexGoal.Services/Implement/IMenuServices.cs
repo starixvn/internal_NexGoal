@@ -8,13 +8,13 @@
 
     public class MenuService : BaseService, IMenuService
     {
-        public IEnumerable<MenuGroupModel> GetMenusByUserId(int employeeId)
+        public IEnumerable<MenuItemModel> GetMenusByUserId(int employeeId)
         {
             var criteria = new GetMenusByEmployeeIdCriteria { EmployeeId = employeeId };
-            IEnumerable<MenuGroupModel> menus = new List<MenuGroupModel>();
+            IEnumerable<MenuItemModel> menus = new List<MenuItemModel>();
             if (criteria.IsValid())
             {
-                menus = GetData<MenuGroupModel>(criteria);
+                menus = GetData<MenuItemModel>(criteria);
             }
 
             return menus;

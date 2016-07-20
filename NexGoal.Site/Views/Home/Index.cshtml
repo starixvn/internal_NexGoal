@@ -45,43 +45,7 @@
 <div class="container-fluid page">
     <div class="row">
         <div class="col-sm-3 col-md-2 sidebar">
-            <ul class="list-group">
-                @if (@Model.Menus != null)
-                {
-                    foreach (var menuParentItem in @Model.Menus)
-                    {
-                        var childMenuItems = menuParentItem.MenuItems;
-                        if (childMenuItems.Any())
-                        {
-                            var id = "parent-" + index;
 
-                            <li class="list-group-item has-sub" >
-                                <a class="sub-menu-title" data-toggle="collapse" data-target=".@id">
-                                    <i class="fa fa-user"></i>@menuParentItem.MenuName<i class="fa fa-chevron-down pull-right"></i>
-                                </a>
-                                <ul class="list-group collapse in @id">
-                                    @foreach (var childMenu in childMenuItems)
-                                    {
-                                        <li class="list-group-item sub-menu">
-                                            <a href="@childMenu.MenuLink">@childMenu.MenuName</a>
-                                        </li>
-                                    }
-                                </ul>
-                            </li>
-
-                            index++;
-                        }
-                        else
-                        {
-                            <li class="list-group-item active">
-                                <a href="@menuParentItem.MenuLink">
-                                    <i class="fa fa-home"></i>@menuParentItem.MenuName
-                                </a>
-                            </li>
-                        }
-                    }
-                }
-            </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
             <div class="loading-process" style="display: none"></div>
