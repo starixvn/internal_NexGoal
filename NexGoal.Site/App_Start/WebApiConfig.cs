@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Site
 {
-    using System.Web.Http;
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
-    using NexGoal.Web.ApiAuthorizeAttribute;
+    using NexGoal.Core.Attribute;
+    using System.Web.Http;
 
     public static class WebApiConfig
     {

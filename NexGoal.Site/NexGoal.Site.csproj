@@ -192,6 +192,7 @@
     <Compile Include="Controllers\API\PeriodController.cs" />
     <Compile Include="Controllers\API\ReportController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />
+    <Compile Include="Controllers\API\MenuController.cs" />
     <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />

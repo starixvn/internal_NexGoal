@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Web.ApiAuthorizeAttribute
+﻿namespace NexGoal.Core.Attribute
 {
     using System.Net.Http;
     using System.Web.Http.Filters;

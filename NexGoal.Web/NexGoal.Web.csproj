@@ -90,9 +90,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ApiAuthorizeAttribute\ApiAuthorizeAttribute.cs" />
-    <Compile Include="ApiAuthorizeAttribute\CompressionHelper.cs" />
-    <Compile Include="ApiAuthorizeAttribute\DeflateCompressionAttribute.cs" />
-    <Compile Include="ApiAuthorizeAttribute\ExceptionHandlingAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\IWebCommonService.cs" />
     <Compile Include="Services\WebCommonService.cs" />

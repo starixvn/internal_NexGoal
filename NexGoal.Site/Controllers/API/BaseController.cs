@@ -1,14 +1,12 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Web.Http;
-    using System.Web.Security;
+    using NexGoal.Core.Attribute;
     using NexGoal.Model.Authentication;
     using NexGoal.Web;
     using NexGoal.Web.ApiAuthorizeAttribute;
     using System.Web;
-    using System.Web.Mvc;
+    using System.Web.Http;
     using System.Web.Security;
-    using NexGoal.Criteria.Authentication;
 
     [DeflateCompressionAttribute]
     [ApiAuthorize]
