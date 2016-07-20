@@ -598,6 +598,7 @@
     <Content Include="SourceApp\Shared\enumerations-factory.js" />
     <Content Include="SourceApp\Shared\epa-filter.js" />
     <Content Include="SourceApp\Shared\error-factory.js" />
+    <Content Include="SourceApp\Shared\menu-tab-directive.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
     <Content Include="SourceApp\Shared\epa-directives.js" />
     <Content Include="SourceApp\Shared\notification-factory.js" />

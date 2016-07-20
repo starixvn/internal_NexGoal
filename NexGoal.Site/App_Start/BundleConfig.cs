@@ -165,7 +165,8 @@
                             "~/SourceApp/Shared/utilities-factory.js",
                             "~/SourceApp/Shared/enumerations-factory.js",
                             "~/SourceApp/Shared/history-factory.js",
-                            "~/SourceApp/Shared/lockScreen-factory.js"));
+                            "~/SourceApp/Shared/lockScreen-factory.js",
+                            "~/SourceApp/Shared/menu-tab-directive.js"));
         }
     }
 }
