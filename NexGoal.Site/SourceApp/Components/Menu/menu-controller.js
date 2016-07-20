@@ -9,7 +9,11 @@
     function menuController(menuModel) {
         var vm = this;
 
-        vm.menus = menuModel.getMenus();
+        vm.menus = {};
+
+        menuModel.getMenus().then(function () {
+            vm.menus = menuModel.menus;
+        });
     }
 
 })(angular.module("menuModule"));

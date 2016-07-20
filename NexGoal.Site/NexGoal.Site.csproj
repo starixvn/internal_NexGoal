@@ -713,7 +713,7 @@
     <Content Include="Libs\angular-filter\bower.json" />
     <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
     <Content Include="Libs\angular-filter\license.md" />
-    <Content Include="Content\Site\_evaluationProcess.less" />
+    <Content Include="Content\Site\Components\_evaluationProcess.less" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
