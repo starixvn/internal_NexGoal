@@ -1,6 +1,7 @@
 ﻿@import "variables.less";
 @import "mixins.less";
 @import "_evaluationProcess.less";
+@import "Components/_sidebar.less";
 
 html {
     font-size: 62.5%;
@@ -125,126 +126,6 @@ a:focus {
     }
 }
 
-/********************************************************/
-/*					    Sidebar                         */
-/********************************************************/
-
-.sidebar {
-    padding-right: 10px;
-
-    .list-group {
-        margin: 0;
-        box-shadow: none;
-
-
-        .fa {
-            font-size: 16px;
-            width: 25px;
-        }
-
-        .fa-chevron-down {
-            font-size: 10px;
-            height: 18px;
-            line-height: 18px;
-            text-align: center;
-            transform: rotate(0);
-            transition: 0.3s ease all;
-        }
-
-        .list-group-item {
-            border: none;
-            border-radius: 0;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-right: 0;
-            padding-left: 5px;
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            a {
-                padding: 6px 7px;
-                color: @color-body;
-
-                &:hover, &:active, &:focus {
-                    text-decoration: none;
-                }
-            }
-
-            &.has-sub {
-                .sub-menu-title {
-                    background: #fcd5b4;
-                    color: @gray-Mine;
-                    display: block;
-                    font-weight: 500;
-
-                    &.collapsed {
-                        .fa-chevron-down {
-                            transform: rotate(-90deg);
-                        }
-                    }
-                }
-
-                .sub-menu {
-                    padding-left: 32px;
-
-                    a {
-                        padding-left: 0;
-                        transition: 0.3s all ease;
-                    }
-
-                    &.active {
-                        a {
-                            color: @orange-Jaffa;
-                        }
-                    }
-
-                    &:hover {
-                        a {
-                            color: @orange-Jaffa;
-                        }
-                    }
-                }
-            }
-
-            &.active {
-                background-color: transparent;
-                background-image: none;
-                text-shadow: none;
-
-                a {
-                    color: @orange-Jaffa;
-                    font-weight: 500;
-                }
-            }
-        }
-    }
-
-    .panel-body {
-        padding: 0;
-    }
-}
-
-@media (min-width: 768px) {
-    .sidebar {
-        position: fixed;
-        top: 51px;
-        bottom: 0;
-        left: 0;
-        z-index: 1000;
-        display: block;
-        padding: 20px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        background-color: #f5f5f5;
-        top: 36px;
-        padding: 20px 0 10px 10px;
-        background-color: #fff;
-        border-right: 1px solid #eee;
-        max-height: 950px;
-    }
-}
 /********************************************************/
 /*					    Main Page                         */
 /********************************************************/
