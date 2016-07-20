@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -7,8 +8,6 @@
     using NexGoal.Model.RoleManagement;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web;
-    using NexGoal.Web.ApiAuthorizeAttribute;
     using System.Collections.Generic;
     using System.Web.Http;
 
@@ -26,7 +25,7 @@
             _roleService = roleService ?? new RoleService();
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.RoleManagement, Policy.Read)]
         public IEnumerable<RoleFunctionModel> GetRoleFunctionByRoleId(int roleId)
         {
             var criteria = new GetFunctionByRoleIdCriteria
@@ -38,13 +37,13 @@
             return functions;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.RoleManagement, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.RoleManagement, Policy = Policy.Host)]
         public CommandResult AssignFunctionToRole(AssignFunctionToRoleCriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
             CommandResult commandResult = _roleService.AssignFunctionToRole(criteria);

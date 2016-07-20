@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.Report;
@@ -8,8 +9,6 @@
     using NexGoal.Model.Report.EPASummary;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web;
-    using NexGoal.Web.ApiAuthorizeAttribute;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -34,8 +33,8 @@
             _commonController = commonController ?? new CommonController();
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.EPASummaryReport, Policy.Read)]
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPASummaryReport, Policy = Policy.Read)]
         public HttpResponseMessage GetEPASummaryReport(
             string periodIds = null,
             int? departmentId = null,
@@ -47,7 +46,7 @@
         {
             var criteria = new GetEPASummaryCriteria()
             {
-                EmployeeId = SessionManager.CurrentUserId,
+                EmployeeId = CurrentUser.EmployeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -62,8 +61,8 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.EPADetailReport, Policy.Read)]
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.EPADetailReport, Policy = Policy.Read)]
         public HttpResponseMessage GetEPADetailReport(
             int? periodId = null,
             int? departmentId = null,
@@ -76,7 +75,7 @@
         {
             var criteria = new GetEPADetailCriteria()
             {
-                EmployeeId = SessionManager.CurrentUserId,
+                EmployeeId = CurrentUser.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -92,7 +91,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPADetailReport, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.MonthlyEPADetailReport, Policy.Read)]
         public HttpResponseMessage GetMonthlyEPADetailReport(
             int? periodId = null,
             int? departmentId = null,
@@ -105,7 +104,7 @@
         {
             var criteria = new GetMonthlyEPADetailCriteria()
             {
-                EmployeeId = SessionManager.CurrentUserId,
+                EmployeeId = CurrentUser.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -121,7 +120,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.MonthlyEPASummaryReport, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.MonthlyEPASummaryReport, Policy.Read)]
         public HttpResponseMessage GetMonthlyEPASummaryReport(
             string periodIds = null,
             int? departmentId = null,
@@ -133,7 +132,7 @@
         {
             var criteria = new GetMonthlyEPASummaryCriteria()
             {
-                EmployeeId = SessionManager.CurrentUserId,
+                EmployeeId = CurrentUser.EmployeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,

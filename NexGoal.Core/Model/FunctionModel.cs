@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Model.RoleManagement
+﻿namespace NexGoal.Core.Model
 {
     public class FunctionModel
     {

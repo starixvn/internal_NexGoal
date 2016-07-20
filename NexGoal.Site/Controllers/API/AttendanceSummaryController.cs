@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -8,9 +9,6 @@
     using NexGoal.Model.RoleManagement;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web;
-    using NexGoal.Web.ApiAuthorizeAttribute;
-    using NexGoal.Web.Services;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -19,25 +17,22 @@
     public class AttendanceSummaryController : BaseController
     {
         private readonly IAttendanceSummaryService _attendanceSummaryService;
-        private readonly IWebCommonService _webCommonService;
         private readonly IRoleService roleService;
 
         public AttendanceSummaryController()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public AttendanceSummaryController(
             IAttendanceSummaryService attendanceSummaryService,
-            IWebCommonService webCommonService,
             IRoleService roleService)
         {
             _attendanceSummaryService = attendanceSummaryService ?? new AttendanceSummaryService();
-            _webCommonService = webCommonService ?? new WebCommonService();
             this.roleService = roleService ?? new RoleService();
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
         public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(
             DateTime startDate,
             DateTime endDate,
@@ -56,14 +51,14 @@
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
                 ShowAll = showAll,
-                ApproverId = SessionManager.CurrentUserId
+                ApproverId = CurrentUser.EmployeeId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
 
             return attendanceEmployees;
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
         public IEnumerable<OtherViolationModel> GetOtherViolations(
             string employeeIds,
             DateTime startDate,
@@ -82,21 +77,21 @@
             return violations;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
         [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Host)]
         public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = SessionManager.CurrentUserId;
+                criteria.CreatedBy = CurrentUser.EmployeeId;
             }
 
             CommandResult commandResult = _attendanceSummaryService.InsertOtherViolation(criteria);
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
         [HttpDelete]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Host)]
         public CommandResult DeleteOtherViolation(
             int employeeId,
             DateTime workDate,
@@ -107,7 +102,7 @@
                 EmployeeId = employeeId,
                 WorkDate = workDate,
                 Name = name,
-                ModifiedBy = SessionManager.CurrentUserId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
             CommandResult commandResult = _attendanceSummaryService.DeleteOtherViolation(criteria);
@@ -121,7 +116,7 @@
             return violations;
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
         public IEnumerable<AttendanceDetailModel> GetAttendanceDetail(
             DateTime startDate,
             DateTime endDate,
@@ -140,7 +135,7 @@
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 ReasonId = reasonId,
-                ApproverId = SessionManager.CurrentUserId,
+                ApproverId = CurrentUser.EmployeeId,
                 HasIgnored = hasIgnored,
                 ShowAll = showAll
             };
@@ -150,13 +145,13 @@
             return attendanceViolations;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.DisciplineSummary, Policy = Policy.Host)]
         public CommandResult UpdateIgnoredViolation(IEnumerable<IgnoredViolationModel> violations)
         {
             var criteria = new UpdateIgnoredViolationCriteria
             {
-                ModifiedBy = SessionManager.CurrentUserId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
             criteria.IgnoredViolations = criteria.ConvertViolationItemToXml(violations);
@@ -178,14 +173,25 @@
 
         public int GetUserPermissionOnAttendanceSummary()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.DisciplineSummary);
-            return permission;
+            var permission = Policy.None;
+            var isRead = CurrentUser.HasPermission(EPAFunctionKey.DisciplineSummary, Policy.Read);
+            var isHost = CurrentUser.HasPermission(EPAFunctionKey.DisciplineSummary, Policy.Host);
+            if (isRead)
+            {
+                permission = Policy.Read;
+            }
+            else if (isHost)
+            {
+                permission = Policy.Host;
+            }
+
+            return (int)permission;
         }
 
         [HttpGet]
         public bool CheckUserPermissionIsAdmin()
         {
-            IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(SessionManager.CurrentUserId);
+            IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(CurrentUser.EmployeeId);
             return roles.Any(x => x.RoleId == (int)SystemRole.SystemAdmin);
         }
     }

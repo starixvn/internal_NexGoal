@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -7,32 +8,26 @@
     using NexGoal.Model.KPIGroup;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web;
-    using NexGoal.Web.ApiAuthorizeAttribute;
-    using NexGoal.Web.Services;
     using System.Collections.Generic;
     using System.Web.Http;
 
     public class KPIGroupController : BaseController
     {
         private readonly IKPIGroupService _kpiGroupService;
-        private readonly IWebCommonService _webCommonService;
 
         public KPIGroupController()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public KPIGroupController(
-            IKPIGroupService kpiGroupService,
-            IWebCommonService webCommonService)
+            IKPIGroupService kpiGroupService)
         {
             _kpiGroupService = kpiGroupService ?? new KPIGroupService();
-            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Read)]
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
         public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
         {
             var criteria = new GetKPIGroupCriteria
@@ -43,8 +38,8 @@
             return _kpiGroupService.GetKPIGroup(criteria);
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Read)]
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Read)]
         public KPIGroupModel GetKPIGroupById(int kpiGroupId)
         {
             var criteria = new GetKPIGroupByIdCriteria
@@ -55,13 +50,13 @@
             return _kpiGroupService.GetKPIGroupById(criteria);
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Host)]
         [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = SessionManager.CurrentUserId;
+                criteria.CreatedBy = CurrentUser.EmployeeId;
             }
 
             CommandResult commandResult = _kpiGroupService.CreateKPIGroup(criteria);
@@ -69,13 +64,13 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
             CommandResult commandResult = _kpiGroupService.UpdateKPIGroup(criteria);
@@ -83,13 +78,13 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
             CommandResult commandResult = _kpiGroupService.UpdateStatusKPIGroup(criteria);
@@ -97,14 +92,14 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Host)]
         [HttpDelete]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.KPIGroup, Policy = Policy.Host)]
         public CommandResult DeleteKPIGroup(int kpiGroupId)
         {
             var criteria = new DeleteKPIGroupCriteria
             {
                 KPIGroupId = kpiGroupId,
-                ModifiedBy = SessionManager.CurrentUserId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
             CommandResult commandResult = _kpiGroupService.DeleteKPIGroup(criteria);
@@ -114,8 +109,19 @@
 
         public int GetUserPermissionOnKPIGroup()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.KPIGroup);
-            return permission;
+            var permission = Policy.None;
+            var isRead = CurrentUser.HasPermission(EPAFunctionKey.KPIGroup, Policy.Read);
+            var isHost = CurrentUser.HasPermission(EPAFunctionKey.KPIGroup, Policy.Host);
+            if (isRead)
+            {
+                permission = Policy.Read;
+            }
+            else if (isHost)
+            {
+                permission = Policy.Host;
+            }
+
+            return (int)permission;
         }
     }
 }

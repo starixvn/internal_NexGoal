@@ -1,15 +1,15 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using NexGoal.Model.Authentication;
+    using NexGoal.Core.Model;
     using NexGoal.Model.Department;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.RoleManagement;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -66,7 +66,7 @@
 
                         userSession = new UserSession
                         {
-                            EmployeeInfo = employee,
+                            EmployeeId = employee.EmployeeId,
                             Functions = functions
                         };
                     }

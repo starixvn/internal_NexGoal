@@ -1,13 +1,12 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.Report.Dashboard;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web;
-    using NexGoal.Web.ApiAuthorizeAttribute;
     using System.Linq;
     using System.Web.Http;
 
@@ -29,19 +28,19 @@
             this.employeeService = employeeService ?? new EmployeeService();
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Home, Policy.Read)]
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Home, Policy = Policy.Read)]
         public DashboardModel GetDashboard()
         {
             DashboardModel dashboard = new DashboardModel();
 
             var criteria = new GetDashboardCriteria()
             {
-                EmployeeId = SessionManager.CurrentUserId
+                EmployeeId = CurrentUser.EmployeeId
             };
 
             dashboard = _reportService.GetDashboard(criteria);
-            dashboard.Employee = this.employeeService.GetEmployeeById(SessionManager.CurrentUserId);
+            dashboard.Employee = this.employeeService.GetEmployeeById(CurrentUser.EmployeeId);
             dashboard.MonthlyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId == (int)TargetType.Monthly);
             dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
 

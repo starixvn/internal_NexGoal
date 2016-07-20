@@ -1,12 +1,12 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.Department;
     using NexGoal.Model.Department;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web.ApiAuthorizeAttribute;
     using System.Web.Http;
 
     public class DepartmentController : BaseController
@@ -23,8 +23,8 @@
             this.commonService = commonService ?? new CommonService();
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Department, Policy.Read)]
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Department, Policy = Policy.Read)]
         public DepartmentInfoModel GetDepartment(
             int? parentId = null,
             bool? isActive = null)

@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -10,31 +11,25 @@
     using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web;
-    using NexGoal.Web.ApiAuthorizeAttribute;
-    using NexGoal.Web.Services;
     using System.Collections.Generic;
     using System.Web.Http;
 
     public class EmployeeController : BaseController
     {
         private readonly IEmployeeService _employeeService;
-        private readonly IWebCommonService _webCommonService;
 
         public EmployeeController()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public EmployeeController(
-            IEmployeeService employeeService,
-            IWebCommonService webCommonService)
+            IEmployeeService employeeService)
         {
             _employeeService = employeeService ?? new EmployeeService();
-            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Read)]
         public IEnumerable<EmployeeModel> GetAllEmployee(
             string query = "",
             int? groupId = null,
@@ -66,13 +61,13 @@
             return groups;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = SessionManager.CurrentUserId;
+                criteria.CreatedBy = CurrentUser.EmployeeId;
                 criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
             }
 
@@ -80,13 +75,13 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
             CommandResult commandResult = _employeeService.UpdateSpecialEmployee(criteria);
@@ -106,11 +101,11 @@
             CommandResult commandResult = new CommandResult();
             if (criteria != null)
             {
-                var user = this._employeeService.GetEmployeeById(SessionManager.CurrentUserId);
+                var user = this._employeeService.GetEmployeeById(CurrentUser.EmployeeId);
                 if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, user.Password))
                 {
-                    criteria.EmployeeId = SessionManager.CurrentUserId;
-                    criteria.ModifiedBy = SessionManager.CurrentUserId;
+                    criteria.EmployeeId = CurrentUser.EmployeeId;
+                    criteria.ModifiedBy = CurrentUser.EmployeeId;
 
                     commandResult = _employeeService.ChangePassword(criteria);
                 }
@@ -123,13 +118,13 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
             CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
@@ -137,27 +132,27 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpGet]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult ResetPassword(int employeeId)
         {
             var criteria = new ResetPasswordCriteria()
             {
                 EmployeeId = employeeId,
                 NewPassword = Constants.ResetDefaultPassword,
-                ModifiedBy = SessionManager.CurrentUserId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
             return _employeeService.ResetPassword(criteria);
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.UserManagement, Policy = Policy.Host)]
         public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
             }
 
             CommandResult commandResult = _employeeService.UpdateHasMonthlyEPA(criteria);
@@ -175,8 +170,19 @@
 
         public int GetUserPermissionOnEmployee()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.UserManagement);
-            return permission;
+            var permission = Policy.None;
+            var isRead = CurrentUser.HasPermission(EPAFunctionKey.UserManagement, Policy.Read);
+            var isHost = CurrentUser.HasPermission(EPAFunctionKey.UserManagement, Policy.Host);
+            if (isRead)
+            {
+                permission = Policy.Read;
+            }
+            else if (isHost)
+            {
+                permission = Policy.Host;
+            }
+
+            return (int)permission;
         }
     }
 }

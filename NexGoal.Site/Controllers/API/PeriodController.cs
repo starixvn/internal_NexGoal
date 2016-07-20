@@ -1,8 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
+    using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -13,29 +11,26 @@
     using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web;
-    using NexGoal.Web.ApiAuthorizeAttribute;
-    using NexGoal.Web.Services;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
 
     public class PeriodController : BaseController
     {
         private readonly IPeriodService _periodService;
-        private readonly IWebCommonService _webCommonService;
 
         public PeriodController()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public PeriodController(
-            IPeriodService periodService,
-            IWebCommonService webCommonService)
+            IPeriodService periodService)
         {
             _periodService = periodService ?? new PeriodService();
-            _webCommonService = webCommonService ?? new WebCommonService();
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
         public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
         {
             var criteria = new GetPeriodCriteria
@@ -73,15 +68,15 @@
             return periodList;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
             if (criteria != null)
             {
-                criteria.CreatedBy = SessionManager.CurrentUserId;
+                criteria.CreatedBy = CurrentUser.EmployeeId;
                 commandResult = _periodService.CreatePeriod(criteria);
             }
             else
@@ -93,15 +88,15 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
                 commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
             }
             else
@@ -113,7 +108,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
         public PeriodModel GetPeriodById(int periodId)
         {
             var criteria = new GetPeriodByIdCriteria
@@ -125,15 +120,15 @@
             return period;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
                 commandResult = _periodService.UpdateStatusPeriod(criteria);
             }
             else
@@ -145,21 +140,21 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpDelete]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult DeletePeriod(int periodId)
         {
             var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
-                ModifiedBy = SessionManager.CurrentUserId
+                ModifiedBy = CurrentUser.EmployeeId
             };
 
             CommandResult commandResult = _periodService.DeletePeriod(criteria);
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(
             int periodId,
             int? departmentId = null,
@@ -206,8 +201,8 @@
             return periodEmployeeSettings;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult AddEmployeToPeriod(AssignEmployeePeriodModel model)
         {
             var commandResult = new CommandResult();
@@ -219,7 +214,7 @@
                     PeriodId = model.PeriodId,
                     EmployeeId = model.EmployeeId,
                     Departments = model.ConvertToXml(),
-                    ModifiedBy = SessionManager.CurrentUserId
+                    ModifiedBy = CurrentUser.EmployeeId
                 };
 
                 commandResult = _periodService.AddEmployeeToPeriod(criteria);
@@ -233,8 +228,8 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdatedEmployeeSettingPeriodModel model)
         {
             var commandResult = new CommandResult();
@@ -247,7 +242,7 @@
                     EmployeeIds = model.EmployeeIds,
                     TargetTemplateId = model.TargetTemplateId,
                     EmployeeAssignments = model.ConvertToXml(),
-                    ModifiedBy = SessionManager.CurrentUserId
+                    ModifiedBy = CurrentUser.EmployeeId
                 };
 
                 commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
@@ -261,15 +256,15 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
                 commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
             }
             else
@@ -281,8 +276,8 @@
             return commandResult;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPost]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -300,7 +295,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Read)]
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
             var criteria = new GetProcessSettingPeriodCriteria
@@ -312,15 +307,15 @@
             return processSettings;
         }
 
+        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
-        [ApiAuthorize(FunctionKey = EPAFunctionKey.Period, Policy = Policy.Host)]
         public CommandResult UpdatePeriodProcessSetting(UpdateProcessSettingPeriodCriteria criteria)
         {
             var commandResult = new CommandResult();
 
             if (criteria != null)
             {
-                criteria.ModifiedBy = SessionManager.CurrentUserId;
+                criteria.ModifiedBy = CurrentUser.EmployeeId;
                 commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
             }
             else
@@ -347,8 +342,19 @@
 
         public int GetUserPermissionOnPeriod()
         {
-            int permission = _webCommonService.GetPermission(EPAFunctionKey.Period);
-            return permission;
+            var permission = Policy.None;
+            var isRead = CurrentUser.HasPermission(EPAFunctionKey.Period, Policy.Read);
+            var isHost = CurrentUser.HasPermission(EPAFunctionKey.Period, Policy.Host);
+            if (isRead)
+            {
+                permission = Policy.Read;
+            }
+            else if (isHost)
+            {
+                permission = Policy.Host;
+            }
+
+            return (int)permission;
         }
     }
 }

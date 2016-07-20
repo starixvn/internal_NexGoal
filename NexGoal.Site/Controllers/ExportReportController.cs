@@ -14,7 +14,6 @@
     using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Web;
 
     public class ExportReportController : Controller
     {
@@ -69,7 +68,7 @@
         {
             string fileName = Lang.EPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = SessionManager.CurrentUserId;
+            criteria.EmployeeId = 111; /// CurrentUser.EmployeeId;
 
             EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
 
@@ -82,7 +81,7 @@
         {
             string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = SessionManager.CurrentUserId;
+            criteria.EmployeeId = 111; /// CurrentUser.EmployeeId;
 
             EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
 
@@ -93,7 +92,7 @@
 
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = SessionManager.CurrentUserId;
+            criteria.EmployeeId = 111; /// CurrentUser.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
 
@@ -104,7 +103,7 @@
 
         public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = SessionManager.CurrentUserId;
+            criteria.EmployeeId = 111; /// CurrentUser.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
             _monthlyEPADetailReportService.Render(epaDetail);
@@ -114,7 +113,7 @@
 
         public ActionResult ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria)
         {
-            criteria.ApproverId = SessionManager.CurrentUserId;
+            criteria.ApproverId = 111; /// CurrentUser.EmployeeId;
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceService.GetAttendanceSummary(criteria);
 
             if (attendanceEmployees != null)
@@ -130,7 +129,7 @@
         {
             if (criteria != null)
             {
-                criteria.ApproverId = SessionManager.CurrentUserId;
+                criteria.ApproverId = 111; /// CurrentUser.EmployeeId;
                 IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
 
                 if (attendanceViolations != null)

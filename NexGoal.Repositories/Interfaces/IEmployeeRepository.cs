@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Repositories.Interfaces
 {
     using Fanex.Data.Repository;
-    using NexGoal.Model.Authentication;
+    using NexGoal.Core.Model;
     using NexGoal.Model.Employee;
 
     public interface IEmployeeRepository

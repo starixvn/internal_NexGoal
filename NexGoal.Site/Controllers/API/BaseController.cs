@@ -1,30 +1,41 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
     using NexGoal.Core.Attribute;
-    using NexGoal.Model.Authentication;
-    using NexGoal.Web;
-    using NexGoal.Web.ApiAuthorizeAttribute;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Model;
+    using NexGoal.Criteria.Authentication;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
     using System.Web;
     using System.Web.Http;
-    using System.Web.Security;
 
     [DeflateCompressionAttribute]
-    [ApiAuthorize]
     public class BaseController : ApiController
     {
-        public int CurrentUserId
+        private static IEmployeeService employeeService = new EmployeeService();
+
+        public static UserSession CurrentUser
         {
             get
             {
-                if (!HttpContext.Current.User.Identity.IsAuthenticated)
+                UserSession currentUser = null;
+                var session = HttpContext.Current.Session;
+                if (session[Constants.CurrentSessionKey] != null)
                 {
-                    FormsAuthentication.RedirectToLoginPage();
+                    currentUser = (UserSession)session[Constants.CurrentSessionKey];
                 }
-
-                var currentUser = SessionManager.CurrentUserId;
-                if (currentUser == 0)
+                else
                 {
-                    FormsAuthentication.RedirectToLoginPage();
+                    var criteria = new GetEmployeeByDomainUsernameCriteria()
+                    {
+                        DomainUsername = HttpContext.Current.User.Identity.Name
+                    };
+                    currentUser = employeeService.GetEmployeeByUsername(criteria);
+
+                    if (currentUser != null)
+                    {
+                        HttpContext.Current.Session[Constants.CurrentSessionKey] = currentUser;
+                    }
                 }
 
                 return currentUser;

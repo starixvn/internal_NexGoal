@@ -148,7 +148,6 @@
             return commandResult;
         }
 
-
         public CommandResult ResetPassword(ResetPasswordCriteria criteria)
         {
             var commandResult = new CommandResult();

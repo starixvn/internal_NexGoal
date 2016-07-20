@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Model.RoleManagement
 {
+    using NexGoal.Core.Model;
     using System.Collections.Generic;
 
     public class RoleFunctionModel : FunctionModel
