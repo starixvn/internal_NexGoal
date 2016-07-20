@@ -2,7 +2,7 @@
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, departmentModule*/
 /*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule, epaHistoryModule, errorModule*/
-/*exported monthlyPeriodModule*/
+/*exported monthlyPeriodModule, menuModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -176,3 +176,5 @@ var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
     $routeProvider.when('/MonthlyPeriod/Update/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/edit.html', caseInsensitiveMatch: true });
 }]);
+
+var menuModule = angular.module("menuModule", ["ngRoute"]);

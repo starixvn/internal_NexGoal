@@ -1,11 +1,13 @@
-﻿"use strict";
+﻿(function (menuModule) {
+    "use strict";
 
-(function (appModule) {
-    var menuTabDirective = appModule.directive("menuTab", function ($location) {
+    menuModule.directive("menuTab", menuTabDirective);
+
+    function menuTabDirective($location) {
         return {
             restrict: "A",
-            link: function (scope, element) {
-                var selfPath = element.attr("href");
+            link: function (scope, element, attrs) {
+                var selfPath = attrs.href;
                 var $parent = element.parent();
 
                 if (selfPath === $location.path()) {
@@ -24,8 +26,8 @@
                     }
                 });
             }
-        }
-    });
+        };
+    }
 
     menuTabDirective.$inject = ["$location"];
-})(angular.module("appModule"));
+})(angular.module("menuModule"));

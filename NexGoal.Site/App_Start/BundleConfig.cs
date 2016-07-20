@@ -74,6 +74,10 @@
                             "~/SourceApp/Components/Common/common-factory.js",
                             "~/SourceApp/Components/Common/common-model.js",
                             "~/SourceApp/Components/Common/common-controller.js",
+                            "~/SourceApp/Components/Menu/menu-factory.js",
+                            "~/SourceApp/Components/Menu/menu-model.js",
+                            "~/SourceApp/Components/Menu/menu-tab-directive.js",
+                            "~/SourceApp/Components/Menu/menu-controller.js",
                             "~/SourceApp/Components/Employee/employee-factory.js",
                             "~/SourceApp/Components/Employee/employee-model.js",
                             "~/SourceApp/Components/Employee/employee-controller.js",
@@ -165,8 +169,7 @@
                             "~/SourceApp/Shared/utilities-factory.js",
                             "~/SourceApp/Shared/enumerations-factory.js",
                             "~/SourceApp/Shared/history-factory.js",
-                            "~/SourceApp/Shared/lockScreen-factory.js",
-                            "~/SourceApp/Shared/menu-tab-directive.js"));
+                            "~/SourceApp/Shared/lockScreen-factory.js"));
         }
     }
 }

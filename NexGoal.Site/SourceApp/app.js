@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*exported appModule*/
 
-var appModule = angular.module("appModule", ['employeeModule', 'commonModule', 'kpiModule', 'kpiGroupModule', 'roleModule',
+var appModule = angular.module("appModule", ['menuModule','employeeModule', 'commonModule', 'kpiModule', 'kpiGroupModule', 'roleModule',
 'targetTemplateModule', 'flowMngModule', 'targetEmployeeSettingModule', 'departmentModule', 'epaModule', 'periodModule',
 'dashboardModule', 'attendanceModule', 'reportModule', 'epaHistoryModule', 'monthlyPeriodModule', 'errorModule',
 'ui.bootstrap.contextMenu', 'ui.bootstrap', 'angular.chosen', 'pascalprecht.translate', 'angularUtils.directives.dirPagination',

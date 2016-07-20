@@ -432,6 +432,10 @@
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\Employee\Templates\resetPassword.html" />
+    <Content Include="SourceApp\Components\Menu\menu-controller.js" />
+    <Content Include="SourceApp\Components\Menu\menu-factory.js" />
+    <Content Include="SourceApp\Components\Menu\menu-model.js" />
+    <Content Include="SourceApp\Components\Menu\Templates\index.html" />
     <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-controller.js" />
     <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-factory.js" />
     <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-model.js" />
@@ -598,7 +602,7 @@
     <Content Include="SourceApp\Shared\enumerations-factory.js" />
     <Content Include="SourceApp\Shared\epa-filter.js" />
     <Content Include="SourceApp\Shared\error-factory.js" />
-    <Content Include="SourceApp\Shared\menu-tab-directive.js" />
+    <Content Include="SourceApp\Components\Menu\menu-tab-directive.js" />
     <Content Include="SourceApp\Shared\modalconfirm-controller.js" />
     <Content Include="SourceApp\Shared\epa-directives.js" />
     <Content Include="SourceApp\Shared\notification-factory.js" />
