@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Core.Utilities
 {
     using Fanex.Logging;
-    using SelectPdf;
     using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using SelectPdf;
     using System;
     using System.Collections.Specialized;
     using System.Configuration;

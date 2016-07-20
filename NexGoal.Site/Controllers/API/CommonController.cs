@@ -1,8 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
     using NexGoal.Criteria.Department;
@@ -25,6 +22,9 @@
     using NexGoal.Model.TargetType;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
 
     public class CommonController : BaseController
     {

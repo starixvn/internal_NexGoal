@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System.Web.Http;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.Department;
@@ -8,6 +7,7 @@
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
     using NexGoal.Web.ApiAuthorizeAttribute;
+    using System.Web.Http;
 
     public class DepartmentController : BaseController
     {
