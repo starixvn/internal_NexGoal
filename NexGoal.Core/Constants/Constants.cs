@@ -1,10 +1,8 @@
 ﻿namespace NexGoal.Core.Constants
 {
-    public sealed class Constants
+    public static class Constants
     {
         public const string CurrentSessionKey = "NexGoal.CurrentSession";
-
-        public const string CurrentSessionUserId = "NexGoal.CurrentUserId";
 
         public const string DefaultPassword = "SMSep@1320$!";
 
@@ -43,9 +41,5 @@
         public const int NumberOfDecimals = 4;
 
         public const string ExportingFolder = @"~\ExportPDFFolder\";
-
-        private Constants()
-        {
-        }
     }
 }
