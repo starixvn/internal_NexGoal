@@ -28,7 +28,7 @@
             this.roleService = roleService ?? new RoleService();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.EPAHistory, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.EPAHistory, Policy.Read)]
         [HttpGet]
         public IList<EPAHistoryModel> GetEPAHistory(int? periodId = null, int? employeeId = null)
         {
@@ -43,7 +43,7 @@
             return epas;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.MonthlyEPAHistory, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.MonthlyEPAHistory, Policy.Read)]
         public IList<EPAHistoryModel> GetMonthlyEPAHistory(int? periodId = null, int? employeeId = null)
         {
             var criteria = new GetMonthlyEPAHistoryCriteria

@@ -26,7 +26,7 @@
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Read)]
         public IList<TargetEmployeeModel> GetTargetEmployeeSetting(
             int? groupId = null,
             int? employeeId = null,
@@ -45,7 +45,7 @@
             return targetEmployeeSettings;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
         [HttpPut]
         public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
         {
@@ -58,7 +58,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteTargetEmployeeSetting(int targetTemplateId, int employeeId)
         {
@@ -73,7 +73,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Read)]
         public IList<TargetDepartmentModel> GetTargetDepartmentSetting(
             int? departmentId = null,
             bool? isGroup = null,
@@ -91,7 +91,7 @@
             return targetDepartments;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
         [HttpPut]
         public CommandResult AssignTargetTemplateToDepartment(TargetSettingAssignModel model)
         {
@@ -112,7 +112,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteTargetDepartmentSetting(
             int targetTemplateId,
@@ -133,19 +133,7 @@
 
         public int GetUserPermissionOnTargetEmployeeSetting()
         {
-            var permission = Policy.None;
-            var isRead = CurrentUser.HasPermission(EPAFunctionKey.TargetEmployeeSetting, Policy.Read);
-            var isHost = CurrentUser.HasPermission(EPAFunctionKey.TargetEmployeeSetting, Policy.Host);
-            if (isRead)
-            {
-                permission = Policy.Read;
-            }
-            else if (isHost)
-            {
-                permission = Policy.Host;
-            }
-
-            return (int)permission;
+            return CurrentUser.GetPermission(EPAFunctionKey.TargetEmployeeSetting);
         }
     }
 }

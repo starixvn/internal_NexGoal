@@ -32,7 +32,7 @@
 
         #region Flow Template
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
         [HttpGet]
         public IEnumerable<FlowTemplateModel> GetFlowTemplate(
             int? targetTypeId = null,
@@ -47,7 +47,7 @@
             return _flowManagementService.GetFlowTemplate(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
         [HttpGet]
         public FlowTemplateModel GetFlowTemplateById(int flowTemplateId)
         {
@@ -59,7 +59,7 @@
             return _flowManagementService.GetFlowTemplateById(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
         [HttpPost]
         public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
         {
@@ -71,7 +71,7 @@
             return _flowManagementService.CreateFlowTemplate(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
         {
@@ -83,7 +83,7 @@
             return _flowManagementService.UpdateFlowTemplate(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
         {
@@ -95,7 +95,7 @@
             return _flowManagementService.UpdateStatusFlowTemplate(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteFlowTemplate(int flowTemplateId)
         {
@@ -112,7 +112,7 @@
 
         #region Department Flow Setting
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
         [HttpGet]
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(int flowTemplateId)
         {
@@ -124,7 +124,7 @@
             return _flowManagementService.GetDepartmentFlow(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
         [HttpGet]
         public IEnumerable<FlowModel> GetDepartmentFlowById(
             int departmentId,
@@ -140,7 +140,7 @@
             return _flowManagementService.GetDepartmentFlowById(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
         [HttpPost]
         public CommandResult CreateDepartmentFlow(InsertFlowModel model)
         {
@@ -163,7 +163,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteDepartmentFlow(
             int departmentId,
@@ -196,7 +196,7 @@
 
         #region Personal Flow Setting
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
         [HttpGet]
         public IEnumerable<PersonalFlowModel> GetPersonalFlow(int flowTemplateId)
         {
@@ -208,7 +208,7 @@
             return _flowManagementService.GetPersonalFlow(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
         [HttpGet]
         public IEnumerable<FlowModel> GetPersonalFlowById(
             int employeeId,
@@ -223,7 +223,7 @@
             return _flowManagementService.GetPersonalFlowById(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
         [HttpPost]
         public CommandResult CreatePersonalFlow(InsertFlowModel model)
         {
@@ -245,7 +245,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Host)]
         [HttpDelete]
         public CommandResult DeletePersonalFlow(
             int employeeId,
@@ -261,7 +261,7 @@
             return _flowManagementService.DeletePersonalFlow(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.FlowManagement, Policy.Read)]
         [HttpGet]
         public EmployeeFlowSettingModel GetEmployeeFlowSetting(
             int flowTemplateId,
@@ -293,19 +293,7 @@
 
         public int GetUserPermissionOnFlowManagement()
         {
-            var permission = Policy.None;
-            var isRead = CurrentUser.HasPermission(EPAFunctionKey.FlowManagement, Policy.Read);
-            var isHost = CurrentUser.HasPermission(EPAFunctionKey.FlowManagement, Policy.Host);
-            if (isRead)
-            {
-                permission = Policy.Read;
-            }
-            else if (isHost)
-            {
-                permission = Policy.Host;
-            }
-
-            return (int)permission;
+            return CurrentUser.GetPermission(EPAFunctionKey.FlowManagement);
         }
     }
 }

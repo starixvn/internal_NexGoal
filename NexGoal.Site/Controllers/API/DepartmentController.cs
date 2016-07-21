@@ -23,7 +23,7 @@
             this.commonService = commonService ?? new CommonService();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Department, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.Department, Policy.Read)]
         [HttpGet]
         public DepartmentInfoModel GetDepartment(
             int? parentId = null,

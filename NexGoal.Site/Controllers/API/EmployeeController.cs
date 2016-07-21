@@ -29,7 +29,7 @@
             _employeeService = employeeService ?? new EmployeeService();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Read)]
         public IEnumerable<EmployeeModel> GetAllEmployee(
             string query = "",
             int? groupId = null,
@@ -61,7 +61,7 @@
             return groups;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpPost]
         public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
         {
@@ -75,7 +75,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
         {
@@ -118,7 +118,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpPut]
         public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
@@ -132,7 +132,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpGet]
         public CommandResult ResetPassword(int employeeId)
         {
@@ -146,7 +146,7 @@
             return _employeeService.ResetPassword(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.UserManagement, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
         {
@@ -170,19 +170,7 @@
 
         public int GetUserPermissionOnEmployee()
         {
-            var permission = Policy.None;
-            var isRead = CurrentUser.HasPermission(EPAFunctionKey.UserManagement, Policy.Read);
-            var isHost = CurrentUser.HasPermission(EPAFunctionKey.UserManagement, Policy.Host);
-            if (isRead)
-            {
-                permission = Policy.Read;
-            }
-            else if (isHost)
-            {
-                permission = Policy.Host;
-            }
-
-            return (int)permission;
+            return CurrentUser.GetPermission(EPAFunctionKey.UserManagement);
         }
     }
 }

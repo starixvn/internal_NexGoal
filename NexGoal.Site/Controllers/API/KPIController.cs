@@ -26,7 +26,7 @@
             _kpiService = kpiService ?? new KPIService();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.KPI, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.KPI, Policy.Read)]
         [HttpGet]
         public IEnumerable<KPIModel> GetKPI(
             int? kpiGroupId = null,
@@ -43,7 +43,7 @@
             return _kpiService.GetKPI(criteria);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
         [HttpPost]
         public CommandResult CreateKPI(CreateKPICriteria criteria)
         {
@@ -57,7 +57,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateKPI(UpdateKPICriteria criteria)
         {
@@ -71,7 +71,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria)
         {
@@ -85,7 +85,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
         {
@@ -99,7 +99,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.KPI, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteKPI(int kpiId)
         {
@@ -116,19 +116,7 @@
 
         public int GetUserPermissionOnKPI()
         {
-            var permission = Policy.None;
-            var isRead = CurrentUser.HasPermission(EPAFunctionKey.KPI, Policy.Read);
-            var isHost = CurrentUser.HasPermission(EPAFunctionKey.KPI, Policy.Host);
-            if (isRead)
-            {
-                permission = Policy.Read;
-            }
-            else if (isHost)
-            {
-                permission = Policy.Host;
-            }
-
-            return (int)permission;
+            return CurrentUser.GetPermission(EPAFunctionKey.KPI);
         }
     }
 }

@@ -30,7 +30,7 @@
             _periodService = periodService ?? new PeriodService();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
         public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
         {
             var criteria = new GetPeriodCriteria
@@ -68,7 +68,7 @@
             return periodList;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPost]
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
@@ -88,7 +88,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
@@ -108,7 +108,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
         public PeriodModel GetPeriodById(int periodId)
         {
             var criteria = new GetPeriodByIdCriteria
@@ -120,7 +120,7 @@
             return period;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
         {
@@ -140,7 +140,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpDelete]
         public CommandResult DeletePeriod(int periodId)
         {
@@ -154,7 +154,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(
             int periodId,
             int? departmentId = null,
@@ -201,7 +201,7 @@
             return periodEmployeeSettings;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPost]
         public CommandResult AddEmployeToPeriod(AssignEmployeePeriodModel model)
         {
@@ -228,7 +228,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdatedEmployeeSettingPeriodModel model)
         {
@@ -256,7 +256,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
         {
@@ -276,7 +276,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPost]
         public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
         {
@@ -295,7 +295,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
             var criteria = new GetProcessSettingPeriodCriteria
@@ -307,7 +307,7 @@
             return processSettings;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.Period, Policy.Host)]
         [HttpPut]
         public CommandResult UpdatePeriodProcessSetting(UpdateProcessSettingPeriodCriteria criteria)
         {
@@ -342,19 +342,7 @@
 
         public int GetUserPermissionOnPeriod()
         {
-            var permission = Policy.None;
-            var isRead = CurrentUser.HasPermission(EPAFunctionKey.Period, Policy.Read);
-            var isHost = CurrentUser.HasPermission(EPAFunctionKey.Period, Policy.Host);
-            if (isRead)
-            {
-                permission = Policy.Read;
-            }
-            else if (isHost)
-            {
-                permission = Policy.Host;
-            }
-
-            return (int)permission;
+            return CurrentUser.GetPermission(EPAFunctionKey.Period);
         }
     }
 }

@@ -22,7 +22,7 @@
             this.menuService = menuService ?? new MenuService();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.MenuManagement, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.MenuManagement, Policy.Read)]
         public IEnumerable<MenuItemModel> GetMenusByEmployeeId()
         {
             var menus = this.menuService.GetMenusByUserId(CurrentUser.EmployeeId);

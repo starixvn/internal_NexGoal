@@ -32,7 +32,7 @@
             this.roleService = roleService ?? new RoleService();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
         public IEnumerable<AttendanceSummaryModel> GetAttendanceSummary(
             DateTime startDate,
             DateTime endDate,
@@ -58,7 +58,7 @@
             return attendanceEmployees;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
         public IEnumerable<OtherViolationModel> GetOtherViolations(
             string employeeIds,
             DateTime startDate,
@@ -77,7 +77,7 @@
             return violations;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
         [HttpPost]
         public CommandResult InsertOtherViolation(InsertOtherViolationsCriteria criteria)
         {
@@ -90,7 +90,7 @@
             return commandResult;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteOtherViolation(
             int employeeId,
@@ -116,7 +116,7 @@
             return violations;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Read)]
         public IEnumerable<AttendanceDetailModel> GetAttendanceDetail(
             DateTime startDate,
             DateTime endDate,
@@ -145,7 +145,7 @@
             return attendanceViolations;
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
+        [ApiAuthorize(EPAFunctionKey.DisciplineSummary, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateIgnoredViolation(IEnumerable<IgnoredViolationModel> violations)
         {
@@ -173,19 +173,7 @@
 
         public int GetUserPermissionOnAttendanceSummary()
         {
-            var permission = Policy.None;
-            var isRead = CurrentUser.HasPermission(EPAFunctionKey.DisciplineSummary, Policy.Read);
-            var isHost = CurrentUser.HasPermission(EPAFunctionKey.DisciplineSummary, Policy.Host);
-            if (isRead)
-            {
-                permission = Policy.Read;
-            }
-            else if (isHost)
-            {
-                permission = Policy.Host;
-            }
-
-            return (int)permission;
+            return CurrentUser.GetPermission(EPAFunctionKey.DisciplineSummary);
         }
 
         [HttpGet]

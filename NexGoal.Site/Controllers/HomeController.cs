@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers
 {
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Core.Services.Interfaces;
@@ -32,7 +33,11 @@
                 DomainUsername = HttpContext.User.Identity.Name
             };
             UserSession user = employeeService.GetEmployeeByUsername(criteria);
+<<<<<<< Updated upstream
             this.sessionService.CurrentUser = user;
+=======
+            HttpContext.Session[Constants.CurrentSessionKey] = user;
+>>>>>>> Stashed changes
 
             return View();
         }

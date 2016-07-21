@@ -33,7 +33,7 @@
             _commonController = commonController ?? new CommonController();
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.EPASummaryReport, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.EPASummaryReport, Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPASummaryReport(
             string periodIds = null,
@@ -61,7 +61,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.EPADetailReport, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.EPADetailReport, Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPADetailReport(
             int? periodId = null,
@@ -91,7 +91,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.MonthlyEPADetailReport, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.MonthlyEPADetailReport, Policy.Read)]
         public HttpResponseMessage GetMonthlyEPADetailReport(
             int? periodId = null,
             int? departmentId = null,
@@ -120,7 +120,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
-        /// [ApiAuthorize(EPAFunctionKey.MonthlyEPASummaryReport, Policy.Read)]
+        [ApiAuthorize(EPAFunctionKey.MonthlyEPASummaryReport, Policy.Read)]
         public HttpResponseMessage GetMonthlyEPASummaryReport(
             string periodIds = null,
             int? departmentId = null,
