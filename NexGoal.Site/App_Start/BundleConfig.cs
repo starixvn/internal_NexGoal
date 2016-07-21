@@ -53,7 +53,7 @@
             bundles.AddAndInclude(
                             "~/bundles/less",
                             "~/Content/Less/bootstrap.less",
-                            "~/Content/Site/layout.less",
+                            "~/Content/Site/layout.css",
                             "~/SourceApp/Components/KPI/kpi.less",
                             "~/SourceApp/Components/Employee/employee.less",
                             "~/SourceApp/Components/Role/role.less",
