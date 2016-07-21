@@ -367,6 +367,7 @@ a:focus {
     .search-inline-textbox {
         background: url(images/icon-search.png) #fff no-repeat right center;
         border: 1px solid #ccc;
+        color: #000;
         .border-radius(3px);
     }
 
@@ -449,6 +450,10 @@ a:focus {
         .form-group {
             margin-right: 10px;
             line-height: 22px;
+
+            &:last-child {
+                margin-bottom: 0;
+            }
         }
 
         label {
@@ -463,6 +468,18 @@ a:focus {
             height: 27px;
             padding: 3px 4px;
             .border-radius(3px);
+        }
+
+        .checkbox {
+            padding: 0 0 0 10px;
+
+            label {
+                padding-left: 25px;
+            }
+
+            input[type=checkbox] {
+                margin-left: -15px;
+            }
         }
     }
 
@@ -607,6 +624,7 @@ select.ddlMenu {
             font-weight: 500;
             border-color: @color-table-border !important;
             text-align: center;
+            vertical-align: middle !important;
         }
     }
 
@@ -614,6 +632,7 @@ select.ddlMenu {
         td {
             color: @color-table-body;
             border-color: @color-table-border !important;
+            vertical-align: middle !important;
         }
 
         .fa-search {

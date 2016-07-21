@@ -1332,4 +1332,7 @@
   <data name="SelectEPABeforeEditSettingWarning" xml:space="preserve">
     <value>Please select at least an EPA before update final score!</value>
   </data>
+  <data name="ErrorMessage" xml:space="preserve">
+    <value>Server cannot handle your request. Please try again later!</value>
+  </data>
 </root>
