@@ -33,11 +33,8 @@
                 DomainUsername = HttpContext.User.Identity.Name
             };
             UserSession user = employeeService.GetEmployeeByUsername(criteria);
-<<<<<<< Updated upstream
+
             this.sessionService.CurrentUser = user;
-=======
-            HttpContext.Session[Constants.CurrentSessionKey] = user;
->>>>>>> Stashed changes
 
             return View();
         }
