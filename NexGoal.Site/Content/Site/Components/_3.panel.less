@@ -1,0 +1,40 @@
+﻿.panel-group {
+    .panel {
+        border-radius: 0;
+        box-shadow: none;
+
+        + .panel {
+            margin-top: 0;
+            border-top: 0;
+        }
+    }
+}
+
+.panel-default {
+    border: 1px solid @color-border;
+
+    > .panel-heading {
+        color: @color-panel-title;
+        background-color: @bg-panel-title;
+        padding: 6px 10px;
+        border-radius: 0;
+        background-image: none;
+
+        .panel-title {
+            font-size: 14px;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .panel-body {
+        padding: 10px;
+        border-top: 1px solid @color-border !important;
+    }
+
+    + .panel-default {
+        border-top: 0;
+    }
+}

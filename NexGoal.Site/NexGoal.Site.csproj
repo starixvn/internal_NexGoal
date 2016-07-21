@@ -713,7 +713,7 @@
     <Content Include="Libs\angular-filter\bower.json" />
     <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
     <Content Include="Libs\angular-filter\license.md" />
-    <Content Include="Content\Site\Components\_evaluationProcess.less" />
+    <Content Include="Content\Site\Components\_17.evaluation-process.less" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -724,7 +724,22 @@
     <Content Include="Content\Common\font-awesome\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\Common\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\Common\font-awesome\fonts\FontAwesome.otf" />
-    <Content Include="Content\Site\Components\_sidebar.less" />
+    <Content Include="Content\Site\Components\_16.sidebar.less" />
+    <None Include="Content\Site\Components\_1.base.less" />
+    <Content Include="Content\Site\Components\_2.navbar.less" />
+    <Content Include="Content\Site\Components\_3.panel.less" />
+    <Content Include="Content\Site\Components\_4.page.less" />
+    <Content Include="Content\Site\Components\_5.table.less" />
+    <Content Include="Content\Site\Components\_6.calendar.less" />
+    <Content Include="Content\Site\Components\_7.dropdown.less" />
+    <Content Include="Content\Site\Components\_8.button.less" />
+    <Content Include="Content\Site\Components\_9.modal.less" />
+    <Content Include="Content\Site\Components\_10.tab.less" />
+    <Content Include="Content\Site\Components\_11.width-system.less" />
+    <Content Include="Content\Site\Components\_12.form.less" />
+    <Content Include="Content\Site\Components\_13.media-query.less" />
+    <Content Include="Content\Site\Components\_14.toast.less" />
+    <Content Include="Content\Site\Components\_15.multiselect.less" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
