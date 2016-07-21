@@ -1517,24 +1517,8 @@ select.ddlMenu:focus {
     margin-left: 40px;
   }
 }
-.required .control-label:after {
-  color: #FF0000;
-  content: "*";
-  padding-left: 5px;
-}
-.required-label:after {
-  color: #FF0000;
-  content: "*";
-  padding-left: 5px;
-}
-.main {
-  padding: 0 10px;
-}
-.main .page-header {
-  margin-top: 0;
-}
 .loading-process {
-  background: rgba(255, 255, 255, 0.7) url('images/loading.gif') 45% 45% no-repeat;
+  background: rgba(255, 255, 255, 0.7) url('Components/images/loading.gif') 45% 45% no-repeat;
   height: 100%;
   width: 100%;
   position: fixed;
@@ -1559,7 +1543,7 @@ select.ddlMenu:focus {
   border-bottom: none;
 }
 .lnk-member .drop-menu li .chevron-right {
-  background: url(Images/chevron-right.png) no-repeat;
+  background: url(Components/Images/chevron-right.png) no-repeat;
   display: inline-block;
   width: 9px;
   height: 11px;
@@ -1567,6 +1551,22 @@ select.ddlMenu:focus {
 }
 .lnk-member .drop-menu li:last-child {
   border-bottom: 1px solid #d2d2d2;
+}
+.required .control-label:after {
+  color: #FF0000;
+  content: "*";
+  padding-left: 5px;
+}
+.required-label:after {
+  color: #FF0000;
+  content: "*";
+  padding-left: 5px;
+}
+.main {
+  padding: 0 10px;
+}
+.main .page-header {
+  margin-top: 0;
 }
 .txt-warning {
   margin: 0;

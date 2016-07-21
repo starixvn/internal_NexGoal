@@ -18,6 +18,8 @@
 @import "Components/_15.multiselect.less";
 @import "Components/_16.sidebar.less";
 @import "Components/_17.evaluation-process.less";
+@import "Components/_18.loading-process.less";
+@import "Components/_19.link.member.less";
 
 .required .control-label:after {
     color: #FF0000;
@@ -36,47 +38,6 @@
 
     .page-header {
         margin-top: 0;
-    }
-}
-
-.loading-process {
-    background: rgba(255, 255, 255, .7) url('images/loading.gif') 45% 45% no-repeat;
-    height: 100%;
-    width: 100%;
-    position: fixed;
-    z-index: 9998;
-}
-
-.lnk-member {
-    position: relative;
-
-    .drop-menu {
-        z-index: 999;
-        position: absolute;
-        left: 0;
-        top: 17px;
-        padding: 0;
-        background: #f7f5f5;
-        min-width: 120px;
-
-        li {
-            border: 1px solid #d2d2d2;
-            padding: 3px 0;
-            text-align: left;
-            border-bottom: none;
-
-            .chevron-right {
-                background: url(Images/chevron-right.png) no-repeat;
-                display: inline-block;
-                width: 9px;
-                height: 11px;
-                margin: 0 6px;
-            }
-
-            &:last-child {
-                border-bottom: 1px solid #d2d2d2;
-            }
-        }
     }
 }
 

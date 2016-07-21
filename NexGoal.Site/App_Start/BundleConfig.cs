@@ -14,12 +14,13 @@
                             "~/Content/Site/auth/style.less");
 
             bundles.Add(new StyleBundle("~/Content/Common/css").Include(
+                            "~/Content/Common/bootstrap.min.css",
                             "~/Content/Common/bootstrap-theme.min.css",
                             "~/Content/Common/toastr.css",
                             "~/Content/Common/angular-multi-select.css",
                             "~/Content/Common/jquery-ui.min.css",
                             "~/Content/Common/chosen.min.css",
-                            "~/Content/Common/font-awesome/css/font-awesome.min.css")
+                            "~/Content/Common/font-awesome.min.css")
                             .Include("~/Libs/FanexGrid/Fanex.Grid.css", new CssRewriteUrlTransform())
                             .Include("~/Libs/FanexGrid/Fanex.Pagination.css", new CssRewriteUrlTransform())
                             .Include("~/Libs/BootstrapStarRating/css/star-rating.min.css", new CssRewriteUrlTransform()));
@@ -52,7 +53,6 @@
 
             bundles.AddAndInclude(
                             "~/bundles/less",
-                            "~/Content/Less/bootstrap.less",
                             "~/Content/Site/layout.css",
                             "~/SourceApp/Components/KPI/kpi.less",
                             "~/SourceApp/Components/Employee/employee.less",
