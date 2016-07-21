@@ -10,12 +10,12 @@
             DbSettingProviderManager.Current.Start();
             log4net.Config.XmlConfigurator.Configure();
 
-            ServiceBase[] _servicesToRun;
-            _servicesToRun = new ServiceBase[]
+            ServiceBase[] servicesToRun;
+            servicesToRun = new ServiceBase[]
             {
                 new AutoService()
             };
-            ServiceBase.Run(_servicesToRun);
+            ServiceBase.Run(servicesToRun);
         }
     }
 }

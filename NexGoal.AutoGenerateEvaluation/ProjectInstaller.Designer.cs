@@ -2,7 +2,6 @@
 {
     using System.Diagnostics.CodeAnalysis;
 
-    [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "EX1001:PrivateFieldUnderscorePrefix", Justification = "Reviewed. Suppression is OK here.")]
     public partial class ProjectInstaller
     {
         /// <summary>
@@ -11,7 +10,7 @@
         private System.ComponentModel.IContainer components = null;
 
         private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
-        private System.ServiceProcess.ServiceInstaller _serviceInstaller1;
+        private System.ServiceProcess.ServiceInstaller serviceInstaller1;
 
         /// <summary> 
         /// Clean up any resources being used.
@@ -36,7 +35,7 @@
         private void InitializeComponent()
         {
             this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
-            this._serviceInstaller1 = new System.ServiceProcess.ServiceInstaller();
+            this.serviceInstaller1 = new System.ServiceProcess.ServiceInstaller();
             // 
             // serviceProcessInstaller1
             // 
@@ -46,14 +45,14 @@
             // 
             // _serviceInstaller1
             // 
-            this._serviceInstaller1.ServiceName = "NexGoal.AutoGenerateEPA";
-            this._serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.serviceInstaller1.ServiceName = "NexGoal.AutoGenerateEPA";
+            this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
             this.serviceProcessInstaller1,
-            this._serviceInstaller1});
+            this.serviceInstaller1});
 
         }
 

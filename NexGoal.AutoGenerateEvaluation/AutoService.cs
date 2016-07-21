@@ -30,11 +30,11 @@
     public partial class AutoService : ServiceBase
     {
         private static readonly ILog Log = LogManager.GetLogger(MethodBase.GetCurrentMethod().DeclaringType);
-        private readonly Timer _updateCounterTimer;
-        private readonly IEvaluationService _evaluationService;
-        private readonly IPeriodService _periodService;
-        private readonly IAutoMailService _autoMailService;
-        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly Timer updateCounterTimer;
+        private readonly IEvaluationService evaluationService;
+        private readonly IPeriodService periodService;
+        private readonly IAutoMailService autoMailService;
+        private readonly IEmployeeEPAService employeeEPAService;
         private bool _isBusy;
 
         public AutoService()
@@ -44,14 +44,14 @@
             var schedulerTime = DateTime.Today.AddDays(1).AddHours(5);
             TimerInterval = int.Parse(ConfigurationManager.AppSettings["TimerInterval"]);
 
-            _updateCounterTimer = new Timer { Interval = schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000 };
-            _updateCounterTimer.Elapsed += ExecuteJob;
-            _updateCounterTimer.Enabled = false;
+            updateCounterTimer = new Timer { Interval = schedulerTime.Subtract(DateTime.Now).TotalSeconds * 1000 };
+            updateCounterTimer.Elapsed += ExecuteJob;
+            updateCounterTimer.Enabled = false;
 
-            _evaluationService = new EvaluationService();
-            _periodService = new PeriodService();
-            _autoMailService = new AutoMailService();
-            _employeeEPAService = new EmployeeEPAService();
+            evaluationService = new EvaluationService();
+            periodService = new PeriodService();
+            autoMailService = new AutoMailService();
+            employeeEPAService = new EmployeeEPAService();
         }
 
         public int TimerInterval { get; private set; }
@@ -59,12 +59,12 @@
         protected override void OnStart(string[] args)
         {
             Log.Info("Service started at " + DateTime.Now);
-            _updateCounterTimer.Enabled = true;
+            updateCounterTimer.Enabled = true;
         }
 
         protected override void OnStop()
         {
-            _updateCounterTimer.Enabled = false;
+            updateCounterTimer.Enabled = false;
             Log.Info("Service stopped at " + DateTime.Now);
         }
 
@@ -72,9 +72,9 @@
         {
             try
             {
-                if (Math.Abs(_updateCounterTimer.Interval - (TimerInterval * 1000)) > 0)
+                if (Math.Abs(updateCounterTimer.Interval - (TimerInterval * 1000)) > 0)
                 {
-                    _updateCounterTimer.Interval = TimerInterval * 1000;
+                    updateCounterTimer.Interval = TimerInterval * 1000;
                 }
 
                 if (!_isBusy)
@@ -113,7 +113,7 @@
         {
             Log.Info("Check the start of semi annual period: started at " + DateTime.Now);
             var criteria = new GetSemiAnnualPeriodStartedCriteria();
-            IEnumerable<int> semiAnnualPeriods = _evaluationService.CheckStartSemiAnnual(criteria);
+            IEnumerable<int> semiAnnualPeriods = evaluationService.CheckStartSemiAnnual(criteria);
             Log.Info("Result of check the start of semi annual period: " + string.Join(",", semiAnnualPeriods));
 
             if (semiAnnualPeriods.Any())
@@ -132,7 +132,7 @@
                 {
                     PeriodId = periodId
                 };
-                CommandResult insertEmployeeResult = _evaluationService.InsertEmployeeToSemiAnnualPeriod(insertEmployeeCriteria);
+                CommandResult insertEmployeeResult = evaluationService.InsertEmployeeToSemiAnnualPeriod(insertEmployeeCriteria);
                 string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
                 Log.Info("Result of auto add employee to semi annual period " + periodId + ": " + messageResult);
 
@@ -141,7 +141,7 @@
                 {
                     PeriodId = periodId
                 };
-                CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
+                CommandResult generateEvaluationResult = periodService.GenerateEvaluation(generateEvaluationCriteria);
                 messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
                 Log.Info("Result of auto generate EPA to all employees of current semi annual period " + periodId + ": " + messageResult);
 
@@ -163,7 +163,7 @@
         {
             Log.Info("Check the start of probation evaluation: started at " + DateTime.Now);
             var criteria = new GetEmployeeProbationEvaluationCriteria();
-            AutoEmployeePeriodModel employeePeriod = _evaluationService.GetEmployeeProbationEvaluation(criteria);
+            AutoEmployeePeriodModel employeePeriod = evaluationService.GetEmployeeProbationEvaluation(criteria);
             Log.Info("Result of check the start of probation evaluation: employee: " + employeePeriod.EmployeeIds + "; periodId: " + employeePeriod.PeriodId);
 
             if (!string.IsNullOrWhiteSpace(employeePeriod.EmployeeIds) && employeePeriod.PeriodId > 0)
@@ -181,7 +181,7 @@
                 EmployeeIds = employeePeriod.EmployeeIds
             };
 
-            CommandResult insertEmployeeResult = _evaluationService.InsertEmployeeToProbationPeriod(insertEmployeeCriteria);
+            CommandResult insertEmployeeResult = evaluationService.InsertEmployeeToProbationPeriod(insertEmployeeCriteria);
             string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
             Log.Info("Result of auto add employee to probation period " + employeePeriod.PeriodId + ": " + messageResult);
 
@@ -191,7 +191,7 @@
                 PeriodId = employeePeriod.PeriodId,
                 EmployeeIds = employeePeriod.EmployeeIds
             };
-            CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
+            CommandResult generateEvaluationResult = periodService.GenerateEvaluation(generateEvaluationCriteria);
             messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
             Log.Info("Result of auto generate EPA to all employees of current probation period " + employeePeriod.PeriodId + ": " + messageResult);
 
@@ -212,7 +212,7 @@
         {
             Log.Info("Check the start of promotion evaluation: started at " + DateTime.Now);
             var criteria = new GetEmployeePromotionEvaluationCriteria();
-            IEnumerable<AutoEmployeePeriodModel> employeePeriods = _evaluationService.GetEmployeePromotionEvaluation(criteria);
+            IEnumerable<AutoEmployeePeriodModel> employeePeriods = evaluationService.GetEmployeePromotionEvaluation(criteria);
             Log.Info("Result of check the start of promotion evaluation: ended at  " + DateTime.Now);
 
             if (employeePeriods != null && employeePeriods.Any())
@@ -232,7 +232,7 @@
                     PeriodId = period.PeriodId,
                     EmployeeIds = period.EmployeeIds
                 };
-                CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
+                CommandResult generateEvaluationResult = periodService.GenerateEvaluation(generateEvaluationCriteria);
                 string messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
                 Log.Info("Result of auto generate EPA to all employees of current promotion period " + period.PeriodId + ": " + messageResult);
 
@@ -257,7 +257,7 @@
                 TargetTypeId = (int)TargetType.Monthly
             };
 
-            IEnumerable<FlowModel> processSettings = _periodService.GetEvaluationGlobalSettingByTargetTypeId(getEvaluationGlobalSettingByTargetTypeIdCriteria);
+            IEnumerable<FlowModel> processSettings = periodService.GetEvaluationGlobalSettingByTargetTypeId(getEvaluationGlobalSettingByTargetTypeIdCriteria);
 
             if (processSettings != null && processSettings.Any())
             {
@@ -274,7 +274,7 @@
                     };
 
                     Log.Info("Create monthly period: started at " + DateTime.Now);
-                    CommandResult commandResult = _periodService.AutoCreateMonthlyPeriod(criteria);
+                    CommandResult commandResult = periodService.AutoCreateMonthlyPeriod(criteria);
                     Log.Info("Result of Create monthly period: " + (commandResult.IsSuccessful ? "0" : commandResult.Message));
                 }
             }
@@ -284,7 +284,7 @@
         {
             Log.Info("Check the start of monthly period: started at " + DateTime.Now);
             var criteria = new GetMonthlyPeriodStartedCriteria();
-            IEnumerable<int> monthlyPeriods = _evaluationService.GetMonthlyPeriodStarted(criteria);
+            IEnumerable<int> monthlyPeriods = evaluationService.GetMonthlyPeriodStarted(criteria);
             Log.Info("Result of check the start of monthly period: " + string.Join(",", monthlyPeriods));
 
             if (monthlyPeriods.Any())
@@ -303,7 +303,7 @@
                 {
                     PeriodId = periodId
                 };
-                CommandResult insertEmployeeResult = _evaluationService.InsertEmployeeToMonthlyPeriod(insertEmployeeCriteria);
+                CommandResult insertEmployeeResult = evaluationService.InsertEmployeeToMonthlyPeriod(insertEmployeeCriteria);
                 string messageResult = insertEmployeeResult.IsSuccessful ? "0" : insertEmployeeResult.Message;
                 Log.Info("Result of auto add employee to monthly period " + periodId + ": " + messageResult);
 
@@ -312,7 +312,7 @@
                 {
                     PeriodId = periodId
                 };
-                CommandResult generateEvaluationResult = _periodService.GenerateEvaluation(generateEvaluationCriteria);
+                CommandResult generateEvaluationResult = periodService.GenerateEvaluation(generateEvaluationCriteria);
                 messageResult = generateEvaluationResult.IsSuccessful ? "0" : generateEvaluationResult.Message;
                 Log.Info("Result of auto generate EPA to all employees of current monthly period " + periodId + ": " + messageResult);
 
@@ -335,12 +335,12 @@
             Task.Factory.StartNew(CheckSendReminderEmail);
         }
 
-        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void CheckEndProcess()
         {
             Log.Info("Check process that ended yesterday: started at " + DateTime.Now);
             var checkEndProcessCriteria = new CheckEndProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = _evaluationService.CheckEndProcess(checkEndProcessCriteria);
+            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = evaluationService.CheckEndProcess(checkEndProcessCriteria);
             Log.Info("Check process that ended yesterday: ended at " + DateTime.Now);
 
             if (evaluationProcesses != null && evaluationProcesses.Any())
@@ -351,7 +351,7 @@
                 };
 
                 Log.Info("Update status of processes that ended yesterday: started at " + DateTime.Now);
-                CommandResult updateIsEndProcess = _evaluationService.UpdateEndProcess(updateEndProcessCriteria);
+                CommandResult updateIsEndProcess = evaluationService.UpdateEndProcess(updateEndProcessCriteria);
                 string messageResult = updateIsEndProcess.IsSuccessful ? "0" : updateIsEndProcess.Message;
                 Log.Info("Result of update status of processes that ended yesterday: " + messageResult);
 
@@ -366,7 +366,7 @@
                     {
                         EPAId = evaluationProcess.EPAId
                     };
-                    EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(getEPAInfoCriteria);
+                    EPAModel epaInfo = employeeEPAService.GetEPAInfoById(getEPAInfoCriteria);
 
                     var updateTotalScoreOfSemiHasMonthlyCriteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
                     {
@@ -374,7 +374,7 @@
                         MonthlyEPA = epaInfo.MonthlyEPA
                     };
                     Log.Info("Update total score of semi has monthly " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
-                    CommandResult commandResult = _evaluationService.UpdateTotalScoreOfSemiHasMonthly(updateTotalScoreOfSemiHasMonthlyCriteria);
+                    CommandResult commandResult = evaluationService.UpdateTotalScoreOfSemiHasMonthly(updateTotalScoreOfSemiHasMonthlyCriteria);
                     messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
                     Log.Info("Result of update total score semi has monthly " + evaluationProcess.EPAId + " : " + messageResult);
                 }
@@ -388,7 +388,7 @@
                         {
                             EPAId = evaluationProcess.EPAId
                         };
-                        EPAModel evaluationInfo = _employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
+                        EPAModel evaluationInfo = employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
                         Log.Info("Get information of EPA " + evaluationProcess.EPAId + " : ended at " + DateTime.Now);
 
                         Log.Info("Get average score of pre-process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
@@ -402,7 +402,7 @@
                             AverageScore = EncodeService.Encode(averageScore.ToString())
                         };
                         Log.Info("Update total score of process of EPA " + evaluationProcess.EPAId + " : started at " + DateTime.Now);
-                        CommandResult commandResult = _evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
+                        CommandResult commandResult = evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
                         messageResult = commandResult.IsSuccessful ? "0" : commandResult.Message;
                         Log.Info("Result of update total score of process of EPA " + evaluationProcess.EPAId + " : " + messageResult);
                     }
@@ -414,7 +414,7 @@
         {
             Log.Info("Get all EPA that period end date is today or ended yesterday or close but not have final score: started at " + DateTime.Now);
             var getAllEndedEvaluationCriteria = new GetEPAEndEvaluationPeriodCriteria();
-            IEnumerable<EPAModel> allEvaluations = _employeeEPAService.GetEPAEndEvaluationPeriod(getAllEndedEvaluationCriteria);
+            IEnumerable<EPAModel> allEvaluations = employeeEPAService.GetEPAEndEvaluationPeriod(getAllEndedEvaluationCriteria);
             Log.Info("Get all EPA that period end date is today or ended yesterday or close but not have final score: ended at " + DateTime.Now);
 
             if (allEvaluations != null && allEvaluations.Any())
@@ -423,7 +423,7 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.Nexcel.NexcelCustomRules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void UpdateFinalScoreAndSendMail(IEnumerable<EPAModel> evaluationInfos)
         {
             IList<int> periods = new List<int>();
@@ -431,7 +431,7 @@
                 && ConfigurationManager.AppSettings["SendMailEndPeriod"].Equals("true", StringComparison.OrdinalIgnoreCase);
 
             var criteria = new GetStandardGradeCriteria();
-            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(criteria);
+            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade(criteria);
 
             foreach (EPAModel evaluationInfo in evaluationInfos)
             {
@@ -443,7 +443,7 @@
                 finalScore = finalScore >= 0 ? finalScore : 0;
 
                 Log.Info("Get grade of final score of EPA " + evaluationInfo.EPAId + ": started at: " + DateTime.Now);
-                evaluationInfo.Grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                evaluationInfo.Grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
                 Log.Info("Result of get grade of final score of EPA " + evaluationInfo.EPAId + ": " + evaluationInfo.Grade);
 
                 EncodeAndUpdateFinalScore(averagePerformanceScore, evaluationInfo.DisciplineScore, evaluationInfo.EPAId, evaluationInfo.Grade);
@@ -458,7 +458,7 @@
                             || evaluationInfo.Period.TargetTypeId == (int)TargetType.Promotion)
                         {
                             Log.Info("Send end email to human resource of probation or promotion period " + evaluationInfo.Period.PeriodId + " : started at " + DateTime.Now);
-                            _autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
+                            autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(evaluationInfo);
                         }
                         else if ((evaluationInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual || evaluationInfo.Period.TargetTypeId == (int)TargetType.Monthly)
                             && !periods.Contains(evaluationInfo.Period.PeriodId))
@@ -478,7 +478,7 @@
                     {
                         PeriodId = periodId
                     };
-                    int lastestProcessOfPeriod = _evaluationService.CheckLastestProcessOfPeriod(checkLastestProcessCriteria);
+                    int lastestProcessOfPeriod = evaluationService.CheckLastestProcessOfPeriod(checkLastestProcessCriteria);
                     Log.Info("Result of check the end of period " + periodId + " : " + lastestProcessOfPeriod);
 
                     if (lastestProcessOfPeriod == 1)
@@ -492,14 +492,14 @@
         private void SendEndEvaluationMailToSelf(EPAModel evaluationInfo, float averagePerformanceScore, float disciplineScore)
         {
             Log.Info("Send email to employee " + evaluationInfo.Employee.NickName + " that ended evaluation : started at " + DateTime.Now);
-            _autoMailService.SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
+            autoMailService.SendEndEvaluationMailToSelf(evaluationInfo, averagePerformanceScore, disciplineScore);
         }
 
         private void CheckSendNoticeAtBeginEmail()
         {
             Log.Info("Get period has process evaluation started today: started at " + DateTime.Now);
             var criteria = new GetPeriodHasStartedProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> startedProcess = _periodService.GetPeriodHasStartedProcess(criteria);
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = periodService.GetPeriodHasStartedProcess(criteria);
             Log.Info("Result of get period has process evaluation started today: ended at " + DateTime.Now);
 
             foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
@@ -512,7 +512,7 @@
         {
             Log.Info("Get period has process evaluation reminder today: started at " + DateTime.Now);
             var criteria = new GetPeriodHasReminderProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> reminderProcess = _evaluationService.GetPeriodHasReminderProcess(criteria);
+            IEnumerable<AutoEmployeePeriodModel> reminderProcess = evaluationService.GetPeriodHasReminderProcess(criteria);
             Log.Info("Result of get period has process evaluation reminder today: ended at " + DateTime.Now);
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
@@ -548,17 +548,17 @@
             {
                 case (int)MailMode.Start:
                     Log.Info("Send start email to all related employee of periodId " + periodId + ": started at " + DateTime.Now);
-                    _autoMailService.SendStartMail(period, employeeSettings);
+                    autoMailService.SendStartMail(period, employeeSettings);
                     break;
 
                 case (int)MailMode.Reminder:
                     Log.Info("Send reminder email to all related employee of periodId " + periodId + ": started at " + DateTime.Now);
-                    _autoMailService.SendReminderMail(period, employeeSettings);
+                    autoMailService.SendReminderMail(period, employeeSettings);
                     break;
 
                 case (int)MailMode.EndPeriod:
                     Log.Info("Send end email to all related employee of periodId " + periodId + ": started at " + DateTime.Now);
-                    _autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
+                    autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
             }
         }
@@ -571,7 +571,7 @@
             {
                 PeriodId = periodId
             };
-            period = _periodService.GetPeriodById(criteria);
+            period = periodService.GetPeriodById(criteria);
 
             return period;
         }
@@ -586,7 +586,7 @@
                 EmployeeIds = employeeIds,
                 ProcessId = processId
             };
-            employeeSettings = _periodService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+            employeeSettings = periodService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
 
             return employeeSettings;
         }
@@ -626,7 +626,7 @@
             criteria.EvaluationScores = criteria.ConvertToXml(evaluationId, finalScoreEncode, disciplineScore, gradeEncode);
 
             Log.Info("Update final score and discipline score of EPA " + evaluationId + ": started at: " + DateTime.Now);
-            CommandResult commandResult = _evaluationService.UpdateFinalScoreEndEvaluation(criteria);
+            CommandResult commandResult = evaluationService.UpdateFinalScoreEndEvaluation(criteria);
             Log.Info("Result of update final score and discipline score of EPA " + evaluationId + ": " + (commandResult.IsSuccessful ? "0" : commandResult.Message));
         }
 
