@@ -7,10 +7,11 @@
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
     using System.Collections.Generic;
+    using System.Web.Http;
 
     public class MenuController : BaseController
     {
-        private IMenuService menuService;
+        private readonly IMenuService menuService;
 
         public MenuController()
             : this(null)
@@ -22,6 +23,7 @@
             this.menuService = menuService ?? new MenuService();
         }
 
+        [HttpGet]
         [ApiAuthorize(EPAFunctionKey.MenuManagement, Policy.Read)]
         public IEnumerable<MenuItemModel> GetMenusByEmployeeId()
         {
