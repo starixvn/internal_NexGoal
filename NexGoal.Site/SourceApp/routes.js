@@ -2,7 +2,7 @@
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, departmentModule*/
 /*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule, epaHistoryModule, errorModule*/
-/*exported monthlyPeriodModule, menuModule*/
+/*exported monthlyPeriodModule, menuModule, userInfoModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -178,3 +178,5 @@ var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
 }]);
 
 var menuModule = angular.module("menuModule", ["ngRoute"]);
+
+var userInfoModule = angular.module("userInfoModule", ["ngRoute"]);

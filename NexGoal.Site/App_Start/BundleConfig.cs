@@ -74,6 +74,7 @@
                             "~/SourceApp/Components/Common/common-factory.js",
                             "~/SourceApp/Components/Common/common-model.js",
                             "~/SourceApp/Components/Common/common-controller.js",
+                            "~/SourceApp/Components/UserInfo/user-info-controller.js",
                             "~/SourceApp/Components/Menu/menu-factory.js",
                             "~/SourceApp/Components/Menu/menu-model.js",
                             "~/SourceApp/Components/Menu/menu-tab-directive.js",
