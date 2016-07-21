@@ -245,6 +245,7 @@
     <Content Include="Content\Common\jquery-ui.min.css" />
     <Content Include="Content\Common\table.css" />
     <Content Include="Content\Common\toastr.css" />
+    <Content Include="Content\Fonts\fontawesome-webfont.svg" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Content\Site\auth\images\bg-login.jpg" />
     <Content Include="Content\Site\auth\images\epa_logo.png" />
@@ -740,6 +741,11 @@
     <Content Include="Content\Site\Components\_13.media-query.less" />
     <Content Include="Content\Site\Components\_14.toast.less" />
     <Content Include="Content\Site\Components\_15.multiselect.less" />
+    <Content Include="Content\Fonts\FontAwesome.otf" />
+    <Content Include="Content\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\Fonts\fontawesome-webfont.woff2" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
