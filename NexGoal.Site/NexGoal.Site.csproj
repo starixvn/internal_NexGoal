@@ -725,7 +725,7 @@
     <Content Include="Content\Common\font-awesome\fonts\fontawesome-webfont.woff2" />
     <Content Include="Content\Common\font-awesome\fonts\FontAwesome.otf" />
     <Content Include="Content\Site\Components\_16.sidebar.less" />
-    <None Include="Content\Site\Components\_1.base.less" />
+    <Content Include="Content\Site\Components\_1.base.less" />
     <Content Include="Content\Site\Components\_2.navbar.less" />
     <Content Include="Content\Site\Components\_3.panel.less" />
     <Content Include="Content\Site\Components\_4.page.less" />
