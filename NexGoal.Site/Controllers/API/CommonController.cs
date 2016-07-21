@@ -151,11 +151,15 @@
         }
 
         [HttpGet]
-        public EmployeeModel GetEmployeeById(int? employeeId)
+        public EmployeeModel GetEmployeeById(int employeeId)
         {
-            var id = employeeId.HasValue ? employeeId.Value : CurrentUser.EmployeeId;
+            return commonService.GetEmployeeById(employeeId);
+        }
 
-            return commonService.GetEmployeeById(id);
+        [HttpGet]
+        public EmployeeModel GetCurrentEmployee()
+        {
+            return commonService.GetEmployeeById(CurrentUser.EmployeeId);
         }
 
         [HttpGet]
