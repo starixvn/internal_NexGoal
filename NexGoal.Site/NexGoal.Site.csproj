@@ -188,7 +188,6 @@
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
-    <Compile Include="Controllers\API\MonthlyPeriodController.cs" />
     <Compile Include="Controllers\API\PeriodController.cs" />
     <Compile Include="Controllers\API\ReportController.cs" />
     <Compile Include="Controllers\API\ResourcesController.cs" />

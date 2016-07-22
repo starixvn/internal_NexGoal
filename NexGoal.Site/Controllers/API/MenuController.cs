@@ -24,8 +24,8 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(EPAFunctionKey.MenuManagement, Policy.Read)]
-        public IEnumerable<MenuItemModel> GetMenusByEmployeeId()
+        [ApiAuthorize(FunctionKey.MenuManagement, Policy.Read)]
+        public IEnumerable<MenuModel> GetMenusByEmployeeId()
         {
             var menus = this.menuService.GetMenusByUserId(CurrentUser.EmployeeId);
 

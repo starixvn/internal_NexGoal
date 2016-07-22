@@ -28,7 +28,6 @@
             this.employeeService = employeeService ?? new EmployeeService();
         }
 
-        [ApiAuthorize(EPAFunctionKey.Home, Policy.Read)]
         [HttpGet]
         public DashboardModel GetDashboard()
         {

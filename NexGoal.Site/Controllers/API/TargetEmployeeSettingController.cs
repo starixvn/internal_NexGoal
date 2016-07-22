@@ -26,7 +26,7 @@
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
         public IList<TargetEmployeeModel> GetTargetEmployeeSetting(
             int? groupId = null,
             int? employeeId = null,
@@ -45,7 +45,7 @@
             return targetEmployeeSettings;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPut]
         public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
         {
@@ -58,7 +58,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteTargetEmployeeSetting(int targetTemplateId, int employeeId)
         {
@@ -73,7 +73,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
         public IList<TargetDepartmentModel> GetTargetDepartmentSetting(
             int? departmentId = null,
             bool? isGroup = null,
@@ -91,7 +91,7 @@
             return targetDepartments;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPut]
         public CommandResult AssignTargetTemplateToDepartment(TargetSettingAssignModel model)
         {
@@ -112,7 +112,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetEmployeeSetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteTargetDepartmentSetting(
             int targetTemplateId,
@@ -133,7 +133,7 @@
 
         public int GetUserPermissionOnTargetEmployeeSetting()
         {
-            return CurrentUser.GetPermission(EPAFunctionKey.TargetEmployeeSetting);
+            return CurrentUser.GetPermission(FunctionKey.EPASetting);
         }
     }
 }

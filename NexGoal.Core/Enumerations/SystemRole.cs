@@ -25,9 +25,6 @@
         Employee = 6,
 
         [Description("Approver")]
-        Approver = 7,
-
-        [Description("Section Admin")]
-        SectionAdmin = 8
+        Approver = 7
     }
 }

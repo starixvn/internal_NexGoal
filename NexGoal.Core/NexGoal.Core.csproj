@@ -123,7 +123,7 @@
     <Compile Include="Attribute\ExceptionHandlingAttribute.cs" />
     <Compile Include="Attribute\OutputAttribute.cs" />
     <Compile Include="Constants\Constants.cs" />
-    <Compile Include="Constants\EPAFunctionKey.cs" />
+    <Compile Include="Constants\FunctionKey.cs" />
     <Compile Include="Criteria\ResultCriteria.cs" />
     <Compile Include="Enumerations\HashProvider.cs" />
     <Compile Include="Enumerations\MailMode.cs" />

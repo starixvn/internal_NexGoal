@@ -25,7 +25,7 @@
             _roleService = roleService ?? new RoleService();
         }
 
-        [ApiAuthorize(EPAFunctionKey.RoleManagement, Policy.Read)]
+        [ApiAuthorize(FunctionKey.RoleManagement, Policy.Read)]
         public IEnumerable<RoleFunctionModel> GetRoleFunctionByRoleId(int roleId)
         {
             var criteria = new GetFunctionByRoleIdCriteria
@@ -37,7 +37,7 @@
             return functions;
         }
 
-        [ApiAuthorize(EPAFunctionKey.RoleManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey.RoleManagement, Policy.Host)]
         [HttpPut]
         public CommandResult AssignFunctionToRole(AssignFunctionToRoleCriteria criteria)
         {

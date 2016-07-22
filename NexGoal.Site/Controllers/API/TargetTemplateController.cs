@@ -33,7 +33,7 @@
             _scoreRatingTypeService = scoreRatingTypeService ?? new ScoreRatingTypeService();
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Read)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
         {
             IEnumerable<TargetTemplateModel> targetTemplates = null;
@@ -47,7 +47,7 @@
             return targetTemplates;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Read)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
         public TargetTemplateModel GetTargetTemplateById(int targetTemplateId)
         {
             TargetTemplateModel targetTemplate = null;
@@ -60,7 +60,7 @@
             return targetTemplate;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPost]
         public CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria)
         {
@@ -73,7 +73,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria)
         {
@@ -86,7 +86,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateTargetTemplateBasicInformation(TargetTemplateModel targetTemplate)
         {
@@ -112,7 +112,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateTargetTemplate(TargetTemplateModel targetTemplate)
         {
@@ -133,7 +133,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteTargetTemplate(int targetTemplateId)
         {
@@ -147,7 +147,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPost]
         public CommandResult AddKPIGroupWeight(TargetKPIGroupWeightModel model)
         {
@@ -167,7 +167,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Read)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
         public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(int targetTemplateId)
         {
             var criteria = new GetKPIGroupOfTargetTemplateCriteria
@@ -179,7 +179,7 @@
             return groups;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Read)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
         public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(int targetTemplateId, bool onlySelected = false)
         {
             var criteria = new GetKPIOfTargetTemplateCriteria
@@ -191,7 +191,7 @@
             return kpiList;
         }
 
-        [ApiAuthorize(EPAFunctionKey.TargetTemplate, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteKPIGroupOfTargetTemplate(int targetTemplateId, int kpiGroupId)
         {
@@ -208,7 +208,7 @@
 
         public int GetUserPermissionOnTargetTemplate()
         {
-            return CurrentUser.GetPermission(EPAFunctionKey.TargetTemplate);
+            return CurrentUser.GetPermission(FunctionKey.EPASetting);
         }
 
         public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(int? scoreRatingTypeId = null, bool isActive = true)

@@ -26,7 +26,7 @@
             _kpiGroupService = kpiGroupService ?? new KPIGroupService();
         }
 
-        [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Read)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
         [HttpGet]
         public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
         {
@@ -38,7 +38,7 @@
             return _kpiGroupService.GetKPIGroup(criteria);
         }
 
-        [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Read)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
         [HttpGet]
         public KPIGroupModel GetKPIGroupById(int kpiGroupId)
         {
@@ -50,7 +50,7 @@
             return _kpiGroupService.GetKPIGroupById(criteria);
         }
 
-        [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPost]
         public CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria)
         {
@@ -64,7 +64,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria)
         {
@@ -78,7 +78,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria)
         {
@@ -92,7 +92,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(EPAFunctionKey.KPIGroup, Policy.Host)]
+        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteKPIGroup(int kpiGroupId)
         {
@@ -109,7 +109,7 @@
 
         public int GetUserPermissionOnKPIGroup()
         {
-            return CurrentUser.GetPermission(EPAFunctionKey.KPIGroup);
+            return CurrentUser.GetPermission(FunctionKey.EPASetting);
         }
     }
 }

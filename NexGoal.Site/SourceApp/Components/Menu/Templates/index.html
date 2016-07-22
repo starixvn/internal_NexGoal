@@ -7,18 +7,18 @@
            data-toggle="collapse" 
            data-target=".menu-{{::$index}}" 
            ng-if="menu.MenuItems.length > 0">
-            <i class="fa fa-{{::menu.Name | lowercase}}"></i>{{::menu.Name}}<i class="fa fa-chevron-down pull-right"></i>
+            <i class="fa fa-{{::menu.Name | lowercase}}"></i>{{::menu.Text}}<i class="fa fa-chevron-down pull-right"></i>
         </a>
 
         <ul class="list-group collapse in menu-{{::$index}}"
             ng-if="menu.MenuItems.length > 0">
             <li class="list-group-item sub-menu" ng-repeat="subMenu in menu.MenuItems">
-                <a href="{{::subMenu.Url}}" data-menu-tab>{{::subMenu.Name}}</a>
+                <a href="{{::subMenu.Link}}" data-menu-tab>{{::subMenu.Text}}</a>
             </li>
         </ul>
 
-        <a href="{{::menu.Url}}" ng-if="menu.MenuItems.length === 0" data-menu-tab>
-            <i class="fa fa-{{::menu.Name | lowercase}}"></i>{{::menu.Name}}
+        <a href="{{::menu.Link}}" ng-if="menu.MenuItems.length === 0" data-menu-tab>
+            <i class="fa fa-{{::menu.Name | lowercase}}"></i>{{::menu.Text}}
         </a>
     </li>
 </ul>
