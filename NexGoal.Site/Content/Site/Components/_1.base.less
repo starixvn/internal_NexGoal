@@ -21,8 +21,15 @@ a {
     color: @link-color;
     outline: none;
 
+    &:hover,
+    &:focus,
+    &:active {
+        outline: none;
+    }
+
     &.glyphicon {
-        &:hover, &:focus {
+        &:hover, 
+        &:focus {
             text-decoration: none;
         }
 
@@ -35,7 +42,8 @@ a {
             margin-right: 5px;
         }
 
-        &.icon-edit, &.icon-save {
+        &.icon-edit, 
+        &.icon-save {
             color: #1BA0E1;
             margin-right: 5px;
         }
