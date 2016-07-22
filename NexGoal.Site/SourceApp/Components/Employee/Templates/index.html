@@ -28,15 +28,9 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-4 col-sm-offset-1">
-                    <label>
-                        <input type="checkbox" ng-model="employeeCtrl.filter.isSpecialUser"> {{"IsSpecialUser" | translate}}
-                    </label>
+                <div class="col-sm-3 col-sm-offset-1">
                     <label>
                         <input type="checkbox" ng-model="employeeCtrl.filter.isDisabledUser"> {{"IsDisabledUser" | translate}}
-                    </label>
-                    <label>
-                        <input type="checkbox" ng-model="employeeCtrl.filter.hasMonthlyEPA"> {{"HasMonthlyEPA" | translate}}
                     </label>
                 </div>
                 <div class="col-sm-1">
@@ -48,11 +42,6 @@
             <thead>
                 <tr class="header-table">
                     <th colspan="11">
-                        <a class="pull-left button-icon create-button" ng-click="employeeCtrl.createEmployee()"
-                           ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
-                            <span class="icon plus"></span>
-                            <span class="button-text" data-translate="CreateUser"></span>
-                        </a>
                         <input type="text" ng-model="employeeCtrl.searchKey" ng-change="employeeCtrl.search()" class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
@@ -62,12 +51,9 @@
                     <th data-translate="NickName"></th>
                     <th data-translate="FullName"></th>
                     <th data-translate="JobTitle"></th>
-                    <th data-translate="Section"></th>
-                    <th data-translate="ShortSpecialUser"></th>
+                    <th data-translate="Team"></th>
                     <th data-translate="Roles"></th>
-                    <th data-translate="MonthlyEPA"></th>
                     <th data-translate="Action" ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host"></th>
-                    <th class="col-reset-password" data-translate="ResetPassword" ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
@@ -80,29 +66,13 @@
                     <td class="text-center">
                         <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                     </td>
-                    <td class="text-center">
-                        <div ng-if="employee.IsSpecialUser">
-                            <a href="" ng-click="employeeCtrl.updateEmployee(employee)" data-translate="Yes" ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host"></a>
-                            <span data-translate="Yes" ng-if="employeeCtrl.permission != employeeCtrl.policyEnum.Host"></span>
-                        </div>
-                        <span data-translate="No" ng-if="!employee.IsSpecialUser"></span>
-                    </td>
-                    <td class="authority-employee-role">
+                    <td class="authority-employee-role text-center">
                         <span ng-repeat="role in employee.Roles">
                             {{role.RoleCode}}<span ng-if="!$last">,</span>
                         </span>
                     </td>
-                    <td class="text-center">
-                        <input type="checkbox" ng-checked="employee.HasMonthlyEPA" ng-disabled="employeeCtrl.permission != employeeCtrl.policyEnum.Host"
-                               ng-click="employeeCtrl.updateHasMonthlyEPA(employee)" />
-                    </td>
                     <td class="text-center authority-employee-action" ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" title="Assign role to user" ng-click="employeeCtrl.assignRole(employee)" />
-                    </td>
-                    <td class="text-center col-reset-password" ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host">
-                        <a class="glyphicon glyphicon-refresh icon-refresh" href="" title="Reset Password"
-                           ng-if="employee.IsSpecialUser" ng-click="employeeCtrl.resetPassword(employee)" />
-                        <a class="glyphicon glyphicon-ban-circle icon-ban-circle disabled" href="" ng-if="!employee.IsSpecialUser"></a>
                     </td>
                 </tr>
                 <tr ng-show="employeeCtrl.filteredItems.length == 0">

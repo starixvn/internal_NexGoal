@@ -59,6 +59,9 @@ select.ddlMenu {
 select.ddlMenu:focus {
   outline: none;
 }
+label:hover {
+  cursor: pointer;
+}
 .navbar {
   min-height: 3.5rem;
   line-height: 3.5rem;

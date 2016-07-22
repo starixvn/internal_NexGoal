@@ -284,11 +284,11 @@
                 <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
-        <tfoot>
+        <tfoot ng-show="empSettingCtrl.filteredItems.length !== 0">
             <tr>
                 <td colspan="14" class="paging">
                     <span data-translate="Show"></span>
-                    <select class="dropdown-entry form-control" ng-model="empSettingCtrl.pageSize"
+                    <select class="dropdown-entry" ng-model="empSettingCtrl.pageSize"
                             ng-options="entry for entry in empSettingCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">
