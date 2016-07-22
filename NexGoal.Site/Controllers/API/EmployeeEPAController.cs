@@ -41,7 +41,7 @@
 
         #region Self
 
-        //[ApiAuthorize(EPAFunctionKey.Self, Policy.Read)]
+        [ApiAuthorize(FunctionKey.Self, Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEmployee()
         {
@@ -53,7 +53,7 @@
             return _employeeEPAService.GetEPAByEmployee(criteria);
         }
 
-        //[ApiAuthorize(EPAFunctionKey.Self, Policy.Read)]
+        [ApiAuthorize(FunctionKey.Self, Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
@@ -78,7 +78,7 @@
             }
         }
 
-        //[ApiAuthorize(EPAFunctionKey.Self, Policy.Host)]
+        [ApiAuthorize(FunctionKey.Self, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateEPAScoreByEmployee(UpdateEPAScoreCriteria criteria)
         {
@@ -105,14 +105,14 @@
 
         #region Evaluator
 
-        //[ApiAuthorize(EPAFunctionKey.Evaluator, Policy.Read)]
+        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
         [HttpGet]
         public IEnumerable<Group> GetGroupByEvaluator()
         {
             return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator);
         }
 
-        //[ApiAuthorize(EPAFunctionKey.Evaluator, Policy.Read)]
+        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
         [HttpGet]
         public IEnumerable<Employee> GetMemberByEvaluator(
             int? groupId = null,
@@ -122,7 +122,7 @@
             return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator, groupId, isLocal, isMonthly);
         }
 
-        //[ApiAuthorize(EPAFunctionKey.Evaluator, Policy.Read)]
+        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
             int? groupId = null,
@@ -142,9 +142,9 @@
             return _employeeEPAService.GetEPAByEvaluator(criteria);
         }
 
-        //[ApiAuthorize(EPAFunctionKey.Evaluator, Policy.Read)]
-        //[ApiAuthorize(EPAFunctionKey.Reviewer, Policy.Read)]
-        //[ApiAuthorize(EPAFunctionKey.Management, Policy.Read)]
+        /// [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
+        /// [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
+        /// [ApiAuthorize(FunctionKey.Management, Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPAInfoByEvaluator(int epaId, int? evaluatorId = null)
         {
