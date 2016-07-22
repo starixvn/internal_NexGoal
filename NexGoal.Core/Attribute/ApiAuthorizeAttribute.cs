@@ -42,8 +42,11 @@
         private bool CheckUserPermission()
         {
             var user = (UserSession)HttpContext.Current.Session[Constants.CurrentSessionKey];
-
-            var hasPermission = user.HasPermission(FunctionKey, Policy);
+            var hasPermission = false;
+            if (user != null)
+            {
+                hasPermission = user.HasPermission(FunctionKey, Policy);
+            }
 
             return hasPermission;
         }

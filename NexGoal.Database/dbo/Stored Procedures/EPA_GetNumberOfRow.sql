@@ -14,7 +14,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT COUNT(*)
-	FROM [NexGoal].[dbo].[EPADetail]
+	FROM [dbo].[EPADetail]
 	WHERE ProcessId = 3
 		AND EPAId = @EpaId
 END

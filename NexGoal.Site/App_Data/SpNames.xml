@@ -68,6 +68,7 @@
     </Setting>
     <Setting Key="EpaRole_GetFunctionByRoleId" SpName="EpaRole_GetFunctionByRoleId" DbName="NexGoal" Plain="0">
     </Setting>
+    <Setting Key="Role_GetRolesByEmployeeId" SpName="Role_GetRolesByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="TargetTemplate">
     <Setting Key="TargetTemplate_GetAll" SpName="TargetTemplate_GetAll" DbName="NexGoal" Plain="0">
