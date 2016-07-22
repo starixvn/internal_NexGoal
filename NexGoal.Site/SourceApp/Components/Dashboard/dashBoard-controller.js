@@ -47,7 +47,8 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
             vm.employee.Avatar = baseUrl + vm.employee.Avatar;
             vm.evaluationProcesses = [];
             vm.myEPAs = dashboardInfo.MyEPAs;
-            vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
+
+            //vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
 
             angular.forEach(vm.myEPAs, function (myEPA) {
                 if (myEPA.Period.IsEndPeriod && myEPA.FinalScore.length > 0) {
@@ -58,14 +59,14 @@ function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, ba
                 }
             });
 
-            angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
-                if (monthlyEPA.Period.IsEndPeriod) {
-                    monthlyEPA.FinalScore = utilitiesFactory.parseFloat(monthlyEPA.FinalScore);
-                } else {
-                    monthlyEPA.FinalScore = null;
-                    vm.evaluationProcesses.push(monthlyEPA);
-                }
-            });
+            //angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
+            //    if (monthlyEPA.Period.IsEndPeriod) {
+            //        monthlyEPA.FinalScore = utilitiesFactory.parseFloat(monthlyEPA.FinalScore);
+            //    } else {
+            //        monthlyEPA.FinalScore = null;
+            //        vm.evaluationProcesses.push(monthlyEPA);
+            //    }
+            //});
         });
     }
 

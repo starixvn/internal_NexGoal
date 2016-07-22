@@ -3283,7 +3283,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nex Goal.
+        ///   Looks up a localized string similar to NexGoal.
         /// </summary>
         public static string TitlePage {
             get {
