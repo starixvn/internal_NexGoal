@@ -1,0 +1,20 @@
+﻿CREATE PROCEDURE [dbo].[EPA_GetNumberOfRow] @EpaId INT
+AS
+/*
+Created: 20160531@Razor.Nguyen
+Task: Export PDF
+DB: NexGoal
+Original:
+
+Revisions:  
+Param's Explanation:
+
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	SELECT COUNT(*)
+	FROM [NexGoal].[dbo].[EPADetail]
+	WHERE ProcessId = 3
+		AND EPAId = @EpaId
+END

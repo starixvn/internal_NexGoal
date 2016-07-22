@@ -1,0 +1,15 @@
+﻿CREATE TABLE [dbo].[EPA] (
+    [EPAId]             INT            NOT NULL,
+    [EmployeeId]        INT            NOT NULL,
+    [PeriodId]          INT            NOT NULL,
+    [Status]            TINYINT        NULL,
+    [DisciplineScore]   FLOAT (53)     NULL,
+    [FinalScore]        NVARCHAR (100) NULL,
+    [Grade]             NVARCHAR (100) NULL,
+    [ModifiedBy]        INT            NULL,
+    [ModifiedDate]      DATETIME       NULL,
+    [ScoreRatingTypeId] INT            NULL,
+    [RatingTypeId]      INT            NULL,
+    [HasMonthlyEPA]     BIT            NULL
+);
+

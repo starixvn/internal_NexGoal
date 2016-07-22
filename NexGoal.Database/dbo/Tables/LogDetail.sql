@@ -1,0 +1,13 @@
+﻿CREATE TABLE [dbo].[LogDetail] (
+    [Id]           INT            NOT NULL,
+    [ActorId]      INT            NULL,
+    [SpName]       VARCHAR (50)   NULL,
+    [LogDate]      DATETIME       NULL,
+    [ObjectId]     INT            NULL,
+    [ObjectTypeId] INT            NULL,
+    [ActionId]     INT            NULL,
+    [Data]         NVARCHAR (MAX) NULL,
+    [OldData]      NVARCHAR (MAX) NULL,
+    [ObjectIds]    VARCHAR (MAX)  NULL
+);
+
