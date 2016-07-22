@@ -682,6 +682,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Department / Team.
+        /// </summary>
+        public static string DepartmentTeam {
+            get {
+                return ResourceManager.GetString("DepartmentTeam", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Description.
         /// </summary>
         public static string Description {
@@ -3270,6 +3279,15 @@ namespace NexGoal.Resources {
         public static string TargetTypeRequired {
             get {
                 return ResourceManager.GetString("TargetTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Team.
+        /// </summary>
+        public static string Team {
+            get {
+                return ResourceManager.GetString("Team", resourceCulture);
             }
         }
         

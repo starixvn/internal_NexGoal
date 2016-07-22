@@ -1335,4 +1335,10 @@
   <data name="ErrorMessage" xml:space="preserve">
     <value>Server cannot handle your request. Please try again later!</value>
   </data>
+  <data name="Team" xml:space="preserve">
+    <value>Team</value>
+  </data>
+  <data name="DepartmentTeam" xml:space="preserve">
+    <value>Department / Team</value>
+  </data>
 </root>

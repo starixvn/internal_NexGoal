@@ -504,6 +504,15 @@ select.ddlMenu:focus {
   text-align: center;
   vertical-align: middle !important;
 }
+.table thead th .btnExcel {
+  background: rgba(0, 0, 0, 0) url("Components/images/excel-icon.png") no-repeat scroll 0 -26px;
+  border: 0 solid red;
+  cursor: pointer;
+  height: 17px;
+  margin: 2px 5px 2px;
+  padding: 0 6px;
+  width: 18px;
+}
 .table tbody td {
   color: #000;
   border-color: #a9a9a9 !important;
@@ -548,19 +557,6 @@ select.ddlMenu:focus {
             color: #fff;
             text-shadow: none;
             font-weight: normal;
-
-            .btnExcel {
-                background: rgba(0, 0, 0, 0) url("images/excel-icon.png") no-repeat scroll 0 -26px;
-                border: 0 solid red;
-                cursor: pointer;
-                font-size: 11px;
-                height: 17px;
-                margin: 8px 5px 2px;
-                overflow: visible;
-                padding-left: 6px;
-                padding-right: 6px;
-                width: 18px;
-            }
 
             .table-entries, .search {
                 margin: 5px;
@@ -1273,10 +1269,13 @@ select.ddlMenu:focus {
   transform: rotate(0);
   transition: 0.3s ease all;
 }
+.sidebar .list-group .fa-mydashboard:before {
+  content: "\f015";
+}
 .sidebar .list-group .fa-admin:before {
   content: "\f0c0";
 }
-.sidebar .list-group .fa-epa:before {
+.sidebar .list-group .fa-epasetting:before {
   content: "\f013";
 }
 .sidebar .list-group .fa-report:before {
@@ -1284,6 +1283,12 @@ select.ddlMenu:focus {
 }
 .sidebar .list-group .fa-discipline:before {
   content: "\f29a";
+}
+.sidebar .list-group .fa-epaassessment:before {
+  content: "\f19c";
+}
+.sidebar .list-group .fa-paform:before {
+  content: "\f022";
 }
 .sidebar .list-group .list-group-item {
   border: none;
@@ -1588,4 +1593,7 @@ select.ddlMenu:focus {
 }
 .inline-block {
   display: inline-block;
+}
+.pagination {
+  margin: 0px;
 }
