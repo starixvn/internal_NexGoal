@@ -112,7 +112,12 @@
     <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\GetDepartmentSectionHasSettingCriteria.cs" />
     <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
+    <Compile Include="Menu\DeleteMenuCriteria.cs" />
+    <Compile Include="Menu\GetMenuByIdCriteria.cs" />
     <Compile Include="Menu\GetMenusByUserIdCriteria.cs" />
+    <Compile Include="Menu\GetMenusCriteria.cs" />
+    <Compile Include="Menu\InsertMenuCriteria.cs" />
+    <Compile Include="Menu\UpdateMenuCriteria.cs" />
     <Compile Include="Period\AutoCreateMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\GetEvaluationGlobalSettingByTargetTypeIdCriteria.cs" />
     <Compile Include="Period\GetAllMonthlyPeriodCriteria.cs" />

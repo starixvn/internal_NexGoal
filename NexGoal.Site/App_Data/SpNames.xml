@@ -407,7 +407,11 @@
     </Setting>
   </Function>
   <Function Name="Menu">
-    <Setting Key="Menu_GetMenusByEmployeeId" SpName="Menu_GetMenusByEmployeeId" DbName="NexGoal" Plain="0">
-    </Setting>
+    <Setting Key="Menu_GetMenusByEmployeeId" SpName="Menu_GetMenusByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="Menu_GetMenus" SpName="Menu_GetMenus" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="Menu_GetMenuById" SpName="Menu_GetMenuById" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="Menu_Insert" SpName="Menu_Insert" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="Menu_Update" SpName="Menu_Update" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="Menu_Delete" SpName="Menu_Delete" DbName="NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

@@ -64,6 +64,7 @@
     <Compile Include="EmployeeEPA\RatingByKPI\TemporaryKPIModel.cs" />
     <Compile Include="EmployeeEPA\RatingTypeModel.cs" />
     <Compile Include="EmployeeEPA\StandardGradeModel.cs" />
+    <Compile Include="Employee\MenuViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="FlowManagement\DepartmentFlowModel.cs" />
