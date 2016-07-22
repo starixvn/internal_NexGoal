@@ -26,6 +26,7 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.targetTemplates = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
     commonModel.isOnNormalPdfPage = true;
+    commonModel.userInfo = {};
 
     /// Get target type.
     commonModel.getTargetType = function (isActive, excludeTargetTypeIds) {
@@ -256,6 +257,15 @@ function ($modal, commonFactory, errorFactory) {
         return commonFactory.getAllMonthlyPeriod()
         .success(function (periods) {
             commonModel.monthlyPeriods = periods;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getUserInfo = function () {
+        return commonFactory.getUserInfo()
+        .success(function (userInfo) {
+            commonModel.userInfo = userInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

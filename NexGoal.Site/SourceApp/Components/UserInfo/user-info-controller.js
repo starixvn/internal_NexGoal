@@ -10,8 +10,8 @@
 
         vm.userInfo = {};
 
-        commonModel.getEmployeeById(null).then(function () {
-            vm.userInfo = commonModel.employee;
+        commonModel.getUserInfo().then(function () {
+            vm.userInfo = commonModel.userInfo;
         });
     };
 

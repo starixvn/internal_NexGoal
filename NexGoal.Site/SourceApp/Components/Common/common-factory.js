@@ -91,8 +91,9 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         getAllMonthlyPeriod: function () {
             return $http.get(baseUrl + 'api/MonthlyPeriod/GetAllMonthlyPeriod');
         },
+
         getUserInfo: function () {
-            return $http.get(baseUrl + 'api/Common/GetEmployeeById', { params: { employeeId: null } });
+            return $http.get(baseUrl + 'api/Common/GetCurrentEmployee');
         }
     };
 }]);
