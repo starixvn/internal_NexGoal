@@ -1,11 +1,11 @@
 ﻿<div class="result-setting-flow" ng-controller="ResultSettingFlowController as resultSettingFlowCtrl">
     <tabset id="ResultSettingTab">
-        <tab heading="DEPARTMENT / SECTION" class="tab-cursor" select="resultSettingFlowCtrl.tabDepartmentSelected()">
+        <tab heading="DEPARTMENT / TEAM" class="tab-cursor" select="resultSettingFlowCtrl.tabDepartmentSelected()">
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th class="text-center" data-translate="SymbolCount"></th>
-                        <th data-translate="DepartmentSection"></th>
+                        <th data-translate="DepartmentTeam"></th>
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
@@ -54,6 +54,9 @@
                     </tr>
                 </tbody>
             </table>
+
+            <br />
+
             <div class="text-center">
                 <button class="btn btn-default customize" ng-click="resultSettingFlowCtrl.cancel()" data-translate="Cancel"></button>
             </div>
@@ -66,7 +69,7 @@
                         <th data-translate="Code"></th>
                         <th data-translate="NickName"></th>
                         <th data-translate="FullName"></th>
-                        <th data-translate="DepartmentSection"></th>
+                        <th data-translate="DepartmentTeam"></th>
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
@@ -118,6 +121,9 @@
                     </tr>
                 </tbody>
             </table>
+
+            <br />
+
             <div class="text-center">
                 <button class="btn btn-default customize" ng-click="resultSettingFlowCtrl.cancel()" data-translate="Cancel"></button>
             </div>

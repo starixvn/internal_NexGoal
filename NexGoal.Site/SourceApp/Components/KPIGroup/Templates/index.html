@@ -36,7 +36,7 @@
                     <th class="text-center" data-translate="KPIs"></th>
                     <th class="text-center col-active" data-translate="Active"></th>
                     <th class="text-center col-description" data-translate="Description"></th>
-                    <th class="text-center col-action" data-translate="Action" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host"></th>
+                    <th class="text-center" data-translate="Action" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host"></th>
                 </tr>
             </thead>
             <tbody class="table-body">
@@ -60,7 +60,7 @@
                         <a ng-if="kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
                              href="javascript:;" ng-click="kpiGroupCtrl.readLess(kpiGroup)" data-translate="ReadLess"></a>
                     </td>
-                    <td class="text-center col-action" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host">
+                    <td class="text-center" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
                         <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiGroupCtrl.deleteKPIGroup(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
                         <a class="glyphicon glyphicon-plus icon-add" href=""

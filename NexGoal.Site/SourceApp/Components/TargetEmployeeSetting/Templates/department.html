@@ -1,7 +1,7 @@
 ﻿<div ng-controller="TargetDepartmentSettingController as departmentCtrl">
     <form novalidate class="row form-inline filter">
         <div class="form-group">
-            <label class="control-label" data-translate="DepartmentSection">
+            <label class="control-label" data-translate="DepartmentTeam">
             </label>
             <select ng-model="departmentCtrl.filter.departmentId" ng-options="opt.DepartmentId as opt.Name for opt in departmentCtrl.treeDepartment"
                     class="form-control lstBox-limit" ng-change="departmentCtrl.updateIsGroup(departmentCtrl.filter.departmentId)">
@@ -48,7 +48,7 @@
                 </th>
                 <th data-translate="SymbolCount">
                 </th>
-                <th data-translate="DepartmentSection">
+                <th data-translate="DepartmentTeam">
                 </th>
                 <th data-translate="TargetType">
                 </th>
@@ -94,7 +94,7 @@
             <tr>
                 <td colspan="6" class="paging">
                     <span data-translate="Show"></span>
-                    <select class="dropdown-entry form-control" ng-model="departmentCtrl.pageSize"
+                    <select class="dropdown-entry" ng-model="departmentCtrl.pageSize"
                             ng-options="entry for entry in departmentCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">

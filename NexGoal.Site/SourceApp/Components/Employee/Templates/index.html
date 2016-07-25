@@ -8,10 +8,10 @@
         <form novalidate class="row form-horizontal filter">
             <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Keyword"></label>
-                <div class="col-sm-2">
+                <div class="col-sm-3">
                     <input class="form-control" type="text" ng-model="employeeCtrl.filter.query" placeholder="full name or nick name" />
                 </div>
-                <label class="col-sm-1 control-label" data-translate="Section"></label>
+                <label class="col-sm-1 control-label" data-translate="Team"></label>
                 <div class="col-sm-2">
                     <select class="form-control" ng-model="employeeCtrl.filter.groupId"
                             ng-options="opt.GroupId as opt.GroupName for opt in employeeCtrl.groupOptions">
@@ -28,7 +28,7 @@
                 </div>
             </div>
             <div class="form-group">
-                <div class="col-sm-3 col-sm-offset-1">
+                <div class="col-sm-2 col-sm-offset-1">
                     <label>
                         <input type="checkbox" ng-model="employeeCtrl.filter.isDisabledUser"> {{"IsDisabledUser" | translate}}
                     </label>

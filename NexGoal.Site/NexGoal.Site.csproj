@@ -648,7 +648,6 @@
     <Content Include="Libs\angular-filter\bower.json" />
     <Content Include="Libs\angular-filter\dist\angular-filter.zip" />
     <Content Include="Libs\angular-filter\license.md" />
-    <Content Include="Content\Site\Components\_17.evaluation-process.less" />
     <None Include="compilerconfig.json" />
     <None Include="compilerconfig.json.defaults">
       <DependentUpon>compilerconfig.json</DependentUpon>
@@ -675,8 +674,8 @@
     <Content Include="Content\Site\Components\_14.toast.less" />
     <Content Include="Content\Site\Components\_15.multiselect.less" />
     <Content Include="Content\Fonts\glyphicons-halflings-regular.woff2" />
-    <Content Include="Content\Site\Components\_18.loading-process.less" />
-    <Content Include="Content\Site\Components\_19.link.member.less" />
+    <Content Include="Content\Site\Components\_17.loading-process.less" />
+    <Content Include="Content\Site\Components\_18.link.member.less" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />

@@ -32,14 +32,14 @@
         <div class="col-sm-9 set-flow">
             <form class="row form-horizontal form-multiLine">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" data-translate="DepartmentHasSetting"></label>
+                    <label class="col-sm-4 control-label" data-translate="DepartmentHasSetting"></label>
                     <div class="col-sm-8 department-name-setting">
                         <span ng-bind="deptFlowCtrl.departmentHasSettingName"></span>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" data-translate="ApplyToDepartment"></label>
-                    <div class="col-sm-3">
+                    <label class="col-sm-4 control-label" data-translate="ApplyToDepartment"></label>
+                    <div class="col-sm-5">
                         <select class="sel-department form-control" required ng-model="deptFlowCtrl.department"
                                 ng-options="opt as opt.Name for opt in updateCtrl.treeDepartment"
                                 ng-change="deptFlowCtrl.getDepartmentFlowById()">

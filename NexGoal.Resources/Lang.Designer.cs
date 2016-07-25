@@ -169,7 +169,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Apply to Department / Section.
+        ///   Looks up a localized string similar to Apply to Department / Team.
         /// </summary>
         public static string ApplyToDepartment {
             get {
@@ -655,7 +655,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Department / Section have setting.
+        ///   Looks up a localized string similar to Department / Team have setting.
         /// </summary>
         public static string DepartmentHasSetting {
             get {

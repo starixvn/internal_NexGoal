@@ -1,7 +1,7 @@
 ﻿<div ng-controller="TargetPersonnelSettingController as personnelCtrl">
     <form novalidate class="row form-inline filter">
         <div class="form-group">
-            <label class="control-label" data-translate="Section">
+            <label class="control-label" data-translate="Team">
             </label>
             <select ng-model="personnelCtrl.filter.groupId" ng-options="opt.GroupId as opt.GroupName for opt in personnelCtrl.groupOptions"
                     class="form-control lstBox-limit">
@@ -56,7 +56,7 @@
                 </th>
                 <th data-translate="Code">
                 </th>
-                <th data-translate="Section">
+                <th data-translate="Team">
                 </th>
                 <th data-translate="NickName">
                 </th>
@@ -116,7 +116,7 @@
             <tr>
                 <td colspan="9" class="paging">
                     <span data-translate="Show"></span>
-                    <select class="dropdown-entry form-control" ng-model="personnelCtrl.pageSize"
+                    <select class="dropdown-entry" ng-model="personnelCtrl.pageSize"
                             ng-options="entry for entry in personnelCtrl.entries"></select>
                     <span data-translate="entries"></span>
                     <div class="pull-right custom-paging">

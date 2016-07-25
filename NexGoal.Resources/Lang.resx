@@ -604,7 +604,7 @@
     <value>Target Employee Setting Template</value>
   </data>
   <data name="ApplyToDepartment" xml:space="preserve">
-    <value>Apply to Department / Section</value>
+    <value>Apply to Department / Team</value>
   </data>
   <data name="SelectDepartmentBeforeAssignWarning" xml:space="preserve">
     <value>Please select at least a department to assign target template!</value>
@@ -1168,7 +1168,7 @@
     <value>EPA History</value>
   </data>
   <data name="DepartmentHasSetting" xml:space="preserve">
-    <value>Department / Section have setting</value>
+    <value>Department / Team have setting</value>
   </data>
   <data name="EPAGeneratedStatus" xml:space="preserve">
     <value>EPA Generated Status</value>
