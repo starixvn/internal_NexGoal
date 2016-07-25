@@ -13,11 +13,11 @@
         <ul class="list-group collapse in menu-{{::$index}}"
             ng-if="menu.MenuItems.length > 0">
             <li class="list-group-item sub-menu" ng-repeat="subMenu in menu.MenuItems">
-                <a href="{{::subMenu.Link}}" data-menu-tab>{{::subMenu.Text}}</a>
+                <a href="#{{::subMenu.Link}}" data-menu-tab>{{::subMenu.Text}}</a>
             </li>
         </ul>
 
-        <a href="{{::menu.Link}}" ng-if="menu.MenuItems.length === 0" data-menu-tab>
+        <a href="#{{::menu.Link}}" ng-if="menu.MenuItems.length === 0" data-menu-tab>
             <i class="fa fa-{{::menu.Name | lowercase}}"></i>{{::menu.Text}}
         </a>
     </li>

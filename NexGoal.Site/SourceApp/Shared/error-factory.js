@@ -14,6 +14,7 @@ function ($location, $window, notificationFactory, baseUrl) {
             }
             else {
                 notificationFactory.error("ErrorMessage");
+                $location.path(baseUrl + 'Home/InternalError');
             }
         }
     };
