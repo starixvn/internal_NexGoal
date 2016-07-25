@@ -1,14 +1,10 @@
-﻿namespace NexGoal.AutoGenerateEvaluation.Service.Implement
+﻿namespace NexGoal.AutoGenerateEvaluation
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using NexGoal.AutoGenerateEvaluation.Criteria;
-    using NexGoal.AutoGenerateEvaluation.Criteria.Monthly;
-    using NexGoal.AutoGenerateEvaluation.Repository;
-    using NexGoal.AutoGenerateEvaluation.Service.Interfaces;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Model.Period;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class EvaluationService : BaseService, IEvaluationService
     {
@@ -100,34 +96,6 @@
         }
 
         #endregion Promotion
-
-        #region Monthly
-
-        public IEnumerable<int> GetMonthlyPeriodStarted(GetMonthlyPeriodStartedCriteria criteria)
-        {
-            IEnumerable<int> startedPeriods = new List<int>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                startedPeriods = GetData<int>(criteria);
-            }
-
-            return startedPeriods;
-        }
-
-        public CommandResult InsertEmployeeToMonthlyPeriod(InsertEmployeeToMonthlyPeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        #endregion Monthly
 
         public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria)
         {

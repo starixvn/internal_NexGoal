@@ -43,12 +43,13 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\Fanex.Data.0.5.404.63\lib\net40\Fanex.Data.dll</HintPath>
     </Reference>
+    <Reference Include="Fanex.Logging, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Fanex.Logging.1.0.0.0\lib\net40\Fanex.Logging.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="IBCFile, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Fanex.File.1.0.0\lib\net40\IBCFile.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -56,6 +57,10 @@
     </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
       <HintPath>..\packages\EnterpriseLibrary.Data.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Logging, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\EnterpriseLibrary.Logging.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Logging.dll</HintPath>
+      <Private>True</Private>
     </Reference>
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\packages\EnterpriseLibrary.Unity.5.0.414.0\lib\net40\Microsoft.Practices.ServiceLocation.dll</HintPath>
@@ -89,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppSetting.cs" />
     <Compile Include="AutoService.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -103,8 +109,6 @@
     <Compile Include="Criteria\InsertEmployeeToProbationPeriodCriteria.cs" />
     <Compile Include="Criteria\InsertEmployeeToSemiAnnualPeriodCriteria.cs" />
     <Compile Include="Criteria\GetSemiAnnualPeriodStartedCriteria.cs" />
-    <Compile Include="Criteria\Monthly\GetMonthlyPeriodStartedCriteria.cs" />
-    <Compile Include="Criteria\Monthly\InsertEmployeeToMonthlyPeriodCriteria.cs" />
     <Compile Include="Criteria\UpdateFinalScoreEndEvaluationCriteria.cs" />
     <Compile Include="Criteria\UpdateIsEndProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfProcessCriteria.cs" />
@@ -123,8 +127,20 @@
     <Compile Include="Service\Implement\EvaluationService.cs">
       <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
     </Compile>
+    <Compile Include="Service\Implement\MailEPAService.cs" />
+    <Compile Include="Service\Implement\PeriodService.cs" />
+    <Compile Include="Service\Implement\ProcessService.cs" />
+    <Compile Include="Service\Implement\PromotionService.cs" />
+    <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
     <Compile Include="Service\Interfaces\IEvaluationService.cs" />
+    <Compile Include="Service\Implement\SemiAnnualService.cs" />
+    <Compile Include="Service\Interfaces\IPeriodService.cs" />
+    <Compile Include="Service\Interfaces\IPromotionService.cs" />
+    <Compile Include="Service\Interfaces\ISemiAnnualService.cs" />
+    <Compile Include="Service\Interfaces\IProbationService.cs" />
+    <Compile Include="Service\Interfaces\IProcessService.cs" />
+    <Compile Include="Service\Interfaces\IMailEPAService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">

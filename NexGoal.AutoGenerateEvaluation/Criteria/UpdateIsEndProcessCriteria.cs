@@ -1,4 +1,4 @@
-﻿namespace NexGoal.AutoGenerateEvaluation.Criteria
+﻿namespace NexGoal.AutoGenerateEvaluation
 {
     using System.Collections.Generic;
     using System.Text;

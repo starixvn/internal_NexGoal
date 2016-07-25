@@ -1,4 +1,4 @@
-﻿namespace NexGoal.AutoGenerateEvaluation.Repository
+﻿namespace NexGoal.AutoGenerateEvaluation
 {
     using Fanex.Data.Repository;
     using NexGoal.Model.Period;

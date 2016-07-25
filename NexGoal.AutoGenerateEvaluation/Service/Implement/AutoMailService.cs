@@ -1,15 +1,14 @@
-﻿namespace NexGoal.AutoGenerateEvaluation.Service.Implement
+﻿namespace NexGoal.AutoGenerateEvaluation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
-    using NexGoal.AutoGenerateEvaluation.Service.Interfaces;
     using NexGoal.Core.Enumerations;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
 
     public class AutoMailService : IAutoMailService
     {

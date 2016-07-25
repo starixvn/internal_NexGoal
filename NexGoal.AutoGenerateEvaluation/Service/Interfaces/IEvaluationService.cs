@@ -1,10 +1,8 @@
-﻿namespace NexGoal.AutoGenerateEvaluation.Service.Interfaces
+﻿namespace NexGoal.AutoGenerateEvaluation
 {
-    using System.Collections.Generic;
-    using NexGoal.AutoGenerateEvaluation.Criteria;
-    using NexGoal.AutoGenerateEvaluation.Criteria.Monthly;
     using NexGoal.Core.Model;
     using NexGoal.Model.Period;
+    using System.Collections.Generic;
 
     public interface IEvaluationService
     {
@@ -31,13 +29,5 @@
         CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria);
 
         CommandResult UpdateTotalScoreOfSemiHasMonthly(UpdateTotalScoreOfSemiHasMonthlyCriteria criteria);
-
-        #region Monthly
-
-        IEnumerable<int> GetMonthlyPeriodStarted(GetMonthlyPeriodStartedCriteria criteria);
-
-        CommandResult InsertEmployeeToMonthlyPeriod(InsertEmployeeToMonthlyPeriodCriteria criteria);
-
-        #endregion Monthly
     }
 }
