@@ -7,6 +7,6 @@ namespace NexGoal.AutoGenerateEvaluation
 {
     public interface IPromotionService
     {
-        void CheckPromotionPeriod();
+        void GeneratedEPA();
     }
 }

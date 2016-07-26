@@ -171,7 +171,7 @@
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
         }
-        
+
         [ApiAuthorize(FunctionKey.Evaluator, Policy.Host)]
         [HttpPut]
         public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
@@ -544,12 +544,8 @@
                     return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
 
                 default:
-                    var criteria = new GetEPAInfoByIdCriteria()
-                    {
-                        EPAId = epaId
-                    };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+                    epaInfo = _employeeEPAService.GetEPAInfoById(epaId);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -570,14 +566,14 @@
         }
 
         [HttpPut]
-        public HttpResponseMessage ResetScore(GetEPAInfoByIdCriteria criteria)
+        public HttpResponseMessage ResetScore(int epaId)
         {
             HttpResponseMessage response = null;
 
             IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(CurrentUser.EmployeeId);
             if (roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
             {
-                EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(criteria);
+                EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(epaId);
 
                 var resetScoreCriteria = new ResetScoreCriteria()
                 {
@@ -663,8 +659,7 @@
         [HttpPut]
         public HttpResponseMessage UpdateFinalScore(IList<EPAModel> selectedEPAs)
         {
-            var getStandardGradeCriteria = new GetStandardGradeCriteria();
-            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade(getStandardGradeCriteria);
+            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
 
             foreach (EPAModel epaInfo in selectedEPAs)
             {

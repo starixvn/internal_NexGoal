@@ -6,28 +6,12 @@
 
     public interface IEvaluationService
     {
-        IEnumerable<int> CheckStartSemiAnnual(GetSemiAnnualPeriodStartedCriteria criteria);
+        AutoEmployeePeriodModel GetEmployeeProbationEvaluation();
 
-        CommandResult InsertEmployeeToSemiAnnualPeriod(InsertEmployeeToSemiAnnualPeriodCriteria criteria);
+        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess();
 
-        AutoEmployeePeriodModel GetEmployeeProbationEvaluation(GetEmployeeProbationEvaluationCriteria criteria);
-
-        CommandResult InsertEmployeeToProbationPeriod(InsertEmployeeToProbationPeriodCriteria criteria);
-
-        IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess(GetPeriodHasReminderProcessCriteria criteria);
-
-        IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation(GetEmployeePromotionEvaluationCriteria criteria);
-
-        IEnumerable<AutoEmployeePeriodModel> CheckEndProcess(CheckEndProcessCriteria criteria);
-
-        CommandResult UpdateEndProcess(UpdateIsEndProcessCriteria criteria);
+        IEnumerable<AutoEmployeePeriodModel> GetEmployeePromotionEvaluation();
 
         CommandResult UpdateFinalScoreEndEvaluation(UpdateFinalScoreEndEvaluationCriteria criteria);
-
-        int CheckLastestProcessOfPeriod(CheckLastestProcessOfPeriodCriteria criteria);
-
-        CommandResult UpdateTotalScoreOfProcess(UpdateTotalScoreOfProcessCriteria criteria);
-
-        CommandResult UpdateTotalScoreOfSemiHasMonthly(UpdateTotalScoreOfSemiHasMonthlyCriteria criteria);
     }
 }

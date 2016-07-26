@@ -46,10 +46,10 @@
             return periods;
         }
 
-        public PeriodModel GetPeriodById(GetPeriodByIdCriteria criteria)
+        public PeriodModel GetPeriodById(int periodId)
         {
-            PeriodModel period = new PeriodModel();
-
+            var period = new PeriodModel();
+            var criteria = new GetPeriodByIdCriteria { PeriodId = periodId };
             if (criteria != null && criteria.IsValid())
             {
                 period = _periodRepository.GetPeriodById(criteria);
@@ -377,7 +377,7 @@
 
         private void GetAndSendEmailToAllRelatedEmployee(MailMode mailMode, int periodId, string employeeIds, int? processId)
         {
-            PeriodModel period = GetPeriodInformation(periodId);
+            PeriodModel period = GetPeriodById(periodId);
             IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
 
             switch (mailMode)
@@ -390,19 +390,6 @@
                     _manualMailService.SendNotifyMail(period, employeeSettings);
                     break;
             }
-        }
-
-        private PeriodModel GetPeriodInformation(int periodId)
-        {
-            var period = new PeriodModel();
-
-            var criteria = new GetPeriodByIdCriteria
-            {
-                PeriodId = periodId
-            };
-            period = GetPeriodById(criteria);
-
-            return period;
         }
 
         private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)

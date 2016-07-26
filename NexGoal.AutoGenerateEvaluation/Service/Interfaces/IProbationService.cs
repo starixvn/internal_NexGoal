@@ -7,6 +7,6 @@ namespace NexGoal.AutoGenerateEvaluation
 {
     public interface IProbationService
     {
-        void CheckProbationPeriod();
+        void GeneratedEPA();
     }
 }

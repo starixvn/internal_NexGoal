@@ -10,7 +10,25 @@
         private const string EndRootTag = "</ROOT>";
 
         [SpParam(SqlParamName = "EPAScores")]
-        public string EvaluationScores { get; set; }
+        public string EvaluationScores
+        {
+            get
+            {
+                return ConvertToXml(EvalutionId, FinalScore, DisciplineScore, Grade);
+            }
+        }
+
+        [SpParam(Ignored = true)]
+        public int EvalutionId { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string FinalScore { get; set; }
+
+        [SpParam(Ignored = true)]
+        public float DisciplineScore { get; set; }
+
+        [SpParam(Ignored = true)]
+        public string Grade { get; set; }
 
         public override bool IsValid()
         {

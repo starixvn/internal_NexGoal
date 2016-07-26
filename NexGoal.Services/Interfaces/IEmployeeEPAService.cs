@@ -70,7 +70,7 @@
 
         IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria);
 
-        EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria);
+        EPAModel GetEPAInfoById(int epaId);
 
         CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
 
@@ -80,7 +80,7 @@
 
         IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerOrManagementCriteria criteria);
 
-        IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria);
+        IEnumerable<StandardGradeModel> GetStandardGrade();
 
         IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria);
 

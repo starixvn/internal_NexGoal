@@ -7,6 +7,6 @@ namespace NexGoal.AutoGenerateEvaluation
 {
     public interface ISemiAnnualService
     {
-        void CheckSemiAnnualPeriod();
+        void GeneratedEPA();
     }
 }

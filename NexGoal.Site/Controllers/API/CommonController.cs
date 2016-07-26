@@ -213,9 +213,7 @@
         [HttpGet]
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
-            var criteria = new GetStandardGradeCriteria();
-
-            return commonService.GetStandardGrade(criteria);
+            return commonService.GetStandardGrade();
         }
 
         [HttpGet]

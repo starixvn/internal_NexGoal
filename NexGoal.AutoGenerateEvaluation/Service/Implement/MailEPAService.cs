@@ -1,4 +1,5 @@
 ﻿using NexGoal.Core.Enumerations;
+using NexGoal.Core.Services;
 using NexGoal.Criteria.Period;
 using NexGoal.Criteria.Period.GenerationEvaluation;
 using NexGoal.Model.Period;
@@ -8,23 +9,20 @@ using System.Collections.Generic;
 
 namespace NexGoal.AutoGenerateEvaluation
 {
-    public class MailEPAService : IMailEPAService
+    public class MailEPAService : BaseService, IMailEPAService
     {
-        private readonly IEvaluationService evaluationService;
         private readonly IPeriodService periodService;
         private readonly IAutoMailService autoMailService;
 
         public MailEPAService()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public MailEPAService(
-            IEvaluationService evaluationService,
             IPeriodService periodService,
             IAutoMailService autoMailService)
         {
-            this.evaluationService = evaluationService ?? new EvaluationService();
             this.periodService = periodService ?? new PeriodService();
             this.autoMailService = autoMailService ?? new AutoMailService();
         }
@@ -42,8 +40,7 @@ namespace NexGoal.AutoGenerateEvaluation
 
         public void CheckSendReminderEmail()
         {
-            var criteria = new GetPeriodHasReminderProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> reminderProcess = evaluationService.GetPeriodHasReminderProcess(criteria);
+            IEnumerable<AutoEmployeePeriodModel> reminderProcess = GetPeriodHasReminderProcess();
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
@@ -60,13 +57,25 @@ namespace NexGoal.AutoGenerateEvaluation
             }
         }
 
+        private IEnumerable<AutoEmployeePeriodModel> GetPeriodHasReminderProcess()
+        {
+            IEnumerable<AutoEmployeePeriodModel> reminderPeriods = new List<AutoEmployeePeriodModel>();
+            var criteria = new GetPeriodHasReminderProcessCriteria();
+            if (criteria != null && criteria.IsValid())
+            {
+                reminderPeriods = GetData<AutoEmployeePeriodModel>(criteria);
+            }
+
+            return reminderPeriods;
+        }
+
         private void GetAndSendEmailToAllRelatedEmployee(
             int periodId,
             string employeeIds,
             int? processId,
             int mailMode)
         {
-            PeriodModel period = GetPeriodInformation(periodId);
+            PeriodModel period = periodService.GetPeriodById(periodId);
             IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
 
             switch (mailMode)
@@ -83,19 +92,6 @@ namespace NexGoal.AutoGenerateEvaluation
                     autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
                     break;
             }
-        }
-
-        private PeriodModel GetPeriodInformation(int periodId)
-        {
-            var period = new PeriodModel();
-
-            var criteria = new GetPeriodByIdCriteria
-            {
-                PeriodId = periodId
-            };
-            period = periodService.GetPeriodById(criteria);
-
-            return period;
         }
 
         private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)

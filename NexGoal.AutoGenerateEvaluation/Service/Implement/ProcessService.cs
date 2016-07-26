@@ -12,87 +12,90 @@ using System.Linq;
 
 namespace NexGoal.AutoGenerateEvaluation
 {
-    public class ProcessService : IProcessService
+    public class ProcessService : BaseService, IProcessService
     {
-         private readonly IEvaluationService evaluationService;
-        private readonly IPeriodService periodService;
         private readonly IAutoMailService autoMailService;
         private readonly IEmployeeEPAService employeeEPAService;
 
         public ProcessService()
-            : this(null, null, null, null)
+            : this(null, null)
         {
         }
 
         public ProcessService(
-            IEvaluationService evaluationService,
-            IPeriodService periodService,
             IAutoMailService autoMailService,
             IEmployeeEPAService employeeEPAService)
         {
-            this.evaluationService = evaluationService ?? new EvaluationService();
-            this.periodService = periodService ?? new PeriodService();
             this.autoMailService = autoMailService ?? new AutoMailService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
-        public void CheckEndProcess()
+        public void UpdateInformationAtEndProccess()
         {
-            var checkEndProcessCriteria = new CheckEndProcessCriteria();
-            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = evaluationService.CheckEndProcess(checkEndProcessCriteria);
+            IEnumerable<AutoEmployeePeriodModel> proccess = GetProcessNeedToClose();
+            CloseProcess(proccess);
+            var processNeedToCaculateScore = proccess.Where(evaluationProcess => evaluationProcess.ProcessId >= (int)ProcessType.Reviewer);
+            CaculatorScore(processNeedToCaculateScore);
+        }
 
-            if (evaluationProcesses != null && evaluationProcesses.Any())
+        private void CaculatorScore(IEnumerable<AutoEmployeePeriodModel> process)
+        {
+            foreach (AutoEmployeePeriodModel evaluationProcess in process)
             {
-                var updateEndProcessCriteria = new UpdateIsEndProcessCriteria()
+                if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
                 {
-                    EvaluationProcesses = evaluationProcesses
-                };
+                    EPAModel evaluationInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
+                    float averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
 
-                CommandResult updateIsEndProcess = evaluationService.UpdateEndProcess(updateEndProcessCriteria);
-
-                IList<AutoEmployeePeriodModel> semiEvaluationProcesses = evaluationProcesses
-                    .Where(evaluationProcess => evaluationProcess.ProcessId == (int)ProcessType.Evaluator
-                        && evaluationProcess.TargetTypeId == (int)TargetType.SemiAnnual
-                        && evaluationProcess.HasMonthlyEPA).ToList();
-
-                foreach (AutoEmployeePeriodModel evaluationProcess in semiEvaluationProcesses)
-                {
-                    var getEPAInfoCriteria = new GetEPAInfoByIdCriteria
-                    {
-                        EPAId = evaluationProcess.EPAId
-                    };
-                    EPAModel epaInfo = employeeEPAService.GetEPAInfoById(getEPAInfoCriteria);
-
-                    var updateTotalScoreOfSemiHasMonthlyCriteria = new UpdateTotalScoreOfSemiHasMonthlyCriteria
-                    {
-                        EPAId = evaluationProcess.EPAId,
-                        MonthlyEPA = epaInfo.MonthlyEPA
-                    };
-                    CommandResult commandResult = evaluationService.UpdateTotalScoreOfSemiHasMonthly(updateTotalScoreOfSemiHasMonthlyCriteria);
-                }
-
-                foreach (AutoEmployeePeriodModel evaluationProcess in evaluationProcesses.Where(evaluationProcess => evaluationProcess.ProcessId >= (int)ProcessType.Reviewer))
-                {
-                    if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
-                    {
-                        var getEvaluationInfoCriteria = new GetEPAInfoByIdCriteria
-                        {
-                            EPAId = evaluationProcess.EPAId
-                        };
-                        EPAModel evaluationInfo = employeeEPAService.GetEPAInfoById(getEvaluationInfoCriteria);
-                        float averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
-
-                        var updateTotalScoreCriteria = new UpdateTotalScoreOfProcessCriteria
-                        {
-                            EPAId = evaluationProcess.EPAId,
-                            ProcessId = evaluationProcess.ProcessId,
-                            AverageScore = EncodeService.Encode(averageScore.ToString())
-                        };
-                        CommandResult commandResult = evaluationService.UpdateTotalScoreOfProcess(updateTotalScoreCriteria);
-                    }
+                    UpdateTotalScoreOfProcess(evaluationProcess, averageScore);
                 }
             }
+        }
+
+        private CommandResult UpdateTotalScoreOfProcess(AutoEmployeePeriodModel process, float score)
+        {
+            var commandResult = new CommandResult();
+            var criteria = new UpdateTotalScoreOfProcessCriteria
+            {
+                EPAId = process.EPAId,
+                ProcessId = process.ProcessId,
+                AverageScore = EncodeService.Encode(score.ToString())
+            };
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        private CommandResult CloseProcess(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        {
+            var comandResult = new CommandResult();
+            var criteria = new UpdateIsEndProcessCriteria()
+            {
+                EvaluationProcesses = evaluationProcesses
+            };
+
+            if (criteria != null && criteria.IsValid())
+            {
+                comandResult = Repository.Update(criteria);
+            }
+
+            return comandResult;
+        }
+
+        private IEnumerable<AutoEmployeePeriodModel> GetProcessNeedToClose()
+        {
+            var criteria = new CheckEndProcessCriteria();
+            IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = new List<AutoEmployeePeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                evaluationProcesses = GetData<AutoEmployeePeriodModel>(criteria);
+            }
+
+            return evaluationProcesses;
         }
 
         private float GetAverageScorePreProcess(EPAModel evaluationInfo, int processId)

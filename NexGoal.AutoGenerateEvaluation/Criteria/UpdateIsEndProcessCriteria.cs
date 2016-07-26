@@ -1,9 +1,10 @@
 ﻿namespace NexGoal.AutoGenerateEvaluation
 {
-    using System.Collections.Generic;
-    using System.Text;
     using Fanex.Data.Repository;
     using NexGoal.Model.Period;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
 
     public class UpdateIsEndProcessCriteria : CriteriaBase
     {
@@ -24,7 +25,7 @@
 
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(EPAProcess);
+            return EvaluationProcesses.Any();
         }
 
         public override string GetSettingKey()

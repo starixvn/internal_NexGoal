@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{11846569-7D7F-43FE-959B-359878D494E7}</ProjectGuid>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>NexGoal.AutoGenerateEvaluation</RootNamespace>
     <AssemblyName>NexGoal.AutoGenerateEvaluation</AssemblyName>
@@ -34,6 +34,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Fanex.Common">
@@ -74,6 +77,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Management" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,12 +87,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSetting.cs" />
-    <Compile Include="AutoService.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="AutoService.Designer.cs">
-      <DependentUpon>AutoService.cs</DependentUpon>
-    </Compile>
     <Compile Include="Criteria\CheckEndProcessCriteria.cs" />
     <Compile Include="Criteria\CheckLastestProcessOfPeriodCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeProbationEvaluationCriteria.cs" />
@@ -102,26 +100,18 @@
     <Compile Include="Criteria\UpdateTotalScoreOfProcessCriteria.cs" />
     <Compile Include="Criteria\UpdateTotalScoreOfSemiHasMonthlyCriteria.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="ProjectInstaller.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ProjectInstaller.Designer.cs">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repository\EvaluationRepository.cs" />
     <Compile Include="Repository\IEvaluationRepository.cs" />
     <Compile Include="Service\Implement\AutoMailService.cs" />
-    <Compile Include="Service\Implement\EvaluationService.cs">
-      <ExcludeFromStyleCop>True</ExcludeFromStyleCop>
-    </Compile>
+    <Compile Include="Service\Implement\EPAService.cs" />
     <Compile Include="Service\Implement\MailEPAService.cs" />
     <Compile Include="Service\Implement\PeriodService.cs" />
     <Compile Include="Service\Implement\ProcessService.cs" />
     <Compile Include="Service\Implement\PromotionService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
-    <Compile Include="Service\Interfaces\IEvaluationService.cs" />
+    <Compile Include="Service\Interfaces\IEPAService.cs" />
     <Compile Include="Service\Implement\SemiAnnualService.cs" />
     <Compile Include="Service\Interfaces\IPeriodService.cs" />
     <Compile Include="Service\Interfaces\IPromotionService.cs" />
@@ -198,11 +188,6 @@
     <Content Include="SpNames.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="ProjectInstaller.resx">
-      <DependentUpon>ProjectInstaller.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">

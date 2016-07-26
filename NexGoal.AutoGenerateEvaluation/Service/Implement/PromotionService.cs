@@ -1,104 +1,91 @@
-﻿using NexGoal.Core.Model;
-using NexGoal.Criteria.Period;
+﻿using NexGoal.Core.Services;
 using NexGoal.Criteria.Period.GenerationEvaluation;
 using NexGoal.Model.Period;
 using NexGoal.Services.Implement;
 using NexGoal.Services.Interfaces;
-using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace NexGoal.AutoGenerateEvaluation
 {
-    public class PromotionService : IPromotionService
+    public class PromotionService : BaseService, IPromotionService
     {
-        private readonly IEvaluationService evaluationService;
         private readonly IPeriodService periodService;
         private readonly IAutoMailService autoMailService;
-        private readonly IEmployeeEPAService employeeEPAService;
 
         public PromotionService()
-            : this(null, null, null, null)
+            : this(null, null)
         {
         }
 
         public PromotionService(
-            IEvaluationService evaluationService,
             IPeriodService periodService,
-            IAutoMailService autoMailService,
-            IEmployeeEPAService employeeEPAService)
+            IAutoMailService autoMailService)
         {
-            this.evaluationService = evaluationService ?? new EvaluationService();
             this.periodService = periodService ?? new PeriodService();
             this.autoMailService = autoMailService ?? new AutoMailService();
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
-        public void CheckPromotionPeriod()
+        public void GeneratedEPA()
         {
-            var criteria = new GetEmployeePromotionEvaluationCriteria();
-            IEnumerable<AutoEmployeePeriodModel> employeePeriods = evaluationService.GetEmployeePromotionEvaluation(criteria);
-
-            if (employeePeriods != null && employeePeriods.Any())
-            {
-                GenerateEPAPromotion(employeePeriods);
-            }
-        }
-
-        private void GenerateEPAPromotion(IEnumerable<AutoEmployeePeriodModel> employeePeriods)
-        {
+            IEnumerable<AutoEmployeePeriodModel> employeePeriods = GetEmployeeToGenerateEPA();
             foreach (AutoEmployeePeriodModel period in employeePeriods)
             {
-                var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
-                {
-                    PeriodId = period.PeriodId,
-                    EmployeeIds = period.EmployeeIds
-                };
-                CommandResult generateEvaluationResult = periodService.GenerateEvaluation(generateEvaluationCriteria);
-
-                if (AppSetting.SendMailAllWhenPeriodStarted)
-                {
-                    Task.Factory.StartNew(() =>
-                    {
-                        GetAndSendEmailToAllRelatedEmployee(period.PeriodId, period.EmployeeIds, null);
-                    });
-                }
+                GenerateEPAPromotion(period);
+                SendEmailToAllRelatedEmployee(period.PeriodId, period.EmployeeIds);
             }
         }
 
-        private void GetAndSendEmailToAllRelatedEmployee(int periodId, string employeeIds, int? processId)
+        private IEnumerable<AutoEmployeePeriodModel> GetEmployeeToGenerateEPA()
         {
-            PeriodModel period = GetPeriodInformation(periodId);
-            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds, processId);
-
-            autoMailService.SendStartMail(period, employeeSettings);
-        }
-
-        private PeriodModel GetPeriodInformation(int periodId)
-        {
-            var period = new PeriodModel();
-
-            var criteria = new GetPeriodByIdCriteria
+            IEnumerable<AutoEmployeePeriodModel> employeePeriods = new List<AutoEmployeePeriodModel>();
+            var criteria = new GetEmployeePromotionEvaluationCriteria();
+            if (criteria != null && criteria.IsValid())
             {
-                PeriodId = periodId
-            };
-            period = periodService.GetPeriodById(criteria);
+                employeePeriods = GetData<AutoEmployeePeriodModel>(criteria);
+                employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel
+                {
+                    PeriodId = x.Key,
+                    EmployeeIds = string.Join(",", x.Select(i => i.EmployeeId.ToString()))
+                });
+            }
 
-            return period;
+            return employeePeriods;
         }
 
-        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
+        private void GenerateEPAPromotion(AutoEmployeePeriodModel period)
+        {
+            var criteria = new AutoGenerateEvaluationCriteria
+            {
+                PeriodId = period.PeriodId,
+                EmployeeIds = period.EmployeeIds
+            };
+            periodService.GenerateEvaluation(criteria);
+        }
+
+        private void SendEmailToAllRelatedEmployee(int periodId, string employeeIds)
+        {
+            if (AppSetting.SendMailAllWhenPeriodStarted)
+            {
+                Task.Factory.StartNew(() =>
+                {
+                    PeriodModel period = periodService.GetPeriodById(periodId);
+                    IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, employeeIds);
+
+                    autoMailService.SendStartMail(period, employeeSettings);
+                });
+            }
+        }
+
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds)
         {
             IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
 
             var getEmployeeSettingCriteria = new GetEmployeeSettingByPeriodIdCriteria
             {
                 PeriodId = periodId,
-                EmployeeIds = employeeIds,
-                ProcessId = processId
+                EmployeeIds = employeeIds
             };
             employeeSettings = periodService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
 

@@ -372,10 +372,10 @@
 
         #endregion Rating By KPI
 
-        public EPAModel GetEPAInfoById(GetEPAInfoByIdCriteria criteria)
+        public EPAModel GetEPAInfoById(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-
+            var criteria = new GetEPAInfoByIdCriteria { EPAId = epaId };
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
@@ -451,10 +451,10 @@
             return groups;
         }
 
-        public IEnumerable<StandardGradeModel> GetStandardGrade(GetStandardGradeCriteria criteria)
+        public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
             IEnumerable<StandardGradeModel> standardGrades = new List<StandardGradeModel>();
-
+            var criteria = new GetStandardGradeCriteria();
             if (criteria != null && criteria.IsValid())
             {
                 standardGrades = GetData<StandardGradeModel>(criteria);

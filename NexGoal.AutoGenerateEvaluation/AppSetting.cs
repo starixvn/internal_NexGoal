@@ -14,14 +14,6 @@ namespace NexGoal.AutoGenerateEvaluation
             }
         }
 
-        public static int TimerInterval
-        {
-            get
-            {
-                return Convert.ToInt32(ConfigurationManager.AppSettings["TimerInterval"]);
-            }
-        }
-
         public static bool SendMailAllWhenPeriodStarted
         {
             get

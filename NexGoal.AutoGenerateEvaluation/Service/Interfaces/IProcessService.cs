@@ -7,6 +7,6 @@ namespace NexGoal.AutoGenerateEvaluation
 {
     public interface IProcessService
     {
-        void CheckEndProcess();
+        void UpdateInformationAtEndProccess();
     }
 }
