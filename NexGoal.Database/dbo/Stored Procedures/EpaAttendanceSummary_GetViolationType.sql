@@ -1,10 +1,12 @@
-﻿CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetViolationType] @IncludeOtherViolate BIT
+﻿/****** Object:  Stored Procedure dbo.EpaAttendanceSummary_GetViolationType    Script Date: 7/21/2016 2:45:47 PM ******/
+
+CREATE PROCEDURE [dbo].[EpaAttendanceSummary_GetViolationType] @IncludeOtherViolate BIT
 	,@IsActive BIT = NULL
 AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Get violation type.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 4/6/2016 11:27:45 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 7/21/2016 2:45:51 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaMonthlyPeriod_Get] @FromDate DATE
 	,@ToDate DATE
@@ -9,7 +6,7 @@ AS
 /*
 Created: 20160215@Tim.Trinh
 Task: Get monthly period.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -80,18 +77,11 @@ BEGIN
 		GROUP BY PeriodId
 		) AS peF ON peF.PeriodId = pe.PeriodId
 		LEFT JOIN (
-		SELECT epa1.PeriodId
-			,COUNT(epa1.EmployeeId) AS TotalEmployeesUnfinished
-		FROM dbo.EPA AS epa1 WITH (NOLOCK)
-			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
-		WHERE epa1.[Status] = 0
-			AND NOT EXISTS (
-				SELECT 1
-				FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
-				WHERE epa1.PeriodId = peExcluded.PeriodId
-					AND epa1.EmployeeId = peExcluded.EmployeeId
-				)
-		GROUP BY epa1.PeriodId
+		SELECT PeriodId
+			,COUNT(EmployeeId) AS TotalEmployeesUnfinished
+		FROM dbo.EPA WITH (NOLOCK)
+		WHERE [Status] = 0
+		GROUP BY PeriodId
 		) AS epa ON epa.PeriodId = pe.PeriodId
 	WHERE pe.TargetTypeId = 2 -- Monhtly
 		AND CAST(pe.StartDate AS DATE) BETWEEN @FromDate

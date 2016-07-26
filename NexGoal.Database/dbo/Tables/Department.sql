@@ -12,6 +12,9 @@
     [ModifiedDate]    DATETIME       NULL,
     [lft]             INT            NULL,
     [rgt]             INT            NULL,
-    [SyncDate]        DATETIME       NULL
+    [SyncDate]        DATETIME       NULL,
+    CONSTRAINT [PK_Department] PRIMARY KEY CLUSTERED ([DepartmentId] ASC)
 );
+
+
 

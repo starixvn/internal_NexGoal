@@ -15,6 +15,9 @@
     [Status]        TINYINT        NULL,
     [EvaluateDate]  DATETIME       NULL,
     [ModifiedBy]    INT            NULL,
-    [ModifiedDate]  DATETIME       NULL
+    [ModifiedDate]  DATETIME       NULL,
+    CONSTRAINT [PK_EPAProcess] PRIMARY KEY CLUSTERED ([EPAId] ASC, [ProcessId] ASC, [EvaluatorId] ASC)
 );
+
+
 

@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[TargetType] (
-    [TargetTypeId]     TINYINT        NOT NULL,
+    [TargetTypeId]     TINYINT        IDENTITY (1, 1) NOT NULL,
     [Name]             NVARCHAR (200) NOT NULL,
     [IsActive]         BIT            NOT NULL,
     [DisplayOrder]     TINYINT        NULL,
@@ -10,6 +10,9 @@
     [CreatedDate]      DATETIME       NULL,
     [ModifiedBy]       INT            NULL,
     [ModifiedDate]     DATETIME       NULL,
-    [AllowMultiple]    BIT            NULL
+    [AllowMultiple]    BIT            NULL,
+    CONSTRAINT [PK_TargetType] PRIMARY KEY CLUSTERED ([TargetTypeId] ASC)
 );
+
+
 

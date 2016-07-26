@@ -1,4 +1,8 @@
-﻿/****** Object:  Stored Procedure dbo.Epa_GetEPAHistory    Script Date: 4/6/2016 11:27:40 AM ******/
+﻿/****** Object:  Stored Procedure dbo.Epa_GetMonthlyEPAHistory    Script Date: 7/21/2016 2:45:45 PM ******/
+
+
+/****** Object:  Stored Procedure dbo.Epa_GetEPAHistory    Script Date: 4/6/2016 11:27:40 AM ******/
+
 CREATE PROCEDURE [dbo].[Epa_GetMonthlyEPAHistory] @PeriodId INT = NULL
 	,@EvaluatorId INT
 	,@EmployeeId INT = NULL
@@ -6,7 +10,7 @@ AS
 /*
 Created: 20160606@Razor.Nguyen
 Task: Get Monthly EPA history.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -22,7 +26,7 @@ BEGIN
 					SELECT 1
 					FROM [dbo].[EmployeeRole] AS empR
 					WHERE [empR].[EmployeeId] = @EvaluatorId
-						AND RoleId IN (8) --Section Admin
+						AND RoleId IN (1)
 					) THEN 1
 			ELSE 0
 			END
@@ -63,11 +67,42 @@ BEGIN
 					AND @PeriodId > 0
 					)
 				)
-			AND pe.TargetTypeId = 2 -- monthly
 			AND epa.[Status] = 1 -- Closed
-			--AND CAST(pe.[EndDate] AS DATE) <= CAST(GETDATE() AS DATE)
+			AND CAST(pe.[EndDate] AS DATE) <= CAST(GETDATE() AS DATE)
 			AND (
 				@Is_HR_SA = 1 -- SA, HR can view all member of period
+				OR EXISTS (
+					SELECT 1
+					FROM [dbo].[EmployeeRole] AS empR WITH (NOLOCK)
+						INNER JOIN [dbo].[Employee] AS empT ON empR.[EmployeeId] = empT.[EmployeeId]
+					WHERE [empR].[EmployeeId] = @EvaluatorId
+						AND RoleId IN (3) -- MGT
+						AND (
+							EXISTS (
+								SELECT 1
+								FROM [dbo].[EPAProcess] AS epaP WITH (NOLOCK)
+								WHERE EXISTS (
+										SELECT 1
+										FROM [dbo].[EPAProcess] AS epa1 WITH (NOLOCK)
+										WHERE epa1.[EPAId] = epaP.[EPAId]
+											AND epa1.[ProcessId] = 1
+											AND epa1.[StartDate] = (
+												SELECT MAX(epaPT.[StartDate])
+												FROM [dbo].[EPAProcess] AS epaPT WITH (NOLOCK)
+													INNER JOIN [dbo].[EPA] AS epaT WITH (NOLOCK) ON epaPT.[EPAId] = epaT.[EPAId]
+													INNER JOIN [dbo].[Period] AS peT WITH (NOLOCK) ON epaT.[PeriodId] = peT.[PeriodId]
+												WHERE epaPT.[EPAId] = epa1.[EPAId]
+													AND epaT.[EmployeeId] = epa.[EmployeeId]
+													AND peT.[TargetTypeId] = pe.[TargetTypeId]
+													AND epaPT.[ProcessId] = 1
+												GROUP BY epaT.[EmployeeId]
+												)
+										)
+									AND epaP.[EvaluatorId] = empR.[EmployeeId]
+									AND epaP.[ProcessId] = 5 -- MGT								
+								)
+							)
+					)
 				OR EXISTS (
 					SELECT 1
 					FROM [dbo].[EmployeeRole] AS empR WITH (NOLOCK)

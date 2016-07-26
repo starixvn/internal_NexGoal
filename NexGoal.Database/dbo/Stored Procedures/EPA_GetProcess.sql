@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetProcess    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetProcess    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetProcess    Script Date: 5/16/2016 1:59:44 PM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_GetProcess    Script Date: 7/21/2016 2:45:45 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_GetProcess] @EPAIds IntId READONLY
 AS
@@ -62,6 +60,7 @@ BEGIN
 					ELSE 0 END
 					) END
 			) AS Evaluated
+		,tbl.NumKPINonEvaluated
 		,emp.EmployeeId AS EvaluatorId
 		,emp.Code
 		,emp.NickName

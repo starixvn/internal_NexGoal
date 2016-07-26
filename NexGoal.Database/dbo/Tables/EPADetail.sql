@@ -7,7 +7,6 @@
     [TargetTemplateId]     INT            NULL,
     [Score]                NVARCHAR (100) NULL,
     [Rate]                 NVARCHAR (100) NULL,
-    [IsMaxScore]           BIT            NULL,
     [HasComment]           BIT            NULL,
     [IsRequiredComment]    BIT            NULL,
     [Comment]              NVARCHAR (MAX) NULL,
@@ -20,6 +19,10 @@
     [KPIGroupWeight]       FLOAT (53)     NULL,
     [KPIWeight]            FLOAT (53)     NULL,
     [ModifiedBy]           INT            NULL,
-    [ModifiedDate]         DATETIME       NULL
+    [ModifiedDate]         DATETIME       NULL,
+    [IsMaxScore]           BIT            NULL,
+    CONSTRAINT [PK_EPADetail] PRIMARY KEY CLUSTERED ([EPAId] ASC, [ProcessId] ASC, [EvaluatorId] ASC, [KPIId] ASC, [KPIGroupId] ASC)
 );
+
+
 

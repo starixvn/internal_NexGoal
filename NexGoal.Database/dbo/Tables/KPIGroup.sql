@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[KPIGroup] (
-    [KPIGroupId]   INT            NOT NULL,
+    [KPIGroupId]   INT            IDENTITY (1, 1) NOT NULL,
     [Name]         NVARCHAR (500) NOT NULL,
     [IsActive]     BIT            NULL,
     [Description]  NVARCHAR (MAX) NULL,
@@ -8,6 +8,9 @@
     [CreatedDate]  DATETIME       NULL,
     [ModifiedBy]   INT            NULL,
     [ModifiedDate] DATETIME       NULL,
-    [DisplayOrder] INT            NULL
+    [DisplayOrder] INT            NULL,
+    CONSTRAINT [PK_KPIGroup] PRIMARY KEY CLUSTERED ([KPIGroupId] ASC)
 );
+
+
 

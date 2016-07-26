@@ -1,7 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee_CheckEmployeeOverlap    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee_CheckEmployeeOverlap    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee_CheckEmployeeOverlap    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee_CheckEmployeeOverlap    Script Date: 4/6/2016 11:27:45 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee_CheckEmployeeOverlap    Script Date: 7/21/2016 2:45:52 PM ******/
+
 CREATE PROCEDURE [dbo].[EpaPeriod_AddEmployee_CheckEmployeeOverlap] @PeriodId INT
 	,@TargetTypeId INT
 	,@EmployeeIds IntId READONLY
@@ -9,7 +7,7 @@ AS
 /*
 Created: 20160304@Tim.Trinh
 Task: Check overlap date between semi and monthly.
-DB: NexGoal
+DB: SMSEPA
 Original:
 
 Revisions:  
@@ -27,14 +25,8 @@ BEGIN
 
 	CREATE TABLE #PeriodFlowSetting (
 		ProcessId INT
-		,StartDate DATE
-		,EndDate DATE
-		)
-
-	CREATE TABLE #SemiPeriodSetting (
-		PeriodId INT
-		,[Month] INT
-		,[Year] INT
+		,StartDate DATETIME
+		,EndDate DATETIME
 		)
 
 	IF ISNULL(@StartDate, '') <> ''
@@ -77,23 +69,8 @@ BEGIN
 
 	IF @TargetTypeId = 2 -- monthly
 	BEGIN
-		INSERT INTO #SemiPeriodSetting
-		SELECT period.PeriodId
-			,semiSD.[Month]
-			,(CASE 
-				WHEN semiSD.IsLastYear = 1 THEN YEAR(period.StartDate) - 1
-				ELSE YEAR(period.StartDate) END
-				) AS [Year]
-		FROM dbo.Period AS period WITH (NOLOCK)
-			INNER JOIN dbo.SemiPeriodSetting AS semiS WITH (NOLOCK) ON CAST(period.StartDate AS DATE) BETWEEN CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.FromDate AS DATE)
-				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.ToDate AS DATE)
-			INNER JOIN dbo.SemiPeriodSettingDetail AS semiSD WITH (NOLOCK) ON semiS.SemiPeriodSettingId = semiSD.SemiPeriodSettingId
-			AND semiSD.IsActive = 1
-		WHERE period.TargetTypeId = 3 -- semi
-
 		SELECT @OverlapEmployeeIds = COALESCE(@OverlapEmployeeIds + ',', '') + CAST(empId.Id AS NVARCHAR)
 		FROM dbo.Period AS period WITH (NOLOCK)
-			INNER JOIN #SemiPeriodSetting AS setting ON period.PeriodId = setting.PeriodId
 			INNER JOIN dbo.PeriodFlowSetting AS semiFS WITH (NOLOCK) ON period.PeriodId = semiFS.PeriodId
 			AND semiFS.ProcessId = 4 -- reviewer
 			INNER JOIN @EmployeeIds AS empId ON semiFS.EmployeeId = empId.Id
@@ -114,27 +91,9 @@ BEGIN
 						AND empFS.ProcessId = 4 -- reviewer
 					)
 				OR CAST(semiFS.StartDate AS DATE) <= (
-					SELECT TOP 1 pFS.EndDate
+					SELECT TOP 1 CAST(pFS.EndDate AS DATE)
 					FROM #PeriodFlowSetting AS pFS
 					WHERE pFS.ProcessId = 4 -- reviewer
-					)
-				)
-			AND (
-				EXISTS (
-					SELECT 1
-					FROM dbo.PeriodFlowSetting AS flow WITH (NOLOCK)
-					WHERE flow.PeriodId = @PeriodId
-						AND flow.EmployeeId = empId.Id
-						AND flow.ProcessId = 4 -- reviewer
-						AND MONTH(flow.EndDate) = setting.[Month]
-						AND YEAR(flow.EndDate) = setting.[Year]
-					)
-				OR EXISTS (
-					SELECT 1
-					FROM #PeriodFlowSetting AS flow
-					WHERE flow.ProcessId = 4 -- reviewer
-						AND MONTH(flow.EndDate) = setting.[Month]
-						AND YEAR(flow.EndDate) = setting.[Year]
 					)
 				)
 			AND (
@@ -144,21 +103,6 @@ BEGIN
 	END
 	ELSE IF @TargetTypeId = 3 -- semi
 	BEGIN
-		INSERT INTO #SemiPeriodSetting
-		SELECT period.PeriodId
-			,semiSD.[Month]
-			,(CASE 
-				WHEN semiSD.IsLastYear = 1 THEN YEAR(period.StartDate) - 1
-				ELSE YEAR(period.StartDate) END
-				) AS [Year]
-		FROM dbo.Period AS period WITH (NOLOCK)
-			INNER JOIN dbo.SemiPeriodSetting AS semiS WITH (NOLOCK) ON CAST(period.StartDate AS DATE) BETWEEN CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.FromDate AS DATE)
-				AND CAST(CAST(YEAR(period.StartDate) AS VARCHAR) + '-' + semiS.ToDate AS DATE)
-			INNER JOIN dbo.SemiPeriodSettingDetail AS semiSD WITH (NOLOCK) ON semiS.SemiPeriodSettingId = semiSD.SemiPeriodSettingId
-			AND semiSD.IsActive = 1
-		WHERE period.TargetTypeId = 3 -- semi
-			AND period.PeriodId = @PeriodId
-
 		SELECT @OverlapEmployeeIds = COALESCE(@OverlapEmployeeIds + ',', '') + CAST(empId.Id AS NVARCHAR)
 		FROM dbo.Period AS period WITH (NOLOCK)
 			INNER JOIN dbo.PeriodFlowSetting AS monthlyFS WITH (NOLOCK) ON period.PeriodId = monthlyFS.PeriodId
@@ -173,7 +117,7 @@ BEGIN
 		WHERE period.TargetTypeId = 2 -- monthly
 			AND period.PeriodId <> @PeriodId
 			AND (
-				CAST(monthlyFS.EndDate AS DATE) >= (
+				CAST(monthlyFS.EndDate AS DATE) <= (
 					SELECT TOP 1 CAST(empFS.StartDate AS DATE)
 					FROM dbo.PeriodFlowSetting AS empFS WITH (NOLOCK)
 					WHERE empFS.PeriodId = @PeriodId
@@ -184,14 +128,6 @@ BEGIN
 					SELECT TOP 1 CAST(pFS.StartDate AS DATE)
 					FROM #PeriodFlowSetting AS pFS
 					WHERE pFS.ProcessId = 4 -- reviewer
-					)
-				)
-			AND (
-				EXISTS (
-					SELECT 1
-					FROM #SemiPeriodSetting AS setting
-					WHERE MONTH(monthlyFS.EndDate) = setting.[Month]
-						AND YEAR(monthlyFS.EndDate) = setting.[Year]
 					)
 				)
 			AND (
@@ -207,6 +143,4 @@ BEGIN
 	END
 
 	DROP TABLE #PeriodFlowSetting
-
-	DROP TABLE #SemiPeriodSetting
 END

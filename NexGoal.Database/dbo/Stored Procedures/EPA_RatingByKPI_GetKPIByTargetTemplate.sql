@@ -1,11 +1,15 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIByTargetTemplate] @EvaluatorId INT
+﻿/****** Object:  Stored Procedure dbo.EPA_RatingByKPI_GetKPIByTargetTemplate    Script Date: 7/21/2016 2:45:45 PM ******/
+
+
+
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIByTargetTemplate] @EvaluatorId INT
 	,@PeriodId INT
 	,@TargetTemplateId INT
 AS
 /*
 Created: 20150909@Tim.Trinh
 Task: Get KPI by Target Template.
-DB: NexGoal
+DB: SMSEPA
 Original: 
  
 Param's Explanation:
@@ -26,13 +30,6 @@ BEGIN
 		TargetTemplateId INT
 		,KPIGroupId INT
 		,NumberKPIOptional INT
-		)
-
-	CREATE TABLE #EPADetail (
-		TargetTemplateId INT
-		,KPIGroupId INT
-		,KPI INT
-		,NumberEmpNotEvaluated INT
 		)
 
 	SET @ToDay = CAST(GETDATE() AS DATE)
@@ -81,29 +78,6 @@ BEGIN
 	GROUP BY epa.EPAId
 		,dt.TargetTemplateId
 		,dt.KPIGroupId
-		
-	INSERT INTO #EPADetail
-	SELECT DISTINCT dt.TargetTemplateId
-		,dt.KPIGroupId
-		,dt.KPIId
-		,COUNT(KPIId)
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
-		AND dt.ProcessId = 3 -- evaluator phase
-		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		AND pc.ProcessId = 3 -- evaluator phase
-		AND CAST(pc.StartDate AS DATE) <= @ToDay
-		AND CAST(pc.EndDate AS DATE) >= @ToDay
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
-	WHERE pc.EvaluatorId = @EvaluatorId
-		AND dt.EvaluatorId = @EvaluatorId
-		AND period.PeriodId = @PeriodId
-		AND dt.TargetTemplateId = @TargetTemplateId
-		AND ISNULL(dt.Score, '') = ''
-		AND epa.HasMonthlyEPA = 0
-	GROUP BY dt.TargetTemplateId
-		,dt.KPIGroupId
-		,dt.KPIId
 
 	SELECT DISTINCT dt.KPIId
 		,khis.[Name]
@@ -114,8 +88,8 @@ BEGIN
 		,dt.KPIWeight AS [Weight]
 		,dt.KPIDisplayOrder AS DisplayOrder
 		,(CASE 
-			WHEN dt1.NumberEmpNotEvaluated > 0 THEN 0
-			ELSE 1 END
+			WHEN ISNULL(dt.Score, '') <> '' THEN 1
+			ELSE 0 END
 			) AS Evaluated
 		,dt.KPIGroupId
 		,kghis.[Name]
@@ -145,9 +119,6 @@ BEGIN
 		AND dt.KPIGroupId = tbl.KPIGroupId
 		LEFT JOIN #TblKPIGroup AS tbl1 ON dt.TargetTemplateId = tbl1.TargetTemplateId
 		AND dt.KPIGroupId = tbl1.KPIGroupId
-		LEFT JOIN #EPADetail AS dt1 ON dt.TargetTemplateId = dt1.TargetTemplateId
-		AND dt.KPIGroupId = dt1.KPIGroupId
-		AND dt.KPIId = dt1.KPI
 	WHERE dt.EvaluatorId = @EvaluatorId
 		AND pc.EvaluatorId = @EvaluatorId
 		AND period.PeriodId = @PeriodId
@@ -159,6 +130,4 @@ BEGIN
 	DROP TABLE #KPIGroup
 
 	DROP TABLE #TblKPIGroup
-
-	DROP TABLE #EPADetail
 END;

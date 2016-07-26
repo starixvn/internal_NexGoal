@@ -9,6 +9,9 @@
     [HasSendMail]    BIT      NULL,
     [RemindDay]      INT      NULL,
     [ModifiedBy]     INT      NULL,
-    [ModifiedDate]   DATETIME NULL
+    [ModifiedDate]   DATETIME NULL,
+    CONSTRAINT [PK_SettingDepartmentFlow_1] PRIMARY KEY CLUSTERED ([DepartmentId] ASC, [ProcessId] ASC, [EvaluatorId] ASC, [IsGroup] ASC, [FlowTemplateId] ASC)
 );
+
+
 

@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[ScoreRatingType] (
-    [ScoreRatingTypeId] INT            NOT NULL,
+    [ScoreRatingTypeId] INT            IDENTITY (1, 1) NOT NULL,
     [Name]              VARCHAR (100)  NOT NULL,
     [IsActive]          BIT            NOT NULL,
     [Description]       NVARCHAR (MAX) NULL,
@@ -11,6 +11,9 @@
     [CreatedBy]         INT            NULL,
     [CreatedDate]       DATETIME       NULL,
     [ModifiedBy]        INT            NULL,
-    [ModifiedDate]      DATETIME       NULL
+    [ModifiedDate]      DATETIME       NULL,
+    CONSTRAINT [PK_ScoreRatingType] PRIMARY KEY CLUSTERED ([ScoreRatingTypeId] ASC)
 );
+
+
 

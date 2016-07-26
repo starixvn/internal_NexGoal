@@ -8,6 +8,9 @@
     [IsRequiredComment]  BIT            NULL,
     [IsRequiredEvaluate] BIT            NULL,
     [ModifiedBy]         INT            NULL,
-    [ModifiedDate]       DATETIME       NULL
+    [ModifiedDate]       DATETIME       NULL,
+    CONSTRAINT [PK_KPIHistory] PRIMARY KEY CLUSTERED ([KPIId] ASC, [LogNo] ASC)
 );
+
+
 

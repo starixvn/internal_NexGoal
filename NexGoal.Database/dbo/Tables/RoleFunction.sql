@@ -4,6 +4,9 @@
     [IsRead]       BIT      NOT NULL,
     [IsHost]       BIT      NOT NULL,
     [ModifiedBy]   INT      NULL,
-    [ModifiedDate] DATETIME NULL
+    [ModifiedDate] DATETIME NULL,
+    CONSTRAINT [PK_RoleFunction] PRIMARY KEY CLUSTERED ([RoleId] ASC, [FunctionId] ASC)
 );
+
+
 

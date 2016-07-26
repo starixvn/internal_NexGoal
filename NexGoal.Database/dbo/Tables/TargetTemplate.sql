@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[TargetTemplate] (
-    [TargetTemplateId]  INT            NOT NULL,
+    [TargetTemplateId]  INT            IDENTITY (1, 1) NOT NULL,
     [Name]              NVARCHAR (200) NOT NULL,
     [ScoreRatingTypeId] INT            NOT NULL,
     [Description]       NVARCHAR (MAX) NULL,
@@ -9,6 +9,9 @@
     [CreatedDate]       DATETIME       NULL,
     [ModifiedBy]        INT            NULL,
     [ModifiedDate]      DATETIME       NULL,
-    [RatingTypeId]      INT            NULL
+    [RatingTypeId]      INT            NULL,
+    CONSTRAINT [PK_TargetTemplate] PRIMARY KEY CLUSTERED ([TargetTemplateId] ASC)
 );
+
+
 

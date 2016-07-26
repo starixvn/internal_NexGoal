@@ -7,6 +7,9 @@
     [AddedBy]          INT        NULL,
     [AddedDate]        DATETIME   NULL,
     [ModifiedBy]       INT        NULL,
-    [ModifiedDate]     DATETIME   NULL
+    [ModifiedDate]     DATETIME   NULL,
+    CONSTRAINT [PK_TargetTemplateKPIGroup] PRIMARY KEY CLUSTERED ([TargetTemplateId] ASC, [KPIGroupId] ASC)
 );
+
+
 

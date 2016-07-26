@@ -1,5 +1,5 @@
 ﻿CREATE TABLE [dbo].[Period] (
-    [PeriodId]            INT            NOT NULL,
+    [PeriodId]            INT            IDENTITY (1, 1) NOT NULL,
     [Name]                NVARCHAR (200) NOT NULL,
     [TargetTypeId]        INT            NOT NULL,
     [StartDate]           DATETIME       NULL,
@@ -11,6 +11,9 @@
     [CreatedBy]           INT            NULL,
     [CreatedDate]         DATETIME       NULL,
     [ModifiedBy]          INT            NULL,
-    [ModifiedDate]        DATETIME       NULL
+    [ModifiedDate]        DATETIME       NULL,
+    CONSTRAINT [PK_EvaluationPeriod] PRIMARY KEY CLUSTERED ([PeriodId] ASC)
 );
+
+
 

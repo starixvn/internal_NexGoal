@@ -5,6 +5,9 @@
     [IsActive]     BIT            NULL,
     [Description]  NVARCHAR (MAX) NULL,
     [ModifiedBy]   INT            NULL,
-    [ModifiedDate] DATETIME       NULL
+    [ModifiedDate] DATETIME       NULL,
+    CONSTRAINT [PK_KPIGroupHistory] PRIMARY KEY CLUSTERED ([KPIGroupId] ASC, [LogNo] ASC)
 );
+
+
 

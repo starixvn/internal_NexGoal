@@ -1,15 +1,13 @@
-﻿/****** Object:  Stored Procedure dbo.GetFlowAndTargetTemplateSetting    Script Date: 5/16/2016 2:20:12 PM ******/
-/****** Object:  Stored Procedure dbo.GetFlowAndTargetTemplateSetting    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.GetFlowAndTargetTemplateSetting    Script Date: 5/16/2016 1:59:44 PM ******/
+﻿/****** Object:  Stored Procedure dbo.GetFlowAndTargetTemplateSetting    Script Date: 7/21/2016 2:45:56 PM ******/
 
 CREATE PROCEDURE [dbo].[GetFlowAndTargetTemplateSetting] @TargetTypeId INT
 AS
 /*
 Created: 20160225@Tim.Trinh
 Task: get flow, target template setting.
-DB: NexGoal
+DB: SMSEPA
 Original: 
-cc
+
 Revisions:  
 Param's Explanation:
 
@@ -65,7 +63,7 @@ BEGIN
 			WHERE dFS.IsGroup = 0
 			) AS deptFS ON h.DepartmentId = deptFS.DepartmentId
 			LEFT JOIN (
-			SELECT DISTINCT dTS.DepartmentId
+			SELECT DISTINCT dTs.DepartmentId
 				,dTS.TargetTemplateId
 			FROM dbo.TargetTemplateDepartment AS dTS WITH (NOLOCK)
 				INNER JOIN dbo.TargetTemplate AS tt WITH (NOLOCK) ON dTS.TargetTemplateId = tt.TargetTemplateId

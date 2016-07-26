@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[Report_EPASummary] @EmployeeId INT
+﻿/****** Object:  Stored Procedure dbo.Report_EPASummary    Script Date: 7/21/2016 2:45:57 PM ******/
+
+CREATE PROCEDURE [dbo].[Report_EPASummary] @EmployeeId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
@@ -11,7 +13,7 @@ AS
 /*
 Created: 20150924@Tim.Trinh
 Task: EPA Summary Report.
-DB: NexGoal
+DB: SMSEPA
 Original: @SortDirection = 'asc'/'desc'
 
 Revisions:  
@@ -337,8 +339,11 @@ BEGIN
 				ELSE 0 END
 				) AS HasDisciplineScore
 			,(CASE 
-				WHEN ds.ApproverSubtractScore IS NULL THEN 0
-				ELSE ds.ApproverSubtractScore END
+				WHEN epa.[Status] = 1 THEN epa.DisciplineScore
+				ELSE (CASE 
+						WHEN ds.ApproverSubtractScore IS NULL THEN 0
+						ELSE ds.ApproverSubtractScore END
+						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
 			,(CASE 

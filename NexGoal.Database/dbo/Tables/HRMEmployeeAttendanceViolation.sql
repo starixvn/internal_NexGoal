@@ -35,6 +35,9 @@
     [SyncDate]                    DATETIME        NULL,
     [IsDeleted]                   BIT             NULL,
     [InOutMissEmployeeComment]    NVARCHAR (500)  NULL,
-    [InOutMissApproverComment]    NVARCHAR (500)  NULL
+    [InOutMissApproverComment]    NVARCHAR (500)  NULL,
+    CONSTRAINT [PK_EmployeeAttendanceViolation] PRIMARY KEY CLUSTERED ([WorkDate] ASC, [EmpId] ASC)
 );
+
+
 

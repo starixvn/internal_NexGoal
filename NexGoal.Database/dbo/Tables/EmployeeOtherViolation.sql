@@ -7,6 +7,9 @@
     [CreatedBy]    INT            NULL,
     [CreatedDate]  DATETIME       NULL,
     [ModifiedBy]   INT            NULL,
-    [ModifiedDate] DATETIME       NULL
+    [ModifiedDate] DATETIME       NULL,
+    CONSTRAINT [PK_EmployeeOtherViolation] PRIMARY KEY CLUSTERED ([WorkDate] ASC, [EmpId] ASC, [Name] ASC)
 );
+
+
 

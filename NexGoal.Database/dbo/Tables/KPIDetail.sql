@@ -1,5 +1,8 @@
 ﻿CREATE TABLE [dbo].[KPIDetail] (
     [KPIGroupId] INT NOT NULL,
-    [KPIId]      INT NOT NULL
+    [KPIId]      INT NOT NULL,
+    CONSTRAINT [PK_KPIDetail] PRIMARY KEY CLUSTERED ([KPIGroupId] ASC, [KPIId] ASC)
 );
+
+
 

@@ -1,10 +1,12 @@
-﻿CREATE PROCEDURE [dbo].[EpaPeriod_Get] @TargetTypeId INT = NULL
+﻿/****** Object:  Stored Procedure dbo.EpaPeriod_Get    Script Date: 7/21/2016 2:45:53 PM ******/
+
+CREATE PROCEDURE [dbo].[EpaPeriod_Get] @TargetTypeId INT = NULL
 	,@IsActive BIT = 1
 AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Get all evaluation period.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -28,9 +30,6 @@ BEGIN
 		,peFS.EmployeeId
 	FROM dbo.Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.PeriodFlowSetting AS peFS WITH (NOLOCK) ON period.PeriodId = peFS.PeriodId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON peFS.EmployeeId = emp.EmployeeId
-		AND emp.IsDeleted = 0
-		AND emp.[Enabled] = 1
 	WHERE NOT EXISTS (
 			SELECT 1
 			FROM dbo.PeriodExcludedEmployee AS peExcluded WITH (NOLOCK)
@@ -52,9 +51,6 @@ BEGIN
 		,peTS.EmployeeId
 	FROM dbo.Period AS period WITH (NOLOCK)
 		INNER JOIN dbo.PeriodTargetSetting AS peTS WITH (NOLOCK) ON period.PeriodId = peTS.PeriodId
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON peTS.EmployeeId = emp.EmployeeId
-		AND emp.IsDeleted = 0
-		AND emp.[Enabled] = 1
 	WHERE NOT EXISTS (
 			SELECT 1
 			FROM dbo.PeriodFlowSetting AS peFS WITH (NOLOCK)
@@ -88,7 +84,7 @@ BEGIN
 		,peF.TotalEmployees
 		,epa.TotalEmployeesUnfinished
 		,tar.TargetTypeId
-		,tar.[Name]
+		,tar.NAME
 	FROM dbo.Period AS pe WITH (NOLOCK)
 		INNER JOIN dbo.TargetType AS tar WITH (NOLOCK) ON pe.TargetTypeId = tar.TargetTypeId
 		LEFT JOIN (
@@ -99,11 +95,8 @@ BEGIN
 		) AS peF ON peF.PeriodId = pe.PeriodId
 		LEFT JOIN (
 		SELECT PeriodId
-			,COUNT(epa.EmployeeId) AS TotalEmployeesUnfinished
-		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
-			AND emp.IsDeleted = 0
-			AND emp.[Enabled] = 1
+			,COUNT(EmployeeId) AS TotalEmployeesUnfinished
+		FROM dbo.EPA WITH (NOLOCK)
 		WHERE [Status] = 0
 		GROUP BY PeriodId
 		) AS epa ON pe.PeriodId = epa.PeriodId

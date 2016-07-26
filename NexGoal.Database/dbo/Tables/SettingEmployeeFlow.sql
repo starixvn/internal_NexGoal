@@ -8,6 +8,9 @@
     [HasSendMail]    BIT      NULL,
     [RemindDay]      INT      NULL,
     [ModifiedBy]     INT      NULL,
-    [ModifiedDate]   DATETIME NULL
+    [ModifiedDate]   DATETIME NULL,
+    CONSTRAINT [PK_SettingEmployeeFlow_1] PRIMARY KEY CLUSTERED ([EmployeeId] ASC, [ProcessId] ASC, [EvaluatorId] ASC, [FlowTemplateId] ASC)
 );
+
+
 

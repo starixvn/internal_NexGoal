@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.LogDetail_Insert    Script Date: 5/16/2016 2:20:12 PM ******/
-/****** Object:  Stored Procedure dbo.LogDetail_Insert    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.LogDetail_Insert    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.LogDetail_Insert    Script Date: 4/6/2016 11:27:47 AM ******/
+﻿/****** Object:  Stored Procedure dbo.LogDetail_Insert    Script Date: 7/21/2016 2:45:57 PM ******/
 
 CREATE PROCEDURE [dbo].[LogDetail_Insert] @ActorId INT
 	,@SpName VARCHAR(50) = NULL
@@ -23,7 +20,7 @@ Revisions:
 BEGIN
 	SET NOCOUNT ON;
 
-	INSERT INTO dbo.LogDetail (
+	INSERT INTO [dbo].[LogDetail] (
 		[ActorId]
 		,[SpName]
 		,[LogDate]

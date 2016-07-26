@@ -1,4 +1,6 @@
-﻿CREATE PROCEDURE [dbo].[Report_MonthlyEPASummary] @EmployeeId INT
+﻿/****** Object:  Stored Procedure dbo.Report_MonthlyEPASummary    Script Date: 7/21/2016 2:45:58 PM ******/
+
+CREATE PROCEDURE [dbo].[Report_MonthlyEPASummary] @EmployeeId INT
 	,@PeriodIds NVARCHAR(MAX) = NULL
 	,@DepartmentId INT = NULL
 	,@IsLocal BIT = NULL
@@ -11,7 +13,7 @@ AS
 /*
 Created: 20160523@Razor.Nguyen
 Task: Monthly EPA Summary Report.
-DB: NexGoal
+DB: SMSEPA
 Original: @SortDirection = 'asc'/'desc'
 
 Revisions:  
@@ -254,8 +256,8 @@ BEGIN
 
 	SELECT period.PeriodId
 		,period.[Name]
-	FROM #PeriodTemp AS temp
-	INNER JOIN dbo.Period AS period WITH (NOLOCK) ON temp.PeriodId = period.PeriodId
+	FROM #PeriodTemp AS TEMP
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON TEMP.PeriodId = period.PeriodId
 	ORDER BY period.StartDate DESC
 
 	SELECT emp.EmployeeId
@@ -302,8 +304,11 @@ BEGIN
 				ELSE 0 END
 				) AS HasDisciplineScore
 			,(CASE 
-				WHEN ds.ApproverSubtractScore IS NULL THEN 0
-				ELSE ds.ApproverSubtractScore END
+				WHEN epa.[Status] = 1 THEN epa.DisciplineScore
+				ELSE (CASE 
+						WHEN ds.ApproverSubtractScore IS NULL THEN 0
+						ELSE ds.ApproverSubtractScore END
+						) END
 				) AS DisciplineScore
 			,srt.Attendance AS MaxDisciplineScore
 			,(CASE 

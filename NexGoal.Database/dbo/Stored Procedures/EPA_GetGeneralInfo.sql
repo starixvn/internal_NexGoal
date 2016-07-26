@@ -1,12 +1,11 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 5/16/2016 1:59:44 PM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 7/21/2016 2:45:43 PM ******/
+
 CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
 Task: Get empoyee info by list epas.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -94,9 +93,8 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
-		,emp.JoinedDate
 		,dept.DepartmentId
-		,dept.[Name] AS DepartmentName
+		,dept.[Name]
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName

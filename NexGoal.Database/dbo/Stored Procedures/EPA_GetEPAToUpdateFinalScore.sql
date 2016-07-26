@@ -1,11 +1,13 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
+﻿/****** Object:  Stored Procedure dbo.EPA_GetEPAToUpdateFinalScore    Script Date: 7/21/2016 2:45:43 PM ******/
+
+CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@EmployeeId INT = NULL
 AS
 /*
 Created: 20160329@Tim.Trinh
 Task: Get EPA to update final score.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -26,7 +28,7 @@ BEGIN
 		,DisciplineScore FLOAT
 		)
 
-     SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @ToDay = CAST(GETDATE() AS DATE)
 	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
 
 	SELECT @TargetTypeId = TargetTypeId
@@ -141,8 +143,7 @@ BEGIN
 		,(CASE 
 			WHEN epa.[Status] = 1 THEN epa.DisciplineScore
 			ELSE (CASE 
-					WHEN ds.DisciplineScore IS NULL
-						OR ds.DisciplineScore < 0 THEN 0
+					WHEN ds.DisciplineScore IS NULL THEN 0
 					ELSE ds.DisciplineScore END
 					) END
 			) AS DisciplineScore

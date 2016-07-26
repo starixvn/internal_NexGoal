@@ -1,6 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetByReviewer    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetByReviewer    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetByReviewer    Script Date: 5/16/2016 1:59:44 PM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_GetByReviewer    Script Date: 7/21/2016 2:45:43 PM ******/
+
 CREATE PROCEDURE [dbo].[EPA_GetByReviewer] @ReviewerId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 	,@GroupId INT = NULL
@@ -10,7 +9,7 @@ AS
 /*
 Created: 20150824@Tim.Trinh
 Task: Get EPA by Reviewer.
-DB: NexGoal
+DB: SMSEPA
 Original:
 
 Revisions:  
@@ -46,8 +45,7 @@ BEGIN
 		AND pcRev.EvaluatorId = @ReviewerId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-	WHERE epa.[Status] = 0 -- inprogress
-		AND (
+	WHERE (
 			@EmployeeIds IS NULL
 			OR epa.EmployeeId IN (
 				SELECT Id
