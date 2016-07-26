@@ -10,7 +10,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.employees = [];
     employeeModel.groups = [];
     employeeModel.jobTitles = [];
-    employeeModel.defaultPassword = null;
     employeeModel.permission = 0;
 
     employeeModel.getAllEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
@@ -32,121 +31,12 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         });
     };
 
-    employeeModel.openPopupCreateNewEmployee = function (vm) {
-        vm.modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/Employee/Templates/create.html',
-            controller: "CreateEmployeeController as employeeCtrl",
-            backdrop: 'static',
-            windowClass: "modal-confirm-center"
-        });
-
-        return vm.modalInstance.result;
-    };
-
-    employeeModel.createEmployee = function (employee, modalInstance) {
-        return employeeFactory.createSpecialEmployee(employee).success(function (response) {
-            if (response.IsSuccessful) {
-                notificationFactory.success("CreatedSuccessfully");
-                modalInstance.close();
-            }
-            else {
-                notificationFactory.error("", response.Message);
-            }
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
     employeeModel.getAllJobTitle = function () {
         return employeeFactory.getAllJobTitle().success(function (jobTitles) {
             employeeModel.jobTitles = jobTitles;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    };
-
-    employeeModel.validateEmployee = function (employee, mode) {
-        if (!employee) {
-            return false;
-        }
-        else {
-            if (!employee.NickName) {
-                notificationFactory.error("NickNameRequried");
-                return false;
-            }
-            else if (!employee.FullName) {
-                notificationFactory.error("FullNameRequried");
-                return false;
-            }
-            else if (!employee.Username) {
-                notificationFactory.error("UsernameRequried");
-                return false;
-            }
-            else if (employee.Username.indexOf(' ') !== -1) {
-                notificationFactory.error("UsernameNotSpaceWarning");
-                return false;
-            }
-            else if (mode === 'create' && !employee.Password) {
-                notificationFactory.error("PasswordRequried");
-                return false;
-            }
-            else if (mode === 'create' && (employee.Password.length < 6 || employee.Password.length > 32)) {
-                notificationFactory.error("PasswordLengthWarning");
-                return false;
-            }
-            else if (!employee.GroupId) {
-                notificationFactory.error("SectionRequired");
-                return false;
-            }
-            else if (employee.Email && !emailPattern.test(employee.Email)) {
-                notificationFactory.error("EmailWrongPatternWarning");
-                return false;
-            }
-        }
-
-        return true;
-    };
-
-    employeeModel.openPopupUpdateEmployee = function (vm, employee) {
-        vm.modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/Employee/Templates/edit.html',
-            controller: "UpdateEmployeeController as employeeCtrl",
-            resolve: {
-                employee: function () {
-                    return employee;
-                }
-            },
-            backdrop: 'static',
-            windowClass: "modal-confirm-center"
-        });
-
-        return vm.modalInstance.result;
-    };
-
-    employeeModel.updateEmployee = function (updatedEmployee, modalInstance) {
-        return employeeFactory.updateSpecialEmployee(updatedEmployee).success(function (response) {
-            if (response.IsSuccessful) {
-                notificationFactory.success("UpdatedSuccessfully");
-                modalInstance.close(updatedEmployee);
-            }
-            else {
-                notificationFactory.error("", response.Message);
-            }
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    var findEmployeeGroupById = function (groupId) {
-        var groupResult = {};
-
-        angular.forEach(employeeModel.groups, function (group) {
-            if (group.GroupId === groupId) {
-                groupResult = group;
-            }
-        });
-
-        return groupResult;
     };
 
     var findEmployeeJobTitleById = function (jobTitleId) {
@@ -159,67 +49,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         });
 
         return jobTitleResult;
-    };
-
-    employeeModel.updateChangedEmployee = function (employee, updatedEmployee) {
-        employee.Code = updatedEmployee.Code;
-        employee.NickName = updatedEmployee.NickName;
-        employee.FullName = updatedEmployee.FullName;
-        employee.Username = updatedEmployee.Username;
-        employee.Enabled = updatedEmployee.Enabled;
-        employee.Group = findEmployeeGroupById(updatedEmployee.GroupId);
-        employee.JobTitle = findEmployeeJobTitleById(updatedEmployee.JobTitleId);
-    };
-
-    employeeModel.openPopupChangePassword = function (vm) {
-        vm.modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/Employee/Templates/changePassword.html',
-            controller: "ChangePasswordEmployeeController as changePasswordEmployeeCtrl",
-            backdrop: 'static',
-            windowClass: "modal-confirm-center"
-        });
-
-        return vm.modalInstance.result;
-    };
-
-    employeeModel.validatePassword = function (password) {
-        if (!password) {
-            return false;
-        }
-        else {
-            if (!password.oldPassword) {
-                notificationFactory.error("OldPasswordRequired");
-                return false;
-            }
-            else if (!password.newPassword) {
-                notificationFactory.error("NewPasswordRequired");
-                return false;
-            }
-            else if (!password.confirmPassword) {
-                notificationFactory.error("ConfirmPasswordRequired");
-                return false;
-            }
-            else if (password.newPassword !== password.confirmPassword) {
-                notificationFactory.error("WrongConfirmPassword");
-                return false;
-            }
-        }
-
-        return true;
-    };
-
-    employeeModel.changePassword = function (password, modalInstance) {
-        return employeeFactory.changePassword(password).success(function (response) {
-            if (response.IsSuccessful) {
-                notificationFactory.success("UpdatedSuccessfully");
-                modalInstance.close();
-            }
-            else {
-                notificationFactory.error("", response.Message);
-            }
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
     };
 
     employeeModel.openPopupAssignRole = function (employee) {
@@ -276,46 +105,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         });
 
         return roles;
-    };
-
-    employeeModel.getDefaultPassword = function () {
-        return employeeFactory.getDefaultPassword().success(function (password) {
-            employeeModel.defaultPassword = password;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    employeeModel.openPopupResetPassword = function (employee, defaultPassword) {
-        var modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/Employee/Templates/resetPassword.html',
-            controller: "ResetPasswordController as resetPasswordCtrl",
-            backdrop: 'static',
-            resolve: {
-                employee: function () {
-                    return angular.copy(employee);
-                },
-                defaultPassword: function () {
-                    return defaultPassword;
-                }
-            },
-            windowClass: "modal-confirm-center"
-        });
-
-        modalInstance.result.then(function () {
-            employeeFactory.resetPassword(employee.EmployeeId).success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
-                }
-                else {
-                    notificationFactory.error("", response.Message);
-                }
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        })['finally'](function () {
-            modalInstance = '';
-        });
     };
 
     employeeModel.openPopupUpdateHasMonthlyEPA = function (vm, employee) {

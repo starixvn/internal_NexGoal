@@ -461,7 +461,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     };
 
     periodModel.getPeriodEmployeeSettingById = function (
-    periodId, 
+    periodId,
     departmentId,
     isLocal,
     isExcludedEmployee,

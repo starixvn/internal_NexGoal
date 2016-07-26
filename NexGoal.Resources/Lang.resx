@@ -1057,7 +1057,7 @@
     <value>Is EPA Generated</value>
   </data>
   <data name="SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning" xml:space="preserve">
-    <value>Please select at least a department/section/employee to add to this evaluation period!</value>
+    <value>Please select at least a department/team/employee to add to this evaluation period!</value>
   </data>
   <data name="SelfEvaluationScore" xml:space="preserve">
     <value>Self-Evaluation Score</value>

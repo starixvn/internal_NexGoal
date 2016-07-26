@@ -5,13 +5,18 @@ appModule.factory("errorFactory",
 ['$location', '$window', 'notificationFactory', 'baseUrl', 
 function ($location, $window, notificationFactory, baseUrl) {
     return {
-        errorHandle: function (status) {
+        errorHandle: function (status, internalPageRedirect) {
             if (status === 405) {
                 $location.path(baseUrl + 'Home/AccessDenied');
+            } if (status === 404) {
+                $location.path(baseUrl + 'Home/PageNotFound');
             }
             else {
                 notificationFactory.error("ErrorMessage");
-                $location.path(baseUrl + 'Home/InternalError');
+
+                if (internalPageRedirect) {
+                    $location.path(baseUrl + 'Home/InternalError');
+                }
             }
         }
     };

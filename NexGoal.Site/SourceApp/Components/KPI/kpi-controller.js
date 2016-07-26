@@ -2,8 +2,8 @@
 /*global kpiModule*/
 
 kpiModule.controller('KPIController',
-['$window', '$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory','historyFactory',
-function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory) {
+['$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory','historyFactory', "lockScreenService",
+function ($routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, lockScreenService) {
     var vm = this;
 
     vm.kpis = KPIModel.kpis;

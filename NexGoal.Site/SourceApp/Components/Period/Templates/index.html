@@ -56,15 +56,15 @@
                 <td class="text-center" ng-bind="period.StartDate | date: periodCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="period.EndDate | date: periodCtrl.dateFormat"></td>
                 <td class="text-center">
-                    <a ng-if="period.TotalEmployees > 0" 
-                       href="{{periodCtrl.viewEmployeeSettingUrl}}" 
+                    <a ng-if="period.TotalEmployees > 0"
+                       href="javascript:;"
                        ng-click="periodCtrl.viewEmployeeSetting(period, false)">{{period.TotalEmployees}}</a>
 
                     <span ng-if="period.TotalEmployees === 0">{{period.TotalEmployees}}</span>
                 </td>
                 <td class="text-center">
                     <a ng-if="period.TotalEmployeesUnfinished > 0"
-                       href="{{periodCtrl.viewEmployeeSettingUrl}}" 
+                       href="javascript:;"
                        ng-click="periodCtrl.viewEmployeeSetting(period, true)">{{period.TotalEmployeesUnfinished}}</a>
 
                     <span ng-if="period.TotalEmployeesUnfinished === 0">{{period.TotalEmployeesUnfinished}}</span>
@@ -74,8 +74,7 @@
                 </td>
                 <td class="text-center">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="periodCtrl.update(period.PeriodId)"
-                           href="{{periodCtrl.updatePeriodUrl}}"></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="periodCtrl.update(period.PeriodId)" href="javascript:;"></a>
                         <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="periodCtrl.delete(period)"
                            ng-show="periodCtrl.permission == periodCtrl.policyEnum.Host"></a>
                     </div>

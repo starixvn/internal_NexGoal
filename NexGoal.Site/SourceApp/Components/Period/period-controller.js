@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('PeriodController',
-['PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
-function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, lockScreenService, baseUrl) {
+["$location", 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function ($location, PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.periods = PeriodModel.periods;
@@ -68,7 +68,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
     };
 
     vm.update = function (periodId) {
-        vm.updatePeriodUrl = "#" + baseUrl + 'Period/Update/' + periodId;
+        $location.path(baseUrl + 'Period/Update/' + periodId);
     };
 
     vm.confirmActive = function (period) {
@@ -84,7 +84,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
     });
 
     vm.viewEmployeeSetting = function (period, inprogress) {
-        vm.viewEmployeeSettingUrl = baseUrl + 'Period/Update/' + period.PeriodId + '?viewSetting&inprogress=' + inprogress;
+        $location.path(baseUrl + 'Period/Update/' + period.PeriodId).search({ viewSetting: true, inprogress: inprogress });
     };
 }]);
 
@@ -156,8 +156,8 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
 }]);
 
 periodModule.controller('UpdatePeriodController',
-['$window', '$routeParams', 'PeriodModel', 'enumerationsFactory', 'historyFactory',
-function ($window, $routeParams, PeriodModel, enumerationsFactory, historyFactory) {
+['$routeParams', 'PeriodModel', 'enumerationsFactory', 'historyFactory', "lockScreenService",
+function ($routeParams, PeriodModel, enumerationsFactory, historyFactory, lockScreenService) {
     var vm = this;
 
     vm.policyEnum = enumerationsFactory.policy;
@@ -202,14 +202,22 @@ function ($window, $routeParams, PeriodModel, enumerationsFactory, historyFactor
         historyFactory.back();
     };
 
-    PeriodModel.getPermissionOnPeriod().then(function () {
-        vm.permission = PeriodModel.permission;
-    });
+    function initialize() {
+        lockScreenService.start();
+
+        PeriodModel.getPermissionOnPeriod().then(function () {
+            vm.permission = PeriodModel.permission;
+        })["finally"](function () {
+            lockScreenService.stop();
+        });
+    }
+
+    initialize();
 }]);
 
 periodModule.controller('UpdateBasicInformationPeriodController',
-['$scope', '$window', 'PeriodModel', 'CommonModel', 'enumerationsFactory', 'historyFactory',
-function ($scope, $window, PeriodModel, CommonModel, enumerationsFactory, historyFactory) {
+['$scope', 'PeriodModel', 'CommonModel', 'enumerationsFactory', 'historyFactory', "lockScreenService",
+function ($scope, PeriodModel, CommonModel, enumerationsFactory, historyFactory, lockScreenService) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -237,9 +245,13 @@ function ($scope, $window, PeriodModel, CommonModel, enumerationsFactory, histor
     };
 
     var getTargetType = function () {
+        lockScreenService.start();
+
         CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
             vm.targetTypes = CommonModel.targetTypes;
             vm.isFirstLoad = false;
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 
@@ -273,7 +285,11 @@ function ($scope, $window, PeriodModel, CommonModel, enumerationsFactory, histor
             period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
             period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
 
-            PeriodModel.updateBasicInformationPeriod(period);
+            lockScreenService.start();
+
+            PeriodModel.updateBasicInformationPeriod(period)["finally"](function () {
+                lockScreenService.stop();
+            });
         }
     };
 
@@ -283,8 +299,8 @@ function ($scope, $window, PeriodModel, CommonModel, enumerationsFactory, histor
 }]);
 
 periodModule.controller('ProcessSettingPeriodController',
-['$scope', '$window', 'PeriodModel', 'CommonModel', 'historyFactory',
-function ($scope, $window, PeriodModel, CommonModel, historyFactory) {
+['$scope', 'PeriodModel', 'CommonModel', 'historyFactory', "lockScreenService",
+function ($scope, PeriodModel, CommonModel, historyFactory, lockScreenService) {
     var vm = this;
 
     vm.period = {};
@@ -293,9 +309,13 @@ function ($scope, $window, PeriodModel, CommonModel, historyFactory) {
     vm.remindDay = CommonModel.remindDay;
 
     var getProcessSetting = function (periodId) {
+        lockScreenService.start();
+
         PeriodModel.getProcessSettingByPeriodId(periodId).then(function () {
             vm.processSettings = PeriodModel.processSettings;
             vm.isFirstLoad = false;
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 
@@ -323,7 +343,11 @@ function ($scope, $window, PeriodModel, CommonModel, historyFactory) {
             Processes: vm.processSettings
         };
 
-        PeriodModel.updatePeriodProcessSetting(periodProcessSetting);
+        lockScreenService.start();
+
+        PeriodModel.updatePeriodProcessSetting(periodProcessSetting)["finally"](function () {
+            lockScreenService.stop();
+        });
     };
 
     vm.cancel = function () {

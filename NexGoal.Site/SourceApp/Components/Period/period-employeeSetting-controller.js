@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('EmployeeSettingPeriodController',
-['$scope', '$routeParams', '$window', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'notificationFactory',
-function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, notificationFactory) {
+['$scope', '$routeParams', '$window', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'notificationFactory', "lockScreenService",
+function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, notificationFactory, lockScreenService) {
     var vm = this;
 
     vm.period = null;
@@ -35,6 +35,8 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
     };
 
     var getPeriodEmployeeSetting = function (filter) {
+        lockScreenService.start();
+
         PeriodModel.getPeriodEmployeeSettingById(
             filter.periodId,
             filter.departmentId,
@@ -49,6 +51,8 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
             vm.isFirstLoad = false;
             vm.selectedAll = false;
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 
@@ -131,9 +135,13 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
         };
 
         if (employeeInfo.employeeId || (employeeInfo.departments && employeeInfo.departments.length > 0)) {
+            lockScreenService.start();
+
             PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
                 resetFilterAssign();
                 getPeriodEmployeeSetting(vm.filter);
+            })["finally"](function () {
+                lockScreenService.stop();
             });
         }
         else {

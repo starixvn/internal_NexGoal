@@ -2824,7 +2824,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select at least a department/section/employee to add to this evaluation period!.
+        ///   Looks up a localized string similar to Please select at least a department/team/employee to add to this evaluation period!.
         /// </summary>
         public static string SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning {
             get {

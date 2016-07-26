@@ -2,8 +2,8 @@
 /*global roleModule*/
 
 roleModule.controller('RoleController',
-['RoleModel', 'CommonModel',
-function (RoleModel, CommonModel) {
+['RoleModel', 'CommonModel', "lockScreenService",
+function (RoleModel, CommonModel, lockScreenService) {
     var vm = this;
 
     vm.systemRoleOptions = CommonModel.systemRoles;
@@ -29,6 +29,8 @@ function (RoleModel, CommonModel) {
     ** Get functions of role.
     */
     var getFunctionsOfRole = function (roleId) {
+        lockScreenService.start();
+
         RoleModel.getRoleFunctionByRoleId(roleId).then(function () {
             vm.roleFunctions = RoleModel.roleFunctions;
             if (roleId === 1) {
@@ -37,6 +39,8 @@ function (RoleModel, CommonModel) {
             else {
                 vm.isSystemAdmin = false;
             }
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 
@@ -51,6 +55,10 @@ function (RoleModel, CommonModel) {
     ** Assign function to role.
     */
     vm.save = function (roleFunction) {
-        RoleModel.assignFunctionToRole(roleFunction);
+        lockScreenService.start();
+
+        RoleModel.assignFunctionToRole(roleFunction)["finally"](function () {
+            lockScreenService.stop();
+        });
     };
 } ]);

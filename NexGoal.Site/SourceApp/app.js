@@ -24,5 +24,6 @@ function ($translateProvider, $locationProvider, paginationTemplateProvider, $ro
     $routeProvider
             .when('/Home/AccessDenied', { templateUrl: '/SourceApp/Shared/Templates/AccessDenied.html' })
             .when('/Home/InternalError', { templateUrl: '/SourceApp/Shared/Templates/InternalError.html' })
+            .when('/Home/PageNotFound', { templateUrl: '/SourceApp/Shared/Templates/PageNotFound.html' })
             .otherwise({ templateUrl: '/SourceApp/Shared/Templates/PageNotFound.html' });
 }]);
