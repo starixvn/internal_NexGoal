@@ -6,7 +6,7 @@ flowMngModule.controller("PersonalFlowController",
 function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService, enumerationsFactory, historyFactory) {
     var vm = this;
 
-    vm.FlowTemplateId = parseInt($routeParams.id);
+    vm.FlowTemplateId = parseInt($routeParams.id, 10);
 
     vm.selfs = FlowMngModel.selfs;
     vm.evaluators = FlowMngModel.evaluators;
@@ -86,13 +86,13 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     };
 
     var getEmployeeById = function (sender, employeeId, position) {
-        CommonModel.getEmployeeById(parseInt(employeeId)).then(function () {
+        CommonModel.getEmployeeById(parseInt(employeeId, 10)).then(function () {
             FlowMngModel.addEmployee(sender, vm, CommonModel.employee, position);
         });
     };
 
     vm.getPersonalFlowById = function (item) {
-        var employeeId = parseInt(item[0]);
+        var employeeId = parseInt(item[0], 10);
         vm.employeeId = employeeId;
 
         FlowMngModel.getPersonalFlowById(employeeId, vm.FlowTemplateId).then(function () {

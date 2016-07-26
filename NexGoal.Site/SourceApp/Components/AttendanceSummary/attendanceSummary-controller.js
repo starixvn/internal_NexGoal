@@ -321,8 +321,8 @@ function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilities
         employee: null,
         departmentId: null,
         isLocal: $routeParams.isLocal ? $routeParams.isLocal : '',
-        employeeId: $routeParams.id ? parseInt($routeParams.id) : null,
-        reasonId: parseInt($routeParams.reasonId),
+        employeeId: $routeParams.id ? parseInt($routeParams.id, 10) : null,
+        reasonId: parseInt($routeParams.reasonId, 10),
         hasIgnored: '',
         showAll: $routeParams.showAll === 'true' ? true : false
     };

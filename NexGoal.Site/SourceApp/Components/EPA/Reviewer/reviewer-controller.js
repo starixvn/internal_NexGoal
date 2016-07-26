@@ -341,7 +341,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
     var vm = this;
 
     vm.permission = 0;
-    vm.epaId = parseInt($routeParams.id);
+    vm.epaId = parseInt($routeParams.id, 10);
     vm.standardGrades = CommonModel.standardGrades;
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;

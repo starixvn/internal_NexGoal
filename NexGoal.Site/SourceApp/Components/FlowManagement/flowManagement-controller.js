@@ -130,7 +130,7 @@ flowMngModule.controller("UpdateFlowTemplateController",
 function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService) {
     var vm = this;
 
-    vm.flowTemplateId = parseInt($routeParams.id);
+    vm.flowTemplateId = parseInt($routeParams.id, 10);
     vm.departments = CommonModel.departments;
     vm.treeDepartment = CommonModel.treeDepartment;
     vm.remindDay = CommonModel.remindDay;
@@ -175,7 +175,7 @@ flowMngModule.controller("GeneralInformationController",
 function ($window, $scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
     var vm = this;
 
-    vm.flowTemplateId = parseInt($routeParams.id);
+    vm.flowTemplateId = parseInt($routeParams.id, 10);
     vm.targetTypes = CommonModel.targetTypes;
 
     $scope.$watch(function () { return $scope.updateCtrl.flowTemplate; },

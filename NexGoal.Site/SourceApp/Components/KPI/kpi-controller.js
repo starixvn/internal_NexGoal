@@ -18,7 +18,7 @@ function ($window, $routeParams, KPIModel, KPIGroupModel, CommonModel, utilities
     };
 
     vm.filter = {
-        kpiGroupId: vm.routeParam.kpiGroupId ? parseInt(vm.routeParam.kpiGroupId) : '',
+        kpiGroupId: vm.routeParam.kpiGroupId ? parseInt(vm.routeParam.kpiGroupId, 10) : '',
         isActive: 'true',
         isRequiredEvaluate : ''
     };

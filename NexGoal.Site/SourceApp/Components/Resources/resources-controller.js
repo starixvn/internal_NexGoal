@@ -5,4 +5,4 @@ appModule.controller("ResourceController", ['$scope', '$translate', function ($s
     $scope.changeLanguage = function (langKey) {
         $translate.use(langKey);
     };
-} ]);
+}]);

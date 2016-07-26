@@ -7,7 +7,7 @@ function ($scope, $window, $routeParams, FlowMngModel, cacheService, historyFact
     var vm = this;
 
     vm.flowSettings = [];
-    vm.flowTemplateId = parseInt($routeParams.id);
+    vm.flowTemplateId = parseInt($routeParams.id, 10);
 
     vm.tabDepartmentSelected = function () {
         cacheService.setProperty(4);

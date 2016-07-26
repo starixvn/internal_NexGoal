@@ -8,7 +8,7 @@ epaModule.directive('ngDecimal', [function () {
             fraction: "@"
         },
         link: function (scope, element, attr, ctrl) {
-            var fraction = parseInt(scope.fraction) || 2;
+            var fraction = parseInt(scope.fraction, 10) || 2;
 
             ctrl.$parsers.push(function (inputValue) {
                 if (inputValue) {

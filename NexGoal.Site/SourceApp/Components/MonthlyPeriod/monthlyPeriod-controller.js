@@ -149,7 +149,7 @@ function ($window, $routeParams, MonthlyPeriodModel, enumerationsFactory, histor
     vm.policyEnum = enumerationsFactory.policy;
 
     vm.period = null;
-    vm.periodId = parseInt($routeParams.id);
+    vm.periodId = parseInt($routeParams.id, 10);
     vm.viewMode = $routeParams.viewSetting ? true : false;
 
     vm.date = new Date();

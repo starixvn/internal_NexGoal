@@ -274,7 +274,8 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
     vm.period = period;
     vm.selectedEmployees = selectedEmployees;
     vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
-    vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA && vm.period.TargetType.TargetTypeId === enumerationsFactory.targetType.SemiAnnual;
+    vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA &&
+        vm.period.TargetType.TargetTypeId === enumerationsFactory.targetType.SemiAnnual;
 
     vm.permission = permission;
     vm.periodDateFormat = PeriodModel.periodDateFormat;

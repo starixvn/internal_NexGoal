@@ -124,7 +124,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     selfEvalutorModel.getUserPermissionOnEmployee = function () {
         return employeeEPAFactory.getUserPermissionOnEmployee()
         .success(function (permission) {
-            selfEvalutorModel.permission = parseInt(permission);
+            selfEvalutorModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -175,7 +175,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     selfEvalutorModel.getUserPermissionOnEvaluator = function () {
         return employeeEPAFactory.getUserPermissionOnEvaluator()
         .success(function (permission) {
-            selfEvalutorModel.permission = parseInt(permission);
+            selfEvalutorModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

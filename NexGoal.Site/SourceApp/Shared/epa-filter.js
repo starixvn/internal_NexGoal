@@ -19,7 +19,7 @@ appModule.filter('customNumber', ['$filter', function ($filter) {
 
 appModule.filter('range', function () {
     return function (input, max) {
-        max = parseInt(max);
+        max = parseInt(max, 10);
 
         for (var i = 1; i < max; i++) {
             input.push(i);

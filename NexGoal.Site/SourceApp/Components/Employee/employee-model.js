@@ -269,7 +269,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
 
         angular.forEach(roleIdList, function (roleId) {
             angular.forEach(systemRoles, function (role) {
-                if (parseInt(roleId) === role.RoleId) {
+                if (parseInt(roleId, 10) === role.RoleId) {
                     roles.push(angular.copy(role));
                 }
             });
@@ -372,7 +372,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.getUserPermissionOnEmployee = function () {
         return employeeFactory.getUserPermissionOnEmployee()
         .success(function (permission) {
-            employeeModel.permission = parseInt(permission);
+            employeeModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

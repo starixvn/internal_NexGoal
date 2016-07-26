@@ -12,7 +12,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, lockScre
     vm.scoredBy = [
         { ColumnId: 6, PhaseId: 2, Name: 'Self' },
         { ColumnId: 7, PhaseId: 3, Name: 'Evaluator' },
-        { ColumnId: 8, PhaseId: 4, Name: 'Reviewer' },
+        { ColumnId: 8, PhaseId: 4, Name: 'Reviewer' }
     ];
 
     vm.hideColumns = [];

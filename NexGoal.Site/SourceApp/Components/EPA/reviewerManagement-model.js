@@ -214,7 +214,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     reviewerMngModel.getUserPermissionOnReviewer = function () {
         return employeeEPAFactory.getUserPermissionOnReviewer()
         .success(function (permission) {
-            reviewerMngModel.permission = parseInt(permission);
+            reviewerMngModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -276,7 +276,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     reviewerMngModel.getUserPermissionOnManagement = function () {
         return employeeEPAFactory.getUserPermissionOnManagement()
         .success(function (permission) {
-            reviewerMngModel.permission = parseInt(permission);
+            reviewerMngModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

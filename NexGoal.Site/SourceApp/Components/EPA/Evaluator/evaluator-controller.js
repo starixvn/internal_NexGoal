@@ -151,8 +151,8 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     var vm = this;
 
     vm.permission = 0;
-    vm.epaId = parseInt($routeParams.id);
-    vm.evaluatorId = parseInt($routeParams.evaluatorId);
+    vm.epaId = parseInt($routeParams.id, 10);
+    vm.evaluatorId = parseInt($routeParams.evaluatorId, 10);
     vm.maxStar = utilitiesFactory.maxStar;
     vm.dataSaved = false;
     vm.evaluatedDate = null;

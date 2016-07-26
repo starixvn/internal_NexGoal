@@ -561,7 +561,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.getUserPermissionOnFlowManagement = function () {
         return flowMngFactory.getUserPermissionOnFlowManagement()
         .success(function (permission) {
-            flowMngModel.permission = parseInt(permission);
+            flowMngModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

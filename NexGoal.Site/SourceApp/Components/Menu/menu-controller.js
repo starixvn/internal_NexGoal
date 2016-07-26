@@ -4,12 +4,16 @@
 
     menuModule.controller("MenuController", menuController);
 
-    menuController.$inject = ["menuModel"];
+    menuController.$inject = ["$location", "menuModel"];
 
-    function menuController(menuModel) {
+    function menuController($location, menuModel) {
         var vm = this;
 
         vm.menus = {};
+
+        vm.redirect = function (link) {
+            $location.path(link);
+        };
 
         menuModel.getMenus().then(function () {
             vm.menus = menuModel.menus;

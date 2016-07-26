@@ -9,9 +9,6 @@ function ($location, $window, notificationFactory, baseUrl) {
             if (status === 405) {
                 $location.path(baseUrl + 'Home/AccessDenied');
             }
-            else if (status === 401) {
-                $window.location.href = baseUrl + "Auth/Login";
-            }
             else {
                 notificationFactory.error("ErrorMessage");
                 $location.path(baseUrl + 'Home/InternalError');

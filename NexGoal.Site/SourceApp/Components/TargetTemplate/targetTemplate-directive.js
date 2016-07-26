@@ -103,7 +103,7 @@ targetTemplateModule.directive('getGroupWeight', function () {
                 angular.forEach(selectedRows, function (selectedRow, index) {
                     var selectedRowElement = $(selectedRow),
                         group = {
-                            KPIGroupId: parseInt(selectedRowElement.find('td').attr('data-id')),
+                            KPIGroupId: parseInt(selectedRowElement.find('td').attr('data-id'), 10),
                             Weight: parseFloat(selectedRowElement.find("[name='weight']").val()),
                             IsSpreadKPI: selectedRowElement.find("[name='spread']").is(':checked'),
                             DisplayOrder: index + 1
@@ -169,7 +169,7 @@ targetTemplateModule.directive('getWeight', ['utilitiesFactory', 'notificationFa
 
                     angular.forEach(selectedRows, function (selectedRow, index) {
                         var selectedRowElement = $(selectedRow),
-                            kpiGroupId = parseInt(selectedRowElement.find('td').attr('group-id')),
+                            kpiGroupId = parseInt(selectedRowElement.find('td').attr('group-id'), 10),
                             indexKPIGroup = scope.kpiListCtrl.kpiList.map(function (e) { return e.KPIGroupId; }).indexOf(kpiGroupId),
                             isSpreadKPI = scope.kpiListCtrl.kpiList[indexKPIGroup].IsSpreadKPI,
                             weight = selectedRowElement.find("[name='weight']").val(),
@@ -177,7 +177,7 @@ targetTemplateModule.directive('getWeight', ['utilitiesFactory', 'notificationFa
                             hasComment = selectedRowElement.find("[name='HasComment']").prop('checked'),
                             isRequiredComment = selectedRowElement.find("[name='IsRequiredComment']").prop('checked'),
                             kpi = {
-                                KPIId: parseInt(selectedRowElement.find('td').attr('item-id')),
+                                KPIId: parseInt(selectedRowElement.find('td').attr('item-id'), 10),
                                 KPIGroupId: kpiGroupId,
                                 IsSpreadKPI: isSpreadKPI,
                                 Weight: weight ? parseFloat(weight) : 0,

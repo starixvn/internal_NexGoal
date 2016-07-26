@@ -37,7 +37,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEva
     utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
-    vm.epaId = parseInt($routeParams.id);
+    vm.epaId = parseInt($routeParams.id, 10);
     vm.maxStar = utilitiesFactory.maxStar;
     vm.dataSaved = false;
     vm.evaluatedDate = null;

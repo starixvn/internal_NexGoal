@@ -1,74 +1,82 @@
-﻿'use strict';
-/*global dashboardModule*/
+﻿(function (dashboardModule) {
+    "use strict";
 
-dashboardModule.controller('DashboardController',
-['DashboardModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function (DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
-    var vm = this;
+    dashboardModule.controller("DashboardController", dashboardController);
 
-    vm.showScore = false;
-    vm.epaStatusEnum = enumerationsFactory.epaStatus;
-    vm.targetTypeEnum = enumerationsFactory.targetType;
-    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
+    dashboardController.$inject = ['DashboardModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
 
-    vm.getClassProgress = function (statusEndProcess) {
-        if (statusEndProcess === vm.statusEndProcessEnum.InProgress) {
-            return 'in-process';
-        }
-        else if (statusEndProcess === vm.statusEndProcessEnum.EndProcess) {
-            return 'end-process';
-        }
-        else {
-            return 'open';
-        }
-    };
+    function dashboardController(DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl) {
+        var vm = this;
 
-    vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
-    };
+        vm.showScore = false;
+        vm.epaStatusEnum = enumerationsFactory.epaStatus;
+        vm.targetTypeEnum = enumerationsFactory.targetType;
+        vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
 
-    vm.viewEPAResult = function (epa) {
-        if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
-        } else {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
-        }
-    };
+        vm.getClassProgress = function (statusEndProcess) {
+            if (statusEndProcess === vm.statusEndProcessEnum.InProgress) {
+                return 'in-process';
+            }
+            else if (statusEndProcess === vm.statusEndProcessEnum.EndProcess) {
+                return 'end-process';
+            }
+            else {
+                return 'open';
+            }
+        };
 
-    vm.viewOtherViolationDetail = function (epa) {
-        CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
-    };
+        vm.viewEPADetail = function (epa) {
+            vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
+        };
 
-    function initialize() {
-        DashboardModel.getDashboard().then(function () {
-            var dashboardInfo = DashboardModel.dashboardInfo;
+        vm.viewEPAResult = function (epa) {
+            if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+                vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
+            } else {
+                vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+            }
+        };
 
-            vm.employee = dashboardInfo.Employee;
-            vm.employee.Avatar = baseUrl + vm.employee.Avatar;
-            vm.evaluationProcesses = [];
-            vm.myEPAs = dashboardInfo.MyEPAs;
+        vm.viewOtherViolationDetail = function (epa) {
+            CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
+        };
 
-            //vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
+        function initialize() {
+            lockScreenService.start();
 
-            angular.forEach(vm.myEPAs, function (myEPA) {
-                if (myEPA.Period.IsEndPeriod && myEPA.FinalScore.length > 0) {
-                    myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
-                } else {
-                    myEPA.FinalScore = null;
-                    vm.evaluationProcesses.push(myEPA);
-                }
+            DashboardModel.getDashboard().then(function () {
+                var dashboardInfo = DashboardModel.dashboardInfo;
+
+                vm.employee = dashboardInfo.Employee;
+                vm.employee.Avatar = baseUrl + vm.employee.Avatar;
+                vm.evaluationProcesses = [];
+                vm.myEPAs = dashboardInfo.MyEPAs;
+
+                angular.forEach(vm.myEPAs, function (myEPA) {
+                    if (myEPA.Period.IsEndPeriod && myEPA.FinalScore.length > 0) {
+                        myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
+                    } else {
+                        myEPA.FinalScore = null;
+                        vm.evaluationProcesses.push(myEPA);
+                    }
+                });
+                //vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
+
+                //angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
+                //    if (monthlyEPA.Period.IsEndPeriod) {
+                //        monthlyEPA.FinalScore = utilitiesFactory.parseFloat(monthlyEPA.FinalScore);
+                //    } else {
+                //        monthlyEPA.FinalScore = null;
+                //        vm.evaluationProcesses.push(monthlyEPA);
+                //    }
+                //});
+            })["finally"](function () {
+                lockScreenService.stop();
             });
+        }
 
-            //angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
-            //    if (monthlyEPA.Period.IsEndPeriod) {
-            //        monthlyEPA.FinalScore = utilitiesFactory.parseFloat(monthlyEPA.FinalScore);
-            //    } else {
-            //        monthlyEPA.FinalScore = null;
-            //        vm.evaluationProcesses.push(monthlyEPA);
-            //    }
-            //});
-        });
+        initialize();
     }
 
-    initialize();
-}]);
+
+})(angular.module("dashboardModule"));

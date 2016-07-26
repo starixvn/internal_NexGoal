@@ -203,7 +203,7 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
     kpiGroupModel.getUserPermissionOnKPIGroup = function () {
         return kpiGroupFactory.getUserPermissionOnKPIGroup()
         .success(function (permission) {
-            kpiGroupModel.permission = parseInt(permission);
+            kpiGroupModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

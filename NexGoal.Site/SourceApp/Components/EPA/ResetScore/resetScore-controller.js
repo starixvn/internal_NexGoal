@@ -6,7 +6,7 @@ epaModule.controller('ResetScoreController',
 function ($routeParams, employeeEPAFactory, notificationFactory, errorFactory) {
     var vm = this;
 
-    vm.epaId = parseInt($routeParams.id);
+    vm.epaId = parseInt($routeParams.id, 10);
 
     vm.resetScore = function () {
         var criteria = {

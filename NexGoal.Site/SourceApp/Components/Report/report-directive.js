@@ -38,10 +38,16 @@ function ($timeout, utilitiesFactory) {
 
         var columnHeaders = [
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center", CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string' },
+            {
+                HeaderText: "Code", Width: 70, Name: "Code", HeaderAlign: "center",
+                CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string'
+            },
             { HeaderText: "Full Name", Width: 180, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Section", Width: 160, Name: "Section", HeaderAlign: "center", CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
+            {
+                HeaderText: "Section", Width: 160, Name: "Section", HeaderAlign: "center",
+                CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string'
+            },
             { HeaderText: "Job Title", Width: 225, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" }
         ];
 
@@ -201,10 +207,14 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
 
         var columnHeaders = [
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string' },
+            {
+                HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center",
+                CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string'
+            },
             { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
+            { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", 
+            CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
             { HeaderText: "Job Title", Width: 180, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Target Type", Width: 120, Name: "TargetType", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
@@ -295,7 +305,8 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                     cssReviewerScore = memberEPA.EPAId > 0 && !memberEPA.Process.Reviewers[0].IsEndProcess ? 'red' : '',
                     cssManagementScore = '',
                     cssDisciplineScore = memberEPA.EPAId > 0 && memberEPA.DisciplineScore < 0 ? 'red' : '',
-                    pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
+                    pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId +
+                            '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
 
                 if (memberEPA.EPAId > 0
                     && memberEPA.Process.Managements
@@ -394,7 +405,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         $('a.exportPDF').on('click', function (event) {
                             event.preventDefault();
 
-                            var epaId = parseInt($(this).data('epaid'));
+                            var epaId = parseInt($(this).data('epaid'), 10);
                             var hasMonthlyEPA = $(this).data('hasmonthlyepa');
                             $scope.exportPdf(epaId, hasMonthlyEPA);
                         });
@@ -418,16 +429,22 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
 
         var columnHeaders = [
             { HeaderText: "#", Width: 40, Name: "No", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center", CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string' },
+            {
+                HeaderText: "Code", Width: 60, Name: "Code", HeaderAlign: "center",
+                CellAlign: "center", Sort: true, SortDirection: sortCode, SortType: 'string'
+            },
             { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
+            {
+                HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center",
+                CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string'
+            },
             { HeaderText: "Job Title", Width: 180, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
+            { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" }
             //{ HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
         ];
 
@@ -495,7 +512,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
                         { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
                         { Name: "FinalScore", Value: score.FinalScore },
-                        { Name: "Grade", Value: score.Grade },
+                        { Name: "Grade", Value: score.Grade }
                         //{ Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId == 1 ? pdfIcon : "" }
                     ]
                 };

@@ -41,7 +41,7 @@
             });
 
             return groupedMenus;
-        }
+        };
 
         return model;
     }

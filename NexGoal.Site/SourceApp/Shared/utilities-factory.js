@@ -67,7 +67,7 @@ appModule.factory('utilitiesFactory',
         var result = number;
 
         if (number) {
-            result = parseInt(number);
+            result = parseInt(number, 10);
         }
 
         return result;
@@ -183,7 +183,7 @@ appModule.factory('utilitiesFactory',
         if (selectedItems && selectedItems.length > 0) {
             var array = selectedItems.split(',');
             angular.forEach(array, function (id) {
-                id = parseInt(id);
+                id = parseInt(id, 10);
                 angular.forEach(data, function (item) {
                     if (item[selectedName] === id) {
                         item.ticked = true;

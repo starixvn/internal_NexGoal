@@ -15,7 +15,7 @@ function ($modal, ratingByKPIFactory, utilitiesFactory, notificationFactory, err
     ratingByKPIModel.getUserPermissionOnRatingByKPI = function () {
         return ratingByKPIFactory.getUserPermissionOnRatingByKPI()
         .success(function (permission) {
-            ratingByKPIModel.permission = parseInt(permission);
+            ratingByKPIModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

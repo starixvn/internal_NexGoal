@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using NexGoal.Core.Attribute;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.Report.Dashboard;

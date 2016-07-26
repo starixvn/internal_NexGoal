@@ -3,11 +3,11 @@
 
     menuModule.directive("menuTab", menuTabDirective);
 
-    function menuTabDirective($location) {
+    function menuTabDirective($location, baseUrl) {
         return {
             restrict: "A",
             link: function (scope, element, attrs) {
-                var selfPath = attrs.href;
+                var selfPath = attrs.link;
                 var $parent = element.parent();
 
                 if (selfPath === $location.path()) {

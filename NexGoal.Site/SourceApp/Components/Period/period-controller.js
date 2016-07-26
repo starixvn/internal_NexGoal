@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('PeriodController',
-['PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+['PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.periods = PeriodModel.periods;
@@ -37,9 +37,13 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
     });
 
     var getPeriod = function (targetTypeId, isActive) {
+        lockScreenService.start();
+
         PeriodModel.getPeriod(targetTypeId, isActive).then(function () {
             vm.periods = PeriodModel.periods;
             utilitiesFactory.searchOnPage(vm, vm.periods);
+        })["finally"](function () {
+            lockScreenService.stop();
         });
         historyFactory.saveState(vm.filter);
     };
@@ -64,7 +68,7 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
     };
 
     vm.update = function (periodId) {
-        vm.updatePeriodUrl = baseUrl + 'Period/Update/' + periodId;
+        vm.updatePeriodUrl = "#" + baseUrl + 'Period/Update/' + periodId;
     };
 
     vm.confirmActive = function (period) {
@@ -85,16 +89,12 @@ function (PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, histo
 }]);
 
 periodModule.controller('CreatePeriodController',
-['$modalInstance', 'PeriodModel', 'CommonModel', 'enumerationsFactory',
-function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory) {
+['$modalInstance', 'PeriodModel', 'CommonModel', 'enumerationsFactory', 'lockScreenService',
+function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScreenService) {
     var vm = this;
 
-    vm.targetTypes = CommonModel.targetTypes;
+    vm.targetTypes = {};
     vm.targetTypeEnum = enumerationsFactory.targetType;
-
-    CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
-        vm.targetTypes = CommonModel.targetTypes;
-    });
 
     vm.period = {
         Name: null,
@@ -141,6 +141,18 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
+
+    function initialize() {
+        lockScreenService.start();
+
+        CommonModel.getTargetType(true, vm.targetTypeEnum.Monthly).then(function () {
+            vm.targetTypes = CommonModel.targetTypes;
+        })["finally"](function () {
+            lockScreenService.stop();
+        });
+    }
+
+    initialize();
 }]);
 
 periodModule.controller('UpdatePeriodController',
@@ -151,7 +163,7 @@ function ($window, $routeParams, PeriodModel, enumerationsFactory, historyFactor
     vm.policyEnum = enumerationsFactory.policy;
 
     vm.period = null;
-    vm.periodId = parseInt($routeParams.id);
+    vm.periodId = parseInt($routeParams.id, 10);
     vm.viewMode = $routeParams.viewSetting ? true : false;
 
     vm.date = new Date();

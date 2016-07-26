@@ -6,7 +6,7 @@ epaModule.controller('ViewEPADetailController',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
-    vm.epaId = parseInt($routeParams.id);
+    vm.epaId = parseInt($routeParams.id, 10);
     vm.exportPDF = $routeParams.exportpdf;
     vm.standardGrades = CommonModel.standardGrades;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;

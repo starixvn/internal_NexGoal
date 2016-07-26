@@ -138,7 +138,7 @@ targetTemplateModule.controller('UpdateTargetTemplateController',
 function ($routeParams, TargetTemplateModel) {
     var vm = this;
 
-    vm.targetTemplateId = parseInt($routeParams.id);
+    vm.targetTemplateId = parseInt($routeParams.id, 10);
     vm.targetTemplate = TargetTemplateModel.targetTemplate;
     vm.originalScoreTypeId = '';
 
@@ -495,7 +495,7 @@ targetTemplateModule.controller('DetailTargetTemplateController',
 function ($window, $routeParams, TargetTemplateModel, utilitiesFactory, historyFactory) {
     var vm = this;
 
-    vm.targetTemplateId = parseInt($routeParams.id);
+    vm.targetTemplateId = parseInt($routeParams.id, 10);
     vm.targetTemplate = TargetTemplateModel.targetTemplate;
     vm.kpiList = TargetTemplateModel.kpiList;
 

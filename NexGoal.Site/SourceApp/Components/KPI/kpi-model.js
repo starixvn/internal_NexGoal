@@ -274,7 +274,7 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
     kpiModel.getUserPermissionOnKPI = function () {
         return kpiFactory.getUserPermissionOnKPI()
         .success(function (permission) {
-            kpiModel.permission = parseInt(permission);
+            kpiModel.permission = parseInt(permission, 10);
         })
         .error(function (response, status) {
             errorFactory.errorHandle(status);

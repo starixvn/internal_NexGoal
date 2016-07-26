@@ -16,7 +16,7 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
     monthlyPeriodModel.getPermissionOnMonthlyPeriod = function () {
         return monthlyPeriodFactory.getPermissionOnMonthlyPeriod()
         .success(function (permisson) {
-            monthlyPeriodModel.permission = parseInt(permisson);
+            monthlyPeriodModel.permission = parseInt(permisson, 10);
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -185,8 +185,22 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
         });
     };
 
-    monthlyPeriodModel.getEmployeeSettingMonthlyPeriodById = function (periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, epaStatus) {
-        return monthlyPeriodFactory.getEmployeeSettingMonthlyPeriodById(periodId, departmentId, isLocal, isExcludedEmployee, isGeneratedEPA, isEvaluated, epaStatus)
+    monthlyPeriodModel.getEmployeeSettingMonthlyPeriodById = function (
+        periodId, 
+        departmentId,
+        isLocal,
+        isExcludedEmployee,
+        isGeneratedEPA,
+        isEvaluated,
+        epaStatus) {
+        return monthlyPeriodFactory.getEmployeeSettingMonthlyPeriodById(
+            periodId,
+            departmentId,
+            isLocal,
+            isExcludedEmployee,
+            isGeneratedEPA,
+            isEvaluated, 
+            epaStatus)
         .success(function (employeeSettings) {
             monthlyPeriodModel.employeeSettings = employeeSettings;
         })
