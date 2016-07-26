@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Model", "NexGoal.Mo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Services", "NexGoal.Services\NexGoal.Services.csproj", "{8EB3D578-B2A0-4B11-9386-50F394DE396C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.AutoGenerateEvaluation", "NexGoal.AutoGenerateEvaluation\NexGoal.AutoGenerateEvaluation.csproj", "{11846569-7D7F-43FE-959B-359878D494E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.EvaluationService", "NexGoal.EvaluationService\NexGoal.EvaluationService.csproj", "{11846569-7D7F-43FE-959B-359878D494E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{258FA7A3-340F-4DC3-8D49-EBAF62B42F02}"
 	ProjectSection(SolutionItems) = preProject
