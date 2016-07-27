@@ -1,5 +1,12 @@
-@import "../../../Content/Site/variables.less";
-@import "../../../Content/Site/mixins.less";
+@font-size: 13px;
+@border-light-color: #C8C8C8;
+
+// Border Radius
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
 
 .flow-management {
     .table.table-striped {
@@ -163,7 +170,11 @@
                 color: #4f4f4f;
             }
 
-            .col-self, .col-evaluator, .col-reviewer, .col-management, .col-human-resource {
+            .col-self, 
+            .col-evaluator, 
+            .col-reviewer, 
+            .col-management, 
+            .col-human-resource {
                 .duration {
                     width: 30%;
                     padding: 0;

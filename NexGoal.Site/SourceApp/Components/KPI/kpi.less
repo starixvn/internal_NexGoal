@@ -1,5 +1,19 @@
-@import "../../../Content/Site/variables.less";
-@import "../../../Content/Site/mixins.less";
+@font-size: 13px;
+@border-light-color: #C8C8C8;
+
+// Border Radius
+.border-radius(@radius) {
+  -webkit-border-radius: @radius;
+     -moz-border-radius: @radius;
+          border-radius: @radius;
+}
+
+// Drop shadows
+.box-shadow(@shadow) {
+  -webkit-box-shadow: @shadow;
+     -moz-box-shadow: @shadow;
+          box-shadow: @shadow;
+}
 
 .kpi-modal-body {
     .chosen-container {

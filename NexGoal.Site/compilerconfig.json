@@ -1,14 +1,17 @@
 ﻿[
   {
     "outputFile": "Content/Prototype/assets/site.css",
-    "inputFile": "Content/Prototype/assets/site.less"
+    "inputFile": "Content/Prototype/assets/site.less",
+    "sourceMap": false
   },
   {
     "outputFile": "Content/Site/layout.css",
-    "inputFile": "Content/Site/layout.less"
+    "inputFile": "Content/Site/layout.less",
+    "sourceMap": false
   },
   {
     "outputFile": "Content/Less/bootstrap.css",
-    "inputFile": "Content/Less/bootstrap.less"
+    "inputFile": "Content/Less/bootstrap.less",
+    "sourceMap": false
   }
 ]
