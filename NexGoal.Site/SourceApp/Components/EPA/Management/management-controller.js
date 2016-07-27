@@ -179,25 +179,24 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.viewEPADetail = function (memberEPA) {
         if (ReviewerManagementModel.checkAdjustScoreChanged(vm.memberEPAs)) {
             ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
-                vm.viewEPADetailUrl = baseUrl + 'Management/Detail/' + memberEPA.EPAId;
-                $location.url(vm.viewEPADetailUrl);
+                $location.path(baseUrl + 'Management/Detail/' + memberEPA.EPAId);
             })['finally'](function () {
                 vm.modalInstance = '';
             });
         } else {
             if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                vm.viewEPADetailUrl = baseUrl + 'Management/SemiDetail/' + memberEPA.EPAId;
+                $location.path(baseUrl + 'Management/SemiDetail/' + memberEPA.EPAId);
             } else {
-                vm.viewEPADetailUrl = baseUrl + 'Management/Detail/' + memberEPA.EPAId;
+                $location.path(baseUrl + 'Management/Detail/' + memberEPA.EPAId);
             }
         }
     };
 
     vm.viewEPAResult = function (memberEPA) {
         if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+            $location.path(baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId);
         } else {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
+            $location.path(baseUrl + 'EPA/Detail/' + memberEPA.EPAId);
         }
     };
 

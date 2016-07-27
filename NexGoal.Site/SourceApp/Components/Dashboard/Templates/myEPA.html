@@ -33,14 +33,14 @@
             <td class="text-center">
                 Grade goes here
             <td class="text-center col-action">
-                <a ng-click="dashboardCtrl.viewEPADetail(myEPA)"
+                <a ng-click="dashboardCtrl.viewEPADetail(myEPA)" href="javascript:;"
                    ng-if="myEPA.EPAId > 0 && (myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"
-                   ng-href="{{dashboardCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'>
+                   ng-attr-title='{{"EvaluateNow" | translate}}'>
                     <i class="fa fa-pencil-square-o "></i>
                 </a>
-                <a ng-click="dashboardCtrl.viewEPAResult(myEPA)"
+                <a ng-click="dashboardCtrl.viewEPAResult(myEPA)" href="javascript:;"
                    ng-if="myEPA.EPAId > 0 && !(myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"
-                   ng-href="{{dashboardCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'>
+                   ng-attr-title='{{"ViewEPAResult" | translate}}'>
                     <i class="fa fa-search"></i>
                 </a>
             </td>

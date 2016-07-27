@@ -2,8 +2,8 @@
 /*global attendanceModule*/
 
 attendanceModule.controller('AttendanceSummaryController',
-['$scope', 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'lockScreenService', 'historyFactory',
-function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFactory, baseUrl, lockScreenService, historyFactory) {
+['$scope', "$location", 'AttendanceModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'lockScreenService', 'historyFactory',
+function ($scope, $location, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFactory, baseUrl, lockScreenService, historyFactory) {
     var vm = this;
 
     vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
@@ -145,9 +145,15 @@ function ($scope, AttendanceModel, utilitiesFactory, CommonModel, enumerationsFa
 
         AttendanceModel.setSummaryPaging(vm.currentPage, vm.pageSize);
 
-        vm.attendanceDetailUrl = baseUrl + 'Discipline/Detail/' + employee.Employee.EmployeeId
-            + '?startDate=' + startDate.toDateString() + '&endDate=' + endDate.toDateString() + '&reasonId='
-            + vm.filter.reasonId + '&isLocal=' + vm.filter.isLocal + '&showAll=' + vm.filter.showAll;
+        var params = {
+            startDate: startDate.toDateString(),
+            endDate: endDate.toDateString(),
+            reasonId: vm.filter.reasonId,
+            isLocal: vm.filter.isLocal,
+            showAll: vm.filter.showAll
+        };
+
+        $location.path(baseUrl + 'Discipline/Detail/' + employee.Employee.EmployeeId).search(params);
     };
 
     vm.exportReport = function (filter) {
@@ -299,8 +305,8 @@ function ($scope, $modalInstance, AttendanceModel, CommonModel, utilitiesFactory
 }]);
 
 attendanceModule.controller('DetailAttendanceSummaryController',
-['$scope', '$window', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'historyFactory',
-function ($scope, $window, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, historyFactory) {
+['$scope', '$routeParams', 'AttendanceModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'historyFactory',
+function ($scope, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, historyFactory) {
     var vm = this,
         hasCalculated = false,
         hasSaved = false;

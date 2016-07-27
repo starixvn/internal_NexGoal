@@ -3,9 +3,9 @@
 
     dashboardModule.controller("DashboardController", dashboardController);
 
-    dashboardController.$inject = ['DashboardModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
+    dashboardController.$inject = ["$location", 'DashboardModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
 
-    function dashboardController(DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl) {
+    function dashboardController($location, DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.showScore = false;
@@ -26,14 +26,14 @@
         };
 
         vm.viewEPADetail = function (epa) {
-            vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
+            $location.path(baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId);
         };
 
         vm.viewEPAResult = function (epa) {
             if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
+                $location.path(baseUrl + 'EPA/SemiDetail/' + epa.EPAId);
             } else {
-                vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+                $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
             }
         };
 

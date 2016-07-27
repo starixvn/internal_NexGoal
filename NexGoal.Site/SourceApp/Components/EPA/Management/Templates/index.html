@@ -193,10 +193,12 @@
                     </td>
                     <td class="text-center"><div ng-show="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div></td>
                     <td class="text-center col-action" ng-switch="memberEPA.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="managementCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{managementCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <a ng-switch-default class="glyphicon icon-view" href="" ng-click="managementCtrl.viewEPAResult(memberEPA)"
-                           ng-href="{{managementCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="javascript:;" 
+                           ng-click="managementCtrl.viewEPADetail(memberEPA)"
+                           ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                        <a ng-switch-default class="glyphicon icon-view" href="javascript:;" 
+                           ng-click="managementCtrl.viewEPAResult(memberEPA)"
+                           ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
             </tbody>

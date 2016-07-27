@@ -140,25 +140,24 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.viewEPADetail = function (memberEPA) {
         if (ReviewerManagementModel.checkAdjustScoreChanged(vm.memberEPAs)) {
             ReviewerManagementModel.openPopupRemindSaveChange(vm).then(function () {
-                vm.viewEPADetailUrl = baseUrl + 'Reviewer/Detail/' + memberEPA.EPAId;
-                $location.url(vm.viewEPADetailUrl);
+                $location.path(baseUrl + 'Reviewer/Detail/' + memberEPA.EPAId);
             })['finally'](function () {
                 vm.modalInstance = '';
             });
         } else {
             if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                vm.viewEPADetailUrl = baseUrl + 'Reviewer/SemiDetail/' + memberEPA.EPAId;
+                $location.path(baseUrl + 'Reviewer/SemiDetail/' + memberEPA.EPAId);
             } else {
-                vm.viewEPADetailUrl = baseUrl + 'Reviewer/Detail/' + memberEPA.EPAId;
+                $location.path(baseUrl + 'Reviewer/Detail/' + memberEPA.EPAId);
             }
         }
     };
 
     vm.viewEPAResult = function (memberEPA) {
         if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+            $location.path(baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId);
         } else {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
+            $location.path(baseUrl + 'EPA/Detail/' + memberEPA.EPAId);
         }
     };
 
@@ -334,9 +333,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 }]);
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 

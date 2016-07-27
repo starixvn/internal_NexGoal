@@ -2,22 +2,22 @@
 /*global epaModule*/
 
 epaModule.controller('EmployeeEPAController',
-['SelfEvalutorModel', 'enumerationsFactory', 'baseUrl',
-function (SelfEvalutorModel, enumerationsFactory, baseUrl) {
+["$location", 'SelfEvalutorModel', 'enumerationsFactory', 'baseUrl',
+function ($location, SelfEvalutorModel, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.myEPAs = SelfEvalutorModel.myEPAs;
     vm.targetTypeEnum = enumerationsFactory.targetType;
 
     vm.viewEPADetail = function (epa) {
-        vm.viewEPADetailUrl = baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId;
+        $location.path(baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId);
     };
 
     vm.viewEPAResult = function (epa) {
         if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
+            $location.path(baseUrl + 'EPA/SemiDetail/' + epa.EPAId);
         } else {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+            $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
         }
     };
 
@@ -31,9 +31,9 @@ function (SelfEvalutorModel, enumerationsFactory, baseUrl) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 

@@ -146,10 +146,10 @@
                         </div>
                     </td>
                     <td class="text-center">
-                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
+                        <a class="glyphicon glyphicon-edit icon-edit" href="javascript:;" ng-attr-title='{{"Edit" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.Process.CurrentProcess.Comment, true)"
                            ng-if="memberEPA.IsAllowedToEdit && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
+                        <a class="glyphicon icon-view" href="javascript:;" ng-attr-title='{{"View" | translate}}'
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.Process.CurrentProcess.Comment, false)"
                            ng-if="memberEPA.Process.CurrentProcess.Comment && memberEPA.Process.CurrentProcess.Comment.length > 0
                                 && (!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
@@ -180,7 +180,7 @@
                             </div>
                         </div>
                         <div class="col-percent-40" ng-if="memberEPA.HasOtherViolation">
-                            <a class="glyphicon icon-alert" href="" ng-click="reviewerCtrl.viewOtherViolationDetail(memberEPA)"
+                            <a class="glyphicon icon-alert" href="javascript:;" ng-click="reviewerCtrl.viewOtherViolationDetail(memberEPA)"
                                ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
                         </div>
                     </td>
@@ -195,10 +195,12 @@
                         <div ng-show="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                     </td>
                     <td class="text-center col-action" ng-switch="memberEPA.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
-                           ng-href="{{reviewerCtrl.viewEPADetailUrl}}" ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <a ng-switch-default class="glyphicon icon-view" href="" ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
-                           ng-href="{{reviewerCtrl.viewEPAResultUrl}}" ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="javascript:;" 
+                           ng-click="reviewerCtrl.viewEPADetail(memberEPA)"
+                           ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                        <a ng-switch-default class="glyphicon icon-view" href="javascript:;" 
+                           ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
+                           ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>
                 </tr>
             </tbody>

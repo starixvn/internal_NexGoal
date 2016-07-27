@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-['EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+["$location", 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.memberEPAs = [];
@@ -107,14 +107,14 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     };
 
     vm.viewEPADetail = function (memberEPA) {
-        vm.viewEPADetailUrl = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId;
+        $location.path(baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId);
     };
 
     vm.viewEPAResult = function (memberEPA) {
         if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId;
+            $location.path(baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId);
         } else {
-            vm.viewEPAResultUrl = baseUrl + 'EPA/Detail/' + memberEPA.EPAId;
+            $location.path(baseUrl + 'EPA/Detail/' + memberEPA.EPAId);
         }
     };
 
@@ -123,7 +123,7 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
     };
 
     vm.viewEPAHistory = function (employeeId) {
-        vm.viewEPAHistoryUrl = baseUrl + 'EPAHistory/Index?empId=' + employeeId;
+        $location.path(baseUrl + 'EPAHistory/Index').search({ empId: employeeId });
     };
 
     function initialize() {
@@ -144,9 +144,9 @@ function (EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, en
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 

@@ -3,7 +3,7 @@
 
     menuModule.directive("menuTab", menuTabDirective);
 
-    function menuTabDirective($location, baseUrl) {
+    function menuTabDirective($location) {
         return {
             restrict: "A",
             link: function (scope, element, attrs) {

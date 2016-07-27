@@ -33,7 +33,7 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
     };
 
     vm.updateFlowTemplate = function (flowTemplate) {
-        vm.updateFlowTemplateUrl = baseUrl + 'Flow/Update/' + flowTemplate.FlowTemplateId;
+        $location.path(baseUrl + 'Flow/Update/' + flowTemplate.FlowTemplateId);
     };
 
     vm.updateStatusFlowGroup = function (flowTemplate) {
@@ -82,8 +82,8 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
 }]);
 
 flowMngModule.controller("CreateFlowTemplateController",
-['$location', '$window', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
+['$location', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
+function ($location, FlowMngModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -126,8 +126,8 @@ function ($location, $window, FlowMngModel, CommonModel, enumerationsFactory, ba
 }]);
 
 flowMngModule.controller("UpdateFlowTemplateController",
-['$window', '$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService',
-function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService) {
+['$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService',
+function ($routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id, 10);
@@ -171,8 +171,8 @@ function ($window, $routeParams, FlowMngModel, CommonModel, enumerationsFactory,
 }]);
 
 flowMngModule.controller("GeneralInformationController",
-['$window', '$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'historyFactory',
-function ($window, $scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
+['$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'historyFactory',
+function ($scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id, 10);

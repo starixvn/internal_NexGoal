@@ -2,8 +2,8 @@
 /*global epaHistoryModule*/
 
 epaHistoryModule.controller('EPAHistoryController',
-['$window', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'historyFactory', 'lockScreenService', 'enumerationsFactory',
-function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl, historyFactory, lockScreenService, enumerationsFactory) {
+['$location', '$routeParams', 'EPAHistoryModel', 'utilitiesFactory', 'CommonModel', 'baseUrl', 'historyFactory', 'lockScreenService', 'enumerationsFactory',
+function ($location, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel, baseUrl, historyFactory, lockScreenService, enumerationsFactory) {
     var vm = this;
     vm.epas = EPAHistoryModel.epas;
     vm.periodOptions = CommonModel.periodOptions;
@@ -86,9 +86,9 @@ function ($window, $routeParams, EPAHistoryModel, utilitiesFactory, CommonModel,
 
     vm.viewDetailEPA = function (epa) {
         if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            vm.viewEPADetailUrl = baseUrl + 'EPA/SemiDetail/' + epa.EPAId;
+            $location.path(baseUrl + 'EPA/SemiDetail/' + epa.EPAId);
         } else {
-            vm.viewEPADetailUrl = baseUrl + 'EPA/Detail/' + epa.EPAId;
+            $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
         }
     };
 }]);
