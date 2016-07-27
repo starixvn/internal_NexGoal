@@ -22,9 +22,6 @@
         Evaluator = 5,
 
         [Description("Employee")]
-        Employee = 6,
-
-        [Description("Approver")]
-        Approver = 7
+        Employee = 6
     }
 }
