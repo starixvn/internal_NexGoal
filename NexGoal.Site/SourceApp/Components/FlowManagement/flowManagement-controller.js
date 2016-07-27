@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("FlowMngController",
-['FlowMngModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+["$location", 'FlowMngModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
+function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -29,7 +29,7 @@ function (FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, base
     };
 
     vm.createFlowTemplate = function () {
-        vm.createFlowTemplateUrl = baseUrl + 'Flow/Create';
+        $location.path(baseUrl + 'Flow/Create');
     };
 
     vm.updateFlowTemplate = function (flowTemplate) {

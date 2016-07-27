@@ -2,8 +2,8 @@
 /*global kpiGroupModule*/
 
 kpiGroupModule.controller('KPIGroupController',
-['KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+["$location", 'KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+function ($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.kpiGroups = KPIGroupModel.kpiGroups;
@@ -89,7 +89,7 @@ function (KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFa
     };
 
     vm.viewKPI = function (kpiGroupId) {
-        vm.viewKPIUrl = baseUrl + 'KPI/Index' + '?groupId=' + kpiGroupId;
+        $location.path(baseUrl + 'KPI/Index').search({ groupId: kpiGroupId });
     };
 
     /// Event read more / less text.

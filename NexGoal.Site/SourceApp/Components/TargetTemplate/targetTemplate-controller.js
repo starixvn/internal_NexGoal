@@ -2,8 +2,8 @@
 /*global targetTemplateModule*/
 
 targetTemplateModule.controller('TargetTemplateController',
-['TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory',
-function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory) {
+["$location", 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', "baseUrl",
+function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -61,7 +61,7 @@ function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactor
     };
 
     vm.create = function () {
-        vm.createTargetTemplateUrl = '/TargetTemplate/Create';
+        $location.path(baseUrl + "TargetTemplate/Create");
     };
 
     vm.confirmActive = function (targetTemplate) {
@@ -70,10 +70,10 @@ function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactor
 
     vm.update = function (targetTemplate, viewKPIs) {
         if (!viewKPIs) {
-            vm.updateTargetTemplateUrl = '/TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewInfo';
+            $location.path(baseUrl + "TargetTemplate/Update/" + targetTemplate.TargetTemplateId).search({ viewInfo: true });
         }
         else {
-            vm.updateTargetTemplateUrl = '/TargetTemplate/Update/' + targetTemplate.TargetTemplateId + '?viewKPIs';
+            $location.path(baseUrl + "TargetTemplate/Update/" + targetTemplate.TargetTemplateId).search({ viewKPIs: true });
         }
     };
 
@@ -82,7 +82,7 @@ function (TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactor
     };
 
     vm.detail = function (targetTemplate) {
-        vm.detailTargetTemplateUrl = '/TargetTemplate/Detail/' + targetTemplate.TargetTemplateId;
+        $location.path(baseUrl + "TargetTemplate/Detail/" + targetTemplate.TargetTemplateId);
     };
 }]);
 
