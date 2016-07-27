@@ -58,7 +58,7 @@
                     <div class="col-sm-3 employee-list" id="employeeList" ng-show="personalFlowCtrl.showListEmployee">
                         <div class="row flow-header">
                             <span data-translate="Employee"></span>
-                            <a ng-click="personalFlowCtrl.toggleDepartmentDraggableList()" href="javascript:;"
+                            <a ng-click="personalFlowCtrl.toggleDepartmentDraggableList()" href=""
                                class="pull-right glyphicon glyphicon-arrow-left"></a>
                         </div>
                         <div class="row">
@@ -97,7 +97,7 @@
                                     <td class="col-sm-2 col-human-resource">
                                         <ul list-sortable class="sortable custom-ul list-unstyled" id="humanResourceList">
                                             <li class="alert alert-info nomargin" ng-repeat="humanResource in personalFlowCtrl.humanResources.employees">
-                                                <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                                <a href="" class="glyphicon glyphicon-remove icon-close"
                                                    ng-click="personalFlowCtrl.removeItemFromList(humanResource, personalFlowCtrl.humanResources.employees)"></a>
                                                 <img tooltip="{{humanResource.FullName}}" class="img-flow" ng-src="{{humanResource.Avatar}}" />
                                                 <p>{{humanResource.NickName}}</p>
@@ -115,7 +115,7 @@
                                     <td class="col-sm-2 col-evaluator">
                                         <ul list-sortable class="sortable custom-ul list-unstyled" id="evaluatorList">
                                             <li class="alert alert-info nomargin" ng-repeat="evaluator in personalFlowCtrl.evaluators.employees">
-                                                <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                                <a href="" class="glyphicon glyphicon-remove icon-close"
                                                    ng-click="personalFlowCtrl.removeItemFromList(evaluator, personalFlowCtrl.evaluators.employees)"></a>
                                                 <img tooltip="{{evaluator.FullName}}" class="img-flow" ng-src="{{evaluator.Avatar}}" />
                                                 <p>{{evaluator.NickName}}</p>
@@ -125,7 +125,7 @@
                                     <td class="col-sm-2 col-reviewer">
                                         <ul list-sortable class="sortable custom-ul list-unstyled" id="reviewerList">
                                             <li class="alert alert-info nomargin" ng-repeat="reviewer in personalFlowCtrl.reviewers.employees">
-                                                <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                                <a href="" class="glyphicon glyphicon-remove icon-close"
                                                    ng-click="personalFlowCtrl.removeItemFromList(reviewer, personalFlowCtrl.reviewers.employees)"></a>
                                                 <img tooltip="{{reviewer.FullName}}" class="img-flow" ng-src="{{reviewer.Avatar}}" />
                                                 <p>{{reviewer.NickName}}</p>
@@ -135,7 +135,7 @@
                                     <td class="col-sm-2 col-management" ng-show="personalFlowCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly">
                                         <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
                                             <li class="alert alert-info nomargin" ng-repeat="management in personalFlowCtrl.managements.employees">
-                                                <a href="javascript:;" class="glyphicon glyphicon-remove icon-close"
+                                                <a href="" class="glyphicon glyphicon-remove icon-close"
                                                    ng-click="personalFlowCtrl.removeItemFromList(management, personalFlowCtrl.managements.employees)"></a>
                                                 <img tooltip="{{management.FullName}}" class="img-flow" ng-src="{{management.Avatar}}" />
                                                 <p>{{management.NickName}}</p>

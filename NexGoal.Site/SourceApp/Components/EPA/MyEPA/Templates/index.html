@@ -22,10 +22,10 @@
                     <td class="text-center">{{ myEPA.Process.CurrentProcess.StartDate | customDate }}</td>
                     <td class="text-center">{{ myEPA.Process.CurrentProcess.EndDate | customDate }}</td>
                     <td class="text-center col-action" ng-switch="myEPA.IsAllowedToEdit">
-                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="javascript:;" 
+                        <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href="" 
                            ng-click="empEPACtrl.viewEPADetail(myEPA)"
                            ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                        <a ng-switch-default class="glyphicon icon-view" href="javascript:;" 
+                        <a ng-switch-default class="glyphicon icon-view" href="" 
                            ng-click="empEPACtrl.viewEPAResult(myEPA)"
                            ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
                     </td>

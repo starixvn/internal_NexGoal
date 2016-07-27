@@ -38,13 +38,13 @@
                 <ul>
                     <li ng-repeat="(key,value) in ratingByKPICtrl.kpis | groupBy: 'KPIGroup.Name'">
                         <span><i class="glyphicon glyphicon-minus-sign" ng-click="ratingByKPICtrl.toggleCollapseExpand()"></i></span>
-                        <a href="javascript:;">
+                        <a href="">
                             {{key}}
                         </a>
                         <ul>
                             <li ng-repeat="kpi in ratingByKPICtrl.kpis" ng-if="kpi.KPIGroup.Name == key">
                                 <span class="glyphicon glyphicon-ok" ng-if="kpi.Evaluated"></span>
-                                <a href="javascript:;" ng-click="ratingByKPICtrl.KPIChange(kpi.KPIId)" ng-class="ratingByKPICtrl.getCSSSelected(kpi.KPIId)">
+                                <a href="" ng-click="ratingByKPICtrl.KPIChange(kpi.KPIId)" ng-class="ratingByKPICtrl.getCSSSelected(kpi.KPIId)">
                                     {{kpi.Name}}
                                 </a>
                             </li>
@@ -148,7 +148,7 @@
                                     0)">
                                     <div class="col-sm-2 cancel-rating">
                                         <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                                           title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
+                                           title="Cancel" href="" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                     </div>
                                     <div class="col-sm-7 rating-form">
                                         <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading"
@@ -171,7 +171,7 @@
                                 <div ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
                                     <div class="col-sm-2 cancel-rating">
                                         <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                                           title="Cancel" href="javascript:;" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
+                                           title="Cancel" href="" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                     </div>
                                     <div class="col-sm-7 rating-form">
                                         <input id="star_{{memberEPA.Employee.EmployeeId}}" type="number" class="rating-loading"

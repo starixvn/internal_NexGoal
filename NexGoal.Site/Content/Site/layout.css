@@ -1288,6 +1288,7 @@ label:hover {
 /***** Styles *****/
 .sidebar {
   padding-right: 10px;
+  box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
 }
 .sidebar .list-group {
   margin: 0;
@@ -1385,6 +1386,9 @@ label:hover {
 .sidebar .list-group .list-group-item.has-sub.active > a {
   color: #f5783e;
 }
+.sidebar .list-group .list-group-item:last-child {
+  padding-bottom: 0;
+}
 .sidebar .panel-body {
   padding: 0;
 }
@@ -1401,7 +1405,7 @@ label:hover {
     overflow-x: hidden;
     overflow-y: auto;
     top: 0;
-    padding: 10px 0;
+    padding: 10px 0 0 0;
     background-color: #fff;
     border-right: 1px solid #eeeeee;
     max-height: 950px;

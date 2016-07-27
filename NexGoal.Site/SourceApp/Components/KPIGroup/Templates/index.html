@@ -44,7 +44,7 @@
                     <td class="text-center" ng-bind="kpiGroupCtrl.getIndex($index, kpiGroupCtrl.currentPage, kpiGroupCtrl.pageSize)"></td>
                     <td ng-bind="kpiGroup.Name"></td>
                     <td class="text-center col-number-kpis">
-                        <a href="javascript:;" ng-if="kpiGroup.NumberKPI > 0 && kpiGroupCtrl.permissionOnKPI > 0" ng-click="kpiGroupCtrl.viewKPI(kpiGroup.KPIGroupId)"
+                        <a href="" ng-if="kpiGroup.NumberKPI > 0 && kpiGroupCtrl.permissionOnKPI > 0" ng-click="kpiGroupCtrl.viewKPI(kpiGroup.KPIGroupId)"
                            ng-bind="kpiGroup.NumberKPI" class="number-kpi"></a>
                         <span ng-if="kpiGroup.NumberKPI === 0 || kpiGroupCtrl.permissionOnKPI != kpiGroupCtrl.policyEnum.Host" ng-bind="kpiGroup.NumberKPI">0</span>
                     </td>
@@ -56,9 +56,9 @@
                     <td class="col-description">
                         {{kpiGroup.Description | limitTo: kpiGroup.numLimit > 0 ? kpiGroup.numLimit: kpiGroupCtrl.maxLengthDescription}}
                         <a ng-if="!kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
-                            href="javascript:;" ng-click="kpiGroupCtrl.readMore(kpiGroup)" data-translate="ReadMore"></a>
+                            href="" ng-click="kpiGroupCtrl.readMore(kpiGroup)" data-translate="ReadMore"></a>
                         <a ng-if="kpiGroup.showReadMore && (kpiGroup.Description.length >= kpiGroupCtrl.maxLengthDescription)"
-                             href="javascript:;" ng-click="kpiGroupCtrl.readLess(kpiGroup)" data-translate="ReadLess"></a>
+                             href="" ng-click="kpiGroupCtrl.readLess(kpiGroup)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host">
                         <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>

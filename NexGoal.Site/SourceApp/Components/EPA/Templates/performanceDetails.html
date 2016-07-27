@@ -57,10 +57,10 @@
                         <td class="col-comment" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                                 {{kpi.EvaluationBySelf.Comment | limitTo:kpi.EvaluationBySelf.numLimit > 0 ? kpi.EvaluationBySelf.numLimit : memberEPAInfoCtrl.maxLengthDescription}}
-                                <a ng-show="kpi.EvaluationBySelf.Comment.length > 0 && !kpi.EvaluationBySelf.showReadMore && (kpi.EvaluationBySelf.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href="javascript:;"
+                                <a ng-show="kpi.EvaluationBySelf.Comment.length > 0 && !kpi.EvaluationBySelf.showReadMore && (kpi.EvaluationBySelf.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href=""
                                    ng-click="memberEPAInfoCtrl.readMore(kpi.EvaluationBySelf)" data-translate="ReadMore"></a>
                                 <a ng-show="kpi.EvaluationBySelf.Comment.length > 0 && kpi.EvaluationBySelf.showReadMore"
-                                   href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(kpi.EvaluationBySelf)" data-translate="ReadLess"></a>
+                                   href="" ng-click="memberEPAInfoCtrl.readLess(kpi.EvaluationBySelf)" data-translate="ReadLess"></a>
                             </div>
                             <div class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></div>
                         </td>
@@ -84,10 +84,10 @@
                         <td class="col-comment">
                             <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
                                 {{evaluator.Comment | limitTo:evaluator.numLimit > 0 ? evaluator.numLimit : memberEPAInfoCtrl.maxLengthDescription}}
-                                <a ng-show="evaluator.Comment.length > 0 && !evaluator.showReadMore && (evaluator.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href="javascript:;"
+                                <a ng-show="evaluator.Comment.length > 0 && !evaluator.showReadMore && (evaluator.Comment.length > memberEPAInfoCtrl.maxLengthDescription)" href=""
                                    ng-click="memberEPAInfoCtrl.readMore(evaluator)" data-translate="ReadMore"></a>
                                 <a ng-show="evaluator.Comment.length > 0 && evaluator.showReadMore"
-                                   href="javascript:;" ng-click="memberEPAInfoCtrl.readLess(evaluator)" data-translate="ReadLess"></a>
+                                   href="" ng-click="memberEPAInfoCtrl.readLess(evaluator)" data-translate="ReadLess"></a>
                             </div>
                             <div class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></div>
                         </td>

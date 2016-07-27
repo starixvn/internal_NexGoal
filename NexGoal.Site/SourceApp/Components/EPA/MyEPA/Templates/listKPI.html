@@ -22,7 +22,7 @@
                              || (memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.Score && kpiGroup.NumberKPIOptional > 0)">
                             <div class="remove-rating">
                                 <a ng-show="memberEPAInfoCtrl.epaInfo.IsAllowedToEdit && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                                   title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
+                                   title="Cancel" href="" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                             </div>
                             <div class="rating-form">
                                 <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-size="xs"
@@ -40,7 +40,7 @@
                              ng-if="memberEPAInfoCtrl.epaInfo.RatingType.RatingTypeId == memberEPAInfoCtrl.ratingTypeEnum.HalfStar">
                             <div class="remove-rating">
                                 <a ng-show="memberEPAInfoCtrl.epaInfo.IsAllowedToEdit && kpi.CurrentEvaluation.Rate > 0" class="glyphicon glyphicon-remove-circle remove-star"
-                                   title="Cancel" href="javascript:;" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
+                                   title="Cancel" href="" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                             </div>
                             <div class="rating-form">
                                 <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-size="xs"

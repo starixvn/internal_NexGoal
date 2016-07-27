@@ -135,9 +135,9 @@
                     <span ng-show="employee.ApproverSubtractScore == 0">{{employee.ApproverSubtractScore | number: 1}}</span>
                 </td>
                 <td class="text-center" ng-if="attendanceCtrl.permission >= attendanceCtrl.policyEnum.Read">
-                    <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="javascript:;" ng-click="attendanceCtrl.adjust(employee)"
+                    <a class="glyphicon glyphicon-edit icon-edit" title="Edit" href="" ng-click="attendanceCtrl.adjust(employee)"
                        ng-if="attendanceCtrl.permission == attendanceCtrl.policyEnum.Host && employee.Permission == attendanceCtrl.policyEnum.Host"></a>
-                    <a class="glyphicon icon-view" title="View" href="javascript:;" ng-click="attendanceCtrl.adjust(employee)"
+                    <a class="glyphicon icon-view" title="View" href="" ng-click="attendanceCtrl.adjust(employee)"
                        ng-if="attendanceCtrl.permission != attendanceCtrl.policyEnum.Host || employee.Permission != attendanceCtrl.policyEnum.Host"></a>
                 </td>
             </tr>

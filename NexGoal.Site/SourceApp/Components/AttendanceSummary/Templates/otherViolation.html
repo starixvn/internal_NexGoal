@@ -87,7 +87,7 @@
                 <td class="text-center" ng-bind="violation.Score | number: 1"></td>
                 <td class="text-center" ng-bind="violation.Comment"></td>
                 <td class="text-center" ng-if="violationCtrl.permission == violationCtrl.policyEnum.Host && violationCtrl.isSystemAdmin">
-                    <a href="javascript:;" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="violationCtrl.delete(violation)"></a>
+                    <a href="" class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="violationCtrl.delete(violation)"></a>
                 </td>
             </tr>
             <tr ng-show="violationCtrl.otherViolations.length == 0">

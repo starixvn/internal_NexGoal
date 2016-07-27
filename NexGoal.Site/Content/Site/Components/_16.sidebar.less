@@ -12,6 +12,7 @@
 
 .sidebar {
     padding-right: 10px;
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,.16);
 
     .list-group {
         margin: 0;
@@ -145,7 +146,11 @@
                         color: @c-sidebar-menu-item-sub-link-active-text;
                     }
                 }
-            }            
+            }  
+            
+            &:last-child {
+                padding-bottom: 0;
+            }          
         }
     }
 
@@ -167,7 +172,7 @@
         overflow-x: hidden;
         overflow-y: auto;
         top: 0;
-        padding: 10px 0;
+        padding: 10px 0 0 0;
         background-color: @c-sidebar-bg;
         border-right: 1px solid @c-sidebar-border;
         max-height: 950px;
