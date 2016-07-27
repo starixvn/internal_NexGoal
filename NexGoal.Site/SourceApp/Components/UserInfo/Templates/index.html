@@ -1,7 +1,9 @@
-﻿<strong ng-controller="UserInfoController as userInfoCtrl">
-    {{::userInfoCtrl.userInfo.FullName}} - <i>{{::userInfoCtrl.userInfo.NickName}}</i>
-</strong>
-&nbsp;&nbsp;
-<span class="user-avatar">
-    <img src="../../../../Content/Site/Components/images/avatar.png" />
-</span>
+﻿<div ng-controller="UserInfoController as userInfoCtrl">
+    <strong >
+        {{::userInfoCtrl.userInfo.FullName}} - <i>{{::userInfoCtrl.userInfo.NickName}}</i>
+    </strong>
+    &nbsp;&nbsp;
+    <span class="user-avatar">
+        <img ng-src="{{userInfoCtrl.userInfo.Avatar}}" />
+    </span>
+</div>
