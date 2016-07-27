@@ -1343,6 +1343,17 @@ label:hover {
 .sidebar .list-group .list-group-item a:focus {
   text-decoration: none;
 }
+.sidebar .list-group .list-group-item.active {
+  background-color: transparent;
+  background-image: none;
+  text-shadow: none;
+}
+.sidebar .list-group .list-group-item.no-sub a {
+  font-weight: 600;
+}
+.sidebar .list-group .list-group-item.no-sub.active a {
+  color: #f5783e;
+}
 .sidebar .list-group .list-group-item.has-sub .sub-menu-title {
   color: #545454;
   display: block;
@@ -1352,17 +1363,18 @@ label:hover {
   transform: rotate(-90deg);
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu {
-  padding-left: 38px;
+  padding-left: 48px;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu a {
   padding-left: 0;
   transition: 0.3s all ease;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu.active {
-  background: #f4783d;
+  background: #f5783e;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu.active a {
   color: #fff;
+  font-weight: 500;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu.active:hover a {
   color: #fff;
@@ -1370,14 +1382,8 @@ label:hover {
 .sidebar .list-group .list-group-item.has-sub .sub-menu:hover a {
   color: #f5783e;
 }
-.sidebar .list-group .list-group-item.active {
-  background-color: transparent;
-  background-image: none;
-  text-shadow: none;
-}
-.sidebar .list-group .list-group-item.active a {
+.sidebar .list-group .list-group-item.has-sub.active > a {
   color: #f5783e;
-  font-weight: 500;
 }
 .sidebar .panel-body {
   padding: 0;
@@ -1448,7 +1454,7 @@ label:hover {
   padding-left: 5px;
 }
 .page {
-  margin-top: 60px;
+  padding-top: 60px;
 }
 .main {
   padding: 0 10px;

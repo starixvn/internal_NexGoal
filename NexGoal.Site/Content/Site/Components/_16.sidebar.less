@@ -76,7 +76,25 @@
                 &:hover, &:active, &:focus {
                     text-decoration: none;
                 }
-            }
+            }      
+            
+            &.active {
+                background-color: transparent;
+                background-image: none;
+                text-shadow: none;                
+            }    
+            
+            &.no-sub {
+                a {
+                    font-weight: 600;
+                }
+
+                &.active {
+                    a {
+                        color: @c-sidebar-menu-item-sub-link-active-text;
+                    }
+                }
+            }  
 
             &.has-sub {
                 .sub-menu-title {
@@ -92,7 +110,7 @@
                 }
 
                 .sub-menu {
-                    padding-left: 38px;
+                    padding-left: 48px;
 
                     a {
                         padding-left: 0;
@@ -100,10 +118,11 @@
                     }
 
                     &.active {
-                        background: #f4783d;
+                        background: @c-sidebar-menu-item-sub-link-active-text;
 
                         a {
                             color: #fff;
+                            font-weight: 500;
                         }
 
                         &:hover {
@@ -120,18 +139,13 @@
                     }
 
                 }
-            }
 
-            &.active {
-                background-color: transparent;
-                background-image: none;
-                text-shadow: none;
-
-                a {
-                    color: @c-sidebar-menu-item-link-active-text;
-                    font-weight: 500;
+                &.active {
+                    > a {
+                        color: @c-sidebar-menu-item-sub-link-active-text;
+                    }
                 }
-            }
+            }            
         }
     }
 
