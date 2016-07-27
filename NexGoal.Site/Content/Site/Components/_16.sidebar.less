@@ -4,7 +4,7 @@
 @c-sidebar-border: @gray-Gallery;
 @c-sidebar-menu-item-text: @gray-Ship;
 @c-sidebar-menu-item-sub-bg: @orange-Apricot;
-@c-sidebar-menu-item-sub-text: @gray-Mine;
+@c-sidebar-menu-item-sub-text: @gray-Emperor;
 @c-sidebar-menu-item-sub-link-active-text: @orange-Jaffa;
 @c-sidebar-menu-item-link-active-text: @orange-Jaffa;
 
@@ -20,7 +20,7 @@
 
         .fa {
             font-size: 16px;
-            width: 25px;
+            width: 28px;
         }
 
         .fa-chevron-down {
@@ -63,17 +63,14 @@
         .list-group-item {
             border: none;
             border-radius: 0;
-            padding-top: 5px;
-            padding-bottom: 5px;
-            padding-right: 0;
-            padding-left: 5px;
+            padding: 5px 0;
 
             &:hover {
                 cursor: pointer;
             }
 
             a {
-                padding: 6px 7px;
+                padding: 6px 10px;
                 color: @c-sidebar-menu-item-text;
 
                 &:hover, &:active, &:focus {
@@ -83,10 +80,9 @@
 
             &.has-sub {
                 .sub-menu-title {
-                    background: @c-sidebar-menu-item-sub-bg;
                     color: @c-sidebar-menu-item-sub-text;
                     display: block;
-                    font-weight: 500;
+                    font-weight: 600;
 
                     &.collapsed {
                         .fa-chevron-down {
@@ -96,19 +92,33 @@
                 }
 
                 .sub-menu {
-                    padding-left: 32px;
+                    padding-left: 38px;
 
                     a {
                         padding-left: 0;
                         transition: 0.3s all ease;
                     }
 
-                    &.active,
+                    &.active {
+                        background: #f4783d;
+
+                        a {
+                            color: #fff;
+                        }
+
+                        &:hover {
+                            a {
+                                color: #fff;
+                            }
+                        }
+                    }
+
                     &:hover {
                         a {
                             color: @c-sidebar-menu-item-sub-link-active-text;
                         }
                     }
+
                 }
             }
 
@@ -139,12 +149,14 @@
         z-index: 1000;
         display: block;
         padding: 20px;
+        margin-top: 60px;
         overflow-x: hidden;
         overflow-y: auto;
-        top: 36px;
-        padding: 20px 0 10px 10px;
+        top: 0;
+        padding: 10px 0;
         background-color: @c-sidebar-bg;
         border-right: 1px solid @c-sidebar-border;
         max-height: 950px;
+        width: 279px;
     }
 }

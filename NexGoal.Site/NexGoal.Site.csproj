@@ -252,6 +252,7 @@
     <Content Include="Content\Site\auth\images\icon-user.png" />
     <Content Include="Content\Site\auth\images\signin_icon.png" />
     <Content Include="Content\Site\auth\images\titlebg.png" />
+    <Content Include="Content\Site\Components\images\avatar.png" />
     <Content Include="Content\Site\Components\images\icon-search.png" />
     <Content Include="Content\Site\Components\images\accept.png" />
     <Content Include="Content\Site\Components\images\arrow-down.png" />
@@ -672,6 +673,9 @@
     <Content Include="Content\Fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Content\Site\Components\_17.loading-process.less" />
     <Content Include="Content\Site\Components\_18.link.member.less" />
+    <Content Include="Content\Fonts\Roboto\Roboto-Regular.ttf" />
+    <Content Include="Content\Fonts\Roboto\Roboto-Regular.woff" />
+    <Content Include="Content\Fonts\Roboto\Roboto-Regular.woff2" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
