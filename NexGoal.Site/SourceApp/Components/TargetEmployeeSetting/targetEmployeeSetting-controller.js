@@ -208,7 +208,7 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
             vm.isFirstLoad = false;
         })["finally"](function () {
             lockScreenService.stop();
-        });;
+        });
     };
 
     $scope.$watch(function () { return $scope.targetCtrl.dataTab.department; },

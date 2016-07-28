@@ -1,5 +1,5 @@
 ﻿'use strict';
-/*global appModule*/
+/*global appModule, moment*/
 
 appModule.factory('utilitiesFactory',
 ['$filter', function ($filter) {
@@ -50,8 +50,6 @@ appModule.factory('utilitiesFactory',
         return dateTimeFormatString;
     };
 
-    /*jshint ignore:start */
-    /*moment is third party*/
     utilities.getDateTime = function (dateObject) {
         var resultDate = '';
 
@@ -61,7 +59,6 @@ appModule.factory('utilitiesFactory',
 
         return resultDate;
     };
-    /*jshint ignore:end */
 
     utilities.getInt = function (number) {
         var result = number;
