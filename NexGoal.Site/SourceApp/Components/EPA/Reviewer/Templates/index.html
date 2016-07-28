@@ -34,14 +34,6 @@
                     <button class="button" ng-click="reviewerCtrl.query(reviewerCtrl.filter)" data-translate="Submit"></button>
                 </div>
             </div>
-            <!--<div class="form-group">
-                <div class="col-sm-1">&nbsp;</div>
-                <div class="col-sm-1 checkbox">
-                    <label>
-                        <input type="checkbox" ng-model="reviewerCtrl.filter.isMonthly" ng-change="reviewerCtrl.getMember()">{{"IsMonthly" | translate}}
-                    </label>
-                </div>
-            </div>-->
         </form>
         <table class="row table table-bordered table-striped">
             <thead>
@@ -82,8 +74,6 @@
                     </th>
                     <th data-translate="AdjustScore"></th>
                     <th data-translate="Comment"></th>
-                    <th data-translate="SystemDisciplineScore"></th>
-                    <th data-translate="DisciplineScore"></th>
                     <th data-translate="TotalScore"></th>
                     <th>
                         <span ng-show="!reviewerCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>
@@ -153,36 +143,6 @@
                            ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.Process.CurrentProcess.Comment, false)"
                            ng-if="memberEPA.Process.CurrentProcess.Comment && memberEPA.Process.CurrentProcess.Comment.length > 0
                                 && (!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
-                    </td>
-                    <td class="text-center">
-                        <div ng-show="memberEPA.HasDisciplineScore">
-                            <span ng-class="memberEPA.SystemDisciplineScore < 0 ? 'red' : ''"
-                                  ng-bind="memberEPA.SystemDisciplineScore | customScore"></span> / <span ng-bind="memberEPA.MaxDisciplineScore | customScore"></span>
-                        </div>
-                        <div ng-show="!memberEPA.HasDisciplineScore">
-                            <span ng-show="memberEPA.SystemDisciplineScore"
-                                  ng-class="memberEPA.SystemDisciplineScore < 0 ? 'red' : ''"
-                                  ng-bind="memberEPA.SystemDisciplineScore | customScore"></span>
-                            <span ng-show="!memberEPA.SystemDisciplineScore" ng-bind="'-'"></span>
-                        </div>
-                    </td>
-                    <td class="text-center">
-                        <div class="col-percent-60">
-                            <div ng-show="memberEPA.HasDisciplineScore">
-                                <span ng-class="memberEPA.DisciplineScore < 0 ? 'red' : ''"
-                                      ng-bind="memberEPA.DisciplineScore | customScore"></span>  / <span ng-bind="memberEPA.MaxDisciplineScore | customScore"></span>
-                            </div>
-                            <div ng-show="!memberEPA.HasDisciplineScore">
-                                <span ng-show="memberEPA.DisciplineScore"
-                                      ng-class="memberEPA.DisciplineScore < 0 ? 'red' : ''"
-                                      ng-bind="memberEPA.DisciplineScore | customScore"></span>
-                                <span ng-show="!memberEPA.DisciplineScore" ng-bind="'-'"></span>
-                            </div>
-                        </div>
-                        <div class="col-percent-40" ng-if="memberEPA.HasOtherViolation">
-                            <a class="glyphicon icon-alert" href="" ng-click="reviewerCtrl.viewOtherViolationDetail(memberEPA)"
-                               ng-attr-title='{{"ViewOtherViolation" | translate}}'></a>
-                        </div>
                     </td>
                     <td class="text-center">
                         {{memberEPA.FinalScore | customScore}} / {{memberEPA.Process.CurrentProcess.MaxPerformanceScore | customScore}}

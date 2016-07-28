@@ -222,27 +222,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 return false;
             }
         }
-
-        if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
-            if (new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.EndDate).setHours(0, 0, 0, 0)) {
-                notificationFactory.error("StartDateGreaterThanEndDateWarning");
-                return false;
-            }
-
-            if (hasReviewer) {
-                if (new Date(employeeOptions.reviewer.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0)) {
-                    notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
-                    return false;
-                }
-            }
-            else {
-                if (new Date(employeeOptions.evaluator.EndDate).setHours(0, 0, 0, 0) > new Date(employeeOptions.management.StartDate).setHours(0, 0, 0, 0)) {
-                    notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
-                    return false;
-                }
-            }
-        }
-
         return true;
     };
 
@@ -290,20 +269,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                         notificationFactory.error("EndDatePeriodRequired");
                         return false;
                     }
-                    else if (!period.RawAttendanceStartDate) {
-                        notificationFactory.error("DisciplineStartDatePeriodRequired");
-                        return false;
-                    }
-                    else if (!period.RawAttendanceEndDate) {
-                        notificationFactory.error("DisciplineEndDatePeriodRequired");
-                        return false;
-                    }
                     else if (new Date(period.RawStartDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
                         notificationFactory.error("StartDateGreaterThanEndDateWarning");
-                        return false;
-                    }
-                    else if (new Date(period.RawAttendanceStartDate).setHours(0, 0, 0, 0) > new Date(period.RawAttendanceEndDate).setHours(0, 0, 0, 0)) {
-                        notificationFactory.error("DisciplineStartDateGreaterThanEndDateWarning");
                         return false;
                     }
                 }
@@ -592,23 +559,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     };
 
                     employeeAssignments.push(reviewerAssignment);
-                });
-            }
-
-            if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
-                angular.forEach(employeeOptions.management.ids, function (managementId, index) {
-                    var managementAssignment = {
-                        employeeId: employee.Employee.EmployeeId,
-                        processId: periodModel.evaluatorType.Management,
-                        startDate: employeeOptions.management.StartDate.toDateString(),
-                        endDate: employeeOptions.management.EndDate.toDateString(),
-                        priority: index + 1,
-                        evaluatorInfo: {
-                            employeeId: managementId
-                        }
-                    };
-
-                    employeeAssignments.push(managementAssignment);
                 });
             }
         });
