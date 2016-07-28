@@ -1,5 +1,6 @@
-﻿(function (dashboardModule) {
-    "use strict";
+﻿"use strict";
+
+(function (dashboardModule) {
 
     dashboardModule.controller("DashboardController", dashboardController);
 
@@ -9,9 +10,14 @@
         var vm = this;
 
         vm.showScore = false;
+
         vm.epaStatusEnum = enumerationsFactory.epaStatus;
         vm.targetTypeEnum = enumerationsFactory.targetType;
         vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
+
+        vm.showHideScore = function () {
+            vm.showScore = !vm.showScore;
+        };
 
         vm.getClassProgress = function (statusEndProcess) {
             if (statusEndProcess === vm.statusEndProcessEnum.InProgress) {
@@ -77,6 +83,4 @@
 
         initialize();
     }
-
-
 })(angular.module("dashboardModule"));

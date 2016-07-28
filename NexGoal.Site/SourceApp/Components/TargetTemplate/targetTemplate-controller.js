@@ -2,8 +2,8 @@
 /*global targetTemplateModule*/
 
 targetTemplateModule.controller('TargetTemplateController',
-["$location", 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', "baseUrl",
-function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+["$location", 'TargetTemplateModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', "baseUrl", "lockScreenService",
+function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, lockScreenService) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -42,9 +42,13 @@ function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumera
     });
 
     var getTargetTemplate = function (targetTypeId, isActive) {
+        lockScreenService.start();
+
         TargetTemplateModel.getTargetTemplate(targetTypeId, isActive).then(function () {
             vm.targetTemplates = TargetTemplateModel.targetTemplates;
             utilitiesFactory.searchOnPage(vm, vm.targetTemplates);
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 
@@ -87,8 +91,8 @@ function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumera
 }]);
 
 targetTemplateModule.controller('CreateTargetTemplateController',
-['$window', '$location', 'TargetTemplateModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($window, $location, TargetTemplateModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
+['$location', 'TargetTemplateModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
+function ($location, TargetTemplateModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
     vm.permission = TargetTemplateModel.permission;
@@ -134,8 +138,8 @@ function ($window, $location, TargetTemplateModel, CommonModel, enumerationsFact
 }]);
 
 targetTemplateModule.controller('UpdateTargetTemplateController',
-['$routeParams', 'TargetTemplateModel',
-function ($routeParams, TargetTemplateModel) {
+['$routeParams', 'TargetTemplateModel', "lockScreenService",
+function ($routeParams, TargetTemplateModel, lockScreenService) {
     var vm = this;
 
     vm.targetTemplateId = parseInt($routeParams.id, 10);
@@ -148,9 +152,13 @@ function ($routeParams, TargetTemplateModel) {
     };
 
     vm.getTargetTemplateById = function (targetTemplateId) {
+        lockScreenService.start();
+
         TargetTemplateModel.getTargetTemplateById(targetTemplateId).then(function () {
             vm.targetTemplate = TargetTemplateModel.targetTemplate;
             vm.originalScoreTypeId = vm.targetTemplate.ScoreRatingTypeId;
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 
@@ -168,8 +176,8 @@ function ($routeParams, TargetTemplateModel) {
 }]);
 
 targetTemplateModule.controller('TargetTemplateGeneralInformationController',
-['$scope', '$window', 'TargetTemplateModel', 'CommonModel', 'historyFactory',
-function ($scope, $window, TargetTemplateModel, CommonModel, historyFactory) {
+['$scope', 'TargetTemplateModel', 'CommonModel', 'historyFactory',
+function ($scope, TargetTemplateModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
@@ -204,8 +212,8 @@ function ($scope, $window, TargetTemplateModel, CommonModel, historyFactory) {
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', '$window', '$translate', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
-function ($scope, $window, $translate, TargetTemplateModel, utilitiesFactory, historyFactory) {
+['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
+function ($scope, $translate, TargetTemplateModel, utilitiesFactory, historyFactory) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;

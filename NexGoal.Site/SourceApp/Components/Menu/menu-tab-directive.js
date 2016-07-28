@@ -3,14 +3,13 @@
 
     menuModule.directive("menuTab", menuTabDirective);
 
-    function menuTabDirective($location, $window) {
+    function menuTabDirective($location) {
         return {
             restrict: "A",
             link: function (scope, element, attrs) {
                 var selfPath = attrs.link;
                 var $parent = element.parent();
                 var $grandParent = element.parent().parent().parent();
-                var MIDDLE_MOUSE_CLICK = 2;
 
                 if (selfPath === $location.path()) {
                     $parent.addClass("active");
@@ -22,7 +21,7 @@
 
                 scope.location = $location;
 
-                scope.$watch("location.path()", function (newPath, oldPath) {
+                scope.$watch("location.path()", function (newPath) {
                     if (newPath) {
                         if (selfPath === newPath) {
                             $parent.addClass("active");
@@ -37,14 +36,14 @@
                     }
                 });
 
-                element.bind("click", function (event) {
+                element.bind("click", function () {
                     $location.path(selfPath).search({});
 
                     scope.$apply();
-                })
+                });
             }
         };
     }
 
-    menuTabDirective.$inject = ["$location", "$window"];
+    menuTabDirective.$inject = ["$location"];
 })(angular.module("menuModule"));

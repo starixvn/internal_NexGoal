@@ -4,12 +4,9 @@
             <th>#</th>
             <th>Period Name</th>
             <th>Evaluation Type</th>
-            <th>Month</th>
-            <th>Year</th>
             <th>Start</th>
             <th>End</th>
-            <th>Score</th>
-            <th>Grade</th>
+            <th colspan="2" title="Click to show/hide score." class="col-score" ng-click="dashboardCtrl.showHideScore()"><u>Score & Grade</u></th>
             <th>View Detail</th>
         </tr>
     </thead>
@@ -17,21 +14,14 @@
         <tr ng-repeat="myEPA in dashboardCtrl.myEPAs">
             <td class="text-center" ng-bind="::$index + 1"></td>
             <td ng-bind="::myEPA.Period.Name"></td>
-            <td class="text-center" ng-bind="::myEPA.Period.TargetTypeName">
-            </td>
-            <td class="text-center">
-                Month goes here
-            </td>
-            <td class="text-center">
-                Month goes here
-            </td>
+            <td class="text-center" ng-bind="::myEPA.Period.TargetTypeName"></td>
             <td class="text-center" ng-bind="::myEPA.Period.StartDate | date : 'dd MMM, yyyy'"></td>
             <td class="text-center" ng-bind="::myEPA.Period.EndDate | date : 'dd MMM, yyyy'"></td>
             <td class="text-center">
-                Score goes here
+                <span ng-show="dashboardCtrl.showScore" ng-bind="::myEPA.FinalScore"></span>
             </td>
             <td class="text-center">
-                Grade goes here
+                <span ng-show="dashboardCtrl.showScore" ng-bind="::myEPA.Grade"></span>
             <td class="text-center col-action">
                 <a ng-click="dashboardCtrl.viewEPADetail(myEPA)" href=""
                    ng-if="myEPA.EPAId > 0 && (myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"

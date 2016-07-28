@@ -69,9 +69,10 @@
                             href="" ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center">
-                        <a href="" ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host"
-                           ng-click="targetTemplateCtrl.update(targetTemplate, true)" ng-bind="targetTemplate.KPIs"></a>
-                        <span ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Read" ng-bind="targetTemplate.KPIs"></span>
+                        <a href="" ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host && targetTemplate.KPIs > 0"
+                           ng-click="targetTemplateCtrl.update(targetTemplate, true)" ng-bind="targetTemplate.KPIs">
+                        </a>
+                        <span ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Read || targetTemplate.KPIs === 0" ng-bind="targetTemplate.KPIs"></span>
                     </td>
                     <td class="text-center">
                         <input type="checkbox" ng-checked="targetTemplate.IsActive" ng-click="targetTemplateCtrl.confirmActive(targetTemplate)"

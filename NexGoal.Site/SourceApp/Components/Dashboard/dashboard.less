@@ -1,5 +1,5 @@
 ﻿.dashboard {
-    background-color: #fefefe;    
+    background-color: #fefefe;
     color: #61463b;
 
     .row-item {
@@ -21,62 +21,14 @@
         border-radius: 3px;
     }
 
-    .boxtitle {
-        &.first {
-            border-top: none;
-        }
-    }
+    .table.table-bordered {
+        border-collapse: collapse;
 
-    .boxcontent {
-        padding: 5px 10px;
-
-        .img-user {
-            border: 1px solid #d9d9d9;
-            background-color: #FFF;
-            height: 105px;
-            width: 105px;
-            margin: 10px auto;
-            border-radius: 3px;
-
-            img.img-default {
-                width: 95px;
-                height: 95px;
-                margin-top: 5px;
-            }
-        }
-
-        .table.table-bordered {
-            margin: 0;
-
-            a {
+        .col-score {
+            &:hover {
                 cursor: pointer;
-
-                &:hover, &:focus {
-                    text-decoration: none;
-                }
-            }
-
-            .col-final-score {
-                width: 15%;
-            }
-
-            .col-percent-50 {
-                width: 50%;
-                float: left;
-                text-align: right;
-            }
-
-            .col-percent-40 {
-                width: 40%;
-                float: left;
-                text-align: left;
-                margin-left: 5%;
             }
         }
-    }
-
-    .target-tabset .nav-tabs li > a {
-        text-transform: none;
     }
 }
 

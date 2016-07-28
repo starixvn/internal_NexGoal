@@ -13,6 +13,6 @@
         commonModel.getUserInfo().then(function () {
             vm.userInfo = commonModel.userInfo;
         });
-    };
+    }
 
 })(angular.module("userInfoModule"));

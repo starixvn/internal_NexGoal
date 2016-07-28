@@ -2,8 +2,8 @@
 /*global kpiGroupModule*/
 
 kpiGroupModule.controller('KPIGroupController',
-["$location", 'KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+["$location", 'KPIGroupModel', 'KPIModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl', "lockScreenService",
+function ($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, lockScreenService) {
     var vm = this;
 
     vm.kpiGroups = KPIGroupModel.kpiGroups;
@@ -24,9 +24,12 @@ function ($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enu
     vm.currentPage = 1;
 
     var getKPIGroup = function (isActive) {
+        lockScreenService.start();
+
         KPIGroupModel.getKPIGroup(isActive).then(function () {
             vm.kpiGroups = KPIGroupModel.kpiGroups;
             utilitiesFactory.searchOnPage(vm, vm.kpiGroups);
+            lockScreenService.stop();
         });
         historyFactory.saveState(vm.filter);
     };

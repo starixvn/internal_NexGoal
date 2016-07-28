@@ -28,9 +28,13 @@ function ($routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, 
     vm.currentPage = 1;
 
     var getKPI = function (kpiGroupId, isActive, isRequiredEvaluate) {
+        lockScreenService.start();
+
         KPIModel.getKPI(kpiGroupId, isActive, isRequiredEvaluate).then(function () {
             vm.kpis = KPIModel.kpis;
             utilitiesFactory.searchOnPage(vm, vm.kpis);
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 
