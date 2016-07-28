@@ -442,7 +442,7 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPIToView.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\updateFinalScore-controller.js" />
-    <Content Include="SourceApp\Components\Period\employeeSettingUpdate- controller.js" />
+    <Content Include="SourceApp\Components\Period\employeeSettingUpdate-controller.js" />
     <Content Include="SourceApp\Components\Report\monthlyEPASummaryReport-controller.js" />
     <Content Include="SourceApp\Components\Report\monthlyEPADetailReport-controller.js" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPASummaryReport.html" />
