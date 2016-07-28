@@ -62,6 +62,7 @@
                             "~/SourceApp/Components/TargetEmployeeSetting/targetEmployeeSetting.less",
                             "~/SourceApp/Components/Period/period.less",
                             "~/SourceApp/Components/EPA/epa.less",
+                            "~/SourceApp/Components/EPA/ratingByStar.less",
                             "~/SourceApp/Components/Dashboard/dashboard.less",
                             "~/SourceApp/Components/AttendanceSummary/attendanceSummary.less",
                             "~/SourceApp/Components/Report/report.less");
