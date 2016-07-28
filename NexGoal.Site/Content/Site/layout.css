@@ -143,7 +143,6 @@ label:hover {
 .container-fluid.page {
   width: 100%;
   min-width: 760px;
-  /*input[type='text'],*/
 }
 .container-fluid.page .ico-tick {
   background: url("/Content/Site/images/accept.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
@@ -372,13 +371,6 @@ label:hover {
   -webkit-box-shadow: none;
   -moz-box-shadow: none;
   box-shadow: none;
-}
-.container-fluid.page .icon-save-submit {
-  background: url('Components/images/save_submit.png') no-repeat;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  vertical-align: middle;
 }
 .container-fluid.page .icon-pencil {
   background: url('Components/images/sprite_ico_2012-05-15.png') no-repeat -148px -171px;
@@ -858,7 +850,6 @@ label:hover {
   text-align: center;
   text-decoration: none;
   text-shadow: 0 -1px 0 #256F8E;
-  vertical-align: bottom;
   cursor: pointer;
 }
 .button:hover {
