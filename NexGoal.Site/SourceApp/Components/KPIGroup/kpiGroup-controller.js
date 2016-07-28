@@ -29,6 +29,7 @@ function ($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enu
         KPIGroupModel.getKPIGroup(isActive).then(function () {
             vm.kpiGroups = KPIGroupModel.kpiGroups;
             utilitiesFactory.searchOnPage(vm, vm.kpiGroups);
+        })["finally"](function () {
             lockScreenService.stop();
         });
         historyFactory.saveState(vm.filter);

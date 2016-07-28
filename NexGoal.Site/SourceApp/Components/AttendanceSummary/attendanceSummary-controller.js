@@ -77,6 +77,8 @@ function ($scope, $location, AttendanceModel, utilitiesFactory, CommonModel, enu
         AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, showAll).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
             utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
+            
+        })["finally"](function () {
             lockScreenService.stop();
         });
     };
@@ -378,6 +380,7 @@ function ($scope, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, 
             vm.attendanceDetails = AttendanceModel.attendanceDetails;
             vm.attendanceDetails = AttendanceModel.convertCheckInOutToDate(vm, vm.attendanceDetails);
             utilitiesFactory.searchOnPage(vm, vm.attendanceDetails);
+        })["finally"](function () {
             lockScreenService.stop();
         });
     };

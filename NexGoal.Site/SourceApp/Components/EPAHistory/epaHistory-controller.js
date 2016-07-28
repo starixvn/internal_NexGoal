@@ -60,6 +60,7 @@ function ($location, $routeParams, EPAHistoryModel, utilitiesFactory, CommonMode
         EPAHistoryModel.getEPAHistory(periodId, employeeId).then(function () {
             vm.epas = EPAHistoryModel.epas;
             utilitiesFactory.searchOnPage(vm, vm.epas);
+        })["finally"](function () {
             lockScreenService.stop();
         });
     };

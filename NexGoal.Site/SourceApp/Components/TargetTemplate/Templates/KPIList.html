@@ -33,10 +33,10 @@
                                 <td class="criteria-title row-highlight group-header">
                                     <span>{{ group.Name}} ({{group.Weight}})</span>
                                     <a class="glyphicon glyphicon-remove icon-remove left-buffer" title="Remove Group"
-                                       ng-click="kpiListCtrl.removeKPIGroup(group)" href=""></a>
+                                       ng-click="kpiListCtrl.removeKPIGroup(group)"></a>
                                 </td>
                                 <td class="text-center row-highlight">
-                                    <a ng-show="!group.IsSpreadKPI" href="" ng-click="kpiListCtrl.scoreSpread(group)">Spread</a>
+                                    <a ng-show="!group.IsSpreadKPI" ng-click="kpiListCtrl.scoreSpread(group)">Spread</a>
                                 </td>
                                 <td class="text-center row-highlight"></td>
                                 <td class="text-center row-highlight"></td>
@@ -65,10 +65,10 @@
                                     <input type="checkbox" ng-model="item.IsRequiredComment" ng-show="item.Selected" ng-disabled="!item.HasComment" name="IsRequiredComment" />
                                 </td>
                                 <td class="text-center priority-limit">
-                                    <a href="" title="Top" class="glyphicon glyphicon-open kpiTop" move-kpi-row> | </a>
-                                    <a href="" title="Move Up" class="glyphicon glyphicon-arrow-up kpiUp" move-kpi-row> | </a>
-                                    <a href="" title="Move Down" class="glyphicon glyphicon-arrow-down kpiDown" move-kpi-row> | </a>
-                                    <a href="" title="Bottom" class="glyphicon glyphicon-save kpiBottom" move-kpi-row></a>
+                                    <a title="Top" class="glyphicon glyphicon-open kpiTop" move-kpi-row> | </a>
+                                    <a title="Move Up" class="glyphicon glyphicon-arrow-up kpiUp" move-kpi-row> | </a>
+                                    <a title="Move Down" class="glyphicon glyphicon-arrow-down kpiDown" move-kpi-row> | </a>
+                                    <a title="Bottom" class="glyphicon glyphicon-save kpiBottom" move-kpi-row></a>
                                 </td>
                             </tr>
                         </tbody>

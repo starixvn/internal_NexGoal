@@ -11,8 +11,8 @@
         <form novalidate class="row filter form-inline" role="form" ng-if="kpiCtrl.isViewAll">
             <div class="form-group">
                 <label data-translate="Group"></label>
-                <select class="form-control lstBox-limit" ng-model="kpiCtrl.filter.kpiGroupId" 
-                    ng-options="opt.KPIGroupId as opt.Name for opt in kpiCtrl.kpiGroups">
+                <select class="form-control lstBox-limit" ng-model="kpiCtrl.filter.kpiGroupId"
+                        ng-options="opt.KPIGroupId as opt.Name for opt in kpiCtrl.kpiGroups">
                     <option value="">-- {{"All" | translate}} --</option>
                 </select>
             </div>
@@ -88,13 +88,13 @@
                     <td class="col-description">
                         {{kpi.Description | limitTo: kpi.numLimit > 0 ? kpi.numLimit: kpiCtrl.maxLengthDescription}}
                         <a ng-show="!kpi.showReadMore && (kpi.Description.length >= kpiCtrl.maxLengthDescription)"
-                            href="" ng-click="kpiCtrl.readMore(kpi)" data-translate="ReadMore"></a>
+                           ng-click="kpiCtrl.readMore(kpi)" data-translate="ReadMore"></a>
                         <a ng-show="kpi.showReadMore && (kpi.Description.length >= kpiCtrl.maxLengthDescription)"
-                            href="" ng-click="kpiCtrl.readLess(kpi)" data-translate="ReadLess"></a>
+                           ng-click="kpiCtrl.readLess(kpi)" data-translate="ReadLess"></a>
                     </td>
                     <td class="text-center col-action" ng-if="kpiCtrl.permission == kpiCtrl.policyEnum.Host">
-                        <a class="glyphicon glyphicon-edit icon-edit" href="" ng-click="kpiCtrl.updateKPI(kpi)" ng-attr-title='{{"Edit" | translate}}'></a>
-                        <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="kpiCtrl.deleteKPI(kpi)" ng-attr-title='{{"Delete" | translate}}'></a>
+                        <a class="glyphicon glyphicon-edit icon-edit" ng-click="kpiCtrl.updateKPI(kpi)" ng-attr-title='{{"Edit" | translate}}'></a>
+                        <a class="glyphicon glyphicon-remove icon-remove" ng-click="kpiCtrl.deleteKPI(kpi)" ng-attr-title='{{"Delete" | translate}}'></a>
                     </td>
                 </tr>
                 <tr ng-show="kpiCtrl.filteredItems.length == 0">

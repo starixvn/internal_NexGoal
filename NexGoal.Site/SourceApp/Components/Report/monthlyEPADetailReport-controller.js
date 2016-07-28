@@ -63,6 +63,7 @@ function ($scope, $timeout, ReportModel, CommonModel, utilitiesFactory, lockScre
             filter.itemsPerPage)
         .then(function () {
             vm.epaDetail = ReportModel.epaDetail;
+        })["finally"](function () {
             lockScreenService.stop();
         });
     }

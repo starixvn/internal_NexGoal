@@ -30,8 +30,8 @@ function (TargetEmployeeSettingModel, enumerationsFactory) {
 }]);
 
 targetEmployeeSettingModule.controller('TargetPersonnelSettingController',
-['$scope', 'TargetEmployeeSettingModel', 'EmployeeModel', 'CommonModel', 'TargetTemplateModel', 'utilitiesFactory',
-function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplateModel, utilitiesFactory) {
+['$scope', 'TargetEmployeeSettingModel', 'EmployeeModel', 'CommonModel', 'TargetTemplateModel', 'utilitiesFactory', "lockScreenService",
+function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, TargetTemplateModel, utilitiesFactory, lockScreenService) {
     var vm = this;
 
     vm.targetEmployeeSettings = TargetEmployeeSettingModel.targetEmployeeSettings;
@@ -59,10 +59,14 @@ function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, Target
     utilitiesFactory.numberEntryList(vm);
 
     var getTargetEmployeeSetting = function (groupId, employeeId, targetTypeId, showAll) {
+        lockScreenService.start();
+
         TargetEmployeeSettingModel.getTargetEmployeeSetting(groupId, employeeId, targetTypeId, showAll).then(function () {
             vm.targetEmployeeSettings = TargetEmployeeSettingModel.targetEmployeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.targetEmployeeSettings);
             vm.isFirstLoad = false;
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 
@@ -167,8 +171,8 @@ function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, Target
 }]);
 
 targetEmployeeSettingModule.controller('TargetDepartmentSettingController',
-['$scope', 'TargetEmployeeSettingModel', 'CommonModel', 'TargetTemplateModel', 'utilitiesFactory',
-function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, utilitiesFactory) {
+['$scope', 'TargetEmployeeSettingModel', 'CommonModel', 'TargetTemplateModel', 'utilitiesFactory', "lockScreenService",
+function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, utilitiesFactory, lockScreenService) {
     var vm = this;
 
     vm.targetDepartmentSettings = TargetEmployeeSettingModel.targetDepartmentSettings;
@@ -196,11 +200,15 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
     utilitiesFactory.numberEntryList(vm);
 
     var getTargetDepartmentSetting = function (departmentId, isGroup, targetTypeId, showAll) {
+        lockScreenService.start();
+
         TargetEmployeeSettingModel.getTargetDepartmentSetting(departmentId, isGroup, targetTypeId, showAll).then(function () {
             vm.targetDepartmentSettings = TargetEmployeeSettingModel.targetDepartmentSettings;
             utilitiesFactory.searchOnPage(vm, vm.targetDepartmentSettings);
             vm.isFirstLoad = false;
-        });
+        })["finally"](function () {
+            lockScreenService.stop();
+        });;
     };
 
     $scope.$watch(function () { return $scope.targetCtrl.dataTab.department; },

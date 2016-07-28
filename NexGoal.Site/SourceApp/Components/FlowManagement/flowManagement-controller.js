@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.controller("FlowMngController",
-["$location", 'FlowMngModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl',
-function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl) {
+["$location", 'FlowMngModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl', "lockScreenService",
+function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, lockScreenService) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -22,9 +22,13 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
     vm.currentPage = 1;
 
     var getFlowTemplate = function (targetTypeId, isActive) {
+        lockScreenService.start();
+
         FlowMngModel.getFlowTemplate(targetTypeId, isActive).then(function () {
             vm.flowTemplates = FlowMngModel.flowTemplates;
             utilitiesFactory.searchOnPage(vm, vm.flowTemplates);
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     };
 

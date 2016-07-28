@@ -35,6 +35,7 @@ function ($scope, ReportModel, CommonModel, utilitiesFactory, lockScreenService)
             filter.itemsPerPage)
         .then(function () {
             vm.epaSummary = ReportModel.epaSummary;
+        })["finally"](function () {
             lockScreenService.stop();
         });
     }

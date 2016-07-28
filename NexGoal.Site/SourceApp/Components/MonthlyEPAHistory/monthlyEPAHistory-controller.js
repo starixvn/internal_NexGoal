@@ -59,6 +59,7 @@ function ($window, $routeParams, monthlyEPAHistoryModel, utilitiesFactory, Commo
         monthlyEPAHistoryModel.getEPAHistory(periodId, employeeId).then(function () {
             vm.epas = monthlyEPAHistoryModel.epas;
             utilitiesFactory.searchOnPage(vm, vm.epas);
+        })["finally"](function () {
             lockScreenService.stop();
         });
     };
