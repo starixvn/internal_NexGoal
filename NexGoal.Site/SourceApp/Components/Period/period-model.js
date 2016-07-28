@@ -18,8 +18,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         HumanResources: 1,
         SelfEvaluator: 2,
         Evaluator: 3,
-        Reviewer: 4,
-        Management: 5
+        Reviewer: 4
     };
 
     periodModel.processStatus = {
@@ -59,10 +58,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             endDateOpened: false
         },
         reviewer: {
-            startDateOpened: false,
-            endDateOpened: false
-        },
-        management: {
             startDateOpened: false,
             endDateOpened: false
         }
@@ -128,9 +123,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
         vm.flowCalendar.reviewer.startDateOpened = false;
         vm.flowCalendar.reviewer.endDateOpened = false;
-
-        vm.flowCalendar.management.startDateOpened = false;
-        vm.flowCalendar.management.endDateOpened = false;
     };
 
     periodModel.openFlowPopupStartDate = function (vm, event, evaluatorType) {
@@ -150,9 +142,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 break;
             case periodModel.evaluatorType.Reviewer:
                 vm.flowCalendar.reviewer.startDateOpened = true;
-                break;
-            case periodModel.evaluatorType.Management:
-                vm.flowCalendar.management.startDateOpened = true;
                 break;
         }
     };
@@ -174,9 +163,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 break;
             case periodModel.evaluatorType.Reviewer:
                 vm.flowCalendar.reviewer.endDateOpened = true;
-                break;
-            case periodModel.evaluatorType.Management:
-                vm.flowCalendar.management.endDateOpened = true;
                 break;
         }
     };

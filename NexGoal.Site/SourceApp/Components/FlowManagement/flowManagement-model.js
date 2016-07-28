@@ -24,12 +24,7 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
         remindDay: 0,
         employees: []
     };
-    flowMngModel.managements = {
-        duration: 0,
-        hasSendMail: true,
-        remindDay: 0,
-        employees: []
-    };
+
     flowMngModel.humanResources = {
         duration: 0,
         hasSendMail: true,
@@ -64,11 +59,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
         vm.reviewers.remindDay = 0;
         vm.reviewers.employees = [];
 
-        vm.managements.duration = 0;
-        vm.managements.hasSendMail = true;
-        vm.managements.remindDay = 0;
-        vm.managements.employees = [];
-
         vm.humanResources.duration = 0;
         vm.humanResources.hasSendMail = true;
         vm.humanResources.remindDay = 0;
@@ -92,9 +82,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 break;
             case "reviewerList":
                 list = vm.reviewers.employees;
-                break;
-            case "managementList":
-                list = vm.managements.employees;
                 break;
             case "humanResourceList":
                 list = vm.humanResources.employees;
@@ -155,12 +142,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                     flowMngModel.reviewers.hasSendMail = flow.HasSendMail;
                     flowMngModel.reviewers.remindDay = flow.RemindDay;
                     flowMngModel.reviewers.employees.push(flow.EvaluatorInfo);
-                    break;
-                case 5:
-                    flowMngModel.managements.duration = flow.Duration;
-                    flowMngModel.managements.hasSendMail = flow.HasSendMail;
-                    flowMngModel.managements.remindDay = flow.RemindDay;
-                    flowMngModel.managements.employees.push(flow.EvaluatorInfo);
                     break;
             }
         });

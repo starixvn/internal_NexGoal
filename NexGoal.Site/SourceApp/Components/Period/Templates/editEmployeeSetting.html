@@ -36,7 +36,6 @@
                     <th class="text-center" data-translate="SelfEvaluator" ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></th>
                     <th class="text-center" data-translate="Evaluator" ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></th>
                     <th class="text-center" data-translate="Reviewer"></th>
-                    <th class="text-center" data-translate="Management"></th>
                 </tr>
             </thead>
             <tbody>
@@ -68,14 +67,6 @@
                                 ng-model="updatePeriodSettingCtrl.employeeOptions.reviewer.ids"
                                 data-placeholder="-- Select --" name="reviewerSelect"
                                 ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.reviewerEmployees"
-                                on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
-                    </td>
-                    <td>
-                        <select class="form-control" multiple chosen
-                                options="updatePeriodSettingCtrl.employeeOptions.management" employees"
-                                ng-model="updatePeriodSettingCtrl.employeeOptions.management.ids"
-                                data-placeholder="-- Select --" name="managementSelect"
-                                ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.managementEmployees"
                                 on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                     </td>
                 </tr>
@@ -119,15 +110,6 @@
                         <calendar-image class="calendar-image period-calendar"
                                         ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></calendar-image>
                     </td>
-                    <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.management.StartDate"
-                               ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Management)"
-                               datepicker-popup
-                               is-open="updatePeriodSettingCtrl.flowCalendar.management.startDateOpened" />
-                        <calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Management)"></calendar-image>
-                    </td>
                 </tr>
                 <tr>
                     <td ng-show="!updatePeriodSettingCtrl.singleMode" class="text-center">
@@ -168,15 +150,6 @@
                                is-open="updatePeriodSettingCtrl.flowCalendar.reviewer.endDateOpened" />
                         <calendar-image class="calendar-image period-calendar"
                                         ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Reviewer)"></calendar-image>
-                    </td>
-                    <td class="text-center">
-                        <input readonly class="calendar-form-control" type="text"
-                               ng-model="updatePeriodSettingCtrl.employeeOptions.management.EndDate"
-                               ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Management)"
-                               datepicker-popup
-                               is-open="updatePeriodSettingCtrl.flowCalendar.management.endDateOpened" />
-                        <calendar-image class="calendar-image period-calendar"
-                                        ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Management)"></calendar-image>
                     </td>
                 </tr>
             </tbody>

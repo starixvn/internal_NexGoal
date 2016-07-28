@@ -220,7 +220,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Management Score", Width: 80, Name: "ManagementScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
@@ -235,7 +234,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             SelfScore: '',
             EvaluatorScore: '',
             ReviewerScore: '',
-            ManagementScore: '',
             DisciplineScore: '',
             FinalScore: '',
             Grade: ''
@@ -271,12 +269,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             result.ReviewerScore = epaInfo.Process.AverageScoreByReviewers;
         }
 
-        if (epaInfo.EPAId > 0
-            && epaInfo.Process.Managements.length > 0
-            && epaInfo.Process.Managements[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
-            result.ManagementScore = epaInfo.Process.AverageScoreByManagements;
-        }
-
         if (epaInfo.Period.IsEndPeriod) {
             if (epaInfo.FinalScore) {
                 result.FinalScore = utilitiesFactory.parseFloat(epaInfo.FinalScore);
@@ -303,17 +295,9 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                     cssSelfScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Self.IsEndProcess ? 'red' : '',
                     cssEvaluatorScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Evaluators[0].IsEndProcess ? 'red' : '',
                     cssReviewerScore = memberEPA.EPAId > 0 && !memberEPA.Process.Reviewers[0].IsEndProcess ? 'red' : '',
-                    cssManagementScore = '',
                     cssDisciplineScore = memberEPA.EPAId > 0 && memberEPA.DisciplineScore < 0 ? 'red' : '',
                     pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId +
                             '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
-
-                if (memberEPA.EPAId > 0
-                    && memberEPA.Process.Managements
-                    && memberEPA.Process.Managements.length > 0
-                    && !memberEPA.Process.Managements[0].IsEndProcess) {
-                    cssManagementScore = 'red';
-                }
 
                 var currentRow = {
                     Columns: [
@@ -327,7 +311,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "SelfScore", Value: "<span class='" + cssSelfScore + "'>" + score.SelfScore + "</span>" },
                         { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
                         { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
-                        { Name: "ManagementScore", Value: "<span class='" + cssManagementScore + "'>" + score.ManagementScore + "</span>" },
                         { Name: "DisciplineScore", Value: "<span class='" + cssDisciplineScore + "'>" + score.DisciplineScore + "</span>" },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade },

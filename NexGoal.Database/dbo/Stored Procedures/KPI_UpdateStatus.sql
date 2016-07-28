@@ -3,7 +3,7 @@
 /****** Object:  Stored Procedure dbo.KPI_UpdateStatus    Script Date: 5/16/2016 1:59:44 PM ******/
 /****** Object:  Stored Procedure dbo.KPI_UpdateStatus    Script Date: 4/6/2016 11:27:47 AM ******/
 
-ALTER PROCEDURE [dbo].[KPI_UpdateStatus] @KPIId INT
+CREATE PROCEDURE [dbo].[KPI_UpdateStatus] @KPIId INT
 	,@IsActive BIT = 0
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT

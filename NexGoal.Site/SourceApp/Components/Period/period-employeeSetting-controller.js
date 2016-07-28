@@ -327,16 +327,10 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
             StartDate: null,
             EndDate: null
         },
-        management: {
-            ids: null,
-            StartDate: null,
-            EndDate: null
-        },
         targetTemplateId: null,
         humanResourceEmployees: [],
         evaluatorEmployees: [],
-        reviewerEmployees: [],
-        managementEmployees: []
+        reviewerEmployees: []
     };
 
     function createEmployeeIds(evaluators) {
@@ -390,7 +384,6 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
         vm.employeeOptions.selfEvaluator = getEvaluators(employeeSetting.SelfEvaluators);
         vm.employeeOptions.evaluator = getEvaluators(employeeSetting.Evaluators);
         vm.employeeOptions.reviewer = getEvaluators(employeeSetting.Reviewers);
-        vm.employeeOptions.management = getEvaluators(employeeSetting.Managements);
 
         if (employeeSetting.TargetTemplate) {
             vm.employeeOptions.targetTemplateId = employeeSetting.TargetTemplate.TargetTemplateId;
@@ -442,11 +435,6 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
             month = vm.employeeOptions.evaluator.EndDate.getMonth();
             day = vm.employeeOptions.evaluator.EndDate.getDate();
             setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.reviewer, vm.processSettings, vm.evaluatorType.Reviewer);
-
-            year = vm.employeeOptions.reviewer.EndDate.getFullYear();
-            month = vm.employeeOptions.reviewer.EndDate.getMonth();
-            day = vm.employeeOptions.reviewer.EndDate.getDate();
-            setDateSetting(new Date(year, month, day + 1), vm.employeeOptions.management, vm.processSettings, vm.evaluatorType.Management);
         });
     }
 
@@ -462,7 +450,6 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
             vm.employeeOptions.humanResourceEmployees = angular.copy(vm.employees);
             vm.employeeOptions.evaluatorEmployees = angular.copy(vm.employees);
             vm.employeeOptions.reviewerEmployees = angular.copy(vm.employees);
-            vm.employeeOptions.managementEmployees = angular.copy(vm.employees);
 
             if (vm.singleMode) {
                 setEmployeeSetting(vm.selectedEmployees[0]);

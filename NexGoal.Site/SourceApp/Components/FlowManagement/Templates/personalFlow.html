@@ -88,8 +88,6 @@
                                     <th class="col-sm-2 text-center" data-translate="SelfEvaluator"></th>
                                     <th class="col-sm-2 text-center" data-translate="Evaluator"></th>
                                     <th class="col-sm-2 text-center" data-translate="Reviewer"></th>
-                                    <th class="col-sm-2 text-center" data-translate="Management"
-                                        ng-show="personalFlowCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly"></th>
                                 </tr>
                             </thead>
                             <tbody class="table-body">
@@ -129,16 +127,6 @@
                                                    ng-click="personalFlowCtrl.removeItemFromList(reviewer, personalFlowCtrl.reviewers.employees)"></a>
                                                 <img tooltip="{{reviewer.FullName}}" class="img-flow" ng-src="{{reviewer.Avatar}}" />
                                                 <p>{{reviewer.NickName}}</p>
-                                            </li>
-                                        </ul>
-                                    </td>
-                                    <td class="col-sm-2 col-management" ng-show="personalFlowCtrl.flowTemplate.TargetTypeId != updateCtrl.targetTypeEnum.Monthly">
-                                        <ul list-sortable class="sortable custom-ul list-unstyled" id="managementList">
-                                            <li class="alert alert-info nomargin" ng-repeat="management in personalFlowCtrl.managements.employees">
-                                                <a href="" class="glyphicon glyphicon-remove icon-close"
-                                                   ng-click="personalFlowCtrl.removeItemFromList(management, personalFlowCtrl.managements.employees)"></a>
-                                                <img tooltip="{{management.FullName}}" class="img-flow" ng-src="{{management.Avatar}}" />
-                                                <p>{{management.NickName}}</p>
                                             </li>
                                         </ul>
                                     </td>

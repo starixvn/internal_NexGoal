@@ -12,9 +12,6 @@
         [Description("HR")]
         HumanResource = 2,
 
-        [Description("MGT")]
-        Management = 3,
-
         [Description("Reviewer")]
         Reviewer = 4,
 

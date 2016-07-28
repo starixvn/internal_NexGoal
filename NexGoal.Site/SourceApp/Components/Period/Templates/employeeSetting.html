@@ -252,32 +252,6 @@
                     </div>
                 </td>
             </tr>
-            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="management in employee.Managements">
-                <td data-translate="Management" rowspan="{{employee.Managements.length}}" ng-show="$first"></td>
-                <td ng-bind="management.EvaluatorInfo.NickName"></td>
-                <td class="width-120">
-                    <span ng-show="management.ProcessStatus == 0" data-translate="NotAvailable"></span>
-                    <span ng-show="management.ProcessStatus == 1" data-translate="Open"></span>
-                    <div ng-show="management.ProcessStatus == 2">
-                        <span data-translate="InProgress"></span>
-                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
-                              ng-show="management.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
-                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
-                              ng-show="management.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
-                    </div>
-                    <div ng-show="management.ProcessStatus == 3">
-                        <span data-translate="Closed"></span>
-                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
-                              ng-show="management.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
-                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
-                              ng-show="management.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
-                    </div>
-                </td>
-                <td class="width-140" ng-bind="management.StartDate | date: empSettingCtrl.dateFormat"
-                    ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
-                <td class="width-140" ng-bind="management.EndDate | date: empSettingCtrl.dateFormat"
-                    ng-show="$first" rowspan="{{employee.Managements.length}}"></td>
-            </tr>
         </tbody>
         <tbody ng-show="empSettingCtrl.filteredItems.length == 0">
             <tr>

@@ -11,7 +11,6 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService, history
     vm.selfs = FlowMngModel.selfs;
     vm.evaluators = FlowMngModel.evaluators;
     vm.reviewers = FlowMngModel.reviewers;
-    vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
 
     vm.departmentSettings = FlowMngModel.departmentSettings;
@@ -61,12 +60,10 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService, history
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
-            vm.managements = FlowMngModel.managements;
             vm.humanResources = FlowMngModel.humanResources;
 
             if (vm.evaluators.employees.length > 0 ||
                 vm.reviewers.employees.length > 0 ||
-                vm.managements.employees.length > 0 ||
                 vm.humanResources.employees.length > 0) {
                 vm.showDeleteButton = true;
             }
@@ -93,9 +90,6 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService, history
                 break;
             case "reviewerList":
                 vm.reviewers.employees.splice(val.to, 0, vm.reviewers.employees.splice(val.from, 1)[0]);
-                break;
-            case "managementList":
-                vm.managements.employees.splice(val.to, 0, vm.managements.employees.splice(val.from, 1)[0]);
                 break;
             case "humanResourceList":
                 vm.humanResources.employees.splice(val.to, 0, vm.humanResources.employees.splice(val.from, 1)[0]);

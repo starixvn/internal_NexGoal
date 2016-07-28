@@ -11,7 +11,6 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
     vm.selfs = FlowMngModel.selfs;
     vm.evaluators = FlowMngModel.evaluators;
     vm.reviewers = FlowMngModel.reviewers;
-    vm.managements = FlowMngModel.managements;
     vm.humanResources = FlowMngModel.humanResources;
 
     vm.employees = [];
@@ -99,7 +98,6 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
             vm.selfs = FlowMngModel.selfs;
             vm.evaluators = FlowMngModel.evaluators;
             vm.reviewers = FlowMngModel.reviewers;
-            vm.managements = FlowMngModel.managements;
             vm.humanResources = FlowMngModel.humanResources;
 
             if (vm.selfs.employees.length > 0) {
@@ -129,9 +127,6 @@ function ($scope, $window, $routeParams, FlowMngModel, CommonModel, cacheService
                 break;
             case "reviewerList":
                 vm.reviewers.employees.splice(val.to, 0, vm.reviewers.employees.splice(val.from, 1)[0]);
-                break;
-            case "managementList":
-                vm.managements.employees.splice(val.to, 0, vm.managements.employees.splice(val.from, 1)[0]);
                 break;
             case "humanResourceList":
                 vm.humanResources.employees.splice(val.to, 0, vm.humanResources.employees.splice(val.from, 1)[0]);
