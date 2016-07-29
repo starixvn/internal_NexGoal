@@ -14,6 +14,8 @@
     using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Core.Services.Interfaces;
+    using NexGoal.Core.Services;
 
     public class ExportReportController : Controller
     {
@@ -26,9 +28,10 @@
         private readonly IAttendanceSummaryService _attendanceService;
         private readonly IEPADetailReportService _epaDetailReportService;
         private readonly IMonthlyEPADetailReportService _monthlyEPADetailReportService;
+        private readonly ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null, null, null)
         {
         }
 
@@ -37,13 +40,15 @@
             IReportService reportService,
             IAttendanceSummaryService attendanceService,
             IEPADetailReportService epaDetailReportService,
-            IMonthlyEPADetailReportService monthlyEPADetailReportService)
+            IMonthlyEPADetailReportService monthlyEPADetailReportService,
+            ISessionService sessionService)
         {
             _periodService = checkFlowService ?? new PeriodService();
             _reportService = reportService ?? new ReportService();
             _attendanceService = attendanceService ?? new AttendanceSummaryService();
             _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
             _monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
+            this.sessionService = sessionService ?? new SessionService();
         }
 
         public ActionResult Index()
@@ -68,7 +73,7 @@
         {
             string fileName = Lang.EPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = 111; /// CurrentUser.EmployeeId;
+            criteria.EmployeeId = this.sessionService.CurrentUser.EmployeeId;
 
             EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
 
@@ -81,7 +86,7 @@
         {
             string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = 111; /// CurrentUser.EmployeeId;
+            criteria.EmployeeId = this.sessionService.CurrentUser.EmployeeId;
 
             EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
 
@@ -92,7 +97,7 @@
 
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = 111; /// CurrentUser.EmployeeId;
+            criteria.EmployeeId = this.sessionService.CurrentUser.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
 
@@ -103,7 +108,7 @@
 
         public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = 111; /// CurrentUser.EmployeeId;
+            criteria.EmployeeId = this.sessionService.CurrentUser.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
             _monthlyEPADetailReportService.Render(epaDetail);
@@ -113,7 +118,7 @@
 
         public ActionResult ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria)
         {
-            criteria.ApproverId = 111; /// CurrentUser.EmployeeId;
+            criteria.ApproverId = this.sessionService.CurrentUser.EmployeeId;
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceService.GetAttendanceSummary(criteria);
 
             if (attendanceEmployees != null)
@@ -129,7 +134,7 @@
         {
             if (criteria != null)
             {
-                criteria.ApproverId = 111; /// CurrentUser.EmployeeId;
+                criteria.ApproverId = this.sessionService.CurrentUser.EmployeeId;
                 IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
 
                 if (attendanceViolations != null)

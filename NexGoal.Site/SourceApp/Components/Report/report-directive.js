@@ -220,7 +220,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Evaluator Score", Width: 80, Name: "EvaluatorScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Reviewer Score", Width: 80, Name: "ReviewerScore", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Discipline Score", Width: 80, Name: "DisciplineScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Final Score", Width: 80, Name: "FinalScore", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Grade", Width: 80, Name: "Grade", HeaderAlign: "center", CellAlign: "center" },
             { HeaderText: "Export PDF", Width: 80, Name: "ExportPdf", HeaderAlign: "center", CellAlign: "center" }
@@ -234,20 +233,9 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             SelfScore: '',
             EvaluatorScore: '',
             ReviewerScore: '',
-            DisciplineScore: '',
             FinalScore: '',
             Grade: ''
         };
-
-        if (epaInfo.HasDisciplineScore) {
-            result.DisciplineScore = epaInfo.DisciplineScore;
-        } else {
-            if (epaInfo.DisciplineScore !== 0) {
-                result.DisciplineScore = epaInfo.DisciplineScore;
-            } else {
-                result.DisciplineScore = '-';
-            }
-        }
 
         if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
             if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === enumerationsFactory.targetType.SemiAnnual) {
@@ -295,7 +283,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                     cssSelfScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Self.IsEndProcess ? 'red' : '',
                     cssEvaluatorScore = memberEPA.EPAId > 0 && !memberEPA.HasMonthlyEPA && !memberEPA.Process.Evaluators[0].IsEndProcess ? 'red' : '',
                     cssReviewerScore = memberEPA.EPAId > 0 && !memberEPA.Process.Reviewers[0].IsEndProcess ? 'red' : '',
-                    cssDisciplineScore = memberEPA.EPAId > 0 && memberEPA.DisciplineScore < 0 ? 'red' : '',
                     pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId +
                             '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
 
@@ -311,7 +298,6 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                         { Name: "SelfScore", Value: "<span class='" + cssSelfScore + "'>" + score.SelfScore + "</span>" },
                         { Name: "EvaluatorScore", Value: "<span class='" + cssEvaluatorScore + "'>" + score.EvaluatorScore + "</span>" },
                         { Name: "ReviewerScore", Value: "<span class='" + cssReviewerScore + "'>" + score.ReviewerScore + "</span>" },
-                        { Name: "DisciplineScore", Value: "<span class='" + cssDisciplineScore + "'>" + score.DisciplineScore + "</span>" },
                         { Name: "FinalScore", Value: score.FinalScore },
                         { Name: "Grade", Value: score.Grade },
                         { Name: "ExportPdf", Value: memberEPA.EPAId > 0 && memberEPA.Status.StatusId === 1 && memberEPA.Period.IsEndPeriod ? pdfIcon : "" }

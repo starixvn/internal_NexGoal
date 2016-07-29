@@ -208,28 +208,9 @@
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer));
 
-                if (memberEPA.Process.Managements != null && memberEPA.Process.Managements.Any() && !memberEPA.Process.Managements[0].IsEndProcess)
-                {
-                    if (_currentRow % 2 == 0)
-                    {
-                        bodyStyle = evenRedStyle;
-                    }
-                    else
-                    {
-                        bodyStyle = oddRedStyle;
-                    }
-                }
-
-                cell = row.CreateCell(currentColumn++);
-                cell.CellStyle = bodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.ManagementScore.ToString(), (int)ProcessType.Management));
-
                 bodyStyle = _currentRow % 2 == 0 ? evenStyle : oddStyle;
 
-                cell = row.CreateCell(currentColumn++);
-                cell.CellStyle = bodyStyle;
-                cell.SetCellValue(score.DisciplineScore);
-
+                
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(score.FinalScore);
@@ -390,8 +371,6 @@
                 Lang.SelfScore,
                 Lang.EvaluationScore,
                 Lang.ReviewerScore,
-                Lang.ManagementScore,
-                Lang.DisciplineScore,
                 Lang.FinalScore,
                 Lang.Grade
             };

@@ -10,7 +10,6 @@
                     </span>
                 </th>
                 <th colspan="2" data-translate="Reviewer"></th>
-                <th rowspan="2" data-translate="DisciplineScore" class="col-score" ng-show="!memberEPAInfoCtrl.epaInfo.IsMonthly"></th>
                 <th rowspan="2" data-translate="TotalScore" class="col-score"></th>
                 <th rowspan="2" data-translate="Grade" class="col-score" ng-show="!memberEPAInfoCtrl.epaInfo.IsMonthly"></th>
             </tr>
@@ -64,18 +63,6 @@
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="summary-comment" ng-show="$first">
                     <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                               ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
-                </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first && !memberEPAInfoCtrl.epaInfo.IsMonthly">
-                    <strong ng-show="memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                        <span ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                              ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></span> / <span ng-bind="memberEPAInfoCtrl.epaInfo.MaxDisciplineScore | customScore"></span>
-                    </strong>
-                    <div ng-show="!memberEPAInfoCtrl.epaInfo.HasDisciplineScore">
-                        <strong ng-show="memberEPAInfoCtrl.epaInfo.DisciplineScore"
-                                ng-class="memberEPAInfoCtrl.epaInfo.DisciplineScore < 0 ? 'red' : ''"
-                                ng-bind="memberEPAInfoCtrl.epaInfo.DisciplineScore | customScore"></strong>
-                        <strong ng-show="!memberEPAInfoCtrl.epaInfo.DisciplineScore" ng-bind="'-'"></strong>
-                    </div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
                     <strong>{{memberEPAInfoCtrl.finalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxPerformanceScore | customScore}}</strong>
