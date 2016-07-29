@@ -210,7 +210,6 @@
 
                 bodyStyle = _currentRow % 2 == 0 ? evenStyle : oddStyle;
 
-                
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(score.FinalScore);

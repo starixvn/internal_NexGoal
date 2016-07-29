@@ -1,21 +1,19 @@
 ﻿namespace NexGoal.Site.Controllers
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Web.Mvc;
-    using NexGoal.Core.Constants;
+    using NexGoal.Core.Services;
+    using NexGoal.Core.Services.Interfaces;
     using NexGoal.Criteria.AttendanceSummary;
     using NexGoal.Criteria.Period;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.AttendanceSummary;
-    using NexGoal.Model.Period;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Model.Report.EPASummary;
     using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Core.Services.Interfaces;
-    using NexGoal.Core.Services;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Web.Mvc;
 
     public class ExportReportController : Controller
     {
