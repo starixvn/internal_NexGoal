@@ -322,6 +322,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Behaviors &amp; Attitutes.
+        /// </summary>
+        public static string BehaviorAndAttitutes {
+            get {
+                return ResourceManager.GetString("BehaviorAndAttitutes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Below Average.
         /// </summary>
         public static string BelowAverage {
@@ -714,6 +723,15 @@ namespace NexGoal.Resources {
         public static string DisciplineEndDatePeriodRequired {
             get {
                 return ResourceManager.GetString("DisciplineEndDatePeriodRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline Information.
+        /// </summary>
+        public static string DisciplineInformation {
+            get {
+                return ResourceManager.GetString("DisciplineInformation", resourceCulture);
             }
         }
         
@@ -1375,6 +1393,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Excellent: 5.
+        /// </summary>
+        public static string FiveRating {
+            get {
+                return ResourceManager.GetString("FiveRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated. For Personal Target, this mean this person can be a master of this fields and be ready to train/tutor others as request..
+        /// </summary>
+        public static string FiveRatingDescription {
+            get {
+                return ResourceManager.GetString("FiveRatingDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Flow Management.
         /// </summary>
         public static string FlowManagement {
@@ -1398,6 +1434,33 @@ namespace NexGoal.Resources {
         public static string FlowTemplateManagement {
             get {
                 return ResourceManager.GetString("FlowTemplateManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For Employee Use.
+        /// </summary>
+        public static string ForEmployeeUse {
+            get {
+                return ResourceManager.GetString("ForEmployeeUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Good: 4.
+        /// </summary>
+        public static string FourRating {
+            get {
+                return ResourceManager.GetString("FourRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating. For Personal Target, this mean the objective has been fully achieve with high quality or higher than the expectation and recognize by others in team..
+        /// </summary>
+        public static string FourRatingDescription {
+            get {
+                return ResourceManager.GetString("FourRatingDescription", resourceCulture);
             }
         }
         
@@ -1551,6 +1614,15 @@ namespace NexGoal.Resources {
         public static string Home {
             get {
                 return ResourceManager.GetString("Home", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to HRM System.
+        /// </summary>
+        public static string HRMSystem {
+            get {
+                return ResourceManager.GetString("HRMSystem", resourceCulture);
             }
         }
         
@@ -2122,6 +2194,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating..
+        /// </summary>
+        public static string NARatingDescription {
+            get {
+                return ResourceManager.GetString("NARatingDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to New Final Score.
         /// </summary>
         public static string NewFinalScore {
@@ -2208,6 +2289,15 @@ namespace NexGoal.Resources {
         public static string NoneTargetTemplateSettingWarning {
             get {
                 return ResourceManager.GetString("NoneTargetTemplateSettingWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to N/A.
+        /// </summary>
+        public static string NotAvai {
+            get {
+                return ResourceManager.GetString("NotAvai", resourceCulture);
             }
         }
         
@@ -2302,6 +2392,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Poor: 1.
+        /// </summary>
+        public static string OneRating {
+            get {
+                return ResourceManager.GetString("OneRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps. For Personal Target, this mean not completed or need to re-work..
+        /// </summary>
+        public static string OneRatingDescription {
+            get {
+                return ResourceManager.GetString("OneRatingDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Organization Chart.
         /// </summary>
         public static string OrganizationChart {
@@ -2365,6 +2473,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please rate the performance using the following rating scale. Where not applicable, please indicate &apos;NA&apos;..
+        /// </summary>
+        public static string PerformanceRatingNote {
+            get {
+                return ResourceManager.GetString("PerformanceRatingNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Performance Result.
         /// </summary>
         public static string PerformanceResult {
@@ -2419,6 +2536,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PersonalTarget.
+        /// </summary>
+        public static string PersonalTarget {
+            get {
+                return ResourceManager.GetString("PersonalTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Poor.
         /// </summary>
         public static string Poor {
@@ -2442,6 +2568,24 @@ namespace NexGoal.Resources {
         public static string Priority {
             get {
                 return ResourceManager.GetString("Priority", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Project Efficiency.
+        /// </summary>
+        public static string ProjectEfficiency {
+            get {
+                return ResourceManager.GetString("ProjectEfficiency", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Promotability.
+        /// </summary>
+        public static string Promotability {
+            get {
+                return ResourceManager.GetString("Promotability", resourceCulture);
             }
         }
         
@@ -3292,6 +3436,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Satisfactory: 3.
+        /// </summary>
+        public static string ThreeRating {
+            get {
+                return ResourceManager.GetString("ThreeRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Meets expectations: refers to solid performance with a full skills base; most people fall into this category. For Personal Target, this mean objective has been archived with acceptable quality..
+        /// </summary>
+        public static string ThreeRatingDesciption {
+            get {
+                return ResourceManager.GetString("ThreeRatingDesciption", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Title.
         /// </summary>
         public static string Title {
@@ -3396,6 +3558,24 @@ namespace NexGoal.Resources {
         public static string TotalWeightWarning {
             get {
                 return ResourceManager.GetString("TotalWeightWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Below Average: 2.
+        /// </summary>
+        public static string TwoRating {
+            get {
+                return ResourceManager.GetString("TwoRating", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed. For Personal Target, this mean only partially complete the objective or need to keep working on the remaining..
+        /// </summary>
+        public static string TwoRatingDescription {
+            get {
+                return ResourceManager.GetString("TwoRatingDescription", resourceCulture);
             }
         }
         
@@ -3648,6 +3828,15 @@ namespace NexGoal.Resources {
         public static string ViolationTypeRequired {
             get {
                 return ResourceManager.GetString("ViolationTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning From Human Resource.
+        /// </summary>
+        public static string WarningFromHRM {
+            get {
+                return ResourceManager.GetString("WarningFromHRM", resourceCulture);
             }
         }
         

@@ -4,6 +4,468 @@
             <li class="current" data-translate="MyEPA"></li>
         </ul>
     </div>
+
+    <div class="col-sm-12">
+        <div class="row epa-form">
+            <div class="text-center epa-title" data-translate="EPATilte"></div>
+
+            <div class="col-sm-12">
+                <div class="panel-group">
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading" data-toggle="collapse" data-target=".performance-review-panel">
+                            <h4 class="panel-title">Performance review skills and abilities ({{::memberEPAInfoCtrl.epaInfo.Employee.Code}} - {{::memberEPAInfoCtrl.epaInfo.Employee.FullName}})</h4>
+                        </div>
+
+                        <div class="panel-collapse collapse in performance-review-panel">
+                            <div class="panel-body">
+
+                                <div class="row">
+
+                                    <div class="col-sm-12 text-center">
+                                        <p data-translate="PerformanceRatingNote"></p>
+                                    </div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-2 text-center" data-translate="NotAvai"></div>
+                                    <div class="col-sm-2 text-center" data-translate="OneRating"></div>
+                                    <div class="col-sm-2 text-center" data-translate="TwoRating"></div>
+                                    <div class="col-sm-2 text-center" data-translate="ThreeRating"></div>
+                                    <div class="col-sm-2 text-center" data-translate="FourRating"></div>
+                                    <div class="col-sm-2 text-center" data-translate="FiveRating"></div>
+
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-sm-2 text-center" data-translate="NARatingDescription"></div>
+                                    <div class="col-sm-2 text-center" data-translate="OneRatingDescription"></div>
+                                    <div class="col-sm-2 text-center" data-translate="TwoRatingDescription"></div>
+                                    <div class="col-sm-2 text-center" data-translate="ThreeRatingDesciption"></div>
+                                    <div class="col-sm-2 text-center" data-translate="FourRatingDescription"></div>
+                                    <div class="col-sm-2 text-center" data-translate="FiveRatingDescription"></div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading" data-toggle="collapse" data-target=".evaluation-process-panel">
+                            <h4 class="panel-title" data-translate="EvaluationProcess"></h4>
+                        </div>
+
+                        <div class="panel-collapse collapse in evaluation-process-panel">
+                            <div class="panel-body evaluation-process-section">
+
+                                <ul class="evaluation-process">
+                                    <li ng-if="!memberEPAInfoCtrl.epaInfo.HasMonthlyEPA"
+                                        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess)" class="process-item">
+                                        <div><strong data-translate="Self"></strong></div>
+                                        <div>
+                                            <span ng-bind="memberEPAInfoCtrl.epaInfo.Process.Self.StartDate | customDate"></span>
+                                            <span> - </span>
+                                            <span ng-bind="memberEPAInfoCtrl.epaInfo.Process.Self.EndDate | customDate"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
+                                            <label data-translate="EndProcess"></label><span class="icon-process"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
+                                            <label data-translate="InProgress"></label><span class="icon-process"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
+                                            <label data-translate="Open"></label><span class="icon-process"></span>
+                                        </div>
+                                    </li>
+                                    <li ng-if="!memberEPAInfoCtrl.epaInfo.HasMonthlyEPA"
+                                        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess)" class="process-item">
+                                        <div>
+                                            <strong>{{"Evaluator" | translate}}: </strong>
+                                            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length == 1"
+                                                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].NickName"
+                                                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].Avatar}}"></span>
+                                            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1"
+                                                  ng-repeat="evaluator in memberEPAInfoCtrl.epaInfo.Process.Evaluators">
+                                                <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}, </span>
+                                                <span ng-show="$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}</span>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].StartDate | customDate"></span>
+                                            <span> - </span>
+                                            <span ng-bind="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].EndDate | customDate"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
+                                            <label data-translate="EndProcess"></label><span class="icon-process"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
+                                            <label data-translate="InProgress"></label><span class="icon-process"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
+                                            <label data-translate="Open"></label><span class="icon-process"></span>
+                                        </div>
+                                    </li>
+                                    <li ng-if="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0"
+                                        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess)" class="process-item">
+                                        <div>
+                                            <strong>{{"Reviewer" | translate}}:</strong>
+                                            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length == 1"
+                                                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].NickName"
+                                                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].Avatar}}">></span>
+                                            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 1"
+                                                  ng-repeat="reviewer in memberEPAInfoCtrl.epaInfo.Process.Reviewers">
+                                                <span ng-show="!$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}, </span>
+                                                <span ng-show="$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}</span>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StartDate | customDate"></span>
+                                            <span> - </span>
+                                            <span ng-bind="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].EndDate | customDate"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
+                                            <label data-translate="EndProcess"></label><span class="icon-process"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
+                                            <label data-translate="InProgress"></label><span class="icon-process"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
+                                            <label data-translate="Open"></label><span class="icon-process"></span>
+                                        </div>
+                                    </li>
+                                    <li ng-if="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0"
+                                        ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Process.Managements[0].StatusEndProcess)" class="process-item">
+                                        <div>
+                                            <strong>{{"Management" | translate}}:</strong>
+                                            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length == 1"
+                                                  ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[0].NickName"
+                                                  popover-avatar avatar-src="{{memberEPAInfoCtrl.epaInfo.Process.Managements[0].Avatar}}"></span>
+                                            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 1"
+                                                  ng-repeat="management in memberEPAInfoCtrl.epaInfo.Process.Managements">
+                                                <span ng-show="!$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}, </span>
+                                                <span ng-show="$last" popover-avatar avatar-src="{{management.Avatar}}">{{management.NickName}}</span>
+                                            </span>
+                                        </div>
+                                        <div>
+                                            <span ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[0].StartDate | customDate"></span>
+                                            <span> - </span>
+                                            <span ng-bind="memberEPAInfoCtrl.epaInfo.Process.Managements[0].EndDate | customDate"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
+                                            <label data-translate="EndProcess"></label><span class="icon-process"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
+                                            <label data-translate="InProgress"></label><span class="icon-process"></span>
+                                        </div>
+                                        <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
+                                            <label data-translate="Open"></label><span class="icon-process"></span>
+                                        </div>
+                                    </li>
+                                    <li class="process-item final"
+                                        ng-if="memberEPAInfoCtrl.epaInfo.IsMonthly || memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
+                                        <div><strong data-translate="FinalScore"></strong></div>
+                                        <div>
+                                            <span data-translate="EndPeriod"></span>: <span ng-bind="memberEPAInfoCtrl.epaInfo.Period.EndDate | customDate"></span>
+                                        </div>
+                                    </li>
+                                </ul>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading" data-toggle="collapse" data-target=".discipline-information-panel">
+                            <h4 class="panel-title" data-translate="DisciplineInformation"></h4>
+                        </div>
+
+                        <div class="panel-collapse collapse in discipline-information-panel">
+                            <div class="panel-body">
+
+                                <div>
+
+                                    <div>A. HRM System</div>
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Month</th>
+                                                <th>Missing Check In/ Out</th>
+                                                <th>Late In</th>
+                                                <th>Early Out</th>
+                                                <th>Unpaid Leave</th>
+                                                <th>Unplanned Annual Leave</th>
+                                                <th>Everage Working Hours</th>
+                                                <th>Overtime</th>
+                                                <th>TOEIC Score</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">11/2015</td>
+                                                <td class="text-center">4</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">0</td>
+                                                <td class="text-center">08h35'</td>
+                                                <td class="text-center">1</td>
+                                                <td rowspan="6" class="text-center">780</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">11/2015</td>
+                                                <td class="text-center">4</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">0</td>
+                                                <td class="text-center">08h35'</td>
+                                                <td class="text-center">1</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">11/2015</td>
+                                                <td class="text-center">4</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">0</td>
+                                                <td class="text-center">08h35'</td>
+                                                <td class="text-center">1</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">11/2015</td>
+                                                <td class="text-center">4</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">0</td>
+                                                <td class="text-center">08h35'</td>
+                                                <td class="text-center">1</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">11/2015</td>
+                                                <td class="text-center">4</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">0</td>
+                                                <td class="text-center">08h35'</td>
+                                                <td class="text-center">1</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">11/2015</td>
+                                                <td class="text-center">4</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">0</td>
+                                                <td class="text-center">08h35'</td>
+                                                <td class="text-center">1</td>
+                                            </tr>
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <td class="text-center">Total</td>
+                                                <td class="text-center">4</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">3</td>
+                                                <td class="text-center">0</td>
+                                                <td class="text-center">08h35'</td>
+                                                <td class="text-center">1</td>
+                                                <td class="text-center">780</td>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+
+                                </div>
+
+                                <div>
+
+                                    <div>B. WARNING FROM HUMAN RESOURCE</div>
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>Date</th>
+                                                <th>Remark</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1st</td>
+                                                <td></td>
+                                            </tr>
+                                            <tr>
+                                                <td>2nd</td>
+                                                <td></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                <div>
+
+                                    <div>C. PROMOTABILITY</div>
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Period</th>
+                                                <th>Nomination Title</th>
+                                                <th>Nominator</th>
+                                                <th>Status</th>
+                                                <th>Comment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td>1</td>
+                                                <td>2nd Quarter, 2016</td>
+                                                <td>EOQ</td>
+                                                <td>Tony Nguyen</td>
+                                                <td>Nominated</td>
+                                                <td>Good quality at work...</td>
+                                            </tr>
+                                            <tr>
+                                                <td>2</td>
+                                                <td>Year 2016</td>
+                                                <td>EOY</td>
+                                                <td>Ronny Nguyen</td>
+                                                <td>Approved</td>
+                                                <td>...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="panel panel-default">
+
+                        <div class="panel-heading" data-toggle="collapse" data-target=".employee-panel">
+                            <h4 class="panel-title" data-translate="ForEmployeeUse"></h4>
+                        </div>
+
+                        <div class="panel-collapse collapse in employee-panel">
+                            <div class="panel-body">
+
+                                <div>
+
+                                    <div>A. Project Efficiency</div>
+
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <th>#</th>
+                                                <th>Project Name</th>
+                                                <th>Project Manager</th>
+                                                <th>Start Date</th>
+                                                <th>End Date</th>
+                                                <th>Role</th>
+                                                <th>Total Spend Time</th>
+                                                <th>Evg. Score</th>
+                                                <th>Comment</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr>
+                                                <td class="text-center">1</td>
+                                                <td>NAP Accounting Report</td>
+                                                <td class="text-center">Ronny</td>
+                                                <td class="text-center">01 Nov, 2015</td>
+                                                <td class="text-center">30 Apr, 2016</td>
+                                                <td class="text-center">Business Analysis</td>
+                                                <td class="text-center">141.25</td>
+                                                <td class="text-center">4.30</td>
+                                                <td>Hard working, actively propose...</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">2</td>
+                                                <td>Microgaming</td>
+                                                <td class="text-center">Peter</td>
+                                                <td class="text-center">01 Nov, 2015</td>
+                                                <td class="text-center">30 Apr, 2016</td>
+                                                <td class="text-center">Business Analysis</td>
+                                                <td class="text-center">141.25</td>
+                                                <td class="text-center">4.30</td>
+                                                <td>Hard working, actively propose...</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">3</td>
+                                                <td>Allbet</td>
+                                                <td class="text-center">Peter</td>
+                                                <td class="text-center">01 Nov, 2015</td>
+                                                <td class="text-center">30 Apr, 2016</td>
+                                                <td class="text-center">Business Analysis</td>
+                                                <td class="text-center">141.25</td>
+                                                <td class="text-center">4.30</td>
+                                                <td>Hard working, actively propose...</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">4</td>
+                                                <td>Dynamic Customer Setting</td>
+                                                <td class="text-center">Rafael</td>
+                                                <td class="text-center">01 Nov, 2015</td>
+                                                <td class="text-center">30 Apr, 2016</td>
+                                                <td class="text-center">Business Analysis</td>
+                                                <td class="text-center">141.25</td>
+                                                <td class="text-center">4.30</td>
+                                                <td>Hard working, actively propose...</td>
+                                            </tr>
+                                            <tr>
+                                                <td class="text-center">5</td>
+                                                <td>Keno Integration</td>
+                                                <td class="text-center">Richard</td>
+                                                <td class="text-center">01 Nov, 2015</td>
+                                                <td class="text-center">30 Apr, 2016</td>
+                                                <td class="text-center">Business Analysis</td>
+                                                <td class="text-center">141.25</td>
+                                                <td class="text-center">4.30</td>
+                                                <td>Hard working, actively propose...</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                <div>
+
+                                    <div>B. Personal Target</div>
+
+                                </div>
+
+                                <div>
+
+                                    <div>A. Behvavios & Attitues</div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="col-sm-12">
         <div class="row epa-form">
             <div class="text-center epa-title" data-translate="EPATilte"></div>

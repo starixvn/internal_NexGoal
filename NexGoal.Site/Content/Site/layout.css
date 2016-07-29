@@ -557,6 +557,9 @@ label:hover {
 .table tbody tr:hover td {
   background: #fdf2c5;
 }
+.table tfoot tr td {
+  border: 0;
+}
 .table-custom thead tr th {
   background: #ebe4d4;
   color: #61463b;
