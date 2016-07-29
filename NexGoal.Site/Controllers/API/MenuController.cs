@@ -25,7 +25,6 @@
             this.menuService = menuService ?? new MenuService();
         }
 
-        [ApiAuthorize(FunctionKey.MenuManagement, Policy.Read)]
         [HttpGet]
         public IEnumerable<MenuModel> GetMenusByEmployeeId()
         {

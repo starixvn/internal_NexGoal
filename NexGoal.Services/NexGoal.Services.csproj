@@ -106,6 +106,7 @@
     <Compile Include="Implement\EPAHistoryService.cs" />
     <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
     <Compile Include="Implement\MenuServices.cs" />
+    <Compile Include="Implement\SessionService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportPdfService.cs" />
     <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
     <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
@@ -138,6 +139,7 @@
     <Compile Include="Interfaces\IPeriodService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Interfaces\IScoreRatingTypeService.cs" />
+    <Compile Include="Interfaces\ISessionService.cs" />
     <Compile Include="Interfaces\ITargetEmployeeSettingService.cs" />
     <Compile Include="Interfaces\ITargetTemplateService.cs" />
     <Compile Include="Interfaces\ITargetTypeService.cs" />

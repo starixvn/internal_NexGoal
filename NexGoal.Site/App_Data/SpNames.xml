@@ -303,6 +303,7 @@
     <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="NexGoal" Plain="0">
       <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
     </Setting>
   </Function>
   <Function Name="Generation Evaluation">

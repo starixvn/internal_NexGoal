@@ -54,6 +54,7 @@ BEGIN
 	FROM (
 		SELECT DISTINCT epa.EPAId
 			,epa.FinalScore
+			,epa.Grade
 			,epa.HasMonthlyEPA
 			,(CASE srt.ScoreRatingTypeId
 				WHEN 1 THEN 1
@@ -152,6 +153,7 @@ BEGIN
 		UNION ALL
 		SELECT DISTINCT - epa.Id AS EPAId
 			,epa.FinalScore
+			,epa.Grade
 			,0 AS HasMonthlyEPA
 			,0 AS HasDisciplineScore
 			,0 AS DisciplineScore

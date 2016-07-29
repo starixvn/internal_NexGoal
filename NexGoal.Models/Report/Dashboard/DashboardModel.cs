@@ -9,7 +9,5 @@
         public EmployeeModel Employee { get; set; }
 
         public IEnumerable<EPAModel> MyEPAs { get; set; }
-
-        public IEnumerable<EPAModel> MonthlyEPAs { get; set; }
     }
 }
