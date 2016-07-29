@@ -751,7 +751,7 @@
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
     <Content Include="SourceApp\Components\EPA\ratingByStar.less" />
-    <None Include="Web.hr.config" />
+    <Content Include="Web.hr.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">
