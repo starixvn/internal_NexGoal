@@ -93,6 +93,7 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 		,emp.Email
+		,emp.JoinedDate
 		,dept.DepartmentId
 		,dept.[Name]
 		,gr.GroupId
