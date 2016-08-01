@@ -4,6 +4,7 @@
     using NexGoal.Criteria.Authentication;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using System.Configuration;
     using System.Web.Mvc;
     using System.Web.Security;
 
@@ -42,24 +43,28 @@
         [HttpPost]
         public ActionResult Login(string username)
         {
-            var domainName = "spvn\\" + username;
-            if (!string.IsNullOrEmpty(username))
+            var canLogin = ConfigurationManager.AppSettings["IsSimulatedLoginUser"].ToString();
+            if (canLogin == "true")
             {
-                var criteria = new GetEmployeeByDomainUsernameCriteria()
+                var domainName = "spvn\\" + username;
+                if (!string.IsNullOrEmpty(username))
                 {
-                    DomainUsername = domainName
-                };
-                UserSession user = employeeService.GetEmployeeByUsername(criteria);
-                if (user != null)
-                {
-                    this.sessionService.CurrentUser = user;
-                    FormsAuthentication.SetAuthCookie(username, false);
+                    var criteria = new GetEmployeeByDomainUsernameCriteria()
+                    {
+                        DomainUsername = domainName
+                    };
+                    UserSession user = employeeService.GetEmployeeByUsername(criteria);
+                    if (user != null)
+                    {
+                        this.sessionService.CurrentUser = user;
+                        FormsAuthentication.SetAuthCookie(username, false);
 
-                    return RedirectToAction("Index", "Home");
-                }
-                else
-                {
-                    ModelState.AddModelError(string.Empty, "User name doesn't exist!!!!!!!!!!!!!!");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, "User name doesn't exist!!!!!!!!!!!!!!");
+                    }
                 }
             }
 
