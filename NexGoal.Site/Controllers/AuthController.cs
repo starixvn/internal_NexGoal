@@ -33,6 +33,9 @@
         public ActionResult Logout()
         {
             FormsAuthentication.SignOut();
+            HttpContext.Session.Clear();
+            HttpContext.Session.Abandon();
+            HttpContext.Response.Cookies.Clear();
             return RedirectToAction("Login");
         }
 
