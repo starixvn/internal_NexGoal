@@ -1636,6 +1636,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Warning from human resource.
+        /// </summary>
+        public static string HrWarning {
+            get {
+                return ResourceManager.GetString("HrWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Human Resource.
         /// </summary>
         public static string HumanResource {

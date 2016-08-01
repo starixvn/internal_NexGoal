@@ -422,6 +422,8 @@
     <Content Include="SourceApp\Components\Employee\employee-model.js" />
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\disciplineInformation.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\forEmployeeUse.html" />
     <Content Include="SourceApp\Components\Menu\menu-controller.js" />
     <Content Include="SourceApp\Components\Menu\menu-factory.js" />
     <Content Include="SourceApp\Components\Menu\menu-model.js" />

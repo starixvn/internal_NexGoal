@@ -1404,4 +1404,7 @@
   <data name="WarningFromHRM" xml:space="preserve">
     <value>Warning From Human Resource</value>
   </data>
+  <data name="HrWarning" xml:space="preserve">
+    <value>Warning from human resource</value>
+  </data>
 </root>
