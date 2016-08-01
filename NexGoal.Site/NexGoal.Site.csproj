@@ -195,6 +195,7 @@
     <Compile Include="Controllers\API\TargetEmployeeSettingController.cs" />
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
+    <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\ExportPDFController.cs" />
     <Compile Include="Controllers\ExportReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -755,6 +756,7 @@
     <Content Include="Web.dev.config">
       <SubType>Designer</SubType>
     </Content>
+    <Content Include="Views\Auth\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">

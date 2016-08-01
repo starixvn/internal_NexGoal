@@ -1,0 +1,29 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Welcome to NexGoal</title>
+    @Styles.Render("~/Content/login/css")
+</head>
+<body>
+    <div id="panel" class="container login">
+        <div class="header-login row">
+            <div class="header-contain"></div>
+        </div>
+        <div id="formContainer" class="row auth">
+            @using (Html.BeginForm())
+            {
+                @Html.TextBox("UserName", "Martin.Tran", new { placeholder = "user name", @class = "col-sm-12 username" })
+                <input type="submit" name="submit" class="col-sm-12 btn-submit" value="Log In" />
+            }
+            <div class="message-error">
+                @if (Model != null && !ViewData.ModelState.IsValid)
+                {
+                    string errMsg = ViewData.ModelState.Values.SelectMany(x => x.Errors).Select(x => x.ErrorMessage).LastOrDefault();
+                    <i class="icon-error"></i>@errMsg
+                }
+            </div>
+        </div>
+    </div>
+</body>
+</html>
