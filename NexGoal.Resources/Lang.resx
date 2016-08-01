@@ -1407,4 +1407,52 @@
   <data name="HrWarning" xml:space="preserve">
     <value>Warning from human resource</value>
   </data>
+  <data name="AverageWorkingHours" xml:space="preserve">
+    <value>Average Working Hours</value>
+  </data>
+  <data name="Date" xml:space="preserve">
+    <value>Date</value>
+  </data>
+  <data name="HrmWarning" xml:space="preserve">
+    <value>Warning from human resource</value>
+  </data>
+  <data name="LateOut" xml:space="preserve">
+    <value>Late Out</value>
+  </data>
+  <data name="NominationTitle" xml:space="preserve">
+    <value>Nomination Title</value>
+  </data>
+  <data name="Nominator" xml:space="preserve">
+    <value>Nominator</value>
+  </data>
+  <data name="Overtime" xml:space="preserve">
+    <value>Overtime</value>
+  </data>
+  <data name="PerformanceReview" xml:space="preserve">
+    <value>Performance review skills and abilities</value>
+  </data>
+  <data name="ProjectManager" xml:space="preserve">
+    <value>Project Manager</value>
+  </data>
+  <data name="ProjectName" xml:space="preserve">
+    <value>Project Name</value>
+  </data>
+  <data name="Remark" xml:space="preserve">
+    <value>Remark</value>
+  </data>
+  <data name="Role" xml:space="preserve">
+    <value>Role</value>
+  </data>
+  <data name="String1" xml:space="preserve">
+    <value />
+  </data>
+  <data name="ToeicScore" xml:space="preserve">
+    <value>TOEIC Score</value>
+  </data>
+  <data name="TotalSpendTime" xml:space="preserve">
+    <value>Total Spend Time</value>
+  </data>
+  <data name="UnplannedAnnualLeave" xml:space="preserve">
+    <value>Unplanned Annual Leave</value>
+  </data>
 </root>
