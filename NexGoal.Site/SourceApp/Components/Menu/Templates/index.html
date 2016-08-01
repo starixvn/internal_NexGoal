@@ -17,7 +17,7 @@
             </li>
         </ul>
 
-        <a hef="" ng-if="menu.MenuItems.length === 0" data-menu-tab data-link="{{::menu.Link}}">
+        <a hef="" ng-if="menu.MenuItems.length ===  0 && menu.Link.length > 0" data-menu-tab data-link="{{::menu.Link}}">
             <i class="fa fa-{{::menu.Name | lowercase}}"></i>{{::menu.Text}}
         </a>
     </li>
