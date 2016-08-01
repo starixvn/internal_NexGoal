@@ -692,7 +692,7 @@
     <Content Include="SourceApp\Components\Role\role.less" />
     <Content Include="SourceApp\Components\FlowManagement\flowManagement.less" />
     <Content Include="SourceApp\Components\TargetTemplate\targetTemplate.less" />
-    <Content Include="Web.local.config" />
+    <Content Include="Web.qc.config" />
     <Content Include="SourceApp\Components\TargetEmployeeSetting\targetEmployeeSetting.less" />
     <Content Include="SourceApp\Components\Period\period.less" />
     <Content Include="SourceApp\Components\EPA\epa.less" />
@@ -752,6 +752,9 @@
     <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
     <Content Include="SourceApp\Components\EPA\ratingByStar.less" />
     <Content Include="Web.hr.config" />
+    <Content Include="Web.dev.config">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">
