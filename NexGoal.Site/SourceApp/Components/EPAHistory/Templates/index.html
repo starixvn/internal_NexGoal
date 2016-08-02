@@ -3,9 +3,9 @@
         <ul class="row breadcrumb pull-left">
             <li class="current" data-translate="EPAHistory"></li>
         </ul>
-        <div class="button-icon button-period-back">
+        <div class="button-icon button-period-back" ng-show="epaHistoryCtrl.fromEPAListing">
             <span class="glyphicon glyphicon-arrow-left icon-back"></span>
-            <a data-translate="BackToList" ng-click="epaHistoryCtrl.backToList()" ng-show="epaHistoryCtrl.fromEPAListing"></a>
+            <a data-translate="BackToList" ng-click="epaHistoryCtrl.backToList()"></a>
         </div>
     </div>
 

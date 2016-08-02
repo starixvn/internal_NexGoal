@@ -144,11 +144,6 @@
                     PeriodFlowModel reviewer = CreateEvaluator(flowSetting);
                     employeeSetting.Reviewers.Add(reviewer);
                     break;
-
-                case (int)ProcessType.Management:
-                    PeriodFlowModel management = CreateEvaluator(flowSetting);
-                    employeeSetting.Managements.Add(management);
-                    break;
             }
 
             return employeeSetting;
