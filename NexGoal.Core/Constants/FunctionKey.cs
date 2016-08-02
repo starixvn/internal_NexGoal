@@ -7,11 +7,7 @@
         public const string Evaluator = "Evaluator";
 
         public const string Reviewer = "Reviewer";
-
-        public const string Management = "Management";
-
-        public const string DisciplineReport = "DisciplineReport";
-
+        
         public const string EPASummaryReport = "EPASummaryReport";
 
         public const string EPADetailReport = "EPADetailReport";
@@ -23,12 +19,6 @@
         public const string RoleManagement = "RoleManagement";
 
         public const string Period = "Period";
-
-        public const string DisciplineSummary = "DisciplineSummary";
-
-        public const string Discipline = "Discipline";
-
-        public const string RatingByKPI = "RatingByKPI";
 
         public const string EPAByKPI = "EPAByKPI";
 
