@@ -78,10 +78,10 @@
 <table class="table table-bordered">
     <thead>
         <tr>
-            <th data-translate="PersonalObjectives"></th>
+            <th class="text-left" data-translate="PersonalObjectives"></th>
             <th data-translate="Result"></th>
-            <th data-translate="EmployeeArchievement"></th>
-            <th data-translate="Evaluator"></th>
+            <th class="text-left" data-translate="EmployeeArchievement"></th>
+            <th class="text-left" data-translate="Evaluator"></th>
         </tr>
     </thead>
     <tbody>
@@ -103,16 +103,16 @@
             <td>I haven't make the presentation on HTML5 because of multiple task during the period and our te...</td>
             <td></td>
         </tr>
-        <tr>
+        <tr class="comment">
             <td colspan="4" class="textarea-comment">
-                <p data-translate="CommentsIfAny" class="lable-comment-if-any"></p>
+                <p><span data-translate="CommentsIfAny" class="lable-comment-if-any"></span><span class="label-word-countdown">(words: 2000)</span></p>
                 <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
             </td>
         </tr>
     </tbody>
 </table>
 
-<div class="level-2">A. Behvavios & Attitues</div>
+<div class="level-2">C. Behvavios & Attitues</div>
 
 
 <table class="table table-bordered">
@@ -123,46 +123,46 @@
     </tbody>
 </table>
 
-<table class="table table-bordered">
+<table class="table table-bordered table-total">
     <tbody>
-        <tr>
+        <tr class="text-center score">
             <td colspan="3">{{"Total" | translate}}:</td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
-        <tr>
+        <tr class="text-center score">
             <td colspan="3">{{"Score" | translate}} (%):</td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
-        <tr>
+        <tr class="text-center score">
             <td colspan="3">{{"Grading" | translate}}:</td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
-        <tr>
+        <tr class="text-center score">
             <td colspan="3">{{"FinalScore" | translate}} (%):</td>
             <td></td>
             <td></td>
             <td></td>
         </tr>
-        <tr>
+        <tr class="performance-grade">
             <td data-translate="PerformanceGradingScale"></td>
-            <td data-translate="ExcellencePerformance"></td>
-            <td data-translate="GoodPerformance"></td>
-            <td data-translate="SatisfactoryPerformance"></td>
-            <td data-translate="BelowAveragePerformance"></td>
-            <td data-translate="PoorPerformance"></td>
+            <td class="text-center" data-translate="ExcellencePerformance"></td>
+            <td class="text-center" data-translate="GoodPerformance"></td>
+            <td class="text-center" data-translate="SatisfactoryPerformance"></td>
+            <td class="text-center" data-translate="BelowAveragePerformance"></td>
+            <td class="text-center" data-translate="PoorPerformance"></td>
         </tr>
-        <tr>
+        <tr class="level-3">
             <td colspan="6" data-translate="EmployeeComment"></td>
         </tr>
-        <tr>
+        <tr class="comment">
             <td colspan="6" class="textarea-comment">
-                <p data-translate="CommentsIfAny" class="lable-comment-if-any"></p>
+                <p><span data-translate="CommentsIfAny" class="lable-comment-if-any"></span><span class="label-word-countdown">(words: 2000)</span></p>
                 <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
             </td>
         </tr>

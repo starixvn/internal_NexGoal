@@ -9,7 +9,6 @@
         <div class="row epa-form">
             <div class="text-center epa-title" data-translate="EPATilte"></div>
 
-
             <div class="panel-group">
 
                 <div class="panel panel-default no-border">
@@ -22,7 +21,7 @@
                         <div class="panel-body">
                             <div ng-include src="'/SourceApp/Components/EPA/Templates/ratingInstruction.html'"></div>
                             <div class="rating-note no-border">
-                                <span>Evaluation Process</span>
+                                <strong>Evaluation Process</strong>
                             </div>
                             <div class="evaluation-process-section" ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
                         </div>
@@ -66,12 +65,12 @@
                         <div class="panel-body">
 
                             <table class="table table-bordered">
-                                <tr>
+                                <tr class="level-3">
                                     <td data-translate="EvaluatorComment"></td>
                                 </tr>
-                                <tr>
+                                <tr class="comment">
                                     <td class="textarea-comment">
-                                        <p data-translate="CommentsIfAny" class="lable-comment-if-any"></p>
+                                        <p><span data-translate="CommentsIfAny" class="lable-comment-if-any"></span><span class="label-word-countdown">(words: 2000)</span></p>
                                         <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
                                     </td>
                                 </tr>
