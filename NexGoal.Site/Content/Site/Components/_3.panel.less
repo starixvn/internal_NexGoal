@@ -28,28 +28,43 @@
                 cursor: pointer;
             }
         }
-
-        &.level-1 {
-            background-color: @c-bg-panel-header-level-1;
-            color: @c-panel-header-level-1;
-            padding: 8px 20px;
-
-            .panel-title {                
-                font-weight: 500;
-
-                &:hover {
-                    cursor: pointer;
-                }
-            }
-        }
     }
 
     .panel-body {
-        padding: 10px 20px;
+        //padding: 10px 20px;
         border-top: 1px solid @color-border !important;
+        /*&.no-padding {
+            padding: 0;
+        }*/
     }
 
     &.no-border {
         border: none;
+
+        .panel-body {
+            padding: 0;
+            border-top: 0 !important;
+        }
+    }
+
+    .level-1 {
+        background-color: @c-bg-panel-header-level-1;
+        color: @c-panel-header-level-1;
+        padding: 8px 20px;
+
+        .panel-title {
+            font-weight: 500;
+
+            &:hover {
+                cursor: pointer;
+            }
+        }
+    }
+
+    .level-2 {
+        background-color: @c-bg-panel-header-level-2;
+        color: @c-panel-header-level-2;
+        padding: 7px 20px;
+        text-transform: capitalize;
     }
 }
