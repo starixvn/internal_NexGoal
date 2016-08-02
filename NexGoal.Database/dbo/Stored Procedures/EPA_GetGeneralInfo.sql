@@ -95,7 +95,7 @@ BEGIN
 		,emp.Email
 		,emp.JoinedDate
 		,dept.DepartmentId
-		,dept.[Name]
+		,dept.[Name] AS DepartmentName
 		,gr.GroupId
 		,gr.Code AS GroupCode
 		,gr.[Name] AS GroupName
