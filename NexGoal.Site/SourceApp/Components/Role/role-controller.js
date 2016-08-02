@@ -8,14 +8,10 @@ function (RoleModel, CommonModel, lockScreenService) {
 
     vm.systemRoleOptions = CommonModel.systemRoles;
     vm.roleFunctions = RoleModel.roleFunctions;
-
     vm.filter = {
         roleId: ''
     };
 
-    /*
-    ** Get system roles.
-    */
     CommonModel.getSystemRoles(true, false).then(function () {
         vm.systemRoleOptions = CommonModel.systemRoles;
 
@@ -30,7 +26,7 @@ function (RoleModel, CommonModel, lockScreenService) {
     */
     var getFunctionsOfRole = function (roleId) {
         lockScreenService.start();
-
+        
         RoleModel.getRoleFunctionByRoleId(roleId).then(function () {
             vm.roleFunctions = RoleModel.roleFunctions;
             if (roleId === 1) {
@@ -47,8 +43,8 @@ function (RoleModel, CommonModel, lockScreenService) {
     /*
     ** Query.
     */
-    vm.query = function (filter) {
-        getFunctionsOfRole(filter.roleId);
+    vm.query = function () {
+        getFunctionsOfRole(vm.filter.roleId);
     };
 
     /*
@@ -61,4 +57,4 @@ function (RoleModel, CommonModel, lockScreenService) {
             lockScreenService.stop();
         });
     };
-} ]);
+}]);
