@@ -1455,4 +1455,7 @@
   <data name="UnplannedAnnualLeave" xml:space="preserve">
     <value>Unplanned Annual Leave</value>
   </data>
+  <data name="JoinedDate" xml:space="preserve">
+    <value>Joined Date</value>
+  </data>
 </root>

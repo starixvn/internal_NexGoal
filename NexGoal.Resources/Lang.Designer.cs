@@ -1816,6 +1816,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Joined Date.
+        /// </summary>
+        public static string JoinedDate {
+            get {
+                return ResourceManager.GetString("JoinedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keyword.
         /// </summary>
         public static string Keyword {
