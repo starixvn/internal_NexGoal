@@ -1,4 +1,29 @@
-﻿.button {
+﻿@gray: #888888;
+@apple: #4ba633;
+
+@c-bg-btn-save: @apple;
+@c-bg-btn-back: @gray;
+
+.btn {
+    padding: 5px 25px;
+
+    &:focus, &:active {
+        outline: none;
+    }
+
+    &.button-save {
+        background: @c-bg-btn-save;
+        color: #fff;
+    }
+
+    &.btn-back {
+        background: @c-bg-btn-back;
+        color: #fff;
+        margin-right: 10px;
+    }
+}
+
+.button {
     #gradient .vertical(#5EB2D5, #308FB7);
     border: 1px solid #256F8E;
     border-color: #256F8E #256F8E #1B5066;

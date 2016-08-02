@@ -152,6 +152,7 @@ label:hover {
 }
 .panel-default .level-1 .panel-title {
   font-weight: 500;
+  text-transform: uppercase;
 }
 .panel-default .level-1 .panel-title:hover {
   cursor: pointer;
@@ -856,6 +857,22 @@ label:hover {
 .dropdown-menu table tbody em.ng-binding {
   color: #4F4F4F;
   font-size: 13px;
+}
+.btn {
+  padding: 5px 25px;
+}
+.btn:focus,
+.btn:active {
+  outline: none;
+}
+.btn.button-save {
+  background: #4ba633;
+  color: #fff;
+}
+.btn.btn-back {
+  background: #888888;
+  color: #fff;
+  margin-right: 10px;
 }
 .button {
   background-color: #4ca4c9;

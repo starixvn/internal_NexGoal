@@ -28,7 +28,7 @@
                         </div>
                     </div>
 
-                </div>               
+                </div>
 
                 <div class="panel panel-default no-border">
 
@@ -61,11 +61,9 @@
         </div>
 
         <div class="navbar navbar-default navbar-fixed-bottom action-section">
-            
-                <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
-                        ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
-                <button class="btn btn-default customize" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
-            
+            <button class="btn btn-back" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
+            <button class="btn button-save" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
+                    ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
         </div>
     </div>
 
