@@ -27,25 +27,31 @@
             }
         }
 
-        &:first-child>tr:first-child>td, 
-        &:first-child>tr:first-child>th {
+        &:first-child > tr:first-child > td,
+        &:first-child > tr:first-child > th {
             border-top: 1px solid @color-table-border;
         }
-
-    }    
+    }
 
     tbody {
         td {
             color: @color-table-body;
             border-color: @color-table-border !important;
             vertical-align: middle !important;
+
+            .lable-comment-if-any {
+                color: #39f;
+                margin: 0;
+                padding-top: 5px;
+                padding-bottom: 5px;
+            }
         }
 
         .fa-search {
             cursor: pointer;
         }
 
-        tr {            
+        tr {
 
             &:hover td {
                 background: @bg-table-hover;

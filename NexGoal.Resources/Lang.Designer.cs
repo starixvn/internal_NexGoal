@@ -358,6 +358,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to D. Below Average: 30% ~ 49%.
+        /// </summary>
+        public static string BelowAveragePerformance {
+            get {
+                return ResourceManager.GetString("BelowAveragePerformance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t edit setting on different type!.
         /// </summary>
         public static string CanNotEditSettingOnDifferentTypeWarning {
@@ -907,6 +916,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee&apos;s Archievement.
+        /// </summary>
+        public static string EmployeeArchievement {
+            get {
+                return ResourceManager.GetString("EmployeeArchievement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee Code.
         /// </summary>
         public static string EmployeeCode {
@@ -1330,6 +1348,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluator Comment.
+        /// </summary>
+        public static string EvaluatorComment {
+            get {
+                return ResourceManager.GetString("EvaluatorComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please setting flow for Evaluator!.
         /// </summary>
         public static string EvaluatorPhaseRequired {
@@ -1371,6 +1398,15 @@ namespace NexGoal.Resources {
         public static string EvaluatorScore {
             get {
                 return ResourceManager.GetString("EvaluatorScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to A. Excellence : 90% ~ 100%.
+        /// </summary>
+        public static string ExcellencePerformance {
+            get {
+                return ResourceManager.GetString("ExcellencePerformance", resourceCulture);
             }
         }
         
@@ -1461,6 +1497,15 @@ namespace NexGoal.Resources {
         public static string ForEmployeeUse {
             get {
                 return ResourceManager.GetString("ForEmployeeUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For Evaluator Use.
+        /// </summary>
+        public static string ForEvaluatorUse {
+            get {
+                return ResourceManager.GetString("ForEvaluatorUse", resourceCulture);
             }
         }
         
@@ -1560,6 +1605,15 @@ namespace NexGoal.Resources {
         public static string GoodDescription {
             get {
                 return ResourceManager.GetString("GoodDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to B. Good: 70% ~ 89%.
+        /// </summary>
+        public static string GoodPerformance {
+            get {
+                return ResourceManager.GetString("GoodPerformance", resourceCulture);
             }
         }
         
@@ -2545,6 +2599,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Performance Grading Scale.
+        /// </summary>
+        public static string PerformanceGradingScale {
+            get {
+                return ResourceManager.GetString("PerformanceGradingScale", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Please rate the performance using the following rating scale. Where not applicable, please indicate &apos;NA&apos;..
         /// </summary>
         public static string PerformanceRatingNote {
@@ -2608,6 +2671,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Personal Objectives.
+        /// </summary>
+        public static string PersonalObjectives {
+            get {
+                return ResourceManager.GetString("PersonalObjectives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Personal Profile.
         /// </summary>
         public static string PersonalProfile {
@@ -2640,6 +2712,15 @@ namespace NexGoal.Resources {
         public static string PoorDescription {
             get {
                 return ResourceManager.GetString("PoorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to E. Poor: 10% ~ 29%.
+        /// </summary>
+        public static string PoorPerformance {
+            get {
+                return ResourceManager.GetString("PoorPerformance", resourceCulture);
             }
         }
         
@@ -2887,6 +2968,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Result.
+        /// </summary>
+        public static string Result {
+            get {
+                return ResourceManager.GetString("Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Review And Update Score.
         /// </summary>
         public static string ReviewAndUpdateScore {
@@ -2982,6 +3072,15 @@ namespace NexGoal.Resources {
         public static string SatisfactoryDescription {
             get {
                 return ResourceManager.GetString("SatisfactoryDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to C. Satisfactory: 50% ~ 69%.
+        /// </summary>
+        public static string SatisfactoryPerformance {
+            get {
+                return ResourceManager.GetString("SatisfactoryPerformance", resourceCulture);
             }
         }
         

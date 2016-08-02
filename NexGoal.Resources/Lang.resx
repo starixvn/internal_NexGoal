@@ -1455,4 +1455,37 @@
   <data name="UnplannedAnnualLeave" xml:space="preserve">
     <value>Unplanned Annual Leave</value>
   </data>
+  <data name="EmployeeArchievement" xml:space="preserve">
+    <value>Employee's Archievement</value>
+  </data>
+  <data name="PersonalObjectives" xml:space="preserve">
+    <value>Personal Objectives</value>
+  </data>
+  <data name="Result" xml:space="preserve">
+    <value>Result</value>
+  </data>
+  <data name="BelowAveragePerformance" xml:space="preserve">
+    <value>D. Below Average: 30% ~ 49%</value>
+  </data>
+  <data name="ExcellencePerformance" xml:space="preserve">
+    <value>A. Excellence : 90% ~ 100%</value>
+  </data>
+  <data name="GoodPerformance" xml:space="preserve">
+    <value>B. Good: 70% ~ 89%</value>
+  </data>
+  <data name="PerformanceGradingScale" xml:space="preserve">
+    <value>Performance Grading Scale</value>
+  </data>
+  <data name="PoorPerformance" xml:space="preserve">
+    <value>E. Poor: 10% ~ 29%</value>
+  </data>
+  <data name="SatisfactoryPerformance" xml:space="preserve">
+    <value>C. Satisfactory: 50% ~ 69%</value>
+  </data>
+  <data name="EvaluatorComment" xml:space="preserve">
+    <value>Evaluator Comment</value>
+  </data>
+  <data name="ForEvaluatorUse" xml:space="preserve">
+    <value>For Evaluator Use</value>
+  </data>
 </root>
