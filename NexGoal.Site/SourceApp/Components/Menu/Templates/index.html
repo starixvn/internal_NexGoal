@@ -12,7 +12,7 @@
 
         <ul class="list-group collapse in menu-{{::$index}}"
             ng-if="menu.MenuItems.length > 0">
-            <li class="list-group-item sub-menu" ng-repeat="subMenu in menu.MenuItems">
+            <li class="list-group-item sub-menu" ng-repeat="subMenu in menu.MenuItems | orderBy: '-DisplayOrder'">
                 <a hef="" data-menu-tab data-link="{{::subMenu.Link}}">{{::subMenu.Text}}</a>
             </li>
         </ul>
