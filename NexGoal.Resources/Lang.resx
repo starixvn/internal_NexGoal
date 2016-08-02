@@ -1488,4 +1488,7 @@
   <data name="ForEvaluatorUse" xml:space="preserve">
     <value>For Evaluator Use</value>
   </data>
+  <data name="MyDashboard" xml:space="preserve">
+    <value>My Dashboard</value>
+  </data>
 </root>

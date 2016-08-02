@@ -2266,6 +2266,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to My Dashboard.
+        /// </summary>
+        public static string MyDashboard {
+            get {
+                return ResourceManager.GetString("MyDashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to My EPA.
         /// </summary>
         public static string MyEPA {
