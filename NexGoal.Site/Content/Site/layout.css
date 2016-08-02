@@ -16,7 +16,7 @@ body {
   color: #010101;
   min-width: 760px;
   height: 100%;
-  background: #f0f0f0;
+  background: #fff;
 }
 *:focus {
   outline: none;
@@ -113,8 +113,7 @@ label:hover {
   box-shadow: none;
 }
 .panel-group .panel + .panel {
-  margin-top: 0;
-  border-top: 0;
+  margin-top: 10px;
 }
 .panel-default {
   border: 1px solid #aaaaaa;
@@ -133,12 +132,23 @@ label:hover {
 .panel-default > .panel-heading .panel-title:hover {
   cursor: pointer;
 }
+.panel-default > .panel-heading.level-1 {
+  background-color: #63544e;
+  color: #fff;
+  padding: 8px 20px;
+}
+.panel-default > .panel-heading.level-1 .panel-title {
+  font-weight: 500;
+}
+.panel-default > .panel-heading.level-1 .panel-title:hover {
+  cursor: pointer;
+}
 .panel-default .panel-body {
-  padding: 10px;
+  padding: 10px 20px;
   border-top: 1px solid #aaaaaa !important;
 }
-.panel-default + .panel-default {
-  border-top: 0;
+.panel-default.no-border {
+  border: none;
 }
 .container-fluid.page {
   width: 100%;
@@ -1327,6 +1337,9 @@ label:hover {
   border: none;
   border-radius: 0;
   padding: 5px 0;
+  /*&:last-child {
+                padding-bottom: 0;
+            }*/
 }
 .sidebar .list-group .list-group-item:hover {
   cursor: pointer;
@@ -1349,7 +1362,7 @@ label:hover {
   font-weight: 600;
 }
 .sidebar .list-group .list-group-item.no-sub.active a {
-  color: #f5783e;
+  color: #f4783d;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu-title {
   color: #545454;
@@ -1367,7 +1380,7 @@ label:hover {
   transition: 0.3s all ease;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu.active {
-  background: #f5783e;
+  background: #f4783d;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu.active a {
   color: #fff;
@@ -1377,13 +1390,10 @@ label:hover {
   color: #fff;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu:hover a {
-  color: #f5783e;
+  color: #f4783d;
 }
 .sidebar .list-group .list-group-item.has-sub.active > a {
-  color: #f5783e;
-}
-.sidebar .list-group .list-group-item:last-child {
-  padding-bottom: 0;
+  color: #f4783d;
 }
 .sidebar .panel-body {
   padding: 0;
@@ -1457,7 +1467,8 @@ label:hover {
 }
 .main {
   padding: 0 10px;
-  padding-top: 15px;
+  padding-top: 5px;
+  overflow: hidden;
 }
 .main .page-header {
   margin-top: 0;
@@ -1488,6 +1499,6 @@ label:hover {
 }
 @media (min-width: 768px) {
   .main {
-    padding-left: 290px;
+    padding-left: 285px;
   }
 }

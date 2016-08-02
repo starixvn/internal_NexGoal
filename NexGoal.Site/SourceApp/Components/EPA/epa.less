@@ -1,4 +1,10 @@
-﻿.table.table-bordered {
+﻿//------------COLOR VARIABLES---------//
+@orange-Jaffa: #f4783d;
+
+@c-bg-epa-title: @orange-Jaffa;
+@c-epa-title: #fff;
+
+.table.table-bordered {
     .col-action {
         width: 6%;
     }
@@ -88,14 +94,12 @@
     margin: 0 0 70px;
 
     .epa-title {
-        background-color: #ebe4d4;
-        font-size: 15px;
-        margin: 10px 0;
-        font-weight: bold;
-        padding: 10px 12px;
-        border-top: 1px solid #fafafa;
+        background-color: @c-bg-epa-title;
+        font-size: 16px;
+        margin: 10px 0 0;        
+        padding: 9px 12px;        
         text-shadow: none;
-        color: #333;
+        color: @c-epa-title;
     }
 
     .list-group-item {
