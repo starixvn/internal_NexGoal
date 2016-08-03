@@ -3949,6 +3949,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to View Performance By KPI.
+        /// </summary>
+        public static string ViewPerformanceByKPI {
+            get {
+                return ResourceManager.GetString("ViewPerformanceByKPI", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to View Semi EPA Result.
         /// </summary>
         public static string ViewSemiEPAResult {
