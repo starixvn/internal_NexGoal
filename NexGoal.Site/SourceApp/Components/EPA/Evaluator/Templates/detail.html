@@ -17,29 +17,18 @@
                     </div>
 
                     <div class="panel-collapse collapse in performance-review-panel">
-                        <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Templates/ratingInstruction.html'">
+                        <div class="panel-body">
+                            <div ng-include src="'/SourceApp/Components/EPA/Templates/ratingInstruction.html'"></div>
+                            <div class="rating-note no-border">
+                                <strong>Evaluation Process</strong>
+                            </div>
+                            <div class="evaluation-process-section" ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
                         </div>
                     </div>
 
                 </div>
 
-                <div class="panel panel-default">
-
-                    <div class="panel-heading level-1" data-toggle="collapse" data-target=".evaluation-process-panel">
-                        <h4 class="panel-title" data-translate="EvaluationProcess"></h4>
-                    </div>
-
-                    <div class="panel-collapse collapse in evaluation-process-panel">
-                        <div class="panel-body evaluation-process-section">
-
-                            <div ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
-
-                        </div>
-                    </div>
-
-                </div>
-
-                <div class="panel panel-default">
+                <div class="panel panel-default no-border">
 
                     <div class="panel-heading level-1" data-toggle="collapse" data-target=".discipline-information-panel">
                         <h4 class="panel-title" data-translate="DisciplineInformation"></h4>
@@ -52,7 +41,7 @@
 
                 </div>
 
-                <div class="panel panel-default">
+                <div class="panel panel-default no-border">
 
                     <div class="panel-heading level-1" data-toggle="collapse" data-target=".employee-panel">
                         <h4 class="panel-title" data-translate="ForEmployeeUse"></h4>
@@ -84,19 +73,12 @@
                 <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['Summary']"
                      ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/summary.html'">
                 </div>
-                <div class="boxcontent">
-                    <div class="row row-item">
-                        <label class="error-message">{{"Note" | translate }}: (*) {{"RequiredField" | translate}}!</label>
-                    </div>
-                </div>
             </div>
         </div>
         <div ng-if="memberEPAInfoCtrl.viewBySelf()" class="navbar navbar-default navbar-fixed-bottom action-section">
-            <div class="container text-center">
-                <button class="button" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
-                        ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
-                <button class="btn btn-default customize" ng-if="memberEPAInfoCtrl.viewBackButton()" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
-            </div>
+            <button class="btn btn-back" ng-if="memberEPAInfoCtrl.viewBackButton()" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
+            <button class="btn button-save" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
+                    ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
         </div>
     </div>
 </div>

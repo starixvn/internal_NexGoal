@@ -2005,6 +2005,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to (words: 2000).
+        /// </summary>
+        public static string LimitedWords {
+            get {
+                return ResourceManager.GetString("LimitedWords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Logout.
         /// </summary>
         public static string Logout {

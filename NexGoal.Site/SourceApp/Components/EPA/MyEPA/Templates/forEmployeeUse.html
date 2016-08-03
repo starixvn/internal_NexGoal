@@ -81,7 +81,6 @@
             <th class="text-left" data-translate="PersonalObjectives"></th>
             <th data-translate="Result"></th>
             <th class="text-left" data-translate="EmployeeArchievement"></th>
-            <th class="text-left" data-translate="Evaluator"></th>
         </tr>
     </thead>
     <tbody>
@@ -89,24 +88,25 @@
             <td>1-1. Reading a book</td>
             <td class="text-center">80%</td>
             <td>I read a book name "Learn How to Code in HTML5 and CSS3". Finished it and apply it in the proje...</td>
-            <td></td>
         </tr>
         <tr>
             <td>1-2. Study English and got 700 TOEIC score</td>
             <td class="text-center">Yes</td>
             <td>I got 800 TOEIC score at the April, 2016</td>
-            <td></td>
         </tr>
         <tr>
             <td>1-3. Making a presentation on HTML 5</td>
             <td class="text-center">No</td>
             <td>I haven't make the presentation on HTML5 because of multiple task during the period and our te...</td>
-            <td></td>
         </tr>
         <tr class="comment">
-            <td colspan="4" class="textarea-comment">
-                <p><span data-translate="CommentsIfAny" class="lable-comment-if-any"></span><span class="label-word-countdown">(words: 2000)</span></p>
-                <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
+            <td colspan="3" class="textarea-comment">
+                <p>
+                    <span data-translate="CommentsIfAny" class="lable-comment-if-any"></span>
+                    <span class="label-word-countdown" data-translate="LimitedWords"></span>
+                </p>
+                <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                          ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.PersonalTargetComment"></textarea>
             </td>
         </tr>
     </tbody>
@@ -126,28 +126,39 @@
 <table class="table table-bordered table-total">
     <tbody>
         <tr class="text-center score">
-            <td colspan="3">{{"Total" | translate}}:</td>
-            <td></td>
+            <td colspan="4">{{"Total" | translate}}:</td>
+            <td>
+                <strong>
+                    {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
+                </strong>
+            </td>
+            <td>
+                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></strong>
+                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
+            </td>
+        </tr>
+        <tr class="text-center score">
+            <td colspan="4">{{"Score" | translate}} (%):</td>
             <td></td>
             <td></td>
         </tr>
         <tr class="text-center score">
-            <td colspan="3">{{"Score" | translate}} (%):</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colspan="4">{{"Grading" | translate}}:</td>
+            <td>
+            </td>
+            <td>
+                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="memberEPAInfoCtrl.epaInfo.LastGrade"></strong>
+                <strong ng-if="!memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="'-'"></strong>
+            </td>
         </tr>
         <tr class="text-center score">
-            <td colspan="3">{{"Grading" | translate}}:</td>
-            <td></td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr class="text-center score">
-            <td colspan="3">{{"FinalScore" | translate}} (%):</td>
-            <td></td>
-            <td></td>
-            <td></td>
+            <td colspan="4">{{"FinalScore" | translate}} (%):</td>
+            <td>
+            </td>
+            <td>
+                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></strong>
+                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
+            </td>
         </tr>
         <tr class="performance-grade">
             <td data-translate="PerformanceGradingScale"></td>
@@ -162,8 +173,12 @@
         </tr>
         <tr class="comment">
             <td colspan="6" class="textarea-comment">
-                <p><span data-translate="CommentsIfAny" class="lable-comment-if-any"></span><span class="label-word-countdown">(words: 2000)</span></p>
-                <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
+                <p>
+                    <span data-translate="CommentsIfAny" class="lable-comment-if-any">
+                    </span><span class="label-word-countdown" data-translate="LimitedWords"></span>
+                </p>
+                <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                          ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
             </td>
         </tr>
     </tbody>

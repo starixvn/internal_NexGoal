@@ -1491,4 +1491,7 @@
   <data name="MyDashboard" xml:space="preserve">
     <value>My Dashboard</value>
   </data>
+  <data name="LimitedWords" xml:space="preserve">
+    <value>(words: 2000)</value>
+  </data>
 </root>
