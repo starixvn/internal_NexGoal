@@ -63,19 +63,10 @@
                         myEPA.FinalScore = utilitiesFactory.parseFloat(myEPA.FinalScore);
                     } else {
                         myEPA.FinalScore = null;
+                        myEPA.Grade = null;
                         vm.evaluationProcesses.push(myEPA);
                     }
                 });
-                //vm.monthlyEPAs = dashboardInfo.MonthlyEPAs;
-
-                //angular.forEach(vm.monthlyEPAs, function (monthlyEPA) {
-                //    if (monthlyEPA.Period.IsEndPeriod) {
-                //        monthlyEPA.FinalScore = utilitiesFactory.parseFloat(monthlyEPA.FinalScore);
-                //    } else {
-                //        monthlyEPA.FinalScore = null;
-                //        vm.evaluationProcesses.push(monthlyEPA);
-                //    }
-                //});
             })["finally"](function () {
                 lockScreenService.stop();
             });
