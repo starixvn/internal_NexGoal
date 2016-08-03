@@ -31,13 +31,14 @@
                     <label class="col-sm-1 control-label" data-translate="Evaluator"></label>
                     <div class="col-sm-2">
                         <select class="form-control" ng-model="epaByKPICtrl.filter.evaluatorId"
-                                ng-options="opt.EmployeeId as opt.NickName for opt in epaByKPICtrl.evaluators">
+                                ng-options="opt.EmployeeId as opt.NickName for opt in epaByKPICtrl.evaluators"
+                                ng-change="epaByKPICtrl.EnabledSearch()">
                             <option style="display: none" value="">-- {{"All" | translate}} --</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-sm-1">
-                    <button class="button" ng-click="epaByKPICtrl.getKPIByToView(epaByKPICtrl.filter)" data-translate="Submit"></button>
+                    <button class="button" ng-click="epaByKPICtrl.getKPIByToView()" data-translate="Submit" ng-readonly="!epaByKPICtrl.EnabledSearchButton"></button>
                 </div>
             </div>
         </form>
@@ -152,7 +153,7 @@
                             </td>
                             <td class="text-center col-score">
                                 <strong><a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="epaByKPICtrl.viewDetail(memberEPA)"></a></strong>
-                                <strong><a ng-show="memberEPA.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="epaByKPICtrl.viewDetail(memberEPA)"></a></strong>
+                                <strong><span ng-show="memberEPA.TotalScore == ''" ng-bind="'N/A'"></span></strong>
                             </td>
                         </tr>
                     </tbody>

@@ -19,8 +19,8 @@
         vm.evaluators = [];
         vm.RatingType = enumerationsFactory.ratingType;
         vm.hasRatingByStar = false;
-        vm.hasRatingByStar = false;
         vm.showRatingScoreByStar = true;
+        vm.EnabledSearchButton = false;
 
         function getCSSSelected(kpiId) {
             var cssClass = '';
@@ -64,12 +64,12 @@
             });
         }
 
-        function getKPIByToView(filter) {
+        function getKPIByToView() {
             vm.kpiSelected = null;
             vm.filter.kpiId = '';
             vm.memberEPAs = [];
 
-            EPAByKPIModel.getKPIToView(filter.periodId, filter.targetTemplateId, filter.evaluatorId)
+            EPAByKPIModel.getKPIToView(vm.filter.periodId, vm.filter.targetTemplateId, vm.filter.evaluatorId)
             .then(function () {
                 vm.kpis = EPAByKPIModel.kpis;
             });
@@ -129,7 +129,7 @@
         }
 
         function viewDetail(memberEPA) {
-            var url = baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId + '?evaluatorId=' + vm.filter.evaluatorId + '&newTab=' + true;
+            var url = baseUrl + '#/Evaluator/Detail/' + memberEPA.EPAId + '?evaluatorId=' + vm.filter.evaluatorId + '&newTab=' + true;
             $window.open(url, '_blank');
         }
 
@@ -149,6 +149,10 @@
             });
         }
 
+        function enabledSearch() {
+            vm.EnabledSearchButton = true;
+        }
+
         vm.toggleCollapseExpand = toggleCollapseExpand;
         vm.getCSSSelected = getCSSSelected;
         vm.getTargetTemplateByPeriod = getTargetTemplateByPeriod;
@@ -159,6 +163,7 @@
         vm.back = back;
         vm.generateRatingStar = generateRatingStar;
         vm.initialize = initialize;
+        vm.EnabledSearch = enabledSearch;
 
         vm.initialize();
     }
