@@ -625,7 +625,7 @@
                 Lang.Category,
                 Lang.Section,
                 Lang.JobTitle,
-                Lang.GroupDate
+                Lang.JoinedDate
             };
 
             HSSFWorkbook workbook = new HSSFWorkbook();

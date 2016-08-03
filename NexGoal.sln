@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Services", "Services", "{829FE15F-60A7-40AF-B3C8-03D0760BC522}"
 EndProject
@@ -40,6 +40,9 @@ EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NexGoal.Database", "NexGoal.Database\NexGoal.Database.sqlproj", "{5D5877AA-F436-49F6-B229-5A7E5E73F746}"
 EndProject
 Global
+	GlobalSection(JSLint) = preSolution
+		SolutionConfigurationLocation = JSLintOptions.xml
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -96,8 +99,5 @@ Global
 		{8EB3D578-B2A0-4B11-9386-50F394DE396C} = {829FE15F-60A7-40AF-B3C8-03D0760BC522}
 		{11846569-7D7F-43FE-959B-359878D494E7} = {829FE15F-60A7-40AF-B3C8-03D0760BC522}
 		{5D5877AA-F436-49F6-B229-5A7E5E73F746} = {72A0208A-0F61-4791-A99B-7D5961BA39C6}
-	EndGlobalSection
-	GlobalSection(JSLint) = preSolution
-		SolutionConfigurationLocation = JSLintOptions.xml
 	EndGlobalSection
 EndGlobal
