@@ -27,7 +27,7 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
         isGeneratedEPA: "",
         isEvaluated: "",
         hasMonthlyEPA: '',
-        epaStatus: $routeParams.inprogress === 'true' ? '0' : ''
+        epaStatus: $routeParams.inprogress === true ? '0' : ''
     };
 
     vm.filterAssign = {
