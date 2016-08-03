@@ -71,7 +71,7 @@
             padding: 20px 50px 0 20px;
             position: relative;
             margin: 0 50px 5px 0;
-
+            //width: 267px;
             .progress {
                 box-shadow: none;
                 background-image: none;
@@ -111,6 +111,10 @@
                 left: -40px;
             }
 
+            &:last-child {
+                margin-right: 0;
+            }
+
             &:first-child {
                 &:before {
                     display: none;
@@ -119,7 +123,7 @@
 
             &.open {
                 background-color: @c-open;
-                color: #61463b;
+                color: #fff;
 
                 &:after {
                     border-left: 40px solid @c-open;
@@ -205,7 +209,69 @@
     }
 }
 
-@media (min-width: 1201px) and (max-width: 1450px) {
+@media (max-width: 1299px) {
+    .evaluation-process-section ul.evaluation-process {
+        li {
+            width: 143px;
+            padding: 10px 0px 0 20px;
+            height: 110px;
+
+            &:before {
+                border-width: 55px 0 55px 40px;
+                margin-top: -10px;
+            }
+
+            &:after {
+                border-top: 55px solid transparent;
+                border-bottom: 55px solid transparent;
+            }
+        }
+    }
+}
+
+@media (min-width: 1360px) and (max-width: 1439px) {
+    .evaluation-process-section ul.evaluation-process {
+        li {
+            width: 160px;
+            padding: 10px 0px 0 20px;
+            height: 110px;
+
+            &:before {
+                border-width: 55px 0 55px 40px;
+                margin-top: -10px;
+            }
+
+            &:after {
+                border-top: 55px solid transparent;
+                border-bottom: 55px solid transparent;
+            }
+        }
+    }
+}
+
+@media (min-width: 1440px) and (max-width: 1600px) {
+    .evaluation-process-section ul.evaluation-process {
+        li {
+            width: 174px;
+            padding: 12px 0px 0 15px;
+
+            &:before {
+                margin-top: -12px;
+            }            
+        }
+    }
+}
+
+@media (min-width: 1900px) {
+    .evaluation-process-section ul.evaluation-process {
+        li {
+            width: 267px;
+        }
+    }
+}
+
+
+/*@media (min-width: 1201px) and (max-width: 1450px) {
     ul.evaluation-process {
         li:nth-child(n + 4) {
             order: 1;
@@ -250,4 +316,4 @@
             margin-left: 40px;
         }
     }
-}
+}*/
