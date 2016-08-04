@@ -105,6 +105,7 @@
     <Compile Include="Implement\EmployeeService.cs" />
     <Compile Include="Implement\EPAHistoryService.cs" />
     <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
+    <Compile Include="Implement\IntergrationService.cs" />
     <Compile Include="Implement\MenuServices.cs" />
     <Compile Include="Implement\SessionService.cs" />
     <Compile Include="Interfaces\ExportFile\IExportPdfService.cs" />
@@ -130,6 +131,7 @@
     <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
     <Compile Include="Interfaces\IEPAHistoryService.cs" />
     <Compile Include="Interfaces\IFlowManagementService.cs" />
+    <Compile Include="Interfaces\IIntergrationService.cs" />
     <Compile Include="Interfaces\IKPIGroupService.cs" />
     <Compile Include="Interfaces\IKPIService.cs" />
     <Compile Include="Interfaces\IEmployeeEPAService.cs" />
@@ -171,6 +173,10 @@
     <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj">
       <Project>{f855c077-310d-43dc-a8f6-ade400bc74ef}</Project>
       <Name>NexGoal.Resources</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NexGoal.ViewModel\NexGoal.ViewModel.csproj">
+      <Project>{e3c638a5-855a-40ee-9bef-32f2bb681cae}</Project>
+      <Name>NexGoal.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

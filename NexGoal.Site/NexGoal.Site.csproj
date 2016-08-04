@@ -185,6 +185,7 @@
     <Compile Include="Controllers\API\EmployeeEPAController.cs" />
     <Compile Include="Controllers\API\EPAHistoryController.cs" />
     <Compile Include="Controllers\API\FlowManagementController.cs" />
+    <Compile Include="Controllers\API\IntergrationController.cs" />
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
@@ -783,6 +784,10 @@
     <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj">
       <Project>{8EB3D578-B2A0-4B11-9386-50F394DE396C}</Project>
       <Name>NexGoal.Services</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NexGoal.ViewModel\NexGoal.ViewModel.csproj">
+      <Project>{e3c638a5-855a-40ee-9bef-32f2bb681cae}</Project>
+      <Name>NexGoal.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
