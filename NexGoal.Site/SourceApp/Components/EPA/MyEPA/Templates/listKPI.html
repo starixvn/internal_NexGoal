@@ -1,6 +1,6 @@
-﻿<tbody ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
+﻿<tbody class="kpiGroup" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
        repeat-end="memberEPAInfoCtrl.generateRatingStar()">
-    <tr>
+    <tr class="level-3">
         <th>{{$index + 1}}. {{::kpiGroup.Name}}</th>
         <th data-translate="Employee" class="text-center"></th>
         <th data-translate="LastRating" class="text-center"></th>
@@ -11,7 +11,7 @@
             <div class="kpi-start">
                 <div class="rating-by-star">
                     <div class="remove-rating">
-                        <a class="glyphicon glyphicon-remove-circle remove-star"
+                        <a class="fa fa-minus-circle remove-star"
                            title="Cancel" href="" ng-click="memberEPAInfoCtrl.cancelRating(kpiGroup, kpi)"></a>
                     </div>
                     <div class="rating-form">
@@ -41,13 +41,13 @@
                       ng-model="kpi.CurrentEvaluation.Comment"></textarea>
         </td>
     </tr>
-    <tr>
-        <td data-translate="SubTotal"></td>
+    <tr class="sub-total">
+        <td class="text-center" data-translate="SubTotal"></td>
         <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup)}}</td>
         <td></td>
     </tr>
 </tbody>
-<tfoot>
+<tfoot class="final-score">
     <tr class="text-center">
         <td>{{"Total" | translate}}:</td>
         <td>

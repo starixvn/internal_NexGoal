@@ -96,8 +96,8 @@
     .epa-title {
         background-color: @c-bg-epa-title;
         font-size: 16px;
-        margin: 0;        
-        padding: 9px 12px;        
+        margin: 0;
+        padding: 9px 12px;
         text-shadow: none;
         color: @c-epa-title;
         border-bottom: 1px solid #fff;
@@ -223,7 +223,7 @@
 
     .col {
         flex: 1;
-        border-right: 1px solid #fff;        
+        border-right: 1px solid #fff;
         border-bottom: 1px solid #fff;
         padding: 10px;
 
@@ -264,7 +264,52 @@
     height: 50px;
     border: none;
     margin-left: 283px;
-    padding-left: 17px;    
+    padding-left: 17px;
+}
+
+.kpiGroup {
+    .level-3 {
+        th {
+            font-weight: 500;
+            padding: 7px 20px;
+        }
+    }
+
+    .sub-total {
+        &:last-child {
+            border-bottom-color: #fff !important;
+        }
+
+        td {
+            background: #f5cdb0;
+            border-color: #fff !important;
+            color: #2b2b2b;
+            font-weight: 600;
+
+            &:first-child {
+                border-left-color: #f5cdb0 !important;
+            }
+
+            &:last-child {
+                border-right-color: #f5cdb0 !important;
+            }
+        }
+
+        &:hover td {
+            background: #f5cdb0;
+        }
+    }
+
+    /*.sub-total {
+        background: #f5cdb0;
+        border-color: #c3c3c3;
+        
+        font-weight: 600;
+
+        td {
+            color: #2b2b2b;
+        }
+    }*/
 }
 
 .list-kpi-rating {
@@ -651,12 +696,13 @@
     }
 
     .kpi-start {
-        width: 14%;
+        //width: 14%;
         float: left;
         text-align: right;
 
         .remove-rating {
             display: inline-block;
+            vertical-align: middle;
 
             .remove-star {
                 color: #de5245;
@@ -675,13 +721,13 @@
                 font-size: 1em;
             }
 
-            .glyphicon {
-                font-size: 25px;
-                color: #4493c4;
+            .fa {
+                font-size: 18px;
+                color: #4b7ab9;
 
-                &.glyphicon-star {
+                &.fa-star {
                     //cursor: pointer;
-                    color: #f67f46;
+                    color: #4b7ab9;
                 }
             }
         }
@@ -693,15 +739,21 @@
         padding-left: 5px;
 
         .badge.percent {
-            width: 55px;
+            width: 45px;
             font-weight: normal;
             font-size: 11px;
+            background: #4b7ab9;
         }
     }
 
     .rating-by-score {
         float: right;
     }
+}
+
+.rating-container .filled-stars {
+    -webkit-text-stroke: initial;
+    text-shadow: initial;
 }
 
 .evaluator-container {
@@ -764,6 +816,25 @@
 
         label {
             font-weight: 600;
+        }
+    }
+}
+
+.table tfoot.final-score tr {
+    &:first-child {
+        border-top-color: #fff;
+    }
+
+    td {
+        background: #f5bc91;
+        border-color: #fff;
+
+        &:first-child {
+            border-left-color: #f5bc91;
+        }
+
+        &:last-child {
+            border-right-color: #f5bc91;
         }
     }
 }
