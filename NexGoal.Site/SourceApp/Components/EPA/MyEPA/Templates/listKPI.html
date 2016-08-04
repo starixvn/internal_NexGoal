@@ -43,7 +43,7 @@
     </tr>
     <tr>
         <td data-translate="SubTotal"></td>
-        <td></td>
+        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup)}}</td>
         <td></td>
     </tr>
 </tbody>
@@ -51,34 +51,39 @@
     <tr class="text-center">
         <td>{{"Total" | translate}}:</td>
         <td>
-            <strong>
-                {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
-            </strong>
+            {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
         </td>
         <td>
-            <strong ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></strong>
-            <strong ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></span>
         </td>
     </tr>
     <tr class="text-center">
         <td>{{"Score" | translate}} (%):</td>
-        <td></td>
-        <td></td>
+        <td>
+            {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100}} %
+        </td>
+        <td>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null">
+                {{memberEPAInfoCtrl.epaInfo.LastPerformanceScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100}} %
+            </span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></span>
+        </td>
     </tr>
     <tr class="text-center">
         <td>{{"Grading" | translate}}:</td>
         <td></td>
         <td>
-            <strong ng-if="memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="memberEPAInfoCtrl.epaInfo.LastGrade"></strong>
-            <strong ng-if="!memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="'-'"></strong>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="memberEPAInfoCtrl.epaInfo.LastGrade"></span>
+            <span ng-if="!memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="'-'"></span>
         </td>
     </tr>
     <tr class="text-center">
         <td>{{"FinalScore" | translate}} (%):</td>
         <td></td>
         <td>
-            <strong ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></strong>
-            <strong ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></span>
         </td>
     </tr>
 </tfoot>

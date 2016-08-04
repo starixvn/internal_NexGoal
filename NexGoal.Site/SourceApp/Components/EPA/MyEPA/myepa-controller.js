@@ -49,6 +49,18 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
 
+    vm.calculateSubTotalScore = function (kpiGroup) {
+        var score = 0;
+
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            if (kpi.CurrentEvaluation.Score) {
+                score += parseFloat(kpi.CurrentEvaluation.Score, 10);
+            }
+        });
+
+        return score;
+    };
+
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
