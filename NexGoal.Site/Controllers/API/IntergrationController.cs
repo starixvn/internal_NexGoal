@@ -39,6 +39,7 @@
 
             var item1 = new HRMSummaryViewModel
             {
+                EmployeeId = CurrentUser.EmployeeId,
                 Month = 11,
                 Year = 2015,
                 NumberMissingCheckInOut = 3,
@@ -51,6 +52,7 @@
             };
             var item2 = new HRMSummaryViewModel
             {
+                EmployeeId = CurrentUser.EmployeeId,
                 Month = 12,
                 Year = 2015,
                 NumberMissingCheckInOut = 4,
@@ -75,6 +77,7 @@
 
             var item1 = new EmployeeWorkingViewModel
             {
+                EmployeeId= CurrentUser.EmployeeId,
                 ProjectName = "Nap Accounting Report",
                 ProjectManager = "Ronny",
                 StartDate = new DateTime(2015, 11, 1),
@@ -87,6 +90,7 @@
 
             var item2 = new EmployeeWorkingViewModel
             {
+                EmployeeId = CurrentUser.EmployeeId,
                 ProjectName = "Keno Integration",
                 ProjectManager = "Richard",
                 StartDate = new DateTime(2015, 11, 1),
