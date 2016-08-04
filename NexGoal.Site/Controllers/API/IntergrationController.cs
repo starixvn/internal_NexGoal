@@ -17,24 +17,24 @@
 
         public IntegrationController(IIntegrationService integrationService)
         {
-            this.integrationService = integrationService ?? new IntergrationService();
+            this.integrationService = integrationService ?? new IntegrationService();
         }
 
         public IEnumerable<HRMSummaryViewModel> GetHRMSummary()
         {
             IEnumerable<HRMSummaryViewModel> result = integrationService.GetHRMSummary(CurrentUser.EmployeeId);
-
-            result = DummyHRMSummary();
-
+#if debug
+            /// result = DummyHRMSummary();
+#endif
             return result;
         }
 
         public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking()
         {
             IEnumerable<EmployeeWorkingViewModel> result = integrationService.GetEmployeeWorking(CurrentUser.EmployeeId);
-
-            result = DummyEmployeeWorking();
-
+#if debug
+            /// result = DummyEmployeeWorking();
+#endif
             return result;
         }
 
@@ -49,7 +49,7 @@
                 Year = 2015,
                 NumberMissingCheckInOut = 3,
                 NumberLateIn = 2,
-                NumberLateOut = 2,
+                NumberEarlyOut = 2,
                 NumberUnpaidLeave = 2,
                 AverageWorkingHours = 8.35f,
                 NumberOvertime = 1,
@@ -62,7 +62,7 @@
                 Year = 2015,
                 NumberMissingCheckInOut = 4,
                 NumberLateIn = 5,
-                NumberLateOut = 5,
+                NumberEarlyOut = 5,
                 NumberUnpaidLeave = 1,
                 NumberUnplannedAnnualLeave = 7,
                 AverageWorkingHours = 8.35f,
@@ -87,7 +87,7 @@
                 ProjectManager = "Ronny",
                 StartDate = new DateTime(2015, 11, 1),
                 EndDate = new DateTime(2015, 4, 30),
-                RoleName = "Business Analysis",
+                Roles = "Business Analysis",
                 WorkingHour = 141.25f,
                 Score = 4.30f,
                 Comment = "ployee the system shows all step by step of the evalution. There are 5 steps: Admin, Self, Evaluator, Reviewer, Final Score and together"
@@ -100,7 +100,7 @@
                 ProjectManager = "Richard",
                 StartDate = new DateTime(2015, 11, 1),
                 EndDate = new DateTime(2015, 4, 30),
-                RoleName = "Tester",
+                Roles = "Tester",
                 WorkingHour = 141.25f,
                 Score = 4.00f,
                 Comment = "ployee the system shows all step by step of the evalution. There are 5 steps: Admin, Self, Evaluator, Reviewer, Final Score and together "

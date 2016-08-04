@@ -12,7 +12,7 @@
 
         public int NumberLateIn { get; set; }
 
-        public int NumberLateOut { get; set; }
+        public int NumberEarlyOut { get; set; }
 
         public int NumberUnpaidLeave { get; set; }
 

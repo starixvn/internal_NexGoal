@@ -406,5 +406,15 @@
 
             return employeeSettings;
         }
+
+        public PeriodModel GetInprogressSemiPeriodByEmployeeId(int employeeId)
+        {
+            var criteria = new GetInprogressSemiPeriodCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return GetDataEntity<PeriodModel>(criteria);
+        }
     }
 }

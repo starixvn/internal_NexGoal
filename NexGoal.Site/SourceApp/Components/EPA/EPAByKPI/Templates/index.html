@@ -112,9 +112,9 @@
                                     <div tooltip="{{kpi.Comment}}">
                                         <span>{{kpi.Score | splitScore}} pts</span>
                                         <div class="score-star-rating" ng-show="epaByKPICtrl.showRatingScoreByStar &&
-                                             (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Star
-                                             || memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.HalfStar
-                                             || (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>
+                                             (memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.Star
+                                             || memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.HalfStar
+                                             || (memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>
                                             0))">
                                             / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                             <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
@@ -128,9 +128,9 @@
                                 <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                     <span>{{kpi.Score | splitScore}} pts</span>
                                     <div class="score-star-rating" ng-show="epaByKPICtrl.showRatingScoreByStar &&
-                                         (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Star
-                                         || memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.HalfStar
-                                         || (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>
+                                         (memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.Star
+                                         || memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.HalfStar
+                                         || (memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>
                                         0))">
                                         / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                         <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"

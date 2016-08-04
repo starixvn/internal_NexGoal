@@ -52,5 +52,7 @@
         CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria);
 
         bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria);
+
+        PeriodModel GetInprogressSemiPeriodByEmployeeId(int employeeId);
     }
 }

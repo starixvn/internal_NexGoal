@@ -12,13 +12,13 @@
 
         public DateTime StartDate { get; set; }
 
-        public DateTime EndDate { get; set; }
+        public DateTime? EndDate { get; set; }
 
-        public string RoleName { get; set; }
+        public string Roles { get; set; }
 
         public float WorkingHour { get; set; }
 
-        public float Score { get; set; }
+        public float? Score { get; set; }
 
         public string Comment { get; set; }
     }
