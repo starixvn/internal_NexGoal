@@ -115,51 +115,11 @@
 <div class="level-2">C. {{"QualityOfWork" | translate}}</div>
 
 
-<table class="table table-bordered">
-    <tbody>
-        <tr>
-            <td colspan="4">KPI goes here</td>
-        </tr>
-    </tbody>
+<table class="table table-bordered" ng-include src="'/SourceApp/Components/EPA/MyEPA/Templates/listKPI.html'">
 </table>
 
 <table class="table table-bordered table-total">
     <tbody>
-        <tr class="text-center score">
-            <td colspan="4">{{"Total" | translate}}:</td>
-            <td>
-                <strong>
-                    {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
-                </strong>
-            </td>
-            <td>
-                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></strong>
-                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></strong>
-            </td>
-        </tr>
-        <tr class="text-center score">
-            <td colspan="4">{{"Score" | translate}} (%):</td>
-            <td></td>
-            <td></td>
-        </tr>
-        <tr class="text-center score">
-            <td colspan="4">{{"Grading" | translate}}:</td>
-            <td>
-            </td>
-            <td>
-                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="memberEPAInfoCtrl.epaInfo.LastGrade"></strong>
-                <strong ng-if="!memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="'-'"></strong>
-            </td>
-        </tr>
-        <tr class="text-center score">
-            <td colspan="4">{{"FinalScore" | translate}} (%):</td>
-            <td>
-            </td>
-            <td>
-                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></strong>
-                <strong ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></strong>
-            </td>
-        </tr>
         <tr class="performance-grade">
             <td data-translate="PerformanceGradingScale"></td>
             <td class="text-center" data-translate="ExcellencePerformance"></td>

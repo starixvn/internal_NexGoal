@@ -1509,4 +1509,7 @@
   <data name="LetterOfWarning" xml:space="preserve">
     <value>Letter Of Warning</value>
   </data>
+  <data name="SubTotal" xml:space="preserve">
+    <value>Sub Total</value>
+  </data>
 </root>
