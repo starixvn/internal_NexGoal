@@ -34,18 +34,18 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
         employee: ''
     };
 
-    var getPeriodEmployeeSetting = function (filter) {
+    var getPeriodEmployeeSetting = function () {
         lockScreenService.start();
 
         PeriodModel.getPeriodEmployeeSettingById(
-            filter.periodId,
-            filter.departmentId,
-            filter.isLocal,
-            filter.isExcludedEmployee,
-            filter.isGeneratedEPA,
-            filter.isEvaluated,
-            filter.hasMonthlyEPA,
-            filter.epaStatus)
+            vm.filter.periodId,
+            vm.filter.departmentId,
+            vm.filter.isLocal,
+            vm.filter.isExcludedEmployee,
+            vm.filter.isGeneratedEPA,
+            vm.filter.isEvaluated,
+            vm.filter.hasMonthlyEPA,
+            vm.filter.epaStatus)
         .then(function () {
             vm.employeeSettings = PeriodModel.employeeSettings;
             utilitiesFactory.searchOnPage(vm, vm.employeeSettings);
@@ -70,12 +70,12 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
                 vm.departmentOptions = angular.copy(treeDepartment);
             });
 
-            getPeriodEmployeeSetting(vm.filter);
+            getPeriodEmployeeSetting();
         }
     });
 
-    vm.query = function (filter) {
-        getPeriodEmployeeSetting(filter);
+    vm.query = function () {
+        getPeriodEmployeeSetting();
     };
 
     vm.getIndex = function (index, currentPage, pageSize) {
@@ -139,7 +139,7 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
 
             PeriodModel.addEmployeeToPeriod(employeeInfo).then(function () {
                 resetFilterAssign();
-                getPeriodEmployeeSetting(vm.filter);
+                getPeriodEmployeeSetting();
             })["finally"](function () {
                 lockScreenService.stop();
             });

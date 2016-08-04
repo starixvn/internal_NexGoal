@@ -114,8 +114,7 @@
                                         <div class="score-star-rating" ng-show="epaByKPICtrl.showRatingScoreByStar &&
                                              (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Star
                                              || memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.HalfStar
-                                             || (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>
-                                            0))">
+                                             || (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>0))">
                                             / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                             <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                    value="1" data-min="0" data-max="1" data-stars="1"
@@ -153,7 +152,7 @@
                             </td>
                             <td class="text-center col-score">
                                 <strong><a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="epaByKPICtrl.viewDetail(memberEPA)"></a></strong>
-                                <strong><span ng-show="memberEPA.TotalScore == ''" ng-bind="'N/A'"></span></strong>
+                                <strong><a ng-show="memberEPA.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="epaByKPICtrl.viewDetail(memberEPA)"></a></strong>
                             </td>
                         </tr>
                     </tbody>
