@@ -178,6 +178,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Approach To Work.
+        /// </summary>
+        public static string ApproachToWork {
+            get {
+                return ResourceManager.GetString("ApproachToWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Approver&apos;s Comment.
         /// </summary>
         public static string ApproverComment {
@@ -921,6 +930,15 @@ namespace NexGoal.Resources {
         public static string EmployeeArchievement {
             get {
                 return ResourceManager.GetString("EmployeeArchievement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Awards.
+        /// </summary>
+        public static string EmployeeAwards {
+            get {
+                return ResourceManager.GetString("EmployeeAwards", resourceCulture);
             }
         }
         
@@ -2005,6 +2023,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Letter Of Warning.
+        /// </summary>
+        public static string LetterOfWarning {
+            get {
+                return ResourceManager.GetString("LetterOfWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to (words: 2000).
         /// </summary>
         public static string LimitedWords {
@@ -2707,7 +2734,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PersonalTarget.
+        ///   Looks up a localized string similar to Personal Target.
         /// </summary>
         public static string PersonalTarget {
             get {
@@ -2784,6 +2811,15 @@ namespace NexGoal.Resources {
         public static string Promotability {
             get {
                 return ResourceManager.GetString("Promotability", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quality Of Work.
+        /// </summary>
+        public static string QualityOfWork {
+            get {
+                return ResourceManager.GetString("QualityOfWork", resourceCulture);
             }
         }
         
@@ -4062,6 +4098,15 @@ namespace NexGoal.Resources {
         public static string ViewSemiEPAResult {
             get {
                 return ResourceManager.GetString("ViewSemiEPAResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Violation.
+        /// </summary>
+        public static string Violation {
+            get {
+                return ResourceManager.GetString("Violation", resourceCulture);
             }
         }
         

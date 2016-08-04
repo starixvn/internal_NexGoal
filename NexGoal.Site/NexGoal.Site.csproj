@@ -423,6 +423,7 @@
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\EPA\avatar-employee.png" />
+    <Content Include="SourceApp\Components\EPA\Evaluator\Templates\forEmployeeUse.html" />
     <Content Include="SourceApp\Components\EPA\Templates\disciplineInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\forEmployeeUse.html" />
     <Content Include="SourceApp\Components\Menu\menu-controller.js" />

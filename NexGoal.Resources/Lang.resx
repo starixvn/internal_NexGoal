@@ -1393,7 +1393,7 @@
     <value>HRM System</value>
   </data>
   <data name="PersonalTarget" xml:space="preserve">
-    <value>PersonalTarget</value>
+    <value>Personal Target</value>
   </data>
   <data name="ProjectEfficiency" xml:space="preserve">
     <value>Project Efficiency</value>
@@ -1493,5 +1493,20 @@
   </data>
   <data name="LimitedWords" xml:space="preserve">
     <value>(words: 2000)</value>
+  </data>
+  <data name="ApproachToWork" xml:space="preserve">
+    <value>Approach To Work</value>
+  </data>
+  <data name="EmployeeAwards" xml:space="preserve">
+    <value>Employee Awards</value>
+  </data>
+  <data name="QualityOfWork" xml:space="preserve">
+    <value>Quality Of Work</value>
+  </data>
+  <data name="Violation" xml:space="preserve">
+    <value>Violation</value>
+  </data>
+  <data name="LetterOfWarning" xml:space="preserve">
+    <value>Letter Of Warning</value>
   </data>
 </root>
