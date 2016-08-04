@@ -9,12 +9,12 @@
     {
         public IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId)
         {
-            throw new NotImplementedException();
+            return new List<HRMSummaryViewModel>();
         }
 
-        internal IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId)
+        public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId)
         {
-            throw new NotImplementedException();
+            return new List<EmployeeWorkingViewModel>();
         }
     }
 }
