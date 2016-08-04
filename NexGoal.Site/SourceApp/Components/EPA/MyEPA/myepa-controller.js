@@ -43,6 +43,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     vm.evaluatedDate = null;
 
     vm.epaInfo = SelfEvalutorModel.epaInfo;
+    vm.hrmSummary = {};
     vm.standardGrades = CommonModel.standardGrades;
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
@@ -179,6 +180,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoByEmployee();
+
+            SelfEvalutorModel.getHRMSummary().then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
         });
     }
 

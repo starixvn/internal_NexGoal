@@ -10,6 +10,11 @@
     {
         private readonly IIntegrationService integrationService;
 
+        public IntegrationController()
+            : this(null)
+        {
+        }
+
         public IntegrationController(IIntegrationService integrationService)
         {
             this.integrationService = integrationService ?? new IntergrationService();
@@ -77,7 +82,7 @@
 
             var item1 = new EmployeeWorkingViewModel
             {
-                EmployeeId= CurrentUser.EmployeeId,
+                EmployeeId = CurrentUser.EmployeeId,
                 ProjectName = "Nap Accounting Report",
                 ProjectManager = "Ronny",
                 StartDate = new DateTime(2015, 11, 1),

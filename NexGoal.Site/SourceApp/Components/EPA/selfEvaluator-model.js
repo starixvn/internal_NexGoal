@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.factory('SelfEvalutorModel',
-['$modal', 'EmployeeEPAModel', 'employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
-function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
+['$modal', 'EmployeeEPAModel', 'employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory', "integrateFactory",
+function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory, integrateFactory) {
     var selfEvalutorModel = this;
 
     selfEvalutorModel.myEPAs = [];
@@ -12,6 +12,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     selfEvalutorModel.memberEPAs = [];
     selfEvalutorModel.epaInfo = {};
     selfEvalutorModel.permission = 0;
+    selfEvalutorModel.hrmSummary = {};
 
     // common
     selfEvalutorModel.calculateScore = function (vm) {
@@ -238,6 +239,55 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    selfEvalutorModel.getHRMSummary = function () {
+        return integrateFactory.getHRMSummary().success(function (hrmSummary) {
+            var total = {};
+
+            total.AverageWorkingHours = 0;
+            total.NumberLateIn = 0;
+            total.NumberLateOut = 0;
+            total.NumberMissingCheckInOut = 0;
+            total.NumberOvertime = 0;
+            total.NumberUnpaidLeave = 0;
+            total.NumberUnplannedAnnualLeave = 0;
+
+            if (hrmSummary.length > 0) {
+                angular.forEach(hrmSummary, function (item) {
+                    total.AverageWorkingHours += item.AverageWorkingHours;
+                    total.NumberLateIn += item.NumberLateIn;
+                    total.NumberLateOut += item.NumberLateOut;
+                    total.NumberMissingCheckInOut += item.NumberMissingCheckInOut;
+                    total.NumberOvertime += item.NumberOvertime;
+                    total.NumberUnpaidLeave += item.NumberUnpaidLeave;
+                    total.NumberUnplannedAnnualLeave += item.NumberUnplannedAnnualLeave;
+
+                    item.ConvertedAverageWorkingHours = convertDecimalHoursToString(item.AverageWorkingHours);
+                });
+
+                total.ConvertedAverageWorkingHours = convertDecimalHoursToString(total.AverageWorkingHours / hrmSummary.length);
+                total.TOEICScore = hrmSummary[0].TOEICScore;
+
+                selfEvalutorModel.hrmSummary.Total = total;
+            }
+
+
+            selfEvalutorModel.hrmSummary.Data = hrmSummary;
+
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    function convertDecimalHoursToString(value) {
+        var convertedValue = "0";
+
+        if (value && value > 0) {
+            convertedValue = parseInt(value, 10) + "h" + Math.round(((value - parseInt(value)) * 60));
+        }
+
+        return convertedValue;
     };
 
     return selfEvalutorModel;
