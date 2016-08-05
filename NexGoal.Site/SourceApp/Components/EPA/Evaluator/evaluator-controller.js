@@ -150,6 +150,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
+    vm.hrmSummary = {};
+    vm.employeeProjects = [];
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id, 10);
     vm.evaluatorId = parseInt($routeParams.evaluatorId, 10);
@@ -163,6 +165,38 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
+
+    vm.convertScoreToGrade = function (score) {
+        return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
+    };
+
+    vm.calculateEmployeeSubTotalScore = function (kpiGroup) {
+        var score = 0;
+        var weight = 0;
+
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            if (kpi.EvaluationBySelf.Score) {
+                score += parseFloat(kpi.EvaluationBySelf.Score, 10);
+                weight += kpi.Weight;
+            }
+        });
+
+        return score + " / " + weight;
+    };
+
+    vm.calculateSubTotalScore = function (kpiGroup) {
+        var score = 0;
+        var weight = 0;
+
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            if (kpi.CurrentEvaluation.Score) {
+                score += parseFloat(kpi.CurrentEvaluation.Score, 10);
+                weight += kpi.Weight;
+            }
+        });
+
+        return score + " / " + weight;
+    };
 
     vm.viewBySelf = function () {
         return !vm.evaluatorId;
@@ -312,6 +346,14 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoByEvaluator();
+        });
+
+        SelfEvalutorModel.getHRMSummary().then(function () {
+            vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+        });
+
+        SelfEvalutorModel.getEmployeeProjects().then(function () {
+            vm.employeeProjects = SelfEvalutorModel.employeeProjects;
         });
     }
 

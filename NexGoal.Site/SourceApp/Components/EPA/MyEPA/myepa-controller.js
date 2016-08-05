@@ -44,22 +44,29 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
 
     vm.epaInfo = SelfEvalutorModel.epaInfo;
     vm.hrmSummary = {};
+    vm.employeeProjects = [];
     vm.standardGrades = CommonModel.standardGrades;
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
 
+    vm.convertScoreToGrade = function (score) {
+        return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
+    };
+
     vm.calculateSubTotalScore = function (kpiGroup) {
         var score = 0;
+        var weight = 0;
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.CurrentEvaluation.Score) {
                 score += parseFloat(kpi.CurrentEvaluation.Score, 10);
+                weight += kpi.Weight;
             }
         });
 
-        return score;
+        return score + " / " + weight;
     };
 
     vm.getClassProgress = function (statusEndProcess) {
@@ -183,6 +190,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
 
             SelfEvalutorModel.getHRMSummary().then(function () {
                 vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+
+            SelfEvalutorModel.getEmployeeProjects().then(function () {
+                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
         });
     }

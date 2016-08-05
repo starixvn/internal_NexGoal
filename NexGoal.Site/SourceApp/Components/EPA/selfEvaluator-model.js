@@ -13,7 +13,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     selfEvalutorModel.epaInfo = {};
     selfEvalutorModel.permission = 0;
     selfEvalutorModel.hrmSummary = {};
-    selfEvalutorModel.project = [];
+    selfEvalutorModel.employeeProjects = [];
 
     // common
     selfEvalutorModel.calculateScore = function (vm) {
@@ -243,7 +243,15 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     selfEvalutorModel.getEmployeeProjects = function () {
+        return integrateFactory.getEmployeeProject().success(function (projects) {
+            angular.forEach(projects, function (item) {
+                item.CommentCharLimit = 50;
+            });
 
+            selfEvalutorModel.employeeProjects = projects;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
     };
 
     selfEvalutorModel.getHRMSummary = function () {
@@ -252,7 +260,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
             total.AverageWorkingHours = 0;
             total.NumberLateIn = 0;
-            total.NumberLateOut = 0;
+            total.NumberEarlyOut = 0;
             total.NumberMissingCheckInOut = 0;
             total.NumberOvertime = 0;
             total.NumberUnpaidLeave = 0;
@@ -262,7 +270,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 angular.forEach(hrmSummary, function (item) {
                     total.AverageWorkingHours += item.AverageWorkingHours;
                     total.NumberLateIn += item.NumberLateIn;
-                    total.NumberLateOut += item.NumberLateOut;
+                    total.NumberEarlyOut += item.NumberEarlyOut;
                     total.NumberMissingCheckInOut += item.NumberMissingCheckInOut;
                     total.NumberOvertime += item.NumberOvertime;
                     total.NumberUnpaidLeave += item.NumberUnpaidLeave;
@@ -289,7 +297,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var convertedValue = "0";
 
         if (value && value > 0) {
-            convertedValue = parseInt(value, 10) + "h" + Math.round(((value - parseInt(value)) * 60));
+            convertedValue = parseInt(value, 10) + "h" + Math.round(((value - parseInt(value)) * 60)) + "'";
         }
 
         return convertedValue;

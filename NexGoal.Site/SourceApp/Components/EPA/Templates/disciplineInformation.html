@@ -8,7 +8,7 @@
                 <th data-translate="Month"></th>
                 <th data-translate="CheckInOut"></th>
                 <th data-translate="LateIn"></th>
-                <th data-translate="LateOut"></th>
+                <th data-translate="EarlyOut"></th>
                 <th data-translate="UnpaidLeave"></th>
                 <th data-translate="UnplannedAnnualLeave"></th>
                 <th data-translate="AverageWorkingHours"></th>
@@ -21,7 +21,7 @@
                 <td>{{item.Month}}/{{item.Year}}</td>
                 <td>{{item.NumberMissingCheckInOut}}</td>
                 <td>{{item.NumberLateIn}}</td>
-                <td>{{item.NumberLateOut}}</td>
+                <td>{{item.NumberEarlyOut}}</td>
                 <td>{{item.NumberUnpaidLeave}}</td>
                 <td>{{item.NumberUnplannedAnnualLeave}}</td>
                 <td>{{item.ConvertedAverageWorkingHours}}</td>
@@ -35,7 +35,7 @@
                 <td data-translate="Total">Total</td>
                 <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberMissingCheckInOut}}</td>
                 <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberLateIn}}</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberLateOut}}</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberEarlyOut}}</td>
                 <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnpaidLeave}}</td>
                 <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnplannedAnnualLeave}}</td>
                 <td>{{memberEPAInfoCtrl.hrmSummary.Total.ConvertedAverageWorkingHours}}</td>
@@ -47,7 +47,7 @@
 
 </div>
 
-<div>
+<!--<div>
 
     <div class="level-2">B. {{"Violation" | translate}}</div>
 
@@ -110,4 +110,4 @@
         </tbody>
     </table>
 
-</div>
+</div>-->

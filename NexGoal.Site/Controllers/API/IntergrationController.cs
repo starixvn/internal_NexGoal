@@ -23,18 +23,16 @@
         public IEnumerable<HRMSummaryViewModel> GetHRMSummary()
         {
             IEnumerable<HRMSummaryViewModel> result = integrationService.GetHRMSummary(CurrentUser.EmployeeId);
-#if debug
-            /// result = DummyHRMSummary();
-#endif
+            result = DummyHRMSummary();
+
             return result;
         }
 
         public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking()
         {
             IEnumerable<EmployeeWorkingViewModel> result = integrationService.GetEmployeeWorking(CurrentUser.EmployeeId);
-#if debug
-            /// result = DummyEmployeeWorking();
-#endif
+            result = DummyEmployeeWorking();
+
             return result;
         }
 
