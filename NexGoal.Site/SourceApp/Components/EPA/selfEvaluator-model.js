@@ -13,6 +13,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     selfEvalutorModel.epaInfo = {};
     selfEvalutorModel.permission = 0;
     selfEvalutorModel.hrmSummary = {};
+    selfEvalutorModel.project = [];
 
     // common
     selfEvalutorModel.calculateScore = function (vm) {
@@ -239,6 +240,10 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    selfEvalutorModel.getEmployeeProjects = function () {
+
     };
 
     selfEvalutorModel.getHRMSummary = function () {

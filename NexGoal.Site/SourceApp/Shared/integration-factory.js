@@ -10,7 +10,7 @@
             getHRMSummary: function () {
                 return $http.get(baseUrl + "api/Integration/GetHRMSummary");
             },
-            getEmployeeWorking: function () {
+            getEmployeeProject: function () {
                 return $http.get(baseUrl + "api/Integration/GetEmployeeWorking");
             }
         };
