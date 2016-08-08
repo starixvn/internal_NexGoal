@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Core.Services.Implement
+﻿namespace NexGoal.Core.Services
 {
     using System;
     using System.Configuration;
@@ -6,7 +6,6 @@
     using System.Text.RegularExpressions;
     using Fanex.MailDeliver.MailClient.API;
     using Fanex.MailDeliver.Model;
-    using NexGoal.Core.Services.Interfaces;
 
     public class BaseMailService : IBaseMailService
     {

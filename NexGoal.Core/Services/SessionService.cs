@@ -1,23 +1,65 @@
-﻿using NexGoal.Core.Model;
-using NexGoal.Core.Services.Interfaces;
+﻿using NexGoal.Core.Constants;
+using NexGoal.Core.Criteria;
+using NexGoal.Core.Model;
+using NexGoal.Core.Services;
+using System.Collections.Generic;
 using System.Web;
 
 namespace NexGoal.Core.Services
 {
     public class SessionService : ISessionService
     {
+        private readonly IAuthenticationService authenticationService;
+
+        public SessionService()
+            : this(null)
+        {
+        }
+
+        public SessionService(IAuthenticationService authenticationService)
+        {
+            this.authenticationService = authenticationService ?? new AuthenticationService();
+        }
+
+        public int EmployeeId
+        {
+            get
+            {
+                return CurrentUser.EmployeeId;
+            }
+
+            set
+            {
+                CurrentUser.EmployeeId = value;
+            }
+        }
+
+        public IEnumerable<FunctionModel> Functions
+        {
+            get
+            {
+                return CurrentUser.Functions;
+            }
+
+            set
+            {
+                CurrentUser.Functions = value;
+            }
+        }
+
         public UserSession CurrentUser
         {
             get
             {
-                UserSession currentUser = null;
                 var session = HttpContext.Current.Session;
-                if (session[Constants.Constants.CurrentSessionKey] != null)
+                if (session[Constants.Constants.CurrentSessionKey] == null)
                 {
-                    currentUser = (UserSession)session[Constants.Constants.CurrentSessionKey];
+                    var domainUsername = HttpContext.Current.User.Identity.Name;
+                    UserSession currentUser = authenticationService.GetEmployeeByUsername(domainUsername);
+                    CurrentUser = currentUser;
                 }
 
-                return currentUser;
+                return session[Constants.Constants.CurrentSessionKey] as UserSession;
             }
 
             set

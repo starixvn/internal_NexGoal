@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers
 {
     using NexGoal.Core.Services;
-    using NexGoal.Core.Services.Interfaces;
     using NexGoal.Criteria.AttendanceSummary;
     using NexGoal.Criteria.Period;
     using NexGoal.Criteria.Report;

@@ -1,11 +1,10 @@
-﻿using NexGoal.Core.Model;
+﻿using NexGoal.Core.Services;
 using NexGoal.Services.Interfaces;
 using NexGoal.Site.Controllers.API;
 using NexGoal.ViewModel;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;
-using System.Web.Http.Routing;
 
 namespace NexGoal.Controller.Tests.API
 {

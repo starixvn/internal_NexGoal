@@ -1,8 +1,8 @@
-﻿namespace NexGoal.Criteria.Authentication
+﻿namespace NexGoal.Core.Criteria
 {
     using Fanex.Data.Repository;
 
-    public class GetEmployeeByDomainUsernameCriteria : CriteriaBase
+    public class GetAuthenticationByDomainUsernameCriteria : CriteriaBase
     {
         public string DomainUsername { get; set; }
         

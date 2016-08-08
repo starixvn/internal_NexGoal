@@ -1,9 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers
 {
     using NexGoal.Core.Model;
-    using NexGoal.Criteria.Authentication;
-    using NexGoal.Services.Implement;
-    using NexGoal.Services.Interfaces;
+    using NexGoal.Core.Services;
     using System.Configuration;
     using System.Web.Mvc;
     using System.Web.Security;
@@ -11,17 +9,17 @@
     public class AuthController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IEmployeeService employeeService;
+        private readonly IAuthenticationService employeeService;
 
         public AuthController()
             : this(null, null)
         {
         }
 
-        public AuthController(ISessionService sessionService, IEmployeeService employeeService)
+        public AuthController(ISessionService sessionService, IAuthenticationService authenticationService)
         {
             this.sessionService = sessionService ?? new SessionService();
-            this.employeeService = employeeService ?? new EmployeeService();
+            this.employeeService = authenticationService ?? new AuthenticationService();
         }
 
         [HttpGet]
@@ -37,6 +35,7 @@
             HttpContext.Session.Clear();
             HttpContext.Session.Abandon();
             HttpContext.Response.Cookies.Clear();
+
             return RedirectToAction("Login");
         }
 
@@ -49,11 +48,7 @@
                 var domainName = "spvn\\" + username;
                 if (!string.IsNullOrEmpty(username))
                 {
-                    var criteria = new GetEmployeeByDomainUsernameCriteria()
-                    {
-                        DomainUsername = domainName
-                    };
-                    UserSession user = employeeService.GetEmployeeByUsername(criteria);
+                    UserSession user = employeeService.GetEmployeeByUsername(domainName);
                     if (user != null)
                     {
                         this.sessionService.CurrentUser = user;

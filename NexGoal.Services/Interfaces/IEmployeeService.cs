@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using NexGoal.Core.Model;
-    using NexGoal.Criteria.Authentication;
     using NexGoal.Criteria.Employee;
     using NexGoal.Model.Authentication;
     using NexGoal.Model.Employee;
@@ -10,10 +9,6 @@
 
     public interface IEmployeeService
     {
-        UserSession GetEmployeeByCode(GetEmployeeByCodeCriteria criteria);
-
-        UserSession GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria);
-
         bool CheckValidateEmployee(string employeePassword, string enterPassword);
 
         IEnumerable<EmployeeModel> GetAllEmployee(GetAllEmployeeCriteria criteria);
@@ -37,8 +32,6 @@
         IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria);
 
         IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria);
-
-        CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria);
 
         CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria);
     }

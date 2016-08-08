@@ -3,6 +3,7 @@
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
+    using NexGoal.Core.Services;
     using System;
     using System.Net;
     using System.Net.Http;
@@ -13,10 +14,21 @@
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public class ApiAuthorizeAttribute : AuthorizeAttribute
     {
+        private ISessionService sessionService;
+
         public ApiAuthorizeAttribute(string functionKey, Policy policy)
+            : this(functionKey, policy, null)
+        {
+        }
+
+        public ApiAuthorizeAttribute(
+            string functionKey,
+            Policy policy,
+            ISessionService sessionService)
         {
             this.FunctionKey = functionKey;
             this.Policy = policy;
+            this.sessionService = sessionService ?? new SessionService();
         }
 
         public string FunctionKey { get; set; }
@@ -41,7 +53,7 @@
 
         private bool CheckUserPermission()
         {
-            var user = (UserSession)HttpContext.Current.Session[Constants.CurrentSessionKey];
+            var user = this.sessionService.CurrentUser;
 
             return user == null ? false : user.HasPermission(FunctionKey, Policy);
         }

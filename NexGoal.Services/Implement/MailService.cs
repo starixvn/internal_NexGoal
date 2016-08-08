@@ -1,17 +1,16 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
     using NexGoal.Core;
     using NexGoal.Core.Constants;
-    using NexGoal.Core.Services.Implement;
-    using NexGoal.Core.Services.Interfaces;
+    using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
 
     public class MailService : IMailService
     {

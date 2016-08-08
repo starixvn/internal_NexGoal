@@ -6,7 +6,6 @@
     using NexGoal.Core.Model;
     using NexGoal.Core.Security;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.Authentication;
     using NexGoal.Criteria.Employee;
     using NexGoal.Model.Authentication;
     using NexGoal.Model.Employee;
@@ -28,30 +27,6 @@
         public EmployeeService(IEmployeeRepository employeeRepository)
         {
             _employeeRepository = employeeRepository ?? new EmployeeRepository();
-        }
-
-        public UserSession GetEmployeeByCode(GetEmployeeByCodeCriteria criteria)
-        {
-            UserSession employee = new UserSession();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employee = _employeeRepository.GetEmployee(criteria);
-            }
-
-            return employee;
-        }
-
-        public UserSession GetEmployeeByUsername(GetEmployeeByDomainUsernameCriteria criteria)
-        {
-            UserSession employee = new UserSession();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                employee = _employeeRepository.GetEmployee(criteria);
-            }
-
-            return employee;
         }
 
         public bool CheckValidateEmployee(string employeePassword, string enterPassword)
@@ -195,18 +170,6 @@
             }
 
             return employees;
-        }
-
-        public CommandResult InsertEmployeeIPAddress(InsertEmployeeIPAddressCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Insert(criteria);
-            }
-
-            return commandResult;
         }
 
         public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
