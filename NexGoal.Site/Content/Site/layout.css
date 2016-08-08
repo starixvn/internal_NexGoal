@@ -130,6 +130,7 @@ label:hover {
   padding: 6px 10px;
   border-radius: 0;
   background-image: none;
+  position: relative;
 }
 .panel-default > .panel-heading .panel-title {
   font-size: 14px;
@@ -137,6 +138,20 @@ label:hover {
 }
 .panel-default > .panel-heading .panel-title:hover {
   cursor: pointer;
+}
+.panel-default > .panel-heading .fa-chevron-down {
+  position: absolute;
+  right: 16px;
+  top: 9px;
+  font-size: 10px;
+  margin: 0;
+  height: 15px;
+  line-height: 15px;
+  transform: rotate(0);
+  transition: 0.3s ease all;
+}
+.panel-default > .panel-heading.collapsed .fa-chevron-down {
+  transform: rotate(-90deg);
 }
 .panel-default .panel-body {
   border-top: 1px solid #aaaaaa !important;

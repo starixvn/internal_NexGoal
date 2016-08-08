@@ -19,6 +19,7 @@
         padding: 6px 10px;
         border-radius: 0;
         background-image: none;
+        position: relative;
 
         .panel-title {
             font-size: 14px;
@@ -26,6 +27,25 @@
 
             &:hover {
                 cursor: pointer;
+            }
+        }
+
+        .fa-chevron-down {
+            position: absolute;
+            right: 16px;
+            top: 9px;
+            font-size: 10px;
+            margin: 0;
+            height: 15px;
+            line-height: 15px;
+            transform: rotate(0);
+            transition: 0.3s ease all;
+        }
+
+        &.collapsed {
+
+            .fa-chevron-down {
+                transform: rotate(-90deg);
             }
         }
     }
