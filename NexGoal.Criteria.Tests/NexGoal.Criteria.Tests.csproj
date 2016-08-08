@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Integration\GetEmployeeWorkingByEmployeeIdCriteriaTest.cs" />
     <Compile Include="Integration\GetHRMSummaryByEmployeeIdCriteriaTest.cs" />
+    <Compile Include="Integration\TestData.cs" />
     <Compile Include="Period\GetInprogressSemiPeriodCriteriaTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
