@@ -1366,7 +1366,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluator Comment.
+        ///   Looks up a localized string similar to Evaluator&apos;s Comment.
         /// </summary>
         public static string EvaluatorComment {
             get {
@@ -1420,6 +1420,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluator&apos;s Scoring.
+        /// </summary>
+        public static string EvaluatorScoring {
+            get {
+                return ResourceManager.GetString("EvaluatorScoring", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A. Excellence : 90% ~ 100%.
         /// </summary>
         public static string ExcellencePerformance {
@@ -1452,6 +1461,15 @@ namespace NexGoal.Resources {
         public static string FieldRequire {
             get {
                 return ResourceManager.GetString("FieldRequire", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Final Grading.
+        /// </summary>
+        public static string FinalGrading {
+            get {
+                return ResourceManager.GetString("FinalGrading", resourceCulture);
             }
         }
         
@@ -1524,6 +1542,15 @@ namespace NexGoal.Resources {
         public static string ForEvaluatorUse {
             get {
                 return ResourceManager.GetString("ForEvaluatorUse", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to For Reviewer Use.
+        /// </summary>
+        public static string ForReviewerUse {
+            get {
+                return ResourceManager.GetString("ForReviewerUse", resourceCulture);
             }
         }
         
@@ -2887,6 +2914,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reason by Employee.
+        /// </summary>
+        public static string ReasonByEmployee {
+            get {
+                return ResourceManager.GetString("ReasonByEmployee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remark.
         /// </summary>
         public static string Remark {
@@ -3058,6 +3094,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reviewer&apos;s Comment.
+        /// </summary>
+        public static string ReviewerComment {
+            get {
+                return ResourceManager.GetString("ReviewerComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The End Date of Reviewer must be less than or equal the Start Date of Management!.
         /// </summary>
         public static string ReviewerRangeDateGreaterThanManagementRangeDateWarning {
@@ -3072,6 +3117,15 @@ namespace NexGoal.Resources {
         public static string ReviewerScore {
             get {
                 return ResourceManager.GetString("ReviewerScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reviewer&apos;s +/- Scores.
+        /// </summary>
+        public static string ReviewerScores {
+            get {
+                return ResourceManager.GetString("ReviewerScores", resourceCulture);
             }
         }
         

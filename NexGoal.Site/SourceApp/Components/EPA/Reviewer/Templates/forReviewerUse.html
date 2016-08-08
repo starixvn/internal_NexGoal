@@ -1,36 +1,62 @@
-﻿<div class="level-2">A. {{"ProjectEfficiency" | translate}}</div>
+﻿<table class="table table-bordered">
+    <tfoot class="final-score">
+        <tr class="text-center">
+            <td data-translate="EvaluatorScoring"></td>
+            <td class="reviewer-score">
+                <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                    {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].TotalScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].MaxTotalScore}}
+                </span>
+                <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td data-translate="ReviewerScores"></td>
+            <td class="reviewer-score">
+                <select name="AdjustAction" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustAction">
+                    <option ng-repeat="item in memberEPAInfoCtrl.adjustmentAction" ng-value="{{item.Value}}">{{item.Name}}</option>
+                </select>
+
+                <select name="AdjustScore" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustScore">
+                    <option ng-repeat="item in memberEPAInfoCtrl.adjustmentScore" ng-value="{{item}}">{{item}}</option>
+                </select>
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td data-translate="FinalScore"></td>
+            <td class="reviewer-score">
+                {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore}}
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td>{{"FinalScore" | translate}} (%)</td>
+            <td class="reviewer-score">
+                {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100}} %
+            </td>
+        </tr>
+        <tr class="text-center">
+            <td data-translate="FinalGrading"></td>
+            <td class="reviewer-score">
+                {{memberEPAInfoCtrl.convertScoreToGrade(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100)}}
+            </td>
+        </tr>
+    </tfoot>
+</table>
 
 <table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th data-translate="ProjectName"></th>
-            <th data-translate="ProjectManager"></th>
-            <th data-translate="StartDate"></th>
-            <th data-translate="EndDate"></th>
-            <th data-translate="Role"></th>
-            <th data-translate="Total Spend Time"></th>
-            <th data-translate="Average Score"></th>
-            <th data-translate="Comment"></th>
-        </tr>
-    </thead>
     <tbody>
-        <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects">
-            <td class="text-center">{{$index + 1}}</td>
-            <td>{{project.ProjectName}}</td>
-            <td class="text-center">{{project.ProjectManager}}</td>
-            <td class="text-center">{{project.StartDate | customDate}}</td>
-            <td class="text-center">{{project.EndDate | customDate}}</td>
-            <td class="text-center">{{project.Roles}}</td>
-            <td class="text-center">{{project.WorkingHour}}</td>
-            <td class="text-center">{{project.Score}}</td>
-            <td>
-                {{project.Comment}}
+        <tr class="level-3">
+            <td colspan="6" data-translate="ReviewerComment"></td>
+        </tr>
+        <tr class="comment">
+            <td colspan="6" class="textarea-comment">
+                <p>
+                    <span data-translate="CommentsIfAny" class="lable-comment-if-any">
+                    </span><span class="label-word-countdown" data-translate="LimitedWords"></span>
+                </p>
+                <textarea class="form-control" placeholder="N/A"
+                          ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
+                          ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
             </td>
         </tr>
     </tbody>
 </table>
-
-<div class="level-2">B. {{"QualityOfWork" | translate}}</div>
-
-<table class="table table-bordered" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/listKPI.html'"></table>

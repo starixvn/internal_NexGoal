@@ -50,26 +50,30 @@
                 </div>
 
                 <div class="panel-collapse collapse in employee-panel">
+                    <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/evaluateResult.html'">
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="panel panel-default no-border">
+
+                <div class="panel-heading level-1" data-toggle="collapse" data-target=".reviewer-panel">
+                    <h4 class="panel-title" data-translate="ForReviewerUse"></h4>
+                </div>
+
+                <div class="panel-collapse collapse in reviewer-panel">
                     <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/forReviewerUse.html'">
                     </div>
                 </div>
 
             </div>
 
-            <div class="col-sm-12 list-group-item bottom-buffer summary-section" ng-init="memberEPAInfoCtrl.collapses['PerformanceResult'] = false;">
-                <div class="boxtitle text-uppercase" data-translate="PerformanceResult"
-                     ng-click="memberEPAInfoCtrl.collapses['PerformanceResult'] = !memberEPAInfoCtrl.collapses['PerformanceResult']"></div>
-                <div class="boxcontent" collapse="memberEPAInfoCtrl.collapses['PerformanceResult']"
-                     ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/performanceResult.html'"></div>
-            </div>
-            <div class="col-sm-12 list-group-item">
-                <div ng-include src="'/SourceApp/Components/EPA/Templates/performanceDetails.html'"></div>
-            </div>
         </div>
         <div class="navbar navbar-default navbar-fixed-bottom action-section">
-            <button class="btn btn-back" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
+            <button class="btn btn-back" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
+            <button class="btn button-save" ng-click="memberEPAInfoCtrl.save(memberEPAInfoCtrl.epaInfo)"
                     ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
-            <button class="btn button-save" ng-click="memberEPAInfoCtrl.cancel()" data-translate="Back"></button>
         </div>
     </div>
 </div>

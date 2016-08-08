@@ -1483,7 +1483,7 @@
     <value>C. Satisfactory: 50% ~ 69%</value>
   </data>
   <data name="EvaluatorComment" xml:space="preserve">
-    <value>Evaluator Comment</value>
+    <value>Evaluator's Comment</value>
   </data>
   <data name="ForEvaluatorUse" xml:space="preserve">
     <value>For Evaluator Use</value>
@@ -1511,5 +1511,23 @@
   </data>
   <data name="SubTotal" xml:space="preserve">
     <value>Sub Total</value>
+  </data>
+  <data name="ReasonByEmployee" xml:space="preserve">
+    <value>Reason by Employee</value>
+  </data>
+  <data name="ForReviewerUse" xml:space="preserve">
+    <value>For Reviewer Use</value>
+  </data>
+  <data name="EvaluatorScoring" xml:space="preserve">
+    <value>Evaluator's Scoring</value>
+  </data>
+  <data name="FinalGrading" xml:space="preserve">
+    <value>Final Grading</value>
+  </data>
+  <data name="ReviewerScores" xml:space="preserve">
+    <value>Reviewer's +/- Scores</value>
+  </data>
+  <data name="ReviewerComment" xml:space="preserve">
+    <value>Reviewer's Comment</value>
   </data>
 </root>

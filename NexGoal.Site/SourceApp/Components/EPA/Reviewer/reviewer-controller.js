@@ -353,6 +353,17 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.finalScore = null;
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
+    vm.adjustmentScore = [];
+    vm.adjustmentAction = [
+        {
+            Value: "add",
+            Name: "+"
+        },
+        {
+            Value: "sub",
+            Name: "-"
+        }
+    ];
 
     vm.convertScoreToGrade = function (score) {
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
@@ -422,6 +433,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
+            for (var index = -20; index <= 20; index++) {
+                vm.adjustmentScore.push(index.toString());
+            };
+
             for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
                 var kpiGroup = vm.epaInfo.KPIGroups[index];
 
@@ -432,7 +447,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
                     kpiGroup.SelfScore += parseInt(kpi.EvaluationBySelf.Score, 10);
                     kpiGroup.EvaluatorScore += parseInt(kpi.EvaluationByEvaluators[0].Score, 10);
                 });
-            }
+            };
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
@@ -444,6 +459,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.epaInfo.Process.AverageScoreByEvaluators = vm.epaInfo.Process.AverageScoreByEvaluators;
 
             // reviewer
+            vm.epaInfo.Process.CurrentProcess.AdjustScore = parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScore);
+            vm.epaInfo.Process.CurrentProcess.AdjustAction = vm.epaInfo.Process.CurrentProcess.AdjustScore > 0 ? "add" : "sub";
             vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
             vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
             vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
