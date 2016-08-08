@@ -1,7 +1,7 @@
 ﻿<tbody class="kpiGroup" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
        repeat-end="memberEPAInfoCtrl.generateRatingStar()">
     <tr class="level-3">
-        <th>{{$index + 1}}. {{::kpiGroup.Name}}</th>
+        <th>{{$index + 1}}. {{kpiGroup.Name}}</th>
         <th data-translate="Employee" class="text-center"></th>
         <th data-translate="LastRating" class="text-center"></th>
     </tr>

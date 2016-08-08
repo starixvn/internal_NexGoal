@@ -1670,6 +1670,12 @@ label:hover {
 .textarea-comment textarea:focus {
   height: 8em;
 }
+.textarea-comment textarea[readonly] {
+  height: auto;
+}
+.textarea-comment textarea[readonly]:focus {
+  height: auto;
+}
 .check-auto-save {
   position: absolute;
   right: 15px;

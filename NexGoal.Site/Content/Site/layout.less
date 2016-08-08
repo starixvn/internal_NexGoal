@@ -96,6 +96,14 @@
             height: 8em;
         }
     }
+
+    textarea[readonly] {
+        height: auto;
+
+        &:focus {
+            height: auto;
+        }
+    }
 }
 
 .check-auto-save {

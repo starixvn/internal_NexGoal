@@ -1,0 +1,36 @@
+﻿<div class="level-2">A. {{"ProjectEfficiency" | translate}}</div>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>#</th>
+            <th data-translate="ProjectName"></th>
+            <th data-translate="ProjectManager"></th>
+            <th data-translate="StartDate"></th>
+            <th data-translate="EndDate"></th>
+            <th data-translate="Role"></th>
+            <th data-translate="Total Spend Time"></th>
+            <th data-translate="Average Score"></th>
+            <th data-translate="Comment"></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects">
+            <td class="text-center">{{$index + 1}}</td>
+            <td>{{project.ProjectName}}</td>
+            <td class="text-center">{{project.ProjectManager}}</td>
+            <td class="text-center">{{project.StartDate | customDate}}</td>
+            <td class="text-center">{{project.EndDate | customDate}}</td>
+            <td class="text-center">{{project.Roles}}</td>
+            <td class="text-center">{{project.WorkingHour}}</td>
+            <td class="text-center">{{project.Score}}</td>
+            <td>
+                {{project.Comment}}
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="level-2">B. {{"QualityOfWork" | translate}}</div>
+
+<table class="table table-bordered" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/listKPI.html'"></table>

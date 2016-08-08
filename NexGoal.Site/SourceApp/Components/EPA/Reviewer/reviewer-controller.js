@@ -335,9 +335,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 }]);
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
-['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel',
+['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel,
+function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
@@ -353,6 +353,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.finalScore = null;
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
+
+    vm.convertScoreToGrade = function (score) {
+        return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
+    };
 
     vm.openPopupViewComment = function (comment) {
         EmployeeEPAModel.openPopupViewComment(vm, comment);
@@ -418,18 +422,16 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
-            if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
-                    || vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
-                    || (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score
-                        && $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0)) {
-                vm.hasRatingByStar = true;
-            }
+            for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
+                var kpiGroup = vm.epaInfo.KPIGroups[index];
 
-            if (vm.epaInfo.HasMonthlyEPA && vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual && !vm.epaInfo.Process.CurrentProcess.TotalScore) {
-                vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-            } else if (!vm.epaInfo.Process.CurrentProcess.TotalScore
-                && vm.epaInfo.Process.Evaluators[0].IsEndProcess) {
-                vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.AverageScoreByEvaluators;
+                kpiGroup.SelfScore = 0;
+                kpiGroup.EvaluatorScore = 0;
+
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    kpiGroup.SelfScore += parseInt(kpi.EvaluationBySelf.Score, 10);
+                    kpiGroup.EvaluatorScore += parseInt(kpi.EvaluationByEvaluators[0].Score, 10);
+                });
             }
 
             // self
