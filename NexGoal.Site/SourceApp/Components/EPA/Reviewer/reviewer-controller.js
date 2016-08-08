@@ -8,6 +8,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     utilitiesFactory, notificationFactory, historyFactory, baseUrl) {
     var vm = this;
 
+    vm.hrmSummary = {};
+    vm.employeeProjects = [];
     vm.permission = 0;
     vm.memberEPAs = [];
     vm.members = [];
@@ -466,6 +468,14 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoByReviewer();
+
+            SelfEvalutorModel.getHRMSummary().then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+
+            SelfEvalutorModel.getEmployeeProjects().then(function () {
+                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
+            });
         });
     }
 
