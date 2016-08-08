@@ -18,7 +18,9 @@
 
         public float WorkingHour { get; set; }
 
-        public float? Score { get; set; }
+        public string EncryptedScore { get; set; }
+
+        public string DecryptedScore { get; set; }
 
         public string Comment { get; set; }
     }

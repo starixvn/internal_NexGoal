@@ -35,7 +35,7 @@
             var criteria = new GetEPAHistoryCriteria
             {
                 PeriodId = periodId,
-                EvaluatorId = CurrentUser.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 EmployeeId = employeeId
             };
 
@@ -46,7 +46,7 @@
         [HttpGet]
         public bool HasOnlyEmployeeRole()
         {
-            IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(CurrentUser.EmployeeId);
+            IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(SessionService.EmployeeId);
             bool onlyEmployeeRole = roles.All(x => x.RoleId == (int)SystemRole.Employee);
             return onlyEmployeeRole;
         }

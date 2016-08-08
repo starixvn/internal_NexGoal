@@ -9,7 +9,7 @@
     [DeflateCompressionAttribute]
     public class BaseController : ApiController
     {
-        private readonly ISessionService sessionService;
+        private ISessionService sessionService;
 
         public BaseController()
             : this(null)
@@ -21,11 +21,16 @@
             this.sessionService = sessionService ?? new SessionService();
         }
 
-        public UserSession CurrentUser
+        public ISessionService SessionService 
         {
             get
             {
-                return this.sessionService.CurrentUser;
+                return sessionService;
+            }
+
+            set
+            {
+                sessionService = value;
             }
         }
     }

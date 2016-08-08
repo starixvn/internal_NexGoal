@@ -51,7 +51,7 @@
                 EmployeeId = employeeId,
                 ReasonId = reasonId,
                 ShowAll = showAll,
-                ApproverId = CurrentUser.EmployeeId
+                ApproverId = SessionService.EmployeeId
             };
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceSummaryService.GetAttendanceSummary(criteria);
 
@@ -83,7 +83,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeId;
+                criteria.CreatedBy = SessionService.EmployeeId;
             }
 
             CommandResult commandResult = _attendanceSummaryService.InsertOtherViolation(criteria);
@@ -102,7 +102,7 @@
                 EmployeeId = employeeId,
                 WorkDate = workDate,
                 Name = name,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
             CommandResult commandResult = _attendanceSummaryService.DeleteOtherViolation(criteria);
@@ -135,7 +135,7 @@
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
                 ReasonId = reasonId,
-                ApproverId = CurrentUser.EmployeeId,
+                ApproverId = SessionService.EmployeeId,
                 HasIgnored = hasIgnored,
                 ShowAll = showAll
             };
@@ -151,7 +151,7 @@
         {
             var criteria = new UpdateIgnoredViolationCriteria
             {
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
             criteria.IgnoredViolations = criteria.ConvertViolationItemToXml(violations);
@@ -173,13 +173,13 @@
 
         public int GetUserPermissionOnAttendanceSummary()
         {
-            return CurrentUser.GetPermission(FunctionKey.DisciplineSummary);
+            return SessionService.CurrentUser.GetPermission(FunctionKey.DisciplineSummary);
         }
 
         [HttpGet]
         public bool CheckUserPermissionIsAdmin()
         {
-            IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(CurrentUser.EmployeeId);
+            IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(SessionService.EmployeeId);
             return roles.Any(x => x.RoleId == (int)SystemRole.SystemAdmin);
         }
     }

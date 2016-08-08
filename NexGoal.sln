@@ -45,6 +45,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Controller.Tests", "NexGoal.Controller.Tests\NexGoal.Controller.Tests.csproj", "{9CF07199-F9DE-409A-B135-83EC0FCE1D37}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Services.Tests", "NexGoal.Services.Tests\NexGoal.Services.Tests.csproj", "{08493E05-81D4-4E47-B96B-B9D6DEE4AE58}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Criteria.Tests", "NexGoal.Criteria.Tests\NexGoal.Criteria.Tests.csproj", "{23016102-C895-41C8-9C30-2541E01F29F4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +101,14 @@ Global
 		{9CF07199-F9DE-409A-B135-83EC0FCE1D37}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9CF07199-F9DE-409A-B135-83EC0FCE1D37}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9CF07199-F9DE-409A-B135-83EC0FCE1D37}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08493E05-81D4-4E47-B96B-B9D6DEE4AE58}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08493E05-81D4-4E47-B96B-B9D6DEE4AE58}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08493E05-81D4-4E47-B96B-B9D6DEE4AE58}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08493E05-81D4-4E47-B96B-B9D6DEE4AE58}.Release|Any CPU.Build.0 = Release|Any CPU
+		{23016102-C895-41C8-9C30-2541E01F29F4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{23016102-C895-41C8-9C30-2541E01F29F4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{23016102-C895-41C8-9C30-2541E01F29F4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{23016102-C895-41C8-9C30-2541E01F29F4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -112,6 +124,8 @@ Global
 		{5D5877AA-F436-49F6-B229-5A7E5E73F746} = {72A0208A-0F61-4791-A99B-7D5961BA39C6}
 		{E3C638A5-855A-40EE-9BEF-32F2BB681CAE} = {B4D4C782-CA9F-434D-BBA6-751DC3565D08}
 		{9CF07199-F9DE-409A-B135-83EC0FCE1D37} = {71C7D65B-7607-48A4-A96D-862630BC4CD4}
+		{08493E05-81D4-4E47-B96B-B9D6DEE4AE58} = {71C7D65B-7607-48A4-A96D-862630BC4CD4}
+		{23016102-C895-41C8-9C30-2541E01F29F4} = {71C7D65B-7607-48A4-A96D-862630BC4CD4}
 	EndGlobalSection
 	GlobalSection(JSLint) = preSolution
 		SolutionConfigurationLocation = JSLintOptions.xml

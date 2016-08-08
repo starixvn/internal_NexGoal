@@ -67,7 +67,7 @@
         {
             if (criteria != null)
             {
-                criteria.CreatedBy = CurrentUser.EmployeeId;
+                criteria.CreatedBy = SessionService.EmployeeId;
                 criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
             }
 
@@ -81,7 +81,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
             CommandResult commandResult = _employeeService.UpdateSpecialEmployee(criteria);
@@ -101,11 +101,11 @@
             CommandResult commandResult = new CommandResult();
             if (criteria != null)
             {
-                var user = this._employeeService.GetEmployeeById(CurrentUser.EmployeeId);
+                var user = this._employeeService.GetEmployeeById(SessionService.EmployeeId);
                 if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, user.Password))
                 {
-                    criteria.EmployeeId = CurrentUser.EmployeeId;
-                    criteria.ModifiedBy = CurrentUser.EmployeeId;
+                    criteria.EmployeeId = SessionService.EmployeeId;
+                    criteria.ModifiedBy = SessionService.EmployeeId;
 
                     commandResult = _employeeService.ChangePassword(criteria);
                 }
@@ -124,7 +124,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
             CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
@@ -140,7 +140,7 @@
             {
                 EmployeeId = employeeId,
                 NewPassword = Constants.ResetDefaultPassword,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
             return _employeeService.ResetPassword(criteria);
@@ -152,7 +152,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
             CommandResult commandResult = _employeeService.UpdateHasMonthlyEPA(criteria);
@@ -170,7 +170,7 @@
 
         public int GetUserPermissionOnEmployee()
         {
-            return CurrentUser.GetPermission(FunctionKey.UserManagement);
+            return SessionService.CurrentUser.GetPermission(FunctionKey.UserManagement);
         }
     }
 }

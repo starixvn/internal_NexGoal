@@ -3,7 +3,7 @@
     using Fanex.Data.Repository;
     using System;
 
-    public class GetHRMSummaryByEmployeeId : CriteriaBase
+    public class GetHRMSummaryByEmployeeIdCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
 
@@ -18,7 +18,12 @@
 
         public override bool IsValid()
         {
-            return EmployeeId > 0;
+            return EmployeeId > 0
+                && StartDate != DateTime.MaxValue
+                && StartDate != DateTime.MinValue
+                && EndDate != DateTime.MinValue
+                && EndDate != DateTime.MaxValue
+                && EndDate >= StartDate;
         }
     }
 }

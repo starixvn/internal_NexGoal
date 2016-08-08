@@ -71,7 +71,7 @@
         {
             string fileName = Lang.EPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = this.sessionService.CurrentUser.EmployeeId;
+            criteria.EmployeeId = this.sessionService.EmployeeId;
 
             EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
 
@@ -84,7 +84,7 @@
         {
             string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
 
-            criteria.EmployeeId = this.sessionService.CurrentUser.EmployeeId;
+            criteria.EmployeeId = this.sessionService.EmployeeId;
 
             EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
 
@@ -95,7 +95,7 @@
 
         public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = this.sessionService.CurrentUser.EmployeeId;
+            criteria.EmployeeId = this.sessionService.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
 
@@ -106,7 +106,7 @@
 
         public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
         {
-            criteria.EmployeeId = this.sessionService.CurrentUser.EmployeeId;
+            criteria.EmployeeId = this.sessionService.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
             _monthlyEPADetailReportService.Render(epaDetail);
@@ -116,7 +116,7 @@
 
         public ActionResult ExportAttendanceSummaryReport(GetAttendanceSummaryCriteria criteria)
         {
-            criteria.ApproverId = this.sessionService.CurrentUser.EmployeeId;
+            criteria.ApproverId = this.sessionService.EmployeeId;
             IEnumerable<AttendanceSummaryModel> attendanceEmployees = _attendanceService.GetAttendanceSummary(criteria);
 
             if (attendanceEmployees != null)
@@ -132,7 +132,7 @@
         {
             if (criteria != null)
             {
-                criteria.ApproverId = this.sessionService.CurrentUser.EmployeeId;
+                criteria.ApproverId = this.sessionService.EmployeeId;
                 IEnumerable<AttendanceDetailModel> attendanceViolations = _attendanceService.GetAttendanceDetail(criteria);
 
                 if (attendanceViolations != null)

@@ -3,6 +3,7 @@ using NexGoal.Core.Model;
 using NexGoal.Core.Services.Interfaces;
 using NexGoal.Criteria.Authentication;
 using NexGoal.Services.Interfaces;
+using System.Collections.Generic;
 using System.Web;
 
 namespace NexGoal.Services.Implement
@@ -19,6 +20,32 @@ namespace NexGoal.Services.Implement
         public SessionService(IEmployeeService employeeService)
         {
             this.employeeService = employeeService ?? new EmployeeService();
+        }
+
+        public int EmployeeId
+        {
+            get
+            {
+                return CurrentUser.EmployeeId;
+            }
+
+            set
+            {
+                CurrentUser.EmployeeId = value;
+            }
+        }
+
+        public IEnumerable<FunctionModel> Functions
+        {
+            get
+            {
+                return CurrentUser.Functions;
+            }
+
+            set
+            {
+                CurrentUser.Functions = value;
+            }
         }
 
         public UserSession CurrentUser

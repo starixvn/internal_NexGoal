@@ -28,7 +28,7 @@
         [HttpGet]
         public IEnumerable<MenuModel> GetMenusByEmployeeId()
         {
-            var menus = this.menuService.GetMenusByUserId(CurrentUser.EmployeeId);
+            var menus = this.menuService.GetMenusByUserId(SessionService.EmployeeId);
 
             return menus;
         }

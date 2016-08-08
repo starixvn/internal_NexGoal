@@ -22,7 +22,7 @@
 
         public IEnumerable<HRMSummaryViewModel> GetHRMSummary()
         {
-            IEnumerable<HRMSummaryViewModel> result = integrationService.GetHRMSummary(CurrentUser.EmployeeId);
+            IEnumerable<HRMSummaryViewModel> result = integrationService.GetHRMSummary(SessionService.EmployeeId);
             result = DummyHRMSummary();
 
             return result;
@@ -30,7 +30,7 @@
 
         public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking()
         {
-            IEnumerable<EmployeeWorkingViewModel> result = integrationService.GetEmployeeWorking(CurrentUser.EmployeeId);
+            IEnumerable<EmployeeWorkingViewModel> result = integrationService.GetEmployeeWorking(SessionService.EmployeeId);
             result = DummyEmployeeWorking();
 
             return result;
@@ -42,7 +42,7 @@
 
             var item1 = new HRMSummaryViewModel
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = SessionService.EmployeeId,
                 Month = 11,
                 Year = 2015,
                 NumberMissingCheckInOut = 3,
@@ -55,7 +55,7 @@
             };
             var item2 = new HRMSummaryViewModel
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = SessionService.EmployeeId,
                 Month = 12,
                 Year = 2015,
                 NumberMissingCheckInOut = 4,
@@ -80,27 +80,29 @@
 
             var item1 = new EmployeeWorkingViewModel
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = SessionService.EmployeeId,
                 ProjectName = "Nap Accounting Report",
                 ProjectManager = "Ronny",
                 StartDate = new DateTime(2015, 11, 1),
                 EndDate = new DateTime(2015, 4, 30),
                 Roles = "Business Analysis",
                 WorkingHour = 141.25f,
-                Score = 4.30f,
+                EncryptedScore = "7DFmRMOnPkY=",
+                DecryptedScore = "4.3",
                 Comment = "ployee the system shows all step by step of the evalution. There are 5 steps: Admin, Self, Evaluator, Reviewer, Final Score and together"
             };
 
             var item2 = new EmployeeWorkingViewModel
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = SessionService.EmployeeId,
                 ProjectName = "Keno Integration",
                 ProjectManager = "Richard",
                 StartDate = new DateTime(2015, 11, 1),
                 EndDate = new DateTime(2015, 4, 30),
                 Roles = "Tester",
                 WorkingHour = 141.25f,
-                Score = 4.00f,
+                EncryptedScore = "C3p+IKnKg/I=",
+                DecryptedScore = "4.3",
                 Comment = "ployee the system shows all step by step of the evalution. There are 5 steps: Admin, Self, Evaluator, Reviewer, Final Score and together "
             };
 

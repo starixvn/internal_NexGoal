@@ -3,7 +3,7 @@ using System;
 
 namespace NexGoal.Criteria
 {
-    public class GetEmployeeWorkingByEmployeeId : CriteriaBase
+    public class GetEmployeeWorkingByEmployeeIdCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
 
@@ -18,7 +18,12 @@ namespace NexGoal.Criteria
 
         public override bool IsValid()
         {
-            return EmployeeId > 0;
+            return EmployeeId > 0 
+                && StartDate != DateTime.MaxValue 
+                && StartDate != DateTime.MinValue 
+                && EndDate != DateTime.MinValue 
+                && EndDate != DateTime.MaxValue 
+                && EndDate >= StartDate;
         }
     }
 }

@@ -112,8 +112,8 @@
     <Compile Include="FlowManagement\GetDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\GetDepartmentSectionHasSettingCriteria.cs" />
     <Compile Include="FlowManagement\GetPersonalFlowCriteria.cs" />
-    <Compile Include="Integration\GetEmployeeWorkingByEmployeeId.cs" />
-    <Compile Include="Integration\GetHRMSummaryByEmployeeId.cs" />
+    <Compile Include="Integration\GetEmployeeWorkingByEmployeeIdCriteria.cs" />
+    <Compile Include="Integration\GetHRMSummaryByEmployeeIdCriteria.cs" />
     <Compile Include="Menu\DeleteMenuCriteria.cs" />
     <Compile Include="Menu\GetMenuByIdCriteria.cs" />
     <Compile Include="Menu\GetMenusByUserIdCriteria.cs" />

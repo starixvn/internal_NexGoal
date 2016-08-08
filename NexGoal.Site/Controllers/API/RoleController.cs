@@ -43,7 +43,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
             CommandResult commandResult = _roleService.AssignFunctionToRole(criteria);

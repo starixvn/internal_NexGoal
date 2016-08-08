@@ -46,7 +46,7 @@
         {
             var criteria = new GetEPASummaryCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = SessionService.EmployeeId,
                 PeriodIds = periodIds,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,
@@ -75,7 +75,7 @@
         {
             var criteria = new GetEPADetailCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeId,
+                EmployeeId = SessionService.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
                 IsLocal = isLocal,

@@ -122,7 +122,7 @@
                 GroupId = groupId,
                 IsSpecialUser = isSpecialUser,
                 IsDisabledUser = isDisabledUser,
-                ApproverId = getByApprover == true ? (int?)CurrentUser.EmployeeId : null,
+                ApproverId = getByApprover == true ? (int?)SessionService.EmployeeId : null,
                 IncludeVerifier = includeVerifier
             };
 
@@ -159,7 +159,7 @@
         [HttpGet]
         public EmployeeModel GetCurrentEmployee()
         {
-            return commonService.GetEmployeeById(CurrentUser.EmployeeId);
+            return commonService.GetEmployeeById(SessionService.EmployeeId);
         }
 
         [HttpGet]

@@ -51,7 +51,7 @@
         {
             if (criteria != null)
             {
-                criteria.ModifiedBy = CurrentUser.EmployeeId;
+                criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
             CommandResult commandResult = _targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
@@ -66,7 +66,7 @@
             {
                 TargetTemplateId = targetTemplateId,
                 EmployeeId = employeeId,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
             CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
@@ -103,7 +103,7 @@
                 {
                     TargetTemplateId = model.TargetTemplateId,
                     Departments = model.ConvertToXml(),
-                    ModifiedBy = CurrentUser.EmployeeId
+                    ModifiedBy = SessionService.EmployeeId
                 };
 
                 commandResult = _targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
@@ -124,7 +124,7 @@
                 TargetTemplateId = targetTemplateId,
                 DepartmentId = departmentId,
                 IsGroup = isGroup,
-                ModifiedBy = CurrentUser.EmployeeId
+                ModifiedBy = SessionService.EmployeeId
             };
 
             CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
@@ -133,7 +133,7 @@
 
         public int GetUserPermissionOnTargetEmployeeSetting()
         {
-            return CurrentUser.GetPermission(FunctionKey.EPASetting);
+            return SessionService.CurrentUser.GetPermission(FunctionKey.EPASetting);
         }
     }
 }

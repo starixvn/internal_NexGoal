@@ -33,11 +33,11 @@
 
             var criteria = new GetDashboardCriteria()
             {
-                EmployeeId = CurrentUser.EmployeeId
+                EmployeeId = SessionService.EmployeeId
             };
 
             dashboard = _reportService.GetDashboard(criteria);
-            dashboard.Employee = this.employeeService.GetEmployeeById(CurrentUser.EmployeeId);
+            dashboard.Employee = this.employeeService.GetEmployeeById(SessionService.EmployeeId);
             dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
 
             return dashboard;
