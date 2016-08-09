@@ -2,7 +2,7 @@
     <tfoot class="final-score">
         <tr class="text-center">
             <td data-translate="EvaluatorScoring"></td>
-            <td class="reviewer-score">
+            <td class="reviewer-score border-bottom">
                 <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
                     {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].TotalScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].MaxTotalScore}}
                 </span>
@@ -24,13 +24,13 @@
         </tr>
         <tr class="text-center">
             <td data-translate="FinalScore"></td>
-            <td class="reviewer-score">
+            <td class="reviewer-score border-bottom">
                 {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore}}
             </td>
         </tr>
         <tr class="text-center">
             <td>{{"FinalScore" | translate}} (%)</td>
-            <td class="reviewer-score">
+            <td class="reviewer-score border-bottom">
                 {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100}} %
             </td>
         </tr>

@@ -829,24 +829,28 @@
 }
 
 .table tfoot.final-score tr {
-    &:first-child {
+    /*&:first-child {
         border-top-color: #fff;
-    }
+    }*/
 
     td {
         background: #f5bc91;
         border-color: #fff;
 
         &:first-child {
-            border-left-color: #f5bc91;
+            border-left-color: #c3c3c3;
         }
 
         &:last-child {
-            border-right-color: #f5bc91;
+            border-right-color: #c3c3c3;
         }
 
         &.reviewer-score {
             background: #fff;
+            
+            &.border-bottom {
+                border-bottom: 1px solid #c3c3c3;
+            }            
         }
     }
 }
