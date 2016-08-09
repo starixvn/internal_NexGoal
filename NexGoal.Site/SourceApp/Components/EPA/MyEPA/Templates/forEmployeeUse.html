@@ -23,7 +23,7 @@
             <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects">
                 <td class="text-center">{{$index + 1}}</td>
                 <td>{{project.ProjectName}}</td>
-                <td class="text-center">{{project.ProjectManager}}</td>
+                <td class="text-center">{{project.ProjectManager.NickName}}</td>
                 <td class="text-center">{{project.StartDate | customDate}}</td>
                 <td class="text-center">{{project.EndDate | customDate}}</td>
                 <td class="text-center">{{project.Roles}}</td>

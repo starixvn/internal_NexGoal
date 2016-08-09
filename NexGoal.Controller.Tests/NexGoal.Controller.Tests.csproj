@@ -87,6 +87,10 @@
       <Project>{76ee2da4-7127-4c21-b218-adff51b2b74e}</Project>
       <Name>NexGoal.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\NexGoal.Models\NexGoal.Model.csproj">
+      <Project>{235c8d9e-97ec-4183-baf2-3783f2f816cc}</Project>
+      <Name>NexGoal.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj">
       <Project>{8eb3d578-b2a0-4b11-9386-50f394de396c}</Project>
       <Name>NexGoal.Services</Name>
@@ -94,10 +98,6 @@
     <ProjectReference Include="..\NexGoal.Site\NexGoal.Site.csproj">
       <Project>{ca0abdfc-9f6e-4823-bba3-35ae18139237}</Project>
       <Name>NexGoal.Site</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\NexGoal.ViewModel\NexGoal.ViewModel.csproj">
-      <Project>{e3c638a5-855a-40ee-9bef-32f2bb681cae}</Project>
-      <Name>NexGoal.ViewModel</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

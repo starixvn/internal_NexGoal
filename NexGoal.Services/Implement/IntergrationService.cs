@@ -3,24 +3,28 @@
     using IBCCrypt;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
+    using NexGoal.Model.Integration;
     using NexGoal.Model.Period;
+    using NexGoal.Repositories.Implement;
+    using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using NexGoal.ViewModel;
     using System.Collections.Generic;
 
     public class IntegrationService : BaseService, IIntegrationService
     {
         private const string KeyCryptography = "NexEPA08062014";
         private IPeriodService periodService;
+        private IIntegrationRepository integrationRepository;
 
         public IntegrationService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public IntegrationService(IPeriodService periodService)
+        public IntegrationService(IPeriodService periodService, IIntegrationRepository integrationRepository)
         {
             this.periodService = periodService ?? new PeriodService();
+            this.integrationRepository = integrationRepository ?? new IntegrationRepository();
         }
 
         public IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId)
@@ -53,7 +57,7 @@
                     StartDate = period.AttendanceStartDate.Value,
                     EndDate = period.AttendanceEndDate.Value
                 };
-                result = GetData<EmployeeWorkingViewModel>(criteria);
+                result = this.integrationRepository.GetEmployeeWorking(criteria);
                 foreach (var item in result)
                 {
                     item.DecryptedScore = DecodeNexPM(item.EncryptedScore);

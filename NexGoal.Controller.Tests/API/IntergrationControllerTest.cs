@@ -1,7 +1,7 @@
 ﻿using NexGoal.Core.Services;
+using NexGoal.Model.Integration;
 using NexGoal.Services.Interfaces;
 using NexGoal.Site.Controllers.API;
-using NexGoal.ViewModel;
 using NSubstitute;
 using NUnit.Framework;
 using System.Collections.Generic;

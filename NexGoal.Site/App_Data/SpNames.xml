@@ -420,6 +420,8 @@
   </Function>
   <Function Name="Integration">
     <Setting Key="HRMSummary_GetByEmployeeId" SpName="HRMSummary_GetByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="NexPM_GetEmployeeWorkingByEmployeeId" SpName="NexPM_GetEmployeeWorkingByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="NexPM_GetEmployeeWorkingByEmployeeId" SpName="NexPM_GetEmployeeWorkingByEmployeeId" DbName="NexGoal" Plain="0">
+      <Mapping DataField="ProjectManagerId" ObjectProperty="EmployeeId" />
+    </Setting>
   </Function>
 </Functions>

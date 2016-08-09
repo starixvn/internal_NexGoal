@@ -787,10 +787,6 @@
       <Project>{8EB3D578-B2A0-4B11-9386-50F394DE396C}</Project>
       <Name>NexGoal.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NexGoal.ViewModel\NexGoal.ViewModel.csproj">
-      <Project>{e3c638a5-855a-40ee-9bef-32f2bb681cae}</Project>
-      <Name>NexGoal.ViewModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

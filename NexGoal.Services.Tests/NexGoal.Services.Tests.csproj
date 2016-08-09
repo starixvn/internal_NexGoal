@@ -115,10 +115,6 @@
       <Project>{8eb3d578-b2a0-4b11-9386-50f394de396c}</Project>
       <Name>NexGoal.Services</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NexGoal.ViewModel\NexGoal.ViewModel.csproj">
-      <Project>{e3c638a5-855a-40ee-9bef-32f2bb681cae}</Project>
-      <Name>NexGoal.ViewModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />

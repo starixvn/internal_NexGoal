@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using NexGoal.ViewModel;
+    using NexGoal.Model.Integration;
     using System.Collections.Generic;
 
     public interface IIntegrationService

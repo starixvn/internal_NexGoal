@@ -72,6 +72,7 @@
     <Compile Include="Implement\EPAHistoryRepository.cs" />
     <Compile Include="Implement\FlowManagementRepository.cs" />
     <Compile Include="Implement\EmployeeEPARepository.cs" />
+    <Compile Include="Implement\IntegrationRepository.cs" />
     <Compile Include="Implement\MenuRepository.cs" />
     <Compile Include="Implement\PeriodRepository.cs" />
     <Compile Include="Implement\ReportRepository.cs" />
@@ -83,6 +84,7 @@
     <Compile Include="Implement\KPIRepository.cs" />
     <Compile Include="Interfaces\IEPAHistoryRepository.cs" />
     <Compile Include="Interfaces\IFlowManagementRepository.cs" />
+    <Compile Include="Interfaces\IIntegrationRepository.cs" />
     <Compile Include="Interfaces\IKPIRepository.cs" />
     <Compile Include="Interfaces\IEmployeeEPARepository.cs" />
     <Compile Include="Interfaces\IMenuRepository.cs" />

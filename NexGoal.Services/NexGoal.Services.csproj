@@ -182,10 +182,6 @@
       <Project>{f855c077-310d-43dc-a8f6-ade400bc74ef}</Project>
       <Name>NexGoal.Resources</Name>
     </ProjectReference>
-    <ProjectReference Include="..\NexGoal.ViewModel\NexGoal.ViewModel.csproj">
-      <Project>{e3c638a5-855a-40ee-9bef-32f2bb681cae}</Project>
-      <Name>NexGoal.ViewModel</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
