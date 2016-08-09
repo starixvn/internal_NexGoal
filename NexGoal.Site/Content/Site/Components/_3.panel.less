@@ -13,6 +13,25 @@
 .panel-default {
     border: 1px solid @color-border;
 
+    .fa-chevron-down {
+        position: absolute;
+        right: 16px;
+        top: 9px;
+        font-size: 10px;
+        margin: 0;
+        height: 15px;
+        line-height: 15px;
+        transform: rotate(0);
+        transition: 0.3s ease all;
+    }
+
+    .collapsed {
+
+        .fa-chevron-down {
+            transform: rotate(-90deg);
+        }
+    }
+
     > .panel-heading {
         color: @color-panel-title;
         background-color: @bg-panel-title;
@@ -27,25 +46,6 @@
 
             &:hover {
                 cursor: pointer;
-            }
-        }
-
-        .fa-chevron-down {
-            position: absolute;
-            right: 16px;
-            top: 9px;
-            font-size: 10px;
-            margin: 0;
-            height: 15px;
-            line-height: 15px;
-            transform: rotate(0);
-            transition: 0.3s ease all;
-        }
-
-        &.collapsed {
-
-            .fa-chevron-down {
-                transform: rotate(-90deg);
             }
         }
     }
@@ -88,11 +88,16 @@
         padding: 7px 20px;
         text-transform: capitalize;
         font-size: 14px;
+        position: relative;
+
+        &.collapsed {
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+        }
     }
 
     .level-3 {
-        background-color: @c-bg-panel-header-level-2;
-        color: @c-panel-header-level-2;
+        background-color: @c-bg-panel-header-level-3;
+        color: @c-panel-header-level-3;
         padding: 7px 20px;
         text-transform: capitalize;
         font-size: 14px;

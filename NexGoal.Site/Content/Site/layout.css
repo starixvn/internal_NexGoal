@@ -124,6 +124,20 @@ label:hover {
 .panel-default {
   border: 1px solid #aaaaaa;
 }
+.panel-default .fa-chevron-down {
+  position: absolute;
+  right: 16px;
+  top: 9px;
+  font-size: 10px;
+  margin: 0;
+  height: 15px;
+  line-height: 15px;
+  transform: rotate(0);
+  transition: 0.3s ease all;
+}
+.panel-default .collapsed .fa-chevron-down {
+  transform: rotate(-90deg);
+}
 .panel-default > .panel-heading {
   color: #484550;
   background-color: #eeeeee;
@@ -138,20 +152,6 @@ label:hover {
 }
 .panel-default > .panel-heading .panel-title:hover {
   cursor: pointer;
-}
-.panel-default > .panel-heading .fa-chevron-down {
-  position: absolute;
-  right: 16px;
-  top: 9px;
-  font-size: 10px;
-  margin: 0;
-  height: 15px;
-  line-height: 15px;
-  transform: rotate(0);
-  transition: 0.3s ease all;
-}
-.panel-default > .panel-heading.collapsed .fa-chevron-down {
-  transform: rotate(-90deg);
 }
 .panel-default .panel-body {
   border-top: 1px solid #aaaaaa !important;
@@ -184,9 +184,13 @@ label:hover {
   padding: 7px 20px;
   text-transform: capitalize;
   font-size: 14px;
+  position: relative;
+}
+.panel-default .level-2.collapsed {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
 .panel-default .level-3 {
-  background-color: #8f7971;
+  background-color: #a6968f;
   color: #fff;
   padding: 7px 20px;
   text-transform: capitalize;
@@ -1478,6 +1482,8 @@ label:hover {
   width: 28px;
 }
 .sidebar .list-group .fa-chevron-down {
+  position: relative;
+  left: 5px;
   font-size: 10px;
   height: 18px;
   line-height: 18px;
