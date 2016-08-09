@@ -605,6 +605,7 @@
     <Content Include="SourceApp\Shared\epa-directives.js" />
     <Content Include="SourceApp\Shared\notification-factory.js" />
     <Content Include="SourceApp\Shared\lockScreen-factory.js" />
+    <Content Include="SourceApp\Shared\read-more-directive.js" />
     <Content Include="SourceApp\Shared\Templates\AccessDenied.html" />
     <Content Include="SourceApp\Shared\Templates\dirPagination.tpl.html" />
     <Content Include="SourceApp\Shared\Templates\PageNotFound.html" />

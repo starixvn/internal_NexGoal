@@ -3,20 +3,20 @@
         <tr class="text-center">
             <td data-translate="EvaluatorScoring"></td>
             <td class="reviewer-score border-bottom">
-                <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
-                    {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].TotalScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].MaxTotalScore}}
+                <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)">
+                    {{memberEPAInfoCtrl.TotalEvaluatorScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].MaxTotalScore}}
                 </span>
-                <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
+                <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)" data-translate="Pending"></span>
             </td>
         </tr>
         <tr class="text-center">
             <td data-translate="ReviewerScores"></td>
             <td class="reviewer-score">
-                <select name="AdjustAction" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustAction"
+                <select ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustAction"
                         ng-options="item.Name for item in memberEPAInfoCtrl.adjustmentAction track by item.Value"
                         ng-change="memberEPAInfoCtrl.adjustScoreAction()"></select>
 
-                <select name="AdjustScore" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustScoreDisplay"
+                <select ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustScoreDisplay"
                         ng-change="memberEPAInfoCtrl.adjustScoreAction()">
                     <option ng-repeat="item in memberEPAInfoCtrl.adjustmentScore" ng-value="{{item}}">{{item}}</option>
                 </select>

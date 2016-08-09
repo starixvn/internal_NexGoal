@@ -1753,3 +1753,15 @@ input:checked + .slider:before {
 .slider.round:before {
   border-radius: 50%;
 }
+/* Read More - Read Less */
+.read-more,
+.read-less {
+  cursor: pointer;
+  color: blue;
+}
+.more-text {
+  display: none;
+}
+.more-text.show {
+  display: inline !important;
+}
