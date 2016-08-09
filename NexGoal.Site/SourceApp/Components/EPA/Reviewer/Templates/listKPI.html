@@ -77,7 +77,10 @@
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
         <td>
-            {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].TotalScore / memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].MaxTotalScore * 100}} %
+            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].TotalScore / memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].MaxTotalScore * 100}} %
+            </span>
+            <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null">

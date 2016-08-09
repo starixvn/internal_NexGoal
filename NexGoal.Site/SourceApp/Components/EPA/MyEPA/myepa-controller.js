@@ -171,6 +171,14 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
                     vm.hoveringLeave = null;
                 }
             });
+
+            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+
+            SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
+            });
         });
     }
 
@@ -187,14 +195,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoByEmployee();
-
-            SelfEvalutorModel.getHRMSummary().then(function () {
-                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
-            });
-
-            SelfEvalutorModel.getEmployeeProjects().then(function () {
-                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
-            });
         });
     }
 

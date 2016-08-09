@@ -7,11 +7,11 @@
 
     function integrateFactory($http, baseUrl) {
         return {
-            getHRMSummary: function () {
-                return $http.get(baseUrl + "api/Integration/GetHRMSummary");
+            getHRMSummary: function (employeeId) {
+                return $http.get(baseUrl + "api/Integration/GetHRMSummary",{ params: { employeeId: employeeId } });
             },
-            getEmployeeProject: function () {
-                return $http.get(baseUrl + "api/Integration/GetEmployeeWorking");
+            getEmployeeProject: function (employeeId) {
+                return $http.get(baseUrl + "api/Integration/GetEmployeeWorking",{ params: { employeeId: employeeId } });
             }
         };
     }
