@@ -946,7 +946,7 @@ label:hover {
   color: #4F4F4F;
 }
 .dropdown-menu table thead th {
-  padding: 8px 7px;
+  padding: 8px 7px !important;
   background: none;
   border: none;
   color: #4F4F4F;
@@ -986,7 +986,7 @@ label:hover {
   color: #CDCDE2;
 }
 .dropdown-menu table tbody td {
-  padding: 3px;
+  padding: 3px !important;
 }
 .dropdown-menu table tbody em.ng-binding {
   color: #4F4F4F;

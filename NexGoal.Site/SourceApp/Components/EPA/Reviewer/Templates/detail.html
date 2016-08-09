@@ -14,6 +14,7 @@
 
                     <div class="panel-heading level-1" data-toggle="collapse" data-target=".performance-review-panel">
                         <h4 class="panel-title">{{"Performance review skills and abilities" | translate}} ({{::memberEPAInfoCtrl.epaInfo.Employee.Code}} - {{::memberEPAInfoCtrl.epaInfo.Employee.FullName}})</h4>
+                        <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
                     </div>
 
                     <div class="panel-collapse collapse in performance-review-panel">
@@ -28,43 +29,46 @@
 
                 </div>
 
-            </div>
+                <div class="panel panel-default no-border">
 
-            <div class="panel panel-default no-border">
-
-                <div class="panel-heading level-1" data-toggle="collapse" data-target=".discipline-information-panel">
-                    <h4 class="panel-title" data-translate="DisciplineInformation"></h4>
-                </div>
-
-                <div class="panel-collapse collapse in discipline-information-panel">
-                    <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Templates/disciplineInformation.html'">
+                    <div class="panel-heading level-1" data-toggle="collapse" data-target=".discipline-information-panel">
+                        <h4 class="panel-title" data-translate="DisciplineInformation"></h4>
+                        <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
                     </div>
-                </div>
 
-            </div>
-
-            <div class="panel panel-default no-border">
-
-                <div class="panel-heading level-1" data-toggle="collapse" data-target=".employee-panel">
-                    <h4 class="panel-title" data-translate="ForEmployeeUse"></h4>
-                </div>
-
-                <div class="panel-collapse collapse in employee-panel">
-                    <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/evaluateResult.html'">
+                    <div class="panel-collapse collapse in discipline-information-panel">
+                        <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Templates/disciplineInformation.html'">
+                        </div>
                     </div>
+
                 </div>
 
-            </div>
+                <div class="panel panel-default no-border">
 
-            <div class="panel panel-default no-border">
-
-                <div class="panel-heading level-1" data-toggle="collapse" data-target=".reviewer-panel">
-                    <h4 class="panel-title" data-translate="ForReviewerUse"></h4>
-                </div>
-
-                <div class="panel-collapse collapse in reviewer-panel">
-                    <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/forReviewerUse.html'">
+                    <div class="panel-heading level-1" data-toggle="collapse" data-target=".employee-panel">
+                        <h4 class="panel-title" data-translate="ForEmployeeUse"></h4>
+                        <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
                     </div>
+
+                    <div class="panel-collapse collapse in employee-panel">
+                        <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/evaluateResult.html'">
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="panel panel-default no-border">
+
+                    <div class="panel-heading level-1" data-toggle="collapse" data-target=".reviewer-panel">
+                        <h4 class="panel-title" data-translate="ForReviewerUse"></h4>
+                        <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
+                    </div>
+
+                    <div class="panel-collapse collapse in reviewer-panel">
+                        <div class="panel-body" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/forReviewerUse.html'">
+                        </div>
+                    </div>
+
                 </div>
 
             </div>

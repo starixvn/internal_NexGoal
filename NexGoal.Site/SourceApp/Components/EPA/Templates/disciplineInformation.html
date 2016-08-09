@@ -1,49 +1,51 @@
 ﻿<div>
 
-    <div class="level-2">A. {{"HRMSystem" | translate}}</div>
+    <div class="level-2" data-toggle="collapse" data-target=".discipline-information-table">A. {{"HRMSystem" | translate}}</div>
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th data-translate="Month"></th>
-                <th data-translate="CheckInOut"></th>
-                <th data-translate="LateIn"></th>
-                <th data-translate="EarlyOut"></th>
-                <th data-translate="UnpaidLeave"></th>
-                <th data-translate="UnplannedAnnualLeave"></th>
-                <th data-translate="AverageWorkingHours"></th>
-                <th data-translate="Overtime"></th>
-                <th data-translate="ToeicScore"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="text-center" ng-repeat="item in memberEPAInfoCtrl.hrmSummary.Data">
-                <td>{{item.Month}}/{{item.Year}}</td>
-                <td>{{item.NumberMissingCheckInOut}}</td>
-                <td>{{item.NumberLateIn}}</td>
-                <td>{{item.NumberEarlyOut}}</td>
-                <td>{{item.NumberUnpaidLeave}}</td>
-                <td>{{item.NumberUnplannedAnnualLeave}}</td>
-                <td>{{item.ConvertedAverageWorkingHours}}</td>
-                <td>{{item.NumberOvertime}}</td>
-                <td ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length}}">
-                    {{item.TOEICScore}}
-                </td>
-            </tr>
-        <tfoot>
-            <tr class="text-center">
-                <td data-translate="Total">Total</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberMissingCheckInOut}}</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberLateIn}}</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberEarlyOut}}</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnpaidLeave}}</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnplannedAnnualLeave}}</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.ConvertedAverageWorkingHours}}</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberOvertime}}</td>
-                <td>{{memberEPAInfoCtrl.hrmSummary.Total.TOEICScore}}</td>
-            </tr>
-        </tfoot>
-    </table>
+    <div class="collapse in discipline-information-table">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th data-translate="Month"></th>
+                    <th data-translate="CheckInOut"></th>
+                    <th data-translate="LateIn"></th>
+                    <th data-translate="EarlyOut"></th>
+                    <th data-translate="UnpaidLeave"></th>
+                    <th data-translate="UnplannedAnnualLeave"></th>
+                    <th data-translate="AverageWorkingHours"></th>
+                    <th data-translate="Overtime"></th>
+                    <th data-translate="ToeicScore"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="text-center" ng-repeat="item in memberEPAInfoCtrl.hrmSummary.Data">
+                    <td>{{item.Month}}/{{item.Year}}</td>
+                    <td>{{item.NumberMissingCheckInOut}}</td>
+                    <td>{{item.NumberLateIn}}</td>
+                    <td>{{item.NumberEarlyOut}}</td>
+                    <td>{{item.NumberUnpaidLeave}}</td>
+                    <td>{{item.NumberUnplannedAnnualLeave}}</td>
+                    <td>{{item.ConvertedAverageWorkingHours}}</td>
+                    <td>{{item.NumberOvertime}}</td>
+                    <td ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length}}">
+                        {{item.TOEICScore}}
+                    </td>
+                </tr>
+            <tfoot>
+                <tr class="text-center">
+                    <td data-translate="Total">Total</td>
+                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberMissingCheckInOut}}</td>
+                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberLateIn}}</td>
+                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberEarlyOut}}</td>
+                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnpaidLeave}}</td>
+                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnplannedAnnualLeave}}</td>
+                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.ConvertedAverageWorkingHours}}</td>
+                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberOvertime}}</td>
+                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.TOEICScore}}</td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
 
 </div>
 

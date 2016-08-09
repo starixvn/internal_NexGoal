@@ -354,16 +354,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
     vm.adjustmentScore = [];
-    vm.adjustmentAction = [
-        {
-            Value: "add",
-            Name: "+"
-        },
-        {
-            Value: "sub",
-            Name: "-"
-        }
-    ];
+    vm.adjustmentAction = []
 
     vm.convertScoreToGrade = function (score) {
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
@@ -428,13 +419,33 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         }, 1);
     };
 
+    vm.adjustScoreAction = function () {
+        var adjustAction = vm.epaInfo.Process.CurrentProcess.AdjustAction;
+        vm.epaInfo.Process.CurrentProcess.AdjustScore = adjustAction.Value === "add" ?
+            parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10) :
+            -parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10);
+
+        vm.epaInfo.Process.CurrentProcess.TotalScore = parseInt(vm.epaInfo.Process.CurrentProcess.TotalScoreOriginal, 10) + vm.epaInfo.Process.CurrentProcess.AdjustScore;
+    };
+
     function getEPAInfoByReviewer() {
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
-            for (var index = -20; index <= 20; index++) {
-                vm.adjustmentScore.push(index.toString());
+            vm.adjustmentAction = [
+                {
+                    Value: "add",
+                    Name: "+"
+                },
+                {
+                    Value: "sub",
+                    Name: "-"
+                }
+            ];
+
+            for (var index = 0; index <= 20; index++) {
+                vm.adjustmentScore.push(index);
             };
 
             for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
@@ -460,7 +471,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
             // reviewer
             vm.epaInfo.Process.CurrentProcess.AdjustScore = parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScore);
-            vm.epaInfo.Process.CurrentProcess.AdjustAction = vm.epaInfo.Process.CurrentProcess.AdjustScore > 0 ? "add" : "sub";
+            vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay = Math.abs(vm.epaInfo.Process.CurrentProcess.AdjustScore);
+            vm.epaInfo.Process.CurrentProcess.AdjustAction = vm.epaInfo.Process.CurrentProcess.AdjustScore > 0 ? { Value: "add", Name: "+" } : { Value: "sub", Name: "-" };
             vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
             vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
             vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);

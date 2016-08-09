@@ -1,77 +1,83 @@
-﻿<div class="level-2">A. {{"ProjectEfficiency" | translate}}</div>
+﻿<div class="level-2" data-toggle="collapse" data-target=".project-efficiency-table">A. {{"ProjectEfficiency" | translate}}</div>
 
-<table class="table table-bordered">
-    <thead>
-        <tr>
-            <th>#</th>
-            <th data-translate="ProjectName"></th>
-            <th data-translate="ProjectManager"></th>
-            <th data-translate="StartDate"></th>
-            <th data-translate="EndDate"></th>
-            <th data-translate="Role"></th>
-            <th data-translate="Total Spend Time"></th>
-            <th data-translate="Average Score"></th>
-            <th data-translate="Comment"></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects">
-            <td class="text-center">{{$index + 1}}</td>
-            <td>{{project.ProjectName}}</td>
-            <td class="text-center">{{project.ProjectManager}}</td>
-            <td class="text-center">{{project.StartDate | customDate}}</td>
-            <td class="text-center">{{project.EndDate | customDate}}</td>
-            <td class="text-center">{{project.Roles}}</td>
-            <td class="text-center">{{project.WorkingHour}}</td>
-            <td class="text-center">{{project.Score}}</td>
-            <td>
-                {{project.Comment}}
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="collapse in project-efficiency-table">
 
-<div class="level-2">B. {{"QualityOfWork" | translate}}</div>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th data-translate="ProjectName"></th>
+                <th data-translate="ProjectManager"></th>
+                <th data-translate="StartDate"></th>
+                <th data-translate="EndDate"></th>
+                <th data-translate="Role"></th>
+                <th data-translate="Total Spend Time"></th>
+                <th data-translate="Average Score"></th>
+                <th data-translate="Comment"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects">
+                <td class="text-center">{{$index + 1}}</td>
+                <td>{{project.ProjectName}}</td>
+                <td class="text-center">{{project.ProjectManager}}</td>
+                <td class="text-center">{{project.StartDate | customDate}}</td>
+                <td class="text-center">{{project.EndDate | customDate}}</td>
+                <td class="text-center">{{project.Roles}}</td>
+                <td class="text-center">{{project.WorkingHour}}</td>
+                <td class="text-center">{{project.Score}}</td>
+                <td>
+                    {{project.Comment}}
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<table class="table table-bordered" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/listKPI.html'"></table>
+</div>
 
-<table class="table table-bordered table-total">
-    <tbody>
-        <tr class="performance-grade">
-            <td data-translate="PerformanceGradingScale"></td>
-            <td class="text-center" data-translate="ExcellencePerformance"></td>
-            <td class="text-center" data-translate="GoodPerformance"></td>
-            <td class="text-center" data-translate="SatisfactoryPerformance"></td>
-            <td class="text-center" data-translate="BelowAveragePerformance"></td>
-            <td class="text-center" data-translate="PoorPerformance"></td>
-        </tr>
-        <tr class="level-3">
-            <td colspan="6" data-translate="EmployeeComment"></td>
-        </tr>
-        <tr class="comment">
-            <td colspan="6" class="textarea-comment">
-                <textarea class="form-control" readonly="readonly"
-                          ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"
-                          ng-model="memberEPAInfoCtrl.epaInfo.Process.Self.Comment"></textarea>
-                <textarea class="form-control" readonly="readonly"
-                          ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"
-                          data-translate="Pending">
-                </textarea>
-            </td>
-        </tr>
-        <tr class="level-3">
-            <td colspan="6" data-translate="EvaluatorComment"></td>
-        </tr>
-        <tr class="comment">
-            <td colspan="6" class="textarea-comment">
-                <textarea class="form-control" readonly="readonly"
-                          ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"
-                          ng-model="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].Comment"></textarea>
-                <textarea class="form-control" readonly="readonly"
-                          ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"
-                          data-translate="Pending">
-                </textarea>
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="level-2" data-toggle="collapse" data-target=".quality-of-work-table">B. {{"QualityOfWork" | translate}}</div>
+
+<div class="collapse in quality-of-work-table">
+
+    <table class="table table-bordered" ng-include src="'/SourceApp/Components/EPA/Reviewer/Templates/listKPI.html'"></table>
+
+    <table class="table table-bordered table-total">
+        <tbody>
+            <tr class="performance-grade">
+                <td data-translate="PerformanceGradingScale"></td>
+                <td class="text-center" data-translate="ExcellencePerformance"></td>
+                <td class="text-center" data-translate="GoodPerformance"></td>
+                <td class="text-center" data-translate="SatisfactoryPerformance"></td>
+                <td class="text-center" data-translate="BelowAveragePerformance"></td>
+                <td class="text-center" data-translate="PoorPerformance"></td>
+            </tr>
+            <tr class="level-3">
+                <td colspan="6" data-translate="EmployeeComment"></td>
+            </tr>
+            <tr class="comment">
+                <td colspan="6" class="textarea-comment">
+                    <textarea class="form-control" readonly="readonly"
+                              ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"
+                              ng-model="memberEPAInfoCtrl.epaInfo.Process.Self.Comment"></textarea>
+                    <textarea class="form-control" readonly="readonly"
+                              ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"
+                              data-translate="Pending"></textarea>
+                </td>
+            </tr>
+            <tr class="level-3">
+                <td colspan="6" data-translate="EvaluatorComment"></td>
+            </tr>
+            <tr class="comment">
+                <td colspan="6" class="textarea-comment">
+                    <textarea class="form-control" readonly="readonly"
+                              ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"
+                              ng-model="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].Comment"></textarea>
+                    <textarea class="form-control" readonly="readonly"
+                              ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"
+                              data-translate="Pending"></textarea>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>

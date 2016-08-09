@@ -12,11 +12,12 @@
         <tr class="text-center">
             <td data-translate="ReviewerScores"></td>
             <td class="reviewer-score">
-                <select name="AdjustAction" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustAction">
-                    <option ng-repeat="item in memberEPAInfoCtrl.adjustmentAction" ng-value="{{item.Value}}">{{item.Name}}</option>
-                </select>
+                <select name="AdjustAction" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustAction"
+                        ng-options="item.Name for item in memberEPAInfoCtrl.adjustmentAction track by item.Value"
+                        ng-change="memberEPAInfoCtrl.adjustScoreAction()"></select>
 
-                <select name="AdjustScore" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustScore">
+                <select name="AdjustScore" ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustScoreDisplay"
+                        ng-change="memberEPAInfoCtrl.adjustScoreAction()">
                     <option ng-repeat="item in memberEPAInfoCtrl.adjustmentScore" ng-value="{{item}}">{{item}}</option>
                 </select>
             </td>
