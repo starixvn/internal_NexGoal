@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
+    using NexGoal.Core.Services;
     using System;
 
     [Serializable]
@@ -74,5 +75,11 @@
         public float MaxSubtractScore { get; set; }
 
         public float MaxAdditionScore { get; set; }
+
+        public void Decode()
+        {
+            TotalScore = EncodeService.Decode(TotalScoreEncode);
+            AdjustScore = EncodeService.Decode(AdjustScoreEncode);
+        }
     }
 }

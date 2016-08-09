@@ -37,10 +37,10 @@
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
                     GroupEPAProcessByEPA(epaInfos, processes);
-
+                    
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        DecodeAllScore(epaInfo);
+                        epaInfo.Decode();
                     }
 
                     return epaInfos;
@@ -90,7 +90,7 @@
                             GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
                         }
 
-                        DecodeAllScore(epaInfo);
+                        epaInfo.Decode();
                     }
 
                     return epaInfo;
@@ -121,7 +121,7 @@
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        DecodeAllScore(epaInfo);
+                        epaInfo.Decode();
                     }
 
                     return epaInfos;
@@ -152,7 +152,7 @@
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        DecodeAllScore(epaInfo);
+                        epaInfo.Decode();
                     }
 
                     return epaInfos;
@@ -184,7 +184,7 @@
 
                     foreach (EPAModel epaInfo in result.MyEPAs)
                     {
-                        DecodeAllScore(epaInfo);
+                        epaInfo.Decode();
                     }
                 }
             }
@@ -403,65 +403,11 @@
             }
         }
 
-        private void DecodeAllScore(EPAModel epaInfo)
-        {
-            epaInfo.LastFinalScore = EncodeService.Decode(epaInfo.LastFinalScoreEncode);
-            epaInfo.LastGrade = EncodeService.Decode(epaInfo.LastGradeEncode);
-            epaInfo.FinalScore = EncodeService.Decode(epaInfo.FinalScoreEncode);
-            epaInfo.Grade = EncodeService.Decode(epaInfo.GradeEncode);
-            DecodeTotalScore(epaInfo.Process.Self);
-            DecodeTotalScore(epaInfo.Process.Evaluators);
-            DecodeTotalScore(epaInfo.Process.Reviewers);
-            DecodeTotalScore(epaInfo.Process.Managements);
-            DecodeTotalScore(epaInfo.LastProcesses);
-
-            foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
-            {
-                DecodeScore(kpi.EvaluationBySelf);
-                DecodeScore(kpi.EvaluationByEvaluators);
-            }
-        }
-
         private void DecodeAllScore(IEnumerable<RatingByKPIModel> epaInfos)
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                epaInfo.TotalScore = EncodeService.Decode(epaInfo.TotalScoreEncode);
-
-                foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIs)
-                {
-                    float rate = 0;
-
-                    if (!string.IsNullOrEmpty(kpi.RateEncode))
-                    {
-                        rate = float.Parse(EncodeService.Decode(kpi.RateEncode));
-                    }
-
-                    kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
-                    kpi.Rate = rate;
-                }
-
-                foreach (TemporaryKPIModel kpi in epaInfo.KPIGroup.KPIsBySelf)
-                {
-                    float rate = 0;
-
-                    if (!string.IsNullOrEmpty(kpi.RateEncode))
-                    {
-                        rate = float.Parse(EncodeService.Decode(kpi.RateEncode));
-                    }
-
-                    kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
-                    kpi.Rate = rate;
-                }
-            }
-        }
-
-        private void DecodeTotalScore(EPAProcessModel process)
-        {
-            if (process != null)
-            {
-                process.TotalScore = EncodeService.Decode(process.TotalScoreEncode);
-                process.AdjustScore = EncodeService.Decode(process.AdjustScoreEncode);
+                epaInfo.Decode();
             }
         }
 
@@ -469,24 +415,7 @@
         {
             foreach (EPAProcessModel process in processes)
             {
-                DecodeTotalScore(process);
-            }
-        }
-
-        private void DecodeScore(EvaluationModel evaluation)
-        {
-            if (evaluation != null)
-            {
-                float rate = 0;
-
-                if (!string.IsNullOrEmpty(evaluation.RateEncode))
-                {
-                    rate = float.Parse(EncodeService.Decode(evaluation.RateEncode));
-                }
-
-                evaluation.Score = EncodeService.Decode(evaluation.ScoreEncode)
-                    .Replace("_" + evaluation.KPIId, string.Empty);
-                evaluation.Rate = rate;
+                process.Decode();
             }
         }
 
@@ -494,7 +423,7 @@
         {
             foreach (EvaluationModel evaluation in evaluations)
             {
-                DecodeScore(evaluation);
+                evaluation.Decode();
             }
         }
     }

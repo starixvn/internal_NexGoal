@@ -1,10 +1,11 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Services;
     using NexGoal.Model.ScoreRatingType;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class EPAModel
     {
@@ -14,6 +15,7 @@
             LastProcesses = new List<EPAProcessModel>();
             MonthlyEPA = new MonthlyEPAModel();
             Process = new EvaluationProcessModel();
+            LastRating = new List<EvaluationModel>();
         }
 
         public int EPAId { get; set; }
@@ -67,6 +69,7 @@
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
 
         #region Last score
+        public IEnumerable<EvaluationModel> LastRating { get; set; }
 
         public float LastDisciplineScore { get; set; }
 
@@ -135,6 +138,35 @@
                     || Period.IsEndPeriod);
 
                 return isAllowedToEdit;
+            }
+        }
+
+        public void Decode()
+        {
+            LastFinalScore = EncodeService.Decode(LastFinalScoreEncode);
+            LastGrade = EncodeService.Decode(LastGradeEncode);
+            FinalScore = EncodeService.Decode(FinalScoreEncode);
+            Grade = EncodeService.Decode(GradeEncode);
+            Process.Self.Decode();
+            DecodeForList(Process.Evaluators);
+            DecodeForList(Process.Reviewers);
+            DecodeForList(LastProcesses);
+
+            foreach (EPAKPIModel kpi in KPIGroups.SelectMany(x => x.KPIs))
+            {
+                kpi.EvaluationBySelf.Decode();
+                foreach (EvaluationModel evaluation in kpi.EvaluationByEvaluators)
+                {
+                    evaluation.Decode();
+                }
+            }
+        }
+
+        private void DecodeForList(IList<EPAProcessModel> processes)
+        {
+            foreach (EPAProcessModel process in processes)
+            {
+                process.Decode();
             }
         }
     }

@@ -32,10 +32,7 @@
             {
                 epas = _epaHistoryRepository.GetEPAHistory(criteria);
 
-                if (epas != null && epas.Any())
-                {
-                    DecodeFinalScoreAndGrade(epas);
-                }
+                DecodeFinalScoreAndGrade(epas);
             }
 
             return epas;
@@ -49,10 +46,7 @@
             {
                 epas = _epaHistoryRepository.GetMonthlyEPAHistory(criteria);
 
-                if (epas != null && epas.Any())
-                {
-                    DecodeFinalScoreAndGrade(epas);
-                }
+                DecodeFinalScoreAndGrade(epas);
             }
 
             return epas;
@@ -62,8 +56,7 @@
         {
             foreach (EPAHistoryModel epa in epas)
             {
-                epa.FinalScore = !string.IsNullOrWhiteSpace(epa.EncodeFinalScore) ? float.Parse(EncodeService.Decode(epa.EncodeFinalScore)) : 0;
-                epa.Grade = !string.IsNullOrWhiteSpace(epa.EncodeGrade) ? EncodeService.Decode(epa.EncodeGrade) : string.Empty;
+                epa.Decode();
             }
         }
 

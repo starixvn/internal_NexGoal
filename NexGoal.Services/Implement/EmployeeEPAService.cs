@@ -56,11 +56,12 @@
 
         public EPAModel GetEPAInfoByEmployee(GetEPAInfoByEmployeeCriteria criteria)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
 
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo.LastRating = GetLastRating(epaInfo.Employee.EmployeeId, epaInfo.Period.TargetTypeId);
                 epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Self);
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
@@ -68,12 +69,6 @@
                 foreach (EPAKPIModel kpi in epaInfo.KPIGroups.SelectMany(x => x.KPIs))
                 {
                     kpi.CurrentEvaluation = kpi.EvaluationBySelf;
-                }
-
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
                 }
             }
 
@@ -641,6 +636,36 @@
             }
         }
 
+        public IEnumerable<EvaluationModel> GetLastRating(int employeeId, int targetTypeId)
+        {
+            IEnumerable<EvaluationModel> kpis = new List<EvaluationModel>();
+            var criteria = new GetLastRatingByEmployeeIdCriteria { EmployeeId = employeeId, TargetTypeId = targetTypeId };
+            if (criteria != null && criteria.IsValid())
+            {
+                kpis = GetData<EvaluationModel>(criteria);
+                foreach (var kpi in kpis)
+                {
+                    kpi.Decode();
+                }
+
+                AveragedLastRating(kpis);
+            }
+
+            return kpis;
+        }
+
+        private void AveragedLastRating(IEnumerable<EvaluationModel> kpis)
+        {
+            foreach (var kpi in kpis)
+            {
+                var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId).Average(i => i.Rate);
+                kpi.Rate = averagedRating;
+            }
+
+            kpis = kpis.Distinct();
+
+        }
+
         private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
         {
             foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
@@ -689,10 +714,6 @@
 
                 case (int)ProcessType.Reviewer:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Reviewer;
-                    break;
-
-                case (int)ProcessType.Management:
-                    epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Management;
                     break;
             }
 

@@ -1,4 +1,6 @@
-﻿namespace NexGoal.Model.EmployeeEPA
+﻿using NexGoal.Core.Services;
+
+namespace NexGoal.Model.EmployeeEPA
 {
     public class EvaluationModel
     {
@@ -27,5 +29,11 @@
         public string Comment { get; set; }
 
         public bool IsMaxScore { get; set; }
+
+        public void Decode()
+        {
+            Score = EncodeService.Decode(ScoreEncode).Replace("_" + KPIId, string.Empty);
+            Rate = string.IsNullOrEmpty(RateEncode) ? 0 : float.Parse(EncodeService.Decode(RateEncode));
+        }
     }
 }

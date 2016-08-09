@@ -109,5 +109,7 @@
         IList<EPAPeriodModel> GetPeriodToUpdateFinalScore(GetPeriodToUpdateFinalScoreCriteria criteria);
 
         IList<EPAModel> GetEPAToUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria);
+
+        IEnumerable<EvaluationModel> GetLastRating(int employeeId, int targetTypeId);
     }
 }

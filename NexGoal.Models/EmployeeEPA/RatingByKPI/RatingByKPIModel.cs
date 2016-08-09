@@ -1,4 +1,6 @@
-﻿namespace NexGoal.Model.EmployeeEPA.RatingByKPI
+﻿using NexGoal.Core.Services;
+
+namespace NexGoal.Model.EmployeeEPA.RatingByKPI
 {
     public class RatingByKPIModel
     {
@@ -23,5 +25,10 @@
         public bool RequiredCommentOnMaxScore { get; set; }
 
         public TemporaryKPIGroupModel KPIGroup { get; set; }
+
+        public void Decode()
+        {
+            TotalScore = EncodeService.Decode(TotalScoreEncode);
+        }
     }
 }

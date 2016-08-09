@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Model.EPAHistory
 {
+    using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
 
     public class EPAHistoryModel
@@ -21,5 +22,11 @@
         public int? EPAId { get; set; }
 
         public bool HasMonthlyEPA { get; set; }
+
+        public void Decode()
+        {
+            FinalScore = !string.IsNullOrWhiteSpace(EncodeFinalScore) ? float.Parse(EncodeService.Decode(EncodeFinalScore)) : 0;
+            Grade = !string.IsNullOrWhiteSpace(EncodeGrade) ? EncodeService.Decode(EncodeGrade) : string.Empty;
+        }
     }
 }

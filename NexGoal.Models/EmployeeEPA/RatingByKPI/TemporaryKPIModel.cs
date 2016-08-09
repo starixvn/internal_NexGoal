@@ -1,4 +1,6 @@
-﻿namespace NexGoal.Model.EmployeeEPA.RatingByKPI
+﻿using NexGoal.Core.Services;
+
+namespace NexGoal.Model.EmployeeEPA.RatingByKPI
 {
     public class TemporaryKPIModel
     {
@@ -45,5 +47,20 @@
         public float AdjustRate { get; set; }
 
         public TemporaryKPIGroupModel KPIGroup { get; set; }
+
+        public void Decode()
+        {
+            foreach (TemporaryKPIModel kpi in KPIGroup.KPIs)
+            {
+                kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
+                kpi.Rate = string.IsNullOrEmpty(kpi.RateEncode) ? 0 : float.Parse(EncodeService.Decode(kpi.RateEncode));
+            }
+
+            foreach (TemporaryKPIModel kpi in KPIGroup.KPIsBySelf)
+            {
+                kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
+                kpi.Rate = string.IsNullOrEmpty(kpi.RateEncode) ? 0 : float.Parse(EncodeService.Decode(kpi.RateEncode));
+            }
+        }
     }
 }

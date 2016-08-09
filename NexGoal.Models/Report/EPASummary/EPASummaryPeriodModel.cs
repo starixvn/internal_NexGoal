@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Model.Report.EPASummary
 {
+    using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
 
     public class EPASummaryPeriodModel
@@ -25,5 +26,11 @@
         public bool IsEndPeriod { get; set; }
 
         public EPAStatusModel Status { get; set; }
+
+        public void Decode()
+        {
+            FinalScore = EncodeService.Decode(FinalScoreEncode);
+            Grade = EncodeService.Decode(GradeEncode);
+        }
     }
 }

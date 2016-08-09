@@ -75,6 +75,7 @@
     <Compile Include="AttendanceSummary\InsertOtherViolationsCriteria.cs" />
     <Compile Include="AttendanceSummary\UpdateIgnoredViolationCriteria.cs" />
     <Compile Include="EmployeeEPA\AdjustScoreByReviewerOrManagementCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetLastRatingByEmployeeIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetNumberOfRowCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEmployeePermissionCriteria.cs" />
     <Compile Include="EmployeeEPA\GetPeriodToUpdateFinalScoreCriteria.cs" />

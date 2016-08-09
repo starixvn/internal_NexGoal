@@ -216,8 +216,7 @@
         {
             foreach (EPASummaryPeriodModel period in epaSummaries.SelectMany(x => x.Periods))
             {
-                period.FinalScore = EncodeService.Decode(period.FinalScoreEncode);
-                period.Grade = EncodeService.Decode(period.GradeEncode);
+                period.Decode();
             }
         }
 
@@ -225,21 +224,7 @@
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                epaInfo.FinalScore = EncodeService.Decode(epaInfo.FinalScoreEncode);
-                epaInfo.Grade = EncodeService.Decode(epaInfo.GradeEncode);
-                DecodeTotalScore(epaInfo.Process.Self);
-                DecodeTotalScore(epaInfo.Process.Evaluators);
-                DecodeTotalScore(epaInfo.Process.Reviewers);
-                DecodeTotalScore(epaInfo.Process.Managements);
-            }
-        }
-
-        private void DecodeTotalScore(EPAProcessModel process)
-        {
-            if (process != null)
-            {
-                process.TotalScore = EncodeService.Decode(process.TotalScoreEncode);
-                process.AdjustScore = EncodeService.Decode(process.AdjustScoreEncode);
+                epaInfo.Decode();
             }
         }
 
@@ -247,7 +232,7 @@
         {
             foreach (EPAProcessModel process in processes)
             {
-                DecodeTotalScore(process);
+                process.Decode();
             }
         }
     }
