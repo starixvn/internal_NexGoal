@@ -96,6 +96,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     selfEvalutorModel.validateEPA = function (epaInfo) {
         var isValid = true;
+        var employeeId = epaInfo.Employee.EmployeeId;
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
@@ -109,7 +110,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 }
 
                 if (kpi.HasComment && (!kpi.CurrentEvaluation.Comment || kpi.CurrentEvaluation.Comment.length === 0)
-                    && (kpi.IsRequiredComment || (epaInfo.RequiredCommentOnMaxScore && !kpi.IsRequiredComment && kpi.CurrentEvaluation.IsMaxScore))) {
+                    && (kpi.IsRequiredComment || (epaInfo.RequiredCommentOnMaxScore && !kpi.IsRequiredComment && kpi.CurrentEvaluation.IsMaxScore))
+                    && (employeeId === kpi.CurrentEvaluation.EvaluatorId)) {
                     isValid = false;
                     kpi.CurrentEvaluation.CommentInvalid = true;
                     kpi.ExpandedComment = true;

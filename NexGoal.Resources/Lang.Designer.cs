@@ -1429,11 +1429,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A. Excellence : 90% ~ 100%.
+        ///   Looks up a localized string similar to A. Excellencel : 90% ~ 100%.
         /// </summary>
-        public static string ExcellencePerformance {
+        public static string ExcellencelPerformance {
             get {
-                return ResourceManager.GetString("ExcellencePerformance", resourceCulture);
+                return ResourceManager.GetString("ExcellencelPerformance", resourceCulture);
             }
         }
         
@@ -3612,6 +3612,15 @@ namespace NexGoal.Resources {
         public static string String1 {
             get {
                 return ResourceManager.GetString("String1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        public static string String2 {
+            get {
+                return ResourceManager.GetString("String2", resourceCulture);
             }
         }
         

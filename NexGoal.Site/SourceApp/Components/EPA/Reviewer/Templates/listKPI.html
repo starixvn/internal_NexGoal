@@ -16,10 +16,10 @@
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
         <td class="text-center">
-            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+            <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
                 {{kpi.EvaluationByEvaluators[0].Score | customScore}}
             </span>
-            <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
+            <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
         <td></td>
     </tr>

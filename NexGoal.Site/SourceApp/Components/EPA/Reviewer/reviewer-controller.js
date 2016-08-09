@@ -354,7 +354,19 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
     vm.adjustmentScore = [];
-    vm.adjustmentAction = []
+    vm.adjustmentAction = [];
+
+    vm.checkEndProcess = function (members) {
+        var endProcess = true;
+
+        angular.forEach(members, function (member) {
+            if (!member.IsEndProcess) {
+                endProcess = false;
+            }
+        });
+
+        return endProcess;
+    };
 
     vm.convertScoreToGrade = function (score) {
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);

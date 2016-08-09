@@ -1467,8 +1467,8 @@
   <data name="BelowAveragePerformance" xml:space="preserve">
     <value>D. Below Average: 30% ~ 49%</value>
   </data>
-  <data name="ExcellencePerformance" xml:space="preserve">
-    <value>A. Excellence : 90% ~ 100%</value>
+  <data name="ExcellencelPerformance" xml:space="preserve">
+    <value>A. Excellencel : 90% ~ 100%</value>
   </data>
   <data name="GoodPerformance" xml:space="preserve">
     <value>B. Good: 70% ~ 89%</value>
@@ -1529,5 +1529,8 @@
   </data>
   <data name="ReviewerComment" xml:space="preserve">
     <value>Reviewer's Comment</value>
+  </data>
+  <data name="String2" xml:space="preserve">
+    <value />
   </data>
 </root>
