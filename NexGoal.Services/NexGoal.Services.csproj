@@ -107,7 +107,10 @@
     <Compile Include="Implement\CommonService.cs" />
     <Compile Include="Implement\DepartmentService.cs" />
     <Compile Include="Implement\EmployeeService.cs" />
-    <Compile Include="Implement\EPAHistoryService.cs" />
+    <Compile Include="Implement\EPA\EPAEvaluatorService.cs" />
+    <Compile Include="Implement\EPA\EPAHistoryService.cs" />
+    <Compile Include="Implement\EPA\EPAReviewerService.cs" />
+    <Compile Include="Implement\EPA\EPASelfService.cs" />
     <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
     <Compile Include="Implement\IntergrationService.cs" />
     <Compile Include="Implement\MenuServices.cs" />
@@ -117,7 +120,7 @@
     <Compile Include="Implement\FlowManagementService.cs" />
     <Compile Include="Implement\KPIGroupService.cs" />
     <Compile Include="Implement\KPIService.cs" />
-    <Compile Include="Implement\EmployeeEPAService.cs" />
+    <Compile Include="Implement\EPA\EmployeeEPAService.cs" />
     <Compile Include="Implement\ManualMailService.cs" />
     <Compile Include="Implement\PeriodService.cs" />
     <Compile Include="Implement\ReportService.cs" />
@@ -132,12 +135,15 @@
     <Compile Include="Interfaces\IEmployeeService.cs" />
     <Compile Include="Interfaces\ExportFile\IMonthlyEPADetailReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
-    <Compile Include="Interfaces\IEPAHistoryService.cs" />
+    <Compile Include="Interfaces\EPA\IEPAEvaluatorService.cs" />
+    <Compile Include="Interfaces\EPA\IEPAHistoryService.cs" />
+    <Compile Include="Interfaces\EPA\IEPAReviewerService.cs" />
+    <Compile Include="Interfaces\EPA\IEPASelfService.cs" />
     <Compile Include="Interfaces\IFlowManagementService.cs" />
     <Compile Include="Interfaces\IIntegrationService.cs" />
     <Compile Include="Interfaces\IKPIGroupService.cs" />
     <Compile Include="Interfaces\IKPIService.cs" />
-    <Compile Include="Interfaces\IEmployeeEPAService.cs" />
+    <Compile Include="Interfaces\EPA\IEmployeeEPAService.cs" />
     <Compile Include="Interfaces\IMailService.cs" />
     <Compile Include="Interfaces\IManualMailService.cs" />
     <Compile Include="Interfaces\IMenuServices.cs" />
@@ -184,6 +190,7 @@
   <ItemGroup>
     <CodeAnalysisDictionary Include="FxCopDictionary.xml" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

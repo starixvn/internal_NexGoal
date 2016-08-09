@@ -24,19 +24,29 @@
     public class EmployeeEPAController : BaseController
     {
         private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IEPAReviewerService reviewerService;
+        private readonly IEPAEvaluatorService evaluatorService;
+        private readonly IEPASelfService selfService;
+
         private readonly IRoleService roleService;
 
         public EmployeeEPAController()
-            : this(null, null)
+            : this(null, null, null, null, null)
         {
         }
 
         public EmployeeEPAController(
             IEmployeeEPAService employeeEPAService,
-            IRoleService roleService)
+            IRoleService roleService,
+            IEPAReviewerService reviewerService,
+            IEPAEvaluatorService evaluatorService,
+            IEPASelfService selfService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.roleService = roleService ?? new RoleService();
+            this.reviewerService = reviewerService ?? new EPAReviewerService();
+            this.evaluatorService = evaluatorService ?? new EPAEvaluatorService();
+            this.selfService = selfService ?? new EPASelfService();
         }
 
         #region Self
@@ -50,7 +60,7 @@
                 EmployeeId = SessionService.EmployeeId
             };
 
-            return _employeeEPAService.GetEPAByEmployee(criteria);
+            return this.selfService.GetEPA(criteria);
         }
 
         [ApiAuthorize(FunctionKey.Self, Policy.Read)]
@@ -72,7 +82,7 @@
                         EmployeeId = SessionService.EmployeeId
                     };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoByEmployee(criteria);
+                    epaInfo = this.selfService.GetEPAInfo(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -139,7 +149,7 @@
                 EmployeeIds = employeeIds
             };
 
-            return _employeeEPAService.GetEPAByEvaluator(criteria);
+            return this.evaluatorService.GetEPA(criteria);
         }
 
         /// [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
@@ -166,7 +176,7 @@
                         EvaluatorId = evaluatorId.Value
                     };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoByEvaluator(criteria);
+                    epaInfo = this.evaluatorService.GetEPAInfo(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -233,7 +243,7 @@
                 EmployeeIds = employeeIds
             };
 
-            return _employeeEPAService.GetEPAByReviewer(criteria);
+            return reviewerService.GetEPA(criteria);
         }
 
         [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
@@ -255,7 +265,7 @@
                         ReviewerId = SessionService.EmployeeId
                     };
 
-                    epaInfo = _employeeEPAService.GetEPAInfoByReviewer(criteria);
+                    epaInfo = reviewerService.GetEPAInfo(criteria);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -282,133 +292,7 @@
 
         #endregion Reviewer
 
-        #region Management
-
-        [ApiAuthorize(FunctionKey.Management, Policy.Read)]
-        [HttpGet]
-        public IEnumerable<Group> GetGroupByManagement()
-        {
-            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Management);
-        }
-
-        [ApiAuthorize(FunctionKey.Management, Policy.Read)]
-        [HttpGet]
-        public IEnumerable<Employee> GetMemberByManagement(
-            int? groupId = null,
-            bool? isLocal = null)
-        {
-            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Management, groupId, isLocal);
-        }
-
-        [ApiAuthorize(FunctionKey.Management, Policy.Read)]
-        [HttpGet]
-        public IEnumerable<EPAModel> GetEPAByManagement(
-            int? groupId = null,
-            bool? isLocal = null,
-            string employeeIds = null)
-        {
-            var criteria = new GetEPAByManagementCriteria()
-            {
-                ManagementId = SessionService.EmployeeId,
-                GroupId = groupId,
-                IsLocal = isLocal,
-                EmployeeIds = employeeIds
-            };
-
-            return _employeeEPAService.GetEPAByManagement(criteria);
-        }
-
-        [ApiAuthorize(FunctionKey.Management, Policy.Read)]
-        [HttpGet]
-        public HttpResponseMessage GetEPAInfoByManagement(int epaId)
-        {
-            EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, SessionService.EmployeeId, (int)ProcessType.Management);
-
-            switch (permission)
-            {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-                    var criteria = new GetEPAInfoByManagementCriteria()
-                    {
-                        EPAId = epaId,
-                        ManagementId = SessionService.EmployeeId
-                    };
-
-                    epaInfo = _employeeEPAService.GetEPAInfoByManagement(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
-            }
-        }
-
-        [ApiAuthorize(FunctionKey.Management, Policy.Host)]
-        [HttpPut]
-        public CommandResult AdjustScoreByManagement(IEnumerable<EPAModel> memberEPAs)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (memberEPAs != null && memberEPAs.Any())
-            {
-                var criteria = new AdjustScoreByReviewerOrManagementCriteria()
-                {
-                    ProcessId = (int)ProcessType.Management,
-                    MemberEPAs = memberEPAs,
-                    ModifiedBy = SessionService.EmployeeId
-                };
-
-                commandResult = AdjustScoreByReviewerOrManagement(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public int GetUserPermissionOnManagement()
-        {
-            return SessionService.CurrentUser.GetPermission(FunctionKey.Management);
-        }
-
-        #endregion Management
-
         #region Rating By KPI
-
-        [ApiAuthorize(FunctionKey.RatingByKPI, Policy.Read)]
-        [HttpGet]
-        public IEnumerable<EPAPeriodModel> GetPeriodByEvaluator()
-        {
-            var criteria = new GetPeriodByEvaluatorCriteria()
-            {
-                EvaluatorId = SessionService.EmployeeId
-            };
-
-            return _employeeEPAService.GetPeriodByEvaluator(criteria);
-        }
-
-        [ApiAuthorize(FunctionKey.RatingByKPI, Policy.Read)]
-        [HttpGet]
-        public IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(int periodId)
-        {
-            var criteria = new GetTargetTemplateByEvaluatorCriteria()
-            {
-                EvaluatorId = SessionService.EmployeeId,
-                PeriodId = periodId
-            };
-
-            return _employeeEPAService.GetTargetTemplateByEvaluator(criteria);
-        }
-
-        [ApiAuthorize(FunctionKey.RatingByKPI, Policy.Read)]
-        [HttpGet]
-        public IEnumerable<EPAPeriodModel> GetPeriodToView()
-        {
-            var criteria = new GetPeriodToViewCriteria()
-            {
-                EvaluatorId = SessionService.EmployeeId
-            };
-
-            return _employeeEPAService.GetPeriodToView(criteria);
-        }
 
         [ApiAuthorize(FunctionKey.EPAByKPI, Policy.Read)]
         [HttpGet]

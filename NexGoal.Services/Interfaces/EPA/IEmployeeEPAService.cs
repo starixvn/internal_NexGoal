@@ -12,49 +12,11 @@
 
     public interface IEmployeeEPAService
     {
-        #region Self
-
-        IEnumerable<EPAModel> GetEPAByEmployee(GetEPAByEmployeeCriteria criteria);
-
-        EPAModel GetEPAInfoByEmployee(GetEPAInfoByEmployeeCriteria criteria);
-
-        #endregion Self
-
-        #region Evaluator
-
-        IEnumerable<EPAModel> GetEPAByEvaluator(GetEPAByEvaluatorCriteria criteria);
-
-        EPAModel GetEPAInfoByEvaluator(GetEPAInfoByEvaluatorCriteria criteria);
-
-        #endregion Evaluator
-
-        #region Reviewer
-
-        IEnumerable<EPAModel> GetEPAByReviewer(GetEPAByReviewerCriteria criteria);
-
-        EPAModel GetEPAInfoByReviewer(GetEPAInfoByReviewerCriteria criteria);
-
-        #endregion Reviewer
-
-        #region Management
-
-        IEnumerable<EPAModel> GetEPAByManagement(GetEPAByManagementCriteria criteria);
-
-        EPAModel GetEPAInfoByManagement(GetEPAInfoByManagementCriteria criteria);
-
-        #endregion Management
-
         #region Rating By KPI
-
-        IEnumerable<EPAPeriodModel> GetPeriodByEvaluator(GetPeriodByEvaluatorCriteria criteria);
-
-        IEnumerable<TargetTemplateModel> GetTargetTemplateByEvaluator(GetTargetTemplateByEvaluatorCriteria criteria);
 
         IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria);
 
         IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria);
-
-        IEnumerable<EPAPeriodModel> GetPeriodToView(GetPeriodToViewCriteria criteria);
 
         IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria);
 

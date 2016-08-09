@@ -61,7 +61,7 @@ namespace NexGoal.Controller.Tests.API
             integrationService.GetHRMSummary(sessionService.EmployeeId).Returns(data);
 
             /// Action
-            var list = controller.GetHRMSummary();
+            var list = controller.GetHRMSummary(263);
 
             /// Assert
             Assert.IsNotNull(list as IEnumerable<HRMSummaryViewModel>);
@@ -89,7 +89,7 @@ namespace NexGoal.Controller.Tests.API
             integrationService.GetEmployeeWorking(sessionService.EmployeeId).Returns(data);
 
             /// Action
-            var list = controller.GetEmployeeWorking();
+            var list = controller.GetEmployeeWorking(263);
 
             /// Assert
             Assert.IsNotNull(list as IEnumerable<EmployeeWorkingViewModel>);
