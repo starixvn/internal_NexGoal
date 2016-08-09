@@ -199,9 +199,6 @@ function ($interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMod
             });
 
             initAutoSave();
-
-        SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
-            vm.employeeProjects = SelfEvalutorModel.employeeProjects;
         });
     }
 
