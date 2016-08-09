@@ -31,14 +31,16 @@ function ($location, SelfEvalutorModel, enumerationsFactory, baseUrl) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+["$interval", '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+function ($interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id, 10);
     vm.maxStar = utilitiesFactory.maxStar;
+    vm.autoSave = true;
+    vm.autoSaveInterval;
     vm.dataSaved = false;
     vm.evaluatedDate = null;
 
@@ -50,6 +52,12 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
+
+    vm.setAutoSave = function () {
+        vm.autoSave = !vm.autoSave;
+
+        initAutoSave();
+    };
 
     vm.convertScoreToGrade = function (score) {
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
@@ -118,10 +126,20 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     };
 
     vm.generateRatingStar = function () {
-        $timeout(function () {
+        $interval(function () {
             $(".rating-loading").rating();
         }, 1);
     };
+
+    function initAutoSave() {
+        if (vm.autoSave) {
+            vm.autoSaveInterval = $interval(function () {
+                vm.save(vm.epaInfo);
+            }, 300000);
+        } else {
+            $interval.cancel(vm.autoSaveInterval);
+        }
+    }
 
     function checkStatus(epaInfo) {
         if (!epaInfo.IsAllowedToEdit) {
@@ -179,6 +197,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
+
+            initAutoSave();
         });
     }
 

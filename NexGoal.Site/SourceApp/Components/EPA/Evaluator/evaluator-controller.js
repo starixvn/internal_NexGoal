@@ -144,12 +144,14 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+['$interval', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+function ($interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
+    vm.autoSave = true;
+    vm.autoSaveInterval;
     vm.hrmSummary = {};
     vm.employeeProjects = [];
     vm.permission = 0;
@@ -165,6 +167,12 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
+
+    vm.setAutoSave = function () {
+        vm.autoSave = !vm.autoSave;
+
+        initAutoSave();
+    };
 
     vm.convertScoreToGrade = function (score) {
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
@@ -264,10 +272,20 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
     };
 
     vm.generateRatingStar = function () {
-        $timeout(function () {
+        $interval(function () {
             $(".rating-loading").rating();
         }, 1);
     };
+
+    function initAutoSave() {
+        if (vm.autoSave) {
+            vm.autoSaveInterval = $interval(function () {
+                vm.save(vm.epaInfo);
+            }, 300000);
+        } else {
+            $interval.cancel(vm.autoSaveInterval);
+        }
+    }
 
     function checkStatus(epaInfo) {
         if (!epaInfo.IsAllowedToEdit) {
@@ -338,6 +356,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMode
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
+
+            initAutoSave();
         });
     }
 
