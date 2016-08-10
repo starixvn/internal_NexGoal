@@ -1631,6 +1631,9 @@ label:hover {
 .lnk-member .drop-menu li:last-child {
   border-bottom: 1px solid #d2d2d2;
 }
+.note {
+  color: #FF0000;
+}
 .required .control-label:after {
   color: #FF0000;
   content: "*";

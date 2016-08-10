@@ -82,7 +82,12 @@
     </tr>
     <tr class="text-center">
         <td>{{"FinalScore" | translate}} (%):</td>
-        <td></td>
+        <td>
+            <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore !== ''">
+                {{memberEPAInfoCtrl.epaInfo.FinalScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100}} %
+            </span>
+            <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore === ''" data-translate="Pending"></span>
+        </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></span>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></span>
