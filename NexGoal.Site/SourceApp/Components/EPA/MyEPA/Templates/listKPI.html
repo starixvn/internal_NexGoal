@@ -35,15 +35,13 @@
                 <span data-translate="CommentsIfAny" class="lable-comment-if-any"></span>
                 <span class="label-word-countdown" data-translate="LimitedWords"></span>
             </p>
-            <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && kpi.IsRequiredComment" data-translate="RequiredComment"></div>
-            <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && !kpi.IsRequiredComment" data-translate="RequiredCommentForRatingMaxScore"></div>
             <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                       ng-model="kpi.CurrentEvaluation.Comment"></textarea>
         </td>
     </tr>
     <tr class="sub-total text-center">
         <td data-translate="SubTotal"></td>
-        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | customScore}}</td>
+        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | customScore}} / {{kpiGroup.Weight | customScore}}</td>
         <td></td>
     </tr>
 </tbody>
