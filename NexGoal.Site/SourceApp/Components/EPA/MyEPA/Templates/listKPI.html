@@ -43,7 +43,7 @@
     </tr>
     <tr class="sub-total text-center">
         <td data-translate="SubTotal"></td>
-        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup)}}</td>
+        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | customScore}}</td>
         <td></td>
     </tr>
 </tbody>
@@ -61,7 +61,7 @@
     <tr class="text-center">
         <td>{{"Score" | translate}} (%):</td>
         <td>
-            {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100}} %
+            {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100 | integerScore}} %
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null">
@@ -84,7 +84,7 @@
         <td>{{"FinalScore" | translate}} (%):</td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore !== ''">
-                {{memberEPAInfoCtrl.epaInfo.FinalScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100}} %
+                {{memberEPAInfoCtrl.epaInfo.FinalScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100 | integerScore}} %
             </span>
             <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore === ''" data-translate="Pending"></span>
         </td>

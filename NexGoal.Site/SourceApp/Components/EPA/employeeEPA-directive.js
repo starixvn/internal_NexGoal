@@ -32,6 +32,24 @@ epaModule.directive('ngDecimal', [function () {
     };
 }]);
 
+epaModule.filter('integerScore', ['$filter', function ($filter) {
+    return function (input) {
+        var _number;
+
+        if (input === null) {
+            _number = "";
+        }
+        else if (input === 0) {
+            _number = 0;
+        }
+        else {
+            _number = $filter('number')(parseInt(input, 10));
+        }
+
+        return _number;
+    };
+}]);
+
 epaModule.filter('customScore', ['$filter', function ($filter) {
     return function (input) {
         var _number;
