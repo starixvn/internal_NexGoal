@@ -135,7 +135,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         if (vm.autoSave) {
             vm.autoSaveInterval = $interval(function () {
                 vm.save(vm.epaInfo);
-            }, 300000);
+            }, 60000);
         } else {
             $interval.cancel(vm.autoSaveInterval);
         }
