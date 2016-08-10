@@ -613,7 +613,6 @@ label:hover {
   color: #545454;
   border-color: #c3c3c3 !important;
   vertical-align: middle !important;
-  padding: 8px 20px !important;
 }
 .table tbody .fa-search {
   cursor: pointer;
