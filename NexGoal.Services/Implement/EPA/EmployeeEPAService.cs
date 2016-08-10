@@ -121,6 +121,18 @@
 
         #endregion Rating By KPI
 
+        public IEnumerable<EPAPeriodModel> GetPeriodToView(GetPeriodToViewCriteria criteria)
+        {
+            IEnumerable<EPAPeriodModel> periods = new List<EPAPeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<EPAPeriodModel>(criteria);
+            }
+
+            return periods;
+        }
+
         public EPAModel GetEPAInfoById(int epaId)
         {
             EPAModel epaInfo = new EPAModel();

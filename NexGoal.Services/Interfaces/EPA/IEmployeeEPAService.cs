@@ -30,6 +30,8 @@
 
         #endregion Rating By KPI
 
+        IEnumerable<EPAPeriodModel> GetPeriodToView(GetPeriodToViewCriteria criteria);
+
         IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(GetEPAEndEvaluationPeriodCriteria criteria);
 
         EPAModel GetEPAInfoById(int epaId);

@@ -33,7 +33,7 @@
         {
             var criteria = new GetPeriodToViewCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeId
+                EvaluatorId = SessionService.EmployeeId
             };
 
             return _employeeEPAService.GetPeriodToView(criteria);
@@ -45,7 +45,7 @@
         {
             var criteria = new GetTargetTemplateToViewCriteria()
             {
-                EvaluatorId = CurrentUser.EmployeeId,
+                EvaluatorId = SessionService.EmployeeId,
                 PeriodId = periodId
             };
 
