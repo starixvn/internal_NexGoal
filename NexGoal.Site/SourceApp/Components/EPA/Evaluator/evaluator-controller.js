@@ -144,9 +144,9 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
 }]);
 
 epaModule.controller('MemberEPAInfoOfEvaluatorController',
-['$interval', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+["$scope", '$interval', '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
@@ -358,6 +358,10 @@ function ($interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMod
             });
 
             initAutoSave();
+
+            $scope.$on("$destroy", function () {
+                $interval.cancel(vm.autoSaveInterval);
+            });
         });
     }
 

@@ -43,7 +43,9 @@ epaModule.filter('integerScore', ['$filter', function ($filter) {
             _number = 0;
         }
         else {
-            _number = $filter('number')(parseInt(input, 10));
+            var roundedInput = Math.round(input);
+
+            _number = $filter('number')(parseInt(roundedInput, 10));
         }
 
         return _number;

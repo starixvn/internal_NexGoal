@@ -31,9 +31,9 @@ function ($location, SelfEvalutorModel, enumerationsFactory, baseUrl) {
 }]);
 
 epaModule.controller('EmployeeEPAInfoController',
-["$interval", '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
+["$scope", "$interval", '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
+function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
     utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
@@ -199,6 +199,10 @@ function ($interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorMod
             });
 
             initAutoSave();
+
+            $scope.$on("$destroy", function () {
+                $interval.cancel(vm.autoSaveInterval);
+            });
         });
     }
 
