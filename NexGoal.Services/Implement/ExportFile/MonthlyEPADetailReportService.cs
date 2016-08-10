@@ -320,7 +320,7 @@
                 Lang.Category,
                 Lang.Section,
                 Lang.JobTitle,
-                Lang.GroupDate,
+                Lang.JoinedDate,
                 Lang.SelfScore,
                 Lang.EvaluationScore,
                 Lang.ReviewerScore,

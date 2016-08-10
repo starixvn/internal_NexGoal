@@ -1533,4 +1533,10 @@
   <data name="String2" xml:space="preserve">
     <value />
   </data>
+  <data name="JoinedDate" xml:space="preserve">
+    <value>Joined Date</value>
+  </data>
+  <data name="ViewPerformanceByKPI" xml:space="preserve">
+    <value>View Performance By KPI</value>
+  </data>
 </root>

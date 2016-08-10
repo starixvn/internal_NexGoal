@@ -1915,6 +1915,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Joined Date.
+        /// </summary>
+        public static string JoinedDate {
+            get {
+                return ResourceManager.GetString("JoinedDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Keyword.
         /// </summary>
         public static string Keyword {
@@ -4161,6 +4170,15 @@ namespace NexGoal.Resources {
         public static string ViewOtherViolation {
             get {
                 return ResourceManager.GetString("ViewOtherViolation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Performance By KPI.
+        /// </summary>
+        public static string ViewPerformanceByKPI {
+            get {
+                return ResourceManager.GetString("ViewPerformanceByKPI", resourceCulture);
             }
         }
         

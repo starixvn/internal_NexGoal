@@ -2,7 +2,7 @@
 (function (angular) {
     function epaByKPIFactory($http, baseUrl) {
         function getEvaluatorsByTargetTemplate(periodId, targetTemplateId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/getEvaluatorsByTargetTemplate', {
+            return $http.get(baseUrl + 'api/EPAByKPI/getEvaluatorsByTargetTemplate', {
                 params: {
                     periodId: periodId,
                     targetTemplateId: targetTemplateId
@@ -11,7 +11,7 @@
         }
 
         function getEmployeeEPAToView(periodId, targetTemplateId, kpiId, evaluatorId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEmployeeEPAToView', {
+            return $http.get(baseUrl + 'api/EPAByKPI/GetEmployeeEPAToView', {
                 params: {
                     periodId: periodId,
                     targetTemplateId: targetTemplateId,
@@ -22,7 +22,7 @@
         }
 
         function getKPIToView(periodId, targetTemplateId, evaluatorId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/getKPIToView', {
+            return $http.get(baseUrl + 'api/EPAByKPI/getKPIToView', {
                 params: {
                     periodId: periodId,
                     targetTemplateId: targetTemplateId,
@@ -32,11 +32,11 @@
         }
 
         function getPeriodToView() {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetPeriodToView');
+            return $http.get(baseUrl + 'api/EPAByKPI/GetPeriodToView');
         }
 
         function getTargetTemplateToView(periodId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetTargetTemplateToView',
+            return $http.get(baseUrl + 'api/EPAByKPI/GetTargetTemplateToView',
             {
                 params: {
                     periodId: periodId

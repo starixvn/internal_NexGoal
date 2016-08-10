@@ -17,7 +17,6 @@
             SelfEvaluators = new List<PeriodFlowModel>();
             Evaluators = new List<PeriodFlowModel>();
             Reviewers = new List<PeriodFlowModel>();
-            Managements = new List<PeriodFlowModel>();
         }
 
         public int PeriodId { get; set; }
@@ -39,8 +38,6 @@
         public IList<PeriodFlowModel> Evaluators { get; set; }
 
         public IList<PeriodFlowModel> Reviewers { get; set; }
-
-        public IList<PeriodFlowModel> Managements { get; set; }
 
         public bool IsIncluded { get; set; }
 

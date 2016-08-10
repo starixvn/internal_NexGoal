@@ -365,7 +365,7 @@
                 Lang.Category,
                 Lang.Section,
                 Lang.JobTitle,
-                Lang.GroupDate,
+                Lang.JoinedDate,
                 Lang.TargetType,
                 Lang.SelfScore,
                 Lang.EvaluationScore,

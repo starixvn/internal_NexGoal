@@ -53,9 +53,8 @@ namespace NexGoal.AutoGenerateEvaluation
 
         private void CheckSendMail()
         {
-            Task.Factory.StartNew(mailService.CheckSendNoticeAtBeginEmail);
-
-            Task.Factory.StartNew(mailService.CheckSendReminderEmail);
+            mailService.CheckSendNoticeAtBeginEmail();
+            mailService.CheckSendReminderEmail();
         }
     }
 }

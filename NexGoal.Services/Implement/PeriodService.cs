@@ -354,7 +354,6 @@
                 Category = employeeSetting.Employee.Category,
                 Evaluator = GetEvaluator(employeeSetting.Evaluators),
                 Reviewer = GetEvaluator(employeeSetting.Reviewers),
-                Management = GetEvaluator(employeeSetting.Managements),
                 Form = employeeSetting.TargetTemplate != null ? employeeSetting.TargetTemplate.TargetTypeName : string.Empty
             };
             rowIndex++;

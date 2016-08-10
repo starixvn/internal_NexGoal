@@ -1,9 +1,8 @@
 ﻿<div class="col-sm-12 sub-header">
     <ul class="row breadcrumb">
-        <li class="current" data-translate="RatingPerformanceByKPI"></li>
+        <li class="current" data-translate="ViewPerformanceByKPI"></li>
     </ul>
 </div>
-
 <div ng-controller="EPAByKPIController as epaByKPICtrl">
     <div class="col-sm-12">
         <form novalidate class="filter form-horizontal" role="form">
@@ -32,13 +31,14 @@
                     <label class="col-sm-1 control-label" data-translate="Evaluator"></label>
                     <div class="col-sm-2">
                         <select class="form-control" ng-model="epaByKPICtrl.filter.evaluatorId"
-                                ng-options="opt.EmployeeId as opt.NickName for opt in epaByKPICtrl.evaluators">
+                                ng-options="opt.EmployeeId as opt.NickName for opt in epaByKPICtrl.evaluators"
+                                ng-change="epaByKPICtrl.EnabledSearch()">
                             <option style="display: none" value="">-- {{"All" | translate}} --</option>
                         </select>
                     </div>
                 </div>
                 <div class="col-sm-1">
-                    <button class="button" ng-click="epaByKPICtrl.getKPIByToView(epaByKPICtrl.filter)" data-translate="Submit"></button>
+                    <button class="button" ng-click="epaByKPICtrl.getKPIByToView()" data-translate="Submit" ng-disabled="!epaByKPICtrl.EnabledSearchButton"></button>
                 </div>
             </div>
         </form>
@@ -115,7 +115,6 @@
                                              (memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.Star
                                              || memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.HalfStar
                                              || (memberEPA.RatingType.RatingTypeId==epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>
-                                            0))">
                                             / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                             <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                    value="1" data-min="0" data-max="1" data-stars="1"

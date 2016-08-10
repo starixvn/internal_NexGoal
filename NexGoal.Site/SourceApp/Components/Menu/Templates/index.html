@@ -1,7 +1,7 @@
 ﻿<ul class="list-group" ng-controller="MenuController as menuCtrl">
     <li class="list-group-item"
         ng-class="{'has-sub': menu.MenuItems.length > 0, 'no-sub': menu.MenuItems.length === 0}"
-        ng-repeat="menu in menuCtrl.menus">
+        ng-repeat="menu in menuCtrl.menus | orderBy:'-DisplayOrder':true">
 
         <a class="sub-menu-title"
            data-toggle="collapse"
@@ -12,13 +12,13 @@
 
         <ul class="list-group collapse in menu-{{::$index}}"
             ng-if="menu.MenuItems.length > 0">
-            <li class="list-group-item sub-menu" ng-repeat="subMenu in menu.MenuItems">
+            <li class="list-group-item sub-menu" ng-repeat="subMenu in menu.MenuItems | orderBy: '-DisplayOrder':true">
                 <a hef="" data-menu-tab data-link="{{::subMenu.Link}}">{{::subMenu.Text}}</a>
             </li>
         </ul>
 
-        <a hef="" ng-if="menu.MenuItems.length === 0" data-menu-tab data-link="{{::menu.Link}}">
+        <a ng-if="menu.MenuItems.length ===  0 && menu.Link.length > 0" data-menu-tab data-link="{{::menu.Link}}">
             <i class="fa fa-{{::menu.Name | lowercase}}"></i>{{::menu.Text}}
         </a>
     </li>
-</ul>
+</ul> 
