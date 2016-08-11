@@ -185,6 +185,7 @@ label:hover {
   text-transform: capitalize;
   font-size: 14px;
   position: relative;
+  cursor: pointer;
 }
 .panel-default .level-2.collapsed {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
@@ -651,18 +652,18 @@ label:hover {
   background: #f0f0f0;
 }
 .table tbody .comment td ::-webkit-input-placeholder {
-  color: #555555;
+  color: #a6a6a6;
 }
 .table tbody .comment td :-moz-placeholder {
   /* Firefox 18- */
-  color: #555555;
+  color: #a6a6a6;
 }
 .table tbody .comment td ::-moz-placeholder {
   /* Firefox 19+ */
-  color: #555555;
+  color: #a6a6a6;
 }
 .table tbody .comment td :-ms-input-placeholder {
-  color: #555555;
+  color: #a6a6a6;
 }
 .table tbody .comment:hover td {
   background: none;
