@@ -168,6 +168,18 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
 
+    vm.getLastRating = function (kpi) {
+        var score = "";
+
+        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
+            if (lastKpi.KPIId === kpi.KPIId) {
+                score = lastKpi.score;
+            }
+        });
+
+        return score;
+    };
+
     vm.setAutoSave = function () {
         vm.autoSave = !vm.autoSave;
 

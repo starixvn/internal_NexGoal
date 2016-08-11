@@ -357,6 +357,18 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.adjustmentAction = [];
     vm.TotalEvaluatorScore = 0;
 
+    vm.getLastRating = function (kpi) {
+        var score = "";
+
+        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
+            if (lastKpi.KPIId === kpi.KPIId) {
+                score = lastKpi.score;
+            }
+        });
+
+        return score;
+    };
+
     vm.checkEndProcess = function (members) {
         var endProcess = true;
 

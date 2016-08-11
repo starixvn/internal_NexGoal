@@ -53,6 +53,18 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
 
+    vm.getLastRating = function (kpi) {
+        var score = "";
+
+        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
+            if (lastKpi.KPIId === kpi.KPIId) {
+                score = lastKpi.score;
+            }
+        });
+
+        return score;
+    };
+
     vm.setAutoSave = function () {
         vm.autoSave = !vm.autoSave;
 

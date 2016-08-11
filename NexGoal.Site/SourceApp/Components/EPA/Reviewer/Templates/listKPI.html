@@ -9,19 +9,21 @@
     </tr>
     <tr ng-repeat-start="kpi in kpiGroup.KPIs">
         <td>{{$parent.index + 1}}-{{$index + 1}}. {{kpi.Name}}</td>
-        <td class="text-center">
+        <td class="text-center width-110">
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                 {{kpi.EvaluationBySelf.Score | customScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
-        <td class="text-center">
+        <td class="text-center width-110">
             <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
                 {{kpi.EvaluatorScore | customScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
-        <td></td>
+        <td class="text-center width-150">
+            {{memberEPAInfoCtrl.getLastRating(kpi)}}
+        </td>
     </tr>
     <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">
         <td colspan="4" class="textarea-comment">
