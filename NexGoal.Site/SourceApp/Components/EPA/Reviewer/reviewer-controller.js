@@ -438,7 +438,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10) :
             -parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10);
 
-        vm.epaInfo.Process.CurrentProcess.TotalScore = parseInt(vm.epaInfo.Process.CurrentProcess.TotalScoreOriginal, 10) + vm.epaInfo.Process.CurrentProcess.AdjustScore;
+        vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScoreOriginal, 10) +
+                                                    vm.epaInfo.Process.CurrentProcess.AdjustScore;
     };
 
     function CalculateEvaluatorScore(evaluators) {

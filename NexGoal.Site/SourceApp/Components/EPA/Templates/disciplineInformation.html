@@ -6,6 +6,7 @@
     </div>
 
     <div class="collapse in discipline-information-table">
+
         <table class="table table-bordered">
             <thead>
                 <tr>
@@ -20,7 +21,12 @@
                     <th data-translate="ToeicScore"></th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data === undifined || memberEPAInfoCtrl.hrmSummary.Data.length === 0">
+                <tr>
+                    <td colspan="10" class="text-center" data-translate="EmptyResult"></td>
+                </tr>
+            </tbody>
+            <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">
                 <tr class="text-center" ng-repeat="item in memberEPAInfoCtrl.hrmSummary.Data">
                     <td>{{item.Month}}/{{item.Year}}</td>
                     <td>{{item.NumberMissingCheckInOut}}</td>
@@ -34,7 +40,7 @@
                         {{item.TOEICScore}}
                     </td>
                 </tr>
-            <tfoot>
+            <tfoot ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">
                 <tr class="text-center">
                     <td data-translate="Total">Total</td>
                     <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberMissingCheckInOut}}</td>

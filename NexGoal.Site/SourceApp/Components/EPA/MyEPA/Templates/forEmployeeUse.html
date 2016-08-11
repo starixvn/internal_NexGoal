@@ -20,7 +20,10 @@
             </tr>
         </thead>
         <tbody>
-            <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects">
+            <tr ng-if="memberEPAInfoCtrl.employeeProjects.length === 0">
+                <td colspan="9" data-translate="EmptyResult" class="text-center"></td>
+            </tr>
+            <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects" ng-if="memberEPAInfoCtrl.employeeProjects.length > 0">
                 <td class="text-center">{{$index + 1}}</td>
                 <td>{{project.ProjectName}}</td>
                 <td class="text-center">{{project.ProjectManager.NickName}}</td>
