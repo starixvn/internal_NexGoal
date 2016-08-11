@@ -20,7 +20,7 @@ namespace NexGoal.Model.EmployeeEPA
 
         public string ScoreEncode { get; set; }
 
-        public string Score { get; set; }
+        public float Score { get; set; }
 
         public string RateEncode { get; set; }
 
@@ -32,7 +32,7 @@ namespace NexGoal.Model.EmployeeEPA
 
         public void Decode()
         {
-            Score = EncodeService.Decode(ScoreEncode).Replace("_" + KPIId, string.Empty);
+            Score = string.IsNullOrEmpty(ScoreEncode) ? 0 : float.Parse(EncodeService.Decode(ScoreEncode));
             Rate = string.IsNullOrEmpty(RateEncode) ? 0 : float.Parse(EncodeService.Decode(RateEncode));
         }
     }

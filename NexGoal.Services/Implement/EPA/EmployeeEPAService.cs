@@ -34,7 +34,7 @@
         }
 
         #region Rating By KPI
-        
+
         public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria)
         {
             IEnumerable<TargetTemplateModel> targetTemplates = new List<TargetTemplateModel>();
@@ -425,7 +425,9 @@
             foreach (var kpi in kpis)
             {
                 var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId).Average(i => i.Rate);
+                var averagedScore = kpis.Where(i => i.KPIId == kpi.KPIId).Average(i =>i.Score);
                 kpi.Rate = averagedRating;
+                kpi.Score = averagedScore;
             }
 
             kpis = kpis.Distinct();

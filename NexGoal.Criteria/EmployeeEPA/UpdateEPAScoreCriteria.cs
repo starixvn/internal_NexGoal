@@ -48,9 +48,9 @@
                 {
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
-                        string score = kpi.CurrentEvaluation.Score,
+                        string score = kpi.CurrentEvaluation.Score > 0 ? kpi.CurrentEvaluation.Score.ToString() : string.Empty,
                             rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty,
-                            cipherScore = EncodeService.Encode(score + "_" + kpi.KPIId),
+                            cipherScore = EncodeService.Encode(score),
                             cipherRate = EncodeService.Encode(rate);
                         bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
 
