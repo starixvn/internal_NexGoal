@@ -357,7 +357,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
 
-            initAutoSave();
+            //initAutoSave();
 
             $scope.$on("$destroy", function () {
                 $interval.cancel(vm.autoSaveInterval);
