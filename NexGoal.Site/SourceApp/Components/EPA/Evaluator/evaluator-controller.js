@@ -173,7 +173,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
-                score = lastKpi.score;
+                score = lastKpi.Score;
             }
         });
 

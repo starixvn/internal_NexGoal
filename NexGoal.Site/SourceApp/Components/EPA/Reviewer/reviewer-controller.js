@@ -362,7 +362,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
-                score = lastKpi.score;
+                score = lastKpi.Score;
             }
         });
 
