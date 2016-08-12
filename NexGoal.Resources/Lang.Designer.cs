@@ -1492,7 +1492,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated. For Personal Target, this mean this person can be a master of this fields and be ready to train/tutor others as request..
+        ///   Looks up a localized string similar to Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated..
         /// </summary>
         public static string FiveRatingDescription {
             get {
@@ -1564,7 +1564,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating. For Personal Target, this mean the objective has been fully achieve with high quality or higher than the expectation and recognize by others in team..
+        ///   Looks up a localized string similar to Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating..
         /// </summary>
         public static string FourRatingDescription {
             get {
@@ -2599,7 +2599,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps. For Personal Target, this mean not completed or need to re-work..
+        ///   Looks up a localized string similar to Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps..
         /// </summary>
         public static string OneRatingDescription {
             get {
@@ -3805,7 +3805,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Meets expectations: refers to solid performance with a full skills base; most people fall into this category. For Personal Target, this mean objective has been archived with acceptable quality..
+        ///   Looks up a localized string similar to Meets expectations: refers to solid performance with a full skills base; most people fall into this category..
         /// </summary>
         public static string ThreeRatingDesciption {
             get {
@@ -3949,7 +3949,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed. For Personal Target, this mean only partially complete the objective or need to keep working on the remaining..
+        ///   Looks up a localized string similar to Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed..
         /// </summary>
         public static string TwoRatingDescription {
             get {

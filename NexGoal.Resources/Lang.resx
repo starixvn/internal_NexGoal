@@ -1345,13 +1345,13 @@
     <value>Excellent: 5</value>
   </data>
   <data name="FiveRatingDescription" xml:space="preserve">
-    <value>Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated. For Personal Target, this mean this person can be a master of this fields and be ready to train/tutor others as request.</value>
+    <value>Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated.</value>
   </data>
   <data name="FourRating" xml:space="preserve">
     <value>Good: 4</value>
   </data>
   <data name="FourRatingDescription" xml:space="preserve">
-    <value>Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating. For Personal Target, this mean the objective has been fully achieve with high quality or higher than the expectation and recognize by others in team.</value>
+    <value>Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating.</value>
   </data>
   <data name="NARatingDescription" xml:space="preserve">
     <value>Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating.</value>
@@ -1363,7 +1363,7 @@
     <value>Poor: 1</value>
   </data>
   <data name="OneRatingDescription" xml:space="preserve">
-    <value>Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps. For Personal Target, this mean not completed or need to re-work.</value>
+    <value>Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps.</value>
   </data>
   <data name="PerformanceRatingNote" xml:space="preserve">
     <value>Please rate the performance using the following rating scale. Where not applicable, please indicate 'NA'.</value>
@@ -1372,13 +1372,13 @@
     <value>Satisfactory: 3</value>
   </data>
   <data name="ThreeRatingDesciption" xml:space="preserve">
-    <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category. For Personal Target, this mean objective has been archived with acceptable quality.</value>
+    <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
   </data>
   <data name="TwoRating" xml:space="preserve">
     <value>Below Average: 2</value>
   </data>
   <data name="TwoRatingDescription" xml:space="preserve">
-    <value>Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed. For Personal Target, this mean only partially complete the objective or need to keep working on the remaining.</value>
+    <value>Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed.</value>
   </data>
   <data name="BehaviorAndAttitutes" xml:space="preserve">
     <value>Behaviors &amp; Attitutes</value>
