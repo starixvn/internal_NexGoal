@@ -404,33 +404,37 @@
 
         public IEnumerable<EvaluationModel> GetLastRating(int employeeId, int targetTypeId)
         {
-            IEnumerable<EvaluationModel> kpis = new List<EvaluationModel>();
+            IEnumerable<EvaluationModel> result = new List<EvaluationModel>();
             var criteria = new GetLastRatingByEmployeeIdCriteria { EmployeeId = employeeId, TargetTypeId = targetTypeId };
             if (criteria != null && criteria.IsValid())
             {
-                kpis = GetData<EvaluationModel>(criteria);
+                var kpis = GetData<EvaluationModel>(criteria);
                 foreach (var kpi in kpis)
                 {
                     kpi.Decode();
                 }
 
-                AveragedLastRating(kpis);
+                result = AveragedLastRating(kpis);
             }
 
-            return kpis;
+            return result;
         }
 
-        private void AveragedLastRating(IEnumerable<EvaluationModel> kpis)
+        private IEnumerable<EvaluationModel> AveragedLastRating(IEnumerable<EvaluationModel> kpis)
         {
+            var list = new List<EvaluationModel>();
             foreach (var kpi in kpis)
             {
-                var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId).Average(i => i.Rate);
-                var averagedScore = kpis.Where(i => i.KPIId == kpi.KPIId).Average(i =>i.Score);
-                kpi.Rate = averagedRating;
-                kpi.Score = averagedScore;
+                if (!list.Where(i => i.KPIId == kpi.KPIId).Any())
+                {
+                    var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId).Average(i => i.Rate);
+                    var averagedScore = kpis.Where(i => i.KPIId == kpi.KPIId).Average(i => i.Score);
+
+                    list.Add(new EvaluationModel { KPIId = kpi.KPIId, Rate = averagedRating, Score = averagedScore });
+                }
             }
 
-            kpis = kpis.Distinct();
+            return list;
         }
 
         private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
