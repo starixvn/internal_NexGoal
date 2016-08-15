@@ -427,10 +427,13 @@
             {
                 if (!list.Where(i => i.KPIId == kpi.KPIId).Any())
                 {
-                    var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty(i.RateEncode)).Average(i => i.Rate);
-                    var averagedScore = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty(i.ScoreEncode)).Average(i => i.Score);
+                    var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty(i.RateEncode));
+                    var averagedScore = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty(i.ScoreEncode));
 
-                    list.Add(new EvaluationModel { KPIId = kpi.KPIId, Rate = averagedRating, Score = averagedScore });
+                    if (averagedRating.Any() && averagedScore.Any())
+                    {
+                        list.Add(new EvaluationModel { KPIId = kpi.KPIId, Rate = averagedRating.Average(i => i.Rate), Score = averagedScore.Average(i => i.Score) });
+                    }
                 }
             }
 
