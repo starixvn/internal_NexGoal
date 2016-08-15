@@ -74,10 +74,6 @@
     <tr class="text-center">
         <td>{{"FinalScore" | translate}}:</td>
         <td>
-            <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore !== ''">
-                {{memberEPAInfoCtrl.epaInfo.FinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
-            </span>
-            <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore === ''" data-translate="Pending"></span>
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore !== null">

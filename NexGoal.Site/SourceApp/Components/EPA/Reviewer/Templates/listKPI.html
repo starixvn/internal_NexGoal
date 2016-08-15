@@ -96,10 +96,6 @@
         <td>
         </td>
         <td>
-            <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)">
-                {{memberEPAInfoCtrl.epaInfo.FinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
-            </span>
-            <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)" data-translate="Pending"></span>
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore !== null">
