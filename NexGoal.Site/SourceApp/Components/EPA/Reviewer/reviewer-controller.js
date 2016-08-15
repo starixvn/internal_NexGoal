@@ -459,12 +459,15 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
         if (evaluators.length > 0) {
             var score = 0;
-
+            var length = 0;
             angular.forEach(evaluators, function (evaluator) {
-                score += parseInt(evaluator.Score, 10);
+                if (evaluator.ScoreEncode) {
+                    score += parseInt(evaluator.Score, 10);
+                    length++;
+                }
             });
 
-            averageScore = utilitiesFactory.parseFloat(score / evaluators.length);
+            averageScore = utilitiesFactory.parseFloat(score / length);
         }
 
         return averageScore;
