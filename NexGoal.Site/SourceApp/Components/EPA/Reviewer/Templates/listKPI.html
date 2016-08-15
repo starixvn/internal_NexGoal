@@ -22,7 +22,7 @@
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
         <td class="text-center width-150">
-            {{::memberEPAInfoCtrl.getLastRating(kpi)}}
+            {{::memberEPAInfoCtrl.getLastRating(kpi) | customScore}}
         </td>
     </tr>
     <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">
@@ -61,33 +61,12 @@
         </td>
         <td>
             <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
-                {{memberEPAInfoCtrl.TotalEvaluatorScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore}}
+                {{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators}} / {{memberEPAInfoCtrl.epaInfo.Process.MaxPerformanceScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></span>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></span>
-        </td>
-    </tr>
-    <tr class="text-center">
-        <td>{{"Score" | translate}} (%):</td>
-        <td>
-            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100 | customScore}} %
-            </span>
-            <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
-        </td>
-        <td>
-            <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
-                {{memberEPAInfoCtrl.TotalEvaluatorScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100 | customScore}} %
-            </span>
-            <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
-        </td>
-        <td>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null">
-                {{memberEPAInfoCtrl.epaInfo.LastPerformanceScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100 | customScore}} %
-            </span>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></span>
         </td>
     </tr>
@@ -101,7 +80,7 @@
         </td>
         <td>
             <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">                
-                {{memberEPAInfoCtrl.convertScoreToGrade(memberEPAInfoCtrl.TotalEvaluatorScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100)}}
+                {{memberEPAInfoCtrl.convertScoreToGrade(memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators / memberEPAInfoCtrl.epaInfo.Process.MaxPerformanceScore * 100)}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
@@ -111,12 +90,12 @@
         </td>
     </tr>
     <tr class="text-center">
-        <td>{{"FinalScore" | translate}} (%):</td>
+        <td>{{"FinalScore" | translate}}:</td>
         <td>
         </td>
         <td>
             <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)">
-                {{memberEPAInfoCtrl.epaInfo.FinalScore / memberEPAInfoCtrl.epaInfo.MaxFinalScore * 100 | customScore}} %
+                {{memberEPAInfoCtrl.epaInfo.FinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)" data-translate="Pending"></span>
         </td>

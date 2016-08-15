@@ -36,7 +36,7 @@
             </div>
         </td>
         <td class="text-center width-150">
-            {{::memberEPAInfoCtrl.getLastRating(kpi)}}
+            {{::memberEPAInfoCtrl.getLastRating(kpi) | customScore}}
         </td>
     </tr>
     <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">

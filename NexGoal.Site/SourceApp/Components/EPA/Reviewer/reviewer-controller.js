@@ -355,7 +355,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.showRatingScoreByStar = true;
     vm.adjustmentScore = [];
     vm.adjustmentAction = [];
-    vm.TotalEvaluatorScore = 0;
 
     vm.getLastRating = function (kpi) {
         var score = "";
@@ -450,7 +449,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10) :
             -parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10);
 
-        vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScoreOriginal, 10) +
+        vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators) +
                                                     vm.epaInfo.Process.CurrentProcess.AdjustScore;
     };
 
@@ -504,8 +503,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
                     kpiGroup.SelfScore += parseInt(kpi.EvaluationBySelf.Score, 10);
                     kpiGroup.EvaluatorScore += kpi.EvaluatorScore;
                 });
-
-                vm.TotalEvaluatorScore += kpiGroup.EvaluatorScore;
             };
 
             // self
@@ -515,13 +512,14 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
-            vm.epaInfo.Process.AverageScoreByEvaluators = vm.epaInfo.Process.AverageScoreByEvaluators;
 
             // reviewer
-            vm.epaInfo.Process.CurrentProcess.AdjustScore = parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScore);
+            vm.epaInfo.Process.CurrentProcess.AdjustScore = vm.epaInfo.Process.CurrentProcess.AdjustScore !== "" ? parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScore) : 0;
             vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay = Math.abs(vm.epaInfo.Process.CurrentProcess.AdjustScore);
-            vm.epaInfo.Process.CurrentProcess.AdjustAction = vm.epaInfo.Process.CurrentProcess.AdjustScore > 0 ? { Value: "add", Name: "+" } : { Value: "sub", Name: "-" };
-            vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
+            vm.epaInfo.Process.CurrentProcess.AdjustAction = vm.epaInfo.Process.CurrentProcess.AdjustScore >= 0 ? { Value: "add", Name: "+" } : { Value: "sub", Name: "-" };
+            vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore !== "" ?
+                                                            utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore) :
+                                                            utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators);
             vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
             vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 

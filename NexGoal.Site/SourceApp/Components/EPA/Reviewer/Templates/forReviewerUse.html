@@ -3,10 +3,10 @@
         <tr class="text-center">
             <td data-translate="EvaluatorScoring"></td>
             <td class="reviewer-score border-bottom">
-                <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)">
-                    {{memberEPAInfoCtrl.TotalEvaluatorScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].MaxTotalScore}}
+                <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
+                    {{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators}} / {{memberEPAInfoCtrl.epaInfo.Process.MaxPerformanceScore}}
                 </span>
-                <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)" data-translate="Pending"></span>
+                <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
             </td>
         </tr>
         <tr class="text-center">
@@ -26,12 +26,6 @@
             <td data-translate="FinalScore"></td>
             <td class="reviewer-score border-bottom">
                 {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore}}
-            </td>
-        </tr>
-        <tr class="text-center">
-            <td>{{"FinalScore" | translate}} (%)</td>
-            <td class="reviewer-score border-bottom">
-                {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100}} %
             </td>
         </tr>
         <tr class="text-center">
