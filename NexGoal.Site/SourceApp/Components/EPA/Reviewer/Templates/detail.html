@@ -13,7 +13,7 @@
                 <div class="panel panel-default no-border">
 
                     <div class="panel-heading level-1" data-toggle="collapse" data-target=".performance-review-panel">
-                        <h4 class="panel-title">{{"Performance review skills and abilities" | translate}} ({{::memberEPAInfoCtrl.epaInfo.Employee.Code}} - {{::memberEPAInfoCtrl.epaInfo.Employee.FullName}})</h4>
+                        <h4 class="panel-title">{{"Performance review skills and abilities" | translate}} ({{memberEPAInfoCtrl.epaInfo.Employee.Code}} - {{memberEPAInfoCtrl.epaInfo.Employee.FullName}})</h4>
                         <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
                     </div>
 
@@ -21,7 +21,7 @@
                         <div class="panel-body">
                             <div ng-include src="'/SourceApp/Components/EPA/Templates/ratingInstruction.html'"></div>
                             <div class="rating-note no-border">
-                                <strong>Evaluation Process</strong>
+                                <strong data-translate="EvaluationProcess"></strong>
                             </div>
                             <div class="evaluation-process-section" ng-include src="'/SourceApp/Components/EPA/Templates/evaluationProcess.html'"></div>
                         </div>

@@ -295,6 +295,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Automatically Save.
+        /// </summary>
+        public static string AutomaticallySave {
+            get {
+                return ResourceManager.GetString("AutomaticallySave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Average.
         /// </summary>
         public static string Average {
@@ -367,7 +376,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D. Below Average: 30% ~ 49%.
+        ///   Looks up a localized string similar to D. Below Average: 30 ~ 49.
         /// </summary>
         public static string BelowAveragePerformance {
             get {
@@ -1231,7 +1240,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EMPLOYEE PERFORMANCE APPRAISAL (EPA).
+        ///   Looks up a localized string similar to PERFORMANCE APPRAISAL (PA).
         /// </summary>
         public static string EPATilte {
             get {
@@ -1429,7 +1438,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A. Excellencel : 90% ~ 100%.
+        ///   Looks up a localized string similar to A. Excellencel : 90 ~ 100.
         /// </summary>
         public static string ExcellencelPerformance {
             get {
@@ -1654,7 +1663,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to B. Good: 70% ~ 89%.
+        ///   Looks up a localized string similar to B. Good: 70 ~ 89.
         /// </summary>
         public static string GoodPerformance {
             get {
@@ -2797,7 +2806,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E. Poor: 10% ~ 29%.
+        ///   Looks up a localized string similar to E. Poor: 10 ~ 29.
         /// </summary>
         public static string PoorPerformance {
             get {
@@ -3193,7 +3202,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to C. Satisfactory: 50% ~ 69%.
+        ///   Looks up a localized string similar to C. Satisfactory: 50 ~ 69.
         /// </summary>
         public static string SatisfactoryPerformance {
             get {
@@ -3612,24 +3621,6 @@ namespace NexGoal.Resources {
         public static string Step {
             get {
                 return ResourceManager.GetString("Step", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String1 {
-            get {
-                return ResourceManager.GetString("String1", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to .
-        /// </summary>
-        public static string String2 {
-            get {
-                return ResourceManager.GetString("String2", resourceCulture);
             }
         }
         

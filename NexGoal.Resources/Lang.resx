@@ -628,7 +628,7 @@
     <value>COMMENTS</value>
   </data>
   <data name="EPATilte" xml:space="preserve">
-    <value>EMPLOYEE PERFORMANCE APPRAISAL (EPA)</value>
+    <value>PERFORMANCE APPRAISAL (PA)</value>
   </data>
   <data name="Evaluated" xml:space="preserve">
     <value>Evaluated</value>
@@ -1443,9 +1443,6 @@
   <data name="Role" xml:space="preserve">
     <value>Role</value>
   </data>
-  <data name="String1" xml:space="preserve">
-    <value />
-  </data>
   <data name="ToeicScore" xml:space="preserve">
     <value>TOEIC Score</value>
   </data>
@@ -1465,22 +1462,22 @@
     <value>Result</value>
   </data>
   <data name="BelowAveragePerformance" xml:space="preserve">
-    <value>D. Below Average: 30% ~ 49%</value>
+    <value>D. Below Average: 30 ~ 49</value>
   </data>
   <data name="ExcellencelPerformance" xml:space="preserve">
-    <value>A. Excellencel : 90% ~ 100%</value>
+    <value>A. Excellencel : 90 ~ 100</value>
   </data>
   <data name="GoodPerformance" xml:space="preserve">
-    <value>B. Good: 70% ~ 89%</value>
+    <value>B. Good: 70 ~ 89</value>
   </data>
   <data name="PerformanceGradingScale" xml:space="preserve">
     <value>Performance Grading Scale</value>
   </data>
   <data name="PoorPerformance" xml:space="preserve">
-    <value>E. Poor: 10% ~ 29%</value>
+    <value>E. Poor: 10 ~ 29</value>
   </data>
   <data name="SatisfactoryPerformance" xml:space="preserve">
-    <value>C. Satisfactory: 50% ~ 69%</value>
+    <value>C. Satisfactory: 50 ~ 69</value>
   </data>
   <data name="EvaluatorComment" xml:space="preserve">
     <value>Evaluator's Comment</value>
@@ -1530,13 +1527,13 @@
   <data name="ReviewerComment" xml:space="preserve">
     <value>Reviewer's Comment</value>
   </data>
-  <data name="String2" xml:space="preserve">
-    <value />
-  </data>
   <data name="JoinedDate" xml:space="preserve">
     <value>Joined Date</value>
   </data>
   <data name="ViewPerformanceByKPI" xml:space="preserve">
     <value>View Performance By KPI</value>
+  </data>
+  <data name="AutomaticallySave" xml:space="preserve">
+    <value>Automatically Save</value>
   </data>
 </root>
