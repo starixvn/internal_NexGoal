@@ -376,15 +376,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to D. Below Average: 30 ~ 49.
-        /// </summary>
-        public static string BelowAveragePerformance {
-            get {
-                return ResourceManager.GetString("BelowAveragePerformance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t edit setting on different type!.
         /// </summary>
         public static string CanNotEditSettingOnDifferentTypeWarning {
@@ -1438,15 +1429,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A. Excellencel : 90 ~ 100.
-        /// </summary>
-        public static string ExcellencelPerformance {
-            get {
-                return ResourceManager.GetString("ExcellencelPerformance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Excellent.
         /// </summary>
         public static string Excellent {
@@ -1659,15 +1641,6 @@ namespace NexGoal.Resources {
         public static string GoodDescription {
             get {
                 return ResourceManager.GetString("GoodDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to B. Good: 70 ~ 89.
-        /// </summary>
-        public static string GoodPerformance {
-            get {
-                return ResourceManager.GetString("GoodPerformance", resourceCulture);
             }
         }
         
@@ -2806,15 +2779,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to E. Poor: 10 ~ 29.
-        /// </summary>
-        public static string PoorPerformance {
-            get {
-                return ResourceManager.GetString("PoorPerformance", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Priority.
         /// </summary>
         public static string Priority {
@@ -3198,15 +3162,6 @@ namespace NexGoal.Resources {
         public static string SatisfactoryDescription {
             get {
                 return ResourceManager.GetString("SatisfactoryDescription", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to C. Satisfactory: 50 ~ 69.
-        /// </summary>
-        public static string SatisfactoryPerformance {
-            get {
-                return ResourceManager.GetString("SatisfactoryPerformance", resourceCulture);
             }
         }
         

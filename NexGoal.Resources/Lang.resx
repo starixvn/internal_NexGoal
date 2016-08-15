@@ -1461,23 +1461,8 @@
   <data name="Result" xml:space="preserve">
     <value>Result</value>
   </data>
-  <data name="BelowAveragePerformance" xml:space="preserve">
-    <value>D. Below Average: 30 ~ 49</value>
-  </data>
-  <data name="ExcellencelPerformance" xml:space="preserve">
-    <value>A. Excellencel : 90 ~ 100</value>
-  </data>
-  <data name="GoodPerformance" xml:space="preserve">
-    <value>B. Good: 70 ~ 89</value>
-  </data>
   <data name="PerformanceGradingScale" xml:space="preserve">
     <value>Performance Grading Scale</value>
-  </data>
-  <data name="PoorPerformance" xml:space="preserve">
-    <value>E. Poor: 10 ~ 29</value>
-  </data>
-  <data name="SatisfactoryPerformance" xml:space="preserve">
-    <value>C. Satisfactory: 50 ~ 69</value>
   </data>
   <data name="EvaluatorComment" xml:space="preserve">
     <value>Evaluator's Comment</value>

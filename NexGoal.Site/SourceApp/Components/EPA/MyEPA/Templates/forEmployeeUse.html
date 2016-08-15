@@ -93,11 +93,9 @@
         <tbody>
             <tr class="performance-grade">
                 <td data-translate="PerformanceGradingScale"></td>
-                <td class="text-center" data-translate="ExcellencelPerformance"></td>
-                <td class="text-center" data-translate="GoodPerformance"></td>
-                <td class="text-center" data-translate="SatisfactoryPerformance"></td>
-                <td class="text-center" data-translate="BelowAveragePerformance"></td>
-                <td class="text-center" data-translate="PoorPerformance"></td>
+                <td ng-repeat="score in memberEPAInfoCtrl.standardGrades">
+                    {{score.Name}}.: {{score.LeftScore}} ~ {{score.RightScore}}
+                </td>
             </tr>
             <tr class="level-3">
                 <td colspan="6" data-translate="EmployeeComment"></td>
