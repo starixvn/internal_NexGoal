@@ -427,7 +427,7 @@
             {
                 if (!list.Where(i => i.KPIId == kpi.KPIId).Any())
                 {
-                    var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty (i.RateEncode)).Average(i => i.Rate);
+                    var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty(i.RateEncode)).Average(i => i.Rate);
                     var averagedScore = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty(i.ScoreEncode)).Average(i => i.Score);
 
                     list.Add(new EvaluationModel { KPIId = kpi.KPIId, Rate = averagedRating, Score = averagedScore });

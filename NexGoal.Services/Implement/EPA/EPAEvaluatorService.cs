@@ -16,15 +16,18 @@ namespace NexGoal.Services.Implement
     public class EPAEvaluatorService : IEPAEvaluatorService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
+        private readonly IEmployeeEPAService employeeEPAService;
 
         public EPAEvaluatorService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EPAEvaluatorService(IEmployeeEPARepository employeeEPARepository)
+        public EPAEvaluatorService(IEmployeeEPARepository employeeEPARepository,
+            IEmployeeEPAService employeeEPAService)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public IEnumerable<EPAModel> GetEPA(GetEPAByEvaluatorCriteria criteria)
@@ -54,6 +57,7 @@ namespace NexGoal.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
+                epaInfo.LastRating = employeeEPAService.GetLastRating(epaInfo.Employee.EmployeeId, epaInfo.Period.TargetTypeId);
                 epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
