@@ -80,8 +80,6 @@
 
                         IEnumerable<EvaluationModel> evaluations = multi.Read<EvaluationModel>();
 
-                        epaInfo.LastProcesses = multi.Read<EPAProcessModel>().ToList();
-
                         GroupEPAProcessByEPA(epaInfo, processes);
                         GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
 

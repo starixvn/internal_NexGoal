@@ -12,8 +12,6 @@
         public EPAModel()
         {
             KPIGroups = new List<EPAKPIGroupModel>();
-            LastProcesses = new List<EPAProcessModel>();
-            MonthlyEPA = new MonthlyEPAModel();
             Process = new EvaluationProcessModel();
             LastRating = new List<EvaluationModel>();
         }
@@ -80,22 +78,6 @@
         public string LastGradeEncode { get; set; }
 
         public string LastGrade { get; set; }
-
-        public IList<EPAProcessModel> LastProcesses { get; set; }
-
-        public float? LastPerformanceScore
-        {
-            get
-            {
-                if (LastProcesses.Count > 0)
-                {
-                    return Process.CalculateAverageScore(LastProcesses);
-                }
-
-                return null;
-            }
-        }
-
         #endregion Last score
 
         public MonthlyEPAModel MonthlyEPA { get; set; }
@@ -150,7 +132,6 @@
             Process.Self.Decode();
             DecodeForList(Process.Evaluators);
             DecodeForList(Process.Reviewers);
-            DecodeForList(LastProcesses);
 
             foreach (EPAKPIModel kpi in KPIGroups.SelectMany(x => x.KPIs))
             {
