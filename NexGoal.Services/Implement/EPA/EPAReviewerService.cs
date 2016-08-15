@@ -23,7 +23,8 @@ namespace NexGoal.Services.Implement
         {
         }
 
-        public EPAReviewerService(IEmployeeEPARepository employeeEPARepository,
+        public EPAReviewerService(
+            IEmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();

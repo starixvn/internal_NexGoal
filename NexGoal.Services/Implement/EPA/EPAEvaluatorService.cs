@@ -23,7 +23,8 @@ namespace NexGoal.Services.Implement
         {
         }
 
-        public EPAEvaluatorService(IEmployeeEPARepository employeeEPARepository,
+        public EPAEvaluatorService(
+            EmployeeEPARepository employeeEPARepository,
             IEmployeeEPAService employeeEPAService)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
