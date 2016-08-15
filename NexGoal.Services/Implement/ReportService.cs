@@ -87,20 +87,6 @@
             if (criteria != null && criteria.IsValid())
             {
                 result = reportRepository.GetEPADetail(criteria);
-
-                IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-                string epaIds = string.Join(",", result.MemberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
-
-                if (!string.IsNullOrEmpty(epaIds))
-                {
-                    monthlyEPAs = employeeEPAService.GetMonthlyEPAOfSemi(epaIds);
-                }
-
-                foreach (EPAModel epaInfo in result.MemberEPAs)
-                {
-                    employeeEPAService.GroupMonthlyEPABySemi(epaInfo, monthlyEPAs);
-                    employeeEPAService.ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
-                }
             }
 
             return result;

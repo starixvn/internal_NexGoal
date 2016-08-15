@@ -141,12 +141,6 @@
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 SpreadKPIScore(epaInfo.KPIGroups);
-
-                if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                {
-                    epaInfo.MonthlyEPA.MonthlyEPAs = GetMonthlyEPAOfSemi(epaInfo.EPAId.ToString());
-                    ConvertAverageMonthlyScore(epaInfo.MonthlyEPA, epaInfo.ScoreRatingType);
-                }
             }
 
             return epaInfo;
@@ -382,23 +376,6 @@
                 {
                     semiEPA.MonthlyEPA.MonthlyEPAs.Add(monthlyEPA);
                 }
-            }
-        }
-
-        public void ConvertAverageMonthlyScore(MonthlyEPAModel monthlyEPA, ScoreRatingTypeModel scoreRatingType)
-        {
-            if (monthlyEPA.MonthlyEPAs.Any())
-            {
-                ScoreRatingTypeModel monthlyScoreRatingType = monthlyEPA.MonthlyEPAs.First().ScoreRatingType;
-
-                float averageScore = (monthlyEPA.AverageSelfScore * scoreRatingType.SelfEvaluated) / monthlyScoreRatingType.SelfEvaluated;
-                monthlyEPA.AverageSelfScoreConverted = (float)Math.Round(averageScore, 2);
-
-                averageScore = (monthlyEPA.AverageEvaluatorScores * scoreRatingType.Evaluator) / monthlyScoreRatingType.Evaluator;
-                monthlyEPA.AverageEvaluatorScoreConverted = (float)Math.Round(averageScore, 2);
-
-                averageScore = (monthlyEPA.AverageReviewerScores * scoreRatingType.Reviewer) / monthlyScoreRatingType.Reviewer;
-                monthlyEPA.AverageReviewerScoreConverted = (float)Math.Round(averageScore, 2);
             }
         }
 
