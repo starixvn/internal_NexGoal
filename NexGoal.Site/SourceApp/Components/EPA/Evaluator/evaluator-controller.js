@@ -324,6 +324,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     function getEPAInfoByEvaluator() {
         SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
+            vm.epaInfo.LastPerformanceScore = null;
             checkStatus(vm.epaInfo);
 
             if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star

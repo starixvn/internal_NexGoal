@@ -66,8 +66,10 @@
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
         <td>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></span>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore !== null">
+                {{memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+            </span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore === null" ng-bind="'-'"></span>
         </td>
     </tr>
     <tr class="text-center">
@@ -100,8 +102,10 @@
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Reviewers)" data-translate="Pending"></span>
         </td>
         <td>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore"></span>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore !== null">
+                {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+            </span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore === null" ng-bind="'-'"></span>
         </td>
     </tr>
 </tfoot>

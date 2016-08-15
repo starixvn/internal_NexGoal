@@ -39,20 +39,31 @@
             {{::memberEPAInfoCtrl.getLastRating(kpi) | customScore}}
         </td>
     </tr>
-    <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">
+    <tr class="comment" ng-if="kpi.HasComment">
         <td colspan="4" class="textarea-comment">
             <textarea class="form-control" readonly="readonly">{{kpi.EvaluationBySelf.Comment}}</textarea>
+        </td>
+    </tr>
+    <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">
+        <td colspan="4" class="textarea-comment">
+            <p>
+                <span data-translate="CommentsIfAny" class="lable-comment-if-any"></span>
+                <span class="label-word-countdown" data-translate="LimitedWords"></span>
+                <span class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></span>
+            </p>
+            <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                      ng-model="kpi.CurrentEvaluation.Comment"></textarea>
         </td>
     </tr>
     <tr class="sub-total text-center">
         <td data-translate="SubTotal"></td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{memberEPAInfoCtrl.calculateEmployeeSubTotalScore(kpiGroup) | customScore}}  / {{kpiGroup.Weight | customScore}}
+                {{memberEPAInfoCtrl.calculateEmployeeSubTotalScore(kpiGroup) | customScore}} / {{kpiGroup.Weight | customScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
-        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | customScore}}  / {{kpiGroup.Weight | customScore}}</td>
+        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | customScore}} / {{kpiGroup.Weight | customScore}}</td>
         <td></td>
     </tr>
 </tbody>
@@ -69,8 +80,10 @@
             {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
         </td>
         <td>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></span>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore !== null">
+                {{memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+            </span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore === null" ng-bind="'-'"></span>
         </td>
     </tr>
     <tr class="text-center">
@@ -99,8 +112,10 @@
             <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore === ''" data-translate="Pending"></span>
         </td>
         <td>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></span>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore !== null">
+                {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+            </span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore === null" ng-bind="'-'"></span>
         </td>
     </tr>
 </tfoot>

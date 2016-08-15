@@ -476,7 +476,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-
+            vm.epaInfo.LastPerformanceScore = null;
             vm.adjustmentAction = [
                 {
                     Value: "add",
@@ -525,6 +525,12 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
+
+            if (vm.epaInfo.LastFinalScore.length > 0) {
+                vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
+            } else {
+                vm.epaInfo.LastFinalScore = null;
+            }
 
             ReviewerManagementModel.getUserPermissionOnReviewer().then(function () {
                 vm.permission = ReviewerManagementModel.permission;

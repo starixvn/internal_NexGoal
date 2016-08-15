@@ -36,6 +36,7 @@
             <p>
                 <span data-translate="CommentsIfAny" class="lable-comment-if-any"></span>
                 <span class="label-word-countdown" data-translate="LimitedWords"></span>
+                <span class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></span>
             </p>
             <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                       ng-model="kpi.CurrentEvaluation.Comment"></textarea>
@@ -54,8 +55,10 @@
             {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
         </td>
         <td>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore"></span>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore == null" ng-bind="'-'"></span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore !== null">
+                {{memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+            </span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore === null" ng-bind="'-'"></span>
         </td>
     </tr>
     <tr class="text-center">
@@ -77,8 +80,10 @@
             <span ng-show="memberEPAInfoCtrl.epaInfo.FinalScore === ''" data-translate="Pending"></span>
         </td>
         <td>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore != null" ng-bind="memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore"></span>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore == null" ng-bind="'-'"></span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore !== null">
+                {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+            </span>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore === null" ng-bind="'-'"></span>
         </td>
     </tr>
 </tfoot>
