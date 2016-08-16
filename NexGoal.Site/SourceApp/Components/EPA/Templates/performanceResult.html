@@ -214,9 +214,9 @@
                 <th data-translate="Comment"></th>
             </tr>
         </thead>
-        <tbody ng-repeat="kpi in kpiGroup.KPIs">
+        <tbody ng-repeat="kpi in kpiGroup.KPIs" ng-init="kpiIndex = $index">
             <tr ng-repeat="evaluator in kpi.EvaluationByEvaluators">
-                <td rowspan="{{kpi.EvaluationByEvaluators.length}}" class="text-center" ng-if="$first">{{$index + 1}}</td>
+                <td rowspan="{{kpi.EvaluationByEvaluators.length}}" class="text-center" ng-if="$first">{{kpiIndex + 1}}</td>
                 <td rowspan="{{kpi.EvaluationByEvaluators.length}}" class="text-center" ng-if="$first">
                     <span ng-bind="kpi.Name"></span>
                     <strong> ({{kpi.Weight | splitScore}} pts)</strong>
