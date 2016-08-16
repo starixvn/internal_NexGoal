@@ -503,13 +503,12 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 if (response.IsSuccessful) {
                     notificationFactory.success("DeletedSuccessfully");
 
-                    index = vm.personalSettingFlowEmployees.map(function (e) {
+                    index = vm.personalFlowSettings.map(function (e) {
                         return e.EmployeeId;
                     }).indexOf(vm.employeeId);
 
                     if (index !== -1) {
-                        vm.defaultSettingFlowEmployees.push(vm.personalSettingFlowEmployees[index]);
-                        vm.personalSettingFlowEmployees.splice(index, 1);
+                        vm.personalFlowSettings.splice(index, 1);
                     }
 
                     vm.employeeId = null;
