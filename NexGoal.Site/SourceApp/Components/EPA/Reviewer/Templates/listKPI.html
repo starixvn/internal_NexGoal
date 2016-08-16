@@ -22,7 +22,7 @@
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
         <td class="text-center width-150">
-            {{::memberEPAInfoCtrl.getLastRating(kpi) | customScore}}
+            {{::memberEPAInfoCtrl.getLastScore(kpi) | customScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | customScore}} (pts)
         </td>
     </tr>
     <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">
@@ -47,7 +47,11 @@
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
-        <td></td>
+        <td>
+            <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
+                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | customScore}} / {{::kpiGroup.Weight | customScore}} (pts)
+            </span>
+        </td>
     </tr>
 </tbody>
 <tfoot class="final-score">

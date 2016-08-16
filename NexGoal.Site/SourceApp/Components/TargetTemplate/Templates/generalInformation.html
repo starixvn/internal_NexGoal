@@ -22,8 +22,7 @@
             </label>
             <div class="col-sm-8">
                 <select class="form-control" ng-options="scoreType.ScoreRatingTypeId as scoreType.Name for scoreType in generalInfoCtrl.scoreRatingTypeOptions"
-                        ng-model="updateCtrl.targetTemplate.ScoreRatingTypeId" required>
-                    <option value="">-- {{"Select" | translate}} --</option>
+                        ng-model="updateCtrl.targetTemplate.ScoreRatingTypeId">
                 </select>
             </div>
         </div>
@@ -32,8 +31,7 @@
             </label>
             <div class="col-sm-8">
                 <select class="form-control" ng-options="type.RatingTypeId as type.Name for type in generalInfoCtrl.ratingTypes"
-                        ng-model="updateCtrl.targetTemplate.RatingTypeId" required>
-                    <option value="">-- {{"Select" | translate}} --</option>
+                        ng-model="updateCtrl.targetTemplate.RatingTypeId">
                 </select>
             </div>
         </div>

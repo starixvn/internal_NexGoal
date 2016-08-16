@@ -168,14 +168,35 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
 
-    vm.getLastRating = function (kpi) {
-        var score = "";
+    vm.getLastScore = function (kpi) {
+        var lastScore = "";
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
-                score = utilitiesFactory.parseFloat(lastKpi.Score);
+                lastScore = utilitiesFactory.parseFloat(lastKpi.Score);
             }
         });
+
+        return lastScore;
+    };
+
+    vm.getLastWeight = function (kpi) {
+        var lastWeight = "";
+
+        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
+            if (lastKpi.KPIId === kpi.KPIId) {
+                lastWeight = utilitiesFactory.parseFloat(lastKpi.Weight);
+            }
+        });
+
+        return lastWeight;
+    };
+
+    vm.getSubLastScore = function (kpiGroup) {
+        var score = 0
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            score += vm.getLastScore(kpi);
+        })
 
         return score;
     };

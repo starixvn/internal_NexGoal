@@ -105,8 +105,8 @@ function ($location, TargetTemplateModel, CommonModel, enumerationsFactory, base
     vm.targetTemplate = {
         Name: '',
         TargetTypeId: '',
-        ScoreRatingTypeId: '',
-        RatingTypeId: '',
+        ScoreRatingTypeId: 3,
+        RatingTypeId: 1,
         IsActive: true,
         Description: ''
     };

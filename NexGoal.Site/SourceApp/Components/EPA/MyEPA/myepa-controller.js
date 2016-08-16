@@ -77,6 +77,15 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         return lastWeight;
     };
 
+    vm.getSubLastScore = function (kpiGroup) {
+        var score = 0
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            score += vm.getLastScore(kpi);
+        })
+
+        return score;
+    };
+
     vm.setAutoSave = function () {
         vm.autoSave = !vm.autoSave;
 
