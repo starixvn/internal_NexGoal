@@ -299,7 +299,18 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var convertedValue = "0";
 
         if (value && value > 0) {
-            convertedValue = parseInt(value, 10) + "h" + Math.round(((value - parseInt(value)) * 60)) + "'";
+            var hour = parseInt(value, 10);
+            if (hour < 10) {
+                hour = '0' + hour;
+            }
+            hour += 'h';
+
+            var minute = Math.round(((value - parseInt(value)) * 60));
+            if (minute < 10) {
+                minute = '0' + minute;
+            }
+            minute += "'";
+            convertedValue = hour + minute;
         }
 
         return convertedValue;

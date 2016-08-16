@@ -30,6 +30,8 @@ namespace NexGoal.Model.EmployeeEPA
 
         public bool IsMaxScore { get; set; }
 
+        public float Weight { get; set; }
+
         public void Decode()
         {
             Score = string.IsNullOrEmpty(ScoreEncode) ? 0 : float.Parse(EncodeService.Decode(ScoreEncode));

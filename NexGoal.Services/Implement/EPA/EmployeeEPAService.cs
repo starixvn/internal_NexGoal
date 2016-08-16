@@ -409,7 +409,14 @@
 
                     if (averagedRating.Any() && averagedScore.Any())
                     {
-                        list.Add(new EvaluationModel { KPIId = kpi.KPIId, Rate = averagedRating.Average(i => i.Rate), Score = averagedScore.Average(i => i.Score) });
+                        list.Add(
+                            new EvaluationModel
+                            {
+                                KPIId = kpi.KPIId,
+                                Rate = averagedRating.Average(i => i.Rate),
+                                Score = averagedScore.Average(i => i.Score),
+                                Weight = kpi.Weight
+                            });
                     }
                 }
             }

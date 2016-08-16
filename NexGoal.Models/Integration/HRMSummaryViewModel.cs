@@ -1,4 +1,5 @@
-﻿namespace NexGoal.Model.Integration
+﻿using System;
+namespace NexGoal.Model.Integration
 {
     public class HRMSummaryViewModel
     {
@@ -23,5 +24,7 @@
         public int NumberOvertime { get; set; }
 
         public int TOEICScore { get; set; }
+
+        public DateTime UpdatedDateTOEIC { get; set; }
     }
 }

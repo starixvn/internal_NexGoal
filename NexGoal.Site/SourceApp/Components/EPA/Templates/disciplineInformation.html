@@ -37,7 +37,9 @@
                     <td>{{item.ConvertedAverageWorkingHours}}</td>
                     <td>{{item.NumberOvertime}}</td>
                     <td ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length}}">
-                        {{item.TOEICScore}}
+                        <span ng-if="item.TOEICScore">
+                            {{item.TOEICScore}} <br/> (Latest update on {{item.UpdatedDateTOEIC | customDate}} )
+                        </span>
                     </td>
                 </tr>
             <tfoot ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">

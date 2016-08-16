@@ -53,16 +53,28 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
 
-    vm.getLastRating = function (kpi) {
-        var lastRating = "";
+    vm.getLastScore = function (kpi) {
+        var lastScore = "";
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
-                lastRating = utilitiesFactory.parseFloat(lastKpi.Rate);
+                lastScore = utilitiesFactory.parseFloat(lastKpi.Score);
             }
         });
 
-        return lastRating;
+        return lastScore;
+    };
+
+    vm.getLastWeight = function (kpi) {
+        var lastWeight = "";
+
+        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
+            if (lastKpi.KPIId === kpi.KPIId) {
+                lastWeight = utilitiesFactory.parseFloat(lastKpi.Weight);
+            }
+        });
+
+        return lastWeight;
     };
 
     vm.setAutoSave = function () {

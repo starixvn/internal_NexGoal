@@ -270,6 +270,11 @@ function ($scope, $translate, TargetTemplateModel, utilitiesFactory, historyFact
 
             if (!groupSelected) {
                 kpi.Weight = '';
+            } else {
+                var length = $.grep(group.KPIs, function (e) { return !e.IsRequiredEvaluate; }).length;
+                if (group.IsSpreadKPI && length === 0) {
+                    kpi.Weight = group.Weight / group.KPIs.length;
+                }
             }
         });
 
