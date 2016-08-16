@@ -172,8 +172,7 @@
                             "~/SourceApp/Shared/enumerations-factory.js",
                             "~/SourceApp/Shared/history-factory.js",
                             "~/SourceApp/Shared/lockScreen-factory.js",
-                            "~/SourceApp/Shared/integration-factory.js",
-                            "~/SourceApp/Shared/read-more-directive.js"));
+                            "~/SourceApp/Shared/integration-factory.js"));
         }
     }
 }

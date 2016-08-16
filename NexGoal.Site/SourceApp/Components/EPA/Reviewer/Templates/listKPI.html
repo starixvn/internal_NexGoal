@@ -2,7 +2,7 @@
        ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups"
        repeat-end="memberEPAInfoCtrl.generateRatingStar()">
     <tr class="level-3">
-        <th>{{$index + 1}}. {{kpiGroup.Name}}</th>
+        <th>{{$index + 1}}. {{kpiGroup.Name}} ({{kpiGroup.Weight}} pts)</th>
         <th data-translate="Employee" class="text-center"></th>
         <th data-translate="Evaluator" class="text-center"></th>
         <th data-translate="LastRating" class="text-center"></th>
@@ -37,13 +37,13 @@
         <td data-translate="SubTotal"></td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{kpiGroup.SelfScore | customScore}} / {{kpiGroup.Weight}}
+                {{kpiGroup.SelfScore | customScore}} / {{kpiGroup.Weight}} (pts)
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
         <td>
             <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
-                {{kpiGroup.EvaluatorScore | customScore}} / {{kpiGroup.Weight}}
+                {{kpiGroup.EvaluatorScore | customScore}} / {{kpiGroup.Weight}} (pts)
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>

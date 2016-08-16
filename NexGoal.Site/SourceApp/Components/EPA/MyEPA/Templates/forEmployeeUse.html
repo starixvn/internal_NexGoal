@@ -33,7 +33,12 @@
                 <td class="text-center">{{project.WorkingHour}}</td>
                 <td class="text-center">{{project.DecryptedScore}}</td>
                 <td>
-                    <p read-more limit="15" content="{{project.Comment}}"></p>
+                    <p ng-if="project.Comment.length > 50" tooltip="{{project.Comment}}">
+                        {{project.Comment | limitTo : 50}} ...
+                    </p>
+                    <p ng-if="project.Comment.length <= 50">
+                        {{project.Comment}}
+                    </p>
                 </td>
             </tr>
         </tbody>
