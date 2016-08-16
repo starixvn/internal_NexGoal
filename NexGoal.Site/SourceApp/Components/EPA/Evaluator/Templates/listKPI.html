@@ -8,7 +8,10 @@
         <th data-translate="LastRating" class="text-center"></th>
     </tr>
     <tr ng-repeat-start="kpi in kpiGroup.KPIs">
-        <td>{{$parent.index + 1}}-{{$index + 1}}. {{kpi.Name}} <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label></td>
+        <td class="kpi-title">
+            {{$parent.index + 1}}-{{$index + 1}}. {{kpi.Name}}
+            <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
+        </td>
         <td class="text-center width-110">
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                 {{kpi.EvaluationBySelf.Score | customScore}}
@@ -24,7 +27,7 @@
                     </div>
                     <div class="rating-form">
                         <input id="star_{{kpi.KPIId}}" type="number" class="rating-loading" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-size="xs"
-                               data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} ng-model="kpi.CurrentEvaluation.Rate"
+                               data-min=0 data-max={{memberEPAInfoCtrl.maxStar}} data-step=1 ng-model="kpi.CurrentEvaluation.Rate"
                                data-show-caption="false" data-show-clear="false"
                                ng-change="memberEPAInfoCtrl.hoveringLeave(kpiGroup, kpi)">
                     </div>
@@ -105,8 +108,7 @@
     <tr class="text-center">
         <td>{{"FinalScore" | translate}}:</td>
         <td></td>
-        <td>
-        </td>
+        <td></td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore !== null">
                 {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
