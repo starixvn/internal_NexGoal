@@ -231,6 +231,7 @@
         border-bottom: 1px solid #fff;
         padding: 10px;
 
+
         &:last-child {
             border-right: none;
         }
@@ -240,6 +241,18 @@
         background: #f3e9d1;
         color: #73615a;
         font-weight: 600;
+
+        .col {
+            align-self: stretch;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .fa {
+            font-size: 15px;
+        }
     }
 
     &.rating-detail {
@@ -255,8 +268,13 @@
         }
     }
 
+    .introduction-title {
+        width: 100%;
+    }
+
     .star-group {
-        padding-top: 5px;
+        padding-top: 2px;
+        width: 100%;
     }
 
     .fa {
