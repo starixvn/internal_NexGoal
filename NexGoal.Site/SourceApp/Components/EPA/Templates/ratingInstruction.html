@@ -5,45 +5,47 @@
 <div class="rating-block rating-title">
 
     <div class="col text-center">{{::memberEPAInfoCtrl.epaInfo.Employee.FullName}}</div>
-    <div class="col text-center" data-translate="NotAvai"></div>
-    <div class="col text-center" data-translate="OneRating"></div>
-    <div class="col text-center" data-translate="TwoRating"></div>
-    <div class="col text-center" data-translate="ThreeRating"></div>
-    <div class="col text-center" data-translate="FourRating"></div>
-    <div class="col text-center" data-translate="FiveRating"></div>
-
-</div>
-
-<div class="rating-block rating-title">
-
-    <div class="col text-center">
+    <div class="col text-center" data-translate="NotAvai">
     </div>
     <div class="col text-center">
+        {{"NotAvai" | translate}}
+        <div class="star-group">
+            <span class="star" ng-repeat="n in [] | range: 2">
+                <i class="fa fa-star"></i>
+            </span>
+        </div>
     </div>
     <div class="col text-center">
-        <span class="star" ng-repeat="n in [] | range: 2">
-            <i class="fa fa-star"></i>
-        </span>
+        {{"TwoRating" | translate}}
+        <div class="star-group">
+            <span class="star" ng-repeat="n in [] | range: 3">
+                <i class="fa fa-star"></i>
+            </span>
+        </div>
     </div>
     <div class="col text-center">
-        <span class="star" ng-repeat="n in [] | range: 3">
-            <i class="fa fa-star"></i>
-        </span>
+        {{"ThreeRating" | translate}}
+        <div class="star-group">
+            <span class="star" ng-repeat="n in [] | range: 4">
+                <i class="fa fa-star"></i>
+            </span>
+        </div>
     </div>
     <div class="col text-center">
-        <span class="star" ng-repeat="n in [] | range: 4">
-            <i class="fa fa-star"></i>
-        </span>
+        {{"FourRating" | translate}}
+        <div class="star-group">
+            <span class="star" ng-repeat="n in [] | range: 5">
+                <i class="fa fa-star"></i>
+            </span>
+        </div>
     </div>
     <div class="col text-center">
-        <span class="star" ng-repeat="n in [] | range: 5">
-            <i class="fa fa-star"></i>
-        </span>
-    </div>
-    <div class="col text-center">
-        <span class="star" ng-repeat="n in [] | range: 6">
-            <i class="fa fa-star"></i>
-        </span>
+        {{"FiveRating" | translate}}
+        <div class="star-group">
+            <span class="star" ng-repeat="n in [] | range: 6">
+                <i class="fa fa-star"></i>
+            </span>
+        </div>
     </div>
 
 </div>

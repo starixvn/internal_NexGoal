@@ -1231,7 +1231,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to PERFORMANCE APPRAISAL (PA).
+        ///   Looks up a localized string similar to PERFORMANCE APPRAISAL.
         /// </summary>
         public static string EPATilte {
             get {
