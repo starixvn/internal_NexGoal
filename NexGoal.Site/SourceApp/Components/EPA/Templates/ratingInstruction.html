@@ -14,11 +14,46 @@
 
 </div>
 
+<div class="rating-block rating-title">
+
+    <div class="col text-center">
+    </div>
+    <div class="col text-center">
+    </div>
+    <div class="col text-center">
+        <span class="star" ng-repeat="n in [] | range: 2">
+            <i class="fa fa-star"></i>
+        </span>
+    </div>
+    <div class="col text-center">
+        <span class="star" ng-repeat="n in [] | range: 3">
+            <i class="fa fa-star"></i>
+        </span>
+    </div>
+    <div class="col text-center">
+        <span class="star" ng-repeat="n in [] | range: 4">
+            <i class="fa fa-star"></i>
+        </span>
+    </div>
+    <div class="col text-center">
+        <span class="star" ng-repeat="n in [] | range: 5">
+            <i class="fa fa-star"></i>
+        </span>
+    </div>
+    <div class="col text-center">
+        <span class="star" ng-repeat="n in [] | range: 6">
+            <i class="fa fa-star"></i>
+        </span>
+    </div>
+
+</div>
+
 <div class="rating-block rating-detail">
 
     <div class="col text-center">
         <img class="img-border" src="{{::memberEPAInfoCtrl.epaInfo.Employee.Avatar}}" />
     </div>
+
     <div class="col" data-translate="NARatingDescription"></div>
     <div class="col" data-translate="OneRatingDescription"></div>
     <div class="col" data-translate="TwoRatingDescription"></div>
