@@ -230,9 +230,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
-
-
-                vm.employeeProjects[0].Comment = "aaaaaaaaaabbbbbbbbbbccccccccccddddddddddeeeeeeeeeeffffffffff";
             });
 
             //initAutoSave();
