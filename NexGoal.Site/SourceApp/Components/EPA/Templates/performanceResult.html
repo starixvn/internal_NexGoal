@@ -217,7 +217,7 @@
         <tbody ng-repeat="kpi in kpiGroup.KPIs" ng-init="kpiIndex = $index">
             <tr ng-repeat="evaluator in kpi.EvaluationByEvaluators">
                 <td rowspan="{{kpi.EvaluationByEvaluators.length}}" class="text-center" ng-if="$first">{{kpiIndex + 1}}</td>
-                <td rowspan="{{kpi.EvaluationByEvaluators.length}}" class="text-center" ng-if="$first">
+                <td rowspan="{{kpi.EvaluationByEvaluators.length}}" ng-if="$first">
                     <span ng-bind="kpi.Name"></span>
                     <strong> ({{kpi.Weight | splitScore}} pts)</strong>
                     <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
