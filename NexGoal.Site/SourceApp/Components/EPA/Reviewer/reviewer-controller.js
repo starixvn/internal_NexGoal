@@ -356,7 +356,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.adjustmentScore = [];
     vm.adjustmentAction = [];
 
-
     vm.getLastScore = function (kpi) {
         var lastScore = "";
 
@@ -389,7 +388,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
         return score;
     };
-
 
     vm.checkEndProcess = function (members) {
         var endProcess = true;
@@ -493,12 +491,12 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             var length = 0;
             angular.forEach(evaluators, function (evaluator) {
                 if (evaluator.ScoreEncode) {
-                    score += parseInt(evaluator.Score, 10);
+                    score += evaluator.Score;
                     length++;
                 }
             });
 
-            averageScore = utilitiesFactory.parseFloat(score / length);
+            averageScore = score / length;
         }
 
         return averageScore;
@@ -526,15 +524,19 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
             for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
                 var kpiGroup = vm.epaInfo.KPIGroups[index];
+                var selfScore = 0;
+                var evaluatorScore = 0;
 
-                kpiGroup.SelfScore = 0;
-                kpiGroup.EvaluatorScore = 0;
+                
 
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
                     kpi.EvaluatorScore = CalculateEvaluatorScore(kpi.EvaluationByEvaluators);
-                    kpiGroup.SelfScore += parseInt(kpi.EvaluationBySelf.Score, 10);
-                    kpiGroup.EvaluatorScore += kpi.EvaluatorScore;
+                    selfScore += parseInt(kpi.EvaluationBySelf.Score, 10);
+                    evaluatorScore += kpi.EvaluatorScore;
                 });
+
+                kpiGroup.SelfScore = selfScore;
+                kpiGroup.EvaluatorScore = evaluatorScore.toFixed(2);
             };
 
             // self

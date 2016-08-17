@@ -102,12 +102,12 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.CurrentEvaluation.Score) {
-                score += parseFloat(kpi.CurrentEvaluation.Score, 10);
+                score += kpi.CurrentEvaluation.Score;
                 weight += kpi.Weight;
             }
         });
 
-        return score + " / " + weight;
+        return score.toFixed(2);
     };
 
     vm.getClassProgress = function (statusEndProcess) {
@@ -127,16 +127,16 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     };
 
     vm.getNotificationInputScore = function (kpi) {
-        var weight = utilitiesFactory.splitNumber(kpi.Weight, 2);
+        var weight = utilitiesFactory.splitNumber(kpi.Weight, 4);
 
         return EmployeeEPAModel.getNotificationInputScore(0, weight, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (kpi) {
-        var weight = utilitiesFactory.splitNumber(kpi.Weight, 2),
+        var weight = utilitiesFactory.splitNumber(kpi.Weight, 4),
             score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
 
-        score = utilitiesFactory.splitNumber(score, 2);
+        score = utilitiesFactory.splitNumber(score, 4);
         kpi.CurrentEvaluation.Rate = 0;
 
         if (!EmployeeEPAModel.validateScoreInput(score, 0, weight, vm.scoreInputValidMessage)) {

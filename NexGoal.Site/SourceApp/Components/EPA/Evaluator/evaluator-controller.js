@@ -198,7 +198,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
             score += vm.getLastScore(kpi);
         })
 
-        return score;
+        return score.toFixed(2);
     };
 
     vm.setAutoSave = function () {
@@ -213,30 +213,26 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.calculateEmployeeSubTotalScore = function (kpiGroup) {
         var score = 0;
-        var weight = 0;
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.EvaluationBySelf.Score) {
                 score += parseFloat(kpi.EvaluationBySelf.Score, 10);
-                weight += kpi.Weight;
             }
         });
 
-        return score + " / " + weight;
+        return score.toFixed(2);
     };
 
     vm.calculateSubTotalScore = function (kpiGroup) {
         var score = 0;
-        var weight = 0;
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.CurrentEvaluation.Score) {
                 score += parseFloat(kpi.CurrentEvaluation.Score, 10);
-                weight += kpi.Weight;
             }
         });
 
-        return score + " / " + weight;
+        return score.toFixed(2);
     };
 
     vm.viewBySelf = function () {
