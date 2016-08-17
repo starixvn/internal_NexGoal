@@ -25,7 +25,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             }
 
             angular.forEach(kpiGroup.KPIs, function (kpi) {
-                var score = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 4),
+                var score = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 2),
                     kpiWeight = utilitiesFactory.splitNumber(kpi.Weight, 2),
                     scoreRating = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 2);
 
@@ -69,12 +69,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         var totalKPIMustEvaluate = kpiGroup.KPIs.length - numberKPIOptional;
         averageWeight = kpiGroup.Weight / totalKPIMustEvaluate;
-        averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
+        averageWeight = utilitiesFactory.splitNumber(averageWeight, 2);
 
         angular.forEach(kpis, function (kpi) {
             kpi.Weight = averageWeight;
             score = (averageWeight * kpi.CurrentEvaluation.Rate) / maxStar;
-            kpi.CurrentEvaluation.Score = utilitiesFactory.splitNumber(score, 4);
+            kpi.CurrentEvaluation.Score = utilitiesFactory.splitNumber(score, 2);
         });
     };
 

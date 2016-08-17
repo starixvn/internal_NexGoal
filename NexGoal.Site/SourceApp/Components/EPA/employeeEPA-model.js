@@ -83,7 +83,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
 
         if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI) {
             averageWeight = kpiGroup.Weight / kpiGroup.KPIs.length;
-            averageWeight = utilitiesFactory.splitNumber(averageWeight, 4);
+            averageWeight = utilitiesFactory.splitNumber(averageWeight, 2);
 
             angular.forEach(kpiGroup.KPIs, function (kpi) {
                 kpi.Weight = averageWeight;

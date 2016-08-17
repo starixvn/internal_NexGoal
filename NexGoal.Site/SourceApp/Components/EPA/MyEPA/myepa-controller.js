@@ -98,16 +98,20 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.calculateSubTotalScore = function (kpiGroup) {
         var score = 0;
-        var weight = 0;
-
+        var isEvaluateMaxScore = true;
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.CurrentEvaluation.Score) {
                 score += kpi.CurrentEvaluation.Score;
-                weight += kpi.Weight;
+                if (kpi.CurrentEvaluation.Rate !== vm.maxStar) {
+                    isEvaluateMaxScore = false;
+                }
             }
         });
 
-        return score.toFixed(2);
+        if (isEvaluateMaxScore) {
+            return kpiGroup.Weight;
+        }
+        return score;
     };
 
     vm.getClassProgress = function (statusEndProcess) {
@@ -127,16 +131,16 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     };
 
     vm.getNotificationInputScore = function (kpi) {
-        var weight = utilitiesFactory.splitNumber(kpi.Weight, 4);
+        var weight = utilitiesFactory.splitNumber(kpi.Weight, 2);
 
         return EmployeeEPAModel.getNotificationInputScore(0, weight, vm.scoreInputValidMessage);
     };
 
     vm.inputScore = function (kpi) {
-        var weight = utilitiesFactory.splitNumber(kpi.Weight, 4),
+        var weight = utilitiesFactory.splitNumber(kpi.Weight, 2),
             score = kpi.CurrentEvaluation.Score ? parseFloat(kpi.CurrentEvaluation.Score) : 0;
 
-        score = utilitiesFactory.splitNumber(score, 4);
+        score = utilitiesFactory.splitNumber(score, 2);
         kpi.CurrentEvaluation.Rate = 0;
 
         if (!EmployeeEPAModel.validateScoreInput(score, 0, weight, vm.scoreInputValidMessage)) {
@@ -182,7 +186,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 if (kpi.CurrentEvaluation.Rate > 0) {
                     if (!kpiGroup.HasKPIOptional) {
                         var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
-                        score = utilitiesFactory.splitNumber(score, 4);
+                        score = utilitiesFactory.splitNumber(score, 2);
                         kpi.CurrentEvaluation.Score = score;
                     }
                     else {

@@ -200,7 +200,7 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
 
         if (!vm.kpis[index].HasKPIOptional && vm.kpis[index].KPIGroup.IsSpreadKPI) {
             var weightKPI = (vm.kpis[index].KPIGroup.Weight / vm.kpis[index].KPIGroup.NumberKPI);
-            vm.kpis[index].Weight = utilitiesFactory.splitNumber(weightKPI, 4);
+            vm.kpis[index].Weight = utilitiesFactory.splitNumber(weightKPI, 2);
         }
 
         if (!vm.dataSaved && checkDataChanged(vm.memberEPAs)) {
@@ -383,9 +383,9 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
                         totalScoreEvaluated, currentScore, adjustScore;
 
                     if (!memberEPA.KPIGroup.HasKPIOptional) {
-                        currentScore = utilitiesFactory.splitNumber(kpi.Score, 4);
+                        currentScore = utilitiesFactory.splitNumber(kpi.Score, 2);
                         adjustScore = (kpi.Weight * kpi.AdjustRate) / vm.maxStar;
-                        adjustScore = utilitiesFactory.splitNumber(adjustScore, 4);
+                        adjustScore = utilitiesFactory.splitNumber(adjustScore, 2);
                         kpi.AdjustScore = adjustScore;
 
                         if (kpi.AdjustRate === vm.maxStar) {

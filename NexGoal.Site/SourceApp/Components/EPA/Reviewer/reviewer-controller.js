@@ -250,14 +250,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             var averageScore = 0, countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                    if (!memberEPA.Process.CurrentProcess.TotalScore) {
-                        memberEPA.Process.CurrentProcess.TotalScore = memberEPA.MonthlyEPA.AverageReviewerScoreConverted;
-                    }
-                } else {
-                    if (memberEPA.Process.Evaluators[0].IsEndProcess && !memberEPA.Process.CurrentProcess.TotalScore) {
-                        memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.AverageScoreByEvaluators;
-                    }
+                if (memberEPA.Process.Evaluators[0].IsEndProcess && !memberEPA.Process.CurrentProcess.TotalScore) {
+                    memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.AverageScoreByEvaluators;
                 }
 
                 memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
@@ -355,6 +349,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.showRatingScoreByStar = true;
     vm.adjustmentScore = [];
     vm.adjustmentAction = [];
+    vm.maxStar = utilitiesFactory.maxStar;
 
     vm.getLastScore = function (kpi) {
         var lastScore = "";
@@ -499,7 +494,16 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             averageScore = score / length;
         }
 
-        return averageScore;
+        return utilitiesFactory.splitNumber(averageScore, 2);
+    }
+
+    function GetTotalStarOfEvaluators(evaluators) {
+        var star = 0;
+        angular.forEach(evaluators, function (evaluator) {
+            star += evaluator.Rate;
+        })
+
+        return star;
     }
 
     function getEPAInfoByReviewer() {
@@ -521,22 +525,38 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             for (var index = 0; index <= 10; index++) {
                 vm.adjustmentScore.push(index);
             };
-
+            var totalScoreOfEvaluator = 0;
             for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
                 var kpiGroup = vm.epaInfo.KPIGroups[index];
                 var selfScore = 0;
                 var evaluatorScore = 0;
-
-                
+                var isSelfEvaluateMaxScore = true;
+                var isEvaluatorEvaluateMaxScore = true;
 
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
                     kpi.EvaluatorScore = CalculateEvaluatorScore(kpi.EvaluationByEvaluators);
-                    selfScore += parseInt(kpi.EvaluationBySelf.Score, 10);
+                    selfScore += kpi.EvaluationBySelf.Score;
                     evaluatorScore += kpi.EvaluatorScore;
+                    if (kpi.EvaluationBySelf.Rate !== vm.maxStar) {
+                        isSelfEvaluateMaxScore = false;
+                    }
+                    var totalStarOfEvaluators = GetTotalStarOfEvaluators(kpi.EvaluationByEvaluators);
+                    if (totalStarOfEvaluators !== vm.maxStar * kpi.EvaluationByEvaluators.length) {
+                        isEvaluatorEvaluateMaxScore = false;
+                    }
+
                 });
 
+                if (isSelfEvaluateMaxScore) {
+                    selfScore = kpiGroup.Weight;
+                }
+                if (isEvaluatorEvaluateMaxScore) {
+                    evaluatorScore = kpiGroup.Weight;
+                }
+
                 kpiGroup.SelfScore = selfScore;
-                kpiGroup.EvaluatorScore = evaluatorScore.toFixed(2);
+                kpiGroup.EvaluatorScore = evaluatorScore;
+                totalScoreOfEvaluator += evaluatorScore;
             };
 
             // self
@@ -546,6 +566,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
+            vm.epaInfo.Process.AverageScoreByEvaluators = totalScoreOfEvaluator;
 
             // reviewer
             vm.epaInfo.Process.CurrentProcess.AdjustScore = vm.epaInfo.Process.CurrentProcess.AdjustScore !== "" ? parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScore) : 0;

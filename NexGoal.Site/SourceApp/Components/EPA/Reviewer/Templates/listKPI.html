@@ -39,13 +39,13 @@
         <td data-translate="SubTotal"></td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{kpiGroup.SelfScore | customScore}} / {{kpiGroup.Weight}}
+                {{kpiGroup.SelfScore | splitScore}} / {{kpiGroup.Weight}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
         <td>
             <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
-                {{kpiGroup.EvaluatorScore | customScore}} / {{kpiGroup.Weight}}
+                {{kpiGroup.EvaluatorScore | splitScore}} / {{kpiGroup.Weight}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
@@ -61,13 +61,13 @@
         <td>{{"Total" | translate}}:</td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore}}
+                {{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | splitScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
         <td>
             <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
-                {{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators}} / {{memberEPAInfoCtrl.epaInfo.Process.MaxPerformanceScore}}
+                {{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators |splitScore}} / {{memberEPAInfoCtrl.epaInfo.Process.MaxPerformanceScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>

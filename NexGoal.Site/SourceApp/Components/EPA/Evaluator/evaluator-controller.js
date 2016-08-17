@@ -213,26 +213,40 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.calculateEmployeeSubTotalScore = function (kpiGroup) {
         var score = 0;
+        var isEvaluateMaxScore = true;
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.EvaluationBySelf.Score) {
-                score += parseFloat(kpi.EvaluationBySelf.Score, 10);
+                score += kpi.EvaluationBySelf.Score;
+                if (kpi.EvaluationBySelf.Rate !== vm.maxStar) {
+                    isEvaluateMaxScore = false;
+                }
             }
         });
 
-        return score.toFixed(2);
+        if (isEvaluateMaxScore) {
+            return kpiGroup.Weight;
+        }
+        return score;
     };
 
     vm.calculateSubTotalScore = function (kpiGroup) {
         var score = 0;
+        var isEvaluateMaxScore = true;
 
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.CurrentEvaluation.Score) {
-                score += parseFloat(kpi.CurrentEvaluation.Score, 10);
+                score += kpi.CurrentEvaluation.Score;
+                if (kpi.CurrentEvaluation.Rate !== vm.maxStar) {
+                    isEvaluateMaxScore = false;
+                }
             }
         });
 
-        return score.toFixed(2);
+        if (isEvaluateMaxScore) {
+            return kpiGroup.Weight;
+        }
+        return score;
     };
 
     vm.viewBySelf = function () {
@@ -325,7 +339,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 if (kpi.CurrentEvaluation.Rate > 0) {
                     if (kpiGroup.NumberKPIOptional === 0) {
                         var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
-                        score = utilitiesFactory.splitNumber(score, 4);
+                        score = utilitiesFactory.splitNumber(score, 2);
                         kpi.CurrentEvaluation.Score = score;
                     }
                     else {
