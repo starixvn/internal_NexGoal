@@ -2,12 +2,13 @@
 /*global epaModule*/
 
 epaModule.controller('EmployeeEPAController',
-["$location", 'SelfEvalutorModel', 'enumerationsFactory', 'baseUrl',
-function ($location, SelfEvalutorModel, enumerationsFactory, baseUrl) {
+["$location", 'SelfEvalutorModel', 'CommonModel', 'enumerationsFactory', 'utilitiesFactory', 'baseUrl',
+function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilitiesFactory, baseUrl) {
     var vm = this;
 
     vm.myEPAs = SelfEvalutorModel.myEPAs;
     vm.targetTypeEnum = enumerationsFactory.targetType;
+    vm.periods = [];
 
     vm.viewEPADetail = function (epa) {
         $location.path(baseUrl + 'SelfEvaluation/Detail/' + epa.EPAId);
@@ -24,6 +25,10 @@ function ($location, SelfEvalutorModel, enumerationsFactory, baseUrl) {
     function initialize() {
         SelfEvalutorModel.getEPAByEmployee().then(function () {
             vm.myEPAs = SelfEvalutorModel.myEPAs;
+        });
+
+        CommonModel.getAllPeriodIncludeImport().then(function () {
+            vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
         });
     }
 

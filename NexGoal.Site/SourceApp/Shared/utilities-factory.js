@@ -14,6 +14,62 @@ appModule.factory('utilitiesFactory',
 
     utilities.maxStar = 5;
 
+    utilities.groupingPeriods = function (periods) {
+        var result = [], years = [];
+        var startGrouping, endGrouping;
+
+        angular.forEach(periods, function (period) {
+            if (period.Year) {
+                period.ticked = false;
+
+                if (years.indexOf(period.Year) === -1) {
+                    startGrouping = { Name: '<strong>' + period.Year + '</strong>', msGroup: true };
+                    if (years.length === 0) {
+                        result.push(startGrouping);
+                    } else {
+                        endGrouping = { msGroup: false };
+                        result.push(endGrouping);
+                        result.push(startGrouping);
+                    }
+
+                    years.push(period.Year);
+                    result.push(period);
+                } else {
+                    result.push(period);
+                }
+            }
+        });
+
+        endGrouping = { msGroup: false };
+        result.push(endGrouping);
+
+        if (periods.length > 0 && result.length > 0) {
+            result[1].ticked = true;
+            //vm.filter.periodIds = result[1].PeriodId;
+
+            angular.forEach(periods, function (period) {
+                if (!period.Year) {
+                    period.ticked = false;
+                    result.unshift(period);
+                }
+            });
+        } else {
+            angular.forEach(periods, function (period) {
+                if (!period.Year) {
+                    period.ticked = false;
+                    result.unshift(period);
+                }
+            });
+
+            if (result.length > 0) {
+                result[0].ticked = true;
+                //vm.filter.periodIds = result[0].PeriodId;
+            }
+        }
+
+        return result;
+    };
+
     utilities.numberEntryList = function (vm) {
         vm.entries = [5, 10, 15, 20, 50, 100, 200];
     };
