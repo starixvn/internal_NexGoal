@@ -3211,6 +3211,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Final Score must be between 0 and 100 .
+        /// </summary>
+        public static string ScoreReachLimitedRank {
+            get {
+                return ResourceManager.GetString("ScoreReachLimitedRank", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The Score field is required!.
         /// </summary>
         public static string ScoreRequire {

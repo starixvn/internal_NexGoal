@@ -1521,4 +1521,7 @@
   <data name="AutomaticallySave" xml:space="preserve">
     <value>Automatically Save</value>
   </data>
+  <data name="ScoreReachLimitedRank" xml:space="preserve">
+    <value>Final Score must be between 0 and 100 </value>
+  </data>
 </root>

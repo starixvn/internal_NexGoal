@@ -9,19 +9,19 @@
     </tr>
     <tr ng-repeat-start="kpi in kpiGroup.KPIs">
         <td class="kpi-title">{{$parent.index + 1}}-{{$index + 1}}. {{kpi.Name}} ({{kpi.Weight}} pts)</td>
-        <td class="text-center width-110">
+        <td class="text-center width-200">
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                 {{kpi.EvaluationBySelf.Score | customScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
-        <td class="text-center width-110">
+        <td class="text-center width-200">
             <span ng-show="memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)">
                 {{kpi.EvaluatorScore | customScore}}
             </span>
             <span ng-show="!memberEPAInfoCtrl.checkEndProcess(memberEPAInfoCtrl.epaInfo.Process.Evaluators)" data-translate="Pending"></span>
         </td>
-        <td class="text-center width-150">
+        <td class="text-center width-200">
             {{::memberEPAInfoCtrl.getLastScore(kpi) | customScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | customScore}} (pts)
         </td>
     </tr>

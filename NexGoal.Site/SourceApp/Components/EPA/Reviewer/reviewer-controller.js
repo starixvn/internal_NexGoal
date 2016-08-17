@@ -336,9 +336,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
 ['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory',
 function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory) {
     var vm = this;
 
     vm.permission = 0;
@@ -472,8 +472,17 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10) :
             -parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10);
 
-        vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators) +
-                                                    vm.epaInfo.Process.CurrentProcess.AdjustScore;
+        var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators) + vm.epaInfo.Process.CurrentProcess.AdjustScore;
+
+        if (totalScore > vm.epaInfo.MaxFinalScore) {
+            totalScore = vm.epaInfo.MaxFinalScore;
+            notificationFactory.error("ScoreReachLimitedRank");
+        } else if (totalScore < 0) {
+            totalScore = 0;
+            notificationFactory.error("ScoreReachLimitedRank");
+        }
+
+        vm.epaInfo.Process.CurrentProcess.TotalScore = totalScore;
     };
 
     function CalculateEvaluatorScore(evaluators) {
