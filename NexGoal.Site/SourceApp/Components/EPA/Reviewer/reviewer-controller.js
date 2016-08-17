@@ -356,11 +356,23 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
-                lastScore = utilitiesFactory.parseFloat(lastKpi.Score);
+                lastScore = lastKpi.Score;
             }
         });
 
         return lastScore;
+    };
+
+    function getLastStar(kpi) {
+        var star = 0
+
+        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
+            if (lastKpi.KPIId === kpi.KPIId) {
+                star = lastKpi.Rate;
+            }
+        });
+
+        return star;
     };
 
     vm.getLastWeight = function (kpi) {
@@ -368,7 +380,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
-                lastWeight = utilitiesFactory.parseFloat(lastKpi.Weight);
+                lastWeight = lastKpi.Weight;
             }
         });
 
@@ -377,11 +389,29 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
     vm.getSubLastScore = function (kpiGroup) {
         var score = 0
+        var isEvaluateMaxScore = true;
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             score += vm.getLastScore(kpi);
+            var star = getLastStar(kpi);
+            if (star !== vm.maxStar) {
+                isEvaluateMaxScore = false;
+            }
         })
 
+        if (isEvaluateMaxScore) {
+            return kpiGroup.Weight;
+        }
+
         return score;
+    };
+
+    function getTotalLastScore(){
+        var total = 0;
+        angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+            total += vm.getSubLastScore(kpiGroup);
+        })
+
+        return total;
     };
 
     vm.checkEndProcess = function (members) {
@@ -510,7 +540,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.epaInfo.LastPerformanceScore = null;
+            vm.epaInfo.LastPerformanceScore = getTotalLastScore();
             vm.adjustmentAction = [
                 {
                     Value: "add",

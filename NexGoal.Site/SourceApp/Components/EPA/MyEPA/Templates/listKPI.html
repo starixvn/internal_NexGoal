@@ -35,7 +35,7 @@
         </td>
         <td class="text-center width-150">
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getLastScore(kpi) | splitScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | splitScore}} (pts)
+                {{::memberEPAInfoCtrl.getLastScore(kpi) | splitScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | splitScore}}
             </span>
         </td>
     </tr>
@@ -60,7 +60,7 @@
         <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}}</td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | customScore}} / {{::kpiGroup.Weight | customScore}}
+                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | splitScore}} / {{::kpiGroup.Weight | customScore}}
             </span>
         </td>
     </tr>
@@ -73,7 +73,7 @@
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore !== null">
-                {{memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+                {{memberEPAInfoCtrl.getTotalLastScore() | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
             </span>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore === null" ng-bind="'-'"></span>
         </td>

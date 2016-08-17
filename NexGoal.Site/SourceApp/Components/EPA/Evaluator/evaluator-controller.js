@@ -173,7 +173,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
-                lastScore = utilitiesFactory.parseFloat(lastKpi.Score);
+                lastScore = lastKpi.Score;
             }
         });
 
@@ -185,20 +185,50 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
-                lastWeight = utilitiesFactory.parseFloat(lastKpi.Weight);
+                lastWeight = lastKpi.Weight;
             }
         });
 
         return lastWeight;
     };
 
+    function getLastStar(kpi) {
+        var star = 0
+
+        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
+            if (lastKpi.KPIId === kpi.KPIId) {
+                star = lastKpi.Rate;
+            }
+        });
+
+        return star;
+    };
+
     vm.getSubLastScore = function (kpiGroup) {
         var score = 0
+        var isEvaluateMaxScore = true;
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             score += vm.getLastScore(kpi);
+            var star = getLastStar(kpi);
+            if (star !== vm.maxStar) {
+                isEvaluateMaxScore = false;
+            }
         })
 
-        return score.toFixed(2);
+        if (isEvaluateMaxScore) {
+            return kpiGroup.Weight;
+        }
+
+        return score;
+    };
+
+    function getTotalLastScore() {
+        var total = 0;
+        angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+            total += vm.getSubLastScore(kpiGroup);
+        })
+
+        return total;
     };
 
     vm.setAutoSave = function () {
@@ -355,7 +385,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     function getEPAInfoByEvaluator() {
         SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
-            vm.epaInfo.LastPerformanceScore = null;
+            vm.epaInfo.LastPerformanceScore = getTotalLastScore();
             checkStatus(vm.epaInfo);
 
             if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star

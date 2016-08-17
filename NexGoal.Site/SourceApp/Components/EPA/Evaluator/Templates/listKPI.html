@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="kpi-percent" ng-if="memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
-                <span class="badge percent" ng-show="kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | splitScore}}</span>
+                <span class="badge percent" ng-show="kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | splitScore}} pts</span>
                 <span class="badge percent" ng-show="kpi.CurrentEvaluation.Rate === 0">N/A</span>
             </div>
         </td>
