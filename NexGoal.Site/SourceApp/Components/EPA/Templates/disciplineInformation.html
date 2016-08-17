@@ -38,7 +38,7 @@
                     <td>{{item.NumberOvertime}}</td>
                     <td ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length}}">
                         <span ng-if="item.TOEICScore">
-                            {{item.TOEICScore}} <br/> (Latest update on {{item.UpdatedDateTOEIC | customDate}} )
+                            {{item.TOEICScore}} <br/> {{item.UpdatedDateTOEIC | customDate}}
                         </span>
                     </td>
                 </tr>
