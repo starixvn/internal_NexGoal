@@ -110,9 +110,14 @@
                     <p>
                         <span data-translate="Comments" class="lable-comment-if-any"></span>&nbsp;
                         <span class="label-word-countdown" data-translate="LimitedWords"></span>
+                        <span data-toggle="collapse" data-target=".employee-major-comment">
+                            <i class="fa fa-minus-square"></i>
+                        </span>
                     </p>
-                    <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                              ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
+                    <div class="collapse in employee-major-comment">
+                        <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                                  ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
+                    </div>
                 </td>
             </tr>
         </tbody>
