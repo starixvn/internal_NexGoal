@@ -518,7 +518,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
                 }
             ];
 
-            for (var index = 0; index <= 20; index++) {
+            for (var index = 0; index <= 10; index++) {
                 vm.adjustmentScore.push(index);
             };
 
