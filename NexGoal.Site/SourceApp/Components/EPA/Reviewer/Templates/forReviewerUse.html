@@ -45,12 +45,16 @@
         <tr class="comment">
             <td colspan="6" class="textarea-comment">
                 <p>
-                    <span data-translate="CommentsIfAny" class="lable-comment-if-any">
-                    </span><span class="label-word-countdown" data-translate="LimitedWords"></span>
+                    <span data-translate="CommentsIfAny" class="lable-comment-if-any"></span>
+                    <span class="label-word-countdown" data-translate="LimitedWords"></span>
+                    <span class="mini-collapsed" data-toggle="collapse" data-target=".reviewer-major-comment">
+                    </span>
                 </p>
-                <textarea class="form-control" maxlength="2000"
-                          ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
-                          ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
+                <div class="collapse in reviewer-major-comment">
+                    <textarea class="form-control" maxlength="2000"
+                              ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
+                              ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
+                </div>
             </td>
         </tr>
     </tbody>
