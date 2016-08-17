@@ -43,7 +43,7 @@
         </td>
         <td class="text-center width-150">
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getLastScore(kpi) | customScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | customScore}} (pts)
+                {{::memberEPAInfoCtrl.getLastScore(kpi) | customScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | customScore}}
             </span>
         </td>
     </tr>
@@ -55,12 +55,17 @@
     <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">
         <td colspan="4" class="textarea-comment">
             <p>
-                <span data-translate="CommentsIfAny" class="lable-comment-if-any"></span>
+                <span data-translate="CommentByEvaluator" class="lable-comment-if-any"></span>
                 <span class="label-word-countdown" data-translate="LimitedWords"></span>
                 <span class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></span>
+                <span data-toggle="collapse" data-target=".evaluator-comment-{{$index}}">
+                    <i class="fa fa-minus-square"></i>
+                </span>
             </p>
-            <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                      ng-model="kpi.CurrentEvaluation.Comment"></textarea>
+            <div class="collapse in evaluator-comment-{{$index}}">
+                <textarea class="form-control" placeholder="N/A" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                          ng-model="kpi.CurrentEvaluation.Comment"></textarea>
+            </div>
         </td>
     </tr>
     <tr class="sub-total text-center">
@@ -71,10 +76,10 @@
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
-        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | customScore}} / {{kpiGroup.Weight | customScore}} (pts)</td>
+        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | customScore}} / {{kpiGroup.Weight | customScore}}</td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | customScore}} / {{::kpiGroup.Weight | customScore}} (pts)
+                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | customScore}} / {{::kpiGroup.Weight | customScore}}
             </span>
         </td>
     </tr>

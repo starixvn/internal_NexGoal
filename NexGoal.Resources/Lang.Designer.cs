@@ -520,7 +520,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to COMMENTS.
+        ///   Looks up a localized string similar to Comments.
         /// </summary>
         public static string Comments {
             get {
