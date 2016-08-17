@@ -50,7 +50,8 @@
                 </span>
             </p>
             <div class="collapse in employee-comment-{{$index}}">
-                <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                <textarea class="form-control" maxlength="2000"
+                          ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                           ng-model="kpi.CurrentEvaluation.Comment"></textarea>
             </div>
         </td>

@@ -48,7 +48,7 @@
                     <span data-translate="CommentsIfAny" class="lable-comment-if-any">
                     </span><span class="label-word-countdown" data-translate="LimitedWords"></span>
                 </p>
-                <textarea class="form-control" placeholder="N/A"
+                <textarea class="form-control" maxlength="2000"
                           ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
                           ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
             </td>
