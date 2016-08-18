@@ -30,6 +30,42 @@
             _periodService = periodService ?? new PeriodService();
         }
 
+        [ApiAuthorize(FunctionKey.Self, Policy.Read)]
+        [HttpGet]
+        public IEnumerable<PeriodModel> GetAllPeriodByEmployee()
+        {
+            var criteria = new GetAllPeriodByEmployeeCriteria
+            {
+                EmployeeId = SessionService.EmployeeId
+            };
+
+            return this._periodService.GetAllPeriodByEmployee(criteria);
+        }
+
+        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
+        [HttpGet]
+        public IEnumerable<PeriodModel> GetAllPeriodByEvaluator()
+        {
+            var criteria = new GetAllPeriodByEvaluatorCriteria
+            {
+                EvaluatorId= SessionService.EmployeeId
+            };
+
+            return this._periodService.GetAllPeriodByEvaluator(criteria);
+        }
+
+        [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
+        [HttpGet]
+        public IEnumerable<PeriodModel> GetAllPeriodByReviewer()
+        {
+            var criteria = new GetAllPeriodByReviewerCriteria
+            {
+                ReviewerId = SessionService.EmployeeId
+            };
+
+            return this._periodService.GetAllPeriodByReviewer(criteria);
+        }
+
         [ApiAuthorize(FunctionKey.Period, Policy.Read)]
         public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
         {

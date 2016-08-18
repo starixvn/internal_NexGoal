@@ -34,6 +34,42 @@
             _manualMailService = manualMailService ?? new ManualMailService();
         }
 
+        public IEnumerable<PeriodModel> GetAllPeriodByEmployee(GetAllPeriodByEmployeeCriteria criteria)
+        {
+            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<PeriodModel>(criteria);
+            }
+
+            return periods;
+        }
+
+        public IEnumerable<PeriodModel> GetAllPeriodByEvaluator(GetAllPeriodByEvaluatorCriteria criteria)
+        {
+            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<PeriodModel>(criteria);
+            }
+
+            return periods;
+        }
+
+        public IEnumerable<PeriodModel> GetAllPeriodByReviewer(GetAllPeriodByReviewerCriteria criteria)
+        {
+            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<PeriodModel>(criteria);
+            }
+
+            return periods;
+        }
+
         public IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria)
         {
             IEnumerable<PeriodModel> periods = new List<PeriodModel>();

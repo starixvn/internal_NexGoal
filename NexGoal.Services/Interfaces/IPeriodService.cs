@@ -54,5 +54,11 @@
         bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria);
 
         PeriodModel GetInprogressSemiPeriodByEmployeeId(int employeeId);
+
+        IEnumerable<PeriodModel> GetAllPeriodByEmployee(GetAllPeriodByEmployeeCriteria criteria);
+
+        IEnumerable<PeriodModel> GetAllPeriodByEvaluator(GetAllPeriodByEvaluatorCriteria criteria);
+
+        IEnumerable<PeriodModel> GetAllPeriodByReviewer(GetAllPeriodByReviewerCriteria criteria);
     }
 }
