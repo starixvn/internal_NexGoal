@@ -28,7 +28,7 @@
                 <td class="text-center">{{project.EndDate | customDate}}</td>
                 <td class="text-center">{{project.Roles}}</td>
                 <td class="text-center">{{project.WorkingHour}}</td>
-                <td class="text-center">
+                <td class="text-center rating-block">
                     {{project.DecryptedScore}}
                     <span class="star" ng-repeat="n in [] | range: 2">
                         <i class="fa fa-star"></i>
