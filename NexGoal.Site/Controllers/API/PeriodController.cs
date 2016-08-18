@@ -48,7 +48,7 @@
         {
             var criteria = new GetAllPeriodByEvaluatorCriteria
             {
-                EvaluatorId= SessionService.EmployeeId
+                EvaluatorId = SessionService.EmployeeId
             };
 
             return this._periodService.GetAllPeriodByEvaluator(criteria);

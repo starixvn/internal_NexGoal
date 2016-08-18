@@ -176,7 +176,7 @@
     </Setting>
     <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="NexGoal" Plain="0">
     </Setting>
-    <Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="NexGoal" Plain="0">
+    <Setting Key="EPA_GetMember" SpName="EPA_GetMember1" DbName="NexGoal" Plain="0">
     </Setting>
     <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="NexGoal" Plain="0">
     </Setting>
@@ -205,22 +205,6 @@
       <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
     </Setting>
     <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetByManagement" SpName="EPA_GetByManagement" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetInfoByManagement" SpName="EPA_GetInfoByManagement" DbName="NexGoal" Plain="0">
       <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
       <Mapping DataField="Score" ObjectProperty="ScoreEncode" />

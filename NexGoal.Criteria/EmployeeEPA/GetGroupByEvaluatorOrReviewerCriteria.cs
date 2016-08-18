@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetGroupByEvaluatorOrReviewerOrManagementCriteria : CriteriaBase
+    public class GetGroupByEvaluatorOrReviewerCriteria : CriteriaBase
     {
         public int ActorUserId { get; set; }
 

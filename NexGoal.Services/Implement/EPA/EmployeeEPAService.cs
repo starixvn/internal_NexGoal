@@ -182,7 +182,7 @@
             return commandResult;
         }
 
-        public IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(GetMemberByEvaluatorOrReviewerOrManagementCriteria criteria)
+        public IEnumerable<Employee> GetMemberByEvaluatorOrReviewer(GetMemberByEvaluatorOrReviewerCriteria criteria)
         {
             IEnumerable<Employee> employees = new List<Employee>();
 
@@ -194,7 +194,7 @@
             return employees;
         }
 
-        public IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerOrManagementCriteria criteria)
+        public IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerCriteria criteria)
         {
             IEnumerable<Group> groups = new List<Group>();
 

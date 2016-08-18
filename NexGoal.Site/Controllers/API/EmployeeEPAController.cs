@@ -120,24 +120,23 @@
         [HttpGet]
         public IEnumerable<Group> GetGroupByEvaluator()
         {
-            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator);
+            return GetGroupByEvaluatorOrReviewer((int)ProcessType.Evaluator);
         }
 
         [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
         [HttpGet]
         public IEnumerable<Employee> GetMemberByEvaluator(
             int? groupId = null,
-            bool? isLocal = null,
-            bool? isMonthly = null)
+            string periodIds = null)
         {
-            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Evaluator, groupId, isLocal, isMonthly);
+            return GetMemberByEvaluatorOrReviewer((int)ProcessType.Evaluator, groupId, periodIds);
         }
 
         [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
-            int? groupId = null,
             string periodIds = null,
+            int? groupId = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByEvaluatorCriteria()
@@ -212,24 +211,23 @@
         [HttpGet]
         public IEnumerable<Group> GetGroupByReviewer()
         {
-            return GetGroupByEvaluatorOrReviewerOrManagement((int)ProcessType.Reviewer);
+            return GetGroupByEvaluatorOrReviewer((int)ProcessType.Reviewer);
         }
 
         [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
         [HttpGet]
         public IEnumerable<Employee> GetMemberByReviewer(
             int? groupId = null,
-            bool? isLocal = null,
-            bool? isMonthly = null)
+            string periodIds = null)
         {
-            return GetMemberByEvaluatorOrReviewerOrManagement((int)ProcessType.Reviewer, groupId, isLocal, isMonthly);
+            return GetMemberByEvaluatorOrReviewer((int)ProcessType.Reviewer, groupId, periodIds);
         }
 
         [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByReviewer(
+            string periodIds,
             int? groupId = null,
-            string periodIds = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByReviewerCriteria()
@@ -448,27 +446,25 @@
             return _employeeEPAService.UpdateEPAScore(criteria);
         }
 
-        private IEnumerable<Employee> GetMemberByEvaluatorOrReviewerOrManagement(
+        private IEnumerable<Employee> GetMemberByEvaluatorOrReviewer(
             int processId,
             int? groupId = null,
-            bool? isLocal = null,
-            bool? isMonthly = null)
+            string periodIds = null)
         {
-            var criteria = new GetMemberByEvaluatorOrReviewerOrManagementCriteria()
+            var criteria = new GetMemberByEvaluatorOrReviewerCriteria()
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = processId,
                 GroupId = groupId,
-                IsLocal = isLocal,
-                IsMonthly = isMonthly
+                PeriodIds = periodIds
             };
 
-            return _employeeEPAService.GetMemberByEvaluatorOrReviewerOrManagement(criteria);
+            return _employeeEPAService.GetMemberByEvaluatorOrReviewer(criteria);
         }
 
-        private IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(int processId)
+        private IEnumerable<Group> GetGroupByEvaluatorOrReviewer(int processId)
         {
-            var criteria = new GetGroupByEvaluatorOrReviewerOrManagementCriteria()
+            var criteria = new GetGroupByEvaluatorOrReviewerCriteria()
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = processId

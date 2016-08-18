@@ -82,7 +82,7 @@
     <Compile Include="EmployeeEPA\GetEmployeeToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAEndEvaluationPeriodCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerOrManagementCriteria.cs" />
+    <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerCriteria.cs" />
     <Compile Include="EmployeeEPA\GetMonthlyEPAOfSemiCriteria.cs" />
     <Compile Include="EmployeeEPA\GetOtherViolationDetailByEPAIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />
@@ -119,14 +119,14 @@
     <Compile Include="Menu\InsertMenuCriteria.cs" />
     <Compile Include="Menu\UpdateMenuCriteria.cs" />
     <Compile Include="Period\AutoCreateMonthlyPeriodCriteria.cs" />
-    <Compile Include="Period\GetAllPeriodByReviewerCriteria.cs" />
+    <Compile Include="Period\GetAllPeriodByEmployeeCriteria.cs" />
     <Compile Include="Period\GetAllPeriodByEvaluatorCriteria.cs" />
+    <Compile Include="Period\GetAllPeriodByReviewerCriteria.cs" />
     <Compile Include="Period\GetEvaluationGlobalSettingByTargetTypeIdCriteria.cs" />
     <Compile Include="Period\GetAllMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\GetInprogressSemiPeriodCriteria.cs" />
     <Compile Include="Period\GetMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\CheckSelfProcessStartedCriteria.cs" />
-    <Compile Include="Period\GetAllPeriodByEmployeeCriteria.cs" />
     <Compile Include="Period\GetProcessSettingPeriodCriteria.cs" />
     <Compile Include="Period\UpdateProcessSettingPeriodCriteria.cs" />
     <Compile Include="Report\GetDashboardCriteria.cs" />

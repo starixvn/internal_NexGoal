@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetMemberByEvaluatorOrReviewerOrManagementCriteria : CriteriaBase
+    public class GetMemberByEvaluatorOrReviewerCriteria : CriteriaBase
     {
         public int ProcessId { get; set; }
 
@@ -10,9 +10,7 @@
 
         public int? GroupId { get; set; }
 
-        public bool? IsLocal { get; set; }
-
-        public bool? IsMonthly { get; set; }
+        public string PeriodIds { get; set; }
 
         public override bool IsValid()
         {
