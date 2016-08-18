@@ -51,7 +51,7 @@
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | customScore}} / {{::kpiGroup.Weight | customScore}}
+                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | splitScore}} / {{::kpiGroup.Weight | customScore}}
             </span>
         </td>
     </tr>
