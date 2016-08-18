@@ -340,6 +340,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Avg. Score.
+        /// </summary>
+        public static string AvgScore {
+            get {
+                return ResourceManager.GetString("AvgScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string BackToList {
@@ -3045,6 +3054,15 @@ namespace NexGoal.Resources {
         public static string Result {
             get {
                 return ResourceManager.GetString("Result", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Result Detail.
+        /// </summary>
+        public static string ResultDetail {
+            get {
+                return ResourceManager.GetString("ResultDetail", resourceCulture);
             }
         }
         

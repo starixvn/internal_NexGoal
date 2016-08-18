@@ -25,7 +25,9 @@
         </div>
     </li>
     <li ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess)" class="process-item">
-        <div><span data-translate="Self"></span></div>
+        <div>
+            <span>{{"Self" | translate}}: {{memberEPAInfoCtrl.epaInfo.Process.Self.NickName}}</span>
+        </div>
         <div>
             <span>
                 {{memberEPAInfoCtrl.epaInfo.Process.Self.StartDate | customDate}} -

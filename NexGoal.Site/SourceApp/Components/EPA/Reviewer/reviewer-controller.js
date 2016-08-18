@@ -330,9 +330,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
 ['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
 function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
     var vm = this;
 
     vm.permission = 0;
@@ -345,74 +345,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.dataSaved = false;
     vm.evaluatedDate = null;
     vm.finalScore = null;
-    vm.hasRatingByStar = false;
-    vm.showRatingScoreByStar = true;
-    vm.adjustmentScore = [];
-    vm.adjustmentAction = [];
     vm.maxStar = utilitiesFactory.maxStar;
-
-    vm.getLastScore = function (kpi) {
-        var lastScore = "";
-
-        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
-            if (lastKpi.KPIId === kpi.KPIId) {
-                lastScore = lastKpi.Score;
-            }
-        });
-
-        return lastScore;
-    };
-
-    function getLastStar(kpi) {
-        var star = 0
-
-        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
-            if (lastKpi.KPIId === kpi.KPIId) {
-                star = lastKpi.Rate;
-            }
-        });
-
-        return star;
-    };
-
-    vm.getLastWeight = function (kpi) {
-        var lastWeight = "";
-
-        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
-            if (lastKpi.KPIId === kpi.KPIId) {
-                lastWeight = lastKpi.Weight;
-            }
-        });
-
-        return lastWeight;
-    };
-
-    vm.getSubLastScore = function (kpiGroup) {
-        var score = 0
-        var isEvaluateMaxScore = true;
-        angular.forEach(kpiGroup.KPIs, function (kpi) {
-            score += vm.getLastScore(kpi);
-            var star = getLastStar(kpi);
-            if (star !== vm.maxStar) {
-                isEvaluateMaxScore = false;
-            }
-        })
-
-        if (isEvaluateMaxScore) {
-            return kpiGroup.Weight;
-        }
-
-        return score;
-    };
-
-    function getTotalLastScore(){
-        var total = 0;
-        angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-            total += vm.getSubLastScore(kpiGroup);
-        })
-
-        return total;
-    };
 
     vm.checkEndProcess = function (members) {
         var endProcess = true;
@@ -458,17 +391,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         ReviewerManagementModel.calculatePerformanceScore(vm, true);
     };
 
-    // Event read more / less text.
-    utilitiesFactory.maxLengthDescription(vm);
-
-    vm.readMore = function (item) {
-        utilitiesFactory.readMore(item);
-    };
-
-    vm.readLess = function (item) {
-        utilitiesFactory.readLess(item);
-    };
-
     vm.save = function (epaInfo) {
         var totalcore = epaInfo.Process.CurrentProcess.TotalScore;
 
@@ -489,27 +411,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         }, 1);
     };
 
-    vm.adjustScoreAction = function () {
-        var adjustAction = vm.epaInfo.Process.CurrentProcess.AdjustAction;
-        vm.epaInfo.Process.CurrentProcess.AdjustScore = adjustAction.Value === "add" ?
-            parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10) :
-            -parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay, 10);
-
-        var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators) + vm.epaInfo.Process.CurrentProcess.AdjustScore;
-
-        if (totalScore > vm.epaInfo.MaxFinalScore) {
-            totalScore = vm.epaInfo.MaxFinalScore;
-            notificationFactory.error("ScoreReachLimitedRank");
-        } else if (totalScore < 0) {
-            totalScore = 0;
-            notificationFactory.error("ScoreReachLimitedRank");
-        }
-
-        vm.epaInfo.Process.CurrentProcess.TotalScore = totalScore;
-    };
-
     function CalculateEvaluatorScore(evaluators) {
-        var averageScore = 0
+        var averageScore = 0;
 
         if (evaluators.length > 0) {
             var score = 0;
@@ -527,67 +430,27 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         return utilitiesFactory.splitNumber(averageScore, 2);
     }
 
-    function GetTotalStarOfEvaluators(evaluators) {
-        var star = 0;
-        angular.forEach(evaluators, function (evaluator) {
-            star += evaluator.Rate;
-        })
-
-        return star;
-    }
-
     function getEPAInfoByReviewer() {
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.epaInfo.LastPerformanceScore = getTotalLastScore();
-            vm.adjustmentAction = [
-                {
-                    Value: "add",
-                    Name: "+"
-                },
-                {
-                    Value: "sub",
-                    Name: "-"
-                }
-            ];
 
-            for (var index = 0; index <= 10; index++) {
-                vm.adjustmentScore.push(index);
-            };
             var totalScoreOfEvaluator = 0;
             for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
                 var kpiGroup = vm.epaInfo.KPIGroups[index];
                 var selfScore = 0;
                 var evaluatorScore = 0;
-                var isSelfEvaluateMaxScore = true;
-                var isEvaluatorEvaluateMaxScore = true;
 
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
                     kpi.EvaluatorScore = CalculateEvaluatorScore(kpi.EvaluationByEvaluators);
                     selfScore += kpi.EvaluationBySelf.Score;
                     evaluatorScore += kpi.EvaluatorScore;
-                    if (kpi.EvaluationBySelf.Rate !== vm.maxStar) {
-                        isSelfEvaluateMaxScore = false;
-                    }
-                    var totalStarOfEvaluators = GetTotalStarOfEvaluators(kpi.EvaluationByEvaluators);
-                    if (totalStarOfEvaluators !== vm.maxStar * kpi.EvaluationByEvaluators.length) {
-                        isEvaluatorEvaluateMaxScore = false;
-                    }
-
                 });
-
-                if (isSelfEvaluateMaxScore) {
-                    selfScore = kpiGroup.Weight;
-                }
-                if (isEvaluatorEvaluateMaxScore) {
-                    evaluatorScore = kpiGroup.Weight;
-                }
 
                 kpiGroup.SelfScore = selfScore;
                 kpiGroup.EvaluatorScore = evaluatorScore;
                 totalScoreOfEvaluator += evaluatorScore;
-            };
+            }
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
@@ -599,9 +462,6 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.epaInfo.Process.AverageScoreByEvaluators = totalScoreOfEvaluator;
 
             // reviewer
-            vm.epaInfo.Process.CurrentProcess.AdjustScore = vm.epaInfo.Process.CurrentProcess.AdjustScore !== "" ? parseInt(vm.epaInfo.Process.CurrentProcess.AdjustScore) : 0;
-            vm.epaInfo.Process.CurrentProcess.AdjustScoreDisplay = Math.abs(vm.epaInfo.Process.CurrentProcess.AdjustScore);
-            vm.epaInfo.Process.CurrentProcess.AdjustAction = vm.epaInfo.Process.CurrentProcess.AdjustScore >= 0 ? { Value: "add", Name: "+" } : { Value: "sub", Name: "-" };
             vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore !== "" ?
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore) :
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators);

@@ -1,0 +1,47 @@
+﻿<div class="level-2" data-toggle="collapse" data-target=".project-efficiency-table">
+    A. {{"ProjectEfficiency" | translate}}
+    <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
+</div>
+
+<div class="collapse in project-efficiency-table">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th data-translate="ProjectName"></th>
+                <th data-translate="ProjectManager"></th>
+                <th data-translate="StartDate"></th>
+                <th data-translate="EndDate"></th>
+                <th data-translate="Role"></th>
+                <th data-translate="TotalSpendTime"></th>
+                <th data-translate="Score"></th>
+                <th data-translate="Comment"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-if="memberEPAInfoCtrl.employeeProjects.length === 0">
+                <td colspan="9" data-translate="EmptyResult" class="text-center"></td>
+            </tr>
+            <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects" ng-if="memberEPAInfoCtrl.employeeProjects.length > 0">
+                <td class="text-center">{{$index + 1}}</td>
+                <td>{{project.ProjectName}}</td>
+                <td class="text-center">{{project.ProjectManager.NickName}}</td>
+                <td class="text-center">{{project.StartDate | customDate}}</td>
+                <td class="text-center">{{project.EndDate | customDate}}</td>
+                <td class="text-center">{{project.Roles}}</td>
+                <td class="text-center">{{project.WorkingHour}}</td>
+                <td class="text-center">{{project.DecryptedScore}}</td>
+                <td>
+                    <span ng-if="project.Comment.length > 50" tooltip="{{project.Comment}}">
+                        {{project.Comment | limitTo : 50}} ...
+                    </span>
+                    <span ng-if="project.Comment.length <= 50">
+                        {{project.Comment}}
+                    </span>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
