@@ -9,28 +9,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
     vm.epaId = parseInt($routeParams.id, 10);
     vm.exportPDF = $routeParams.exportpdf;
     vm.standardGrades = CommonModel.standardGrades;
-    vm.ratingTypeEnum = enumerationsFactory.ratingType;
-    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
-    vm.isViewDetail = true;
-    vm.hasRatingByStar = false;
-    vm.showRatingScoreByStar = true;
-
-    vm.generateRatingStar = function () {
-        $timeout(function () {
-            $(".rating-loading").rating();
-        }, 1);
-    };
-
-    // Event read more / less text.
-    utilitiesFactory.maxLengthDescription(vm);
-
-    vm.readMore = function (item) {
-        utilitiesFactory.readMore(item);
-    };
-
-    vm.readLess = function (item) {
-        utilitiesFactory.readLess(item);
-    };
 
     vm.openPopupViewComment = function (comment) {
         EmployeeEPAModel.openPopupViewComment(vm, comment);
@@ -44,17 +22,29 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
         historyFactory.back();
     };
 
+    function CalculateEvaluatorScore(evaluators) {
+        var averageScore = 0;
+
+        if (evaluators.length > 0) {
+            var score = 0;
+            var length = 0;
+            angular.forEach(evaluators, function (evaluator) {
+                if (evaluator.ScoreEncode) {
+                    score += evaluator.Score;
+                    length++;
+                }
+            });
+
+            averageScore = score / length;
+        }
+
+        return utilitiesFactory.splitNumber(averageScore, 2);
+    }
+
     function getEPAInfoById() {
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-
-            if (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Star
-                    || vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.HalfStar
-                    || (vm.epaInfo.RatingType.RatingTypeId === vm.ratingTypeEnum.Score
-                        && $.grep(vm.epaInfo.KPIGroups, function (e) { return e.NumberKPIOptional > 0; }).length > 0)) {
-                vm.hasRatingByStar = true;
-            }
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
@@ -67,11 +57,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             // reviewer
             angular.forEach(vm.epaInfo.Process.Reviewers, function (reviewer) {
                 reviewer.TotalScore = utilitiesFactory.parseFloat(reviewer.TotalScore);
-            });
-
-            // management
-            angular.forEach(vm.epaInfo.Process.Managements, function (management) {
-                management.TotalScore = utilitiesFactory.parseFloat(management.TotalScore);
             });
 
             if (vm.epaInfo.Period.IsEndPeriod && vm.epaInfo.FinalScore.length > 0) {
@@ -88,13 +73,6 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             vm.standardGrades = CommonModel.standardGrades;
 
             getEPAInfoById();
-
-            if (vm.exportPDF) {
-                angular.element("#headerSection").remove();
-                angular.element("#titleSection").remove();
-                angular.element("#footerSection").remove();
-                vm.isRemovedPadding = CommonModel.displayOnNormalWidthPage(vm.epaId);
-            }
         });
     }
 
