@@ -75,28 +75,24 @@
         }
     }
 
-    .button-icon {
-        #gradient .vertical(#EEE, #C8C8C8);
-        .border-radius(3px);
-        border: 1px solid @border-color;
-        border-color: @border-color @border-color #959595;
-        .box-shadow(1px 1px 0 rgba(255, 255, 255, 0.3) inset);
-        color: #707070;
+    .button-icon {        
+        .border-radius(2px);
+        border: 0;
+        color: #fff;
         display: inline-block;
         font-size: 12px;
-        height: 27px;
-        line-height: 22px;
-        padding: 0 8px;
+        height: 24px;
+        line-height: 24px;
         position: relative;
         text-align: center;
         text-decoration: none;
-        text-shadow: 0 1px 0 #FBFBFB;
         cursor: pointer;
+        background: #526cb7;
+        padding: 0 10px;
 
         a {
-            color: #707070;
+            color: #fff;
             height: 100%;
-            padding: 0 8px 0 5px;
             z-index: 2;
 
             &:hover {
@@ -105,11 +101,11 @@
         }
 
         &:hover {
-            #gradient .vertical(#FBFBFB, #D4D4D4);
+            background: #607ed6;
         }
 
-        .icon-edit, .icon-back, .icon-plus {
-            color: #3394D3;
+        .icon-back, .icon-plus {
+            color: #fff;
             font-size: @font-size + 1;
             font-weight: bold;
             margin-right: 3px;
@@ -126,6 +122,10 @@
             padding: 0 8px 0 5px;
             position: relative;
             top: -7px;
+        }
+
+        + .button-icon {
+            margin-left: 10px;
         }
     }
 
@@ -229,7 +229,6 @@
         color: #555;
         padding: 0 24px 0 3px;
         margin: 3px;
-        .border-radius(3px);
         .box-shadow(none);
     }
 
@@ -290,13 +289,9 @@
         cursor: pointer;
     }
 
-    .filter {
-       // background-color: #F4F4F4;
-        //border: 1px solid #ddd;
+    .filter {       
         min-width: 600px;
-        padding: 15px 25px;
-        margin: 7px 0 10px;
-        .border-radius(2px);
+        padding: 15px 0 20px;       
 
         .lstBox-limit {
             width: 180px;
@@ -318,6 +313,16 @@
             padding: 0;
         }
 
+        .col {
+            float: left;
+            padding-right: 40px;
+            padding-left: 15px;
+
+            &:last-child {
+                padding-right: 0;
+            }
+        }
+
         .form-control {
             font-size: @font-size;
             height: 30px;
@@ -325,6 +330,18 @@
             .border-radius(0);
             border-color: #dfdfdf;
             box-shadow: none;
+        }
+
+        .control-label {
+            float: left;
+            width: 70px;
+            text-align: left;
+            margin-right: 0;
+        }
+
+        .control-content {
+            float: left;
+            width: 200px;
         }
 
         .checkbox {

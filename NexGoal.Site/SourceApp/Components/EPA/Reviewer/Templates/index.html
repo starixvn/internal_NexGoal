@@ -6,32 +6,41 @@
             </ul>
         </div>
         <div class="col-sm-12">
-            <form novalidate class="row filter form-horizontal" role="form">
+            <form novalidate class="filter form-horizontal" role="form">
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" data-translate="Team"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="reviewerCtrl.filter.groupId"
-                                ng-options="opt.GroupId as opt.GroupName for opt in reviewerCtrl.groupOptions"
-                                ng-change="reviewerCtrl.getMember()">
-                            <option value="">-- {{"All" | translate}} --</option>
-                        </select>
+                    <div class="col">
+                        <label class="control-label" data-translate="Team"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="reviewerCtrl.filter.groupId"
+                                    ng-options="opt.GroupId as opt.GroupName for opt in reviewerCtrl.groupOptions"
+                                    ng-change="reviewerCtrl.getMember()">
+                                <option value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-sm-1 control-label" data-translate="Category"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="reviewerCtrl.filter.isLocal"
-                                ng-change="reviewerCtrl.getMember()">
-                            <option value="">-- {{"All" | translate}} --</option>
-                            <option value="false">{{"Expat" | translate}}</option>
-                            <option value="true">{{"Local" | translate}}</option>
-                        </select>
+                    
+                    <div class="col">
+                        <label class="control-label" data-translate="Category"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="reviewerCtrl.filter.isLocal"
+                                    ng-change="reviewerCtrl.getMember()">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option value="false">{{"Expat" | translate}}</option>
+                                <option value="true">{{"Local" | translate}}</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-sm-1 control-label" data-translate="Employee"></label>
-                    <div class="col-sm-2">
-                        <add-class-to-role-filter class="multi-select" multi-select input-model="reviewerCtrl.members" button-label="EmployeeId"
-                                                  helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
-                        </add-class-to-role-filter>
+                    
+                    <div class="col">
+                        <label class="control-label" data-translate="Employee"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="reviewerCtrl.members" button-label="EmployeeId"
+                                                      helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
                     </div>
-                    <div class="col-sm-1">
+                    
+                    <div class="col">
                         <button class="button" ng-click="reviewerCtrl.query(reviewerCtrl.filter)" data-translate="Submit"></button>
                     </div>
                 </div>
@@ -41,11 +50,11 @@
                     <tr class="header-table" ng-if="reviewerCtrl.memberEPAs.length > 0  && !reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
                         <th colspan="16">
                             <a class="pull-left button-icon" ng-click="reviewerCtrl.adjustScore()">
-                                <span class="icon-edit glyphicon glyphicon-edit"></span>
+                                <span class="icon-edit fa fa-pencil-square-o"></span>
                                 <span class="button-text" data-translate="AdjustScore"></span>
                             </a>
                             <a class="pull-left button-icon" ng-click="reviewerCtrl.saveAdjustScore()">
-                                <span class="glyphicon glyphicon-floppy-saved"></span>
+                                <span class="fa fa-floppy-o"></span>
                                 <span class="button-text" data-translate="Save"></span>
                             </a>
                         </th>

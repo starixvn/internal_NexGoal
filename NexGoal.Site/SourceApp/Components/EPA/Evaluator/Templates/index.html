@@ -6,32 +6,41 @@
             </ul>
         </div>
         <div class="col-sm-12">
-            <form novalidate class="row filter form-horizontal" role="form">
+            <form novalidate class="filter form-horizontal" role="form">
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" data-translate="Team"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="evaluatorCtrl.filter.groupId"
-                                ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions"
-                                ng-change="evaluatorCtrl.getMember()">
-                            <option value="">-- {{"All" | translate}} --</option>
-                        </select>
+                    <div class="col">
+                        <label class="control-label" data-translate="Team"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="evaluatorCtrl.filter.groupId"
+                                    ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions"
+                                    ng-change="evaluatorCtrl.getMember()">
+                                <option value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-sm-1 control-label" data-translate="Category"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="evaluatorCtrl.filter.isLocal"
-                                ng-change="evaluatorCtrl.getMember()">
-                            <option value="">-- {{"All" | translate}} --</option>
-                            <option value="false">{{"Expat" | translate}}</option>
-                            <option value="true">{{"Local" | translate}}</option>
-                        </select>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Category"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="evaluatorCtrl.filter.isLocal"
+                                    ng-change="evaluatorCtrl.getMember()">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option value="false">{{"Expat" | translate}}</option>
+                                <option value="true">{{"Local" | translate}}</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-sm-1 control-label" data-translate="Employee"></label>
-                    <div class="col-sm-2">
-                        <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.members" button-label="EmployeeId"
-                                                  helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
-                        </add-class-to-role-filter>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Employee"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.members" button-label="EmployeeId"
+                                                      helper-elements="all reset filter" item-label="NickName" tick-property="ticked" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
                     </div>
-                    <div class="col-sm-1">
+                    
+                    <div class="col">
                         <button class="button" ng-click="evaluatorCtrl.query(evaluatorCtrl.filter)" data-translate="Submit"></button>
                     </div>
                 </div>
@@ -124,5 +133,5 @@
             </table>
         </div>
     </div>
-    
+
 </div>

@@ -6,36 +6,56 @@
             </ul>
         </div>
         <div class="col-sm-12">
-            <form novalidate class="row form-horizontal filter">
+            <form novalidate class="form-horizontal filter">
                 <div class="form-group">
-                    <label class="col-sm-1 control-label" data-translate="Keyword"></label>
-                    <div class="col-sm-3">
-                        <input class="form-control" type="text" ng-model="employeeCtrl.filter.query" placeholder="full name or nick name" />
+                    <div class="col">
+                        <label class="control-label" data-translate="Keyword"></label>
+                        <div class="control-content">
+                            <input class="form-control" type="text" ng-model="employeeCtrl.filter.query" placeholder="full name or nick name" />
+                        </div>
                     </div>
-                    <label class="col-sm-1 control-label" data-translate="Team"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="employeeCtrl.filter.groupId"
-                                ng-options="opt.GroupId as opt.GroupName for opt in employeeCtrl.groupOptions">
-                            <option value="">-- {{"All" | translate}} --</option>
-                        </select>
+                    
+                    <div class="col">
+                        <label class="control-label" data-translate="Team"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="employeeCtrl.filter.groupId"
+                                    ng-options="opt.GroupId as opt.GroupName for opt in employeeCtrl.groupOptions">
+                                <option value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-sm-1 control-label" data-translate="Category"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="employeeCtrl.filter.isLocal">
-                            <option value="">-- {{"All" | translate}} --</option>
-                            <option value="false">{{"Expat" | translate}}</option>
-                            <option value="true">{{"Local" | translate}}</option>
-                        </select>
+                    
+                    <div class="col">
+                        <label class="control-label" data-translate="Category"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="employeeCtrl.filter.isLocal">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option value="false">{{"Expat" | translate}}</option>
+                                <option value="true">{{"Local" | translate}}</option>
+                            </select>
+                        </div>
                     </div>
+                    
                 </div>
+                
                 <div class="form-group">
+                    <div class="col">
+                        <div class="control-label"></div>
+                        <div class="control-content">
+                            <label>
+                                <input type="checkbox" ng-model="employeeCtrl.filter.isDisabledUser"> {{"IsDisabledUser" | translate}}
+                            </label>
+                        </div>
+                        
+                    </div>
+                    <div class="col">
+                        <button class="button" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit"></button>
+                    </div>
                     <div class="col-sm-2 col-sm-offset-1">
-                        <label>
-                            <input type="checkbox" ng-model="employeeCtrl.filter.isDisabledUser"> {{"IsDisabledUser" | translate}}
-                        </label>
+                        
                     </div>
                     <div class="col-sm-1">
-                        <button class="button" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit"></button>
+                        
                     </div>
                 </div>
             </form>
