@@ -1,59 +1,61 @@
 ﻿<div class="epa-detail-report" ng-controller="EPADetailReportController as epaDetailReportCtrl">
-    <div class="col-sm-12 sub-header">
-        <ul class="row breadcrumb">
-            <li class="current" data-translate="EPADetailReport"></li>
-        </ul>
-    </div>
-    <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
-            <div class="form-group">
-                <label class="col-sm-2 control-label" data-translate="EvaluationPeriod"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="epaDetailReportCtrl.filter.periodId"
-                            ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaDetailReportCtrl.periods">
-                        <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                    </select>
+    <div class="row">
+        <div class="col-sm-12 sub-header">
+            <ul class="row breadcrumb">
+                <li class="current" data-translate="EPADetailReport"></li>
+            </ul>
+        </div>
+        <div class="col-sm-12">
+            <form novalidate class="row filter form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label" data-translate="EvaluationPeriod"></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="epaDetailReportCtrl.filter.periodId"
+                                ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaDetailReportCtrl.periods">
+                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label" data-translate="ScoredBy"></label>
+                    <div class="col-sm-2">
+                        <add-class-to-role-filter class="multi-select" multi-select input-model="epaDetailReportCtrl.scoredBy" button-label="Name"
+                                                  helper-elements="all reset" item-label="Name" tick-property="ticked" max-labels="0">
+                        </add-class-to-role-filter>
+                    </div>
                 </div>
-                <label class="col-sm-2 control-label" data-translate="ScoredBy"></label>
-                <div class="col-sm-2">
-                    <add-class-to-role-filter class="multi-select" multi-select input-model="epaDetailReportCtrl.scoredBy" button-label="Name"
-                                              helper-elements="all reset" item-label="Name" tick-property="ticked" max-labels="0">
-                    </add-class-to-role-filter>
+                <div class="form-group last">
+                    <label class="col-sm-2 control-label" data-translate="DepartmentTeam"></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="epaDetailReportCtrl.filter.departmentId"
+                                ng-options="opt.DepartmentId as opt.Name for opt in epaDetailReportCtrl.treeDepartment">
+                            <option value="">-- {{"All" | translate}} --</option>
+                        </select>
+                    </div>
+                    <label class="col-sm-2 control-label" data-translate="Category"></label>
+                    <div class="col-sm-2">
+                        <select class="form-control" ng-model="epaDetailReportCtrl.filter.isLocal">
+                            <option value="">-- {{"All" | translate}} --</option>
+                            <option value="false">{{"Expat" | translate}}</option>
+                            <option value="true">{{"Local" | translate}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-offset-1 col-sm-1">
+                        <button class="button btn-search" ng-click="epaDetailReportCtrl.query(epaDetailReportCtrl.filter)" data-translate="Search"></button>
+                    </div>
                 </div>
-            </div>
-            <div class="form-group last">
-                <label class="col-sm-2 control-label" data-translate="DepartmentTeam"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="epaDetailReportCtrl.filter.departmentId"
-                            ng-options="opt.DepartmentId as opt.Name for opt in epaDetailReportCtrl.treeDepartment">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <label class="col-sm-2 control-label" data-translate="Category"></label>
-                <div class="col-sm-2">
-                    <select class="form-control" ng-model="epaDetailReportCtrl.filter.isLocal">
-                        <option value="">-- {{"All" | translate}} --</option>
-                        <option value="false">{{"Expat" | translate}}</option>
-                        <option value="true">{{"Local" | translate}}</option>
-                    </select>
-                </div>
-                <div class="col-sm-offset-1 col-sm-1">
-                    <button class="button btn-search" ng-click="epaDetailReportCtrl.query(epaDetailReportCtrl.filter)" data-translate="Search"></button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-sm-12">
-        <div class="freegrid" export-epa-detail-report data-grid-epa-detail-report
-             data-grid-data="epaDetailReportCtrl.epaDetail"
-             data-grid-expand-height="300"
-             data-on-page-changing="epaDetailReportCtrl.pageChanging"
-             data-on-sort-changing="epaDetailReportCtrl.sortChanging"
-             data-sort-column-name="epaDetailReportCtrl.filter.sortColumnName"
-             data-sort-direction="epaDetailReportCtrl.filter.sortDirection"
-             data-page-option="epaDetailReportCtrl.filter"
-             data-export-report="epaDetailReportCtrl.exportReport"
-             data-hide-columns="epaDetailReportCtrl.hideColumns"
-             data-export-pdf="epaDetailReportCtrl.exportPdf"></div>
+            </form>
+        </div>
+        <div class="col-sm-12">
+            <div class="freegrid" export-epa-detail-report data-grid-epa-detail-report
+                 data-grid-data="epaDetailReportCtrl.epaDetail"
+                 data-grid-expand-height="300"
+                 data-on-page-changing="epaDetailReportCtrl.pageChanging"
+                 data-on-sort-changing="epaDetailReportCtrl.sortChanging"
+                 data-sort-column-name="epaDetailReportCtrl.filter.sortColumnName"
+                 data-sort-direction="epaDetailReportCtrl.filter.sortDirection"
+                 data-page-option="epaDetailReportCtrl.filter"
+                 data-export-report="epaDetailReportCtrl.exportReport"
+                 data-hide-columns="epaDetailReportCtrl.hideColumns"
+                 data-export-pdf="epaDetailReportCtrl.exportPdf"></div>
+        </div>
     </div>
 </div>

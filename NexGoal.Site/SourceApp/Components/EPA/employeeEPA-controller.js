@@ -46,6 +46,23 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
+            var totalScoreOfEvaluator = 0;
+            for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
+                var kpiGroup = vm.epaInfo.KPIGroups[index];
+                var selfScore = 0;
+                var evaluatorScore = 0;
+
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    kpi.EvaluatorScore = CalculateEvaluatorScore(kpi.EvaluationByEvaluators);
+                    selfScore += kpi.EvaluationBySelf.Score;
+                    evaluatorScore += kpi.EvaluatorScore;
+                });
+
+                kpiGroup.SelfScore = selfScore;
+                kpiGroup.EvaluatorScore = evaluatorScore;
+                totalScoreOfEvaluator += evaluatorScore;
+            }
+
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
 
@@ -53,6 +70,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
+            vm.epaInfo.Process.AverageScoreByEvaluators = totalScoreOfEvaluator;
 
             // reviewer
             angular.forEach(vm.epaInfo.Process.Reviewers, function (reviewer) {

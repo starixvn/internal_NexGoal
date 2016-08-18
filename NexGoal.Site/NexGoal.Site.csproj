@@ -428,9 +428,7 @@
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\EPA\avatar-employee.png" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\forEvaluatorUse.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\evaluateResult.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\forReviewerUse.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\listKPI.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\forEmployeeUse.html" />
     <Content Include="SourceApp\Components\EPA\Templates\disciplineInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\forEmployeeUse.html" />
     <Content Include="SourceApp\Components\Menu\menu-controller.js" />
