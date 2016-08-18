@@ -273,7 +273,9 @@
     <Content Include="Content\Site\Components\images\icon_sprite.png" />
     <Content Include="Content\Site\Components\images\line-menu.png" />
     <Content Include="Content\Site\Components\images\loading.gif" />
+    <Content Include="Content\Site\Components\images\logo-2.png" />
     <Content Include="Content\Site\Components\images\nex-goal.png" />
+    <Content Include="Content\Site\Components\images\nexgoal.svg" />
     <Content Include="Content\Site\Components\images\pdf-icon-inactive.png" />
     <Content Include="Content\Site\Components\images\pdf-icon.png" />
     <Content Include="Content\Site\Components\images\sms_epa_logo.png" />
@@ -426,8 +428,9 @@
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\EPA\avatar-employee.png" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\forEvaluatorUse.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\forEmployeeUse.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\evaluateResult.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\forReviewerUse.html" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\listKPI.html" />
     <Content Include="SourceApp\Components\EPA\Templates\disciplineInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\forEmployeeUse.html" />
     <Content Include="SourceApp\Components\Menu\menu-controller.js" />
@@ -491,6 +494,7 @@
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\reviewer-controller.js" />
+    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\performanceResult.html" />
     <Content Include="SourceApp\Components\EPA\selfEvaluator-model.js" />
     <Content Include="SourceApp\Components\EPA\Templates\evaluationProcess.html" />
     <Content Include="SourceApp\Components\EPA\Templates\generalInformation.html" />

@@ -4,7 +4,7 @@
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container-fluid">
         <a class="navbar-brand">
-            <img src="~/Content/Site/Components/images/nex-goal.png" />
+            <img src="~/Content/Site/Components/images/nexgoal.svg" />
         </a>
         <div class="pull-right" ng-include src="'/SourceApp/Components/UserInfo/Templates/index.html'"></div>
     </div>
@@ -16,7 +16,9 @@
         </div>
         <div class="main">
             <div class="loading-process" style="display: none"></div>
-            <div data-ng-view></div>
+            <div class="section-wrap">
+                <div data-ng-view class="section-body"></div>
+            </div>            
         </div>
     </div>
 </div>
