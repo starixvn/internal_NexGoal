@@ -8,6 +8,7 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
+    using System;
     using System.Collections.Generic;
 
     public class IntegrationService : BaseService, IIntegrationService
@@ -61,6 +62,7 @@
                 foreach (var item in result)
                 {
                     item.DecryptedScore = DecodeNexPM(item.EncryptedScore);
+                    item.DecryptedScore = PercentToStarNumber(item.DecryptedScore);
                 }
             }
 
@@ -70,6 +72,36 @@
         private string DecodeNexPM(string cipherText)
         {
             return string.IsNullOrWhiteSpace(cipherText) ? string.Empty : IBCCrypt.Decrypt(cipherText, KeyCryptography);
+        }
+
+        private string PercentToStarNumber(string percent)
+        {
+            decimal starNumber = Math.Round(ConvertDecimal(percent) / (2 * 10), 1);
+            string result = string.Empty;
+
+            if (starNumber > 0)
+            {
+                result = starNumber.ToString();
+            }
+
+            return result;
+        }
+
+        private decimal ConvertDecimal(object value)
+        {
+            decimal result = 0;
+
+            if (value != null)
+            {
+                bool isSuccessful = decimal.TryParse(value.ToString(), out result);
+
+                if (!isSuccessful)
+                {
+                    result = 0;
+                }
+            }
+
+            return result;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace NexGoal.Model.Integration
 {
     public class HRMSummaryViewModel
