@@ -6,6 +6,8 @@
     {
         public int EmployeeId { get; set; }
 
+        public string PeriodIds { get; set; }
+
         public override string GetSettingKey()
         {
             return "EPA_GetByEmployee";

@@ -8,11 +8,9 @@
 
         public string EmployeeIds { get; set; }
 
-        public bool? IsLocal { get; set; }
-
-        public bool IsMonthly { get; set; }
-
         public int? GroupId { get; set; }
+
+        public string PeriodIds { get; set; }
 
         public override string GetSettingKey()
         {

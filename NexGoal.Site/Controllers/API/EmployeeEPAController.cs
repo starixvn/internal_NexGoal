@@ -10,6 +10,7 @@
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
     using NexGoal.Model.Enitites;
+    using NexGoal.Model.Period;
     using NexGoal.Model.RoleManagement;
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Services.Implement;
@@ -50,14 +51,14 @@
         }
 
         #region Self
-
         [ApiAuthorize(FunctionKey.Self, Policy.Read)]
         [HttpGet]
-        public IEnumerable<EPAModel> GetEPAByEmployee()
+        public IEnumerable<EPAModel> GetEPAByEmployee(string periodIds = null)
         {
             var criteria = new GetEPAByEmployeeCriteria
             {
-                EmployeeId = SessionService.EmployeeId
+                EmployeeId = SessionService.EmployeeId,
+                PeriodIds = periodIds
             };
 
             return this.selfService.GetEPA(criteria);
@@ -136,17 +137,15 @@
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
             int? groupId = null,
-            bool? isLocal = null,
-            bool isMonthly = false,
+            string periodIds = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByEvaluatorCriteria()
             {
                 EvaluatorId = SessionService.EmployeeId,
                 GroupId = groupId,
-                IsLocal = isLocal,
-                IsMonthly = isMonthly,
-                EmployeeIds = employeeIds
+                EmployeeIds = employeeIds,
+                PeriodIds = periodIds
             };
 
             return this.evaluatorService.GetEPA(criteria);
@@ -230,16 +229,14 @@
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByReviewer(
             int? groupId = null,
-            bool? isLocal = null,
-            bool isMonthly = false,
+            string periodIds = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByReviewerCriteria()
             {
                 ReviewerId = SessionService.EmployeeId,
                 GroupId = groupId,
-                IsLocal = isLocal,
-                IsMonthly = isMonthly,
+                PeriodIds = periodIds,
                 EmployeeIds = employeeIds
             };
 
