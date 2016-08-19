@@ -386,7 +386,7 @@ label:hover {
 }
 .container-fluid.page .icon-sorting-bg {
   background-image: url('Components/images/sort-icon.png') !important;
-  background-position: 0 -5px;
+  background-position: 0 -2px;
   background-repeat: no-repeat !important;
   cursor: pointer;
   display: inline-block;

@@ -133,7 +133,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Score Adjustment.
+        ///   Looks up a localized string similar to Adjust Score.
         /// </summary>
         public static string AdjustScore {
             get {
@@ -750,6 +750,15 @@ namespace NexGoal.Resources {
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Detail Result.
+        /// </summary>
+        public static string DetailResult {
+            get {
+                return ResourceManager.GetString("DetailResult", resourceCulture);
             }
         }
         
@@ -3054,15 +3063,6 @@ namespace NexGoal.Resources {
         public static string Result {
             get {
                 return ResourceManager.GetString("Result", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Result Detail.
-        /// </summary>
-        public static string ResultDetail {
-            get {
-                return ResourceManager.GetString("ResultDetail", resourceCulture);
             }
         }
         

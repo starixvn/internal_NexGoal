@@ -12,9 +12,9 @@
             {{$parent.index + 1}}-{{$index + 1}}. {{kpi.Name}} ({{kpi.Weight | splitScore}} pts)
             <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
         </td>
-        <td class="text-center width-110">
+        <td class="text-center width-150">
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{kpi.EvaluationBySelf.Score | customScore}}
+                {{kpi.EvaluationBySelf.Score | customScore}} pts
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
@@ -43,7 +43,7 @@
         </td>
         <td class="text-center width-150">
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getLastScore(kpi) | splitScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | customScore}}
+                {{::memberEPAInfoCtrl.getLastScore(kpi) | splitScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | customScore}} pts
             </span>
         </td>
     </tr>
@@ -68,14 +68,14 @@
         <td data-translate="SubTotal"></td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{memberEPAInfoCtrl.calculateEmployeeSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}}
+                {{memberEPAInfoCtrl.calculateEmployeeSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}} pts
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
-        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}}</td>
+        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}} pts</td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | customScore}} / {{::kpiGroup.Weight | customScore}}
+                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | customScore}} / {{::kpiGroup.Weight | customScore}} pts
             </span>
         </td>
     </tr>

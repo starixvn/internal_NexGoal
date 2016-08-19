@@ -6,11 +6,11 @@
             </ul>
         </div>
         <div class="col-sm-12">
-            <form novalidate class="filter form-horizontal" role="form">
+            <form novalidate class="filter form-inline" role="form">
                 <div class="form-group">
-                    <div class="required">
-                        <label class="col-sm-1 control-label" data-translate="Period"></label>
-                        <div class="col-sm-2">
+                    <div class="required col">
+                        <label class="control-label" data-translate="Period"></label>
+                        <div class="control-content">
                             <select class="form-control" ng-model="epaByKPICtrl.filter.periodId"
                                     ng-options="opt.PeriodId as opt.Name for opt in epaByKPICtrl.periods"
                                     ng-change="epaByKPICtrl.getTargetTemplateByPeriod(epaByKPICtrl.filter.periodId)">
@@ -18,9 +18,9 @@
                             </select>
                         </div>
                     </div>
-                    <div class="required">
-                        <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
-                        <div class="col-sm-2">
+                    <div class="required col">
+                        <label class="control-label size-l" data-translate="TargetTemplate"></label>
+                        <div class="control-content">
                             <select class="form-control" ng-model="epaByKPICtrl.filter.targetTemplateId"
                                     ng-options="opt.TargetTemplateId as opt.Name for opt in epaByKPICtrl.targetTemplates"
                                     ng-change="epaByKPICtrl.getEvaluatorsByTargetTemplate(epaByKPICtrl.filter.periodId, epaByKPICtrl.filter.targetTemplateId)">
@@ -28,9 +28,9 @@
                             </select>
                         </div>
                     </div>
-                    <div class="required">
-                        <label class="col-sm-1 control-label" data-translate="Evaluator"></label>
-                        <div class="col-sm-2">
+                    <div class="required col">
+                        <label class="control-label" data-translate="Evaluator"></label>
+                        <div class="control-content">
                             <select class="form-control" ng-model="epaByKPICtrl.filter.evaluatorId"
                                     ng-options="opt.EmployeeId as opt.NickName for opt in epaByKPICtrl.evaluators"
                                     ng-change="epaByKPICtrl.EnabledSearch()">
@@ -38,7 +38,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="col-sm-1">
+                    <div class="col">
                         <button class="button" ng-click="epaByKPICtrl.getKPIByToView()" data-translate="Submit" ng-disabled="!epaByKPICtrl.EnabledSearchButton"></button>
                     </div>
                 </div>

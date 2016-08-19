@@ -35,7 +35,7 @@
         </td>
         <td class="text-center width-150">
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getLastScore(kpi) | splitScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | splitScore}}
+                {{::memberEPAInfoCtrl.getLastScore(kpi) | splitScore}} / {{::memberEPAInfoCtrl.getLastWeight(kpi) | splitScore}} pts
             </span>
         </td>
     </tr>
@@ -53,10 +53,10 @@
     </tr>
     <tr class="sub-total text-center">
         <td data-translate="SubTotal"></td>
-        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}}</td>
+        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}} pts</td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
-                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | splitScore}} / {{::kpiGroup.Weight | customScore}}
+                {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | splitScore}} / {{::kpiGroup.Weight | customScore}} pts
             </span>
         </td>
     </tr>

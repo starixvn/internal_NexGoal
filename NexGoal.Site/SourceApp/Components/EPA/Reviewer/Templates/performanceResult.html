@@ -21,7 +21,7 @@
                 <th data-translate="Score"></th>
                 <th data-translate="Comment"></th>
                 <th ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" data-translate="AvgScore"></th>
-                <th data-translate="Score Adjustment"></th>
+                <th data-translate="AdjustScore"></th>
                 <th data-translate="Comment"></th>
             </tr>
         </thead>
@@ -67,8 +67,10 @@
                            tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)}}" tooltip-trigger="focus" />
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
-                    <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                              ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
+                    <div class="textarea-comment">
+                        <textarea class="form-control" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                                  ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></textarea>
+                    </div>
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
                     <strong>
@@ -95,7 +97,7 @@
 </div>
 
 <div class="level-2" data-toggle="collapse" data-target=".performance-detail-table">
-    B. {{"ResultDetail" | translate}}
+    B. {{"DetailResult" | translate}}
     <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
 </div>
 
@@ -171,8 +173,8 @@
         <tbody>
             <tr class="sub-total text-center">
                 <td colspan="2" data-translate="SubTotal"></td>
-                <td colspan="2">{{kpiGroup.SelfScore}} / {{kpiGroup.Weight}} (pts)</td>
-                <td colspan="4">{{kpiGroup.EvaluatorScore}} / {{kpiGroup.Weight}} (pts)</td>
+                <td colspan="2">{{kpiGroup.SelfScore}} / {{kpiGroup.Weight}} pts</td>
+                <td colspan="4">{{kpiGroup.EvaluatorScore}} / {{kpiGroup.Weight}} pts</td>
             </tr>
         </tbody>
     </table>

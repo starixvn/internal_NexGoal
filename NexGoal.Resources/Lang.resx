@@ -922,7 +922,7 @@
     <value>Max Points</value>
   </data>
   <data name="AdjustScore" xml:space="preserve">
-    <value>Score Adjustment</value>
+    <value>Adjust Score</value>
   </data>
   <data name="CurrentScore" xml:space="preserve">
     <value>Current Score</value>
@@ -1524,8 +1524,8 @@
   <data name="ScoreReachLimitedRank" xml:space="preserve">
     <value>Final Score must be between 0 and 100 </value>
   </data>
-  <data name="ResultDetail" xml:space="preserve">
-    <value>Result Detail</value>
+  <data name="DetailResult" xml:space="preserve">
+    <value>Detail Result</value>
   </data>
   <data name="AvgScore" xml:space="preserve">
     <value>Avg. Score</value>
