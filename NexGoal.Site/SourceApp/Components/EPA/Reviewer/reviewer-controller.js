@@ -208,6 +208,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             ReviewerManagementModel.openPopupAdjustScore(vm, selectedEmployees, true)
             .then(function (adjust) {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(selectedEmployees, adjust, true);
+                ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees);
             })['finally'](function () {
                 vm.modalInstance = null;
             });

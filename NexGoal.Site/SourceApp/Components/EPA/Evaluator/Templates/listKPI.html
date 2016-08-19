@@ -49,6 +49,9 @@
     </tr>
     <tr class="comment" ng-if="kpi.HasComment">
         <td colspan="4" class="textarea-comment">
+            <p>
+                <span data-translate="CommentByEmployee" class="lable-comment-if-any"></span>
+            </p>
             <textarea class="form-control" readonly="readonly">{{kpi.EvaluationBySelf.Comment}}</textarea>
         </td>
     </tr>
