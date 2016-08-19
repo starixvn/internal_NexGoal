@@ -16,10 +16,10 @@
     select option {
         padding: 4px 10px;
     }
-    
+
     select {
         .border-radius(3px);
-        border: 1px solid #C8C8C8;        
+        border: 1px solid #C8C8C8;
         height: 28px;
         padding: 0 0 0 7px;
 
@@ -75,7 +75,7 @@
         }
     }
 
-    .button-icon {        
+    .button-icon {
         .border-radius(2px);
         border: 0;
         color: #fff;
@@ -89,6 +89,16 @@
         cursor: pointer;
         background: #526cb7;
         padding: 0 10px;
+
+        &.button-period-back {
+            height: 32px;
+            line-height: 32px;
+            background: #757885;
+
+            &:hover {
+                background: #878a99;
+            }
+        }
 
         a {
             color: #fff;
@@ -104,7 +114,7 @@
             background: #607ed6;
         }
 
-        .icon-back, .icon-plus {
+        .icon-plus {
             color: #fff;
             font-size: @font-size + 1;
             font-weight: bold;
@@ -116,12 +126,14 @@
 
         .icon-back {
             font-weight: normal;
+            color: #fff;
+            font-size: @font-size + 1;
+            margin-right: 3px;
+            position: relative;
         }
 
         .button-text {
             padding: 0 8px 0 5px;
-            position: relative;
-            top: -7px;
         }
 
         + .button-icon {
@@ -134,10 +146,15 @@
     }
 
     .icon.plus {
-        background: url(images/sprite_ico_2012-05-15.png) 0 -72px no-repeat;
-        height: 24px;
-        width: 24px;
         display: inline-block;
+        font: normal normal normal 13px/1 FontAwesome;
+        width: 14px;
+        height: 23px;
+        line-height: 23px;
+
+        &:before {
+            content: "\f067";
+        }
     }
 
     .icon.assign {
@@ -225,10 +242,10 @@
     .search-inline-textbox {
         background: url(images/icon-search.png) #fff no-repeat right center;
         border: 1px solid #ccc;
-        height: 27px;
+        height: 24px;
         color: #555;
         padding: 0 24px 0 3px;
-        margin: 3px;
+        //margin: 3px;
         .box-shadow(none);
     }
 
@@ -289,9 +306,9 @@
         cursor: pointer;
     }
 
-    .filter {       
+    .filter {
         min-width: 600px;
-        padding: 15px 0 0;       
+        padding: 15px 0 0;
 
         .lstBox-limit {
             width: 180px;
@@ -352,6 +369,10 @@
             }
 
             &.size-l {
+                width: 130px;
+            }
+
+            &.size-xl {
                 width: 150px;
             }
         }

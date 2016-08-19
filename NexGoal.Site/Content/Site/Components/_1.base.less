@@ -8,7 +8,7 @@ body {
     font-size: @font-size;
     color: @font-color;
     min-width: 760px;
-    height: 100%;    
+    height: 100%;
     background: #ececec;
 }
 
@@ -29,7 +29,7 @@ a {
     }
 
     &.glyphicon {
-        &:hover, 
+        &:hover,
         &:focus {
             text-decoration: none;
         }
@@ -43,7 +43,7 @@ a {
             margin-right: 5px;
         }
 
-        &.icon-edit, 
+        &.icon-edit,
         &.icon-save {
             color: #1BA0E1;
             margin-right: 5px;
@@ -92,5 +92,19 @@ label {
     text-align: left !important;
 }
 
+.clearfix {
+    &:before {
+        display: table;
+        content: " ";
+    }
 
+    &:after {
+        display: table;
+        content: " ";
+        clear: both;
+    }
+}
 
+.tooltip .tooltip-inner {
+    text-align: left;
+}

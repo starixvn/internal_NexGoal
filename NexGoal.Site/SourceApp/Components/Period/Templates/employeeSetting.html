@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="col">
-                <label class="control-label size-l" data-translate="EPAGeneratedStatus"></label>
+                <label class="control-label size-xl" data-translate="EPAGeneratedStatus"></label>
                 <div class="control-content">
                     <select class="form-control" ng-model="empSettingCtrl.filter.isGeneratedEPA">
                         <option selected value="">-- {{"All" | translate}} --</option>
@@ -172,7 +172,7 @@
                 <td class="width-140" ng-bind="employee.SelfEvaluators[0].StartDate | date: empSettingCtrl.dateFormat"></td>
                 <td class="width-140" ng-bind="employee.SelfEvaluators[0].EndDate | date: empSettingCtrl.dateFormat"></td>
                 <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}">
-                    <span class="glyphicon glyphicon-ok-circle epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
+                    <span class="fa fa-check-square-o epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="empSettingCtrl.includeExcludeEmployee(employee)"
@@ -180,7 +180,7 @@
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
+                        <a class="fa fa-pencil-square-o icon-edit" title="Edit" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
                     </div>
                 </td>
             </tr>
@@ -257,7 +257,7 @@
                 <td class="width-120" ng-bind="reviewer.EndDate | date: empSettingCtrl.dateFormat"
                     ng-show="$first" rowspan="{{employee.Reviewers.length}}"></td>
                 <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
-                    <span class="glyphicon glyphicon-ok-circle epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
+                    <span class="fa fa-check-square-o epa-saved" ng-show="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="empSettingCtrl.includeExcludeEmployee(employee)"
@@ -265,7 +265,7 @@
                 </td>
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-show="employee.IsSemiHasMonthly && $first">
                     <div class="btn-group">
-                        <a class="glyphicon glyphicon-edit icon-edit" title="Edit" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
+                        <a class="fa fa-pencil-square-o icon-edit" title="Edit" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
                     </div>
                 </td>
             </tr>

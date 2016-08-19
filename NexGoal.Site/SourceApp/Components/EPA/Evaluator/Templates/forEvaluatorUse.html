@@ -30,6 +30,9 @@
                 <td class="text-center">{{project.WorkingHour}}</td>
                 <td class="text-center">
                     {{project.DecryptedScore}} <i class="fa fa-star"></i>
+                    <span class="star-score" ng-repeat="n in [] | range: 2">
+                        <i class="fa fa-star"></i>
+                    </span>
                 </td>
                 <td>
                     <span ng-if="project.Comment.length > 50" tooltip="{{project.Comment}}">

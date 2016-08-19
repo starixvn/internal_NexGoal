@@ -3,21 +3,27 @@
 }*/
 
 .button-period-back {
-    //margin: 3px 0 0 45px;
+    height: 32px;
+    line-height: 32px;
 }
 
 .div-period-department-setting {
-    margin-left: 10px;
+   margin-right: 20px;
 
     .period-department-select.multiSelect {
         position: relative;
 
         .multiSelectButton {
             width: 267px;
-            height: 28px;
+            height: 24px;
+            line-height: 23px;
             display: inline !important;
-            margin: 3px;
-            padding: 3px 12px !important;
+            font-size: 13px;
+            padding: 0 12px !important;
+
+            &.buttonClicked {
+                box-shadow: none;
+            }
         }
 
         .checkboxLayer, .multiSelectItem {
@@ -55,14 +61,14 @@
 }
 
 .div-period-employee-setting {
-     margin-left: 5px;
-     text-align: left !important;
+     margin-right: 20px;
 
     .period-employee {
         width: 200px !important;
         display: inline !important;
-        margin: 3px;
-        height: 27px;
+        height: 24px;
+        line-height: 24px;
+        font-size: 13px;
         padding: 2px 4px;
     }
 
@@ -72,7 +78,13 @@
 }
 
 .period-add {
-    margin-top: 3px;
+    height: 24px;
+    line-height: 24px;
+    background: #4ba633;
+
+    &:hover {
+        background: #59c23c;
+    }
 }
 
 .employee-period-setting {
@@ -131,17 +143,16 @@
 }
 
 .period-create-button {
-    height: 23px;
-    margin: 5px;
+   // height: 24px;
 }
 
 .period-process-setting {
     width: 70%;
+    margin-top: 27px;
 }
 
 .btn-process-save {
-    width: 70%;
-    text-align: center;
+    width: 70%;    
 }
 
 .period-process-single {

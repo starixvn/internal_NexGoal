@@ -12,33 +12,39 @@
 
     .nav-tabs {
         cursor: pointer;
-        border-color: @border-light-color;
+        border-color: @border-light-color;        
 
-        li.active > a, > li.active > a:hover, li.active > a:focus {
-            border-color: @border-light-color @border-light-color rgba(0, 0, 0, 0);
-            color: #777;
-            font-weight: bold;
-            background-color: #fafafa;
-        }
+        li {
+            > a {
+                .border-radius(3px 3px 0 0);
+                padding: 7px 15px;
+                text-transform: uppercase;
+                color: #737373;
 
-        li > a {
-            .border-radius(3px 3px 0 0);
-            padding: 7px 15px;
-            text-transform: uppercase;
+                &:hover {
+                    background-color: #fff;
+                    border-color: #fff;
+                    border-bottom-color: @border-light-color;
+                }
+            }
 
-            &:hover {
-                background-color: #fafafa;
-                border-color: @border-light-color;
+            &.active {
+                border-bottom: 2px solid #f4783c;
+          
+                > a, > a:hover, > a:focus {
+                    color: #63544e;
+                    font-weight: bold;
+                    border: 0;
+                }
             }
         }
     }
 
     .tab-content {
-        border: 1px solid @border-light-color;
-        border-width: 0 1px 1px;
-        padding: 10px 15px;
-        background-color: #fafafa;
-
+        //border: 1px solid @border-light-color;
+        //border-width: 0 1px 1px;
+        //padding: 10px 15px;
+        //background-color: #fafafa;
         .filter {
             margin-top: 12px;
         }
