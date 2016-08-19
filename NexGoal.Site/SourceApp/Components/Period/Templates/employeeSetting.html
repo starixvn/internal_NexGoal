@@ -1,50 +1,67 @@
 ﻿<div ng-controller="EmployeeSettingPeriodController as empSettingCtrl">
-    <form class="row form-horizontal filter">
+    <form class="form-inline filter">        
         <div class="form-group">
-            <label class="control-label col-sm-2" data-translate="DepartmentTeam"></label>
-            <div class="col-sm-2">
-                <select class="form-control" ng-model="empSettingCtrl.filter.departmentId"
-                        ng-options="opt.DepartmentId as opt.Name for opt in empSettingCtrl.departmentOptions">
-                    <option value="">-- {{"All" | translate}} --</option>
-                </select>
+            <div class="col">
+                <label class="control-label size-l" data-translate="DepartmentTeam"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="empSettingCtrl.filter.departmentId"
+                            ng-options="opt.DepartmentId as opt.Name for opt in empSettingCtrl.departmentOptions">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
+                </div>
             </div>
-            <label class="control-label col-sm-1" data-translate="Category"></label>
-            <div class="col-sm-2">
-                <select class="form-control" ng-model="empSettingCtrl.filter.isLocal">
-                    <option value="">-- {{"All" | translate}} --</option>
-                    <option value="false">{{"Expat" | translate}}</option>
-                    <option value="true">{{"Local" | translate}}</option>
-                </select>
+            <div class="col">
+                <label class="control-label" data-translate="Category"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="empSettingCtrl.filter.isLocal">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="false">{{"Expat" | translate}}</option>
+                        <option value="true">{{"Local" | translate}}</option>
+                    </select>
+                </div>
             </div>
-            <label class="control-label col-sm-2" data-translate="EPAGeneratedStatus"></label>
-            <div class="col-sm-2">
-                <select class="form-control" ng-model="empSettingCtrl.filter.isGeneratedEPA">
-                    <option selected value="">-- {{"All" | translate}} --</option>
-                    <option value="true" data-translate="GeneratedEPA"></option>
-                    <option value="false" data-translate="NoneGeneratedEPA"></option>
-                </select>
+            <div class="col">
+                <label class="control-label size-l" data-translate="EPAGeneratedStatus"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="empSettingCtrl.filter.isGeneratedEPA">
+                        <option selected value="">-- {{"All" | translate}} --</option>
+                        <option value="true" data-translate="GeneratedEPA"></option>
+                        <option value="false" data-translate="NoneGeneratedEPA"></option>
+                    </select>
+                </div>
             </div>
+            
         </div>
         <div class="form-group">
-            <label class="control-label col-sm-2" data-translate="EvaluatedStatus"></label>
-            <div class="col-sm-2">
-                <select class="form-control" ng-model="empSettingCtrl.filter.isEvaluated">
-                    <option selected value="">-- {{"All" | translate}} --</option>
-                    <option value="1" data-translate="NotEvaluated"></option>
-                    <option value="2" data-translate="Evaluated"></option>
-                </select>
+            <div class="col">
+                <label class="control-label size-l" data-translate="EvaluatedStatus"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="empSettingCtrl.filter.isEvaluated">
+                        <option selected value="">-- {{"All" | translate}} --</option>
+                        <option value="1" data-translate="NotEvaluated"></option>
+                        <option value="2" data-translate="Evaluated"></option>
+                    </select>
+                </div>
             </div>
-            <label class="control-label col-sm-1" data-translate="EPAStatus"></label>
-            <div class="col-sm-2">
-                <select class="form-control" ng-model="empSettingCtrl.filter.epaStatus">
-                    <option selected value="">-- {{"All" | translate}} --</option>
-                    <option value="0" data-translate="InProgress"></option>
-                    <option value="1" data-translate="Closed"></option>
-                </select>
+            <div class="col">
+                <label class="control-label" data-translate="EPAStatus"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="empSettingCtrl.filter.epaStatus">
+                        <option selected value="">-- {{"All" | translate}} --</option>
+                        <option value="0" data-translate="InProgress"></option>
+                        <option value="1" data-translate="Closed"></option>
+                    </select>
+                </div>
             </div>
-            <label class="col-sm-2 control-label" data-translate="ShowExcludedEmployee"></label>
-            <div class="col-sm-1">
-                <input type="checkbox" ng-model="empSettingCtrl.filter.isExcludedEmployee" />
+            <div class="col">
+                
+                <div class="control-content">                    
+                    <input type="checkbox" ng-model="empSettingCtrl.filter.isExcludedEmployee" />
+                    <label data-translate="ShowExcludedEmployee"></label>
+                </div>
+            </div>
+            <div class="col">
+                <button class="button" ng-click="empSettingCtrl.query()" data-translate="Search"></button>
             </div>
         </div>
         <div class="form-group">
@@ -54,7 +71,7 @@
             </div>-->
             <div class="col-sm-2"></div>
             <div class="col-sm-1">
-                <button class="button" ng-click="empSettingCtrl.query()" data-translate="Search"></button>
+                
             </div>
         </div>
     </form>

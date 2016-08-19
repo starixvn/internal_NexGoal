@@ -6,7 +6,7 @@
             </ul>
         </div>
         <div class="col-sm-12">
-            <form novalidate class="form-horizontal filter">
+            <form novalidate class="form-inline filter">
                 <div class="form-group">
                     <div class="col">
                         <label class="control-label" data-translate="Keyword"></label>
@@ -35,28 +35,24 @@
                             </select>
                         </div>
                     </div>
-                    
-                </div>
-                
-                <div class="form-group">
+
                     <div class="col">
-                        <div class="control-label"></div>
                         <div class="control-content">
                             <label>
                                 <input type="checkbox" ng-model="employeeCtrl.filter.isDisabledUser"> {{"IsDisabledUser" | translate}}
                             </label>
                         </div>
-                        
+
                     </div>
+
                     <div class="col">
                         <button class="button" ng-click="employeeCtrl.queryEmployee(employeeCtrl.filter)" data-translate="Submit"></button>
                     </div>
-                    <div class="col-sm-2 col-sm-offset-1">
-                        
-                    </div>
-                    <div class="col-sm-1">
-                        
-                    </div>
+                    
+                </div>
+                
+                <div class="form-group">
+                                       
                 </div>
             </form>
             <table class="row table table-bordered table-striped" id="data">

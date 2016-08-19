@@ -291,7 +291,7 @@
 
     .filter {       
         min-width: 600px;
-        padding: 15px 0 20px;       
+        padding: 15px 0 0;       
 
         .lstBox-limit {
             width: 180px;
@@ -306,6 +306,10 @@
             }
         }
 
+        &.form-inline .form-group {
+            margin-bottom: 15px;
+        }
+
         label {
             font-weight: normal;
             color: @font-color;
@@ -316,7 +320,7 @@
         .col {
             float: left;
             padding-right: 40px;
-            padding-left: 15px;
+            margin-bottom: 10px;
 
             &:last-child {
                 padding-right: 0;
@@ -330,6 +334,11 @@
             .border-radius(0);
             border-color: #dfdfdf;
             box-shadow: none;
+            width: inherit;
+
+            &.multiSelectButton {
+                width: 100%;
+            }
         }
 
         .control-label {
@@ -337,6 +346,14 @@
             width: 70px;
             text-align: left;
             margin-right: 0;
+
+            &.size-m {
+                width: 90px;
+            }
+
+            &.size-l {
+                width: 150px;
+            }
         }
 
         .control-content {

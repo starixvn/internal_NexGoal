@@ -5,19 +5,25 @@
                 <li class="current" data-translate="RoleManagement"></li>
             </ul>
         </div>
-        <div class="col-sm-12 filter role-filter-width">
-            <form class="form-inline form-common" role="form">
+        <div class="col-sm-12 role-filter-width">
+            <form class="form-inline form-common filter " role="form">
                 <div class="form-group">
-                    <label data-translate="Role" class="control-label"></label>
-                    <select class="form-control" ng-model="roleCtrl.filter.roleId"
-                            ng-options="opt.RoleId as opt.RoleCode for opt in roleCtrl.systemRoleOptions"
-                            ng-change="roleCtrl.query()"></select>
-                </div>
-                <button class="button" get-role-permission ng-show="!roleCtrl.isSystemAdmin" data-translate="Save"></button>
+                    <div class="col">
+                        <label data-translate="Role" class="control-label"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="roleCtrl.filter.roleId"
+                                    ng-options="opt.RoleId as opt.RoleCode for opt in roleCtrl.systemRoleOptions"
+                                    ng-change="roleCtrl.query()"></select>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <button class="button" get-role-permission ng-show="!roleCtrl.isSystemAdmin" data-translate="Save"></button>
+                    </div>
+                </div>                
             </form>
-        </div>
-        <div class="col-sm-12">
-            <form class="col-sm-6 authority-table clearfix" novalidate>
+
+            <form class="authority-table clearfix" novalidate>
                 <table name="tableFunction" class="table table-bordered">
                     <thead>
                         <tr>
@@ -40,6 +46,7 @@
                     </tr>
                 </table>
             </form>
-        </div>
+        </div>               
+
     </div>
 </div>

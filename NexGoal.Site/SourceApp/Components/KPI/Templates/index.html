@@ -9,34 +9,46 @@
             </ul>
         </div>
         <div class="col-sm-12">
-            <form novalidate class="row filter form-inline" role="form" ng-if="kpiCtrl.isViewAll">
+            <form novalidate class="filter form-inline" role="form" ng-if="kpiCtrl.isViewAll">
                 <div class="form-group">
-                    <label data-translate="Group"></label>
-                    <select class="form-control lstBox-limit" ng-model="kpiCtrl.filter.kpiGroupId"
-                            ng-options="opt.KPIGroupId as opt.Name for opt in kpiCtrl.kpiGroups">
-                        <option value="">-- {{"All" | translate}} --</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" data-translate="Status"></label>
-                    <select class="form-control" ng-model="kpiCtrl.filter.isActive">
-                        <option value="">-- {{"All" | translate}} --</option>
-                        <option selected value="true" data-translate="Active"></option>
-                        <option value="false" data-translate="InActive"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" data-translate="RequiredEvaluation"></label>
-                    <select class="form-control" ng-model="kpiCtrl.filter.isRequiredEvaluate">
-                        <option value="">-- {{"All" | translate}} --</option>
-                        <option selected value="true" data-translate="Required"></option>
-                        <option value="false" data-translate="NotRequired"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button class="button" ng-click="kpiCtrl.query(kpiCtrl.filter)" data-translate="Submit"></button>
-                </div>
+                    <div class="col">
+                        <label class="control-label" data-translate="Group"></label>
+                        <div class="control-content">
+                            <select class="form-control lstBox-limit" ng-model="kpiCtrl.filter.kpiGroupId"
+                                    ng-options="opt.KPIGroupId as opt.Name for opt in kpiCtrl.kpiGroups">
+                                <option value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>                        
+                    </div>   
+                    
+                    <div class="col">
+                        <label class="control-label" data-translate="Status"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="kpiCtrl.filter.isActive">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option selected value="true" data-translate="Active"></option>
+                                <option value="false" data-translate="InActive"></option>
+                            </select>
+                        </div>                        
+                    </div>  
+                    
+                    <div class="col">
+                        <label class="control-label size-l" data-translate="RequiredEvaluation"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="kpiCtrl.filter.isRequiredEvaluate">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option selected value="true" data-translate="Required"></option>
+                                <option value="false" data-translate="NotRequired"></option>
+                            </select>
+                        </div>                        
+                    </div>    
+                    
+                    <div class="col">
+                        <button class="button" ng-click="kpiCtrl.query(kpiCtrl.filter)" data-translate="Submit"></button>
+                    </div>           
+                </div>               
             </form>
+
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">

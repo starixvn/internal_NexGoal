@@ -6,19 +6,24 @@
             </ul>
         </div>
         <div class="col-sm-12">
-            <form novalidate class="row filter form-inline" role="form">
+            <form novalidate class="filter form-inline" role="form">
                 <div class="form-group">
-                    <label class="control-label" data-translate="Status"></label>
-                    <select class="form-control" ng-model="kpiGroupCtrl.filter.isActive">
-                        <option value="">-- {{"All" | translate}} --</option>
-                        <option selected value="true" data-translate="Active"></option>
-                        <option value="false" data-translate="InActive"></option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <button class="button" ng-click="kpiGroupCtrl.query(kpiGroupCtrl.filter)" data-translate="Submit"></button>
+                    <div class="col">
+                        <label class="control-label" data-translate="Status"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="kpiGroupCtrl.filter.isActive">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option selected value="true" data-translate="Active"></option>
+                                <option value="false" data-translate="InActive"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <button class="button" ng-click="kpiGroupCtrl.query(kpiGroupCtrl.filter)" data-translate="Submit"></button>
+                    </div>
                 </div>
             </form>
+
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">

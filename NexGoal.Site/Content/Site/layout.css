@@ -466,7 +466,7 @@ label:hover {
 }
 .container-fluid.page .filter {
   min-width: 600px;
-  padding: 15px 0 20px;
+  padding: 15px 0 0;
 }
 .container-fluid.page .filter .lstBox-limit {
   width: 180px;
@@ -478,6 +478,9 @@ label:hover {
 .container-fluid.page .filter .form-group:last-child {
   margin-bottom: 0;
 }
+.container-fluid.page .filter.form-inline .form-group {
+  margin-bottom: 15px;
+}
 .container-fluid.page .filter label {
   font-weight: normal;
   color: #010101;
@@ -487,7 +490,7 @@ label:hover {
 .container-fluid.page .filter .col {
   float: left;
   padding-right: 40px;
-  padding-left: 15px;
+  margin-bottom: 10px;
 }
 .container-fluid.page .filter .col:last-child {
   padding-right: 0;
@@ -501,12 +504,22 @@ label:hover {
   border-radius: 0;
   border-color: #dfdfdf;
   box-shadow: none;
+  width: inherit;
+}
+.container-fluid.page .filter .form-control.multiSelectButton {
+  width: 100%;
 }
 .container-fluid.page .filter .control-label {
   float: left;
   width: 70px;
   text-align: left;
   margin-right: 0;
+}
+.container-fluid.page .filter .control-label.size-m {
+  width: 90px;
+}
+.container-fluid.page .filter .control-label.size-l {
+  width: 150px;
 }
 .container-fluid.page .filter .control-content {
   float: left;
