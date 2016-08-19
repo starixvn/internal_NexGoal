@@ -375,20 +375,29 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
-    vm.getNotificationInputScore = function (processByReviewer) {
-        if (processByReviewer) {
-            return EmployeeEPAModel.getNotificationInputScore(0, processByReviewer.MaxTotalScore, vm.scoreInputValidMessage);
+    vm.getNotificationInputScore = function (currentProcess) {
+        var message = "";
+
+        if (currentProcess) {
+            var maxSubtractScore = currentProcess.MaxSubtractScore,
+                maxAdditionScore = currentProcess.MaxAdditionScore;
+
+            message = EmployeeEPAModel.getNotificationInputScore(maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage);
         }
 
-        return '';
+        return message;
     };
 
-    vm.inputScore = function (processByReviewer) {
-        if (!EmployeeEPAModel.validateScoreInput(processByReviewer.TotalScore, 0, processByReviewer.MaxTotalScore, vm.scoreInputValidMessage)) {
-            processByReviewer.TotalScore = null;
+    vm.inputScore = function (currentProcess) {
+        var maxSubtractScore = currentProcess.MaxSubtractScore,
+            maxAdditionScore = currentProcess.MaxAdditionScore;
+
+        if (!EmployeeEPAModel.validateScoreInput(currentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
+            currentProcess.AdjustScore = null;
         }
 
-        ReviewerManagementModel.calculatePerformanceScore(vm, true);
+        ReviewerManagementModel.calculateScore(vm.epaInfo, true);
+        vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(currentProcess.TotalScore, vm.standardGrades);
     };
 
     vm.save = function (epaInfo) {
@@ -462,14 +471,14 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.epaInfo.Process.AverageScoreByEvaluators = totalScoreOfEvaluator;
 
             // reviewer
+            vm.epaInfo.Process.CurrentProcess.MaxSubtractScore = -totalScoreOfEvaluator;
+            vm.epaInfo.Process.CurrentProcess.MaxAdditionScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore - totalScoreOfEvaluator);
             vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore !== "" ?
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore) :
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators);
-            vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
-
-            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
+
+            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.epaInfo.Process.CurrentProcess.TotalScore, vm.standardGrades);
 
             if (vm.epaInfo.LastFinalScore.length > 0) {
                 vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);

@@ -28,11 +28,8 @@
                 <td class="text-center">{{project.EndDate | customDate}}</td>
                 <td class="text-center">{{project.Roles}}</td>
                 <td class="text-center">{{project.WorkingHour}}</td>
-                <td class="text-center rating-block">
-                    {{project.DecryptedScore}}
-                    <span class="star" ng-repeat="n in [] | range: 2">
-                        <i class="fa fa-star"></i>
-                    </span>
+                <td class="text-center">
+                    {{project.DecryptedScore}} <i class="fa fa-star"></i>
                 </td>
                 <td>
                     <span ng-if="project.Comment.length > 50" tooltip="{{project.Comment}}">
@@ -130,15 +127,10 @@
                     <p>
                         <span data-translate="Comments" class="lable-comment-if-any"></span>&nbsp;
                         <span class="label-word-countdown" data-translate="LimitedWords"></span>
-                        <span class="mini-collapsed" data-toggle="collapse" data-target=".evaluator-major-comment">
-                            <!--<i class="fa fa-minus-square"></i>-->
-                        </span>
                     </p>
-                    <div class="collapse in evaluator-major-comment">
-                        <textarea class="form-control" maxlength="2000"
-                                  ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
-                                  ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
-                    </div>
+                    <textarea class="form-control" maxlength="2000"
+                              ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"
+                              ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>
                 </td>
             </tr>
         </tbody>

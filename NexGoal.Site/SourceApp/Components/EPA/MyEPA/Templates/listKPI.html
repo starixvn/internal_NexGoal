@@ -45,14 +45,10 @@
                 <span data-translate="CommentByEmployee" class="lable-comment-if-any"></span>
                 <span class="label-word-countdown" data-translate="LimitedWords"></span>
                 <span class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></span>
-                <span class="mini-collapsed" data-toggle="collapse" data-target=".employee-comment-{{$index}}">
-                </span>
             </p>
-            <div class="collapse in employee-comment-{{$index}}">
-                <textarea class="form-control" maxlength="2000"
-                          ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
-                          ng-model="kpi.CurrentEvaluation.Comment"></textarea>
-            </div>
+            <textarea class="form-control" maxlength="2000"
+                      ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                      ng-model="kpi.CurrentEvaluation.Comment"></textarea>
         </td>
     </tr>
     <tr class="sub-total text-center">

@@ -31,11 +31,8 @@
                 <td class="text-center">{{project.EndDate | customDate}}</td>
                 <td class="text-center">{{project.Roles}}</td>
                 <td class="text-center">{{project.WorkingHour}}</td>
-                <td class="text-center rating-block">
-                    {{project.DecryptedScore}}
-                    <span class="star" ng-repeat="n in [] | range: 2">
-                        <i class="fa fa-star"></i>
-                    </span>
+                <td class="text-center">
+                    {{project.DecryptedScore}} <i class="fa fa-star"></i>
                 </td>
                 <td>
                     <span ng-if="project.Comment.length > 50" tooltip="{{project.Comment}}">
