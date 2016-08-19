@@ -6,42 +6,52 @@
             </ul>
         </div>
         <div class="col-sm-12">
-            <form novalidate class="row filter form-horizontal" role="form">
+            <form novalidate class="filter form-inline''" role="form">
                 <div class="form-group">
-                    <label class="col-sm-2 control-label" data-translate="EvaluationPeriod"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="epaDetailReportCtrl.filter.periodId"
-                                ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaDetailReportCtrl.periods">
-                            <option style="display: none" value="">-- {{"All" | translate}} --</option>
-                        </select>
+                    <div class="col">
+                        <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="epaDetailReportCtrl.filter.periodId"
+                                    ng-options="opt.PeriodId as opt.Name group by opt.Year for opt in epaDetailReportCtrl.periods">
+                                <option style="display: none" value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label" data-translate="ScoredBy"></label>
-                    <div class="col-sm-2">
-                        <add-class-to-role-filter class="multi-select" multi-select input-model="epaDetailReportCtrl.scoredBy" button-label="Name"
-                                                  helper-elements="all reset" item-label="Name" tick-property="ticked" max-labels="0">
-                        </add-class-to-role-filter>
+                    
+                    <div class="col">
+                        <label class="control-label" data-translate="ScoredBy"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="epaDetailReportCtrl.scoredBy" button-label="Name"
+                                                      helper-elements="all reset" item-label="Name" tick-property="ticked" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group last">
-                    <label class="col-sm-2 control-label" data-translate="DepartmentTeam"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="epaDetailReportCtrl.filter.departmentId"
-                                ng-options="opt.DepartmentId as opt.Name for opt in epaDetailReportCtrl.treeDepartment">
-                            <option value="">-- {{"All" | translate}} --</option>
-                        </select>
+                    
+                    <div class="col">
+                        <label class="control-label size-l" data-translate="DepartmentTeam"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="epaDetailReportCtrl.filter.departmentId"
+                                    ng-options="opt.DepartmentId as opt.Name for opt in epaDetailReportCtrl.treeDepartment">
+                                <option value="">-- {{"All" | translate}} --</option>
+                            </select>
+                        </div>
                     </div>
-                    <label class="col-sm-2 control-label" data-translate="Category"></label>
-                    <div class="col-sm-2">
-                        <select class="form-control" ng-model="epaDetailReportCtrl.filter.isLocal">
-                            <option value="">-- {{"All" | translate}} --</option>
-                            <option value="false">{{"Expat" | translate}}</option>
-                            <option value="true">{{"Local" | translate}}</option>
-                        </select>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Category"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="epaDetailReportCtrl.filter.isLocal">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option value="false">{{"Expat" | translate}}</option>
+                                <option value="true">{{"Local" | translate}}</option>
+                            </select>
+                        </div>
                     </div>
-                    <div class="col-sm-offset-1 col-sm-1">
+
+                    <div class="col">
                         <button class="button btn-search" ng-click="epaDetailReportCtrl.query(epaDetailReportCtrl.filter)" data-translate="Search"></button>
                     </div>
-                </div>
+                </div>                
             </form>
         </div>
         <div class="col-sm-12">
