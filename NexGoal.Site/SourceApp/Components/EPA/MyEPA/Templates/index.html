@@ -1,5 +1,4 @@
-﻿
-<div class="my-epa" ng-controller="EmployeeEPAController as empEPACtrl">
+﻿<div class="my-epa" ng-controller="EmployeeEPAController as empEPACtrl">
     <div class="row">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
@@ -7,21 +6,23 @@
             </ul>
         </div>
         <div class="col-sm-12">
-        <form novalidate class="row filter form-horizontal" role="form">
-            <div class="form-group last">
-                <label class="col-sm-1 col-percent-14 control-label" data-translate="EvaluationPeriod"></label>
-                <div class="col-sm-2">
-                    <add-class-to-role-filter class="multi-select" multi-select input-model="empEPACtrl.periods" button-label="Name"
-                                              helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
-                    </add-class-to-role-filter>
+            <form novalidate class="filter form-inline" role="form">
+                <div class="form-group">
+                    <div class="col">
+                        <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="empEPACtrl.periods" button-label="Name"
+                                                      helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
+                        <div class="col-sm-1">
+                            <button class="button" data-translate="Submit"></button>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-1">
-                    <button class="button" data-translate="Submit"></button>
-                </div>
-            </div>
-        </form>
-    </div>
-    <div class="col-sm-12">
+            </form>
+        </div>
+        <div class="col-sm-12">
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr>

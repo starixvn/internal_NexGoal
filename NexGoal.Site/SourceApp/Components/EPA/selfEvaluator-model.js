@@ -135,8 +135,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    selfEvalutorModel.getEPAByEmployee = function () {
-        return employeeEPAFactory.getEPAByEmployee()
+    selfEvalutorModel.getEPAByEmployee = function (periodIds) {
+        return employeeEPAFactory.getEPAByEmployee(periodIds)
         .success(function (myEPAs) {
             selfEvalutorModel.myEPAs = myEPAs;
         }).error(function (response, status) {

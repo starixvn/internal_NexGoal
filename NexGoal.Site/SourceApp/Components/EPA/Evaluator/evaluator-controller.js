@@ -12,7 +12,6 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.sortBySelfScore = { ascending: false, descending: false };
     vm.filter = {};
-    //vm.monthlyFilterSelected = false;
 
     function initFilter() {
         var filter = historyFactory.getState();
@@ -90,12 +89,6 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
 
                 memberEPA.Grade = EmployeeEPAModel.convertScoreToGrade(memberEPA.FinalScore, vm.standardGrades);
             });
-
-            //if (isMonthly) {
-            //    vm.monthlyFilterSelected = true;
-            //} else {
-            //    vm.monthlyFilterSelected = false;
-            //}
         });
 
         historyFactory.saveState(vm.filter);

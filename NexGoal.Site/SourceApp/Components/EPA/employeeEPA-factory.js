@@ -6,8 +6,8 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getUserPermissionOnEmployee: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnEmployee');
         },
-        getEPAByEmployee: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEmployee');
+        getEPAByEmployee: function (periodIds) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByEmployee', { params: { periodIds: periodIds } });
         },
         getEPAInfoByEmployee: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEmployee', { params: { epaId: epaId } });
