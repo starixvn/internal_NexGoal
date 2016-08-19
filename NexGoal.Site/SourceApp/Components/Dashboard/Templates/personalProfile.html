@@ -6,57 +6,57 @@
     </div>
 
 
-    <div class="col-sm-10 info-user">
+    <div class="info-user">
         <div class="row row-item line">
-            <div class="col-sm-6">
-                <div class="col-sm-4 col-lg-4"><strong>Employee Code</strong></div>
-                <div class="col-sm-8 col-lg-8">
-                    <strong ng-bind="dashboardCtrl.employee.Code"></strong>
+            <div class="info-item">
+                <div class="info-label"><strong>Employee Code</strong></div>
+                <div class="info-detail">
+                    <span ng-bind="dashboardCtrl.employee.Code"></span>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="col-sm-4 col-lg-4"><strong>Nick Name</strong></div>
-                <div class="col-sm-8 col-lg-8">
-                    <strong ng-bind="dashboardCtrl.employee.NickName"></strong>
+            <div class="info-item">
+                <div class="info-label"><strong>Nick Name</strong></div>
+                <div class="info-detail">
+                    <span ng-bind="dashboardCtrl.employee.NickName"></span>
                 </div>
             </div>
         </div>
 
         <div class="row row-item line">
-            <div class="col-sm-6">
-                <div class="col-sm-4 col-lg-4"><strong>Full Name</strong></div>
-                <div class="col-sm-8 col-lg-8">
-                    <strong ng-bind="dashboardCtrl.employee.FullName"></strong>
+            <div class="info-item">
+                <div class="info-label"><strong>Full Name</strong></div>
+                <div class="info-detail">
+                    <span ng-bind="dashboardCtrl.employee.FullName"></span>
                 </div>
             </div>
-            <div class="col-sm-6">
-                <div class="col-sm-4 col-lg-4"><strong>Job Title</strong></div>
-                <div class="col-sm-8 col-lg-8">
-                    <strong ng-bind="dashboardCtrl.employee.JobTitle.JobTitleName"></strong>
-                </div>
-            </div>
-        </div>
-
-        <div class="row row-item line">
-            <div class="col-sm-6">
-                <div class="col-sm-4 col-lg-4"><strong>Department</strong></div>
-                <div class="col-sm-8 col-lg-8">
-                    <strong ng-bind="dashboardCtrl.employee.Department.Name"></strong>
-                </div>
-            </div>
-            <div class="col-sm-6">
-                <div class="col-sm-4 col-lg-4"><strong>Team</strong></div>
-                <div class="col-sm-8 col-lg-8">
-                    <strong ng-bind="dashboardCtrl.employee.Group.GroupName"></strong>
+            <div class="info-item">
+                <div class="info-label"><strong>Job Title</strong></div>
+                <div class="info-detail">
+                    <span ng-bind="dashboardCtrl.employee.JobTitle.JobTitleName"></span>
                 </div>
             </div>
         </div>
 
         <div class="row row-item line">
-            <div class="col-sm-6">
-                <div class="col-sm-4 col-lg-4"><strong>Joined Date</strong></div>
-                <div class="col-sm-8 col-lg-8">
-                    <strong ng-bind="dashboardCtrl.employee.JoinedDate | customDate"></strong>
+            <div class="info-item">
+                <div class="info-label"><strong>Department</strong></div>
+                <div class="info-detail">
+                    <span ng-bind="dashboardCtrl.employee.Department.Name"></span>
+                </div>
+            </div>
+            <div class="info-item">
+                <div class="info-label"><strong>Team</strong></div>
+                <div class="info-detail">
+                    <span ng-bind="dashboardCtrl.employee.Group.GroupName"></span>
+                </div>
+            </div>
+        </div>
+
+        <div class="row row-item line">
+            <div class="info-item">
+                <div class="info-label"><strong>Joined Date</strong></div>
+                <div class="info-detail">
+                    <span ng-bind="dashboardCtrl.employee.JoinedDate | customDate"></span>
                 </div>
             </div>
         </div>

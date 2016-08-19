@@ -10,13 +10,14 @@
 
 .dashboard {
     background-color: #fefefe;
-    color: #61463b;
+    color: #545454;
 
     .row-item {
         padding: 5px 0;
+        margin: 0;
 
         &.line {
-            border-bottom: 1px solid #aaaaaa;
+            //border-bottom: 1px solid #aaaaaa;
         }
     }
 
@@ -205,6 +206,10 @@
                     border-color: @c-final-score @c-final-score @c-final-score transparent;
                 }
             }
+        }
+
+        &.process-dasboard {
+            border-top: 1px solid #fff;
         }
     }
 }

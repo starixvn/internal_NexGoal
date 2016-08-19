@@ -223,7 +223,27 @@ label:hover {
   background: #eaeaea;
 }
 .panel-default .personal-profile .panel-body {
-  padding: 10px;
+  padding: 20px;
+}
+.panel-default .personal-profile .img-user {
+  float: left;
+  width: 200px;
+}
+.panel-default .personal-profile .info-user {
+  float: left;
+  width: calc(100% - 200px);
+}
+.panel-default .personal-profile .info-user .info-item {
+  float: left;
+  margin-right: 30px;
+}
+.panel-default .personal-profile .info-user .info-label {
+  float: left;
+  width: 130px;
+}
+.panel-default .personal-profile .info-user .info-detail {
+  float: left;
+  width: 260px;
 }
 .container-fluid.page {
   width: 100%;
