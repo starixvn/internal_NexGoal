@@ -90,6 +90,9 @@ label:hover {
 .tooltip .tooltip-inner {
   text-align: left;
 }
+.text-uppercase {
+  text-transform: uppercase;
+}
 .navbar {
   min-height: 6rem;
   line-height: 6rem;
@@ -164,7 +167,6 @@ label:hover {
 }
 .panel-default > .panel-heading .panel-title {
   font-size: 14px;
-  font-weight: 600;
 }
 .panel-default > .panel-heading .panel-title:hover {
   cursor: pointer;
@@ -195,9 +197,9 @@ label:hover {
   cursor: pointer;
 }
 .panel-default .level-2 {
-  background-color: #757885;
+  background-color: #535e87;
   color: #fff;
-  padding: 7px 20px;
+  padding: 6px 20px;
   text-transform: capitalize;
   font-size: 14px;
   position: relative;
@@ -206,11 +208,22 @@ label:hover {
 .panel-default .level-2.collapsed {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
 }
+.panel-default .level-2[data-target=".performance-review-panel"],
+.panel-default .level-2[data-target=".general-information-panel"] {
+  padding: 9px 20px;
+  text-transform: uppercase;
+}
 .panel-default .level-3 {
-  background-color: #8b8f9e;
+  background-color: #606887;
   color: #fff;
   padding: 7px 20px;
   font-size: 14px;
+}
+.panel-default .personal-profile {
+  background: #eaeaea;
+}
+.panel-default .personal-profile .panel-body {
+  padding: 10px;
 }
 .container-fluid.page {
   width: 100%;
@@ -682,14 +695,15 @@ label:hover {
 .table tbody .comment td textarea.form-control {
   border: none;
   box-shadow: none;
-  color: #555555;
+  color: #545454;
   padding: 8px 20px;
   font-size: 13px;
 }
 .table tbody .comment td textarea.form-control[disabled],
 .table tbody .comment td textarea.form-control[readonly],
 .table tbody .comment td textarea.form-control [disabled] {
-  background: #f0f0f0;
+  color: #808080;
+  background-color: #fff;
 }
 .table tbody .comment td ::-webkit-input-placeholder {
   color: #a6a6a6;
@@ -710,7 +724,7 @@ label:hover {
 }
 .table tbody .level-2 td {
   color: #fff;
-  border-color: #757885 !important;
+  border-color: #535e87 !important;
   padding: 5px 20px !important;
 }
 .table tbody .level-2:hover td {
@@ -788,9 +802,9 @@ label:hover {
   padding: 0;
 }
 .pa-form thead > tr > th {
-  background: #8b8f9e;
-  color: #fff;
-  font-weight: 500;
+  background: #f3e9d0;
+  color: #545454;
+  font-weight: 600;
 }
 .pa-form tfoot tr td {
   background: #f5cdb0;

@@ -4,9 +4,9 @@
 </div>
 
 <div class="collapse in performance-result-table">
-    <table class="table table-bordered table-performance-result">
+    <table class="table table-bordered table-performance-result pa-form">
         <thead class="kpiGroup">
-            <tr class="level-3">
+            <tr>
                 <th colspan="2" data-translate="Employee"></th>
                 <th colspan="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1 ? 4 : 3}}" data-translate="Evaluator">
                 </th>
@@ -109,9 +109,9 @@
 </div>
 
 <div class="collapse in performance-detail-table">
-    <table class="table table-bordered table-performance-result" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups">
+    <table class="table table-bordered table-performance-result pa-form" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups">
         <thead>
-            <tr>
+            <tr class="level-3">
                 <th colspan="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1 ? 8 : 7}}" class="text-left">
                     {{$index + 1}}. {{kpiGroup.Name}} ({{kpiGroup.Weight}} pts)
                 </th>
