@@ -142,7 +142,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to There are some empty score. Please fill them before submitting..
+        ///   Looks up a localized string similar to Your adjusted score is higher than the total score. The system is automatically set the adjusted score as the total score! Please re-check!.
         /// </summary>
         public static string AdjustScoreInvalid {
             get {
@@ -3202,7 +3202,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Score must be larger or equal {0} and less or equal than {1}.
+        ///   Looks up a localized string similar to The range of the adjustment score is from [-10] to [+10]..
         /// </summary>
         public static string ScoreInputValid {
             get {

@@ -5,6 +5,8 @@ epaModule.factory('ReviewerManagementModel',
 ['$modal', 'EmployeeEPAModel', 'employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
 function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var reviewerMngModel = this;
+    var maxAdditionScore = utilitiesFactory.maxAdditionScore;
+    var maxSubtractScore = utilitiesFactory.maxSubtractScore;
 
     reviewerMngModel.epaInfo = {};
     reviewerMngModel.groups = [];
@@ -176,10 +178,22 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     reviewerMngModel.calculateAdjustScoreMultiple = function (memberEPAs, adjust, isReviewer) {
         var scoreAdjusted, averageScore, totalScore;
+        var isValidAdjustScore = true;
 
         angular.forEach(memberEPAs, function (memberEPA) {
             if (memberEPA.Selected) {
                 scoreAdjusted = utilitiesFactory.parseFloat(adjust.Score);
+
+                if (scoreAdjusted > maxAdditionScore || scoreAdjusted < maxSubtractScore) {
+                    isValidAdjustScore = false;
+
+                    if (scoreAdjusted > maxAdditionScore) {
+                        scoreAdjusted = maxAdditionScore;
+                    } else if (scoreAdjusted < maxSubtractScore) {
+                        scoreAdjusted = maxSubtractScore;
+                    }
+                }
+
                 averageScore = memberEPA.Process.AverageScoreByEvaluators;
 
                 if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
@@ -208,6 +222,10 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 }
             }
         });
+
+        if (!isValidAdjustScore) {
+            notificationFactory.error("AdjustScoreInvalid");
+        }
     };
 
     // reviewer

@@ -64,7 +64,7 @@
                            ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
                            ng-model="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.AdjustScore" numeric decimals="2"
                            ng-change="memberEPAInfoCtrl.inputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)"
-                          data-placement="left" tooltip="{{memberEPAInfoCtrl.getNotificationInputScore(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess)}}" tooltip-trigger="focus" />
+                           tooltip="{{memberEPAInfoCtrl.scoreInputValidMessage}}" tooltip-trigger="focus" />
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
                     <div class="textarea-comment">

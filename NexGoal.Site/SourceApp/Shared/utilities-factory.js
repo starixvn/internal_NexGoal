@@ -9,6 +9,9 @@ appModule.factory('utilitiesFactory',
         dateFormat = "dd MMM, yyyy",
         timeFormat = 'HH:mm';
 
+    utilities.maxAdditionScore = 10;
+    utilities.maxSubtractScore = -10;
+
     utilities.maxStar = 5;
 
     utilities.numberEntryList = function (vm) {

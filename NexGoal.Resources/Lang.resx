@@ -682,7 +682,7 @@
     <value>Task accomplished  &amp; Mistake low.</value>
   </data>
   <data name="ScoreInputValid" xml:space="preserve">
-    <value>Score must be larger or equal {0} and less or equal than {1}</value>
+    <value>The range of the adjustment score is from [-10] to [+10].</value>
   </data>
   <data name="FlowTemplate" xml:space="preserve">
     <value>Flow Template</value>
@@ -1027,7 +1027,7 @@
     <value>Please select employee before saving!</value>
   </data>
   <data name="AdjustScoreInvalid" xml:space="preserve">
-    <value>There are some empty score. Please fill them before submitting.</value>
+    <value>Your adjusted score is higher than the total score. The system is automatically set the adjusted score as the total score! Please re-check!</value>
   </data>
   <data name="ViewEPAResult" xml:space="preserve">
     <value>View EPA Result</value>

@@ -125,17 +125,10 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
     vm.ok = function () {
         if (!vm.adjust.Score) {
             notificationFactory.error("ScoreRequire");
+        } else if (!vm.adjust.Comment || vm.adjust.Comment.length === 0) {
+            notificationFactory.error("CommentRequire");
         }
         else {
-            if (vm.isReviewer) {
-                ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, true);
-                ReviewerManagementModel.adjustScoreByReviewer(vm, vm.selectedEmployees);
-            }
-            else {
-                ReviewerManagementModel.calculateAdjustScoreMultiple(vm.selectedEmployees, vm.adjust, false);
-                ReviewerManagementModel.adjustScoreByManagement(vm, vm.selectedEmployees);
-            }
-
             $modalInstance.close(vm.adjust);
         }
     };

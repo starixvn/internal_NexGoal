@@ -177,19 +177,23 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         });
     };
 
-    vm.getNotificationInputScore = function (memberEPA) {
-        var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
-            maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore;
-
-        return EmployeeEPAModel.getNotificationInputScore(maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage);
+    vm.getNotificationInputScore = function () {
+        return vm.scoreInputValidMessage;
     };
 
     vm.inputScore = function (memberEPA) {
         var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
             maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore;
+        var adjustScore = memberEPA.Process.CurrentProcess.AdjustScore;
 
-        if (!EmployeeEPAModel.validateScoreInput(memberEPA.Process.CurrentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
-            memberEPA.Process.CurrentProcess.AdjustScore = null;
+        if (adjustScore > maxAdditionScore || adjustScore < maxSubtractScore) {
+            notificationFactory.error('AdjustScoreInvalid');
+
+            if (adjustScore > maxAdditionScore) {
+                memberEPA.Process.CurrentProcess.AdjustScore = maxAdditionScore;
+            } else if (adjustScore < maxSubtractScore) {
+                memberEPA.Process.CurrentProcess.AdjustScore = maxSubtractScore;
+            }
         }
 
         ReviewerManagementModel.calculateScore(memberEPA, true);
@@ -255,7 +259,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 }
 
                 memberEPA.Process.CurrentProcess.MaxSubtractScore = -10;
-                memberEPA.Process.CurrentProcess.MaxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore > 10 ? 10 : memberEPA.Process.CurrentProcess.MaxAdditionScore;
+                memberEPA.Process.CurrentProcess.MaxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore > 10 ?
+                    10 :
+                    memberEPA.Process.CurrentProcess.MaxAdditionScore;
 
                 memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
                 memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore);
@@ -307,10 +313,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             vm.scoreInputValidMessage = message;
         });
 
-        $translate('AdjustScoreInvalid').then(function (message) {
-            vm.adjustScoreInvalidMessage = message;
-        });
-
         ReviewerManagementModel.getUserPermissionOnReviewer().then(function () {
             vm.permission = ReviewerManagementModel.permission;
         });
@@ -333,9 +335,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
 epaModule.controller('MemberEPAInfoOfReviewerController',
 ['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory',
 function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory) {
     var vm = this;
 
     vm.permission = 0;
@@ -376,25 +378,19 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
-    vm.getNotificationInputScore = function (currentProcess) {
-        var message = "";
-
-        if (currentProcess) {
-            var maxSubtractScore = currentProcess.MaxSubtractScore,
-                maxAdditionScore = currentProcess.MaxAdditionScore;
-
-            message = EmployeeEPAModel.getNotificationInputScore(maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage);
-        }
-
-        return message;
-    };
-
     vm.inputScore = function (currentProcess) {
         var maxSubtractScore = currentProcess.MaxSubtractScore,
             maxAdditionScore = currentProcess.MaxAdditionScore;
+        var adjustScore = currentProcess.AdjustScore;
 
-        if (!EmployeeEPAModel.validateScoreInput(currentProcess.AdjustScore, maxSubtractScore, maxAdditionScore, vm.scoreInputValidMessage)) {
-            currentProcess.AdjustScore = null;
+        if (adjustScore > maxAdditionScore || adjustScore < maxSubtractScore) {
+            notificationFactory.error('AdjustScoreInvalid');
+
+            if (adjustScore > maxAdditionScore) {
+                currentProcess.AdjustScore = maxAdditionScore;
+            } else if (adjustScore < maxSubtractScore) {
+                currentProcess.AdjustScore = maxSubtractScore;
+            }
         }
 
         ReviewerManagementModel.calculateScore(vm.epaInfo, true);
@@ -402,12 +398,16 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     };
 
     vm.save = function (epaInfo) {
-        var totalcore = epaInfo.Process.CurrentProcess.TotalScore;
+        if (!epaInfo.Process.CurrentProcess.Comment || epaInfo.Process.CurrentProcess.Comment.length === 0) {
+            notificationFactory.error('CommentRequire');
+        } else {
+            var totalcore = epaInfo.Process.CurrentProcess.TotalScore;
 
-        if (ReviewerManagementModel.validateEvaluation(totalcore)) {
-            var model = new Array(epaInfo);
+            if (ReviewerManagementModel.validateEvaluation(totalcore)) {
+                var model = new Array(epaInfo);
 
-            ReviewerManagementModel.adjustScoreByReviewer(vm, model);
+                ReviewerManagementModel.adjustScoreByReviewer(vm, model);
+            }
         }
     };
 
