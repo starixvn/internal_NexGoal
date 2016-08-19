@@ -173,8 +173,8 @@
         <tbody>
             <tr class="sub-total text-center">
                 <td colspan="2" data-translate="SubTotal"></td>
-                <td colspan="2">{{kpiGroup.SelfScore}} / {{kpiGroup.Weight}} pts</td>
-                <td colspan="4">{{kpiGroup.EvaluatorScore}} / {{kpiGroup.Weight}} pts</td>
+                <td colspan="2">{{kpiGroup.SelfScore | customScore}} / {{kpiGroup.Weight}} pts</td>
+                <td colspan="4">{{kpiGroup.EvaluatorScore | customScore}} / {{kpiGroup.Weight}} pts</td>
             </tr>
         </tbody>
     </table>

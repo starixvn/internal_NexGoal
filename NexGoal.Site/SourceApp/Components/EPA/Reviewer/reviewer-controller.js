@@ -254,6 +254,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.AverageScoreByEvaluators;
                 }
 
+                memberEPA.Process.CurrentProcess.MaxSubtractScore = -10;
+                memberEPA.Process.CurrentProcess.MaxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore > 10 ? 10 : memberEPA.Process.CurrentProcess.MaxAdditionScore;
+
                 memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
                 memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore);
                 memberEPA.FinalScore = memberEPA.Process.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
@@ -342,9 +345,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
-    vm.dataSaved = false;
     vm.evaluatedDate = null;
-    vm.finalScore = null;
     vm.maxStar = utilitiesFactory.maxStar;
 
     vm.checkEndProcess = function (members) {
@@ -471,8 +472,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             vm.epaInfo.Process.AverageScoreByEvaluators = totalScoreOfEvaluator;
 
             // reviewer
-            vm.epaInfo.Process.CurrentProcess.MaxSubtractScore = -totalScoreOfEvaluator;
-            vm.epaInfo.Process.CurrentProcess.MaxAdditionScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore - totalScoreOfEvaluator);
+            var maxAdditionScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore - totalScoreOfEvaluator);
+
+            vm.epaInfo.Process.CurrentProcess.MaxSubtractScore = -10;
+            vm.epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore > 10 ? 10 : maxAdditionScore;
             vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore !== "" ?
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore) :
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators);
