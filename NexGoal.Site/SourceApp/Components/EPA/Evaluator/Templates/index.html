@@ -9,24 +9,21 @@
             <form novalidate class="filter form-inline" role="form">
                 <div class="form-group">
                     <div class="col">
+                        <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.periods" button-label="Name"
+                                                      helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
+                    </div>
+
+                    <div class="col">
                         <label class="control-label" data-translate="Team"></label>
                         <div class="control-content">
                             <select class="form-control" ng-model="evaluatorCtrl.filter.groupId"
                                     ng-options="opt.GroupId as opt.GroupName for opt in evaluatorCtrl.groupOptions"
                                     ng-change="evaluatorCtrl.getMember()">
                                 <option value="">-- {{"All" | translate}} --</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <label class="control-label" data-translate="Category"></label>
-                        <div class="control-content">
-                            <select class="form-control" ng-model="evaluatorCtrl.filter.isLocal"
-                                    ng-change="evaluatorCtrl.getMember()">
-                                <option value="">-- {{"All" | translate}} --</option>
-                                <option value="false">{{"Expat" | translate}}</option>
-                                <option value="true">{{"Local" | translate}}</option>
                             </select>
                         </div>
                     </div>

@@ -2,8 +2,8 @@
 /*global epaModule*/
 
 epaModule.controller('EmployeeEPAController',
-["$location", 'SelfEvalutorModel', 'CommonModel', 'enumerationsFactory', 'utilitiesFactory', 'historyFactory', 'baseUrl',
-function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilitiesFactory, historyFactory, baseUrl) {
+["$location", 'SelfEvalutorModel', 'CommonModel', 'enumerationsFactory', 'utilitiesFactory', 'historyFactory', 'lockScreenService', 'baseUrl',
+function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilitiesFactory, historyFactory, lockScreenService, baseUrl) {
     var vm = this;
 
     vm.myEPAs = SelfEvalutorModel.myEPAs;
@@ -18,11 +18,15 @@ function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilit
         };
     }
 
-    vm.query = function (filter) {
-        filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
+    vm.query = function () {
+        vm.filters.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
 
-        SelfEvalutorModel.getEPAByEmployee(filter.periodIds).then(function () {
+        lockScreenService.start();
+
+        SelfEvalutorModel.getEPAByEmployee(vm.filters.periodIds).then(function () {
             vm.myEPAs = SelfEvalutorModel.myEPAs;
+        })["finally"](function () {
+            lockScreenService.stop();
         });
 
         historyFactory.saveState(vm.filter);
@@ -45,7 +49,7 @@ function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilit
 
         CommonModel.getAllPeriodIncludeImport().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
-            vm.query(vm.filters);
+            vm.query();
         });
     }
 

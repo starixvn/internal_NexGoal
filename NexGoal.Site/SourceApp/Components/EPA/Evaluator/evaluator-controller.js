@@ -17,9 +17,8 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         var filter = historyFactory.getState();
         return filter ? filter : {
             groupId: '',
-            isLocal: '',
-            isMonthly: false,
-            employeeIds: ''
+            employeeIds: '',
+            periodIds: null
         };
     }
 
@@ -130,6 +129,10 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
             getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
+        });
+
+        CommonModel.getAllPeriodIncludeImport().then(function () {
+            vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
         });
     }
 

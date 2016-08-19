@@ -16,7 +16,7 @@
                             </add-class-to-role-filter>
                         </div>
                         <div class="col-sm-1">
-                            <button class="button" data-translate="Submit"></button>
+                            <button class="button" data-translate="Submit" ng-click="empEPACtrl.query()"></button>
                         </div>
                     </div>
                 </div>
@@ -30,6 +30,8 @@
                         <th data-translate="PeriodName"></th>
                         <th data-translate="StartDate"></th>
                         <th data-translate="EndDate"></th>
+                        <th data-translate="Score"></th>
+                        <th data-translate="Grade"></th>
                         <th data-translate="Detail"></th>
                     </tr>
                 </thead>
@@ -39,10 +41,16 @@
                         <td ng-bind="myEPA.Period.Name"></td>
                         <td class="text-center">{{ myEPA.Process.CurrentProcess.StartDate | customDate }}</td>
                         <td class="text-center">{{ myEPA.Process.CurrentProcess.EndDate | customDate }}</td>
+                        <td class="text-center">
+                            <span ng-show="myEPA.Period.IsEndPeriod">{{myEPA.FinalScore}}</span>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="myEPA.Period.IsEndPeriod">{{myEPA.Grade}}</span>
+                        </td>
                         <td class="text-center col-action" ng-switch="myEPA.IsAllowedToEdit">
                             <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href=""
                                ng-click="empEPACtrl.viewEPADetail(myEPA)"
-                               ng-attr-title='{{"EvaluateNow" | translate}}'></a>
+                               ng-attr-title='{{"EvaluateNow" | translate}}'><></a>
                             <a ng-switch-default class="glyphicon icon-view" href=""
                                ng-click="empEPACtrl.viewEPAResult(myEPA)"
                                ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
