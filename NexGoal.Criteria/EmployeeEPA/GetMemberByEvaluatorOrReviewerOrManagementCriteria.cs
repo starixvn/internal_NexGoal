@@ -8,7 +8,7 @@
 
         public int ActorUserId { get; set; }
 
-        public string GroupId { get; set; }
+        public string GroupIds { get; set; }
 
         public string PeriodIds { get; set; }
 
