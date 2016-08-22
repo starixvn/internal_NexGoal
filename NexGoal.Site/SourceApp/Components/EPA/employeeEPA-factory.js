@@ -15,15 +15,14 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getUserPermissionOnEvaluator: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnEvaluator');
         },
-        getGroupByEvaluator: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByEvaluator');
+        getGroupByEvaluator: function (periodIds) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByEvaluator', { params: { periodIds: periodIds } });
         },
-        getMemberByEvaluator: function (groupId, isLocal, isMonthly) {
+        getMemberByEvaluator: function (groupIds, periods) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByEvaluator', {
                 params: {
-                    groupId: groupId,
-                    isLocal: isLocal,
-                    isMonthly: isMonthly
+                    groupIds: groupIds,
+                    periodIds: periodIds
                 }
             });
         },

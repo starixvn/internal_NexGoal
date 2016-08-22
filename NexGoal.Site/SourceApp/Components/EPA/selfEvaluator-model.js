@@ -186,8 +186,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    selfEvalutorModel.getGroupByEvaluator = function () {
-        return employeeEPAFactory.getGroupByEvaluator()
+    selfEvalutorModel.getGroupByEvaluator = function (periodIds) {
+        return employeeEPAFactory.getGroupByEvaluator(periodIds)
         .success(function (groups) {
             selfEvalutorModel.groups = groups;
         }).error(function (response, status) {

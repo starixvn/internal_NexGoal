@@ -16,87 +16,23 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     function initFilter() {
         var filter = historyFactory.getState();
         return filter ? filter : {
-            groupId: '',
+            groupIds: '',
             employeeIds: '',
-            periodIds: null
+            periodIds: ''
         };
     }
 
-    function sortBySelfScore(epaInfo1, epaInfo2) {
-        var tempa = epaInfo1.Process.Self.TotalScore ? parseFloat(epaInfo1.Process.Self.TotalScore) : 0,
-            tempb = epaInfo2.Process.Self.TotalScore ? parseFloat(epaInfo2.Process.Self.TotalScore) : 0;
+    //vm.getMember = function () {
+    //    SelfEvalutorModel.getMemberByEvaluator(vm.filter.groupIds, vm.filter.isLocal, vm.filter.isMonthly).then(function () {
+    //        vm.members = SelfEvalutorModel.members;
+    //        utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
+    //    });
+    //};
 
-        if (epaInfo1.HasMonthlyEPA && epaInfo1.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            tempa = epaInfo1.MonthlyEPA.AverageSelfScoreConverted;
-        }
-
-        if (epaInfo2.HasMonthlyEPA && epaInfo2.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            tempb = epaInfo2.MonthlyEPA.AverageSelfScoreConverted;
-        }
-
-        return tempa - tempb;
-    }
-
-    vm.changeSorting = function () {
-        if (!vm.sortBySelfScore.ascending) {
-            vm.sortBySelfScore.ascending = true;
-            vm.sortBySelfScore.descending = false;
-            vm.memberEPAs.sort(sortBySelfScore);
-        } else {
-            vm.sortBySelfScore.ascending = false;
-            vm.sortBySelfScore.descending = true;
-            vm.memberEPAs.reverse();
-        }
-    };
-
-    vm.getMember = function () {
-        SelfEvalutorModel.getMemberByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly).then(function () {
-            vm.members = SelfEvalutorModel.members;
-            utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
-        });
-    };
-
-    vm.selectedCls = function () {
-        if (vm.sortBySelfScore.ascending) {
-            return 'sorting-asc';
-        } else if (vm.sortBySelfScore.descending) {
-            return 'sorting-desc';
-        }
-    };
-
-    function getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds) {
-        vm.sortBySelfScore = { ascending: false, descending: false };
-
-        SelfEvalutorModel.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds).then(function () {
-            vm.memberEPAs = SelfEvalutorModel.memberEPAs;
-
-            angular.forEach(vm.memberEPAs, function (memberEPA) {
-                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                    memberEPA.Process.Self.TotalScore = memberEPA.MonthlyEPA.AverageSelfScoreConverted;
-                    memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted) + memberEPA.DisciplineScore;
-                } else {
-                    memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
-                    memberEPA.FinalScore = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore) + memberEPA.DisciplineScore;
-                }
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
-
-                if (memberEPA.LastFinalScore.length > 0) {
-                    memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
-                } else {
-                    memberEPA.LastFinalScore = null;
-                }
-
-                memberEPA.Grade = EmployeeEPAModel.convertScoreToGrade(memberEPA.FinalScore, vm.standardGrades);
-            });
-        });
-
-        historyFactory.saveState(vm.filter);
-    }
-
-    vm.query = function (filter) {
-        filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByEvaluator(filter.groupId, filter.isLocal, filter.isMonthly, filter.employeeIds);
-    };
+    //vm.query = function (filter) {
+    //    filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
+    //    getEPAByEvaluator(filter.groupIds, filter.employeeIds);
+    //};
 
     vm.viewEPADetail = function (memberEPA) {
         $location.path(baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId);
@@ -110,25 +46,33 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         }
     };
 
-    vm.viewOtherViolationDetail = function (memberEPA) {
-        CommonModel.openPopupViewOtherViolationDetail(memberEPA.EPAId);
-    };
+    function getEPAByEvaluator(groupIds, isLocal, isMonthly, employeeIds) {
+        SelfEvalutorModel.getEPAByEvaluator(groupIds, isLocal, isMonthly, employeeIds).then(function () {
+            vm.memberEPAs = SelfEvalutorModel.memberEPAs;
+        });
 
-    vm.viewEPAHistory = function (employeeId) {
-        $location.path(baseUrl + 'EPAHistory/Index').search({ empId: employeeId });
-    };
+        historyFactory.saveState(vm.filter);
+    }
+
+    function getGroupsByPeriods(periods) {
+        SelfEvalutorModel.getGroupByEvaluator(periods).then(function () {
+            vm.groupOptions = SelfEvalutorModel.groups;
+            utilitiesFactory.setSelectedItem(vm.groupOptions, "GroupId", vm.filter.groupIds);
+        });
+    }
 
     function initialize() {
         vm.filter = initFilter();
-        SelfEvalutorModel.getGroupByEvaluator().then(function () {
-            vm.groupOptions = SelfEvalutorModel.groups;
-        });
+        //SelfEvalutorModel.getGroupByEvaluator().then(function () {
+        //    vm.groupOptions = SelfEvalutorModel.groups;
+        //    utilitiesFactory.setSelectedItem(vm.groupOptions, "GroupId", vm.filter.groupIds);
+        //});
 
-        vm.getMember();
+        //vm.getMember();
 
         CommonModel.getStandardGrade().then(function () {
             vm.standardGrades = CommonModel.standardGrades;
-            getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
+            //getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
         });
 
         CommonModel.getAllPeriodIncludeImport().then(function () {
