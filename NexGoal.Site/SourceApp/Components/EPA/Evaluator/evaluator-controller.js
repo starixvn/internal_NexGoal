@@ -11,14 +11,30 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.filter = {};
 
-    vm.handlePeriodsChange = function () {
-        alert("aaaa");
-    }
+    vm.handleOnPeriodClose = function () {
+        var periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
 
-    //vm.query = function (filter) {
-    //    filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-    //    getEPAByEvaluator(filter.groupIds, filter.employeeIds);
-    //};
+        if (periodIds !== vm.filter.periodIds) {
+            vm.filter.periodIds = periodIds;
+
+            getGroupsByPeriods(periodIds);
+        }
+    };
+
+    vm.handleOnGroupClose = function () {
+        var groupIds = utilitiesFactory.getSelectedData(vm.groupOptions, "GroupId");
+
+        if (groupIds !== vm.filter.groupIds) {
+            vm.filter.groupIds = groupIds;
+
+            getMemberByEvaluator(vm.filter.periodIds, vm.filter.groupIds);
+        }
+    };
+
+    vm.query = function () {
+        filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
+        getEPAByEvaluator(filter.groupIds, filter.employeeIds);
+    };
 
     vm.viewEPADetail = function (memberEPA) {
         $location.path(baseUrl + 'Evaluator/Detail/' + memberEPA.EPAId);
@@ -41,7 +57,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         };
     }
 
-    function getEPAByEvaluator(groupIds, isLocal, isMonthly, employeeIds) {
+    function getEPAByEvaluator(periodIds, groupIds, employeeIds) {
         SelfEvalutorModel.getEPAByEvaluator(groupIds, isLocal, isMonthly, employeeIds).then(function () {
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
         });
