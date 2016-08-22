@@ -32,8 +32,9 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     };
 
     vm.query = function () {
-        filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByEvaluator(filter.groupIds, filter.employeeIds);
+        vm.filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
+
+        getEPAByEvaluator(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
     };
 
     vm.viewEPADetail = function (memberEPA) {
@@ -58,7 +59,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     }
 
     function getEPAByEvaluator(periodIds, groupIds, employeeIds) {
-        SelfEvalutorModel.getEPAByEvaluator(groupIds, isLocal, isMonthly, employeeIds).then(function () {
+        SelfEvalutorModel.getEPAByEvaluator(periodIds, groupIds, employeeIds).then(function () {
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
         });
 

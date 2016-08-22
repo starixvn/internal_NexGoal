@@ -204,7 +204,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    selfEvalutorModel.getEPAByEvaluator = function (groupId, isLocal, isMonthly, employeeIds) {
+    selfEvalutorModel.getEPAByEvaluator = function (periodIds, groupIds, employeeIds) {
         return employeeEPAFactory.getEPAByEvaluator(groupId, isLocal, isMonthly, employeeIds)
         .success(function (memberEPAs) {
             selfEvalutorModel.memberEPAs = memberEPAs;
