@@ -227,13 +227,13 @@
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByReviewer(
             string periodIds,
-            int? groupId = null,
+            string groupIds = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByReviewerCriteria()
             {
                 ReviewerId = SessionService.EmployeeId,
-                GroupId = groupId,
+                GroupIds = groupIds,
                 PeriodIds = periodIds,
                 EmployeeIds = employeeIds
             };
@@ -455,7 +455,7 @@
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = processId,
-                GroupId = groupIds,
+                GroupIds = groupIds,
                 PeriodIds = periodIds
             };
 
