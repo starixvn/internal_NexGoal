@@ -28,10 +28,10 @@
             this.integrationRepository = integrationRepository ?? new IntegrationRepository();
         }
 
-        public IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId)
+        public IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId, int periodId)
         {
             IEnumerable<HRMSummaryViewModel> result = new List<HRMSummaryViewModel>();
-            PeriodModel period = periodService.GetInprogressSemiPeriodByEmployeeId(employeeId);
+            PeriodModel period = periodService.GetPeriodById(periodId);
             if (period != null)
             {
                 var criteria = new GetHRMSummaryByEmployeeIdCriteria
@@ -46,10 +46,10 @@
             return result;
         }
 
-        public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId)
+        public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId, int periodId)
         {
             IEnumerable<EmployeeWorkingViewModel> result = new List<EmployeeWorkingViewModel>();
-            PeriodModel period = periodService.GetInprogressSemiPeriodByEmployeeId(employeeId);
+            PeriodModel period = periodService.GetPeriodById(periodId);
             if (period != null)
             {
                 var criteria = new GetEmployeeWorkingByEmployeeIdCriteria

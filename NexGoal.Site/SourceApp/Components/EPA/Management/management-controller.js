@@ -488,6 +488,16 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewe
                     vm.epaInfo.IsAllowedToEdit = false;
                 }
             });
+            
+            
+            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+
+            SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
+            });
+
         });
     }
 

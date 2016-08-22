@@ -142,11 +142,11 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 }
             });
 
-            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId).then(function () {
+            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.hrmSummary = SelfEvalutorModel.hrmSummary;
             });
 
-            SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
+            SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
 

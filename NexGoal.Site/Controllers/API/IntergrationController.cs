@@ -20,16 +20,16 @@
             this.integrationService = integrationService ?? new IntegrationService();
         }
 
-        public IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId)
+        public IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId, int periodId)
         {
-            IEnumerable<HRMSummaryViewModel> result = integrationService.GetHRMSummary(employeeId);
+            IEnumerable<HRMSummaryViewModel> result = integrationService.GetHRMSummary(employeeId, periodId);
 
             return result;
         }
 
-        public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId)
+        public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId, int periodId)
         {
-            IEnumerable<EmployeeWorkingViewModel> result = integrationService.GetEmployeeWorking(employeeId);
+            IEnumerable<EmployeeWorkingViewModel> result = integrationService.GetEmployeeWorking(employeeId, periodId);
 
             return result;
         }

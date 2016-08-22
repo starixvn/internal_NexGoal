@@ -5,8 +5,8 @@
 
     public interface IIntegrationService
     {
-        IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId);
+        IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId, int periodId);
 
-        IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId);
+        IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId, int periodId);
     }
 }
