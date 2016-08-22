@@ -132,7 +132,7 @@
             Process.Self.Decode();
             DecodeForList(Process.Evaluators);
             DecodeForList(Process.Reviewers);
-
+            DecodeForGroup();
             foreach (EPAKPIModel kpi in KPIGroups.SelectMany(x => x.KPIs))
             {
                 kpi.EvaluationBySelf.Decode();
@@ -148,6 +148,14 @@
             foreach (EPAProcessModel process in processes)
             {
                 process.Decode();
+            }
+        }
+
+        private void DecodeForGroup()
+        {
+            foreach (var group in KPIGroups)
+            {
+                group.Decode();
             }
         }
     }

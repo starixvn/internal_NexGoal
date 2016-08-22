@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
+    using NexGoal.Core.Constants;
     using System.Collections.Generic;
 
     public class EPAKPIGroupModel
@@ -28,5 +29,15 @@
         public int NumberKPIOptional { get; set; }
 
         public IList<EPAKPIModel> KPIs { get; set; }
+
+        public IList<EvaluationModel> EvaluatorsScore { get; set; }
+
+        public void Decode()
+        {
+            foreach (var evaluator in EvaluatorsScore)
+            {
+                evaluator.Decode();
+            }
+        }
     }
 }

@@ -160,7 +160,7 @@
 
         public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {

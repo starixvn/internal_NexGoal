@@ -34,12 +34,17 @@
                     },
                     "EmployeeId, RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId");
 
+                    var kpiGroups = multi.Read<EPAKPIGroupModel>().ToList();
+
+                    IEnumerable<EvaluationModel> groupScore = multi.Read<EvaluationModel>();
+
                     IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
+                    GroupKPIGroupOnEPA(epaInfos, kpiGroups);
                     GroupEPAProcessByEPA(epaInfos, processes);
-                    
                     foreach (EPAModel epaInfo in epaInfos)
                     {
+                        GroupEvaluatorScoreOnGroup(epaInfo.KPIGroups, groupScore);
                         epaInfo.Decode();
                     }
 
@@ -308,6 +313,15 @@
 
         #endregion Rating By KPI
 
+        private void GroupKPIGroupOnEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAKPIGroupModel> kpiGroups)
+        {
+            foreach (var epa in epaInfos)
+            {
+                var group = kpiGroups.Where(i => i.EPAId.Equals(epa.EPAId));
+                epa.KPIGroups = group.ToList();
+            }
+        }
+
         private void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAProcessModel process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
@@ -355,6 +369,18 @@
                 foreach (EPAKPIModel kpi in kpis.Where(x => x.EPAId.Equals(kpiGroup.EPAId) && x.KPIGroupId.Equals(kpiGroup.KPIGroupId)))
                 {
                     kpiGroup.KPIs.Add(kpi);
+                }
+            }
+        }
+
+        private void GroupEvaluatorScoreOnGroup(IEnumerable<EPAKPIGroupModel> kpiGroups, IEnumerable<EvaluationModel> evaluations)
+        {
+            foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
+            {
+                var evaluatorScore = evaluations.Where(i => i.KPIGroupId.Equals(kpiGroup.KPIGroupId));
+                if (evaluatorScore.Any())
+                {
+                    kpiGroup.EvaluatorsScore = evaluatorScore.ToList();
                 }
             }
         }

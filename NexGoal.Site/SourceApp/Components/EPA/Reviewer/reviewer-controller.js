@@ -147,20 +147,12 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 vm.modalInstance = '';
             });
         } else {
-            if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                $location.path(baseUrl + 'Reviewer/SemiDetail/' + memberEPA.EPAId);
-            } else {
-                $location.path(baseUrl + 'Reviewer/Detail/' + memberEPA.EPAId);
-            }
+            $location.path(baseUrl + 'Reviewer/Detail/' + memberEPA.EPAId);
         }
     };
 
     vm.viewEPAResult = function (memberEPA) {
-        if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            $location.path(baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId);
-        } else {
-            $location.path(baseUrl + 'EPA/Detail/' + memberEPA.EPAId);
-        }
+        $location.path(baseUrl + 'EPA/Detail/' + memberEPA.EPAId);
     };
 
     vm.viewOtherViolationDetail = function (memberEPA) {
@@ -291,11 +283,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             }
 
             $(".rating-loading").rating();
-            if (isMonthly) {
-                vm.monthlyFilterSelected = true;
-            } else {
-                vm.monthlyFilterSelected = false;
-            }
+            vm.monthlyFilterSelected = false;
         });
 
         historyFactory.saveState(vm.filter);

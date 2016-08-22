@@ -10,6 +10,8 @@ namespace NexGoal.Model.EmployeeEPA
 
         public int KPIId { get; set; }
 
+        public int KPIGroupId { get; set; }
+
         public int EvaluatorId { get; set; }
 
         public string Code { get; set; }
