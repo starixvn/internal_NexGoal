@@ -37,7 +37,7 @@
                             </add-class-to-role-filter>
                         </div>
                     </div>
-                    
+
                     <div class="col">
                         <button class="button" ng-click="evaluatorCtrl.query()" data-translate="Submit"></button>
                     </div>
@@ -64,20 +64,14 @@
                             <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                         </td>
                         <td ng-bind="memberEPA.Employee.FullName"></td>
-                        <td ng-bind="memberEPA.Employee.GroupName">
-                        </td>
+                        <td ng-bind="memberEPA.Employee.GroupName"></td>
                         <td ng-bind="memberEPA.Employee.JobTitleName"></td>
                         <td ng-bind="memberEPA.Period.Name"></td>
                         <td class="text-center" ng-switch="memberEPA.Process.Self.IsEndProcess">
-                            <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
-                                <span ng-switch-when="true">
-                                    {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}
-                                </span>
-                                <span ng-switch-default>
-                                    {{memberEPA.Process.Self.TotalScore | customScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}
-                                </span>
-                            </div>
-                            <div ng-switch-default data-translate="Pending"></div>
+                            <span ng-switch-when="true">
+                                {{memberEPA.Process.Self.TotalScore | customScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}
+                            </span>
+                            <span ng-switch-default data-translate="Pending"></span>
                         </td>
                         <td class="text-center text-uppercase col-action" ng-switch="memberEPA.IsAllowedToEdit">
                             <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit"

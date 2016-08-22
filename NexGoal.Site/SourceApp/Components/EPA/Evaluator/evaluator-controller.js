@@ -2,8 +2,10 @@
 /*global epaModule*/
 
 epaModule.controller('EvaluatorController',
-["$location", 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+["$location", 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', "lockScreenService",
+    'enumerationsFactory', 'historyFactory', 'baseUrl',
+function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, lockScreenService,
+    enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.memberEPAs = [];
@@ -59,8 +61,12 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     }
 
     function getEPAByEvaluator(periodIds, groupIds, employeeIds) {
+        lockScreenService.start();
+
         SelfEvalutorModel.getEPAByEvaluator(periodIds, groupIds, employeeIds).then(function () {
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
+        })["finally"](function () {
+            lockScreenService.stop();
         });
 
         historyFactory.saveState(vm.filter);
@@ -97,6 +103,8 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
             vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
 
             getGroupsByPeriods(vm.filter.periodIds);
+
+            vm.query();
         });
     }
 
