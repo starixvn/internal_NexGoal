@@ -1,77 +1,64 @@
-﻿<div class="col-sm-2 text-center">
-    <div class="img-user">
-        <img class="img-default" ng-src="{{memberEPAInfoCtrl.epaInfo.Employee.Avatar}}" alt="User" />
-    </div>
+﻿<div class="img-user">
+    <img class="img-default" ng-src="{{memberEPAInfoCtrl.epaInfo.Employee.Avatar}}" alt="User" />
 </div>
-<div class="col-sm-10">
+
+<div class="info-user">
+
     <div class="row row-item line">
-        <div class="col-sm-6">
-            <div class="col-sm-4">
-                <strong data-translate="EmployeeCode"></strong>
-            </div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.Code"></strong>
+        <div class="info-item">
+            <div class="info-label"><strong data-translate="EmployeeCode"></strong></div>
+            <div class="info-detail">
+                <span ng-bind="memberEPAInfoCtrl.epaInfo.Employee.Code"></span>
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="col-sm-4">
-                <strong data-translate="NickName"></strong>
-            </div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.NickName"></strong>
+        <div class="info-item">
+            <div class="info-label"><strong data-translate="NickName"></strong></div>
+            <div class="info-detail">
+                <span ng-bind="memberEPAInfoCtrl.epaInfo.Employee.NickName"></span>
             </div>
         </div>
     </div>
+
     <div class="row row-item line">
-        <div class="col-sm-6">
-            <div class="col-sm-4">
-                <strong data-translate="FullName"></strong>
-            </div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.FullName"></strong>
+        <div class="info-item">
+            <div class="info-label"><strong data-translate="FullName"></strong></div>
+            <div class="info-detail">
+                <span ng-bind="memberEPAInfoCtrl.epaInfo.Employee.FullName"></span>
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="col-sm-4">
-                <strong data-translate="JobTitle"></strong>
-            </div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.JobTitleName"></strong>
+        <div class="info-item">
+            <div class="info-label"><strong data-translate="JobTitle"></strong></div>
+            <div class="info-detail">
+                <span ng-bind="memberEPAInfoCtrl.epaInfo.Employee.JobTitleName"></span>
             </div>
         </div>
     </div>
+
     <div class="row row-item line">
-        <div class="col-sm-6">
-            <div class="col-sm-4">
-                <strong data-translate="Department"></strong>
-            </div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.DepartmentName"></strong>
+        <div class="info-item">
+            <div class="info-label"><strong data-translate="Department"></strong></div>
+            <div class="info-detail">
+                <span ng-bind="memberEPAInfoCtrl.epaInfo.Employee.DepartmentName"></span>
             </div>
         </div>
-        <div class="col-sm-6">
-            <div class="col-sm-4">
-                <strong data-translate="Team"></strong>
-            </div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.GroupName"></strong>
+        <div class="info-item">
+            <div class="info-label"><strong data-translate="Team"></strong></div>
+            <div class="info-detail">
+                <span ng-bind="memberEPAInfoCtrl.epaInfo.Employee.GroupName"></span>
             </div>
         </div>
     </div>
+
     <div class="row row-item line">
-        <div class="col-sm-6">
-            <div class="col-sm-4">
-                <strong data-translate="JoinedDate"></strong>
-            </div>
-            <div class="col-sm-7">
-                <strong ng-bind="memberEPAInfoCtrl.epaInfo.Employee.JoinedDate | customDate"></strong>
+        <div class="info-item">
+            <div class="info-label"><strong data-translate="JoinedDate"></strong></div>
+            <div class="info-detail">
+                <span ng-bind="dashboardCtrl.employee.JoinedDate | customDate"></span>
             </div>
         </div>
-        <div class="col-sm-6" ng-show="!memberEPAInfoCtrl.isViewDetail">
-            <div class="col-sm-4">
-                <strong data-translate="Evaluated"></strong>
-            </div>
-            <div class="col-sm-7">
+        <div class="info-item">
+            <div class="info-label"><strong data-translate="Evaluated"></strong></div>
+            <div class="info-detail">
                 <span class="glyphicon glyphicon-saved epa-saved"
                       ng-show="memberEPAInfoCtrl.evaluatedDate || memberEPAInfoCtrl.dataSaved"></span>
                 <span class="glyphicon glyphicon-list-alt epa-unsaved"
@@ -79,4 +66,5 @@
             </div>
         </div>
     </div>
+
 </div>
