@@ -68,10 +68,10 @@
             {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | splitScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
         </td>
         <td>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore !== null">
-                {{memberEPAInfoCtrl.getTotalLastScore() | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+            <span ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore > 0">
+                {{memberEPAInfoCtrl.epaInfo.LastPerformanceScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
             </span>
-            <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore === null" ng-bind="'-'"></span>
+            <span ng-show="memberEPAInfoCtrl.epaInfo.LastPerformanceScore === 0" ng-bind="'-'"></span>
         </td>
     </tr>
     <tr class="text-center">

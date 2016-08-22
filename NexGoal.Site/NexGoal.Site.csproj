@@ -431,10 +431,10 @@
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\forEvaluatorUse.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\index-controller.js" />
     <Content Include="SourceApp\Components\EPA\Reviewer\detail-controller.js" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\forEmployeeUse.html" />
     <Content Include="SourceApp\Components\EPA\evaluatorManagement-model.js" />
     <Content Include="SourceApp\Components\EPA\Templates\disciplineInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\forEmployeeUse.html" />
+    <Content Include="SourceApp\Components\EPA\Templates\employeeEfficiencyInfo.html" />
     <Content Include="SourceApp\Components\Menu\menu-controller.js" />
     <Content Include="SourceApp\Components\Menu\menu-factory.js" />
     <Content Include="SourceApp\Components\Menu\menu-model.js" />
