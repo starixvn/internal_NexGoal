@@ -178,7 +178,7 @@
     </Setting>
     <Setting Key="EPA_GetMember" SpName="EPA_GetMember1" DbName="NexGoal" Plain="0">
     </Setting>
-    <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="NexGoal" Plain="0">
+    <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup1" DbName="NexGoal" Plain="0">
     </Setting>
     <Setting Key="EPA_GetLastEvaluation" SpName="EPA_GetLastEvaluation" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator1" DbName="NexGoal" Plain="0">

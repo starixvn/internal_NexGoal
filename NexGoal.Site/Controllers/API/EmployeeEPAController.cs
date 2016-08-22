@@ -118,18 +118,18 @@
 
         [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
         [HttpGet]
-        public IEnumerable<Group> GetGroupByEvaluator()
+        public IEnumerable<Group> GetGroupByEvaluator(string periodIds = null)
         {
-            return GetGroupByEvaluatorOrReviewer((int)ProcessType.Evaluator);
+            return GetGroupByEvaluatorOrReviewer((int)ProcessType.Evaluator, periodIds);
         }
 
         [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
         [HttpGet]
         public IEnumerable<Employee> GetMemberByEvaluator(
-            int? groupId = null,
+            string groupIds = null,
             string periodIds = null)
         {
-            return GetMemberByEvaluatorOrReviewer((int)ProcessType.Evaluator, groupId, periodIds);
+            return GetMemberByEvaluatorOrReviewer((int)ProcessType.Evaluator, groupIds, periodIds);
         }
 
         [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
@@ -209,18 +209,18 @@
 
         [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
         [HttpGet]
-        public IEnumerable<Group> GetGroupByReviewer()
+        public IEnumerable<Group> GetGroupByReviewer(string periodIds = null)
         {
-            return GetGroupByEvaluatorOrReviewer((int)ProcessType.Reviewer);
+            return GetGroupByEvaluatorOrReviewer((int)ProcessType.Reviewer, periodIds);
         }
 
         [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
         [HttpGet]
         public IEnumerable<Employee> GetMemberByReviewer(
-            int? groupId = null,
+            string groupIds = null,
             string periodIds = null)
         {
-            return GetMemberByEvaluatorOrReviewer((int)ProcessType.Reviewer, groupId, periodIds);
+            return GetMemberByEvaluatorOrReviewer((int)ProcessType.Reviewer, groupIds, periodIds);
         }
 
         [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
@@ -448,26 +448,27 @@
 
         private IEnumerable<Employee> GetMemberByEvaluatorOrReviewer(
             int processId,
-            int? groupId = null,
+            string groupIds = null,
             string periodIds = null)
         {
             var criteria = new GetMemberByEvaluatorOrReviewerCriteria()
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = processId,
-                GroupId = groupId,
+                GroupId = groupIds,
                 PeriodIds = periodIds
             };
 
             return _employeeEPAService.GetMemberByEvaluatorOrReviewer(criteria);
         }
 
-        private IEnumerable<Group> GetGroupByEvaluatorOrReviewer(int processId)
+        private IEnumerable<Group> GetGroupByEvaluatorOrReviewer(int processId, string periodIds = null)
         {
             var criteria = new GetGroupByEvaluatorOrReviewerCriteria()
             {
                 ActorUserId = SessionService.EmployeeId,
-                ProcessId = processId
+                ProcessId = processId,
+                PeriodIds = periodIds
             };
 
             return _employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);

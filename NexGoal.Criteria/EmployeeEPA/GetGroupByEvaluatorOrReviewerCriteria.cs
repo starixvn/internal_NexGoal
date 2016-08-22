@@ -8,6 +8,8 @@
 
         public int ProcessId { get; set; }
 
+        public string PeriodIds { get; set; }
+
         public override bool IsValid()
         {
             return ActorUserId > 0 && ProcessId > 0;
