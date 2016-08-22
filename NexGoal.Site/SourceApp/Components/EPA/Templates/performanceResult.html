@@ -78,12 +78,11 @@
                             && !memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
-                            && memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators | customScore}}
-                    </div>
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
-                            && !memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
+                    </span>
+                    <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
+                      
                 </td>
                 <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]"
