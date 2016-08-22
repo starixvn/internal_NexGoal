@@ -18,7 +18,7 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getGroupByEvaluator: function (periodIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByEvaluator', { params: { periodIds: periodIds } });
         },
-        getMemberByEvaluator: function (groupIds, periods) {
+        getMemberByEvaluator: function (periodIds, groupIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByEvaluator', {
                 params: {
                     groupIds: groupIds,

@@ -235,6 +235,12 @@ appModule.factory('utilitiesFactory',
         return result;
     };
 
+    utilities.setSelectAll = function (data, selectedName) {
+        angular.forEach(data, function (item) {
+            item.ticked = true;
+        });
+    }
+
     utilities.setSelectedItem = function (data, selectedName, selectedItems) {
         if (selectedItems && selectedItems.length > 0) {
             var array = selectedItems.split(',');

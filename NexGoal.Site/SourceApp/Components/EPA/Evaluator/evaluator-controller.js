@@ -8,26 +8,12 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
 
     vm.memberEPAs = [];
     vm.members = [];
-    vm.standardGrades = CommonModel.standardGrades;
     vm.targetTypeEnum = enumerationsFactory.targetType;
-    vm.sortBySelfScore = { ascending: false, descending: false };
     vm.filter = {};
 
-    function initFilter() {
-        var filter = historyFactory.getState();
-        return filter ? filter : {
-            groupIds: '',
-            employeeIds: '',
-            periodIds: ''
-        };
+    vm.handlePeriodsChange = function () {
+        alert("aaaa");
     }
-
-    //vm.getMember = function () {
-    //    SelfEvalutorModel.getMemberByEvaluator(vm.filter.groupIds, vm.filter.isLocal, vm.filter.isMonthly).then(function () {
-    //        vm.members = SelfEvalutorModel.members;
-    //        utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
-    //    });
-    //};
 
     //vm.query = function (filter) {
     //    filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
@@ -46,6 +32,15 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         }
     };
 
+    function initFilter() {
+        var filter = historyFactory.getState();
+        return filter ? filter : {
+            groupIds: '',
+            employeeIds: '',
+            periodIds: ''
+        };
+    }
+
     function getEPAByEvaluator(groupIds, isLocal, isMonthly, employeeIds) {
         SelfEvalutorModel.getEPAByEvaluator(groupIds, isLocal, isMonthly, employeeIds).then(function () {
             vm.memberEPAs = SelfEvalutorModel.memberEPAs;
@@ -54,29 +49,37 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         historyFactory.saveState(vm.filter);
     }
 
-    function getGroupsByPeriods(periods) {
-        SelfEvalutorModel.getGroupByEvaluator(periods).then(function () {
+    function getMemberByEvaluator(periodIds, groupIds) {
+        SelfEvalutorModel.getMemberByEvaluator(periodIds, groupIds).then(function () {
+            vm.members = SelfEvalutorModel.members;
+
+            utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
+
+            vm.filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, "EmployeeId");
+        });
+    }
+
+    function getGroupsByPeriods(periodIds) {
+        SelfEvalutorModel.getGroupByEvaluator(periodIds).then(function () {
             vm.groupOptions = SelfEvalutorModel.groups;
-            utilitiesFactory.setSelectedItem(vm.groupOptions, "GroupId", vm.filter.groupIds);
+
+            utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
+
+            vm.filter.groupIds = utilitiesFactory.getSelectedData(vm.groupOptions, "GroupId");
+
+            getMemberByEvaluator(vm.filter.periodIds, vm.filter.groupIds);
         });
     }
 
     function initialize() {
         vm.filter = initFilter();
-        //SelfEvalutorModel.getGroupByEvaluator().then(function () {
-        //    vm.groupOptions = SelfEvalutorModel.groups;
-        //    utilitiesFactory.setSelectedItem(vm.groupOptions, "GroupId", vm.filter.groupIds);
-        //});
-
-        //vm.getMember();
-
-        CommonModel.getStandardGrade().then(function () {
-            vm.standardGrades = CommonModel.standardGrades;
-            //getEPAByEvaluator(vm.filter.groupId, vm.filter.isLocal, vm.filter.isMonthly, vm.filter.employeeIds);
-        });
 
         CommonModel.getAllPeriodIncludeImport().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
+
+            vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
+
+            getGroupsByPeriods(vm.filter.periodIds);
         });
     }
 

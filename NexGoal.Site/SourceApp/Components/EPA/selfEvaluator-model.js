@@ -195,8 +195,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    selfEvalutorModel.getMemberByEvaluator = function (groupId, isLocal, isMonthly) {
-        return employeeEPAFactory.getMemberByEvaluator(groupId, isLocal, isMonthly)
+    selfEvalutorModel.getMemberByEvaluator = function (groupIds, periodIds) {
+        return employeeEPAFactory.getMemberByEvaluator(groupIds, periodIds)
         .success(function (members) {
             selfEvalutorModel.members = members;
         }).error(function (response, status) {
