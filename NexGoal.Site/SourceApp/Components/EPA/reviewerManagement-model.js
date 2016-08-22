@@ -214,12 +214,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 memberEPA.Process.CurrentProcess.TotalScoreOriginal = memberEPA.Process.CurrentProcess.TotalScore;
                 memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
                 memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
-
-                if (memberEPA.Process.CurrentProcess.Comment && memberEPA.Process.CurrentProcess.Comment.length > 0) {
-                    memberEPA.Process.CurrentProcess.Comment = memberEPA.Process.CurrentProcess.Comment + '\n' + adjust.Comment;
-                } else {
-                    memberEPA.Process.CurrentProcess.Comment = adjust.Comment;
-                }
+                memberEPA.Process.CurrentProcess.Comment = adjust.Comment;
             }
         });
 
