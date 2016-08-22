@@ -2,8 +2,10 @@
 /*global epaModule*/
 
 epaModule.controller('ViewEPADetailController',
-['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', "SelfEvalutorModel",
+    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, SelfEvalutorModel, 
+utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id, 10);
@@ -22,7 +24,12 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
         historyFactory.back();
     };
 
-    function CalculateEvaluatorScoreOnKPI(evaluators) {
+    vm.getClassProgress = function (statusEndProcess) {
+        return EmployeeEPAModel.getClassProgress(statusEndProcess);
+    };
+
+ function CalculateEvaluatorScoreOnKPI(evaluators) {
+
         var averageScore = 0;
 
         if (evaluators.length > 0) {
@@ -94,6 +101,14 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             } else {
                 vm.epaInfo.FinalScore = null;
             }
+
+            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+
+            SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
+            });
         });
     }
 
