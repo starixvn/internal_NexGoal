@@ -8,6 +8,7 @@
         public EPAKPIGroupModel()
         {
             KPIs = new List<EPAKPIModel>();
+            EvaluatorsScore = new List<EvaluationModel>();
         }
 
         public int EPAId { get; set; }
