@@ -251,9 +251,8 @@
                     <span data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>
                 </td>
                 <td rowspan="{{kpi.EvaluationByEvaluators.length}}" class="text-center" ng-if="$first && memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1">
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
-                        {{kpi.EvaluatorScore}} pts
-                    </span>
+                    ng-if="$first && memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1">
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">{{kpi.EvaluatorScore}} pts</span>                   
                     <span data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>
                 </td>
             </tr>

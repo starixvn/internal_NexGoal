@@ -11,6 +11,7 @@ utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     vm.epaId = parseInt($routeParams.id, 10);
     vm.exportPDF = $routeParams.exportpdf;
     vm.standardGrades = CommonModel.standardGrades;
+    vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
 
     vm.openPopupViewComment = function (comment) {
         EmployeeEPAModel.openPopupViewComment(vm, comment);
