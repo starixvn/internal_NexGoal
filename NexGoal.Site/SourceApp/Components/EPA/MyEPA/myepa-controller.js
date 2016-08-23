@@ -47,7 +47,7 @@ function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilit
     function initialize() {
         vm.filter = initFilter();
 
-        CommonModel.getAllPeriodIncludeImport().then(function () {
+        CommonModel.getAllPeriodByEmployee().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
             vm.query();
         });

@@ -68,10 +68,13 @@
                         <td ng-bind="memberEPA.Employee.JobTitleName"></td>
                         <td ng-bind="memberEPA.Period.Name"></td>
                         <td class="text-center" ng-switch="memberEPA.Process.Self.IsEndProcess">
-                            <span ng-switch-when="true">
+                            <span ng-show="memberEPA.Process.Self.IsEndProcess && memberEPA.Process.Self.TotalScore">
                                 {{memberEPA.Process.Self.TotalScore | customScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}
                             </span>
-                            <span ng-switch-default data-translate="Pending"></span>
+                            <span ng-show="!memberEPA.Process.Self.IsEndProcess" data-translate=" pending"></span>
+                            <span ng-show="!memberEPA.Process.Self.TotalScore">
+                                0 / {{memberEPA.Process.Self.MaxTotalScore | customScore}}
+                            </span>
                         </td>
                         <td class="text-center text-uppercase col-action" ng-switch="memberEPA.IsAllowedToEdit">
                             <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit"

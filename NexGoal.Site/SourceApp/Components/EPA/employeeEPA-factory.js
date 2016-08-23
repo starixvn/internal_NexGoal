@@ -35,12 +35,12 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAInfoByEvaluator: function (epaId, evaluatorId) {
+        getEPAInfoByEvaluator: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByEvaluator',
             {
                 params: {
                     epaId: epaId,
-                    evaluatorId: evaluatorId
+                    evaluatorId: null
                 }
             });
         },

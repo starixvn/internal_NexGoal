@@ -210,6 +210,32 @@ function ($modal, commonFactory, errorFactory) {
         });
     };
 
+    commonModel.getAllPeriodByEmployee = function () {
+        return commonFactory.getAllPeriodByEmployee().success(function (periods) {
+            commonModel.periodOptions = periods;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getAllPeriodByEvaluator = function () {
+        return commonFactory.getAllPeriodByEvaluator().success(function (periods) {
+            commonModel.periodOptions = periods;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    commonModel.getAllPeriodReviewer = function () {
+        return commonFactory.getAllPeriodReviewer().success(function (periods) {
+            commonModel.periodOptions = periods;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
     commonModel.getOtherViolationDetailByEPAId = function (epaId) {
         return commonFactory.getOtherViolationDetailByEPAId(epaId)
         .success(function (otherViolationDetails) {

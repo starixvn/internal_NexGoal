@@ -156,28 +156,24 @@
         [HttpGet]
         public HttpResponseMessage GetEPAInfoByEvaluator(int epaId, int? evaluatorId = null)
         {
-            var epaInfo = new EPAModel();
             var processId = evaluatorId == null ? (int?)ProcessType.Evaluator : null;
             evaluatorId = evaluatorId ?? SessionService.EmployeeId;
 
             int permission = CheckEmployeePermission(epaId, evaluatorId.Value, processId);
-
-            switch (permission)
+            if (permission == (int)Policy.None)
             {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-                    var criteria = new GetEPAInfoByEvaluatorCriteria()
-                    {
-                        EPAId = epaId,
-                        EvaluatorId = evaluatorId.Value
-                    };
-
-                    epaInfo = this.evaluatorService.GetEPAInfo(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
             }
+
+            var criteria = new GetEPAInfoByEvaluatorCriteria()
+            {
+                EPAId = epaId,
+                EvaluatorId = evaluatorId.Value
+            };
+
+            EPAModel epaInfo = this.evaluatorService.GetEPAInfo(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
 
         [ApiAuthorize(FunctionKey.Evaluator, Policy.Host)]

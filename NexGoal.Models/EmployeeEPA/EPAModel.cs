@@ -113,15 +113,12 @@
         {
             get
             {
-                bool isAllowedToEdit = !(Process.CurrentProcess == null
+                bool isAllowedToView = Process.CurrentProcess == null
                     || Process.CurrentProcess.IsEndProcess
-                    || (Period.TargetTypeId == (int)TargetType.SemiAnnual
-                        && HasMonthlyEPA
-                        && (Process.CurrentProcess.ProcessId == (int)ProcessType.Self || Process.CurrentProcess.ProcessId == (int)ProcessType.Evaluator))
-                    || Status.StatusId == (int)Core.Enumerations.EPAStatus.Closed
-                    || Period.IsEndPeriod);
+                    || Status.StatusId == (int)EPAStatus.Closed
+                    || Period.IsEndPeriod;
 
-                return isAllowedToEdit;
+                return !isAllowedToView;
             }
         }
 

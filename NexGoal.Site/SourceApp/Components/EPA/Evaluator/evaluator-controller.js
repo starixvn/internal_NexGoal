@@ -44,11 +44,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     };
 
     vm.viewEPAResult = function (memberEPA) {
-        if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            $location.path(baseUrl + 'EPA/SemiDetail/' + memberEPA.EPAId);
-        } else {
-            $location.path(baseUrl + 'EPA/Detail/' + memberEPA.EPAId);
-        }
+        $location.path(baseUrl + 'EPA/Detail/' + memberEPA.EPAId);
     };
 
     function initFilter() {
@@ -97,7 +93,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     function initialize() {
         vm.filter = initFilter();
 
-        CommonModel.getAllPeriodIncludeImport().then(function () {
+        CommonModel.getAllPeriodByEvaluator().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
 
             vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
@@ -351,7 +347,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     }
 
     function getEPAInfoByEvaluator() {
-        SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId, vm.evaluatorId).then(function () {
+        SelfEvalutorModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
             vm.epaInfo.LastPerformanceScore = getTotalLastScore();
             checkStatus(vm.epaInfo);

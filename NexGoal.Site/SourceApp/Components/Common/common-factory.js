@@ -72,6 +72,15 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         getAllPeriodIncludeImport: function () {
             return $http.get(baseUrl + 'api/Common/GetAllPeriodIncludeImport');
         },
+        getAllPeriodByEmployee: function () {
+            return $http.get(baseUrl + 'api/Period/getAllPeriodByEmployee');
+        },
+        getAllPeriodByEvaluator: function () {
+            return $http.get(baseUrl + 'api/Period/getAllPeriodByEvaluator');
+        },
+        getAllPeriodReviewer: function () {
+            return $http.get(baseUrl + 'api/Period/getAllPeriodReviewer');
+        },
         getOtherViolationDetailByEPAId: function (epaId) {
             return $http.get(baseUrl + 'api/Common/GetOtherViolationDetailByEPAId', { params: { epaId: epaId } });
         },
