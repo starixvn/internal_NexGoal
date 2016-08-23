@@ -153,7 +153,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
     };
 
-    vm.calculateSubTotalScore = function (kpiGroup) {
+    function calculateSubTotalScore(kpiGroup) {
         var score = 0;
         var isEvaluateMaxScore = true;
         angular.forEach(kpiGroup.KPIs, function (kpi) {
@@ -166,9 +166,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         });
 
         if (isEvaluateMaxScore) {
-            return kpiGroup.Weight;
+            kpiGroup.SelfDecodeScore = kpiGroup.Weight;
+        } else {
+            kpiGroup.SelfDecodeScore = score;
         }
-        return score;
     };
 
     vm.getClassProgress = function (statusEndProcess) {
@@ -249,6 +250,8 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                     else {
                         SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
                     }
+
+                    calculateSubTotalScore(kpiGroup);
 
                     SelfEvalutorModel.calculateScore(vm, true);
                 }

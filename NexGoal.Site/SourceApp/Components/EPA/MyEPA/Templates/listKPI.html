@@ -53,7 +53,7 @@
     </tr>
     <tr class="sub-total text-center">
         <td data-translate="SubTotal"></td>
-        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}} pts</td>
+        <td>{{kpiGroup.SelfDecodeScore | splitScore}} / {{kpiGroup.Weight | customScore}} pts</td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
                 {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | splitScore}} / {{::kpiGroup.Weight | customScore}} pts
@@ -65,7 +65,7 @@
     <tr class="text-center">
         <td>{{"Total" | translate}}:</td>
         <td>
-            {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
+            {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | splitScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastPerformanceScore !== null">

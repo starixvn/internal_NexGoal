@@ -58,7 +58,7 @@ namespace NexGoal.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
-                epaInfo.LastRating = employeeEPAService.GetLastRating(epaInfo.Employee.EmployeeId, epaInfo.Period.TargetTypeId);
+                epaInfo.LastKPIRating = employeeEPAService.GetLastRating(epaInfo.Employee.EmployeeId, epaInfo.Period.TargetTypeId);
                 epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId));
                 SetMaxPerformanceScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);

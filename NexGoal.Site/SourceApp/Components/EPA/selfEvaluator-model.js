@@ -20,32 +20,14 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var totalScore = 0;
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-            if (kpiGroup.HasKPIOptional) {
-                selfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
-            }
-
-            angular.forEach(kpiGroup.KPIs, function (kpi) {
-                var score = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 2),
-                    kpiWeight = utilitiesFactory.splitNumber(kpi.Weight, 2),
-                    scoreRating = utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score, 2);
-
-                score = score ? parseFloat(score) : 0;
-
-                if ((score > 0 && scoreRating === kpiWeight) || (kpi.CurrentEvaluation.Rate === vm.maxStar)) {
-                    kpi.CurrentEvaluation.IsMaxScore = true;
-                    totalScore += kpi.Weight;
-                } else {
-                    kpi.CurrentEvaluation.IsMaxScore = false;
-                    totalScore += score;
-                }
-            });
+            totalScore += kpiGroup.SelfDecodeScore;
         });
 
         vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(totalScore);
         var maxTotalScore = vm.epaInfo.Process.CurrentProcess.MaxTotalScore;
         vm.epaInfo.Process.CurrentProcess.TotalScore = EmployeeEPAModel.checkScore(vm.epaInfo.Process.CurrentProcess.TotalScore, 0, maxTotalScore);
 
-        vm.finalScore = utilitiesFactory.parseFloat(totalScore + vm.epaInfo.DisciplineScore);
+        vm.finalScore = totalScore;
         vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
 
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);

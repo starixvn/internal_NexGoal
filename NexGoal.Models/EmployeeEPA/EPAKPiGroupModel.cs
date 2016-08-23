@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using NexGoal.Core.Constants;
+    using NexGoal.Core.Services;
+    using NexGoal.Model.Enitites;
     using System.Collections.Generic;
 
     public class EPAKPIGroupModel
@@ -33,8 +34,12 @@
 
         public IList<EvaluationModel> EvaluatorsScore { get; set; }
 
+        public string SelfEncodeScore { get; set; }
+
+        public float SelfDecodeScore { get; set; }
         public void Decode()
         {
+            SelfDecodeScore = string.IsNullOrEmpty(SelfEncodeScore) ? 0 : float.Parse(EncodeService.Decode(SelfEncodeScore));
             foreach (var evaluator in EvaluatorsScore)
             {
                 evaluator.Decode();

@@ -66,6 +66,7 @@
     <Compile Include="EmployeeEPA\StandardGradeModel.cs" />
     <Compile Include="Employee\MenuViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
+    <Compile Include="Enitites\Score.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="FlowManagement\DepartmentFlowModel.cs" />
     <Compile Include="FlowManagement\PersonalFlowModel.cs" />
