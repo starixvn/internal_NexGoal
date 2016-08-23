@@ -248,7 +248,25 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.convertScoreToGrade = function (score) {
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
     };
+    
+    function calculateSubTotalScore(kpiGroup) {
+        var score = 0;
+        var isEvaluateMaxScore = true;
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            if (kpi.CurrentEvaluation.Score) {
+                score += kpi.CurrentEvaluation.Score;
+                if (kpi.CurrentEvaluation.Rate !== vm.maxStar) {
+                    isEvaluateMaxScore = false;
+                }
+            }
+        });
 
+        if (isEvaluateMaxScore) {
+            kpiGroup.SelfDecodeScore = kpiGroup.Weight;
+        } else {
+            kpiGroup.SelfDecodeScore = score;
+        }
+    };   
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
@@ -304,5 +322,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         }, 1);
     };
 
+
+                    calculateSubTotalScore(kpiGroup);
     initialize();
 }]);
