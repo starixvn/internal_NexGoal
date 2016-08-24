@@ -21,7 +21,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
     vm.lastTotalScore = 0;
-
 	
     function initAutoSave() {
         if (vm.autoSave) {

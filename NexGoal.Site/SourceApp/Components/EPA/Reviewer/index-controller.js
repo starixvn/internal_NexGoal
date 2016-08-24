@@ -319,7 +319,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         } else {
             ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
             ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
-                getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, selectedEmployees);
+                getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
             });
         }
     };

@@ -57,12 +57,11 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
                 });
         },
-        getMemberByReviewer: function (groupId, isLocal, isMonthly) {
+        getMemberByReviewer: function (periodIds, groupIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByReviewer', {
                 params: {
-                    groupId: groupId,
-                    isLocal: isLocal,
-                    isMonthly: isMonthly
+                    periodIds: periodIds,
+                    groupIds: groupIds
                 }
             });
         },

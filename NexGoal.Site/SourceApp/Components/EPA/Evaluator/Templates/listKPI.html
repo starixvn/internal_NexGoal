@@ -111,7 +111,7 @@
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
         <td>
-            {{memberEPAInfoCtrl.convertScoreToGrade(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100)}}
+            {{memberEPAInfoCtrl.epaInfo.Grade}}
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="memberEPAInfoCtrl.epaInfo.LastGrade"></span>

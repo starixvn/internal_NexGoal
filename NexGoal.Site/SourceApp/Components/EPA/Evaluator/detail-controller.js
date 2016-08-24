@@ -21,6 +21,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
     vm.policyEnum = enumerationsFactory.policy;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
+    vm.targetTypeEnum = enumerationsFactory.targetType;
 
     function initAutoSave() {
         if (vm.autoSave) {

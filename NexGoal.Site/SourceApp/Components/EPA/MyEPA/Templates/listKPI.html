@@ -77,7 +77,7 @@
     <tr class="text-center">
         <td>{{"Grading" | translate}}:</td>
         <td>
-            {{memberEPAInfoCtrl.convertScoreToGrade(memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore / memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore * 100)}}
+            {{memberEPAInfoCtrl.epaInfo.Grade}}
         </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastGrade" ng-bind="memberEPAInfoCtrl.epaInfo.LastGrade"></span>
