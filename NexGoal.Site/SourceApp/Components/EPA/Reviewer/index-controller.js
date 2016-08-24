@@ -17,7 +17,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.periods = [];
     vm.standardGrades = CommonModel.standardGrades;
     vm.selectedAll = false;
-    vm.averageScore = 0;
     vm.isEndProcessAll = false;
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
@@ -96,6 +95,19 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         return tempa - tempb;
     }
 
+    function CalculateAverageEvaluator(Evaluators) {
+        var totalScore = 0, count = 0;
+
+        angular.forEach(Evaluators, function (evaluator) {
+            if (evaluator.TotalScore) {
+                totalScore += utilitiesFactory.parseFloat(evaluator.TotalScore);
+                count++;
+            }
+        })
+
+        return count > 0 ? utilitiesFactory.splitNumber(totalScore / count, 2) : 0;
+    }
+
     function getEPAByReviewer(periodIds, groupIds, employeeIds, selectedEmployees) {
         vm.isEndProcessAll = false;
         resetSorting();
@@ -103,8 +115,11 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         ReviewerManagementModel.getEPAByReviewer(periodIds, groupIds, employeeIds).then(function () {
             vm.memberEPAs = ReviewerManagementModel.memberEPAs;
 
-            var averageScore = 0, countEndProcess = 0;
+            var countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
+                var averageScoreEvaluators = CalculateAverageEvaluator(memberEPA.Process.Evaluators);
+
+                memberEPA.Process.AverageScoreByEvaluators = averageScoreEvaluators;
                 if (memberEPA.Process.Evaluators[0].IsEndProcess && !memberEPA.Process.CurrentProcess.TotalScore) {
                     memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.AverageScoreByEvaluators;
                 }
@@ -128,13 +143,11 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 if (memberEPA.Process.CurrentProcess.IsEndProcess) {
                     countEndProcess += 1;
                 }
-                averageScore += memberEPA.Process.AverageScoreByEvaluators;
             });
 
             if (countEndProcess === vm.memberEPAs.length) {
                 vm.isEndProcessAll = true;
             }
-            vm.averageScore = utilitiesFactory.parseFloat(averageScore / vm.memberEPAs.length);
 
             if (selectedEmployees && selectedEmployees.length > 0) {
                 ReviewerManagementModel.updateSelectedEmployees(vm.memberEPAs, selectedEmployees);

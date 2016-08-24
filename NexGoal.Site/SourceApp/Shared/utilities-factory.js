@@ -20,7 +20,9 @@ appModule.factory('utilitiesFactory',
 
         angular.forEach(periods, function (period) {
             if (period.Year) {
-                period.ticked = false;
+                if (!period.IsEndProcess) {
+                    period.ticked = true;
+                }
 
                 if (years.indexOf(period.Year) === -1) {
                     startGrouping = { Name: '<strong>' + period.Year + '</strong>', msGroup: true };
@@ -43,10 +45,7 @@ appModule.factory('utilitiesFactory',
         endGrouping = { msGroup: false };
         result.push(endGrouping);
 
-        if (periods.length > 0 && result.length > 0) {
-            result[1].ticked = true;
-            //vm.filter.periodIds = result[1].PeriodId;
-
+        if (periods.length > 0 && result.length) {
             angular.forEach(periods, function (period) {
                 if (!period.Year) {
                     period.ticked = false;
@@ -63,7 +62,6 @@ appModule.factory('utilitiesFactory',
 
             if (result.length > 0) {
                 result[0].ticked = true;
-                //vm.filter.periodIds = result[0].PeriodId;
             }
         }
 

@@ -92,7 +92,7 @@
                 </thead>
                 <tbody>
                     <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.Process.Self.IsEndProcess)}"
-                        ng-repeat="memberEPA in reviewerCtrl.memberEPAs">
+                        ng-repeat="memberEPA in reviewerCtrl.memberEPAs  | orderBy: '-IsAllowedToEdit'">
                         <td class="text-center" ng-if="!reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
                             <input ng-if="!memberEPA.Process.CurrentProcess.IsEndProcess" type="checkbox" ng-model="memberEPA.Selected" />
                         </td>
@@ -164,13 +164,6 @@
                         </td>
                     </tr>
                 </tbody>
-                <tfoot ng-show="reviewerCtrl.memberEPAs.length > 0">
-                    <tr>
-                        <td colspan="16">
-                            {{"AverageScoreByEvaluators" | translate}}: {{reviewerCtrl.averageScore | customScore}}
-                        </td>
-                    </tr>
-                </tfoot>
                 <tbody ng-show="reviewerCtrl.memberEPAs.length == 0">
                     <tr>
                         <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>

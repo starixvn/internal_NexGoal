@@ -41,5 +41,13 @@
                 return year;
             }
         }
+
+        public bool IsEndProcess
+        {
+            get
+            {
+                return EndDate < DateTime.Now;
+            }
+        }
     }
 }
