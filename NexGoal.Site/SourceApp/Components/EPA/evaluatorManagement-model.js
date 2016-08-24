@@ -176,8 +176,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    evaluatorManagementModel.getEmployeeProjects = function (employeeId) {
-        return integrateFactory.getEmployeeProject(employeeId).success(function (projects) {
+    evaluatorManagementModel.getEmployeeProjects = function (employeeId, periodId) {
+        return integrateFactory.getEmployeeProject(employeeId, periodId).success(function (projects) {
             angular.forEach(projects, function (item) {
                 item.CommentCharLimit = 50;
             });
@@ -188,8 +188,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    evaluatorManagementModel.getHRMSummary = function (employeeId) {
-        return integrateFactory.getHRMSummary(employeeId).success(function (hrmSummary) {
+    evaluatorManagementModel.getHRMSummary = function (employeeId, periodId) {
+        return integrateFactory.getHRMSummary(employeeId, periodId).success(function (hrmSummary) {
             var total = {};
 
             total.AverageWorkingHours = 0;

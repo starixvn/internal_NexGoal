@@ -158,30 +158,8 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         }
     }
 
-    function checkStatus(epaInfo) {
-        if (!epaInfo.IsAllowedToEdit) {
-            vm.hoveringLeave = null;
-        }
-        else {
-            vm.hoveringLeave = function (kpiGroup, kpi) {
-                if (kpi.CurrentEvaluation.Rate > 0) {
-                    if (kpiGroup.NumberKPIOptional === 0) {
-                        var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
-                        score = utilitiesFactory.splitNumber(score, 2);
-                        kpi.CurrentEvaluation.Score = score;
-                    }
-                    else {
-                        EvaluatorManagementModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
-                    }
 
-                    calculateSubTotalScore(kpiGroup);
-
-                    EvaluatorManagementModel.calculateScore(vm);
-                }
-            };
-        }
-    }
-
+                   
     function BindingCurrentEvaluatorGroupScore(evaluatorId) {
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
             var score = 0;
@@ -194,6 +172,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             kpiGroup.EvaluatorScore = score;
         })
     }
+
 
     function getEPAInfoByEvaluator() {
         EvaluatorManagementModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
@@ -229,11 +208,12 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
                 }
             });
 
-            EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId).then(function () {
+
+            EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
             });
 
-            EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
+            EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = EvaluatorManagementModel.employeeProjects;
             });
 
