@@ -93,7 +93,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     };
 
     function getLastStar(kpi) {
-        var star = 0
+        var star = 0;
 
         angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
             if (lastKpi.KPIId === kpi.KPIId) {
@@ -102,7 +102,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         });
 
         return star;
-    };
+    }
 
     vm.getLastWeight = function (kpi) {
         var lastWeight = "";
@@ -117,15 +117,15 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     };
 
     vm.getSubLastScore = function (kpiGroup) {
-        var score = 0
-        var isEvaluateMaxScore = true;
+        var score = 0,
+            isEvaluateMaxScore = true;
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             score += vm.getLastScore(kpi);
             var star = getLastStar(kpi);
             if (star !== vm.maxStar) {
                 isEvaluateMaxScore = false;
             }
-        })
+        });
 
         if (isEvaluateMaxScore) {
             return kpiGroup.Weight;
@@ -138,7 +138,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         var total = 0;
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
             total += vm.getSubLastScore(kpiGroup);
-        })
+        });
 
         return total;
     };
@@ -170,7 +170,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         } else {
             kpiGroup.SelfDecodeScore = score;
         }
-    };
+    }
 
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);

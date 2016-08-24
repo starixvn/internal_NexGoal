@@ -36,7 +36,7 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService, history
         FlowMngModel.getDepartmentHasSetting(vm.FlowTemplateId).then(function () {
             vm.departmentSettings = FlowMngModel.departmentSettings;
             vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
-        })
+        });
     }
 
     GetDepartmentHasSetting();

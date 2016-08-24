@@ -164,7 +164,7 @@ appModule.factory('utilitiesFactory',
             for (var attr in item) {
                 var childItem = item[attr];
 
-                if (childItem != null && /^[a-zA-Z0-9]*$/.test(attr) &&
+                if (childItem !== null && /^[a-zA-Z0-9]*$/.test(attr) &&
                         attr.toLowerCase().search('id') === -1 && attr.toLowerCase().search('length') === -1 &&
                         attr.toLowerCase().search('index') === -1 && attr.toLowerCase().search('hash') === -1 &&
                         attr.toLowerCase().search('time') === -1 && attr.toLowerCase().search('date') === -1 &&
@@ -235,11 +235,11 @@ appModule.factory('utilitiesFactory',
         return result;
     };
 
-    utilities.setSelectAll = function (data, selectedName) {
+    utilities.setSelectAll = function (data) {
         angular.forEach(data, function (item) {
             item.ticked = true;
         });
-    }
+    };
 
     utilities.setSelectedItem = function (data, selectedName, selectedItems) {
         if (selectedItems && selectedItems.length > 0) {

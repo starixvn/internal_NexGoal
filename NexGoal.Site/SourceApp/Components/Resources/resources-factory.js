@@ -1,5 +1,5 @@
 ﻿'use strict';
-/* global appModule */
+/*global appModule*/
 
 appModule.factory('resourceFactory', ['$http', '$q', 'baseUrl', function ($http, $q, baseUrl) {
     return function (options) {
@@ -16,4 +16,4 @@ appModule.factory('resourceFactory', ['$http', '$q', 'baseUrl', function ($http,
 
         return deferred.promise;
     };
-} ]);
+}]);

@@ -77,7 +77,6 @@ function ($scope, $location, AttendanceModel, utilitiesFactory, CommonModel, enu
         AttendanceModel.getAttendanceSummary(startDate, endDate, departmentId, isLocal, employeeId, reasonId, showAll).then(function () {
             vm.attendanceEmployees = AttendanceModel.attendanceEmployees;
             utilitiesFactory.searchOnPage(vm, vm.attendanceEmployees);
-            
         })["finally"](function () {
             lockScreenService.stop();
         });

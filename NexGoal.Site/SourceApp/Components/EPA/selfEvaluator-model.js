@@ -269,9 +269,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 selfEvalutorModel.hrmSummary.Total = total;
             }
 
-
             selfEvalutorModel.hrmSummary.Data = hrmSummary;
-
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -287,7 +285,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             }
             hour += 'h';
 
-            var minute = Math.round(((value - parseInt(value)) * 60));
+            var minute = Math.round(((value - parseInt(value, 10)) * 60));
             if (minute < 10) {
                 minute = '0' + minute;
             }
@@ -296,7 +294,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         }
 
         return convertedValue;
-    };
+    }
 
     return selfEvalutorModel;
 }]);

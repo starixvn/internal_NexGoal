@@ -1,7 +1,6 @@
 ﻿"use strict";
 
 (function (dashboardModule) {
-
     dashboardModule.controller("DashboardController", dashboardController);
 
     dashboardController.$inject = ["$location", 'DashboardModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];

@@ -14,5 +14,4 @@
             vm.userInfo = commonModel.userInfo;
         });
     }
-
 })(angular.module("userInfoModule"));

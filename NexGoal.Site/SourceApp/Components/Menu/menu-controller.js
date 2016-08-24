@@ -1,7 +1,6 @@
 ﻿"use strict";
 
 (function (menuModule) {
-
     menuModule.controller("MenuController", menuController);
 
     menuController.$inject = ["menuModel"];
@@ -15,5 +14,4 @@
             vm.menus = menuModel.menus;
         });
     }
-
 })(angular.module("menuModule"));
