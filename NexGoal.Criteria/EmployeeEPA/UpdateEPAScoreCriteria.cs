@@ -71,7 +71,7 @@
             }
         }
 
-        public string GroupKPIDetails 
+        public string GroupKPIDetails
         {
             get
             {
@@ -84,13 +84,9 @@
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
                         string scoreString = kpi.CurrentEvaluation.Score > 0 ? kpi.CurrentEvaluation.Score.ToString() : "0";
-                        if (isMaxScore)
-                        {
-                            isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
-                        }
+                        isMaxScore = isMaxScore ? kpi.CurrentEvaluation.Rate == Constants.MaxNumberStar : isMaxScore;
 
-                        var score = float.Parse(scoreString);
-                        totalScore += score;
+                        totalScore += float.Parse(scoreString);
                     }
 
                     totalScore = isMaxScore ? kpiGroup.Weight.Value : totalScore;

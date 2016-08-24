@@ -228,14 +228,6 @@ function ($modal, commonFactory, errorFactory) {
         });
     };
 
-    commonModel.getAllPeriodReviewer = function () {
-        return commonFactory.getAllPeriodReviewer().success(function (periods) {
-            commonModel.periodOptions = periods;
-        })
-        .error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
     commonModel.getOtherViolationDetailByEPAId = function (epaId) {
         return commonFactory.getOtherViolationDetailByEPAId(epaId)
         .success(function (otherViolationDetails) {

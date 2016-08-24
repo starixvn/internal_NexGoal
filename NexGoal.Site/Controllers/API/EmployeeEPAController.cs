@@ -136,13 +136,13 @@
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
             string periodIds = null,
-            int? groupId = null,
+            string groupIds = null,
             string employeeIds = null)
         {
             var criteria = new GetEPAByEvaluatorCriteria()
             {
                 EvaluatorId = SessionService.EmployeeId,
-                GroupId = groupId,
+                GroupIds = groupIds,
                 EmployeeIds = employeeIds,
                 PeriodIds = periodIds
             };

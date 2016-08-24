@@ -38,8 +38,6 @@ namespace NexGoal.Services.Implement
             if (criteria != null && criteria.IsValid())
             {
                 memberEPAs = employeeEPARepository.GetEPA(criteria);
-                string epaIds = string.Join(",", memberEPAs.Where(x => x.HasMonthlyEPA && x.Period.TargetTypeId == (int)TargetType.SemiAnnual).Select(x => x.EPAId));
-
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
                     memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId));

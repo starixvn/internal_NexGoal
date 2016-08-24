@@ -1,16 +1,16 @@
-﻿<div ng-controller="EmployeeEPAInfoController as memberEPAInfoCtrl">
+﻿<div ng-controller="DetailEmployeeController as memberEPAInfoCtrl">
     <div class="row">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
                 <li class="current" data-translate="SelfEvaluation"></li>
             </ul>
             <!--<div class="check-auto-save">
-            <label class="switch">
-                <input type="checkbox" checked>
-                <span class="slider round" ng-click="memberEPAInfoCtrl.setAutoSave()"></span>
-            </label>
-            <span data-translate="AutomaticallySave"></span>
-        </div>-->
+                <label class="switch">
+                    <input type="checkbox" checked>
+                    <span class="slider round" ng-click="memberEPAInfoCtrl.setAutoSave()"></span>
+                </label>
+                <span data-translate="AutomaticallySave"></span>
+            </div>-->
         </div>
 
         <div class="col-sm-12">
@@ -76,5 +76,5 @@
                         ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
             </div>
         </div>
-    </div>    
+    </div>
 </div>

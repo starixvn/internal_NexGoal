@@ -1,16 +1,9 @@
-﻿<div class="form-evaluator" ng-controller="MemberEPAInfoOfEvaluatorController as memberEPAInfoCtrl">
+﻿<div class="form-evaluator" ng-controller="DetailEvaluatorController as memberEPAInfoCtrl">
     <div class="row">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
                 <li class="current" data-translate="Evaluation"></li>
             </ul>
-            <!--<div class="check-auto-save">
-            <label class="switch">
-                <input type="checkbox" checked>
-                <span class="slider round" ng-click="memberEPAInfoCtrl.setAutoSave()"></span>
-            </label>
-            <span data-translate="AutomaticallySave"></span>
-        </div>-->
         </div>
         <div class="col-sm-12">
             <div class="row epa-form">
@@ -73,5 +66,5 @@
                         ng-if="memberEPAInfoCtrl.epaInfo && memberEPAInfoCtrl.epaInfo.IsAllowedToEdit" data-translate="Save"></button>
             </div>
         </div>
-    </div>    
+    </div>
 </div>

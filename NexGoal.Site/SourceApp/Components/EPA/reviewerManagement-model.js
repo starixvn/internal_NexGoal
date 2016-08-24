@@ -13,6 +13,16 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     reviewerMngModel.members = [];
     reviewerMngModel.memberEPAs = [];
     reviewerMngModel.permission = 0;
+    reviewerMngModel.periodOptions = [];
+
+    reviewerMngModel.getAllPeriodByReviewer = function () {
+        return employeeEPAFactory.getAllPeriodByReviewer().success(function (periods) {
+            reviewerMngModel.periodOptions = periods;
+        })
+        .error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
 
     // common
     reviewerMngModel.getSelectedEmployee = function (memberEPAs) {
@@ -234,8 +244,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.getGroupByReviewer = function () {
-        return employeeEPAFactory.getGroupByReviewer()
+    reviewerMngModel.getGroupByReviewer = function (periodIds) {
+        return employeeEPAFactory.getGroupByReviewer(periodIds)
         .success(function (groups) {
             reviewerMngModel.groups = groups;
         }).error(function (response, status) {
@@ -252,8 +262,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.getEPAByReviewer = function (groupId, isLocal, isMonthly, employeeIds) {
-        return employeeEPAFactory.getEPAByReviewer(groupId, isLocal, isMonthly, employeeIds)
+    reviewerMngModel.getEPAByReviewer = function (periodIds, groupIds, employeeIds) {
+        return employeeEPAFactory.getEPAByReviewer(periodIds, groupIds, employeeIds)
         .success(function (memberEPAs) {
             reviewerMngModel.memberEPAs = memberEPAs;
         }).error(function (response, status) {

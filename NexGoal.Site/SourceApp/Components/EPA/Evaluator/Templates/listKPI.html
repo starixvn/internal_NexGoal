@@ -70,12 +70,12 @@
     <tr class="sub-total text-center">
         <td data-translate="SubTotal"></td>
         <td>
-            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{memberEPAInfoCtrl.calculateEmployeeSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}} pts
-            </span>
-            <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
+            <span class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">{{kpiGroup.SelfDecodeScore | customScore}} / {{kpiGroup.Weight}} pts</span>
+            <span class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></span>
         </td>
-        <td>{{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight | customScore}} pts</td>
+        <td>
+            {{kpiGroup.EvaluatorScore | customScore}} / {{kpiGroup.Weight}} pts
+        </td>
         <td>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastRating.length > 0">
                 {{::memberEPAInfoCtrl.getSubLastScore(kpiGroup) | customScore}} / {{::kpiGroup.Weight | customScore}} pts

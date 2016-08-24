@@ -37,6 +37,7 @@
         public string SelfEncodeScore { get; set; }
 
         public float SelfDecodeScore { get; set; }
+
         public void Decode()
         {
             SelfDecodeScore = string.IsNullOrEmpty(SelfEncodeScore) ? 0 : float.Parse(EncodeService.Decode(SelfEncodeScore));

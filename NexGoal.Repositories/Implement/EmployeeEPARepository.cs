@@ -80,6 +80,8 @@
                         IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
                         epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
+                        
+                        IEnumerable<EvaluationModel> groupScore = multi.Read<EvaluationModel>();
 
                         IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
 
@@ -87,6 +89,7 @@
 
                         GroupEPAProcessByEPA(epaInfo, processes);
                         GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
+                        GroupEvaluatorScoreOnGroup(epaInfo.KPIGroups, groupScore);
 
                         foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
                         {

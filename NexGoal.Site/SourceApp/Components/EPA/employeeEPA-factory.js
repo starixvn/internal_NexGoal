@@ -3,6 +3,9 @@
 
 epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
+        getAllPeriodByReviewer: function () {
+            return $http.get(baseUrl + 'api/Period/getAllPeriodByReviewer');
+        },
         getUserPermissionOnEmployee: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnEmployee');
         },
@@ -47,8 +50,12 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getUserPermissionOnReviewer: function () {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnReviewer');
         },
-        getGroupByReviewer: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByReviewer');
+        getGroupByReviewer: function (periodIds) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByReviewer', {
+                params: {
+                    periodIds: periodIds
+                }
+                });
         },
         getMemberByReviewer: function (groupId, isLocal, isMonthly) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByReviewer', {
@@ -59,12 +66,11 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 }
             });
         },
-        getEPAByReviewer: function (groupId, isLocal, isMonthly, employeeIds) {
+        getEPAByReviewer: function (periodIds, groupIds, employeeIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByReviewer', {
                 params: {
-                    groupId: groupId,
-                    isLocal: isLocal,
-                    isMonthly: isMonthly,
+                    periodIds: periodIds,
+                    groupIds: groupIds,
                     employeeIds: employeeIds
                 }
             });

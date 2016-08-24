@@ -22,7 +22,7 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
         historyFactory.back();
     };
 
-    function CalculateEvaluatorScore(evaluators) {
+    function CalculateEvaluatorScoreOnKPI(evaluators) {
         var averageScore = 0;
 
         if (evaluators.length > 0) {
@@ -41,6 +41,22 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
         return utilitiesFactory.splitNumber(averageScore, 2);
     }
 
+    function CalculateEvaluatorScoreOnGroup(kpiGroup) {
+        if (kpiGroup.EvaluatorsScore.length === 0)
+            return 0;
+
+        var score = 0;
+        var length = 0;
+        angular.forEach(kpiGroup.EvaluatorsScore, function (evaluator) {
+            if (evaluator.Score != 0) {
+                score += evaluator.Score;
+                length++;
+            }
+        });
+
+        return utilitiesFactory.splitNumber(score / length, 2);
+    }
+
     function getEPAInfoById() {
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
@@ -49,16 +65,11 @@ function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonM
             var totalScoreOfEvaluator = 0;
             for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
                 var kpiGroup = vm.epaInfo.KPIGroups[index];
-                var selfScore = 0;
-                var evaluatorScore = 0;
+                var evaluatorScore = CalculateEvaluatorScoreOnGroup(kpiGroup);
 
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    kpi.EvaluatorScore = CalculateEvaluatorScore(kpi.EvaluationByEvaluators);
-                    selfScore += kpi.EvaluationBySelf.Score;
-                    evaluatorScore += kpi.EvaluatorScore;
+                    kpi.EvaluatorScore = CalculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
                 });
-
-                kpiGroup.SelfScore = selfScore;
                 kpiGroup.EvaluatorScore = evaluatorScore;
                 totalScoreOfEvaluator += evaluatorScore;
             }
