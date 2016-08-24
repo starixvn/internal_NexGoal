@@ -78,11 +78,12 @@
                             && !memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
+                            && memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess">
                         {{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators | customScore}}
-                    </span>
-                    <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
-                      
+                    </div>
+                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
+                            && !memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
                 </td>
                 <td class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]"
@@ -250,8 +251,9 @@
                     <span data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>
                 </td>
                 <td rowspan="{{kpi.EvaluationByEvaluators.length}}" class="text-center" ng-if="$first && memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1">
-                    ng-if="$first && memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1">
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">{{kpi.EvaluatorScore}} pts</span>                   
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                        {{kpi.EvaluatorScore}} pts
+                    </span>
                     <span data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>
                 </td>
             </tr>

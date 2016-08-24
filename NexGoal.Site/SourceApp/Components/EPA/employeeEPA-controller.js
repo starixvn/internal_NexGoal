@@ -29,7 +29,7 @@ utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
- function CalculateEvaluatorScoreOnKPI(evaluators) {
+function CalculateEvaluatorScoreOnKPI(evaluators) {
 
         var averageScore = 0;
 

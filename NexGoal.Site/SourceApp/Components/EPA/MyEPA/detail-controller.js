@@ -22,7 +22,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.policyEnum = enumerationsFactory.policy;
     vm.lastTotalScore = 0;
 
-
+	
     function initAutoSave() {
         if (vm.autoSave) {
             vm.autoSaveInterval = $interval(function () {
@@ -32,6 +32,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
             $interval.cancel(vm.autoSaveInterval);
         }
     }
+    
 
     function checkStatus(epaInfo) {
         if (!epaInfo.IsAllowedToEdit) {
@@ -48,7 +49,9 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                         SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
                     }                   
 
-                    SelfEvalutorModel.calculateScore(vm, true);
+                    calculateSubTotalScore(kpiGroup);
+
+                    SelfEvalutorModel.calculateScore(vm, true);                
                 }
             };
         }
@@ -213,6 +216,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         });
 
         return lastScore;
+    };
 
     vm.getLastWeight = function (kpi) {
         var lastWeight = "";
@@ -248,24 +252,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
     };
     
-    function calculateSubTotalScore(kpiGroup) {
-        var score = 0;
-        var isEvaluateMaxScore = true;
-        angular.forEach(kpiGroup.KPIs, function (kpi) {
-            if (kpi.CurrentEvaluation.Score) {
-                score += kpi.CurrentEvaluation.Score;
-                if (kpi.CurrentEvaluation.Rate !== vm.maxStar) {
-                    isEvaluateMaxScore = false;
-                }
-            }
-        });
-
-        if (isEvaluateMaxScore) {
-            kpiGroup.SelfDecodeScore = kpiGroup.Weight;
-        } else {
-            kpiGroup.SelfDecodeScore = score;
-        }
-    }
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
@@ -321,7 +307,5 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         }, 1);
     };
 
-
-                    calculateSubTotalScore(kpiGroup);
     initialize();
 }]);
