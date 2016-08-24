@@ -213,7 +213,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         });
 
         return lastScore;
-    };
 
     vm.getLastWeight = function (kpi) {
         var lastWeight = "";
@@ -266,7 +265,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         } else {
             kpiGroup.SelfDecodeScore = score;
         }
-    };   
+    }
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };

@@ -199,7 +199,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         });
 
         return lastWeight;
-    };
+    }
 
     vm.getSubLastScore = function (kpiGroup) {
         var score = 0,
