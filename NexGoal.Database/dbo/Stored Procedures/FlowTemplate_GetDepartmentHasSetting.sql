@@ -1,14 +1,11 @@
-﻿/****** Object:  Stored Procedure dbo.FlowTemplate_GetDepartmentHasSetting    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_GetDepartmentHasSetting    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_GetDepartmentHasSetting    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_GetDepartmentHasSetting    Script Date: 4/6/2016 11:27:46 AM ******/
+﻿/****** Object:  Stored Procedure dbo.FlowTemplate_GetDepartmentHasSetting    Script Date: 7/21/2016 2:45:55 PM ******/
 
 CREATE PROCEDURE [dbo].[FlowTemplate_GetDepartmentHasSetting] @FlowTemplateId INT
 AS
 /*
 Created: 20151022@Josh.Phan
 Task: Get deparment, Section has flow setting.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

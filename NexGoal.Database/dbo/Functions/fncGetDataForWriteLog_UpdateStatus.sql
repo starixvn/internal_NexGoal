@@ -1,7 +1,4 @@
-﻿/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_UpdateStatus    Script Date: 5/16/2016 2:20:06 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_UpdateStatus    Script Date: 5/16/2016 2:15:28 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_UpdateStatus    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_UpdateStatus    Script Date: 4/6/2016 11:27:50 AM ******/
+﻿/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_UpdateStatus    Script Date: 7/21/2016 2:45:42 PM ******/
 CREATE FUNCTION [dbo].[fncGetDataForWriteLog_UpdateStatus]
 (
 	@ObjectId INT,

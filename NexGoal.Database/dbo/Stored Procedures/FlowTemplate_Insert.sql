@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 4/6/2016 11:27:46 AM ******/
+﻿/****** Object:  Stored Procedure dbo.FlowTemplate_Insert    Script Date: 7/21/2016 2:45:55 PM ******/
 
 CREATE PROCEDURE [dbo].[FlowTemplate_Insert] @FlowTemplateId INT OUTPUT
 	,@Name NVARCHAR(200)
@@ -15,7 +12,7 @@ AS
 /*
 Created: 20150804@Tim.Trinh
 Task: Insert Flow Template.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

@@ -6,7 +6,6 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
     using NexGoal.Model.Report.Dashboard;
@@ -74,7 +73,7 @@
                     foreach (EPAModel epaInfo in epaInfos)
                     {
                         GroupEvaluatorScoreOnGroup(epaInfo.KPIGroups, groupScore);
-                        epaInfo.Decode();
+                        epaInfo.Decrypt();
                     }
 
                     return epaInfos;
@@ -125,7 +124,7 @@
                             GroupEvaluationOnEachKPI(kpiGroup.KPIs, evaluations);
                         }
 
-                        epaInfo.Decode();
+                        epaInfo.Decrypt();
                     }
 
                     return epaInfo;
@@ -156,7 +155,7 @@
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        epaInfo.Decode();
+                        epaInfo.Decrypt();
                     }
 
                     return epaInfos;
@@ -187,7 +186,7 @@
 
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        epaInfo.Decode();
+                        epaInfo.Decrypt();
                     }
 
                     return epaInfos;
@@ -219,7 +218,7 @@
 
                     foreach (EPAModel epaInfo in result.MyEPAs)
                     {
-                        epaInfo.Decode();
+                        epaInfo.Decrypt();
                     }
                 }
             }
@@ -463,7 +462,7 @@
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
-                epaInfo.Decode();
+                epaInfo.Decrypt();
             }
         }
 
@@ -471,7 +470,7 @@
         {
             foreach (EPAProcessModel process in processes)
             {
-                process.Decode();
+                process.Decrypt();
             }
         }
 
@@ -479,7 +478,7 @@
         {
             foreach (EvaluationModel evaluation in evaluations)
             {
-                evaluation.Decode();
+                evaluation.Decrypt();
             }
         }
     }

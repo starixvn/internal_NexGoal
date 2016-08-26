@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_GetById    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_GetById    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_GetById    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_GetById    Script Date: 4/6/2016 11:27:47 AM ******/
+﻿/****** Object:  Stored Procedure dbo.SettingDepartmentFlow_GetById    Script Date: 7/21/2016 2:45:58 PM ******/
 
 CREATE PROCEDURE [dbo].[SettingDepartmentFlow_GetById] @DepartmentId INT
 	,@FlowTemplateId INT
@@ -10,7 +7,7 @@ AS
 /*
 Created: 20150717@Tim.Trinh
 Task: Get department flow setting.
-DB: NexGoal
+DB: SMSEPA
 Original:
 
 Revisions:  

@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 5/16/2016 1:59:45 PM ******/
-/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 4/6/2016 11:27:49 AM ******/
+﻿/****** Object:  Stored Procedure dbo.TargetType_Get    Script Date: 7/21/2016 2:46:03 PM ******/
 
 CREATE PROCEDURE [dbo].[TargetType_Get] @ExcludeTargetTypeIds NVARCHAR(200) = NULL
 	,@IsActive BIT = 1
@@ -9,7 +6,7 @@ AS
 /*
 Created: 20150709@Tim.Trinh
 Task: Get all Target type.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

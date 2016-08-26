@@ -37,11 +37,11 @@ BEGIN
 		,KPIGroupId INT
 		,KPIId INT
 		,EmployeeId INT
-		,Rate NVARCHAR(100) NULL
-		,Score NVARCHAR(100) NULL
+		,Rate NVARCHAR(MAX) NULL
+		,Score NVARCHAR(MAX) NULL
 		,IsMaxScore BIT
 		,Comment NVARCHAR(MAX) NULL
-		,TotalScore NVARCHAR(100) NULL
+		,TotalScore NVARCHAR(MAX) NULL
 		)
 
 	BEGIN TRY
@@ -70,7 +70,7 @@ BEGIN
 			,Score
 			,IsMaxScore
 			,Comment
-		FROM OPENXML(@DocHandler, '/ROOT/EPA/EPADetail', 1) WITH (EPAId INT '../@EPAId', EmployeeId INT '../@EmployeeId', TotalScore NVARCHAR(100) '../@TotalScore', KPIGroupId INT '../@KPIGroupId', KPIId INT '@KPIId', Rate NVARCHAR(100) '@Rate', Score NVARCHAR(100) '@Score', IsMaxScore BIT '@IsMaxScore', Comment NVARCHAR(MAX) '@Comment') AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/EPA/EPADetail', 1) WITH (EPAId INT '../@EPAId', EmployeeId INT '../@EmployeeId', TotalScore NVARCHAR(MAX) '../@TotalScore', KPIGroupId INT '../@KPIGroupId', KPIId INT '@KPIId', Rate NVARCHAR(MAX) '@Rate', Score NVARCHAR(MAX) '@Score', IsMaxScore BIT '@IsMaxScore', Comment NVARCHAR(MAX) '@Comment') AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY

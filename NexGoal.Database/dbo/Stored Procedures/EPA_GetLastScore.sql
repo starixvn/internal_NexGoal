@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 4/6/2016 11:27:41 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 7/21/2016 2:45:44 PM ******/
 
 
 CREATE PROCEDURE [dbo].[EPA_GetLastScore] @EPAIds IntId READONLY
@@ -31,8 +28,8 @@ BEGIN
 		,EmployeeId INT
 		,Code NVARCHAR(20)
 		,[Date] DATE
-		,FinalScore NVARCHAR(100)
-		,Grade NVARCHAR(100)
+		,FinalScore NVARCHAR(MAX)
+		,Grade NVARCHAR(MAX)
 		,DisciplineScore FLOAT
 		)
 
@@ -74,10 +71,10 @@ BEGIN
 			SELECT 1
 			FROM dbo.Period AS period1 WITH (NOLOCK)
 			WHERE period.PeriodId = period1.PeriodId
-				AND period1.CreatedDate IN (
-					SELECT MAX(period2.CreatedDate)
+				AND period1.EndDate IN (
+					SELECT MAX(period2.EndDate)
 					FROM dbo.Period AS period2 WITH (NOLOCK)
-					GROUP BY CAST(period2.StartDate AS DATE)
+					GROUP BY CAST(period2.EndDate AS DATE)
 					)
 			)
 	

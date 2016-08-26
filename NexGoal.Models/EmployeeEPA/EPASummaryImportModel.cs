@@ -12,7 +12,10 @@
         {
             get
             {
-                return EncodeService.Encode(OriginFinalScore.ToString());
+                ICertificateService certificateService = new CertificateService();
+                string cipherText = certificateService.Encrypt(OriginFinalScore.ToString());
+
+                return cipherText;
             }
         }
     }

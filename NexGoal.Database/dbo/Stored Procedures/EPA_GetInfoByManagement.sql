@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetInfoByManagement    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByManagement    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByManagement    Script Date: 5/16/2016 1:59:44 PM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_GetInfoByManagement    Script Date: 7/21/2016 2:45:44 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_GetInfoByManagement] @EPAId INT
 	,@ManagementId INT
@@ -8,7 +6,7 @@ AS
 /*
 Created: 20150831@Tim.Trinh
 Task: Get EPA info by Management.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

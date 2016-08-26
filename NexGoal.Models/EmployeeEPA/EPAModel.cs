@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Model.ScoreRatingType;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EPAModel
     {
@@ -67,6 +67,7 @@
 
         #region Last score
 
+
         public string LastFinalScoreEncode { get; set; }
 
         public string LastFinalScore { get; set; }
@@ -74,6 +75,7 @@
         public string LastGradeEncode { get; set; }
 
         public string LastGrade { get; set; }
+
         #endregion Last score
 
         public MonthlyEPAModel MonthlyEPA { get; set; }
@@ -116,22 +118,24 @@
             }
         }
 
-        public void Decode()
+        public void Decrypt()
         {
-            LastFinalScore = EncodeService.Decode(LastFinalScoreEncode);
-            LastGrade = EncodeService.Decode(LastGradeEncode);
-            FinalScore = EncodeService.Decode(FinalScoreEncode);
-            Grade = EncodeService.Decode(GradeEncode);
-            Process.Self.Decode();
+            ICertificateService certificateService = new CertificateService();
+
+            LastFinalScore = certificateService.Decrypt(LastFinalScoreEncode);
+            LastGrade = certificateService.Decrypt(LastGradeEncode);
+            FinalScore = certificateService.Decrypt(FinalScoreEncode);
+            Grade = certificateService.Decrypt(GradeEncode);
+            Process.Self.Decrypt();
             DecodeForList(Process.Evaluators);
             DecodeForList(Process.Reviewers);
             DecodeForGroup();
             foreach (EPAKPIModel kpi in KPIGroups.SelectMany(x => x.KPIs))
             {
-                kpi.EvaluationBySelf.Decode();
+                kpi.EvaluationBySelf.Decrypt();
                 foreach (EvaluationModel evaluation in kpi.EvaluationByEvaluators)
                 {
-                    evaluation.Decode();
+                    evaluation.Decrypt();
                 }
             }
         }
@@ -140,7 +144,7 @@
         {
             foreach (EPAProcessModel process in processes)
             {
-                process.Decode();
+                process.Decrypt();
             }
         }
 
@@ -148,7 +152,7 @@
         {
             foreach (var group in KPIGroups)
             {
-                group.Decode();
+                group.Decrypt();
             }
         }
     }

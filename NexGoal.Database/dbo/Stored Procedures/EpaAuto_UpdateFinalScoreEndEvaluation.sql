@@ -1,11 +1,13 @@
-﻿CREATE PROCEDURE [dbo].[EpaAuto_UpdateFinalScoreEndEvaluation] @EPAScores VARCHAR(MAX)
+﻿/****** Object:  Stored Procedure dbo.EpaAuto_UpdateFinalScoreEndEvaluation    Script Date: 7/21/2016 2:45:49 PM ******/
+
+CREATE PROCEDURE [dbo].[EpaAuto_UpdateFinalScoreEndEvaluation] @EPAScores VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
 AS
 /*
 Created: 2015-08-26@Josh.Phan
 Task: Check end process.
-DB: Redmine
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -19,9 +21,9 @@ BEGIN
 
 	CREATE TABLE #EPAScore (
 		[EPAId] INT
-		,[FinalScore] NVARCHAR(100)
+		,[FinalScore] NVARCHAR(MAX)
 		,[DisciplineScore] FLOAT
-		,[Grade] NVARCHAR(100)
+		,[Grade] NVARCHAR(MAX)
 		)
 
 	DECLARE @DocHandler INT
@@ -39,7 +41,7 @@ BEGIN
 		,[FinalScore]
 		,[DisciplineScore]
 		,[Grade]
-	FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT, FinalScore NVARCHAR(100), DisciplineScore FLOAT, [Grade] NVARCHAR(100)) AS Data
+	FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT, FinalScore NVARCHAR(MAX), DisciplineScore FLOAT, [Grade] NVARCHAR(MAX)) AS Data
 
 	EXEC sp_xml_removedocument @DocHandler
 

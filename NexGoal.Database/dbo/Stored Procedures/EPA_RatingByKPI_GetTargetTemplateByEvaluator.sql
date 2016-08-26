@@ -1,10 +1,14 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetTargetTemplateByEvaluator] @PeriodId INT
+﻿/****** Object:  Stored Procedure dbo.EPA_RatingByKPI_GetTargetTemplateByEvaluator    Script Date: 7/21/2016 2:45:46 PM ******/
+
+
+
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetTargetTemplateByEvaluator] @PeriodId INT
 	,@EvaluatorId INT
 AS
 /*
 Created: 20150909@Tim.Trinh
 Task: Get Target Template by Evaluator.
-DB: NexGoal
+DB: SMSEPA
 Original: 
   Revisions: 
 

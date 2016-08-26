@@ -26,9 +26,11 @@ namespace NexGoal.Model.EmployeeEPA.RatingByKPI
 
         public TemporaryKPIGroupModel KPIGroup { get; set; }
 
-        public void Decode()
+        public void Decrypt()
         {
-            TotalScore = EncodeService.Decode(TotalScoreEncode);
+            ICertificateService certificateService = new CertificateService();
+
+            TotalScore = certificateService.Decrypt(TotalScoreEncode);
         }
     }
 }

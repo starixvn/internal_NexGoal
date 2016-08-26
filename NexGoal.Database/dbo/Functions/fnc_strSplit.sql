@@ -1,7 +1,4 @@
-﻿/****** Object:  User Defined Function dbo.fnc_strSplit    Script Date: 5/16/2016 2:20:06 PM ******/
-/****** Object:  User Defined Function dbo.fnc_strSplit    Script Date: 5/16/2016 2:15:28 PM ******/
-/****** Object:  User Defined Function dbo.fnc_strSplit    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  User Defined Function dbo.fnc_strSplit    Script Date: 4/6/2016 11:27:49 AM ******/
+﻿/****** Object:  User Defined Function dbo.fnc_strSplit    Script Date: 7/21/2016 2:45:40 PM ******/
 CREATE FUNCTION [dbo].[fnc_strSplit] (
     @string NVARCHAR(4000)
     ,@splitter CHAR(1)
@@ -15,7 +12,7 @@ AS
 /*
 Created: 20150708@Tim.Trinh
 Task: Split string by character.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

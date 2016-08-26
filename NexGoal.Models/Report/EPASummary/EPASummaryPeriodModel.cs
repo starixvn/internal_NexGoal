@@ -27,10 +27,12 @@
 
         public EPAStatusModel Status { get; set; }
 
-        public void Decode()
+        public void Decrypt()
         {
-            FinalScore = EncodeService.Decode(FinalScoreEncode);
-            Grade = EncodeService.Decode(GradeEncode);
+            ICertificateService certificateService = new CertificateService();
+
+            FinalScore = certificateService.Decrypt(FinalScoreEncode);
+            Grade = certificateService.Decrypt(GradeEncode);
         }
     }
 }

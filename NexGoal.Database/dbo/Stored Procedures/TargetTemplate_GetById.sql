@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.TargetTemplate_GetById    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_GetById    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_GetById    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_GetById    Script Date: 4/6/2016 11:27:49 AM ******/
+﻿/****** Object:  Stored Procedure dbo.TargetTemplate_GetById    Script Date: 7/21/2016 2:46:02 PM ******/
 
 CREATE PROCEDURE [dbo].[TargetTemplate_GetById] --53
 	@TargetTemplateId INT

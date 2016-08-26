@@ -34,10 +34,12 @@ namespace NexGoal.Model.EmployeeEPA
 
         public float Weight { get; set; }
 
-        public void Decode()
+        public void Decrypt()
         {
-            Score = string.IsNullOrEmpty(ScoreEncode) ? 0 : float.Parse(EncodeService.Decode(ScoreEncode));
-            Rate = string.IsNullOrEmpty(RateEncode) ? 0 : float.Parse(EncodeService.Decode(RateEncode));
+            ICertificateService certificateService = new CertificateService();
+
+            Score = string.IsNullOrEmpty(ScoreEncode) ? 0 : float.Parse(certificateService.Decrypt(ScoreEncode));
+            Rate = string.IsNullOrEmpty(RateEncode) ? 0 : float.Parse(certificateService.Decrypt(RateEncode));
         }
     }
 }

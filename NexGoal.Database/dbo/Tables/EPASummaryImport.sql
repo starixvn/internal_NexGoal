@@ -5,7 +5,7 @@
     [FullName]         NVARCHAR (50)  NOT NULL,
     [PeriodName]       NVARCHAR (200) NULL,
     [PeriodDate]       DATETIME       NULL,
-    [FinalScore]       NVARCHAR (100) NULL,
+    [FinalScore]       NVARCHAR (MAX) NULL,
     [OriginFinalScore] FLOAT (53)     NULL,
     [PeriodId]         INT            NULL,
     [Grade]            NVARCHAR (100) NULL,

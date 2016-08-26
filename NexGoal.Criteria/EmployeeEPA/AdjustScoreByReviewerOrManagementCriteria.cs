@@ -20,11 +20,12 @@
             get
             {
                 var epaXml = new StringBuilder(BeginRootTag);
+                ICertificateService certificateService = new CertificateService();
 
                 foreach (EPAModel memberEPA in MemberEPAs)
                 {
-                    var cipherTotalScore = EncodeService.Encode(memberEPA.Process.CurrentProcess.TotalScore);
-                    var cipherAdjustScore = EncodeService.Encode(memberEPA.Process.CurrentProcess.AdjustScore);
+                    var cipherTotalScore = certificateService.Encrypt(memberEPA.Process.CurrentProcess.TotalScore);
+                    var cipherAdjustScore = certificateService.Encrypt(memberEPA.Process.CurrentProcess.AdjustScore);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,

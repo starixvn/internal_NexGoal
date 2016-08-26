@@ -1,13 +1,11 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 5/16/2016 1:59:44 PM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 7/21/2016 2:45:48 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
 AS
 /*
 Created: 20160329@Tim.Trinh
 Task: Get EPA end evaluation period.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

@@ -1,10 +1,14 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetEvaluatorByTargetTemplate] @PeriodId INT
+﻿/****** Object:  Stored Procedure dbo.EPA_RatingByKPI_GetEvaluatorByTargetTemplate    Script Date: 7/21/2016 2:45:45 PM ******/
+
+
+
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetEvaluatorByTargetTemplate] @PeriodId INT
 	,@TargetTemplateId INT
 AS
 /*
 Created: 20160322@Razor.Nguyen
 Task: Monthly EPA
-DB: NexGoal
+DB: SMSEPA
 Original: 
  
 Param's Explanation:

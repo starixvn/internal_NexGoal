@@ -1,4 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 5/16/2016 2:20:10 PM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 7/21/2016 2:45:48 PM ******/
+/****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 5/16/2016 2:20:10 PM ******/
 /****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 5/16/2016 2:15:33 PM ******/
 /****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 5/16/2016 1:59:44 PM ******/
 /****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 4/6/2016 11:27:43 AM ******/
@@ -10,7 +11,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Get all employee setting of evaluation period to send mail.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPASummaryImport_Update    Script Date: 5/16/2016 2:20:12 PM ******/
-/****** Object:  Stored Procedure dbo.EPASummaryImport_Update    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPASummaryImport_Update    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPASummaryImport_Update    Script Date: 4/6/2016 11:27:46 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EPASummaryImport_Update    Script Date: 7/21/2016 2:45:54 PM ******/
 
 CREATE PROCEDURE [dbo].[EPASummaryImport_Update]
 	@EPADetailXML NVARCHAR(MAX)
@@ -11,7 +8,7 @@ AS
 /*
 Created: 20151002@Quinn.Vo
 Task: Update EPA summary which were encoded.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

@@ -1,12 +1,12 @@
 ﻿namespace NexGoal.Criteria.EmployeeEPA
 {
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Web;
     using Fanex.Data.Repository;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Web;
 
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
@@ -33,8 +33,7 @@
         {
             get
             {
-                string totalScore = EPAProcess.TotalScore;
-                return EncodeService.Encode(totalScore);
+                return Encrypt(EPAProcess.TotalScore);
             }
         }
 
@@ -50,8 +49,8 @@
                     {
                         string score = kpi.CurrentEvaluation.Score > 0 ? kpi.CurrentEvaluation.Score.ToString() : string.Empty,
                             rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty,
-                            cipherScore = EncodeService.Encode(score),
-                            cipherRate = EncodeService.Encode(rate);
+                            cipherScore = Encrypt(score),
+                            cipherRate = Encrypt(rate);
                         bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
 
                         kpiDetailXml.AppendFormat(
@@ -94,7 +93,7 @@
                     groupKPIDetailXml.AppendFormat(
                         GroupKPIXml,
                         kpiGroup.KPIGroupId,
-                        EncodeService.Encode(totalScore.ToString()));
+                        Encrypt(totalScore.ToString()));
                 }
 
                 groupKPIDetailXml.Append(Constants.EndRootTag);
@@ -119,6 +118,14 @@
         public override string GetSettingKey()
         {
             return "EPA_UpdateScore";
+        }
+
+        private string Encrypt(string plainText)
+        {
+            ICertificateService certificateService = new CertificateService();
+            string cipherText = certificateService.Encrypt(plainText);
+
+            return cipherText;
         }
     }
 }

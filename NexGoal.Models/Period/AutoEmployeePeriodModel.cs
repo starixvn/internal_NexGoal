@@ -20,7 +20,9 @@
         {
             get
             {
-                return EncodeService.Decode(TotalScoreEncode);
+                ICertificateService certificateService = new CertificateService();
+
+                return certificateService.Decrypt(TotalScoreEncode);
             }
         }
 

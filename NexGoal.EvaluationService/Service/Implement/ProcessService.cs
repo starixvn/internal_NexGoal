@@ -1,14 +1,12 @@
-﻿using NexGoal.Core.Enumerations;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NexGoal.Core.Enumerations;
 using NexGoal.Core.Model;
 using NexGoal.Core.Services;
-using NexGoal.Criteria.EmployeeEPA;
 using NexGoal.Model.EmployeeEPA;
 using NexGoal.Model.Period;
 using NexGoal.Services.Implement;
 using NexGoal.Services.Interfaces;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace NexGoal.AutoGenerateEvaluation
 {
@@ -16,18 +14,21 @@ namespace NexGoal.AutoGenerateEvaluation
     {
         private readonly IAutoMailService autoMailService;
         private readonly IEmployeeEPAService employeeEPAService;
+        private readonly ICertificateService certificateService;
 
         public ProcessService()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public ProcessService(
             IAutoMailService autoMailService,
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPAService employeeEPAService,
+            ICertificateService certificateService)
         {
             this.autoMailService = autoMailService ?? new AutoMailService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.certificateService = certificateService ?? new CertificateService();
         }
 
         public void UpdateInformationAtEndProccess()
@@ -59,7 +60,7 @@ namespace NexGoal.AutoGenerateEvaluation
             {
                 EPAId = process.EPAId,
                 ProcessId = process.ProcessId,
-                AverageScore = EncodeService.Encode(score.ToString())
+                AverageScore = certificateService.Encrypt(score.ToString())
             };
             if (criteria != null && criteria.IsValid())
             {

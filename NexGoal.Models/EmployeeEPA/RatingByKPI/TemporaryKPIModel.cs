@@ -48,18 +48,20 @@ namespace NexGoal.Model.EmployeeEPA.RatingByKPI
 
         public TemporaryKPIGroupModel KPIGroup { get; set; }
 
-        public void Decode()
+        public void Decrypt()
         {
+            ICertificateService certificateService = new CertificateService();
+
             foreach (TemporaryKPIModel kpi in KPIGroup.KPIs)
             {
-                kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
-                kpi.Rate = string.IsNullOrEmpty(kpi.RateEncode) ? 0 : float.Parse(EncodeService.Decode(kpi.RateEncode));
+                kpi.Score = certificateService.Decrypt(kpi.ScoreEncode);
+                kpi.Rate = string.IsNullOrEmpty(kpi.RateEncode) ? 0 : float.Parse(certificateService.Decrypt(kpi.RateEncode));
             }
 
             foreach (TemporaryKPIModel kpi in KPIGroup.KPIsBySelf)
             {
-                kpi.Score = EncodeService.Decode(kpi.ScoreEncode).Replace("_" + kpi.KPIId, string.Empty);
-                kpi.Rate = string.IsNullOrEmpty(kpi.RateEncode) ? 0 : float.Parse(EncodeService.Decode(kpi.RateEncode));
+                kpi.Score = certificateService.Decrypt(kpi.ScoreEncode);
+                kpi.Rate = string.IsNullOrEmpty(kpi.RateEncode) ? 0 : float.Parse(certificateService.Decrypt(kpi.RateEncode));
             }
         }
     }

@@ -1,11 +1,15 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIToView] @PeriodId INT
+﻿/****** Object:  Stored Procedure dbo.EPA_RatingByKPI_GetKPIToView    Script Date: 7/21/2016 2:45:45 PM ******/
+
+
+
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetKPIToView] @PeriodId INT
 	,@TargetTemplateId INT
 	,@EvaluatorId INT
 AS
 /*
 Created: 20150909@Razor.Nguyen
 Task: EPA Monthly
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -75,10 +79,11 @@ BEGIN
 		,dt.IsRequiredEvaluate
 		,dt.KPIWeight AS [Weight]
 		,dt.KPIDisplayOrder AS DisplayOrder
-		,(CASE 
-			WHEN ISNULL(dt.Score, '') <> '' THEN 1
-			ELSE 0 END
-			) AS Evaluated
+		--,(CASE 
+		--	WHEN ISNULL(dt.Score, '') <> '' THEN 1
+		--	ELSE 0 END
+		--	) AS Evaluated
+		, 0 AS Evaluated
 		,dt.KPIGroupId
 		,kghis.[Name]
 		,dt.KPIGroupWeight AS [Weight]

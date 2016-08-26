@@ -1,8 +1,7 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using NexGoal.Core.Services;
-    using NexGoal.Model.Enitites;
     using System.Collections.Generic;
+    using NexGoal.Core.Services;
 
     public class EPAKPIGroupModel
     {
@@ -38,12 +37,13 @@
 
         public float SelfDecodeScore { get; set; }
 
-        public void Decode()
+        public void Decrypt()
         {
-            SelfDecodeScore = string.IsNullOrEmpty(SelfEncodeScore) ? 0 : float.Parse(EncodeService.Decode(SelfEncodeScore));
+            ICertificateService certificateService = new CertificateService();
+            SelfDecodeScore = string.IsNullOrEmpty(SelfEncodeScore) ? 0 : float.Parse(certificateService.Decrypt(SelfEncodeScore));
             foreach (var evaluator in EvaluatorsScore)
             {
-                evaluator.Decode();
+                evaluator.Decrypt();
             }
 
             foreach (var kpi in KPIs)

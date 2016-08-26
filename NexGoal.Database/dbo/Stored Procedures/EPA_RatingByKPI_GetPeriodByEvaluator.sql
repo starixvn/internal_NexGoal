@@ -1,9 +1,12 @@
-﻿CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetPeriodByEvaluator] @EvaluatorId INT
+﻿/****** Object:  Stored Procedure dbo.EPA_RatingByKPI_GetPeriodByEvaluator    Script Date: 7/21/2016 2:45:46 PM ******/
+
+
+CREATE PROCEDURE [dbo].[EPA_RatingByKPI_GetPeriodByEvaluator] @EvaluatorId INT
 AS
 /*
 Created: 20160527@Tim.Trinh
 Task: Get Period by Evaluator.
-DB: NexGoal
+DB: SMSEPA
 Original: 
   Revisions: 
 

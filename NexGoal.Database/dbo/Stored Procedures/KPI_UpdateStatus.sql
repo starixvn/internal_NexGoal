@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPI_UpdateStatus    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateStatus    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateStatus    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateStatus    Script Date: 4/6/2016 11:27:47 AM ******/
+﻿/****** Object:  Stored Procedure dbo.KPI_UpdateStatus    Script Date: 7/21/2016 2:45:56 PM ******/
 
 CREATE PROCEDURE [dbo].[KPI_UpdateStatus] @KPIId INT
 	,@IsActive BIT = 0
@@ -12,7 +9,7 @@ AS
 /*
 Created: 20150708@Tim.Trinh
 Task: Update status of KPI.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -84,15 +81,13 @@ BEGIN
 		FROM dbo.KPI WITH (NOLOCK)
 		WHERE KPIId = @KPIId
 
-		
+		COMMIT TRANSACTION;
 
 		EXEC @Data = [dbo].[fncGetDataForWriteLog_UpdateStatus] @ObjectId = @KPIId, @ObjectType = 1
-		select @ModifiedBy,@KPIId,@Data,@OldData
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'KPI_UpdateStatus', @ObjectId = @KPIId, @ObjectTypeId = 1, @Data = @Data, @OldData = @OldData, @ObjectIds = NULL
 
 		SELECT @ErrCode = 0
 			,@ErrMsg = ''
-			COMMIT TRANSACTION;
 	END TRY
 
 	BEGIN CATCH

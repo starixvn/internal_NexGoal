@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 4/6/2016 11:27:40 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 7/21/2016 2:45:42 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_CheckPermission] @EPAId INT
 	,@ActorUserId INT
@@ -10,7 +7,7 @@ AS
 /*
 Created: 20151013@Tim.Trinh
 Task: Check permission of user login with EPA.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -72,47 +69,7 @@ BEGIN
 					WHERE lo.LookupId = 2 -- role
 						AND ro.EmployeeId = @ActorUserId
 						AND ro.RoleId IN (1, 2) -- SA, HR
-					)
-				OR EXISTS (
-					SELECT TOP 1 1
-					FROM [dbo].[EmployeeRole] AS empR
-						INNER JOIN [dbo].[Employee] AS empT ON empR.[EmployeeId] = empT.[EmployeeId]
-					WHERE [empR].[EmployeeId] = @ActorUserId
-						AND RoleId IN (3) -- MGT
-						AND (
-							EXISTS (
-								SELECT TOP 1 1
-								FROM [dbo].[EPAProcess] AS epaP WITH (NOLOCK)
-									INNER JOIN [dbo].[EPA] AS epa WITH (NOLOCK) ON epaP.[EPAId] = epa.[EPAId]
-									INNER JOIN [dbo].[Period] AS pe WITH (NOLOCK) ON epa.[PeriodId] = pe.[PeriodId]
-								WHERE EXISTS (
-										SELECT TOP 1 1
-										FROM [dbo].[EPA] AS epaC WITH (NOLOCK)
-										WHERE epaC.[EmployeeId] = epa.[EmployeeId]
-											AND epaC.[EPAId] = @EPAId
-										)
-									AND epaP.[EvaluatorId] = empR.[EmployeeId]
-									AND epaP.[ProcessId] = 5 --MGT
-									AND EXISTS (
-										SELECT TOP 1 1
-										FROM [dbo].[EPAProcess] AS epa1 WITH (NOLOCK)
-										WHERE epa1.[EPAId] = epaP.[EPAId]
-											AND epa1.[ProcessId] = 1
-											AND epa1.[StartDate] = (
-												SELECT MAX(epaPT.[StartDate])
-												FROM [dbo].[EPAProcess] AS epaPT WITH (NOLOCK)
-													INNER JOIN [dbo].[EPA] AS epaT WITH (NOLOCK) ON epaPT.[EPAId] = epaT.[EPAId]
-													INNER JOIN [dbo].[Period] AS peT WITH (NOLOCK) ON epaT.[PeriodId] = peT.[PeriodId]
-												WHERE epaPT.[EPAId] = epa1.[EPAId]
-													AND epaT.[EmployeeId] = epa.[EmployeeId]
-													AND peT.[TargetTypeId] = pe.[TargetTypeId]
-													AND epaPT.[ProcessId] = 1
-												GROUP BY epaT.[EmployeeId]
-												)
-										)
-								)
-							)
-					)
+					)				
 				OR EXISTS (
 					SELECT TOP 1 1
 					FROM [dbo].[EmployeeRole] AS empR
@@ -193,15 +150,6 @@ BEGIN
 								)
 							)
 					)
-				--OR EXISTS (
-				--	SELECT TOP 1 1
-				--	FROM dbo.EPA AS epa WITH (NOLOCK)
-				--		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.[EmployeeId]
-				--		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.[GroupId] = gr.[GroupId]
-				--		INNER JOIN dbo.HRMGroupSupervisor AS grS WITH (NOLOCK) ON gr.[GroupId] = grS.[GroupId]
-				--		AND grS.OwnerId = @ActorUserId
-				--		AND grS.ActionType IN (3) -- Approver
-				--	)
 				OR EXISTS (
 					SELECT TOP 1 1
 					FROM [dbo].[EPA] AS epa WITH (NOLOCK)

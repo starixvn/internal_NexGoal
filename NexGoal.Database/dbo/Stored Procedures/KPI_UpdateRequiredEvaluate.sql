@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 4/6/2016 11:27:47 AM ******/
+﻿/****** Object:  Stored Procedure dbo.KPI_UpdateRequiredEvaluate    Script Date: 7/21/2016 2:45:56 PM ******/
 
 CREATE PROCEDURE [dbo].[KPI_UpdateRequiredEvaluate] @KPIId INT
 	,@IsRequiredEvaluate BIT = 0
@@ -12,7 +9,7 @@ AS
 /*
 Created: 20150709@Tim.Trinh
 Task: Update Is Required Evaluate of KPI.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

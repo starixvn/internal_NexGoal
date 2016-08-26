@@ -1,5 +1,8 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -10,14 +13,10 @@
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
     using NexGoal.Model.Enitites;
-    using NexGoal.Model.ScoreRatingType;
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
@@ -388,7 +387,7 @@
                 groups = _employeeEPARepository.GetLastRating(criteria);
                 foreach (var group in groups)
                 {
-                    group.Decode();
+                    group.Decrypt();
                 }
             }
 

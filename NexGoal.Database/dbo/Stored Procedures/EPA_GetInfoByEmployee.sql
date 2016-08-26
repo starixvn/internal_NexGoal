@@ -1,6 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetInfoByEmployee    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByEmployee    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByEmployee    Script Date: 5/16/2016 1:59:44 PM ******/
+﻿
+/****** Object:  Stored Procedure dbo.EPA_GetInfoByEmployee    Script Date: 7/21/2016 2:45:44 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_GetInfoByEmployee] @EPAId INT
 	,@EmployeeId INT
@@ -8,7 +7,7 @@ AS
 /*
 Created: 20150811@Tim.Trinh
 Task: Get EPA info.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -42,13 +41,12 @@ BEGIN
 	-- KPI Group
 	EXECUTE dbo.EPA_GetKPIGroup @EPAIds
 
+	EXECUTE dbo.[EPA_GetKPIGroupScore] @EPAIds
+		,3;
 	-- KPI
 	EXECUTE dbo.EPA_GetKPI @EPAIds
 
 	-- Evaluation per KPI
 	EXECUTE EPA_GetEvaluation @EPAIds
 		,@Processes
-
-	-- Last performance score
-	EXECUTE dbo.EPA_GetLastPerformanceScore @EPAId
 END

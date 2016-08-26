@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetStandardGrade    Script Date: 5/16/2016 2:20:12 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetStandardGrade    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetStandardGrade    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetStandardGrade    Script Date: 4/6/2016 11:27:42 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_GetStandardGrade    Script Date: 7/21/2016 2:45:45 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_GetStandardGrade]
 AS

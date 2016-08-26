@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaRole_AssignFunctionToRole    Script Date: 5/16/2016 2:20:09 PM ******/
-/****** Object:  Stored Procedure dbo.EpaRole_AssignFunctionToRole    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaRole_AssignFunctionToRole    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaRole_AssignFunctionToRole    Script Date: 4/6/2016 11:27:46 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaRole_AssignFunctionToRole    Script Date: 7/21/2016 2:45:54 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaRole_AssignFunctionToRole] @RoleId INT
 	,@Functions VARCHAR(5000) = ''

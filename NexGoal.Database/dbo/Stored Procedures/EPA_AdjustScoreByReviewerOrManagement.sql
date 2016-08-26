@@ -1,9 +1,6 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 4/6/2016 11:27:40 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 7/21/2016 2:45:42 PM ******/
 
-CREATE PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
+ALTER PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -11,7 +8,7 @@ AS
 /*
 Created: 20150828@Tim.Trinh
 Task: Set KPI score.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -37,8 +34,8 @@ BEGIN
 		,ProcessId INT
 		,EmployeeId INT
 		,EvaluatorId INT
-		,AdjustScore NVARCHAR(100)
-		,TotalScore NVARCHAR(100) NULL
+		,AdjustScore NVARCHAR(MAX)
+		,TotalScore NVARCHAR(MAX) NULL
 		,Comment NVARCHAR(MAX) NULL
 		)
 
@@ -56,7 +53,7 @@ BEGIN
 			,AdjustScore
 			,TotalScore
 			,Comment
-		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT '@EPAId', ProcessId INT '@ProcessId', EmployeeId INT '@EmployeeId', EvaluatorId INT '@EvaluatorId', AdjustScore NVARCHAR(100) '@AdjustScore', TotalScore NVARCHAR(100) '@TotalScore', Comment NVARCHAR(MAX) '@Comment') AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT '@EPAId', ProcessId INT '@ProcessId', EmployeeId INT '@EmployeeId', EvaluatorId INT '@EvaluatorId', AdjustScore NVARCHAR(MAX) '@AdjustScore', TotalScore NVARCHAR(MAX) '@TotalScore', Comment NVARCHAR(MAX) '@Comment') AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY

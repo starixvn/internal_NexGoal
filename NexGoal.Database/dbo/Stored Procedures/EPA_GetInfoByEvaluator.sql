@@ -1,14 +1,12 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetInfoByEvaluator    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByEvaluator    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByEvaluator    Script Date: 5/16/2016 1:59:44 PM ******/
-
+﻿
+/****** Object:  Stored Procedure dbo.EPA_GetInfoByEvaluator    Script Date: 7/21/2016 2:45:44 PM ******/
 CREATE PROCEDURE [dbo].[EPA_GetInfoByEvaluator] @EPAId INT
 	,@EvaluatorId INT
 AS
 /*
 Created: 20150820@Tim.Trinh
 Task: Get EPA info by Evaluator.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -20,6 +18,9 @@ BEGIN
 
 	DECLARE @EPAIds IntId
 		,@Processes ProcessTable
+		,@EvaluatorProcessId INT
+
+	SET @EvaluatorProcessId = 3
 
 	INSERT INTO @EPAIds (Id)
 	VALUES (@EPAId)
@@ -35,7 +36,7 @@ BEGIN
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 	WHERE pc.ProcessId = 2
 		OR (
-			pc.ProcessId = 3
+			pc.ProcessId = @EvaluatorProcessId
 			AND pc.EvaluatorId = @EvaluatorId
 			)
 
@@ -47,6 +48,9 @@ BEGIN
 
 	-- KPI Group
 	EXECUTE dbo.EPA_GetKPIGroup @EPAIds
+
+	EXECUTE dbo.[EPA_GetKPIGroupScore] @EPAIds
+		,@EvaluatorProcessId;
 
 	-- KPI
 	EXECUTE dbo.EPA_GetKPI @EPAIds

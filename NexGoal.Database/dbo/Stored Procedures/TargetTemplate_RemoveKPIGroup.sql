@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.TargetTemplate_RemoveKPIGroup    Script Date: 5/16/2016 2:20:13 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_RemoveKPIGroup    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.TargetTemplate_RemoveKPIGroup    Script Date: 5/16/2016 1:59:44 PM ******/
+﻿/****** Object:  Stored Procedure dbo.TargetTemplate_RemoveKPIGroup    Script Date: 7/21/2016 2:46:02 PM ******/
 
 CREATE PROCEDURE [dbo].[TargetTemplate_RemoveKPIGroup] @TargetTemplateId INT
 	,@KPIGroupId INT
@@ -11,7 +9,7 @@ AS
 /*
 Created: 20140404@Quinn.Vo
 Task: Remove KPI group in target template.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

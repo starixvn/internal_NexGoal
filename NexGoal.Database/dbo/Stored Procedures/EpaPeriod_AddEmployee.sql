@@ -1,7 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 4/6/2016 11:27:45 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaPeriod_AddEmployee    Script Date: 7/21/2016 2:45:52 PM ******/
+
 CREATE PROCEDURE [dbo].[EpaPeriod_AddEmployee] @PeriodId INT
 	,@Departments VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
@@ -12,7 +10,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Add employee to evaluation period.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

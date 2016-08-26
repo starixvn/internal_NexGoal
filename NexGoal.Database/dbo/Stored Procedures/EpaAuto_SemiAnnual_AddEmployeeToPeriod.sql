@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod    Script Date: 4/6/2016 11:27:43 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod    Script Date: 7/21/2016 2:45:49 PM ******/
 
 --dbo.EpaAuto_SemiAnnual_AddEmployeeToPeriod 3
 CREATE PROCEDURE [dbo].[EpaAuto_SemiAnnual_AddEmployeeToPeriod] @PeriodId INT
@@ -11,7 +8,7 @@ AS
 /*
 Created: 2015-08-26@Josh.Phan
 Task: Auto add employee to period that has start date is today.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

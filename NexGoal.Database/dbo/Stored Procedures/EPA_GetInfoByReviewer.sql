@@ -1,14 +1,12 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetInfoByReviewer    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByReviewer    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_GetInfoByReviewer    Script Date: 5/16/2016 1:59:44 PM ******/
-
+﻿
+/****** Object:  Stored Procedure dbo.EPA_GetInfoByReviewer    Script Date: 7/21/2016 2:45:44 PM ******/
 CREATE PROCEDURE [dbo].[EPA_GetInfoByReviewer] @EPAId INT
 	,@ReviewerId INT
 AS
 /*
 Created: 20150811@Tim.Trinh
 Task: Get EPA info by Reviewer.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -18,11 +16,11 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @EPAIds IntId
-		,@Processes ProcessTable
+	DECLARE @EPAIds INTID
+		,@Processes PROCESSTABLE;
 
 	INSERT INTO @EPAIds (Id)
-	VALUES (@EPAId)
+	VALUES (@EPAId);
 
 	INSERT INTO @Processes (
 		ProcessId
@@ -38,24 +36,27 @@ BEGIN
 		OR (
 			pc.ProcessId = 4
 			AND pc.EvaluatorId = @ReviewerId
-			)
+			);
 
 	-- General Info
-	EXECUTE dbo.EPA_GetGeneralInfo @EPAIds
+	EXECUTE dbo.EPA_GetGeneralInfo @EPAIds;
 
 	-- Process
-	EXECUTE dbo.EPA_GetProcess @EPAIds
+	EXECUTE dbo.EPA_GetProcess @EPAIds;
 
 	-- KPI Group
-	EXECUTE dbo.EPA_GetKPIGroup @EPAIds
+	EXECUTE dbo.EPA_GetKPIGroup @EPAIds;
+
+	EXECUTE dbo.[EPA_GetKPIGroupScore] @EPAIds
+		,3;
 
 	-- KPI
-	EXECUTE dbo.EPA_GetKPI @EPAIds
+	EXECUTE dbo.EPA_GetKPI @EPAIds;
 
 	-- Evaluation per KPI
 	EXECUTE EPA_GetEvaluation @EPAIds
-		,@Processes
+		,@Processes;
 
 	-- Last performance score
-	EXECUTE dbo.EPA_GetLastPerformanceScore @EPAId
-END
+	EXECUTE dbo.EPA_GetLastPerformanceScore @EPAId;
+END;

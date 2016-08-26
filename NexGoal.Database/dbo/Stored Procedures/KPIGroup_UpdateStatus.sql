@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPIGroup_UpdateStatus    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_UpdateStatus    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_UpdateStatus    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_UpdateStatus    Script Date: 4/6/2016 11:27:47 AM ******/
+﻿/****** Object:  Stored Procedure dbo.KPIGroup_UpdateStatus    Script Date: 7/21/2016 2:45:57 PM ******/
 
 CREATE PROCEDURE [dbo].[KPIGroup_UpdateStatus] @KPIGroupId INT
 	,@IsActive BIT = 0
@@ -12,7 +9,7 @@ AS
 /*
 Created: 20150710@Tim.Trinh
 Task: Update status of KPI Group.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

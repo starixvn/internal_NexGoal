@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_UpdateStatus    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_UpdateStatus    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_UpdateStatus    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_UpdateStatus    Script Date: 4/6/2016 11:27:42 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_UpdateStatus    Script Date: 7/21/2016 2:45:46 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_UpdateStatus] @EPAId INT
 	,@ProcessId TINYINT
@@ -15,7 +12,7 @@ AS
 /*
 Created: 20150819@Tim.Trinh
 Task: Update status of EPA.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

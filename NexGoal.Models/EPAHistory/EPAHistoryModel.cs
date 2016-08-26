@@ -23,10 +23,12 @@
 
         public bool HasMonthlyEPA { get; set; }
 
-        public void Decode()
+        public void Decrypt()
         {
-            FinalScore = !string.IsNullOrWhiteSpace(EncodeFinalScore) ? float.Parse(EncodeService.Decode(EncodeFinalScore)) : 0;
-            Grade = !string.IsNullOrWhiteSpace(EncodeGrade) ? EncodeService.Decode(EncodeGrade) : string.Empty;
+            ICertificateService certificateService = new CertificateService();
+
+            FinalScore = !string.IsNullOrWhiteSpace(EncodeFinalScore) ? float.Parse(certificateService.Decrypt(EncodeFinalScore)) : 0;
+            Grade = !string.IsNullOrWhiteSpace(EncodeGrade) ? certificateService.Decrypt(EncodeGrade) : string.Empty;
         }
     }
 }

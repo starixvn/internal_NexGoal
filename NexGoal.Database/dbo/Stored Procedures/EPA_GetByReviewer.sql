@@ -1,13 +1,12 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetByReviewer    Script Date: 7/21/2016 2:45:43 PM ******/
+﻿
 
 CREATE PROCEDURE [dbo].[EPA_GetByReviewer] @ReviewerId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
-	,@GroupId INT = NULL
-	,@IsLocal BIT = NULL
-	,@IsMonthly BIT
+	,@GroupIds VARCHAR(MAX) = NULL
+	,@PeriodIds VARCHAR(MAX) = NULL
 AS
 /*
-Created: 20150824@Tim.Trinh
+ALTERd: 20150824@Tim.Trinh
 Task: Get EPA by Reviewer.
 DB: SMSEPA
 Original:
@@ -20,18 +19,36 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @EPAIds IntId
-		,@Employees IntId
+	DECLARE @EPAIds INTID
+		,@Periods INTID
+		,@Employees INTID
 		,@ToDay DATE
+		,@Groups INTID
+		,@EvaluatorProcessId INT;
 
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	SET @ToDay = CAST(GETDATE() AS DATE);
+	SET @EvaluatorProcessId = 3;
 
 	IF ISNULL(@EmployeeIds, '') <> ''
 	BEGIN
 		INSERT INTO @Employees (Id)
 		SELECT DISTINCT val
-		FROM fnc_strSplit(@EmployeeIds, ',')
-	END
+		FROM fnc_strSplit(@EmployeeIds, ',');
+	END;
+
+	IF ISNULL(@PeriodIds, '') <> ''
+	BEGIN
+		INSERT INTO @Periods (Id)
+		SELECT DISTINCT fnc_strSplit.val
+		FROM dbo.fnc_strSplit(@PeriodIds, ',');
+	END;
+
+	IF ISNULL(@GroupIds, '') <> ''
+	BEGIN
+		INSERT INTO @Groups (Id)
+		SELECT DISTINCT fnc_strSplit.val
+		FROM dbo.fnc_strSplit(@GroupIds, ',');
+	END;
 
 	INSERT INTO @EPAIds
 	SELECT DISTINCT epa.EPAId
@@ -39,12 +56,11 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EMployeeId = emp.EmployeeId
-		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		INNER JOIN dbo.EPAProcess AS pcRev WITH (NOLOCK) ON epa.EPAId = pcRev.EPAId
-		AND pcRev.ProcessId = 4 -- reviewer
-		AND pcRev.EvaluatorId = @ReviewerId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
+		AND pc.ProcessId = 4 -- reviewer
+		AND pc.EvaluatorId = @ReviewerId
+		AND pc.StartDate <= GETDATE()
 	WHERE (
 			@EmployeeIds IS NULL
 			OR epa.EmployeeId IN (
@@ -53,46 +69,29 @@ BEGIN
 				)
 			)
 		AND (
-			@GroupId IS NULL
-			OR gr.GroupId = @GroupId
-			)
-		AND (
-			@IsLocal IS NULL
-			OR emp.IsLocal = @IsLocal
-			)
-		AND (
-			(
-				@IsMonthly = 1
-				AND tt.TargetTypeId = 2
-				)
-			OR (
-				@IsMonthly = 0
-				AND tt.TargetTypeId <> 2
+			@GroupIds IS NULL
+			OR gr.GroupId IN (
+				SELECT Id
+				FROM @Groups
 				)
 			)
 		AND (
-			(
-				tt.TargetTypeId IN (2, 3) -- monthly, semi
-				AND @ToDay >= CAST(pcRev.StartDate AS DATE)
-				AND (
-					@ToDay < CAST(period.EndDate AS DATE)
-					OR (
-						@ToDay <= CAST(pc.EndDate AS DATE)
-						AND pc.ProcessId IN (4, 5)
-						)
-					)
+			@PeriodIds IS NULL
+			OR period.PeriodId IN (
+				SELECT Id
+				FROM @Periods
 				)
-			OR (
-				tt.TargetTypeId NOT IN (2, 3)
-				AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-					AND CAST(pc.EndDate AS DATE)
-				AND pc.ProcessId IN (4, 5)
-				)
-			)
+			);
 
 	-- General Info
-	EXECUTE dbo.EPA_GetGeneralInfo @EPAIds
+	EXECUTE dbo.EPA_GetGeneralInfo @EPAIds;
+
+	-- KPI Group
+	EXECUTE dbo.EPA_GetKPIGroup @EPAIds;
+
+	EXECUTE dbo.[EPA_GetKPIGroupScore] @EPAIds
+		,@EvaluatorProcessId;
 
 	-- Process
-	EXECUTE dbo.EPA_GetProcess @EPAIds
-END
+	EXECUTE dbo.EPA_GetProcess @EPAIds;
+END;

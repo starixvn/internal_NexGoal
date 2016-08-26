@@ -1,7 +1,4 @@
-﻿/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_Period_EmployeeSetting    Script Date: 5/16/2016 2:20:06 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_Period_EmployeeSetting    Script Date: 5/16/2016 2:15:28 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_Period_EmployeeSetting    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_Period_EmployeeSetting    Script Date: 4/6/2016 11:27:50 AM ******/
+﻿/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_Period_EmployeeSetting    Script Date: 7/21/2016 2:45:41 PM ******/
 
 CREATE FUNCTION [dbo].[fncGetDataForWriteLog_Period_EmployeeSetting] (
 			@PeriodId INT
@@ -51,8 +48,8 @@ BEGIN
 							+ '</ed><iep>' + CAST([IsEndProcess] AS NVARCHAR)
 							+ '</iep><nab>' + CAST([NoticeAtBegin] AS NVARCHAR)
 							+ '</nab><rd>' + CAST([RemindDate] AS NVARCHAR(20))
-							+ '</rd><ts>' + CAST([TotalScore] AS NVARCHAR(100)) 
-							+ '</ts><as>' + CAST([AdjustScore] AS NVARCHAR(100))
+							+ '</rd><ts>' + CAST([TotalScore] AS NVARCHAR(MAX)) 
+							+ '</ts><as>' + CAST([AdjustScore] AS NVARCHAR(MAX))
 							+ '</as><ed>' + CAST([EvaluateDate] AS NVARCHAR(100))
 							+ '</ed></ep>'
 	FROM [dbo].[EPAProcess] AS epap WITH (NOLOCK)

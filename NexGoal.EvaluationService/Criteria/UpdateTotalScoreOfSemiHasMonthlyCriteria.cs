@@ -22,21 +22,22 @@
             get
             {
                 var epaXml = new StringBuilder(BeginRootTag);
+                ICertificateService certificateService = new CertificateService();
 
                 epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Self,
-                        EncodeService.Encode(MonthlyEPA.AverageSelfScoreConverted.ToString()));
+                        certificateService.Encrypt(MonthlyEPA.AverageSelfScoreConverted.ToString()));
 
                 epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Evaluator,
-                        EncodeService.Encode(MonthlyEPA.AverageEvaluatorScoreConverted.ToString()));
+                        certificateService.Encrypt(MonthlyEPA.AverageEvaluatorScoreConverted.ToString()));
 
                 epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Reviewer,
-                        EncodeService.Encode(MonthlyEPA.AverageReviewerScoreConverted.ToString()));
+                        certificateService.Encrypt(MonthlyEPA.AverageReviewerScoreConverted.ToString()));
 
                 epaXml.Append(EndRootTag);
 

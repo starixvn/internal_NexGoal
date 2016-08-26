@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_UpdateTotalScore    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_UpdateTotalScore    Script Date: 5/16/2016 2:15:34 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_UpdateTotalScore    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_UpdateTotalScore    Script Date: 4/6/2016 11:27:44 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaAuto_SemiAnnual_UpdateTotalScore    Script Date: 7/21/2016 2:45:49 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaAuto_SemiAnnual_UpdateTotalScore] @EPAId INT
 	,@Details NVARCHAR(MAX)
@@ -11,7 +8,7 @@ AS
 /*
 Created: 20160308@Tim.Trinh
 Task: Auto update total score for Semi has Monthly
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -27,7 +24,7 @@ BEGIN
 	CREATE TABLE #Details (
 		EPAId INT
 		,ProcessId INT
-		,TotalScore NVARCHAR(100) NULL
+		,TotalScore NVARCHAR(MAX) NULL
 		)
 
 	BEGIN TRY
@@ -40,7 +37,7 @@ BEGIN
 		SELECT @EPAId
 			,ProcessId
 			,TotalScore
-		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (ProcessId INT '@ProcessId', TotalScore NVARCHAR(100) '@TotalScore') AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (ProcessId INT '@ProcessId', TotalScore NVARCHAR(MAX) '@TotalScore') AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY

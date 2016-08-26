@@ -5,7 +5,6 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.Period;
@@ -216,7 +215,7 @@
         {
             foreach (EPASummaryPeriodModel period in epaSummaries.SelectMany(x => x.Periods))
             {
-                period.Decode();
+                period.Decrypt();
             }
         }
 
@@ -224,7 +223,7 @@
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
-                epaInfo.Decode();
+                epaInfo.Decrypt();
             }
         }
 
@@ -232,7 +231,7 @@
         {
             foreach (EPAProcessModel process in processes)
             {
-                process.Decode();
+                process.Decrypt();
             }
         }
     }

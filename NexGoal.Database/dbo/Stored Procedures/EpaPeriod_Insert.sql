@@ -1,9 +1,6 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_Insert    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_Insert    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_Insert    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_Insert    Script Date: 4/6/2016 11:27:45 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaPeriod_Insert    Script Date: 7/21/2016 2:45:53 PM ******/
 
-CREATE PROCEDURE [dbo].[EpaPeriod_Insert] @PeriodId INT = 0 OUTPUT
+CREATE PROCEDURE dbo.EpaPeriod_Insert @PeriodId INT = 0 OUTPUT
 	,@Name NVARCHAR(200) = NULL
 	,@TargetTypeId INT
 	,@StartDate DATETIME = NULL
@@ -19,7 +16,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Insert new evaluation period.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

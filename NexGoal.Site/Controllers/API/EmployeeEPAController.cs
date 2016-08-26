@@ -1,38 +1,34 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using NexGoal.Core.Attribute;
-    using NexGoal.Core.Constants;
-    using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Model;
-    using NexGoal.Core.Services;
-    using NexGoal.Criteria.EmployeeEPA;
-    using NexGoal.Criteria.EmployeeEPA.RatingByKPI;
-    using NexGoal.Model.EmployeeEPA;
-    using NexGoal.Model.EmployeeEPA.RatingByKPI;
-    using NexGoal.Model.Enitites;
-    using NexGoal.Model.Period;
-    using NexGoal.Model.RoleManagement;
-    using NexGoal.Model.TargetTemplate;
-    using NexGoal.Services.Implement;
-    using NexGoal.Services.Interfaces;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
     using System.Web.Http;
+    using NexGoal.Core.Attribute;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Model;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.EmployeeEPA;
+    using NexGoal.Model.EmployeeEPA;
+    using NexGoal.Model.Enitites;
+    using NexGoal.Model.RoleManagement;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
 
     public class EmployeeEPAController : BaseController
     {
-        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IEmployeeEPAService employeeEPAService;
         private readonly IEPAReviewerService reviewerService;
         private readonly IEPAEvaluatorService evaluatorService;
         private readonly IEPASelfService selfService;
-
         private readonly IRoleService roleService;
+        private readonly ICertificateService certificateService;
 
         public EmployeeEPAController()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null, null, null)
         {
         }
 
@@ -41,16 +37,19 @@
             IRoleService roleService,
             IEPAReviewerService reviewerService,
             IEPAEvaluatorService evaluatorService,
-            IEPASelfService selfService)
+            IEPASelfService selfService,
+            ICertificateService certificateService)
         {
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.roleService = roleService ?? new RoleService();
             this.reviewerService = reviewerService ?? new EPAReviewerService();
             this.evaluatorService = evaluatorService ?? new EPAEvaluatorService();
             this.selfService = selfService ?? new EPASelfService();
+            this.certificateService = certificateService ?? new CertificateService();
         }
 
         #region Self
+
         [ApiAuthorize(FunctionKey.Self, Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEmployee(string periodIds = null)
@@ -296,7 +295,7 @@
 
                 default:
 
-                    epaInfo = _employeeEPAService.GetEPAInfoById(epaId);
+                    epaInfo = employeeEPAService.GetEPAInfoById(epaId);
 
                     return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
@@ -306,13 +305,13 @@
         public CommandResult ConvertEPA()
         {
             var getEPASummaryImportCriteria = new GetEPASummaryImportCriteria();
-            IEnumerable<EPASummaryImportModel> memberEPAs = _employeeEPAService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
+            IEnumerable<EPASummaryImportModel> memberEPAs = employeeEPAService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
             var criteria = new UpdateEPASummaryImportCriteria()
             {
                 MemberEPAs = memberEPAs
             };
 
-            CommandResult result = _employeeEPAService.UpdateEPASummaryImport(criteria);
+            CommandResult result = employeeEPAService.UpdateEPASummaryImport(criteria);
             return result;
         }
 
@@ -324,7 +323,7 @@
             IEnumerable<SystemRoleModel> roles = this.roleService.GetRolesByEmployeeId(SessionService.EmployeeId);
             if (roles.Select(x => x.RoleId).Contains((int)SystemRole.SystemAdmin))
             {
-                EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(epaId);
+                EPAModel epaInfo = employeeEPAService.GetEPAInfoById(epaId);
 
                 var resetScoreCriteria = new ResetScoreCriteria()
                 {
@@ -341,7 +340,7 @@
                     {
                         resetScoreCriteria.EPAInfo = epaInfo;
 
-                        commandResult = _employeeEPAService.ResetScore(resetScoreCriteria);
+                        commandResult = employeeEPAService.ResetScore(resetScoreCriteria);
                         response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                     }
                 }
@@ -349,7 +348,7 @@
                 {
                     resetScoreCriteria.EPAInfo = epaInfo;
 
-                    commandResult = _employeeEPAService.ResetScore(resetScoreCriteria);
+                    commandResult = employeeEPAService.ResetScore(resetScoreCriteria);
                     response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
                 }
             }
@@ -367,7 +366,7 @@
         public HttpResponseMessage GetPeriodToUpdateFinalScore()
         {
             var criteria = new GetPeriodToUpdateFinalScoreCriteria();
-            IList<EPAPeriodModel> periods = _employeeEPAService.GetPeriodToUpdateFinalScore(criteria);
+            IList<EPAPeriodModel> periods = employeeEPAService.GetPeriodToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, periods);
         }
@@ -384,7 +383,7 @@
                 GroupId = groupId,
                 Query = query
             };
-            IList<EPAEmployeeModel> employees = _employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
+            IList<EPAEmployeeModel> employees = employeeEPAService.GetEmployeeToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, employees);
         }
@@ -401,7 +400,7 @@
                 GroupId = groupId,
                 EmployeeId = employeeId
             };
-            IList<EPAModel> epaInfos = _employeeEPAService.GetEPAToUpdateFinalScore(criteria);
+            IList<EPAModel> epaInfos = employeeEPAService.GetEPAToUpdateFinalScore(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -410,7 +409,7 @@
         [HttpPut]
         public HttpResponseMessage UpdateFinalScore(IList<EPAModel> selectedEPAs)
         {
-            IEnumerable<StandardGradeModel> standardGrades = _employeeEPAService.GetStandardGrade();
+            IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
 
             foreach (EPAModel epaInfo in selectedEPAs)
             {
@@ -418,9 +417,9 @@
                     finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
-                epaInfo.FinalScore = EncodeService.Encode(finalScore.ToString());
-                string grade = _employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
-                epaInfo.Grade = EncodeService.Encode(grade);
+                epaInfo.FinalScore = certificateService.Encrypt(finalScore.ToString());
+                string grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+                epaInfo.Grade = certificateService.Encrypt(grade);
             }
 
             var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria
@@ -429,7 +428,7 @@
                 EPAInfos = selectedEPAs
             };
 
-            CommandResult commandResult = _employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
+            CommandResult commandResult = employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
 
             return response;
@@ -446,7 +445,7 @@
 
         private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
         {
-            return _employeeEPAService.UpdateEPAScore(criteria);
+            return employeeEPAService.UpdateEPAScore(criteria);
         }
 
         private IEnumerable<Employee> GetMemberByEvaluatorOrReviewer(
@@ -462,7 +461,7 @@
                 PeriodIds = periodIds
             };
 
-            return _employeeEPAService.GetMemberByEvaluatorOrReviewer(criteria);
+            return employeeEPAService.GetMemberByEvaluatorOrReviewer(criteria);
         }
 
         private IEnumerable<Group> GetGroupByEvaluatorOrReviewer(int processId, string periodIds = null)
@@ -474,12 +473,12 @@
                 PeriodIds = periodIds
             };
 
-            return _employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
+            return employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
         }
 
         private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
-            return _employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
+            return employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
         }
 
         private int CheckEmployeePermission(
@@ -494,7 +493,7 @@
                 ProcessId = processId
             };
 
-            return _employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
+            return employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
         }
 
         private float GetFinalScoreOfEPA(EPAModel epaInfo)

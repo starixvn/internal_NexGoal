@@ -1,10 +1,13 @@
-﻿/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 4/6/2016 11:27:45 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_GetAll    Script Date: 7/21/2016 2:45:52 PM ******/
+
+
+/****** Object:  Stored Procedure dbo.EpaMonthlyPeriod_Get    Script Date: 4/6/2016 11:27:45 AM ******/
 CREATE PROCEDURE [dbo].[EpaMonthlyPeriod_GetAll]
 AS
 /*
 Created: 20160520@Razor.Nguyen
 Task: Get All monthly period.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

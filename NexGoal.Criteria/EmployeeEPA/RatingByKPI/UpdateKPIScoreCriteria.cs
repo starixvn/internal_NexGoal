@@ -37,9 +37,12 @@
             return EvaluatorId > 0;
         }
 
-        private string Encode(string plainText)
+        private string Encrypt(string plainText)
         {
-            return EncodeService.Encode(plainText);
+            ICertificateService certificateService = new CertificateService();
+            string cipherText = certificateService.Encrypt(plainText);
+
+            return cipherText;
         }
 
         private string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)
@@ -61,7 +64,7 @@
                         epaDetailXml = GenerateEpaDetailXml(kpi, kpi.Score, kpi.Rate);
                     }
 
-                    string totalScore = Encode(epaInfo.TotalScore);
+                    string totalScore = Encrypt(epaInfo.TotalScore);
                     epaXml.AppendFormat(EPAXmlTemplate, epaInfo.EPAId, epaInfo.Employee.EmployeeId, epaInfo.KPIGroup.KPIGroupId, totalScore, epaDetailXml);
                 }
             }
@@ -73,9 +76,9 @@
 
         private StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, float rate)
         {
-            string kpiRate = rate > 0 ? rate.ToString() : string.Empty;
-            string cipherScore = Encode(score + "_" + kpi.KPIId);
-            string cipherRate = Encode(kpiRate);
+            string kpiRate = rate > 0 ? rate.ToString() : string.Empty,
+                cipherScore = Encrypt(score),
+                cipherRate = Encrypt(kpiRate);
 
             var epaDetailXml = new StringBuilder();
             epaDetailXml.AppendFormat(EPADetailXmlTemplate, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));

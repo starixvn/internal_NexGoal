@@ -30,8 +30,8 @@ BEGIN
 		EPAId INT
 		,EmployeeId INT
 		,Code NVARCHAR(20)
-		,FinalScore NVARCHAR(100)
-		,Grade NVARCHAR(100)
+		,FinalScore NVARCHAR(MAX)
+		,Grade NVARCHAR(MAX)
 		,DisciplineScore FLOAT
 		)
 

@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_ResetScore    Script Date: 5/16/2016 2:20:11 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_ResetScore    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_ResetScore    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EPA_ResetScore    Script Date: 4/6/2016 11:27:42 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EPA_ResetScore    Script Date: 7/21/2016 2:45:46 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_ResetScore] @EPAId INT
 	,@Details NVARCHAR(MAX)
@@ -12,7 +9,7 @@ AS
 /*
 Created: 20160311@Tim.Trinh
 Task: reset score
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
@@ -28,8 +25,8 @@ BEGIN
 	CREATE TABLE #Details (
 		EPAId INT
 		,ProcessId INT
-		,TotalScore NVARCHAR(100) NULL
-		,AdjustScore NVARCHAR(100) NULL
+		,TotalScore NVARCHAR(MAX) NULL
+		,AdjustScore NVARCHAR(MAX) NULL
 		)
 
 	BEGIN TRY
@@ -43,7 +40,7 @@ BEGIN
 			,ProcessId
 			,TotalScore
 			,AdjustScore
-		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (ProcessId INT '@ProcessId', TotalScore NVARCHAR(100) '@TotalScore', AdjustScore NVARCHAR(100) '@AdjustScore') AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (ProcessId INT '@ProcessId', TotalScore NVARCHAR(MAX) '@TotalScore', AdjustScore NVARCHAR(MAX) '@AdjustScore') AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY

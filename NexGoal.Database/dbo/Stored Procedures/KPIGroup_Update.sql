@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 4/6/2016 11:27:47 AM ******/
+﻿/****** Object:  Stored Procedure dbo.KPIGroup_Update    Script Date: 7/21/2016 2:45:57 PM ******/
 
 CREATE PROCEDURE [dbo].[KPIGroup_Update] @KPIGroupId INT
 	,@Name NVARCHAR(500)

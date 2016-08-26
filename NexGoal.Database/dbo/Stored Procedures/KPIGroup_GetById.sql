@@ -1,14 +1,11 @@
-﻿/****** Object:  Stored Procedure dbo.KPIGroup_GetById    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_GetById    Script Date: 5/16/2016 2:15:32 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_GetById    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.KPIGroup_GetById    Script Date: 4/6/2016 11:27:47 AM ******/
+﻿/****** Object:  Stored Procedure dbo.KPIGroup_GetById    Script Date: 7/21/2016 2:45:57 PM ******/
 
 CREATE PROCEDURE [dbo].[KPIGroup_GetById] @KPIGroupId INT
 AS
 /*
 Created: 20150710@Tim.Trinh
 Task: Get KPI Group by Id.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

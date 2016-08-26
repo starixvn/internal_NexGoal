@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaEmployee_Update    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_Update    Script Date: 5/16/2016 2:15:30 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_Update    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_Update    Script Date: 4/6/2016 11:27:44 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaEmployee_Update    Script Date: 7/21/2016 2:45:51 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaEmployee_Update] @EmployeeId INT
 	,@NickName NVARCHAR(20)

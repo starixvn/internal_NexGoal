@@ -1,7 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateIncludeStatusEmployeeToPeriod    Script Date: 5/16/2016 2:20:08 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateIncludeStatusEmployeeToPeriod    Script Date: 5/16/2016 2:15:31 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateIncludeStatusEmployeeToPeriod    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateIncludeStatusEmployeeToPeriod    Script Date: 4/6/2016 11:27:45 AM ******/
+﻿/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateIncludeStatusEmployeeToPeriod    Script Date: 7/21/2016 2:45:54 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaPeriod_UpdateIncludeStatusEmployeeToPeriod] @PeriodId INT
 	,@EmployeeId INT
@@ -13,7 +10,7 @@ AS
 /*
 Created: 2015-06-12@Josh.Phan
 Task: Include employee out of period.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

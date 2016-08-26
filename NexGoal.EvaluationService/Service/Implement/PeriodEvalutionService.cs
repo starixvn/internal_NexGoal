@@ -1,4 +1,6 @@
-﻿using NexGoal.Core.Enumerations;
+﻿using System.Collections.Generic;
+using System.Linq;
+using NexGoal.Core.Enumerations;
 using NexGoal.Core.Model;
 using NexGoal.Core.Services;
 using NexGoal.Criteria.EmployeeEPA;
@@ -7,9 +9,6 @@ using NexGoal.Model.EmployeeEPA;
 using NexGoal.Model.Period;
 using NexGoal.Services.Implement;
 using NexGoal.Services.Interfaces;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace NexGoal.AutoGenerateEvaluation
 {
@@ -18,20 +17,23 @@ namespace NexGoal.AutoGenerateEvaluation
         private readonly IPeriodService periodService;
         private readonly IAutoMailService autoMailService;
         private readonly IEmployeeEPAService employeeEPAService;
+        private readonly ICertificateService certificateService;
 
         public PeriodEvalutionService()
-            : this(null, null, null)
+            : this(null, null, null, null)
         {
         }
 
         public PeriodEvalutionService(
             IPeriodService periodService,
             IAutoMailService autoMailService,
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPAService employeeEPAService,
+            ICertificateService certificateService)
         {
             this.periodService = periodService ?? new PeriodService();
             this.autoMailService = autoMailService ?? new AutoMailService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.certificateService = certificateService ?? new CertificateService();
         }
 
         public void UpdatePeriodIsEnd()
@@ -152,9 +154,8 @@ namespace NexGoal.AutoGenerateEvaluation
         private void EncodeAndUpdateFinalScore(float performanceScore, float disciplineScore, int evaluationId, string grade)
         {
             float finalScore = performanceScore + disciplineScore;
-            string finalScoreEncode = EncodeService.Encode(finalScore.ToString());
-
-            string gradeEncode = EncodeService.Encode(grade);
+            string finalScoreEncode = certificateService.Encrypt(finalScore.ToString()),
+                gradeEncode = certificateService.Encrypt(grade);
 
             var criteria = new UpdateFinalScoreEndEvaluationCriteria
             {

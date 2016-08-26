@@ -1,7 +1,4 @@
-﻿/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplateSetting_Employee    Script Date: 5/16/2016 2:20:06 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplateSetting_Employee    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplateSetting_Employee    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplateSetting_Employee    Script Date: 4/6/2016 11:27:50 AM ******/
+﻿/****** Object:  User Defined Function dbo.fncGetDataForWriteLog_TargetTemplateSetting_Employee    Script Date: 7/21/2016 2:45:42 PM ******/
 
 CREATE FUNCTION [dbo].[fncGetDataForWriteLog_TargetTemplateSetting_Employee] (@EmployeeId INT)
 RETURNS NVARCHAR(MAX)

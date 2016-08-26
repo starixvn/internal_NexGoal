@@ -1,9 +1,11 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetPeriodToUpdateFinalScore]
+﻿/****** Object:  Stored Procedure dbo.EPA_GetPeriodToUpdateFinalScore    Script Date: 7/21/2016 2:45:45 PM ******/
+
+CREATE PROCEDURE [dbo].[EPA_GetPeriodToUpdateFinalScore]
 AS
 /*
 Created: 20160601@Tim.Trinh
 Task: Get period.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  

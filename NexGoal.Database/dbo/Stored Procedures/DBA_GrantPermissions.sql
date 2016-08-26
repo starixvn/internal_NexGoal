@@ -1,5 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.DBA_GrantPermissions    Script Date: 5/16/2016 2:20:08 PM ******/
-CREATE PROCEDURE [dbo].[DBA_GrantPermissions] 
+﻿CREATE PROCEDURE [dbo].[DBA_GrantPermissions] 
             @SPs			nvarchar(4000), 
             @strPermission	varchar(4000)='' OUTPUT 
             AS 

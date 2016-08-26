@@ -24,6 +24,7 @@
             get
             {
                 var epaXml = new StringBuilder(BeginRootTag);
+                ICertificateService certificateService = new CertificateService();
 
                 if (EPAInfo.HasMonthlyEPA
                     && EPAInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
@@ -31,19 +32,19 @@
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Self,
-                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()),
+                        certificateService.Encrypt(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Evaluator,
-                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()),
+                        certificateService.Encrypt(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(
                         EPAXmlTemplate,
                         (int)ProcessType.Reviewer,
-                        EncodeService.Encode(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()),
+                        certificateService.Encrypt(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()),
                         string.Empty);
 
                     epaXml.AppendFormat(

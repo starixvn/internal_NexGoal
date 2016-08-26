@@ -56,7 +56,7 @@
         {
             foreach (EPAHistoryModel epa in epas)
             {
-                epa.Decode();
+                epa.Decrypt();
             }
         }
 

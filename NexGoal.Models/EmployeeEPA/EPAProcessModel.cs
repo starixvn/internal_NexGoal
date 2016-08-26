@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using NexGoal.Core.Services;
     using System;
+    using NexGoal.Core.Services;
 
     [Serializable]
     public class EPAProcessModel
@@ -76,10 +76,12 @@
 
         public float MaxAdditionScore { get; set; }
 
-        public void Decode()
+        public void Decrypt()
         {
-            TotalScore = EncodeService.Decode(TotalScoreEncode);
-            AdjustScore = EncodeService.Decode(AdjustScoreEncode);
+            ICertificateService certificateService = new CertificateService();
+
+            TotalScore = certificateService.Decrypt(TotalScoreEncode);
+            AdjustScore = certificateService.Decrypt(AdjustScoreEncode);
         }
     }
 }

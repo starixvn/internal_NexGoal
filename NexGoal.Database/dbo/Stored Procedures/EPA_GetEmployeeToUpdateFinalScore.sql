@@ -1,11 +1,13 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
+﻿/****** Object:  Stored Procedure dbo.EPA_GetEmployeeToUpdateFinalScore    Script Date: 7/21/2016 2:45:43 PM ******/
+
+CREATE PROCEDURE [dbo].[EPA_GetEmployeeToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@Query NVARCHAR(100) = NULL
 AS
 /*
 Created: 20160531@Tim.Trinh
 Task: Get employee.
-DB: NexGoal
+DB: SMSEPA
 Original: 
 
 Revisions:  
