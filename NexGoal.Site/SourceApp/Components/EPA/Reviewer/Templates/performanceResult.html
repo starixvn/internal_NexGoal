@@ -21,8 +21,15 @@
                 <th data-translate="Score"></th>
                 <th data-translate="Comment"></th>
                 <th ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" data-translate="AvgScore"></th>
-                <th data-translate="AdjustScore"></th>
-                <th data-translate="Comment"></th>
+                <th>
+                    <label data-translate="AdjustScore"></label>
+                    <label class="note" data-translate="(*)"></label>
+                </th>
+                <th>
+                    <label data-translate="Comment"></label>
+                    <label class="note" data-translate="(*)"></label>
+                </th>
+
             </tr>
         </thead>
         <tbody>

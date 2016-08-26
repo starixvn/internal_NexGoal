@@ -79,8 +79,14 @@
                                    ng-click="reviewerCtrl.changeSorting('EvaluatorScore')"></a>
                             </div>
                         </th>
-                        <th data-translate="AdjustScore"></th>
-                        <th data-translate="Comment"></th>
+                        <th>
+                            <label data-translate="AdjustScore"></label>
+                            <label class="note" data-translate="(*)"></label>
+                        </th>
+                        <th>
+                            <label data-translate="Comment"></label>
+                            <label class="note" data-translate="(*)"></label>
+                        </th>
                         <th data-translate="TotalScore"></th>
                         <th>
                             <span ng-show="!reviewerCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>

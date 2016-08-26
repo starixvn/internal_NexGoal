@@ -47,8 +47,8 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     };
 
     vm.inputScore = function (currentProcess) {
-        var maxSubtractScore = currentProcess.MaxSubtractScore,
-            maxAdditionScore = currentProcess.MaxAdditionScore;
+        var maxSubtractScore = (currentProcess.MaxSubtractScore).toFixed(2),
+            maxAdditionScore = (currentProcess.MaxPerformanceScore - vm.epaInfo.Process.AverageScoreByEvaluators).toFixed(2);
         var adjustScore = currentProcess.AdjustScore;
 
         if (adjustScore > maxAdditionScore || adjustScore < maxSubtractScore) {
