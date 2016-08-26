@@ -649,6 +649,7 @@ label:hover {
 }
 .page-content {
   text-align: center;
+  padding-top: 40px;
 }
 .layout-full .page {
   height: initial;
@@ -679,23 +680,26 @@ label:hover {
   color: #007fea;
   font-size: 15px;
 }
-.page-error .cta .md-arrow-left {
+.page-error .cta .icon {
   transition: all 0.3s ease;
   transform: translateX(0);
   padding-right: 10px;
+  vertical-align: middle;
 }
 .page-error .cta:hover {
   text-decoration: none;
   color: #0063b7;
 }
-.page-error .cta:hover .md-arrow-left {
+.page-error .cta:hover .icon {
   transform: translateX(-5px);
 }
 header {
-  padding-bottom: 50px;
+  padding-bottom: 40px;
 }
 .img-block {
   position: relative;
+  width: 700px;
+  margin: 0 auto;
 }
 .page-error-404 header {
   padding-bottom: 100px;
@@ -703,7 +707,7 @@ header {
 .page-error-404 .balloon {
   position: absolute;
   top: 0;
-  left: 200px;
+  left: 272px;
   -webkit-animation: shake 4s linear infinite;
   -moz-animation: shake 4s linear infinite;
   animation: shake 4s linear infinite;
@@ -711,31 +715,31 @@ header {
 .page-error-404 .small-cloud {
   position: absolute;
   top: 100px;
-  right: 150px;
+  right: 250px;
   width: 100px;
   -webkit-animation: fly 8s linear infinite;
   -moz-animation: fly 8s linear infinite;
   animation: fly 8s linear infinite;
   z-index: 3;
 }
-.page-error-404 .main,
+.page-error-404 .img-main,
 .page-error-404 .balloon {
   z-index: 2;
 }
 .page-error-404 .big-cloud {
   position: absolute;
   top: 10px;
-  right: 50px;
+  right: 150px;
   width: 150px;
   -webkit-animation: fly 10s linear infinite;
   -moz-animation: fly 10s linear infinite;
   animation: fly 10s linear infinite;
-  z-index: -1;
+  z-index: 0;
 }
 .page-error-404 .wind-bottom {
   position: absolute;
   bottom: 20px;
-  right: 150px;
+  right: 200px;
   -webkit-animation: fly-wind 9s linear infinite;
   -moz-animation: fly-wind 9s linear infinite;
   animation: fly-wind 9s linear infinite;
@@ -744,7 +748,7 @@ header {
 .page-error-404 .wind-top {
   position: absolute;
   top: 20px;
-  right: 20px;
+  right: 100px;
   -webkit-animation: fly-wind 7s linear infinite;
   -moz-animation: fly-wind 7s linear infinite;
   animation: fly-wind 7s linear infinite;
@@ -824,21 +828,21 @@ header {
     opacity: 0;
   }
 }
-.page-error-403 .seal-block {
+.page-error-405 .seal-block {
   width: 187px;
   overflow: hidden;
   position: absolute;
   top: 205px;
   left: 246px;
 }
-.page-error-403 .signage {
+.page-error-405 .signage {
   margin: 0 auto;
   position: absolute;
   max-width: 60px;
   top: 172px;
   right: 46%;
 }
-.page-error-403 .seal-slideshow {
+.page-error-405 .seal-slideshow {
   height: 8px;
   max-width: 185px;
   margin: 0 auto;
@@ -848,17 +852,17 @@ header {
   top: -96px;
   right: 1px;
 }
-.page-error-403 .seal-slideshow > div {
+.page-error-405 .seal-slideshow > div {
   height: 200px;
   width: 2526px;
-  background: url('Components/~/Content/Common/Images/405/short-seal.svg') repeat;
+  background: url('../Common/Images/405/short-seal.svg') repeat;
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   transform: translate3d(0, 0, 0);
 }
-.page-error-403 .seal-slideshow .mover-1 {
+.page-error-405 .seal-slideshow .mover-1 {
   animation: moveSlideshow 60s linear infinite;
 }
 @keyframes moveSlideshow {
@@ -872,12 +876,16 @@ header {
   margin: 0;
   line-height: 1;
 }
+.small-text {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
 .screen {
   width: 243px;
   height: 151px;
   position: absolute;
   top: 9px;
-  left: 190px;
+  left: 228px;
 }
 .screen .error {
   position: absolute;
@@ -888,7 +896,7 @@ header {
 .leave {
   position: absolute;
   top: 111px;
-  right: 31px;
+  right: 70px;
   animation: movingLeave 5s linear infinite;
 }
 @keyframes movingLeave {
