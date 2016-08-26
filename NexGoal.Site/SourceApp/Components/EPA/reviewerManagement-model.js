@@ -164,6 +164,25 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
     };
 
+    reviewerMngModel.validateComment = function (memberEPA) {
+        var isValid = true;
+
+        if (!memberEPA.Process.CurrentProcess.Comment || memberEPA.Process.CurrentProcess.Comment.length === 0) {
+            isValid = false;
+        }
+
+        return isValid;
+    };
+
+    reviewerMngModel.validateComments = function (memberEPAs) {
+        var isValid = true;
+        angular.forEach(memberEPAs, function (memberEPA) {
+            isValid = isValid ? validateComment(memberEPA) : isValid;
+        })
+
+        return isValid;
+    };
+
     reviewerMngModel.calculateAdjustScore = function (memberEPAs, isReviewer) {
         angular.forEach(memberEPAs, function (memberEPA) {
             var scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.AdjustScore),

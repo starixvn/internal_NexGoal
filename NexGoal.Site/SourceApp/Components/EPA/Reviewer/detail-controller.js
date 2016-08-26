@@ -66,9 +66,11 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     };
 
     vm.save = function (epaInfo) {
-        if (!epaInfo.Process.CurrentProcess.Comment || epaInfo.Process.CurrentProcess.Comment.length === 0) {
+        var isValidComment = ReviewerManagementModel.validateComment(epaInfo);
+        if (!isValidComment) {
             notificationFactory.error('CommentRequire');
-        } else {
+        }
+        else {
             var totalcore = epaInfo.Process.CurrentProcess.TotalScore;
 
             if (ReviewerManagementModel.validateEvaluation(totalcore)) {

@@ -475,9 +475,7 @@
     <Content Include="SourceApp\Components\EPA\ResetScore\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiDetail.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\monthlyEPAs.html" />
     <Content Include="SourceApp\Components\EPA\Templates\semiPerformanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\viewSemiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\index-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-factory.js" />

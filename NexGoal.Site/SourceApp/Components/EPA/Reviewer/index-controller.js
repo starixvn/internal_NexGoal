@@ -330,10 +330,15 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         if (selectedEmployees.length === 0) {
             notificationFactory.error("SelectEmployeeBeforeSaveWarning");
         } else {
-            ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
-            ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
-                getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
-            });
+            var isValidComment = ReviewerManagementModel.validateComments(selectedEmployees);
+            if (!isValidComment) {
+                notificationFactory.error('CommentRequire');
+            } else {
+                ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
+                ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
+                    getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
+                });
+            }
         }
     };
 
