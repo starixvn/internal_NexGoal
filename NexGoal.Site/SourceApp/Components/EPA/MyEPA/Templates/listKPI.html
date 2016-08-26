@@ -9,6 +9,7 @@
         <td class="kpi-title">
             {{$parent.index + 1}}-{{$index + 1}}. {{kpi.Name}} ({{kpi.Weight | splitScore}} pts)
             <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
+            <p ng-if="kpi.IsMissingEvaluation" data-translate="RequiredEvaluation" class="note"></p>
         </td>
         <td class="kpi-name width-250">
             <div class="kpi-start">
@@ -41,9 +42,10 @@
     </tr>
     <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">
         <td colspan="3" class="textarea-comment">
+            <p ng-if="kpi.IsMissingComment" data-translate="RequiredComment" class="note"></p>
             <p>
-                <span data-translate="CommentByEmployee" class="lable-comment-if-any" ng-class="kpi.cssClass"></span>
-                <span class="label-word-countdown " data-translate="LimitedWords"  ng-class="kpi.cssClass"></span>
+                <span data-translate="CommentByEmployee" class="lable-comment-if-any"></span>
+                <span class="label-word-countdown " data-translate="LimitedWords"></span>
                 <span class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></span>
             </p>
             <textarea class="form-control" maxlength="2000"

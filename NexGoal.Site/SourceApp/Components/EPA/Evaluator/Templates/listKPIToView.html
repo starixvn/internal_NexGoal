@@ -18,7 +18,7 @@
     </div>
     <div class="kpiGroup-box col-sm-12" collapse="memberEPAInfoCtrl.collapses[kpiGroup.Name]">
         <div class="row-item" ng-repeat="kpi in kpiGroup.KPIs" repeat-end="memberEPAInfoCtrl.generateRatingStar()">
-            <div class="col-sm-12 error-message" ng-show="kpi.CurrentEvaluation.EvaluateInvalid" data-translate="RequiredEvaluation"></div>
+            <div class="col-sm-12 error-message" ng-show="kpi.CurrentEvaluation.IsMissiongEvaluation" data-translate="RequiredEvaluation"></div>
             <div class="col-sm-12 kpi-name">
                 <div class="row">
                     <div class="feature">
@@ -92,9 +92,9 @@
                     </div>
                 </div>
                 <div ng-show="kpi.ExpandedCommentByEvaluator">
-                    <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && kpi.IsRequiredComment"
+                    <div class="error-message" ng-show="kpi.IsMissingComment && kpi.HasComment && kpi.IsRequiredComment"
                          data-translate="RequiredComment"></div>
-                    <div class="error-message" ng-show="kpi.CurrentEvaluation.CommentInvalid && kpi.HasComment && !kpi.IsRequiredComment"
+                    <div class="error-message" ng-show="kpi.IsMisssingComment && kpi.HasComment && !kpi.IsRequiredComment"
                          data-translate="RequiredCommentForRatingMaxScore"></div>
                     <div class="textarea">
                         <textarea class="form-control" ng-model="kpi.CurrentEvaluation.Comment" ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"></textarea>

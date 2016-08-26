@@ -86,21 +86,19 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
                 if (kpi.IsRequiredEvaluate && (score <= 0)) {
                     isValid = false;
-                    kpi.CurrentEvaluation.EvaluateInvalid = true;
+                    kpi.IsMissingEvaluation = true;
                 } else {
-                    kpi.CurrentEvaluation.EvaluateInvalid = false;
+                    kpi.IsMissingEvaluation = false;
                 }
 
                 if (kpi.HasComment && (!kpi.CurrentEvaluation.Comment || kpi.CurrentEvaluation.Comment.length === 0)
                     && (kpi.IsRequiredComment || (epaInfo.RequiredCommentOnMaxScore && !kpi.IsRequiredComment && kpi.CurrentEvaluation.IsMaxScore))
                     && (employeeId === kpi.CurrentEvaluation.EvaluatorId)) {
                     isValid = false;
-                    kpi.CurrentEvaluation.CommentInvalid = true;
                     kpi.ExpandedComment = true;
-                    kpi.cssClass = "note";
+                    kpi.IsMissingComment = true;
                 } else {
-                    kpi.CurrentEvaluation.CommentInvalid = false;
-                    kpi.cssClass = "";
+                    kpi.IsMissingComment = false;
                 }
             });
         });
