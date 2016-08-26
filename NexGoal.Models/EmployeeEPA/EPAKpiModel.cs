@@ -35,15 +35,15 @@
 
         public IList<EvaluationModel> EvaluationByEvaluators { get; set; }
 
-        public void Decode()
+        public void Decrypt()
         {
             foreach (var evaluator in EvaluationByEvaluators) 
             {
-                evaluator.Decode();
+                evaluator.Decrypt();
             }
 
-            EvaluationBySelf.Decode();
-            CurrentEvaluation.Decode();
+            EvaluationBySelf.Decrypt();
+            CurrentEvaluation.Decrypt();
         }
     }
 }

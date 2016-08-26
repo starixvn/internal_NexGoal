@@ -440,7 +440,7 @@
         {
             targetTypeId = targetTypeId.HasValue ? targetTypeId.Value : (int)TargetType.SemiAnnual;
 
-            return _employeeEPAService.GetLastRating(employeeId, targetTypeId.Value);
+            return employeeEPAService.GetLastRating(employeeId, targetTypeId.Value);
         }
 
         private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)

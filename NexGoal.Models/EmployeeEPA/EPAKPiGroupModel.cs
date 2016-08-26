@@ -48,7 +48,7 @@
 
             foreach (var kpi in KPIs)
             {
-                kpi.Decode();
+                kpi.Decrypt();
             }
         }
     }

@@ -35,7 +35,7 @@
                     foreach (EPAKPIGroupModel kpiGroup in groups)
                     {
                         GroupEvaluationOnEachKPI(kpiGroup.KPIs, scoreByKPIs);
-                        kpiGroup.Decode();
+                        kpiGroup.Decrypt();
                     }
 
                     return groups;
