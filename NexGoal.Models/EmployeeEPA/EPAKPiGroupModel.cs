@@ -45,6 +45,11 @@
             {
                 evaluator.Decode();
             }
+
+            foreach (var kpi in KPIs)
+            {
+                kpi.Decode();
+            }
         }
     }
 }

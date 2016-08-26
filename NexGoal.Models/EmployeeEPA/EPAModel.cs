@@ -13,7 +13,6 @@
         {
             KPIGroups = new List<EPAKPIGroupModel>();
             Process = new EvaluationProcessModel();
-            LastKPIRating = new List<EvaluationModel>();
         }
 
         public int EPAId { get; set; }
@@ -67,11 +66,6 @@
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
 
         #region Last score
-        public IEnumerable<EvaluationModel> LastKPIRating { get; set; }
-
-        public IList<EPAKPIGroupModel> LastKPIGroups { get; set; }
-
-        public float LastDisciplineScore { get; set; }
 
         public string LastFinalScoreEncode { get; set; }
 

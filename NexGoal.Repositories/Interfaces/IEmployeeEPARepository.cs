@@ -25,5 +25,7 @@
         DashboardModel GetDashboard(ICriteria criteria);
 
         IList<EPAModel> GetEPAToUpdateFinalScore(ICriteria criteria);
+
+        IEnumerable<EPAKPIGroupModel> GetLastRating(ICriteria criteria);
     }
 }

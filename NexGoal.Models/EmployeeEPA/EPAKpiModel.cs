@@ -7,6 +7,8 @@
         public EPAKPIModel()
         {
             EvaluationByEvaluators = new List<EvaluationModel>();
+            CurrentEvaluation = new EvaluationModel();
+            EvaluationBySelf = new EvaluationModel();
         }
 
         public int EPAId { get; set; }
@@ -32,5 +34,16 @@
         public EvaluationModel EvaluationBySelf { get; set; }
 
         public IList<EvaluationModel> EvaluationByEvaluators { get; set; }
+
+        public void Decode()
+        {
+            foreach (var evaluator in EvaluationByEvaluators) 
+            {
+                evaluator.Decode();
+            }
+
+            EvaluationBySelf.Decode();
+            CurrentEvaluation.Decode();
+        }
     }
 }

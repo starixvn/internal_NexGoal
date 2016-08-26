@@ -180,7 +180,10 @@
     </Setting>
     <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="NexGoal" Plain="0">
     </Setting>
-    <Setting Key="EPA_GetLastEvaluation" SpName="EPA_GetLastEvaluation" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EPA_GetLastEvaluation" SpName="EPA_GetLastEvaluation" DbName="NexGoal" Plain="0">
+      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+    </Setting>
     <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="NexGoal" Plain="0">
       <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />

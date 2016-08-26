@@ -379,49 +379,20 @@
             }
         }
 
-        public IEnumerable<EvaluationModel> GetLastRating(int employeeId, int targetTypeId)
+        public IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId)
         {
-            IEnumerable<EvaluationModel> result = new List<EvaluationModel>();
+            IEnumerable<EPAKPIGroupModel> groups = new List<EPAKPIGroupModel>();
             var criteria = new GetLastRatingByEmployeeIdCriteria { EmployeeId = employeeId, TargetTypeId = targetTypeId };
             if (criteria != null && criteria.IsValid())
             {
-                var kpis = GetData<EvaluationModel>(criteria);
-                foreach (var kpi in kpis)
+                groups = _employeeEPARepository.GetLastRating(criteria);
+                foreach (var group in groups)
                 {
-                    kpi.Decode();
-                }
-
-                result = AveragedLastRating(kpis);
-            }
-
-            return result;
-        }
-
-        private IEnumerable<EvaluationModel> AveragedLastRating(IEnumerable<EvaluationModel> kpis)
-        {
-            var list = new List<EvaluationModel>();
-            foreach (var kpi in kpis)
-            {
-                if (!list.Where(i => i.KPIId == kpi.KPIId).Any())
-                {
-                    var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty(i.RateEncode));
-                    var averagedScore = kpis.Where(i => i.KPIId == kpi.KPIId && !string.IsNullOrEmpty(i.ScoreEncode));
-
-                    if (averagedRating.Any() && averagedScore.Any())
-                    {
-                        list.Add(
-                            new EvaluationModel
-                            {
-                                KPIId = kpi.KPIId,
-                                Rate = averagedRating.Average(i => i.Rate),
-                                Score = averagedScore.Average(i => i.Score),
-                                Weight = kpi.Weight
-                            });
-                    }
+                    group.Decode();
                 }
             }
 
-            return list;
+            return groups;
         }
 
         private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)

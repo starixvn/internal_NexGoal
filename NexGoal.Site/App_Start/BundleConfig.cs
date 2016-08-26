@@ -115,6 +115,7 @@
                             "~/SourceApp/Components/EPA/employeeEPA-factory.js",
                             "~/SourceApp/Components/EPA/employeeEPA-model.js",
                             "~/SourceApp/Components/EPA/selfEvaluator-model.js",
+                            "~/SourceApp/Components/EPA/lastRating-model.js",
                             "~/SourceApp/Components/EPA/reviewerManagement-model.js",
                             "~/SourceApp/Components/EPA/evaluatorManagement-model.js",
                             "~/SourceApp/Components/EPA/employeeEPA-controller.js",

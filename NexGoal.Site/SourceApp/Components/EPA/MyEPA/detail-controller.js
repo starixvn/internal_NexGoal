@@ -3,9 +3,9 @@
 
 epaModule.controller('DetailEmployeeController',
 ["$scope", "$interval", '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl', 'LastRatingModel',
 function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, LastRatingModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id, 10);
@@ -21,7 +21,27 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.policyEnum = enumerationsFactory.policy;
     vm.lastTotalScore = 0;
-	
+    vm.lastRating = [];
+
+    function calculateSubTotalScore(kpiGroup) {
+        var score = 0;
+        var isEvaluateMaxScore = true;
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            if (kpi.CurrentEvaluation.Score) {
+                score += kpi.CurrentEvaluation.Score;
+            }
+            if (kpi.CurrentEvaluation.Rate !== vm.maxStar) {
+                isEvaluateMaxScore = false;
+            }
+        });
+
+        if (isEvaluateMaxScore) {
+            kpiGroup.SelfDecodeScore = kpiGroup.Weight;
+        } else {
+            kpiGroup.SelfDecodeScore = score;
+        }
+    }
+
     function initAutoSave() {
         if (vm.autoSave) {
             vm.autoSaveInterval = $interval(function () {
@@ -31,7 +51,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
             $interval.cancel(vm.autoSaveInterval);
         }
     }
-    
 
     function checkStatus(epaInfo) {
         if (!epaInfo.IsAllowedToEdit) {
@@ -46,74 +65,14 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                     }
                     else {
                         SelfEvalutorModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
-                    }                   
+                    }
 
                     calculateSubTotalScore(kpiGroup);
 
-                    SelfEvalutorModel.calculateScore(vm, true);                
+                    SelfEvalutorModel.calculateScore(vm, true);
                 }
             };
         }
-    }
-
-    function getEPAInfoByEmployee() {
-        SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
-            vm.epaInfo = SelfEvalutorModel.epaInfo;
-            checkStatus(vm.epaInfo);
-
-            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
-            vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
-            vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
-
-            if (vm.epaInfo.LastFinalScore.length > 0) {
-                vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
-            } else {
-                vm.epaInfo.LastFinalScore = null;
-            }
-
-            vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
-            vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
-
-            SelfEvalutorModel.getUserPermissionOnEmployee().then(function () {
-                var permission = SelfEvalutorModel.permission;
-
-                if (permission !== vm.policyEnum.Host) {
-                    vm.epaInfo.IsAllowedToEdit = false;
-                    vm.hoveringLeave = null;
-                }
-            });
-
-            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId).then(function () {
-                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
-            });
-
-            SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId).then(function () {
-                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
-            });
-
-            //initAutoSave();
-
-            $scope.$on("$destroy", function () {
-                $interval.cancel(vm.autoSaveInterval);
-            });
-        });
-    }
-
-    function initialize() {
-        $translate('ScoreInputValid').then(function (message) {
-            vm.scoreInputValidMessage = message;
-        });
-
-        $translate('EvaluateEPAInvalid').then(function (message) {
-            vm.evaluateEPAInvalidMessage = message;
-        });
-
-        CommonModel.getStandardGrade().then(function () {
-            vm.standardGrades = CommonModel.standardGrades;
-
-            getEPAInfoByEmployee();
-        });
     }
 
     function getEPAInfoByEmployee() {
@@ -152,6 +111,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
 
+            LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.lastRating = LastRatingModel.groups;
+            });
+
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 vm.epaInfo.LastPerformanceScore += utilitiesFactory.parseFloat(vm.getSubLastScore(kpiGroup));
             });
@@ -174,83 +137,30 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         });
     }
 
-    vm.getLastScore = function (kpi) {
-        var lastScore = "";
-
-        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
-            if (lastKpi.KPIId === kpi.KPIId) {
-                lastScore = lastKpi.Score;
-            }
-        });
-
-        return lastScore;
-    }
-
-    function calculateSubTotalScore(kpiGroup) {
-        var score = 0;
-        var isEvaluateMaxScore = true;
-        angular.forEach(kpiGroup.KPIs, function (kpi) {
-            if (kpi.CurrentEvaluation.Score) {
-                score += kpi.CurrentEvaluation.Score;
-            }
-            if (kpi.CurrentEvaluation.Rate !== vm.maxStar) {
-                isEvaluateMaxScore = false;
-            }
-        });
-
-        if (isEvaluateMaxScore) {
-            kpiGroup.SelfDecodeScore = kpiGroup.Weight;
-        } else {
-            kpiGroup.SelfDecodeScore = score;
-        }
+    vm.getLastScore = function (groupId, kpiId) {
+        return LastRatingModel.getLastScore(groupId, kpiId);
     };
 
-    vm.getLastScore = function (kpi) {
-        var lastScore = "";
-
-        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
-            if (lastKpi.KPIId === kpi.KPIId) {
-                lastScore = lastKpi.Score;
-            }
-        });
-
-        return lastScore;
+    vm.getLastWeight = function (groupId, kpiId) {
+        return LastRatingModel.getLastWeight(groupId, kpiId);
     };
 
-    vm.getLastWeight = function (kpi) {
-        var lastWeight = "";
-
-        angular.forEach(vm.epaInfo.LastRating, function (lastKpi) {
-            if (lastKpi.KPIId === kpi.KPIId) {
-                lastWeight = lastKpi.Weight;
-            }
-        });
-
-        return lastWeight;
+    vm.getSubLastWeight = function (kpiGroupId) {
+        return LastRatingModel.getSubLastWeight(kpiGroupId);
     };
 
-    vm.getSubLastScore = function (kpiGroup) {
-        var score = 0,
-            isEvaluateMaxScore = true;
-        angular.forEach(kpiGroup.KPIs, function (kpi) {
-            score += vm.getLastScore(kpi);
-            var star = getLastStar(kpi);
-            if (star !== vm.maxStar) {
-                isEvaluateMaxScore = false;
-            }
-        });
+    vm.getSubLastScore = function (kpiGroupId) {
+        return LastRatingModel.getSubLastScore(kpiGroupId);
+    };
 
-        if (isEvaluateMaxScore) {
-            return kpiGroup.Weight;
-        }
-
-        return score;
+    vm.getLastTotalScore = function () {
+        return LastRatingModel.getLastTotalScore();
     };
 
     vm.convertScoreToGrade = function (score) {
         return EmployeeEPAModel.convertScoreToGrade(score, vm.standardGrades);
     };
-    
+
     vm.getClassProgress = function (statusEndProcess) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };

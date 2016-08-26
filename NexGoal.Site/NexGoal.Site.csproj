@@ -427,6 +427,7 @@
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
     <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\EPA\avatar-employee.png" />
+    <Content Include="SourceApp\Components\EPA\lastRating-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\forEvaluatorUse.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\index-controller.js" />

@@ -3,6 +3,9 @@
 
 epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
+        getLastRating: function (employeeId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/getLastRating', { params: { employeeId: employeeId } });
+        },
         getAllPeriodByReviewer: function () {
             return $http.get(baseUrl + 'api/Period/getAllPeriodByReviewer');
         },
@@ -55,7 +58,7 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
                 params: {
                     periodIds: periodIds
                 }
-                });
+            });
         },
         getMemberByReviewer: function (periodIds, groupIds) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByReviewer', {

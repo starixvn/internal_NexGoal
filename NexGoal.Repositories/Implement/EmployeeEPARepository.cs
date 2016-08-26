@@ -15,6 +15,35 @@
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
+        public IEnumerable<EPAKPIGroupModel> GetLastRating(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    IEnumerable<EPAKPIGroupModel> groups = multi.Read<EPAKPIGroupModel>();
+
+                    IEnumerable<EvaluationModel> groupScore = multi.Read<EvaluationModel>();
+
+                    IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
+
+                    IEnumerable<EvaluationModel> scoreByKPIs = multi.Read<EvaluationModel>();
+
+                    GroupKPIByKPIGroup(groups, kpis);
+
+                    GroupEvaluatorScoreOnGroup(groups, groupScore);
+
+                    foreach (EPAKPIGroupModel kpiGroup in groups)
+                    {
+                        GroupEvaluationOnEachKPI(kpiGroup.KPIs, scoreByKPIs);
+                        kpiGroup.Decode();
+                    }
+
+                    return groups;
+                }
+            }
+        }
+
         public IEnumerable<EPAModel> GetEPA(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -34,7 +63,7 @@
                     },
                     "EmployeeId, RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId");
 
-                    var kpiGroups = multi.Read<EPAKPIGroupModel>().ToList();
+                    var kpiGroups = multi.Read<EPAKPIGroupModel>();
 
                     IEnumerable<EvaluationModel> groupScore = multi.Read<EvaluationModel>();
 
@@ -80,7 +109,7 @@
                         IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
                         epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
-                        
+
                         IEnumerable<EvaluationModel> groupScore = multi.Read<EvaluationModel>();
 
                         IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
@@ -365,7 +394,7 @@
             }
         }
 
-        private void GroupKPIByKPIGroup(IList<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
+        private void GroupKPIByKPIGroup(IEnumerable<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
         {
             foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
             {
