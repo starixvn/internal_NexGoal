@@ -87,10 +87,11 @@
     <tr class="text-center">
         <td>{{"Total" | translate}}:</td>
         <td>
-            <span ng-show="memberEPAInfoCtrl.lastRating.length > 0">
-                {{memberEPAInfoCtrl.getLastTotalScore() | splitScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+            <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
+                {{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}
             </span>
-            <span ng-show="memberEPAInfoCtrl.lastRating.length <= 0" ng-bind="'-'"></span>
+            <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
+
         </td>
         <td>
             {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
