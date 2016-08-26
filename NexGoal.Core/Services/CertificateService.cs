@@ -56,17 +56,10 @@
             return plainText;
         }
 
-        private X509Certificate2 GetCertificate()
+        public X509Certificate2 GetCertificate()
         {
-            X509Certificate2 cert2;
-            if (!string.IsNullOrWhiteSpace(AppSetting.PasswordToSignTheCertificateFile))
-            {
-                cert2 = new X509Certificate2(AppSetting.CertificateFilePath, AppSetting.PasswordToSignTheCertificateFile);
-            }
-            else
-            {
-                cert2 = new X509Certificate2(AppSetting.CertificateFilePath);
-            }
+            X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
+            X509Certificate2 cert2 = new X509Certificate2(AppSetting.CertificateFilePath, AppSetting.PasswordToSignTheCertificateFile, flags);
 
             return cert2;
         }
