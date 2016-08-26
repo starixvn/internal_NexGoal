@@ -163,6 +163,7 @@
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
       <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
       <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
       <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
     </Setting>
     <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="NexGoal" Plain="0">
