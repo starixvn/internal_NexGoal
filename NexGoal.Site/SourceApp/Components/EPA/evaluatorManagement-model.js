@@ -106,7 +106,6 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         return isValid;
     };
 
-    
     // evaluator
     evaluatorManagementModel.getUserPermissionOnEvaluator = function () {
         return employeeEPAFactory.getUserPermissionOnEvaluator()
@@ -219,9 +218,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 evaluatorManagementModel.hrmSummary.Total = total;
             }
 
-
             evaluatorManagementModel.hrmSummary.Data = hrmSummary;
-
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
@@ -237,7 +234,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             }
             hour += 'h';
 
-            var minute = Math.round(((value - parseInt(value)) * 60));
+            var minute = Math.round(((value - parseInt(value, 10)) * 60));
             if (minute < 10) {
                 minute = '0' + minute;
             }
@@ -246,7 +243,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         }
 
         return convertedValue;
-    };
+    }
 
     return evaluatorManagementModel;
 }]);

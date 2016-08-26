@@ -103,7 +103,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 totalScore += utilitiesFactory.parseFloat(evaluator.TotalScore);
                 count++;
             }
-        })
+        });
 
         return count > 0 ? utilitiesFactory.splitNumber(totalScore / count, 2) : 0;
     }

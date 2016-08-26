@@ -178,7 +178,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var isValid = true;
         angular.forEach(memberEPAs, function (memberEPA) {
             isValid = isValid ? reviewerMngModel.validateComment(memberEPA) : isValid;
-        })
+        });
 
         return isValid;
     };

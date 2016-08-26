@@ -63,9 +63,9 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
                 if (evaluator.EvaluatorId === evaluatorId) {
                     score = evaluator.Score;
                 }
-            })
+            });
             kpiGroup.EvaluatorScore = score;
-        })
+        });
     }
 
     function getEPAInfoByEvaluator() {
@@ -177,7 +177,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
 
     vm.getLastTotalScore = function () {
         return LastRatingModel.getLastTotalScore();
-    }
+    };
 
     vm.viewBySelf = function () {
         return !vm.evaluatorId;

@@ -111,13 +111,14 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     }
 
     function CalculateEvaluatorScoreOnGroup(kpiGroup) {
-        if (kpiGroup.EvaluatorsScore.length === 0)
+        if (kpiGroup.EvaluatorsScore.length === 0) {
             return 0;
+        }
 
         var score = 0;
         var length = 0;
         angular.forEach(kpiGroup.EvaluatorsScore, function (evaluator) {
-            if (evaluator.Score != 0) {
+            if (evaluator.Score !== 0) {
                 score += evaluator.Score;
                 length++;
             }
