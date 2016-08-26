@@ -348,12 +348,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             var index = vm.memberEPAs.map(function (e) { return e.EPAId; }).indexOf(memberEPA.EPAId);
 
             if (index !== -1) {
-                vm.memberEPAs[index].Process.CurrentProcess.TotalScore = vm.memberEPAs[index].Process.CurrentProcess.TotalScoreOriginal;
-                vm.memberEPAs[index].Process.CurrentProcess.AdjustScore = vm.memberEPAs[index].Process.CurrentProcess.AdjustScoreOriginal;
                 vm.memberEPAs[index].Process.CurrentProcess.Comment = commentUpdate;
-                vm.memberEPAs[index].Process.CurrentProcess.Evaluated = true;
-
-                ReviewerManagementModel.calculateScore(vm.memberEPAs[index], true);
             }
         })['finally'](function () {
             vm.modalInstance = null;

@@ -58,8 +58,8 @@
     <tr ng-repeat-end class="comment" ng-if="kpi.HasComment">
         <td colspan="4" class="textarea-comment">
             <p>
-                <span data-translate="CommentByEvaluator" class="lable-comment-if-any"></span>
-                <span class="label-word-countdown" data-translate="LimitedWords"></span>
+                <span data-translate="CommentByEvaluator" class="lable-comment-if-any" ng-class="kpi.cssClass"></span>
+                <span class="label-word-countdown" data-translate="LimitedWords" ng-class="kpi.cssClass"></span>
                 <span class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></span>
             </p>
             <textarea class="form-control" maxlength="2000"

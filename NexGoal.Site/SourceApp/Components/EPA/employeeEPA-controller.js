@@ -196,13 +196,6 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
         vm.memberEPA.Process.CurrentProcess.Comment = vm.comment;
         model.push(vm.memberEPA);
 
-        if (vm.isReviewer) {
-            ReviewerManagementModel.adjustScoreByReviewer(vm, model);
-        }
-        else {
-            ReviewerManagementModel.adjustScoreByManagement(vm, model);
-        }
-
         $modalInstance.close(vm.comment);
     };
 

@@ -144,7 +144,8 @@
                         <td class="text-center">
                             <a class="glyphicon glyphicon-edit icon-edit" href="" ng-attr-title='{{"Edit" | translate}}'
                                ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.Process.CurrentProcess.Comment, true)"
-                               ng-if="memberEPA.IsAllowedToEdit && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"></a>
+                               ng-if="memberEPA.IsAllowedToEdit && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host"
+                               ng-class="memberEPA.Process.CurrentProcess.cssClass"></a>
                             <a class="glyphicon icon-view" href="" ng-attr-title='{{"View" | translate}}'
                                ng-click="reviewerCtrl.updateComment(memberEPA, memberEPA.Process.CurrentProcess.Comment, false)"
                                ng-if="memberEPA.Process.CurrentProcess.Comment && memberEPA.Process.CurrentProcess.Comment.length > 0

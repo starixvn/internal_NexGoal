@@ -97,8 +97,10 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                     isValid = false;
                     kpi.CurrentEvaluation.CommentInvalid = true;
                     kpi.ExpandedComment = true;
+                    kpi.cssClass = "note";
                 } else {
                     kpi.CurrentEvaluation.CommentInvalid = false;
+                    kpi.cssClass = "";
                 }
             });
         });

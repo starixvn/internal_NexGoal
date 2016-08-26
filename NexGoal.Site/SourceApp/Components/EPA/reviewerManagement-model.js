@@ -169,6 +169,9 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
         if (!memberEPA.Process.CurrentProcess.Comment || memberEPA.Process.CurrentProcess.Comment.length === 0) {
             isValid = false;
+            memberEPA.Process.CurrentProcess.cssClass = "note";
+        } else {
+            memberEPA.Process.CurrentProcess.cssClass = "";
         }
 
         return isValid;

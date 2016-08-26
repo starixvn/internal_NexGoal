@@ -150,7 +150,6 @@
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\CertificateService.cs" />
-    <Compile Include="Services\EncodeService.cs" />
     <Compile Include="Services\Interfaces\IAuthenticationService.cs" />
     <Compile Include="Services\Interfaces\IBaseMailService.cs" />
     <Compile Include="Services\BaseMailService.cs" />

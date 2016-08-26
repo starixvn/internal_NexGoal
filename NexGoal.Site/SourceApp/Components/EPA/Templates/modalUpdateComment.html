@@ -10,7 +10,10 @@
         <div class="row">
             <form class="row form-horizontal col-sm-11" role="form">
                 <div class="form-group">
-                    <label class="col-sm-4 control-label" data-translate="Comment"></label>
+                    <label class="col-sm-4 control-label">
+                        <span data-translate="Comment"></span>
+                        <span data-translate="(*)" class="note"></span>
+                    </label>
                     <div class="col-sm-8 field">
                         <textarea type="text" class="form-control comment" ng-readonly="!modalUpdateCommentCtrl.isEdit"
                                   ng-model="modalUpdateCommentCtrl.comment" required></textarea>
