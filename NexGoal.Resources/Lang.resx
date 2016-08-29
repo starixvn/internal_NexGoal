@@ -1530,4 +1530,19 @@
   <data name="AvgScore" xml:space="preserve">
     <value>Avg. Score</value>
   </data>
+  <data name="FocusEndDate" xml:space="preserve">
+    <value>Focus End Date</value>
+  </data>
+  <data name="FocusStartDate" xml:space="preserve">
+    <value>Focus Start Date</value>
+  </data>
+  <data name="AddTeamOrEmployee" xml:space="preserve">
+    <value>Add Team / Employee</value>
+  </data>
+  <data name="ListOfEmployee" xml:space="preserve">
+    <value>List Of Employee</value>
+  </data>
+  <data name="DurationByDays" xml:space="preserve">
+    <value>Duration (days)</value>
+  </data>
 </root>

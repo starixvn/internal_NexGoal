@@ -124,6 +124,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Team / Employee.
+        /// </summary>
+        public static string AddTeamOrEmployee {
+            get {
+                return ResourceManager.GetString("AddTeamOrEmployee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adjust Discipline.
         /// </summary>
         public static string AdjustDiscipline {
@@ -853,6 +862,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Duration (days).
+        /// </summary>
+        public static string DurationByDays {
+            get {
+                return ResourceManager.GetString("DurationByDays", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Early Out.
         /// </summary>
         public static string EarlyOut {
@@ -1537,6 +1555,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Focus End Date.
+        /// </summary>
+        public static string FocusEndDate {
+            get {
+                return ResourceManager.GetString("FocusEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Start Date.
+        /// </summary>
+        public static string FocusStartDate {
+            get {
+                return ResourceManager.GetString("FocusStartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For Employee Use.
         /// </summary>
         public static string ForEmployeeUse {
@@ -2073,6 +2109,15 @@ namespace NexGoal.Resources {
         public static string LimitedWords {
             get {
                 return ResourceManager.GetString("LimitedWords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to List Of Employee.
+        /// </summary>
+        public static string ListOfEmployee {
+            get {
+                return ResourceManager.GetString("ListOfEmployee", resourceCulture);
             }
         }
         

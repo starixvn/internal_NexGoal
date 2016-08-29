@@ -41,7 +41,9 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         startDateOpened: false,
         endDateOpened: false,
         attendanceStartDateOpened: false,
-        attendanceEndDateOpened: false
+        attendanceEndDateOpened: false,
+        focusStartDateOpened: false,
+        focusEndDateOpened: false
     };
 
     periodModel.flowCalendar = {
@@ -79,6 +81,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         periodModel.calendar.endDateOpened = false;
         periodModel.calendar.attendanceStartDateOpened = false;
         periodModel.calendar.attendanceEndDateOpened = false;
+        periodModel.calendar.focusStartDateOpened = false;
+        periodModel.calendar.focusEndDateOpened = false;
     };
 
     periodModel.openPopupEndDate = function (event) {
@@ -89,7 +93,33 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         periodModel.calendar.endDateOpened = true;
         periodModel.calendar.attendanceStartDateOpened = false;
         periodModel.calendar.attendanceEndDateOpened = false;
+        periodModel.calendar.focusStartDateOpened = false;
+        periodModel.calendar.focusEndDateOpened = false;
     };
+
+    periodModel.openPopupFocusStartDate = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        periodModel.calendar.startDateOpened = false;
+        periodModel.calendar.endDateOpened = false;
+        periodModel.calendar.attendanceStartDateOpened = false;
+        periodModel.calendar.attendanceEndDateOpened = false;
+        periodModel.calendar.focusStartDateOpened = true;
+        periodModel.calendar.focusEndDateOpened = false;
+    };
+
+    periodModel.openPopupFocusEndDate = function (event) {
+        event.preventDefault();
+        event.stopPropagation();
+
+        periodModel.calendar.startDateOpened = false;
+        periodModel.calendar.endDateOpened = false;
+        periodModel.calendar.attendanceStartDateOpened = false;
+        periodModel.calendar.attendanceEndDateOpened = false;
+        periodModel.calendar.focusStartDateOpened = false;
+        periodModel.calendar.focusEndDateOpened = true;
+    }
 
     periodModel.openPopupAttendanceStartDate = function (event) {
         event.preventDefault();
@@ -99,6 +129,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         periodModel.calendar.endDateOpened = false;
         periodModel.calendar.attendanceStartDateOpened = true;
         periodModel.calendar.attendanceEndDateOpened = false;
+        periodModel.calendar.focusStartDateOpened = false;
+        periodModel.calendar.focusEndDateOpened = false;
     };
 
     periodModel.openPopupAttendanceEndDate = function (event) {
@@ -109,6 +141,8 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
         periodModel.calendar.endDateOpened = false;
         periodModel.calendar.attendanceStartDateOpened = false;
         periodModel.calendar.attendanceEndDateOpened = true;
+        periodModel.calendar.focusStartDateOpened = false;
+        periodModel.calendar.focusEndDateOpened = false;
     };
 
     periodModel.resetCalendar = function (vm) {

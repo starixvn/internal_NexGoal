@@ -134,6 +134,7 @@
                             "~/SourceApp/Components/Period/period-directive.js",
                             "~/SourceApp/Components/Period/period-controller.js",
                             "~/SourceApp/Components/Period/period-employeeSetting-controller.js",
+                            "~/SourceApp/Components/Period/period-focusSetting-controller.js",
                             "~/SourceApp/Components/Period/employeeSettingUpdate-controller.js",
                             "~/SourceApp/Components/Dashboard/dashboard-factory.js",
                             "~/SourceApp/Components/Dashboard/dashboard-model.js",

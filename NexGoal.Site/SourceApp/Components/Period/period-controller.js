@@ -105,6 +105,10 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
         RawEndDate: null,
         AttendanceStartDate: null,
         AttendanceEndDate: null,
+        FocusStartDate: null,
+        FocusEndDate: null,
+        RawFocusStartDate: null,
+        RawFocusEndDate: null,
         IsActive: true,
         Description: null
     };
@@ -117,6 +121,14 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
 
     vm.openPopupEndDate = function (event) {
         PeriodModel.openPopupEndDate(event);
+    };
+
+    vm.openPopupFocusStartDate = function (event) {
+        PeriodModel.openPopupFocusStartDate(event);
+    };
+
+    vm.openPopupFocusEndDate = function (event) {
+        PeriodModel.openPopupFocusEndDate(event);
     };
 
     vm.openPopupAttendanceStartDate = function (event) {
@@ -133,6 +145,8 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
             period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
             period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
             period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
+            period.FocusStartDate = period.RawFocusStartDate ? period.RawFocusStartDate.toDateString() : null;
+            period.FocusEndDate = period.RawFocusEndDate ? period.RawFocusEndDate.toDateString() : null;
 
             PeriodModel.createPeriod(period, $modalInstance);
         }
@@ -172,25 +186,36 @@ function ($routeParams, PeriodModel, enumerationsFactory, historyFactory, lockSc
     vm.dataTab = {
         basicInformation: !vm.viewMode,
         employeeSetting: vm.viewMode,
-        processSetting: false
+        processSetting: false,
+        focusSetting: false
     };
 
     vm.tabBasicSelect = function () {
         vm.dataTab.basicInformation = true;
         vm.dataTab.employeeSetting = false;
         vm.dataTab.processSetting = false;
+        vm.dataTab.focusSetting = false;
     };
 
     vm.tabEmployeeSettingSelect = function () {
         vm.dataTab.basicInformation = false;
         vm.dataTab.employeeSetting = true;
         vm.dataTab.processSetting = false;
+        vm.dataTab.focusSetting = false;
     };
 
     vm.tabProcessSettingSelect = function () {
         vm.dataTab.basicInformation = false;
         vm.dataTab.employeeSetting = false;
         vm.dataTab.processSetting = true;
+        vm.dataTab.focusSetting = false;
+    };
+
+    vm.tabFocusSettingSelect = function () {
+        vm.dataTab.basicInformation = false;
+        vm.dataTab.employeeSetting = false;
+        vm.dataTab.processSetting = false;
+        vm.dataTab.focusSetting = true;
     };
 
     PeriodModel.getPeriodById(vm.periodId).then(function () {

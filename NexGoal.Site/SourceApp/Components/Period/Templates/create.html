@@ -80,6 +80,34 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-3 control-label required-label" data-translate="FocusStartDate"
+                   ng-show="createPeriodCtrl.period.TargetTypeId == 3 || createPeriodCtrl.period.TargetTypeId == 5">
+            </label>
+            <label class="col-sm-3 control-label" data-translate="FocusStartDate"
+                   ng-show="createPeriodCtrl.period.TargetTypeId != 3 && createPeriodCtrl.period.TargetTypeId != 5">
+            </label>
+            <div class="col-sm-3">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="createPeriodCtrl.period.RawFocusStartDate" datepicker-popup
+                       ng-click="createPeriodCtrl.openPopupFocusStartDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                       is-open="createPeriodCtrl.calendar.focusStartDateOpened" />
+                <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupFocusStartDate($event)"></calendar-image>
+            </div>
+            <label class="col-sm-3 control-label required-label" data-translate="FocusEndDate"
+                   ng-show="createPeriodCtrl.period.TargetTypeId == 3">
+            </label>
+            <label class="col-sm-3 control-label" data-translate="FocusEndDate"
+                   ng-show="createPeriodCtrl.period.TargetTypeId != 3">
+            </label>
+            <div class="col-sm-3">
+                <input readonly class="calendar-form-control" type="text"
+                       ng-model="createPeriodCtrl.period.RawFocusEndDate" datepicker-popup
+                       ng-click="createPeriodCtrl.openPopupFocusEndDate($event)" min-date="{{createPeriodCtrl.calendar.minDate}}"
+                       is-open="createPeriodCtrl.calendar.focusEndDateOpened" />
+                <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupFocusEndDate($event)"></calendar-image>
+            </div>
+        </div>
+        <div class="form-group">
             <label class="col-sm-3 control-label" data-translate="Active"></label>
             <div class="col-sm-8 field active-label">
                 <input type="checkbox" ng-model="createPeriodCtrl.period.IsActive" />
