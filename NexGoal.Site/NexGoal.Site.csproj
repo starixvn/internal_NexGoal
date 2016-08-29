@@ -400,6 +400,10 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
+    <Content Include="SourceApp\Components\Assessment\Focus\focus-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Focus\Templates\chart.html" />
+    <Content Include="SourceApp\Components\Assessment\Focus\Templates\index.html" />
+    <Content Include="SourceApp\Components\Assessment\Focus\Templates\paFocus.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-controller.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-directive.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />

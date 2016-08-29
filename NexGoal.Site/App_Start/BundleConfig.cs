@@ -166,7 +166,8 @@
                             "~/SourceApp/Components/MonthlyEPAHistory/monthlyEPAHistory-controller.js",
                             "~/SourceApp/Components/MonthlyEPAHistory/monthlyEPAHistory-factory.js",
                             "~/SourceApp/Components/MonthlyEPAHistory/monthlyEPAHistory-model.js",
-                            "~/SourceApp/Components/EPA/UpdateFinalScore/updateFinalScore-controller.js"));
+                            "~/SourceApp/Components/EPA/UpdateFinalScore/updateFinalScore-controller.js",
+                            "~/SourceApp/Components/Assessment/Focus/focus-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

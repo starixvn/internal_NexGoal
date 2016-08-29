@@ -172,3 +172,12 @@ var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
 var menuModule = angular.module("menuModule", ["ngRoute"]);
 
 var userInfoModule = angular.module("userInfoModule", ["ngRoute"]);
+
+var assessmentModule = angular.module("assessmentModule", ["ngRoute"]);
+
+assessmentModule.config(["$routeProvider", function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+
+    $routeProvider.when("/Focus/Index",
+    { templateUrl: baseUrl + "SourceApp/Components/Assessment/Focus/Templates/index.html", caseInsensitiveMatch: true });
+}]);

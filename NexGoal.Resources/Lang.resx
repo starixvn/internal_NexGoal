@@ -1545,4 +1545,10 @@
   <data name="DurationByDays" xml:space="preserve">
     <value>Duration (days)</value>
   </data>
+  <data name="ContributionAndRanking" xml:space="preserve">
+    <value>Contribution And Ranking</value>
+  </data>
+  <data name="PAFocus" xml:space="preserve">
+    <value>PA Focus</value>
+  </data>
 </root>

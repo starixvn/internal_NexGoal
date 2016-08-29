@@ -574,6 +574,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contribution And Ranking.
+        /// </summary>
+        public static string ContributionAndRanking {
+            get {
+                return ResourceManager.GetString("ContributionAndRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created Date.
         /// </summary>
         public static string CreatedDate {
@@ -2676,6 +2685,15 @@ namespace NexGoal.Resources {
         public static string Overtime {
             get {
                 return ResourceManager.GetString("Overtime", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PA Focus.
+        /// </summary>
+        public static string PAFocus {
+            get {
+                return ResourceManager.GetString("PAFocus", resourceCulture);
             }
         }
         
