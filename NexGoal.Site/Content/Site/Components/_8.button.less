@@ -23,6 +23,12 @@
     }
 }
 
+.button-block {
+    .button + .button {
+        margin-left: 8px;
+    }
+}
+
 .button {
     border: none;
     .border-radius(3px);
@@ -49,6 +55,14 @@
 
     &:hover {
         background: #ed8472;
+    }
+}
+
+.btnExcel {
+    background: #549f3b;
+
+    &:hover, &:active {
+        background: #61b844;
     }
 }
 

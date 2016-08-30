@@ -13,7 +13,7 @@
                 border-color: @color-table-border !important;
                 text-align: center;
                 vertical-align: middle !important;
-                padding: 8px 20px !important;
+                padding: 8px 10px !important;
                 background: @bg-table-header;
                 color: @color-table-header;
                 border-bottom: 0;
@@ -23,7 +23,7 @@
                     border: 0 solid red;
                     cursor: pointer;
                     height: 17px;
-                    margin: 3px 5px 2px;
+                    //margin: 3px 5px 2px;
                     padding: 0 6px;
                     width: 18px;
                 }
@@ -42,12 +42,24 @@
         }
     }
 
+    > tbody + tbody {
+        border-top: 1px;
+    }
+
     tbody {
         td {
             color: @color-table-body;
             border-color: @color-table-border !important;
             vertical-align: middle !important;
             //padding: 8px 20px !important;
+
+            &.objective-edit {
+                .fa {
+                    font-size: 14px;
+                    color: #4f91c5;
+                    cursor: pointer;
+                }
+            }
         }
 
         .fa-search {
@@ -58,6 +70,14 @@
 
             &:hover td {
                 background: @bg-table-hover;
+            }
+
+            &:hover .bonus-give-error {
+                background: #ba3536;
+            }
+
+            &:hover .bonus-give-success {
+                background: #5dbb43;
             }
         }
 
@@ -268,6 +288,16 @@
         max-width: 700px;
         min-width: 200px !important;
     }
+}
+
+.bonus-give-success {
+    background: #5dbb43;
+    color: #fff !important;
+}
+
+.bonus-give-error {
+    background: #ba3536;
+    color: #fff !important;
 }
 
 /*.table {

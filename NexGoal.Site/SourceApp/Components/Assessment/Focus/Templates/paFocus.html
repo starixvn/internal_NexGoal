@@ -7,8 +7,7 @@
                 <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
                 <div class="control-content">
                     <select class="form-control" ng-model="paFocusCtrl.filter.periodId"
-                            ng-options="item.PeriodId as item.Name group by item.Year for item in paFocusCtrl.periods">
-                    </select>
+                            ng-options="item.PeriodId as item.Name group by item.Year for item in paFocusCtrl.periods"></select>
                 </div>
             </div>
 
@@ -28,12 +27,17 @@
                            ng-model="paFocusCtrl.searchEmployee"
                            search-employees="paFocusCtrl.getEmployee()"
                            ng-change="paFocusCtrl.unselectEmployee"
-                           employee="paFocusCtrl.filter.employeeId"/>
+                           employee="paFocusCtrl.filter.employeeId" />
                 </div>
             </div>
 
-            <div class="col">
+            <div class="col button-block">
                 <button class="button" ng-click="paFocusCtrl.query()" data-translate="Search"></button>
+                <button class="button btnExcel">Excel</button>
+            </div>
+
+            <div class="col">
+                
             </div>
 
         </div>
@@ -42,11 +46,11 @@
 
     <table class="table table-bordered table-striped">
         <thead>
-            <tr class="header-table">
+            <!--<tr class="header-table">
                 <th colspan="13">
                     <input class="btnExcel pull-right" type="button" title="Export to Excel">
                 </th>
-            </tr>
+            </tr>-->
             <tr>
                 <th data-translate="Team"></th>
                 <th>#</th>
@@ -59,7 +63,7 @@
                 <th class="width-110">Contribution</th>
                 <th colspan="2" class="width-150">Bonus Give (Points)</th>
                 <th class="width-110">Bonus Ranking</th>
-                <th data-translate="Objectives"></th>
+                <th colspan="2" data-translate="Objectives"></th>
             </tr>
         </thead>
         <tbody ng-show="paFocusCtrl.groups.length === 0">
@@ -74,14 +78,39 @@
                 <td>{{member.NickName}}</td>
                 <td>{{member.FullName}}</td>
                 <td>{{member.JobTitle}}</td>
-                <td class="text-center">{{member.EPAScore}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td class="text-center">25</td>
-                <td rowspan="{{group.members.length}}" class="text-center" ng-if="$first">100 / {{group.TotalBonus}}</td>
-                <td></td>
-                <td></td>
+                <td class="text-center">{{member.EPAScore}}/100</td>
+                <td class="text-center">
+                    <select>
+                        <option value="0" label="5%">5%</option>
+                        <option value="1" label="10%">10%</option>
+                        <option value="2" label="15%">15%</option>
+                        <option value="3" selected="selected" label="20%">20%</option>
+                        <option value="4" label="50%">50%</option>
+                        <option value="5" label="100%">100%</option>
+                    </select>
+                </td>
+                <td class="text-center">
+                    <select>
+                        <option value="0" selected="selected" label="No">No</option>
+                        <option value="1" label="Yes">Yes</option>                        
+                    </select>
+                </td>
+                <td class="text-center">
+                    <select>
+                        <option value="0" label="1">1</option>
+                        <option value="1" label="2">2</option>
+                        <option value="2" label="3">3</option>
+                        <option value="3" selected="selected" label="4">4</option>
+                        <option value="4" label="5">5</option>
+                    </select>
+                </td>
+                <td class="text-center">
+                    <input class="form-control bonus-give" value="25" />
+                </td>
+                <td rowspan="{{group.members.length}}" class="text-center bonus-give-success" ng-if="$first">100 / {{group.TotalBonus}}</td>
+                <td class="text-center">2</td>
+                <td>Lorem ispum dolor sit amet, consectetur ...</td>
+                <td class="text-center objective-edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
             </tr>
         </tbody>
     </table>

@@ -332,6 +332,7 @@ label:hover {
   height: 32px;
   line-height: 32px;
   background: #757885;
+  margin-bottom: 15px;
 }
 .container-fluid.page .button-icon.button-period-back:hover {
   background: #878a99;
@@ -941,7 +942,7 @@ header {
   border-color: #c3c3c3 !important;
   text-align: center;
   vertical-align: middle !important;
-  padding: 8px 20px !important;
+  padding: 8px 10px !important;
   background: #324373;
   color: #fff;
   border-bottom: 0;
@@ -951,7 +952,6 @@ header {
   border: 0 solid red;
   cursor: pointer;
   height: 17px;
-  margin: 3px 5px 2px;
   padding: 0 6px;
   width: 18px;
 }
@@ -964,16 +964,30 @@ header {
   border-top: 1px solid #c3c3c3;
   border-bottom: 0;
 }
+.table > tbody + tbody {
+  border-top: 1px;
+}
 .table tbody td {
   color: #545454;
   border-color: #c3c3c3 !important;
   vertical-align: middle !important;
+}
+.table tbody td.objective-edit .fa {
+  font-size: 14px;
+  color: #4f91c5;
+  cursor: pointer;
 }
 .table tbody .fa-search {
   cursor: pointer;
 }
 .table tbody tr:hover td {
   background: #fdf2c5;
+}
+.table tbody tr:hover .bonus-give-error {
+  background: #ba3536;
+}
+.table tbody tr:hover .bonus-give-success {
+  background: #5dbb43;
 }
 .table tbody .comment td {
   border-color: #c3c3c3 !important;
@@ -1120,6 +1134,14 @@ header {
 .pa-form .tooltip .tooltip-inner {
   max-width: 700px;
   min-width: 200px !important;
+}
+.bonus-give-success {
+  background: #5dbb43;
+  color: #fff !important;
+}
+.bonus-give-error {
+  background: #ba3536;
+  color: #fff !important;
 }
 /*.table {
         &.header-table th {
@@ -1385,6 +1407,9 @@ header {
   color: #fff;
   margin-right: 10px;
 }
+.button-block .button + .button {
+  margin-left: 8px;
+}
 .button {
   border: none;
   -webkit-border-radius: 3px;
@@ -1411,6 +1436,13 @@ header {
 }
 .btn-delete:hover {
   background: #ed8472;
+}
+.btnExcel {
+  background: #549f3b;
+}
+.btnExcel:hover,
+.btnExcel:active {
+  background: #61b844;
 }
 .btn.customize {
   font-size: 13px;
@@ -1515,9 +1547,6 @@ header {
 .modal-confirm-center .modal-dialog {
   margin-top: 13% !important;
 }
-.target-tabset {
-  margin-top: 15px;
-}
 .target-tabset .common-form.info-form {
   background: none;
   border: none;
@@ -1551,7 +1580,7 @@ header {
 .target-tabset .nav-tabs li.active > a,
 .target-tabset .nav-tabs li.active > a:hover,
 .target-tabset .nav-tabs li.active > a:focus {
-  color: #63544e;
+  color: #334478;
   font-weight: bold;
   border: 0;
 }
@@ -1682,6 +1711,15 @@ header {
   border-radius: 0;
   border-color: #dfdfdf;
   box-shadow: none;
+}
+.form-control.bonus-give {
+  width: 50px;
+  text-align: center;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  border-radius: 2px;
+  margin: 0 auto;
+  font-size: 13px;
 }
 .form-multiLine .form-group {
   margin: 0 0 10px;
