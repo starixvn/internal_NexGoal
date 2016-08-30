@@ -43,33 +43,45 @@
     <table class="table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="14">
-                    <div class="pull-left">{{"Contribution" | translate}} & {{"Ranking" | translate}}</div>
+                <th colspan="13">
                     <input class="btnExcel pull-right" type="button" title="Export to Excel">
                 </th>
             </tr>
             <tr>
+                <th data-translate="Team"></th>
                 <th>#</th>
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
                 <th data-translate="JobTitle"></th>
-                <th data-translate="Team"></th>
                 <th data-translate="EPAScore" class="width-110"></th>
                 <th class="width-110">Objectives Achievement</th>
                 <th class="width-110">Promotion</th>
                 <th class="width-110">Contribution</th>
-                <th class="width-110">Bonus Give (Points)</th>
-                <th class="width-110">Total Bonus Give (Points)</th>
+                <th colspan="2" class="width-150">Bonus Give (Points)</th>
                 <th class="width-110">Bonus Ranking</th>
-                <th class="width-110" data-translate="Objectives"></th>
+                <th data-translate="Objectives"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr class="text-center" ng-show="paFocusCtrl.employees.length === 0">
-                <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+        <tbody ng-show="paFocusCtrl.groups.length === 0">
+            <tr>
+                <td class="text-center empty-result" colspan="13" data-translate="EmptyResult"></td>
             </tr>
-            <tr class="text-center" ng-show="paFocusCtrl.employees.length > 0">
-                <td class="empty-result" colspan="14">Hey! I have data here</td>
+        </tbody>
+        <tbody ng-show="paFocusCtrl.groups.length > 0" ng-repeat="group in paFocusCtrl.groups">
+            <tr ng-repeat="member in group.members">
+                <td >{{group.TeamName}}</td>
+                <td class="text-center">{{$index +1}}</td>
+                <td>{{member.NickName}}</td>
+                <td>{{member.FullName}}</td>
+                <td>{{member.JobTitle}}</td>
+                <td class="text-center">{{member.EPAScore}}</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td class="text-center">25</td>
+                <td rowspan="{{group.members.length}}" class="text-center" ng-if="$first">100 / {{group.TotalBonus}}</td>
+                <td></td>
+                <td></td>
             </tr>
         </tbody>
     </table>
