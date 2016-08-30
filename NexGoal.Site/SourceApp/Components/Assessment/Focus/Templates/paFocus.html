@@ -69,7 +69,7 @@
         </tbody>
         <tbody ng-show="paFocusCtrl.groups.length > 0" ng-repeat="group in paFocusCtrl.groups">
             <tr ng-repeat="member in group.members">
-                <td >{{group.TeamName}}</td>
+                <td rowspan="{{group.members.length}}" ng-if="$first">{{group.TeamName}}</td>
                 <td class="text-center">{{$index +1}}</td>
                 <td>{{member.NickName}}</td>
                 <td>{{member.FullName}}</td>
