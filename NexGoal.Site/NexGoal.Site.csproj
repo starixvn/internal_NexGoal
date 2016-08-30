@@ -402,6 +402,7 @@
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\focus-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\chart.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\index.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\paFocus.html" />
@@ -476,8 +477,6 @@
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\updateFinalScore-controller.js" />
     <Content Include="SourceApp\Components\Period\employeeSettingUpdate-controller.js" />
-    <Content Include="SourceApp\Components\Period\Templates\focusSetting.html" />
-    <Content Include="SourceApp\Components\Period\period-focusSetting-controller.js" />
     <Content Include="SourceApp\Components\Report\monthlyEPASummaryReport-controller.js" />
     <Content Include="SourceApp\Components\Report\monthlyEPADetailReport-controller.js" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPASummaryReport.html" />

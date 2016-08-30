@@ -574,6 +574,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Contribution.
+        /// </summary>
+        public static string Contribution {
+            get {
+                return ResourceManager.GetString("Contribution", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Contribution And Ranking.
         /// </summary>
         public static string ContributionAndRanking {
@@ -1227,6 +1236,15 @@ namespace NexGoal.Resources {
         public static string EPAResult {
             get {
                 return ResourceManager.GetString("EPAResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to EPA Score.
+        /// </summary>
+        public static string EPAScore {
+            get {
+                return ResourceManager.GetString("EPAScore", resourceCulture);
             }
         }
         
@@ -2910,6 +2928,15 @@ namespace NexGoal.Resources {
         public static string QualityOfWork {
             get {
                 return ResourceManager.GetString("QualityOfWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ranking.
+        /// </summary>
+        public static string Ranking {
+            get {
+                return ResourceManager.GetString("Ranking", resourceCulture);
             }
         }
         

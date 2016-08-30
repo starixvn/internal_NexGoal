@@ -1,1 +1,76 @@
-﻿<h4>PA Focus</h4>
+﻿<div ng-controller="PAFocusController as paFocusCtrl">
+    <form novalidate class="form-inline filter">
+
+        <div class="form-group">
+
+            <div class="col">
+                <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="paFocusCtrl.filter.periodId"
+                            ng-options="item.PeriodId as item.Name group by item.Year for item in paFocusCtrl.periods">
+                    </select>
+                </div>
+            </div>
+
+            <div class="col">
+                <label class="control-label" data-translate="Team"></label>
+                <div class="control-content">
+                    <add-class-to-role-filter class="multi-select" multi-select input-model="paFocusCtrl.teams" button-label="Name"
+                                              helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                    </add-class-to-role-filter>
+                </div>
+            </div>
+
+            <div class="col">
+                <label class="control-label" data-translate="Employee"></label>
+                <div class="control-content">
+                    <input class="form-control employe-search" placeholder="Enter full name or nick name" search-auto-complete
+                           ng-model="paFocusCtrl.searchEmployee"
+                           search-employees="paFocusCtrl.getEmployee()"
+                           ng-change="paFocusCtrl.unselectEmployee"
+                           employee="paFocusCtrl.filter.employeeId"/>
+                </div>
+            </div>
+
+            <div class="col">
+                <button class="button" ng-click="paFocusCtrl.query()" data-translate="Search"></button>
+            </div>
+
+        </div>
+
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="14">
+                    <div class="pull-left">{{"Contribution" | translate}} & {{"Ranking" | translate}}</div>
+                    <input class="btnExcel pull-right" type="button" title="Export to Excel">
+                </th>
+            </tr>
+            <tr>
+                <th>#</th>
+                <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
+                <th data-translate="JobTitle"></th>
+                <th data-translate="Team"></th>
+                <th data-translate="EPAScore" class="width-110"></th>
+                <th class="width-110">Objectives Achievement</th>
+                <th class="width-110">Promotion</th>
+                <th class="width-110">Contribution</th>
+                <th class="width-110">Bonus Give (Points)</th>
+                <th class="width-110">Total Bonus Give (Points)</th>
+                <th class="width-110">Bonus Ranking</th>
+                <th class="width-110" data-translate="Objectives"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center" ng-show="paFocusCtrl.employees.length === 0">
+                <td class="empty-result" colspan="14" data-translate="EmptyResult"></td>
+            </tr>
+            <tr class="text-center" ng-show="paFocusCtrl.employees.length > 0">
+                <td class="empty-result" colspan="14">Hey! I have data here</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

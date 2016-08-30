@@ -11,6 +11,38 @@ appModule.factory('utilitiesFactory',
 
     utilities.maxStar = 5;
 
+    utilities.groupingTeams = function (teams) {
+        var result = [], parents = [];
+        var startGrouping, endGrouping;
+
+        angular.forEach(teams, function (team) {
+            if (team.DepartmentId > 0 && !team.IsGroup && team.Code !== "Nexcel") {
+                if (parents.indexOf(team.DepartmentId) === -1) {
+                    startGrouping = { Name: '<strong>' + team.Name + '</strong>', msGroup: true };
+
+                    if (parents.length === 0) {
+                        result.push(startGrouping);
+                    } else {
+                        endGrouping = { msGroup: false };
+                        result.push(endGrouping);
+                        result.push(startGrouping);
+                    }
+
+                    parents.push(team.Name);
+                }
+
+                angular.forEach(team.Childrens, function (child) {
+                    result.push(child);
+                });
+            }
+        });
+
+        endGrouping = { msGroup: false };
+        result.push(endGrouping);
+
+        return result;
+    };
+
     utilities.groupingPeriods = function (periods) {
         var result = [], years = [];
         var startGrouping, endGrouping;
@@ -269,7 +301,9 @@ appModule.factory('utilitiesFactory',
 
     utilities.setSelectAll = function (data) {
         angular.forEach(data, function (item) {
-            item.ticked = true;
+            if (item.msGroup === undefined) {
+                item.ticked = true;
+            }
         });
     };
 

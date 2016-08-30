@@ -187,35 +187,24 @@ function ($routeParams, PeriodModel, enumerationsFactory, historyFactory, lockSc
         basicInformation: !vm.viewMode,
         employeeSetting: vm.viewMode,
         processSetting: false,
-        focusSetting: false
     };
 
     vm.tabBasicSelect = function () {
         vm.dataTab.basicInformation = true;
         vm.dataTab.employeeSetting = false;
         vm.dataTab.processSetting = false;
-        vm.dataTab.focusSetting = false;
     };
 
     vm.tabEmployeeSettingSelect = function () {
         vm.dataTab.basicInformation = false;
         vm.dataTab.employeeSetting = true;
         vm.dataTab.processSetting = false;
-        vm.dataTab.focusSetting = false;
     };
 
     vm.tabProcessSettingSelect = function () {
         vm.dataTab.basicInformation = false;
         vm.dataTab.employeeSetting = false;
         vm.dataTab.processSetting = true;
-        vm.dataTab.focusSetting = false;
-    };
-
-    vm.tabFocusSettingSelect = function () {
-        vm.dataTab.basicInformation = false;
-        vm.dataTab.employeeSetting = false;
-        vm.dataTab.processSetting = false;
-        vm.dataTab.focusSetting = true;
     };
 
     PeriodModel.getPeriodById(vm.periodId).then(function () {

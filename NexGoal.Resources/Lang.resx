@@ -1551,4 +1551,13 @@
   <data name="PAFocus" xml:space="preserve">
     <value>PA Focus</value>
   </data>
+  <data name="Contribution" xml:space="preserve">
+    <value>Contribution</value>
+  </data>
+  <data name="Ranking" xml:space="preserve">
+    <value>Ranking</value>
+  </data>
+  <data name="EPAScore" xml:space="preserve">
+    <value>EPA Score</value>
+  </data>
 </root>
