@@ -1560,4 +1560,7 @@
   <data name="EPAScore" xml:space="preserve">
     <value>EPA Score</value>
   </data>
+  <data name="FocusStartDateRequired" xml:space="preserve">
+    <value>The Focus Start Date field is required for Semi-annual.</value>
+  </data>
 </root>

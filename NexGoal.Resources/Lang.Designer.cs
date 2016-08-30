@@ -1600,6 +1600,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Focus Start Date field is required for Semi-annual..
+        /// </summary>
+        public static string FocusStartDateRequired {
+            get {
+                return ResourceManager.GetString("FocusStartDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to For Employee Use.
         /// </summary>
         public static string ForEmployeeUse {

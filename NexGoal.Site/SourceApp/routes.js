@@ -178,6 +178,6 @@ var assessmentModule = angular.module("assessmentModule", ["ngRoute"]);
 assessmentModule.config(["$routeProvider", function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
 
-    $routeProvider.when("/Focus/Index",
+    $routeProvider.when("/PAFocus/Index",
     { templateUrl: baseUrl + "SourceApp/Components/Assessment/Focus/Templates/index.html", caseInsensitiveMatch: true });
 }]);

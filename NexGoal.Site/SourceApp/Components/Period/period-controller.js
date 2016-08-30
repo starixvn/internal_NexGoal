@@ -106,9 +106,7 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
         AttendanceStartDate: null,
         AttendanceEndDate: null,
         FocusStartDate: null,
-        FocusEndDate: null,
         RawFocusStartDate: null,
-        RawFocusEndDate: null,
         IsActive: true,
         Description: null
     };
@@ -125,10 +123,6 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
 
     vm.openPopupFocusStartDate = function (event) {
         PeriodModel.openPopupFocusStartDate(event);
-    };
-
-    vm.openPopupFocusEndDate = function (event) {
-        PeriodModel.openPopupFocusEndDate(event);
     };
 
     vm.openPopupAttendanceStartDate = function (event) {
