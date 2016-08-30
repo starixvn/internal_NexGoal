@@ -1,0 +1,14 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function>
+    <Setting Key="NexGoalTools_ResetScore" SpName="NexGoalTools_ResetScore" DbName="NexGoal" Plain="0">
+    </Setting>
+    <Setting Key="NexGoalTools_GetEPAInfoToChangeCertificate" SpName="NexGoalTools_GetEPAInfoToChangeCertificate" DbName="NexGoal" Plain="0">
+      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+    </Setting>
+  </Function>
+</Functions>
