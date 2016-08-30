@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["CommonModel", "EmployeeModel", "utilitiesFactory"];
+    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory"];
 
-    function paFocusController(CommonModel, EmployeeModel, utilitiesFactory) {
+    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory) {
         var vm = this;
 
         vm.groups = [];
@@ -28,6 +28,12 @@
                     vm.filter.employeeId = null;
                 }
             }
+        };
+
+        vm.openPopupUpdateComment = function (member) {
+            PAFocusModel.openPopupUpdateComment(member).then(function () {
+                vm.modalInstance = null;
+            });
         };
 
         vm.query = function () {

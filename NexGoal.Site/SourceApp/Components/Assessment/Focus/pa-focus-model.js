@@ -3,21 +3,32 @@
 
     assessmentModule.factory("PAFocusModel", paFocusModel);
 
-    paFocusModel.$inject = ["paFocusFactory", "errorFactory"];
+    paFocusModel.$inject = ["$modal", "paFocusFactory", "errorFactory"];
 
-    function paFocusModel(paFocusFactory, errorFactory) {
-        var me = {};
+    function paFocusModel($modal, paFocusFactory, errorFactory) {
+        var vm = {};
 
-        me.processSettings = [];
+        vm.processSettings = [];
 
-        me.getPAProcessSettingByPeriodId = function (periodId) {
+        vm.getPAProcessSettingByPeriodId = function (periodId) {
             return paFocusFactory.getPAProcessSettingByPeriodId(periodId).success(function (processSettings) {
-                me.processSettings = processSettings;
+                vm.processSettings = processSettings;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        return me;
+        vm.openPopupUpdateComment = function (member) {
+            vm.modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalUpdateComment.html',
+                controller: "PAModalUpdateCommentController as paModalUpdateCommentCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center"
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        return vm;
     }
 })(angular.module("assessmentModule"));

@@ -405,9 +405,11 @@
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-factory.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-model.js" />
+    <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-update-comment-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\chart.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\index.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\paFocus.html" />
+    <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalUpdateComment.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-controller.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-directive.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />

@@ -1,0 +1,27 @@
+﻿<div id="updateCommentPopup">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span>{{"EditComment" | translate}}</span>
+        </div>
+    </div>
+    <div class="modal-body modal-update-comment">
+        <div class="row">
+            <form class="row form-horizontal col-sm-11" role="form">
+                <div class="form-group">
+                    <label class="col-sm-4 control-label">
+                        <span data-translate="Comment"></span>
+                        <span data-translate="(*)" class="note"></span>
+                    </label>
+                    <div class="col-sm-8 field">
+                        <textarea type="text" class="form-control comment"
+                                  ng-model="paModalUpdateCommentCtrl.comment" required></textarea>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button class="button" ng-click="paModalUpdateCommentCtrl.ok()" data-translate="OK"></button>
+        <button class="btn btn-default customize" ng-click="paModalUpdateCommentCtrl.cancel()" data-translate="Cancel"></button>
+    </div>
+</div>

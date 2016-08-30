@@ -110,7 +110,11 @@
                 <td rowspan="{{group.members.length}}" class="text-center bonus-give-success" ng-if="$first">100 / {{group.TotalBonus}}</td>
                 <td class="text-center">2</td>
                 <td>Lorem ispum dolor sit amet, consectetur ...</td>
-                <td class="text-center objective-edit"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+                <td class="text-center objective-edit">
+                    <a href="" ng-click="paFocusCtrl.openPopupUpdateComment(member)">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                </td>
             </tr>
         </tbody>
     </table>
