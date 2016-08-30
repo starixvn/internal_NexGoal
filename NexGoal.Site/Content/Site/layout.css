@@ -1417,7 +1417,7 @@ header {
   border-radius: 3px;
   color: #FFF;
   display: inline-block;
-  font-size: 12px;
+  font-size: 13px;
   height: 30px;
   line-height: 30px;
   margin-right: 0;
@@ -1437,6 +1437,12 @@ header {
 .btn-delete:hover {
   background: #ed8472;
 }
+.btn-cancel {
+  background: #767885;
+}
+.btn-cancel:hover {
+  background: #8a8d9c;
+}
 .btnExcel {
   background: #549f3b;
 }
@@ -1455,6 +1461,9 @@ header {
   width: 16px;
   height: 16px;
   display: inline-block;
+}
+.modal-content {
+  border-radius: 0;
 }
 .modal-dialog .modal-header {
   padding: 7px 15px 8px;
@@ -1546,6 +1555,24 @@ header {
 }
 .modal-confirm-center .modal-dialog {
   margin-top: 13% !important;
+}
+.updateCommentPopup .modal-header {
+  background: none;
+  margin-left: 20px;
+  margin-right: 20px;
+  padding: 20px 0 15px;
+  border-bottom-color: #c3c3c3;
+}
+.updateCommentPopup .modal-header .popup-header {
+  font-size: 15px;
+  color: #e8753e;
+}
+.updateCommentPopup .modal-body {
+  padding: 20px;
+  padding-bottom: 0;
+}
+.updateCommentPopup .modal-footer {
+  border-top: 0;
 }
 .target-tabset .common-form.info-form {
   background: none;
