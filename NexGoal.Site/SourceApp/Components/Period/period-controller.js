@@ -179,7 +179,7 @@ function ($routeParams, PeriodModel, enumerationsFactory, historyFactory, lockSc
     vm.dataTab = {
         basicInformation: !vm.viewMode,
         employeeSetting: vm.viewMode,
-        processSetting: false,
+        processSetting: false
     };
 
     vm.tabBasicSelect = function () {
@@ -306,17 +306,22 @@ function ($scope, PeriodModel, CommonModel, enumerationsFactory, historyFactory,
 }]);
 
 periodModule.controller('ProcessSettingPeriodController',
-['$scope', 'PeriodModel', 'CommonModel', 'historyFactory', "lockScreenService",
-function ($scope, PeriodModel, CommonModel, historyFactory, lockScreenService) {
+['$scope', 'PeriodModel', 'CommonModel', "PAFocusModel", 'historyFactory', "lockScreenService",
+function ($scope, PeriodModel, CommonModel, PAFocusModel, historyFactory, lockScreenService) {
     var vm = this;
 
     vm.period = {};
     vm.isFirstLoad = true;
     vm.processSettings = PeriodModel.processSettings;
+    vm.paProcessSettings = [];
     vm.remindDay = CommonModel.remindDay;
 
     var getProcessSetting = function (periodId) {
         lockScreenService.start();
+
+        PAFocusModel.getPAProcessSettingByPeriodId(periodId).then(function () {
+            vm.paProcessSettings = PAFocusModel.processSettings;
+        });
 
         PeriodModel.getProcessSettingByPeriodId(periodId).then(function () {
             vm.processSettings = PeriodModel.processSettings;

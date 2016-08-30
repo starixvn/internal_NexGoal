@@ -1582,6 +1582,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Focus Day.
+        /// </summary>
+        public static string FocusDay {
+            get {
+                return ResourceManager.GetString("FocusDay", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Focus End Date.
         /// </summary>
         public static string FocusEndDate {

@@ -37,7 +37,7 @@
             console.log(vm.filter);
 
             alert("Implement Query Later");
-        }
+        };
 
         function initializeData() {
             var groupOne = {};

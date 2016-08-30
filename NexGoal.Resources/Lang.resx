@@ -1563,4 +1563,7 @@
   <data name="FocusStartDateRequired" xml:space="preserve">
     <value>The Focus Start Date field is required for Semi-annual.</value>
   </data>
+  <data name="FocusDay" xml:space="preserve">
+    <value>Focus Day</value>
+  </data>
 </root>
