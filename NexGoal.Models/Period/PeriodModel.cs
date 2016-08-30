@@ -17,6 +17,8 @@
 
         public DateTime? AttendanceEndDate { get; set; }
 
+        public DateTime? PAFocusStartDate { get; set; }
+
         public int TotalEmployees { get; set; }
 
         public int TotalEmployeesUnfinished { get; set; }

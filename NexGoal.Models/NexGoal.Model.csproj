@@ -72,6 +72,7 @@
     <Compile Include="FlowManagement\ProcessFlowModel.cs" />
     <Compile Include="Integration\EmployeeWorkingViewModel.cs" />
     <Compile Include="Integration\HRMSummaryViewModel.cs" />
+    <Compile Include="PAFocus\PAFocusProcessSetting.cs" />
     <Compile Include="Report\Dashboard\DashboardModel.cs" />
     <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Department\DepartmentModel.cs" />

@@ -260,9 +260,9 @@
     <Setting Key="Period_GetAllByReviewer" SpName="Period_GetAllByReviewer" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetAllByEvaluator" SpName="Period_GetAllByEvaluator" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetAllByEmployee" SpName="Period_GetAllByEmployee" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaPeriod_Insert" SpName="EpaPeriod_Insert" DbName="NexGoal" Plain="0">
+    <Setting Key="EpaPeriod_Insert" SpName="EpaPeriod_Insert1" DbName="NexGoal" Plain="0">
     </Setting>
-    <Setting Key="EpaPeriod_UpdateBasicInformation" SpName="EpaPeriod_UpdateBasicInformation" DbName="NexGoal" Plain="0">
+    <Setting Key="EpaPeriod_UpdateBasicInformation" SpName="EpaPeriod_UpdateBasicInformation1" DbName="NexGoal" Plain="0">
     </Setting>
     <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="NexGoal" Plain="0">
     </Setting>
@@ -282,7 +282,7 @@
     <Setting Key="EpaPeriod_GetProcessSetting" SpName="EpaPeriod_GetProcessSetting" DbName="NexGoal" Plain="0">
       <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
     </Setting>
-    <Setting Key="EpaPeriod_UpdateProcessSetting" SpName="EpaPeriod_UpdateProcessSetting" DbName="NexGoal" Plain="0">
+    <Setting Key="EpaPeriod_UpdateProcessSetting" SpName="EpaPeriod_UpdateProcessSetting1" DbName="NexGoal" Plain="0">
     </Setting>
     <Setting Key="EPAPeriod_CheckSelfProcessStarted" SpName="EPAPeriod_CheckSelfProcessStarted" DbName="NexGoal" Plain="0">
     </Setting>
@@ -414,4 +414,7 @@
       <Mapping DataField="ProjectManagerId" ObjectProperty="EmployeeId" />
     </Setting>
   </Function>
+<Function Name="PAFocus">
+  <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
+</Function>
 </Functions>

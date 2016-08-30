@@ -113,6 +113,7 @@
     <Compile Include="Implement\EPA\EPASelfService.cs" />
     <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
     <Compile Include="Implement\IntergrationService.cs" />
+    <Compile Include="Implement\PAFocusService.cs" />
     <Compile Include="Implement\MenuServices.cs" />
     <Compile Include="Interfaces\ExportFile\IExportPdfService.cs" />
     <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Interfaces\IMailService.cs" />
     <Compile Include="Interfaces\IManualMailService.cs" />
     <Compile Include="Interfaces\IMenuServices.cs" />
+    <Compile Include="Interfaces\IPAFocusService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
     <Compile Include="Interfaces\IScoreRatingTypeService.cs" />
