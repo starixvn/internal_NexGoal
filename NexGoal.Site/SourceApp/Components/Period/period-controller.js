@@ -105,7 +105,7 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
         RawEndDate: null,
         AttendanceStartDate: null,
         AttendanceEndDate: null,
-        FocusStartDate: null,
+        PAFocusStartDate: null,
         RawFocusStartDate: null,
         IsActive: true,
         Description: null
@@ -139,8 +139,7 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
             period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
             period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
             period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
-            period.FocusStartDate = period.RawFocusStartDate ? period.RawFocusStartDate.toDateString() : null;
-            period.FocusEndDate = period.RawFocusEndDate ? period.RawFocusEndDate.toDateString() : null;
+            period.PAFocusStartDate = period.RawFocusStartDate ? period.RawFocusStartDate.toDateString() : null;
 
             PeriodModel.createPeriod(period, $modalInstance);
         }
