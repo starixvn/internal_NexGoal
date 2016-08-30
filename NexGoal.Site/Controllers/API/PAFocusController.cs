@@ -3,6 +3,7 @@
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Model;
     using NexGoal.Model;
     using NexGoal.Services.Interfaces;
     using System.Collections.Generic;
@@ -29,6 +30,13 @@
             var processSettings = this.focusService.GetPAFocusProcessSettingByPeriodId(periodId);
 
             return processSettings;
+        }
+
+        [HttpPost]
+        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        public CommandResult UpdatePAProcessSetting(IEnumerable<PAFocusProcessSetting> process)
+        {
+            return new CommandResult { Code = 0 };
         }
     }
 }
