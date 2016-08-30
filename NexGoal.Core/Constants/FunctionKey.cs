@@ -27,5 +27,7 @@
         public const string UpdateFinalScore = "UpdateFinalScore";
 
         public const string MenuManagement = "MenuManagement";
+
+        public const string PAFocus = "PAFocus";
     }
 }
