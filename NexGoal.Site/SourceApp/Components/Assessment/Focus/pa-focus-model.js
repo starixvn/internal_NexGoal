@@ -18,12 +18,17 @@
             });
         };
 
-        vm.openPopupUpdateComment = function (member) {
+        vm.openPopupObjective = function (member) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalUpdateComment.html',
-                controller: "PAModalUpdateCommentController as paModalUpdateCommentCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalObjective.html',
+                controller: "PAModalObjectiveController as paModalObjectiveCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center"
+                windowClass: "modal-confirm-center",
+                resolve: {
+                    member: function () {
+                        return angular.copy(member);
+                    }
+                }
             });
 
             return vm.modalInstance.result;

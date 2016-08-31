@@ -37,7 +37,7 @@
             </div>
 
             <div class="col">
-                
+
             </div>
 
         </div>
@@ -46,11 +46,6 @@
 
     <table class="table table-bordered table-striped">
         <thead>
-            <!--<tr class="header-table">
-                <th colspan="13">
-                    <input class="btnExcel pull-right" type="button" title="Export to Excel">
-                </th>
-            </tr>-->
             <tr>
                 <th data-translate="Team"></th>
                 <th>#</th>
@@ -80,42 +75,49 @@
                 <td>{{member.JobTitle}}</td>
                 <td class="text-center">{{member.EPAScore}}/100</td>
                 <td class="text-center">
-                    <select>
-                        <option value="0" label="5%">5%</option>
-                        <option value="1" label="10%">10%</option>
-                        <option value="2" label="15%">15%</option>
-                        <option value="3" selected="selected" label="20%">20%</option>
-                        <option value="4" label="50%">50%</option>
-                        <option value="5" label="100%">100%</option>
+                    <select ng-model="member.ObjectivesAchievement"
+                            ng-options="opt as (opt + '%') for opt in paFocusCtrl.objectivesAchievementRanges">
+                        <option></option>
                     </select>
                 </td>
                 <td class="text-center">
-                    <select>
-                        <option value="0" selected="selected" label="No">No</option>
-                        <option value="1" label="Yes">Yes</option>                        
+                    <select ng-model="member.Promotion"
+                            ng-options="opt.Value as opt.Name for opt in paFocusCtrl.promotionsRanges">
+                        <option></option>
                     </select>
                 </td>
                 <td class="text-center">
-                    <select>
-                        <option value="0" label="1">1</option>
-                        <option value="1" label="2">2</option>
-                        <option value="2" label="3">3</option>
-                        <option value="3" selected="selected" label="4">4</option>
-                        <option value="4" label="5">5</option>
+                    <select ng-model="member.Contribution"
+                            ng-options="opt as opt for opt in [] | range : 6">
+                        <option></option>
                     </select>
                 </td>
                 <td class="text-center">
-                    <input class="form-control bonus-give" value="25" />
+                    <input class="form-control bonus-give" numeric decimals="2" max-value="100" min-value="0"
+                           ng-model="member.BonusGiven"
+                           ng-blur="paFocusCtrl.inputBonus(member)" />
                 </td>
-                <td rowspan="{{group.members.length}}" class="text-center bonus-give-success" ng-if="$first">100 / {{group.TotalBonus}}</td>
-                <td class="text-center">2</td>
-                <td>Lorem ispum dolor sit amet, consectetur ...</td>
+                <td rowspan="{{group.members.length}}" class="text-center"
+                    ng-if="$first"
+                    ng-class="group.TotalBonus <= group.MaxBonus && group.TotalBonus > 0 ? 'bonus-give-success' : 'bonus-give-error'">
+                    {{group.TotalBonus}} / {{group.MaxBonus}}
+                </td>
+                <td class="text-center">{{member.BonusRanking}}</td>
+                <td>
+                    <span ng-show="member.Objectives.length <= 50">{{member.Objectives}}</span>
+                    <span ng-show="member.Objectives.length > 50">{{member.Objectives | limitTo : 50}} ...</span>
+                </td>
                 <td class="text-center objective-edit">
-                    <a href="" ng-click="paFocusCtrl.openPopupUpdateComment(member)">
+                    <a href="" ng-click="paFocusCtrl.openPopupObjective(member)">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
                 </td>
             </tr>
         </tbody>
     </table>
+
+    <div class="navbar navbar-default navbar-fixed-bottom action-section">
+        <button class="btn btn-back" data-translate="Reset" ng-click="paFocusCtrl.reset()"></button>
+        <button class="btn button-save" data-translate="Save"></button>
+    </div>
 </div>

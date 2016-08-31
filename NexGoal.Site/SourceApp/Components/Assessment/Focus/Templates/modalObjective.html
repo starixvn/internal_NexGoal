@@ -1,25 +1,25 @@
-﻿<div id="updateCommentPopup" class="updateCommentPopup">
+﻿<div class="custom-modal">
     <div class="modal-header">
         <div class="popup-header">
-            <span>{{"EditComment" | translate}}</span>
+            <span>{{"EditObjectives" | translate}}</span>
         </div>
     </div>
     <div class="modal-body modal-update-comment">
         <form class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-3 control-label text-left">
-                    <span data-translate="Comment"></span>
+                    <span data-translate="Objectives"></span>
                     <span data-translate="(*)" class="note"></span>
                 </label>
                 <div class="col-sm-9 field">
                     <textarea type="text" class="form-control comment"
-                              ng-model="paModalUpdateCommentCtrl.comment" required></textarea>
+                              ng-model="paModalObjectiveCtrl.objectives" required></textarea>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer button-block">
-        <button class="button" ng-click="paModalUpdateCommentCtrl.ok()" data-translate="OK"></button>
-        <button class="button btn-cancel customize" ng-click="paModalUpdateCommentCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button" ng-click="paModalObjectiveCtrl.ok()" data-translate="OK"></button>
+        <button class="button btn-cancel customize" ng-click="paModalObjectiveCtrl.cancel()" data-translate="Cancel"></button>
     </div>
 </div>

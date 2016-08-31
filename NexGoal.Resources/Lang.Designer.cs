@@ -952,6 +952,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Edit Objectives.
+        /// </summary>
+        public static string EditObjectives {
+            get {
+                return ResourceManager.GetString("EditObjectives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Edit Target Template.
         /// </summary>
         public static string EditTargetTemplate {
@@ -4242,6 +4251,15 @@ namespace NexGoal.Resources {
         public static string ViewEPAResult {
             get {
                 return ResourceManager.GetString("ViewEPAResult", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Objectives.
+        /// </summary>
+        public static string ViewObjectives {
+            get {
+                return ResourceManager.GetString("ViewObjectives", resourceCulture);
             }
         }
         

@@ -1556,22 +1556,22 @@ header {
 .modal-confirm-center .modal-dialog {
   margin-top: 13% !important;
 }
-.updateCommentPopup .modal-header {
+.custom-modal .modal-header {
   background: none;
   margin-left: 20px;
   margin-right: 20px;
   padding: 20px 0 15px;
   border-bottom-color: #c3c3c3;
 }
-.updateCommentPopup .modal-header .popup-header {
+.custom-modal .modal-header .popup-header {
   font-size: 15px;
   color: #e8753e;
 }
-.updateCommentPopup .modal-body {
+.custom-modal .modal-body {
   padding: 20px;
   padding-bottom: 0;
 }
-.updateCommentPopup .modal-footer {
+.custom-modal .modal-footer {
   border-top: 0;
 }
 .target-tabset .common-form.info-form {

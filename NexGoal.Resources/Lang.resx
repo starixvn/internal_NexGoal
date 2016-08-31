@@ -1566,4 +1566,10 @@
   <data name="FocusDay" xml:space="preserve">
     <value>Focus Day</value>
   </data>
+  <data name="EditObjectives" xml:space="preserve">
+    <value>Edit Objectives</value>
+  </data>
+  <data name="ViewObjectives" xml:space="preserve">
+    <value>View Objectives</value>
+  </data>
 </root>
