@@ -70,7 +70,7 @@
             return plainText;
         }
 
-        public int GetMaxDataLength(int keySize)
+        private int GetMaxDataLength(int keySize)
         {
             if (OptimalAsymmetricEncryptionPadding)
             {
@@ -80,7 +80,7 @@
             return ((keySize - 384) / 8) + 37;
         }
 
-        public bool IsKeySizeValid(int keySize)
+        private bool IsKeySizeValid(int keySize)
         {
             return keySize >= 384 && keySize <= 16384 && keySize % 8 == 0;
         }
