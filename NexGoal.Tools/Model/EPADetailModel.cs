@@ -14,10 +14,6 @@
 
         public string Score { get; set; }
 
-        public string ScoreEncode { get; set; }
-
         public string Rate { get; set; }
-
-        public string RateEncode { get; set; }
     }
 }

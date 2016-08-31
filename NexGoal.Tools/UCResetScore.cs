@@ -1,16 +1,13 @@
-﻿using System;
-using System.Text;
-using System.Windows.Forms;
-using Fanex.Data;
-
-namespace NexGoal.Tools
+﻿namespace NexGoal.Tools
 {
+    using System;
+    using System.Text;
+    using System.Windows.Forms;
+    using Fanex.Data;
+
     public partial class UCResetScore : UserControl
     {
         private readonly ICommonService commonService;
-
-        private const string connectionStringTemplate = @"packet size=4096;Data Source={0};TrustServerCertificate=true;Connect Timeout=60;
-            Asynchronous Processing=true;Initial Catalog={1};integrated security=false; user id={2}; password={3};";
 
         public UCResetScore()
         {
@@ -29,12 +26,7 @@ namespace NexGoal.Tools
                     var criteria = new ResetScoreCriteria();
                     var connectionString = new StringBuilder();
 
-                    connectionString.AppendFormat(
-                        connectionStringTemplate,
-                        txtServerName.Text,
-                        txtDatabaseName.Text,
-                        txtUserName.Text,
-                        txtPassword.Text);
+                    connectionString.AppendFormat(Constants.ConnectionStringTemplate, txtServerName.Text, txtDatabaseName.Text, txtUserName.Text, txtPassword.Text);
 
                     IDbSetting setting = new DbSetting
                     {
@@ -46,13 +38,13 @@ namespace NexGoal.Tools
                     {
                         CommandResult commandResult = commonService.ResetScore(setting, criteria);
 
-                        if (!commandResult.IsSuccessful)
+                        if (commandResult.IsSuccessful)
                         {
-                            MessageBox.Show(commandResult.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Update successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
-                            MessageBox.Show("Reset score successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(commandResult.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     catch (Exception ex)

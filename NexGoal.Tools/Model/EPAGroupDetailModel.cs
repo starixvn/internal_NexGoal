@@ -19,8 +19,6 @@
 
         public string Score { get; set; }
 
-        public string ScoreEncode { get; set; }
-
         public IList<EPADetailModel> EPADetails { get; set; }
     }
 }

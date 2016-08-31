@@ -17,11 +17,7 @@
 
         public string TotalScore { get; set; }
 
-        public string TotalScoreEncode { get; set; }
-
         public string AdjustScore { get; set; }
-
-        public string AdjustScoreEncode { get; set; }
 
         public int StatusId { get; set; }
 

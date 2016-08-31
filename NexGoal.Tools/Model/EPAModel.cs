@@ -13,11 +13,7 @@
 
         public string FinalScore { get; set; }
 
-        public string FinalScoreEncode { get; set; }
-
         public string Grade { get; set; }
-
-        public string GradeEncode { get; set; }
 
         public bool HasDisciplineScore { get; set; }
 
