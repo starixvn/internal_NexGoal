@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Tools
 {
+    using System.Collections.Generic;
     using System.Text;
     using Fanex.Data.Repository;
 
@@ -15,75 +16,15 @@
             KPIGroupId='{3}' KPIId='{4}' Score='{5}' Rate='{6}'></EPADetail>";
 
         [SpParam(Ignored = true)]
-        public EPAViewModel EpaInfo { get; set; }
+        public List<EPAModel> EpaInfos { get; set; }
 
-        public string EpaInfoXml
-        {
-            get
-            {
-                var epaInfoXml = new StringBuilder(BeginRootTag);
+        public string EpaInfoXml { get; set; }
 
-                foreach (EPAModel epa in EpaInfo.Epas)
-                {
-                    epaInfoXml.AppendFormat(EPAXmlTemplate, epa.EPAId, epa.FinalScore, epa.Grade);
-                }
+        public string ProcessDetailXml { get; set; }
 
-                epaInfoXml.Append(EndRootTag);
+        public string EpaGroupDetailXml { get; set; }
 
-                return epaInfoXml.ToString();
-            }
-        }
-
-        public string ProcessDetailXml
-        {
-            get
-            {
-                var epaProcessXml = new StringBuilder(BeginRootTag);
-
-                foreach (EPAProcessModel process in EpaInfo.Processes)
-                {
-                    epaProcessXml.AppendFormat(EPAProcessXmlTemplate, process.EPAId, process.ProcessId, process.EvaluatorId, process.TotalScore);
-                }
-
-                epaProcessXml.Append(EndRootTag);
-
-                return epaProcessXml.ToString();
-            }
-        }
-
-        public string EpaGroupDetailXml
-        {
-            get
-            {
-                var epaGroupXml = new StringBuilder(BeginRootTag);
-
-                foreach (EPAGroupDetailModel gr in EpaInfo.EpaGroups)
-                {
-                    epaGroupXml.AppendFormat(EPAGroupXmlTemplate, gr.EPAId, gr.ProcessId, gr.EvaluatorId, gr.KPIGroupId, gr.Score);
-                }
-
-                epaGroupXml.Append(EndRootTag);
-
-                return epaGroupXml.ToString();
-            }
-        }
-
-        public string EpaDetailXml
-        {
-            get
-            {
-                var epaDetailXml = new StringBuilder(BeginRootTag);
-
-                foreach (EPADetailModel dt in EpaInfo.EpaDetails)
-                {
-                    epaDetailXml.AppendFormat(EPADetailXmlTemplate, dt.EPAId, dt.ProcessId, dt.EvaluatorId, dt.KPIGroupId, dt.KPIId, dt.Score, dt.Rate);
-                }
-
-                epaDetailXml.Append(EndRootTag);
-
-                return epaDetailXml.ToString();
-            }
-        }
+        public string EpaDetailXml { get; set; }
 
         public override string GetSettingKey()
         {
@@ -93,6 +34,44 @@
         public override bool IsValid()
         {
             return true;
+        }
+
+        public void ConvertToXml()
+        {
+            var epaInfoXml = new StringBuilder(BeginRootTag);
+            var epaProcessXml = new StringBuilder(BeginRootTag);
+            var epaGroupXml = new StringBuilder(BeginRootTag);
+            var epaDetailXml = new StringBuilder(BeginRootTag);
+
+            foreach (EPAModel epaInfo in EpaInfos)
+            {
+                epaInfoXml.AppendFormat(EPAXmlTemplate, epaInfo.EPAId, epaInfo.FinalScore, epaInfo.Grade);
+
+                foreach (EPAProcessModel process in epaInfo.EPAProcesses)
+                {
+                    epaProcessXml.AppendFormat(EPAProcessXmlTemplate, process.EPAId, process.ProcessId, process.EvaluatorId, process.TotalScore);
+
+                    foreach (EPAGroupDetailModel gr in process.EPAGroupDetails)
+                    {
+                        epaGroupXml.AppendFormat(EPAGroupXmlTemplate, gr.EPAId, gr.ProcessId, gr.EvaluatorId, gr.KPIGroupId, gr.Score);
+
+                        foreach (EPADetailModel dt in gr.EPADetails)
+                        {
+                            epaDetailXml.AppendFormat(EPADetailXmlTemplate, dt.EPAId, dt.ProcessId, dt.EvaluatorId, dt.KPIGroupId, dt.KPIId, dt.Score, dt.Rate);
+                        }
+                    }
+                }
+            }
+
+            epaInfoXml.Append(EndRootTag);
+            epaProcessXml.Append(EndRootTag);
+            epaGroupXml.Append(EndRootTag);
+            epaDetailXml.Append(EndRootTag);
+
+            EpaInfoXml = epaInfoXml.ToString();
+            ProcessDetailXml = epaProcessXml.ToString();
+            EpaGroupDetailXml = epaGroupXml.ToString();
+            EpaDetailXml = epaDetailXml.ToString();
         }
     }
 }

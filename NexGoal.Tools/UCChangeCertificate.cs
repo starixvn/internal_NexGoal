@@ -1,6 +1,8 @@
 ﻿namespace NexGoal.Tools
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Security.Cryptography.X509Certificates;
     using System.Text;
     using System.Windows.Forms;
@@ -54,9 +56,9 @@
             {
                 DialogResult result = MessageBox.Show(Resources.MsgConfirmUpdateScore, Resources.Confirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-                if (result == DialogResult.OK)
+                if (result == DialogResult.Yes)
                 {
-                    EPAViewModel epaInfo = new EPAViewModel();
+                    IList<EPAModel> epaInfos = new List<EPAModel>();
                     X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
 
                     var connectionString = new StringBuilder();
@@ -65,8 +67,8 @@
                     try
                     {
                         X509Certificate2 oldCert2 = new X509Certificate2(txtOldCertificate.Text, txtOldPassword.Text, flags);
-                        epaInfo = GetEPAInfoToChangeCertificate(connectionString.ToString());
-                        DecryptScore(epaInfo, oldCert2);
+                        epaInfos = GetEPAInfoToChangeCertificate(connectionString.ToString());
+                        DecryptScore(epaInfos, oldCert2);
                     }
                     catch (Exception ex)
                     {
@@ -77,7 +79,7 @@
                     try
                     {
                         X509Certificate2 newCert2 = new X509Certificate2(txtNewCertificate.Text, txtNewPassword.Text, flags);
-                        EncryptScore(epaInfo, newCert2);
+                        EncryptScore(epaInfos, newCert2);
                     }
                     catch (Exception ex)
                     {
@@ -85,12 +87,12 @@
                         return;
                     }
 
-                    UpdateEPAScore(epaInfo, connectionString.ToString());
+                    UpdateEPAScore(epaInfos, connectionString.ToString());
                 }
             }
         }
 
-        private EPAViewModel GetEPAInfoToChangeCertificate(string connectionString)
+        private IList<EPAModel> GetEPAInfoToChangeCertificate(string connectionString)
         {
             var criteria = new GetEPAInfoToChangeCertificateCriteria();
 
@@ -100,88 +102,104 @@
                 SpName = criteria.GetSettingKey()
             };
 
-            EPAViewModel epaInfo = commonService.GetEPAInfoToChangeCertificate(setting, criteria);
+            IList<EPAModel> epaInfos = commonService.GetEPAInfoToChangeCertificate(setting, criteria);
 
-            return epaInfo;
+            return epaInfos;
         }
 
-        private void DecryptScore(EPAViewModel epaInfo, X509Certificate2 cert2)
+        private void DecryptScore(IList<EPAModel> epaInfos, X509Certificate2 cert2)
         {
-            foreach (EPAModel epa in epaInfo.Epas)
+            foreach (EPAModel epaInfo in epaInfos)
             {
-                epa.FinalScore = certificateService.Decrypt(cert2, epa.FinalScore);
-                epa.Grade = certificateService.Decrypt(cert2, epa.Grade);
-            }
+                epaInfo.FinalScore = certificateService.Decrypt(cert2, epaInfo.FinalScore);
+                epaInfo.Grade = certificateService.Decrypt(cert2, epaInfo.Grade);
 
-            foreach (EPAProcessModel process in epaInfo.Processes)
-            {
-                process.TotalScore = certificateService.Decrypt(cert2, process.TotalScore);
-                process.AdjustScore = certificateService.Decrypt(cert2, process.AdjustScore);
-            }
+                foreach (EPAProcessModel process in epaInfo.EPAProcesses)
+                {
+                    process.TotalScore = certificateService.Decrypt(cert2, process.TotalScore);
+                    process.AdjustScore = certificateService.Decrypt(cert2, process.AdjustScore);
 
-            foreach (EPAGroupDetailModel gr in epaInfo.EpaGroups)
-            {
-                gr.Score = certificateService.Decrypt(cert2, gr.Score);
-            }
+                    foreach (EPAGroupDetailModel gr in process.EPAGroupDetails)
+                    {
+                        gr.Score = certificateService.Decrypt(cert2, gr.Score);
 
-            foreach (EPADetailModel detail in epaInfo.EpaDetails)
-            {
-                detail.Score = certificateService.Decrypt(cert2, detail.Score);
-                detail.Rate = certificateService.Decrypt(cert2, detail.Rate);
-            }
-        }
-
-        private void EncryptScore(EPAViewModel epaInfo, X509Certificate2 cert2)
-        {
-            foreach (EPAModel epa in epaInfo.Epas)
-            {
-                epa.FinalScore = certificateService.Encrypt(cert2, epa.FinalScore);
-                epa.Grade = certificateService.Encrypt(cert2, epa.Grade);
-            }
-
-            foreach (EPAProcessModel process in epaInfo.Processes)
-            {
-                process.TotalScore = certificateService.Encrypt(cert2, process.TotalScore);
-                process.AdjustScore = certificateService.Encrypt(cert2, process.AdjustScore);
-            }
-
-            foreach (EPAGroupDetailModel gr in epaInfo.EpaGroups)
-            {
-                gr.Score = certificateService.Encrypt(cert2, gr.Score);
-            }
-
-            foreach (EPADetailModel detail in epaInfo.EpaDetails)
-            {
-                detail.Score = certificateService.Encrypt(cert2, detail.Score);
-                detail.Rate = certificateService.Encrypt(cert2, detail.Rate);
+                        foreach (EPADetailModel detail in gr.EPADetails)
+                        {
+                            detail.Score = certificateService.Decrypt(cert2, detail.Score);
+                            detail.Rate = certificateService.Decrypt(cert2, detail.Rate);
+                        }
+                    }
+                }
             }
         }
 
-        private void UpdateEPAScore(EPAViewModel epaInfo, string connectionString)
+        private void EncryptScore(IList<EPAModel> epaInfos, X509Certificate2 cert2)
         {
-            var criteria = new UpdateEPAScoreCriteria
+            foreach (EPAModel epaInfo in epaInfos)
             {
-                EpaInfo = epaInfo
-            };
+                epaInfo.FinalScore = certificateService.Encrypt(cert2, epaInfo.FinalScore);
+                epaInfo.Grade = certificateService.Encrypt(cert2, epaInfo.Grade);
 
-            IDbSetting setting = new DbSetting
+                foreach (EPAProcessModel process in epaInfo.EPAProcesses)
+                {
+                    process.TotalScore = certificateService.Encrypt(cert2, process.TotalScore);
+                    process.AdjustScore = certificateService.Encrypt(cert2, process.AdjustScore);
+
+                    foreach (EPAGroupDetailModel gr in process.EPAGroupDetails)
+                    {
+                        gr.Score = certificateService.Encrypt(cert2, gr.Score);
+
+                        foreach (EPADetailModel detail in gr.EPADetails)
+                        {
+                            detail.Score = certificateService.Encrypt(cert2, detail.Score);
+                            detail.Rate = certificateService.Encrypt(cert2, detail.Rate);
+                        }
+                    }
+                }
+            }
+        }
+
+        private void UpdateEPAScore(IList<EPAModel> epaInfos, string connectionString)
+        {
+            int skip = 0,
+                numberOfRecords = 50;
+            List<EPAModel> thisBatch;
+            Queue<List<EPAModel>> allBatches = new Queue<List<EPAModel>>();
+
+            do
             {
-                ConnectionString = connectionString,
-                SpName = criteria.GetSettingKey()
-            };
+                thisBatch = epaInfos.Skip(skip).Take(numberOfRecords).ToList();
+
+                if (thisBatch.Any())
+                {
+                    allBatches.Enqueue(thisBatch);
+                    skip += numberOfRecords;
+                }
+            }
+            while (thisBatch.Any());
 
             try
             {
-                CommandResult commandResult = commonService.UpdateEPAScore(setting, criteria);
+                while (allBatches.Any())
+                {
+                    List<EPAModel> currentBatch = allBatches.Dequeue();
 
-                if (commandResult.IsSuccessful)
-                {
-                    MessageBox.Show(Resources.UpdateSuccessfully, Resources.Notification, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    var criteria = new UpdateEPAScoreCriteria
+                    {
+                        EpaInfos = currentBatch
+                    };
+                    criteria.ConvertToXml();
+
+                    IDbSetting setting = new DbSetting
+                    {
+                        ConnectionString = connectionString,
+                        SpName = criteria.GetSettingKey()
+                    };
+
+                    CommandResult commandResult = commonService.UpdateEPAScore(setting, criteria);
                 }
-                else
-                {
-                    MessageBox.Show(commandResult.Message, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+
+                MessageBox.Show(Resources.UpdateSuccessfully, Resources.Notification, MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {

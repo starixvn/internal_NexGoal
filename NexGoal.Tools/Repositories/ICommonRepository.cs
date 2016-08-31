@@ -1,10 +1,11 @@
 ﻿namespace NexGoal.Tools
 {
+    using System.Collections.Generic;
     using Fanex.Data;
     using Fanex.Data.Repository;
 
     public interface ICommonRepository
     {
-        EPAViewModel GetEPAInfoToChangeCertificate(IDbSetting setting, ICriteria criteria);
+        IList<EPAModel> GetEPAInfoToChangeCertificate(IDbSetting setting, ICriteria criteria);
     }
 }

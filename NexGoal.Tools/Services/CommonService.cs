@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Tools
 {
+    using System.Collections.Generic;
     using Fanex.Data;
 
     public class CommonService : ICommonService
@@ -32,16 +33,16 @@
             return commandResult;
         }
 
-        public EPAViewModel GetEPAInfoToChangeCertificate(IDbSetting setting, GetEPAInfoToChangeCertificateCriteria criteria)
+        public IList<EPAModel> GetEPAInfoToChangeCertificate(IDbSetting setting, GetEPAInfoToChangeCertificateCriteria criteria)
         {
-            EPAViewModel epaInfo = new EPAViewModel();
+            IList<EPAModel> epaInfos = new List<EPAModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                epaInfo = commonRepository.GetEPAInfoToChangeCertificate(setting, criteria);
+                epaInfos = commonRepository.GetEPAInfoToChangeCertificate(setting, criteria);
             }
 
-            return epaInfo;
+            return epaInfos;
         }
 
         public CommandResult UpdateEPAScore(IDbSetting setting, UpdateEPAScoreCriteria criteria)
