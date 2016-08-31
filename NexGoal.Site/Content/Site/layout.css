@@ -952,6 +952,8 @@ header {
   border: 0 solid red;
   cursor: pointer;
   height: 17px;
+  margin-left: 5px;
+  margin-top: 4px;
   padding: 0 6px;
   width: 18px;
 }
@@ -1802,6 +1804,36 @@ input[type=radio] {
   vertical-align: middle;
   margin-top: 0;
   margin-right: 5px;
+}
+.pagination > li {
+  padding: 0 2px;
+}
+.pagination > li > a,
+.pagination > li span {
+  border: none;
+  padding: 3px 8px;
+  float: initial;
+  display: inline-block;
+  border-radius: 3px;
+  color: #727272;
+}
+.pagination > li > a:focus,
+.pagination > li span:focus,
+.pagination > li > a:hover,
+.pagination > li span:hover {
+  background-color: transparent;
+  border: none;
+  color: #324273;
+}
+.pagination > li.active > a,
+.pagination > li.active span {
+  background: #314172;
+}
+.pagination > li.active > a:focus,
+.pagination > li.active span:focus,
+.pagination > li.active > a:hover,
+.pagination > li.active span:hover {
+  background: #314172;
 }
 @media (max-width: 770px) {
   .container-fluid.page .header .logo {

@@ -136,3 +136,34 @@ input[type=checkbox], input[type=radio] {
     margin-top: 0;
     margin-right: 5px;
 }
+
+.pagination {
+    > li {
+        padding: 0 2px;
+
+        > a, span {
+            border: none;
+            padding: 3px 8px;
+            float: initial;
+            display: inline-block;
+            border-radius: 3px;
+            color: #727272;
+
+            &:focus, &:hover {
+                background-color: transparent;
+                border: none;
+                color: #324273;
+            }
+        }
+
+        &.active {
+            > a, span {
+                background: #314172;
+
+                &:focus, &:hover {
+                    background: #314172;
+                }
+            }
+        }
+    }
+}
