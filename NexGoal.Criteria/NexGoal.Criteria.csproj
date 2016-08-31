@@ -118,6 +118,7 @@
     <Compile Include="Menu\GetMenusCriteria.cs" />
     <Compile Include="Menu\InsertMenuCriteria.cs" />
     <Compile Include="Menu\UpdateMenuCriteria.cs" />
+    <Compile Include="PAFocus\UpdatePAFocusProcessSetingCriteria.cs" />
     <Compile Include="PAFocus\GetPAFocusProcessSetingByIdCriteria.cs" />
     <Compile Include="Period\AutoCreateMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\GetAllPeriodByEmployeeCriteria.cs" />

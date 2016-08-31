@@ -34,9 +34,11 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey.Period, Policy.Host)]
-        public CommandResult UpdatePAProcessSetting(IEnumerable<PAFocusProcessSetting> process)
+        public CommandResult UpdatePAProcessSetting(int periodId, IEnumerable<PAFocusProcessSetting> process)
         {
-            return new CommandResult { Code = 0 };
+            var result = this.focusService.UpdateProcessSetting(periodId, process);
+
+            return result;
         }
     }
 }
