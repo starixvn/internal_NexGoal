@@ -238,11 +238,17 @@
 
             console.log(vm.filter);
 
-            alert("Implement Query Later");
+            alert("Implement Query Later!");
         };
 
         vm.reset = function () {
             vm.groups = angular.copy(oldGroupsData);
+        };
+
+        vm.save = function () {
+            if (PAFocusModel.validatePAFocusForm(vm.groups)) {
+                alert("Implement Save Later!");
+            }
         };
 
         initialize();

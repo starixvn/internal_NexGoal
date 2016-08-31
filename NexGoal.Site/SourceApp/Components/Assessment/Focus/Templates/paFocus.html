@@ -56,8 +56,8 @@
                 <th class="width-110">Objectives Achievement</th>
                 <th class="width-110">Promotion</th>
                 <th class="width-110">Contribution</th>
-                <th colspan="2" class="width-150">Bonus Give (Points)</th>
-                <th class="width-110">Bonus Ranking</th>
+                <th colspan="2" class="width-150">{{"BonusGiven" | translate}} ({{"Points" | translate}})</th>
+                <th class="width-70" data-translate="BonusRanking"></th>
                 <th colspan="2" data-translate="Objectives"></th>
             </tr>
         </thead>
@@ -93,13 +93,13 @@
                     </select>
                 </td>
                 <td class="text-center">
-                    <input class="form-control bonus-give" numeric decimals="2" max-value="100" min-value="0"
+                    <input class="form-control bonus-give" numeric decimals="2" max="100" min="0"
                            ng-model="member.BonusGiven"
                            ng-blur="paFocusCtrl.inputBonus(member)" />
                 </td>
                 <td rowspan="{{group.members.length}}" class="text-center"
                     ng-if="$first"
-                    ng-class="group.TotalBonus <= group.MaxBonus && group.TotalBonus > 0 ? 'bonus-give-success' : 'bonus-give-error'">
+                    ng-class="group.TotalBonus === group.MaxBonus ? 'bonus-give-success' : 'bonus-give-error'">
                     {{group.TotalBonus}} / {{group.MaxBonus}}
                 </td>
                 <td class="text-center">{{member.BonusRanking}}</td>
@@ -118,6 +118,6 @@
 
     <div class="navbar navbar-default navbar-fixed-bottom action-section">
         <button class="btn btn-back" data-translate="Reset" ng-click="paFocusCtrl.reset()"></button>
-        <button class="btn button-save" data-translate="Save"></button>
+        <button class="btn button-save" data-translate="Save" ng-click="paFocusCtrl.save()"></button>
     </div>
 </div>

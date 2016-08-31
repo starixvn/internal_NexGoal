@@ -394,6 +394,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Bonus Given.
+        /// </summary>
+        public static string BonusGiven {
+            get {
+                return ResourceManager.GetString("BonusGiven", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Bonus Ranking.
+        /// </summary>
+        public static string BonusRanking {
+            get {
+                return ResourceManager.GetString("BonusRanking", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Can&apos;t edit setting on different type!.
         /// </summary>
         public static string CanNotEditSettingOnDifferentTypeWarning {
@@ -444,6 +462,15 @@ namespace NexGoal.Resources {
         public static string ChangeTargetTypeWarning {
             get {
                 return ResourceManager.GetString("ChangeTargetTypeWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Chart.
+        /// </summary>
+        public static string Chart {
+            get {
+                return ResourceManager.GetString("Chart", resourceCulture);
             }
         }
         
@@ -2662,6 +2689,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Member&apos;s objectives cannot be empty!.
+        /// </summary>
+        public static string ObjectivesInvalidMessage {
+            get {
+                return ResourceManager.GetString("ObjectivesInvalidMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Objectives field is required!.
+        /// </summary>
+        public static string ObjectivesRequired {
+            get {
+                return ResourceManager.GetString("ObjectivesRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Old Final Score.
         /// </summary>
         public static string OldFinalScore {
@@ -2739,6 +2784,15 @@ namespace NexGoal.Resources {
         public static string PAFocus {
             get {
                 return ResourceManager.GetString("PAFocus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to PA Focus Information.
+        /// </summary>
+        public static string PAFocusInformation {
+            get {
+                return ResourceManager.GetString("PAFocusInformation", resourceCulture);
             }
         }
         
@@ -2883,6 +2937,15 @@ namespace NexGoal.Resources {
         public static string PersonalTarget {
             get {
                 return ResourceManager.GetString("PersonalTarget", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Points.
+        /// </summary>
+        public static string Points {
+            get {
+                return ResourceManager.GetString("Points", resourceCulture);
             }
         }
         
@@ -3954,6 +4017,15 @@ namespace NexGoal.Resources {
         public static string ToeicScore {
             get {
                 return ResourceManager.GetString("ToeicScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Total Bonus Given was invalid!.
+        /// </summary>
+        public static string TotalBonusGivenInvalidMessage {
+            get {
+                return ResourceManager.GetString("TotalBonusGivenInvalidMessage", resourceCulture);
             }
         }
         

@@ -3,9 +3,9 @@
 
     assessmentModule.controller("FocusController", focusController);
 
-    //focusController.$inject = [];
+    focusController.$inject = ["PAFocusModel"];
 
-    function focusController() {
+    function focusController(PAFocusModel) {
         var vm = this;
 
         vm.dataTab = {
@@ -21,6 +21,10 @@
         vm.tabChartSelected = function () {
             vm.dataTab.paFocus = false;
             vm.dataTab.chart = true;
+        };
+
+        vm.openPopupInformation = function () {
+            PAFocusModel.openPopupInformation();
         };
 
         return vm;

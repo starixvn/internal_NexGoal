@@ -169,6 +169,8 @@
                             "~/SourceApp/Components/EPA/UpdateFinalScore/updateFinalScore-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/focus-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-controller.js",
+                            "~/SourceApp/Components/Assessment/Focus/pa-focus-chart-controller.js",
+                            "~/SourceApp/Components/Assessment/Focus/pa-modal-information-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-modal-objective-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-model.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-factory.js"));

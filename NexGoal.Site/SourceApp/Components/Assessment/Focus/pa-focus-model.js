@@ -3,12 +3,38 @@
 
     assessmentModule.factory("PAFocusModel", paFocusModel);
 
-    paFocusModel.$inject = ["$modal", "paFocusFactory", "errorFactory"];
+    paFocusModel.$inject = ["$modal", "paFocusFactory", "errorFactory", "notificationFactory"];
 
-    function paFocusModel($modal, paFocusFactory, errorFactory) {
+    function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory) {
         var vm = {};
 
         vm.processSettings = [];
+
+        vm.validatePAFocusForm = function (groups) {
+            var isValid = true;
+
+            groups.forEach(function (group) {
+                if (!isValid) {
+                    return;
+                }
+
+                if (group.TotalBonus !== group.MaxBonus) {
+                    isValid = false;
+                    notificationFactory.error("TotalBonusGivenInvalidMessage");
+                    return;
+                }
+
+                group.members.forEach(function (member) {
+                    if (!member.Objectives) {
+                        isValid = false;
+                        notificationFactory.error("ObjectivesInvalidMessage");
+                        return;
+                    }
+                });
+            });
+
+            return isValid;
+        };
 
         vm.getPAProcessSettingByPeriodId = function (periodId) {
             return paFocusFactory.getPAProcessSettingByPeriodId(periodId).success(function (processSettings) {
@@ -29,6 +55,17 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
+        };
+
+        vm.openPopupInformation = function () {
+            vm.modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalInformation.html',
+                controller: "PAModalInformationController as paModalInformationCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center"
+            });
+
+            return vm.modalInstance.result;
         };
 
         vm.openPopupObjective = function (member) {

@@ -7,10 +7,17 @@
         </div>
         <div class="col-sm-12 target-tabset">
             <tabset id="FocusTab">
-                <tab heading="PA FOCUS" class="tab-cursor" active="focusCtrl.dataTab.paFocus" select="focusCtrl.tabPAFocusSelected()">
+                <tab class="tab-cursor" active="focusCtrl.dataTab.paFocus" select="focusCtrl.tabPAFocusSelected()">
+                    <tab-heading>
+                        {{"PAFocus" | translate}}
+                        <a href="" ng-click="focusCtrl.openPopupInformation()"><i class="fa fa-info-circle"></i></a>
+                    </tab-heading>
                     <div ng-include src="'/SourceApp/Components/Assessment/Focus/Templates/paFocus.html'"></div>
                 </tab>
-                <tab heading="CHART" class="tab-cursor" active="focusCtrl.dataTab.chart" select="focusCtrl.tabChartSelected()">
+                <tab class="tab-cursor" active="focusCtrl.dataTab.chart" select="focusCtrl.tabChartSelected()">
+                    <tab-heading>
+                        {{"Chart" | translate}}
+                    </tab-heading>
                     <div ng-include src="'/SourceApp/Components/Assessment/Focus/Templates/chart.html'"></div>
                 </tab>
             </tabset>

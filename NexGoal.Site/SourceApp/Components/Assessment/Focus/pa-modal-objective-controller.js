@@ -3,16 +3,20 @@
 
     assessmentModule.controller("PAModalObjectiveController", paModalObjectiveController);
 
-    paModalObjectiveController.$inject = ["$modalInstance", "member"];
+    paModalObjectiveController.$inject = ["$modalInstance","notificationFactory", "member"];
 
-    function paModalObjectiveController($modalInstance, member) {
+    function paModalObjectiveController($modalInstance, notificationFactory, member) {
         var vm = this;
 
         vm.employeeId = member.EmployeeId;
         vm.objectives = member.Objectives;
 
         vm.ok = function () {
-            $modalInstance.close(vm.objectives);
+            if (!vm.objectives) {
+                notificationFactory.error("ObjectivesRequired");
+            } else {
+                $modalInstance.close(vm.objectives);
+            }
         };
 
         vm.cancel = function () {
