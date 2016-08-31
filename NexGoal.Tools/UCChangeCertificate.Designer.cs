@@ -31,11 +31,13 @@
         {
             this.btnUpdate = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.btnOpenNewFile = new System.Windows.Forms.Button();
             this.txtNewPassword = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.txtNewCertificate = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.btnOpenOldFile = new System.Windows.Forms.Button();
             this.txtOldPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
@@ -54,8 +56,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.label11 = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox4.SuspendLayout();
@@ -64,13 +64,13 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(170, 396);
+            this.btnUpdate.Location = new System.Drawing.Point(170, 387);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(80, 30);
             this.btnUpdate.TabIndex = 5;
             this.btnUpdate.Text = "Update";
             this.btnUpdate.UseVisualStyleBackColor = true;
-            this.btnUpdate.Click += new System.EventHandler(this.btnUpdate_Click);
+            this.btnUpdate.Click += new System.EventHandler(this.Update_Click);
             // 
             // groupBox2
             // 
@@ -86,6 +86,17 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "New Certificate";
             // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label12.ForeColor = System.Drawing.Color.Red;
+            this.label12.Location = new System.Drawing.Point(282, 19);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(21, 16);
+            this.label12.TabIndex = 10;
+            this.label12.Text = "(*)";
+            // 
             // btnOpenNewFile
             // 
             this.btnOpenNewFile.Location = new System.Drawing.Point(308, 15);
@@ -94,7 +105,7 @@
             this.btnOpenNewFile.TabIndex = 6;
             this.btnOpenNewFile.Text = "Choose File";
             this.btnOpenNewFile.UseVisualStyleBackColor = true;
-            this.btnOpenNewFile.Click += new System.EventHandler(this.btnOpenNewFile_Click);
+            this.btnOpenNewFile.Click += new System.EventHandler(this.OpenNewFile_Click);
             // 
             // txtNewPassword
             // 
@@ -116,6 +127,7 @@
             // 
             // txtNewCertificate
             // 
+            this.txtNewCertificate.BackColor = System.Drawing.Color.LightGray;
             this.txtNewCertificate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtNewCertificate.Enabled = false;
             this.txtNewCertificate.Location = new System.Drawing.Point(28, 19);
@@ -138,6 +150,17 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Old Certificate";
             // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label11.ForeColor = System.Drawing.Color.Red;
+            this.label11.Location = new System.Drawing.Point(281, 21);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(21, 16);
+            this.label11.TabIndex = 9;
+            this.label11.Text = "(*)";
+            // 
             // btnOpenOldFile
             // 
             this.btnOpenOldFile.Location = new System.Drawing.Point(308, 17);
@@ -146,7 +169,7 @@
             this.btnOpenOldFile.TabIndex = 8;
             this.btnOpenOldFile.Text = "Choose File";
             this.btnOpenOldFile.UseVisualStyleBackColor = true;
-            this.btnOpenOldFile.Click += new System.EventHandler(this.btnOpenOldFile_Click);
+            this.btnOpenOldFile.Click += new System.EventHandler(this.OpenOldFile_Click);
             // 
             // txtOldPassword
             // 
@@ -168,6 +191,7 @@
             // 
             // txtOldCertificate
             // 
+            this.txtOldCertificate.BackColor = System.Drawing.Color.LightGray;
             this.txtOldCertificate.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtOldCertificate.Enabled = false;
             this.txtOldCertificate.Location = new System.Drawing.Point(28, 21);
@@ -317,28 +341,6 @@
             this.label3.TabIndex = 25;
             this.label3.Text = "Server name:";
             // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label11.ForeColor = System.Drawing.Color.Red;
-            this.label11.Location = new System.Drawing.Point(281, 21);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(21, 16);
-            this.label11.TabIndex = 9;
-            this.label11.Text = "(*)";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label12.ForeColor = System.Drawing.Color.Red;
-            this.label12.Location = new System.Drawing.Point(282, 19);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(21, 16);
-            this.label12.TabIndex = 10;
-            this.label12.Text = "(*)";
-            // 
             // UCChangeCertificate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -352,7 +354,7 @@
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Name = "UCChangeCertificate";
-            this.Size = new System.Drawing.Size(444, 472);
+            this.Size = new System.Drawing.Size(434, 472);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.groupBox1.ResumeLayout(false);

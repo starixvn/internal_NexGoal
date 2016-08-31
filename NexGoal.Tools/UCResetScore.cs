@@ -4,6 +4,7 @@
     using System.Text;
     using System.Windows.Forms;
     using Fanex.Data;
+    using NexGoal.Tools.Properties;
 
     public partial class UCResetScore : UserControl
     {
@@ -15,11 +16,11 @@
             commonService = new CommonService();
         }
 
-        private void btnResetScore_Click(object sender, EventArgs e)
+        private void ResetScore_Click(object sender, EventArgs e)
         {
-            if (CheckInputData())
+            if (CheckDataInput())
             {
-                DialogResult result = MessageBox.Show("Are you sure you want to reset score?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                DialogResult result = MessageBox.Show(Resources.MsgConfirmResetScore, Resources.Confirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (result == DialogResult.Yes)
                 {
@@ -40,26 +41,22 @@
 
                         if (commandResult.IsSuccessful)
                         {
-                            MessageBox.Show("Update successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            MessageBox.Show(Resources.UpdateSuccessfully, Resources.Notification, MessageBoxButtons.OK, MessageBoxIcon.Information);
                         }
                         else
                         {
-                            MessageBox.Show(commandResult.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(commandResult.Message, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                         }
                     }
                     catch (Exception ex)
                     {
-                        MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
-            else
-            {
-                MessageBox.Show("Please input data", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
-        private bool CheckInputData()
+        private bool CheckDataInput()
         {
             bool isValid = true;
 

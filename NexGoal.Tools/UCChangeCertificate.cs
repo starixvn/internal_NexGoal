@@ -5,6 +5,7 @@
     using System.Text;
     using System.Windows.Forms;
     using Fanex.Data;
+    using NexGoal.Tools.Properties;
 
     public partial class UCChangeCertificate : UserControl
     {
@@ -19,7 +20,7 @@
             commonService = new CommonService();
         }
 
-        private void btnOpenOldFile_Click(object sender, EventArgs e)
+        private void OpenOldFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Choose pfx file";
@@ -33,7 +34,7 @@
             }
         }
 
-        private void btnOpenNewFile_Click(object sender, EventArgs e)
+        private void OpenNewFile_Click(object sender, EventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Title = "Choose pfx file";
@@ -47,38 +48,46 @@
             }
         }
 
-        private void btnUpdate_Click(object sender, EventArgs e)
+        private void Update_Click(object sender, EventArgs e)
         {
-            EPAViewModel epaInfo = new EPAViewModel();
-            X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
-
-            var connectionString = new StringBuilder();
-            connectionString.AppendFormat(Constants.ConnectionStringTemplate, txtServerName.Text, txtDatabaseName.Text, txtUserName.Text, txtPassword.Text);
-
-            try
+            if (CheckDataInput())
             {
-                X509Certificate2 oldCert2 = new X509Certificate2(txtOldCertificate.Text, txtOldPassword.Text, flags);
-                epaInfo = GetEPAInfoToChangeCertificate(connectionString.ToString());
-                DecryptScore(epaInfo, oldCert2);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return;
-            }
+                DialogResult result = MessageBox.Show(Resources.MsgConfirmUpdateScore, Resources.Confirmation, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
-            try
-            {
-                X509Certificate2 newCert2 = new X509Certificate2(txtNewCertificate.Text, txtNewPassword.Text, flags);
-                EncryptScore(epaInfo, newCert2);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-                return;
-            }
+                if (result == DialogResult.OK)
+                {
+                    EPAViewModel epaInfo = new EPAViewModel();
+                    X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
 
-            UpdateEPAScore(epaInfo, connectionString.ToString());
+                    var connectionString = new StringBuilder();
+                    connectionString.AppendFormat(Constants.ConnectionStringTemplate, txtServerName.Text, txtDatabaseName.Text, txtUserName.Text, txtPassword.Text);
+
+                    try
+                    {
+                        X509Certificate2 oldCert2 = new X509Certificate2(txtOldCertificate.Text, txtOldPassword.Text, flags);
+                        epaInfo = GetEPAInfoToChangeCertificate(connectionString.ToString());
+                        DecryptScore(epaInfo, oldCert2);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        return;
+                    }
+
+                    try
+                    {
+                        X509Certificate2 newCert2 = new X509Certificate2(txtNewCertificate.Text, txtNewPassword.Text, flags);
+                        EncryptScore(epaInfo, newCert2);
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show(ex.Message);
+                        return;
+                    }
+
+                    UpdateEPAScore(epaInfo, connectionString.ToString());
+                }
+            }
         }
 
         private EPAViewModel GetEPAInfoToChangeCertificate(string connectionString)
@@ -167,17 +176,34 @@
 
                 if (commandResult.IsSuccessful)
                 {
-                    MessageBox.Show("Update successfully!", "Notification", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show(Resources.UpdateSuccessfully, Resources.Notification, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
                 else
                 {
-                    MessageBox.Show(commandResult.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(commandResult.Message, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private bool CheckDataInput()
+        {
+            bool isValid = true;
+
+            if (string.IsNullOrWhiteSpace(txtServerName.Text)
+                || string.IsNullOrWhiteSpace(txtUserName.Text)
+                || string.IsNullOrWhiteSpace(txtPassword.Text)
+                || string.IsNullOrWhiteSpace(txtDatabaseName.Text)
+                || string.IsNullOrEmpty(txtOldCertificate.Text)
+                || string.IsNullOrEmpty(txtNewCertificate.Text))
+            {
+                isValid = false;
+            }
+
+            return isValid;
         }
     }
 }

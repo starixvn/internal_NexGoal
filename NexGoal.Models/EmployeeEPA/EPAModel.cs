@@ -67,7 +67,6 @@
 
         #region Last score
 
-
         public string LastFinalScoreEncode { get; set; }
 
         public string LastFinalScore { get; set; }

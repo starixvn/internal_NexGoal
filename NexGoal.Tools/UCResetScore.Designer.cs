@@ -189,7 +189,7 @@
             this.btnResetScore.TabIndex = 4;
             this.btnResetScore.Text = "Reset Score";
             this.btnResetScore.UseVisualStyleBackColor = true;
-            this.btnResetScore.Click += new System.EventHandler(this.btnResetScore_Click);
+            this.btnResetScore.Click += new System.EventHandler(this.ResetScore_Click);
             // 
             // label3
             // 
@@ -236,7 +236,7 @@
         private System.Windows.Forms.TextBox txtUserName;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label4;
-        public System.Windows.Forms.Button btnResetScore;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnResetScore;
     }
 }

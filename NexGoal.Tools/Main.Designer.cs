@@ -46,7 +46,7 @@
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(484, 538);
+            this.tabControl.Size = new System.Drawing.Size(494, 532);
             this.tabControl.TabIndex = 0;
             // 
             // tabPageResetScore
@@ -55,7 +55,7 @@
             this.tabPageResetScore.Location = new System.Drawing.Point(4, 24);
             this.tabPageResetScore.Name = "tabPageResetScore";
             this.tabPageResetScore.Padding = new System.Windows.Forms.Padding(5);
-            this.tabPageResetScore.Size = new System.Drawing.Size(476, 510);
+            this.tabPageResetScore.Size = new System.Drawing.Size(486, 504);
             this.tabPageResetScore.TabIndex = 0;
             this.tabPageResetScore.Text = "Reset Score";
             this.tabPageResetScore.UseVisualStyleBackColor = true;
@@ -74,7 +74,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(484, 538);
+            this.ClientSize = new System.Drawing.Size(494, 532);
             this.Controls.Add(this.tabControl);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
