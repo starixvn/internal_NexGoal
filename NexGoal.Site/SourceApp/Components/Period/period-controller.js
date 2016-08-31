@@ -251,6 +251,10 @@ function ($scope, PeriodModel, CommonModel, enumerationsFactory, historyFactory,
         PeriodModel.openPopupAttendanceEndDate(event);
     };
 
+    vm.openPopupFocusStartDate = function (event) {
+        PeriodModel.openPopupFocusStartDate(event);
+    };
+
     var getTargetType = function () {
         lockScreenService.start();
 
@@ -271,6 +275,7 @@ function ($scope, PeriodModel, CommonModel, enumerationsFactory, historyFactory,
                 vm.period.RawEndDate = vm.period.EndDate ? new Date(vm.period.EndDate) : null;
                 vm.period.RawAttendanceStartDate = vm.period.AttendanceStartDate ? new Date(vm.period.AttendanceStartDate) : null;
                 vm.period.RawAttendanceEndDate = vm.period.AttendanceEndDate ? new Date(vm.period.AttendanceEndDate) : null;
+                vm.period.RawFocusStartDate = vm.period.PAFocusStartDate ? new Date(vm.period.PAFocusStartDate) : null;
 
                 if ($scope.updateCtrl.dataTab.basicInformation && vm.isFirstLoad && vm.period.PeriodId) {
                     getTargetType();
@@ -291,6 +296,7 @@ function ($scope, PeriodModel, CommonModel, enumerationsFactory, historyFactory,
             period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
             period.AttendanceStartDate = period.RawAttendanceStartDate ? period.RawAttendanceStartDate.toDateString() : null;
             period.AttendanceEndDate = period.RawAttendanceEndDate ? period.RawAttendanceEndDate.toDateString() : null;
+            period.PAFocusStartDate = period.RawFocusStartDate ? period.RawFocusStartDate.toDateString() : null;
 
             lockScreenService.start();
 

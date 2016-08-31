@@ -9,6 +9,9 @@
         return {
             getPAProcessSettingByPeriodId: function (periodId) {
                 return $http.get(baseUrl + 'api/PAFocus/GetPAProcessSettingByPeriodId', { params: { periodId: periodId } });
+            },
+            updatePAProcessSettingByPeriodId: function (processes) {
+                return $http.get(baseUrl + 'api/PAFocus/UpdatePAProcessSetting', { params: { process: processes } });
             }
         };
     }

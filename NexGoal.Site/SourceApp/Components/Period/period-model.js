@@ -280,6 +280,16 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     return false;
                 }
 
+                if (!period.RawAttendanceStartDate) {
+                    notificationFactory.error("DisciplineEndDatePeriodRequired");
+                    return false;
+                }
+
+                if (!period.RawAttendanceEndDate) {
+                    notificationFactory.error("DisciplineStartDatePeriodRequired");
+                    return false;
+                }
+
                 if (!period.RawFocusStartDate) {
                     notificationFactory.error("FocusStartDateRequired");
                     return false;
