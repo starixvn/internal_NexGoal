@@ -363,6 +363,8 @@ function ($scope, PeriodModel, CommonModel, PAFocusModel, historyFactory, lockSc
 
         lockScreenService.start();
 
+        PAFocusModel.updatePAProcessSettingByPeriodId(vm.period.PeriodId, vm.paProcessSettings);
+
         PeriodModel.updatePeriodProcessSetting(periodProcessSetting)["finally"](function () {
             lockScreenService.stop();
         });

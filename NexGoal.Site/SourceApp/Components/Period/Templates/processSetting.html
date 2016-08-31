@@ -38,11 +38,9 @@
                 <td data-translate="FocusDay"></td>
                 <td></td>
                 <td></td>
-                <td class="text-center">
-                    <select ng-options="opt for opt in processSettingPeriodCtrl.remindDay"></select>
-                </td>
-                <td class="text-center">
-                    <select ng-options="opt for opt in processSettingPeriodCtrl.remindDay"></select>
+                <td class="text-center" ng-repeat="process in processSettingPeriodCtrl.paProcessSettings">
+                    <select ng-model="process.Duration"
+                            ng-options="opt for opt in processSettingPeriodCtrl.remindDay"></select>
                 </td>
             </tr>
         </tbody>

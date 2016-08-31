@@ -18,8 +18,8 @@
             });
         };
 
-        vm.updatePAProcessSettingByPeriodId = function (processes) {
-            return paFocusFactory.updatePAProcessSettingByPeriodId(processes).success(function (response) {
+        vm.updatePAProcessSettingByPeriodId = function (periodId, processes) {
+            return paFocusFactory.updatePAProcessSettingByPeriodId(periodId, processes).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
