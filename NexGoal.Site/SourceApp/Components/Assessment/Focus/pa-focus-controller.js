@@ -92,7 +92,7 @@
                     BonusRanking: 1,
                     Promotion: false,
                     Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 10
+                    BonusGiven: 20
                 }
             ];
 
@@ -160,7 +160,7 @@
                     BonusRanking: 1,
                     Promotion: false,
                     Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 20
+                    BonusGiven: 10
                 }
             ];
 
@@ -190,6 +190,8 @@
                 angular.forEach(group.members, function (member) {
                     group.TotalBonus += member.BonusGiven;
                 });
+
+                calculateBonusRanking(group.TeamId);
             });
 
             oldGroupsData = angular.copy(vm.groups);
@@ -202,6 +204,36 @@
 
                     angular.forEach(group.members, function (member) {
                         group.TotalBonus += member.BonusGiven;
+                    });
+                }
+            });
+        }
+
+        function calculateBonusRanking(teamId) {
+            angular.forEach(vm.groups, function (group) {
+                if (group.TeamId === teamId) {
+                    var members = angular.copy(group.members);
+
+                    members.sort(function (memberA, memberB) {
+                        return memberB.BonusGiven - memberA.BonusGiven;
+                    });
+
+                    angular.forEach(members, function (member, index) {
+                        var previousMember = members[index - 1];
+
+                        if (previousMember) {
+                            member.BonusRanking = previousMember.BonusGiven === member.BonusGiven ?
+                                previousMember.BonusRanking :
+                                previousMember.BonusRanking + 1;
+                        } else {
+                            member.BonusRanking = index + 1;
+                        }
+                    });
+
+                    angular.forEach(group.members, function (member) {
+                        var rankingMemberIndex = members.map(function (item) { return item.EmployeeId; }).indexOf(member.EmployeeId);
+
+                        member.BonusRanking = members[rankingMemberIndex].BonusRanking;
                     });
                 }
             });
@@ -231,6 +263,7 @@
             }
 
             calculateTeamTotalBonus(member.TeamId);
+            calculateBonusRanking(member.TeamId);
         };
 
         vm.query = function () {
