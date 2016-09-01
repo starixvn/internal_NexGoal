@@ -9,6 +9,7 @@
         var vm = {};
 
         vm.processSettings = [];
+        vm.evaluations = [];
 
         vm.validatePAFocusForm = function (groups) {
             var isValid = true;
@@ -25,7 +26,7 @@
                 }
 
                 group.members.forEach(function (member) {
-                    if (!member.Objectives) {
+                    if (!member.NextDescriptionObjective) {
                         isValid = false;
                         notificationFactory.error("ObjectivesInvalidMessage");
                         return;
@@ -39,6 +40,27 @@
         vm.getPAProcessSettingByPeriodId = function (periodId) {
             return paFocusFactory.getPAProcessSettingByPeriodId(periodId).success(function (processSettings) {
                 vm.processSettings = processSettings;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.getPAFocus = function (periodId, groupIds, employeeId) {
+            return paFocusFactory.getPAFocus(periodId, groupIds, employeeId).success(function (evaluations) {
+                vm.evaluations = evaluations;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.updatePAFocus = function (evaluations) {
+            return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("UpdatedUnsuccessfully");
+                }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

@@ -9,8 +9,7 @@
     public class UpdateProcessSettingPeriodCriteria : CriteriaBase
     {
         private const string ProcessItemXmTemplate = "<ProcessSetting ProcessId='{0}' Duration='{1}' NoticeAtBegin='{2}' RemindDay='{3}'></ProcessSetting>";
-        private const string PAFocusProcessItemXmTemplate = "<PAFocusProcessSetting ProcessId='{0}' Duration='{1}'></PAFocusProcessSetting>";
-
+       
         public int PeriodId { get; set; }
 
         public string ProcessSettings
@@ -21,36 +20,10 @@
             }
         }
 
-        public string PAFocusProcessSettings
-        {
-            get
-            {
-                string processXml = string.Empty;
-
-                if (PAFocusProcesses != null)
-                {
-                    var processXmlBuilder = new StringBuilder(Constants.BeginRootTag);
-
-                    foreach (FlowModel item in PAFocusProcesses)
-                    {
-                        processXmlBuilder.AppendFormat(PAFocusProcessItemXmTemplate, item.ProcessId, item.Duration);
-                    }
-
-                    processXmlBuilder.Append(Constants.EndRootTag);
-                    processXml = processXmlBuilder.ToString();
-                }
-
-                return processXml;
-            }
-        }
-
         public int ModifiedBy { get; set; }
 
         [SpParam(Ignored = true)]
         public IEnumerable<FlowModel> Processes { get; set; }
-
-        [SpParam(Ignored = true)]
-        public IEnumerable<FlowModel> PAFocusProcesses { get; set; }
 
         public override bool IsValid()
         {

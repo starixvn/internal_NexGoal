@@ -11,7 +11,7 @@
     {
         IEnumerable<FocusProcessSettingModel> GetPAFocusProcessSettingByPeriodId(int periodId);
 
-        CommandResult UpdateProcessSetting(int periodId, IEnumerable<FocusProcessSettingModel> process);
+        CommandResult UpdateProcessSetting(UpdatePAFocusProcessSetingCriteria criteria);
 
         CommandResult UpdatePAFocus(int modifiedBy, IEnumerable<PAFocusModel> evaluations);
 

@@ -9,8 +9,8 @@
 
     public class UpdatePAFocusCriteria : CriteriaBase
     {
-        private const string XMLTemplate = "<PAFocus PAFocusId='{0}' LastObjective='{1}' NextObjective='{1}' "
-        + "IsReadyPromotion='{1}' Contribution='{1}' BonusGiven='{1}' BonusRanking='{1}'></PAFocus>";
+        private const string XMLTemplate = "<PAFocus PAFocusId='{0}' LastObjective='{1}' NextObjective='{2}' "
+        + "IsReadyPromotion='{3}' Contribution='{4}' BonusGiven='{5}' BonusRanking='{6}'></PAFocus>";
 
         public int ModifiedBy { get; set; }
 

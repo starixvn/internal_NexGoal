@@ -29,142 +29,45 @@
         };
         vm.searchEmployee = "";
 
-        function initializeData() {
-            var groupOne = {};
+        function groupEvaluationByTeam(evaluations) {
+            var teams = [];
 
-            groupOne.TeamId = 1;
-            groupOne.TeamName = "Olympus";
-            groupOne.MaxBonus = 100;
-            groupOne.TotalBonus = 0;
-
-            groupOne.members = [
-                {
-                    TeamId: 1,
-                    EmployeeId: 1,
-                    NickName: "Kaden",
-                    FullName: "Trịnh Đăng Khoa",
-                    JobTitle: "Senior Software Engineer",
-                    EPAScore: 84,
-                    ObjectivesAchievement: 50,
-                    Contribution: 1,
-                    BonusRanking: 1,
-                    Promotion: false,
-                    Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 10
-                },
-                {
-                    TeamId: 1,
-                    EmployeeId: 2,
-                    NickName: "Jacob",
-                    FullName: "Phan Đình Hải Sơn",
-                    JobTitle: "Staff Software Engineer / Team Leader",
-                    EPAScore: 85,
-                    ObjectivesAchievement: 20,
-                    Contribution: 3,
-                    BonusRanking: 1,
-                    Promotion: false,
-                    Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 10
-                },
-                {
-                    TeamId: 1,
-                    EmployeeId: 3,
-                    NickName: "Leo",
-                    FullName: "Võ Quang Lễ",
-                    JobTitle: "Software Engineer",
-                    EPAScore: 86,
-                    ObjectivesAchievement: 40,
-                    Contribution: 1,
-                    BonusRanking: 1,
-                    Promotion: true,
-                    Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 10
-                },
-                {
-                    TeamId: 1,
-                    EmployeeId: 4,
-                    NickName: "Robert",
-                    FullName: "Trần Văn Khoa",
-                    JobTitle: "Senior Software Engineer",
-                    EPAScore: 84,
-                    ObjectivesAchievement: 100,
-                    Contribution: 5,
-                    BonusRanking: 1,
-                    Promotion: false,
-                    Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 20
+            angular.forEach(evaluations, function (evaluation) {
+                var groupName = evaluation.Employee.Group.GroupName;
+                var groupId = evaluation.Employee.Group.GroupId;
+                if (teams.length === 0) {
+                    teams.push({ teamId: groupId, name: groupName, MaxBonus: 100, TotalBonus: 0, members: [] });
+                } else {
+                    angular.forEach(teams, function (team) {
+                        if (team.name !== groupName) {
+                            teams.push({ name: groupName, members: [] });
+                        }
+                    });
                 }
-            ];
+            });
 
-            vm.groups.push(groupOne);
+            angular.forEach(teams, function (team) {
+                angular.forEach(evaluations, function (evaluation) {
+                    var groupName = evaluation.Employee.Group.GroupName;
+                    if (groupName === team.name) {
+                        team.members.push(evaluation);
+                    }
+                });
+            });
 
-            var groupTwo = {};
+            return teams;
+        }
 
-            groupTwo.TeamName = "Nexus";
-            groupTwo.MaxBonus = 100;
-            groupTwo.TotalBonus = 0;
-            groupTwo.TeamId = 2;
+        function unGroupEvaluationByTeam(teams) {
+            var evaluations = [];
 
-            groupTwo.members = [
-                {
-                    TeamId: 2,
-                    EmployeeId: 5,
-                    NickName: "Quinn",
-                    FullName: "Võ Kim Quang",
-                    JobTitle: "Software Engineer / Team Leader",
-                    EPAScore: 84,
-                    ObjectivesAchievement: 10,
-                    Contribution: 2,
-                    BonusRanking: 1,
-                    Promotion: false,
-                    Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 20
-                },
-                {
-                    TeamId: 2,
-                    EmployeeId: 6,
-                    NickName: "Razor",
-                    FullName: "Nguyễn Văn Mạnh",
-                    JobTitle: "Software Engineer",
-                    EPAScore: 85,
-                    ObjectivesAchievement: 70,
-                    Contribution: 4,
-                    BonusRanking: 1,
-                    Promotion: false,
-                    Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 20
-                },
-                {
-                    TeamId: 2,
-                    EmployeeId: 7,
-                    NickName: "Tim",
-                    FullName: "Trịnh Đăng Thắng",
-                    JobTitle: "Asst. Software Engineer",
-                    EPAScore: 86,
-                    ObjectivesAchievement: 80,
-                    Contribution: 5,
-                    BonusRanking: 1,
-                    Promotion: true,
-                    Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 20
-                },
-                {
-                    TeamId: 2,
-                    EmployeeId: 8,
-                    NickName: "Larry",
-                    FullName: "Trần Văn Hiền",
-                    JobTitle: "Software Engineer",
-                    EPAScore: 84,
-                    ObjectivesAchievement: 60,
-                    Contribution: 1,
-                    BonusRanking: 1,
-                    Promotion: false,
-                    Objectives: "Lorem ispum dolor sit amet, consectetur",
-                    BonusGiven: 10
-                }
-            ];
+            angular.forEach(teams, function (team) {
+                angular.forEach(team.members, function (member) {
+                    evaluations.push(member);
+                });
+            });
 
-            vm.groups.push(groupTwo);
+            return evaluations;
         }
 
         function initialize() {
@@ -180,21 +83,20 @@
                 vm.teams = utilitiesFactory.groupingTeams(CommonModel.departments);
 
                 utilitiesFactory.setSelectAll(vm.teams);
-            });
+                vm.query().then(function () {
+                    angular.forEach(vm.groups, function (group) {
+                        group.TotalBonus = 0;
 
-            initializeData();
+                        angular.forEach(group.members, function (member) {
+                            group.TotalBonus += member.BonusGiven;
+                        });
 
-            angular.forEach(vm.groups, function (group) {
-                group.TotalBonus = 0;
+                        calculateBonusRanking(group.TeamId);
+                    });
 
-                angular.forEach(group.members, function (member) {
-                    group.TotalBonus += member.BonusGiven;
+                    oldGroupsData = angular.copy(vm.groups);
                 });
-
-                calculateBonusRanking(group.TeamId);
             });
-
-            oldGroupsData = angular.copy(vm.groups);
         }
 
         function calculateTeamTotalBonus(teamId) {
@@ -252,8 +154,8 @@
         };
 
         vm.openPopupObjective = function (member) {
-            PAFocusModel.openPopupObjective(member).then(function (objectives) {
-                member.Objectives = objectives;
+            PAFocusModel.openPopupObjective(member).then(function (NextDescriptionObjective) {
+                member.NextDescriptionObjective = NextDescriptionObjective;
             });
         };
 
@@ -271,7 +173,10 @@
 
             console.log(vm.filter);
 
-            alert("Implement Query Later!");
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                var evaluations = PAFocusModel.evaluations;
+                vm.groups = groupEvaluationByTeam(evaluations);
+            });
         };
 
         vm.reset = function () {
@@ -279,9 +184,10 @@
         };
 
         vm.save = function () {
-            if (PAFocusModel.validatePAFocusForm(vm.groups)) {
-                alert("Implement Save Later!");
-            }
+            // if (PAFocusModel.validatePAFocusForm(vm.groups)) {
+            var evaluations = unGroupEvaluationByTeam(vm.groups);
+            PAFocusModel.updatePAFocus(evaluations);
+            //}
         };
 
         initialize();

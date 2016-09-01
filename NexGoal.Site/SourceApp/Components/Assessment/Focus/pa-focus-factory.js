@@ -10,10 +10,16 @@
             getPAProcessSettingByPeriodId: function (periodId) {
                 return $http.get(baseUrl + 'api/PAFocus/GetPAProcessSettingByPeriodId', { params: { periodId: periodId } });
             },
+            getPAFocus: function (periodId, groupIds, employeeId) {
+                return $http.get(baseUrl + 'api/PAFocus/GetPAFocus', { params: { periodIds: periodId, groupIds : groupIds, employeeId : employeeId} });
+            },
+            updatePAFocus: function(evaluations){
+                return $http.post(baseUrl + 'api/PAFocus/UpdatePAFocus', evaluations);
+            },
             updatePAProcessSettingByPeriodId: function (periodId, processes) {
                 var model = {
-                    periodId: periodId,
-                    process: processes
+                    PeriodId: periodId,
+                    Processes: processes
                 };
 
                 return $http.post(baseUrl + 'api/PAFocus/UpdatePAProcessSetting', model);

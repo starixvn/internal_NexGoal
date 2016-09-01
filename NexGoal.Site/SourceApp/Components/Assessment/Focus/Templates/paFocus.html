@@ -68,20 +68,24 @@
         </tbody>
         <tbody ng-show="paFocusCtrl.groups.length > 0" ng-repeat="group in paFocusCtrl.groups">
             <tr ng-repeat="member in group.members">
-                <td rowspan="{{group.members.length}}" ng-if="$first">{{group.TeamName}}</td>
+                <td rowspan="{{group.members.length}}" ng-if="$first">{{group.name}}</td>
                 <td class="text-center">{{$index +1}}</td>
-                <td>{{member.NickName}}</td>
-                <td>{{member.FullName}}</td>
-                <td>{{member.JobTitle}}</td>
-                <td class="text-center">{{member.EPAScore}}/100</td>
+                <td>{{member.Employee.NickName}}</td>
+                <td>{{member.Employee.FullName}}</td>
+                <td>{{member.Employee.JobTitle.JobTitleName}}</td>
                 <td class="text-center">
-                    <select ng-model="member.ObjectivesAchievement"
+                    <span if="member.FinalScore">{{member.FinalScore}}</span>
+                    <span if="member.FinalScore" data-translate="Pending"></span>
+                    /100
+                </td>
+                <td class="text-center">
+                    <select ng-model="member.LastCompletedPercentObjective"
                             ng-options="opt as (opt + '%') for opt in paFocusCtrl.objectivesAchievementRanges">
                         <option></option>
                     </select>
                 </td>
                 <td class="text-center">
-                    <select ng-model="member.Promotion"
+                    <select ng-model="member.IsReadypromotion"
                             ng-options="opt.Value as opt.Name for opt in paFocusCtrl.promotionsRanges">
                         <option></option>
                     </select>
@@ -104,8 +108,8 @@
                 </td>
                 <td class="text-center">{{member.BonusRanking}}</td>
                 <td>
-                    <span ng-show="member.Objectives.length <= 50">{{member.Objectives}}</span>
-                    <span ng-show="member.Objectives.length > 50">{{member.Objectives | limitTo : 50}} ...</span>
+                    <span ng-show="member.NextDescriptionObjective.length <= 50">{{member.NextDescriptionObjective}}</span>
+                    <span ng-show="member.NextDescriptionObjective.length > 50">{{member.NextDescriptionObjective | limitTo : 50}} ...</span>
                 </td>
                 <td class="text-center objective-edit">
                     <a href="" ng-click="paFocusCtrl.openPopupObjective(member)">

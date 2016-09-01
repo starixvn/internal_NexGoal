@@ -9,13 +9,13 @@
         var vm = this;
 
         vm.employeeId = member.EmployeeId;
-        vm.objectives = member.Objectives;
+        vm.NextDescriptionObjective = member.NextDescriptionObjective;
 
         vm.ok = function () {
-            if (!vm.objectives) {
+            if (!vm.NextDescriptionObjective) {
                 notificationFactory.error("ObjectivesRequired");
             } else {
-                $modalInstance.close(vm.objectives);
+                $modalInstance.close(vm.NextDescriptionObjective);
             }
         };
 

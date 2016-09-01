@@ -36,14 +36,9 @@
             return processSettings;
         }
 
-        public CommandResult UpdateProcessSetting(int periodId, IEnumerable<FocusProcessSettingModel> process)
+        public CommandResult UpdateProcessSetting(UpdatePAFocusProcessSetingCriteria criteria)
         {
             var result = new CommandResult();
-            var criteria = new UpdatePAFocusProcessSetingCriteria
-            {
-                Processes = process,
-                PeriodId = periodId
-            };
             if (criteria.IsValid())
             {
                 result = Repository.Insert(criteria);
