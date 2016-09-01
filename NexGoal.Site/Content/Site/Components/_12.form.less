@@ -19,8 +19,8 @@
     }
 
     label {
-        font-weight: normal;
-        color: @font-color;
+        font-weight: bold !important;
+        color: #555555;
         margin-top: 5px;
         text-align: left;
     }
@@ -32,7 +32,7 @@
     .form-control {
         .border-radius(3px);
         border: 1px solid #C8C8C8;
-        box-shadow: 1px 1px 3px 3px #F2F2F2;
+        //box-shadow: 1px 1px 3px 3px #F2F2F2;
         height: 30px;
         font-size: @font-size;
         padding: 3px 12px 6px;
@@ -143,16 +143,21 @@ input[type=checkbox], input[type=radio] {
 
         > a, span {
             border: none;
-            padding: 3px 8px;
+            padding: 0;
             float: initial;
             display: inline-block;
+            width: 24px;
+            height: 24px;
+            line-height: 24px;
+            text-align: center;
             border-radius: 3px;
             color: #727272;
+            transition: all 0.2s ease;
 
             &:focus, &:hover {
-                background-color: transparent;
+                background-color: rgba(49,65,114,0.6);
                 border: none;
-                color: #324273;
+                color: #fff;
             }
         }
 

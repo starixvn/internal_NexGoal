@@ -71,7 +71,7 @@ appModule.directive('calendarImage', function () {
     return {
         restrict: 'AE',
         replace: 'true',
-        template: '<img class="calendar-image" src="/Content/Site/Components/images/calendar.png"></img>'
+        template: '<img class="calendar-image" src="/Content/Site/Components/images/icon-calendar.svg"></img>'
     };
 });
 

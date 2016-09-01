@@ -102,11 +102,11 @@
             <tr class="header-table" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                 <th colspan="14">
                     <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.manageSetting()">
-                        <span class="icon-edit glyphicon glyphicon-edit"></span>
+                        <span class="icon-edit fa fa-pencil-square-o"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
                     </a>
                     <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.generateEvaluation()">
-                        <span class="icon-edit glyphicon glyphicon-edit"></span>
+                        <span class="icon-edit fa fa-pencil-square-o"></span>
                         <span class="button-text btn-edit-employee-setting" data-translate="GenerateEvaluation"></span>
                     </a>
                 </th>
@@ -156,16 +156,16 @@
                     <span ng-show="employee.SelfEvaluators[0].ProcessStatus == 1" data-translate="Open"></span>
                     <div ng-show="employee.SelfEvaluators[0].ProcessStatus == 2">
                         <span data-translate="InProgress"></span>
-                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                        <span class="fa fa-check-square-o epa-saved period-process-detail"
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
-                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                        <span class="fa fa-spinner epa-unsaved period-process-detail"
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                     <div ng-show="employee.SelfEvaluators[0].ProcessStatus == 3">
                         <span data-translate="Closed"></span>
-                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                        <span class="fa fa-check-square-o epa-saved period-process-detail"
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
-                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                        <span class="fa fa-spinner epa-unsaved period-process-detail"
                               ng-show="employee.SelfEvaluators[0].ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>
@@ -193,16 +193,16 @@
                     <span ng-show="evaluator.ProcessStatus == 1" data-translate="Open"></span>
                     <div ng-show="evaluator.ProcessStatus == 2">
                         <span data-translate="InProgress"></span>
-                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                        <span class="fa fa-check-square-o epa-saved period-process-detail"
                               ng-show="evaluator.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
-                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                        <span class="fa fa-spinner epa-unsaved period-process-detail"
                               ng-show="evaluator.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                     <div ng-show="evaluator.ProcessStatus == 3">
                         <span data-translate="Closed"></span>
-                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                        <span class="fa fa-check-square-o epa-saved period-process-detail"
                               ng-show="evaluator.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
-                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                        <span class="fa fa-spinner epa-unsaved period-process-detail"
                               ng-show="evaluator.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>
@@ -239,16 +239,16 @@
                     <span ng-show="reviewer.ProcessStatus == 1" data-translate="Open"></span>
                     <div ng-show="reviewer.ProcessStatus == 2">
                         <span data-translate="InProgress"></span>
-                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                        <span class="fa fa-check-square-o epa-saved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
-                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                        <span class="fa fa-spinner epa-unsaved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                     <div ng-show="reviewer.ProcessStatus == 3">
                         <span data-translate="Closed"></span>
-                        <span class="glyphicon glyphicon-saved epa-saved period-process-detail"
+                        <span class="fa fa-check-square-o epa-saved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 2" ng-attr-title='{{"Evaluated" | translate}}'></span>
-                        <span class="glyphicon glyphicon-list-alt epa-unsaved period-process-detail"
+                        <span class="fa fa-spinner epa-unsaved period-process-detail"
                               ng-show="reviewer.ProcessDetailStatus == 1" ng-attr-title='{{"NotEvaluated" | translate}}'></span>
                     </div>
                 </td>

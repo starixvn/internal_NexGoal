@@ -1,6 +1,7 @@
 ﻿.modal-content {
     border-radius: 0;
 }
+
 .modal-dialog {
     .modal-header {
         padding: 7px 15px 8px;
@@ -15,16 +16,23 @@
             text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 
             .close-popup {
-                background: url(images/sprites.png);
+                //background: url(images/sprites.png);
                 height: 15px;
                 width: 16px;
                 position: absolute;
-                right: 10px;
-                top: 9px;
+                right: 15px;
+                top: 15px;
                 cursor: pointer;
+                font: normal normal normal 16px/1 FontAwesome;
+                color: rgba(0,0,0,0.3); 
+
+                &:before {
+                    content: "\f00d";
+                                       
+                }
 
                 &:hover {
-                    background-position: -16px 0;
+                    color: rgba(0,0,0,0.6); 
                 }
             }
         }

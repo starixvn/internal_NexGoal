@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 14.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 43363)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1"
+	 id="svg3025" inkscape:version="0.48.3.1 r9886" sodipodi:docname="calendar_font_awesome.svg" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="800px" height="600px"
+	 viewBox="0 0 800 600" enable-background="new 0 0 800 600" xml:space="preserve">
+<sodipodi:namedview  id="namedview3031" inkscape:current-layer="svg3025" inkscape:window-y="25" inkscape:window-x="0" inkscape:window-height="480" inkscape:window-width="640" inkscape:pageshadow="2" inkscape:pageopacity="0" bordercolor="#666666" pagecolor="#ffffff" inkscape:cy="896" guidetolerance="10" gridtolerance="10" inkscape:cx="896" objecttolerance="10" borderopacity="1" inkscape:zoom="0.13169643" showgrid="false" inkscape:window-maximized="0">
+	</sodipodi:namedview>
+<g id="g3027" transform="matrix(1,0,0,-1,91.118644,1297.8644)">
+	<path id="path3029" inkscape:connector-curvature="0" fill="#314371" d="M79.947,1008.394h93.405v93.406H79.947V1008.394z
+		 M194.109,1008.394h103.784v93.406H194.109V1008.394z M79.947,1122.557h93.405v103.783H79.947V1122.557z M194.109,1122.557h103.784
+		v103.783H194.109V1122.557z M79.947,1247.098h93.405v93.405H79.947V1247.098z M318.649,1008.394h103.784v93.406H318.649V1008.394z
+		 M194.109,1247.098h103.784v93.405H194.109V1247.098z M443.19,1008.394h93.405v93.406H443.19V1008.394z M318.649,1122.557h103.784
+		v103.783H318.649V1122.557z M204.487,1402.773v93.405c0,2.811-1.027,5.243-3.081,7.298c-2.054,2.054-4.486,3.081-7.297,3.081
+		h-20.757c-2.811,0-5.243-1.027-7.297-3.081c-2.054-2.055-3.081-4.487-3.081-7.298v-93.405c0-2.811,1.027-5.243,3.081-7.297
+		c2.054-2.055,4.486-3.082,7.297-3.082h20.757c2.811,0,5.243,1.027,7.297,3.082C203.46,1397.53,204.487,1399.963,204.487,1402.773z
+		 M443.19,1122.557h93.405v103.783H443.19V1122.557z M318.649,1247.098h103.784v93.405H318.649V1247.098z M443.19,1247.098h93.405
+		v93.405H443.19V1247.098z M453.569,1402.773v93.405c0,2.811-1.027,5.243-3.081,7.298c-2.055,2.054-4.487,3.081-7.298,3.081h-20.757
+		c-2.811,0-5.243-1.027-7.297-3.081c-2.055-2.055-3.081-4.487-3.081-7.298v-93.405c0-2.811,1.026-5.243,3.081-7.297
+		c2.054-2.055,4.486-3.082,7.297-3.082h20.757c2.811,0,5.243,1.027,7.298,3.082C452.542,1397.53,453.569,1399.963,453.569,1402.773z
+		 M578.109,1423.53v-415.136c0-11.242-4.108-20.973-12.324-29.188s-17.946-12.324-29.189-12.324H79.947
+		c-11.243,0-20.973,4.108-29.189,12.324s-12.325,17.946-12.325,29.188v415.136c0,11.243,4.108,20.973,12.325,29.189
+		c8.216,8.216,17.946,12.324,29.189,12.324h41.514v31.135c0,14.271,5.081,26.486,15.243,36.648s22.378,15.243,36.648,15.243h20.757
+		c14.271,0,26.487-5.081,36.649-15.243s15.243-22.378,15.243-36.648v-31.135h124.541v31.135c0,14.271,5.081,26.486,15.243,36.648
+		s22.378,15.243,36.648,15.243h20.757c14.271,0,26.486-5.081,36.648-15.243s15.243-22.378,15.243-36.648v-31.135h41.514
+		c11.243,0,20.974-4.108,29.189-12.324C574,1444.503,578.109,1434.773,578.109,1423.53z"/>
+</g>
+</svg>

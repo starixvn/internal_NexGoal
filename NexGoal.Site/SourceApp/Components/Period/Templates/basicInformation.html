@@ -3,13 +3,13 @@
         <div class="form-group required">
             <label class="col-sm-3 col-lg-2 control-label" data-translate="Name">
             </label>
-            <div class="col-sm-8 col-lg-7 field">
+            <div class="col-sm-8 col-lg-6 field">
                 <input type="text" class="form-control" maxlength="200" ng-model="basicInfoPeriodCtrl.period.Name" required />
             </div>
         </div>
         <div class="form-group top-buffer required">
             <label class="col-sm-3 col-lg-2 control-label" data-translate="TargetType"></label>
-            <div class="col-sm-4 field">
+            <div class="col-sm-4 col-lg-6 field">
                 <select class="form-control lstBox-limit" ng-model="basicInfoPeriodCtrl.period.TargetTypeId" ng-disabled="true"
                         ng-options="opt.TargetTypeId as opt.Name for opt in basicInfoPeriodCtrl.targetTypes">
                     <option value="">-- {{"All" | translate}} --</option>
@@ -23,7 +23,7 @@
             <label class="col-sm-3 col-lg-2 control-label" data-translate="StartDate"
                    ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3 && basicInfoPeriodCtrl.period.TargetTypeId != 5">
             </label>
-            <div class="col-sm-3">
+            <div class="col-sm-3 col-lg-2">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="basicInfoPeriodCtrl.period.RawStartDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
@@ -36,7 +36,7 @@
             <label class="col-sm-3 col-lg-2 control-label" data-translate="EndDate"
                    ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3">
             </label>
-            <div class="col-sm-3">
+            <div class="col-sm-3 col-lg-2">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="basicInfoPeriodCtrl.period.RawEndDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
@@ -51,7 +51,7 @@
             <label class="col-sm-3 col-lg-2 control-label" data-translate="DisciplineStartDate"
                    ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3 && basicInfoPeriodCtrl.period.TargetTypeId != 5">
             </label>
-            <div class="col-sm-3">
+            <div class="col-sm-3 col-lg-2">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="basicInfoPeriodCtrl.period.RawAttendanceStartDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupAttendanceStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
@@ -64,7 +64,7 @@
             <label class="col-sm-3 col-lg-2 control-label" data-translate="DisciplineEndDate"
                    ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3 && basicInfoPeriodCtrl.period.TargetTypeId != 5">
             </label>
-            <div class="col-sm-3">
+            <div class="col-sm-3 col-lg-2">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="basicInfoPeriodCtrl.period.RawAttendanceEndDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
@@ -79,7 +79,7 @@
             <label class="col-sm-3 col-lg-2 control-label" data-translate="FocusStartDate"
                    ng-show="basicInfoPeriodCtrl.period.TargetTypeId != 3 && basicInfoPeriodCtrl.period.TargetTypeId != 5">
             </label>
-            <div class="col-sm-3">
+            <div class="col-sm-3 col-lg-2">
                 <input readonly class="calendar-form-control" type="text"
                        ng-model="basicInfoPeriodCtrl.period.RawFocusStartDate" datepicker-popup
                        ng-click="basicInfoPeriodCtrl.openPopupFocusStartDate($event)" min-date="{{basicInfoPeriodCtrl.calendar.minDate}}"
@@ -95,14 +95,14 @@
         </div>
         <div class="form-group top-buffer">
             <label class="col-sm-3 col-lg-2 control-label" data-translate="Description"></label>
-            <div class="col-sm-8 col-lg-7 field description">
+            <div class="col-sm-8 col-lg-6 field description">
                 <textarea type="text" class="form-control" maxlength="2000" ng-model="basicInfoPeriodCtrl.period.Description"></textarea>
             </div>
         </div>
-        <div class="col-sm-offset-5 top-buffer">
+        <div class="col-sm-offset-3 col-lg-offset-2 top-buffer button-block">
+            <button class="button btn-cancel customize" ng-click="basicInfoPeriodCtrl.cancel()" data-translate="Cancel"></button>
             <button class="button" data-translate="Save" ng-click="basicInfoPeriodCtrl.save(basicInfoPeriodCtrl.period)"
-                    ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
-            <button class="btn btn-default customize" ng-click="basicInfoPeriodCtrl.cancel()" data-translate="Cancel"></button>
+                    ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host"></button>           
         </div>
     </form>
 </div>

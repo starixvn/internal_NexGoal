@@ -270,6 +270,7 @@
     <Content Include="Content\Site\auth\images\signin_icon.png" />
     <Content Include="Content\Site\auth\images\titlebg.png" />
     <Content Include="Content\Site\Components\images\avatar.png" />
+    <Content Include="Content\Site\Components\images\icon-calendar.svg" />
     <Content Include="Content\Site\Components\images\icon-search.png" />
     <Content Include="Content\Site\Components\images\accept.png" />
     <Content Include="Content\Site\Components\images\arrow-down.png" />

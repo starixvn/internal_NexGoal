@@ -52,6 +52,11 @@ a.glyphicon.icon-delete {
   color: #6f6e6e;
   margin-right: 5px;
 }
+a.fa.icon-remove {
+  color: #DE5144;
+  margin-left: 5px;
+  font-size: 15px;
+}
 a.button {
   color: #fff;
 }
@@ -77,6 +82,12 @@ label:hover {
 }
 .text-left {
   text-align: left !important;
+}
+.text-right {
+  text-align: right !important;
+}
+.text-right.control-label {
+  margin-right: 15px !important;
 }
 .clearfix:before {
   display: table;
@@ -333,6 +344,9 @@ label:hover {
   line-height: 32px;
   background: #757885;
   margin-bottom: 15px;
+  padding: 0 20px;
+  font-size: 13px;
+  vertical-align: middle;
 }
 .container-fluid.page .button-icon.button-period-back:hover {
   background: #878a99;
@@ -360,9 +374,10 @@ label:hover {
 .container-fluid.page .button-icon .icon-back {
   font-weight: normal;
   color: #fff;
-  font-size: 14px;
-  margin-right: 3px;
+  font-size: 19px;
+  margin-right: 5px;
   position: relative;
+  top: 2px;
 }
 .container-fluid.page .button-icon .button-text {
   padding: 0 8px 0 5px;
@@ -1287,7 +1302,7 @@ header {
   border-radius: 4px;
   font-size: 13px;
   height: 30px;
-  width: 100px;
+  width: 130px;
   padding: 4px;
 }
 .calendar-form-control[disabled] {
@@ -1299,6 +1314,7 @@ header {
   vertical-align: top;
   margin-top: 3px;
   cursor: pointer;
+  width: 20px;
 }
 .dropdown-menu {
   background-color: #fff;
@@ -1489,16 +1505,20 @@ header {
   text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);
 }
 .modal-dialog .modal-header .popup-header .close-popup {
-  background: url(Components/images/sprites.png);
   height: 15px;
   width: 16px;
   position: absolute;
-  right: 10px;
-  top: 9px;
+  right: 15px;
+  top: 15px;
   cursor: pointer;
+  font: normal normal normal 16px/1 FontAwesome;
+  color: rgba(0, 0, 0, 0.3);
+}
+.modal-dialog .modal-header .popup-header .close-popup:before {
+  content: "\f00d";
 }
 .modal-dialog .modal-header .popup-header .close-popup:hover {
-  background-position: -16px 0;
+  color: rgba(0, 0, 0, 0.6);
 }
 .modal-dialog .modal-header input[type="text"] {
   height: 25px;
@@ -1634,9 +1654,6 @@ header {
 .width-60 {
   width: 60px !important;
 }
-.width-70 {
-    width: 70px !important;
-}
 .width-80 {
   width: 80px !important;
 }
@@ -1707,8 +1724,8 @@ header {
   margin-left: 20px;
 }
 .common-form label {
-  font-weight: normal;
-  color: #010101;
+  font-weight: bold !important;
+  color: #555555;
   margin-top: 5px;
   text-align: left;
 }
@@ -1720,7 +1737,6 @@ header {
   -moz-border-radius: 3px;
   border-radius: 3px;
   border: 1px solid #C8C8C8;
-  box-shadow: 1px 1px 3px 3px #F2F2F2;
   height: 30px;
   font-size: 13px;
   padding: 3px 12px 6px;
@@ -1811,19 +1827,24 @@ input[type=radio] {
 .pagination > li > a,
 .pagination > li span {
   border: none;
-  padding: 3px 8px;
+  padding: 0;
   float: initial;
   display: inline-block;
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
   border-radius: 3px;
   color: #727272;
+  transition: all 0.2s ease;
 }
 .pagination > li > a:focus,
 .pagination > li span:focus,
 .pagination > li > a:hover,
 .pagination > li span:hover {
-  background-color: transparent;
+  background-color: rgba(49, 65, 114, 0.6);
   border: none;
-  color: #324273;
+  color: #fff;
 }
 .pagination > li.active > a,
 .pagination > li.active span {
