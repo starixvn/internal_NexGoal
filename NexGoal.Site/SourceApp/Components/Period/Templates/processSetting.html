@@ -42,6 +42,8 @@
                     <select ng-model="process.Duration"
                             ng-options="opt for opt in processSettingPeriodCtrl.remindDay"></select>
                 </td>
+                <td ng-show="processSettingPeriodCtrl.paProcessSettings.length === 0"></td>
+                <td ng-show="processSettingPeriodCtrl.paProcessSettings.length === 0"></td>
             </tr>
         </tbody>
     </table>
