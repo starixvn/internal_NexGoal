@@ -34,8 +34,8 @@
             return processSettings;
         }
 
+        /// [ApiAuthorize(FunctionKey.Period, Policy.Host)]
         [HttpPost]
-        //[ApiAuthorize(FunctionKey.Period, Policy.Host)]
         public CommandResult UpdatePAProcessSetting(int periodId, IEnumerable<FocusProcessSettingModel> process)
         {
             var result = this.focusService.UpdateProcessSetting(periodId, process);
@@ -48,6 +48,22 @@
         public CommandResult UpdatePAFocus(IEnumerable<PAFocusModel> evaluations)
         {
             var result = this.focusService.UpdatePAFocus(SessionService.EmployeeId, evaluations);
+
+            return result;
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
+        public IEnumerable<PAFocusModel> GetPAFocus(string periodIds = null, string groupIds = null, int? employeeId = null)
+        {
+            var criteria = new GetPAFocusCriteria
+            {
+                PeriodIds = periodIds,
+                EmployeeId = employeeId,
+                GroupIds = groupIds,
+                EvaluatorId = SessionService.EmployeeId
+            };
+            var result = this.focusService.GetPAFocus(criteria);
 
             return result;
         }

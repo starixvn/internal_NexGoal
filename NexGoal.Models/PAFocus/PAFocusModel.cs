@@ -2,6 +2,7 @@
 {
     using NexGoal.Core.Services;
     using NexGoal.Model.Employee;
+    using System;
 
     public class PAFocusModel
     {
@@ -34,6 +35,10 @@
         public bool? IsReadyPromotion { get; set; }
 
         public string EncryptIsReadyPromotion { get; set; }
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         public void Decrypt()
         {
