@@ -25,8 +25,10 @@ function (employeeEPAFactory, utilitiesFactory, errorFactory) {
                 angular.forEach(group.KPIs, function (kpi) {
                     if (kpi.KPIId === kpiId) {
                         angular.forEach(kpi.EvaluationByEvaluators, function (evaluator) {
-                            lastScore += evaluator.Score;
-                            count++;
+                            if (evaluator.Score) {
+                                lastScore += evaluator.Score;
+                                count++;
+                            }
                         });
                     }
                 });
