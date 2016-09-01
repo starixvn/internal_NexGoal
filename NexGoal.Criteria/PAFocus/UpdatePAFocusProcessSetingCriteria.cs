@@ -14,7 +14,7 @@
         public int PeriodId { get; set; }
 
         [SpParam(Ignored = true)]
-        public IEnumerable<PAFocusProcessSetting> Processes { get; set; }
+        public IEnumerable<FocusProcessSettingModel> Processes { get; set; }
 
         public string PAFocusProcessSettings
         {
@@ -24,7 +24,7 @@
 
                 if (Processes != null)
                 {
-                    foreach (PAFocusProcessSetting item in Processes)
+                    foreach (FocusProcessSettingModel item in Processes)
                     {
                         epaXmlBuilder.AppendFormat(
                             XMLTemplate,

@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Model
 {
-    public class PAFocusProcessSetting
+    public class FocusProcessSettingModel
     {
         public int PeriodId { get; set; }
 

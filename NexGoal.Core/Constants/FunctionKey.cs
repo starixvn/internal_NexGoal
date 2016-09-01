@@ -7,7 +7,9 @@
         public const string Evaluator = "Evaluator";
 
         public const string Reviewer = "Reviewer";
-        
+
+        public const string Management = "Management";
+
         public const string EPASummaryReport = "EPASummaryReport";
 
         public const string EPADetailReport = "EPADetailReport";

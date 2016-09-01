@@ -417,5 +417,9 @@
 <Function Name="PAFocus">
   <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
   <Setting Key="PAFocusProcessSetting_Update" SpName="PAFocusProcessSetting_Update" DbName="NexGoal" Plain="0"></Setting>
+  <Setting Key="PAFocus_GetEvaluator" SpName="PAFocus_GetEvaluator" DbName="NexGoal" Plain="0"></Setting>
+  <Setting Key="PAFocus_GetReviewer" SpName="PAFocus_GetReviewer" DbName="NexGoal" Plain="0"></Setting>
+  <Setting Key="PAFocus_GetManagement" SpName="PAFocus_GetManagement" DbName="NexGoal" Plain="0"></Setting>
+  <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
 </Function>
 </Functions>

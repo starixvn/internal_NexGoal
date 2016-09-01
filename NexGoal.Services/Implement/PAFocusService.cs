@@ -1,26 +1,42 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using Fanex.Data.Repository;
     using NexGoal.Core.Model;
-using NexGoal.Core.Services;
-using NexGoal.Criteria.PAFocus;
-using NexGoal.Model;
-using System.Collections.Generic;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.PAFocus;
+    using NexGoal.Model;
+    using NexGoal.Model.PAFocus;
+    using NexGoal.Repositories.Implement;
+    using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
 
     public class PAFocusService : BaseService, IPAFocusService
     {
-        public IEnumerable<PAFocusProcessSetting> GetPAFocusProcessSettingByPeriodId(int periodId)
+        private readonly IPAFocusRepository focusRepository;
+
+        public PAFocusService()
+            : this(null)
         {
-            IEnumerable<PAFocusProcessSetting> processSettings = new List<PAFocusProcessSetting>();
+        }
+
+        public PAFocusService(IPAFocusRepository focusRepository)
+        {
+            this.focusRepository = focusRepository ?? new PAFocusRepository();
+        }
+
+        public IEnumerable<FocusProcessSettingModel> GetPAFocusProcessSettingByPeriodId(int periodId)
+        {
+            IEnumerable<FocusProcessSettingModel> processSettings = new List<FocusProcessSettingModel>();
             var criteria = new GetPAFocusProcessSetingByIdCriteria { PeriodId = periodId };
             if (criteria.IsValid())
             {
-                processSettings = GetData<PAFocusProcessSetting>(criteria);
+                processSettings = GetData<FocusProcessSettingModel>(criteria);
             }
 
             return processSettings;
         }
 
-        public CommandResult UpdateProcessSetting(int periodId, IEnumerable<PAFocusProcessSetting> process)
+        public CommandResult UpdateProcessSetting(int periodId, IEnumerable<FocusProcessSettingModel> process)
         {
             var result = new CommandResult();
             var criteria = new UpdatePAFocusProcessSetingCriteria
@@ -34,6 +50,50 @@ using System.Collections.Generic;
             }
 
             return result;
+        }
+
+        public CommandResult UpdatePAFocus(int modifiedBy, IEnumerable<PAFocusModel> evaluations)
+        {
+            var result = new CommandResult();
+            var criteria = new UpdatePAFocusCriteria
+            {
+                ModifiedBy = modifiedBy,
+                Evaluations = evaluations
+            };
+            if (criteria.IsValid())
+            {
+                result = Repository.Update(criteria);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<PAFocusModel> GetPAFocus(ICriteria criteria)
+        {
+            var list = this.focusRepository.GetPAFocus(criteria);
+
+            return list;
+        }
+
+        public IEnumerable<PAFocusModel> GetPAFocusByEvaluator(GetPAFocusByEvaluatorCriteria criteria)
+        {
+            var list = this.focusRepository.GetPAFocus(criteria);
+
+            return list;
+        }
+
+        public IEnumerable<PAFocusModel> GetPAFocusByReviewer(GetPAFocusByReviewerCriteria criteria)
+        {
+            var list = this.focusRepository.GetPAFocus(criteria);
+
+            return list;
+        }
+
+        public IEnumerable<PAFocusModel> GetPAFocusByManagement(GetPAFocusByManagementCriteria criteria)
+        {
+            var list = this.focusRepository.GetPAFocus(criteria);
+
+            return list;
         }
     }
 }
