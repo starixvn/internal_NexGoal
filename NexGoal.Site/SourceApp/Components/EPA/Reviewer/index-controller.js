@@ -7,9 +7,8 @@ epaModule.controller('IndexReviewerController',
 function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel, enumerationsFactory,
     utilitiesFactory, notificationFactory, historyFactory, baseUrl) {
     var vm = this;
+    var isFirstLoad = true;
 
-    vm.hrmSummary = {};
-    vm.employeeProjects = [];
     vm.permission = 0;
     vm.memberEPAs = [];
     vm.members = [];
@@ -34,23 +33,36 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     function getMemberByReviewer(periodIds, groupIds) {
         ReviewerManagementModel.getMemberByReviewer(periodIds, groupIds).then(function () {
-            vm.members = ReviewerManagementModel.members;
+            if (periodIds === null || groupIds === null) {
+                vm.members = [];
+            } else {
+                vm.members = ReviewerManagementModel.members;
 
-            utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
+                utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
 
-            vm.filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, "EmployeeId");
+                vm.filter.employeeIds = utilitiesFactory.getSelectedByProperty(vm.members, "EmployeeId");
+            }
+
+            if (isFirstLoad) {
+                isFirstLoad = false;
+                vm.query();
+            }
         });
     }
 
     function getGroupsByPeriods(periodIds) {
         ReviewerManagementModel.getGroupByReviewer(periodIds).then(function () {
-            vm.groupOptions = ReviewerManagementModel.groups;
+            if (periodIds === null) {
+                vm.groupOptions = [];
+            } else {
+                vm.groupOptions = ReviewerManagementModel.groups;
 
-            utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
+                utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
 
-            vm.filter.groupIds = utilitiesFactory.getSelectedData(vm.groupOptions, "GroupId");
+                vm.filter.groupIds = utilitiesFactory.getSelectedByProperty(vm.groupOptions, "GroupId");
 
-            getMemberByReviewer(vm.filter.periodIds, vm.filter.groupIds);
+                getMemberByReviewer(vm.filter.periodIds, vm.filter.groupIds);
+            }
         });
     }
 
@@ -95,7 +107,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         return tempa - tempb;
     }
 
-    function CalculateAverageEvaluator(Evaluators) {
+    function calculateAverageEvaluator(Evaluators) {
         var totalScore = 0, count = 0;
 
         angular.forEach(Evaluators, function (evaluator) {
@@ -117,7 +129,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
             var countEndProcess = 0;
             angular.forEach(vm.memberEPAs, function (memberEPA) {
-                var averageScoreEvaluators = CalculateAverageEvaluator(memberEPA.Process.Evaluators);
+                var averageScoreEvaluators = calculateAverageEvaluator(memberEPA.Process.Evaluators);
 
                 memberEPA.Process.AverageScoreByEvaluators = averageScoreEvaluators;
                 if (memberEPA.Process.Evaluators[0].IsEndProcess && !memberEPA.Process.CurrentProcess.TotalScore) {
@@ -174,16 +186,14 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         ReviewerManagementModel.getAllPeriodByReviewer().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(ReviewerManagementModel.periodOptions);
 
-            vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
+            vm.filter.periodIds = utilitiesFactory.getSelectedByProperty(vm.periods, "PeriodId");
 
             getGroupsByPeriods(vm.filter.periodIds);
-
-            vm.query();
         });
     }
 
     vm.handleOnPeriodClose = function () {
-        var periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
+        var periodIds = utilitiesFactory.getSelectedByProperty(vm.periods, "PeriodId");
 
         if (periodIds !== vm.filter.periodIds) {
             vm.filter.periodIds = periodIds;
@@ -193,7 +203,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.handleOnGroupClose = function () {
-        var groupIds = utilitiesFactory.getSelectedData(vm.groupOptions, "GroupId");
+        var groupIds = utilitiesFactory.getSelectedByProperty(vm.groupOptions, "GroupId");
 
         if (groupIds !== vm.filter.groupIds) {
             vm.filter.groupIds = groupIds;
@@ -356,8 +366,13 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.query = function () {
-        vm.filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
-        getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
+        vm.filter.employeeIds = utilitiesFactory.getSelectedByProperty(vm.members, 'EmployeeId');
+
+        if (vm.filter.periodIds === null || vm.filter.groupIds === null || vm.filter.employeeIds === null) {
+            vm.memberEPAs = [];
+        } else {
+            getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
+        }
     };
 
     initialize();

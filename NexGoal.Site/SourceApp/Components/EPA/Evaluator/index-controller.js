@@ -7,14 +7,16 @@ epaModule.controller('IndexEvaluatorController',
 function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, lockScreenService,
     enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
+    var isFirstLoad = true;
 
     vm.memberEPAs = [];
     vm.members = [];
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.filter = {};
 
+
     vm.handleOnPeriodClose = function () {
-        var periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
+        var periodIds = utilitiesFactory.getSelectedByProperty(vm.periods, "PeriodId");
 
         if (periodIds !== vm.filter.periodIds) {
             vm.filter.periodIds = periodIds;
@@ -24,7 +26,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     };
 
     vm.handleOnGroupClose = function () {
-        var groupIds = utilitiesFactory.getSelectedData(vm.groupOptions, "GroupId");
+        var groupIds = utilitiesFactory.getSelectedByProperty(vm.groupOptions, "GroupId");
 
         if (groupIds !== vm.filter.groupIds) {
             vm.filter.groupIds = groupIds;
@@ -34,7 +36,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     };
 
     vm.query = function () {
-        vm.filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, 'EmployeeId');
+        vm.filter.employeeIds = utilitiesFactory.getSelectedByProperty(vm.members, 'EmployeeId');
 
         getEPAByEvaluator(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
     };
@@ -57,36 +59,54 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     }
 
     function getEPAByEvaluator(periodIds, groupIds, employeeIds) {
-        lockScreenService.start();
+        if (periodIds === null || groupIds === null || employeeIds === null) {
+            vm.memberEPAs = [];
+        } else {
+            lockScreenService.start();
 
-        SelfEvalutorModel.getEPAByEvaluator(periodIds, groupIds, employeeIds).then(function () {
-            vm.memberEPAs = SelfEvalutorModel.memberEPAs;
-        })["finally"](function () {
-            lockScreenService.stop();
-        });
+            SelfEvalutorModel.getEPAByEvaluator(periodIds, groupIds, employeeIds).then(function () {
+                vm.memberEPAs = SelfEvalutorModel.memberEPAs;
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
+        }
 
         historyFactory.saveState(vm.filter);
     }
 
     function getMemberByEvaluator(periodIds, groupIds) {
         SelfEvalutorModel.getMemberByEvaluator(periodIds, groupIds).then(function () {
-            vm.members = SelfEvalutorModel.members;
+            if (periodIds === null || groupIds === null) {
+                vm.members = [];
+            } else {
+                vm.members = SelfEvalutorModel.members;
 
-            utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
+                utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
 
-            vm.filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, "EmployeeId");
+                vm.filter.employeeIds = utilitiesFactory.getSelectedData(vm.members, "EmployeeId");
+            }
+
+            if (isFirstLoad) {
+                isFirstLoad = false;
+                vm.query();
+            }
         });
     }
 
     function getGroupsByPeriods(periodIds) {
         SelfEvalutorModel.getGroupByEvaluator(periodIds).then(function () {
-            vm.groupOptions = SelfEvalutorModel.groups;
+            if (periodIds === null) {
+                vm.groupOptions = [];
+                vm.members = [];
+            } else {
+                vm.groupOptions = SelfEvalutorModel.groups;
 
-            utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
+                utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
 
-            vm.filter.groupIds = utilitiesFactory.getSelectedData(vm.groupOptions, "GroupId");
+                vm.filter.groupIds = utilitiesFactory.getSelectedData(vm.groupOptions, "GroupId");
 
-            getMemberByEvaluator(vm.filter.periodIds, vm.filter.groupIds);
+                getMemberByEvaluator(vm.filter.periodIds, vm.filter.groupIds);
+            }
         });
     }
 
@@ -99,8 +119,6 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
             vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
 
             getGroupsByPeriods(vm.filter.periodIds);
-
-            vm.query();
         });
     }
 

@@ -31,9 +31,9 @@ function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilit
             })["finally"](function () {
                 lockScreenService.stop();
             });
-
-            historyFactory.saveState(vm.filter);
         }
+
+        historyFactory.saveState(vm.filter);
     };
 
     vm.viewEPADetail = function (epa) {
