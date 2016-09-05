@@ -57,7 +57,13 @@ appModule.factory('utilitiesFactory',
             });
 
             if (!isInProcess) {
-                result[0].ticked = true;
+                var period = periods[0];
+
+                angular.forEach(result, function (item) {
+                    if (item.PeriodId && item.PeriodId === period.PeriodId) {
+                        item.ticked = true;
+                    }
+                });
             }
 
         } else {
