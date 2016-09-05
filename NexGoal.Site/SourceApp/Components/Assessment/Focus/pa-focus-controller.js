@@ -29,15 +29,6 @@
         };
         vm.searchEmployee = "";
 
-        function isReadOnly(member) {
-            var now = new Date();
-            if (now < member.StartDate || now > member.EndDate) {
-                return true;
-            }
-
-            return false;
-        }
-
         function groupEvaluationByTeam(evaluations) {
             var teams = [];
 
@@ -182,8 +173,6 @@
                 PAFocusModel.updatePAFocus(evaluations);
             }
         };
-
-        vm.isReadOnly = isReadOnly;
 
         initialize();
     }

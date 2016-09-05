@@ -24,14 +24,6 @@
                     notificationFactory.error("TotalBonusGivenInvalidMessage");
                     return;
                 }
-
-                angular.forEach(group.members, function (member) {
-                    if (!member.NextDescriptionObjective) {
-                        isValid = false;
-                        notificationFactory.error("ObjectivesInvalidMessage");
-                        return;
-                    }
-                });
             });
 
             return isValid;
