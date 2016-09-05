@@ -34,7 +34,7 @@
             return processSettings;
         }
 
-        /// [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
         [HttpPost]
         public CommandResult UpdatePAProcessSetting(UpdatePAFocusProcessSetingCriteria criteria)
         {
@@ -44,7 +44,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.PAFocus, Policy.Host)]
+        [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
         public CommandResult UpdatePAFocus(IEnumerable<PAFocusModel> evaluations)
         {
             var result = this.focusService.UpdatePAFocus(SessionService.EmployeeId, evaluations);
@@ -53,7 +53,7 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
+        [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
         public IEnumerable<PAFocusModel> GetPAFocus(string periodIds = null, string groupIds = null, int? employeeId = null)
         {
             var criteria = new GetPAFocusCriteria
@@ -64,63 +64,6 @@
                 EvaluatorId = SessionService.EmployeeId
             };
             var result = this.focusService.GetPAFocus(criteria);
-
-            return result;
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
-        public IEnumerable<PAFocusModel> GetPAFocusByEvaluator(string periodIds = null, string groupIds = null, int? employeeId = null)
-        {
-            var criteria = new GetPAFocusByEvaluatorCriteria
-            {
-                PeriodIds = periodIds,
-                EmployeeId = employeeId,
-                GroupIds = groupIds,
-                EvaluatorId = SessionService.EmployeeId
-            };
-            var result = this.focusService.GetPAFocus(criteria);
-
-            return result;
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
-        public IEnumerable<PAFocusModel> GetPAFocusByReviwer(string periodIds = null, string groupIds = null, int? employeeId = null)
-        {
-            var criteria = new GetPAFocusByReviewerCriteria
-            {
-                PeriodIds = periodIds,
-                EmployeeId = employeeId,
-                GroupIds = groupIds,
-                ReviewerId = SessionService.EmployeeId
-            };
-            var result = this.focusService.GetPAFocus(criteria);
-
-            return result;
-        }
-
-        [HttpGet]
-        [ApiAuthorize(FunctionKey.Management, Policy.Read)]
-        public IEnumerable<PAFocusModel> GetPAFocusByManagement(string periodIds = null, string groupIds = null, int? employeeId = null)
-        {
-            var criteria = new GetPAFocusByManagementCriteria
-            {
-                PeriodIds = periodIds,
-                EmployeeId = employeeId,
-                GroupIds = groupIds,
-                ManagementId = SessionService.EmployeeId
-            };
-            var result = this.focusService.GetPAFocus(criteria);
-
-            return result;
-        }
-
-        [HttpPost]
-        [ApiAuthorize(FunctionKey.Evaluator, Policy.Host)]
-        public CommandResult UpdatePAFocusByEvaluator(IEnumerable<PAFocusModel> evaluations)
-        {
-            var result = this.focusService.UpdatePAFocus(SessionService.EmployeeId, evaluations);
 
             return result;
         }

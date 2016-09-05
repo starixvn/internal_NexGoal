@@ -73,26 +73,5 @@
 
             return list;
         }
-
-        public IEnumerable<PAFocusModel> GetPAFocusByEvaluator(GetPAFocusByEvaluatorCriteria criteria)
-        {
-            var list = this.focusRepository.GetPAFocus(criteria);
-
-            return list;
-        }
-
-        public IEnumerable<PAFocusModel> GetPAFocusByReviewer(GetPAFocusByReviewerCriteria criteria)
-        {
-            var list = this.focusRepository.GetPAFocus(criteria);
-
-            return list;
-        }
-
-        public IEnumerable<PAFocusModel> GetPAFocusByManagement(GetPAFocusByManagementCriteria criteria)
-        {
-            var list = this.focusRepository.GetPAFocus(criteria);
-
-            return list;
-        }
     }
 }

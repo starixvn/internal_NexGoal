@@ -20,6 +20,6 @@
     </div>
     <div class="modal-footer button-block">
         <button class="button" ng-click="paModalObjectiveCtrl.ok()" data-translate="OK"></button>
-        <button class="button btn-cancel customize" ng-click="paModalObjectiveCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button btn-cancel customize" ng-click="paModalObjectiveCtrl.cancel()" data-translate="Cancel" ng-show="!paModalObjectiveCtrl.IsReadOnly"></button>
     </div>
 </div>

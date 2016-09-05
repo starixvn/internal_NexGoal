@@ -16,11 +16,5 @@
         CommandResult UpdatePAFocus(int modifiedBy, IEnumerable<PAFocusModel> evaluations);
 
         IEnumerable<PAFocusModel> GetPAFocus(ICriteria criteria);
-
-        IEnumerable<PAFocusModel> GetPAFocusByEvaluator(GetPAFocusByEvaluatorCriteria criteria);
-
-        IEnumerable<PAFocusModel> GetPAFocusByReviewer(GetPAFocusByReviewerCriteria criteria);
-
-        IEnumerable<PAFocusModel> GetPAFocusByManagement(GetPAFocusByManagementCriteria criteria);
     }
 }
