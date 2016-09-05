@@ -14,7 +14,7 @@
         vm.validatePAFocusForm = function (groups) {
             var isValid = true;
 
-            groups.forEach(function (group) {
+            angular.forEach(groups, function (group) {
                 if (!isValid) {
                     return;
                 }
@@ -25,7 +25,7 @@
                     return;
                 }
 
-                group.members.forEach(function (member) {
+                angular.forEach(group.members, function (member) {
                     if (!member.NextDescriptionObjective) {
                         isValid = false;
                         notificationFactory.error("ObjectivesInvalidMessage");
