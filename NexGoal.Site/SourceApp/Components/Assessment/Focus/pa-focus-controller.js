@@ -83,9 +83,8 @@
                 });
 
                 CommonModel.getDepartment(null, true).then(function () {
-                    vm.teams = utilitiesFactory.groupingTeams(CommonModel.departments);
-
-                    utilitiesFactory.setSelectAll(vm.teams);
+                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                    vm.teams = angular.copy(treeDepartment);
 
                     vm.query();
                 });

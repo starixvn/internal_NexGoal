@@ -40,13 +40,14 @@
 
         public DateTime EndDate { get; set; }
 
-        public bool IsReadOnly 
+        public bool IsReadOnly
         {
-            get 
+            get
             {
                 return DateTime.Now < StartDate || DateTime.Now > EndDate;
             }
         }
+
         public void Decrypt()
         {
             ICertificateService encryptService = new CertificateService();

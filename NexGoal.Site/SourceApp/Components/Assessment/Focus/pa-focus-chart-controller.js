@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusChartController", paFocusChartController);
 
-    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory"];
+    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "enumerationsFactory"];
 
-    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory) {
+    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, enumerationsFactory) {
         var vm = this;
 
         vm.groups = [];
@@ -15,20 +15,25 @@
             periodId: null,
             teamIds: null
         };
+        vm.paFocusPermission = {};
 
         function initialize() {
-            CommonModel.getAllPeriodIncludeImport().then(function () {
-                vm.periods = CommonModel.periodOptions;
+            PAFocusModel.getPAFocusFullPermission().then(function () {
+                vm.paFocusPermission = PAFocusModel.PAFocusPermission;
+                CommonModel.getAllPeriodIncludeImport().then(function () {
+                    vm.periods = CommonModel.periodOptions;
 
-                if (vm.periods.length > 0) {
-                    vm.filter.periodId = vm.periods[0].PeriodId;
-                }
-            });
+                    if (vm.periods.length > 0) {
+                        vm.filter.periodId = vm.periods[0].PeriodId;
+                    }
+                });
 
-            CommonModel.getDepartment(null, true).then(function () {
-                vm.teams = utilitiesFactory.groupingTeams(CommonModel.departments);
+                CommonModel.getDepartment(null, true).then(function () {
+                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                    vm.teams = angular.copy(treeDepartment);
 
-                utilitiesFactory.setSelectAll(vm.teams);
+                    vm.query();
+                });
             });
         }
 
@@ -109,11 +114,17 @@
 
         vm.query = function () {
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-
-            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, null).then(function () {
-                var evaluations = PAFocusModel.evaluations;
-                vm.groups = groupEvaluationByTeam(evaluations);
-            });
+            if (vm.paFocusPermission === enumerationsFactory.policy.None) {
+                PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                    var evaluations = PAFocusModel.evaluations;
+                    vm.groups = groupEvaluationByTeam(evaluations);
+                });
+            } else {
+                PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                    var evaluations = PAFocusModel.evaluations;
+                    vm.groups = groupEvaluationByTeam(evaluations);
+                });
+            }
         };
 
         initialize();
