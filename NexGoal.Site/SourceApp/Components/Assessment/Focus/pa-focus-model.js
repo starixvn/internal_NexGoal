@@ -10,6 +10,15 @@
 
         vm.processSettings = [];
         vm.evaluations = [];
+        vm.PAFocusPermission = {};
+
+        vm.getPAFocusFullPermission = function () {
+            return paFocusFactory.getPAFocusFullPermission().success(function (PAFocusPermission) {
+                vm.PAFocusPermission = PAFocusPermission;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
         vm.validatePAFocusForm = function (groups) {
             var isValid = true;
@@ -45,8 +54,29 @@
             });
         };
 
+        vm.getPAFocusByManagement = function (periodId, groupIds, employeeId) {
+            return paFocusFactory.getPAFocusByManagement(periodId, groupIds, employeeId).success(function (evaluations) {
+                vm.evaluations = evaluations;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
         vm.updatePAFocus = function (evaluations) {
             return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("UpdatedUnsuccessfully");
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.updatePAFocusByManagement = function (evaluations) {
+            return paFocusFactory.updatePAFocusByManagement(evaluations).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }

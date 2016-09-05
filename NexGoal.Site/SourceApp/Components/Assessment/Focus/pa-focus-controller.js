@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory"];
+    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'enumerationsFactory'];
 
-    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory) {
+    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, enumerationsFactory) {
         var vm = this;
         vm.objectivesAchievementRanges = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
         vm.promotionsRanges = [
@@ -27,6 +27,7 @@
             employeeId: null
         };
         vm.searchEmployee = "";
+        vm.paFocusPermission = {};
 
         function groupEvaluationByTeam(evaluations) {
             var teams = [];
@@ -71,20 +72,23 @@
         }
 
         function initialize() {
-            CommonModel.getAllPeriodIncludeImport().then(function () {
-                vm.periods = CommonModel.periodOptions;
+            PAFocusModel.getPAFocusFullPermission().then(function () {
+                vm.paFocusPermission = PAFocusModel.PAFocusPermission;
+                CommonModel.getAllPeriodIncludeImport().then(function () {
+                    vm.periods = CommonModel.periodOptions;
 
-                if (vm.periods.length > 0) {
-                    vm.filter.periodId = vm.periods[0].PeriodId;
-                }
-            });
+                    if (vm.periods.length > 0) {
+                        vm.filter.periodId = vm.periods[0].PeriodId;
+                    }
+                });
 
-            CommonModel.getDepartment(null, true).then(function () {
-                vm.teams = utilitiesFactory.groupingTeams(CommonModel.departments);
+                CommonModel.getDepartment(null, true).then(function () {
+                    vm.teams = utilitiesFactory.groupingTeams(CommonModel.departments);
 
-                utilitiesFactory.setSelectAll(vm.teams);
+                    utilitiesFactory.setSelectAll(vm.teams);
 
-                vm.query();
+                    vm.query();
+                });
             });
         }
 
@@ -159,17 +163,27 @@
 
         vm.query = function () {
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-
-            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                var evaluations = PAFocusModel.evaluations;
-                vm.groups = groupEvaluationByTeam(evaluations);
-            });
+            if (vm.paFocusPermission === enumerationsFactory.policy.None) {
+                PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                    var evaluations = PAFocusModel.evaluations;
+                    vm.groups = groupEvaluationByTeam(evaluations);
+                });
+            } else {
+                PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                    var evaluations = PAFocusModel.evaluations;
+                    vm.groups = groupEvaluationByTeam(evaluations);
+                });
+            }
         };
 
         vm.save = function () {
             if (PAFocusModel.validatePAFocusForm(vm.groups)) {
                 var evaluations = unGroupEvaluationByTeam(vm.groups);
-                PAFocusModel.updatePAFocus(evaluations);
+                if (vm.paFocusPermission === enumerationsFactory.policy.None) {
+                    PAFocusModel.updatePAFocus(evaluations);
+                } else {
+                    PAFocusModel.updatePAFocusByManagement(evaluations);
+                }
             }
         };
 

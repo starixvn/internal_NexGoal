@@ -8,8 +8,6 @@
 
         public const string Reviewer = "Reviewer";
 
-        public const string Management = "Management";
-
         public const string EPASummaryReport = "EPASummaryReport";
 
         public const string EPADetailReport = "EPADetailReport";
@@ -31,5 +29,7 @@
         public const string MenuManagement = "MenuManagement";
 
         public const string PAFocus = "PAFocus";
+
+        public const string PAFocusFull = "PAFocusFull";
     }
 }

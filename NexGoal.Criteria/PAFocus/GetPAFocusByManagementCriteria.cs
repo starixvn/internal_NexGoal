@@ -9,8 +9,6 @@
 
     public class GetPAFocusByManagementCriteria : CriteriaBase
     {
-        public int ManagementId { get; set; }
-
         public string PeriodIds { get; set; }
 
         public string GroupIds { get; set; }
@@ -19,7 +17,7 @@
 
         public override bool IsValid()
         {
-            return ManagementId > 0;
+            return true;
         }
 
         public override string GetSettingKey()
