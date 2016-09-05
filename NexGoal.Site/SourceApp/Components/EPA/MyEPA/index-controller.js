@@ -19,17 +19,21 @@ function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilit
     }
 
     vm.query = function () {
-        vm.filters.periodIds = utilitiesFactory.getSelectedData(vm.periods, 'PeriodId');
+        vm.filters.periodIds = utilitiesFactory.getSelectedByProperty(vm.periods, 'PeriodId');
 
-        lockScreenService.start();
+        if (vm.filters.periodIds === null) {
+            vm.myEPAs = [];
+        } else {
+            lockScreenService.start();
 
-        SelfEvalutorModel.getEPAByEmployee(vm.filters.periodIds).then(function () {
-            vm.myEPAs = SelfEvalutorModel.myEPAs;
-        })["finally"](function () {
-            lockScreenService.stop();
-        });
+            SelfEvalutorModel.getEPAByEmployee(vm.filters.periodIds).then(function () {
+                vm.myEPAs = SelfEvalutorModel.myEPAs;
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
 
-        historyFactory.saveState(vm.filter);
+            historyFactory.saveState(vm.filter);
+        }
     };
 
     vm.viewEPADetail = function (epa) {

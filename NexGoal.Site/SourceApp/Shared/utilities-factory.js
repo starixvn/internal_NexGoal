@@ -208,6 +208,26 @@ appModule.factory('utilitiesFactory',
         return theString;
     };
 
+    utilities.getSelectedByProperty = function (data, propName) {
+        var selectedItems = [];
+
+        angular.forEach(data, function (item) {
+            var selectedValue = propName ? item[propName] : item;
+
+            if (item.ticked) {
+                selectedItems.push(selectedValue);
+            }
+        });
+
+        var result = null;
+
+        if (selectedItems.length > 0) {
+            result = propName ? selectedItems.join(',') : selectedItems;
+        }
+
+        return result;
+    };
+
     utilities.getSelectedData = function (data, propName) {
         var selectedProperties = [],
             allProperties = [];
