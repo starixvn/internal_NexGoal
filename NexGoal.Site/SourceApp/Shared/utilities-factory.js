@@ -43,12 +43,23 @@ appModule.factory('utilitiesFactory',
         result.push(endGrouping);
 
         if (periods.length > 0 && result.length) {
+            var isInProcess = false;
+
             angular.forEach(periods, function (period) {
+                if (!period.IsEndProcess) {
+                    isInProcess = true;
+                }
+
                 if (!period.Year) {
                     period.ticked = false;
                     result.unshift(period);
                 }
             });
+
+            if (!isInProcess) {
+                result[0].ticked = true;
+            }
+
         } else {
             angular.forEach(periods, function (period) {
                 if (!period.Year) {
