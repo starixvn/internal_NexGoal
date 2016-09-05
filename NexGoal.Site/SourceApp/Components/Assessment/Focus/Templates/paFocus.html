@@ -81,28 +81,28 @@
                 <td class="text-center">
                     <select ng-model="member.LastCompletedPercentObjective"
                             ng-options="opt as (opt + '%') for opt in paFocusCtrl.objectivesAchievementRanges"
-                            disabled="member.IsReadOnly">
+                            ng-disabled="member.IsReadOnly">
                         <option></option>
                     </select>
                 </td>
                 <td class="text-center">
                     <select ng-model="member.IsReadyPromotion"
                             ng-options="opt.Value as opt.Name for opt in paFocusCtrl.promotionsRanges"
-                            disabled="member.IsReadOnly">
+                            ng-disabled="member.IsReadOnly">
                         <option></option>
                     </select>
                 </td>
                 <td class="text-center">
                     <select ng-model="member.Contribution"
                             ng-options="opt as opt for opt in [] | range : 6"
-                            disabled="member.IsReadOnly">
+                            ng-disabled="member.IsReadOnly">
                         <option></option>
                     </select>
                 </td>
                 <td class="text-center">
                     <input class="form-control bonus-give" numeric decimals="2" max="100" min="0"
                            ng-model="member.BonusGiven"
-                           ng-readonly="member.IsReadOnly"
+                           ng-disabled="member.IsReadOnly"
                            ng-blur="paFocusCtrl.inputBonus(member)" />
                 </td>
                 <td rowspan="{{group.Members.length}}" class="text-center"
