@@ -58,7 +58,7 @@
                 <th class="width-110">Contribution</th>
                 <th colspan="2" class="width-150">{{"BonusGiven" | translate}} ({{"Points" | translate}})</th>
                 <th class="width-70" data-translate="BonusRanking"></th>
-                <th colspan="2" data-translate="Objectives"></th>
+                <th colspan="2" data-translate="NextObjectives"></th>
             </tr>
         </thead>
         <tbody ng-show="paFocusCtrl.groups.length === 0">
@@ -67,8 +67,8 @@
             </tr>
         </tbody>
         <tbody ng-show="paFocusCtrl.groups.length > 0" ng-repeat="group in paFocusCtrl.groups">
-            <tr ng-repeat="member in group.members">
-                <td rowspan="{{group.members.length}}" ng-if="$first">{{group.name}}</td>
+            <tr ng-repeat="member in group.Members">
+                <td rowspan="{{group.Members.length}}" ng-if="$first">{{group.Name}}</td>
                 <td class="text-center">{{$index +1}}</td>
                 <td>{{member.Employee.NickName}}</td>
                 <td>{{member.Employee.FullName}}</td>
@@ -105,7 +105,7 @@
                            ng-readonly="member.IsReadOnly"
                            ng-blur="paFocusCtrl.inputBonus(member)" />
                 </td>
-                <td rowspan="{{group.members.length}}" class="text-center"
+                <td rowspan="{{group.Members.length}}" class="text-center"
                     ng-if="$first"
                     ng-class="group.TotalBonus === group.MaxBonus ? 'bonus-give-success' : 'bonus-give-error'">
                     {{group.TotalBonus}} / {{group.MaxBonus}}

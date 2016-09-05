@@ -2536,6 +2536,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Next Objectives.
+        /// </summary>
+        public static string NextObjectives {
+            get {
+                return ResourceManager.GetString("NextObjectives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nick Name.
         /// </summary>
         public static string NickName {

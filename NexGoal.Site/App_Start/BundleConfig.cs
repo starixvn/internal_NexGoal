@@ -44,6 +44,7 @@
                             "~/Libs/angular-chosen.js",
                             "~/Libs/ui-bootstrap-contextMenu.js",
                             "~/Libs/numeric-directive.js",
+                            "~/Libs/highcharts.js",
                             "~/Libs/floatThead/jquery.floatThead.min.js",
                             "~/Libs/FanexGrid/Fanex.Grid.js",
                             "~/Libs/FanexGrid/moment.min.js",

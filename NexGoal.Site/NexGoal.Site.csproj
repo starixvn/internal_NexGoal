@@ -392,6 +392,7 @@
     <Content Include="Libs\FanexGrid\Language\Fanex.Gird.Lang.zh-TW.js" />
     <Content Include="Libs\FanexGrid\moment.min.js" />
     <Content Include="Libs\FanexGrid\numeral.min.js" />
+    <Content Include="Libs\highcharts.js" />
     <Content Include="Libs\jquery-2.1.0-vsdoc.js" />
     <Content Include="Libs\jquery-2.1.0.min.js" />
     <Content Include="Libs\jquery-ui.min.js" />

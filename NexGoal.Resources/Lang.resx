@@ -1596,4 +1596,7 @@
   <data name="PAFocusInformation" xml:space="preserve">
     <value>PA Focus Information</value>
   </data>
+  <data name="NextObjectives" xml:space="preserve">
+    <value>Next Objectives</value>
+  </data>
 </root>

@@ -21,7 +21,7 @@
             </div>
 
             <div class="col button-block">
-                <button class="button" data-translate="Submit"></button>
+                <button class="button" data-translate="Submit" ng-click="paFocusChartCtrl.query()"></button>
                 <button class="button btnExcel">Excel</button>
             </div>
 
@@ -32,4 +32,12 @@
         </div>
 
     </form>
+
+    <div class="row">
+        
+        <div class="col-sm-6 pie-chart-group-{{group.TeamId}}" ng-repeat="group in paFocusChartCtrl.groups">
+
+        </div>
+
+    </div>
 </div>

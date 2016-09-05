@@ -45,11 +45,11 @@
                 var groupName = evaluation.Employee.Group.GroupName;
                 var groupId = evaluation.Employee.Group.GroupId;
                 if (teams.length === 0) {
-                    teams.push({ teamId: groupId, name: groupName, MaxBonus: 100, TotalBonus: 0, members: [] });
+                    teams.push({ TeamId: groupId, Name: groupName, MaxBonus: 100, TotalBonus: 0, Members: [] });
                 } else {
                     angular.forEach(teams, function (team) {
-                        if (team.name !== groupName) {
-                            teams.push({ name: groupName, members: [] });
+                        if (team.Name !== groupName) {
+                            teams.push({ Name: groupName, Members: [] });
                         }
                     });
                 }
@@ -58,8 +58,8 @@
             angular.forEach(teams, function (team) {
                 angular.forEach(evaluations, function (evaluation) {
                     var groupName = evaluation.Employee.Group.GroupName;
-                    if (groupName === team.name) {
-                        team.members.push(evaluation);
+                    if (groupName === team.Name) {
+                        team.Members.push(evaluation);
                         team.TotalBonus += evaluation.BonusGiven;
                     }
                 });
@@ -72,7 +72,7 @@
             var evaluations = [];
 
             angular.forEach(teams, function (team) {
-                angular.forEach(team.members, function (member) {
+                angular.forEach(team.Members, function (member) {
                     evaluations.push(member);
                 });
             });
@@ -103,7 +103,7 @@
                 if (group.TeamId === teamId) {
                     group.TotalBonus = 0;
 
-                    angular.forEach(group.members, function (member) {
+                    angular.forEach(group.Members, function (member) {
                         group.TotalBonus += member.BonusGiven;
                     });
                 }
@@ -113,7 +113,7 @@
         function calculateBonusRanking(teamId) {
             angular.forEach(vm.groups, function (group) {
                 if (group.TeamId === teamId) {
-                    var members = angular.copy(group.members);
+                    var members = angular.copy(group.Members);
 
                     members.sort(function (memberA, memberB) {
                         return memberB.BonusGiven - memberA.BonusGiven;
@@ -131,8 +131,8 @@
                         }
                     });
 
-                    angular.forEach(group.members, function (member) {
-                        var rankingMemberIndex = members.map(function (item) { return item.EmployeeId; }).indexOf(member.EmployeeId);
+                    angular.forEach(group.Members, function (member) {
+                        var rankingMemberIndex = members.map(function (item) { return item.Employee.EmployeeId; }).indexOf(member.Employee.EmployeeId);
 
                         member.BonusRanking = members[rankingMemberIndex].BonusRanking;
                     });
@@ -163,14 +163,12 @@
                 member.BonusGiven = 0;
             }
 
-            calculateTeamTotalBonus(member.TeamId);
-            calculateBonusRanking(member.TeamId);
+            calculateTeamTotalBonus(member.Employee.Group.GroupId);
+            calculateBonusRanking(member.Employee.Group.GroupId);
         };
 
         vm.query = function () {
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-
-            console.log(vm.filter);
 
             PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
                 var evaluations = PAFocusModel.evaluations;
