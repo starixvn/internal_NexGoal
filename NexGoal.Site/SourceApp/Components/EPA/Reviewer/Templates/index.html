@@ -137,7 +137,7 @@
                             <div class="form-inline-block">
                                 <input type="text" maxlength="6" class="form-control text-center epa-input-score"
                                        ng-readonly="!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
-                                       ng-model="memberEPA.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-change="reviewerCtrl.inputScore(memberEPA)"
+                                       ng-model="memberEPA.Process.CurrentProcess.AdjustScore" numeric decimals="2" ng-blur="reviewerCtrl.inputScore(memberEPA)"
                                        tooltip="{{reviewerCtrl.scoreInputValidMessage}}" tooltip-trigger="focus" />
                             </div>
                         </td>
