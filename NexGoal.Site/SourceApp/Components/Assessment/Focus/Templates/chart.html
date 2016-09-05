@@ -30,7 +30,8 @@
     </form>
 
     <div class="row" ng-repeat="group in paFocusChartCtrl.groups">
-        <div id="pie-chart-group-{{group.TeamId}}" class="col-sm-6">
+        <div class="col-sm-6">
+            <div id="pie-chart-group-{{group.TeamId}}">{{::paFocusChartCtrl.buildChart(group)}}</div>
         </div>
     </div>
 </div>

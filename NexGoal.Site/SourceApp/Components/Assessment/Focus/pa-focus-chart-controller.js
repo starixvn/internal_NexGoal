@@ -16,56 +16,6 @@
             teamIds: null
         };
 
-        function initCharts(group) {
-            $('#pie-chart-group-' + group.TeamId).highcharts({
-                chart: {
-                    plotBackgroundColor: null,
-                    plotBorderWidth: null,
-                    plotShadow: false,
-                    type: 'pie'
-                },
-                title: {
-                    text: group.Name
-                },
-                plotOptions: {
-                    pie: {
-                        allowPointSelect: true,
-                        cursor: 'pointer',
-                        dataLabels: {
-                            enabled: true,
-                            format: '<div style="color:{point.color}">{point.name} [{point.ranking}]<br/> {point.percentage:.1f} %</div>',
-                            useHTML: true
-                        }
-                    }
-                },
-                series: [{
-                    name: 'Bonus Given',
-                    colorByPoint: true,
-                    data: [{
-                        name: 'Tim',
-                        ranking: 1,
-                        y: 56.33
-                    }, {
-                        name: 'Razor',
-                        ranking: 2,
-                        y: 24.03,
-                    }, {
-                        name: 'Forrest',
-                        ranking: 3,
-                        y: 10.38
-                    }, {
-                        name: 'Quinn',
-                        ranking: 4,
-                        y: 4.77
-                    }, {
-                        name: 'Larry',
-                        ranking: 5,
-                        y: 0.91
-                    }]
-                }]
-            });
-        }
-
         function initialize() {
             CommonModel.getAllPeriodIncludeImport().then(function () {
                 vm.periods = CommonModel.periodOptions;
@@ -112,16 +62,57 @@
             return teams;
         }
 
+        vm.buildChart = function (group) {
+            if (!group.isBuilt) {
+                group.isBuilt = true;
+                var chartData = [];
+
+                angular.forEach(group.Members, function (member) {
+                    var piece = {
+                        name: member.Employee.NickName,
+                        contribution: member.Contribution,
+                        y: member.BonusGiven
+                    };
+
+                    chartData.push(piece);
+                });
+
+                $('#pie-chart-group-' + group.TeamId).highcharts({
+                    chart: {
+                        plotBackgroundColor: null,
+                        plotBorderWidth: null,
+                        plotShadow: false,
+                        type: 'pie'
+                    },
+                    title: {
+                        text: group.Name
+                    },
+                    plotOptions: {
+                        pie: {
+                            allowPointSelect: true,
+                            cursor: 'pointer',
+                            dataLabels: {
+                                enabled: true,
+                                format: '<div style="color:{point.color}">{point.name} [{point.contribution}]<br/> {point.percentage:.1f} %</div>',
+                                useHTML: true
+                            }
+                        }
+                    },
+                    series: [{
+                        name: 'Bonus Given',
+                        colorByPoint: true,
+                        data: chartData
+                    }]
+                });
+            }
+        };
+
         vm.query = function () {
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
 
             PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, null).then(function () {
                 var evaluations = PAFocusModel.evaluations;
                 vm.groups = groupEvaluationByTeam(evaluations);
-
-                angular.forEach(vm.groups, function (group) {
-                    initCharts(group);
-                });
             });
         };
 
