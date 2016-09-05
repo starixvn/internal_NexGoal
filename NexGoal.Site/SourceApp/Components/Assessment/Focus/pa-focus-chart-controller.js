@@ -16,8 +16,8 @@
             teamIds: null
         };
 
-        function initCharts() {
-            $('#pieChart').highcharts({
+        function initCharts(group) {
+            $('#pie-chart-group-' + group.TeamId).highcharts({
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -25,7 +25,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Nexus'
+                    text: group.Name
                 },
                 plotOptions: {
                     pie: {
@@ -80,8 +80,6 @@
 
                 utilitiesFactory.setSelectAll(vm.teams);
             });
-
-            initCharts();
         }
 
         function groupEvaluationByTeam(evaluations) {
@@ -121,7 +119,9 @@
                 var evaluations = PAFocusModel.evaluations;
                 vm.groups = groupEvaluationByTeam(evaluations);
 
-                console.log(vm.groups);
+                angular.forEach(vm.groups, function (group) {
+                    initCharts(group);
+                });
             });
         };
 

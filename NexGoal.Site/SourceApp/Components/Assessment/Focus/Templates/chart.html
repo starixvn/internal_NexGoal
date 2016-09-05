@@ -25,19 +25,12 @@
                 <button class="button btnExcel">Excel</button>
             </div>
 
-            <div class="col">
-
-            </div>
-
         </div>
 
     </form>
 
-    <div class="row">
-        
-        <div class="col-sm-6 pie-chart-group-{{group.TeamId}}" ng-repeat="group in paFocusChartCtrl.groups">
-
+    <div class="row" ng-repeat="group in paFocusChartCtrl.groups">
+        <div id="pie-chart-group-{{group.TeamId}}" class="col-sm-6">
         </div>
-
     </div>
 </div>
