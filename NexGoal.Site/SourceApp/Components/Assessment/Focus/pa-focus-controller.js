@@ -29,6 +29,15 @@
         };
         vm.searchEmployee = "";
 
+        function isReadOnly(member) {
+            var now = new Date();
+            if (now < member.StartDate || now > member.EndDate) {
+                return true;
+            }
+
+            return false;
+        }
+
         function groupEvaluationByTeam(evaluations) {
             var teams = [];
 
@@ -51,6 +60,7 @@
                     var groupName = evaluation.Employee.Group.GroupName;
                     if (groupName === team.name) {
                         team.members.push(evaluation);
+                        team.TotalBonus += evaluation.BonusGiven;
                     }
                 });
             });
@@ -83,19 +93,8 @@
                 vm.teams = utilitiesFactory.groupingTeams(CommonModel.departments);
 
                 utilitiesFactory.setSelectAll(vm.teams);
-                vm.query().then(function () {
-                    angular.forEach(vm.groups, function (group) {
-                        group.TotalBonus = 0;
 
-                        angular.forEach(group.members, function (member) {
-                            group.TotalBonus += member.BonusGiven;
-                        });
-
-                        calculateBonusRanking(group.TeamId);
-                    });
-
-                    oldGroupsData = angular.copy(vm.groups);
-                });
+                vm.query();
             });
         }
 
@@ -179,16 +178,14 @@
             });
         };
 
-        vm.reset = function () {
-            vm.groups = angular.copy(oldGroupsData);
+        vm.save = function () {
+            if (PAFocusModel.validatePAFocusForm(vm.groups)) {
+                var evaluations = unGroupEvaluationByTeam(vm.groups);
+                PAFocusModel.updatePAFocus(evaluations);
+            }
         };
 
-        vm.save = function () {
-            // if (PAFocusModel.validatePAFocusForm(vm.groups)) {
-            var evaluations = unGroupEvaluationByTeam(vm.groups);
-            PAFocusModel.updatePAFocus(evaluations);
-            //}
-        };
+        vm.isReadOnly = isReadOnly;
 
         initialize();
     }

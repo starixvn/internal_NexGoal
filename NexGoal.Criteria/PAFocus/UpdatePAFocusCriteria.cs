@@ -27,15 +27,16 @@
                 {
                     foreach (PAFocusModel item in Evaluations)
                     {
+                        item.Encrypt();
                         epaXmlBuilder.AppendFormat(
                             XMLTemplate,
                             item.PAFocusId,
                             item.LastCompletedPercentObjective,
                             item.NextDescriptionObjective,
-                            item.IsReadyPromotion,
-                            item.Contribution,
-                            item.BonusGiven,
-                            item.BonusRanking);
+                            item.EncryptIsReadyPromotion,
+                            item.EncryptedContribution,
+                            item.EncryptedBonusGiven,
+                            item.EncryptedBonusRanking);
                     }
                 }
 

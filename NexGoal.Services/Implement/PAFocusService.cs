@@ -66,6 +66,10 @@
         public IEnumerable<PAFocusModel> GetPAFocus(ICriteria criteria)
         {
             var list = this.focusRepository.GetPAFocus(criteria);
+            foreach (PAFocusModel focus in list)
+            {
+                focus.Decrypt();
+            }
 
             return list;
         }

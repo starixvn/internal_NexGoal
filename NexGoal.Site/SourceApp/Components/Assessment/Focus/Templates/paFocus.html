@@ -80,25 +80,29 @@
                 </td>
                 <td class="text-center">
                     <select ng-model="member.LastCompletedPercentObjective"
-                            ng-options="opt as (opt + '%') for opt in paFocusCtrl.objectivesAchievementRanges">
+                            ng-options="opt as (opt + '%') for opt in paFocusCtrl.objectivesAchievementRanges"
+                            ng-readonly="paFocusCtrl.IsReadOnly(member)">
                         <option></option>
                     </select>
                 </td>
                 <td class="text-center">
-                    <select ng-model="member.IsReadypromotion"
-                            ng-options="opt.Value as opt.Name for opt in paFocusCtrl.promotionsRanges">
+                    <select ng-model="member.IsReadyPromotion"
+                            ng-options="opt.Value as opt.Name for opt in paFocusCtrl.promotionsRanges"
+                            ng-readonly="paFocusCtrl.IsReadOnly(member)">
                         <option></option>
                     </select>
                 </td>
                 <td class="text-center">
                     <select ng-model="member.Contribution"
-                            ng-options="opt as opt for opt in [] | range : 6">
+                            ng-options="opt as opt for opt in [] | range : 6"
+                            ng-readonly="paFocusCtrl.IsReadOnly(member)">
                         <option></option>
                     </select>
                 </td>
                 <td class="text-center">
                     <input class="form-control bonus-give" numeric decimals="2" max="100" min="0"
                            ng-model="member.BonusGiven"
+                           ng-readonly="paFocusCtrl.IsReadOnly(member)"
                            ng-blur="paFocusCtrl.inputBonus(member)" />
                 </td>
                 <td rowspan="{{group.members.length}}" class="text-center"
@@ -121,7 +125,7 @@
     </table>
 
     <div class="navbar navbar-default navbar-fixed-bottom action-section">
-        <button class="btn btn-back" data-translate="Reset" ng-click="paFocusCtrl.reset()"></button>
+        <button class="btn btn-back" data-translate="Reset" ng-click="paFocusCtrl.query()"></button>
         <button class="btn button-save" data-translate="Save" ng-click="paFocusCtrl.save()"></button>
     </div>
 </div>

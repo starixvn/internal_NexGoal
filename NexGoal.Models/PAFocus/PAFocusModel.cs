@@ -53,10 +53,10 @@
         public void Encrypt()
         {
             ICertificateService encryptService = new CertificateService();
-            EncryptIsReadyPromotion = !IsReadyPromotion.HasValue ? string.Empty : encryptService.Encrypt(EncryptIsReadyPromotion);
-            EncryptedContribution = !Contribution.HasValue ? string.Empty : encryptService.Encrypt(EncryptedContribution);
-            EncryptedBonusGiven = !BonusGiven.HasValue ? string.Empty : encryptService.Encrypt(EncryptedBonusGiven);
-            EncryptedBonusRanking = !BonusRanking.HasValue ? string.Empty : encryptService.Encrypt(EncryptedBonusRanking);
+            EncryptIsReadyPromotion = !IsReadyPromotion.HasValue ? string.Empty : encryptService.Encrypt(IsReadyPromotion.ToString());
+            EncryptedContribution = !Contribution.HasValue ? string.Empty : encryptService.Encrypt(Contribution.ToString());
+            EncryptedBonusGiven = !BonusGiven.HasValue ? string.Empty : encryptService.Encrypt(BonusGiven.ToString());
+            EncryptedBonusRanking = !BonusRanking.HasValue ? string.Empty : encryptService.Encrypt(BonusRanking.ToString());
         }
     }
 }
