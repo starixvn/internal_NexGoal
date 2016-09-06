@@ -120,8 +120,6 @@
     <Compile Include="Menu\UpdateMenuCriteria.cs" />
     <Compile Include="PAFocus\GetPAFocusCriteria.cs" />
     <Compile Include="PAFocus\GetPAFocusByManagementCriteria.cs" />
-    <Compile Include="PAFocus\GetPAFocusByReviewerCriteria.cs" />
-    <Compile Include="PAFocus\GetPAFocusByEvaluatorCriteria.cs" />
     <Compile Include="PAFocus\UpdatePAFocusCriteria.cs" />
     <Compile Include="PAFocus\UpdatePAFocusProcessSetingCriteria.cs" />
     <Compile Include="PAFocus\GetPAFocusProcessSetingByIdCriteria.cs" />

@@ -12,7 +12,7 @@
         vm.periods = [];
         vm.teams = [];
         vm.filter = {
-            periodId: null,
+            periodId: 0,
             teamIds: null
         };
         vm.paFocusPermission = {};

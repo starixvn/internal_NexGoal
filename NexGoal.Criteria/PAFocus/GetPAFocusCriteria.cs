@@ -6,7 +6,7 @@
     {
         public int EvaluatorId { get; set; }
 
-        public string PeriodIds { get; set; }
+        public int PeriodId { get; set; }
 
         public string GroupIds { get; set; }
 
@@ -14,7 +14,7 @@
 
         public override bool IsValid()
         {
-            return EvaluatorId > 0;
+            return EvaluatorId > 0 && PeriodId > 0;
         }
 
         public override string GetSettingKey()

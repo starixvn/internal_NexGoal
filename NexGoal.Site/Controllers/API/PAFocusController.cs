@@ -63,11 +63,11 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
-        public IEnumerable<PAFocusModel> GetPAFocus(string periodIds = null, string groupIds = null, int? employeeId = null)
+        public IEnumerable<PAFocusModel> GetPAFocus(int periodId, string groupIds = null, int? employeeId = null)
         {
             var criteria = new GetPAFocusCriteria
             {
-                PeriodIds = periodIds,
+                PeriodId = periodId,
                 EmployeeId = employeeId,
                 GroupIds = groupIds,
                 EvaluatorId = SessionService.EmployeeId
@@ -79,11 +79,11 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey.PAFocusFull, Policy.Read)]
-        public IEnumerable<PAFocusModel> GetPAFocusByManagement(string periodIds = null, string groupIds = null, int? employeeId = null)
+        public IEnumerable<PAFocusModel> GetPAFocusByManagement(int periodId, string groupIds = null, int? employeeId = null)
         {
             var criteria = new GetPAFocusByManagementCriteria
             {
-                PeriodIds = periodIds,
+                PeriodId = periodId,
                 EmployeeId = employeeId,
                 GroupIds = groupIds
             };
