@@ -143,6 +143,6 @@
             }
         };
 
-        //initialize();
+        initialize();
     }
 })(angular.module("assessmentModule"));
