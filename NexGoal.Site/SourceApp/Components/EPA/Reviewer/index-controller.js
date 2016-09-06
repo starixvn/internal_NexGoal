@@ -303,7 +303,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.inputScore = function (memberEPA) {
         var maxSubtractScore = (memberEPA.Process.CurrentProcess.MaxSubtractScore).toFixed(2),
             maxAdditionScore = (memberEPA.Process.MaxPerformanceScore - memberEPA.Process.AverageScoreByEvaluators).toFixed(2);
-        var adjustScore = memberEPA.Process.CurrentProcess.AdjustScore;
+        var adjustScore = memberEPA.Process.CurrentProcess.AdjustScore === "" ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;
 
         if (adjustScore > maxAdditionScore || adjustScore < maxSubtractScore) {
             notificationFactory.error('AdjustScoreInvalid');
