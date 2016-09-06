@@ -37,36 +37,6 @@
             });
         }
 
-        function groupEvaluationByTeam(evaluations) {
-            var teams = [];
-
-            angular.forEach(evaluations, function (evaluation) {
-                var groupName = evaluation.Employee.Group.GroupName;
-                var groupId = evaluation.Employee.Group.GroupId;
-                if (teams.length === 0) {
-                    teams.push({ TeamId: groupId, Name: groupName, MaxBonus: 100, TotalBonus: 0, Members: [] });
-                } else {
-                    angular.forEach(teams, function (team) {
-                        if (team.Name !== groupName) {
-                            teams.push({ Name: groupName, Members: [] });
-                        }
-                    });
-                }
-            });
-
-            angular.forEach(teams, function (team) {
-                angular.forEach(evaluations, function (evaluation) {
-                    var groupName = evaluation.Employee.Group.GroupName;
-                    if (groupName === team.Name) {
-                        team.Members.push(evaluation);
-                        team.TotalBonus += evaluation.BonusGiven;
-                    }
-                });
-            });
-
-            return teams;
-        }
-
         vm.buildChart = function (group) {
             if (!group.isBuilt) {
                 group.isBuilt = true;
@@ -116,17 +86,15 @@
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
             if (vm.paFocusPermission === enumerationsFactory.policy.None) {
                 PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    var evaluations = PAFocusModel.evaluations;
-                    vm.groups = groupEvaluationByTeam(evaluations);
+                    vm.groups = PAFocusModel.evaluations;
                 });
             } else {
                 PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    var evaluations = PAFocusModel.evaluations;
-                    vm.groups = groupEvaluationByTeam(evaluations);
+                    vm.groups = PAFocusModel.evaluations;
                 });
             }
         };
 
-        initialize();
+        //initialize();
     }
 })(angular.module("assessmentModule"));

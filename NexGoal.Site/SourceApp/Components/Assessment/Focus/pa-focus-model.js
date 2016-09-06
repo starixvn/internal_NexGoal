@@ -12,6 +12,52 @@
         vm.evaluations = [];
         vm.PAFocusPermission = {};
 
+        function groupEvaluationByTeam(evaluations) {
+            var teams = [];
+
+            angular.forEach(evaluations, function (evaluation) {
+                var groupName = evaluation.Employee.Group.GroupName;
+                var groupId = evaluation.Employee.Group.GroupId;
+                if (teams.length === 0) {
+                    teams.push({ TeamId: groupId, Name: groupName, MaxBonus: 100, TotalBonus: 0, Members: [] });
+                } else {
+                    var isExsited = false;
+                    angular.forEach(teams, function (team) {
+                        if (team.Name === groupName) {
+                            isExsited = true;
+                        }
+                    });
+                    if (!isExsited) {
+                        teams.push({ TeamId: groupId, Name: groupName, MaxBonus: 100, TotalBonus: 0, Members: [] });
+                    }
+                }
+            });
+
+            angular.forEach(teams, function (team) {
+                angular.forEach(evaluations, function (evaluation) {
+                    var groupName = evaluation.Employee.Group.GroupName;
+                    if (groupName === team.Name) {
+                        team.Members.push(evaluation);
+                        team.TotalBonus += evaluation.BonusGiven;
+                    }
+                });
+            });
+
+            return teams;
+        }
+
+        function unGroupEvaluationByTeam(teams) {
+            var evaluations = [];
+
+            angular.forEach(teams, function (team) {
+                angular.forEach(team.Members, function (member) {
+                    evaluations.push(member);
+                });
+            });
+
+            return evaluations;
+        }
+
         vm.getPAFocusFullPermission = function () {
             return paFocusFactory.getPAFocusFullPermission().success(function (PAFocusPermission) {
                 vm.PAFocusPermission = PAFocusPermission;
@@ -48,7 +94,8 @@
 
         vm.getPAFocus = function (periodId, groupIds, employeeId) {
             return paFocusFactory.getPAFocus(periodId, groupIds, employeeId).success(function (evaluations) {
-                vm.evaluations = evaluations;
+                var groups = evaluations;
+                vm.evaluations = groupEvaluationByTeam(groups);
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
@@ -56,14 +103,16 @@
 
         vm.getPAFocusByManagement = function (periodId, groupIds, employeeId) {
             return paFocusFactory.getPAFocusByManagement(periodId, groupIds, employeeId).success(function (evaluations) {
-                vm.evaluations = evaluations;
+                var groups = evaluations;
+                vm.evaluations = groupEvaluationByTeam(groups);
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
         vm.updatePAFocus = function (evaluations) {
-            return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
+            var groups = unGroupEvaluationByTeam(evaluations);
+            return paFocusFactory.updatePAFocus(groups).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -76,6 +125,7 @@
         };
 
         vm.updatePAFocusByManagement = function (evaluations) {
+            var groups = unGroupEvaluationByTeam(evaluations);
             return paFocusFactory.updatePAFocusByManagement(evaluations).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
