@@ -26,13 +26,13 @@
                     if (vm.periods.length > 0) {
                         vm.filter.periodId = vm.periods[0].PeriodId;
                     }
-                });
 
-                CommonModel.getDepartment(null, true).then(function () {
-                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-                    vm.teams = angular.copy(treeDepartment);
-
-                    vm.query();
+                    CommonModel.getDepartment(null, true).then(function () {
+                        var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                        vm.teams = angular.copy(treeDepartment);
+                        utilitiesFactory.setSelectAll(vm.teams);
+                        vm.query();
+                    });
                 });
             });
         }

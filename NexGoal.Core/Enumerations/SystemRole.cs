@@ -12,6 +12,9 @@
         [Description("HR")]
         HumanResource = 2,
 
+        [Description("Management")]
+        Management = 3,
+
         [Description("Reviewer")]
         Reviewer = 4,
 

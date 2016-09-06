@@ -32,7 +32,13 @@
 
                     angular.forEach(menus, function (otherKey) {
                         if (otherKey.ParentId === parentMenu.MenuId) {
-                            parentMenu.MenuItems.push(otherKey);
+                            var existed = false;
+                            angular.forEach(parentMenu.MenuItems, function (item) {
+                                existed = !existed ? item.Name === otherKey.Name : existed;
+                            });
+                            if (!existed) {
+                                parentMenu.MenuItems.push(otherKey);
+                            }
                         }
                     });
 
