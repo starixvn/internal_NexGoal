@@ -1599,4 +1599,7 @@
   <data name="NextObjectives" xml:space="preserve">
     <value>Next Objectives</value>
   </data>
+  <data name="StartFocusDateGreaterThanEndDateWarning" xml:space="preserve">
+    <value>The Focus start date must more than the Period End date</value>
+  </data>
 </root>

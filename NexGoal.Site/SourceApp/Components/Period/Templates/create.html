@@ -79,12 +79,8 @@
                     <calendar-image class="calendar-image" ng-click="createPeriodCtrl.openPopupAttendanceEndDate($event)"></calendar-image>
                 </div>
             </div>
-            <div class="form-group">
-                <label class="col-sm-3 control-label required-label" data-translate="FocusStartDate"
-                       ng-show="createPeriodCtrl.period.TargetTypeId == 3 || createPeriodCtrl.period.TargetTypeId == 5">
-                </label>
-                <label class="col-sm-3 control-label" data-translate="FocusStartDate"
-                       ng-show="createPeriodCtrl.period.TargetTypeId != 3 && createPeriodCtrl.period.TargetTypeId != 5">
+            <div class="form-group" ng-show="createPeriodCtrl.period.TargetTypeId == 3">
+                <label class=" col-sm-3 control-label required-label" data-translate="FocusStartDate">
                 </label>
                 <div class="col-sm-3">
                     <input readonly class="calendar-form-control" type="text"

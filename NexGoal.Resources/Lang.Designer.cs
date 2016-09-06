@@ -3778,6 +3778,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The Focus start date must more than the Period End date.
+        /// </summary>
+        public static string StartFocusDateGreaterThanEndDateWarning {
+            get {
+                return ResourceManager.GetString("StartFocusDateGreaterThanEndDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
         public static string Status {

@@ -290,11 +290,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     return false;
                 }
 
-                if (!period.RawFocusStartDate) {
-                    notificationFactory.error("FocusStartDateRequired");
-                    return false;
-                }
-
                 if (period.TargetTypeId === periodModel.targetType.SemiAnnual) {
                     if (!period.RawEndDate) {
                         notificationFactory.error("EndDatePeriodRequired");
@@ -302,6 +297,14 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     }
                     else if (new Date(period.RawStartDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
                         notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                        return false;
+                    }
+
+                    if (!period.RawFocusStartDate) {
+                        notificationFactory.error("FocusStartDateRequired");
+                        return false;
+                    } else if (new Date(period.RawEndDate).setHours(0, 0, 0, 0) > new Date(period.RawFocusStartDate).setHours(0, 0, 0, 0)) {
+                        notificationFactory.error("StartFocusDateGreaterThanEndDateWarning");
                         return false;
                     }
                 }
