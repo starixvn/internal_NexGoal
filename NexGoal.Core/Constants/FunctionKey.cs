@@ -31,5 +31,9 @@
         public const string PAFocus = "PAFocus";
 
         public const string PAFocusFull = "PAFocusFull";
+
+        public const string ManageNomination = "ManageNomination";
+
+        public const string Nomination = "Nomination";
     }
 }

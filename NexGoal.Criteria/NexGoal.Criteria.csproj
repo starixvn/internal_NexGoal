@@ -102,6 +102,10 @@
     <Compile Include="EmployeeEPA\UpdateFinalScoreEPAEndEvaluationCriteria.cs" />
     <Compile Include="Employee\ResetPasswordCriteria.cs" />
     <Compile Include="Employee\UpdateHasMonthlyEPACriteria.cs" />
+    <Compile Include="EOQ\CreateEOQCriteria.cs" />
+    <Compile Include="EOQ\DeleteEOQCriteria.cs" />
+    <Compile Include="EOQ\GetEOQCriteria.cs" />
+    <Compile Include="EOQ\UpdateEOQCriteria.cs" />
     <Compile Include="EPAHistory\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
