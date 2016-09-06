@@ -1,0 +1,66 @@
+﻿<div class="custom-modal">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span data-translate="CreateNominationPeriod"></span>
+            <span class="close-popup" ng-click="createNominationPeriodCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-3 control-label required-label" data-translate="Quarter"></label>
+                <div class="col-sm-3 field">
+                    <select class="form-control" ng-model="createNominationPeriodCtrl.period.Quarter">
+                        <option value=""></option>
+                        <option value="1">1st</option>
+                        <option value="2">2nd</option>
+                        <option value="3">3rd</option>
+                        <option value="4">4th</option>
+                    </select>
+                </div>
+
+                <label class="col-sm-3 control-label required-label" data-translate="Year"></label>
+                <div class="col-sm-3 field">
+                    <select class="form-control" ng-model="createNominationPeriodCtrl.period.Year">
+                        <option value=""></option>
+                        <option ng-repeat="year in createNominationPeriodCtrl.years" value="{{year}}">{{year}}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label required-label" data-translate="StartDate"></label>
+                <div class="col-sm-3 field">
+                    <input readonly class="calendar-form-control" type="text" datepicker-popup
+                           ng-model="createNominationPeriodCtrl.period.RawStartDate"
+                           ng-click="createNominationPeriodCtrl.openPopupStartDate($event)"
+                           is-open="createNominationPeriodCtrl.calendar.startDateOpened"/>
+                    <calendar-image class="calendar-image" 
+                                    ng-click="createNominationPeriodCtrl.openPopupStartDate($event)"></calendar-image>
+                </div>
+
+                <label class="col-sm-3 control-label required-label" data-translate="EndDate"></label>
+                <div class="col-sm-3 field">
+                    <input readonly class="calendar-form-control" type="text" datepicker-popup
+                           ng-model="createNominationPeriodCtrl.period.RawEndDate"
+                           ng-click="createNominationPeriodCtrl.openPopupEndDate($event)"
+                           is-open="createNominationPeriodCtrl.calendar.endDateOpened" />
+                    <calendar-image class="calendar-image"
+                                    ng-click="createNominationPeriodCtrl.openPopupEndDate($event)"></calendar-image>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-sm-3 control-label" data-translate="Description"></label>
+                <div class="col-sm-9 field">
+                    <textarea type="text" class="form-control comment" rows="3"
+                              ng-model="createNominationPeriodCtrl.Description"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer button-block">
+        <button class="button btn-cancel customize" ng-click="createNominationPeriodCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button" ng-click="createNominationPeriodCtrl.submit()" data-translate="Submit"></button>
+    </div>
+</div>

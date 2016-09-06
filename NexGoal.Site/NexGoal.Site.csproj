@@ -416,6 +416,11 @@
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalInformation.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\paFocus.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalObjective.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\create-nomination-period-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\manage-nomination-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\nomination-model.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\manageNomination.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalCreateNominationPeriod.html" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-controller.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-directive.js" />
     <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />

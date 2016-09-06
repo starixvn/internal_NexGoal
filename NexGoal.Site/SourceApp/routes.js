@@ -179,5 +179,7 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
 
     $routeProvider.when("/PAFocus/Index",
-    { templateUrl: baseUrl + "SourceApp/Components/Assessment/Focus/Templates/index.html", caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + "SourceApp/Components/Assessment/Focus/Templates/index.html", caseInsensitiveMatch: true })
+    .when("/ManageNomination/Index",
+    { templateUrl: baseUrl + "SourceApp/Components/Assessment/Nomination/Templates/manageNomination.html", caseInsensitiveMatch: true });
 }]);

@@ -1599,7 +1599,28 @@
   <data name="NextObjectives" xml:space="preserve">
     <value>Next Objectives</value>
   </data>
-  <data name="StartFocusDateGreaterThanEndDateWarning" xml:space="preserve">
+    <data name="StartFocusDateGreaterThanEndDateWarning" xml:space="preserve">
     <value>The Focus start date must more than the Period End date</value>
+  </data>
+  <data name="CreateNominationPeriod" xml:space="preserve">
+    <value>Create Nomination Period</value>
+  </data>
+  <data name="NominationPeriod" xml:space="preserve">
+    <value>Nomination Period</value>
+  </data>
+  <data name="NotStarted" xml:space="preserve">
+    <value>Not Started</value>
+  </data>
+  <data name="QuarterRequired" xml:space="preserve">
+    <value>The Quarter field is required!</value>
+  </data>
+  <data name="YearRequired" xml:space="preserve">
+    <value>The Year field is required!</value>
+  </data>
+  <data name="EndDateRequired" xml:space="preserve">
+    <value>End Date field is required!</value>
+  </data>
+  <data name="StartDateRequired" xml:space="preserve">
+    <value>Start Date field is required!</value>
   </data>
 </root>

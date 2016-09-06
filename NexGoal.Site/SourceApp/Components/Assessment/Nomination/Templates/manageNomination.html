@@ -1,0 +1,90 @@
+﻿<div ng-controller="ManageNominationController as manageNominationCtrl">
+    <div class="row">
+        <div class="col-sm-12 sub-header">
+            <ul class="row breadcrumb">
+                <li class="current" data-translate="NominationPeriod"></li>
+            </ul>
+        </div>
+
+        <div class="col-sm-12">
+            <form novalidate class="form-inline filter">
+                <div class="form-group">
+                    <div class="col">
+                        <label class="control-label" data-translate="Year"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="manageNominationCtrl.filter.Year">
+                                <option ng-repeat="year in manageNominationCtrl.years" value="{{year}}">{{year}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Status"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="manageNominationCtrl.filter.Status">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option value="1" data-translate="NotStarted"></option>
+                                <option value="2" data-translate="InProgress" selected></option>
+                                <option value="3" data-translate="Closed"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <button class="button" ng-click="manageNominationCtrl.query()" data-translate="Search"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12">
+            <table class="row table table-bordered table-striped">
+                <thead>
+                    <tr class="header-table">
+                        <th colspan="7">
+                            <a class="pull-left button-icon create-button"
+                               ng-click="manageNominationCtrl.createNominationPeriod()">
+                                <span class="icon plus"></span>
+                                <span class="button-text" data-translate="CreateNominationPeriod"></span>
+                            </a>
+                            <input type="text" class="search-inline-textbox search pull-right"
+                                   ng-model="manageNominationCtrl.searchKey"
+                                   ng-change="manageNominationCtrl.search()" />
+                        </th>
+                    </tr>
+                    <tr class="headerName">
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="Quarter"></th>
+                        <th data-translate="Year"></th>
+                        <th data-translate="StartDate"></th>
+                        <th data-translate="EndDate"></th>
+                        <th data-translate="Status"></th>
+                        <th data-translate="Action"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr dir-paginate="period in manageNominationCtrl.filteredItems | itemsPerPage: manageNominationCtrl.pageSize" 
+                        current-page="manageNominationCtrl.currentPage">
+                        <td colspan="7">Test</td>
+                    </tr>
+                    <tr ng-show="manageNominationCtrl.filteredItems.length == 0">
+                        <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+                <tfoot ng-show="manageNominationCtrl.filteredItems.length > 0">
+                    <tr>
+                        <td colspan="7" class="paging">
+                            <span data-translate="Show"></span>
+                            <select class="dropdown-entry" ng-model="manageNominationCtrl.pageSize"
+                                    ng-options="entry for entry in manageNominationCtrl.entries"></select>
+                            <span data-translate="entries"></span>
+                            <div class="pull-right custom-paging">
+                                <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>

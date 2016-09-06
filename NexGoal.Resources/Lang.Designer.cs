@@ -682,6 +682,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Nomination Period.
+        /// </summary>
+        public static string CreateNominationPeriod {
+            get {
+                return ResourceManager.GetString("CreateNominationPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Target Template.
         /// </summary>
         public static string CreateTargetTemplate {
@@ -1164,6 +1173,15 @@ namespace NexGoal.Resources {
         public static string EndDatePeriodRequired {
             get {
                 return ResourceManager.GetString("EndDatePeriodRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Date field is required!.
+        /// </summary>
+        public static string EndDateRequired {
+            get {
+                return ResourceManager.GetString("EndDateRequired", resourceCulture);
             }
         }
         
@@ -2572,6 +2590,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nomination Period.
+        /// </summary>
+        public static string NominationPeriod {
+            get {
+                return ResourceManager.GetString("NominationPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nomination Title.
         /// </summary>
         public static string NominationTitle {
@@ -2685,6 +2712,15 @@ namespace NexGoal.Resources {
         public static string NotRequired {
             get {
                 return ResourceManager.GetString("NotRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Not Started.
+        /// </summary>
+        public static string NotStarted {
+            get {
+                return ResourceManager.GetString("NotStarted", resourceCulture);
             }
         }
         
@@ -3027,6 +3063,15 @@ namespace NexGoal.Resources {
         public static string QualityOfWork {
             get {
                 return ResourceManager.GetString("QualityOfWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Quarter field is required!.
+        /// </summary>
+        public static string QuarterRequired {
+            get {
+                return ResourceManager.GetString("QuarterRequired", resourceCulture);
             }
         }
         
@@ -3777,7 +3822,7 @@ namespace NexGoal.Resources {
             }
         }
         
-        /// <summary>
+ /// <summary>
         ///   Looks up a localized string similar to The Focus start date must more than the Period End date.
         /// </summary>
         public static string StartFocusDateGreaterThanEndDateWarning {
@@ -3785,7 +3830,17 @@ namespace NexGoal.Resources {
                 return ResourceManager.GetString("StartFocusDateGreaterThanEndDateWarning", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to Start Date field is required!.
+        /// </summary>
+        public static string StartDateRequired {
+            get {
+                return ResourceManager.GetString("StartDateRequired", resourceCulture);
+            }
+        }
+
+
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>
@@ -4503,6 +4558,15 @@ namespace NexGoal.Resources {
         public static string WrongConfirmPassword {
             get {
                 return ResourceManager.GetString("WrongConfirmPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Year field is required!.
+        /// </summary>
+        public static string YearRequired {
+            get {
+                return ResourceManager.GetString("YearRequired", resourceCulture);
             }
         }
         
