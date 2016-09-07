@@ -56,24 +56,6 @@
             return CommonModel.getIndex(index, currentPage, pageSize);
         };
 
-        vm.getStatusName = function (statusId) {
-            var statusName = "";
-
-            switch (statusId) {
-                case 0:
-                    statusName = "Not Started";
-                    break;
-                case 1:
-                    statusName = "In Progress";
-                    break;
-                case 2:
-                    statusName = "Closed";
-                    break;
-            }
-
-            return statusName;
-        }
-
         vm.query = function () {
             lockScreenService.start();
 
@@ -82,6 +64,12 @@
 
             EOQModel.getEOQ(vm.filter.Year, vm.filter.StatusId).then(function () {
                 vm.periods = EOQModel.periods;
+
+                angular.forEach(vm.periods, function (period) {
+                    period.QuarterName = EOQModel.getQuarterName(period.Quarter);
+                    period.StatusName = EOQModel.getStatusName(period.StatusId);
+                });
+
                 utilitiesFactory.searchOnPage(vm, vm.periods);
             })["finally"](function () {
                 lockScreenService.stop();
@@ -91,7 +79,7 @@
         };
 
         vm.createEOQ = function () {
-            EOQModel.openPopupCreateNominationPeriod().then(function (period) {
+            EOQModel.openPopupCreateEOQ().then(function (period) {
                 vm.modalInstance = null;
 
                 lockScreenService.start();
@@ -104,14 +92,8 @@
             });
         };
 
-        vm.deleteEOQ = function (eoqId) {
-            lockScreenService.start();
-
-            EOQModel.deleteEOQ(eoqId).then(function () {
-                vm.query();
-            })["finally"](function () {
-                lockScreenService.stop();
-            });
+        vm.deleteEOQ = function (period) {
+            EOQModel.openPopupDeleteEOQ(vm, period);
         };
 
         initialize();

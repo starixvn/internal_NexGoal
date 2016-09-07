@@ -3,12 +3,51 @@
 
     assessmentModule.factory("EOQModel", eoqModel);
 
-    eoqModel.$inject = ["$modal", "eoqFactory", "errorFactory", "notificationFactory"];
+    eoqModel.$inject = ["$modal", "eoqFactory", "errorFactory", "notificationFactory", "utilitiesFactory"];
 
-    function eoqModel($modal, eoqFactory, errorFactory, notificationFactory) {
+    function eoqModel($modal, eoqFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var vm = {};
 
         vm.periods = [];
+
+        vm.getStatusName = function (statusId) {
+            var statusName = "";
+
+            switch (statusId) {
+                case 0:
+                    statusName = "Not Started";
+                    break;
+                case 1:
+                    statusName = "In Progress";
+                    break;
+                case 2:
+                    statusName = "Closed";
+                    break;
+            }
+
+            return statusName;
+        }
+
+        vm.getQuarterName = function (quarter) {
+            var quarterName = "";
+
+            switch (quarter) {
+                case 1:
+                    quarterName = quarter + "st";
+                    break;
+                case 2:
+                    quarterName = quarter + "nd";
+                    break;
+                case 3:
+                    quarterName = quarter + "rd";
+                    break;
+                default:
+                    quarterName = quarter + "th";
+                    break;
+            }
+
+            return quarterName;
+        };
 
         vm.createEOQ = function (period) {
             return eoqFactory.createEOQ(period).success(function (response) {
@@ -36,20 +75,6 @@
             });
         };
 
-        vm.deleteEOQ = function (eoqId) {
-            return eoqFactory.deleteEOQ(eoqId).success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success("DeletedSuccessfully");
-                }
-                else {
-                    notificationFactory.error("", response.Message);
-                }
-
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
         vm.getEOQ = function (year, statusId) {
             return eoqFactory.getEOQ(year, statusId).success(function (periods) {
                 vm.periods = periods;
@@ -58,7 +83,7 @@
             });
         };
 
-        vm.openPopupCreateNominationPeriod = function () {
+        vm.openPopupCreateEOQ = function () {
             vm.modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Components/Assessment/EOQ/Templates/modalCreateEOQ.html',
                 controller: "CreateEOQController as createEOQCtrl",
@@ -67,6 +92,41 @@
             });
 
             return vm.modalInstance.result;
+        };
+
+        vm.openPopupDeleteEOQ = function (vm, period) {
+            var modalInstance = $modal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: "ModalConfirmController as modalConfirmCtrl",
+                backdrop: 'static',
+                resolve: {
+                    name: function () {
+                        return period.QuarterName + " quarter of " + period.Year;
+                    },
+                    action: function () {
+                        return 'delete';
+                    }
+                },
+                windowClass: "modal-confirm-center"
+            });
+
+            modalInstance.result.then(function () {
+                return eoqFactory.deleteEOQ(period.EOQId).success(function (response) {
+                    if (response.IsSuccessful) {
+                        var index = vm.periods.indexOf(period);
+                        vm.periods.splice(index, 1);
+                        utilitiesFactory.searchOnPage(vm, vm.periods);
+                        notificationFactory.success("DeletedSuccessfully");
+                    }
+                    else {
+                        notificationFactory.error("", response.Message);
+                    }
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+            })["finally"](function () {
+                modalInstance = null;
+            });
         };
 
         vm.calendar = {
