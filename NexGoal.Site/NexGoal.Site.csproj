@@ -409,6 +409,7 @@
     <Content Include="SourceApp\Components\Assessment\EOQ\Templates\updateEOQ.html" />
     <Content Include="SourceApp\Components\Assessment\EOQ\update-eoq-basic-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\EOQ\update-eoq-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\update-eoq-roles-management-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\focus-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-chart-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-factory.js" />

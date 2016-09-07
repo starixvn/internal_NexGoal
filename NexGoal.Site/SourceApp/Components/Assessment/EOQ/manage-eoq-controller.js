@@ -12,16 +12,11 @@
 
         vm.periods = [];
         vm.filteredItems = [];
-
         vm.years = [];
-
         vm.filter = {};
-
         vm.currentPage = 1;
         vm.pageSize = 20;
-
         vm.searchKey = "";
-
         vm.modalInstance = null;
 
         function initFilter() {

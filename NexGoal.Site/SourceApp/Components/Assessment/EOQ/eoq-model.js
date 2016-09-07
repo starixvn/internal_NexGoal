@@ -69,7 +69,7 @@
                     notificationFactory.success("UpdatedSuccessfully");
                 }
                 else {
-                    notificationFactory.error("UpdatedUnsuccessfully");
+                    notificationFactory.error("", response.Message);
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

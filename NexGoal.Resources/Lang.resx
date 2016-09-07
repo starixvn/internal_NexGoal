@@ -1629,4 +1629,10 @@
   <data name="RolesManagement" xml:space="preserve">
     <value>Roles Management</value>
   </data>
+  <data name="InBoard" xml:space="preserve">
+    <value>In Board</value>
+  </data>
+  <data name="ShowAllEmployee" xml:space="preserve">
+    <value>Show All Employee</value>
+  </data>
 </root>

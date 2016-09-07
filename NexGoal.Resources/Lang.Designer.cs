@@ -1969,6 +1969,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to In Board.
+        /// </summary>
+        public static string InBoard {
+            get {
+                return ResourceManager.GetString("InBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to  Include.
         /// </summary>
         public static string Include {
@@ -3720,6 +3729,15 @@ namespace NexGoal.Resources {
         public static string ShowAll {
             get {
                 return ResourceManager.GetString("ShowAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Show All Employee.
+        /// </summary>
+        public static string ShowAllEmployee {
+            get {
+                return ResourceManager.GetString("ShowAllEmployee", resourceCulture);
             }
         }
         

@@ -15,7 +15,7 @@
         vm.dataTab = {
             basicInformation: !vm.viewMode,
             rolesManagement: vm.viewMode
-        }
+        };
 
         vm.tabBasicInformationSelected = function () {
             vm.dataTab.basicInformation = true;

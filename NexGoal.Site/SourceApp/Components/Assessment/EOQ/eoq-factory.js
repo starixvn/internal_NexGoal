@@ -19,7 +19,14 @@
                 return $http.post(baseUrl + "api/EOQ/CreateEOQ", criteria);
             },
             updateEOQ: function (period) {
-                return $http.post(baseUrl + "api/EOQ/UpdateEOQ", period);
+                var criteria = {
+                    EOQYId: period.EOQYId,
+                    Description: period.Description,
+                    StartDate: period.StartDate,
+                    EndDate: period.EndDate
+                };
+
+                return $http.put(baseUrl + "api/EOQ/UpdateEOQ", criteria);
             },
             deleteEOQ: function (eoqId) {
                 return $http.delete(baseUrl + "api/EOQ/DeleteEOQ", { params: { Id: eoqId } });
@@ -28,7 +35,7 @@
                 return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Year: year, StatusId: statusId } });
             },
             getEOQById: function (eoqId) {
-                return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Id: eoqId } });
+                return $http.get(baseUrl + "api/EOQ/GetEOQById", { params: { Id: eoqId } });
             }
         };
     }
