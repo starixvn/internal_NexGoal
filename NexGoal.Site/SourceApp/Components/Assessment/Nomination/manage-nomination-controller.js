@@ -3,9 +3,9 @@
 
     assessmentModule.controller("ManageNominationController", manageNominationController);
 
-    manageNominationController.$inject = ["NominationModel", "utilitiesFactory"];
+    manageNominationController.$inject = ["NominationModel", "utilitiesFactory", "lockScreenService"];
 
-    function manageNominationController(NominationModel, utilitiesFactory) {
+    function manageNominationController(NominationModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.periods = [];
@@ -26,12 +26,20 @@
         vm.modalInstance = null;
 
         vm.query = function () {
-            alert("Implement Later");
+            //alert("Implement Later");
         };
 
         vm.createNominationPeriod = function () {
-            NominationModel.openPopupCreateNominationPeriod().then(function () { 
+            NominationModel.openPopupCreateNominationPeriod().then(function (period) {
                 vm.modalInstance = null;
+
+                lockScreenService.start();
+
+                NominationModel.createEmployeeOfQuarterPeriod(period).then(function () {
+                    vm.query();
+                })["finally"](function () {
+                    lockScreenService.stop();
+                });
             });
         };
 

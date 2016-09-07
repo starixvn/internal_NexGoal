@@ -35,9 +35,7 @@
                 vm.period.StartDate = vm.period.RawStartDate ? vm.period.RawStartDate.toDateString() : null;
                 vm.period.EndDate = vm.period.RawEndDate ? vm.period.RawEndDate.toDateString() : null;
 
-                alert("Proceed Save");
-
-                $modalInstance.dismiss("cancel");
+                $modalInstance.close(vm.period);
             }
         };
 

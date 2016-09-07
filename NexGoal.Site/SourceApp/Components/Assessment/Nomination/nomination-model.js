@@ -16,7 +16,7 @@
                     notificationFactory.success("CreatedSuccessfully");
                 }
                 else {
-                    notificationFactory.error("CreatedUnsuccessfully");
+                    notificationFactory.error("", response.Message);
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

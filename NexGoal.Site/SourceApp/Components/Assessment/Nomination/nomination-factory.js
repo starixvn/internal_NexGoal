@@ -8,7 +8,15 @@
     function nominationFactory($http, baseUrl) {
         return {
             createEmployeeOfQuarterPeriod: function (period) {
-                return $http.post(baseUrl + "api/EOQ/CreateEOQ", period);
+                var criteria = {
+                    Quarter: period.Quarter,
+                    Year: period.Year,
+                    Description: period.Description,
+                    StartDate: period.StartDate,
+                    EndDate: period.EndDate
+                };
+
+                return $http.post(baseUrl + "api/EOQ/CreateEOQ", criteria);
             },
             updateEmployeeOfQuarterPeriod: function (period) {
                 return $http.post(baseUrl + "api/EOQ/UpdateEOQ", period);
