@@ -2131,7 +2131,7 @@ input[type=radio] {
   background: #fff;
   padding: 0 15px 15px;
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
-  margin-bottom: 20px;
+  margin-bottom: 70px;
 }
 .txt-warning {
   margin: 0;
@@ -2244,4 +2244,5 @@ input:checked + .slider:before {
 /* Highchart */
 .highcharts-container {
   border: 1px solid #CFCCAE;
+  margin-bottom: 10px;
 }
