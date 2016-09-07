@@ -429,5 +429,6 @@
     <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_GetNominatorSettingById" SpName="EOQ_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_UpdateNominatorSettingById" SpName="EOQ_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQNomination_GetByNominatorId" SpName="EOQNomination_GetByNominatorId" DbName="NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

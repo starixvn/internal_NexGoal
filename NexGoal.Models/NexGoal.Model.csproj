@@ -67,8 +67,11 @@
     <Compile Include="Employee\MenuViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
     <Compile Include="EOQY\EOQYModel.cs" />
+    <Compile Include="EOQY\NominationDetailModel.cs" />
+    <Compile Include="EOQY\EOQYNominationModel.cs" />
     <Compile Include="EOQY\EOQYNominatorSettingModel.cs" />
     <Compile Include="EOQY\EOQYQuestionModel.cs" />
+    <Compile Include="EOQY\NominationModel.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="FlowManagement\DepartmentFlowModel.cs" />
     <Compile Include="FlowManagement\PersonalFlowModel.cs" />

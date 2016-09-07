@@ -108,6 +108,7 @@
     <Compile Include="EOQ\GetEOQCriteria.cs" />
     <Compile Include="EOQ\GetEOQNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQQuestionCriteria.cs" />
+    <Compile Include="EOQ\GetNominationByNominatorIdCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOY\CreateEOYCriteria.cs" />
