@@ -8,7 +8,7 @@
 
         public int Year { get; set; }
 
-        public int? Quarter { get; set; }
+        public int Quarter { get; set; }
 
         public DateTime StartDate { get; set; }
 
