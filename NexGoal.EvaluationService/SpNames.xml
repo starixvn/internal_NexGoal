@@ -54,4 +54,12 @@
     <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="NexGoal" Plain="0">
     </Setting>
   </Function>
+  <Function Name="PAFocus">
+    <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocusProcessSetting_Update" SpName="PAFocusProcessSetting_Update" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_GetByManagement" SpName="PAFocus_GetByManagement" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_Generate" SpName="PAFocus_Generate" DbName="NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>

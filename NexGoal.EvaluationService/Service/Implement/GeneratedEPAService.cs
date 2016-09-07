@@ -47,7 +47,7 @@ namespace NexGoal.AutoGenerateEvaluation
             }
             catch (Exception ex)
             {
-                LogService.Error("Error: " + ex.InnerException.Message);
+                LogService.Error("Error: " + ex.InnerException.Message, ex);
             }
         }
 

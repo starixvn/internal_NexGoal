@@ -73,5 +73,20 @@
 
             return list;
         }
+
+        public CommandResult GeneratePAFocus(int periodId)
+        {
+            var result = new CommandResult();
+            var criteria = new GeneratePAFocusCriteria
+            {
+                PeriodId = periodId
+            };
+            if (criteria.IsValid())
+            {
+                result = Repository.Update(criteria);
+            }
+
+            return result;
+        }
     }
 }
