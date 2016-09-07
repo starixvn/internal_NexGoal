@@ -26,7 +26,7 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<EOQModel> GetEOQ(int? year = null, int? statusId = null)
+        public IEnumerable<EOQYModel> GetEOQ(int? year = null, int? statusId = null)
         {
             var criteria = new GetEOQCriteria
             {
@@ -38,7 +38,18 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(
+        public EOQYModel GetEOQById(int id)
+        {
+            var criteria = new GetEOQByIdCriteria
+            {
+                EOQYId = id
+            };
+
+            return eoqService.GetEOQById(criteria);
+        }
+
+        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
+        public IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(
             string query = null,
             string groupIds = null,
             int? processId = null,
@@ -99,11 +110,11 @@
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult DeleteEOQ(int eoqId)
+        public CommandResult DeleteEOQ(int id)
         {
             var criteria = new DeleteEOQCriteria
             {
-                EOQId = eoqId,
+                EOQYId = id,
                 ModifiedBy = SessionService.EmployeeId
             };
 

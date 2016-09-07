@@ -7,9 +7,11 @@
 
     public interface IEOQService
     {
-        IEnumerable<EOQModel> GetEOQ(GetEOQCriteria criteria);
+        IEnumerable<EOQYModel> GetEOQ(GetEOQCriteria criteria);
 
-        IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria);
+        EOQYModel GetEOQById(GetEOQByIdCriteria criteria);
+
+        IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria);
 
         CommandResult CreateEOQ(CreateEOQCriteria criteria);
 

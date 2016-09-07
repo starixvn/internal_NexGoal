@@ -4,7 +4,7 @@
 
     public class GetEOQNominatorSettingByIdCriteria : CriteriaBase
     {
-        public int EOQId { get; set; }
+        public int EOQYId { get; set; }
 
         public string Query { get; set; }
 
@@ -21,7 +21,7 @@
 
         public override bool IsValid()
         {
-            return EOQId > 0;
+            return EOQYId > 0;
         }
     }
 }

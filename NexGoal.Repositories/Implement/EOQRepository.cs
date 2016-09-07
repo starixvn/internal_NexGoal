@@ -11,14 +11,14 @@
 
     public class EOQRepository : IEOQRepository
     {
-        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(ICriteria criteria)
+        public IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EOQNominatorSettingModel> nominators =
-                        multi.Read<EOQNominatorSettingModel, EmployeeModel, DepartmentModel, Group, JobTitle, EOQNominatorSettingModel>(
+                    IEnumerable<EOQYNominatorSettingModel> nominators =
+                        multi.Read<EOQYNominatorSettingModel, EmployeeModel, DepartmentModel, Group, JobTitle, EOQYNominatorSettingModel>(
                            (nominator, emp, dept, gr, jb) =>
                            {
                                emp.Department = dept;

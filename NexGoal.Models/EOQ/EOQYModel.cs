@@ -2,13 +2,13 @@
 {
     using System;
 
-    public class EOQModel
+    public class EOQYModel
     {
-        public int EOQId { get; set; }
+        public int EOQYId { get; set; }
 
         public int Year { get; set; }
 
-        public int Quarter { get; set; }
+        public int? Quarter { get; set; }
 
         public DateTime StartDate { get; set; }
 

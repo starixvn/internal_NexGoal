@@ -4,7 +4,7 @@
 
     public class DeleteEOQCriteria : CriteriaBase
     {
-        public int EOQId { get; set; }
+        public int EOQYId { get; set; }
 
         public int ModifiedBy { get; set; }
 
@@ -15,7 +15,7 @@
 
         public override bool IsValid()
         {
-            return EOQId > 0 && ModifiedBy > 0;
+            return EOQYId > 0 && ModifiedBy > 0;
         }
     }
 }

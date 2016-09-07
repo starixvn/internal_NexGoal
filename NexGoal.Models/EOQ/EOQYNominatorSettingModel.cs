@@ -2,7 +2,7 @@
 {
     using NexGoal.Model.Employee;
 
-    public class EOQNominatorSettingModel
+    public class EOQYNominatorSettingModel
     {
         public int ProcessId { get; set; }
 

@@ -23,21 +23,33 @@
             this.eoqRepository = eoqRepository ?? new EOQRepository();
         }
 
-        public IEnumerable<EOQModel> GetEOQ(GetEOQCriteria criteria)
+        public IEnumerable<EOQYModel> GetEOQ(GetEOQCriteria criteria)
         {
-            IEnumerable<EOQModel> list = new List<EOQModel>();
+            IEnumerable<EOQYModel> list = new List<EOQYModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                list = this.GetData<EOQModel>(criteria);
+                list = this.GetData<EOQYModel>(criteria);
             }
 
             return list;
         }
 
-        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria)
+        public EOQYModel GetEOQById(GetEOQByIdCriteria criteria)
         {
-            IEnumerable<EOQNominatorSettingModel> nominators = new List<EOQNominatorSettingModel>();
+            var result = new EOQYModel();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                result = this.GetDataEntity<EOQYModel>(criteria);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria)
+        {
+            IEnumerable<EOQYNominatorSettingModel> nominators = new List<EOQYNominatorSettingModel>();
 
             if (criteria != null && criteria.IsValid())
             {

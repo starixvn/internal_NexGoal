@@ -11,7 +11,7 @@
     {
         private const string NominatorSettingXmlTemp = "<NominatorSetting ProcessId='{0}' NominatorId='{1}' />";
 
-        public int EOQId { get; set; }
+        public int EOQYId { get; set; }
 
         [SpParam(Ignored = true)]
         public List<EOQNominatorSettingModel> Nominators { get; set; }
@@ -45,7 +45,7 @@
 
         public override bool IsValid()
         {
-            return EOQId > 0 && ModifiedBy > 0;
+            return EOQYId > 0 && ModifiedBy > 0;
         }
     }
 }

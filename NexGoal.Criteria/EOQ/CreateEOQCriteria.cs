@@ -7,7 +7,7 @@
     public class CreateEOQCriteria : CriteriaBase
     {
         [Output]
-        public int EOQId { get; set; }
+        public int EOQYId { get; set; }
 
         public int Quarter { get; set; }
 

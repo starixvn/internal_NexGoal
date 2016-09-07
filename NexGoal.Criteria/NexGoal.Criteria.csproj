@@ -104,6 +104,7 @@
     <Compile Include="Employee\UpdateHasMonthlyEPACriteria.cs" />
     <Compile Include="EOQ\CreateEOQCriteria.cs" />
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />
+    <Compile Include="EOQ\GetEOQByIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQCriteria.cs" />
     <Compile Include="EOQ\GetEOQNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQCriteria.cs" />
