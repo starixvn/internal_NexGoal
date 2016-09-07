@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.AutoGenerateEvaluation
 {
-    public interface IEPAService
+    public interface INexGoalService
     {
         void Run();
     }

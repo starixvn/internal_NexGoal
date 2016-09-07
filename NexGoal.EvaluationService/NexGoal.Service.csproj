@@ -104,14 +104,14 @@
     <Compile Include="Repository\EvaluationRepository.cs" />
     <Compile Include="Repository\IEvaluationRepository.cs" />
     <Compile Include="Service\Implement\AutoMailService.cs" />
-    <Compile Include="Service\Implement\GeneratedEPAService.cs" />
+    <Compile Include="Service\Implement\NexGoalService.cs" />
     <Compile Include="Service\Implement\MailEPAService.cs" />
     <Compile Include="Service\Implement\PeriodEvalutionService.cs" />
     <Compile Include="Service\Implement\ProcessService.cs" />
     <Compile Include="Service\Implement\PromotionService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
-    <Compile Include="Service\Interfaces\IEPAService.cs" />
+    <Compile Include="Service\Interfaces\NexGoalService.cs" />
     <Compile Include="Service\Implement\SemiAnnualService.cs" />
     <Compile Include="Service\Interfaces\IPeriodEvalutionService.cs" />
     <Compile Include="Service\Interfaces\IPromotionService.cs" />

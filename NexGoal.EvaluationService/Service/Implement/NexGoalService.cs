@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace NexGoal.AutoGenerateEvaluation
 {
-    public class GeneratedEPAService : IEPAService
+    public class NexGoalService : INexGoalService
     {
         private readonly ISemiAnnualService semiAnnualService;
         private readonly IProbationService probationService;
@@ -13,12 +13,12 @@ namespace NexGoal.AutoGenerateEvaluation
         private readonly IPeriodEvalutionService periodEvalutionService;
         private readonly IMailEPAService mailService;
 
-        public GeneratedEPAService()
+        public NexGoalService()
             : this(null, null, null, null, null, null)
         {
         }
 
-        public GeneratedEPAService(
+        public NexGoalService(
             ISemiAnnualService semiAnnualService,
             IProbationService probationService,
             IPromotionService promotionService,
