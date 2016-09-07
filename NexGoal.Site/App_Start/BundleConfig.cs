@@ -178,6 +178,7 @@
                             "~/SourceApp/Components/Assessment/EOQ/manage-eoq-controller.js",
                             "~/SourceApp/Components/Assessment/EOQ/create-eoq-controller.js",
                             "~/SourceApp/Components/Assessment/EOQ/update-eoq-controller.js",
+                            "~/SourceApp/Components/Assessment/EOQ/update-eoq-basic-information-controller.js",
                             "~/SourceApp/Components/Assessment/EOQ/eoq-model.js",
                             "~/SourceApp/Components/Assessment/EOQ/eoq-factory.js"));
 

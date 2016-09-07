@@ -3409,6 +3409,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Roles Management.
+        /// </summary>
+        public static string RolesManagement {
+            get {
+                return ResourceManager.GetString("RolesManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Satisfactory.
         /// </summary>
         public static string Satisfactory {

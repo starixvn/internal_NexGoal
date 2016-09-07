@@ -1626,4 +1626,7 @@
   <data name="BasicInformation" xml:space="preserve">
     <value>Basic Information</value>
   </data>
+  <data name="RolesManagement" xml:space="preserve">
+    <value>Roles Management</value>
+  </data>
 </root>

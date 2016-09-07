@@ -94,8 +94,8 @@
             });
         };
 
-        vm.updateEOQ = function (eoqId) {
-            $location.path(baseUrl + "ManageEOQ/Update/" + eoqId);
+        vm.updateEOQ = function (eoqyId) {
+            $location.path(baseUrl + "ManageEOQ/Update/" + eoqyId);
         };
 
         vm.deleteEOQ = function (period) {

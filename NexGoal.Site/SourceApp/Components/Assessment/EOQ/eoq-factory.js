@@ -26,6 +26,9 @@
             },
             getEOQ: function (year, statusId) {
                 return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Year: year, StatusId: statusId } });
+            },
+            getEOQById: function (eoqId) {
+                return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Id: eoqId } });
             }
         };
     }

@@ -1,0 +1,50 @@
+﻿<div ng-controller="UpdateEOQBasicInformationController as eoqBasicInfoCtrl">
+    <form class="col-sm-12 col-lg-12 form-horizontal common-form info-form" novalidate>
+        <div class="form-group">
+            <label class="col-sm-1 control-label" data-translate="Quarter">
+            </label>
+            <div class="col-sm-2 field">
+                <input type="text" class="form-control" ng-model="eoqBasicInfoCtrl.period.Quarter" disabled />
+            </div>
+
+            <label class="col-sm-1 control-label" data-translate="Year">
+            </label>
+            <div class="col-sm-2 field">
+                <input type="text" class="form-control" ng-model="eoqBasicInfoCtrl.period.Year" disabled />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-1 control-label required-label" data-translate="StartDate"></label>
+            <div class="col-sm-2 field">
+                <input readonly class="calendar-form-control" type="text" datepicker-popup
+                       ng-model="eoqBasicInfoCtrl.period.RawStartDate"
+                       ng-click="eoqBasicInfoCtrl.openPopupStartDate($event)" min-date="{{eoqBasicInfoCtrl.calendar.minDate}}"
+                       is-open="eoqBasicInfoCtrl.calendar.startDateOpened" />
+                <calendar-image class="calendar-image" ng-click="eoqBasicInfoCtrl.openPopupStartDate($event)"></calendar-image>
+            </div>
+
+            <label class="col-sm-1 control-label required-label" data-translate="EndDate"></label>
+            <div class="col-sm-2 field">
+                <input readonly class="calendar-form-control" type="text" datepicker-popup
+                       ng-model="eoqBasicInfoCtrl.period.RawEndDate"
+                       ng-click="eoqBasicInfoCtrl.openPopupEndDate($event)" min-date="{{eoqBasicInfoCtrl.calendar.minDate}}"
+                       is-open="eoqBasicInfoCtrl.calendar.endDateOpened" />
+                <calendar-image class="calendar-image" ng-click="eoqBasicInfoCtrl.openPopupEndDate($event)"></calendar-image>
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-1 control-label" data-translate="Description"></label>
+            <div class="col-sm-5 field">
+                <textarea type="text" class="form-control comment" rows="3"
+                          ng-model="eoqBasicInfoCtrl.period.Description"></textarea>
+            </div>
+        </div>
+        <div class="col-sm-offset-1 button-block">
+            <button class="button btn-cancel customize" data-translate="Cancel"
+                    ng-click="eoqBasicInfoCtrl.cancel()"></button>
+            <button class="button" data-translate="Save" 
+                    ng-click="eoqBasicInfoCtrl.save(eoqBasicInfoCtrl.period)"></button>
+        </div>
+    </form>
+</div>

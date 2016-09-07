@@ -9,6 +9,7 @@
         var vm = {};
 
         vm.periods = [];
+        vm.period = [];
 
         vm.getStatusName = function (statusId) {
             var statusName = "";
@@ -78,6 +79,14 @@
         vm.getEOQ = function (year, statusId) {
             return eoqFactory.getEOQ(year, statusId).success(function (periods) {
                 vm.periods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.getEOQById = function (eoqId) {
+            return eoqFactory.getEOQById(eoqId).success(function (period) {
+                vm.period = period;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
