@@ -21,8 +21,8 @@
             updateEmployeeOfQuarterPeriod: function (period) {
                 return $http.post(baseUrl + "api/EOQ/UpdateEOQ", period);
             },
-            getEmployeeOfQuarterPeriod: function (year, status) {
-                return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { year: year, status: status } });
+            getEmployeeOfQuarterPeriod: function (year, statusId) {
+                return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Year: year, StatusId: statusId } });
             }
         };
     }

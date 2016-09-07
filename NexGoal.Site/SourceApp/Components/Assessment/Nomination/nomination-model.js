@@ -36,8 +36,8 @@
             });
         };
 
-        vm.getEmployeeOfQuarterPeriod = function (year, status) {
-            return nominationFactory.getEmployeeOfQuarterPeriod(year, status).success(function (periods) {
+        vm.getEmployeeOfQuarterPeriod = function (year, statusId) {
+            return nominationFactory.getEmployeeOfQuarterPeriod(year, statusId).success(function (periods) {
                 vm.periods = periods;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

@@ -3,9 +3,9 @@
 
     assessmentModule.controller("ManageNominationController", manageNominationController);
 
-    manageNominationController.$inject = ["NominationModel", "utilitiesFactory", "lockScreenService"];
+    manageNominationController.$inject = ["CommonModel", "NominationModel", "utilitiesFactory", "historyFactory", "lockScreenService"];
 
-    function manageNominationController(NominationModel, utilitiesFactory, lockScreenService) {
+    function manageNominationController(CommonModel, NominationModel, utilitiesFactory, historyFactory, lockScreenService) {
         var vm = this;
 
         vm.periods = [];
@@ -13,10 +13,7 @@
 
         vm.years = [];
 
-        vm.filter = {
-            Year: null,
-            Status: 2 // In Progress
-        };
+        vm.filter = {};
 
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -25,8 +22,72 @@
 
         vm.modalInstance = null;
 
+        function initFilter() {
+            var filter = historyFactory.getState();
+
+            if (!filter) {
+                var date = new Date();
+                var year = date.getFullYear();
+
+                filter = {};
+                filter.Year = year;
+                filter.StatusId = null; // In Progresss
+            }
+
+            return filter;
+        }
+
+        function initialize() {
+            var date = new Date();
+            var year = date.getFullYear();
+
+            for (var index = year; index > (year - 5) ; index--) {
+                vm.years.push(index);
+            }
+
+            utilitiesFactory.numberEntryList(vm);
+            utilitiesFactory.getDateFormat(vm);
+            vm.filter = initFilter();
+
+            vm.query();
+        }
+
+        vm.getIndex = function (index, currentPage, pageSize) {
+            return CommonModel.getIndex(index, currentPage, pageSize);
+        };
+
+        vm.getStatusName = function (statusId) {
+            var statusName = "";
+
+            switch (statusId) {
+                case 0:
+                    statusName = "Not Started";
+                    break;
+                case 1:
+                    statusName = "In Progress";
+                    break;
+                case 2:
+                    statusName = "Closed";
+                    break;
+            }
+
+            return statusName;
+        }
+
         vm.query = function () {
-            //alert("Implement Later");
+            lockScreenService.start();
+
+            vm.searchKey = '';
+            vm.currentPage = 1;
+
+            NominationModel.getEmployeeOfQuarterPeriod(vm.filter.Year, vm.filter.StatusId).then(function () {
+                vm.periods = NominationModel.periods;
+                utilitiesFactory.searchOnPage(vm, vm.periods);
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
+
+            historyFactory.saveState(vm.filter);
         };
 
         vm.createNominationPeriod = function () {
@@ -43,18 +104,7 @@
             });
         };
 
-        function initialize() {
-            var date = new Date();
-            var year = date.getFullYear();
 
-            for (var index = year; index > (year - 5) ; index--) {
-                vm.years.push(index);
-            }
-
-            vm.filter.Year = year;
-
-            utilitiesFactory.numberEntryList(vm);
-        }
 
         initialize();
     }

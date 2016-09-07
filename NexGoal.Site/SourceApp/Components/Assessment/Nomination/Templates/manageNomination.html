@@ -21,11 +21,11 @@
                     <div class="col">
                         <label class="control-label" data-translate="Status"></label>
                         <div class="control-content">
-                            <select class="form-control" ng-model="manageNominationCtrl.filter.Status">
+                            <select class="form-control" ng-model="manageNominationCtrl.filter.StatusId">
                                 <option value="">-- {{"All" | translate}} --</option>
-                                <option value="1" data-translate="NotStarted"></option>
-                                <option value="2" data-translate="InProgress" selected></option>
-                                <option value="3" data-translate="Closed"></option>
+                                <option value="0" data-translate="NotStarted"></option>
+                                <option value="1" data-translate="InProgress" selected></option>
+                                <option value="2" data-translate="Closed"></option>
                             </select>
                         </div>
                     </div>
@@ -63,9 +63,16 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr dir-paginate="period in manageNominationCtrl.filteredItems | itemsPerPage: manageNominationCtrl.pageSize" 
+                    <tr class="text-center" 
+                        dir-paginate="period in manageNominationCtrl.filteredItems | itemsPerPage: manageNominationCtrl.pageSize" 
                         current-page="manageNominationCtrl.currentPage">
-                        <td colspan="7">Test</td>
+                        <td ng-bind="manageNominationCtrl.getIndex($index, manageNominationCtrl.currentPage, manageNominationCtrl.pageSize)"></td>
+                        <td ng-bind="period.Quarter"></td>
+                        <td ng-bind="period.Year"></td>
+                        <td ng-bind="period.StartDate | date: manageNominationCtrl.dateFormat"></td>
+                        <td ng-bind="period.EndDate | date: manageNominationCtrl.dateFormat"></td>
+                        <td ng-bind="manageNominationCtrl.getStatusName(period.StatusId)"></td>
+                        <td></td>
                     </tr>
                     <tr ng-show="manageNominationCtrl.filteredItems.length == 0">
                         <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
