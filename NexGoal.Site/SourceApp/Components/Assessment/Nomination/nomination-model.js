@@ -3,10 +3,46 @@
 
     assessmentModule.factory("NominationModel", nominationModel);
 
-    nominationModel.$inject = ["$modal", "notificationFactory"];
+    nominationModel.$inject = ["$modal", "nominationFactory", "errorFactory", "notificationFactory"];
 
-    function nominationModel($modal, notificationFactory) {
+    function nominationModel($modal, nominationFactory, errorFactory, notificationFactory) {
         var vm = {};
+
+        vm.periods = [];
+
+        vm.createEmployeeOfQuarterPeriod = function (period) {
+            return nominationFactory.createEmployeeOfQuarterPeriod(period).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("CreatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("CreatedUnsuccessfully");
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.updateEmployeeOfQuarterPeriod = function (period) {
+            return nominationFactory.updateEmployeeOfQuarterPeriod(period).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("UpdatedUnsuccessfully");
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.getEmployeeOfQuarterPeriod = function (year, status) {
+            return nominationFactory.getEmployeeOfQuarterPeriod(year, status).success(function (periods) {
+                vm.periods = periods;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
         vm.openPopupCreateNominationPeriod = function () {
             vm.modalInstance = $modal.open({

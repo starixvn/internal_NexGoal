@@ -177,7 +177,8 @@
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-factory.js",
                             "~/SourceApp/Components/Assessment/Nomination/manage-nomination-controller.js",
                             "~/SourceApp/Components/Assessment/Nomination/create-nomination-period-controller.js",
-                            "~/SourceApp/Components/Assessment/Nomination/nomination-model.js"));
+                            "~/SourceApp/Components/Assessment/Nomination/nomination-model.js",
+                            "~/SourceApp/Components/Assessment/Nomination/nomination-factory.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

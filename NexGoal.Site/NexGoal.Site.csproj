@@ -418,6 +418,7 @@
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalObjective.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\create-nomination-period-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\manage-nomination-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\nomination-factory.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\nomination-model.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\manageNomination.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalCreateNominationPeriod.html" />
