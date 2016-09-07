@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusChartController", paFocusChartController);
 
-    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "enumerationsFactory"];
+    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "enumerationsFactory", "lockScreenService"];
 
-    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, enumerationsFactory) {
+    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, enumerationsFactory, lockScreenService) {
         var vm = this;
 
         vm.groups = [];
@@ -26,13 +26,12 @@
                     if (vm.periods.length > 0) {
                         vm.filter.periodId = vm.periods[0].PeriodId;
                     }
+                });
 
-                    CommonModel.getDepartment(null, true).then(function () {
-                        var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-                        vm.teams = angular.copy(treeDepartment);
-                        utilitiesFactory.setSelectAll(vm.teams);
-                        vm.query();
-                    });
+                CommonModel.getDepartment(null, true).then(function () {
+                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                    vm.teams = angular.copy(treeDepartment);
+                    utilitiesFactory.setSelectAll(vm.teams);
                 });
             });
         }
@@ -45,8 +44,8 @@
                 angular.forEach(group.Members, function (member) {
                     var piece = {
                         name: member.Employee.NickName,
-                        contribution: member.Contribution,
-                        y: member.BonusGiven
+                        contribution: member.Contribution === null ? 0 : member.Contribution,
+                        y: member.BonusGiven === null ? 0 : member.BonusGiven,
                     };
 
                     chartData.push(piece);
@@ -83,18 +82,23 @@
         };
 
         vm.query = function () {
+            lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
             if (vm.paFocusPermission === enumerationsFactory.policy.None) {
                 PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
                     vm.groups = PAFocusModel.evaluations;
+                })["finally"](function () {
+                    lockScreenService.stop();
                 });
             } else {
                 PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
                     vm.groups = PAFocusModel.evaluations;
+                })["finally"](function () {
+                    lockScreenService.stop();
                 });
             }
         };
 
-        //initialize();
+        initialize();
     }
 })(angular.module("assessmentModule"));

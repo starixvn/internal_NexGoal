@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'enumerationsFactory'];
+    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'enumerationsFactory', 'lockScreenService'];
 
-    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, enumerationsFactory) {
+    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, enumerationsFactory, lockScreenService) {
         var vm = this;
         vm.objectivesAchievementRanges = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
         vm.promotionsRanges = [
@@ -120,14 +120,19 @@
         };
 
         vm.query = function () {
+            lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
             if (vm.paFocusPermission === enumerationsFactory.policy.None) {
                 PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
                     vm.groups = PAFocusModel.evaluations;
+                })["finally"](function () {
+                    lockScreenService.stop();
                 });
             } else {
                 PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
                     vm.groups = PAFocusModel.evaluations;
+                })["finally"](function () {
+                    lockScreenService.stop();
                 });
             }
         };
