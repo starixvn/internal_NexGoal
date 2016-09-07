@@ -1,11 +1,11 @@
 ﻿(function (assessmentModule) {
     "use strict";
 
-    assessmentModule.controller("CreateNominationPeriodController", createNominationPeriodController);
+    assessmentModule.controller("CreateEOQController", createEOQController);
 
-    createNominationPeriodController.$inject = ["$modalInstance", "NominationModel"];
+    createEOQController.$inject = ["$modalInstance", "EOQModel"];
 
-    function createNominationPeriodController($modalInstance, NominationModel) {
+    function createEOQController($modalInstance, EOQModel) {
         var vm = this;
 
         vm.years = [];
@@ -23,15 +23,15 @@
         vm.calendar = {};
 
         vm.openPopupStartDate = function (event) {
-            NominationModel.openPopupStartDate(event);
+            EOQModel.openPopupStartDate(event);
         };
 
         vm.openPopupEndDate = function (event) {
-            NominationModel.openPopupEndDate(event);
+            EOQModel.openPopupEndDate(event);
         };
 
         vm.submit = function () {
-            if (NominationModel.validatePeriod(vm.period)) {
+            if (EOQModel.validatePeriod(vm.period)) {
                 vm.period.StartDate = vm.period.RawStartDate ? vm.period.RawStartDate.toDateString() : null;
                 vm.period.EndDate = vm.period.RawEndDate ? vm.period.RawEndDate.toDateString() : null;
 
@@ -51,7 +51,7 @@
                 vm.years.push(index);
             }
 
-            vm.calendar = NominationModel.calendar;
+            vm.calendar = EOQModel.calendar;
         }
 
         initialize();

@@ -1,11 +1,11 @@
 ﻿(function (assessmentModule) {
     "use strict";
 
-    assessmentModule.controller("ManageNominationController", manageNominationController);
+    assessmentModule.controller("ManageEOQController", manageEOQController);
 
-    manageNominationController.$inject = ["CommonModel", "NominationModel", "utilitiesFactory", "historyFactory", "lockScreenService"];
+    manageEOQController.$inject = ["CommonModel", "EOQModel", "utilitiesFactory", "historyFactory", "lockScreenService"];
 
-    function manageNominationController(CommonModel, NominationModel, utilitiesFactory, historyFactory, lockScreenService) {
+    function manageEOQController(CommonModel, EOQModel, utilitiesFactory, historyFactory, lockScreenService) {
         var vm = this;
 
         vm.periods = [];
@@ -31,7 +31,7 @@
 
                 filter = {};
                 filter.Year = year;
-                filter.StatusId = null; // In Progresss
+                filter.StatusId = ""; // In Progresss
             }
 
             return filter;
@@ -80,8 +80,8 @@
             vm.searchKey = '';
             vm.currentPage = 1;
 
-            NominationModel.getEmployeeOfQuarterPeriod(vm.filter.Year, vm.filter.StatusId).then(function () {
-                vm.periods = NominationModel.periods;
+            EOQModel.getEOQ(vm.filter.Year, vm.filter.StatusId).then(function () {
+                vm.periods = EOQModel.periods;
                 utilitiesFactory.searchOnPage(vm, vm.periods);
             })["finally"](function () {
                 lockScreenService.stop();
@@ -90,13 +90,13 @@
             historyFactory.saveState(vm.filter);
         };
 
-        vm.createNominationPeriod = function () {
-            NominationModel.openPopupCreateNominationPeriod().then(function (period) {
+        vm.createEOQ = function () {
+            EOQModel.openPopupCreateNominationPeriod().then(function (period) {
                 vm.modalInstance = null;
 
                 lockScreenService.start();
 
-                NominationModel.createEmployeeOfQuarterPeriod(period).then(function () {
+                EOQModel.createEOQ(period).then(function () {
                     vm.query();
                 })["finally"](function () {
                     lockScreenService.stop();
@@ -104,7 +104,15 @@
             });
         };
 
+        vm.deleteEOQ = function (eoqId) {
+            lockScreenService.start();
 
+            EOQModel.deleteEOQ(eoqId).then(function () {
+                vm.query();
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
+        };
 
         initialize();
     }

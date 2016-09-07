@@ -99,12 +99,13 @@
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult DeleteEOQ(DeleteEOQCriteria criteria)
+        public CommandResult DeleteEOQ(int eoqId)
         {
-            if (criteria != null)
+            var criteria = new DeleteEOQCriteria
             {
-                criteria.ModifiedBy = SessionService.EmployeeId;
-            }
+                EOQId = eoqId,
+                ModifiedBy = SessionService.EmployeeId
+            };
 
             CommandResult commandResult = eoqService.DeleteEOQ(criteria);
 

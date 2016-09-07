@@ -1,13 +1,13 @@
 ﻿(function (assessmentModule) {
     "use strict";
 
-    assessmentModule.factory("nominationFactory", nominationFactory);
+    assessmentModule.factory("eoqFactory", eoqFactory);
 
-    nominationFactory.$inject = ["$http", "baseUrl"];
+    eoqFactory.$inject = ["$http", "baseUrl"];
 
-    function nominationFactory($http, baseUrl) {
+    function eoqFactory($http, baseUrl) {
         return {
-            createEmployeeOfQuarterPeriod: function (period) {
+            createEOQ: function (period) {
                 var criteria = {
                     Quarter: period.Quarter,
                     Year: period.Year,
@@ -18,12 +18,15 @@
 
                 return $http.post(baseUrl + "api/EOQ/CreateEOQ", criteria);
             },
-            updateEmployeeOfQuarterPeriod: function (period) {
+            updateEOQ: function (period) {
                 return $http.post(baseUrl + "api/EOQ/UpdateEOQ", period);
             },
-            getEmployeeOfQuarterPeriod: function (year, statusId) {
+            deleteEOQ: function (eoqId) {
+                return $http.delete(baseUrl + "api/EOQ/DeleteEOQ", { params: { EOQId: eoqId } });
+            },
+            getEOQ: function (year, statusId) {
                 return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Year: year, StatusId: statusId } });
-            }
+            },
         };
     }
 })(angular.module("assessmentModule"));

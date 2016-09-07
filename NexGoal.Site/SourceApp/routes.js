@@ -181,5 +181,5 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     $routeProvider.when("/PAFocus/Index",
     { templateUrl: baseUrl + "SourceApp/Components/Assessment/Focus/Templates/index.html", caseInsensitiveMatch: true })
     .when("/ManageEOQ/Index",
-    { templateUrl: baseUrl + "SourceApp/Components/Assessment/Nomination/Templates/manageNomination.html", caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + "SourceApp/Components/Assessment/EOQ/Templates/manageEOQ.html", caseInsensitiveMatch: true });
 }]);

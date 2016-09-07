@@ -1,17 +1,17 @@
 ﻿(function (assessmentModule) {
     "use strict";
 
-    assessmentModule.factory("NominationModel", nominationModel);
+    assessmentModule.factory("EOQModel", eoqModel);
 
-    nominationModel.$inject = ["$modal", "nominationFactory", "errorFactory", "notificationFactory"];
+    eoqModel.$inject = ["$modal", "eoqFactory", "errorFactory", "notificationFactory"];
 
-    function nominationModel($modal, nominationFactory, errorFactory, notificationFactory) {
+    function eoqModel($modal, eoqFactory, errorFactory, notificationFactory) {
         var vm = {};
 
         vm.periods = [];
 
-        vm.createEmployeeOfQuarterPeriod = function (period) {
-            return nominationFactory.createEmployeeOfQuarterPeriod(period).success(function (response) {
+        vm.createEOQ = function (period) {
+            return eoqFactory.createEOQ(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
                 }
@@ -23,8 +23,8 @@
             });
         };
 
-        vm.updateEmployeeOfQuarterPeriod = function (period) {
-            return nominationFactory.updateEmployeeOfQuarterPeriod(period).success(function (response) {
+        vm.updateEOQ = function (period) {
+            return eoqFactory.updateEOQ(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -36,8 +36,22 @@
             });
         };
 
-        vm.getEmployeeOfQuarterPeriod = function (year, statusId) {
-            return nominationFactory.getEmployeeOfQuarterPeriod(year, statusId).success(function (periods) {
+        vm.deleteEOQ = function (eoqId) {
+            return eoqFactory.deleteEOQ(eoqId).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("DeletedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.getEOQ = function (year, statusId) {
+            return eoqFactory.getEOQ(year, statusId).success(function (periods) {
                 vm.periods = periods;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -46,8 +60,8 @@
 
         vm.openPopupCreateNominationPeriod = function () {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalCreateNominationPeriod.html',
-                controller: "CreateNominationPeriodController as createNominationPeriodCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/EOQ/Templates/modalCreateEOQ.html',
+                controller: "CreateEOQController as createEOQCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center period-create-popup"
             });

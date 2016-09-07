@@ -2,7 +2,7 @@
     <div class="modal-header">
         <div class="popup-header">
             <span data-translate="CreateNominationPeriod"></span>
-            <span class="close-popup" ng-click="createNominationPeriodCtrl.cancel()"></span>
+            <span class="close-popup" ng-click="createEOQCtrl.cancel()"></span>
         </div>
     </div>
     <div class="modal-body">
@@ -10,7 +10,7 @@
             <div class="form-group">
                 <label class="col-sm-3 control-label required-label" data-translate="Quarter"></label>
                 <div class="col-sm-3 field">
-                    <select class="form-control" ng-model="createNominationPeriodCtrl.period.Quarter">
+                    <select class="form-control" ng-model="createEOQCtrl.period.Quarter">
                         <option value=""></option>
                         <option value="1">1st</option>
                         <option value="2">2nd</option>
@@ -21,9 +21,9 @@
 
                 <label class="col-sm-3 control-label required-label" data-translate="Year"></label>
                 <div class="col-sm-3 field">
-                    <select class="form-control" ng-model="createNominationPeriodCtrl.period.Year">
+                    <select class="form-control" ng-model="createEOQCtrl.period.Year">
                         <option value=""></option>
-                        <option ng-repeat="year in createNominationPeriodCtrl.years" value="{{year}}">{{year}}</option>
+                        <option ng-repeat="year in createEOQCtrl.years" value="{{year}}">{{year}}</option>
                     </select>
                 </div>
             </div>
@@ -32,21 +32,21 @@
                 <label class="col-sm-3 control-label required-label" data-translate="StartDate"></label>
                 <div class="col-sm-3 field">
                     <input readonly class="calendar-form-control" type="text" datepicker-popup
-                           ng-model="createNominationPeriodCtrl.period.RawStartDate"
-                           ng-click="createNominationPeriodCtrl.openPopupStartDate($event)"
-                           is-open="createNominationPeriodCtrl.calendar.startDateOpened"/>
+                           ng-model="createEOQCtrl.period.RawStartDate"
+                           ng-click="createEOQCtrl.openPopupStartDate($event)"
+                           is-open="createEOQCtrl.calendar.startDateOpened"/>
                     <calendar-image class="calendar-image" 
-                                    ng-click="createNominationPeriodCtrl.openPopupStartDate($event)"></calendar-image>
+                                    ng-click="createEOQCtrl.openPopupStartDate($event)"></calendar-image>
                 </div>
 
                 <label class="col-sm-3 control-label required-label" data-translate="EndDate"></label>
                 <div class="col-sm-3 field">
                     <input readonly class="calendar-form-control" type="text" datepicker-popup
-                           ng-model="createNominationPeriodCtrl.period.RawEndDate"
-                           ng-click="createNominationPeriodCtrl.openPopupEndDate($event)"
-                           is-open="createNominationPeriodCtrl.calendar.endDateOpened" />
+                           ng-model="createEOQCtrl.period.RawEndDate"
+                           ng-click="createEOQCtrl.openPopupEndDate($event)"
+                           is-open="createEOQCtrl.calendar.endDateOpened" />
                     <calendar-image class="calendar-image"
-                                    ng-click="createNominationPeriodCtrl.openPopupEndDate($event)"></calendar-image>
+                                    ng-click="createEOQCtrl.openPopupEndDate($event)"></calendar-image>
                 </div>
             </div>
 
@@ -54,13 +54,13 @@
                 <label class="col-sm-3 control-label" data-translate="Description"></label>
                 <div class="col-sm-9 field">
                     <textarea type="text" class="form-control comment" rows="3"
-                              ng-model="createNominationPeriodCtrl.period.Description"></textarea>
+                              ng-model="createEOQCtrl.period.Description"></textarea>
                 </div>
             </div>
         </form>
     </div>
     <div class="modal-footer button-block">
-        <button class="button btn-cancel customize" ng-click="createNominationPeriodCtrl.cancel()" data-translate="Cancel"></button>
-        <button class="button" ng-click="createNominationPeriodCtrl.submit()" data-translate="Submit"></button>
+        <button class="button btn-cancel customize" ng-click="createEOQCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button" ng-click="createEOQCtrl.submit()" data-translate="Submit"></button>
     </div>
 </div>
