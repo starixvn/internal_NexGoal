@@ -109,7 +109,7 @@
         }
 
         [HttpDelete]
-        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
+        //[ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
         public CommandResult DeleteEOQ(int id)
         {
             var criteria = new DeleteEOQCriteria

@@ -1,0 +1,26 @@
+﻿<div ng-controller="UpdateEOQController as updateEOQCtrl">
+    <div class="row">
+        <div class="col-sm-12 sub-header">
+            <ul class="row breadcrumb period-breadcrumb">
+                <li class="current">Update Name Later</li>
+            </ul>
+            <div class="button-icon button-period-back">
+                <span class="fa fa-angle-left icon-back"></span>
+                <a data-translate="BackToList" ng-click="updateEOQCtrl.backToList()" href="" class="ng-scope"></a>
+            </div>
+        </div>
+        <div class="col-sm-12 target-tabset">
+            <tabset>
+                <tab heading="BASIC INFORMATION" class="tab-cursor" active="updateEOQCtrl.dataTab.basicInformation" select="updateEOQCtrl.tabBasicSelect()">
+                    <div ng-include src="'/SourceApp/Components/Period/Templates/basicInformation.html'"></div>
+                </tab>
+                <tab heading="PROCESS SETTING" class="tab-cursor" active="updateEOQCtrl.dataTab.processSetting" select="updateEOQCtrl.tabProcessSettingSelect()">
+                    <div ng-include src="'/SourceApp/Components/Period/Templates/processSetting.html'"></div>
+                </tab>
+                <tab heading="EMPLOYEE SETTING" class="tab-cursor" active="updateEOQCtrl.dataTab.employeeSetting" select="updateEOQCtrl.tabEmployeeSettingSelect()">
+                    <div ng-include src="'/SourceApp/Components/Period/Templates/employeeSetting.html'"></div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

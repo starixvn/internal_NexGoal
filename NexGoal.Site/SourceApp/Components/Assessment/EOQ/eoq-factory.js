@@ -22,11 +22,11 @@
                 return $http.post(baseUrl + "api/EOQ/UpdateEOQ", period);
             },
             deleteEOQ: function (eoqId) {
-                return $http.delete(baseUrl + "api/EOQ/DeleteEOQ", { params: { EOQId: eoqId } });
+                return $http.delete(baseUrl + "api/EOQ/DeleteEOQ", { params: { Id: eoqId } });
             },
             getEOQ: function (year, statusId) {
                 return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Year: year, StatusId: statusId } });
-            },
+            }
         };
     }
 })(angular.module("assessmentModule"));

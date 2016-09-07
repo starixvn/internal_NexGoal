@@ -367,6 +367,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Basic Information.
+        /// </summary>
+        public static string BasicInformation {
+            get {
+                return ResourceManager.GetString("BasicInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Behaviors &amp; Attitutes.
         /// </summary>
         public static string BehaviorAndAttitutes {
@@ -3822,15 +3831,6 @@ namespace NexGoal.Resources {
             }
         }
         
- /// <summary>
-        ///   Looks up a localized string similar to The Focus start date must more than the Period End date.
-        /// </summary>
-        public static string StartFocusDateGreaterThanEndDateWarning {
-            get {
-                return ResourceManager.GetString("StartFocusDateGreaterThanEndDateWarning", resourceCulture);
-            }
-        }
-
         /// <summary>
         ///   Looks up a localized string similar to Start Date field is required!.
         /// </summary>
@@ -3839,8 +3839,16 @@ namespace NexGoal.Resources {
                 return ResourceManager.GetString("StartDateRequired", resourceCulture);
             }
         }
-
-
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Focus start date must more than the Period End date.
+        /// </summary>
+        public static string StartFocusDateGreaterThanEndDateWarning {
+            get {
+                return ResourceManager.GetString("StartFocusDateGreaterThanEndDateWarning", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Status.
         /// </summary>

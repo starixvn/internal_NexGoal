@@ -26,7 +26,7 @@
             }
 
             return statusName;
-        }
+        };
 
         vm.getQuarterName = function (quarter) {
             var quarterName = "";
@@ -111,7 +111,7 @@
             });
 
             modalInstance.result.then(function () {
-                return eoqFactory.deleteEOQ(period.EOQId).success(function (response) {
+                return eoqFactory.deleteEOQ(period.EOQYId).success(function (response) {
                     if (response.IsSuccessful) {
                         var index = vm.periods.indexOf(period);
                         vm.periods.splice(index, 1);

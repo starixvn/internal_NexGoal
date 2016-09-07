@@ -404,6 +404,10 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\Templates\eoqInformation.html" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\Templates\eoqRoleManagement.html" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\Templates\updateEOQ.html" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\update-eoq-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\focus-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-chart-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-factory.js" />

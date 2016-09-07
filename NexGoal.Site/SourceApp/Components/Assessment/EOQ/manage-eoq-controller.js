@@ -3,9 +3,11 @@
 
     assessmentModule.controller("ManageEOQController", manageEOQController);
 
-    manageEOQController.$inject = ["CommonModel", "EOQModel", "utilitiesFactory", "historyFactory", "lockScreenService"];
+    manageEOQController.$inject = ["$location", "CommonModel", "EOQModel", "utilitiesFactory",
+        "historyFactory", "lockScreenService", "baseUrl"];
 
-    function manageEOQController(CommonModel, EOQModel, utilitiesFactory, historyFactory, lockScreenService) {
+    function manageEOQController($location, CommonModel, EOQModel, utilitiesFactory,
+        historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.periods = [];
@@ -90,6 +92,10 @@
                     lockScreenService.stop();
                 });
             });
+        };
+
+        vm.updateEOQ = function (eoqId) {
+            $location.path(baseUrl + "ManageEOQ/Update/" + eoqId);
         };
 
         vm.deleteEOQ = function (period) {
