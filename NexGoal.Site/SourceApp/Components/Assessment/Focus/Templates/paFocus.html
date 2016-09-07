@@ -74,8 +74,8 @@
                 <td>{{member.Employee.FullName}}</td>
                 <td>{{member.Employee.JobTitle.JobTitleName}}</td>
                 <td class="text-center">
-                    <span if="member.FinalScore">{{member.FinalScore}}</span>
-                    <span if="member.FinalScore" data-translate="Pending"></span>
+                    <span ng-if="member.FinalScore">{{member.FinalScore}}</span>
+                    <span ng-if="!member.FinalScore" data-translate="Pending"></span>
                     /100
                 </td>
                 <td class="text-center">
