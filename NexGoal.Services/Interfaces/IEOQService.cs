@@ -9,11 +9,13 @@
     {
         IEnumerable<EOQModel> GetEOQ(GetEOQCriteria criteria);
 
-        IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSetting(GetEOQNominatorSettingCriteria criteria);
+        IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria);
 
         CommandResult CreateEOQ(CreateEOQCriteria criteria);
 
         CommandResult UpdateEOQ(UpdateEOQCriteria criteria);
+
+        CommandResult UpdateEOQNominatorSettingById(UpdateEOQNominatorSettingByIdCriteria criteria);
 
         CommandResult DeleteEOQ(DeleteEOQCriteria criteria);
     }

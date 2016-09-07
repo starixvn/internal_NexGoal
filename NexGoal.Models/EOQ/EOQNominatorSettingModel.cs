@@ -4,8 +4,10 @@
 
     public class EOQNominatorSettingModel
     {
-        public EmployeeModel Nominator { get; set; }
-
         public int ProcessId { get; set; }
+
+        public int NominatorId { get; set; }
+
+        public EmployeeModel NominatorInfo { get; set; }
     }
 }

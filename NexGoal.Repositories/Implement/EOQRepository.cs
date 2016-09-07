@@ -11,7 +11,7 @@
 
     public class EOQRepository : IEOQRepository
     {
-        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSetting(ICriteria criteria)
+        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
@@ -24,7 +24,7 @@
                                emp.Department = dept;
                                emp.Group = gr;
                                emp.JobTitle = jb;
-                               nominator.Nominator = emp;
+                               nominator.NominatorInfo = emp;
 
                                return nominator;
                            },

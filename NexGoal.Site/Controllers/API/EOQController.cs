@@ -37,6 +37,24 @@
             return eoqService.GetEOQ(criteria);
         }
 
+        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
+        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(
+            string query = null,
+            string groupIds = null,
+            int? processId = null,
+            bool showAllEmployee = false)
+        {
+            var criteria = new GetEOQNominatorSettingByIdCriteria
+            {
+                Query = query,
+                GroupIds = groupIds,
+                ProcessId = processId,
+                ShowAllEmployee = showAllEmployee
+            };
+
+            return eoqService.GetEOQNominatorSettingById(criteria);
+        }
+
         [HttpPost]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
         public CommandResult CreateEOQ(CreateEOQCriteria criteria)
@@ -65,6 +83,20 @@
             return commandResult;
         }
 
+        [HttpPut]
+        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
+        public CommandResult UpdateEOQNominatorSettingById(UpdateEOQNominatorSettingByIdCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = SessionService.EmployeeId;
+            }
+
+            CommandResult commandResult = eoqService.UpdateEOQNominatorSettingById(criteria);
+
+            return commandResult;
+        }
+
         [HttpDelete]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
         public CommandResult DeleteEOQ(DeleteEOQCriteria criteria)
@@ -77,6 +109,11 @@
             CommandResult commandResult = eoqService.DeleteEOQ(criteria);
 
             return commandResult;
+        }
+
+        public int GetUserPermissionOnManageNomination()
+        {
+            return SessionService.CurrentUser.GetPermission(FunctionKey.ManageNomination);
         }
     }
 }

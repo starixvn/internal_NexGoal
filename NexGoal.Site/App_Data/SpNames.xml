@@ -426,6 +426,7 @@
     <Setting Key="EOQ_Insert" SpName="EOQ_Insert" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Update" SpName="EOQ_Update" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQNominatorSetting_GetByEOQId" SpName="EOQNominatorSetting_GetByEOQId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_GetNominatorSettingById" SpName="EOQ_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_UpdateNominatorSettingById" SpName="EOQ_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

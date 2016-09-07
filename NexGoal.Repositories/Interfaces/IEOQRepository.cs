@@ -6,6 +6,6 @@
 
     public interface IEOQRepository
     {
-        IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSetting(ICriteria criteria);
+        IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(ICriteria criteria);
     }
 }

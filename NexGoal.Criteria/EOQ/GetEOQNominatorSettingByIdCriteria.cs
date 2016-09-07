@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetEOQNominatorSettingCriteria : CriteriaBase
+    public class GetEOQNominatorSettingByIdCriteria : CriteriaBase
     {
         public int EOQId { get; set; }
 
@@ -16,7 +16,7 @@
 
         public override string GetSettingKey()
         {
-            return "EOQNominatorSetting_GetByEOQId";
+            return "EOQ_GetNominatorSettingById";
         }
 
         public override bool IsValid()

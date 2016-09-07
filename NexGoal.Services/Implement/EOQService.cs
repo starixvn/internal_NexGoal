@@ -35,13 +35,13 @@
             return list;
         }
 
-        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSetting(GetEOQNominatorSettingCriteria criteria)
+        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria)
         {
             IEnumerable<EOQNominatorSettingModel> nominators = new List<EOQNominatorSettingModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                nominators = eoqRepository.GetEOQNominatorSetting(criteria);
+                nominators = eoqRepository.GetEOQNominatorSettingById(criteria);
             }
 
             return nominators;
@@ -60,6 +60,18 @@
         }
 
         public CommandResult UpdateEOQ(UpdateEOQCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = this.Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult UpdateEOQNominatorSettingById(UpdateEOQNominatorSettingByIdCriteria criteria)
         {
             var commandResult = new CommandResult();
 

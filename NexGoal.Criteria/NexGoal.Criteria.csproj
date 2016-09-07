@@ -105,8 +105,9 @@
     <Compile Include="EOQ\CreateEOQCriteria.cs" />
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />
     <Compile Include="EOQ\GetEOQCriteria.cs" />
-    <Compile Include="EOQ\GetEOQNominatorSettingCriteria.cs" />
+    <Compile Include="EOQ\GetEOQNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQCriteria.cs" />
+    <Compile Include="EOQ\UpdateEOQNominatorSettingByIdCriteria.cs" />
     <Compile Include="EPAHistory\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
