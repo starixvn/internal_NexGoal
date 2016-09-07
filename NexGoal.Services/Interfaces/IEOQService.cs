@@ -9,6 +9,8 @@
     {
         IEnumerable<EOQModel> GetEOQ(GetEOQCriteria criteria);
 
+        IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSetting(GetEOQNominatorSettingCriteria criteria);
+
         CommandResult CreateEOQ(CreateEOQCriteria criteria);
 
         CommandResult UpdateEOQ(UpdateEOQCriteria criteria);

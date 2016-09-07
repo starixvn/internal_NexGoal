@@ -5,10 +5,24 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Model;
+    using NexGoal.Repositories.Implement;
+    using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
 
     public class EOQService : BaseService, IEOQService
     {
+        private readonly IEOQRepository eoqRepository;
+
+        public EOQService()
+            : this(null)
+        {
+        }
+
+        public EOQService(IEOQRepository eoqRepository)
+        {
+            this.eoqRepository = eoqRepository ?? new EOQRepository();
+        }
+
         public IEnumerable<EOQModel> GetEOQ(GetEOQCriteria criteria)
         {
             IEnumerable<EOQModel> list = new List<EOQModel>();
@@ -19,6 +33,18 @@
             }
 
             return list;
+        }
+
+        public IEnumerable<EOQNominatorSettingModel> GetEOQNominatorSetting(GetEOQNominatorSettingCriteria criteria)
+        {
+            IEnumerable<EOQNominatorSettingModel> nominators = new List<EOQNominatorSettingModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                nominators = eoqRepository.GetEOQNominatorSetting(criteria);
+            }
+
+            return nominators;
         }
 
         public CommandResult CreateEOQ(CreateEOQCriteria criteria)

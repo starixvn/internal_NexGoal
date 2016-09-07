@@ -67,6 +67,7 @@
     <Compile Include="Employee\MenuViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
     <Compile Include="EOQ\EOQModel.cs" />
+    <Compile Include="EOQ\EOQNominatorSettingModel.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="FlowManagement\DepartmentFlowModel.cs" />
     <Compile Include="FlowManagement\PersonalFlowModel.cs" />

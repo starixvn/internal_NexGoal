@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implement\EOQRepository.cs" />
     <Compile Include="Implement\PAFocusRepository.cs" />
     <Compile Include="Implement\AttendanceSummaryRepository.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -83,6 +84,7 @@
     <Compile Include="Interfaces\IDepartmentRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
     <Compile Include="Implement\KPIRepository.cs" />
+    <Compile Include="Interfaces\IEOQRepository.cs" />
     <Compile Include="Interfaces\IEPAHistoryRepository.cs" />
     <Compile Include="Interfaces\IFlowManagementRepository.cs" />
     <Compile Include="Interfaces\IIntegrationRepository.cs" />
