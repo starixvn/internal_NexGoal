@@ -106,5 +106,13 @@
 
             return commandResult;
         }
+
+        public IEnumerable<EOQYQuestionModel> GetEOQQuestion()
+        {
+            var criteria = new GetEOQQuestionCriteria();
+            IEnumerable<EOQYQuestionModel> questions = this.GetData<EOQYQuestionModel>(criteria);
+
+            return questions;
+        }
     }
 }

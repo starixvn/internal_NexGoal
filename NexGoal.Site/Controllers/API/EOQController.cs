@@ -123,6 +123,12 @@
             return commandResult;
         }
 
+        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        public IEnumerable<EOQYQuestionModel> GetEOQQuestion()
+        {
+            return eoqService.GetEOQQuestion();
+        }
+
         public int GetUserPermissionOnManageNomination()
         {
             return SessionService.CurrentUser.GetPermission(FunctionKey.ManageNomination);
