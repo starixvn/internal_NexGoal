@@ -7,7 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace NexGoal.AutoGenerateEvaluation
+namespace NexGoal.BackgroundService
 {
     public class PromotionService : BaseService, IPromotionService
     {

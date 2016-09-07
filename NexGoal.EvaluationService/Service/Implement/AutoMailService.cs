@@ -1,4 +1,4 @@
-﻿namespace NexGoal.AutoGenerateEvaluation
+﻿namespace NexGoal.BackgroundService
 {
     using NexGoal.Core.Enumerations;
     using NexGoal.Model.EmployeeEPA;

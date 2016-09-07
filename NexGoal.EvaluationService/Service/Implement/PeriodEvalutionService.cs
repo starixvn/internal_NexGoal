@@ -10,7 +10,7 @@ using NexGoal.Model.Period;
 using NexGoal.Services.Implement;
 using NexGoal.Services.Interfaces;
 
-namespace NexGoal.AutoGenerateEvaluation
+namespace NexGoal.BackgroundService
 {
     public class PeriodEvalutionService : BaseService, IPeriodEvalutionService
     {

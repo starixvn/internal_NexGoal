@@ -7,8 +7,8 @@
     <ProjectGuid>{11846569-7D7F-43FE-959B-359878D494E7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NexGoal.EvaluationService</RootNamespace>
-    <AssemblyName>NexGoal.EvaluationService</AssemblyName>
+    <RootNamespace>NexGoal.BackgroundService</RootNamespace>
+    <AssemblyName>NexGoal.BackgroundService</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />

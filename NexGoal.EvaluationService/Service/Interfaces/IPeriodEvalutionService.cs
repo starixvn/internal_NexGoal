@@ -1,4 +1,4 @@
-﻿namespace NexGoal.AutoGenerateEvaluation
+﻿namespace NexGoal.BackgroundService
 {
     public interface IPeriodEvalutionService
     {

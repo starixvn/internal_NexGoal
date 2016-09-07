@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Configuration;
 
-namespace NexGoal.AutoGenerateEvaluation
+namespace NexGoal.BackgroundService
 {
     public static class AppSetting
     {
