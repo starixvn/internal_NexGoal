@@ -7,7 +7,7 @@
 
     function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService) {
         var vm = this;
-        vm.objectivesAchievementRanges = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        vm.objectivesAchievementRanges = ["0","10", "20", "30", "40", "50", "60", "70", "80", "90", "100"];
         vm.promotionsRanges = [
             {
                 Value: true,
@@ -24,7 +24,7 @@
         vm.filter = {
             periodId: 0,
             teamIds: null,
-            employeeId: null
+            employee: {}
         };
         vm.searchEmployee = "";
 
@@ -108,8 +108,8 @@
 
         vm.unSelectEmployee = function () {
             if (vm.searchEmployee.trim() === '') {
-                if (vm.filter.employeeId) {
-                    vm.filter.employeeId = null;
+                if (vm.filter.employee) {
+                    vm.filter.employee = null;
                 }
             }
         };
@@ -129,7 +129,7 @@
             lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
 
-            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
                 vm.groups = PAFocusModel.evaluations;
             })["finally"](function () {
                 lockScreenService.stop();

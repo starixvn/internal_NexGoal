@@ -27,7 +27,7 @@
                            ng-model="paFocusCtrl.searchEmployee"
                            search-employees="paFocusCtrl.getEmployee()"
                            ng-change="paFocusCtrl.unselectEmployee"
-                           employee="paFocusCtrl.filter.employeeId" />
+                           employee="paFocusCtrl.filter.employee" />
                 </div>
             </div>
 
@@ -51,7 +51,6 @@
                 <th>#</th>
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
-                <th data-translate="JobTitle"></th>
                 <th data-translate="EPAScore" class="width-110"></th>
                 <th class="width-110">Objectives Achievement</th>
                 <th class="width-110">Promotion</th>
@@ -63,7 +62,7 @@
         </thead>
         <tbody ng-show="paFocusCtrl.groups.length === 0">
             <tr>
-                <td class="text-center empty-result" colspan="13" data-translate="EmptyResult"></td>
+                <td class="text-center empty-result" colspan="12" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tbody ng-show="paFocusCtrl.groups.length > 0" ng-repeat="group in paFocusCtrl.groups">
@@ -72,10 +71,9 @@
                 <td class="text-center">{{$index +1}}</td>
                 <td>{{member.Employee.NickName}}</td>
                 <td>{{member.Employee.FullName}}</td>
-                <td>{{member.Employee.JobTitle.JobTitleName}}</td>
                 <td class="text-center">
                     <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
-                    <span ng-if="!member.FinalScore" data-translate="Pending"></span>
+                    <span ng-if="!member.FinalScore" data-translate="NotAvailable"></span>
                     /100
                 </td>
                 <td class="text-center">

@@ -1587,8 +1587,8 @@
   <data name="ObjectivesInvalidMessage" xml:space="preserve">
     <value>Member's objectives cannot be empty!</value>
   </data>
-  <data name="TotalBonusGivenInvalidMessage" xml:space="preserve">
-    <value>Total Bonus Given was invalid!</value>
+  <data name="TotalBonusGivenLessThanMaxMessage" xml:space="preserve">
+    <value>The Bonus Given is now not equal 100 points!</value>
   </data>
   <data name="Chart" xml:space="preserve">
     <value>Chart</value>
@@ -1601,5 +1601,8 @@
   </data>
   <data name="StartFocusDateGreaterThanEndDateWarning" xml:space="preserve">
     <value>The Focus start date must more than the Period End date</value>
+  </data>
+  <data name="TotalBonusGivenMoreThanMaxMessage" xml:space="preserve">
+    <value>The Bonus is required max 100 points!</value>
   </data>
 </root>

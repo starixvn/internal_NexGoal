@@ -66,12 +66,11 @@
 
         vm.validatePAFocusForm = function (group) {
             var isValid = true;
-
-
-            if (group.TotalBonus !== group.MaxBonus) {
+            if (group.TotalBonus < group.MaxBonus) {
+                notificationFactory.error("TotalBonusGivenLessThanMaxMessage");
+            } else if (group.TotalBonus > group.MaxBonus) {
                 isValid = false;
-                notificationFactory.error("TotalBonusGivenInvalidMessage");
-                return;
+                notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
             }
 
             return isValid;
