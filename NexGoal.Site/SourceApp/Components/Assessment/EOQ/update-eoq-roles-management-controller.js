@@ -72,8 +72,8 @@
                     vm.nominatorSettings = EOQModel.nominatorSettings;
 
                     angular.forEach(vm.nominatorSettings, function (nominator) {
-                        nominator.IsInBoard = nominator.RoldId === vm.IN_BOARD_ROLE;
-                        nominator.IsNominator = nominator.RoldId === vm.NOMINATOR_ROLE;
+                        nominator.IsInBoard = nominator.RoleId === vm.IN_BOARD_ROLE;
+                        nominator.IsNominator = nominator.RoleId === vm.NOMINATOR_ROLE;
                     });
 
                     utilitiesFactory.searchOnPage(vm, vm.nominatorSettings);
