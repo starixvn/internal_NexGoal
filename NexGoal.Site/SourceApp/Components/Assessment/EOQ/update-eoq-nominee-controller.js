@@ -7,14 +7,14 @@
 
     function updateEOQNomineeController($modalInstance) {
         var vm = this;
+
+        vm.submit = function () {
+            $modalInstance.dismiss("cancel");
+        };
+
+        vm.cancel = function () {
+            $modalInstance.dismiss("cancel");
+        };
     }
-
-    vm.submit = function () {
-        $modalInstance.dismiss("cancel");
-    };
-
-    vm.cancel = function () {
-        $modalInstance.dismiss("cancel");
-    };
 
 })(angular.module("assessmentModule"));

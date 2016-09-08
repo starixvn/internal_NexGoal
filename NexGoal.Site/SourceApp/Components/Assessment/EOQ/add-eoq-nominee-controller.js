@@ -12,13 +12,13 @@
         vm.employee = null;
         vm.nominee = {
             employeeId: 0,
-            teamName: ""
+            teamName: "",
+            eoqQuestions: []
         };
-        vm.eoqQuestions = [];
 
         function initialize() {
             EOQModel.getEOQQuestion().then(function () {
-                vm.eoqQuestions = EOQModel.eoqQuestions;
+                vm.nominee.eoqQuestions = EOQModel.eoqQuestions;
             });
         };
 
