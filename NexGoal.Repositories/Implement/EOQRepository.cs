@@ -26,7 +26,8 @@
 
                             return nominator;
                         },
-                        "EmployeeId, DepartmentId, GroupId, JobTitleId");
+                        "EmployeeId, DepartmentId, GroupId, JobTitleId",
+                        criteria.GetSpParams());
 
                 return nominators;
             }
@@ -64,7 +65,8 @@
 
                             return nomination;
                         },
-                        "EOQYId, EmployeeId, DepartmentId, GroupId, JobTitleId, NominatorId");
+                        "EOQYId, EmployeeId, DepartmentId, GroupId, JobTitleId, NominatorId",
+                        criteria.GetSpParams());
 
                 return nominations;
             }
