@@ -3,13 +3,15 @@
 
     assessmentModule.controller("UpdateEOQBasicInformationController", updateEOQBasicInformationController);
 
-    updateEOQBasicInformationController.$inject = ["$scope", "EOQModel", "historyFactory", "lockScreenService"];
+    updateEOQBasicInformationController.$inject = ["$scope", "EOQModel", "historyFactory", "enumerationsFactory", "lockScreenService"];
 
-    function updateEOQBasicInformationController($scope, EOQModel, historyFactory, lockScreenService) {
+    function updateEOQBasicInformationController($scope, EOQModel, historyFactory, enumerationsFactory, lockScreenService) {
         var vm = this;
 
         vm.period = {};
         vm.calendar = EOQModel.calendar;
+        vm.permission = 0;
+        vm.policyEnum = enumerationsFactory.policy;
 
         vm.openPopupStartDate = function (event) {
             EOQModel.openPopupStartDate(event);
@@ -26,6 +28,14 @@
                 vm.period = $scope.updateEOQCtrl.period;
                 vm.period.RawStartDate = vm.period.StartDate ? new Date(vm.period.StartDate) : null;
                 vm.period.RawEndDate = vm.period.EndDate ? new Date(vm.period.EndDate) : null;
+            }
+        });
+
+        $scope.$watch(function () {
+            return $scope.updateEOQCtrl.permission;
+        }, function (newVal) {
+            if (newVal) {
+                vm.permission = $scope.updateEOQCtrl.permission;
             }
         });
 

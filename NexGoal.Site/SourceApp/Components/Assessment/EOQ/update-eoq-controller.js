@@ -9,6 +9,7 @@
         var vm = this;
 
         vm.period = null;
+        vm.permission = 0;
         vm.eoqId = parseInt($routeParams.id, 10);
         vm.viewMode = $routeParams.viewSetting ? true : false;
 
@@ -33,6 +34,10 @@
 
         function initialize() {
             lockScreenService.start();
+
+            EOQModel.getUserPermissionOnManageNomination().then(function () {
+                vm.permission = EOQModel.permission;
+            });
 
             EOQModel.getEOQById(vm.eoqId).then(function () {
                 vm.period = EOQModel.period;

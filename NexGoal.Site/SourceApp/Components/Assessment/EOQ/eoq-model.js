@@ -11,6 +11,7 @@
         vm.periods = [];
         vm.period = [];
         vm.nominatorSettings = [];
+        vm.permission = 0;
 
         vm.getStatusName = function (statusId) {
             var statusName = "";
@@ -93,9 +94,30 @@
             });
         };
 
-        vm.GetEOQNominatorSettingById = function (query, groupIds, roleId, showAllEmployee) {
-            return eoqFactory.GetEOQNominatorSettingById(query, groupIds, roleId, showAllEmployee).success(function (nominatorSettings) {
+        vm.getEOQNominatorSettingById = function (eoqyId, query, groupIds, roleId, showAllEmployee) {
+            return eoqFactory.getEOQNominatorSettingById(eoqyId, query, groupIds, roleId, showAllEmployee).success(function (nominatorSettings) {
                 vm.nominatorSettings = nominatorSettings;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.updateEOQNominatorSettingById = function (eoqyId, nominators) {
+            return eoqFactory.updateEOQNominatorSettingById(eoqyId, nominators).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.getUserPermissionOnManageNomination = function () {
+            return eoqFactory.getUserPermissionOnManageNomination().success(function (permission) {
+                vm.permission = permission;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

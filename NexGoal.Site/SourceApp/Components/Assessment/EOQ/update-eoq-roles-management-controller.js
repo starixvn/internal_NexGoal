@@ -4,12 +4,15 @@
     assessmentModule.controller("UpdateEOQRolesManagementController", updateEOQRolesManagementController);
 
     updateEOQRolesManagementController.$inject = ["$scope", "EOQModel", "EmployeeModel", "CommonModel",
-        "utilitiesFactory", "lockScreenService"];
+        "utilitiesFactory", "enumerationsFactory", "lockScreenService"];
 
     function updateEOQRolesManagementController($scope, EOQModel, EmployeeModel, CommonModel,
-        utilitiesFactory, lockScreenService) {
+        utilitiesFactory, enumerationsFactory, lockScreenService) {
         var vm = this;
 
+        vm.IN_BOARD_ROLE = 2;
+        vm.NOMINATOR_ROLE = 1;
+        vm.period = {};
         vm.nominatorSettings = [];
         vm.searchEmployee = "";
         vm.searchKey = "";
@@ -23,6 +26,9 @@
             showAllEmployee: false
         };
         vm.teams = [];
+        vm.permission = 0;
+        vm.policyEnum = enumerationsFactory.policy;
+        vm.employee;
 
         function initialize() {
             utilitiesFactory.numberEntryList(vm);
@@ -39,10 +45,10 @@
             return EmployeeModel.getAllEmployee(vm.searchEmployee);
         };
 
-        vm.unSelectEmployee = function () {
+        vm.unselectEmployee = function () {
             if (vm.searchEmployee.trim() === '') {
-                if (vm.filter.query) {
-                    vm.filter.query = null;
+                if (vm.employee) {
+                    vm.employee = null;
                 }
             }
         };
@@ -55,14 +61,66 @@
             lockScreenService.start();
 
             vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
-            EOQModel.GetEOQNominatorSettingById(vm.filter.query, vm.filter.teamIds, vm.filter.roleId, vm.filter.showAllEmployee).then(function () {
-                vm.nominatorSettings = EOQ.nominatorSettings;
-            })["finally"](function () {
+            vm.filter.query = vm.employee ? vm.employee.EmployeeId : "";
+
+            EOQModel.getEOQNominatorSettingById(
+                vm.period.EOQYId,
+                vm.filter.query,
+                vm.filter.teamIds,
+                vm.filter.roleId,
+                vm.filter.showAllEmployee).then(function () {
+                    vm.nominatorSettings = EOQModel.nominatorSettings;
+
+                    angular.forEach(vm.nominatorSettings, function (nominator) {
+                        nominator.IsInBoard = nominator.RoldId === vm.IN_BOARD_ROLE;
+                        nominator.IsNominator = nominator.RoldId === vm.NOMINATOR_ROLE;
+                    });
+
+                    utilitiesFactory.searchOnPage(vm, vm.nominatorSettings);
+                })["finally"](function () {
+                    lockScreenService.stop();
+                });
+        };
+
+        vm.modifyRole = function (nominator, role) {
+            if (role === vm.IN_BOARD_ROLE) {
+                nominator.RoleId = nominator.IsInBoard ? vm.IN_BOARD_ROLE : 0;
+                nominator.IsNominator = false;
+            } else if (role === vm.NOMINATOR_ROLE) {
+                nominator.RoleId = nominator.IsNominator ? vm.NOMINATOR_ROLE : 0;
+                nominator.IsInBoard = false;
+            } else {
+                nominator.RoleId = 0;
+                nominator.IsInBoard = false;
+                nominator.IsNominator = false;
+            }
+
+            lockScreenService.start();
+
+            var nominators = [];
+
+            nominators.push(nominator);
+
+            EOQModel.updateEOQNominatorSettingById(vm.period.EOQYId, nominators)["finally"](function () {
                 lockScreenService.stop();
             });
         };
 
-        vm.search = function () { };
+        $scope.$watch(function () {
+            return $scope.updateEOQCtrl.period;
+        }, function (newVal) {
+            if (newVal) {
+                vm.period = $scope.updateEOQCtrl.period;
+            }
+        });
+
+        $scope.$watch(function () {
+            return $scope.updateEOQCtrl.permission;
+        }, function (newVal) {
+            if (newVal) {
+                vm.permission = $scope.updateEOQCtrl.permission;
+            }
+        });
 
         initialize();
     }

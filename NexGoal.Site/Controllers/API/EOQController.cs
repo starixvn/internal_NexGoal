@@ -50,6 +50,7 @@
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
         public IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(
+            int eoqyId,
             string query = null,
             string groupIds = null,
             int? roleId = null,
@@ -57,6 +58,7 @@
         {
             var criteria = new GetEOQNominatorSettingByIdCriteria
             {
+                EOQYId = eoqyId,
                 Query = query,
                 GroupIds = groupIds,
                 RoleId = roleId,

@@ -4,10 +4,10 @@
     assessmentModule.controller("ManageEOQController", manageEOQController);
 
     manageEOQController.$inject = ["$location", "CommonModel", "EOQModel", "utilitiesFactory",
-        "historyFactory", "lockScreenService", "baseUrl"];
+        "historyFactory", "enumerationsFactory", "lockScreenService", "baseUrl"];
 
     function manageEOQController($location, CommonModel, EOQModel, utilitiesFactory,
-        historyFactory, lockScreenService, baseUrl) {
+        historyFactory, enumerationsFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.periods = [];
@@ -18,6 +18,8 @@
         vm.pageSize = 20;
         vm.searchKey = "";
         vm.modalInstance = null;
+        vm.permission = 0;
+        vm.policyEnum = enumerationsFactory.policy;
 
         function initFilter() {
             var filter = historyFactory.getState();
@@ -45,6 +47,10 @@
             utilitiesFactory.numberEntryList(vm);
             utilitiesFactory.getDateFormat(vm);
             vm.filter = initFilter();
+
+            EOQModel.getUserPermissionOnManageNomination().then(function () {
+                vm.permission = EOQModel.permission;
+            });
 
             vm.query();
         }

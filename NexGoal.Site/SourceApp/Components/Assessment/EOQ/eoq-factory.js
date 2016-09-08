@@ -37,8 +37,9 @@
             getEOQById: function (eoqId) {
                 return $http.get(baseUrl + "api/EOQ/GetEOQById", { params: { Id: eoqId } });
             },
-            GetEOQNominatorSettingById: function (query, groupIds, roleId, showAllEmployee) {
+            getEOQNominatorSettingById: function (eoqyId, query, groupIds, roleId, showAllEmployee) {
                 var params = {
+                    EOQYId: eoqyId,
                     Query: query,
                     GroupIds: groupIds,
                     RoleId: roleId,
@@ -46,6 +47,17 @@
                 };
 
                 return $http.get(baseUrl + "api/EOQ/GetEOQNominatorSettingById", { params: params });
+            },
+            getUserPermissionOnManageNomination: function () {
+                return $http.get(baseUrl + "api/EOQ/GetUserPermissionOnManageNomination");
+            },
+            updateEOQNominatorSettingById: function (eoqyId, nominators) {
+                var criteria = {
+                    EOQYId: eoqyId,
+                    Nominators: nominators
+                };
+
+                return $http.put(baseUrl + "api/EOQ/UpdateEOQNominatorSettingById", criteria);
             }
         };
     }

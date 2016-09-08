@@ -44,7 +44,8 @@
                     <tr class="header-table">
                         <th colspan="7">
                             <a class="pull-left button-icon create-button"
-                               ng-click="manageEOQCtrl.createEOQ()">
+                               ng-click="manageEOQCtrl.createEOQ()"
+                               ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host">
                                 <span class="icon plus"></span>
                                 <span class="button-text" data-translate="CreateNominationPeriod"></span>
                             </a>
@@ -78,7 +79,8 @@
                                 <a class="fa fa-pencil-square-o icon-edit" title="Edit" 
                                    ng-click="manageEOQCtrl.updateEOQ(period.EOQYId)"></a>
                                 <a class="fa fa-trash-o icon-remove" title="Delete" 
-                                   ng-click="manageEOQCtrl.deleteEOQ(period)"></a>
+                                   ng-click="manageEOQCtrl.deleteEOQ(period)"
+                                   ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host"></a>
                             </div>
                         </td>
                     </tr>
