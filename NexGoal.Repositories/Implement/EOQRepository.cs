@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model;
@@ -48,12 +49,12 @@
             }
         }
 
-        public IEnumerable<NominationModel> GetNominationByNominatorId(ICriteria criteria)
+        public IEnumerable<EOQYNominationModel> GetNominationByNominatorId(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<NominationModel> nominations =
-                    db.Query<NominationModel, EOQYModel, EmployeeModel, DepartmentModel, Group, JobTitle, EmployeeModel, NominationModel>(
+                IEnumerable<EOQYNominationModel> nominations =
+                    db.Query<EOQYNominationModel, EOQYModel, EmployeeModel, DepartmentModel, Group, JobTitle, EmployeeModel, EOQYNominationModel>(
                         (nomination, period, nominee, dept, gr, jb, nominator) =>
                         {
                             nomination.Period = period;
@@ -69,6 +70,34 @@
                         criteria.GetSpParams());
 
                 return nominations;
+            }
+        }
+
+        public EOQYNominationModel GetEOQNominationById(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    EOQYNominationModel nomination =
+                        multi.Read<EOQYNominationModel, EOQYModel, EmployeeModel, DepartmentModel, Group, JobTitle, EmployeeModel, EOQYNominationModel>(
+                            (nt, period, nominee, dept, gr, jb, nominator) =>
+                            {
+                                nt.Period = period;
+                                nominee.Department = dept;
+                                nominee.Group = gr;
+                                nominee.JobTitle = jb;
+                                nt.Nominee = nominee;
+                                nt.Nominator = nominator;
+
+                                return nt;
+                            },
+                            "EOQYId, EmployeeId, DepartmentId, GroupId, JobTitleId, NominatorId").FirstOrDefault();
+
+                    nomination.NominationDetails = multi.Read<EOQYQuestionModel>().ToList();
+
+                    return nomination;
+                }
             }
         }
     }

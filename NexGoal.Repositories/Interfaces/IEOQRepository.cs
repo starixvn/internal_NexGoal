@@ -10,6 +10,8 @@
 
         EOQYNominatorSettingModel GetCurrentEOQByNominatorId(ICriteria criteria);
 
-        IEnumerable<NominationModel> GetNominationByNominatorId(ICriteria criteria);
+        IEnumerable<EOQYNominationModel> GetNominationByNominatorId(ICriteria criteria);
+
+        EOQYNominationModel GetEOQNominationById(ICriteria criteria);
     }
 }

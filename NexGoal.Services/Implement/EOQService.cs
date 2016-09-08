@@ -76,9 +76,9 @@
             return result;
         }
 
-        public IEnumerable<NominationModel> GetEOQNominationByNominatorId(GetEOQNominationByNominatorIdCriteria criteria)
+        public IEnumerable<EOQYNominationModel> GetEOQNominationByNominatorId(GetEOQNominationByNominatorIdCriteria criteria)
         {
-            IEnumerable<NominationModel> nominations = new List<NominationModel>();
+            IEnumerable<EOQYNominationModel> nominations = new List<EOQYNominationModel>();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -154,6 +154,22 @@
             }
 
             return commandResult;
+        }
+
+        public EOQYNominationModel GetEOQNominationById(int nominationId)
+        {
+            var nomination = new EOQYNominationModel();
+            var criteria = new GetEOQNominationByIdCriteria
+            {
+                NominationId = nominationId
+            };
+
+            if (criteria.IsValid())
+            {
+                nomination = eoqRepository.GetEOQNominationById(criteria);
+            }
+
+            return nomination;
         }
 
         public CommandResult UpdateEOQNomination(UpdateEOQNominationCriteria criteria)

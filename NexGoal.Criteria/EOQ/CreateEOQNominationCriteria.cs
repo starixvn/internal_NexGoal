@@ -21,7 +21,7 @@
 
         public int ModifiedBy { get; set; }
 
-        public List<NominationDetailModel> NominationDetails { get; set; }
+        public List<EOQYQuestionModel> NominationDetails { get; set; }
 
         [SpParam(SqlParamName = "NominationDetails")]
         public string Details
@@ -32,9 +32,9 @@
 
                 if (NominationDetails != null && NominationDetails.Any())
                 {
-                    foreach (NominationDetailModel nomination in NominationDetails)
+                    foreach (EOQYQuestionModel nomination in NominationDetails)
                     {
-                        xmlTemp.AppendFormat(NominationDetailXmlTemp, nomination.Question.QuestionId, nomination.Question.Comment);
+                        xmlTemp.AppendFormat(NominationDetailXmlTemp, nomination.QuestionId, nomination.Comment);
                     }
                 }
 
