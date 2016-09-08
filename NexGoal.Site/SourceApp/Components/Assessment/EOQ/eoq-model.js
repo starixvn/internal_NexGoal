@@ -10,6 +10,7 @@
 
         vm.periods = [];
         vm.period = [];
+        vm.nominatorSettings = [];
 
         vm.getStatusName = function (statusId) {
             var statusName = "";
@@ -87,6 +88,14 @@
         vm.getEOQById = function (eoqId) {
             return eoqFactory.getEOQById(eoqId).success(function (period) {
                 vm.period = period;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.GetEOQNominatorSettingById = function (query, groupIds, roleId, showAllEmployee) {
+            return eoqFactory.GetEOQNominatorSettingById(query, groupIds, roleId, showAllEmployee).success(function (nominatorSettings) {
+                vm.nominatorSettings = nominatorSettings;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

@@ -40,7 +40,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
                 utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
 
-                vm.filter.employeeIds = utilitiesFactory.getSelectedByProperty(vm.members, "EmployeeId");
+                vm.filter.employeeIds = utilitiesFactory.getSelectedDataByProperty(vm.members, "EmployeeId");
             }
 
             if (isFirstLoad) {
@@ -59,7 +59,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
                 utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
 
-                vm.filter.groupIds = utilitiesFactory.getSelectedByProperty(vm.groupOptions, "GroupId");
+                vm.filter.groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
 
                 getMemberByReviewer(vm.filter.periodIds, vm.filter.groupIds);
             }
@@ -186,14 +186,14 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         ReviewerManagementModel.getAllPeriodByReviewer().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(ReviewerManagementModel.periodOptions);
 
-            vm.filter.periodIds = utilitiesFactory.getSelectedByProperty(vm.periods, "PeriodId");
+            vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
             getGroupsByPeriods(vm.filter.periodIds);
         });
     }
 
     vm.handleOnPeriodClose = function () {
-        var periodIds = utilitiesFactory.getSelectedByProperty(vm.periods, "PeriodId");
+        var periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
         if (periodIds !== vm.filter.periodIds) {
             vm.filter.periodIds = periodIds;
@@ -203,7 +203,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.handleOnGroupClose = function () {
-        var groupIds = utilitiesFactory.getSelectedByProperty(vm.groupOptions, "GroupId");
+        var groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
 
         if (groupIds !== vm.filter.groupIds) {
             vm.filter.groupIds = groupIds;
@@ -366,7 +366,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.query = function () {
-        vm.filter.employeeIds = utilitiesFactory.getSelectedByProperty(vm.members, 'EmployeeId');
+        vm.filter.employeeIds = utilitiesFactory.getSelectedDataByProperty(vm.members, 'EmployeeId');
 
         if (vm.filter.periodIds === null || vm.filter.groupIds === null || vm.filter.employeeIds === null) {
             vm.memberEPAs = [];

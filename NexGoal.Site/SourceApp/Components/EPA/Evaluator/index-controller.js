@@ -16,7 +16,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
 
 
     vm.handleOnPeriodClose = function () {
-        var periodIds = utilitiesFactory.getSelectedByProperty(vm.periods, "PeriodId");
+        var periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
         if (periodIds !== vm.filter.periodIds) {
             vm.filter.periodIds = periodIds;
@@ -26,7 +26,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     };
 
     vm.handleOnGroupClose = function () {
-        var groupIds = utilitiesFactory.getSelectedByProperty(vm.groupOptions, "GroupId");
+        var groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
 
         if (groupIds !== vm.filter.groupIds) {
             vm.filter.groupIds = groupIds;
@@ -36,7 +36,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     };
 
     vm.query = function () {
-        vm.filter.employeeIds = utilitiesFactory.getSelectedByProperty(vm.members, 'EmployeeId');
+        vm.filter.employeeIds = utilitiesFactory.getSelectedDataByProperty(vm.members, 'EmployeeId');
 
         getEPAByEvaluator(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
     };

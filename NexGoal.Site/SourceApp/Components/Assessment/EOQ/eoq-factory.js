@@ -36,6 +36,16 @@
             },
             getEOQById: function (eoqId) {
                 return $http.get(baseUrl + "api/EOQ/GetEOQById", { params: { Id: eoqId } });
+            },
+            GetEOQNominatorSettingById: function (query, groupIds, roleId, showAllEmployee) {
+                var params = {
+                    Query: query,
+                    GroupIds: groupIds,
+                    RoleId: roleId,
+                    ShowAllEmployee: showAllEmployee
+                };
+
+                return $http.get(baseUrl + "api/EOQ/GetEOQNominatorSettingById", { params: params });
             }
         };
     }

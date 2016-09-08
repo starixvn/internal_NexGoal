@@ -19,7 +19,7 @@ function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilit
     }
 
     vm.query = function () {
-        vm.filters.periodIds = utilitiesFactory.getSelectedByProperty(vm.periods, 'PeriodId');
+        vm.filters.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, 'PeriodId');
 
         if (vm.filters.periodIds === null) {
             vm.myEPAs = [];

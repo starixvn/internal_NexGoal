@@ -28,7 +28,7 @@
 
                 filter = {};
                 filter.Year = year;
-                filter.StatusId = ""; // In Progresss
+                filter.StatusId = 1; // In Progresss
             }
 
             return filter;
