@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'enumerationsFactory', 'lockScreenService'];
+    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService'];
 
-    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, enumerationsFactory, lockScreenService) {
+    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService) {
         var vm = this;
         vm.objectivesAchievementRanges = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
         vm.promotionsRanges = [
@@ -27,26 +27,21 @@
             employeeId: null
         };
         vm.searchEmployee = "";
-        vm.paFocusPermission = {};
 
         function initialize() {
-            PAFocusModel.getPAFocusFullPermission().then(function () {
-                vm.paFocusPermission = PAFocusModel.PAFocusPermission;
-                CommonModel.getAllPeriodIncludeImport().then(function () {
-                    vm.periods = CommonModel.periodOptions;
+            CommonModel.getAllPeriodIncludeImport().then(function () {
+                vm.periods = CommonModel.periodOptions;
 
-                    if (vm.periods.length > 0) {
-                        vm.filter.periodId = vm.periods[0].PeriodId;
-                    }
+                if (vm.periods.length > 0) {
+                    vm.filter.periodId = vm.periods[0].PeriodId;
+                }
 
-                    CommonModel.getDepartment(null, true).then(function () {
-                        var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-                        vm.teams = angular.copy(treeDepartment);
-                        utilitiesFactory.setSelectAll(vm.teams);
-                        vm.query();
-                    });
+                CommonModel.getDepartment(null, true).then(function () {
+                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                    vm.teams = angular.copy(treeDepartment);
+                    utilitiesFactory.setSelectAll(vm.teams);
+                    vm.query();
                 });
-
             });
         }
 
@@ -60,7 +55,7 @@
                         }
                     });
 
-                    group.TotalBonus = total.toFixed(2)
+                    group.TotalBonus = parseFloat(total.toFixed(2));
                 }
             });
         }
@@ -133,32 +128,21 @@
         vm.query = function () {
             lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-            if (vm.paFocusPermission === enumerationsFactory.policy.None) {
-                PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    vm.groups = PAFocusModel.evaluations;
-                })["finally"](function () {
-                    lockScreenService.stop();
-                });
-            } else {
-                PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    vm.groups = PAFocusModel.evaluations;
-                })["finally"](function () {
-                    lockScreenService.stop();
-                });
-            }
+
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                vm.groups = PAFocusModel.evaluations;
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
+
         };
 
         vm.save = function () {
             angular.forEach(vm.groups, function (group) {
                 if (PAFocusModel.validatePAFocusForm(group)) {
-                    if (vm.paFocusPermission === enumerationsFactory.policy.None) {
-                        PAFocusModel.updatePAFocus(group);
-                    } else {
-                        PAFocusModel.updatePAFocusByManagement(group);
-                    }
+                    PAFocusModel.updatePAFocus(group);
                 }
             });
-
         };
 
         initialize();

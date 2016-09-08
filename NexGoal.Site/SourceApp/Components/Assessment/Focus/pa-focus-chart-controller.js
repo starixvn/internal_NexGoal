@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusChartController", paFocusChartController);
 
-    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "enumerationsFactory", "lockScreenService"];
+    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "lockScreenService"];
 
-    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, enumerationsFactory, lockScreenService) {
+    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.groups = [];
@@ -15,24 +15,20 @@
             periodId: 0,
             teamIds: null
         };
-        vm.paFocusPermission = {};
 
         function initialize() {
-            PAFocusModel.getPAFocusFullPermission().then(function () {
-                vm.paFocusPermission = PAFocusModel.PAFocusPermission;
-                CommonModel.getAllPeriodIncludeImport().then(function () {
-                    vm.periods = CommonModel.periodOptions;
+            CommonModel.getAllPeriodIncludeImport().then(function () {
+                vm.periods = CommonModel.periodOptions;
 
-                    if (vm.periods.length > 0) {
-                        vm.filter.periodId = vm.periods[0].PeriodId;
-                    }
-                });
+                if (vm.periods.length > 0) {
+                    vm.filter.periodId = vm.periods[0].PeriodId;
+                }
+            });
 
-                CommonModel.getDepartment(null, true).then(function () {
-                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-                    vm.teams = angular.copy(treeDepartment);
-                    utilitiesFactory.setSelectAll(vm.teams);
-                });
+            CommonModel.getDepartment(null, true).then(function () {
+                var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                vm.teams = angular.copy(treeDepartment);
+                utilitiesFactory.setSelectAll(vm.teams);
             });
         }
 
@@ -84,19 +80,11 @@
         vm.query = function () {
             lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-            if (vm.paFocusPermission === enumerationsFactory.policy.None) {
-                PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    vm.groups = PAFocusModel.evaluations;
-                })["finally"](function () {
-                    lockScreenService.stop();
-                });
-            } else {
-                PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    vm.groups = PAFocusModel.evaluations;
-                })["finally"](function () {
-                    lockScreenService.stop();
-                });
-            }
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                vm.groups = PAFocusModel.evaluations;
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
         };
 
         initialize();

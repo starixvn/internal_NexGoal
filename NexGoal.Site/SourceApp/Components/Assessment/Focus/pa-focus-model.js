@@ -94,32 +94,9 @@
             });
         };
 
-        vm.getPAFocusByManagement = function (periodId, groupIds, employeeId) {
-            return paFocusFactory.getPAFocusByManagement(periodId, groupIds, employeeId).success(function (evaluations) {
-                var groups = evaluations;
-                vm.evaluations = groupEvaluationByTeam(groups);
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
         vm.updatePAFocus = function (group) {
             var evaluations = unGroupEvaluationByTeam(group);
             return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
-                }
-                else {
-                    notificationFactory.error("UpdatedUnsuccessfully");
-                }
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        vm.updatePAFocusByManagement = function (group) {
-            var evaluations = unGroupEvaluationByTeam(group);
-            return paFocusFactory.updatePAFocusByManagement(evaluations).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
