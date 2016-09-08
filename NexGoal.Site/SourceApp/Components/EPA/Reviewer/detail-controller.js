@@ -91,7 +91,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         }, 1);
     };
 
-    function CalculateEvaluatorScoreOnKPI(evaluators) {
+    function calculateEvaluatorScoreOnKPI(evaluators) {
         var averageScore = 0;
 
         if (evaluators.length > 0) {
@@ -110,7 +110,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         return utilitiesFactory.splitNumber(averageScore, 2);
     }
 
-    function CalculateEvaluatorScoreOnGroup(kpiGroup) {
+    function calculateEvaluatorScoreOnGroup(kpiGroup) {
         if (kpiGroup.EvaluatorsScore.length === 0) {
             return 0;
         }
@@ -138,10 +138,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
                 var evaluatorScore = 0;
 
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    kpi.EvaluatorScore = CalculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
+                    kpi.EvaluatorScore = calculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
                     evaluatorScore += kpi.EvaluatorScore;
                 });
-                var scoreOfGroup = CalculateEvaluatorScoreOnGroup(kpiGroup);
+                var scoreOfGroup = calculateEvaluatorScoreOnGroup(kpiGroup);
 
                 kpiGroup.EvaluatorScore = scoreOfGroup;
                 totalScoreOfEvaluator += scoreOfGroup;

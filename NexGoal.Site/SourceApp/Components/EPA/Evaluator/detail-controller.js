@@ -56,7 +56,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         }
     }
 
-    function BindingCurrentEvaluatorGroupScore(evaluatorId) {
+    function bindingCurrentEvaluatorGroupScore(evaluatorId) {
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
             var score = 0;
             angular.forEach(kpiGroup.EvaluatorsScore, function (evaluator) {
@@ -76,7 +76,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             });
             vm.epaInfo.LastPerformanceScore = LastRatingModel.getLastTotalScore();
             checkStatus(vm.epaInfo);
-            BindingCurrentEvaluatorGroupScore(vm.epaInfo.Process.CurrentProcess.EvaluatorId);
+            bindingCurrentEvaluatorGroupScore(vm.epaInfo.Process.CurrentProcess.EvaluatorId);
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
             vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);

@@ -4,7 +4,7 @@
 epaModule.controller('ViewEPADetailController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', "SelfEvalutorModel",
     'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, SelfEvalutorModel, 
+function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, SelfEvalutorModel,
 utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
@@ -30,8 +30,7 @@ utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
-function CalculateEvaluatorScoreOnKPI(evaluators) {
-
+    function calculateEvaluatorScoreOnKPI(evaluators) {
         var averageScore = 0;
 
         if (evaluators.length > 0) {
@@ -50,7 +49,7 @@ function CalculateEvaluatorScoreOnKPI(evaluators) {
         return utilitiesFactory.splitNumber(averageScore, 2);
     }
 
-    function CalculateEvaluatorScoreOnGroup(kpiGroup) {
+    function calculateEvaluatorScoreOnGroup(kpiGroup) {
         if (kpiGroup.EvaluatorsScore.length === 0) {
             return 0;
         }
@@ -75,10 +74,10 @@ function CalculateEvaluatorScoreOnKPI(evaluators) {
             var totalScoreOfEvaluator = 0;
             for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
                 var kpiGroup = vm.epaInfo.KPIGroups[index];
-                var evaluatorScore = CalculateEvaluatorScoreOnGroup(kpiGroup);
+                var evaluatorScore = calculateEvaluatorScoreOnGroup(kpiGroup);
 
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    kpi.EvaluatorScore = CalculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
+                    kpi.EvaluatorScore = calculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
                 });
                 kpiGroup.EvaluatorScore = evaluatorScore;
                 totalScoreOfEvaluator += evaluatorScore;

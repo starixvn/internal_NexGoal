@@ -45,7 +45,7 @@
                     var piece = {
                         name: member.Employee.NickName,
                         contribution: member.Contribution === null ? 0 : member.Contribution,
-                        y: member.BonusGiven === null ? 0 : member.BonusGiven,
+                        y: member.BonusGiven === null ? 0 : member.BonusGiven
                     };
 
                     chartData.push(piece);

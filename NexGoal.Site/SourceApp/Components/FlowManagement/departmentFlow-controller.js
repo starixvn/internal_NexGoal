@@ -32,14 +32,14 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService, history
         return names;
     };
 
-    function GetDepartmentHasSetting() {
+    function getDepartmentHasSetting() {
         FlowMngModel.getDepartmentHasSetting(vm.FlowTemplateId).then(function () {
             vm.departmentSettings = FlowMngModel.departmentSettings;
             vm.departmentHasSettingName = getNameDepartment(vm.departmentSettings);
         });
     }
 
-    GetDepartmentHasSetting();
+    getDepartmentHasSetting();
 
     /// Show or hide list Employee.
     vm.toggleDepartmentDraggableList = function () {
@@ -149,7 +149,7 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService, history
         if (FlowMngModel.validateDepartmentFlow(vm)) {
             FlowMngModel.createDepartmentFlow(vm).then(function () {
                 var department = getSelectedDepartment($scope.updateCtrl.departments, vm.department.DepartmentId);
-                GetDepartmentHasSetting();
+                getDepartmentHasSetting();
             });
         }
     };
