@@ -74,7 +74,7 @@
                 <td>{{member.Employee.FullName}}</td>
                 <td>{{member.Employee.JobTitle.JobTitleName}}</td>
                 <td class="text-center">
-                    <span ng-if="member.FinalScore">{{member.FinalScore}}</span>
+                    <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
                     <span ng-if="!member.FinalScore" data-translate="Pending"></span>
                     /100
                 </td>
@@ -108,7 +108,7 @@
                 <td rowspan="{{group.Members.length}}" class="text-center"
                     ng-if="$first"
                     ng-class="group.TotalBonus === group.MaxBonus ? 'bonus-give-success' : 'bonus-give-error'">
-                    {{group.TotalBonus}} / {{group.MaxBonus}}
+                    {{group.TotalBonus | customScore}} / {{group.MaxBonus}}
                 </td>
                 <td class="text-center">{{member.BonusRanking}}</td>
                 <td>

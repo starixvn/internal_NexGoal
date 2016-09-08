@@ -46,15 +46,13 @@
             return teams;
         }
 
-        function unGroupEvaluationByTeam(teams) {
+
+        function unGroupEvaluationByTeam(team) {
             var evaluations = [];
 
-            angular.forEach(teams, function (team) {
-                angular.forEach(team.Members, function (member) {
-                    evaluations.push(member);
-                });
+            angular.forEach(team.Members, function (member) {
+                evaluations.push(member);
             });
-
             return evaluations;
         }
 
@@ -66,20 +64,15 @@
             });
         };
 
-        vm.validatePAFocusForm = function (groups) {
+        vm.validatePAFocusForm = function (group) {
             var isValid = true;
 
-            angular.forEach(groups, function (group) {
-                if (!isValid) {
-                    return;
-                }
 
-                if (group.TotalBonus !== group.MaxBonus) {
-                    isValid = false;
-                    notificationFactory.error("TotalBonusGivenInvalidMessage");
-                    return;
-                }
-            });
+            if (group.TotalBonus !== group.MaxBonus) {
+                isValid = false;
+                notificationFactory.error("TotalBonusGivenInvalidMessage");
+                return;
+            }
 
             return isValid;
         };
@@ -110,9 +103,9 @@
             });
         };
 
-        vm.updatePAFocus = function (evaluations) {
-            var groups = unGroupEvaluationByTeam(evaluations);
-            return paFocusFactory.updatePAFocus(groups).success(function (response) {
+        vm.updatePAFocus = function (group) {
+            var evaluations = unGroupEvaluationByTeam(group);
+            return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -124,8 +117,8 @@
             });
         };
 
-        vm.updatePAFocusByManagement = function (evaluations) {
-            var groups = unGroupEvaluationByTeam(evaluations);
+        vm.updatePAFocusByManagement = function (group) {
+            var evaluations = unGroupEvaluationByTeam(group);
             return paFocusFactory.updatePAFocusByManagement(evaluations).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");

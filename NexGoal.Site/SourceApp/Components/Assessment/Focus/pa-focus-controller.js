@@ -53,26 +53,31 @@
         function calculateTeamTotalBonus(teamId) {
             angular.forEach(vm.groups, function (group) {
                 if (group.TeamId === teamId) {
-                    group.TotalBonus = 0;
-
+                    var total = 0;
                     angular.forEach(group.Members, function (member) {
-                        group.TotalBonus += member.BonusGiven;
+                        if (member.BonusGiven) {
+                            total += member.BonusGiven;
+                        }
                     });
+
+                    group.TotalBonus = total.toFixed(2)
                 }
             });
         }
+        function ranking(members) {
+            var tempMembers = angular.copy(members);
 
-        function calculateBonusRanking(teamId) {
-            angular.forEach(vm.groups, function (group) {
-                if (group.TeamId === teamId) {
-                    var members = angular.copy(group.Members);
+            tempMembers.sort(function (memberA, memberB) {
+                return memberB.BonusGiven - memberA.BonusGiven;
+            });
 
-                    members.sort(function (memberA, memberB) {
-                        return memberB.BonusGiven - memberA.BonusGiven;
-                    });
-
-                    angular.forEach(members, function (member, index) {
-                        var previousMember = members[index - 1];
+            angular.forEach(tempMembers, function (member, index) {
+                if (member.BonusGiven === "" || member.BonusGiven === null) {
+                    member.BonusRanking = null;
+                }
+                else {
+                    if (member.BonusGiven >= 0) {
+                        var previousMember = tempMembers[index - 1];
 
                         if (previousMember) {
                             member.BonusRanking = previousMember.BonusGiven === member.BonusGiven ?
@@ -81,12 +86,22 @@
                         } else {
                             member.BonusRanking = index + 1;
                         }
-                    });
+                    }
+                }
+            });
+
+            return tempMembers;
+        }
+
+        function calculateBonusRanking(teamId) {
+            angular.forEach(vm.groups, function (group) {
+                if (group.TeamId === teamId) {
+                    var tempMembers = ranking(group.Members);
 
                     angular.forEach(group.Members, function (member) {
-                        var rankingMemberIndex = members.map(function (item) { return item.Employee.EmployeeId; }).indexOf(member.Employee.EmployeeId);
+                        var rankingMemberIndex = tempMembers.map(function (item) { return item.Employee.EmployeeId; }).indexOf(member.Employee.EmployeeId);
 
-                        member.BonusRanking = members[rankingMemberIndex].BonusRanking;
+                        member.BonusRanking = tempMembers[rankingMemberIndex].BonusRanking;
                     });
                 }
             });
@@ -111,10 +126,6 @@
         };
 
         vm.inputBonus = function (member) {
-            if (member.BonusGiven === "" || member.BonusGiven < 0) {
-                member.BonusGiven = 0;
-            }
-
             calculateTeamTotalBonus(member.Employee.Group.GroupId);
             calculateBonusRanking(member.Employee.Group.GroupId);
         };
@@ -138,14 +149,16 @@
         };
 
         vm.save = function () {
-            if (PAFocusModel.validatePAFocusForm(vm.groups)) {
-                var evaluations = unGroupEvaluationByTeam(vm.groups);
-                if (vm.paFocusPermission === enumerationsFactory.policy.None) {
-                    PAFocusModel.updatePAFocus(evaluations);
-                } else {
-                    PAFocusModel.updatePAFocusByManagement(evaluations);
+            angular.forEach(vm.groups, function (group) {
+                if (PAFocusModel.validatePAFocusForm(group)) {
+                    if (vm.paFocusPermission === enumerationsFactory.policy.None) {
+                        PAFocusModel.updatePAFocus(group);
+                    } else {
+                        PAFocusModel.updatePAFocusByManagement(group);
+                    }
                 }
-            }
+            });
+
         };
 
         initialize();

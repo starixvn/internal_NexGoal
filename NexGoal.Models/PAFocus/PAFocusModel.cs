@@ -44,7 +44,7 @@
         {
             get
             {
-                return DateTime.Now < StartDate || DateTime.Now > EndDate;
+                return DateTime.Now.Date < StartDate.Date || DateTime.Now.Date > EndDate.Date;
             }
         }
 
