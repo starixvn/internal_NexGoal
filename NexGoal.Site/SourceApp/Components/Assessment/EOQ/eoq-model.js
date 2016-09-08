@@ -12,6 +12,7 @@
         vm.period = [];
         vm.nominatorSettings = [];
         vm.permission = 0;
+        vm.eoqQuestions = [];
 
         vm.getStatusName = function (statusId) {
             var statusName = "";
@@ -118,6 +119,14 @@
         vm.getUserPermissionOnManageNomination = function () {
             return eoqFactory.getUserPermissionOnManageNomination().success(function (permission) {
                 vm.permission = permission;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.getEOQQuestion = function () {
+            return eoqFactory.getEOQQuestion().success(function (eoqQuestions) {
+                vm.eoqQuestions = eoqQuestions;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

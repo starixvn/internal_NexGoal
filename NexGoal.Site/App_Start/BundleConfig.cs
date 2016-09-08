@@ -182,6 +182,7 @@
                             "~/SourceApp/Components/Assessment/EOQ/update-eoq-roles-management-controller.js",
                             "~/SourceApp/Components/Assessment/EOQ/eoq-access-controller.js",
                             "~/SourceApp/Components/Assessment/EOQ/add-eoq-nominee-controller.js",
+                            "~/SourceApp/Components/Assessment/EOQ/update-eoq-nominee-controller.js",
                             "~/SourceApp/Components/Assessment/EOQ/eoq-model.js",
                             "~/SourceApp/Components/Assessment/EOQ/eoq-factory.js"));
 

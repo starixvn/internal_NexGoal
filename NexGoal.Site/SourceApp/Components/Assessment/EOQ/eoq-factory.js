@@ -58,6 +58,9 @@
                 };
 
                 return $http.put(baseUrl + "api/EOQ/UpdateEOQNominatorSettingById", criteria);
+            },
+            getEOQQuestion: function () {
+                return $http.get(baseUrl + "api/EOQ/GetEOQQuestion");
             }
         };
     }

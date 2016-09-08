@@ -3,9 +3,9 @@
 
     assessmentModule.controller("AddEOQNomineeController", addEOQNomineeController);
 
-    addEOQNomineeController.$inject = ["$modalInstance", "EmployeeModel"];
+    addEOQNomineeController.$inject = ["$modalInstance", "EmployeeModel","EOQModel"];
 
-    function addEOQNomineeController($modalInstance, EmployeeModel) {
+    function addEOQNomineeController($modalInstance, EmployeeModel, EOQModel) {
         var vm = this;
 
         vm.searchEmployee = "";
@@ -13,6 +13,13 @@
         vm.nominee = {
             employeeId: 0,
             teamName: ""
+        };
+        vm.eoqQuestions = [];
+
+        function initialize() {
+            EOQModel.getEOQQuestion().then(function () {
+                vm.eoqQuestions = EOQModel.eoqQuestions;
+            });
         };
 
         vm.getEmployee = function () {
@@ -44,5 +51,7 @@
         vm.cancel = function () {
             $modalInstance.dismiss("cancel");
         };
+
+        initialize();
     }
 })(angular.module("assessmentModule"));

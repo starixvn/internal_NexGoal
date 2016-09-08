@@ -1,0 +1,34 @@
+﻿<div class="custom-modal">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span>Nominee Information</span>
+            <span class="close-popup" ng-click="updateEOQNomineeCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Nominee"></label>
+                <div class="col-sm-3 field">
+                    <input class="form-control" ng-model="updateEOQNomineeCtrl.nominee.employeeName" ng-disabled="true" />
+                </div>
+
+                <label class="col-sm-1 control-label" data-translate="Team"></label>
+                <div class="col-sm-3 field">
+                    <input class="form-control" ng-model="updateEOQNomineeCtrl.nominee.teamName" ng-disabled="true" />
+                </div>
+
+                <label class="col-sm-1 control-label" data-translate="DueDate"></label>
+                <div class="col-sm-3 field">
+                    <input class="form-control" ng-model="updateEOQNomineeCtrl.nominee.dueDate" ng-disabled="true" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer button-block">
+        <button class="button btn-cancel customize" ng-click="updateEOQNomineeCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button" ng-click="updateEOQNomineeCtrl.submit()" data-translate="Submit"></button>
+    </div>
+</div>
