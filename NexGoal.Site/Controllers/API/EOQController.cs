@@ -184,6 +184,29 @@
             return commandResult;
         }
 
+        public CommandResult DeleteEOQNomination(int id)
+        {
+            var criteria = new DeleteEOQNominationCriteria
+            {
+                NominationId = id,
+                ModifiedBy = SessionService.EmployeeId
+            };
+
+            CommandResult commandResult = eoqService.DeleteEOQNomination(criteria);
+            return commandResult;
+        }
+
+        public CommandResult UpdateStatusEOQNomination(UpdateStatusEOQNominationCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = SessionService.EmployeeId;
+            }
+
+            CommandResult commandResult = eoqService.UpdateStatusEOQNomination(criteria);
+            return commandResult;
+        }
+
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
         public IEnumerable<EOQYQuestionModel> GetEOQQuestion()
         {

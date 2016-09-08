@@ -183,5 +183,29 @@
 
             return commandResult;
         }
+
+        public CommandResult DeleteEOQNomination(DeleteEOQNominationCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = this.Repository.Delete(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult UpdateStatusEOQNomination(UpdateStatusEOQNominationCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = this.Repository.Update(criteria);
+            }
+
+            return commandResult;
+        }
     }
 }

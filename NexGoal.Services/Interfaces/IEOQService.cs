@@ -32,5 +32,9 @@
         EOQYNominationModel GetEOQNominationById(int nominationId);
 
         CommandResult UpdateEOQNomination(UpdateEOQNominationCriteria criteria);
+
+        CommandResult DeleteEOQNomination(DeleteEOQNominationCriteria criteria);
+
+        CommandResult UpdateStatusEOQNomination(UpdateStatusEOQNominationCriteria criteria);
     }
 }

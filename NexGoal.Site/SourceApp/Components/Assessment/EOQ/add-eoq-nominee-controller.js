@@ -20,7 +20,7 @@
             EOQModel.getEOQQuestion().then(function () {
                 vm.nominee.eoqQuestions = EOQModel.eoqQuestions;
             });
-        };
+        }
 
         vm.getEmployee = function () {
             return EmployeeModel.getAllEmployee(vm.searchEmployee);
@@ -42,7 +42,7 @@
                 vm.nominee.teamName = "";
                 vm.nominee.employeeId = 0;
             }
-        }
+        };
 
         vm.submit = function () {
             $modalInstance.dismiss("cancel");
