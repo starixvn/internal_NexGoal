@@ -9,7 +9,7 @@
 
     public class UpdateEOYNominatorSettingByIdCriteria : CriteriaBase
     {
-        private const string NominatorSettingXmlTemp = "<NominatorSetting ProcessId='{0}' NominatorId='{1}' />";
+        private const string NominatorSettingXmlTemp = "<NominatorSetting RoleId='{0}' NominatorId='{1}' />";
 
         public int EOQYId { get; set; }
 
@@ -26,7 +26,7 @@
                 {
                     foreach (EOQYNominatorSettingModel nominator in Nominators)
                     {
-                        settingXml.AppendFormat(NominatorSettingXmlTemp, nominator.ProcessId, nominator.NominatorId);
+                        settingXml.AppendFormat(NominatorSettingXmlTemp, nominator.RoleId, nominator.NominatorId);
                     }
                 }
 

@@ -10,7 +10,7 @@
 
         public string GroupIds { get; set; }
 
-        public int? ProcessId { get; set; }
+        public int? RoleId { get; set; }
 
         public bool ShowAllEmployee { get; set; }
 

@@ -52,14 +52,14 @@
         public IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(
             string query = null,
             string groupIds = null,
-            int? processId = null,
+            int? roleId = null,
             bool showAllEmployee = false)
         {
             var criteria = new GetEOQNominatorSettingByIdCriteria
             {
                 Query = query,
                 GroupIds = groupIds,
-                ProcessId = processId,
+                RoleId = roleId,
                 ShowAllEmployee = showAllEmployee
             };
 
