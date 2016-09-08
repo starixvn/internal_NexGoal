@@ -427,8 +427,12 @@
     <Setting Key="EOQ_Insert" SpName="EOQ_Insert" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Update" SpName="EOQ_Update" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_GetQuestion" SpName="EOQ_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_GetNominatorSettingById" SpName="EOQ_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_UpdateNominatorSettingById" SpName="EOQ_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQNomination_GetByNominatorId" SpName="EOQNomination_GetByNominatorId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_GetCurrentNominationByNominatorId" SpName="EOQ_GetCurrentNominationByNominatorId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_CurrentNomination_GetByNominatorId" SpName="EOQ_CurrentNomination_GetByNominatorId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQNomination_Insert" SpName="EOQNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQNomination_Update" SpName="EOQNomination_Update" DbName="NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

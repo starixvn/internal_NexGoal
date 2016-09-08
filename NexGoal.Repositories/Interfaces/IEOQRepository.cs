@@ -7,5 +7,9 @@
     public interface IEOQRepository
     {
         IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(ICriteria criteria);
+
+        EOQYNominatorSettingModel GetCurrentEOQByNominatorId(ICriteria criteria);
+
+        IEnumerable<NominationModel> GetNominationByNominatorId(ICriteria criteria);
     }
 }

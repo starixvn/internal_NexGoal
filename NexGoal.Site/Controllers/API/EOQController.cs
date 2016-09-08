@@ -78,7 +78,6 @@
             }
 
             CommandResult commandResult = eoqService.CreateEOQ(criteria);
-
             return commandResult;
         }
 
@@ -92,7 +91,6 @@
             }
 
             CommandResult commandResult = eoqService.UpdateEOQ(criteria);
-
             return commandResult;
         }
 
@@ -106,7 +104,6 @@
             }
 
             CommandResult commandResult = eoqService.UpdateEOQNominatorSettingById(criteria);
-
             return commandResult;
         }
 
@@ -121,7 +118,61 @@
             };
 
             CommandResult commandResult = eoqService.DeleteEOQ(criteria);
+            return commandResult;
+        }
 
+        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        public EOQYNominatorSettingModel GetCurrentEOQByNominatorId()
+        {
+            return eoqService.GetCurrentEOQByNominatorId(SessionService.EmployeeId);
+        }
+
+        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        public IEnumerable<NominationModel> GetEOQNominationByNominatorId(
+            int eoqId,
+            int roleId,
+            string query = null,
+            string groupIds = null,
+            int? statusId = null)
+        {
+            var criteria = new GetEOQNominationByNominatorIdCriteria
+            {
+                EOQYId = eoqId,
+                NominatorId = SessionService.EmployeeId,
+                RoleId = roleId,
+                Query = query,
+                GroupIds = groupIds,
+                StatusId = statusId
+            };
+
+            return eoqService.GetEOQNominationByNominatorId(criteria);
+        }
+
+        [HttpPost]
+        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
+        public CommandResult CreateEOQNomination(CreateEOQNominationCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.StatusId = (int)NominationStatus.Nominated;
+            }
+
+            CommandResult commandResult = eoqService.CreateEOQNomination(criteria);
+            return commandResult;
+        }
+
+        [HttpPut]
+        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
+        public CommandResult UpdateEOQNomination(UpdateEOQNominationCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.StatusId = (int)NominationStatus.Nominated;
+            }
+
+            CommandResult commandResult = eoqService.UpdateEOQNomination(criteria);
             return commandResult;
         }
 

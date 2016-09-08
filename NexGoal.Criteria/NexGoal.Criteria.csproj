@@ -103,13 +103,16 @@
     <Compile Include="Employee\ResetPasswordCriteria.cs" />
     <Compile Include="Employee\UpdateHasMonthlyEPACriteria.cs" />
     <Compile Include="EOQ\CreateEOQCriteria.cs" />
+    <Compile Include="EOQ\CreateEOQNominationCriteria.cs" />
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />
+    <Compile Include="EOQ\GetCurrentEOQByNominatorIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQByIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQCriteria.cs" />
     <Compile Include="EOQ\GetEOQNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQQuestionCriteria.cs" />
-    <Compile Include="EOQ\GetNominationByNominatorIdCriteria.cs" />
+    <Compile Include="EOQ\GetEOQNominationByNominatorIdCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQCriteria.cs" />
+    <Compile Include="EOQ\UpdateEOQNominationCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOY\CreateEOYCriteria.cs" />
     <Compile Include="EOY\DeleteEOYCriteria.cs" />

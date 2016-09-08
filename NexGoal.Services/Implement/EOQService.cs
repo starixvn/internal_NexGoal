@@ -59,6 +59,35 @@
             return nominators;
         }
 
+        public EOQYNominatorSettingModel GetCurrentEOQByNominatorId(int nominatorId)
+        {
+            var criteria = new GetCurrentEOQByNominatorIdCriteria
+            {
+                NominatorId = nominatorId
+            };
+
+            var result = new EOQYNominatorSettingModel();
+
+            if (criteria.IsValid())
+            {
+                result = eoqRepository.GetCurrentEOQByNominatorId(criteria);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<NominationModel> GetEOQNominationByNominatorId(GetEOQNominationByNominatorIdCriteria criteria)
+        {
+            IEnumerable<NominationModel> nominations = new List<NominationModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                nominations = eoqRepository.GetNominationByNominatorId(criteria);
+            }
+
+            return nominations;
+        }
+
         public CommandResult CreateEOQ(CreateEOQCriteria criteria)
         {
             var commandResult = new CommandResult();
@@ -113,6 +142,30 @@
             IEnumerable<EOQYQuestionModel> questions = this.GetData<EOQYQuestionModel>(criteria);
 
             return questions;
+        }
+
+        public CommandResult CreateEOQNomination(CreateEOQNominationCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = this.Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public CommandResult UpdateEOQNomination(UpdateEOQNominationCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = this.Repository.Update(criteria);
+            }
+
+            return commandResult;
         }
     }
 }
