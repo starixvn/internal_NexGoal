@@ -34,7 +34,8 @@ appModule.directive('searchAutoComplete', ['$timeout', 'errorFactory', function 
                                 employee: {
                                     EmployeeId: employee.EmployeeId,
                                     Name: employee.NickName,
-                                    HasMonthlyEPA: employee.HasMonthlyEPA
+                                    HasMonthlyEPA: employee.HasMonthlyEPA,
+                                    TeamName: employee.Group.GroupName
                                 }
                             });
                         });

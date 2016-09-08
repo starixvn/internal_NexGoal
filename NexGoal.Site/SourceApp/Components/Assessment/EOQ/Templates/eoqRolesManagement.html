@@ -5,13 +5,10 @@
         <div class="form-group">
 
             <div class="col">
-                <label class="control-label" data-translate="Employee"></label>
+                <label class="control-label" data-translate="Keyword"></label>
                 <div class="control-content">
-                    <input class="form-control employe-search" placeholder="Enter full name or nick name" search-auto-complete
-                           ng-model="eoqRolesManagementCtrl.searchEmployee"
-                           search-employees="eoqRolesManagementCtrl.getEmployee()"
-                           ng-change="eoqRolesManagementCtrl.unselectEmployee()"
-                           employee="eoqRolesManagementCtrl.employee" />
+                    <input class="form-control" placeholder="Enter full name or nick name" 
+                           ng-model="eoqRolesManagementCtrl.filter.query"/>
                 </div>
             </div>
 

@@ -3,18 +3,17 @@
 
     assessmentModule.controller("UpdateEOQRolesManagementController", updateEOQRolesManagementController);
 
-    updateEOQRolesManagementController.$inject = ["$scope", "EOQModel", "EmployeeModel", "CommonModel",
-        "utilitiesFactory", "enumerationsFactory", "lockScreenService"];
+    updateEOQRolesManagementController.$inject = ["$scope", "EOQModel", "CommonModel", "utilitiesFactory",
+        "enumerationsFactory", "lockScreenService"];
 
-    function updateEOQRolesManagementController($scope, EOQModel, EmployeeModel, CommonModel,
-        utilitiesFactory, enumerationsFactory, lockScreenService) {
+    function updateEOQRolesManagementController($scope, EOQModel, CommonModel, utilitiesFactory,
+        enumerationsFactory, lockScreenService) {
         var vm = this;
 
         vm.IN_BOARD_ROLE = 2;
         vm.NOMINATOR_ROLE = 1;
         vm.period = {};
         vm.nominatorSettings = [];
-        vm.searchEmployee = "";
         vm.searchKey = "";
         vm.filteredItems = [];
         vm.currentPage = 1;
@@ -28,7 +27,6 @@
         vm.teams = [];
         vm.permission = 0;
         vm.policyEnum = enumerationsFactory.policy;
-        vm.employee;
 
         function initialize() {
             utilitiesFactory.numberEntryList(vm);
@@ -41,18 +39,6 @@
             });
         }
 
-        vm.getEmployee = function () {
-            return EmployeeModel.getAllEmployee(vm.searchEmployee);
-        };
-
-        vm.unselectEmployee = function () {
-            if (vm.searchEmployee.trim() === '') {
-                if (vm.employee) {
-                    vm.employee = null;
-                }
-            }
-        };
-
         vm.getIndex = function (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);
         };
@@ -61,7 +47,6 @@
             lockScreenService.start();
 
             vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
-            vm.filter.query = vm.employee ? vm.employee.EmployeeId : "";
 
             EOQModel.getEOQNominatorSettingById(
                 vm.period.EOQYId,

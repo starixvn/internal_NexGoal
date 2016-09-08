@@ -1,0 +1,39 @@
+﻿<div class="custom-modal">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span>Nominee Information</span>
+            <span class="close-popup" ng-click="addEOQNomineeCtrl.cancel()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label" data-translate="Nominee"></label>
+                <div class="col-sm-3 field">
+                    <input class="form-control employe-search" placeholder="Enter full name or nick name" search-auto-complete
+                           ng-model="addEOQNomineeCtrl.searchEmployee"
+                           search-employees="addEOQNomineeCtrl.getEmployee()"
+                           ng-change="addEOQNomineeCtrl.unselectEmployee()"
+                           ng-blur="addEOQNomineeCtrl.recordEmployee()"
+                           employee="addEOQNomineeCtrl.employee" />
+                </div>
+
+                <label class="col-sm-1 control-label" data-translate="Team"></label>
+                <div class="col-sm-3 field">
+                    <input class="form-control" ng-model="addEOQNomineeCtrl.nominee.teamName" ng-disabled="true" />
+                </div>
+
+                <label class="col-sm-1 control-label" data-translate="DueDate"></label>
+                <div class="col-sm-3 field">
+                    <input class="form-control" ng-model="addEOQNomineeCtrl.nominee.dueDate" ng-disabled="true" />
+                </div>
+            </div>
+        </form>
+
+    </div>
+    <div class="modal-footer button-block">
+        <button class="button btn-cancel customize" ng-click="addEOQNomineeCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button" ng-click="addEOQNomineeCtrl.submit()" data-translate="Submit"></button>
+    </div>
+</div>

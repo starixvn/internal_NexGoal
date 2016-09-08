@@ -1480,6 +1480,12 @@ header {
   height: 16px;
   display: inline-block;
 }
+.popup-md .modal-dialog {
+  width: 970px;
+}
+.popup-lg .modal-dialog {
+  width: 1170px;
+}
 .modal-content {
   border-radius: 0;
 }

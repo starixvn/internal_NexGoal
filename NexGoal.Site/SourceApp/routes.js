@@ -183,5 +183,7 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     .when("/ManageEOQ/Index",
     { templateUrl: baseUrl + "SourceApp/Components/Assessment/EOQ/Templates/manageEOQ.html", caseInsensitiveMatch: true })
     .when('/ManageEOQ/Update/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EOQ/Templates/updateEOQ.html', caseInsensitiveMatch: true });;
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EOQ/Templates/updateEOQ.html', caseInsensitiveMatch: true })
+    .when('/EOQ/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EOQ/Templates/eoqAccess.html', caseInsensitiveMatch: true });
 }]);

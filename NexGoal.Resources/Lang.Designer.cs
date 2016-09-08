@@ -115,6 +115,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Nominee.
+        /// </summary>
+        public static string AddNominee {
+            get {
+                return ResourceManager.GetString("AddNominee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add Other Violations.
         /// </summary>
         public static string AddOtherViolations {
@@ -921,6 +930,15 @@ namespace NexGoal.Resources {
         public static string DisciplineSummaryDetail {
             get {
                 return ResourceManager.GetString("DisciplineSummaryDetail", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Due Date.
+        /// </summary>
+        public static string DueDate {
+            get {
+                return ResourceManager.GetString("DueDate", resourceCulture);
             }
         }
         
@@ -2608,11 +2626,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nomination Period.
+        ///   Looks up a localized string similar to Nominated.
         /// </summary>
-        public static string NominationPeriod {
+        public static string Nominated {
             get {
-                return ResourceManager.GetString("NominationPeriod", resourceCulture);
+                return ResourceManager.GetString("Nominated", resourceCulture);
             }
         }
         
@@ -2631,6 +2649,15 @@ namespace NexGoal.Resources {
         public static string Nominator {
             get {
                 return ResourceManager.GetString("Nominator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nominee.
+        /// </summary>
+        public static string Nominee {
+            get {
+                return ResourceManager.GetString("Nominee", resourceCulture);
             }
         }
         
@@ -3715,6 +3742,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Shorted List.
+        /// </summary>
+        public static string ShortedList {
+            get {
+                return ResourceManager.GetString("ShortedList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to SPCL User.
         /// </summary>
         public static string ShortSpecialUser {
@@ -4548,6 +4584,15 @@ namespace NexGoal.Resources {
         public static string WeightKPIRequired {
             get {
                 return ResourceManager.GetString("WeightKPIRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Winner.
+        /// </summary>
+        public static string Winner {
+            get {
+                return ResourceManager.GetString("Winner", resourceCulture);
             }
         }
         

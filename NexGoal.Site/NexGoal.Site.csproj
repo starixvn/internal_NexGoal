@@ -404,8 +404,12 @@
     <Content Include="Libs\ui-bootstrap-tpls-0.13.0.min.js" />
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\add-eoq-nominee-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\eoq-access-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\Templates\eoqAccess.html" />
     <Content Include="SourceApp\Components\Assessment\EOQ\Templates\eoqBasicInformation.html" />
     <Content Include="SourceApp\Components\Assessment\EOQ\Templates\eoqRolesManagement.html" />
+    <Content Include="SourceApp\Components\Assessment\EOQ\Templates\modalAddNominee.html" />
     <Content Include="SourceApp\Components\Assessment\EOQ\Templates\updateEOQ.html" />
     <Content Include="SourceApp\Components\Assessment\EOQ\update-eoq-basic-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\EOQ\update-eoq-controller.js" />

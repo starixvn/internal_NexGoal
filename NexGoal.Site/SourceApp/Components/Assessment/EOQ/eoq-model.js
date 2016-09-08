@@ -169,6 +169,17 @@
             });
         };
 
+        vm.openPopupAddNominee = function () {
+            vm.modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/Assessment/EOQ/Templates/modalAddNominee.html',
+                controller: "AddEOQNomineeController as addEOQNomineeCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center popup-lg"
+            });
+
+            return vm.modalInstance.result;
+        };
+
         vm.calendar = {
             startDateOpened: false,
             endDateOpened: false
