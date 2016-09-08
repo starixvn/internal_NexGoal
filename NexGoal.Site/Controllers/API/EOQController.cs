@@ -217,5 +217,10 @@
         {
             return SessionService.CurrentUser.GetPermission(FunctionKey.ManageNomination);
         }
+
+        public int GetUserPermissionOnNomination()
+        {
+            return SessionService.CurrentUser.GetPermission(FunctionKey.Nomination);
+        }
     }
 }

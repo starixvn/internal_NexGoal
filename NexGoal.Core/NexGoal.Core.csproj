@@ -129,6 +129,7 @@
     <Compile Include="Criteria\ResultCriteria.cs" />
     <Compile Include="Enumerations\HashProvider.cs" />
     <Compile Include="Enumerations\MailMode.cs" />
+    <Compile Include="Enumerations\NominationRole.cs" />
     <Compile Include="Enumerations\NominationStatus.cs" />
     <Compile Include="Enumerations\Policy.cs" />
     <Compile Include="Enumerations\ProcessStatusType.cs" />
