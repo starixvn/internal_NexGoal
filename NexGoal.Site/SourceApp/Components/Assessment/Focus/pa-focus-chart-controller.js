@@ -8,6 +8,7 @@
     function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
+        vm.isEmptyResult = false;
         vm.groups = [];
         vm.periods = [];
         vm.teams = [];
@@ -38,14 +39,26 @@
                 var chartData = [];
 
                 angular.forEach(group.Members, function (member) {
-                    var piece = {
-                        name: member.Employee.NickName,
-                        contribution: member.Contribution === null ? 0 : member.Contribution,
-                        y: member.BonusGiven === null ? 0 : member.BonusGiven,
-                    };
+                    if (member.BonusGiven !== null) {
+                        var piece = {
+                            name: member.Employee.NickName,
+                            contribution: member.Contribution === null ? '' : '[' + member.Contribution + ']',
+                            bonus: member.BonusGiven + '%',
+                            y: member.BonusGiven,
+                        };
 
-                    chartData.push(piece);
+                        chartData.push(piece);
+                    }
                 });
+                if (group.TotalBonus < group.MaxBonus) {
+                    var emptyPiece = {
+                        name: 'OutStanding',
+                        contribution: '',
+                        bonus: '',
+                        y: group.MaxBonus - group.TotalBonus
+                    };
+                    chartData.push(emptyPiece);
+                }
 
                 $('#pie-chart-group-' + group.TeamId).highcharts({
                     chart: {
@@ -63,7 +76,7 @@
                             cursor: 'pointer',
                             dataLabels: {
                                 enabled: true,
-                                format: '<div style="color:{point.color}">{point.name} [{point.contribution}]<br/> {point.percentage:.1f} %</div>',
+                                format: '<div style="color:{point.color}">{point.name} {point.contribution}<br/> {point.bonus}</div>',
                                 useHTML: true
                             }
                         }
@@ -82,6 +95,7 @@
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
             PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
                 vm.groups = PAFocusModel.evaluations;
+                vm.isEmptyResult = vm.groups.length == 0;
             })["finally"](function () {
                 lockScreenService.stop();
             });

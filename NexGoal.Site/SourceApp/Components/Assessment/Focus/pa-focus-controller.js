@@ -3,11 +3,11 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService'];
+    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService', 'notificationFactory'];
 
-    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService) {
+    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService, notificationFactory) {
         var vm = this;
-        vm.objectivesAchievementRanges = ["0","10", "20", "30", "40", "50", "60", "70", "80", "90", "100"];
+        vm.objectivesAchievementRanges = ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"];
         vm.promotionsRanges = [
             {
                 Value: true,
@@ -56,9 +56,11 @@
                     });
 
                     group.TotalBonus = parseFloat(total.toFixed(2));
+                    PAFocusModel.validatePAFocusForm(group);
                 }
             });
         }
+
         function ranking(members) {
             var tempMembers = angular.copy(members);
 
@@ -140,7 +142,7 @@
         vm.save = function () {
             angular.forEach(vm.groups, function (group) {
                 if (PAFocusModel.validatePAFocusForm(group)) {
-                    PAFocusModel.updatePAFocus(group);
+                    PAFocusModel.showWarningAndSavePAFocus(group);
                 }
             });
         };

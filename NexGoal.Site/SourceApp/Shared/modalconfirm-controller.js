@@ -1,18 +1,17 @@
 ﻿/*global appModule*/
 'use strict';
 
-appModule.controller("ModalConfirmController", ['$modalInstance', 'name', 'action',
- function ($modalInstance, name, action) {
-    var vm = this;
+appModule.controller("ModalConfirmController", ['$modalInstance', 'name', 'action', 'message',
+ function ($modalInstance, name, action, message) {
+     var vm = this;
 
-    vm.name = name;
-    vm.action = action;
+     vm.message = !message ? "Are you sure to want " + action + " name ?" : message;
 
-    vm.ok = function () {
-        $modalInstance.close();
-    };
+     vm.ok = function () {
+         $modalInstance.close();
+     };
 
-    vm.cancel = function () {
-        $modalInstance.dismiss("cancel");
-    };
+     vm.cancel = function () {
+         $modalInstance.dismiss("cancel");
+     };
  }]);

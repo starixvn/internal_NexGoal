@@ -3,9 +3,9 @@
 
     assessmentModule.factory("PAFocusModel", paFocusModel);
 
-    paFocusModel.$inject = ["$modal", "paFocusFactory", "errorFactory", "notificationFactory"];
+    paFocusModel.$inject = ["$modal", "paFocusFactory", "errorFactory", "notificationFactory", "$translate"];
 
-    function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory) {
+    function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory, $translate) {
         var vm = {};
 
         vm.processSettings = [];
@@ -66,9 +66,7 @@
 
         vm.validatePAFocusForm = function (group) {
             var isValid = true;
-            if (group.TotalBonus < group.MaxBonus) {
-                notificationFactory.error("TotalBonusGivenLessThanMaxMessage");
-            } else if (group.TotalBonus > group.MaxBonus) {
+            if (group.TotalBonus > group.MaxBonus) {
                 isValid = false;
                 notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
             }
@@ -118,6 +116,38 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
+        };
+
+        vm.showWarningAndSavePAFocus = function (group) {
+            if (group.TotalBonus < group.MaxBonus) {
+                $translate("TotalBonusGivenLessThanMaxMessage").then(function (responseMessage) {
+                    var modalInstance = $modal.open({
+                        templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                        controller: "ModalConfirmController as modalConfirmCtrl",
+                        backdrop: 'static',
+                        resolve: {
+                            name: function () {
+                                return "";
+                            },
+                            action: function () {
+                                return "";
+                            },
+                            message: function () {
+                                return "[" + group.Name + "] " + responseMessage;
+                            }
+                        },
+                        windowClass: "modal-confirm-center"
+                    });
+
+                    modalInstance.result.then(function () {
+                        vm.updatePAFocus(group);
+                    })['finally'](function () {
+                        modalInstance = '';
+                    });
+                });
+            } else {
+                vm.updatePAFocus(group);
+            }
         };
 
         vm.openPopupInformation = function () {

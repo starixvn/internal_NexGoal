@@ -6,7 +6,7 @@ appModule.factory('notificationFactory', ['$translate', function ($translate) {
         timeout: 4000
     },
     errorOptions = {
-        timeout: 5000,
+        timeout: 7000,
         escapeHtml: true
     };
 
