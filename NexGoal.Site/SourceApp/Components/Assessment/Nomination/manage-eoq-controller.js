@@ -62,6 +62,13 @@
             }
         });
 
+        $scope.$watch(function () { return $scope.manageNominationCtrl.permission; },
+        function (newVal) {
+            if (newVal) {
+                vm.permission = newVal;
+            }
+        });
+
         vm.getIndex = function (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);
         };

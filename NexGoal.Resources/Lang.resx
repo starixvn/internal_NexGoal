@@ -1665,4 +1665,7 @@
   <data name="ManageNomination" xml:space="preserve">
     <value>Manage Nomination</value>
   </data>
+  <data name="NominationRolesManagement" xml:space="preserve">
+    <value>Nomination Roles Management</value>
+  </data>
 </root>

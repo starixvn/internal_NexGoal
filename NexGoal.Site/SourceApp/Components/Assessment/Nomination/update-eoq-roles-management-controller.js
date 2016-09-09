@@ -37,6 +37,8 @@
 
                 vm.teams = angular.copy(treeDepartment);
                 utilitiesFactory.setSelectAll(vm.teams);
+
+                vm.query();
             });
         }
 
@@ -60,7 +62,7 @@
             return $scope.updateEOQCtrl.permission;
         }, function (newVal) {
             if (newVal) {
-                vm.permission = $scope.updateEOQCtrl.permission;
+                vm.permission = newVal;
             }
         });
 
@@ -85,6 +87,9 @@
                         nominator.IsInBoard = nominator.RoleId === vm.IN_BOARD_ROLE;
                         nominator.IsNominator = nominator.RoleId === vm.NOMINATOR_ROLE;
                     });
+
+                    vm.searchKey = '';
+                    vm.currentPage = 1;
 
                     utilitiesFactory.searchOnPage(vm, vm.nominatorSettings);
                 })["finally"](function () {

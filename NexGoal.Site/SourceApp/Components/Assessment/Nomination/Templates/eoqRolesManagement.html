@@ -78,13 +78,13 @@
                 <td class="text-center">
                     <input type="checkbox" 
                            ng-model="nominator.IsInBoard" 
-                           ng-show="eoqRolesManagementCtrl.permission == eoqRolesManagementCtrl.policyEnum.Host"
+                           ng-disabled="eoqRolesManagementCtrl.permission !== eoqRolesManagementCtrl.policyEnum.Host"
                            ng-click="eoqRolesManagementCtrl.modifyRole(nominator, eoqRolesManagementCtrl.IN_BOARD_ROLE)"/>
                 </td>
                 <td class="text-center">
                     <input type="checkbox" 
                            ng-model="nominator.IsNominator" 
-                           ng-show="eoqRolesManagementCtrl.permission == eoqRolesManagementCtrl.policyEnum.Host"
+                           ng-disabled="eoqRolesManagementCtrl.permission !== eoqRolesManagementCtrl.policyEnum.Host"
                            ng-click="eoqRolesManagementCtrl.modifyRole(nominator, eoqRolesManagementCtrl.NOMINATOR_ROLE)"/>
                 </td>
             </tr>
