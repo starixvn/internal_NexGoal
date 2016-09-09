@@ -307,6 +307,17 @@
             return true;
         };
 
+        vm.openPopupInformation = function () {
+            vm.modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modelEOQInfomation.html',
+                controller: "EOQModalInformationController as eoqModalInfoCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center"
+            });
+
+            return vm.modalInstance.result;
+        };
+
         return vm;
     }
 })(angular.module("assessmentModule"));

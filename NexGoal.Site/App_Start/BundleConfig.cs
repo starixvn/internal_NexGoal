@@ -186,7 +186,8 @@
                             "~/SourceApp/Components/Assessment/Nomination/add-eoq-nominee-controller.js",
                             "~/SourceApp/Components/Assessment/Nomination/update-eoq-nomination-controller.js",
                             "~/SourceApp/Components/Assessment/Nomination/eoq-model.js",
-                            "~/SourceApp/Components/Assessment/Nomination/eoq-factory.js"));
+                            "~/SourceApp/Components/Assessment/Nomination/eoq-factory.js",
+                            "~/SourceApp/Components/Assessment/Nomination/eoq-model-infomation-controller.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

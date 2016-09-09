@@ -80,6 +80,10 @@
                 vm.modalInstance = null;
             });
         };
+        
+        vm.openPopupInformation = function () {
+            EOQModel.openPopupInformation();
+        };
 
         initialize();
     }

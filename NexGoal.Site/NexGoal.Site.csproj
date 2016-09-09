@@ -407,6 +407,7 @@
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\add-eoq-nominee-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoq-access-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\eoq-model-infomation-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\manage-nomination-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqAccess.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqBasicInformation.html" />
@@ -416,6 +417,7 @@
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalAddNominee.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalUpdateNomination.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalViewNomination.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modelEOQInfomation.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\updateEOQ.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\update-eoq-basic-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\update-eoq-controller.js" />

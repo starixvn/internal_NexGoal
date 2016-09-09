@@ -1249,6 +1249,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee Of The Quarter Infomation.
+        /// </summary>
+        public static string EOQInfomation {
+            get {
+                return ResourceManager.GetString("EOQInfomation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee Of The Year.
         /// </summary>
         public static string EOY {
