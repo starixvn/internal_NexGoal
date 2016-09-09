@@ -1,29 +1,32 @@
 ﻿(function (assessmentModule) {
-	"use strict";
+    'use strict';
 
-	assessmentModule.controller("ViewEOQNominationController", viewEOQNominationController);
+    assessmentModule.controller('ViewEOQNominationController', viewEOQNominationController);
 
-	viewEOQNominationController.$inject = ["$modalInstance", "EOQModel", "lockScreenService", "nominationId"];
+    viewEOQNominationController.$inject = ['$filter', '$modalInstance', 'EOQModel', 'utilitiesFactory', 'lockScreenService', 'nominationId'];
 
-	function viewEOQNominationController($modalInstance, EOQModel, lockScreenService, nominationId) {
-		var vm = this;
+    function viewEOQNominationController($filter, $modalInstance, EOQModel, utilitiesFactory, lockScreenService, nominationId) {
+        var vm = this;
 
-		vm.nomination = {};
+        vm.nomination = {};
 
-		function initialize() {
-			lockScreenService.start();
+        function initialize() {
+            lockScreenService.start();
 
-			EOQModel.getEOQNominationById(nominationId).then(function () {
-			    vm.nomination = EOQModel.nomination;
-			})["finally"](function () {
-			    lockScreenService.stop();
-			});
-		}
+            utilitiesFactory.getDateFormat(vm);
 
-		vm.cancel = function () {
-			$modalInstance.dismiss("cancel");
-		};
+            EOQModel.getEOQNominationById(nominationId).then(function () {
+                vm.nomination = EOQModel.nomination;
+                vm.nomination.Period.DueDay = $filter('date')(vm.nomination.Period.EndDate, vm.dateFormat);
+            })['finally'](function () {
+                lockScreenService.stop();
+            });
+        }
 
-		initialize();
-	}
-})(angular.module("assessmentModule"));
+        vm.close = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        initialize();
+    }
+})(angular.module('assessmentModule'));
