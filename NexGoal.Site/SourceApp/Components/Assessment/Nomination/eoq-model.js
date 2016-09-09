@@ -67,6 +67,19 @@
             });
         };
 
+        vm.createEOQNomination = function (eoqyId, employeeId, eoqQuestions) {
+            return eoqFactory.createEOQNomination(eoqyId, employeeId, eoqQuestions).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("CreatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
         vm.updateEOQ = function (period) {
             return eoqFactory.updateEOQ(period).success(function (response) {
                 if (response.IsSuccessful) {
@@ -187,12 +200,17 @@
             });
         };
 
-        vm.openPopupAddNominee = function () {
+        vm.openPopupAddNominee = function (period) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/EOQ/Templates/modalAddNominee.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalAddNominee.html',
                 controller: "AddEOQNomineeController as addEOQNomineeCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center popup-lg"
+                windowClass: "modal-confirm-center popup-lg",
+                resolve: {
+                    eoqNominationPeriod: function () {
+                        return angular.copy(period);
+                    }
+                }
             });
 
             return vm.modalInstance.result;
@@ -245,6 +263,33 @@
 
                 if (new Date(period.RawStartDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+            }
+
+            return true;
+        };
+
+        vm.validateNominee = function (nominee) {
+            if (!nominee) {
+                return false;
+            } else {
+                if (!nominee.employeeId || nominee.employeeId === 0) {
+                    notificationFactory.error("NomineeRequired");
+                    return false;
+                }
+
+                var validComments = true;
+
+                nominee.eoqQuestions.forEach(function (question) {
+                    if (!question.Comment || question.Comment.length === 0) {
+                        validComments = false;
+                        return;
+                    }
+                });
+
+                if (!validComments) {
+                    notificationFactory.error("NominationCommentRequired");
                     return false;
                 }
             }

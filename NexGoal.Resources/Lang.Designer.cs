@@ -2707,7 +2707,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nominee is required!.
+        ///   Looks up a localized string similar to Nominee field is required!.
         /// </summary>
         public static string NomineeRequired {
             get {

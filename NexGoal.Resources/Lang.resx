@@ -1654,7 +1654,7 @@
     <value>All nomination comments are required!</value>
   </data>
   <data name="NomineeRequired" xml:space="preserve">
-    <value>Nominee is required!</value>
+    <value>Nominee field is required!</value>
   </data>
   <data name="EOQ" xml:space="preserve">
     <value>Employee Of The Quarter</value>

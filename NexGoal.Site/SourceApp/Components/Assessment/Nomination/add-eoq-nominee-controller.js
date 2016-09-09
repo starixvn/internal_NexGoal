@@ -3,11 +3,12 @@
 
     assessmentModule.controller("AddEOQNomineeController", addEOQNomineeController);
 
-    addEOQNomineeController.$inject = ["$modalInstance", "EmployeeModel","EOQModel"];
+    addEOQNomineeController.$inject = ["$filter", "$modalInstance", "EmployeeModel", "EOQModel", "utilitiesFactory", "eoqNominationPeriod"];
 
-    function addEOQNomineeController($modalInstance, EmployeeModel, EOQModel) {
+    function addEOQNomineeController($filter, $modalInstance, EmployeeModel, EOQModel, utilitiesFactory, eoqNominationPeriod) {
         var vm = this;
 
+        vm.eoqNominationPeriod = eoqNominationPeriod;
         vm.searchEmployee = "";
         vm.employee = null;
         vm.nominee = {
@@ -20,6 +21,10 @@
             EOQModel.getEOQQuestion().then(function () {
                 vm.nominee.eoqQuestions = EOQModel.eoqQuestions;
             });
+
+            utilitiesFactory.getDateFormat(vm);
+
+            vm.eoqNominationPeriod.DueDay = $filter('date')(vm.eoqNominationPeriod.Period.EndDate, vm.dateFormat);
         }
 
         vm.getEmployee = function () {
@@ -45,7 +50,9 @@
         };
 
         vm.submit = function () {
-            $modalInstance.dismiss("cancel");
+            if (EOQModel.validateNominee(vm.nominee)) {
+                $modalInstance.close(vm.nominee);
+            }
         };
 
         vm.cancel = function () {

@@ -18,6 +18,15 @@
 
                 return $http.post(baseUrl + "api/EOQ/CreateEOQ", criteria);
             },
+            createEOQNomination: function (eoqyId, employeeId, eoqQuestions) {
+                var criteria = {
+                    EOQYId: eoqyId,
+                    NomineeId: employeeId,
+                    NominationDetails: eoqQuestions
+                };
+
+                return $http.post(baseUrl + "api/EOQ/CreateEOQNomination", criteria);
+            },
             updateEOQ: function (period) {
                 var criteria = {
                     EOQYId: period.EOQYId,

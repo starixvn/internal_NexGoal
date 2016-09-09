@@ -31,9 +31,21 @@
             });
         }
 
+        vm.query = function () {
+            alert("Implement Query Soon!")
+        };
+
         vm.addNominee = function () {
-            EOQModel.openPopupAddNominee().then(function () {
+            EOQModel.openPopupAddNominee(vm.period).then(function (nominee) {
                 vm.modalInstance = null;
+
+                lockScreenService.start();
+
+                EOQModel.createEOQNomination(vm.period.Period.EOQYId, nominee.employeeId, nominee.eoqQuestions).then(function () {
+                    vm.query();
+                })["finally"](function () {
+                    lockScreenService.stop();
+                });
             });
         };
 

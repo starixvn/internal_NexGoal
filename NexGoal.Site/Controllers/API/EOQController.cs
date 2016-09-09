@@ -163,6 +163,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
+                criteria.NominatorId = SessionService.EmployeeId;
                 criteria.StatusId = (int)NominationStatus.Nominated;
             }
 
