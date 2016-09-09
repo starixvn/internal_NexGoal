@@ -2635,6 +2635,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All nomination comments are required!.
+        /// </summary>
+        public static string NominationCommentRequired {
+            get {
+                return ResourceManager.GetString("NominationCommentRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nomination Title.
         /// </summary>
         public static string NominationTitle {
@@ -2658,6 +2667,15 @@ namespace NexGoal.Resources {
         public static string Nominee {
             get {
                 return ResourceManager.GetString("Nominee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Nominee is required!.
+        /// </summary>
+        public static string NomineeRequired {
+            get {
+                return ResourceManager.GetString("NomineeRequired", resourceCulture);
             }
         }
         

@@ -1650,4 +1650,10 @@
   <data name="Nominee" xml:space="preserve">
     <value>Nominee</value>
   </data>
+  <data name="NominationCommentRequired" xml:space="preserve">
+    <value>All nomination comments are required!</value>
+  </data>
+  <data name="NomineeRequired" xml:space="preserve">
+    <value>Nominee is required!</value>
+  </data>
 </root>
