@@ -1668,4 +1668,10 @@
   <data name="NominationRolesManagement" xml:space="preserve">
     <value>Nomination Roles Management</value>
   </data>
+  <data name="Nomination" xml:space="preserve">
+    <value>Nomination</value>
+  </data>
+  <data name="Quarter" xml:space="preserve">
+    <value>Quarter</value>
+  </data>
 </root>

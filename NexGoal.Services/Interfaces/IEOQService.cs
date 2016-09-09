@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
     using System.Collections.Generic;
+    using System.IO;
     using NexGoal.Core.Model;
     using NexGoal.Criteria;
     using NexGoal.Model;
@@ -36,5 +37,7 @@
         CommandResult DeleteEOQNomination(DeleteEOQNominationCriteria criteria);
 
         CommandResult UpdateStatusEOQNomination(UpdateStatusEOQNominationCriteria criteria);
+
+        MemoryStream ExportEOQ(IEnumerable<EOQYNominationViewModel> nominations, string periodName);
     }
 }

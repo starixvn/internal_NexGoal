@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Utilities;
     using NexGoal.Model.Employee;
 
     public class EOQYNominationViewModel
@@ -27,6 +28,31 @@
             }
         }
 
+        public string Status2String
+        {
+            get
+            {
+                var status = string.Empty;
+
+                switch (StatusId)
+                {
+                    case (int)NominationStatus.Nominated:
+                        Enumerations.GetDescription(NominationStatus.Nominated);
+                        break;
+
+                    case (int)NominationStatus.ShortedList:
+                        Enumerations.GetDescription(NominationStatus.ShortedList);
+                        break;
+
+                    case (int)NominationStatus.Winner:
+                        Enumerations.GetDescription(NominationStatus.Winner);
+                        break;
+                }
+
+                return status;
+            }
+        }
+
         public int PermissionOnAction
         {
             get
@@ -40,6 +66,7 @@
                         {
                             permission = (int)Policy.Host;
                         }
+
                         break;
 
                     case (int)NominationStatus.ShortedList:
@@ -68,6 +95,7 @@
                         {
                             permission = (int)Policy.Host;
                         }
+
                         break;
                 }
 

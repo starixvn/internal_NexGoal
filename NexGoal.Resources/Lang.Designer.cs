@@ -2662,6 +2662,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nomination.
+        /// </summary>
+        public static string Nomination {
+            get {
+                return ResourceManager.GetString("Nomination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All nomination comments are required!.
         /// </summary>
         public static string NominationCommentRequired {
@@ -3162,6 +3171,15 @@ namespace NexGoal.Resources {
         public static string QualityOfWork {
             get {
                 return ResourceManager.GetString("QualityOfWork", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Quarter.
+        /// </summary>
+        public static string Quarter {
+            get {
+                return ResourceManager.GetString("Quarter", resourceCulture);
             }
         }
         

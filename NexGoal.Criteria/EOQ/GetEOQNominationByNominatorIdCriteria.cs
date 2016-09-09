@@ -16,6 +16,9 @@
 
         public int? StatusId { get; set; }
 
+        [SpParam(Ignored = true)]
+        public string PeriodName { get; set; }
+
         public override string GetSettingKey()
         {
             return "EOQNomination_GetByNominatorId";
