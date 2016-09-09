@@ -414,11 +414,12 @@
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\manageEOY.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\manageNomination.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalAddNominee.html" />
-    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalUpdateNominee.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalUpdateNomination.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalViewNomination.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\updateEOQ.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\update-eoq-basic-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\update-eoq-controller.js" />
-    <Content Include="SourceApp\Components\Assessment\Nomination\update-eoq-nominee-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\update-eoq-nomination-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\update-eoq-roles-management-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\focus-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-chart-controller.js" />
@@ -819,6 +820,7 @@
       <SubType>Designer</SubType>
     </Content>
     <Content Include="Views\Auth\Login.cshtml" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\view-eoq-nomination-controller.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">

@@ -69,6 +69,18 @@
             });
         };
 
+        vm.viewNomination = function (nomination) {
+            EOQModel.openPopupViewNomination(nomination.NominationId).then(function () {
+                vm.modalInstance = null;
+            });
+        };
+
+        vm.updateNomination = function (nomination) {
+            EOQModel.openPopupUpdateNomination(nomination.NominationId).then(function () {
+                vm.modalInstance = null;
+            });
+        };
+
         initialize();
     }
 })(angular.module("assessmentModule"));

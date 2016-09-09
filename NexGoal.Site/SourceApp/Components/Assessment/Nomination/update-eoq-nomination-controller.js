@@ -1,11 +1,11 @@
 ﻿(function (assessmentModule) {
     "use strict";
 
-    assessmentModule.controller("UpdateEOQNomineeController", updateEOQNomineeController);
+    assessmentModule.controller("UpdateEOQNominationController", updateEOQNominationController);
 
-    updateEOQNomineeController.$inject = ["$modalInstance"];
+    updateEOQNominationController.$inject = ["$modalInstance"];
 
-    function updateEOQNomineeController($modalInstance) {
+    function updateEOQNominationController($modalInstance) {
         var vm = this;
 
         vm.submit = function () {

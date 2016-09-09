@@ -84,6 +84,11 @@
                 };
 
                 return $http.get(baseUrl + "api/EOQ/GetEOQNominationByNominatorId", { params: params });
+            },
+            getEOQNominationById: function (nominationId) {
+                var params = { NominationId: nominationId };
+
+                return $http.get(baseUrl + "api/EOQ/GetEOQNominationById", { params: params });
             }
         };
     }

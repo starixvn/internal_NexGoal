@@ -14,6 +14,7 @@
         vm.permission = 0;
         vm.eoqQuestions = [];
         vm.eoqNominations = [];
+        vm.nomination = {};
 
         vm.createEOQ = function (period) {
             return eoqFactory.createEOQ(period).success(function (response) {
@@ -123,6 +124,14 @@
             });
         };
 
+        vm.getEOQNominationById = function (nominationId) {
+            return eoqFactory.getEOQNominationById(nominationId).success(function (nomination) {
+                vm.nomination = nomination;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
         vm.openPopupCreateEOQ = function () {
             vm.modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalCreateEOQ.html',
@@ -178,6 +187,38 @@
                 resolve: {
                     eoqNominationPeriod: function () {
                         return angular.copy(period);
+                    }
+                }
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        vm.openPopupViewNomination = function (nominationId) {
+            vm.modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalViewNomination.html',
+                controller: "ViewEOQNominationController as viewEOQNominationCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center popup-lg",
+                resolve: {
+                    nominationId: function () {
+                        return angular.copy(nominationId);
+                    }
+                }
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        vm.openPopupUpdateNomination = function (nominationId) {
+            vm.modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalUpdateNomination.html',
+                controller: "UpdateEOQNominationController as updateEOQNominationCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center popup-lg",
+                resolve: {
+                    nominationId: function () {
+                        return angular.copy(nominationId);
                     }
                 }
             });
