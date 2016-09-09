@@ -129,7 +129,7 @@
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
         public IEnumerable<EOQYNominationViewModel> GetEOQNominationByNominatorId(
-            int eoqId,
+            int eoqyId,
             int roleId,
             string query = null,
             string groupIds = null,
@@ -137,7 +137,7 @@
         {
             var criteria = new GetEOQNominationByNominatorIdCriteria
             {
-                EOQYId = eoqId,
+                EOQYId = eoqyId,
                 NominatorId = SessionService.EmployeeId,
                 RoleId = roleId,
                 Query = query,

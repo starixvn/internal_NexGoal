@@ -13,7 +13,7 @@
         vm.nominatorSettings = [];
         vm.permission = 0;
         vm.eoqQuestions = [];
-
+        vm.eoqNominations = [];
 
         vm.getStatusName = function (statusId) {
             var statusName = "";
@@ -141,6 +141,14 @@
         vm.getEOQQuestion = function () {
             return eoqFactory.getEOQQuestion().success(function (eoqQuestions) {
                 vm.eoqQuestions = eoqQuestions;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.getEOQNominationByNominatorId = function (eoqyId, roleId, query, teamIds, statusId) {
+            return eoqFactory.getEOQNominationByNominatorId(eoqyId, roleId, query, teamIds, statusId).success(function (eoqNominations) {
+                vm.eoqNominations = eoqNominations;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

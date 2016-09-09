@@ -73,6 +73,17 @@
             },
             getCurrentEOQByNominatorId: function () {
                 return $http.get(baseUrl + "api/EOQ/GetCurrentEOQByNominatorId");
+            },
+            getEOQNominationByNominatorId: function (eoqyId, roleId, query, teamIds, statusId) {
+                var params = {
+                    EOQYId: eoqyId,
+                    RoleId: roleId,
+                    Query: query,
+                    GroupIds: teamIds,
+                    StatusId: statusId
+                };
+
+                return $http.get(baseUrl + "api/EOQ/GetEOQNominationByNominatorId", { params: params });
             }
         };
     }

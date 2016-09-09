@@ -17,6 +17,7 @@
             teamIds: "",
             statusId: ""
         };
+        vm.eoqNominations = [];
 
         function initialize() {
             CommonModel.getDepartment(null, true).then(function () {
@@ -28,11 +29,28 @@
 
             EOQModel.getCurrentEOQByNominatorId().then(function () {
                 vm.period = EOQModel.period;
+
+                if (EOQModel.period) {
+                    vm.query();
+                }
             });
         }
 
         vm.query = function () {
-            alert("Implement Query Soon!")
+            lockScreenService.start();
+
+            vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
+
+            EOQModel.getEOQNominationByNominatorId(
+                vm.period.Period.EOQYId,
+                vm.period.RoleId,
+                vm.filter.query,
+                vm.filter.teamIds,
+                vm.filter.statusId).then(function () {
+                    vm.eoqNominations = EOQModel.eoqNominations;
+                })["finally"](function () {
+                    lockScreenService.stop();
+                });
         };
 
         vm.addNominee = function () {
