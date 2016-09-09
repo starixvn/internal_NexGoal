@@ -41,6 +41,38 @@
                     </div>
                 </div>
             </form>
+
+            <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period.Period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE">
+                <thead>
+                    <tr class="headerName">
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="Nominee"></th>
+                        <th data-translate="Team"></th>
+                        <th data-translate="Status"></th>
+                        <th data-translate="Action"></th>
+                    </tr>
+                </thead>
+            </table>
+
+            <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period.Period.RoleId === eoqAccessCtrl.NOMINATOR">
+                <thead>
+                    <tr class="headerName">
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="Nominee"></th>
+                        <th data-translate="Nominator"></th>
+                        <th data-translate="Team"></th>
+                        <th data-translate="Status"></th>
+                        <th data-translate="Action"></th>
+                    </tr>
+                </thead>
+                <tbody ng-show="eoqAccessCtrl.eoqNominations.length === 0">
+                    <tr>
+                        <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="eoqAccessCtrl.eoqNominations.length > 0">
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

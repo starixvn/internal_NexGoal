@@ -9,6 +9,8 @@
         lockScreenService) {
         var vm = this;
 
+        vm.IN_BOARD_ROLE = 2;
+        vm.NOMINATOR_ROLE = 1;
         vm.period = {};
         vm.teams = [];
         vm.permission = 0;
