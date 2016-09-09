@@ -3,8 +3,7 @@
 
     assessmentModule.controller("EOQAccessController", eoqAccessController);
 
-    eoqAccessController.$inject = ["EOQModel", "CommonModel", "enumerationsFactory", "utilitiesFactory",
-        "lockScreenService"];
+    eoqAccessController.$inject = ["EOQModel", "CommonModel", "enumerationsFactory", "utilitiesFactory", "lockScreenService"];
 
     function eoqAccessController(EOQModel, CommonModel, enumerationsFactory, utilitiesFactory,
         lockScreenService) {

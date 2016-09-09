@@ -183,7 +183,7 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     .when("/ManageNomination/Index",
     { templateUrl: baseUrl + "SourceApp/Components/Assessment/Nomination/Templates/manageNomination.html", caseInsensitiveMatch: true })
     .when('/ManageNomination/UpdateEOQ/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/updateEOQ.html', caseInsensitiveMatch: true });
-    //.when('/EOQ/Index',
-    //{ templateUrl: baseUrl + 'SourceApp/Components/Assessment/EOQ/Templates/eoqAccess.html', caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/updateEOQ.html', caseInsensitiveMatch: true })
+    .when('/EOQ/Index',
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/eoqAccess.html', caseInsensitiveMatch: true });
 }]);
