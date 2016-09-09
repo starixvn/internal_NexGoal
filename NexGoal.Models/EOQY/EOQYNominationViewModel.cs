@@ -4,15 +4,12 @@
     using System.Linq;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
-    using NexGoal.Model.Employee;
 
     public class EOQYNominationViewModel
     {
         public EOQYModel Period { get; set; }
 
-        public EmployeeModel Nominee { get; set; }
-
-        public List<EmployeeModel> Nominators { get; set; }
+        public NomineeModel Nominee { get; set; }
 
         public List<EOQYNominationModel> Nominations { get; set; }
 
@@ -24,7 +21,7 @@
         {
             get
             {
-                return Nominators.Count();
+                return Nominations.Count();
             }
         }
 

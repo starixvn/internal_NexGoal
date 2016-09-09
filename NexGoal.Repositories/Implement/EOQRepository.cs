@@ -17,7 +17,7 @@
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 IEnumerable<EOQYNominatorSettingModel> nominators =
-                    db.Query<EOQYNominatorSettingModel, EmployeeModel, DepartmentModel, Group, JobTitle, EOQYNominatorSettingModel>(
+                    db.Query<EOQYNominatorSettingModel, NomineeModel, DepartmentModel, Group, JobTitle, EOQYNominatorSettingModel>(
                         (nominator, emp, dept, gr, jb) =>
                         {
                             emp.Department = dept;
@@ -54,7 +54,7 @@
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 IEnumerable<EOQYNominationModel> nominations =
-                    db.Query<EOQYNominationModel, EOQYModel, EmployeeModel, DepartmentModel, Group, JobTitle, EmployeeModel, EOQYNominationModel>(
+                    db.Query<EOQYNominationModel, EOQYModel, NomineeModel, DepartmentModel, Group, JobTitle, NomineeModel, EOQYNominationModel>(
                         (nomination, period, nominee, dept, gr, jb, nominator) =>
                         {
                             nomination.Period = period;
@@ -80,7 +80,7 @@
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     EOQYNominationModel nomination =
-                        multi.Read<EOQYNominationModel, EOQYModel, EmployeeModel, DepartmentModel, Group, JobTitle, EmployeeModel, EOQYNominationModel>(
+                        multi.Read<EOQYNominationModel, EOQYModel, NomineeModel, DepartmentModel, Group, JobTitle, NomineeModel, EOQYNominationModel>(
                             (nt, period, nominee, dept, gr, jb, nominator) =>
                             {
                                 nt.Period = period;

@@ -98,7 +98,6 @@
                     {
                         Period = key.Period,
                         Nominee = key.Nominee,
-                        Nominators = g.Select(x => x.Nominator).ToList(),
                         Nominations = g.ToList(),
                         RoleId = g.First().RoleId,
                         StatusId = g.First().StatusId
@@ -359,16 +358,16 @@
                 cellBody = row.CreateCell(1);
                 cellBody.CellStyle = bodyStyle;
                 string nominee = nomination.Nominee.FullName + " (" + nomination.Nominee.NickName + ")";
-                if (nomination.Nominators.Count() > 1)
+                if (nomination.Nominations.Count() > 1)
                 {
-                    nominee += " - (" + nomination.Nominators.Count() + " votes)";
+                    nominee += " - (" + nomination.Nominations.Count() + " votes)";
                 }
 
                 cellBody.SetCellValue(nominee);
 
                 cellBody = row.CreateCell(2);
                 cellBody.CellStyle = bodyStyle;
-                string nominator = nomination.Nominators.First().FullName + " (" + nomination.Nominators.First().NickName + ")";
+                string nominator = nomination.Nominations.First().Nominator.FullName + " (" + nomination.Nominations.First().Nominator.FullName + ")";
                 cellBody.SetCellValue(nominator);
 
                 if (rowIndex % 2 == 0)

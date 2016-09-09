@@ -1,8 +1,6 @@
 ﻿namespace NexGoal.Model
 {
     using System.Collections.Generic;
-    using NexGoal.Core.Enumerations;
-    using NexGoal.Model.Employee;
 
     public class EOQYNominationModel
     {
@@ -10,9 +8,9 @@
 
         public EOQYModel Period { get; set; }
 
-        public EmployeeModel Nominee { get; set; }
+        public NomineeModel Nominee { get; set; }
 
-        public EmployeeModel Nominator { get; set; }
+        public NomineeModel Nominator { get; set; }
 
         public List<EOQYQuestionModel> NominationDetails { get; set; }
 

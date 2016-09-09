@@ -71,6 +71,7 @@
     <Compile Include="EOQY\EOQYNominatorSettingModel.cs" />
     <Compile Include="EOQY\EOQYQuestionModel.cs" />
     <Compile Include="EOQY\EOQYNominationModel.cs" />
+    <Compile Include="EOQY\NomineeModel.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="FlowManagement\DepartmentFlowModel.cs" />
     <Compile Include="FlowManagement\PersonalFlowModel.cs" />
