@@ -15,45 +15,6 @@
         vm.eoqQuestions = [];
         vm.eoqNominations = [];
 
-        vm.getStatusName = function (statusId) {
-            var statusName = "";
-
-            switch (statusId) {
-                case 0:
-                    statusName = "Not Started";
-                    break;
-                case 1:
-                    statusName = "In Progress";
-                    break;
-                case 2:
-                    statusName = "Closed";
-                    break;
-            }
-
-            return statusName;
-        };
-
-        vm.getQuarterName = function (quarter) {
-            var quarterName = "";
-
-            switch (quarter) {
-                case 1:
-                    quarterName = quarter + "st";
-                    break;
-                case 2:
-                    quarterName = quarter + "nd";
-                    break;
-                case 3:
-                    quarterName = quarter + "rd";
-                    break;
-                default:
-                    quarterName = quarter + "th";
-                    break;
-            }
-
-            return quarterName;
-        };
-
         vm.createEOQ = function (period) {
             return eoqFactory.createEOQ(period).success(function (response) {
                 if (response.IsSuccessful) {

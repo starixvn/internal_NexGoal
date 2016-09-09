@@ -98,7 +98,11 @@
                     {
                         Period = key.Period,
                         Nominee = key.Nominee,
-                        Nominations = g.ToList(),
+                        Nominations = g.Select(x => new EOQYNominationDetailViewModel
+                            {
+                                NominationId = x.NominationId,
+                                Nominator = x.Nominator
+                            }).ToList(),
                         RoleId = g.First().RoleId,
                         StatusId = g.First().StatusId
                     });
@@ -381,7 +385,7 @@
 
                 cellBody = row.CreateCell(3);
                 cellBody.CellStyle = bodyStyle;
-                string period = nomination.Period.Quarter2String + " " + nomination.Period.Year;
+                string period = nomination.Period.QuarterToString + " " + nomination.Period.Year;
                 cellBody.SetCellValue(period);
 
                 cellBody = row.CreateCell(4);
@@ -390,7 +394,7 @@
 
                 cellBody = row.CreateCell(5);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(nomination.Status2String);
+                cellBody.SetCellValue(nomination.StatusToString);
 
                 rowIndex++;
             }

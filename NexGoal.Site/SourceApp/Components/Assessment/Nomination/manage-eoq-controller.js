@@ -82,11 +82,6 @@
             EOQModel.getEOQ(vm.filter.Year, vm.filter.StatusId).then(function () {
                 vm.periods = EOQModel.periods;
 
-                angular.forEach(vm.periods, function (period) {
-                    period.QuarterName = EOQModel.getQuarterName(period.Quarter);
-                    period.StatusName = EOQModel.getStatusName(period.StatusId);
-                });
-
                 utilitiesFactory.searchOnPage(vm, vm.periods);
             })["finally"](function () {
                 lockScreenService.stop();

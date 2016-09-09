@@ -67,6 +67,7 @@
     <Compile Include="Employee\MenuViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
     <Compile Include="EOQY\EOQYModel.cs" />
+    <Compile Include="EOQY\EOQYNominationDetailViewModel.cs" />
     <Compile Include="EOQY\EOQYNominationViewModel.cs" />
     <Compile Include="EOQY\EOQYNominatorSettingModel.cs" />
     <Compile Include="EOQY\EOQYQuestionModel.cs" />

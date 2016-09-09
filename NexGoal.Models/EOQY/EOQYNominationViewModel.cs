@@ -11,7 +11,7 @@
 
         public NomineeModel Nominee { get; set; }
 
-        public List<EOQYNominationModel> Nominations { get; set; }
+        public List<EOQYNominationDetailViewModel> Nominations { get; set; }
 
         public int StatusId { get; set; }
 
@@ -25,7 +25,7 @@
             }
         }
 
-        public string Status2String
+        public string StatusToString
         {
             get
             {
@@ -34,15 +34,15 @@
                 switch (StatusId)
                 {
                     case (int)NominationStatus.Nominated:
-                        Enumerations.GetDescription(NominationStatus.Nominated);
+                        status = Enumerations.GetDescription(NominationStatus.Nominated);
                         break;
 
                     case (int)NominationStatus.ShortedList:
-                        Enumerations.GetDescription(NominationStatus.ShortedList);
+                        status = Enumerations.GetDescription(NominationStatus.ShortedList);
                         break;
 
                     case (int)NominationStatus.Winner:
-                        Enumerations.GetDescription(NominationStatus.Winner);
+                        status = Enumerations.GetDescription(NominationStatus.Winner);
                         break;
                 }
 

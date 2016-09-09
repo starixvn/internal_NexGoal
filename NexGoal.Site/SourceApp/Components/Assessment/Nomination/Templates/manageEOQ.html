@@ -60,11 +60,11 @@
                 dir-paginate="period in manageEOQCtrl.filteredItems | itemsPerPage: manageEOQCtrl.pageSize"
                 current-page="manageEOQCtrl.currentPage">
                 <td ng-bind="manageEOQCtrl.getIndex($index, manageEOQCtrl.currentPage, manageEOQCtrl.pageSize)"></td>
-                <td ng-bind="period.QuarterName"></td>
+                <td ng-bind="period.QuarterToString"></td>
                 <td ng-bind="period.Year"></td>
                 <td ng-bind="period.StartDate | date: manageEOQCtrl.dateFormat"></td>
                 <td ng-bind="period.EndDate | date: manageEOQCtrl.dateFormat"></td>
-                <td ng-bind="period.StatusName"></td>
+                <td ng-bind="period.StatusToString"></td>
                 <td>
                     <div class="btn-group">
                         <a class="fa fa-pencil-square-o icon-edit" title="Edit"
