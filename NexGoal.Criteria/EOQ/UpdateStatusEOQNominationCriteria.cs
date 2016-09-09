@@ -4,7 +4,9 @@
 
     public class UpdateStatusEOQNominationCriteria : CriteriaBase
     {
-        public int NominationId { get; set; }
+        public int EOQYId { get; set; }
+
+        public int NomineeId { get; set; }
 
         public int StatusId { get; set; }
 
@@ -17,7 +19,7 @@
 
         public override bool IsValid()
         {
-            return NominationId > 0 && StatusId > 0 && ModifiedBy > 0;
+            return EOQYId > 0 && NomineeId > 0 && StatusId > 0 && ModifiedBy > 0;
         }
     }
 }

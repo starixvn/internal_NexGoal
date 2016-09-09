@@ -19,53 +19,5 @@
         public int StatusId { get; set; }
 
         public int RoleId { get; set; }
-
-        public int PermissionOnAction
-        {
-            get
-            {
-                int permission = (int)Policy.Read;
-
-                switch (StatusId)
-                {
-                    case (int)NominationStatus.Nominated:
-                        if (RoleId == (int)NominationRole.Nominator)
-                        {
-                            permission = (int)Policy.Host;
-                        }
-                        break;
-
-                    case (int)NominationStatus.ShortedList:
-                    case (int)NominationStatus.Winner:
-                        break;
-                }
-
-                return permission;
-            }
-        }
-
-        public int PermissionOnStatus
-        {
-            get
-            {
-                int permission = (int)Policy.Read;
-
-                switch (StatusId)
-                {
-                    case (int)NominationStatus.Nominated:
-                        break;
-
-                    case (int)NominationStatus.ShortedList:
-                    case (int)NominationStatus.Winner:
-                        if (RoleId == (int)NominationRole.NominationBoard)
-                        {
-                            permission = (int)Policy.Host;
-                        }
-                        break;
-                }
-
-                return permission;
-            }
-        }
     }
 }

@@ -128,7 +128,7 @@
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public IEnumerable<EOQYNominationModel> GetEOQNominationByNominatorId(
+        public IEnumerable<EOQYNominationViewModel> GetEOQNominationByNominatorId(
             int eoqId,
             int roleId,
             string query = null,
@@ -145,7 +145,7 @@
                 StatusId = statusId
             };
 
-            IEnumerable<EOQYNominationModel> nominations = eoqService.GetEOQNominationByNominatorId(criteria);
+            IEnumerable<EOQYNominationViewModel> nominations = eoqService.GetEOQNominationByNominatorId(criteria);
             return nominations;
         }
 

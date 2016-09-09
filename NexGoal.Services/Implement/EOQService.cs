@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
@@ -76,16 +77,26 @@
             return result;
         }
 
-        public IEnumerable<EOQYNominationModel> GetEOQNominationByNominatorId(GetEOQNominationByNominatorIdCriteria criteria)
+        public IEnumerable<EOQYNominationViewModel> GetEOQNominationByNominatorId(GetEOQNominationByNominatorIdCriteria criteria)
         {
-            IEnumerable<EOQYNominationModel> nominations = new List<EOQYNominationModel>();
+            IEnumerable<EOQYNominationViewModel> result = new List<EOQYNominationViewModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                nominations = eoqRepository.GetNominationByNominatorId(criteria);
+                IEnumerable<EOQYNominationModel> nominations = eoqRepository.GetNominationByNominatorId(criteria);
+
+                result = nominations.GroupBy(x => new { x.Period, x.Nominee }, (key, g) => new EOQYNominationViewModel
+                    {
+                        Period = key.Period,
+                        Nominee = key.Nominee,
+                        Nominators = g.Select(x => x.Nominator).ToList(),
+                        Nominations = g.ToList(),
+                        RoleId = g.First().RoleId,
+                        StatusId = g.First().StatusId
+                    });
             }
 
-            return nominations;
+            return result;
         }
 
         public CommandResult CreateEOQ(CreateEOQCriteria criteria)
