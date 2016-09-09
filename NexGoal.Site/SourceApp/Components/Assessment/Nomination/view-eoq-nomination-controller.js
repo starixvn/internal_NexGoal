@@ -17,7 +17,7 @@
 
             EOQModel.getEOQNominationById(nominationId).then(function () {
                 vm.nomination = EOQModel.nomination;
-                vm.nomination.Period.DueDay = $filter('date')(vm.nomination.Period.EndDate, vm.dateFormat);
+                vm.nomination.Period.DueDate = $filter('date')(vm.nomination.Period.EndDate, vm.dateFormat);
             })['finally'](function () {
                 lockScreenService.stop();
             });

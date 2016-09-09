@@ -55,6 +55,19 @@
             });
         };
 
+        vm.updateEOQNomination = function (eoqyId, nominationId, employeeId, eoqQuestions) {
+            return eoqFactory.updateEOQNomination(eoqyId, nominationId, employeeId, eoqQuestions).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
         vm.getEOQ = function (year, statusId) {
             return eoqFactory.getEOQ(year, statusId).success(function (periods) {
                 vm.periods = periods;

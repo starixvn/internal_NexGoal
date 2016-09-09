@@ -76,11 +76,19 @@
         };
 
         vm.updateNomination = function (nomination) {
-            EOQModel.openPopupUpdateNomination(nomination.NominationId).then(function () {
+            EOQModel.openPopupUpdateNomination(nomination.NominationId).then(function (nominee) {
                 vm.modalInstance = null;
+
+                lockScreenService.start();
+
+                EOQModel.updateEOQNomination(vm.period.Period.EOQYId, nomination.NominationId, nominee.employeeId, nominee.eoqQuestions).then(function () {
+                    vm.query();
+                })["finally"](function () {
+                    lockScreenService.stop();
+                });
             });
         };
-        
+
         vm.openPopupInformation = function () {
             EOQModel.openPopupInformation();
         };

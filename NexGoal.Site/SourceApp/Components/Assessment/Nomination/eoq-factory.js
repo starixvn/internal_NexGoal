@@ -37,6 +37,16 @@
 
                 return $http.put(baseUrl + "api/EOQ/UpdateEOQ", criteria);
             },
+            updateEOQNomination: function (eoqyId, nominationId, employeeId, eoqQuestions) {
+                var criteria = {
+                    EOQYId: eoqyId,
+                    NominationId: nominationId,
+                    NomineeId: employeeId,
+                    NominationDetails: eoqQuestions
+                };
+
+                return $http.put(baseUrl + "api/EOQ/UpdateEOQNomination", criteria);
+            },
             deleteEOQ: function (eoqId) {
                 return $http.delete(baseUrl + "api/EOQ/DeleteEOQ", { params: { Id: eoqId } });
             },
