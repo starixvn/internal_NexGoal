@@ -16,10 +16,11 @@
             periodId: 0,
             teamIds: null
         };
+        vm.semiTargetType = 3;
 
         function initialize() {
-            CommonModel.getAllPeriodIncludeImport().then(function () {
-                vm.periods = CommonModel.periodOptions;
+            CommonModel.getPeriod(semiTargetType).then(function () {
+                vm.periods = CommonModel.periods;
 
                 if (vm.periods.length > 0) {
                     vm.filter.periodId = vm.periods[0].PeriodId;
