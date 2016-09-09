@@ -1,6 +1,7 @@
 ﻿<div ng-controller="ManageNominationController as manageNominationCtrl">
 
     <div class="row">
+
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
                 <li class="current" data-translate="ManageNomination"></li>
@@ -9,6 +10,14 @@
 
         <div class="col-sm-12 target-tabset">
             <tabset>
+                <tab class="tab-cursor" active="manageNominationCtrl.dataTab.eoq" select="manageNominationCtrl.tabEOQSelected()">
+                    <tab-heading data-translate="EOQ"></tab-heading>
+                    <div ng-include src="'/SourceApp/Components/Assessment/Nomination/Templates/manageEOQ.html'"></div>
+                </tab>
+                <tab class="tab-cursor" active="manageNominationCtrl.dataTab.eoy" select="focusCtrl.tabEOYSelected()">
+                    <tab-heading data-translate="EOY"></tab-heading>
+                    <div ng-include src="'/SourceApp/Components/Assessment/Nomination/Templates/manageEOY.html'"></div>
+                </tab>
             </tabset>
         </div>
 

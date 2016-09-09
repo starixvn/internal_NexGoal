@@ -143,7 +143,7 @@
 
         vm.openPopupCreateEOQ = function () {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/EOQ/Templates/modalCreateEOQ.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalCreateEOQ.html',
                 controller: "CreateEOQController as createEOQCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center period-create-popup"

@@ -27,6 +27,7 @@
         vm.teams = [];
         vm.permission = 0;
         vm.policyEnum = enumerationsFactory.policy;
+        vm.isFirstLoad = true;
 
         function initialize() {
             utilitiesFactory.numberEntryList(vm);
@@ -38,6 +39,30 @@
                 utilitiesFactory.setSelectAll(vm.teams);
             });
         }
+
+        $scope.$watch(function () {
+            return $scope.updateEOQCtrl.dataTab.rolesManagement;
+        }, function (newVal) {
+            if (newVal && vm.isFirstLoad) {
+                initialize();
+            }
+        });
+
+        $scope.$watch(function () {
+            return $scope.updateEOQCtrl.period;
+        }, function (newVal) {
+            if (newVal) {
+                vm.period = $scope.updateEOQCtrl.period;
+            }
+        });
+
+        $scope.$watch(function () {
+            return $scope.updateEOQCtrl.permission;
+        }, function (newVal) {
+            if (newVal) {
+                vm.permission = $scope.updateEOQCtrl.permission;
+            }
+        });
 
         vm.getIndex = function (index, currentPage, pageSize) {
             return CommonModel.getIndex(index, currentPage, pageSize);
@@ -90,23 +115,5 @@
                 lockScreenService.stop();
             });
         };
-
-        $scope.$watch(function () {
-            return $scope.updateEOQCtrl.period;
-        }, function (newVal) {
-            if (newVal) {
-                vm.period = $scope.updateEOQCtrl.period;
-            }
-        });
-
-        $scope.$watch(function () {
-            return $scope.updateEOQCtrl.permission;
-        }, function (newVal) {
-            if (newVal) {
-                vm.permission = $scope.updateEOQCtrl.permission;
-            }
-        });
-
-        initialize();
     }
 })(angular.module("assessmentModule"));

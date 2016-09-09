@@ -1,107 +1,97 @@
 ﻿<div ng-controller="ManageEOQController as manageEOQCtrl">
-    <div class="row">
-        <div class="col-sm-12 sub-header">
-            <ul class="row breadcrumb">
-                <li class="current">Update Name Later</li>
-            </ul>
-        </div>
 
-        <div class="col-sm-12">
-            <form novalidate class="form-inline filter">
-                <div class="form-group">
-                    <div class="col">
-                        <label class="control-label" data-translate="Year"></label>
-                        <div class="control-content">
-                            <select class="form-control" ng-model="manageEOQCtrl.filter.Year"
-                                    ng-options="year as year for year in manageEOQCtrl.years">
-                                <option value="">-- {{"All" | translate}} --</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <label class="control-label" data-translate="Status"></label>
-                        <div class="control-content">
-                            <select class="form-control" ng-model="manageEOQCtrl.filter.StatusId">
-                                <option value="">-- {{"All" | translate}} --</option>
-                                <option value="0" data-translate="NotStarted"></option>
-                                <option value="1" data-translate="InProgress" selected></option>
-                                <option value="2" data-translate="Closed"></option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="col">
-                        <button class="button" ng-click="manageEOQCtrl.query()" data-translate="Search"></button>
-                    </div>
+    <form novalidate class="form-inline filter">
+        <div class="form-group">
+            <div class="col">
+                <label class="control-label" data-translate="Year"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="manageEOQCtrl.filter.Year"
+                            ng-options="year as year for year in manageEOQCtrl.years">
+                        <option value="">-- {{"All" | translate}} --</option>
+                    </select>
                 </div>
-            </form>
-        </div>
+            </div>
 
-        <div class="col-sm-12">
-            <table class="row table table-bordered table-striped">
-                <thead>
-                    <tr class="header-table">
-                        <th colspan="7">
-                            <a class="pull-left button-icon create-button"
-                               ng-click="manageEOQCtrl.createEOQ()"
-                               ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host">
-                                <span class="icon plus"></span>
-                                <span class="button-text" data-translate="CreateNominationPeriod"></span>
-                            </a>
-                            <input type="text" class="search-inline-textbox search pull-right"
-                                   ng-model="manageEOQCtrl.searchKey"
-                                   ng-change="manageEOQCtrl.search()" />
-                        </th>
-                    </tr>
-                    <tr class="headerName">
-                        <th data-translate="SymbolCount"></th>
-                        <th data-translate="Quarter"></th>
-                        <th data-translate="Year"></th>
-                        <th data-translate="StartDate"></th>
-                        <th data-translate="EndDate"></th>
-                        <th data-translate="Status"></th>
-                        <th data-translate="Action"></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr class="text-center" 
-                        dir-paginate="period in manageEOQCtrl.filteredItems | itemsPerPage: manageEOQCtrl.pageSize" 
-                        current-page="manageEOQCtrl.currentPage">
-                        <td ng-bind="manageEOQCtrl.getIndex($index, manageEOQCtrl.currentPage, manageEOQCtrl.pageSize)"></td>
-                        <td ng-bind="period.QuarterName"></td>
-                        <td ng-bind="period.Year"></td>
-                        <td ng-bind="period.StartDate | date: manageEOQCtrl.dateFormat"></td>
-                        <td ng-bind="period.EndDate | date: manageEOQCtrl.dateFormat"></td>
-                        <td ng-bind="period.StatusName"></td>
-                        <td>
-                            <div class="btn-group">
-                                <a class="fa fa-pencil-square-o icon-edit" title="Edit" 
-                                   ng-click="manageEOQCtrl.updateEOQ(period.EOQYId)"></a>
-                                <a class="fa fa-trash-o icon-remove" title="Delete" 
-                                   ng-click="manageEOQCtrl.deleteEOQ(period)"
-                                   ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host"></a>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr ng-show="manageEOQCtrl.filteredItems.length == 0">
-                        <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
-                    </tr>
-                </tbody>
-                <tfoot ng-show="manageEOQCtrl.filteredItems.length > 0">
-                    <tr>
-                        <td colspan="7" class="paging">
-                            <span data-translate="Show"></span>
-                            <select class="dropdown-entry" ng-model="manageEOQCtrl.pageSize"
-                                    ng-options="entry for entry in manageEOQCtrl.entries"></select>
-                            <span data-translate="entries"></span>
-                            <div class="pull-right custom-paging">
-                                <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
-                            </div>
-                        </td>
-                    </tr>
-                </tfoot>
-            </table>
+            <div class="col">
+                <label class="control-label" data-translate="Status"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="manageEOQCtrl.filter.StatusId">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="0" data-translate="NotStarted"></option>
+                        <option value="1" data-translate="InProgress" selected></option>
+                        <option value="2" data-translate="Closed"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col">
+                <button class="button" ng-click="manageEOQCtrl.query()" data-translate="Search"></button>
+            </div>
         </div>
-    </div>
+    </form>
+
+    <table class="row table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="7">
+                    <a class="pull-left button-icon create-button"
+                       ng-click="manageEOQCtrl.createEOQ()"
+                       ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host">
+                        <span class="icon plus"></span>
+                        <span class="button-text" data-translate="CreateNominationPeriod"></span>
+                    </a>
+                    <input type="text" class="search-inline-textbox search pull-right"
+                           ng-model="manageEOQCtrl.searchKey"
+                           ng-change="manageEOQCtrl.search()" />
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="Quarter"></th>
+                <th data-translate="Year"></th>
+                <th data-translate="StartDate"></th>
+                <th data-translate="EndDate"></th>
+                <th data-translate="Status"></th>
+                <th data-translate="Action"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="text-center"
+                dir-paginate="period in manageEOQCtrl.filteredItems | itemsPerPage: manageEOQCtrl.pageSize"
+                current-page="manageEOQCtrl.currentPage">
+                <td ng-bind="manageEOQCtrl.getIndex($index, manageEOQCtrl.currentPage, manageEOQCtrl.pageSize)"></td>
+                <td ng-bind="period.QuarterName"></td>
+                <td ng-bind="period.Year"></td>
+                <td ng-bind="period.StartDate | date: manageEOQCtrl.dateFormat"></td>
+                <td ng-bind="period.EndDate | date: manageEOQCtrl.dateFormat"></td>
+                <td ng-bind="period.StatusName"></td>
+                <td>
+                    <div class="btn-group">
+                        <a class="fa fa-pencil-square-o icon-edit" title="Edit"
+                           ng-click="manageEOQCtrl.updateEOQ(period.EOQYId)"></a>
+                        <a class="fa fa-trash-o icon-remove" title="Delete"
+                           ng-click="manageEOQCtrl.deleteEOQ(period)"
+                           ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host"></a>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-show="manageEOQCtrl.filteredItems.length == 0">
+                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot ng-show="manageEOQCtrl.filteredItems.length > 0">
+            <tr>
+                <td colspan="7" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry" ng-model="manageEOQCtrl.pageSize"
+                            ng-options="entry for entry in manageEOQCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+
 </div>
