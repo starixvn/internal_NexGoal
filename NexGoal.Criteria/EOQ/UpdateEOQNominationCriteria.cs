@@ -17,6 +17,7 @@
 
         public int ModifiedBy { get; set; }
 
+        [SpParam(Ignored = true)]
         public List<EOQYQuestionModel> NominationDetails { get; set; }
 
         [SpParam(SqlParamName = "NominationDetails")]
