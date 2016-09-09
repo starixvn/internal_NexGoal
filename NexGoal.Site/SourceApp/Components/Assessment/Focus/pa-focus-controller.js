@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService', 'notificationFactory'];
+    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService', 'notificationFactory', 'enumerationsFactory'];
 
-    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService, notificationFactory) {
+    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService, notificationFactory, enumerationsFactory) {
         var vm = this;
         vm.objectivesAchievementRanges = ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"];
         vm.promotionsRanges = [
@@ -27,10 +27,9 @@
             employee: {}
         };
         vm.searchEmployee = "";
-        vm.semiTargetType = 3;
 
         function initialize() {
-            CommonModel.getPeriod(semiTargetType).then(function () {
+            CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
                 vm.periods = CommonModel.periods;
 
                 if (vm.periods.length > 0) {

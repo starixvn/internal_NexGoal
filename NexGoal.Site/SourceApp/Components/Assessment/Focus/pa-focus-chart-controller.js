@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusChartController", paFocusChartController);
 
-    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "lockScreenService"];
+    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "lockScreenService","enumerationsFactory"];
 
-    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, lockScreenService) {
+    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, lockScreenService, enumerationsFactory) {
         var vm = this;
 
         vm.isEmptyResult = false;
@@ -16,10 +16,9 @@
             periodId: 0,
             teamIds: null
         };
-        vm.semiTargetType = 3;
 
         function initialize() {
-            CommonModel.getPeriod(semiTargetType).then(function () {
+            CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
                 vm.periods = CommonModel.periods;
 
                 if (vm.periods.length > 0) {
