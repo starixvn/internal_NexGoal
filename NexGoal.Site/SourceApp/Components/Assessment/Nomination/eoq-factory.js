@@ -61,6 +61,9 @@
             },
             getEOQQuestion: function () {
                 return $http.get(baseUrl + "api/EOQ/GetEOQQuestion");
+            },
+            getCurrentEOQByNominatorId: function () {
+                return $http.get(baseUrl + "api/EOQ/GetCurrentEOQByNominatorId");
             }
         };
     }

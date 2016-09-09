@@ -26,7 +26,5 @@
         vm.openPopupInformation = function () {
             PAFocusModel.openPopupInformation();
         };
-
-        return vm;
     }
 })(angular.module("assessmentModule"));

@@ -10,6 +10,7 @@
         lockScreenService) {
         var vm = this;
 
+        vm.period = {};
         vm.teams = [];
         vm.permission = 0;
         vm.filter = {
@@ -24,6 +25,10 @@
 
                 vm.teams = angular.copy(treeDepartment);
                 utilitiesFactory.setSelectAll(vm.teams);
+            });
+
+            EOQModel.getCurrentEOQByNominatorId().then(function () {
+                vm.period = EOQModel.period;
             });
         }
 

@@ -1240,6 +1240,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee Of The Quarter.
+        /// </summary>
+        public static string EOQ {
+            get {
+                return ResourceManager.GetString("EOQ", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Of The Year.
+        /// </summary>
+        public static string EOY {
+            get {
+                return ResourceManager.GetString("EOY", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to EPA.
         /// </summary>
         public static string EPA {
@@ -2334,6 +2352,15 @@ namespace NexGoal.Resources {
         public static string ManageMyEPA {
             get {
                 return ResourceManager.GetString("ManageMyEPA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Manage Nomination.
+        /// </summary>
+        public static string ManageNomination {
+            get {
+                return ResourceManager.GetString("ManageNomination", resourceCulture);
             }
         }
         

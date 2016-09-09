@@ -9,10 +9,11 @@
         var vm = {};
 
         vm.periods = [];
-        vm.period = [];
+        vm.period = {};
         vm.nominatorSettings = [];
         vm.permission = 0;
         vm.eoqQuestions = [];
+
 
         vm.getStatusName = function (statusId) {
             var statusName = "";
@@ -127,6 +128,14 @@
         vm.getEOQQuestion = function () {
             return eoqFactory.getEOQQuestion().success(function (eoqQuestions) {
                 vm.eoqQuestions = eoqQuestions;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.getCurrentEOQByNominatorId = function () {
+            return eoqFactory.getCurrentEOQByNominatorId().success(function (period) {
+                vm.period = period;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

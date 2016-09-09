@@ -175,16 +175,17 @@
                             "~/SourceApp/Components/Assessment/Focus/pa-modal-objective-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-model.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-factory.js",
-                            "~/SourceApp/Components/Assessment/EOQ/manage-eoq-controller.js",
-                            "~/SourceApp/Components/Assessment/EOQ/create-eoq-controller.js",
-                            "~/SourceApp/Components/Assessment/EOQ/update-eoq-controller.js",
-                            "~/SourceApp/Components/Assessment/EOQ/update-eoq-basic-information-controller.js",
-                            "~/SourceApp/Components/Assessment/EOQ/update-eoq-roles-management-controller.js",
-                            "~/SourceApp/Components/Assessment/EOQ/eoq-access-controller.js",
-                            "~/SourceApp/Components/Assessment/EOQ/add-eoq-nominee-controller.js",
-                            "~/SourceApp/Components/Assessment/EOQ/update-eoq-nominee-controller.js",
-                            "~/SourceApp/Components/Assessment/EOQ/eoq-model.js",
-                            "~/SourceApp/Components/Assessment/EOQ/eoq-factory.js"));
+                            "~/SourceApp/Components/Assessment/Nomination/manage-nomination-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/manage-eoq-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/create-eoq-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/update-eoq-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/update-eoq-basic-information-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/update-eoq-roles-management-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/eoq-access-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/add-eoq-nominee-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/update-eoq-nominee-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/eoq-model.js",
+                            "~/SourceApp/Components/Assessment/Nomination/eoq-factory.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

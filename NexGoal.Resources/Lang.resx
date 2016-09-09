@@ -1656,4 +1656,13 @@
   <data name="NomineeRequired" xml:space="preserve">
     <value>Nominee is required!</value>
   </data>
+  <data name="EOQ" xml:space="preserve">
+    <value>Employee Of The Quarter</value>
+  </data>
+  <data name="EOY" xml:space="preserve">
+    <value>Employee Of The Year</value>
+  </data>
+  <data name="ManageNomination" xml:space="preserve">
+    <value>Manage Nomination</value>
+  </data>
 </root>
