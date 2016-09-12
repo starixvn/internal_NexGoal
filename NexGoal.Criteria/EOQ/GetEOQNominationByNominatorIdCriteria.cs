@@ -26,7 +26,7 @@
 
         public override bool IsValid()
         {
-            return NominatorId > 0;
+            return NominatorId > 0 && EOQYId > 0 && RoleId > 0;
         }
     }
 }

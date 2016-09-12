@@ -1,9 +1,11 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
@@ -93,11 +95,11 @@
                 IEnumerable<EOQYNominationModel> nominations = eoqRepository.GetNominationByNominatorId(criteria);
 
                 result = nominations.GroupBy(
-                    x => new { x.Period, x.Nominee },
+                    x => new { x.Period.EOQYId, x.Nominee.EmployeeId },
                     (key, g) => new EOQYNominationViewModel
                     {
-                        Period = key.Period,
-                        Nominee = key.Nominee,
+                        Period = g.First().Period,
+                        Nominee = g.First().Nominee,
                         Nominations = g.Select(x => new EOQYNominationDetailViewModel
                             {
                                 NominationId = x.NominationId,
@@ -240,13 +242,12 @@
                 Lang.SymbolCount,
                 Lang.Nominee,
                 Lang.Nominator,
-                Lang.Quarter,
                 Lang.Team,
                 Lang.Status
             };
 
             HSSFWorkbook workbook = new HSSFWorkbook();
-            ISheet sheet = workbook.CreateSheet(Lang.Nomination);
+            ISheet sheet = workbook.CreateSheet(periodName);
 
             IRow rowTitle = sheet.CreateRow(0);
 
@@ -260,10 +261,11 @@
             cell.CellStyle.Alignment = HorizontalAlignment.Center;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 6));
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 4));
 
             RenderHeaderEOQ(ref workbook, ref sheet, titleHeaders);
             RenderContentRowEOQ(ref workbook, ref sheet, nominations);
+            sheet.CreateFreezePane(0, 3);
 
             MemoryStream output = null;
             try
@@ -326,9 +328,11 @@
 
             ICellStyle bodyStyle3 = workbook.CreateCellStyle();
             bodyStyle3.Alignment = HorizontalAlignment.Left;
+            bodyStyle3.VerticalAlignment = VerticalAlignment.Center;
 
             ICellStyle bodyStyle4 = workbook.CreateCellStyle();
             bodyStyle4.Alignment = HorizontalAlignment.Left;
+            bodyStyle4.VerticalAlignment = VerticalAlignment.Center;
             bodyStyle4.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
             bodyStyle4.FillPattern = FillPattern.SolidForeground;
             bodyStyle4.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
@@ -349,6 +353,7 @@
                 cellBody = row.CreateCell(0);
                 cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(rowIndex - 2);
+                sheet.SetColumnWidth(0, 5 * Constants.ExcelColumnWidth);
 
                 if (rowIndex % 2 == 0)
                 {
@@ -362,17 +367,30 @@
                 cellBody = row.CreateCell(1);
                 cellBody.CellStyle = bodyStyle;
                 string nominee = nomination.Nominee.FullName + " (" + nomination.Nominee.NickName + ")";
-                if (nomination.Nominations.Count() > 1)
+                if (nomination.NumberOfNominators > 1)
                 {
-                    nominee += " - (" + nomination.Nominations.Count() + " votes)";
+                    nominee += " - (" + nomination.NumberOfNominators + " votes)";
                 }
 
                 cellBody.SetCellValue(nominee);
+                sheet.SetColumnWidth(1, 30 * Constants.ExcelColumnWidth);
 
                 cellBody = row.CreateCell(2);
                 cellBody.CellStyle = bodyStyle;
-                string nominator = nomination.Nominations.First().Nominator.FullName + " (" + nomination.Nominations.First().Nominator.FullName + ")";
+                var nominator = string.Empty;
+
+                if (nomination.NumberOfNominators > 1)
+                {
+                    IEnumerable<string> nominators = nomination.Nominations.Select(x => "- " + x.Nominator.FullName + " (" + x.Nominator.NickName + ")");
+                    nominator = string.Join(Environment.NewLine, nominators);
+                }
+                else
+                {
+                    nominator = nomination.Nominations.First().Nominator.FullName + " (" + nomination.Nominations.First().Nominator.NickName + ")";
+                }
+
                 cellBody.SetCellValue(nominator);
+                sheet.SetColumnWidth(2, 30 * Constants.ExcelColumnWidth);
 
                 if (rowIndex % 2 == 0)
                 {
@@ -385,16 +403,13 @@
 
                 cellBody = row.CreateCell(3);
                 cellBody.CellStyle = bodyStyle;
-                string period = nomination.Period.QuarterToString + " " + nomination.Period.Year;
-                cellBody.SetCellValue(period);
+                cellBody.SetCellValue(nomination.Nominee.Group.GroupName);
+                sheet.SetColumnWidth(3, 20 * Constants.ExcelColumnWidth);
 
                 cellBody = row.CreateCell(4);
                 cellBody.CellStyle = bodyStyle;
-                cellBody.SetCellValue(nomination.Nominee.Group.GroupName);
-
-                cellBody = row.CreateCell(5);
-                cellBody.CellStyle = bodyStyle;
                 cellBody.SetCellValue(nomination.StatusToString);
+                sheet.SetColumnWidth(4, 15 * Constants.ExcelColumnWidth);
 
                 rowIndex++;
             }

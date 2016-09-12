@@ -1,5 +1,4 @@
 ﻿<div ng-controller="ManageEOQController as manageEOQCtrl">
-
     <form novalidate class="form-inline filter">
         <div class="form-group">
             <div class="col">
@@ -11,7 +10,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="col">
                 <label class="control-label" data-translate="Status"></label>
                 <div class="control-content">
@@ -23,7 +21,6 @@
                     </select>
                 </div>
             </div>
-
             <div class="col">
                 <button class="button" ng-click="manageEOQCtrl.query()" data-translate="Search"></button>
             </div>
@@ -52,12 +49,11 @@
                 <th data-translate="StartDate"></th>
                 <th data-translate="EndDate"></th>
                 <th data-translate="Status"></th>
-                <th data-translate="Action"></th>
+                <th data-translate="Action" ng-show="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host"></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="text-center"
-                dir-paginate="period in manageEOQCtrl.filteredItems | itemsPerPage: manageEOQCtrl.pageSize"
+            <tr class="text-center" dir-paginate="period in manageEOQCtrl.filteredItems | itemsPerPage: manageEOQCtrl.pageSize"
                 current-page="manageEOQCtrl.currentPage">
                 <td ng-bind="manageEOQCtrl.getIndex($index, manageEOQCtrl.currentPage, manageEOQCtrl.pageSize)"></td>
                 <td ng-bind="period.QuarterToString"></td>
@@ -65,13 +61,11 @@
                 <td ng-bind="period.StartDate | date: manageEOQCtrl.dateFormat"></td>
                 <td ng-bind="period.EndDate | date: manageEOQCtrl.dateFormat"></td>
                 <td ng-bind="period.StatusToString"></td>
-                <td>
+                <td ng-show="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host">
                     <div class="btn-group">
                         <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                            ng-click="manageEOQCtrl.updateEOQ(period.EOQYId)"></a>
-                        <a class="fa fa-trash-o icon-remove" title="Delete"
-                           ng-click="manageEOQCtrl.deleteEOQ(period)"
-                           ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host"></a>
+                        <a class="fa fa-trash-o icon-remove" title="Delete" ng-click="manageEOQCtrl.deleteEOQ(period)"></a>
                     </div>
                 </td>
             </tr>
@@ -93,5 +87,4 @@
             </tr>
         </tfoot>
     </table>
-
 </div>

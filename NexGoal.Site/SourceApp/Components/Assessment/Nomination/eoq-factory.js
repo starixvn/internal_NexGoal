@@ -27,6 +27,12 @@
 
                 return $http.post(baseUrl + "api/EOQ/CreateEOQNomination", criteria);
             },
+            deleteEOQ: function (eoqId) {
+                return $http.delete(baseUrl + "api/EOQ/DeleteEOQ", { params: { Id: eoqId } });
+            },
+            deleteEOQNomination: function (nominationId) {
+                return $http.delete(baseUrl + "api/EOQ/DeleteEOQNomination", { params: { Id: nominationId } });
+            },
             updateEOQ: function (period) {
                 var criteria = {
                     EOQYId: period.EOQYId,
@@ -37,18 +43,13 @@
 
                 return $http.put(baseUrl + "api/EOQ/UpdateEOQ", criteria);
             },
-            updateEOQNomination: function (eoqyId, nominationId, employeeId, eoqQuestions) {
+            updateEOQNomination: function (nominationId, eoqQuestions) {
                 var criteria = {
-                    EOQYId: eoqyId,
                     NominationId: nominationId,
-                    NomineeId: employeeId,
                     NominationDetails: eoqQuestions
                 };
 
                 return $http.put(baseUrl + "api/EOQ/UpdateEOQNomination", criteria);
-            },
-            deleteEOQ: function (eoqId) {
-                return $http.delete(baseUrl + "api/EOQ/DeleteEOQ", { params: { Id: eoqId } });
             },
             getEOQ: function (year, statusId) {
                 return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Year: year, StatusId: statusId } });
@@ -70,6 +71,9 @@
             getUserPermissionOnManageNomination: function () {
                 return $http.get(baseUrl + "api/EOQ/GetUserPermissionOnManageNomination");
             },
+            getUserPermissionOnNomination: function () {
+                return $http.get(baseUrl + "api/EOQ/GetUserPermissionOnManageNomination");
+            },
             updateEOQNominatorSettingById: function (eoqyId, nominators) {
                 var criteria = {
                     EOQYId: eoqyId,
@@ -77,6 +81,15 @@
                 };
 
                 return $http.put(baseUrl + "api/EOQ/UpdateEOQNominatorSettingById", criteria);
+            },
+            updateStatusEOQNomination: function (eoqyId, nomineeId, statusId) {
+                var criteria = {
+                    EOQYId: eoqyId,
+                    NomineeId: nomineeId,
+                    StatusId: statusId
+                };
+
+                return $http.put(baseUrl + "api/EOQ/UpdateStatusEOQNomination", criteria);
             },
             getEOQQuestion: function () {
                 return $http.get(baseUrl + "api/EOQ/GetEOQQuestion");

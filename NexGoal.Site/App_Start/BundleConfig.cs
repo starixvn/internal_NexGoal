@@ -175,6 +175,8 @@
                             "~/SourceApp/Components/Assessment/Focus/pa-modal-objective-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-model.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-factory.js",
+                            "~/SourceApp/Components/Assessment/Nomination/eoq-model.js",
+                            "~/SourceApp/Components/Assessment/Nomination/eoq-factory.js",
                             "~/SourceApp/Components/Assessment/Nomination/manage-nomination-controller.js",
                             "~/SourceApp/Components/Assessment/Nomination/manage-eoq-controller.js",
                             "~/SourceApp/Components/Assessment/Nomination/create-eoq-controller.js",
@@ -185,9 +187,8 @@
                             "~/SourceApp/Components/Assessment/Nomination/eoq-access-controller.js",
                             "~/SourceApp/Components/Assessment/Nomination/add-eoq-nominee-controller.js",
                             "~/SourceApp/Components/Assessment/Nomination/update-eoq-nomination-controller.js",
-                            "~/SourceApp/Components/Assessment/Nomination/eoq-model.js",
-                            "~/SourceApp/Components/Assessment/Nomination/eoq-factory.js",
-                            "~/SourceApp/Components/Assessment/Nomination/eoq-model-infomation-controller.js"));
+                            "~/SourceApp/Components/Assessment/Nomination/eoq-model-infomation-controller.js",
+                            "~/SourceApp/Components/Assessment/Nomination/nomination-directive.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

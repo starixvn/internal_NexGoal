@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Web.Mvc;
@@ -12,8 +11,6 @@
 
     public class ExportEOQYController : Controller
     {
-        private const string EOQTemplatePath = @"~\SourceApp\Components\Assessment\Nomination\ExcelTemplates\EOQ.xls";
-
         private readonly IEOQService eoqService;
         private readonly ISessionService sessionService;
 
@@ -30,7 +27,7 @@
 
         public ActionResult ExportEOQ(GetEOQNominationByNominatorIdCriteria criteria)
         {
-            string fileName = "EOQ_" + DateTime.Now.ToString("yyyyMMdd") + ".xls";
+            string fileName = criteria.PeriodName + ".xls";
 
             criteria.NominatorId = sessionService.EmployeeId;
             IEnumerable<EOQYNominationViewModel> nominations = eoqService.GetEOQNominationByNominatorId(criteria);

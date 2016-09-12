@@ -47,5 +47,7 @@
         public const string BeginRootTag = "<ROOT>";
 
         public const string EndRootTag = "</ROOT>";
+
+        public const int ExcelColumnWidth = 256;
     }
 }

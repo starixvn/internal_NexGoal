@@ -409,6 +409,7 @@
     <Content Include="SourceApp\Components\Assessment\Nomination\eoq-access-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoq-model-infomation-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\manage-nomination-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\nomination-directive.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqAccess.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqBasicInformation.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqRolesManagement.html" />

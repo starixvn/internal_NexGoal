@@ -1,14 +1,11 @@
 ﻿<div ng-controller="UpdateEOQRolesManagementController as eoqRolesManagementCtrl">
-
     <form novalidate class="form-inline filter">
-
         <div class="form-group">
-
             <div class="col">
                 <label class="control-label" data-translate="Keyword"></label>
                 <div class="control-content">
-                    <input class="form-control" placeholder="Enter full name or nick name" 
-                           ng-model="eoqRolesManagementCtrl.filter.query"/>
+                    <input class="form-control" placeholder="Enter full name or nick name"
+                           ng-model="eoqRolesManagementCtrl.filter.query" />
                 </div>
             </div>
 
@@ -42,9 +39,7 @@
             <div class="col button-block">
                 <button class="button" ng-click="eoqRolesManagementCtrl.query()" data-translate="Search"></button>
             </div>
-
         </div>
-
     </form>
 
     <table class="table table-bordered table-striped">
@@ -76,16 +71,14 @@
                 <td ng-bind="nominator.NominatorInfo.JobTitle.JobTitleName"></td>
                 <td class="text-center" ng-bind="nominator.NominatorInfo.Department.Code"></td>
                 <td class="text-center">
-                    <input type="checkbox" 
-                           ng-model="nominator.IsInBoard" 
+                    <input type="checkbox" ng-model="nominator.IsInBoard"
                            ng-disabled="eoqRolesManagementCtrl.permission !== eoqRolesManagementCtrl.policyEnum.Host"
-                           ng-click="eoqRolesManagementCtrl.modifyRole(nominator, eoqRolesManagementCtrl.IN_BOARD_ROLE)"/>
+                           ng-click="eoqRolesManagementCtrl.modifyRole(nominator, eoqRolesManagementCtrl.IN_BOARD_ROLE)" />
                 </td>
                 <td class="text-center">
-                    <input type="checkbox" 
-                           ng-model="nominator.IsNominator" 
+                    <input type="checkbox" ng-model="nominator.IsNominator"
                            ng-disabled="eoqRolesManagementCtrl.permission !== eoqRolesManagementCtrl.policyEnum.Host"
-                           ng-click="eoqRolesManagementCtrl.modifyRole(nominator, eoqRolesManagementCtrl.NOMINATOR_ROLE)"/>
+                           ng-click="eoqRolesManagementCtrl.modifyRole(nominator, eoqRolesManagementCtrl.NOMINATOR_ROLE)" />
                 </td>
             </tr>
             <tr ng-show="eoqRolesManagementCtrl.filteredItems.length == 0">
@@ -106,5 +99,4 @@
             </tr>
         </tfoot>
     </table>
-
 </div>

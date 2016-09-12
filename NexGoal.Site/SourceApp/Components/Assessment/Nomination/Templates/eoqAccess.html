@@ -1,5 +1,5 @@
 ﻿<div ng-controller="EOQAccessController as eoqAccessCtrl">
-    <div class="row">
+    <div class="row" ng-show="eoqAccessCtrl.period && eoqAccessCtrl.period.Period && eoqAccessCtrl.period.Period.EOQYId > 0">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
                 <li class="current">Employee of the {{eoqAccessCtrl.period.Period.QuarterToString}} {{eoqAccessCtrl.period.Period.Year}}</li>
@@ -35,14 +35,18 @@
                         </div>
                     </div>
                     <div class="col button-block">
-                        <button class="button" ng-click="eoqAccessCtrl.addNominee()" data-translate="AddNominee"></button>
-                        <button class="button btnExcel">Excel</button>
+                        <button class="button" ng-click="eoqAccessCtrl.query()" data-translate="Search"></button>
+                        <button class="button" ng-click="eoqAccessCtrl.addNominee()" data-translate="AddNominee"
+                                ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE
+                                    && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host
+                                    && eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.IN_PROGRESS_STATUS"></button>
+                        <button class="button btnExcel" export-employee-of-the-quarter ng-click="eoqAccessCtrl.exportExcel()">Excel</button>
                         <a href="" ng-click="eoqAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle"></i></a>
                     </div>
                 </div>
             </form>
 
-            <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period.Period.RoleId === eoqAccessCtrl.NOMINATOR">
+            <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -64,20 +68,22 @@
                         <td class="text-center">{{item.Nominee.Group.GroupName}}</td>
                         <td class="text-center">{{item.StatusToString}}</td>
                         <td class="text-center">
-                            <div class="btn-group">
-                                <a class="fa fa-search" title="ViewDetail"
+                            <div class="btn-group" ng-if="item.PermissionOnAction === eoqAccessCtrl.policyEnum.Read">
+                                <a class="fa fa-search" title="View Detail"
                                    ng-click="eoqAccessCtrl.viewNomination(item.Nominations[0])"></a>
+                            </div>
+                            <div class="btn-group" ng-if="item.PermissionOnAction === eoqAccessCtrl.policyEnum.Host && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host">
                                 <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                                    ng-click="eoqAccessCtrl.updateNomination(item.Nominations[0])"></a>
                                 <a class="fa fa-trash-o icon-remove" title="Delete"
-                                   ng-click="eoqAccessCtrl.deleteNomination(item.Nominations[0])"></a>
+                                   ng-click="eoqAccessCtrl.deleteNomination(item)"></a>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
 
-            <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period.Period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE">
+            <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -93,7 +99,27 @@
                         <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="eoqAccessCtrl.eoqNominations.length > 0">
+                <tbody ng-show="eoqAccessCtrl.eoqNominations.length > 0" ng-repeat="item in eoqAccessCtrl.eoqNominations">
+                    <tr ng-repeat="nomination in item.Nominations">
+                        <td rowspan="{{item.NumberOfNominators}}" class="text-center" ng-show="$first">
+                            {{$parent.$index + 1}}
+                        </td>
+                        <td rowspan="{{item.NumberOfNominators}}" ng-show="$first">
+                            {{item.Nominee.FullName}} ({{item.Nominee.NickName}})
+                            <span ng-show="item.Nominations.length > 1"> - ({{item.Nominations.length}} votes)</span>
+                        </td>
+                        <td>{{nomination.Nominator.FullName}} ({{nomination.Nominator.NickName}})</td>
+                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
+                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
+                            <select ng-model="item.StatusId"
+                                    ng-options="opt.Value as opt.Name for opt in eoqAccessCtrl.nominationStatus"
+                                    ng-change="eoqAccessCtrl.updateStatusNomination(item)"></select>
+                        </td>
+                        <td class="text-center">
+                            <a class="fa fa-search" title="View Detail"
+                               ng-click="eoqAccessCtrl.viewNomination(nomination)"></a>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>

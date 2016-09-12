@@ -55,8 +55,8 @@
             });
         };
 
-        vm.updateEOQNomination = function (eoqyId, nominationId, employeeId, eoqQuestions) {
-            return eoqFactory.updateEOQNomination(eoqyId, nominationId, employeeId, eoqQuestions).success(function (response) {
+        vm.updateEOQNomination = function (nominationId, eoqQuestions) {
+            return eoqFactory.updateEOQNomination(nominationId, eoqQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -113,6 +113,14 @@
             });
         };
 
+        vm.getUserPermissionOnNomination = function () {
+            return eoqFactory.getUserPermissionOnNomination().success(function (permission) {
+                vm.permission = permission;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
         vm.getEOQQuestion = function () {
             return eoqFactory.getEOQQuestion().success(function (eoqQuestions) {
                 vm.eoqQuestions = eoqQuestions;
@@ -163,7 +171,7 @@
                 backdrop: 'static',
                 resolve: {
                     name: function () {
-                        return period.QuarterName + " quarter of " + period.Year;
+                        return period.QuarterToString + " of " + period.Year;
                     },
                     action: function () {
                         return 'delete';
@@ -329,6 +337,54 @@
             });
 
             return vm.modalInstance.result;
+        };
+
+        vm.openPopupDeleteEOQNomination = function (vm, nomination) {
+            var modalInstance = $modal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: "ModalConfirmController as modalConfirmCtrl",
+                backdrop: 'static',
+                resolve: {
+                    name: function () {
+                        return '';
+                    },
+                    action: function () {
+                        return 'delete';
+                    }
+                },
+                windowClass: "modal-confirm-center"
+            });
+
+            modalInstance.result.then(function () {
+                return eoqFactory.deleteEOQNomination(nomination.Nominations[0].NominationId).success(function (response) {
+                    if (response.IsSuccessful) {
+                        var index = vm.eoqNominations.indexOf(nomination);
+                        vm.eoqNominations.splice(index, 1);
+                        utilitiesFactory.searchOnPage(vm, vm.eoqNominations);
+                        notificationFactory.success("DeletedSuccessfully");
+                    }
+                    else {
+                        notificationFactory.error("", response.Message);
+                    }
+                }).error(function (response, status) {
+                    errorFactory.errorHandle(status);
+                });
+            })["finally"](function () {
+                modalInstance = null;
+            });
+        };
+
+        vm.updateStatusEOQNomination = function (eoqyId, nomineeId, statusId) {
+            return eoqFactory.updateStatusEOQNomination(eoqyId, nomineeId, statusId).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success('UpdatedSuccessfully');
+                }
+                else {
+                    notificationFactory.error('', response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
         };
 
         return vm;

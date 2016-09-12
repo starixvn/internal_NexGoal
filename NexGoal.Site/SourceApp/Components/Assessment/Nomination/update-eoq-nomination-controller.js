@@ -21,6 +21,7 @@
 
         vm.submit = function () {
             var nominee = {
+                nominationId: nominationId,
                 employeeId: vm.nomination.Nominee.EmployeeId,
                 eoqQuestions: vm.nomination.NominationDetails
             };

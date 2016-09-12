@@ -185,6 +185,8 @@
             return commandResult;
         }
 
+        [HttpDelete]
+        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
         public CommandResult DeleteEOQNomination(int id)
         {
             var criteria = new DeleteEOQNominationCriteria
@@ -197,6 +199,8 @@
             return commandResult;
         }
 
+        [HttpPut]
+        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
         public CommandResult UpdateStatusEOQNomination(UpdateStatusEOQNominationCriteria criteria)
         {
             if (criteria != null)

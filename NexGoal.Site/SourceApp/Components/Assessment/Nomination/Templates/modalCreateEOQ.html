@@ -34,9 +34,8 @@
                     <input readonly class="calendar-form-control" type="text" datepicker-popup
                            ng-model="createEOQCtrl.period.RawStartDate"
                            ng-click="createEOQCtrl.openPopupStartDate($event)"
-                           is-open="createEOQCtrl.calendar.startDateOpened"/>
-                    <calendar-image class="calendar-image" 
-                                    ng-click="createEOQCtrl.openPopupStartDate($event)"></calendar-image>
+                           is-open="createEOQCtrl.calendar.startDateOpened" />
+                    <calendar-image class="calendar-image" ng-click="createEOQCtrl.openPopupStartDate($event)"></calendar-image>
                 </div>
 
                 <label class="col-sm-3 control-label required-label" data-translate="EndDate"></label>
@@ -45,16 +44,14 @@
                            ng-model="createEOQCtrl.period.RawEndDate"
                            ng-click="createEOQCtrl.openPopupEndDate($event)"
                            is-open="createEOQCtrl.calendar.endDateOpened" />
-                    <calendar-image class="calendar-image"
-                                    ng-click="createEOQCtrl.openPopupEndDate($event)"></calendar-image>
+                    <calendar-image class="calendar-image" ng-click="createEOQCtrl.openPopupEndDate($event)"></calendar-image>
                 </div>
             </div>
 
             <div class="form-group">
                 <label class="col-sm-3 control-label" data-translate="Description"></label>
                 <div class="col-sm-9 field">
-                    <textarea type="text" class="form-control comment" rows="3"
-                              ng-model="createEOQCtrl.period.Description"></textarea>
+                    <textarea type="text" class="form-control comment" rows="3" ng-model="createEOQCtrl.period.Description"></textarea>
                 </div>
             </div>
         </form>
