@@ -321,6 +321,7 @@ function ($scope, PeriodModel, CommonModel, PAFocusModel, historyFactory, lockSc
     vm.processSettings = PeriodModel.processSettings;
     vm.paProcessSettings = [];
     vm.remindDay = CommonModel.remindDay;
+    vm.paRemindDay = CommonModel.paRemindDay;
 
     var getProcessSetting = function (periodId) {
         lockScreenService.start();

@@ -25,6 +25,7 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.otherViolationDetails = [];
     commonModel.targetTemplates = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
+    commonModel.paRemindDay = [1, 2, 3, 4, 5, 6, 7];
     commonModel.isOnNormalPdfPage = true;
     commonModel.userInfo = {};
 
