@@ -442,4 +442,13 @@
     <Setting Key="EOQNomination_Delete" SpName="EOQNomination_Delete" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQNomination_UpdateStatus" SpName="EOQNomination_UpdateStatus" DbName="NexGoal" Plain="0"></Setting>
   </Function>
+<Function Name="EOY">
+    <Setting Key="EOY_Get" SpName="EOY_Get" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_GetById" SpName="EOY_GetById" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Insert" SpName="EOY_Insert" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Update" SpName="EOY_Update" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Delete" SpName="EOY_Delete" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_GetNominatorSettingById" SpName="EOY_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_UpdateNominatorSettingById" SpName="EOY_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>

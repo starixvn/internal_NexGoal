@@ -1,0 +1,58 @@
+﻿(function (assessmentModule) {
+    'use strict';
+
+    assessmentModule.controller('CreateEOYController', createEOQController);
+
+    createEOQController.$inject = ['$modalInstance', 'EOYModel'];
+
+    function createEOQController($modalInstance, EOYModel) {
+        var vm = this;
+
+        vm.years = [];
+        vm.rawStartDate = null;
+        vm.rawEndDate = null;
+        vm.period = {
+            Year: null,
+            StartDate: null,
+            RawStartDate: null,
+            EndDate: null,
+            RawEndDate: null,
+            Description: null
+        };
+        vm.calendar = {};
+
+        vm.openPopupStartDate = function (event) {
+            EOYModel.openPopupStartDate(event);
+        };
+
+        vm.openPopupEndDate = function (event) {
+            EOYModel.openPopupEndDate(event);
+        };
+
+        vm.submit = function () {
+            if (EOYModel.validatePeriod(vm.period)) {
+                vm.period.StartDate = vm.period.RawStartDate ? vm.period.RawStartDate.toDateString() : null;
+                vm.period.EndDate = vm.period.RawEndDate ? vm.period.RawEndDate.toDateString() : null;
+
+                $modalInstance.close(vm.period);
+            }
+        };
+
+        vm.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
+        function initialize() {
+            var date = new Date();
+            var year = date.getFullYear();
+
+            for (var index = year; index > (year - 5) ; index--) {
+                vm.years.push(index);
+            }
+
+            vm.calendar = EOYModel.calendar;
+        }
+
+        initialize();
+    }
+})(angular.module('assessmentModule'));
