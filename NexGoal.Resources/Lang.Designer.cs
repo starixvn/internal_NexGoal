@@ -4039,7 +4039,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Bonus Given is now not equal 100 points!.
+        ///   Looks up a localized string similar to The Bonus Given is now not equal 100 points! Click OK if you want to continue..
         /// </summary>
         public static string TotalBonusGivenLessThanMaxMessage {
             get {

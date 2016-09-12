@@ -63,12 +63,11 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
-        public IEnumerable<PAFocusModel> GetPAFocus(int periodId, string groupIds = null, int? employeeId = null)
+        public IEnumerable<PAFocusModel> GetPAFocus(int periodId, string groupIds = null)
         {
             var criteria = new GetPAFocusCriteria
             {
                 PeriodId = periodId,
-                EmployeeId = employeeId,
                 GroupIds = groupIds,
                 EvaluatorId = SessionService.EmployeeId
             };

@@ -1588,7 +1588,7 @@
     <value>Member's objectives cannot be empty!</value>
   </data>
   <data name="TotalBonusGivenLessThanMaxMessage" xml:space="preserve">
-    <value>The Bonus Given is now not equal 100 points!</value>
+    <value>The Bonus Given is now not equal 100 points! Click OK if you want to continue.</value>
   </data>
   <data name="Chart" xml:space="preserve">
     <value>Chart</value>

@@ -12,7 +12,7 @@
         vm.evaluations = [];
         vm.PAFocusPermission = {};
 
-        function groupEvaluationByTeam(evaluations) {
+        function buildData(evaluations, employeeId) {
             var teams = [];
 
             angular.forEach(evaluations, function (evaluation) {
@@ -34,42 +34,63 @@
             });
 
             angular.forEach(teams, function (team) {
+                var isDisplay = false;
                 angular.forEach(evaluations, function (evaluation) {
                     var groupName = evaluation.Employee.Group.GroupName;
                     if (groupName === team.Name) {
+                        if (employeeId === undefined) {
+                            evaluation.IsDisplay = true;
+                            isDisplay = true;
+                        }
+                        else {
+                            if (evaluation.Employee.EmployeeId === employeeId) {
+                                evaluation.IsDisplay = true;
+                                isDisplay = true;
+                            } else {
+                                evaluation.IsDisplay = false;
+                            }
+                        }
                         team.Members.push(evaluation);
                         team.TotalBonus += evaluation.BonusGiven;
                     }
                 });
+                team.IsDisplay = isDisplay;
             });
 
             return teams;
         }
 
-
-        function unGroupEvaluationByTeam(team) {
+        function unGroupEvaluationByTeam(teams) {
             var evaluations = [];
 
-            angular.forEach(team.Members, function (member) {
-                evaluations.push(member);
+            angular.forEach(teams, function (team) {
+                angular.forEach(team.Members, function (member) {
+                    evaluations.push(member);
+                });
             });
+            
             return evaluations;
         }
 
-        vm.getPAFocusFullPermission = function () {
-            return paFocusFactory.getPAFocusFullPermission().success(function (PAFocusPermission) {
-                vm.PAFocusPermission = PAFocusPermission;
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
+        vm.validatePAFocusForm = function (groups) {
+            var isValid = true;
+            angular.forEach(groups, function (group) {
+                if (isValid && group.IsDisplay && group.TotalBonus > group.MaxBonus) {
+                    isValid = false;
+                    notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
+                }
+            })
+
+            return isValid;
         };
 
-        vm.validatePAFocusForm = function (group) {
+        vm.validateWarningPAFocusForm = function (groups) {
             var isValid = true;
-            if (group.TotalBonus > group.MaxBonus) {
-                isValid = false;
-                notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
-            }
+            angular.forEach(groups, function (group) {
+                if (groups.IsDisplay && group.TotalBonus < group.MaxBonus) {
+                    isValid = false;
+                }
+            })
 
             return isValid;
         };
@@ -83,16 +104,16 @@
         };
 
         vm.getPAFocus = function (periodId, groupIds, employeeId) {
-            return paFocusFactory.getPAFocus(periodId, groupIds, employeeId).success(function (evaluations) {
+            return paFocusFactory.getPAFocus(periodId, groupIds).success(function (evaluations) {
                 var groups = evaluations;
-                vm.evaluations = groupEvaluationByTeam(groups);
+                vm.evaluations = buildData(groups, employeeId);
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.updatePAFocus = function (group) {
-            var evaluations = unGroupEvaluationByTeam(group);
+        vm.updatePAFocus = function(groups) {
+            var evaluations = unGroupEvaluationByTeam(groups);
             return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
@@ -103,6 +124,8 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
+
+            return result;
         };
 
         vm.updatePAProcessSettingByPeriodId = function (periodId, processes) {
@@ -118,36 +141,32 @@
             });
         };
 
-        vm.showWarningAndSavePAFocus = function (group) {
-            if (group.TotalBonus < group.MaxBonus) {
-                $translate("TotalBonusGivenLessThanMaxMessage").then(function (responseMessage) {
-                    var modalInstance = $modal.open({
-                        templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
-                        controller: "ModalConfirmController as modalConfirmCtrl",
-                        backdrop: 'static',
-                        resolve: {
-                            name: function () {
-                                return "";
-                            },
-                            action: function () {
-                                return "";
-                            },
-                            message: function () {
-                                return "[" + group.Name + "] " + responseMessage;
-                            }
+        vm.OpenPopupContinue = function (groups) {
+            $translate("TotalBonusGivenLessThanMaxMessage").then(function (responseMessage) {
+                var modalInstance = $modal.open({
+                    templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                    controller: "ModalConfirmController as modalConfirmCtrl",
+                    backdrop: 'static',
+                    resolve: {
+                        name: function () {
+                            return "";
                         },
-                        windowClass: "modal-confirm-center"
-                    });
-
-                    modalInstance.result.then(function () {
-                        vm.updatePAFocus(group);
-                    })['finally'](function () {
-                        modalInstance = '';
-                    });
+                        action: function () {
+                            return "";
+                        },
+                        message: function () {
+                            return responseMessage;
+                        }
+                    },
+                    windowClass: "modal-confirm-center"
                 });
-            } else {
-                vm.updatePAFocus(group);
-            }
+
+                modalInstance.result.then(function () {
+                    vm.updatePAFocus(groups);
+                })['finally'](function () {
+                    modalInstance = '';
+                });
+            });
         };
 
         vm.openPopupInformation = function () {

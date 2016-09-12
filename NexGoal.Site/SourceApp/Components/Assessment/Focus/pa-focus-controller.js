@@ -28,6 +28,13 @@
         };
         vm.searchEmployee = "";
 
+        vm.showEmployee = function (member) {
+            var isShowEmployeeRow = vm.filter.employee.EmployeeId === undefined
+                || vm.filter.employee.EmployeeId === member.Employee.EmployeeId;
+
+            return isShowEmployeeRow;
+        };
+
         function initialize() {
             CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
                 vm.periods = CommonModel.periods;
@@ -56,7 +63,6 @@
                     });
 
                     group.TotalBonus = parseFloat(total.toFixed(2));
-                    PAFocusModel.validatePAFocusForm(group);
                 }
             });
         }
@@ -111,7 +117,7 @@
         vm.unSelectEmployee = function () {
             if (vm.searchEmployee.trim() === '') {
                 if (vm.filter.employee) {
-                    vm.filter.employee = null;
+                    vm.filter.employee = {};
                 }
             }
         };
@@ -122,11 +128,24 @@
             });
         };
 
-        vm.inputBonus = function (member) {
+        vm.inputBonus = function (member,group) {
             calculateTeamTotalBonus(member.Employee.Group.GroupId);
             calculateBonusRanking(member.Employee.Group.GroupId);
+            if (group.TotalBonus > group.MaxBonus) {
+                notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
+            }
         };
 
+        function CalculateBonusGivenOneGroup(group){
+            var total = 0;
+            angular.forEach(group.Members, function (member) {
+                if (member.BonusGiven) {
+                    total += member.BonusGiven;
+                }
+            });
+
+            return parseFloat(total.toFixed(2));
+        }
         vm.query = function () {
             lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
@@ -140,11 +159,15 @@
         };
 
         vm.save = function () {
-            angular.forEach(vm.groups, function (group) {
-                if (PAFocusModel.validatePAFocusForm(group)) {
-                    PAFocusModel.showWarningAndSavePAFocus(group);
+            var isValid = PAFocusModel.validatePAFocusForm(vm.groups);
+            if (isValid) {
+                var isWarning = PAFocusModel.validateWarningPAFocusForm(vm.groups);
+                if (isWarning) {
+                    PAFocusModel.OpenPopupContinue(vm.groups);
+                } else {
+                    PAFocusModel.updatePAFocus(vm.groups);
                 }
-            });
+            }
         };
 
         initialize();
