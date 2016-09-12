@@ -18,6 +18,7 @@
                 Name: "No"
             }
         ];
+        vm.process = [];
         vm.groups = [];
         vm.periods = [];
         vm.teams = [];
@@ -27,6 +28,19 @@
             employee: {}
         };
         vm.searchEmployee = "";
+        vm.processStatus = enumerationsFactory.processStatusType;
+
+        vm.getClassProgress = function (processStatus) {
+            if (processStatus === vm.processStatus.InProgress) {
+                return 'in-process';
+            }
+            else if (processStatus === vm.processStatus.Closed) {
+                return 'end-process';
+            }
+            else {
+                return 'open';
+            }
+        };
 
         vm.showEmployee = function (member) {
             var isShowEmployeeRow = vm.filter.employee.EmployeeId === undefined
@@ -149,6 +163,9 @@
         vm.query = function () {
             lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
+            PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
+                vm.process = PAFocusModel.process;
+            });
 
             PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
                 vm.groups = PAFocusModel.evaluations;
@@ -161,7 +178,7 @@
         vm.save = function () {
             var isValid = PAFocusModel.validatePAFocusForm(vm.groups);
             if (isValid) {
-                var isWarning = PAFocusModel.validateWarningPAFocusForm(vm.groups);
+                var isWarning = PAFocusModel.isWarningPAFocusForm(vm.groups);
                 if (isWarning) {
                     PAFocusModel.OpenPopupContinue(vm.groups);
                 } else {

@@ -26,6 +26,15 @@
         }
 
         [HttpGet]
+        [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
+        public IEnumerable<PAFocusProcessModel> GetPAFocusProcess(int periodId)
+        {
+            var result = this.focusService.GetPAFocusProcess(periodId);
+
+            return result;
+        }
+
+        [HttpGet]
         [ApiAuthorize(FunctionKey.Period, Policy.Read)]
         public IEnumerable<FocusProcessSettingModel> GetPAProcessSettingByPeriodId(int periodId)
         {

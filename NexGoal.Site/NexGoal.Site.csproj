@@ -411,6 +411,7 @@
     <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-objective-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\chart.html" />
+    <Content Include="SourceApp\Components\Assessment\Focus\Templates\focusProcess.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\index.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalInformation.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\paFocus.html" />

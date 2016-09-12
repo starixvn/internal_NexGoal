@@ -16,6 +16,9 @@
             getPAFocus: function (periodId, groupIds) {
                 return $http.get(baseUrl + 'api/PAFocus/GetPAFocus', { params: { periodId: periodId, groupIds : groupIds} });
             },
+            getPAFocusProcess: function (periodId) {
+                return $http.get(baseUrl + 'api/PAFocus/GetPAFocusProcess', { params: { periodId: periodId} });
+            },
             updatePAFocus: function(evaluations){
                 return $http.post(baseUrl + 'api/PAFocus/UpdatePAFocus', evaluations);
             },

@@ -8,6 +8,7 @@
     function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory, $translate) {
         var vm = {};
 
+        vm.process = [];
         vm.processSettings = [];
         vm.evaluations = [];
         vm.PAFocusPermission = {};
@@ -84,16 +85,25 @@
             return isValid;
         };
 
-        vm.validateWarningPAFocusForm = function (groups) {
-            var isValid = true;
+        vm.isWarningPAFocusForm = function (groups) {
+            var isWarning = false;
             angular.forEach(groups, function (group) {
-                if (groups.IsDisplay && group.TotalBonus < group.MaxBonus) {
-                    isValid = false;
+                if (group.IsDisplay && group.TotalBonus < group.MaxBonus) {
+                    isWarning = true;
                 }
             })
 
-            return isValid;
+            return isWarning;
         };
+
+        vm.getPAFocusProcess = function (periodId) {
+            return paFocusFactory.getPAFocusProcess(periodId).success(function (process) {
+                vm.process = process;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
 
         vm.getPAProcessSettingByPeriodId = function (periodId) {
             return paFocusFactory.getPAProcessSettingByPeriodId(periodId).success(function (processSettings) {
