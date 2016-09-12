@@ -1,10 +1,10 @@
 ﻿(function (assessmentModule) {
-    "use strict";
+    'use strict';
 
-    assessmentModule.controller("ManageEOQController", manageEOQController);
+    assessmentModule.controller('ManageEOQController', manageEOQController);
 
-    manageEOQController.$inject = ["$scope", "$location", "CommonModel", "EOQModel", "utilitiesFactory",
-        "historyFactory", "enumerationsFactory", "lockScreenService", "baseUrl"];
+    manageEOQController.$inject = ['$scope', '$location', 'CommonModel', 'EOQModel', 'utilitiesFactory',
+        'historyFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
 
     function manageEOQController($scope, $location, CommonModel, EOQModel, utilitiesFactory,
         historyFactory, enumerationsFactory, lockScreenService, baseUrl) {
@@ -16,7 +16,7 @@
         vm.filter = {};
         vm.currentPage = 1;
         vm.pageSize = 20;
-        vm.searchKey = "";
+        vm.searchKey = '';
         vm.modalInstance = null;
         vm.permission = 0;
         vm.policyEnum = enumerationsFactory.policy;
@@ -83,7 +83,7 @@
                 vm.periods = EOQModel.periods;
 
                 utilitiesFactory.searchOnPage(vm, vm.periods);
-            })["finally"](function () {
+            })['finally'](function () {
                 lockScreenService.stop();
             });
 
@@ -94,22 +94,18 @@
             EOQModel.openPopupCreateEOQ().then(function (period) {
                 vm.modalInstance = null;
 
-                lockScreenService.start();
-
                 EOQModel.createEOQ(period).then(function () {
                     vm.query();
-                })["finally"](function () {
-                    lockScreenService.stop();
                 });
             });
         };
 
         vm.updateEOQ = function (eoqyId) {
-            $location.path(baseUrl + "ManageNomination/UpdateEOQ/" + eoqyId);
+            $location.path(baseUrl + 'ManageNomination/UpdateEOQ/' + eoqyId);
         };
 
         vm.deleteEOQ = function (period) {
             EOQModel.openPopupDeleteEOQ(vm, period);
         };
     }
-})(angular.module("assessmentModule"));
+})(angular.module('assessmentModule'));

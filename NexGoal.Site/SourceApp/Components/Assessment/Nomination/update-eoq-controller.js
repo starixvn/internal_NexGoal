@@ -1,9 +1,9 @@
 ﻿(function (assessmentModule) {
-    "use strict";
+    'use strict';
 
-    assessmentModule.controller("UpdateEOQController", updateEOQController);
+    assessmentModule.controller('UpdateEOQController', updateEOQController);
 
-    updateEOQController.$inject = ["$routeParams", "EOQModel", "historyFactory", "lockScreenService"];
+    updateEOQController.$inject = ['$routeParams', 'EOQModel', 'historyFactory', 'lockScreenService'];
 
     function updateEOQController($routeParams, EOQModel, historyFactory, lockScreenService) {
         var vm = this;
@@ -41,11 +41,11 @@
 
             EOQModel.getEOQById(vm.eoqId).then(function () {
                 vm.period = EOQModel.period;
-            })["finally"](function () {
+            })['finally'](function () {
                 lockScreenService.stop();
             });
         }
 
         initialize();
     }
-})(angular.module("assessmentModule"));
+})(angular.module('assessmentModule'));

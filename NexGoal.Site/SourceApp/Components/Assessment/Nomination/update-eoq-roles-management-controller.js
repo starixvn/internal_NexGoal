@@ -1,10 +1,10 @@
 ﻿(function (assessmentModule) {
-    "use strict";
+    'use strict';
 
-    assessmentModule.controller("UpdateEOQRolesManagementController", updateEOQRolesManagementController);
+    assessmentModule.controller('UpdateEOQRolesManagementController', updateEOQRolesManagementController);
 
-    updateEOQRolesManagementController.$inject = ["$scope", "EOQModel", "CommonModel", "utilitiesFactory",
-        "enumerationsFactory", "lockScreenService"];
+    updateEOQRolesManagementController.$inject = ['$scope', 'EOQModel', 'CommonModel', 'utilitiesFactory',
+        'enumerationsFactory', 'lockScreenService'];
 
     function updateEOQRolesManagementController($scope, EOQModel, CommonModel, utilitiesFactory,
         enumerationsFactory, lockScreenService) {
@@ -14,14 +14,14 @@
         vm.NOMINATOR_ROLE = 1;
         vm.period = {};
         vm.nominatorSettings = [];
-        vm.searchKey = "";
+        vm.searchKey = '';
         vm.filteredItems = [];
         vm.currentPage = 1;
         vm.pageSize = 20;
         vm.filter = {
-            query: "",
-            teamIds: "",
-            roleId: "",
+            query: '',
+            teamIds: '',
+            roleId: '',
             showAllEmployee: false
         };
         vm.teams = [];
@@ -73,7 +73,7 @@
         vm.query = function () {
             lockScreenService.start();
 
-            vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
+            vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, 'DepartmentId');
 
             EOQModel.getEOQNominatorSettingById(
                 vm.period.EOQYId,
@@ -92,7 +92,7 @@
                     vm.currentPage = 1;
 
                     utilitiesFactory.searchOnPage(vm, vm.nominatorSettings);
-                })["finally"](function () {
+                })['finally'](function () {
                     lockScreenService.stop();
                 });
         };
@@ -116,9 +116,9 @@
 
             nominators.push(nominator);
 
-            EOQModel.updateEOQNominatorSettingById(vm.period.EOQYId, nominators)["finally"](function () {
+            EOQModel.updateEOQNominatorSettingById(vm.period.EOQYId, nominators)['finally'](function () {
                 lockScreenService.stop();
             });
         };
     }
-})(angular.module("assessmentModule"));
+})(angular.module('assessmentModule'));

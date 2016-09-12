@@ -1,9 +1,9 @@
 ﻿(function (assessmentModule) {
-    "use strict";
+    'use strict';
 
-    assessmentModule.controller("ManageNominationController", manageNominationController);
+    assessmentModule.controller('ManageNominationController', manageNominationController);
 
-    manageNominationController.$inject = ["EOQModel"];
+    manageNominationController.$inject = ['EOQModel'];
 
     function manageNominationController(EOQModel) {
         var vm = this;
@@ -33,4 +33,4 @@
 
         initialize();
     }
-})(angular.module("assessmentModule"));
+})(angular.module('assessmentModule'));

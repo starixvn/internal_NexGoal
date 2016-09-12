@@ -1,9 +1,9 @@
 ﻿(function (assessmentModule) {
-    "use strict";
+    'use strict';
 
-    assessmentModule.controller("CreateEOQController", createEOQController);
+    assessmentModule.controller('CreateEOQController', createEOQController);
 
-    createEOQController.$inject = ["$modalInstance", "EOQModel"];
+    createEOQController.$inject = ['$modalInstance', 'EOQModel'];
 
     function createEOQController($modalInstance, EOQModel) {
         var vm = this;
@@ -40,7 +40,7 @@
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss("cancel");
+            $modalInstance.dismiss('cancel');
         };
 
         function initialize() {
@@ -56,4 +56,4 @@
 
         initialize();
     }
-})(angular.module("assessmentModule"));
+})(angular.module('assessmentModule'));

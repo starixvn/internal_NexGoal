@@ -346,7 +346,7 @@
                 backdrop: 'static',
                 resolve: {
                     name: function () {
-                        return '';
+                        return nomination.Nominee.FullName + ' (' + nomination.Nominee.NickName + ')';
                     },
                     action: function () {
                         return 'delete';

@@ -119,6 +119,7 @@
     <Compile Include="EOQ\UpdateStatusEOQNominationCriteria.cs" />
     <Compile Include="EOY\CreateEOYCriteria.cs" />
     <Compile Include="EOY\DeleteEOYCriteria.cs" />
+    <Compile Include="EOY\GetCurrentEOYByNominatorIdCriteria.cs" />
     <Compile Include="EOY\GetEOYByIdCriteria.cs" />
     <Compile Include="EOY\GetEOYCriteria.cs" />
     <Compile Include="EOY\GetEOYNominatorSettingByIdCriteria.cs" />

@@ -1,9 +1,9 @@
 ﻿(function (assessmentModule) {
-    "use strict";
+    'use strict';
 
-    assessmentModule.controller("UpdateEOQBasicInformationController", updateEOQBasicInformationController);
+    assessmentModule.controller('UpdateEOQBasicInformationController', updateEOQBasicInformationController);
 
-    updateEOQBasicInformationController.$inject = ["$scope", "EOQModel", "historyFactory", "enumerationsFactory", "lockScreenService"];
+    updateEOQBasicInformationController.$inject = ['$scope', 'EOQModel', 'historyFactory', 'enumerationsFactory', 'lockScreenService'];
 
     function updateEOQBasicInformationController($scope, EOQModel, historyFactory, enumerationsFactory, lockScreenService) {
         var vm = this;
@@ -44,11 +44,7 @@
                 period.StartDate = period.RawStartDate ? period.RawStartDate.toDateString() : null;
                 period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
 
-                lockScreenService.start();
-
-                EOQModel.updateEOQ(period)["finally"](function () {
-                    lockScreenService.stop();
-                });
+                EOQModel.updateEOQ(period);
             }
         };
 
@@ -56,4 +52,4 @@
             historyFactory.back();
         };
     }
-})(angular.module("assessmentModule"));
+})(angular.module('assessmentModule'));
