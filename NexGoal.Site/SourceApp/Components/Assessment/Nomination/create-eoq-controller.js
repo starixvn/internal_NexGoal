@@ -12,8 +12,8 @@
         vm.rawStartDate = null;
         vm.rawEndDate = null;
         vm.period = {
-            Quarter: null,
-            Year: null,
+            Quarter: "",
+            Year: "",
             StartDate: null,
             RawStartDate: null,
             EndDate: null,

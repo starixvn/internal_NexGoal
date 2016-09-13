@@ -2251,3 +2251,13 @@ input:checked + .slider:before {
 .highcharts-container {
   border: 1px solid #CFCCAE;
 }
+/* Nomination Status */
+.nomination-status.nominated {
+  color: #ff6b23;
+}
+.nomination-status.shorted-list {
+  color: #307def;
+}
+.nomination-status.winner {
+  color: #3da52a;
+}

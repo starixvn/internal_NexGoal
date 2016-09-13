@@ -1677,4 +1677,7 @@
   <data name="EOQInfomation" xml:space="preserve">
     <value>Employee Of The Quarter Infomation</value>
   </data>
+  <data name="NominationInformation" xml:space="preserve">
+    <value>Nomination Information</value>
+  </data>
 </root>
