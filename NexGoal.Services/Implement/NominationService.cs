@@ -209,7 +209,8 @@
             font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICell cell = rowTitle.CreateCell(0);
-            cell.SetCellValue(periodName);
+            string title = "Employee of the " + periodName;
+            cell.SetCellValue(title);
             cell.CellStyle = workbook.CreateCellStyle();
             cell.CellStyle.Alignment = HorizontalAlignment.Center;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
