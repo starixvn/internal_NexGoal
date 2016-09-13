@@ -14,7 +14,7 @@
 
         public override string GetSettingKey()
         {
-            return "EOQNomination_UpdateStatus";
+            return "EOQYNomination_UpdateStatus";
         }
 
         public override bool IsValid()

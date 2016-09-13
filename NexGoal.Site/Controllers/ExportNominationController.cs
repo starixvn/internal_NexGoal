@@ -49,7 +49,7 @@
                 IEnumerable<NominationViewModel> nominations = nominationService.GetNominationByNominatorId(criteria);
 
                 string templatePath = Server.MapPath(EOQYNominationTemplatePath);
-                nominationService.ExportEOQ(nominations, criteria.PeriodName, templatePath);
+                nominationService.ExportEOY(nominations, criteria.PeriodName, templatePath);
             }
 
             return new EmptyResult();

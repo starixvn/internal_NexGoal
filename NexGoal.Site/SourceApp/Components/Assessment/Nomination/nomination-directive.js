@@ -25,7 +25,7 @@
         return {
             link: function (scope) {
                 scope.$on('exportEmployeeOfTheYear', function () {
-                    var data = $.param(scope.eoqAccessCtrl.exportCriteria),
+                    var data = $.param(scope.eoyAccessCtrl.exportCriteria),
                         url = baseUrl + 'ExportNomination/ExportEOY',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
