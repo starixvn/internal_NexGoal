@@ -61,5 +61,6 @@
     <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Generate" SpName="PAFocus_Generate" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_GetToGeneratePAFocus" SpName="Period_GetToGeneratePAFocus" DbName="NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

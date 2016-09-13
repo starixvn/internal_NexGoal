@@ -47,7 +47,16 @@ namespace NexGoal.BackgroundService
             {
                 UpdateFinalScore(epa);
                 SendMail(epa);
-                focusService.GeneratePAFocus(epa.Period.PeriodId);
+            }
+        }
+
+        public void GeneratePAFocus() 
+        {
+            var criteria = new GetPeriodToGeneratePAFocusCriteria();
+            IEnumerable<PeriodModel> periods = GetData<PeriodModel>(criteria);
+            foreach(PeriodModel period in periods)
+            {
+                focusService.GeneratePAFocus(period.PeriodId);
             }
         }
 

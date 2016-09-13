@@ -44,6 +44,7 @@ namespace NexGoal.BackgroundService
                 CheckSendMail();
                 processService.UpdateInformationAtEndProccess();
                 periodEvalutionService.UpdatePeriodIsEnd();
+                periodEvalutionService.GeneratePAFocus();
             }
             catch (Exception ex)
             {
