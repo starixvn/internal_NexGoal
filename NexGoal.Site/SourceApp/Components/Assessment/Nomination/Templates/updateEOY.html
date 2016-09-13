@@ -1,0 +1,25 @@
+﻿<div ng-controller="UpdateEOYController as updateEOYCtrl">
+    <div class="row">
+        <div class="col-sm-12 sub-header">
+            <ul class="row breadcrumb period-breadcrumb">
+                <li class="current" data-translate="NominationRolesManagement"></li>
+            </ul>
+            <div class="button-icon button-period-back">
+                <span class="fa fa-angle-left icon-back"></span>
+                <a data-translate="BackToList" ng-click="updateEOYCtrl.backToList()" href="" class="ng-scope"></a>
+            </div>
+        </div>
+        <div class="col-sm-12 target-tabset">
+            <tabset>
+                <tab class="tab-cursor" active="updateEOYCtrl.dataTab.basicInformation" select="updateEOYCtrl.tabBasicInformationSelected()">
+                    <tab-heading data-translate="BasicInformation"></tab-heading>
+                    <div ng-include src="'/SourceApp/Components/Assessment/Nomination/Templates/EOYBasicInformation.html'"></div>
+                </tab>
+                <!--<tab class="tab-cursor" active="updateEOYCtrl.dataTab.rolesManagement" select="updateEOYCtrl.tabRolesManagementSelected()">
+                    <tab-heading data-translate="RolesManagement"></tab-heading>
+                    <div ng-include src="'/SourceApp/Components/Assessment/Nomination/Templates/EOYRolesManagement.html'"></div>
+                </tab>-->
+            </tabset>
+        </div>
+    </div>
+</div>

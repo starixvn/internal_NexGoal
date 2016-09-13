@@ -204,20 +204,32 @@ input {
 
 /* Nomination Status */
 
-
-
-
-
 .nomination-status {
     &.nominated {
-        color: @c-orange;
+        color: @orange;
     }
 
     &.shorted-list {
-        color: @c-blue-royal;
+        color: @blue-royal;
     }
 
     &.winner {
-        color: @c-green-forest;
+        color: @green-forest;
+    }
+}
+
+/* Nomination Period Status */
+
+.nomination-period-status {
+    &.closed {
+        color: @gray-Silver;
+    }
+
+    &.in-progress {
+        color: @green-forest;
+    }
+
+    &.not-started {
+        color: red;
     }
 }

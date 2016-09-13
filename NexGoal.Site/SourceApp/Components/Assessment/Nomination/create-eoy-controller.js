@@ -12,7 +12,7 @@
         vm.rawStartDate = null;
         vm.rawEndDate = null;
         vm.period = {
-            Year: null,
+            Year: "",
             StartDate: null,
             RawStartDate: null,
             EndDate: null,

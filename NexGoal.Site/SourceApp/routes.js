@@ -184,6 +184,8 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     { templateUrl: baseUrl + "SourceApp/Components/Assessment/Nomination/Templates/manageNomination.html", caseInsensitiveMatch: true })
     .when('/ManageNomination/UpdateEOQ/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/updateEOQ.html', caseInsensitiveMatch: true })
+    .when('/ManageNomination/UpdateEOY/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/updateEOY.html', caseInsensitiveMatch: true })
     .when('/EOQ/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/eoqAccess.html', caseInsensitiveMatch: true });
 }]);

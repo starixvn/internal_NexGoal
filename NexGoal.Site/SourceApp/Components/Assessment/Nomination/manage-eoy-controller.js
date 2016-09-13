@@ -104,7 +104,7 @@
             $location.path(baseUrl + 'ManageNomination/UpdateEOY/' + eoqyId);
         };
 
-        vm.deleteEOQ = function (period) {
+        vm.deleteEOY = function (period) {
             EOYModel.openPopupDeleteEOY(vm, period);
         };
     }

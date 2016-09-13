@@ -15,9 +15,9 @@
                 <div class="control-content">
                     <select class="form-control" ng-model="manageEOYCtrl.filter.StatusId">
                         <option value="">-- {{"All" | translate}} --</option>
-                        <option value="0" data-translate="NotStarted"></option>
-                        <option value="1" data-translate="InProgress" selected></option>
-                        <option value="2" data-translate="Closed"></option>
+                        <option class="nomination-period-status not-started" value="0" data-translate="NotStarted"></option>
+                        <option class="nomination-period-status in-progress" value="1" data-translate="InProgress" selected></option>
+                        <option class="nomination-period-status closed" value="2" data-translate="Closed"></option>
                     </select>
                 </div>
             </div>
@@ -58,7 +58,9 @@
                 <td ng-bind="period.Year"></td>
                 <td ng-bind="period.StartDate | date: manageEOYCtrl.dateFormat"></td>
                 <td ng-bind="period.EndDate | date: manageEOYCtrl.dateFormat"></td>
-                <td ng-bind="period.StatusToString"></td>
+                <td ng-bind="period.StatusToString"
+                    ng-class="{'not-started': period.StatusId === 0, 'in-progress': period.StatusId === 1, 'closed': period.StatusId === 2}"
+                    class="nomination-period-status"></td>
                 <td ng-show="manageEOYCtrl.permission === manageEOYCtrl.policyEnum.Host">
                     <div class="btn-group">
                         <a class="fa fa-pencil-square-o icon-edit" title="Edit"

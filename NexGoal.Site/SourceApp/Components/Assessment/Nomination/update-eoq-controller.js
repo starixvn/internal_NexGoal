@@ -10,7 +10,7 @@
 
         vm.period = null;
         vm.permission = 0;
-        vm.eoqId = parseInt($routeParams.id, 10);
+        vm.eoqyId = parseInt($routeParams.id, 10);
         vm.viewMode = $routeParams.viewSetting ? true : false;
 
         vm.dataTab = {
@@ -39,7 +39,7 @@
                 vm.permission = EOQModel.permission;
             });
 
-            EOQModel.getEOQById(vm.eoqId).then(function () {
+            EOQModel.getEOQById(vm.eoqyId).then(function () {
                 vm.period = EOQModel.period;
             })['finally'](function () {
                 lockScreenService.stop();

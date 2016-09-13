@@ -2261,3 +2261,13 @@ input:checked + .slider:before {
 .nomination-status.winner {
   color: #3da52a;
 }
+/* Nomination Period Status */
+.nomination-period-status.closed {
+  color: #aaaaaa;
+}
+.nomination-period-status.in-progress {
+  color: #3da52a;
+}
+.nomination-period-status.not-started {
+  color: red;
+}
