@@ -20,9 +20,9 @@
         {
         }
 
-        public PAFocusController(IPAFocusService menuService)
+        public PAFocusController(IPAFocusService focusService)
         {
-            this.focusService = menuService ?? new PAFocusService();
+            this.focusService = focusService ?? new PAFocusService();
         }
 
         [HttpGet]

@@ -33,7 +33,7 @@
 
             <div class="col button-block">
                 <button class="button" ng-click="paFocusCtrl.query()" data-translate="Submit"></button>
-                <button class="button btnExcel">Excel</button>
+                <button class="button btnExcel" export-focus ng-click="paFocusCtrl.exportExcel()"> Excel</button>
             </div>
 
             <div class="col">
@@ -54,9 +54,9 @@
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
                 <th data-translate="EPAScore" class="width-110"></th>
-                <th class="width-110">Objectives Achievement</th>
-                <th class="width-110">Promotion</th>
-                <th class="width-110">Contribution</th>
+                <th class="width-110" data-translate="PersonalObjectives"></th>
+                <th class="width-110" data-translate="Promotability"></th>
+                <th class="width-110" data-translate="Contribution"></th>
                 <th colspan="2" class="width-150">{{"BonusGiven" | translate}} ({{"Points" | translate}})</th>
                 <th class="width-70" data-translate="BonusRanking"></th>
                 <th colspan="2" data-translate="NextObjectives"></th>

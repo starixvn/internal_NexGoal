@@ -50,11 +50,11 @@ namespace NexGoal.BackgroundService
             }
         }
 
-        public void GeneratePAFocus() 
+        public void GeneratePAFocus()
         {
             var criteria = new GetPeriodToGeneratePAFocusCriteria();
             IEnumerable<PeriodModel> periods = GetData<PeriodModel>(criteria);
-            foreach(PeriodModel period in periods)
+            foreach (PeriodModel period in periods)
             {
                 focusService.GeneratePAFocus(period.PeriodId);
             }

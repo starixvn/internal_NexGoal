@@ -3,9 +3,9 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService', 'notificationFactory', 'enumerationsFactory'];
+    paFocusController.$inject = ["$scope", "CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService', 'notificationFactory', 'enumerationsFactory'];
 
-    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService, notificationFactory, enumerationsFactory) {
+    function paFocusController($scope, CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService, notificationFactory, enumerationsFactory) {
         var vm = this;
         vm.objectivesAchievementRanges = ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"];
         vm.promotionsRanges = [
@@ -124,6 +124,10 @@
             });
         }
 
+        vm.exportExcel = function () {
+            $scope.$broadcast('exportPAFocus');
+        };
+
         vm.getEmployee = function () {
             return EmployeeModel.getAllEmployee(vm.searchEmployee);
         };
@@ -142,7 +146,7 @@
             });
         };
 
-        vm.inputBonus = function (member,group) {
+        vm.inputBonus = function (member, group) {
             calculateTeamTotalBonus(member.Employee.Group.GroupId);
             calculateBonusRanking(member.Employee.Group.GroupId);
             if (group.TotalBonus > group.MaxBonus) {
@@ -150,7 +154,7 @@
             }
         };
 
-        function CalculateBonusGivenOneGroup(group){
+        function CalculateBonusGivenOneGroup(group) {
             var total = 0;
             angular.forEach(group.Members, function (member) {
                 if (member.BonusGiven) {
