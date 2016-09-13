@@ -13,8 +13,6 @@
 
         IEnumerable<EOQYNominatorSettingModel> GetEOYNominatorSettingById(GetEOYNominatorSettingByIdCriteria criteria);
 
-        EOQYNominatorSettingModel GetCurrentEOYByNominatorId(int nominatorId);
-
         CommandResult CreateEOY(CreateEOYCriteria criteria);
 
         CommandResult UpdateEOY(UpdateEOYCriteria criteria);

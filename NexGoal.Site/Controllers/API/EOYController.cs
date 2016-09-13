@@ -121,12 +121,6 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public EOQYNominatorSettingModel GetCurrentEOYByNominatorId()
-        {
-            return eoyService.GetCurrentEOYByNominatorId(SessionService.EmployeeId);
-        }
-
         public int GetUserPermissionOnManageNomination()
         {
             return SessionService.CurrentUser.GetPermission(FunctionKey.ManageNomination);

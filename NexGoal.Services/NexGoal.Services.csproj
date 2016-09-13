@@ -107,6 +107,7 @@
     <Compile Include="Implement\CommonService.cs" />
     <Compile Include="Implement\DepartmentService.cs" />
     <Compile Include="Implement\EmployeeService.cs" />
+    <Compile Include="Implement\NominationService.cs" />
     <Compile Include="Implement\EOYService.cs" />
     <Compile Include="Implement\EOQService.cs" />
     <Compile Include="Implement\EPA\EPAEvaluatorService.cs" />
@@ -142,6 +143,7 @@
     <Compile Include="Interfaces\EPA\IEPAHistoryService.cs" />
     <Compile Include="Interfaces\EPA\IEPAReviewerService.cs" />
     <Compile Include="Interfaces\EPA\IEPASelfService.cs" />
+    <Compile Include="Interfaces\INominationService.cs" />
     <Compile Include="Interfaces\IEOYService.cs" />
     <Compile Include="Interfaces\IEOQService.cs" />
     <Compile Include="Interfaces\IFlowManagementService.cs" />

@@ -11,7 +11,7 @@
 
     public class ExportEOQYController : Controller
     {
-        private readonly IEOQService eoqService;
+        private readonly INominationService nominationService;
         private readonly ISessionService sessionService;
 
         public ExportEOQYController()
@@ -19,9 +19,9 @@
         {
         }
 
-        public ExportEOQYController(IEOQService eoqService, ISessionService sessionService)
+        public ExportEOQYController(INominationService nominationService, ISessionService sessionService)
         {
-            this.eoqService = eoqService ?? new EOQService();
+            this.nominationService = nominationService ?? new NominationService();
             this.sessionService = sessionService ?? new SessionService();
         }
 
@@ -30,9 +30,9 @@
             string fileName = criteria.PeriodName + ".xls";
 
             criteria.NominatorId = sessionService.EmployeeId;
-            IEnumerable<EOQYNominationViewModel> nominations = eoqService.GetEOQNominationByNominatorId(criteria);
+            IEnumerable<NominationViewModel> nominations = nominationService.GetEOQNominationByNominatorId(criteria);
 
-            MemoryStream output = eoqService.ExportEOQ(nominations, criteria.PeriodName);
+            MemoryStream output = nominationService.ExportEOQ(nominations, criteria.PeriodName);
 
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }

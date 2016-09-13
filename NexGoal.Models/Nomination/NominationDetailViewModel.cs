@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Model
 {
-    public class EOQYNominationDetailViewModel
+    public class NominationDetailViewModel
     {
         public int NominationId { get; set; }
 

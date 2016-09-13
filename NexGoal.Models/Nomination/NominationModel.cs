@@ -2,7 +2,7 @@
 {
     using System.Collections.Generic;
 
-    public class EOQYNominationModel
+    public class NominationModel
     {
         public int NominationId { get; set; }
 
@@ -12,7 +12,7 @@
 
         public NomineeModel Nominator { get; set; }
 
-        public List<EOQYQuestionModel> NominationDetails { get; set; }
+        public List<QuestionModel> NominationDetails { get; set; }
 
         public int StatusId { get; set; }
 

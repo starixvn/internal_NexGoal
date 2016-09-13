@@ -67,11 +67,7 @@
     <Compile Include="Employee\MenuViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
     <Compile Include="EOQY\EOQYModel.cs" />
-    <Compile Include="EOQY\EOQYNominationDetailViewModel.cs" />
-    <Compile Include="EOQY\EOQYNominationViewModel.cs" />
     <Compile Include="EOQY\EOQYNominatorSettingModel.cs" />
-    <Compile Include="EOQY\EOQYQuestionModel.cs" />
-    <Compile Include="EOQY\EOQYNominationModel.cs" />
     <Compile Include="EOQY\NomineeModel.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
     <Compile Include="FlowManagement\DepartmentFlowModel.cs" />
@@ -79,6 +75,10 @@
     <Compile Include="FlowManagement\ProcessFlowModel.cs" />
     <Compile Include="Integration\EmployeeWorkingViewModel.cs" />
     <Compile Include="Integration\HRMSummaryViewModel.cs" />
+    <Compile Include="Nomination\NominationDetailViewModel.cs" />
+    <Compile Include="Nomination\NominationViewModel.cs" />
+    <Compile Include="Nomination\NominationModel.cs" />
+    <Compile Include="Nomination\QuestionModel.cs" />
     <Compile Include="PAFocus\PAFocusModel.cs" />
     <Compile Include="PAFocus\FocusProcessSettingModel.cs" />
     <Compile Include="Report\Dashboard\DashboardModel.cs" />

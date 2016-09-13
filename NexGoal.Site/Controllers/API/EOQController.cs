@@ -14,15 +14,17 @@
     public class EOQController : BaseController
     {
         private readonly IEOQService eoqService;
+        private readonly INominationService nominationService;
 
         public EOQController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EOQController(IEOQService eoqService)
+        public EOQController(IEOQService eoqService, INominationService nominationService)
         {
             this.eoqService = eoqService ?? new EOQService();
+            this.nominationService = nominationService ?? new NominationService();
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
@@ -124,11 +126,11 @@
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
         public EOQYNominatorSettingModel GetCurrentEOQByNominatorId()
         {
-            return eoqService.GetCurrentEOQByNominatorId(SessionService.EmployeeId);
+            return nominationService.GetCurrentEOQByNominatorId(SessionService.EmployeeId);
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public IEnumerable<EOQYNominationViewModel> GetEOQNominationByNominatorId(
+        public IEnumerable<NominationViewModel> GetEOQNominationByNominatorId(
             int eoqyId,
             int roleId,
             string query = null,
@@ -145,14 +147,14 @@
                 StatusId = statusId
             };
 
-            IEnumerable<EOQYNominationViewModel> nominations = eoqService.GetEOQNominationByNominatorId(criteria);
+            IEnumerable<NominationViewModel> nominations = nominationService.GetEOQNominationByNominatorId(criteria);
             return nominations;
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public EOQYNominationModel GetEOQNominationById(int nominationId)
+        public NominationModel GetEOQNominationById(int nominationId)
         {
-            EOQYNominationModel nomination = eoqService.GetEOQNominationById(nominationId);
+            NominationModel nomination = nominationService.GetEOQNominationById(nominationId);
             return nomination;
         }
 
@@ -167,7 +169,7 @@
                 criteria.StatusId = (int)NominationStatus.Nominated;
             }
 
-            CommandResult commandResult = eoqService.CreateEOQNomination(criteria);
+            CommandResult commandResult = nominationService.CreateEOQNomination(criteria);
             return commandResult;
         }
 
@@ -181,7 +183,7 @@
                 criteria.StatusId = (int)NominationStatus.Nominated;
             }
 
-            CommandResult commandResult = eoqService.UpdateEOQNomination(criteria);
+            CommandResult commandResult = nominationService.UpdateEOQNomination(criteria);
             return commandResult;
         }
 
@@ -195,7 +197,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = eoqService.DeleteEOQNomination(criteria);
+            CommandResult commandResult = nominationService.DeleteEOQNomination(criteria);
             return commandResult;
         }
 
@@ -208,14 +210,14 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = eoqService.UpdateStatusEOQNomination(criteria);
+            CommandResult commandResult = nominationService.UpdateStatusEOQNomination(criteria);
             return commandResult;
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public IEnumerable<EOQYQuestionModel> GetEOQQuestion()
+        public IEnumerable<QuestionModel> GetEOQQuestion()
         {
-            return eoqService.GetEOQQuestion();
+            return nominationService.GetEOQQuestion();
         }
 
         public int GetUserPermissionOnManageNomination()

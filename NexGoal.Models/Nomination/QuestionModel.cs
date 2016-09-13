@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Model
 {
-    public class EOQYQuestionModel
+    public class QuestionModel
     {
         public int QuestionId { get; set; }
 

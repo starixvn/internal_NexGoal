@@ -59,23 +59,6 @@
             return nominators;
         }
 
-        public EOQYNominatorSettingModel GetCurrentEOYByNominatorId(int nominatorId)
-        {
-            var criteria = new GetCurrentEOYByNominatorIdCriteria
-            {
-                NominatorId = nominatorId
-            };
-
-            var result = new EOQYNominatorSettingModel();
-
-            if (criteria.IsValid())
-            {
-                result = eoqRepository.GetCurrentEOQByNominatorId(criteria);
-            }
-
-            return result;
-        }
-
         public CommandResult CreateEOY(CreateEOYCriteria criteria)
         {
             var commandResult = new CommandResult();

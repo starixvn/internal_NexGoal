@@ -5,13 +5,13 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
 
-    public class EOQYNominationViewModel
+    public class NominationViewModel
     {
         public EOQYModel Period { get; set; }
 
         public NomineeModel Nominee { get; set; }
 
-        public List<EOQYNominationDetailViewModel> Nominations { get; set; }
+        public List<NominationDetailViewModel> Nominations { get; set; }
 
         public int StatusId { get; set; }
 
