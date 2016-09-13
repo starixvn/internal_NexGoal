@@ -1,0 +1,135 @@
+﻿<div ng-controller="EOYAccessController as eoyAccessCtrl">
+    <div class="row" ng-show="eoyAccessCtrl.period && eoyAccessCtrl.period.Period && eoyAccessCtrl.period.Period.EOQYId > 0">
+        <div class="col-sm-12 sub-header">
+            <ul class="row breadcrumb">
+                <li class="current">Employee of the {{eoyAccessCtrl.period.Period.QuarterToString}} {{eoyAccessCtrl.period.Period.Year}}</li>
+            </ul>
+        </div>
+        <div class="col-sm-12">
+            <form novalidate class="form-inline filter">
+                <div class="form-group">
+                    <div class="col">
+                        <label class="control-label" data-translate="Employee"></label>
+                        <div class="control-content">
+                            <input class="form-control" placeholder="Enter full name or nick name"
+                                   ng-model="eoyAccessCtrl.filter.query" />
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="control-label" data-translate="Team"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="eoyAccessCtrl.teams" button-label="Name"
+                                                      helper-elements="all none filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <label class="control-label" data-translate="Status"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="eoyAccessCtrl.filter.statusId">
+                                <option value="">-- {{"All" | translate}} --</option>
+                                <option class="nomination-status nominated" value="1" data-translate="Nominated"></option>
+                                <option class="nomination-status shorted-list" value="2" data-translate="ShortedList"></option>
+                                <option class="nomination-status winner" value="3" data-translate="Winner"></option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col button-block">
+                        <button class="button" ng-click="eoyAccessCtrl.query()" data-translate="Search"></button>
+                        <button class="button" ng-click="eoyAccessCtrl.addNominee()" data-translate="AddNominee"
+                                ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.NOMINATOR_ROLE
+                                    && eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host
+                                    && eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.IN_PROGRESS_STATUS"></button>
+                        <button class="button btnExcel" export-employee-of-the-quarter ng-click="eoyAccessCtrl.exportExcel()">Excel</button>
+                        <a href="" ng-click="eoyAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle"></i></a>
+                    </div>
+                </div>
+            </form>
+
+            <table class="table table-bordered table-striped" ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.NOMINATOR_ROLE">
+                <thead>
+                    <tr class="headerName">
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="Nominee"></th>
+                        <th data-translate="Team"></th>
+                        <th data-translate="Status"></th>
+                        <th data-translate="Action"></th>
+                    </tr>
+                </thead>
+                <tbody ng-show="eoyAccessCtrl.eoqNominations.length === 0">
+                    <tr>
+                        <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="eoyAccessCtrl.eoqNominations.length > 0">
+                    <tr ng-repeat="item in eoyAccessCtrl.eoqNominations">
+                        <td class="text-center">{{$index + 1}}</td>
+                        <td>{{item.Nominee.FullName}} ({{item.Nominee.NickName}})</td>
+                        <td class="text-center">{{item.Nominee.Group.GroupName}}</td>
+                        <td class="text-center nomination-status" 
+                            ng-class="{'nominated': item.StatusId === 1, 'shorted-list': item.StatusId === 2, 'winner': item.StatusId === 3}">
+                            {{item.StatusToString}}
+                        </td>
+                        <td class="text-center">
+                            <div class="btn-group" ng-if="item.PermissionOnAction === eoyAccessCtrl.policyEnum.Read">
+                                <a class="fa fa-search" title="View Detail"
+                                   ng-click="eoyAccessCtrl.viewNomination(item.Nominations[0])"></a>
+                            </div>
+                            <div class="btn-group" ng-if="item.PermissionOnAction === eoyAccessCtrl.policyEnum.Host && eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host">
+                                <a class="fa fa-pencil-square-o icon-edit" title="Edit"
+                                   ng-click="eoyAccessCtrl.updateNomination(item.Nominations[0])"></a>
+                                <a class="fa fa-trash-o icon-remove" title="Delete"
+                                   ng-click="eoyAccessCtrl.deleteNomination(item)"></a>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <table class="table table-bordered table-striped" ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.IN_BOARD_ROLE">
+                <thead>
+                    <tr class="headerName">
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="Nominee"></th>
+                        <th data-translate="Nominator"></th>
+                        <th data-translate="Team"></th>
+                        <th data-translate="Status"></th>
+                        <th data-translate="Action"></th>
+                    </tr>
+                </thead>
+                <tbody ng-show="eoyAccessCtrl.eoqNominations.length === 0">
+                    <tr>
+                        <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="eoyAccessCtrl.eoqNominations.length > 0" ng-repeat="item in eoyAccessCtrl.eoqNominations">
+                    <tr ng-repeat="nomination in item.Nominations">
+                        <td rowspan="{{item.NumberOfNominators}}" class="text-center" ng-show="$first">
+                            {{$parent.$index + 1}}
+                        </td>
+                        <td rowspan="{{item.NumberOfNominators}}" ng-show="$first">
+                            {{item.Nominee.FullName}} ({{item.Nominee.NickName}})
+                            <span ng-show="item.Nominations.length > 1"> - ({{item.Nominations.length}} votes)</span>
+                        </td>
+                        <td>{{nomination.Nominator.FullName}} ({{nomination.Nominator.NickName}})</td>
+                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
+                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
+                            <select ng-model="item.StatusId"
+                                    ng-change="eoyAccessCtrl.updateStatusNomination(item)">
+                                <option ng-repeat="opt in eoyAccessCtrl.nominationStatus"
+                                        ng-class="{'nominated': opt.Value === 1, 'shorted-list': opt.Value === 2, 'winner': opt.Value === 3}"
+                                        value="{{opt.Value}}" class="nomination-status">
+                                    {{opt.Name}}
+                                </option>
+                            </select>
+                        </td>
+                        <td class="text-center">
+                            <a class="fa fa-search" title="View Detail"
+                               ng-click="eoyAccessCtrl.viewNomination(nomination)"></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

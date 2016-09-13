@@ -1,0 +1,102 @@
+﻿<div ng-controller="UpdateEOYRolesManagementController as eoyRolesManagementCtrl">
+    <form novalidate class="form-inline filter">
+        <div class="form-group">
+            <div class="col">
+                <label class="control-label" data-translate="Keyword"></label>
+                <div class="control-content">
+                    <input class="form-control" placeholder="Enter full name or nick name"
+                           ng-model="eoyRolesManagementCtrl.filter.query" />
+                </div>
+            </div>
+
+            <div class="col">
+                <label class="control-label" data-translate="Team"></label>
+                <div class="control-content">
+                    <add-class-to-role-filter class="multi-select" multi-select input-model="eoyRolesManagementCtrl.teams" button-label="Name"
+                                              helper-elements="all none filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                    </add-class-to-role-filter>
+                </div>
+            </div>
+
+            <div class="col">
+                <label class="control-label" data-translate="Roles"></label>
+                <div class="control-content">
+                    <select class="form-control" ng-model="eoyRolesManagementCtrl.filter.roleId">
+                        <option value="">-- {{"All" | translate}} --</option>
+                        <option value="1" data-translate="Nominator"></option>
+                        <option value="2" data-translate="InBoard"></option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="col">
+                <div class="control-label size-xl">
+                    <input id="show-all-employee" type="checkbox" ng-model="eoyRolesManagementCtrl.filter.showAllEmployee" />
+                    <label for="show-all-employee" data-translate="ShowAllEmployee"></label>
+                </div>
+            </div>
+
+            <div class="col button-block">
+                <button class="button" ng-click="eoyRolesManagementCtrl.query()" data-translate="Search"></button>
+            </div>
+        </div>
+    </form>
+
+    <table class="table table-bordered table-striped">
+        <thead>
+            <tr class="header-table">
+                <th colspan="7">
+                    <input type="text" class="search-inline-textbox search pull-right"
+                           ng-model="eoyRolesManagementCtrl.searchKey"
+                           ng-change="eoyRolesManagementCtrl.search()" />
+                </th>
+            </tr>
+            <tr class="headerName">
+                <th data-translate="SymbolCount"></th>
+                <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
+                <th data-translate="JobTitle"></th>
+                <th data-translate="Team"></th>
+                <th data-translate="InBoard"></th>
+                <th data-translate="Nominator"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr dir-paginate="nominator in eoyRolesManagementCtrl.filteredItems | itemsPerPage: eoyRolesManagementCtrl.pageSize"
+                current-page="eoyRolesManagementCtrl.currentPage">
+                <td class="text-center"
+                    ng-bind="eoyRolesManagementCtrl.getIndex($index, eoyRolesManagementCtrl.currentPage, eoyRolesManagementCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="nominator.NominatorInfo.NickName"></td>
+                <td ng-bind="nominator.NominatorInfo.FullName"></td>
+                <td ng-bind="nominator.NominatorInfo.JobTitle.JobTitleName"></td>
+                <td class="text-center" ng-bind="nominator.NominatorInfo.Department.Code"></td>
+                <td class="text-center">
+                    <input type="checkbox" ng-model="nominator.IsInBoard"
+                           ng-disabled="eoyRolesManagementCtrl.permission !== eoyRolesManagementCtrl.policyEnum.Host"
+                           ng-click="eoyRolesManagementCtrl.modifyRole(nominator, eoyRolesManagementCtrl.IN_BOARD_ROLE)" />
+                </td>
+                <td class="text-center">
+                    <input type="checkbox" ng-model="nominator.IsNominator"
+                           ng-disabled="eoyRolesManagementCtrl.permission !== eoyRolesManagementCtrl.policyEnum.Host"
+                           ng-click="eoyRolesManagementCtrl.modifyRole(nominator, eoyRolesManagementCtrl.NOMINATOR_ROLE)" />
+                </td>
+            </tr>
+            <tr ng-show="eoyRolesManagementCtrl.filteredItems.length == 0">
+                <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tfoot ng-show="eoyRolesManagementCtrl.filteredItems.length > 0">
+            <tr>
+                <td colspan="7" class="paging">
+                    <span data-translate="Show"></span>
+                    <select class="dropdown-entry" ng-model="eoyRolesManagementCtrl.pageSize"
+                            ng-options="entry for entry in eoyRolesManagementCtrl.entries"></select>
+                    <span data-translate="entries"></span>
+                    <div class="pull-right custom-paging">
+                        <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                    </div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>

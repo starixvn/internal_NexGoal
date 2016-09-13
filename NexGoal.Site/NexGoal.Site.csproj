@@ -409,6 +409,7 @@
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\add-eoq-nominee-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\create-eoy-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\eoy-access-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoq-access-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoy-model.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoy-factory.js" />
@@ -417,10 +418,12 @@
     <Content Include="SourceApp\Components\Assessment\Nomination\manage-nomination-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\nomination-directive.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\nomination-factory.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoyAccess.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqAccess.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqRolesManagement.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoyBasicInformation.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqBasicInformation.html" />
-    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoqRolesManagement.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\eoyRolesManagement.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\manageEOY.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\manageNomination.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalAddNominee.html" />
@@ -430,6 +433,7 @@
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modelEOQInfomation.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\updateEOY.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\updateEOQ.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\update-eoy-roles-management-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\update-eoy-basic-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\update-eoq-basic-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\update-eoy-controller.js" />
