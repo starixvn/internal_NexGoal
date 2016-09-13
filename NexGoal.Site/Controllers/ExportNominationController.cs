@@ -11,6 +11,8 @@
 
     public class ExportNominationController : Controller
     {
+        private const string EOQYNominationTemplatePath = @"~\ExcelTemplates\EOQYNomination.xls";
+
         private readonly INominationService nominationService;
         private readonly ISessionService sessionService;
 
@@ -27,14 +29,30 @@
 
         public ActionResult ExportEOQ(GetNominationByNominatorIdCriteria criteria)
         {
-            string fileName = criteria.PeriodName + ".xls";
+            if (criteria != null)
+            {
+                criteria.NominatorId = sessionService.EmployeeId;
+                IEnumerable<NominationViewModel> nominations = nominationService.GetNominationByNominatorId(criteria);
 
-            criteria.NominatorId = sessionService.EmployeeId;
-            IEnumerable<NominationViewModel> nominations = nominationService.GetNominationByNominatorId(criteria);
+                string templatePath = Server.MapPath(EOQYNominationTemplatePath);
+                nominationService.ExportEOQ(nominations, criteria.PeriodName, templatePath);
+            }
 
-            MemoryStream output = nominationService.ExportEOQ(nominations, criteria.PeriodName);
+            return new EmptyResult();
+        }
 
-            return File(output.ToArray(), "application/vnd.ms-excel", fileName);
+        public ActionResult ExportEOY(GetNominationByNominatorIdCriteria criteria)
+        {
+            if (criteria != null)
+            {
+                criteria.NominatorId = sessionService.EmployeeId;
+                IEnumerable<NominationViewModel> nominations = nominationService.GetNominationByNominatorId(criteria);
+
+                string templatePath = Server.MapPath(EOQYNominationTemplatePath);
+                nominationService.ExportEOQ(nominations, criteria.PeriodName, templatePath);
+            }
+
+            return new EmptyResult();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace NexFB.Core.Utilities.NPOIExtensions
+﻿namespace NexGoal.Core.Utilities.NPOIExtensions
 {
     using NPOI.SS.UserModel;
 

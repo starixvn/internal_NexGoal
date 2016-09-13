@@ -1,8 +1,13 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using NexFB.Core.Utilities;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Utilities;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
@@ -17,11 +22,6 @@
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
 
     public class ReportService : IReportService
     {

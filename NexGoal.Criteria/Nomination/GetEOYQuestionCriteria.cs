@@ -6,7 +6,7 @@
     {
         public override string GetSettingKey()
         {
-            return "EOQ_GetQuestion";
+            return "EOY_GetQuestion";
         }
 
         public override bool IsValid()

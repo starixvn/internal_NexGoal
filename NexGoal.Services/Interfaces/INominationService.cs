@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
     using System.Collections.Generic;
-    using System.IO;
     using NexGoal.Core.Model;
     using NexGoal.Criteria;
     using NexGoal.Model;
@@ -30,6 +29,8 @@
 
         CommandResult UpdateStatusNomination(UpdateStatusNominationCriteria criteria);
 
-        MemoryStream ExportEOQ(IEnumerable<NominationViewModel> nominations, string periodName);
+        void ExportEOQ(IEnumerable<NominationViewModel> nominations, string periodName, string templatePath);
+
+        void ExportEOY(IEnumerable<NominationViewModel> nominations, string periodName, string templatePath);
     }
 }

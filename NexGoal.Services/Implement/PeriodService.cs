@@ -4,11 +4,11 @@
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
-    using NexFB.Core.Utilities;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Utilities;
     using NexGoal.Criteria.Period;
     using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.FlowManagement;

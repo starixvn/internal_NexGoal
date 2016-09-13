@@ -4,10 +4,10 @@
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
-    using NexFB.Core.Utilities;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
+    using NexGoal.Core.Utilities;
     using NexGoal.Criteria.AttendanceSummary;
     using NexGoal.Model.AttendanceSummary;
     using NexGoal.Model.Employee;
