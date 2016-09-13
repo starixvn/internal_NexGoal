@@ -3,9 +3,9 @@
 
     assessmentModule.factory("EOYModel", eoyModel);
 
-    eoyModel.$inject = ["$modal", "eoyFactory", "errorFactory", "notificationFactory", "utilitiesFactory"];
+    eoyModel.$inject = ["$modal", "eoyFactory", "nominationFactory", "errorFactory", "notificationFactory", "utilitiesFactory"];
 
-    function eoyModel($modal, eoyFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function eoyModel($modal, eoyFactory, nominationFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var vm = {};
 
         vm.periods = [];
@@ -30,7 +30,7 @@
         };
 
         vm.createEOYNomination = function (eoqyId, employeeId, eoyQuestions) {
-            return eoyFactory.createEOYNomination(eoqyId, employeeId, eoyQuestions).success(function (response) {
+            return nominationFactory.createEOYNomination(eoqyId, employeeId, eoyQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
                 }
@@ -56,7 +56,7 @@
         };
 
         vm.updateEOYNomination = function (nominationId, eoyQuestions) {
-            return eoyFactory.updateEOYNomination(nominationId, eoyQuestions).success(function (response) {
+            return nominationFactory.updateNomination(nominationId, eoyQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -106,7 +106,7 @@
         };
 
         vm.getUserPermissionOnManageNomination = function () {
-            return eoyFactory.getUserPermissionOnManageNomination().success(function (permission) {
+            return nominationFactory.getUserPermissionOnManageNomination().success(function (permission) {
                 vm.permission = permission;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -114,7 +114,7 @@
         };
 
         vm.getUserPermissionOnNomination = function () {
-            return eoyFactory.getUserPermissionOnNomination().success(function (permission) {
+            return nominationFactory.getUserPermissionOnNomination().success(function (permission) {
                 vm.permission = permission;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -122,7 +122,7 @@
         };
 
         vm.getEOYQuestion = function () {
-            return eoyFactory.getEOYQuestion().success(function (eoyQuestions) {
+            return nominationFactory.getEOYQuestion().success(function (eoyQuestions) {
                 vm.eoyQuestions = eoyQuestions;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -130,7 +130,7 @@
         };
 
         vm.getEOYNominationByNominatorId = function (eoqyId, roleId, query, teamIds, statusId) {
-            return eoyFactory.getEOYNominationByNominatorId(eoqyId, roleId, query, teamIds, statusId).success(function (eoyNominations) {
+            return nominationFactory.getNominationByNominatorId(eoqyId, roleId, query, teamIds, statusId).success(function (eoyNominations) {
                 vm.eoyNominations = eoyNominations;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -138,7 +138,7 @@
         };
 
         vm.getCurrentEOYByNominatorId = function () {
-            return eoyFactory.getCurrentEOYByNominatorId().success(function (period) {
+            return nominationFactory.getCurrentEOYByNominatorId().success(function (period) {
                 vm.period = period;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -146,7 +146,7 @@
         };
 
         vm.getEOYNominationById = function (nominationId) {
-            return eoyFactory.getEOYNominationById(nominationId).success(function (nomination) {
+            return nominationFactory.getNominationById(nominationId).success(function (nomination) {
                 vm.nomination = nomination;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
@@ -351,7 +351,7 @@
             });
 
             modalInstance.result.then(function () {
-                return eoyFactory.deleteEOYNomination(nomination.Nominations[0].NominationId).success(function (response) {
+                return nominationFactory.deleteNomination(nomination.Nominations[0].NominationId).success(function (response) {
                     if (response.IsSuccessful) {
                         var index = vm.eoyNominations.indexOf(nomination);
                         vm.eoyNominations.splice(index, 1);
@@ -370,7 +370,7 @@
         };
 
         vm.updateStatusEOYNomination = function (eoqyId, nomineeId, statusId) {
-            return eoyFactory.updateStatusEOYNomination(eoqyId, nomineeId, statusId).success(function (response) {
+            return nominationFactory.updateStatusNomination(eoqyId, nomineeId, statusId).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');
                 }

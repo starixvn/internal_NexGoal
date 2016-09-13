@@ -18,20 +18,8 @@
 
                 return $http.post(baseUrl + "api/EOY/CreateEOY", criteria);
             },
-            createEOYNomination: function (eoqyId, employeeId, eoyQuestions) {
-                var criteria = {
-                    EOQYId: eoqyId,
-                    NomineeId: employeeId,
-                    NominationDetails: eoyQuestions
-                };
-
-                return $http.post(baseUrl + "api/Nomination/CreateEOYNomination", criteria);
-            },
             deleteEOY: function (eoyId) {
                 return $http.delete(baseUrl + "api/EOY/DeleteEOY", { params: { Id: eoyId } });
-            },
-            deleteEOYNomination: function (nominationId) {
-                return $http.delete(baseUrl + "api/Nomination/DeleteNomination", { params: { Id: nominationId } });
             },
             updateEOY: function (period) {
                 var criteria = {
@@ -42,14 +30,6 @@
                 };
 
                 return $http.put(baseUrl + "api/EOY/UpdateEOY", criteria);
-            },
-            updateEOYNomination: function (nominationId, eoyQuestions) {
-                var criteria = {
-                    NominationId: nominationId,
-                    NominationDetails: eoyQuestions
-                };
-
-                return $http.put(baseUrl + "api/Nomination/UpdateNomination", criteria);
             },
             getEOY: function (year, statusId) {
                 return $http.get(baseUrl + "api/EOY/GetEOY", { params: { Year: year, StatusId: statusId } });
@@ -68,12 +48,6 @@
 
                 return $http.get(baseUrl + "api/EOY/GetEOYNominatorSettingById", { params: params });
             },
-            getUserPermissionOnManageNomination: function () {
-                return $http.get(baseUrl + "api/Nomination/GetUserPermissionOnManageNomination");
-            },
-            getUserPermissionOnNomination: function () {
-                return $http.get(baseUrl + "api/Nomination/GetUserPermissionOnManageNomination");
-            },
             updateEOYNominatorSettingById: function (eoqyId, nominators) {
                 var criteria = {
                     EOQYId: eoqyId,
@@ -82,36 +56,8 @@
 
                 return $http.put(baseUrl + "api/EOY/UpdateEOYNominatorSettingById", criteria);
             },
-            updateStatusEOYNomination: function (eoqyId, nomineeId, statusId) {
-                var criteria = {
-                    EOQYId: eoqyId,
-                    NomineeId: nomineeId,
-                    StatusId: statusId
-                };
-
-                return $http.put(baseUrl + "api/Nomination/UpdateStatusNomination", criteria);
-            },
-            getEOYQuestion: function () {
-                return $http.get(baseUrl + "api/Nomination/GetEOYQuestion");
-            },
             getCurrentEOYByNominatorId: function () {
                 return $http.get(baseUrl + "api/Nomination/GetCurrentEOYByNominatorId");
-            },
-            getEOYNominationByNominatorId: function (eoqyId, roleId, query, teamIds, statusId) {
-                var params = {
-                    EOQYId: eoqyId,
-                    RoleId: roleId,
-                    Query: query,
-                    GroupIds: teamIds,
-                    StatusId: statusId
-                };
-
-                return $http.get(baseUrl + "api/Nomination/GetNominationByNominatorId", { params: params });
-            },
-            getEOYNominationById: function (nominationId) {
-                var params = { NominationId: nominationId };
-
-                return $http.get(baseUrl + "api/Nomination/GetNominationById", { params: params });
             }
         };
     }

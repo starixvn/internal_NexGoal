@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
     using System.Collections.Generic;
-    using System.Web.Mvc;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
