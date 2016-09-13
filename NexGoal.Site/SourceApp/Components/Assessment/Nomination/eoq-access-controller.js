@@ -123,7 +123,7 @@
                 Query: vm.filter.query,
                 GroupIds: vm.filter.teamIds,
                 StatusId: vm.filter.statusId,
-                PeriodName: 'Employee of the ' + vm.period.Period.QuarterToString + ' ' + vm.period.Period.Year
+                PeriodName: vm.period.Period.QuarterToString + ' ' + vm.period.Period.Year
             };
 
             $scope.$broadcast('exportEmployeeOfTheQuarter');

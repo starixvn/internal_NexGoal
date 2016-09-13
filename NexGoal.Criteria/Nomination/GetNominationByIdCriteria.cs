@@ -2,20 +2,18 @@
 {
     using Fanex.Data.Repository;
 
-    public class DeleteEOQNominationCriteria : CriteriaBase
+    public class GetNominationByIdCriteria : CriteriaBase
     {
         public int NominationId { get; set; }
 
-        public int ModifiedBy { get; set; }
-
         public override string GetSettingKey()
         {
-            return "EOQNomination_Delete";
+            return "EOQYNomination_GetById";
         }
 
         public override bool IsValid()
         {
-            return NominationId > 0 && ModifiedBy > 0;
+            return NominationId > 0;
         }
     }
 }

@@ -120,15 +120,5 @@
             CommandResult commandResult = eoyService.DeleteEOY(criteria);
             return commandResult;
         }
-
-        public int GetUserPermissionOnManageNomination()
-        {
-            return SessionService.CurrentUser.GetPermission(FunctionKey.ManageNomination);
-        }
-
-        public int GetUserPermissionOnNomination()
-        {
-            return SessionService.CurrentUser.GetPermission(FunctionKey.Nomination);
-        }
     }
 }

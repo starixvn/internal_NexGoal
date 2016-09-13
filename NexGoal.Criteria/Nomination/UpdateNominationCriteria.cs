@@ -7,7 +7,7 @@
     using NexGoal.Core.Constants;
     using NexGoal.Model;
 
-    public class UpdateEOQNominationCriteria : CriteriaBase
+    public class UpdateNominationCriteria : CriteriaBase
     {
         private const string NominationDetailXmlTemp = "<Question QuestionId='{0}' Comment='{1}'></Question>";
 
@@ -43,7 +43,7 @@
 
         public override string GetSettingKey()
         {
-            return "EOQNomination_Update";
+            return "EOQYNomination_Update";
         }
 
         public override bool IsValid()

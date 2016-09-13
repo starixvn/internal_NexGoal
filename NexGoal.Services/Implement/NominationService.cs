@@ -50,7 +50,24 @@
             return result;
         }
 
-        public IEnumerable<NominationViewModel> GetEOQNominationByNominatorId(GetEOQNominationByNominatorIdCriteria criteria)
+        public NominatorSettingModel GetCurrentEOYByNominatorId(int nominatorId)
+        {
+            var criteria = new GetCurrentEOYByNominatorIdCriteria
+            {
+                NominatorId = nominatorId
+            };
+
+            var result = new NominatorSettingModel();
+
+            if (criteria.IsValid())
+            {
+                result = nominationRepository.GetCurrentNominationByNominatorId(criteria);
+            }
+
+            return result;
+        }
+
+        public IEnumerable<NominationViewModel> GetNominationByNominatorId(GetNominationByNominatorIdCriteria criteria)
         {
             IEnumerable<NominationViewModel> result = new List<NominationViewModel>();
 
@@ -85,6 +102,14 @@
             return questions;
         }
 
+        public IEnumerable<QuestionModel> GetEOYQuestion()
+        {
+            var criteria = new GetEOYQuestionCriteria();
+            IEnumerable<QuestionModel> questions = this.GetData<QuestionModel>(criteria);
+
+            return questions;
+        }
+
         public CommandResult CreateEOQNomination(CreateEOQNominationCriteria criteria)
         {
             var commandResult = new CommandResult();
@@ -97,10 +122,22 @@
             return commandResult;
         }
 
-        public NominationModel GetEOQNominationById(int nominationId)
+        public CommandResult CreateEOYNomination(CreateEOYNominationCriteria criteria)
+        {
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = this.Repository.Insert(criteria);
+            }
+
+            return commandResult;
+        }
+
+        public NominationModel GetNominationById(int nominationId)
         {
             var nomination = new NominationModel();
-            var criteria = new GetEOQNominationByIdCriteria
+            var criteria = new GetNominationByIdCriteria
             {
                 NominationId = nominationId
             };
@@ -113,7 +150,7 @@
             return nomination;
         }
 
-        public CommandResult UpdateEOQNomination(UpdateEOQNominationCriteria criteria)
+        public CommandResult UpdateNomination(UpdateNominationCriteria criteria)
         {
             var commandResult = new CommandResult();
 
@@ -125,7 +162,7 @@
             return commandResult;
         }
 
-        public CommandResult DeleteEOQNomination(DeleteEOQNominationCriteria criteria)
+        public CommandResult DeleteNomination(DeleteNominationCriteria criteria)
         {
             var commandResult = new CommandResult();
 
@@ -137,7 +174,7 @@
             return commandResult;
         }
 
-        public CommandResult UpdateStatusEOQNomination(UpdateStatusEOQNominationCriteria criteria)
+        public CommandResult UpdateStatusNomination(UpdateStatusNominationCriteria criteria)
         {
             var commandResult = new CommandResult();
 

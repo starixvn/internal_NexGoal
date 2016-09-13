@@ -192,6 +192,7 @@
     <Compile Include="Controllers\API\KPIController.cs" />
     <Compile Include="Controllers\API\EmployeeController.cs" />
     <Compile Include="Controllers\API\KPIGroupController.cs" />
+    <Compile Include="Controllers\API\NominationController.cs" />
     <Compile Include="Controllers\API\PAFocusController.cs" />
     <Compile Include="Controllers\API\PeriodController.cs" />
     <Compile Include="Controllers\API\ReportController.cs" />
@@ -201,7 +202,7 @@
     <Compile Include="Controllers\API\TargetTemplateController.cs" />
     <Compile Include="Controllers\API\RoleController.cs" />
     <Compile Include="Controllers\AuthController.cs" />
-    <Compile Include="Controllers\ExportEOQYController.cs" />
+    <Compile Include="Controllers\ExportNominationController.cs" />
     <Compile Include="Controllers\ExportPDFController.cs" />
     <Compile Include="Controllers\ExportReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />

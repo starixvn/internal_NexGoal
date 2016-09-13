@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class UpdateStatusEOQNominationCriteria : CriteriaBase
+    public class UpdateStatusNominationCriteria : CriteriaBase
     {
         public int EOQYId { get; set; }
 

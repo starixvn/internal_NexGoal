@@ -6,7 +6,7 @@
             link: function (scope) {
                 scope.$on('exportEmployeeOfTheQuarter', function () {
                     var data = $.param(scope.eoqAccessCtrl.exportCriteria),
-                        url = baseUrl + 'ExportEOQY/ExportEOQ',
+                        url = baseUrl + 'ExportNomination/ExportEOQ',
                         downloadUrl = url + "?" + data,
                         iframe = $('body iframe');
 

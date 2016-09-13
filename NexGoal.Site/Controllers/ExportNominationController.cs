@@ -9,28 +9,28 @@
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
 
-    public class ExportEOQYController : Controller
+    public class ExportNominationController : Controller
     {
         private readonly INominationService nominationService;
         private readonly ISessionService sessionService;
 
-        public ExportEOQYController()
+        public ExportNominationController()
             : this(null, null)
         {
         }
 
-        public ExportEOQYController(INominationService nominationService, ISessionService sessionService)
+        public ExportNominationController(INominationService nominationService, ISessionService sessionService)
         {
             this.nominationService = nominationService ?? new NominationService();
             this.sessionService = sessionService ?? new SessionService();
         }
 
-        public ActionResult ExportEOQ(GetEOQNominationByNominatorIdCriteria criteria)
+        public ActionResult ExportEOQ(GetNominationByNominatorIdCriteria criteria)
         {
             string fileName = criteria.PeriodName + ".xls";
 
             criteria.NominatorId = sessionService.EmployeeId;
-            IEnumerable<NominationViewModel> nominations = nominationService.GetEOQNominationByNominatorId(criteria);
+            IEnumerable<NominationViewModel> nominations = nominationService.GetNominationByNominatorId(criteria);
 
             MemoryStream output = nominationService.ExportEOQ(nominations, criteria.PeriodName);
 

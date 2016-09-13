@@ -10,19 +10,25 @@
     {
         NominatorSettingModel GetCurrentEOQByNominatorId(int nominatorId);
 
-        IEnumerable<NominationViewModel> GetEOQNominationByNominatorId(GetEOQNominationByNominatorIdCriteria criteria);
+        NominatorSettingModel GetCurrentEOYByNominatorId(int nominatorId);
+
+        IEnumerable<NominationViewModel> GetNominationByNominatorId(GetNominationByNominatorIdCriteria criteria);
 
         IEnumerable<QuestionModel> GetEOQQuestion();
 
+        IEnumerable<QuestionModel> GetEOYQuestion();
+
         CommandResult CreateEOQNomination(CreateEOQNominationCriteria criteria);
 
-        NominationModel GetEOQNominationById(int nominationId);
+        CommandResult CreateEOYNomination(CreateEOYNominationCriteria criteria);
 
-        CommandResult UpdateEOQNomination(UpdateEOQNominationCriteria criteria);
+        NominationModel GetNominationById(int nominationId);
 
-        CommandResult DeleteEOQNomination(DeleteEOQNominationCriteria criteria);
+        CommandResult UpdateNomination(UpdateNominationCriteria criteria);
 
-        CommandResult UpdateStatusEOQNomination(UpdateStatusEOQNominationCriteria criteria);
+        CommandResult DeleteNomination(DeleteNominationCriteria criteria);
+
+        CommandResult UpdateStatusNomination(UpdateStatusNominationCriteria criteria);
 
         MemoryStream ExportEOQ(IEnumerable<NominationViewModel> nominations, string periodName);
     }
