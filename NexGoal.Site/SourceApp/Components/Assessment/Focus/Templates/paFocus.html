@@ -70,7 +70,7 @@
         <tbody ng-show="paFocusCtrl.groups.length > 0" ng-repeat="group in paFocusCtrl.groups">
             <div ng-show="group.IsDisplay">
                 <tr ng-repeat="member in group.Members | orderBy: '-IsDisplay'" ng-show="member.IsDisplay">
-                    <td rowspan="{{group.Members.length}}" ng-if="$first">{{group.Name}}</td>
+                    <td class="text-center" rowspan="{{group.Members.length}}" ng-if="$first">{{group.Name}}</td>
                     <td class="text-center">{{$index +1}}</td>
                     <td>{{member.Employee.NickName}}</td>
                     <td>{{member.Employee.FullName}}</td>
