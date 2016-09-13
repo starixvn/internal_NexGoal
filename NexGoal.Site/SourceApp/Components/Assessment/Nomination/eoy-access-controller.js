@@ -78,7 +78,7 @@
             EOYModel.openPopupAddNominee(vm.period).then(function (nominee) {
                 vm.modalInstance = null;
 
-                EOYModel.createEOYNomination(vm.period.Period.EOQYId, nominee.employeeId, nominee.eoqQuestions).then(function () {
+                EOYModel.createEOYNomination(vm.period.Period.EOQYId, nominee.employeeId, nominee.eoyQuestions).then(function () {
                     vm.query();
                 });
             });
