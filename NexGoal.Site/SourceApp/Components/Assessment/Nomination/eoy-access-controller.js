@@ -19,7 +19,7 @@
             teamIds: '',
             statusId: ''
         };
-        vm.eoqNominations = [];
+        vm.eoyNominations = [];
         vm.nominationStatus = [
             {
                 Value: 1,
@@ -68,7 +68,7 @@
                 vm.filter.query,
                 vm.filter.teamIds,
                 vm.filter.statusId).then(function () {
-                    vm.eoqNominations = EOYModel.eoqNominations;
+                    vm.eoyNominations = EOYModel.eoyNominations;
                 })['finally'](function () {
                     lockScreenService.stop();
                 });
@@ -78,14 +78,14 @@
             EOYModel.openPopupAddNominee(vm.period).then(function (nominee) {
                 vm.modalInstance = null;
 
-                EOYModel.createEOQNomination(vm.period.Period.EOQYId, nominee.employeeId, nominee.eoqQuestions).then(function () {
+                EOYModel.createEOYNomination(vm.period.Period.EOQYId, nominee.employeeId, nominee.eoqQuestions).then(function () {
                     vm.query();
                 });
             });
         };
 
         vm.deleteNomination = function (nomination) {
-            EOYModel.openPopupDeleteEOQNomination(vm, nomination);
+            EOYModel.openPopupDeleteEOYNomination(vm, nomination);
         };
 
         vm.viewNomination = function (nomination) {
@@ -98,7 +98,7 @@
             EOYModel.openPopupUpdateNomination(nomination.NominationId).then(function (nominee) {
                 vm.modalInstance = null;
 
-                EOYModel.updateEOQNomination(nominee.nominationId, nominee.eoqQuestions).then(function () {
+                EOYModel.updateEOYNomination(nominee.nominationId, nominee.eoyQuestions).then(function () {
                     vm.query();
                 });
             });
@@ -107,7 +107,7 @@
         vm.updateStatusNomination = function (nomination) {
             lockScreenService.start();
 
-            EOYModel.updateStatusEOQNomination(nomination.Period.EOQYId, nomination.Nominee.EmployeeId, nomination.StatusId)['finally'](function () {
+            EOYModel.updateStatusEOYNomination(nomination.Period.EOQYId, nomination.Nominee.EmployeeId, nomination.StatusId)['finally'](function () {
                 lockScreenService.stop();
             });
         };

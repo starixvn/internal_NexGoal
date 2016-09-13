@@ -201,8 +201,8 @@
 
         vm.openPopupAddNominee = function (period) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalAddNominee.html',
-                controller: "AddEOQNomineeController as addEOQNomineeCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalCreateEOQNonimation.html',
+                controller: "CreateEOQNominationController as createEOQNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
                 resolve: {
@@ -217,7 +217,7 @@
 
         vm.openPopupViewNomination = function (nominationId) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalViewNomination.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalViewEOQNomination.html',
                 controller: "ViewEOQNominationController as viewEOQNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
@@ -233,7 +233,7 @@
 
         vm.openPopupUpdateNomination = function (nominationId) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalUpdateNomination.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalUpdateEOQNomination.html',
                 controller: "UpdateEOQNominationController as updateEOQNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
@@ -312,12 +312,14 @@
 
                 var validComments = true;
 
-                nominee.eoqQuestions.forEach(function (question) {
-                    if (!question.Comment || question.Comment.length === 0) {
-                        validComments = false;
-                        return;
-                    }
-                });
+                if (nominee.eoqQuestions) {
+                    nominee.eoqQuestions.forEach(function (question) {
+                        if (!question.Comment || question.Comment.length === 0) {
+                            validComments = false;
+                            return;
+                        }
+                    });
+                }
 
                 if (!validComments) {
                     notificationFactory.error("NominationCommentRequired");

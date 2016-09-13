@@ -1,0 +1,64 @@
+﻿(function (assessmentModule) {
+    "use strict";
+
+    assessmentModule.controller("CreateEOYNominationController", createEOYNominationController);
+
+    createEOYNominationController.$inject = ["$filter", "$modalInstance", "EmployeeModel", "EOYModel", "utilitiesFactory", "eoyNominationPeriod"];
+
+    function createEOYNominationController($filter, $modalInstance, EmployeeModel, EOYModel, utilitiesFactory, eoyNominationPeriod) {
+        var vm = this;
+
+        vm.eoyNominationPeriod = eoyNominationPeriod;
+        vm.searchEmployee = "";
+        vm.employee = null;
+        vm.nominee = {
+            employeeId: 0,
+            teamName: "",
+            eoyQuestions: []
+        };
+
+        function initialize() {
+            EOYModel.getEOYQuestion().then(function () {
+                vm.nominee.eoyQuestions = EOYModel.eoyQuestions;
+            });
+
+            utilitiesFactory.getDateFormat(vm);
+
+            vm.eoyNominationPeriod.DueDay = $filter('date')(vm.eoyNominationPeriod.Period.EndDate, vm.dateFormat);
+        }
+
+        vm.getEmployee = function () {
+            return EmployeeModel.getAllEmployee(vm.searchEmployee);
+        };
+
+        vm.unselectEmployee = function () {
+            if (vm.searchEmployee.trim() === '') {
+                vm.employee = null;
+                vm.nominee.teamName = "";
+                vm.nominee.employeeId = 0;
+            }
+        };
+
+        vm.recordEmployee = function () {
+            if (vm.employee) {
+                vm.nominee.teamName = vm.employee.TeamName;
+                vm.nominee.employeeId = vm.employee.EmployeeId;
+            } else {
+                vm.nominee.teamName = "";
+                vm.nominee.employeeId = 0;
+            }
+        };
+
+        vm.submit = function () {
+            if (EOYModel.validateNominee(vm.nominee)) {
+                $modalInstance.close(vm.nominee);
+            }
+        };
+
+        vm.cancel = function () {
+            $modalInstance.dismiss("cancel");
+        };
+
+        initialize();
+    }
+})(angular.module("assessmentModule"));

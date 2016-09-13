@@ -2,35 +2,26 @@
     <div class="modal-header">
         <div class="popup-header">
             <span data-translate="NominationInformation"></span>
-            <span class="close-popup" ng-click="addEOQNomineeCtrl.cancel()"></span>
+            <span class="close-popup" ng-click="updateEOYNominationCtrl.cancel()"></span>
         </div>
     </div>
     <div class="modal-body">
-
         <form class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Nominee"></label>
                 <div class="col-sm-3 field">
-                    <input class="form-control employe-search" placeholder="Enter full name or nick name" search-auto-complete
-                           ng-model="addEOQNomineeCtrl.searchEmployee"
-                           search-employees="addEOQNomineeCtrl.getEmployee()"
-                           ng-change="addEOQNomineeCtrl.unselectEmployee()"
-                           ng-blur="addEOQNomineeCtrl.recordEmployee()"
-                           employee="addEOQNomineeCtrl.employee" />
+                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.Nominee.FullName" ng-disabled="true" />
                 </div>
-
                 <label class="col-sm-1 control-label" data-translate="Team"></label>
                 <div class="col-sm-3 field">
-                    <input class="form-control" ng-model="addEOQNomineeCtrl.nominee.teamName" ng-disabled="true" />
+                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.Nominee.Group.GroupName" ng-disabled="true" />
                 </div>
-
                 <label class="col-sm-1 control-label" data-translate="DueDate"></label>
                 <div class="col-sm-3 field">
-                    <input class="form-control" ng-model="addEOQNomineeCtrl.eoqNominationPeriod.DueDay" ng-disabled="true" />
+                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.Period.DueDate" ng-disabled="true" />
                 </div>
             </div>
-
-            <div class="form-group" ng-repeat="question in addEOQNomineeCtrl.nominee.eoqQuestions">
+            <div class="form-group" ng-repeat="question in updateEOYNominationCtrl.nomination.NominationDetails">
                 <label class="col-sm-12 control-label required-label text-left">{{$index + 1}}. {{question.Name}}</label>
                 <div class="col-sm-12 field">
                     <textarea class="form-control" rows="3" ng-model="question.Comment" maxlength="1000"></textarea>
@@ -39,7 +30,7 @@
         </form>
     </div>
     <div class="modal-footer button-block">
-        <button class="button btn-cancel customize" ng-click="addEOQNomineeCtrl.cancel()" data-translate="Cancel"></button>
-        <button class="button" ng-click="addEOQNomineeCtrl.submit()" data-translate="Submit"></button>
+        <button class="button btn-cancel customize" ng-click="updateEOYNominationCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button" ng-click="updateEOYNominationCtrl.submit()" data-translate="Submit"></button>
     </div>
 </div>

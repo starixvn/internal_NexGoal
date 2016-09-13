@@ -2,7 +2,7 @@
     <div class="row" ng-show="eoyAccessCtrl.period && eoyAccessCtrl.period.Period && eoyAccessCtrl.period.Period.EOQYId > 0">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
-                <li class="current">Employee of the {{eoyAccessCtrl.period.Period.QuarterToString}} {{eoyAccessCtrl.period.Period.Year}}</li>
+                <li class="current">Employee of the Year {{eoyAccessCtrl.period.Period.Year}}</li>
             </ul>
         </div>
         <div class="col-sm-12">
@@ -56,13 +56,13 @@
                         <th data-translate="Action"></th>
                     </tr>
                 </thead>
-                <tbody ng-show="eoyAccessCtrl.eoqNominations.length === 0">
+                <tbody ng-show="eoyAccessCtrl.eoyNominations.length === 0">
                     <tr>
                         <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="eoyAccessCtrl.eoqNominations.length > 0">
-                    <tr ng-repeat="item in eoyAccessCtrl.eoqNominations">
+                <tbody ng-show="eoyAccessCtrl.eoyNominations.length > 0">
+                    <tr ng-repeat="item in eoyAccessCtrl.eoyNominations">
                         <td class="text-center">{{$index + 1}}</td>
                         <td>{{item.Nominee.FullName}} ({{item.Nominee.NickName}})</td>
                         <td class="text-center">{{item.Nominee.Group.GroupName}}</td>
@@ -97,12 +97,12 @@
                         <th data-translate="Action"></th>
                     </tr>
                 </thead>
-                <tbody ng-show="eoyAccessCtrl.eoqNominations.length === 0">
+                <tbody ng-show="eoyAccessCtrl.eoyNominations.length === 0">
                     <tr>
                         <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="eoyAccessCtrl.eoqNominations.length > 0" ng-repeat="item in eoyAccessCtrl.eoqNominations">
+                <tbody ng-show="eoyAccessCtrl.eoyNominations.length > 0" ng-repeat="item in eoyAccessCtrl.eoyNominations">
                     <tr ng-repeat="nomination in item.Nominations">
                         <td rowspan="{{item.NumberOfNominators}}" class="text-center" ng-show="$first">
                             {{$parent.$index + 1}}

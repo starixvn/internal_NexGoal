@@ -1,11 +1,11 @@
 ﻿(function (assessmentModule) {
     "use strict";
 
-    assessmentModule.controller("AddEOQNomineeController", addEOQNomineeController);
+    assessmentModule.controller("CreateEOQNominationController", createEOQNomination);
 
-    addEOQNomineeController.$inject = ["$filter", "$modalInstance", "EmployeeModel", "EOQModel", "utilitiesFactory", "eoqNominationPeriod"];
+    createEOQNomination.$inject = ["$filter", "$modalInstance", "EmployeeModel", "EOQModel", "utilitiesFactory", "eoqNominationPeriod"];
 
-    function addEOQNomineeController($filter, $modalInstance, EmployeeModel, EOQModel, utilitiesFactory, eoqNominationPeriod) {
+    function createEOQNomination($filter, $modalInstance, EmployeeModel, EOQModel, utilitiesFactory, eoqNominationPeriod) {
         var vm = this;
 
         vm.eoqNominationPeriod = eoqNominationPeriod;
