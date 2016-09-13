@@ -51,7 +51,7 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(
+        public IEnumerable<NominatorSettingModel> GetEOQNominatorSettingById(
             int eoqyId,
             string query = null,
             string groupIds = null,
@@ -124,7 +124,7 @@
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public EOQYNominatorSettingModel GetCurrentEOQByNominatorId()
+        public NominatorSettingModel GetCurrentEOQByNominatorId()
         {
             return nominationService.GetCurrentEOQByNominatorId(SessionService.EmployeeId);
         }

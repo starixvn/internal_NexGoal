@@ -4,8 +4,8 @@
     using Fanex.Data.Repository;
     using NexGoal.Model;
 
-    public interface IEOQRepository
+    public interface IManageNominationRepository
     {
-        IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(ICriteria criteria);
+        IEnumerable<NominatorSettingModel> GetNominatorSettingById(ICriteria criteria);
     }
 }

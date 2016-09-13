@@ -11,7 +11,7 @@
 
         EOQYModel GetEOQById(GetEOQByIdCriteria criteria);
 
-        IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria);
+        IEnumerable<NominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria);
 
         CommandResult CreateEOQ(CreateEOQCriteria criteria);
 

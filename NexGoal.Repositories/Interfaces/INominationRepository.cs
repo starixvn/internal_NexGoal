@@ -6,7 +6,7 @@
 
     public interface INominationRepository
     {
-        EOQYNominatorSettingModel GetCurrentNominationByNominatorId(ICriteria criteria);
+        NominatorSettingModel GetCurrentNominationByNominatorId(ICriteria criteria);
 
         IEnumerable<NominationModel> GetNominationByNominatorId(ICriteria criteria);
 

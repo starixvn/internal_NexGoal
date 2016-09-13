@@ -49,7 +49,7 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<EOQYNominatorSettingModel> GetEOYNominatorSettingById(
+        public IEnumerable<NominatorSettingModel> GetEOYNominatorSettingById(
             int eoqyId,
             string query = null,
             string groupIds = null,

@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Model
 {
-    public class EOQYNominatorSettingModel
+    public class NominatorSettingModel
     {
         public int RoleId { get; set; }
 

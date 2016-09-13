@@ -8,14 +8,14 @@
     using NexGoal.Model.Enitites;
     using NexGoal.Repositories.Interfaces;
 
-    public class EOQRepository : IEOQRepository
+    public class ManageNominationRepository : IManageNominationRepository
     {
-        public IEnumerable<EOQYNominatorSettingModel> GetEOQNominatorSettingById(ICriteria criteria)
+        public IEnumerable<NominatorSettingModel> GetNominatorSettingById(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<EOQYNominatorSettingModel> nominators =
-                    db.Query<EOQYNominatorSettingModel, NomineeModel, DepartmentModel, Group, JobTitle, EOQYNominatorSettingModel>(
+                IEnumerable<NominatorSettingModel> nominators =
+                    db.Query<NominatorSettingModel, NomineeModel, DepartmentModel, Group, JobTitle, NominatorSettingModel>(
                         (nominator, emp, dept, gr, jb) =>
                         {
                             emp.Department = dept;

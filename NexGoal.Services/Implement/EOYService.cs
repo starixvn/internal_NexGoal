@@ -11,16 +11,16 @@
 
     public class EOYService : BaseService, IEOYService
     {
-        private readonly IEOQRepository eoqRepository;
+        private readonly IManageNominationRepository manageNominationRepository;
 
         public EOYService()
             : this(null)
         {
         }
 
-        public EOYService(IEOQRepository eoqRepository)
+        public EOYService(IManageNominationRepository manageNominationRepository)
         {
-            this.eoqRepository = eoqRepository ?? new EOQRepository();
+            this.manageNominationRepository = manageNominationRepository ?? new ManageNominationRepository();
         }
 
         public IEnumerable<EOQYModel> GetEOY(GetEOYCriteria criteria)
@@ -47,13 +47,13 @@
             return result;
         }
 
-        public IEnumerable<EOQYNominatorSettingModel> GetEOYNominatorSettingById(GetEOYNominatorSettingByIdCriteria criteria)
+        public IEnumerable<NominatorSettingModel> GetEOYNominatorSettingById(GetEOYNominatorSettingByIdCriteria criteria)
         {
-            IEnumerable<EOQYNominatorSettingModel> nominators = new List<EOQYNominatorSettingModel>();
+            IEnumerable<NominatorSettingModel> nominators = new List<NominatorSettingModel>();
 
             if (criteria != null && criteria.IsValid())
             {
-                nominators = eoqRepository.GetEOQNominatorSettingById(criteria);
+                nominators = manageNominationRepository.GetNominatorSettingById(criteria);
             }
 
             return nominators;

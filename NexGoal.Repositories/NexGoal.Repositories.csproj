@@ -65,7 +65,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Implement\NominationRepository.cs" />
-    <Compile Include="Implement\EOQRepository.cs" />
+    <Compile Include="Implement\ManageNominationRepository.cs" />
     <Compile Include="Implement\PAFocusRepository.cs" />
     <Compile Include="Implement\AttendanceSummaryRepository.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -86,7 +86,7 @@
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
     <Compile Include="Implement\KPIRepository.cs" />
     <Compile Include="Interfaces\INominationRepository.cs" />
-    <Compile Include="Interfaces\IEOQRepository.cs" />
+    <Compile Include="Interfaces\IManageNominationRepository.cs" />
     <Compile Include="Interfaces\IEPAHistoryRepository.cs" />
     <Compile Include="Interfaces\IFlowManagementRepository.cs" />
     <Compile Include="Interfaces\IIntegrationRepository.cs" />

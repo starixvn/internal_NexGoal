@@ -11,11 +11,11 @@
 
     public class NominationRepository : INominationRepository
     {
-        public EOQYNominatorSettingModel GetCurrentNominationByNominatorId(ICriteria criteria)
+        public NominatorSettingModel GetCurrentNominationByNominatorId(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.QueryEntity<EOQYNominatorSettingModel, EOQYModel, EOQYNominatorSettingModel>(
+                return db.QueryEntity<NominatorSettingModel, EOQYModel, NominatorSettingModel>(
                     (setting, period) =>
                     {
                         setting.Period = period;

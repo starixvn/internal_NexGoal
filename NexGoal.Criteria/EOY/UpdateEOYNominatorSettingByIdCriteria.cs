@@ -14,7 +14,7 @@
         public int EOQYId { get; set; }
 
         [SpParam(Ignored = true)]
-        public List<EOQYNominatorSettingModel> Nominators { get; set; }
+        public List<NominatorSettingModel> Nominators { get; set; }
 
         public string Details
         {
@@ -24,7 +24,7 @@
 
                 if (Nominators != null && Nominators.Any())
                 {
-                    foreach (EOQYNominatorSettingModel nominator in Nominators)
+                    foreach (NominatorSettingModel nominator in Nominators)
                     {
                         settingXml.AppendFormat(NominatorSettingXmlTemp, nominator.RoleId, nominator.NominatorInfo.EmployeeId);
                     }

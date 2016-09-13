@@ -33,14 +33,14 @@
             this.nominationRepository = nominationRepository ?? new NominationRepository();
         }
 
-        public EOQYNominatorSettingModel GetCurrentEOQByNominatorId(int nominatorId)
+        public NominatorSettingModel GetCurrentEOQByNominatorId(int nominatorId)
         {
             var criteria = new GetCurrentEOQByNominatorIdCriteria
             {
                 NominatorId = nominatorId
             };
 
-            var result = new EOQYNominatorSettingModel();
+            var result = new NominatorSettingModel();
 
             if (criteria.IsValid())
             {

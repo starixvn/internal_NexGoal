@@ -11,7 +11,7 @@
 
         EOQYModel GetEOYById(GetEOYByIdCriteria criteria);
 
-        IEnumerable<EOQYNominatorSettingModel> GetEOYNominatorSettingById(GetEOYNominatorSettingByIdCriteria criteria);
+        IEnumerable<NominatorSettingModel> GetEOYNominatorSettingById(GetEOYNominatorSettingByIdCriteria criteria);
 
         CommandResult CreateEOY(CreateEOYCriteria criteria);
 

@@ -8,7 +8,7 @@
 
     public interface INominationService
     {
-        EOQYNominatorSettingModel GetCurrentEOQByNominatorId(int nominatorId);
+        NominatorSettingModel GetCurrentEOQByNominatorId(int nominatorId);
 
         IEnumerable<NominationViewModel> GetEOQNominationByNominatorId(GetEOQNominationByNominatorIdCriteria criteria);
 
