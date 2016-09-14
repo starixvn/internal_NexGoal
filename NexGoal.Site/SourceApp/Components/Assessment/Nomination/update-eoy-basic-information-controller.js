@@ -3,9 +3,9 @@
 
     assessmentModule.controller('UpdateEOYBasicInformationController', updateEOYBasicInformationController);
 
-    updateEOYBasicInformationController.$inject = ['$scope', 'EOYModel', 'historyFactory', 'enumerationsFactory', 'lockScreenService'];
+    updateEOYBasicInformationController.$inject = ['$scope', 'EOYModel', 'historyFactory', 'enumerationsFactory'];
 
-    function updateEOYBasicInformationController($scope, EOYModel, historyFactory, enumerationsFactory, lockScreenService) {
+    function updateEOYBasicInformationController($scope, EOYModel, historyFactory, enumerationsFactory) {
         var vm = this;
 
         vm.period = {};

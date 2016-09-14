@@ -3,9 +3,9 @@
 
     assessmentModule.controller('UpdateEOQBasicInformationController', updateEOQBasicInformationController);
 
-    updateEOQBasicInformationController.$inject = ['$scope', 'EOQModel', 'historyFactory', 'enumerationsFactory', 'lockScreenService'];
+    updateEOQBasicInformationController.$inject = ['$scope', 'EOQModel', 'historyFactory', 'enumerationsFactory'];
 
-    function updateEOQBasicInformationController($scope, EOQModel, historyFactory, enumerationsFactory, lockScreenService) {
+    function updateEOQBasicInformationController($scope, EOQModel, historyFactory, enumerationsFactory) {
         var vm = this;
 
         vm.period = {};
