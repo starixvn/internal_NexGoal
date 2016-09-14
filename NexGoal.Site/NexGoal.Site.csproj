@@ -410,11 +410,12 @@
     <Content Include="SourceApp\Components\Assessment\Nomination\create-eoq-nomination-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\create-eoy-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\create-eoy-nomination-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\eoy-modal-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoy-access-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoq-access-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoy-model.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\eoy-factory.js" />
-    <Content Include="SourceApp\Components\Assessment\Nomination\eoq-modal-infomation-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\eoq-modal-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\manage-eoy-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\manage-nomination-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Nomination\nomination-directive.js" />
@@ -434,6 +435,7 @@
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalUpdateEOQNomination.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalViewEOYNomination.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modalViewEOQNomination.html" />
+    <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modelEOYInfomation.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\modelEOQInfomation.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\updateEOY.html" />
     <Content Include="SourceApp\Components\Assessment\Nomination\Templates\updateEOQ.html" />
