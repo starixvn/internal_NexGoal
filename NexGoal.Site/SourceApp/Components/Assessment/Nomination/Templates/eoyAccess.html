@@ -115,12 +115,8 @@
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
                             <select ng-model="item.StatusId"
-                                    ng-change="eoyAccessCtrl.updateStatusNomination(item)">
-                                <option ng-repeat="opt in eoyAccessCtrl.nominationStatus"
-                                        ng-class="{'nominated': opt.Value === 1, 'shorted-list': opt.Value === 2, 'winner': opt.Value === 3}"
-                                        value="{{opt.Value}}" class="nomination-status">
-                                    {{opt.Name}}
-                                </option>
+                                    ng-change="eoyAccessCtrl.updateStatusNomination(item)"
+                                    ng-options="opt.Value as opt.Name for opt in eoyAccessCtrl.nominationStatus">
                             </select>
                         </td>
                         <td class="text-center">

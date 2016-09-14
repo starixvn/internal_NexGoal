@@ -33,7 +33,7 @@
             <div class="form-group" ng-repeat="question in createEOQNominationCtrl.nominee.eoqQuestions">
                 <label class="col-sm-12 control-label required-label text-left">{{$index + 1}}. {{question.Name}}</label>
                 <div class="col-sm-12 field">
-                    <textarea class="form-control" rows="3" ng-model="question.Comment" maxlength="1000"></textarea>
+                    <textarea class="form-control comment none-resize" rows="3" ng-model="question.Comment" maxlength="1000"></textarea>
                 </div>
             </div>
         </form>
