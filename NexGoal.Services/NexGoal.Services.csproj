@@ -105,11 +105,11 @@
   <ItemGroup>
     <Compile Include="Implement\AttendanceSummaryService.cs" />
     <Compile Include="Implement\CommonService.cs" />
-    <Compile Include="Implement\DepartmentService.cs" />
-    <Compile Include="Implement\EmployeeService.cs" />
-    <Compile Include="Implement\NominationService.cs" />
-    <Compile Include="Implement\EOYService.cs" />
-    <Compile Include="Implement\EOQService.cs" />
+    <Compile Include="Implement\System\DepartmentService.cs" />
+    <Compile Include="Implement\System\EmployeeService.cs" />
+    <Compile Include="Implement\Assessment\NominationService.cs" />
+    <Compile Include="Implement\Assessment\EOYService.cs" />
+    <Compile Include="Implement\Assessment\EOQService.cs" />
     <Compile Include="Implement\EPA\EPAEvaluatorService.cs" />
     <Compile Include="Implement\EPA\EPAHistoryService.cs" />
     <Compile Include="Implement\EPA\EPAReviewerService.cs" />
@@ -117,24 +117,24 @@
     <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
     <Compile Include="Interfaces\ExportFile\IPAFocusReportService.cs" />
     <Compile Include="Implement\ExportFile\PAFocusReportService.cs" />
-    <Compile Include="Implement\IntergrationService.cs" />
-    <Compile Include="Implement\PAFocusService.cs" />
-    <Compile Include="Implement\MenuServices.cs" />
+    <Compile Include="Implement\EPA\IntergrationService.cs" />
+    <Compile Include="Implement\Assessment\PAFocusService.cs" />
+    <Compile Include="Implement\System\MenuServices.cs" />
     <Compile Include="Interfaces\ExportFile\IExportPdfService.cs" />
     <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
     <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
-    <Compile Include="Implement\FlowManagementService.cs" />
-    <Compile Include="Implement\KPIGroupService.cs" />
-    <Compile Include="Implement\KPIService.cs" />
+    <Compile Include="Implement\EPA\FlowManagementService.cs" />
+    <Compile Include="Implement\EPA\KPIGroupService.cs" />
+    <Compile Include="Implement\EPA\KPIService.cs" />
     <Compile Include="Implement\EPA\EmployeeEPAService.cs" />
-    <Compile Include="Implement\ManualMailService.cs" />
-    <Compile Include="Implement\PeriodService.cs" />
+    <Compile Include="Implement\System\ManualMailService.cs" />
+    <Compile Include="Implement\EPA\PeriodService.cs" />
     <Compile Include="Implement\ReportService.cs" />
-    <Compile Include="Implement\ScoreRatingTypeService.cs" />
-    <Compile Include="Implement\TargetEmployeeSettingService.cs" />
-    <Compile Include="Implement\TargetTemplateService.cs" />
-    <Compile Include="Implement\TargetTypeService.cs" />
-    <Compile Include="Implement\RoleService.cs" />
+    <Compile Include="Implement\EPA\ScoreRatingTypeService.cs" />
+    <Compile Include="Implement\EPA\TargetEmployeeSettingService.cs" />
+    <Compile Include="Implement\EPA\TargetTemplateService.cs" />
+    <Compile Include="Implement\EPA\TargetTypeService.cs" />
+    <Compile Include="Implement\System\RoleService.cs" />
     <Compile Include="Interfaces\IAttendanceSummaryService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
@@ -164,7 +164,7 @@
     <Compile Include="Interfaces\ITargetTemplateService.cs" />
     <Compile Include="Interfaces\ITargetTypeService.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
-    <Compile Include="Implement\MailService.cs" />
+    <Compile Include="Implement\System\MailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
