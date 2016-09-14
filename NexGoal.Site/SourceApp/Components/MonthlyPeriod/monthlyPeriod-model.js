@@ -161,6 +161,9 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
                 },
                 action: function () {
                     return 'delete';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -295,6 +298,9 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
                 },
                 action: function () {
                     return 'generate';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -523,6 +529,9 @@ function ($modal, monthlyPeriodFactory, errorFactory, notificationFactory, utili
                 },
                 action: function () {
                     return action;
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"

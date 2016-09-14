@@ -58,6 +58,9 @@ function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactor
                 },
                 action: function () {
                     return 'delete';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -122,6 +125,9 @@ function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactor
                 },
                 action: function () {
                     return 'delete';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"

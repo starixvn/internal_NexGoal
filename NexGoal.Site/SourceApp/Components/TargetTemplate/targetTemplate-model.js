@@ -80,6 +80,9 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
                 },
                 action: function () {
                     return action;
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -176,6 +179,9 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
                 },
                 action: function () {
                     return 'delete';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -286,6 +292,9 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
                 },
                 action: function () {
                     return 'delete';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"

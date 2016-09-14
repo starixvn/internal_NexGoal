@@ -182,6 +182,9 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
                 },
                 action: function () {
                     return 'delete';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -333,6 +336,9 @@ function ($modal, attendanceFactory, errorFactory, notificationFactory, utilitie
                 },
                 action: function () {
                     return 'save';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"

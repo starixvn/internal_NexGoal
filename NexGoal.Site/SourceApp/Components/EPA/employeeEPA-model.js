@@ -141,6 +141,9 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
                 },
                 action: function () {
                     return 'update final score for selected employee(s)';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"

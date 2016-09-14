@@ -175,6 +175,9 @@
                     },
                     action: function () {
                         return 'delete';
+                    },
+                    message: function () {
+                        return "";
                     }
                 },
                 windowClass: "modal-confirm-center"
@@ -347,6 +350,9 @@
                     },
                     action: function () {
                         return 'delete';
+                    },
+                    message: function () {
+                        return "";
                     }
                 },
                 windowClass: "modal-confirm-center"

@@ -232,6 +232,9 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 },
                 action: function () {
                     return action;
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -279,6 +282,9 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 },
                 action: function () {
                     return 'delete';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -387,6 +393,9 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                     },
                     action: function () {
                         return "delete this department's setting";
+                    },
+                    message: function () {
+                        return "";
                     }
                 },
                 windowClass: "modal-confirm-center"
@@ -492,6 +501,9 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
                 },
                 action: function () {
                     return "delete this personal's setting";
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"

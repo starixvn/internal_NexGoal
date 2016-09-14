@@ -126,6 +126,9 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
                 },
                 action: function () {
                     return action;
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
@@ -174,6 +177,9 @@ function ($modal, kpiGroupFactory, utilitiesFactory, notificationFactory, errorF
                 },
                 action: function () {
                     return 'delete';
+                },
+                message: function () {
+                    return "";
                 }
             },
             windowClass: "modal-confirm-center"
