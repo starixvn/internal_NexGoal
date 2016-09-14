@@ -21,7 +21,10 @@
             }
         ];
         vm.process = [];
-        vm.groups = [];
+
+        vm.isFirst = true;
+        vm.isChangedData = false;
+        $scope.groups = [];
         vm.periods = [];
         vm.teams = [];
         vm.filter = {
@@ -31,25 +34,6 @@
         };
         vm.searchEmployee = "";
         vm.processStatus = enumerationsFactory.processStatusType;
-
-        vm.getClassProgress = function (processStatus) {
-            if (processStatus === vm.processStatus.InProgress) {
-                return 'in-process';
-            }
-            else if (processStatus === vm.processStatus.Closed) {
-                return 'end-process';
-            }
-            else {
-                return 'open';
-            }
-        };
-
-        vm.showEmployee = function (member) {
-            var isShowEmployeeRow = vm.filter.employee.EmployeeId === undefined
-                || vm.filter.employee.EmployeeId === member.Employee.EmployeeId;
-
-            return isShowEmployeeRow;
-        };
 
         function initialize() {
             CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
@@ -63,13 +47,13 @@
                     var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
                     vm.teams = angular.copy(treeDepartment);
                     utilitiesFactory.setSelectAll(vm.teams);
-                    vm.query();
+                    query();
                 });
             });
         }
 
         function calculateTeamTotalBonus(teamId) {
-            angular.forEach(vm.groups, function (group) {
+            angular.forEach($scope.groups, function (group) {
                 if (group.TeamId === teamId) {
                     var total = 0;
                     angular.forEach(group.Members, function (member) {
@@ -113,7 +97,7 @@
         }
 
         function calculateBonusRanking(teamId) {
-            angular.forEach(vm.groups, function (group) {
+            angular.forEach($scope.groups, function (group) {
                 if (group.TeamId === teamId) {
                     var tempMembers = ranking(group.Members);
 
@@ -125,6 +109,113 @@
                 }
             });
         }
+
+        function openPopupReset() {
+            PAFocusModel.openPopupReset().then(function () {
+                query();
+            });
+        };
+
+        function openPopupQuery() {
+            PAFocusModel.openPopupQuery().then(function () {
+                query();
+            });
+        };
+
+        function CalculateBonusGivenOneGroup(group) {
+            var total = 0;
+            angular.forEach(group.Members, function (member) {
+                if (member.BonusGiven) {
+                    total += member.BonusGiven;
+                }
+            });
+
+            return parseFloat(total.toFixed(2));
+        }
+
+        function query() {
+            lockScreenService.start();
+            vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
+            PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
+                vm.process = PAFocusModel.process;
+            });
+
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
+                $scope.groups = PAFocusModel.evaluations;
+                vm.isFirst = true;
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
+        }
+
+        vm.inputBonus = function (member, group) {
+            member.BonusGiven = member.BonusGiven > group.MaxBonus ? group.MaxBonus : member.BonusGiven;
+            calculateTeamTotalBonus(member.Employee.Group.GroupId);
+            calculateBonusRanking(member.Employee.Group.GroupId);
+            if (group.TotalBonus > group.MaxBonus) {
+                notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
+            }
+        };
+
+        $scope.$watch("groups", function (newValue, oldValue) {
+            if (newValue !== oldValue) {
+                if (vm.isFirst) {
+                    vm.isFirst = false;
+                    vm.isChangedData = false;
+                } else {
+                    vm.isChangedData = true;
+                }
+            }
+
+        }, true);
+
+        vm.reset = function () {
+            if (vm.isChangedData) {
+                openPopupReset();
+            } else {
+                query();
+            }
+        };
+
+        vm.query = function () {
+            if (vm.isChangedData) {
+                openPopupQuery();
+            } else {
+                query();
+            }
+        };
+
+        vm.save = function () {
+            var isValid = PAFocusModel.validatePAFocusForm($scope.groups);
+            if (isValid) {
+                var isWarning = PAFocusModel.isWarningPAFocusForm($scope.groups);
+                if (isWarning) {
+                    PAFocusModel.OpenPopupContinue($scope.groups);
+                } else {
+                    PAFocusModel.updatePAFocus($scope.groups);
+                }
+            }
+        };
+
+
+        vm.getClassProgress = function (processStatus) {
+            if (processStatus === vm.processStatus.InProgress) {
+                return 'in-process';
+            }
+            else if (processStatus === vm.processStatus.Closed) {
+                return 'end-process';
+            }
+            else {
+                return 'open';
+            }
+        };
+
+        vm.showEmployee = function (member) {
+            var isShowEmployeeRow = vm.filter.employee.EmployeeId === undefined
+                || vm.filter.employee.EmployeeId === member.Employee.EmployeeId;
+
+            return isShowEmployeeRow;
+        };
 
         vm.exportExcel = function () {
             $scope.$broadcast('exportPAFocus');
@@ -146,51 +237,6 @@
             PAFocusModel.openPopupObjective(member).then(function (NextDescriptionObjective) {
                 member.NextDescriptionObjective = NextDescriptionObjective;
             });
-        };
-
-        vm.inputBonus = function (member, group) {
-            calculateTeamTotalBonus(member.Employee.Group.GroupId);
-            calculateBonusRanking(member.Employee.Group.GroupId);
-            if (group.TotalBonus > group.MaxBonus) {
-                notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
-            }
-        };
-
-        function CalculateBonusGivenOneGroup(group) {
-            var total = 0;
-            angular.forEach(group.Members, function (member) {
-                if (member.BonusGiven) {
-                    total += member.BonusGiven;
-                }
-            });
-
-            return parseFloat(total.toFixed(2));
-        }
-        vm.query = function () {
-            lockScreenService.start();
-            vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-            PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
-                vm.process = PAFocusModel.process;
-            });
-
-            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
-                vm.groups = PAFocusModel.evaluations;
-            })["finally"](function () {
-                lockScreenService.stop();
-            });
-
-        };
-
-        vm.save = function () {
-            var isValid = PAFocusModel.validatePAFocusForm(vm.groups);
-            if (isValid) {
-                var isWarning = PAFocusModel.isWarningPAFocusForm(vm.groups);
-                if (isWarning) {
-                    PAFocusModel.OpenPopupContinue(vm.groups);
-                } else {
-                    PAFocusModel.updatePAFocus(vm.groups);
-                }
-            }
         };
 
         initialize();

@@ -62,12 +62,12 @@
                 <th colspan="2" data-translate="NextObjectives"></th>
             </tr>
         </thead>
-        <tbody ng-show="paFocusCtrl.groups.length === 0">
+        <tbody ng-show="groups.length === 0">
             <tr>
                 <td class="text-center empty-result" colspan="12" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
-        <tbody ng-show="paFocusCtrl.groups.length > 0" ng-repeat="group in paFocusCtrl.groups">
+        <tbody ng-show="groups.length > 0" ng-repeat="group in groups">
             <div ng-show="group.IsDisplay">
                 <tr ng-repeat="member in group.Members | orderBy: '-IsDisplay'" ng-show="member.IsDisplay">
                     <td class="text-center" rowspan="{{group.Members.length}}" ng-if="$first">{{group.Name}}</td>
@@ -100,7 +100,7 @@
                         </select>
                     </td>
                     <td class="text-center">
-                        <input class="form-control bonus-give" numeric decimals="2" max="100" min="0"
+                        <input class="form-control bonus-give" numeric decimals="2" min="0"
                                ng-model="member.BonusGiven"
                                ng-disabled="member.IsReadOnly"
                                ng-change="paFocusCtrl.inputBonus(member,group)" />
@@ -126,7 +126,7 @@
     </table>
 
     <div class="navbar navbar-default navbar-fixed-bottom action-section">
-        <button class="btn btn-back" data-translate="Reset" ng-click="paFocusCtrl.query()"></button>
+        <button class="btn btn-back" data-translate="Reset" ng-click="paFocusCtrl.reset()"></button>
         <button class="btn button-save" data-translate="Save" ng-click="paFocusCtrl.save()"></button>
     </div>
 </div>

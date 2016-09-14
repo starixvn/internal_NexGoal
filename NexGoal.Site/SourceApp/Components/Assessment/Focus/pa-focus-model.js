@@ -69,7 +69,7 @@
                     evaluations.push(member);
                 });
             });
-            
+
             return evaluations;
         }
 
@@ -122,7 +122,7 @@
             });
         };
 
-        vm.updatePAFocus = function(groups) {
+        vm.updatePAFocus = function (groups) {
             var evaluations = unGroupEvaluationByTeam(groups);
 
             return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
@@ -148,6 +148,50 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
+        };
+
+        vm.openPopupQuery = function () {
+            vm.modalInstance = $modal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: "ModalConfirmController as modalConfirmCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center",
+                resolve: {
+                    name: function () {
+                        return "";
+                    },
+                    action: function () {
+                        return "";
+                    },
+                    message: function () {
+                        return "The form has been changed! Are you sure you want to submit this form?";
+                    }
+                }
+            });
+
+            return vm.modalInstance.result;
+        };
+
+        vm.openPopupReset = function () {
+            vm.modalInstance = $modal.open({
+                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                controller: "ModalConfirmController as modalConfirmCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center",
+                resolve: {
+                    name: function () {
+                        return "";
+                    },
+                    action: function () {
+                        return "";
+                    },
+                    message: function () {
+                        return "The form has been changed! Are you sure you want to reset this form?";
+                    }
+                }
+            });
+
+            return vm.modalInstance.result;
         };
 
         vm.OpenPopupContinue = function (groups) {
