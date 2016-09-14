@@ -10,8 +10,8 @@
         [Description("Nominated")]
         Nominated = 1,
 
-        [Description("Shorted List")]
-        ShortedList = 2,
+        [Description("Shortlisted")]
+        Shortlisted = 2,
 
         [Description("Winner")]
         Winner = 3

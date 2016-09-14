@@ -1608,8 +1608,8 @@
   <data name="CreateNominationPeriod" xml:space="preserve">
     <value>Create Nomination Period</value>
   </data>
-  <data name="NotStarted" xml:space="preserve">
-    <value>Not Started</value>
+  <data name="NotReady" xml:space="preserve">
+    <value>Not Ready</value>
   </data>
   <data name="QuarterRequired" xml:space="preserve">
     <value>The Quarter field is required!</value>
@@ -1641,8 +1641,8 @@
   <data name="Nominated" xml:space="preserve">
     <value>Nominated</value>
   </data>
-  <data name="ShortedList" xml:space="preserve">
-    <value>Shorted List</value>
+  <data name="Shortlisted" xml:space="preserve">
+    <value>Shortlisted</value>
   </data>
   <data name="Winner" xml:space="preserve">
     <value>Winner</value>
@@ -1680,8 +1680,8 @@
   <data name="EOQInformation" xml:space="preserve">
     <value>Employee Of The Quarter Infomation</value>
   </data>
-  <data name="NominationInformation" xml:space="preserve">
-    <value>Nomination Information</value>
+  <data name="NominationForm" xml:space="preserve">
+    <value>Nomination Form</value>
   </data>
   <data name="EOYInformation" xml:space="preserve">
     <value>Employee Of The Year Infomation</value>

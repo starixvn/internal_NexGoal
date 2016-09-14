@@ -55,8 +55,8 @@
 
                 switch (StatusId)
                 {
-                    case (int)NominationSettingStatus.NotStarted:
-                        status = Enumerations.GetDescription(NominationSettingStatus.NotStarted);
+                    case (int)NominationSettingStatus.NotReady:
+                        status = Enumerations.GetDescription(NominationSettingStatus.NotReady);
                         break;
 
                     case (int)NominationSettingStatus.InProgress:

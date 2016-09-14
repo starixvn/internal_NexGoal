@@ -4,8 +4,8 @@
 
     public enum NominationSettingStatus : int
     {
-        [Description("Not Started")]
-        NotStarted = 0,
+        [Description("Not Ready")]
+        NotReady = 0,
 
         [Description("In Progress")]
         InProgress = 1,

@@ -2698,11 +2698,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nomination Information.
+        ///   Looks up a localized string similar to Nomination Form.
         /// </summary>
-        public static string NominationInformation {
+        public static string NominationForm {
             get {
-                return ResourceManager.GetString("NominationInformation", resourceCulture);
+                return ResourceManager.GetString("NominationForm", resourceCulture);
             }
         }
         
@@ -2842,20 +2842,20 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Not Ready.
+        /// </summary>
+        public static string NotReady {
+            get {
+                return ResourceManager.GetString("NotReady", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Not Required.
         /// </summary>
         public static string NotRequired {
             get {
                 return ResourceManager.GetString("NotRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Not Started.
-        /// </summary>
-        public static string NotStarted {
-            get {
-                return ResourceManager.GetString("NotStarted", resourceCulture);
             }
         }
         
@@ -3841,11 +3841,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Shorted List.
+        ///   Looks up a localized string similar to Shortlisted.
         /// </summary>
-        public static string ShortedList {
+        public static string Shortlisted {
             get {
-                return ResourceManager.GetString("ShortedList", resourceCulture);
+                return ResourceManager.GetString("Shortlisted", resourceCulture);
             }
         }
         

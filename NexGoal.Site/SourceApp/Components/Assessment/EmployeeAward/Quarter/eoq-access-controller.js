@@ -27,7 +27,7 @@
             },
             {
                 Value: 2,
-                Name: 'Shorted List'
+                Name: 'Shortlisted'
             },
             {
                 Value: 3,

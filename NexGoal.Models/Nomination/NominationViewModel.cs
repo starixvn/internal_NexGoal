@@ -37,8 +37,8 @@
                         status = Enumerations.GetDescription(NominationStatus.Nominated);
                         break;
 
-                    case (int)NominationStatus.ShortedList:
-                        status = Enumerations.GetDescription(NominationStatus.ShortedList);
+                    case (int)NominationStatus.Shortlisted:
+                        status = Enumerations.GetDescription(NominationStatus.Shortlisted);
                         break;
 
                     case (int)NominationStatus.Winner:
@@ -66,7 +66,7 @@
 
                         break;
 
-                    case (int)NominationStatus.ShortedList:
+                    case (int)NominationStatus.Shortlisted:
                     case (int)NominationStatus.Winner:
                         break;
                 }
@@ -86,7 +86,7 @@
                     case (int)NominationStatus.Nominated:
                         break;
 
-                    case (int)NominationStatus.ShortedList:
+                    case (int)NominationStatus.Shortlisted:
                     case (int)NominationStatus.Winner:
                         if (RoleId == (int)NominationRole.NominationBoard && Period.StatusId == (int)NominationSettingStatus.Closed)
                         {

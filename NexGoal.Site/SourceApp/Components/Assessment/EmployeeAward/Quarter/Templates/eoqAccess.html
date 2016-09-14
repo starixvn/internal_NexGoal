@@ -4,7 +4,7 @@
             <ul class="row breadcrumb">
                 <li class="current">
                     Employee of the {{eoqAccessCtrl.period.Period.QuarterToString}} {{eoqAccessCtrl.period.Period.Year}}
-                    <a href="" ng-click="eoqAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle"></i></a>
+                    <a href="" ng-click="eoqAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle icon-info"></i></a>
                 </li>
             </ul>
         </div>
@@ -32,13 +32,13 @@
                             <select class="form-control" ng-model="eoqAccessCtrl.filter.statusId">
                                 <option value="">-- {{"All" | translate}} --</option>
                                 <option class="nomination-status nominated" value="1" data-translate="Nominated"></option>
-                                <option class="nomination-status shorted-list" value="2" data-translate="ShortedList"></option>
+                                <option class="nomination-status shorted-list" value="2" data-translate="Shortlisted"></option>
                                 <option class="nomination-status winner" value="3" data-translate="Winner"></option>
                             </select>
                         </div>
                     </div>
                     <div class="col button-block">
-                        <button class="button" ng-click="eoqAccessCtrl.query()" data-translate="Search"></button>
+                        <button class="button" ng-click="eoqAccessCtrl.query()" data-translate="Submit"></button>
                         <button class="button" ng-click="eoqAccessCtrl.addNominee()" data-translate="AddNominee"
                                 ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE
                                     && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host
