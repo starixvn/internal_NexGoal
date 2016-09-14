@@ -155,7 +155,7 @@
 
         vm.openPopupCreateEOY = function () {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalCreateEOY.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modalCreateEOY.html',
                 controller: "CreateEOYController as createEOYCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center period-create-popup"
@@ -201,7 +201,7 @@
 
         vm.openPopupAddNominee = function (period) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalCreateEOYNonimation.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modalCreateEOYNonimation.html',
                 controller: "CreateEOYNominationController as createEOYNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
@@ -217,7 +217,7 @@
 
         vm.openPopupViewNomination = function (nominationId) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalViewEOYNomination.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modalViewEOYNomination.html',
                 controller: "ViewEOYNominationController as viewEOYNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
@@ -233,7 +233,7 @@
 
         vm.openPopupUpdateNomination = function (nominationId) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modalUpdateEOYNomination.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modalUpdateEOYNomination.html',
                 controller: "UpdateEOYNominationController as updateEOYNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
@@ -327,7 +327,7 @@
 
         vm.openPopupInformation = function () {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/Templates/modelEOYInfomation.html',
+                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modelEOYInfomation.html',
                 controller: "EOYModalInformationController as eoyModalInfoCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center"

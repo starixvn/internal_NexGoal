@@ -183,11 +183,11 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     .when("/ManageNomination/Index",
     { templateUrl: baseUrl + "SourceApp/Components/Assessment/Nomination/Templates/manageNomination.html", caseInsensitiveMatch: true })
     .when('/ManageNomination/UpdateEOQ/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/updateEOQ.html', caseInsensitiveMatch: true })
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/EOQ/Templates/updateEOQ.html', caseInsensitiveMatch: true })
     .when('/ManageNomination/UpdateEOY/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/updateEOY.html', caseInsensitiveMatch: true })
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/EOY/Templates/updateEOY.html', caseInsensitiveMatch: true })
     .when('/EOQ/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/eoqAccess.html', caseInsensitiveMatch: true })
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/EOQ/Templates/eoqAccess.html', caseInsensitiveMatch: true })
     .when('/EOY/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/Templates/eoyAccess.html', caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/EOY/Templates/eoyAccess.html', caseInsensitiveMatch: true });
 }]);
