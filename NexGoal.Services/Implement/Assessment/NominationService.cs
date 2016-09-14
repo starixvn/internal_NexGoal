@@ -14,6 +14,10 @@
 
     public class NominationService : BaseService, INominationService
     {
+        private const int TotalRows = 5;
+        private const int RowStartHeader = 2;
+        private const int RowStartBody = 3;
+
         private readonly INominationRepository nominationRepository;
 
         public NominationService()
@@ -192,11 +196,11 @@
             writer.CopyRows(1, 1);
 
             /// Fill report header.
-            writer.CopyRows(2, 1);
+            writer.CopyRows(RowStartHeader, 1);
 
             FillContentRowEOQY(ref writer, nominations);
-            writer.SyncColumnsWidth(5);
-            writer.CreateFreezePane(0, 3);
+            writer.SyncColumnsWidth(TotalRows);
+            writer.CreateFreezePane(0, RowStartBody);
 
             writer.Render();
         }
@@ -212,11 +216,11 @@
             writer.CopyRows(1, 1);
 
             /// Fill report header.
-            writer.CopyRows(2, 1);
+            writer.CopyRows(RowStartHeader, 1);
 
             FillContentRowEOQY(ref writer, nominations);
-            writer.SyncColumnsWidth(5);
-            writer.CreateFreezePane(0, 3);
+            writer.SyncColumnsWidth(TotalRows);
+            writer.CreateFreezePane(0, RowStartBody);
 
             writer.Render();
         }
@@ -234,7 +238,15 @@
         private void FillRowEOQY(NominationViewModel nomination, ref ExcelTemplateWriter writer, ref int rowIndex)
         {
             object record = CreateRecordEOQY(nomination, rowIndex);
-            writer.WriteRow(3, record);
+
+            if (rowIndex % 2 == 1)
+            {
+                writer.WriteRow(RowStartBody, record);
+            }
+            else
+            {
+                writer.WriteRow(RowStartBody + 1, record);
+            }
 
             rowIndex++;
         }

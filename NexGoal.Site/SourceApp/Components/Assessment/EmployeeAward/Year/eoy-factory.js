@@ -19,7 +19,7 @@
                 return $http.post(baseUrl + "api/EOY/CreateEOY", criteria);
             },
             deleteEOY: function (eoyId) {
-                return $http.delete(baseUrl + "api/EOY/DeleteEOY", { params: { Id: eoyId } });
+                return $http['delete'](baseUrl + "api/EOY/DeleteEOY", { params: { Id: eoyId } });
             },
             updateEOY: function (period) {
                 var criteria = {

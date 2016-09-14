@@ -19,7 +19,7 @@
                 return $http.post(baseUrl + "api/EOQ/CreateEOQ", criteria);
             },
             deleteEOQ: function (eoqId) {
-                return $http.delete(baseUrl + "api/EOQ/DeleteEOQ", { params: { Id: eoqId } });
+                return $http['delete'](baseUrl + "api/EOQ/DeleteEOQ", { params: { Id: eoqId } });
             },
             updateEOQ: function (period) {
                 var criteria = {

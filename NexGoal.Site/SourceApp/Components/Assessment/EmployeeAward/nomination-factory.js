@@ -26,7 +26,7 @@
                 return $http.post(baseUrl + 'api/Nomination/CreateEOYNomination', criteria);
             },
             deleteNomination: function (nominationId) {
-                return $http.delete(baseUrl + 'api/Nomination/DeleteNomination', { params: { Id: nominationId } });
+                return $http['delete'](baseUrl + 'api/Nomination/DeleteNomination', { params: { Id: nominationId } });
             },
             getCurrentEOQByNominatorId: function () {
                 return $http.get(baseUrl + 'api/Nomination/GetCurrentEOQByNominatorId');
