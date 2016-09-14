@@ -114,13 +114,13 @@
             PAFocusModel.openPopupReset().then(function () {
                 query();
             });
-        };
+        }
 
         function openPopupQuery() {
             PAFocusModel.openPopupQuery().then(function () {
                 query();
             });
-        };
+        }
 
         function CalculateBonusGivenOneGroup(group) {
             var total = 0;
