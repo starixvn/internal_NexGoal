@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using System.Web;
     using Fanex.Data.Repository;
     using NexGoal.Core.Constants;
     using NexGoal.Model;
@@ -31,7 +32,7 @@
                 {
                     foreach (QuestionModel nomination in NominationDetails)
                     {
-                        xmlTemp.AppendFormat(NominationDetailXmlTemp, nomination.QuestionId, nomination.Comment);
+                        xmlTemp.AppendFormat(NominationDetailXmlTemp, nomination.QuestionId, HttpUtility.HtmlEncode(nomination.Comment));
                     }
                 }
 
