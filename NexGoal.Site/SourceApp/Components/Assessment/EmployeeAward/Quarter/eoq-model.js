@@ -1,23 +1,23 @@
 ﻿(function (assessmentModule) {
     "use strict";
 
-    assessmentModule.factory("EOYModel", eoyModel);
+    assessmentModule.factory("EOQModel", eoqModel);
 
-    eoyModel.$inject = ["$modal", "eoyFactory", "nominationFactory", "errorFactory", "notificationFactory", "utilitiesFactory"];
+    eoqModel.$inject = ["$modal", "eoqFactory", "nominationFactory", "errorFactory", "notificationFactory", "utilitiesFactory"];
 
-    function eoyModel($modal, eoyFactory, nominationFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function eoqModel($modal, eoqFactory, nominationFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var vm = {};
 
         vm.periods = [];
         vm.period = {};
         vm.nominatorSettings = [];
         vm.permission = 0;
-        vm.eoyQuestions = [];
-        vm.eoyNominations = [];
+        vm.eoqQuestions = [];
+        vm.eoqNominations = [];
         vm.nomination = {};
 
-        vm.createEOY = function (period) {
-            return eoyFactory.createEOY(period).success(function (response) {
+        vm.createEOQ = function (period) {
+            return eoqFactory.createEOQ(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
                 }
@@ -29,8 +29,8 @@
             });
         };
 
-        vm.createEOYNomination = function (eoqyId, employeeId, eoyQuestions) {
-            return nominationFactory.createEOYNomination(eoqyId, employeeId, eoyQuestions).success(function (response) {
+        vm.createEOQNomination = function (eoqyId, employeeId, eoqQuestions) {
+            return nominationFactory.createEOQNomination(eoqyId, employeeId, eoqQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
                 }
@@ -42,8 +42,8 @@
             });
         };
 
-        vm.updateEOY = function (period) {
-            return eoyFactory.updateEOY(period).success(function (response) {
+        vm.updateEOQ = function (period) {
+            return eoqFactory.updateEOQ(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -55,8 +55,8 @@
             });
         };
 
-        vm.updateEOYNomination = function (nominationId, eoyQuestions) {
-            return nominationFactory.updateNomination(nominationId, eoyQuestions).success(function (response) {
+        vm.updateEOQNomination = function (nominationId, eoqQuestions) {
+            return nominationFactory.updateNomination(nominationId, eoqQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -68,32 +68,32 @@
             });
         };
 
-        vm.getEOY = function (year, statusId) {
-            return eoyFactory.getEOY(year, statusId).success(function (periods) {
+        vm.getEOQ = function (year, statusId) {
+            return eoqFactory.getEOQ(year, statusId).success(function (periods) {
                 vm.periods = periods;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.getEOYById = function (eoyId) {
-            return eoyFactory.getEOYById(eoyId).success(function (period) {
+        vm.getEOQById = function (eoqId) {
+            return eoqFactory.getEOQById(eoqId).success(function (period) {
                 vm.period = period;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.getEOYNominatorSettingById = function (eoqyId, query, groupIds, roleId, showAllEmployee) {
-            return eoyFactory.getEOYNominatorSettingById(eoqyId, query, groupIds, roleId, showAllEmployee).success(function (nominatorSettings) {
+        vm.getEOQNominatorSettingById = function (eoqyId, query, groupIds, roleId, showAllEmployee) {
+            return eoqFactory.getEOQNominatorSettingById(eoqyId, query, groupIds, roleId, showAllEmployee).success(function (nominatorSettings) {
                 vm.nominatorSettings = nominatorSettings;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.updateEOYNominatorSettingById = function (eoqyId, nominators) {
-            return eoyFactory.updateEOYNominatorSettingById(eoqyId, nominators).success(function (response) {
+        vm.updateEOQNominatorSettingById = function (eoqyId, nominators) {
+            return eoqFactory.updateEOQNominatorSettingById(eoqyId, nominators).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -121,31 +121,31 @@
             });
         };
 
-        vm.getEOYQuestion = function () {
-            return nominationFactory.getEOYQuestion().success(function (eoyQuestions) {
-                vm.eoyQuestions = eoyQuestions;
+        vm.getEOQQuestion = function () {
+            return nominationFactory.getEOQQuestion().success(function (eoqQuestions) {
+                vm.eoqQuestions = eoqQuestions;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.getEOYNominationByNominatorId = function (eoqyId, roleId, query, teamIds, statusId) {
-            return nominationFactory.getNominationByNominatorId(eoqyId, roleId, query, teamIds, statusId).success(function (eoyNominations) {
-                vm.eoyNominations = eoyNominations;
+        vm.getEOQNominationByNominatorId = function (eoqyId, roleId, query, teamIds, statusId) {
+            return nominationFactory.getNominationByNominatorId(eoqyId, roleId, query, teamIds, statusId).success(function (eoqNominations) {
+                vm.eoqNominations = eoqNominations;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.getCurrentEOYByNominatorId = function () {
-            return nominationFactory.getCurrentEOYByNominatorId().success(function (period) {
+        vm.getCurrentEOQByNominatorId = function () {
+            return nominationFactory.getCurrentEOQByNominatorId().success(function (period) {
                 vm.period = period;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.getEOYNominationById = function (nominationId) {
+        vm.getEOQNominationById = function (nominationId) {
             return nominationFactory.getNominationById(nominationId).success(function (nomination) {
                 vm.nomination = nomination;
             }).error(function (response, status) {
@@ -153,10 +153,10 @@
             });
         };
 
-        vm.openPopupCreateEOY = function () {
+        vm.openPopupCreateEOQ = function () {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modalCreateEOY.html',
-                controller: "CreateEOYController as createEOYCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/modalCreateEOQ.html',
+                controller: "CreateEOQController as createEOQCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center period-create-popup"
             });
@@ -164,7 +164,7 @@
             return vm.modalInstance.result;
         };
 
-        vm.openPopupDeleteEOY = function (vm, period) {
+        vm.openPopupDeleteEOQ = function (vm, period) {
             var modalInstance = $modal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
@@ -184,7 +184,7 @@
             });
 
             modalInstance.result.then(function () {
-                return eoyFactory.deleteEOY(period.EOQYId).success(function (response) {
+                return eoqFactory.deleteEOQ(period.EOQYId).success(function (response) {
                     if (response.IsSuccessful) {
                         var index = vm.periods.indexOf(period);
                         vm.periods.splice(index, 1);
@@ -204,12 +204,12 @@
 
         vm.openPopupAddNominee = function (period) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modalCreateEOYNonimation.html',
-                controller: "CreateEOYNominationController as createEOYNominationCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/modalCreateEOQNonimation.html',
+                controller: "CreateEOQNominationController as createEOQNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
                 resolve: {
-                    eoyNominationPeriod: function () {
+                    eoqNominationPeriod: function () {
                         return angular.copy(period);
                     }
                 }
@@ -220,8 +220,8 @@
 
         vm.openPopupViewNomination = function (nominationId) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modalViewEOYNomination.html',
-                controller: "ViewEOYNominationController as viewEOYNominationCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/modalViewEOQNomination.html',
+                controller: "ViewEOQNominationController as viewEOQNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
                 resolve: {
@@ -236,8 +236,8 @@
 
         vm.openPopupUpdateNomination = function (nominationId) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modalUpdateEOYNomination.html',
-                controller: "UpdateEOYNominationController as updateEOYNominationCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/modalUpdateEOQNomination.html',
+                controller: "UpdateEOQNominationController as updateEOQNominationCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center popup-lg",
                 resolve: {
@@ -275,6 +275,11 @@
             if (!period) {
                 return false;
             } else {
+                if (!period.Quarter) {
+                    notificationFactory.error("QuarterRequired");
+                    return false;
+                }
+
                 if (!period.Year) {
                     notificationFactory.error("YearRequired");
                     return false;
@@ -310,8 +315,8 @@
 
                 var validComments = true;
 
-                if (nominee.eoyQuestions) {
-                    nominee.eoyQuestions.forEach(function (question) {
+                if (nominee.eoqQuestions) {
+                    nominee.eoqQuestions.forEach(function (question) {
                         if (!question.Comment || question.Comment.length === 0) {
                             validComments = false;
                             return;
@@ -330,8 +335,8 @@
 
         vm.openPopupInformation = function () {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Nomination/EOY/Templates/modelEOYInfomation.html',
-                controller: "EOYModalInformationController as eoyModalInfoCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/modelEOQInfomation.html',
+                controller: "EOQModalInformationController as eoqModalInfoCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center"
             });
@@ -339,7 +344,7 @@
             return vm.modalInstance.result;
         };
 
-        vm.openPopupDeleteEOYNomination = function (vm, nomination) {
+        vm.openPopupDeleteEOQNomination = function (vm, nomination) {
             var modalInstance = $modal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
@@ -361,9 +366,9 @@
             modalInstance.result.then(function () {
                 return nominationFactory.deleteNomination(nomination.Nominations[0].NominationId).success(function (response) {
                     if (response.IsSuccessful) {
-                        var index = vm.eoyNominations.indexOf(nomination);
-                        vm.eoyNominations.splice(index, 1);
-                        utilitiesFactory.searchOnPage(vm, vm.eoyNominations);
+                        var index = vm.eoqNominations.indexOf(nomination);
+                        vm.eoqNominations.splice(index, 1);
+                        utilitiesFactory.searchOnPage(vm, vm.eoqNominations);
                         notificationFactory.success("DeletedSuccessfully");
                     }
                     else {
@@ -377,7 +382,7 @@
             });
         };
 
-        vm.updateStatusEOYNomination = function (eoqyId, nomineeId, statusId) {
+        vm.updateStatusEOQNomination = function (eoqyId, nomineeId, statusId) {
             return nominationFactory.updateStatusNomination(eoqyId, nomineeId, statusId).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success('UpdatedSuccessfully');

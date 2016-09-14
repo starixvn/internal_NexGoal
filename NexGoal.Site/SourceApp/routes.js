@@ -181,13 +181,13 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     $routeProvider.when("/PAFocus/Index",
     { templateUrl: baseUrl + "SourceApp/Components/Assessment/Focus/Templates/index.html", caseInsensitiveMatch: true })
     .when("/ManageNomination/Index",
-    { templateUrl: baseUrl + "SourceApp/Components/Assessment/Nomination/Templates/manageNomination.html", caseInsensitiveMatch: true })
+    { templateUrl: baseUrl + "SourceApp/Components/Assessment/EmployeeAward/Templates/manageNomination.html", caseInsensitiveMatch: true })
     .when('/ManageNomination/UpdateEOQ/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/EOQ/Templates/updateEOQ.html', caseInsensitiveMatch: true })
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/updateEOQ.html', caseInsensitiveMatch: true })
     .when('/ManageNomination/UpdateEOY/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/EOY/Templates/updateEOY.html', caseInsensitiveMatch: true })
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/updateEOY.html', caseInsensitiveMatch: true })
     .when('/EOQ/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/EOQ/Templates/eoqAccess.html', caseInsensitiveMatch: true })
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/eoqAccess.html', caseInsensitiveMatch: true })
     .when('/EOY/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/Nomination/EOY/Templates/eoyAccess.html', caseInsensitiveMatch: true });
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/eoyAccess.html', caseInsensitiveMatch: true });
 }]);
