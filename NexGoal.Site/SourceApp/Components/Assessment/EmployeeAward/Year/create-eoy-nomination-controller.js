@@ -20,7 +20,7 @@
         function initialize() {
             EOYModel.getEOYQuestion().then(function () {
                 angular.forEach(EOYModel.eoyQuestions, function (question) {
-                    question.isValid = false;
+                    question.IsValid = true;
                 });
 
                 vm.nominee.eoyQuestions = EOYModel.eoyQuestions;

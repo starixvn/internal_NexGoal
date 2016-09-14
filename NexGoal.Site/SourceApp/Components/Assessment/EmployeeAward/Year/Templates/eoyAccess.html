@@ -2,7 +2,10 @@
     <div class="row" ng-show="eoyAccessCtrl.period && eoyAccessCtrl.period.Period && eoyAccessCtrl.period.Period.EOQYId > 0">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
-                <li class="current">Employee of the Year {{eoyAccessCtrl.period.Period.Year}}</li>
+                <li class="current">
+                    Employee of the Year {{eoyAccessCtrl.period.Period.Year}}
+                    <a href="" ng-click="eoyAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle"></i></a>
+                </li>
             </ul>
         </div>
         <div class="col-sm-12">
@@ -41,7 +44,6 @@
                                     && eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host
                                     && eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.IN_PROGRESS_STATUS"></button>
                         <button class="button btnExcel" export-employee-of-the-year ng-click="eoyAccessCtrl.exportExcel()">Excel</button>
-                        <a href="" ng-click="eoyAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle"></i></a>
                     </div>
                 </div>
             </form>

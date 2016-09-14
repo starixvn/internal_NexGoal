@@ -313,8 +313,10 @@
                 if (nominee.eoyQuestions) {
                     angular.forEach(nominee.eoyQuestions, function (question) {
                         if (!question.Comment || question.Comment.length === 0) {
-                            question.isValid = false;
+                            question.IsValid = false;
                             validComments = false;
+                        } else {
+                            question.IsValid = true;
                         }
                     });
                 }

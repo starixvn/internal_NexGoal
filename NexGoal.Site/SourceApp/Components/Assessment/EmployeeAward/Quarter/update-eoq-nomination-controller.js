@@ -8,26 +8,34 @@
     function updateEOQNominationController($filter, $modalInstance, EOQModel, utilitiesFactory, nominationId) {
         var vm = this;
 
-        vm.nomination = {};
+        vm.nomination = {
+            nominationId: nominationId,
+            employeeId: 0,
+            eoqQuestions: [],
+            fullName: "",
+            groupName: "",
+            dueDate: ""
+        };
 
         function initialize() {
             utilitiesFactory.getDateFormat(vm);
 
             EOQModel.getEOQNominationById(nominationId).then(function () {
-                vm.nomination = EOQModel.nomination;
-                vm.nomination.Period.DueDate = $filter('date')(vm.nomination.Period.EndDate, vm.dateFormat);
+                angular.forEach(EOQModel.nomination.NominationDetails, function (nominationDetail) {
+                    nominationDetail.IsValid = true;
+                });
+
+                vm.nomination.fullName = EOQModel.nomination.Nominee.FullName;
+                vm.nomination.groupName = EOQModel.nomination.Nominee.Group.GroupName;
+                vm.nomination.dueDate = $filter('date')(EOQModel.nomination.Period.EndDate, vm.dateFormat);
+                vm.nomination.employeeId = EOQModel.nomination.Nominee.EmployeeId;
+                vm.nomination.eoqQuestions = EOQModel.nomination.NominationDetails;
             });
         }
 
         vm.submit = function () {
-            var nominee = {
-                nominationId: nominationId,
-                employeeId: vm.nomination.Nominee.EmployeeId,
-                eoqQuestions: vm.nomination.NominationDetails
-            };
-
-            if (EOQModel.validateNominee(nominee)) {
-                $modalInstance.close(nominee);
+            if (EOQModel.validateNominee(vm.nomination)) {
+                $modalInstance.close(vm.nomination);
             }
         };
 

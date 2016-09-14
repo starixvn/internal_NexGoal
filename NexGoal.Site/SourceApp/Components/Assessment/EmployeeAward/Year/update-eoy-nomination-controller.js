@@ -8,26 +8,34 @@
     function updateEOYNominationController($filter, $modalInstance, EOYModel, utilitiesFactory, nominationId) {
         var vm = this;
 
-        vm.nomination = {};
+        vm.nomination = {
+            nominationId: nominationId,
+            employeeId: 0,
+            eoyQuestions: [],
+            fullName: "",
+            groupName: "",
+            dueDate: ""
+        };
 
         function initialize() {
             utilitiesFactory.getDateFormat(vm);
 
             EOYModel.getEOYNominationById(nominationId).then(function () {
-                vm.nomination = EOYModel.nomination;
-                vm.nomination.Period.DueDate = $filter('date')(vm.nomination.Period.EndDate, vm.dateFormat);
+                angular.forEach(EOYModel.nomination.NominationDetails, function (nominationDetail) {
+                    nominationDetail.IsValid = true;
+                });
+
+                vm.nomination.fullName = EOYModel.nomination.Nominee.FullName;
+                vm.nomination.groupName = EOYModel.nomination.Nominee.Group.GroupName;
+                vm.nomination.dueDate = $filter('date')(EOYModel.nomination.Period.EndDate, vm.dateFormat);
+                vm.nomination.employeeId = EOYModel.nomination.Nominee.EmployeeId;
+                vm.nomination.eoyQuestions = EOYModel.nomination.NominationDetails;
             });
         }
 
         vm.submit = function () {
-            var nominee = {
-                nominationId: nominationId,
-                employeeId: vm.nomination.Nominee.EmployeeId,
-                eoyQuestions: vm.nomination.NominationDetails
-            };
-
-            if (EOYModel.validateNominee(nominee)) {
-                $modalInstance.close(nominee);
+            if (EOYModel.validateNominee(vm.nomination)) {
+                $modalInstance.close(vm.nomination);
             }
         };
 

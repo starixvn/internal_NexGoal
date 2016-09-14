@@ -316,10 +316,12 @@
                 var validComments = true;
 
                 if (nominee.eoqQuestions) {
-                    nominee.eoqQuestions.forEach(function (question) {
+                    angular.forEach(nominee.eoqQuestions, function (question) {
                         if (!question.Comment || question.Comment.length === 0) {
+                            question.IsValid = false;
                             validComments = false;
-                            return;
+                        } else {
+                            question.IsValid = true;
                         }
                     });
                 }

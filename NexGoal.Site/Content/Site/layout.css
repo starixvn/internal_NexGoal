@@ -532,14 +532,6 @@ textarea.none-resize {
   width: 20px;
   float: right;
 }
-.container-fluid.page .icon-info {
-  background: url(Components/Images/info-ico.png) no-repeat;
-  height: 24px;
-  width: 24px;
-  display: inline-block;
-  margin: -3px 5px;
-  cursor: pointer;
-}
 .container-fluid.page .filter {
   min-width: 600px;
   padding: 15px 0 0;

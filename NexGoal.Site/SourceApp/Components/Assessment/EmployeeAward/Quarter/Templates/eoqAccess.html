@@ -2,7 +2,10 @@
     <div class="row" ng-show="eoqAccessCtrl.period && eoqAccessCtrl.period.Period && eoqAccessCtrl.period.Period.EOQYId > 0">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
-                <li class="current">Employee of the {{eoqAccessCtrl.period.Period.QuarterToString}} {{eoqAccessCtrl.period.Period.Year}}</li>
+                <li class="current">
+                    Employee of the {{eoqAccessCtrl.period.Period.QuarterToString}} {{eoqAccessCtrl.period.Period.Year}}
+                    <a href="" ng-click="eoqAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle"></i></a>
+                </li>
             </ul>
         </div>
         <div class="col-sm-12">
@@ -41,7 +44,6 @@
                                     && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host
                                     && eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.IN_PROGRESS_STATUS"></button>
                         <button class="button btnExcel" export-employee-of-the-quarter ng-click="eoqAccessCtrl.exportExcel()">Excel</button>
-                        <a href="" ng-click="eoqAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle"></i></a>
                     </div>
                 </div>
             </form>
@@ -66,7 +68,7 @@
                         <td class="text-center">{{$index + 1}}</td>
                         <td>{{item.Nominee.FullName}} ({{item.Nominee.NickName}})</td>
                         <td class="text-center">{{item.Nominee.Group.GroupName}}</td>
-                        <td class="text-center nomination-status" 
+                        <td class="text-center nomination-status"
                             ng-class="{'nominated': item.StatusId === 1, 'shorted-list': item.StatusId === 2, 'winner': item.StatusId === 3}">
                             {{item.StatusToString}}
                         </td>
@@ -116,8 +118,7 @@
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
                             <select ng-model="item.StatusId"
                                     ng-change="eoqAccessCtrl.updateStatusNomination(item)"
-                                    ng-options="opt.Value as opt.Name for opt in eoqAccessCtrl.nominationStatus">
-                            </select>
+                                    ng-options="opt.Value as opt.Name for opt in eoqAccessCtrl.nominationStatus"></select>
                         </td>
                         <td class="text-center">
                             <a class="fa fa-search" title="View Detail"

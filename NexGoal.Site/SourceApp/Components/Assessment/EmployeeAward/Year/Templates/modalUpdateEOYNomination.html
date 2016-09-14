@@ -10,20 +10,21 @@
             <div class="form-group">
                 <label class="col-sm-1 control-label" data-translate="Nominee"></label>
                 <div class="col-sm-3 field">
-                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.Nominee.FullName" ng-disabled="true" />
+                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.fullName" ng-disabled="true" />
                 </div>
                 <label class="col-sm-1 control-label" data-translate="Team"></label>
                 <div class="col-sm-3 field">
-                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.Nominee.Group.GroupName" ng-disabled="true" />
+                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.groupName" ng-disabled="true" />
                 </div>
                 <label class="col-sm-1 control-label" data-translate="DueDate"></label>
                 <div class="col-sm-3 field">
-                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.Period.DueDate" ng-disabled="true" />
+                    <input class="form-control" ng-model="updateEOYNominationCtrl.nomination.dueDate" ng-disabled="true" />
                 </div>
             </div>
-            <div class="form-group" ng-repeat="question in updateEOYNominationCtrl.nomination.NominationDetails">
+            <div class="form-group" ng-repeat="question in updateEOYNominationCtrl.nomination.eoyQuestions">
                 <label class="col-sm-12 control-label required-label text-left">{{$index + 1}}. {{question.Name}}</label>
-                <div class="col-sm-12 field">
+                <div class="col-sm-12 field"
+                     ng-class="{'has-error': !question.IsValid}">
                     <textarea class="form-control comment none-resize" rows="3" ng-model="question.Comment" maxlength="1000"></textarea>
                 </div>
             </div>

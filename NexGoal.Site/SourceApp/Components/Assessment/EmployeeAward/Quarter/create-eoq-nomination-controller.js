@@ -19,6 +19,10 @@
 
         function initialize() {
             EOQModel.getEOQQuestion().then(function () {
+                angular.forEach(EOQModel.eoqQuestions, function (question) {
+                    question.IsValid = true;
+                });
+
                 vm.nominee.eoqQuestions = EOQModel.eoqQuestions;
             });
 
