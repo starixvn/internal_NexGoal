@@ -44,7 +44,7 @@
                             name: member.Employee.NickName,
                             contribution: member.Contribution === null ? '' : '[' + member.Contribution + ']',
                             bonus: member.BonusGiven + '%',
-                            y: member.BonusGiven,
+                            y: member.BonusGiven
                         };
 
                         chartData.push(piece);
@@ -95,7 +95,7 @@
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
             PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
                 vm.groups = PAFocusModel.evaluations;
-                vm.isEmptyResult = vm.groups.length == 0;
+                vm.isEmptyResult = vm.groups.length === 0;
             })["finally"](function () {
                 lockScreenService.stop();
             });

@@ -80,7 +80,7 @@
                     isValid = false;
                     notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
                 }
-            })
+            });
 
             return isValid;
         };
@@ -91,7 +91,7 @@
                 if (group.IsDisplay && group.TotalBonus < group.MaxBonus) {
                     isWarning = true;
                 }
-            })
+            });
 
             return isWarning;
         };
@@ -124,6 +124,7 @@
 
         vm.updatePAFocus = function(groups) {
             var evaluations = unGroupEvaluationByTeam(groups);
+
             return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
@@ -134,8 +135,6 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
-
-            return result;
         };
 
         vm.updatePAProcessSettingByPeriodId = function (periodId, processes) {

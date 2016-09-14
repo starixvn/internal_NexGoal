@@ -3,9 +3,11 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["$scope", "CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService', 'notificationFactory', 'enumerationsFactory'];
+    paFocusController.$inject = ["$scope", "CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory",
+        'lockScreenService', 'notificationFactory', 'enumerationsFactory'];
 
-    function paFocusController($scope, CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService, notificationFactory, enumerationsFactory) {
+    function paFocusController($scope, CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory,
+        lockScreenService, notificationFactory, enumerationsFactory) {
         var vm = this;
         vm.objectivesAchievementRanges = ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"];
         vm.promotionsRanges = [
