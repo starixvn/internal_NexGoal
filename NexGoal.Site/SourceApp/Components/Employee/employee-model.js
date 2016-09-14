@@ -4,8 +4,7 @@
 employeeModule.factory('EmployeeModel',
 ['$modal', 'employeeFactory', 'errorFactory', 'notificationFactory',
 function ($modal, employeeFactory, errorFactory, notificationFactory) {
-    var employeeModel = {},
-        emailPattern = /^([a-zA-Z0-9_\-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([a-zA-Z0-9\-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+    var employeeModel = {};
 
     employeeModel.employees = [];
     employeeModel.groups = [];
@@ -37,18 +36,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    };
-
-    var findEmployeeJobTitleById = function (jobTitleId) {
-        var jobTitleResult = {};
-
-        angular.forEach(employeeModel.jobTitles, function (jobTitle) {
-            if (jobTitle.JobTitleId === jobTitleId) {
-                jobTitleResult = jobTitle;
-            }
-        });
-
-        return jobTitleResult;
     };
 
     employeeModel.openPopupAssignRole = function (employee) {

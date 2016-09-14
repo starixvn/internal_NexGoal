@@ -1,7 +1,7 @@
 ﻿(function (assessmentModule) {
     'use strict';
 
-    periodModule.directive('exportEmployeeOfTheQuarter', ['baseUrl', function (baseUrl) {
+    assessmentModule.directive('exportEmployeeOfTheQuarter', ['baseUrl', function (baseUrl) {
         return {
             link: function (scope) {
                 scope.$on('exportEmployeeOfTheQuarter', function () {
@@ -21,7 +21,7 @@
         };
     }]);
 
-    periodModule.directive('exportEmployeeOfTheYear', ['baseUrl', function (baseUrl) {
+    assessmentModule.directive('exportEmployeeOfTheYear', ['baseUrl', function (baseUrl) {
         return {
             link: function (scope) {
                 scope.$on('exportEmployeeOfTheYear', function () {
