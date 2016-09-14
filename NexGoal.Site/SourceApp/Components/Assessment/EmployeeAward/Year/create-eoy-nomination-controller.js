@@ -19,6 +19,10 @@
 
         function initialize() {
             EOYModel.getEOYQuestion().then(function () {
+                angular.forEach(EOYModel.eoyQuestions, function (question) {
+                    question.isValid = false;
+                });
+
                 vm.nominee.eoyQuestions = EOYModel.eoyQuestions;
             });
 

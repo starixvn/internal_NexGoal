@@ -311,10 +311,10 @@
                 var validComments = true;
 
                 if (nominee.eoyQuestions) {
-                    nominee.eoyQuestions.forEach(function (question) {
+                    angular.forEach(nominee.eoyQuestions, function (question) {
                         if (!question.Comment || question.Comment.length === 0) {
+                            question.isValid = false;
                             validComments = false;
-                            return;
                         }
                     });
                 }

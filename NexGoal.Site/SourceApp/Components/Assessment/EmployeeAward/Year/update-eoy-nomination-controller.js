@@ -23,7 +23,7 @@
             var nominee = {
                 nominationId: nominationId,
                 employeeId: vm.nomination.Nominee.EmployeeId,
-                eoqQuestions: vm.nomination.NominationDetails
+                eoyQuestions: vm.nomination.NominationDetails
             };
 
             if (EOYModel.validateNominee(nominee)) {
