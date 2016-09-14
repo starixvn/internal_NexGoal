@@ -1,4 +1,4 @@
-﻿namespace NexGoal.AutoGenerateEvaluation
+﻿namespace NexGoal.BackgroundService
 {
     using System.Text;
     using Fanex.Data.Repository;

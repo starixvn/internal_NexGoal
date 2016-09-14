@@ -3,11 +3,12 @@
 
     assessmentModule.controller("PAFocusChartController", paFocusChartController);
 
-    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "enumerationsFactory", "lockScreenService"];
+    paFocusChartController.$inject = ["CommonModel", "PAFocusModel", "utilitiesFactory", "lockScreenService","enumerationsFactory"];
 
-    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, enumerationsFactory, lockScreenService) {
+    function paFocusChartController(CommonModel, PAFocusModel, utilitiesFactory, lockScreenService, enumerationsFactory) {
         var vm = this;
 
+        vm.isEmptyResult = false;
         vm.groups = [];
         vm.periods = [];
         vm.teams = [];
@@ -15,24 +16,20 @@
             periodId: 0,
             teamIds: null
         };
-        vm.paFocusPermission = {};
 
         function initialize() {
-            PAFocusModel.getPAFocusFullPermission().then(function () {
-                vm.paFocusPermission = PAFocusModel.PAFocusPermission;
-                CommonModel.getAllPeriodIncludeImport().then(function () {
-                    vm.periods = CommonModel.periodOptions;
+            CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
+                vm.periods = CommonModel.periods;
 
-                    if (vm.periods.length > 0) {
-                        vm.filter.periodId = vm.periods[0].PeriodId;
-                    }
-                });
+                if (vm.periods.length > 0) {
+                    vm.filter.periodId = vm.periods[0].PeriodId;
+                }
+            });
 
-                CommonModel.getDepartment(null, true).then(function () {
-                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-                    vm.teams = angular.copy(treeDepartment);
-                    utilitiesFactory.setSelectAll(vm.teams);
-                });
+            CommonModel.getDepartment(null, true).then(function () {
+                var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                vm.teams = angular.copy(treeDepartment);
+                utilitiesFactory.setSelectAll(vm.teams);
             });
         }
 
@@ -42,14 +39,26 @@
                 var chartData = [];
 
                 angular.forEach(group.Members, function (member) {
-                    var piece = {
-                        name: member.Employee.NickName,
-                        contribution: member.Contribution === null ? 0 : member.Contribution,
-                        y: member.BonusGiven === null ? 0 : member.BonusGiven
-                    };
+                    if (member.BonusGiven !== null) {
+                        var piece = {
+                            name: member.Employee.NickName,
+                            contribution: member.Contribution === null ? '' : '[' + member.Contribution + ']',
+                            bonus: member.BonusGiven + '%',
+                            y: member.BonusGiven,
+                        };
 
-                    chartData.push(piece);
+                        chartData.push(piece);
+                    }
                 });
+                if (group.TotalBonus < group.MaxBonus) {
+                    var emptyPiece = {
+                        name: 'OutStanding',
+                        contribution: '',
+                        bonus: '',
+                        y: group.MaxBonus - group.TotalBonus
+                    };
+                    chartData.push(emptyPiece);
+                }
 
                 $('#pie-chart-group-' + group.TeamId).highcharts({
                     chart: {
@@ -67,7 +76,7 @@
                             cursor: 'pointer',
                             dataLabels: {
                                 enabled: true,
-                                format: '<div style="color:{point.color}">{point.name} [{point.contribution}]<br/> {point.percentage:.1f} %</div>',
+                                format: '<div style="color:{point.color}">{point.name} {point.contribution}<br/> {point.bonus}</div>',
                                 useHTML: true
                             }
                         }
@@ -84,19 +93,12 @@
         vm.query = function () {
             lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-            if (vm.paFocusPermission === enumerationsFactory.policy.None) {
-                PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    vm.groups = PAFocusModel.evaluations;
-                })["finally"](function () {
-                    lockScreenService.stop();
-                });
-            } else {
-                PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    vm.groups = PAFocusModel.evaluations;
-                })["finally"](function () {
-                    lockScreenService.stop();
-                });
-            }
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                vm.groups = PAFocusModel.evaluations;
+                vm.isEmptyResult = vm.groups.length == 0;
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
         };
 
         initialize();

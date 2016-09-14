@@ -7,8 +7,8 @@
     <ProjectGuid>{11846569-7D7F-43FE-959B-359878D494E7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NexGoal.EvaluationService</RootNamespace>
-    <AssemblyName>NexGoal.EvaluationService</AssemblyName>
+    <RootNamespace>NexGoal.BackgroundService</RootNamespace>
+    <AssemblyName>NexGoal.BackgroundService</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -87,6 +87,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppSetting.cs" />
+    <Compile Include="Criteria\GetPeriodToGeneratePAFocusCriteria.cs" />
     <Compile Include="Criteria\CheckEndProcessCriteria.cs" />
     <Compile Include="Criteria\CheckLastestProcessOfPeriodCriteria.cs" />
     <Compile Include="Criteria\GetEmployeeProbationEvaluationCriteria.cs" />
@@ -104,14 +105,14 @@
     <Compile Include="Repository\EvaluationRepository.cs" />
     <Compile Include="Repository\IEvaluationRepository.cs" />
     <Compile Include="Service\Implement\AutoMailService.cs" />
-    <Compile Include="Service\Implement\GeneratedEPAService.cs" />
+    <Compile Include="Service\Implement\NexGoalService.cs" />
     <Compile Include="Service\Implement\MailEPAService.cs" />
     <Compile Include="Service\Implement\PeriodEvalutionService.cs" />
     <Compile Include="Service\Implement\ProcessService.cs" />
     <Compile Include="Service\Implement\PromotionService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
-    <Compile Include="Service\Interfaces\IEPAService.cs" />
+    <Compile Include="Service\Interfaces\NexGoalService.cs" />
     <Compile Include="Service\Implement\SemiAnnualService.cs" />
     <Compile Include="Service\Interfaces\IPeriodEvalutionService.cs" />
     <Compile Include="Service\Interfaces\IPromotionService.cs" />

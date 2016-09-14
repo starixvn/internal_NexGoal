@@ -20,9 +20,18 @@
         {
         }
 
-        public PAFocusController(IPAFocusService menuService)
+        public PAFocusController(IPAFocusService focusService)
         {
-            this.focusService = menuService ?? new PAFocusService();
+            this.focusService = focusService ?? new PAFocusService();
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
+        public IEnumerable<PAFocusProcessModel> GetPAFocusProcess(int periodId)
+        {
+            var result = this.focusService.GetPAFocusProcess(periodId);
+
+            return result;
         }
 
         [HttpGet]
@@ -63,12 +72,11 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
-        public IEnumerable<PAFocusModel> GetPAFocus(int periodId, string groupIds = null, int? employeeId = null)
+        public IEnumerable<PAFocusModel> GetPAFocus(int periodId, string groupIds = null)
         {
             var criteria = new GetPAFocusCriteria
             {
                 PeriodId = periodId,
-                EmployeeId = employeeId,
                 GroupIds = groupIds,
                 EvaluatorId = SessionService.EmployeeId
             };

@@ -10,17 +10,18 @@ using NexGoal.Model.Period;
 using NexGoal.Services.Implement;
 using NexGoal.Services.Interfaces;
 
-namespace NexGoal.AutoGenerateEvaluation
+namespace NexGoal.BackgroundService
 {
     public class PeriodEvalutionService : BaseService, IPeriodEvalutionService
     {
         private readonly IPeriodService periodService;
+        private readonly IPAFocusService focusService;
         private readonly IAutoMailService autoMailService;
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly ICertificateService certificateService;
 
         public PeriodEvalutionService()
-            : this(null, null, null, null)
+            : this(null, null, null, null, null)
         {
         }
 
@@ -28,12 +29,14 @@ namespace NexGoal.AutoGenerateEvaluation
             IPeriodService periodService,
             IAutoMailService autoMailService,
             IEmployeeEPAService employeeEPAService,
-            ICertificateService certificateService)
+            ICertificateService certificateService,
+            IPAFocusService focusService)
         {
             this.periodService = periodService ?? new PeriodService();
             this.autoMailService = autoMailService ?? new AutoMailService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.certificateService = certificateService ?? new CertificateService();
+            this.focusService = focusService ?? new PAFocusService();
         }
 
         public void UpdatePeriodIsEnd()
@@ -44,6 +47,16 @@ namespace NexGoal.AutoGenerateEvaluation
             {
                 UpdateFinalScore(epa);
                 SendMail(epa);
+            }
+        }
+
+        public void GeneratePAFocus()
+        {
+            var criteria = new GetPeriodToGeneratePAFocusCriteria();
+            IEnumerable<PeriodModel> periods = GetData<PeriodModel>(criteria);
+            foreach (PeriodModel period in periods)
+            {
+                focusService.GeneratePAFocus(period.PeriodId);
             }
         }
 

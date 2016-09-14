@@ -3,10 +3,10 @@
 
 appModule.factory('notificationFactory', ['$translate', function ($translate) {
     var normalOptions = {
-        timeout: 4000
+        timeout: 3000
     },
     errorOptions = {
-        timeout: 5000,
+        timeout: 7000,
         escapeHtml: true
     };
 

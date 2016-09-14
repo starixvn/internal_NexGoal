@@ -76,6 +76,7 @@
     <Compile Include="Integration\EmployeeWorkingViewModel.cs" />
     <Compile Include="Integration\HRMSummaryViewModel.cs" />
     <Compile Include="Nomination\NominationDetailViewModel.cs" />
+    <Compile Include="PAFocus\PAFocusProcessModel.cs" />
     <Compile Include="Nomination\NominationViewModel.cs" />
     <Compile Include="Nomination\NominationModel.cs" />
     <Compile Include="Nomination\QuestionModel.cs" />

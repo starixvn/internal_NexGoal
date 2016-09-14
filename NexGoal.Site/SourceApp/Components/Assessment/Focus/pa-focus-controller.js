@@ -3,11 +3,11 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'enumerationsFactory', 'lockScreenService'];
+    paFocusController.$inject = ["$scope", "CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory", 'lockScreenService', 'notificationFactory', 'enumerationsFactory'];
 
-    function paFocusController(CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, enumerationsFactory, lockScreenService) {
+    function paFocusController($scope, CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory, lockScreenService, notificationFactory, enumerationsFactory) {
         var vm = this;
-        vm.objectivesAchievementRanges = [0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100];
+        vm.objectivesAchievementRanges = ["0", "10", "20", "30", "40", "50", "60", "70", "80", "90", "100"];
         vm.promotionsRanges = [
             {
                 Value: true,
@@ -18,61 +18,83 @@
                 Name: "No"
             }
         ];
+        vm.process = [];
         vm.groups = [];
         vm.periods = [];
         vm.teams = [];
         vm.filter = {
             periodId: 0,
             teamIds: null,
-            employeeId: null
+            employee: {}
         };
         vm.searchEmployee = "";
-        vm.paFocusPermission = {};
+        vm.processStatus = enumerationsFactory.processStatusType;
+
+        vm.getClassProgress = function (processStatus) {
+            if (processStatus === vm.processStatus.InProgress) {
+                return 'in-process';
+            }
+            else if (processStatus === vm.processStatus.Closed) {
+                return 'end-process';
+            }
+            else {
+                return 'open';
+            }
+        };
+
+        vm.showEmployee = function (member) {
+            var isShowEmployeeRow = vm.filter.employee.EmployeeId === undefined
+                || vm.filter.employee.EmployeeId === member.Employee.EmployeeId;
+
+            return isShowEmployeeRow;
+        };
 
         function initialize() {
-            PAFocusModel.getPAFocusFullPermission().then(function () {
-                vm.paFocusPermission = PAFocusModel.PAFocusPermission;
-                CommonModel.getAllPeriodIncludeImport().then(function () {
-                    vm.periods = CommonModel.periodOptions;
+            CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
+                vm.periods = CommonModel.periods;
 
-                    if (vm.periods.length > 0) {
-                        vm.filter.periodId = vm.periods[0].PeriodId;
-                    }
+                if (vm.periods.length > 0) {
+                    vm.filter.periodId = vm.periods[0].PeriodId;
+                }
 
-                    CommonModel.getDepartment(null, true).then(function () {
-                        var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
-                        vm.teams = angular.copy(treeDepartment);
-                        utilitiesFactory.setSelectAll(vm.teams);
-                        vm.query();
-                    });
+                CommonModel.getDepartment(null, true).then(function () {
+                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+                    vm.teams = angular.copy(treeDepartment);
+                    utilitiesFactory.setSelectAll(vm.teams);
+                    vm.query();
                 });
-
             });
         }
 
         function calculateTeamTotalBonus(teamId) {
             angular.forEach(vm.groups, function (group) {
                 if (group.TeamId === teamId) {
-                    group.TotalBonus = 0;
-
+                    var total = 0;
                     angular.forEach(group.Members, function (member) {
-                        group.TotalBonus += member.BonusGiven;
+                        if (member.BonusGiven) {
+                            total += member.BonusGiven;
+                        }
                     });
+
+                    group.TotalBonus = parseFloat(total.toFixed(2));
                 }
             });
         }
 
-        function calculateBonusRanking(teamId) {
-            angular.forEach(vm.groups, function (group) {
-                if (group.TeamId === teamId) {
-                    var members = angular.copy(group.Members);
+        function ranking(members) {
+            var tempMembers = angular.copy(members);
 
-                    members.sort(function (memberA, memberB) {
-                        return memberB.BonusGiven - memberA.BonusGiven;
-                    });
+            tempMembers.sort(function (memberA, memberB) {
+                return memberB.BonusGiven - memberA.BonusGiven;
+            });
 
-                    angular.forEach(members, function (member, index) {
-                        var previousMember = members[index - 1];
+            angular.forEach(tempMembers, function (member, index) {
+                if (member.BonusGiven === "" || member.BonusGiven === null) {
+                    member.BonusRanking = null;
+                }
+                else {
+                    if (member.BonusGiven >= 0) {
+                        var previousMember = tempMembers[index - 1];
 
                         if (previousMember) {
                             member.BonusRanking = previousMember.BonusGiven === member.BonusGiven ?
@@ -81,16 +103,30 @@
                         } else {
                             member.BonusRanking = index + 1;
                         }
-                    });
+                    }
+                }
+            });
+
+            return tempMembers;
+        }
+
+        function calculateBonusRanking(teamId) {
+            angular.forEach(vm.groups, function (group) {
+                if (group.TeamId === teamId) {
+                    var tempMembers = ranking(group.Members);
 
                     angular.forEach(group.Members, function (member) {
-                        var rankingMemberIndex = members.map(function (item) { return item.Employee.EmployeeId; }).indexOf(member.Employee.EmployeeId);
+                        var rankingMemberIndex = tempMembers.map(function (item) { return item.Employee.EmployeeId; }).indexOf(member.Employee.EmployeeId);
 
-                        member.BonusRanking = members[rankingMemberIndex].BonusRanking;
+                        member.BonusRanking = tempMembers[rankingMemberIndex].BonusRanking;
                     });
                 }
             });
         }
+
+        vm.exportExcel = function () {
+            $scope.$broadcast('exportPAFocus');
+        };
 
         vm.getEmployee = function () {
             return EmployeeModel.getAllEmployee(vm.searchEmployee);
@@ -98,8 +134,8 @@
 
         vm.unSelectEmployee = function () {
             if (vm.searchEmployee.trim() === '') {
-                if (vm.filter.employeeId) {
-                    vm.filter.employeeId = null;
+                if (vm.filter.employee) {
+                    vm.filter.employee = {};
                 }
             }
         };
@@ -110,40 +146,47 @@
             });
         };
 
-        vm.inputBonus = function (member) {
-            if (member.BonusGiven === "" || member.BonusGiven < 0) {
-                member.BonusGiven = 0;
-            }
-
+        vm.inputBonus = function (member, group) {
             calculateTeamTotalBonus(member.Employee.Group.GroupId);
             calculateBonusRanking(member.Employee.Group.GroupId);
+            if (group.TotalBonus > group.MaxBonus) {
+                notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
+            }
         };
 
+        function CalculateBonusGivenOneGroup(group) {
+            var total = 0;
+            angular.forEach(group.Members, function (member) {
+                if (member.BonusGiven) {
+                    total += member.BonusGiven;
+                }
+            });
+
+            return parseFloat(total.toFixed(2));
+        }
         vm.query = function () {
             lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-            if (vm.paFocusPermission === enumerationsFactory.policy.None) {
-                PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    vm.groups = PAFocusModel.evaluations;
-                })["finally"](function () {
-                    lockScreenService.stop();
-                });
-            } else {
-                PAFocusModel.getPAFocusByManagement(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                    vm.groups = PAFocusModel.evaluations;
-                })["finally"](function () {
-                    lockScreenService.stop();
-                });
-            }
+            PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
+                vm.process = PAFocusModel.process;
+            });
+
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
+                vm.groups = PAFocusModel.evaluations;
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
+
         };
 
         vm.save = function () {
-            if (PAFocusModel.validatePAFocusForm(vm.groups)) {
-                var evaluations = unGroupEvaluationByTeam(vm.groups);
-                if (vm.paFocusPermission === enumerationsFactory.policy.None) {
-                    PAFocusModel.updatePAFocus(evaluations);
+            var isValid = PAFocusModel.validatePAFocusForm(vm.groups);
+            if (isValid) {
+                var isWarning = PAFocusModel.isWarningPAFocusForm(vm.groups);
+                if (isWarning) {
+                    PAFocusModel.OpenPopupContinue(vm.groups);
                 } else {
-                    PAFocusModel.updatePAFocusByManagement(evaluations);
+                    PAFocusModel.updatePAFocus(vm.groups);
                 }
             }
         };

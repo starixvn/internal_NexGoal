@@ -420,6 +420,7 @@
     <Setting Key="PAFocus_GetByManagement" SpName="PAFocus_GetByManagement" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
+  <Setting Key="PAFocus_GetProcessByPeriodId" SpName="PAFocus_GetProcessByPeriodId" DbName="NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="EOQ">
     <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="NexGoal" Plain="0"></Setting>

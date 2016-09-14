@@ -29,7 +29,6 @@
             _employeeService = employeeService ?? new EmployeeService();
         }
 
-        [ApiAuthorize(FunctionKey.UserManagement, Policy.Read)]
         public IEnumerable<EmployeeModel> GetAllEmployee(
             string query = "",
             int? groupId = null,

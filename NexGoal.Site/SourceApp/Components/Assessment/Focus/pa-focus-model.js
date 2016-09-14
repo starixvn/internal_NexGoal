@@ -3,16 +3,17 @@
 
     assessmentModule.factory("PAFocusModel", paFocusModel);
 
-    paFocusModel.$inject = ["$modal", "paFocusFactory", "errorFactory", "notificationFactory"];
+    paFocusModel.$inject = ["$modal", "paFocusFactory", "errorFactory", "notificationFactory", "$translate"];
 
-    function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory) {
+    function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory, $translate) {
         var vm = {};
 
+        vm.process = [];
         vm.processSettings = [];
         vm.evaluations = [];
         vm.PAFocusPermission = {};
 
-        function groupEvaluationByTeam(evaluations) {
+        function buildData(evaluations, employeeId) {
             var teams = [];
 
             angular.forEach(evaluations, function (evaluation) {
@@ -34,13 +35,27 @@
             });
 
             angular.forEach(teams, function (team) {
+                var isDisplay = false;
                 angular.forEach(evaluations, function (evaluation) {
                     var groupName = evaluation.Employee.Group.GroupName;
                     if (groupName === team.Name) {
+                        if (employeeId === undefined) {
+                            evaluation.IsDisplay = true;
+                            isDisplay = true;
+                        }
+                        else {
+                            if (evaluation.Employee.EmployeeId === employeeId) {
+                                evaluation.IsDisplay = true;
+                                isDisplay = true;
+                            } else {
+                                evaluation.IsDisplay = false;
+                            }
+                        }
                         team.Members.push(evaluation);
                         team.TotalBonus += evaluation.BonusGiven;
                     }
                 });
+                team.IsDisplay = isDisplay;
             });
 
             return teams;
@@ -54,35 +69,41 @@
                     evaluations.push(member);
                 });
             });
-
+            
             return evaluations;
         }
 
-        vm.getPAFocusFullPermission = function () {
-            return paFocusFactory.getPAFocusFullPermission().success(function (PAFocusPermission) {
-                vm.PAFocusPermission = PAFocusPermission;
+        vm.validatePAFocusForm = function (groups) {
+            var isValid = true;
+            angular.forEach(groups, function (group) {
+                if (isValid && group.IsDisplay && group.TotalBonus > group.MaxBonus) {
+                    isValid = false;
+                    notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
+                }
+            })
+
+            return isValid;
+        };
+
+        vm.isWarningPAFocusForm = function (groups) {
+            var isWarning = false;
+            angular.forEach(groups, function (group) {
+                if (group.IsDisplay && group.TotalBonus < group.MaxBonus) {
+                    isWarning = true;
+                }
+            })
+
+            return isWarning;
+        };
+
+        vm.getPAFocusProcess = function (periodId) {
+            return paFocusFactory.getPAFocusProcess(periodId).success(function (process) {
+                vm.process = process;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.validatePAFocusForm = function (groups) {
-            var isValid = true;
-
-            angular.forEach(groups, function (group) {
-                if (!isValid) {
-                    return;
-                }
-
-                if (group.TotalBonus !== group.MaxBonus) {
-                    isValid = false;
-                    notificationFactory.error("TotalBonusGivenInvalidMessage");
-                    return;
-                }
-            });
-
-            return isValid;
-        };
 
         vm.getPAProcessSettingByPeriodId = function (periodId) {
             return paFocusFactory.getPAProcessSettingByPeriodId(periodId).success(function (processSettings) {
@@ -93,26 +114,17 @@
         };
 
         vm.getPAFocus = function (periodId, groupIds, employeeId) {
-            return paFocusFactory.getPAFocus(periodId, groupIds, employeeId).success(function (evaluations) {
+            return paFocusFactory.getPAFocus(periodId, groupIds).success(function (evaluations) {
                 var groups = evaluations;
-                vm.evaluations = groupEvaluationByTeam(groups);
+                vm.evaluations = buildData(groups, employeeId);
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
 
-        vm.getPAFocusByManagement = function (periodId, groupIds, employeeId) {
-            return paFocusFactory.getPAFocusByManagement(periodId, groupIds, employeeId).success(function (evaluations) {
-                var groups = evaluations;
-                vm.evaluations = groupEvaluationByTeam(groups);
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
-        };
-
-        vm.updatePAFocus = function (evaluations) {
-            var groups = unGroupEvaluationByTeam(evaluations);
-            return paFocusFactory.updatePAFocus(groups).success(function (response) {
+        vm.updatePAFocus = function(groups) {
+            var evaluations = unGroupEvaluationByTeam(groups);
+            return paFocusFactory.updatePAFocus(evaluations).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                 }
@@ -122,20 +134,8 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
-        };
 
-        vm.updatePAFocusByManagement = function (evaluations) {
-            var groups = unGroupEvaluationByTeam(evaluations);
-            return paFocusFactory.updatePAFocusByManagement(evaluations).success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
-                }
-                else {
-                    notificationFactory.error("UpdatedUnsuccessfully");
-                }
-            }).error(function (response, status) {
-                errorFactory.errorHandle(status);
-            });
+            return result;
         };
 
         vm.updatePAProcessSettingByPeriodId = function (periodId, processes) {
@@ -148,6 +148,34 @@
                 }
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
+            });
+        };
+
+        vm.OpenPopupContinue = function (groups) {
+            $translate("TotalBonusGivenLessThanMaxMessage").then(function (responseMessage) {
+                var modalInstance = $modal.open({
+                    templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
+                    controller: "ModalConfirmController as modalConfirmCtrl",
+                    backdrop: 'static',
+                    resolve: {
+                        name: function () {
+                            return "";
+                        },
+                        action: function () {
+                            return "";
+                        },
+                        message: function () {
+                            return responseMessage;
+                        }
+                    },
+                    windowClass: "modal-confirm-center"
+                });
+
+                modalInstance.result.then(function () {
+                    vm.updatePAFocus(groups);
+                })['finally'](function () {
+                    modalInstance = '';
+                });
             });
         };
 

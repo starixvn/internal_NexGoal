@@ -1,7 +1,9 @@
-﻿namespace NexGoal.AutoGenerateEvaluation
+﻿namespace NexGoal.BackgroundService
 {
     public interface IPeriodEvalutionService
     {
         void UpdatePeriodIsEnd();
+
+        void GeneratePAFocus();
     }
 }

@@ -8,7 +8,7 @@ using NexGoal.Services.Interfaces;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
-namespace NexGoal.AutoGenerateEvaluation
+namespace NexGoal.BackgroundService
 {
     public class ProbationService : BaseService, IProbationService
     {

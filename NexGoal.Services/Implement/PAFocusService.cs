@@ -63,6 +63,18 @@
             return result;
         }
 
+        public IEnumerable<PAFocusProcessModel> GetPAFocusProcess(int periodId)
+        {
+            var criteria = new GetPAFocusProcessByPeriodIdCriteria { PeriodId = periodId };
+            IEnumerable<PAFocusProcessModel> result = new List<PAFocusProcessModel>();
+            if (criteria.IsValid())
+            {
+                result = GetData<PAFocusProcessModel>(criteria);
+            }
+
+            return result;
+        }
+
         public IEnumerable<PAFocusModel> GetPAFocus(ICriteria criteria)
         {
             var list = this.focusRepository.GetPAFocus(criteria);
@@ -72,6 +84,21 @@
             }
 
             return list;
+        }
+
+        public CommandResult GeneratePAFocus(int periodId)
+        {
+            var result = new CommandResult();
+            var criteria = new GeneratePAFocusCriteria
+            {
+                PeriodId = periodId
+            };
+            if (criteria.IsValid())
+            {
+                result = Repository.Update(criteria);
+            }
+
+            return result;
         }
     }
 }

@@ -4264,11 +4264,20 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total Bonus Given was invalid!.
+        ///   Looks up a localized string similar to The Bonus Given is now not equal 100 points! Click OK if you want to continue..
         /// </summary>
-        public static string TotalBonusGivenInvalidMessage {
+        public static string TotalBonusGivenLessThanMaxMessage {
             get {
-                return ResourceManager.GetString("TotalBonusGivenInvalidMessage", resourceCulture);
+                return ResourceManager.GetString("TotalBonusGivenLessThanMaxMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The Bonus is required max 100 points!.
+        /// </summary>
+        public static string TotalBonusGivenMoreThanMaxMessage {
+            get {
+                return ResourceManager.GetString("TotalBonusGivenMoreThanMaxMessage", resourceCulture);
             }
         }
         

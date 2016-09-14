@@ -1,4 +1,4 @@
-﻿namespace NexGoal.AutoGenerateEvaluation
+﻿namespace NexGoal.BackgroundService
 {
     using Fanex.Data.Configuration;
 
@@ -7,7 +7,7 @@
         public static void Main(string[] args)
         {
             DbSettingProviderManager.Current.Start();
-            var service = new GeneratedEPAService();
+            var service = new NexGoalService();
             service.Run();
         }
     }

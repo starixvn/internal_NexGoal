@@ -10,6 +10,7 @@
 
         vm.employeeId = member.EmployeeId;
         vm.NextDescriptionObjective = member.NextDescriptionObjective;
+        vm.IsReadOnly = member.IsReadOnly;
 
         vm.ok = function () {
             if (!vm.NextDescriptionObjective) {

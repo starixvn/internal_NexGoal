@@ -7,7 +7,7 @@ using NexGoal.Services.Implement;
 using NexGoal.Services.Interfaces;
 using System.Collections.Generic;
 
-namespace NexGoal.AutoGenerateEvaluation
+namespace NexGoal.BackgroundService
 {
     public class MailEPAService : BaseService, IMailEPAService
     {

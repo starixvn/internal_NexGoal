@@ -204,6 +204,7 @@
     <Compile Include="Controllers\AuthController.cs" />
     <Compile Include="Controllers\ExportNominationController.cs" />
     <Compile Include="Controllers\ExportPDFController.cs" />
+    <Compile Include="Controllers\ExportPAFocusReportController.cs" />
     <Compile Include="Controllers\ExportReportController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
@@ -451,10 +452,12 @@
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-chart-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-factory.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-directive.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus-model.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-information-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-objective-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\chart.html" />
+    <Content Include="SourceApp\Components\Assessment\Focus\Templates\focusProcess.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\index.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalInformation.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\paFocus.html" />

@@ -115,6 +115,8 @@
     <Compile Include="Implement\EPA\EPAReviewerService.cs" />
     <Compile Include="Implement\EPA\EPASelfService.cs" />
     <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
+    <Compile Include="Interfaces\ExportFile\IPAFocusReportService.cs" />
+    <Compile Include="Implement\ExportFile\PAFocusReportService.cs" />
     <Compile Include="Implement\IntergrationService.cs" />
     <Compile Include="Implement\PAFocusService.cs" />
     <Compile Include="Implement\MenuServices.cs" />

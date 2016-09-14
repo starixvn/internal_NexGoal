@@ -10,8 +10,6 @@
 
         public string GroupIds { get; set; }
 
-        public int? EmployeeId { get; set; }
-
         public override bool IsValid()
         {
             return EvaluatorId > 0 && PeriodId > 0;

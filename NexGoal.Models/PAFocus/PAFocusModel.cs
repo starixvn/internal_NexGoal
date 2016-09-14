@@ -44,7 +44,7 @@
         {
             get
             {
-                return DateTime.Now < StartDate || DateTime.Now > EndDate;
+                return DateTime.Now.Date < StartDate.Date || DateTime.Now.Date > EndDate.Date;
             }
         }
 
@@ -55,7 +55,7 @@
             Contribution = string.IsNullOrEmpty(EncryptedContribution) ? Contribution : int.Parse(encryptService.Decrypt(EncryptedContribution));
             BonusGiven = string.IsNullOrEmpty(EncryptedBonusGiven) ? BonusGiven : float.Parse(encryptService.Decrypt(EncryptedBonusGiven));
             BonusRanking = string.IsNullOrEmpty(EncryptedBonusRanking) ? BonusRanking : int.Parse(encryptService.Decrypt(EncryptedBonusRanking));
-            FinalScore = string.IsNullOrEmpty(EncryptedFinalScore) ? FinalScore : int.Parse(encryptService.Decrypt(EncryptedFinalScore));
+            FinalScore = string.IsNullOrEmpty(EncryptedFinalScore) ? FinalScore : float.Parse(encryptService.Decrypt(EncryptedFinalScore));
         }
 
         public void Encrypt()

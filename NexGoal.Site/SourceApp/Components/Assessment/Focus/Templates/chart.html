@@ -15,7 +15,7 @@
                 <label class="control-label" data-translate="Team"></label>
                 <div class="control-content">
                     <add-class-to-role-filter class="multi-select" multi-select input-model="paFocusChartCtrl.teams" button-label="Name"
-                                              helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                                              helper-elements="all none filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
                     </add-class-to-role-filter>
                 </div>
             </div>
@@ -29,8 +29,9 @@
 
     </form>
 
-    <div class="row" ng-repeat="group in paFocusChartCtrl.groups">
-        <div class="col-sm-6">
+    <div class="row">
+        <div class="text-center empty-result" data-translate="EmptyResult" ng-if="paFocusChartCtrl.isEmptyResult"></div>
+        <div class="col-sm-6" ng-repeat="group in paFocusChartCtrl.groups">
             <div id="pie-chart-group-{{group.TeamId}}">{{::paFocusChartCtrl.buildChart(group)}}</div>
         </div>
     </div>

@@ -16,5 +16,9 @@
         CommandResult UpdatePAFocus(int modifiedBy, IEnumerable<PAFocusModel> evaluations);
 
         IEnumerable<PAFocusModel> GetPAFocus(ICriteria criteria);
+
+        IEnumerable<PAFocusProcessModel> GetPAFocusProcess(int periodId);
+
+        CommandResult GeneratePAFocus(int periodId);
     }
 }

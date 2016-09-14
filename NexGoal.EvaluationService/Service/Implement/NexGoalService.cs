@@ -2,9 +2,9 @@
 using System;
 using System.Threading.Tasks;
 
-namespace NexGoal.AutoGenerateEvaluation
+namespace NexGoal.BackgroundService
 {
-    public class GeneratedEPAService : IEPAService
+    public class NexGoalService : INexGoalService
     {
         private readonly ISemiAnnualService semiAnnualService;
         private readonly IProbationService probationService;
@@ -13,12 +13,12 @@ namespace NexGoal.AutoGenerateEvaluation
         private readonly IPeriodEvalutionService periodEvalutionService;
         private readonly IMailEPAService mailService;
 
-        public GeneratedEPAService()
+        public NexGoalService()
             : this(null, null, null, null, null, null)
         {
         }
 
-        public GeneratedEPAService(
+        public NexGoalService(
             ISemiAnnualService semiAnnualService,
             IProbationService probationService,
             IPromotionService promotionService,
@@ -44,10 +44,11 @@ namespace NexGoal.AutoGenerateEvaluation
                 CheckSendMail();
                 processService.UpdateInformationAtEndProccess();
                 periodEvalutionService.UpdatePeriodIsEnd();
+                periodEvalutionService.GeneratePAFocus();
             }
             catch (Exception ex)
             {
-                LogService.Error("Error: " + ex.InnerException.Message);
+                LogService.Error("Error: " + ex.InnerException.Message, ex);
             }
         }
 
