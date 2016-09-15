@@ -111,7 +111,6 @@
         vm.exportExcel = function () {
             vm.exportCriteria = {
                 EOQYId: vm.period.Period.EOQYId,
-                RoleId: vm.period.RoleId,
                 Query: vm.filter.query,
                 GroupIds: vm.filter.teamIds,
                 StatusId: vm.filter.statusId,
