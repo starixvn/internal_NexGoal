@@ -8,7 +8,7 @@
 
         public override string GetSettingKey()
         {
-            return "EOQ_GetLatestEOQByNominatorIdCriteria";
+            return "EOQ_GetLatestNominationByNominatorId";
         }
 
         public override bool IsValid()

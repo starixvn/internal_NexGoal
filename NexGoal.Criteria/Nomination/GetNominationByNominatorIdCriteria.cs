@@ -8,8 +8,6 @@
 
         public int NominatorId { get; set; }
 
-        public int RoleId { get; set; }
-
         public string Query { get; set; }
 
         public string GroupIds { get; set; }
@@ -26,7 +24,7 @@
 
         public override bool IsValid()
         {
-            return NominatorId > 0 && EOQYId > 0 && RoleId > 0;
+            return NominatorId > 0 && EOQYId > 0;
         }
     }
 }

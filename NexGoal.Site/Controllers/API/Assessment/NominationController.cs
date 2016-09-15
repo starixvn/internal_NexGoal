@@ -52,7 +52,6 @@
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
         public IEnumerable<NominationViewModel> GetNominationByNominatorId(
             int eoqyId,
-            int roleId,
             string query = null,
             string groupIds = null,
             int? statusId = null)
@@ -61,7 +60,6 @@
             {
                 EOQYId = eoqyId,
                 NominatorId = SessionService.EmployeeId,
-                RoleId = roleId,
                 Query = query,
                 GroupIds = groupIds,
                 StatusId = statusId

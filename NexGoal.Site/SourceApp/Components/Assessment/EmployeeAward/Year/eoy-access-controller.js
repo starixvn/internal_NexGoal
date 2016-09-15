@@ -62,7 +62,6 @@
 
                 EOYModel.getEOYNominationByNominatorId(
                     vm.period.Period.EOQYId,
-                    vm.period.RoleId,
                     vm.filter.query,
                     vm.filter.teamIds,
                     vm.filter.statusId).then(function () {

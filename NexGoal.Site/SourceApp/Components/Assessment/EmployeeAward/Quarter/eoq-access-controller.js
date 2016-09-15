@@ -46,9 +46,6 @@
 
             EOQModel.getCurrentEOQByNominatorId().then(function () {
                 vm.period = EOQModel.period;
-
-                vm.period.Period.StatusId = 2;
-
                 vm.query();
             });
 
@@ -65,7 +62,6 @@
 
                 EOQModel.getEOQNominationByNominatorId(
                     vm.period.Period.EOQYId,
-                    vm.period.RoleId,
                     vm.filter.query,
                     vm.filter.teamIds,
                     vm.filter.statusId).then(function () {

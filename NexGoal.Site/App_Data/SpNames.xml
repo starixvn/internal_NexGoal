@@ -430,7 +430,7 @@
     <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_GetNominatorSettingById" SpName="EOQ_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_UpdateNominatorSettingById" SpName="EOQ_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_GetLatestByNominatorIdCriteria" SpName="EOQ_GetLatestByNominatorIdCriteria" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_GetLatestNominationByNominatorId" SpName="EOQ_GetLatestNominationByNominatorId" DbName="NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="EOY">
     <Setting Key="EOY_Get" SpName="EOY_Get" DbName="NexGoal" Plain="0"></Setting>
@@ -440,12 +440,12 @@
     <Setting Key="EOY_Delete" SpName="EOY_Delete" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_GetNominatorSettingById" SpName="EOY_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_UpdateNominatorSettingById" SpName="EOY_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_GetLatestByNominatorIdCriteria" SpName="EOY_GetLatestByNominatorIdCriteria" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_GetLatestNominationByNominatorId" SpName="EOY_GetLatestNominationByNominatorId" DbName="NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Nomination">
     <Setting Key="EOQ_GetQuestion" SpName="EOQ_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_GetQuestion" SpName="EOY_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQYNomination_GetByNominatorId" SpName="EOQYNomination_GetByNominatorId" DbName="NexGoal" Plain="0">
+    <Setting Key="EOQYNomination_GetByNominatorId" SpName="EOQYNomination_GetByNominatorId_razor" DbName="NexGoal" Plain="0">
       <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
     </Setting>
     <Setting Key="EOQNomination_Insert" SpName="EOQNomination_Insert" DbName="NexGoal" Plain="0"></Setting>

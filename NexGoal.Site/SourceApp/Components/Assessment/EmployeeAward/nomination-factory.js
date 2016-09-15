@@ -40,10 +40,9 @@
             getEOYQuestion: function () {
                 return $http.get(baseUrl + 'api/Nomination/GetEOYQuestion');
             },
-            getNominationByNominatorId: function (eoqyId, roleId, query, teamIds, statusId) {
+            getNominationByNominatorId: function (eoqyId, query, teamIds, statusId) {
                 var params = {
                     EOQYId: eoqyId,
-                    RoleId: roleId,
                     Query: query,
                     GroupIds: teamIds,
                     StatusId: statusId

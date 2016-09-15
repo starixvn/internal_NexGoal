@@ -132,8 +132,8 @@
             });
         };
 
-        vm.getEOQNominationByNominatorId = function (eoqyId, roleId, query, teamIds, statusId) {
-            return nominationFactory.getNominationByNominatorId(eoqyId, roleId, query, teamIds, statusId).success(function (eoqNominations) {
+        vm.getEOQNominationByNominatorId = function (eoqyId, query, teamIds, statusId) {
+            return nominationFactory.getNominationByNominatorId(eoqyId, query, teamIds, statusId).success(function (eoqNominations) {
                 vm.eoqNominations = eoqNominations;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
