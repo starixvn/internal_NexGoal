@@ -43,7 +43,9 @@
                                 ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE
                                     && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host
                                     && eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.IN_PROGRESS_STATUS"></button>
-                        <button class="button btnExcel" export-employee-of-the-quarter ng-click="eoqAccessCtrl.exportExcel()">Excel</button>
+                        <button class="button btnExcel" export-employee-of-the-quarter 
+                                ng-click="eoqAccessCtrl.exportExcel()"
+                                ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE">Excel</button>
                     </div>
                 </div>
             </form>

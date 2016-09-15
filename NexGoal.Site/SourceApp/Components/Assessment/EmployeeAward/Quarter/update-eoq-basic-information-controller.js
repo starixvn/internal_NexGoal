@@ -8,10 +8,20 @@
     function updateEOQBasicInformationController($scope, EOQModel, historyFactory, enumerationsFactory) {
         var vm = this;
 
+        vm.years = [];
         vm.period = {};
         vm.calendar = EOQModel.calendar;
         vm.permission = 0;
         vm.policyEnum = enumerationsFactory.policy;
+
+        function initialize() {
+            var date = new Date();
+            var year = date.getFullYear();
+
+            for (var index = year; index <= year + 1 ; index++) {
+                vm.years.push(index);
+            }
+        }
 
         vm.openPopupStartDate = function (event) {
             EOQModel.openPopupStartDate(event);
@@ -51,5 +61,7 @@
         vm.cancel = function () {
             historyFactory.back();
         };
+
+        initialize();
     }
 })(angular.module('assessmentModule'));
