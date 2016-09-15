@@ -1005,6 +1005,9 @@ header {
 .table tbody tr:hover .bonus-give-success {
   background: #5dbb43;
 }
+.table tbody tr:hover .bonus-give-warning {
+  background: #f5915f;
+}
 .table tbody .comment td {
   border-color: #c3c3c3 !important;
   padding: 0 !important;
@@ -1153,6 +1156,10 @@ header {
 }
 .bonus-give-success {
   background: #5dbb43;
+  color: #fff !important;
+}
+.bonus-give-warning {
+  background: #f5915f;
   color: #fff !important;
 }
 .bonus-give-error {
