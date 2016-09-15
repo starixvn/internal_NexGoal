@@ -2262,7 +2262,7 @@ input:checked + .slider:before {
 .nomination-status.nominated {
   color: #ff6b23;
 }
-.nomination-status.shorted-list {
+.nomination-status.shortlisted {
   color: #307def;
 }
 .nomination-status.winner {

@@ -8,10 +8,10 @@
     function eoqAccessController($scope, EOQModel, CommonModel, enumerationsFactory, utilitiesFactory, lockScreenService) {
         var vm = this;
 
-        vm.IN_BOARD_ROLE = 2;
         vm.NOMINATOR_ROLE = 1;
-        vm.IN_PROGRESS_STATUS = 1;
-        vm.period = {};
+        vm.IN_BOARD_ROLE = 2;
+        vm.PERIOD_IN_PROGRESS_STATUS = 1;
+        vm.period = null;
         vm.teams = [];
         vm.permission = 0;
         vm.filter = {
@@ -47,9 +47,9 @@
             EOQModel.getCurrentEOQByNominatorId().then(function () {
                 vm.period = EOQModel.period;
 
-                if (vm.period) {
-                    vm.query();
-                }
+                vm.period.Period.StatusId = 2;
+
+                vm.query();
             });
 
             EOQModel.getUserPermissionOnNomination().then(function () {
@@ -58,20 +58,22 @@
         }
 
         vm.query = function () {
-            lockScreenService.start();
+            if (vm.period) {
+                lockScreenService.start();
 
-            vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, 'DepartmentId');
+                vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, 'DepartmentId');
 
-            EOQModel.getEOQNominationByNominatorId(
-                vm.period.Period.EOQYId,
-                vm.period.RoleId,
-                vm.filter.query,
-                vm.filter.teamIds,
-                vm.filter.statusId).then(function () {
-                    vm.eoqNominations = EOQModel.eoqNominations;
-                })['finally'](function () {
-                    lockScreenService.stop();
-                });
+                EOQModel.getEOQNominationByNominatorId(
+                    vm.period.Period.EOQYId,
+                    vm.period.RoleId,
+                    vm.filter.query,
+                    vm.filter.teamIds,
+                    vm.filter.statusId).then(function () {
+                        vm.eoqNominations = EOQModel.eoqNominations;
+                    })['finally'](function () {
+                        lockScreenService.stop();
+                    });
+            }
         };
 
         vm.addNominee = function () {

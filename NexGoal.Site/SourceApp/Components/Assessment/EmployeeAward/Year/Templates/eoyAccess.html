@@ -1,9 +1,12 @@
 ﻿<div ng-controller="EOYAccessController as eoyAccessCtrl">
-    <div class="row" ng-show="eoyAccessCtrl.period && eoyAccessCtrl.period.Period && eoyAccessCtrl.period.Period.EOQYId > 0">
+    <div class="row">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
                 <li class="current">
-                    Employee of the Year {{eoyAccessCtrl.period.Period.Year}}
+                    <span ng-show="eoyAccessCtrl.period !== null">
+                        Employee of the Year {{eoyAccessCtrl.period.Period.Year}}
+                    </span>
+                    <span ng-show="eoyAccessCtrl.period === null" data-translate="EOY"></span>
                     <a href="" ng-click="eoyAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle icon-info"></i></a>
                 </li>
             </ul>
@@ -32,7 +35,7 @@
                             <select class="form-control" ng-model="eoyAccessCtrl.filter.statusId">
                                 <option value="">-- {{"All" | translate}} --</option>
                                 <option class="nomination-status nominated" value="1" data-translate="Nominated"></option>
-                                <option class="nomination-status shorted-list" value="2" data-translate="Shortlisted"></option>
+                                <option class="nomination-status shortlisted" value="2" data-translate="Shortlisted"></option>
                                 <option class="nomination-status winner" value="3" data-translate="Winner"></option>
                             </select>
                         </div>
@@ -42,13 +45,31 @@
                         <button class="button" ng-click="eoyAccessCtrl.addNominee()" data-translate="AddNominee"
                                 ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.NOMINATOR_ROLE
                                     && eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host
-                                    && eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.IN_PROGRESS_STATUS"></button>
+                                    && eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></button>
                         <button class="button btnExcel" export-employee-of-the-year 
                                 ng-click="eoyAccessCtrl.exportExcel()"
-                                ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.IN_BOARD_ROLE">Excel</button>
+                                ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.IN_BOARD_ROLE
+                                && eoyAccessCtrl.period.Period.StatusId !== eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">Excel</button>
                     </div>
                 </div>
             </form>
+
+            <table class="table table-bordered table-striped" ng-show="eoyAccessCtrl.period === null">
+                <thead>
+                    <tr class="headerName">
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="Nominee"></th>
+                        <th data-translate="Team"></th>
+                        <th data-translate="Status"></th>
+                        <th data-translate="Action"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td colspan="5" class="empty-result" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+            </table>
 
             <table class="table table-bordered table-striped" ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.NOMINATOR_ROLE">
                 <thead>
@@ -71,15 +92,20 @@
                         <td>{{item.Nominee.FullName}} ({{item.Nominee.NickName}})</td>
                         <td class="text-center">{{item.Nominee.Group.GroupName}}</td>
                         <td class="text-center nomination-status" 
-                            ng-class="{'nominated': item.StatusId === 1, 'shorted-list': item.StatusId === 2, 'winner': item.StatusId === 3}">
+                            ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': item.StatusId === 3}">
                             {{item.StatusToString}}
                         </td>
                         <td class="text-center">
-                            <div class="btn-group" ng-if="item.PermissionOnAction === eoyAccessCtrl.policyEnum.Read">
+                            <div class="btn-group" 
+                                 ng-if="item.PermissionOnAction === eoyAccessCtrl.policyEnum.Read
+                                 || eoyAccessCtrl.period.Period.StatusId !== eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                                 <a class="fa fa-search" title="View Detail"
                                    ng-click="eoyAccessCtrl.viewNomination(item.Nominations[0])"></a>
                             </div>
-                            <div class="btn-group" ng-if="item.PermissionOnAction === eoyAccessCtrl.policyEnum.Host && eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host">
+                            <div class="btn-group" 
+                                 ng-if="item.PermissionOnAction === eoyAccessCtrl.policyEnum.Host 
+                                 && eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host
+                                 && eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                                 <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                                    ng-click="eoyAccessCtrl.updateNomination(item.Nominations[0])"></a>
                                 <a class="fa fa-trash-o icon-remove" title="Delete"
