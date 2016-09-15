@@ -30,9 +30,9 @@
             this.nominationRepository = nominationRepository ?? new NominationRepository();
         }
 
-        public NominatorSettingModel GetCurrentEOQByNominatorId(int nominatorId)
+        public NominatorSettingModel GetLatestEOQByNominatorId(int nominatorId)
         {
-            var criteria = new GetCurrentEOQByNominatorIdCriteria
+            var criteria = new GetLatestEOQByNominatorIdCriteria
             {
                 NominatorId = nominatorId
             };
@@ -41,15 +41,15 @@
 
             if (criteria.IsValid())
             {
-                result = nominationRepository.GetCurrentNominationByNominatorId(criteria);
+                result = nominationRepository.GetLatestNominationByNominatorId(criteria);
             }
 
             return result;
         }
 
-        public NominatorSettingModel GetCurrentEOYByNominatorId(int nominatorId)
+        public NominatorSettingModel GetLatestEOYByNominatorId(int nominatorId)
         {
-            var criteria = new GetCurrentEOYByNominatorIdCriteria
+            var criteria = new GetLatestEOYByNominatorIdCriteria
             {
                 NominatorId = nominatorId
             };
@@ -58,7 +58,7 @@
 
             if (criteria.IsValid())
             {
-                result = nominationRepository.GetCurrentNominationByNominatorId(criteria);
+                result = nominationRepository.GetLatestNominationByNominatorId(criteria);
             }
 
             return result;

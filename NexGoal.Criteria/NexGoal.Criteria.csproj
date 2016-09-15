@@ -107,7 +107,7 @@
     <Compile Include="Nomination\CreateEOQNominationCriteria.cs" />
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />
     <Compile Include="Nomination\DeleteNominationCriteria.cs" />
-    <Compile Include="EOQ\GetCurrentEOQByNominatorIdCriteria.cs" />
+    <Compile Include="EOQ\GetLatestEOQByNominatorIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQByIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQCriteria.cs" />
     <Compile Include="Nomination\GetEOYQuestionCriteria.cs" />
@@ -122,7 +122,7 @@
     <Compile Include="Nomination\UpdateStatusNominationCriteria.cs" />
     <Compile Include="EOY\CreateEOYCriteria.cs" />
     <Compile Include="EOY\DeleteEOYCriteria.cs" />
-    <Compile Include="EOY\GetCurrentEOYByNominatorIdCriteria.cs" />
+    <Compile Include="EOY\GetLatestEOYByNominatorIdCriteria.cs" />
     <Compile Include="EOY\GetEOYByIdCriteria.cs" />
     <Compile Include="EOY\GetEOYCriteria.cs" />
     <Compile Include="EOY\GetEOYNominatorSettingByIdCriteria.cs" />

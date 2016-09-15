@@ -29,10 +29,10 @@
                 return $http['delete'](baseUrl + 'api/Nomination/DeleteNomination', { params: { Id: nominationId } });
             },
             getCurrentEOQByNominatorId: function () {
-                return $http.get(baseUrl + 'api/Nomination/GetCurrentEOQByNominatorId');
+                return $http.get(baseUrl + 'api/Nomination/GetLatestEOQByNominatorId');
             },
             getCurrentEOYByNominatorId: function () {
-                return $http.get(baseUrl + 'api/Nomination/GetCurrentEOYByNominatorId');
+                return $http.get(baseUrl + 'api/Nomination/GetLatestEOYByNominatorId');
             },
             getEOQQuestion: function () {
                 return $http.get(baseUrl + 'api/Nomination/GetEOQQuestion');

@@ -45,30 +45,28 @@
 
         public DateTime EndDate { get; set; }
 
-        public int StatusId { get; set; }
+        public int StatusId
+        {
+            get
+            {
+                if (StartDate.Date > DateTime.Now.Date)
+                {
+                    return (int)NominationSettingStatus.NotReady;
+                }
+                else if (StartDate.Date <= DateTime.Now.Date && EndDate.Date >= DateTime.Now.Date)
+                {
+                    return (int)NominationSettingStatus.InProgress;
+                }
+
+                return (int)NominationSettingStatus.Closed;
+            }
+        }
 
         public string StatusToString
         {
             get
             {
-                var status = string.Empty;
-
-                switch (StatusId)
-                {
-                    case (int)NominationSettingStatus.NotReady:
-                        status = Enumerations.GetDescription(NominationSettingStatus.NotReady);
-                        break;
-
-                    case (int)NominationSettingStatus.InProgress:
-                        status = Enumerations.GetDescription(NominationSettingStatus.InProgress);
-                        break;
-
-                    case (int)NominationSettingStatus.Closed:
-                        status = Enumerations.GetDescription(NominationSettingStatus.Closed);
-                        break;
-                }
-
-                return status;
+                return Enumerations.GetDescription((NominationSettingStatus)StatusId);
             }
         }
 

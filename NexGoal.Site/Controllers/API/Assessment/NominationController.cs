@@ -26,15 +26,15 @@
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public NominatorSettingModel GetCurrentEOYByNominatorId()
+        public NominatorSettingModel GetLatestEOYByNominatorId()
         {
-            return nominationService.GetCurrentEOYByNominatorId(SessionService.EmployeeId);
+            return nominationService.GetLatestEOYByNominatorId(SessionService.EmployeeId);
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public NominatorSettingModel GetCurrentEOQByNominatorId()
+        public NominatorSettingModel GetLatestEOQByNominatorId()
         {
-            return nominationService.GetCurrentEOQByNominatorId(SessionService.EmployeeId);
+            return nominationService.GetLatestEOQByNominatorId(SessionService.EmployeeId);
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]

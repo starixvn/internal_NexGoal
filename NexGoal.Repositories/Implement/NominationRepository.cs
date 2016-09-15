@@ -11,7 +11,7 @@
 
     public class NominationRepository : INominationRepository
     {
-        public NominatorSettingModel GetCurrentNominationByNominatorId(ICriteria criteria)
+        public NominatorSettingModel GetLatestNominationByNominatorId(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
