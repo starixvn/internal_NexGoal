@@ -24,6 +24,7 @@
             updateEOY: function (period) {
                 var criteria = {
                     EOQYId: period.EOQYId,
+                    Year: period.Year,
                     Description: period.Description,
                     StartDate: period.StartDate,
                     EndDate: period.EndDate

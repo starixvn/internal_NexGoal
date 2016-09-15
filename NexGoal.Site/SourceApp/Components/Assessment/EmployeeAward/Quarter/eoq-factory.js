@@ -25,6 +25,8 @@
                 var criteria = {
                     EOQYId: period.EOQYId,
                     Description: period.Description,
+                    Quarter: period.Quarter,
+                    Year: period.Year,
                     StartDate: period.StartDate,
                     EndDate: period.EndDate
                 };

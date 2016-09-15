@@ -3,7 +3,10 @@
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Year"></label>
             <div class="col-sm-2 field">
-                <input type="text" class="form-control" ng-model="eoyBasicInfoCtrl.period.Year" disabled />
+                <select class="form-control" ng-model="eoyBasicInfoCtrl.period.Year">
+                    <option value=""></option>
+                    <option ng-repeat="year in eoyBasicInfoCtrl.years" value="{{year}}">{{year}}</option>
+                </select>
             </div>
         </div>
 
