@@ -149,7 +149,7 @@
         };
 
         vm.getEOYNominationById = function (nominationId) {
-            return nominationFactory.getNominationById(nominationId).success(function (nomination) {
+            return nominationFactory.getEOYNominationById(nominationId).success(function (nomination) {
                 vm.nomination = nomination;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

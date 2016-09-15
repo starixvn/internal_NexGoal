@@ -2,13 +2,13 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetNominationByIdCriteria : CriteriaBase
+    public class GetEOYNominationByIdCriteria : CriteriaBase
     {
         public int NominationId { get; set; }
 
         public override string GetSettingKey()
         {
-            return "EOQYNomination_GetById";
+            return "EOYNomination_GetById";
         }
 
         public override bool IsValid()

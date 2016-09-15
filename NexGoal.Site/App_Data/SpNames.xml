@@ -450,7 +450,10 @@
     </Setting>
     <Setting Key="EOQNomination_Insert" SpName="EOQNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOYNomination_Insert" SpName="EOYNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQYNomination_GetById" SpName="EOQYNomination_GetById" DbName="NexGoal" Plain="0">
+    <Setting Key="EOQNomination_GetById" SpName="EOQNomination_GetById" DbName="NexGoal" Plain="0">
+      <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
+    </Setting>
+    <Setting Key="EOYNomination_GetById" SpName="EOYNomination_GetById" DbName="NexGoal" Plain="0">
       <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
     </Setting>
     <Setting Key="EOQYNomination_Update" SpName="EOQYNomination_Update" DbName="NexGoal" Plain="0"></Setting>

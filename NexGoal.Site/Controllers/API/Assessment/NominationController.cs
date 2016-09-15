@@ -72,9 +72,16 @@
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public NominationModel GetNominationById(int nominationId)
+        public NominationModel GetEOQNominationById(int nominationId)
         {
-            NominationModel nomination = nominationService.GetNominationById(nominationId);
+            NominationModel nomination = nominationService.GetEOQNominationById(nominationId);
+            return nomination;
+        }
+
+        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        public NominationModel GetEOYNominationById(int nominationId)
+        {
+            NominationModel nomination = nominationService.GetEOYNominationById(nominationId);
             return nomination;
         }
 

@@ -51,10 +51,15 @@
 
                 return $http.get(baseUrl + 'api/Nomination/GetNominationByNominatorId', { params: params });
             },
-            getNominationById: function (nominationId) {
+            getEOQNominationById: function (nominationId) {
                 var params = { NominationId: nominationId };
 
-                return $http.get(baseUrl + 'api/Nomination/GetNominationById', { params: params });
+                return $http.get(baseUrl + 'api/Nomination/GetEOQNominationById', { params: params });
+            },
+            getEOYNominationById: function (nominationId) {
+                var params = { NominationId: nominationId };
+
+                return $http.get(baseUrl + 'api/Nomination/GetEOYNominationById', { params: params });
             },
             getUserPermissionOnManageNomination: function () {
                 return $http.get(baseUrl + 'api/Nomination/GetUserPermissionOnManageNomination');

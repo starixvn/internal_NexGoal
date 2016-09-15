@@ -131,10 +131,26 @@
             return commandResult;
         }
 
-        public NominationModel GetNominationById(int nominationId)
+        public NominationModel GetEOQNominationById(int nominationId)
         {
             var nomination = new NominationModel();
-            var criteria = new GetNominationByIdCriteria
+            var criteria = new GetEOQNominationByIdCriteria
+            {
+                NominationId = nominationId
+            };
+
+            if (criteria.IsValid())
+            {
+                nomination = nominationRepository.GetNominationById(criteria);
+            }
+
+            return nomination;
+        }
+
+        public NominationModel GetEOYNominationById(int nominationId)
+        {
+            var nomination = new NominationModel();
+            var criteria = new GetEOYNominationByIdCriteria
             {
                 NominationId = nominationId
             };

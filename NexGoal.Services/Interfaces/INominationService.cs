@@ -21,7 +21,9 @@
 
         CommandResult CreateEOYNomination(CreateEOYNominationCriteria criteria);
 
-        NominationModel GetNominationById(int nominationId);
+        NominationModel GetEOQNominationById(int nominationId);
+
+        NominationModel GetEOYNominationById(int nominationId);
 
         CommandResult UpdateNomination(UpdateNominationCriteria criteria);
 
