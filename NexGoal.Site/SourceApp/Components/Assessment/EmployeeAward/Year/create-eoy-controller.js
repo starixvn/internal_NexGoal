@@ -46,7 +46,7 @@
             var date = new Date();
             var year = date.getFullYear();
 
-            for (var index = year; index > (year - 5) ; index--) {
+            for (var index = year; index <= year + 1 ; index++) {
                 vm.years.push(index);
             }
 
