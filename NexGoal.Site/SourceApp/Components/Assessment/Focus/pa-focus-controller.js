@@ -239,6 +239,15 @@
             });
         };
 
+        vm.pickupColorForBonusGiven = function (group) {
+            if (group.TotalBonus === group.MaxBonus) {
+                return "bonus-give-success";
+            } else if (group.TotalBonus > group.MaxBonus) {
+                return "bonus-give-error";
+            } else {
+                return "bonus-give-warning";
+            }
+        }
         initialize();
     }
 })(angular.module("assessmentModule"));

@@ -107,7 +107,7 @@
                     </td>
                     <td rowspan="{{group.Members.length}}" class="text-center"
                         ng-if="$first"
-                        ng-class="group.TotalBonus === group.MaxBonus ? 'bonus-give-success' : 'bonus-give-error'">
+                        ng-class="paFocusCtrl.pickupColorForBonusGiven(group)">
                         {{group.TotalBonus | customScore}} / {{group.MaxBonus}}
                     </td>
                     <td class="text-center">{{member.BonusRanking}}</td>
