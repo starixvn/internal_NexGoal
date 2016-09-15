@@ -7,6 +7,10 @@
     {
         public int EOQYId { get; set; }
 
+        public int Quarter { get; set; }
+
+        public int Year { get; set; }
+
         public string Description { get; set; }
 
         public DateTime StartDate { get; set; }
@@ -22,7 +26,7 @@
 
         public override bool IsValid()
         {
-            return EOQYId > 0 && ModifiedBy > 0;
+            return Quarter > 0 && Year > 0 && ModifiedBy > 0;
         }
     }
 }
