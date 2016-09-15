@@ -35,7 +35,7 @@
 
         vm.submit = function () {
             if (EOQModel.validateNominee(vm.nomination)) {
-                $modalInstance.close(vm.nomination);
+                EOQModel.updateEOQNomination(vm.nomination.nominationId, vm.nomination.eoqQuestions, $modalInstance);
             }
         };
 

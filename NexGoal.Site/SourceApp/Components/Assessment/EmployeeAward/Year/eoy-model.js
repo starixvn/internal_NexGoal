@@ -16,10 +16,11 @@
         vm.eoyNominations = [];
         vm.nomination = {};
 
-        vm.createEOY = function (period) {
+        vm.createEOY = function (period, modalInstance) {
             return eoyFactory.createEOY(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
+                    modalInstance.close();
                 }
                 else {
                     notificationFactory.error("", response.Message);
@@ -29,10 +30,11 @@
             });
         };
 
-        vm.createEOYNomination = function (eoqyId, employeeId, eoyQuestions) {
+        vm.createEOYNomination = function (eoqyId, employeeId, eoyQuestions, modalInstance) {
             return nominationFactory.createEOYNomination(eoqyId, employeeId, eoyQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
+                    modalInstance.close();
                 }
                 else {
                     notificationFactory.error("", response.Message);
@@ -55,10 +57,11 @@
             });
         };
 
-        vm.updateEOYNomination = function (nominationId, eoyQuestions) {
+        vm.updateEOYNomination = function (nominationId, eoyQuestions, modalInstance) {
             return nominationFactory.updateNomination(nominationId, eoyQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
+                    modalInstance.close();
                 }
                 else {
                     notificationFactory.error("", response.Message);

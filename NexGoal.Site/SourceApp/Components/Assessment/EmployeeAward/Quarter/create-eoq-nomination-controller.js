@@ -55,7 +55,7 @@
 
         vm.submit = function () {
             if (EOQModel.validateNominee(vm.nominee)) {
-                $modalInstance.close(vm.nominee);
+                EOQModel.createEOQNomination(vm.eoqNominationPeriod.Period.EOQYId, vm.nominee.employeeId, vm.nominee.eoqQuestions, $modalInstance);
             }
         };
 

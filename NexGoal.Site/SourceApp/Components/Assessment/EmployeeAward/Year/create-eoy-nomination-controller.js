@@ -55,7 +55,7 @@
 
         vm.submit = function () {
             if (EOYModel.validateNominee(vm.nominee)) {
-                $modalInstance.close(vm.nominee);
+                EOYModel.createEOYNomination(vm.eoyNominationPeriod.Period.EOQYId, vm.nominee.employeeId, vm.nominee.eoyQuestions, $modalInstance);
             }
         };
 

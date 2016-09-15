@@ -75,12 +75,9 @@
         };
 
         vm.addNominee = function () {
-            EOQModel.openPopupAddNominee(vm.period).then(function (nominee) {
+            EOQModel.openPopupAddNominee(vm.period).then(function () {
                 vm.modalInstance = null;
-
-                EOQModel.createEOQNomination(vm.period.Period.EOQYId, nominee.employeeId, nominee.eoqQuestions).then(function () {
-                    vm.query();
-                });
+                vm.query();
             });
         };
 
@@ -95,12 +92,9 @@
         };
 
         vm.updateNomination = function (nomination) {
-            EOQModel.openPopupUpdateNomination(nomination.NominationId).then(function (nominee) {
+            EOQModel.openPopupUpdateNomination(nomination.NominationId).then(function () {
                 vm.modalInstance = null;
-
-                EOQModel.updateEOQNomination(nominee.nominationId, nominee.eoqQuestions).then(function () {
-                    vm.query();
-                });
+                vm.query();
             });
         };
 

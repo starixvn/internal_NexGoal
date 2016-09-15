@@ -16,10 +16,11 @@
         vm.eoqNominations = [];
         vm.nomination = {};
 
-        vm.createEOQ = function (period) {
+        vm.createEOQ = function (period, modalInstance) {
             return eoqFactory.createEOQ(period).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
+                    modalInstance.close();
                 }
                 else {
                     notificationFactory.error("", response.Message);
@@ -29,10 +30,11 @@
             });
         };
 
-        vm.createEOQNomination = function (eoqyId, employeeId, eoqQuestions) {
+        vm.createEOQNomination = function (eoqyId, employeeId, eoqQuestions, modalInstance) {
             return nominationFactory.createEOQNomination(eoqyId, employeeId, eoqQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
+                    modalInstance.close();
                 }
                 else {
                     notificationFactory.error("", response.Message);
@@ -55,10 +57,11 @@
             });
         };
 
-        vm.updateEOQNomination = function (nominationId, eoqQuestions) {
+        vm.updateEOQNomination = function (nominationId, eoqQuestions, modalInstance) {
             return nominationFactory.updateNomination(nominationId, eoqQuestions).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
+                    modalInstance.close();
                 }
                 else {
                     notificationFactory.error("", response.Message);
