@@ -91,6 +91,25 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
+        [ApiAuthorize(FunctionKey.MasterReport, Policy.Read)]
+        [HttpGet]
+        public HttpResponseMessage GetMasterReport(
+            int periodId,
+            int? groupIds = null,
+            int? employeeId = null)
+        {
+            var criteria = new GetMasterReportCriteria()
+            {
+                EmployeeId = employeeId,
+                PeriodId = periodId,
+                GroupIds = groupIds
+            };
+
+            var report = _reportService.GetMaster(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, report);
+        }
+
         [HttpGet]
         public IList<PeriodModel> GetAllPeriodIncludeImport()
         {

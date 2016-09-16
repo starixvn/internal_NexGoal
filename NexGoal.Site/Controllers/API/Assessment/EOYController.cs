@@ -26,11 +26,10 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<EOQYModel> GetEOY(int? year = null, int? statusId = null)
+        public IEnumerable<EOQYModel> GetEOY(int? statusId = null)
         {
             var criteria = new GetEOYCriteria
             {
-                Year = year,
                 StatusId = statusId
             };
 

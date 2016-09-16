@@ -1,10 +1,12 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.IO;
     using NexGoal.Criteria.Report;
+    using NexGoal.Model.Report;
     using NexGoal.Model.Report.Dashboard;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Model.Report.EPASummary;
+    using System.Collections.Generic;
+    using System.IO;
 
     public interface IReportService
     {
@@ -23,5 +25,7 @@
         void ExportMonthlyEPADetailReport(EPADetailModel epaDetail, string templatePath);
 
         EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);
+
+        IEnumerable<MasterReportModel> GetMaster(GetMasterReportCriteria criteria);
     }
 }

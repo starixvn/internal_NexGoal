@@ -59,14 +59,32 @@
                     EndDate = period.AttendanceEndDate.Value
                 };
                 result = this.integrationRepository.GetEmployeeWorking(criteria);
-                foreach (var item in result)
-                {
-                    item.DecryptedScore = DecodeNexPM(item.EncryptedScore);
-                    item.DecryptedScore = PercentToStarNumber(item.DecryptedScore);
-                }
+                Decrypt(result);
             }
 
             return result;
+        }
+
+        public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int periodId, int? employeeId)
+        {
+            var criteria = new GetEmployeeWorkingByPeriodIdCriteria
+            {
+                EmployeeId = employeeId,
+                PeriodId = periodId
+            };
+            var result = this.integrationRepository.GetEmployeeWorking(criteria);
+            Decrypt(result);
+
+            return result;
+        }
+
+        private void Decrypt(IEnumerable<EmployeeWorkingViewModel> nexPMs)
+        {
+            foreach (var item in nexPMs)
+            {
+                item.DecryptedScore = DecodeNexPM(item.EncryptedScore);
+                item.DecryptedScore = PercentToStarNumber(item.DecryptedScore);
+            }
         }
 
         private string DecodeNexPM(string cipherText)

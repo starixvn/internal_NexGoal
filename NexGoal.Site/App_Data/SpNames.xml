@@ -384,6 +384,7 @@
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
       <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
     </Setting>
+    <Setting Key="Report_Master" SpName="Report_Master" DbName="NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="EPA History">
     <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="NexGoal" Plain="0">
@@ -413,6 +414,7 @@
     <Setting Key="NexPM_GetEmployeeWorkingByEmployeeId" SpName="NexPM_GetEmployeeWorkingByEmployeeId" DbName="NexGoal" Plain="0">
       <Mapping DataField="ProjectManagerId" ObjectProperty="EmployeeId" />
     </Setting>
+    <Setting Key="NexPM_GetEmployeeWorkingByPeriodId" SpName="NexPM_GetEmployeeWorkingByPeriodId" DbName="NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="PAFocus">
     <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
@@ -420,7 +422,7 @@
     <Setting Key="PAFocus_GetByManagement" SpName="PAFocus_GetByManagement" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
-  <Setting Key="PAFocus_GetProcessByPeriodId" SpName="PAFocus_GetProcessByPeriodId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_GetProcessByPeriodId" SpName="PAFocus_GetProcessByPeriodId" DbName="NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="EOQ">
     <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="NexGoal" Plain="0"></Setting>

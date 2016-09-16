@@ -35,5 +35,7 @@
         public const string ManageNomination = "ManageNomination";
 
         public const string Nomination = "Nomination";
+
+        public const string MasterReport = "MasterReport";
     }
 }

@@ -6,6 +6,7 @@ using NPOI.HSSF.Util;
 using NPOI.SS.UserModel;
 using NPOI.SS.Util;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 using System.Linq;
 
@@ -100,6 +101,7 @@ namespace NexGoal.Services.Implement
             sheet.AddMergedRegion(new CellRangeAddress(2, 2, 8, 9));
         }
 
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void RenderBodyTable(IEnumerable<PAFocusModel> focuses)
         {
             var rowIndex = 3;

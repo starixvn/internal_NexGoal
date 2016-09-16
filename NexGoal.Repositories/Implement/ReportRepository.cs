@@ -1,20 +1,52 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.Period;
+    using NexGoal.Model.Report;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Model.Report.EPASummary;
     using NexGoal.Model.ScoreRatingType;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class ReportRepository : IReportRepository
     {
+        public IEnumerable<MasterReportModel> GetMaster(ICriteria criteria)
+        {
+            IEnumerable<MasterReportModel> employees = new List<MasterReportModel>();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    employees = multi.Read<MasterReportModel>();
+
+                    var nominations = multi.Read<NominationReportModel>();
+
+                    GroupMasterReport(employees, nominations);
+                }
+            }
+
+            return employees;
+        }
+
+        private IEnumerable<MasterReportModel> GroupMasterReport(
+            IEnumerable<MasterReportModel> reports,
+            IEnumerable<NominationReportModel> nominations)
+        {
+            foreach (var employee in reports)
+            {
+                var nominationOfEmployee = nominations.Where(i => i.NomineeId == employee.PAFocus.Employee.EmployeeId);
+                employee.Nominations.AddRange(nominationOfEmployee);
+            }
+
+            return reports;
+        }
+
         public EPASummaryModel GetEPASummary(ICriteria criteria)
         {
             EPASummaryModel epaSummary = new EPASummaryModel();

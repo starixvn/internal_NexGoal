@@ -1,16 +1,12 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
+    using NexGoal.Model.Report;
     using NexGoal.Model.Report.Dashboard;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Model.Report.EPASummary;
@@ -22,6 +18,11 @@
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using System.Linq;
 
     public class ReportService : IReportService
     {
@@ -29,20 +30,41 @@
         private readonly IReportRepository reportRepository;
         private readonly IEmployeeEPARepository employeeEPARepository;
         private readonly IEmployeeEPAService employeeEPAService;
+        private readonly IIntegrationService integrationService;
 
         public ReportService()
-            : this(null, null, null)
+            : this(null, null, null, null)
         {
         }
 
         public ReportService(
             IReportRepository reportRepository,
             IEmployeeEPARepository employeeEPARepository,
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPAService employeeEPAService,
+            IIntegrationService integrationService)
         {
             this.reportRepository = reportRepository ?? new ReportRepository();
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.integrationService = integrationService ?? new IntegrationService();
+        }
+
+        public IEnumerable<MasterReportModel> GetMaster(GetMasterReportCriteria criteria)
+        {
+            IEnumerable<MasterReportModel> result = new List<MasterReportModel>();
+            if (criteria.IsValid())
+            {
+                result = this.reportRepository.GetMaster(criteria);
+
+                var nexPMs = this.integrationService.GetEmployeeWorking(criteria.EmployeeId, criteria.PeriodId);
+                foreach (var employee in result)
+                {
+                    var nexPMsOfEmployee = nexPMs.Where(i => i.EmployeeId == employee.PAFocus.Employee.EmployeeId);
+                    employee.EmployeeWorkings.AddRange(nexPMsOfEmployee);
+                }
+            }
+
+            return result;
         }
 
         public DashboardModel GetDashboard(GetDashboardCriteria criteria)
