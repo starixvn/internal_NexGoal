@@ -192,6 +192,7 @@
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/update-eoy-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/update-eoy-basic-information-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/update-eoy-roles-management-controller.js",
+                            "~/SourceApp/Components/Assessment/EmployeeAward/Year/view-eoy-detail-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/create-eoy-nomination-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/update-eoy-nomination-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/view-eoy-nomination-controller.js",

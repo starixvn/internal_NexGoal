@@ -20,6 +20,7 @@
         vm.permission = 0;
         vm.policyEnum = enumerationsFactory.policy;
         vm.isFirstLoad = true;
+        vm.currentYear = 0;
 
         function initFilter() {
             var filter = historyFactory.getState();
@@ -33,6 +34,9 @@
         }
 
         function initialize() {
+            var date = new Date();
+            vm.currentYear = date.getFullYear();
+
             utilitiesFactory.numberEntryList(vm);
             utilitiesFactory.getDateFormat(vm);
             vm.filter = initFilter();
@@ -88,6 +92,10 @@
 
         vm.updateEOY = function (eoqyId) {
             $location.path(baseUrl + 'ManageNomination/UpdateEOY/' + eoqyId);
+        };
+
+        vm.viewEOYDetail = function (eoqyId) {
+            $location.path(baseUrl + 'ManageNomination/ViewEOYDetail/' + eoqyId);
         };
 
         vm.deleteEOY = function (period) {

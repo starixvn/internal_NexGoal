@@ -54,9 +54,15 @@
                     class="nomination-period-status"></td>
                 <td ng-show="manageEOYCtrl.permission === manageEOYCtrl.policyEnum.Host">
                     <div class="btn-group">
+                        <a class="fa fa-search" title="Detail"
+                           ng-click="manageEOYCtrl.viewEOYDetail(period.EOQYId)"
+                           ng-show="period.Year < manageEOYCtrl.currentYear"></a>
                         <a class="fa fa-pencil-square-o icon-edit" title="Edit"
-                           ng-click="manageEOYCtrl.updateEOY(period.EOQYId)"></a>
-                        <a class="fa fa-trash-o icon-remove" title="Delete" ng-click="manageEOYCtrl.deleteEOY(period)"></a>
+                           ng-click="manageEOYCtrl.updateEOY(period.EOQYId)"
+                           ng-show="period.Year >= manageEOYCtrl.currentYear"></a>
+                        <a class="fa fa-trash-o icon-remove" title="Delete" 
+                           ng-click="manageEOYCtrl.deleteEOY(period)"
+                           ng-show="period.Year >= manageEOYCtrl.currentYear"></a>
                     </div>
                 </td>
             </tr>

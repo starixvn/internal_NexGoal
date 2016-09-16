@@ -57,7 +57,10 @@
 
                 vm.permission = $scope.manageNominationCtrl.permission;
                 vm.isFirstLoad = false;
-                $location.url($location.path());
+
+                if ($location.url() !== $location.path()) {
+                    $location.url($location.path());
+                }
             }
         });
 
