@@ -12,7 +12,6 @@
 
         vm.periods = [];
         vm.filteredItems = [];
-        vm.years = [];
         vm.filter = {};
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -21,16 +20,13 @@
         vm.permission = 0;
         vm.policyEnum = enumerationsFactory.policy;
         vm.isFirstLoad = true;
+        vm.currentYear = 0;
 
         function initFilter() {
             var filter = historyFactory.getState();
 
             if (!filter) {
-                var date = new Date();
-                var year = date.getFullYear();
-
                 filter = {};
-                filter.Year = year;
                 filter.StatusId = 1; // In Progresss
             }
 
@@ -39,11 +35,7 @@
 
         function initialize() {
             var date = new Date();
-            var year = date.getFullYear();
-
-            for (var index = year; index <= year + 1 ; index++) {
-                vm.years.push(index);
-            }
+            vm.currentYear = date.getFullYear();
 
             utilitiesFactory.numberEntryList(vm);
             utilitiesFactory.getDateFormat(vm);
@@ -79,9 +71,8 @@
             vm.searchKey = '';
             vm.currentPage = 1;
 
-            EOQModel.getEOQ(vm.filter.Year, vm.filter.StatusId).then(function () {
+            EOQModel.getEOQ(vm.filter.StatusId).then(function () {
                 vm.periods = EOQModel.periods;
-
                 utilitiesFactory.searchOnPage(vm, vm.periods);
             })['finally'](function () {
                 lockScreenService.stop();
@@ -99,6 +90,10 @@
 
         vm.updateEOQ = function (eoqyId) {
             $location.path(baseUrl + 'ManageNomination/UpdateEOQ/' + eoqyId);
+        };
+
+        vm.viewEOQDetail = function (eoqyId) {
+            $location.path(baseUrl + 'ManageNomination/ViewEOQDetail/' + eoqyId);
         };
 
         vm.deleteEOQ = function (period) {

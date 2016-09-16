@@ -71,8 +71,8 @@
             });
         };
 
-        vm.getEOQ = function (year, statusId) {
-            return eoqFactory.getEOQ(year, statusId).success(function (periods) {
+        vm.getEOQ = function (statusId) {
+            return eoqFactory.getEOQ(statusId).success(function (periods) {
                 vm.periods = periods;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);

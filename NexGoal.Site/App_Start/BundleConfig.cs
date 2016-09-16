@@ -184,6 +184,7 @@
                             "~/SourceApp/Components/Assessment/EmployeeAward/Quarter/manage-eoq-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Quarter/create-eoq-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Quarter/update-eoq-controller.js",
+                            "~/SourceApp/Components/Assessment/EmployeeAward/Quarter/view-eoq-detail-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Quarter/update-eoq-basic-information-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Quarter/update-eoq-roles-management-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Quarter/eoq-access-controller.js",

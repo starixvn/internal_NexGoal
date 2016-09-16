@@ -409,6 +409,8 @@
     <Content Include="Libs\_references.js" />
     <Content Include="SourceApp\app.js" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\create-eoq-nomination-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\eoqDetail.html" />
+    <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\view-eoq-detail-controller.js" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\create-eoy-controller.js" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\create-eoy-nomination-controller.js" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\eoy-modal-information-controller.js" />
@@ -436,7 +438,7 @@
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\modalUpdateEOQNomination.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\Templates\modalViewEOYNomination.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\modalViewEOQNomination.html" />
-    <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\Templates\modelEOYInfomation.html" />
+    <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\Templates\modalEOYInfomation.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\modelEOQInfomation.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\Templates\updateEOY.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\updateEOQ.html" />

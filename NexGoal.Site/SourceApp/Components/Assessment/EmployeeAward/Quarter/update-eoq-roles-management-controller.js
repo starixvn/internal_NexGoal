@@ -17,7 +17,7 @@
         vm.searchKey = '';
         vm.filteredItems = [];
         vm.currentPage = 1;
-        vm.pageSize = 20;
+        vm.pageSize = 0;
         vm.filter = {
             query: '',
             teamIds: '',
@@ -37,6 +37,7 @@
 
                 vm.teams = angular.copy(treeDepartment);
                 utilitiesFactory.setSelectAll(vm.teams);
+                vm.pageSize = 20;
 
                 vm.query();
             });

@@ -186,6 +186,8 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/updateEOQ.html', caseInsensitiveMatch: true })
     .when('/ManageNomination/UpdateEOY/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/updateEOY.html', caseInsensitiveMatch: true })
+    .when('/ManageNomination/ViewEOQDetail/:id',
+    { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/eoqDetail.html', caseInsensitiveMatch: true })
     .when('/EOQ/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/eoqAccess.html', caseInsensitiveMatch: true })
     .when('/EOY/Index',

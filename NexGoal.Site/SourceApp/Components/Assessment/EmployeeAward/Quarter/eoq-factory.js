@@ -33,8 +33,8 @@
 
                 return $http.put(baseUrl + "api/EOQ/UpdateEOQ", criteria);
             },
-            getEOQ: function (year, statusId) {
-                return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { Year: year, StatusId: statusId } });
+            getEOQ: function (statusId) {
+                return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: { StatusId: statusId } });
             },
             getEOQById: function (eoqId) {
                 return $http.get(baseUrl + "api/EOQ/GetEOQById", { params: { Id: eoqId } });
