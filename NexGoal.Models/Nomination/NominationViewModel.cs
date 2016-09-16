@@ -50,53 +50,18 @@
             }
         }
 
-        public int PermissionOnAction
+        public bool IsReadOnly
         {
             get
             {
-                int permission = (int)Policy.Read;
-
-                switch (StatusId)
+                if (RoleId == (int)NominationRole.Nominator)
                 {
-                    case (int)NominationStatus.Nominated:
-                        if (RoleId == (int)NominationRole.Nominator && Period.StatusId == (int)NominationSettingStatus.InProgress)
-                        {
-                            permission = (int)Policy.Host;
-                        }
-
-                        break;
-
-                    case (int)NominationStatus.Shortlisted:
-                    case (int)NominationStatus.Winner:
-                        break;
+                    return Period.StatusId != (int)NominationSettingStatus.InProgress;
                 }
-
-                return permission;
-            }
-        }
-
-        public int PermissionOnStatus
-        {
-            get
-            {
-                int permission = (int)Policy.Read;
-
-                switch (StatusId)
+                else
                 {
-                    case (int)NominationStatus.Nominated:
-                        break;
-
-                    case (int)NominationStatus.Shortlisted:
-                    case (int)NominationStatus.Winner:
-                        if (RoleId == (int)NominationRole.NominationBoard && Period.StatusId == (int)NominationSettingStatus.Closed)
-                        {
-                            permission = (int)Policy.Host;
-                        }
-
-                        break;
+                    return Period.StatusId != (int)NominationSettingStatus.Closed;
                 }
-
-                return permission;
             }
         }
     }

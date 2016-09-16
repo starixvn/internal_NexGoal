@@ -96,16 +96,13 @@
                             {{item.StatusToString}}
                         </td>
                         <td class="text-center">
-                            <div class="btn-group" 
-                                 ng-if="item.PermissionOnAction === eoyAccessCtrl.policyEnum.Read
-                                 || eoyAccessCtrl.period.Period.StatusId !== eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                            <div class="btn-group"
+                                 ng-if="item.IsReadOnly">
                                 <a class="fa fa-search" title="View Detail"
                                    ng-click="eoyAccessCtrl.viewNomination(item.Nominations[0])"></a>
                             </div>
-                            <div class="btn-group" 
-                                 ng-if="item.PermissionOnAction === eoyAccessCtrl.policyEnum.Host 
-                                 && eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host
-                                 && eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                            <div class="btn-group"
+                                 ng-if="eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host && !item.IsReadOnly">
                                 <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                                    ng-click="eoyAccessCtrl.updateNomination(item.Nominations[0])"></a>
                                 <a class="fa fa-trash-o icon-remove" title="Delete"
