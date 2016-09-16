@@ -12,6 +12,7 @@
 
         vm.periods = [];
         vm.filteredItems = [];
+        vm.years = [];
         vm.filter = {};
         vm.currentPage = 1;
         vm.pageSize = 20;
@@ -27,6 +28,7 @@
 
             if (!filter) {
                 filter = {};
+                filter.Year = vm.currentYear;
                 filter.StatusId = 1; // In Progresss
             }
 
@@ -36,6 +38,10 @@
         function initialize() {
             var date = new Date();
             vm.currentYear = date.getFullYear();
+
+            for (var index = vm.currentYear; index <= vm.currentYear + 1 ; index++) {
+                vm.years.push(index);
+            }
 
             utilitiesFactory.numberEntryList(vm);
             utilitiesFactory.getDateFormat(vm);
@@ -51,6 +57,7 @@
 
                 vm.permission = $scope.manageNominationCtrl.permission;
                 vm.isFirstLoad = false;
+                $location.url($location.path());
             }
         });
 
@@ -71,7 +78,7 @@
             vm.searchKey = '';
             vm.currentPage = 1;
 
-            EOQModel.getEOQ(vm.filter.StatusId).then(function () {
+            EOQModel.getEOQ(vm.filter.Year, vm.filter.StatusId).then(function () {
                 vm.periods = EOQModel.periods;
                 utilitiesFactory.searchOnPage(vm, vm.periods);
             })['finally'](function () {

@@ -3,9 +3,9 @@
 
     assessmentModule.controller('UpdateEOYController', updateEOYController);
 
-    updateEOYController.$inject = ['$routeParams', 'EOYModel', 'historyFactory', 'lockScreenService'];
+    updateEOYController.$inject = ['$routeParams', '$location', 'EOYModel', 'historyFactory', 'lockScreenService', 'baseUrl'];
 
-    function updateEOYController($routeParams, EOYModel, historyFactory, lockScreenService) {
+    function updateEOYController($routeParams, $location, EOYModel, historyFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.period = null;
@@ -29,7 +29,8 @@
         };
 
         vm.backToList = function () {
-            historyFactory.back();
+            historyFactory.setBackStatus(true);
+            $location.path(baseUrl + 'ManageNomination/Index').search({ secondTab: true });
         };
 
         function initialize() {

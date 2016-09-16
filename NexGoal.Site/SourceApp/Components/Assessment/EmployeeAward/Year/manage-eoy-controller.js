@@ -12,10 +12,9 @@
 
         vm.periods = [];
         vm.filteredItems = [];
-        vm.years = [];
         vm.filter = {};
         vm.currentPage = 1;
-        vm.pageSize = 20;
+        vm.pageSize = 0;
         vm.searchKey = '';
         vm.modalInstance = null;
         vm.permission = 0;
@@ -26,11 +25,7 @@
             var filter = historyFactory.getState();
 
             if (!filter) {
-                var date = new Date();
-                var year = date.getFullYear();
-
                 filter = {};
-                filter.Year = year;
                 filter.StatusId = 1; // In Progresss
             }
 
@@ -38,16 +33,10 @@
         }
 
         function initialize() {
-            var date = new Date();
-            var year = date.getFullYear();
-
-            for (var index = year; index <= year + 1 ; index++) {
-                vm.years.push(index);
-            }
-
             utilitiesFactory.numberEntryList(vm);
             utilitiesFactory.getDateFormat(vm);
             vm.filter = initFilter();
+            vm.pageSize = 20;
 
             vm.query();
         }

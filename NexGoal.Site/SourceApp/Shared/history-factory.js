@@ -23,6 +23,10 @@
             back: function () {
                 isBack = true;
                 $window.history.back();
+            },
+
+            setBackStatus: function (status) {
+                isBack = status;
             }
         };
 

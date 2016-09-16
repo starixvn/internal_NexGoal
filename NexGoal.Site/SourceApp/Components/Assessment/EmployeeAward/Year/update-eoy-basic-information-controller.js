@@ -3,9 +3,9 @@
 
     assessmentModule.controller('UpdateEOYBasicInformationController', updateEOYBasicInformationController);
 
-    updateEOYBasicInformationController.$inject = ['$scope', 'EOYModel', 'historyFactory', 'enumerationsFactory'];
+    updateEOYBasicInformationController.$inject = ['$scope', '$location', 'EOYModel', 'historyFactory', 'enumerationsFactory', 'baseUrl'];
 
-    function updateEOYBasicInformationController($scope, EOYModel, historyFactory, enumerationsFactory) {
+    function updateEOYBasicInformationController($scope, $location, EOYModel, historyFactory, enumerationsFactory, baseUrl) {
         var vm = this;
 
         vm.years = [];
@@ -59,7 +59,8 @@
         };
 
         vm.cancel = function () {
-            historyFactory.back();
+            historyFactory.setBackStatus(true);
+            $location.path(baseUrl + 'ManageNomination/Index').search({ secondTab: true });
         };
 
         initialize();

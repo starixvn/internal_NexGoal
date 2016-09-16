@@ -1,7 +1,7 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, departmentModule*/
-/*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule, epaHistoryModule*/
+/*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule*/
 /*exported monthlyPeriodModule, menuModule, userInfoModule*/
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
@@ -149,15 +149,6 @@ var reportModule = angular.module("reportModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPADetailReport.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Report/MonthlyEPASummaryReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPASummaryReport.html', caseInsensitiveMatch: true });
-}]);
-
-var epaHistoryModule = angular.module("epaHistoryModule", ['ngRoute'])
-.config(['$routeProvider', function ($routeProvider) {
-    var baseUrl = $("base").first().attr("href");
-    $routeProvider.when('/EPAHistory/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPAHistory/Templates/index.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/monthlyEPAHistory/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/MonthlyEPAHistory/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
 var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])

@@ -3,16 +3,17 @@
 
     assessmentModule.controller('ManageNominationController', manageNominationController);
 
-    manageNominationController.$inject = ['EOQModel'];
+    manageNominationController.$inject = ['$routeParams', 'EOQModel'];
 
-    function manageNominationController(EOQModel) {
+    function manageNominationController($routeParams, EOQModel) {
         var vm = this;
+        var secondTab = $routeParams.secondTab ? true : false;
 
         vm.permission = 0;
 
         vm.dataTab = {
-            eoq: true,
-            eoy: false
+            eoq: !secondTab,
+            eoy: secondTab
         };
 
         function initialize() {
