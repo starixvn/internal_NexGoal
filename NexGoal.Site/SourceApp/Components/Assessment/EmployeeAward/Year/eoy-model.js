@@ -335,7 +335,7 @@
 
         vm.openPopupInformation = function () {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/modelEOYInfomation.html',
+                templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/modalEOYInfomation.html',
                 controller: "EOYModalInformationController as eoyModalInfoCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center"
