@@ -3,7 +3,13 @@
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Quarter"></label>
             <div class="col-sm-2 field">
-                <select class="form-control" ng-model="eoqBasicInfoCtrl.period.Quarter">
+                <input type="text" class="form-control"
+                       ng-model="eoqBasicInfoCtrl.period.Quarter"
+                       ng-show="eoqBasicInfoCtrl.period.StatusId === eoqBasicInfoCtrl.PERIOD_CLOSED_STATUS" 
+                       ng-disabled="true"/>
+                <select class="form-control"
+                        ng-model="eoqBasicInfoCtrl.period.Quarter"
+                        ng-show="eoqBasicInfoCtrl.period.StatusId !== eoqBasicInfoCtrl.PERIOD_CLOSED_STATUS">
                     <option value=""></option>
                     <option value="1">1st</option>
                     <option value="2">2nd</option>
@@ -14,7 +20,13 @@
 
             <label class="col-sm-1 control-label" data-translate="Year"></label>
             <div class="col-sm-2 field">
-                <select class="form-control" ng-model="eoqBasicInfoCtrl.period.Year">
+                <input type="text" class="form-control"
+                       ng-model="eoqBasicInfoCtrl.period.Year"
+                       ng-show="eoqBasicInfoCtrl.period.StatusId === eoqBasicInfoCtrl.PERIOD_CLOSED_STATUS"
+                       ng-disabled="true" />
+                <select class="form-control"
+                        ng-model="eoqBasicInfoCtrl.period.Year"
+                        ng-show="eoqBasicInfoCtrl.period.StatusId !== eoqBasicInfoCtrl.PERIOD_CLOSED_STATUS">
                     <option value=""></option>
                     <option ng-repeat="year in eoqBasicInfoCtrl.years" value="{{year}}">{{year}}</option>
                 </select>

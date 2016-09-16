@@ -3,11 +3,12 @@
 
     assessmentModule.controller('UpdateEOQBasicInformationController', updateEOQBasicInformationController);
 
-    updateEOQBasicInformationController.$inject = ['$scope', 'EOQModel', 'historyFactory', 'enumerationsFactory'];
+    updateEOQBasicInformationController.$inject = ['$scope', '$route', 'EOQModel', 'historyFactory', 'enumerationsFactory'];
 
-    function updateEOQBasicInformationController($scope, EOQModel, historyFactory, enumerationsFactory) {
+    function updateEOQBasicInformationController($scope, $route, EOQModel, historyFactory, enumerationsFactory) {
         var vm = this;
 
+        vm.PERIOD_CLOSED_STATUS = 2;
         vm.years = [];
         vm.period = {};
         vm.calendar = EOQModel.calendar;
@@ -54,7 +55,9 @@
                 period.StartDate = period.RawStartDate ? period.RawStartDate.toDateString() : null;
                 period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
 
-                EOQModel.updateEOQ(period);
+                EOQModel.updateEOQ(period).then(function () {
+                    $route.reload();
+                });
             }
         };
 
