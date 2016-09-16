@@ -150,7 +150,7 @@
             });
         };
 
-        vm.openPopupQuery = function () {
+        vm.openPopupLostData = function () {
             vm.modalInstance = $modal.open({
                 templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
                 controller: "ModalConfirmController as modalConfirmCtrl",
@@ -164,29 +164,7 @@
                         return "";
                     },
                     message: function () {
-                        return "The form has been changed! Are you sure you want to submit this form?";
-                    }
-                }
-            });
-
-            return vm.modalInstance.result;
-        };
-
-        vm.openPopupReset = function () {
-            vm.modalInstance = $modal.open({
-                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
-                backdrop: 'static',
-                windowClass: "modal-confirm-center",
-                resolve: {
-                    name: function () {
-                        return "";
-                    },
-                    action: function () {
-                        return "";
-                    },
-                    message: function () {
-                        return "The form has been changed! Are you sure you want to reset this form?";
+                        return "All unsaved changes will be lost. Do you want to proceed?";
                     }
                 }
             });

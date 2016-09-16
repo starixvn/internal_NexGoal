@@ -110,14 +110,8 @@
             });
         }
 
-        function openPopupReset() {
-            PAFocusModel.openPopupReset().then(function () {
-                query();
-            });
-        }
-
-        function openPopupQuery() {
-            PAFocusModel.openPopupQuery().then(function () {
+        function openPopupLostData() {
+            PAFocusModel.openPopupLostData().then(function () {
                 query();
             });
         }
@@ -169,17 +163,9 @@
 
         }, true);
 
-        vm.reset = function () {
-            if (vm.isChangedData) {
-                openPopupReset();
-            } else {
-                query();
-            }
-        };
-
         vm.query = function () {
             if (vm.isChangedData) {
-                openPopupQuery();
+                openPopupLostData();
             } else {
                 query();
             }

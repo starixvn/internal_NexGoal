@@ -65,7 +65,7 @@
             return result;
         }
 
-        public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int periodId, int? employeeId)
+        public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int? employeeId, int periodId)
         {
             var criteria = new GetEmployeeWorkingByPeriodIdCriteria
             {

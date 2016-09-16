@@ -119,6 +119,8 @@
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />
+    <Compile Include="Report\Master\MasterReportModel.cs" />
+    <Compile Include="Report\Master\NominationReportModel.cs" />
     <Compile Include="RoleManagement\RoleFunctionModel.cs" />
     <Compile Include="RoleManagement\SystemRoleModel.cs" />
     <Compile Include="ScoreRatingType\ScoreRatingTypeModel.cs" />

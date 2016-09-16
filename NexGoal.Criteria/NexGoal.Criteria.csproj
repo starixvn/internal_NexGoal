@@ -103,6 +103,7 @@
     <Compile Include="Employee\ResetPasswordCriteria.cs" />
     <Compile Include="Employee\UpdateHasMonthlyEPACriteria.cs" />
     <Compile Include="EOQ\CreateEOQCriteria.cs" />
+    <Compile Include="Integration\GetEmployeeWorkingByPeriodIdCriteria.cs" />
     <Compile Include="Nomination\CreateEOYNominationCriteria.cs" />
     <Compile Include="Nomination\CreateEOQNominationCriteria.cs" />
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />
@@ -225,6 +226,7 @@
     <Compile Include="Period\UpdateEmployeeSettingOfPeriodCriteria.cs" />
     <Compile Include="Period\UpdateStatusPeriodCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\GetMasterReportCriteria.cs" />
     <Compile Include="Report\GetMonthlyEPASummaryCriteria.cs" />
     <Compile Include="Report\GetMonthlyEPADetailCriteria.cs" />
     <Compile Include="Report\GetEPADetailCriteria.cs" />
