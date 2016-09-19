@@ -1686,4 +1686,7 @@
   <data name="EOYInformation" xml:space="preserve">
     <value>Employee Of The Year Infomation</value>
   </data>
+  <data name="NominationProcess" xml:space="preserve">
+    <value>Nomination Process</value>
+  </data>
 </root>

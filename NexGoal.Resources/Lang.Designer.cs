@@ -2707,6 +2707,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nomination Process.
+        /// </summary>
+        public static string NominationProcess {
+            get {
+                return ResourceManager.GetString("NominationProcess", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nomination Roles Management.
         /// </summary>
         public static string NominationRolesManagement {

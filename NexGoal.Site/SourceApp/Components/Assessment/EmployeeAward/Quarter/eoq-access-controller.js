@@ -11,6 +11,7 @@
         vm.NOMINATOR_ROLE = 1;
         vm.IN_BOARD_ROLE = 2;
         vm.PERIOD_IN_PROGRESS_STATUS = 1;
+        vm.PERIOD_CLOSED_STATUS = 2;
         vm.period = null;
         vm.teams = [];
         vm.permission = 0;
@@ -46,6 +47,13 @@
 
             EOQModel.getCurrentEOQByNominatorId().then(function () {
                 vm.period = EOQModel.period;
+
+                if (vm.period) {
+                    var endDate = new Date(vm.period.Period.EndDate);
+
+                    vm.period.Period.InBoardStartDate = endDate.setDate(endDate.getDate() + 1);
+                }
+
                 vm.query();
             });
 

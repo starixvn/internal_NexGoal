@@ -102,7 +102,7 @@
                                    ng-click="eoyAccessCtrl.viewNomination(item.Nominations[0])"></a>
                             </div>
                             <div class="btn-group"
-                                 ng-if="eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host && !item.IsReadOnly">
+                                 ng-if="eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host && !item.IsReadOnly">
                                 <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                                    ng-click="eoyAccessCtrl.updateNomination(item.Nominations[0])"></a>
                                 <a class="fa fa-trash-o icon-remove" title="Delete"

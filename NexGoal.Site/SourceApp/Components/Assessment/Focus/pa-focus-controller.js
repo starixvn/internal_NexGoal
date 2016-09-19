@@ -183,7 +183,6 @@
             }
         };
 
-
         vm.getClassProgress = function (processStatus) {
             if (processStatus === vm.processStatus.InProgress) {
                 return 'in-process';

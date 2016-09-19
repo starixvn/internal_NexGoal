@@ -46,13 +46,72 @@
                                 ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE
                                     && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host
                                     && eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></button>
-                        <button class="button btnExcel" export-employee-of-the-quarter 
+                        <button class="button btnExcel" export-employee-of-the-quarter
                                 ng-click="eoqAccessCtrl.exportExcel()"
                                 ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE
-                                && eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">Excel</button>
+                                && eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                            Excel
+                        </button>
                     </div>
                 </div>
             </form>
+
+            <div class="panel-group dashboard" ng-show="eoqAccessCtrl.period !== null">
+                <div class="panel panel-default no-border">
+                    <div class="panel-heading level-2">
+                        <h4 class="panel-title" data-translate="NominationProcess"></h4>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="evaluation-process-section">
+                            <ul class="evaluation-process"
+                                ng-show="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                <li class="process-item in-process">
+                                    <div data-translate="Nominator"></div>
+                                    <div>
+                                        {{eoqAccessCtrl.period.Period.StartDate | customDate}} -
+                                        {{eoqAccessCtrl.period.Period.EndDate | customDate}}
+                                    </div>
+                                    <div>
+                                        <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                                <li class="process-item open">
+                                    <div data-translate="InBoard"></div>
+                                    <div>
+                                        {{eoqAccessCtrl.period.Period.InBoardStartDate | customDate}}
+                                    </div>
+                                    <div>
+                                        <label data-translate="NotReady"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="evaluation-process"
+                                ng-show="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                <li class="process-item end-process">
+                                    <div data-translate="Nominator"></div>
+                                    <div>
+                                        {{eoqAccessCtrl.period.Period.StartDate | customDate}} -
+                                        {{eoqAccessCtrl.period.Period.EndDate | customDate}}
+                                    </div>
+                                    <div>
+                                        <label data-translate="Closed"></label><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                                <li class="process-item in-process">
+                                    <div data-translate="InBoard"></div>
+                                    <div>
+                                        {{eoqAccessCtrl.period.Period.InBoardStartDate | customDate}}
+                                    </div>
+                                    <div>
+                                        <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period === null">
                 <thead>
@@ -100,7 +159,7 @@
                                 <a class="fa fa-search" title="View Detail"
                                    ng-click="eoqAccessCtrl.viewNomination(item.Nominations[0])"></a>
                             </div>
-                            <div class="btn-group" 
+                            <div class="btn-group"
                                  ng-if="eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host && !item.IsReadOnly">
                                 <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                                    ng-click="eoqAccessCtrl.updateNomination(item.Nominations[0])"></a>
@@ -142,7 +201,13 @@
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
                             <select ng-model="item.StatusId"
                                     ng-change="eoqAccessCtrl.updateStatusNomination(item)"
-                                    ng-options="opt.Value as opt.Name for opt in eoqAccessCtrl.nominationStatus"></select>
+                                    ng-options="opt.Value as opt.Name for opt in eoqAccessCtrl.nominationStatus"
+                                    ng-if="eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></select>
+                            <span class="nomination-status"
+                                  ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': v.StatusId === 3}"
+                                  ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                {{item.StatusToString}}
+                            </span>
                         </td>
                         <td class="text-center">
                             <a class="fa fa-search" title="View Detail"
