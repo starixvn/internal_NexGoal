@@ -44,7 +44,19 @@
 
     </form>
 
-    <div class="evaluation-process-section" ng-include src="'/SourceApp/Components/Assessment/Focus/Templates/focusProcess.html'"></div>
+    <div class="panel-group dashboard">
+        <div class="panel panel-default no-border">
+            <div class="panel-heading level-2">
+                <h4 class="panel-title" data-translate="EvaluationProcess"></h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="evaluation-process-section"
+                     ng-include src="'/SourceApp/Components/Assessment/Focus/Templates/focusProcess.html'">
+                </div>
+            </div>
+        </div>
+    </div>
 
     <table class="table table-bordered table-striped">
         <thead>
