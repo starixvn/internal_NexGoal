@@ -28,11 +28,6 @@
             vm.dataTab.rolesManagement = true;
         };
 
-        vm.backToList = function () {
-            historyFactory.setBackStatus(true);
-            $location.path(baseUrl + 'ManageNomination/Index').search({ secondTab: true });
-        };
-
         function initialize() {
             lockScreenService.start();
 

@@ -28,10 +28,6 @@
             vm.dataTab.rolesManagement = true;
         };
 
-        vm.backToList = function () {
-            historyFactory.back();
-        };
-
         function initialize() {
             lockScreenService.start();
 
