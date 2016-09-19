@@ -2689,6 +2689,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nomination Board.
+        /// </summary>
+        public static string NominationBoard {
+            get {
+                return ResourceManager.GetString("NominationBoard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All nomination comments are required!.
         /// </summary>
         public static string NominationCommentRequired {

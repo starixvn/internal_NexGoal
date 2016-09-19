@@ -1689,4 +1689,7 @@
   <data name="NominationProcess" xml:space="preserve">
     <value>Nomination Process</value>
   </data>
+  <data name="NominationBoard" xml:space="preserve">
+    <value>Nomination Board</value>
+  </data>
 </root>
