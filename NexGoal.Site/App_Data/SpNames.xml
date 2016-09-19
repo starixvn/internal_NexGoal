@@ -426,6 +426,7 @@
   </Function>
   <Function Name="EOQ">
     <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_GetYear" SpName="EOQ_GetYear" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_GetById" SpName="EOQ_GetById" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Insert" SpName="EOQ_Insert" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Update" SpName="EOQ_Update" DbName="NexGoal" Plain="0"></Setting>

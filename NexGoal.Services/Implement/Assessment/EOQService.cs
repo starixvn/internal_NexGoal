@@ -106,5 +106,13 @@
 
             return commandResult;
         }
+
+        public IEnumerable<int> GetYearEOQ()
+        {
+            var criteria = new GetYearEOQCriteria();
+
+            return this.GetData<int>(criteria);
+                 
+        }
     }
 }

@@ -21,14 +21,14 @@
         vm.permission = 0;
         vm.policyEnum = enumerationsFactory.policy;
         vm.isFirstLoad = true;
-        vm.currentYear = 0;
+        vm.currentYear = new Date().getFullYear();
 
         function initFilter() {
             var filter = historyFactory.getState();
 
             if (!filter) {
                 filter = {};
-                filter.Year = vm.currentYear;
+                filter.Year = vm.years.length > 0 ? vm.years[0] : vm.currentYear;
                 filter.StatusId = 1; // In Progresss
             }
 
@@ -36,18 +36,15 @@
         }
 
         function initialize() {
-            var date = new Date();
-            vm.currentYear = date.getFullYear();
 
-            for (var index = vm.currentYear; index <= vm.currentYear + 1 ; index++) {
-                vm.years.push(index);
-            }
+            EOQModel.getYearEOQ().then(function () {
+                vm.years = EOQModel.years;
+                utilitiesFactory.numberEntryList(vm);
+                utilitiesFactory.getDateFormat(vm);
+                vm.filter = initFilter();
 
-            utilitiesFactory.numberEntryList(vm);
-            utilitiesFactory.getDateFormat(vm);
-            vm.filter = initFilter();
-
-            vm.query();
+                vm.query();
+            });
         }
 
         $scope.$watch(function () { return $scope.manageNominationCtrl.dataTab.eoq; },

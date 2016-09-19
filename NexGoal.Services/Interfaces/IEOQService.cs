@@ -20,5 +20,7 @@
         CommandResult UpdateEOQNominatorSettingById(UpdateEOQNominatorSettingByIdCriteria criteria);
 
         CommandResult DeleteEOQ(DeleteEOQCriteria criteria);
+
+        IEnumerable<int> GetYearEOQ();
     }
 }

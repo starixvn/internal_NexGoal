@@ -15,6 +15,15 @@
         vm.eoqQuestions = [];
         vm.eoqNominations = [];
         vm.nomination = {};
+        vm.years = [];
+
+        vm.getYearEOQ = function () {
+            return eoqFactory.getYearEOQ().success(function (years) {
+                vm.years = years;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
 
         vm.createEOQ = function (period, modalInstance) {
             return eoqFactory.createEOQ(period).success(function (response) {

@@ -51,6 +51,12 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
+        public IEnumerable<int> GetYearEOQ()
+        {
+            return eoqService.GetYearEOQ();
+        }
+
+        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
         public IEnumerable<NominatorSettingModel> GetEOQNominatorSettingById(
             int eoqyId,
             string query = null,
