@@ -54,6 +54,63 @@
                 </div>
             </form>
 
+            <div class="panel-group dashboard" ng-show="eoyAccessCtrl.period !== null">
+                <div class="panel panel-default no-border">
+                    <div class="panel-heading level-2">
+                        <h4 class="panel-title" data-translate="NominationProcess"></h4>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="evaluation-process-section">
+                            <ul class="evaluation-process"
+                                ng-show="eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                <li class="process-item in-process">
+                                    <div data-translate="Nominator"></div>
+                                    <div>
+                                        {{eoyAccessCtrl.period.Period.StartDate | customDate}} -
+                                        {{eoyAccessCtrl.period.Period.EndDate | customDate}}
+                                    </div>
+                                    <div>
+                                        <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                                <li class="process-item open">
+                                    <div data-translate="Board"></div>
+                                    <div>
+                                        {{eoyAccessCtrl.period.Period.InBoardStartDate | customDate}}
+                                    </div>
+                                    <div>
+                                        <label data-translate="NotReady"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                            <ul class="evaluation-process"
+                                ng-show="eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_CLOSED_STATUS">
+                                <li class="process-item end-process">
+                                    <div data-translate="Nominator"></div>
+                                    <div>
+                                        {{eoyAccessCtrl.period.Period.StartDate | customDate}} -
+                                        {{eoyAccessCtrl.period.Period.EndDate | customDate}}
+                                    </div>
+                                    <div>
+                                        <label data-translate="Closed"></label><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                                <li class="process-item in-process">
+                                    <div data-translate="Board"></div>
+                                    <div>
+                                        {{eoyAccessCtrl.period.Period.InBoardStartDate | customDate}}
+                                    </div>
+                                    <div>
+                                        <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
             <table class="table table-bordered table-striped" ng-show="eoyAccessCtrl.period === null">
                 <thead>
                     <tr class="headerName">
@@ -143,8 +200,14 @@
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
                             <select ng-model="item.StatusId"
                                     ng-change="eoyAccessCtrl.updateStatusNomination(item)"
-                                    ng-options="opt.Value as opt.Name for opt in eoyAccessCtrl.nominationStatus">
+                                    ng-options="opt.Value as opt.Name for opt in eoyAccessCtrl.nominationStatus"
+                                    ng-if="eoyAccessCtrl.period.Period.StatusId !== eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                             </select>
+                            <span class="nomination-status"
+                                  ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': v.StatusId === 3}"
+                                  ng-if="eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                {{item.StatusToString}}
+                            </span>
                         </td>
                         <td class="text-center">
                             <a class="fa fa-search" title="View Detail"
