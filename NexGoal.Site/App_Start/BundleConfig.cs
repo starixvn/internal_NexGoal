@@ -154,6 +154,8 @@
                             "~/SourceApp/Components/Report/report-directive.js",
                             "~/SourceApp/Components/Report/epaSummaryReport-controller.js",
                             "~/SourceApp/Components/Report/epaDetailReport-controller.js",
+                            "~/SourceApp/Components/Report/master-report-controller.js",
+                            "~/SourceApp/Components/Report/master-report-directive.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-factory.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-model.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-directive.js",

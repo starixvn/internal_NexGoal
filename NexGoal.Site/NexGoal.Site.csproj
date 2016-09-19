@@ -545,6 +545,7 @@
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\updateFinalScore-controller.js" />
     <Content Include="SourceApp\Components\Period\employeeSettingUpdate-controller.js" />
     <Content Include="SourceApp\Components\Report\master-report-controller.js" />
+    <Content Include="SourceApp\Components\Report\master-report-directive.js" />
     <Content Include="SourceApp\Components\Report\monthlyEPASummaryReport-controller.js" />
     <Content Include="SourceApp\Components\Report\monthlyEPADetailReport-controller.js" />
     <Content Include="SourceApp\Components\Report\Templates\masterReport.html" />

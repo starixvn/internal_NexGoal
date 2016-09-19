@@ -1,4 +1,5 @@
 ﻿(function (assessmentModule) {
+    "use strict";
 
     assessmentModule.controller("ViewEOYDetailController", viewEOYDetailController);
 
