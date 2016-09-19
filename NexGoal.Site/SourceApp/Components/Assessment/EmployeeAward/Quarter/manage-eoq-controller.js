@@ -85,7 +85,6 @@
                 lockScreenService.stop();
             });
 
-            historyFactory.saveState(vm.filter);
         };
 
         vm.createEOQ = function () {

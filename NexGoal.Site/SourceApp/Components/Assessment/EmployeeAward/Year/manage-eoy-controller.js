@@ -80,7 +80,6 @@
                 lockScreenService.stop();
             });
 
-            historyFactory.saveState(vm.filter);
         };
 
         vm.createEOY = function () {

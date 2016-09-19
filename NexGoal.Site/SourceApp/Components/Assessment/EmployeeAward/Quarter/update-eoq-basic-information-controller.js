@@ -61,10 +61,6 @@
             }
         };
 
-        vm.cancel = function () {
-            historyFactory.back();
-        };
-
         initialize();
     }
 })(angular.module('assessmentModule'));
