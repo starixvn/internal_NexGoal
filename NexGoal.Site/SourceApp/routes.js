@@ -149,6 +149,8 @@ var reportModule = angular.module("reportModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPADetailReport.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Report/MonthlyEPASummaryReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPASummaryReport.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/Report/MasterReport',
+    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/masterReport.html', caseInsensitiveMatch: true });
 }]);
 
 var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])

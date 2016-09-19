@@ -544,8 +544,10 @@
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\UpdateFinalScore\updateFinalScore-controller.js" />
     <Content Include="SourceApp\Components\Period\employeeSettingUpdate-controller.js" />
+    <Content Include="SourceApp\Components\Report\master-report-controller.js" />
     <Content Include="SourceApp\Components\Report\monthlyEPASummaryReport-controller.js" />
     <Content Include="SourceApp\Components\Report\monthlyEPADetailReport-controller.js" />
+    <Content Include="SourceApp\Components\Report\Templates\masterReport.html" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPASummaryReport.html" />
     <Content Include="SourceApp\Components\Report\Templates\MonthlyEPADetailReport.html" />
     <Content Include="SourceApp\Components\UserInfo\Templates\index.html" />
