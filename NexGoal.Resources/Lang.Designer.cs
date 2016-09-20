@@ -1591,7 +1591,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluator Score.
+        ///   Looks up a localized string similar to Evaluator&apos;s Score.
         /// </summary>
         public static string EvaluatorScore {
             get {
@@ -2977,6 +2977,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PA Final Score.
+        /// </summary>
+        public static string PAFinalScore {
+            get {
+                return ResourceManager.GetString("PAFinalScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PA Focus.
         /// </summary>
         public static string PAFocus {
@@ -3099,6 +3108,15 @@ namespace NexGoal.Resources {
         public static string PeriodName {
             get {
                 return ResourceManager.GetString("PeriodName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Period Type.
+        /// </summary>
+        public static string PeriodType {
+            get {
+                return ResourceManager.GetString("PeriodType", resourceCulture);
             }
         }
         
@@ -3508,7 +3526,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reviewer Score.
+        ///   Looks up a localized string similar to Reviewer&apos;s Score.
         /// </summary>
         public static string ReviewerScore {
             get {

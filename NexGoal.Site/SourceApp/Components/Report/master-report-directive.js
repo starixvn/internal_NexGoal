@@ -6,6 +6,12 @@
     masterReportDirective.$inject = [];
 
     function masterReportDirective() {
+        function groupData(data) {
+            var groups = [];
+
+            return group;
+        };
+
         function generateGroupHeaders() {
             return [{
                 Columns: [
@@ -100,6 +106,7 @@
                 };
 
                 $scope.$watch("gridData", function (gridData) {
+                    var groupReports = groupData(gridData);
                     var groupHeaders = generateGroupHeaders();
                     var columnHeaders = generateColumnHeaders();
                     var bodyRows = generateBodyRows();

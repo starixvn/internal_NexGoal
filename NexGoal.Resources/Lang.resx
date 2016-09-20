@@ -754,7 +754,7 @@
     <value>Review Date</value>
   </data>
   <data name="ReviewerScore" xml:space="preserve">
-    <value>Reviewer Score</value>
+    <value>Reviewer's Score</value>
   </data>
   <data name="FromDateRequire" xml:space="preserve">
     <value>The From Date is required!</value>
@@ -853,7 +853,7 @@
     <value>Evaluator Rating</value>
   </data>
   <data name="EvaluatorScore" xml:space="preserve">
-    <value>Evaluator Score</value>
+    <value>Evaluator's Score</value>
   </data>
   <data name="CommentByEmployee" xml:space="preserve">
     <value>Comment by employee</value>
@@ -1691,5 +1691,11 @@
   </data>
   <data name="NominationBoard" xml:space="preserve">
     <value>Nomination Board</value>
+  </data>
+  <data name="PAFinalScore" xml:space="preserve">
+    <value>PA Final Score</value>
+  </data>
+  <data name="PeriodType" xml:space="preserve">
+    <value>Period Type</value>
   </data>
 </root>

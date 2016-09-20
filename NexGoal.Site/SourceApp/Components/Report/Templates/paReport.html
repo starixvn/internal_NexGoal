@@ -1,0 +1,98 @@
+﻿<div ng-controller="PAReportController as paReportCtrl">
+    <div class="row">
+        <div class="col-sm-12 sub-header">
+            <ul class="row breadcrumb">
+                <li class="current">PA Report</li>
+            </ul>
+        </div>
+
+        <div class="col-sm-12">
+            <form novalidate class="filter form-inline" role="form">
+                <div class="form-group">
+                    <div class="col">
+                        <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="paReportCtrl.periods" button-label="Name"
+                                                      helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Team"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="paReportCtrl.teams" button-label="Name"
+                                                      helper-elements="all none filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Employee"></label>
+                        <div class="control-content">
+                            <input class="form-control employe-search" placeholder="Enter full name or nick name" search-auto-complete
+                                   ng-model="paReportCtrl.searchEmployee"
+                                   search-employees="paReportCtrl.getEmployee()"
+                                   ng-change="paReportCtrl.unselectEmployee()"
+                                   employee="paReportCtrl.employee" />
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <button class="button" data-translate="Search"></button>
+                        <button class="button btnExcel" data-translate="Excel"></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="header-table">
+                        <th colspan="11">
+                            <input type="text" class="search-inline-textbox search pull-right"
+                                   ng-model="paReportCtrl.searchKey"
+                                   ng-change="paReportCtrl.search()" />
+                        </th>
+                    </tr>
+                    <tr>
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="NickName"></th>
+                        <th data-translate="FullName"></th>
+                        <th data-translate="Team"></th>
+                        <th data-translate="EvaluationPeriod"></th>
+                        <th data-translate="PeriodType"></th>
+                        <th data-translate="SelfScore"></th>
+                        <th data-translate="EvaluatorScore"></th>
+                        <th data-translate="ReviewerScore"></th>
+                        <th data-translate="PAFinalScore"></th>
+                        <th data-translate="Grade"></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="text-center" dir-paginate="pa in paReportCtrl.filteredItems | itemsPerPage: paReportCtrl.pageSize"
+                        current-page="paReportCtrl.currentPage">
+                        <td colspan="11">Hey</td>
+                    </tr>
+                    <tr ng-show="paReportCtrl.filteredItems.length == 0">
+                        <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+                <tfoot ng-show="paReportCtrl.filteredItems.length > 0">
+                    <tr>
+                        <td colspan="7" class="paging">
+                            <span data-translate="Show"></span>
+                            <select class="dropdown-entry" ng-model="paReportCtrl.pageSize"
+                                    ng-options="entry for entry in paReportCtrl.entries"></select>
+                            <span data-translate="entries"></span>
+                            <div class="pull-right custom-paging">
+                                <dir-pagination-controls boundary-links="true"></dir-pagination-controls>
+                            </div>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
