@@ -27,11 +27,11 @@
 
         private IList<string> _columnsName;
 
-        public EPADetailModel _epaDetail { get; set; }
+        public IEnumerable<EPADetailModel> _epaDetails { get; set; }
 
-        public MemoryStream Export(EPADetailModel epaDetail)
+        public MemoryStream Export(IEnumerable<EPADetailModel> epaDetail)
         {
-            _epaDetail = epaDetail;
+            _epaDetails = epaDetail;
             _workbook = new HSSFWorkbook();
             _sheet = _workbook.CreateSheet(Lang.EPADetailReportSheet);
             _columnsName = CreateColumnsName();
@@ -50,7 +50,7 @@
             }
         }
 
-        public void Render(EPADetailModel epaDetail)
+        public void Render(IEnumerable<EPADetailModel> epaDetail)
         {
             if (_workbook == null)
             {
@@ -123,7 +123,7 @@
             oddRedStyle.SetFont(redFont);
 
             var index = 1;
-            foreach (var memberEPA in _epaDetail.MemberEPAs)
+            foreach (var memberEPA in _epaDetails)
             {
                 var currentColumn = 0;
 
@@ -180,7 +180,7 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.SelfScore, (int)ProcessType.Self));
+                cell.SetCellValue(score.SelfScore);
 
                 if (_currentRow % 2 == 0 && !memberEPA.Process.Evaluators[0].IsEndProcess)
                 {
@@ -193,7 +193,7 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.EvaluatorScore, (int)ProcessType.Evaluator));
+                cell.SetCellValue(score.EvaluatorScore);
 
                 if (_currentRow % 2 == 0 && !memberEPA.Process.Reviewers[0].IsEndProcess)
                 {
@@ -206,7 +206,7 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(GetScoreByPhaseSelected(_epaDetail.PhaseSelecteds, score.ReviewerScore, (int)ProcessType.Reviewer));
+                cell.SetCellValue(score.ReviewerScore);
 
                 bodyStyle = _currentRow % 2 == 0 ? evenStyle : oddStyle;
 
@@ -231,7 +231,7 @@
         }
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
-        private dynamic CalculateScore(EPAModel memberEPA)
+        private dynamic CalculateScore(EPADetailModel memberEPA)
         {
             string disciplineScore = string.Empty,
                 selfScore = string.Empty,
@@ -241,34 +241,9 @@
                 finalScore = string.Empty,
                 grade = string.Empty;
 
-            if (memberEPA.HasDisciplineScore)
-            {
-                if (memberEPA.DisciplineScore < 0)
-                {
-                    memberEPA.DisciplineScore = 0;
-                }
-
-                disciplineScore = memberEPA.DisciplineScore.ToString();
-            }
-            else
-            {
-                if (memberEPA.DisciplineScore != 0)
-                {
-                    disciplineScore = memberEPA.DisciplineScore.ToString();
-                }
-                else
-                {
-                    disciplineScore = "-";
-                }
-            }
-
             if (memberEPA.EPAId > 0 && memberEPA.Process.Self.StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
-                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                {
-                    score = memberEPA.MonthlyEPA.AverageSelfScoreConverted;
-                }
 
                 selfScore = Math.Round(score, 2).ToString();
             }
@@ -279,11 +254,6 @@
                 && memberEPA.Process.Evaluators[0].StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
-
-                if (memberEPA.HasMonthlyEPA && memberEPA.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                {
-                    evaluatorScore = Math.Round(memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted, 2).ToString();
-                }
             }
 
             if (memberEPA.EPAId > 0
@@ -292,14 +262,6 @@
                 && memberEPA.Process.Reviewers[0].StatusEndProcess != (int)ProcessStatusType.Open)
             {
                 reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
-            }
-
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Managements != null
-                && memberEPA.Process.Managements.Any()
-                && memberEPA.Process.Managements[0].StatusEndProcess != (int)ProcessStatusType.Open)
-            {
-                managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements, 2).ToString();
             }
 
             if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod)

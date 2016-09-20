@@ -112,7 +112,6 @@
             var criteria = new GetYearEOQCriteria();
 
             return this.GetData<int>(criteria);
-                 
         }
     }
 }

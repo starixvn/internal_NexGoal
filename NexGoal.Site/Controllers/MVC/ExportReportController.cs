@@ -24,11 +24,10 @@
         private readonly IReportService _reportService;
         private readonly IAttendanceSummaryService _attendanceService;
         private readonly IEPADetailReportService _epaDetailReportService;
-        private readonly IMonthlyEPADetailReportService _monthlyEPADetailReportService;
         private readonly ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null, null, null)
+            : this(null, null, null, null, null)
         {
         }
 
@@ -37,14 +36,12 @@
             IReportService reportService,
             IAttendanceSummaryService attendanceService,
             IEPADetailReportService epaDetailReportService,
-            IMonthlyEPADetailReportService monthlyEPADetailReportService,
             ISessionService sessionService)
         {
             _periodService = checkFlowService ?? new PeriodService();
             _reportService = reportService ?? new ReportService();
             _attendanceService = attendanceService ?? new AttendanceSummaryService();
             _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
-            _monthlyEPADetailReportService = monthlyEPADetailReportService ?? new MonthlyEPADetailReportService();
             this.sessionService = sessionService ?? new SessionService();
         }
 
@@ -66,24 +63,11 @@
             return new EmptyResult();
         }
 
-        public ActionResult ExportEPASummaryReport(GetEPASummaryCriteria criteria)
-        {
-            string fileName = Lang.EPASummaryReportName + ".xls";
-
-            criteria.EmployeeId = this.sessionService.EmployeeId;
-
-            EPASummaryModel epaSummary = _reportService.GetEPASummaryReport(criteria);
-
-            MemoryStream output = _reportService.ExportEPASummaryReport(epaSummary);
-
-            return File(output.ToArray(), "application/vnd.ms-excel", fileName);
-        }
-
         public ActionResult ExportEPADetailReport(GetPAReportCriteria criteria)
         {
             criteria.UserId = this.sessionService.EmployeeId;
 
-            EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
+            IEnumerable<EPADetailModel> epaDetail = _reportService.GetEPADetailReport(criteria);
 
             _epaDetailReportService.Render(epaDetail);
 

@@ -121,7 +121,6 @@
     <Compile Include="Implement\Assessment\PAFocusService.cs" />
     <Compile Include="Implement\System\MenuServices.cs" />
     <Compile Include="Interfaces\ExportFile\IExportPdfService.cs" />
-    <Compile Include="Implement\ExportFile\MonthlyEPADetailReportService.cs" />
     <Compile Include="Implement\ExportFile\EPADetailReportService.cs" />
     <Compile Include="Implement\EPA\FlowManagementService.cs" />
     <Compile Include="Implement\EPA\KPIGroupService.cs" />
@@ -139,7 +138,6 @@
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
-    <Compile Include="Interfaces\ExportFile\IMonthlyEPADetailReportService.cs" />
     <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
     <Compile Include="Interfaces\EPA\IEPAEvaluatorService.cs" />
     <Compile Include="Interfaces\EPA\IEPAHistoryService.cs" />

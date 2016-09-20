@@ -9,16 +9,9 @@
 
         public int? EmployeeId { get; set; }
 
-        public int? PeriodId { get; set; }
+        public string PeriodIds { get; set; }
 
-        public int? DepartmentId { get; set; }
-
-        public int? PageIndex { get; set; }
-
-        public int? ItemsPerPage { get; set; }
-
-        [Output]
-        public int? TotalItem { get; set; }
+        public string GroupIds { get; set; }
 
         public override string GetSettingKey()
         {

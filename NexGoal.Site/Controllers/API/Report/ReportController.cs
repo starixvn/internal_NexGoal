@@ -33,56 +33,22 @@
             _commonController = commonController ?? new CommonController();
         }
 
-        [ApiAuthorize(FunctionKey.EPASummaryReport, Policy.Read)]
-        [HttpGet]
-        public HttpResponseMessage GetEPASummaryReport(
-            string periodIds = null,
-            int? departmentId = null,
-            bool? isLocal = null,
-            string sortColumnName = null,
-            string sortDirection = null,
-            int? pageIndex = null,
-            int? itemsPerPage = null)
-        {
-            var criteria = new GetEPASummaryCriteria()
-            {
-                EmployeeId = SessionService.EmployeeId,
-                PeriodIds = periodIds,
-                DepartmentId = departmentId,
-                IsLocal = isLocal,
-                SortColumnName = sortColumnName,
-                SortDirection = sortDirection,
-                PageIndex = pageIndex,
-                ItemsPerPage = itemsPerPage
-            };
-
-            EPASummaryModel epaInfos = _reportService.GetEPASummaryReport(criteria);
-
-            return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
-        }
-
         [ApiAuthorize(FunctionKey.EPADetailReport, Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPADetailReport(
-            int? periodId = null,
-            int? departmentId = null,
-            bool? isLocal = null,
-            string phaseIds = null,
-            string sortColumnName = null,
-            string sortDirection = null,
-            int? pageIndex = null,
-            int? itemsPerPage = null)
+            string periodIds = null,
+            string groupIds = null,
+            int? employeeId = null)
         {
             var criteria = new GetPAReportCriteria()
             {
                 UserId = SessionService.EmployeeId,
-                PeriodId = periodId,
-                DepartmentId = departmentId,
-                PageIndex = pageIndex,
-                ItemsPerPage = itemsPerPage
+                PeriodIds = periodIds,
+                GroupIds = groupIds,
+                EmployeeId = employeeId
             };
 
-            EPADetailModel epaInfos = _reportService.GetEPADetailReport(criteria);
+            IEnumerable<EPADetailModel> epaInfos = _reportService.GetEPADetailReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -104,19 +70,6 @@
             var report = _reportService.GetMaster(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, report);
-        }
-
-        [HttpGet]
-        public IList<PeriodModel> GetAllPeriodIncludeImport()
-        {
-            IList<PeriodModel> periods = _commonController.GetAllPeriodIncludeImport();
-
-            if (periods.Count > 0)
-            {
-                periods = periods.OrderByDescending(x => x.Year).ToList();
-            }
-
-            return periods;
         }
     }
 }
