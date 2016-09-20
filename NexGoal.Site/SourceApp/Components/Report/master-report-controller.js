@@ -24,7 +24,7 @@
                 ReviewerAdjustment: 3,
                 EvaluatorComment: "Evaluator Comment",
                 PAFocus: {
-                    FinalScore: 85,
+                    FinalScore: "85.55",
                     Contribution: 1,
                     BonusGiven: 25,
                     BonusRanking: 2,
@@ -32,6 +32,7 @@
                     LastCompletedPercentObjective: 80,
                     NextDescriptionObjective: "Next Description Objective",
                     Employee: {
+                        EmployeeId: 1,
                         NickName: "Forrest",
                         FullName: "Nguyễn Văn Lâm",
                         JobTitle: {
@@ -95,6 +96,7 @@
                     LastCompletedPercentObjective: 80,
                     NextDescriptionObjective: "Next Description Objective",
                     Employee: {
+                        EmployeeId: 2,
                         NickName: "Tim",
                         FullName: "Trịnh Đăng Thắng",
                         JobTitle: {
@@ -158,6 +160,7 @@
                     LastCompletedPercentObjective: 80,
                     NextDescriptionObjective: "Next Description Objective",
                     Employee: {
+                        EmployeeId: 3,
                         NickName: "Quinn",
                         FullName: "Võ Kim Quang",
                         JobTitle: {
@@ -201,6 +204,7 @@
                     LastCompletedPercentObjective: 80,
                     NextDescriptionObjective: "Next Description Objective",
                     Employee: {
+                        EmployeeId: 4,
                         NickName: "Jacob",
                         FullName: "Phan Đình Hải Sơn",
                         JobTitle: {
@@ -243,6 +247,7 @@
                     LastCompletedPercentObjective: 80,
                     NextDescriptionObjective: "Next Description Objective",
                     Employee: {
+                        EmployeeId: 5,
                         NickName: "Kaden",
                         FullName: "Trịnh Đăng Khoa",
                         JobTitle: {

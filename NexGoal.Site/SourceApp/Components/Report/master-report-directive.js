@@ -6,10 +6,31 @@
     masterReportDirective.$inject = [];
 
     function masterReportDirective() {
+        function renderEvaluatorCommentCell(cell) {
+            return '<a class="evaluator-comment" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+        }
+
         function groupData(data) {
             var groups = [];
 
-            return group;
+            angular.forEach(data, function (record) {
+                var groupIndex = groups.map(function (item) { return item.GroupId }).indexOf(record.PAFocus.Employee.Group.GroupId);
+                var group = {};
+
+                if (groupIndex === -1) {
+                    group.GroupName = record.PAFocus.Employee.Group.GroupName;
+                    group.GroupId = record.PAFocus.Employee.Group.GroupId;
+                    group.Members = [];
+
+                    groups.push(group);
+                } else {
+                    group = groups[groupIndex];
+                }
+
+                group.Members.push(record);
+            });
+
+            return groups;
         };
 
         function generateGroupHeaders() {
@@ -38,17 +59,17 @@
         function generateColumnHeaders() {
             return [
                { HeaderText: "Team", Width: 80, Name: "TeamName", CellAlign: "center" },
-               { HeaderText: "#", Width: 80, Name: "SymbolCount", CellAlign: "center" },
+               { HeaderText: "#", Width: 50, Name: "SymbolCount", CellAlign: "center" },
                { HeaderText: "Nick Name", Width: 80, Name: "NickName", CellAlign: "center" },
-               { HeaderText: "Full Name", Width: 80, Name: "FullName" },
-               { HeaderText: "Job Title", Width: 80, Name: "JobTitle" },
+               { HeaderText: "Full Name", Width: 150, Name: "FullName" },
+               { HeaderText: "Job Title", Width: 150, Name: "JobTitle" },
                { HeaderText: "Reviewer's Adjustment", Width: 80, Name: "ReviewerAdjustment", CellAlign: "center" },
-               { HeaderText: "PA Final Score", Width: 80, Name: "PAFinalScore", CellAlign: "center" },
-               { HeaderText: "Evaluator's Comment", Width: 80, Name: "EvaluatorComment", CellAlign: "center" },
+               { HeaderText: "PA Final Score", Width: 60, Name: "PAFinalScore", CellAlign: "center" },
+               { HeaderText: "Evaluator's Comment", Width: 80, Name: "EvaluatorComment", CellAlign: "center", CustomCellRender: renderEvaluatorCommentCell },
                { HeaderText: "Contribution", Width: 80, Name: "Contribution", CellAlign: "center" },
-               { HeaderText: "Applicable to promote", Width: 80, Name: "ApplicableToPromote", CellAlign: "center" },
-               { HeaderText: "Bonus Given", Width: 80, Name: "BonusGiven", CellAlign: "center" },
-               { HeaderText: "Bonus Ranking", Width: 80, Name: "BonusRanking", CellAlign: "center" },
+               { HeaderText: "Applicable to promote", Width: 50, Name: "ApplicableToPromote", CellAlign: "center" },
+               { HeaderText: "Bonus Given", Width: 50, Name: "BonusGiven", CellAlign: "center" },
+               { HeaderText: "Bonus Ranking", Width: 50, Name: "BonusRanking", CellAlign: "center" },
                { HeaderText: "Accessing of Objective achievement", Width: 80, Name: "ObjectiveAchievement", CellAlign: "center" },
                { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center" },
                { HeaderText: "Award Name ", Width: 80, Name: "AwardName" },
@@ -59,36 +80,45 @@
             ];
         }
 
-        function generateBodyRows() {
+        function generateBodyRows(groupReports) {
             var rows = [];
+            angular.forEach(groupReports, function (group) {
+                var index = 1;
+                var firstRow = true;
 
-            for (var i = 1; i < 100; i++) {
-                var currentRow = {
-                    Columns: [
-                        { Name: "TeamName", Value: i },
-                        { Name: "SymbolCount", Value: i },
-                        { Name: "NickName", Value: i },
-                        { Name: "FullName", Value: i },
-                        { Name: "JobTitle", Value: i },
-                        { Name: "ReviewerAdjustment", Value: i },
-                        { Name: "PAFinalScore", Value: i },
-                        { Name: "EvaluatorComment", Value: i },
-                        { Name: "Contribution", Value: i },
-                        { Name: "ApplicableToPromote", Value: i },
-                        { Name: "BonusGiven", Value: i },
-                        { Name: "BonusRanking", Value: i },
-                        { Name: "ObjectiveAchievement", Value: i },
-                        { Name: "NextObjectives", Value: i },
-                        { Name: "AwardName", Value: i },
-                        { Name: "AwardStatus", Value: i },
-                        { Name: "ProjectName", Value: i },
-                        { Name: "ProjectScore", Value: i },
-                        { Name: "ProjectComment", Value: i }
-                    ]
-                };
+                angular.forEach(group.Members, function (member) {
+                    var row = {
+                        Columns: []
+                    };
 
-                rows.push(currentRow);
-            }
+                    if (firstRow) {
+                        row.Columns.push({ Name: "TeamName", Value: group.GroupName, MergeRowNumber: group.Members.length });
+                        firstRow = false;
+                    }
+
+                    row.Columns.push({ Name: "SymbolCount", Value: index });
+                    row.Columns.push({ Name: "NickName", Value: member.PAFocus.Employee.NickName });
+                    row.Columns.push({ Name: "FullName", Value: member.PAFocus.Employee.FullName });
+                    row.Columns.push({ Name: "JobTitle", Value: member.PAFocus.Employee.JobTitle.JobTitleName });
+                    row.Columns.push({ Name: "ReviewerAdjustment", Value: member.ReviewerAdjustment });
+                    row.Columns.push({ Name: "PAFinalScore", Value: member.PAFocus.FinalScore });
+                    row.Columns.push({ Name: "EvaluatorComment", Value: member.PAFocus.Employee.EmployeeId });
+                    row.Columns.push({ Name: "Contribution", Value: member.PAFocus.Contribution });
+                    row.Columns.push({ Name: "ApplicableToPromote", Value: member.PAFocus.IsReadyPromotion ? "Yes" : "No" });
+                    row.Columns.push({ Name: "BonusGiven", Value: member.PAFocus.BonusGiven });
+                    row.Columns.push({ Name: "BonusRanking", Value: member.PAFocus.BonusRanking });
+                    row.Columns.push({ Name: "ObjectiveAchievement", Value: member.PAFocus.LastCompletedPercentObjective + "%" });
+                    row.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.NextDescriptionObjective });
+                    row.Columns.push({ Name: "AwardName", Value: 1 });
+                    row.Columns.push({ Name: "AwardStatus", Value: 1 });
+                    row.Columns.push({ Name: "ProjectName", Value: 1 });
+                    row.Columns.push({ Name: "ProjectScore", Value: 1 });
+                    row.Columns.push({ Name: "ProjectComment", Value: 1 });
+
+                    rows.push(row);
+                    index++;
+                });
+            });
 
             return rows;
         }
@@ -101,21 +131,27 @@
             link: function ($scope, iElement) {
                 var gridOptions = {
                     customizeHeader: true,
-                    gridExpandHeight: 500,
-                    numberOfFrozenColumn: 7
+                    gridExpandHeight: 500
                 };
 
                 $scope.$watch("gridData", function (gridData) {
                     var groupReports = groupData(gridData);
                     var groupHeaders = generateGroupHeaders();
                     var columnHeaders = generateColumnHeaders();
-                    var bodyRows = generateBodyRows();
+                    var bodyRows = generateBodyRows(groupReports);
+                    var element = $(iElement);
 
                     gridOptions.groupHeaderRows = groupHeaders;
                     gridOptions.columns = columnHeaders;
                     gridOptions.bodyRows = bodyRows;
 
-                    $(iElement).fanexGrid(gridOptions);
+                    element.fanexGrid(gridOptions);
+
+                    element.find(".evaluator-comment").bind("click", function () {
+                        var $self = $(this);
+                        
+                        console.log($self.data("employee-id"));
+                    });
                 });
             }
         };
