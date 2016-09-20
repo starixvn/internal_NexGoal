@@ -2,7 +2,6 @@
 {
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
@@ -27,11 +26,11 @@
 
         private IList<string> _columnsName;
 
-        public IEnumerable<EPADetailModel> _epaDetails { get; set; }
+        public IEnumerable<EPADetailModel> epaDetails { get; set; }
 
-        public MemoryStream Export(IEnumerable<EPADetailModel> epaDetail)
+        public MemoryStream Export(IEnumerable<EPADetailModel> epaDetails)
         {
-            _epaDetails = epaDetail;
+            this.epaDetails = epaDetails;
             _workbook = new HSSFWorkbook();
             _sheet = _workbook.CreateSheet(Lang.EPADetailReportSheet);
             _columnsName = CreateColumnsName();
@@ -123,7 +122,7 @@
             oddRedStyle.SetFont(redFont);
 
             var index = 1;
-            foreach (var memberEPA in _epaDetails)
+            foreach (var memberEPA in epaDetails)
             {
                 var currentColumn = 0;
 
@@ -222,19 +221,10 @@
             }
         }
 
-        private string GetScoreByPhaseSelected(
-            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
-            string score,
-            int phaseId)
-        {
-            return phaseSelecteds.Count(x => x.PhaseId == phaseId).Equals(1) ? score : "-";
-        }
-
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private dynamic CalculateScore(EPADetailModel memberEPA)
         {
-            string disciplineScore = string.Empty,
-                selfScore = string.Empty,
+            string selfScore = string.Empty,
                 evaluatorScore = string.Empty,
                 reviewerScore = string.Empty,
                 managementScore = string.Empty,
@@ -289,7 +279,6 @@
                 EvaluatorScore = evaluatorScore,
                 ReviewerScore = reviewerScore,
                 ManagementScore = managementScore,
-                DisciplineScore = disciplineScore,
                 FinalScore = finalScore,
                 Grade = grade
             };
