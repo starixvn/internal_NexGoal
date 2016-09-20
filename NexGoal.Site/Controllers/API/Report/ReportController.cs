@@ -73,15 +73,11 @@
             int? pageIndex = null,
             int? itemsPerPage = null)
         {
-            var criteria = new GetEPADetailCriteria()
+            var criteria = new GetPAReportCriteria()
             {
-                EmployeeId = SessionService.EmployeeId,
+                UserId = SessionService.EmployeeId,
                 PeriodId = periodId,
                 DepartmentId = departmentId,
-                IsLocal = isLocal,
-                PhaseIds = phaseIds,
-                SortColumnName = sortColumnName,
-                SortDirection = sortDirection,
                 PageIndex = pageIndex,
                 ItemsPerPage = itemsPerPage
             };

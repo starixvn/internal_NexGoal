@@ -97,8 +97,6 @@
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    epaDetail.PhaseSelecteds = multi.Read<EvaluationPhaseModel>();
-
                     epaDetail.MemberEPAs = multi.Read<EPAModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                     (info, employee, status, period, scoreRatingType) =>
                     {
@@ -119,7 +117,7 @@
                     epaDetail.TotalItem = totalItem;
 
                     GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
-                    DecodeAllScore(epaDetail.MemberEPAs);
+                    DecryptAllScore(epaDetail.MemberEPAs);
                 }
             }
 
@@ -155,7 +153,7 @@
                     epaDetail.TotalItem = totalItem;
 
                     GroupEPAProcessByEPA(epaDetail.MemberEPAs, processes);
-                    DecodeAllScore(epaDetail.MemberEPAs);
+                    DecryptAllScore(epaDetail.MemberEPAs);
                 }
             }
 
@@ -234,10 +232,6 @@
                         case (int)ProcessType.Reviewer:
                             epaInfo.Process.Reviewers.Add(process);
                             break;
-
-                        case (int)ProcessType.Management:
-                            epaInfo.Process.Managements.Add(process);
-                            break;
                     }
                 }
             }
@@ -251,7 +245,7 @@
             }
         }
 
-        private void DecodeAllScore(IEnumerable<EPAModel> epaInfos)
+        private void DecryptAllScore(IEnumerable<EPAModel> epaInfos)
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
@@ -259,7 +253,7 @@
             }
         }
 
-        private void DecodeTotalScore(IList<EPAProcessModel> processes)
+        private void DecryptTotalScore(IList<EPAProcessModel> processes)
         {
             foreach (EPAProcessModel process in processes)
             {

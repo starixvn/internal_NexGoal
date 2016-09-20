@@ -3,21 +3,15 @@
     using Fanex.Data.Repository;
     using NexGoal.Core.Attribute;
 
-    public class GetMonthlyEPADetailCriteria : CriteriaBase
+    public class GetPAReportCriteria : CriteriaBase
     {
-        public int EmployeeId { get; set; }
+        public int UserId { get; set; }
 
-        public string PhaseIds { get; set; }
+        public int? EmployeeId { get; set; }
 
         public int? PeriodId { get; set; }
 
         public int? DepartmentId { get; set; }
-
-        public bool? IsLocal { get; set; }
-
-        public string SortColumnName { get; set; }
-
-        public string SortDirection { get; set; }
 
         public int? PageIndex { get; set; }
 
@@ -28,12 +22,12 @@
 
         public override string GetSettingKey()
         {
-            return "Report_MonthlyEPADetail";
+            return "Report_PAReport";
         }
 
         public override bool IsValid()
         {
-            return EmployeeId > 0;
+            return UserId > 0;
         }
     }
 }

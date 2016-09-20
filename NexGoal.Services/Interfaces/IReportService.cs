@@ -18,13 +18,9 @@
 
         MemoryStream ExportMonthlyEPASummaryReport(EPASummaryModel epaSummary);
 
-        EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria);
-
-        EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria);
+        EPADetailModel GetEPADetailReport(GetPAReportCriteria criteria);
 
         void ExportMonthlyEPADetailReport(EPADetailModel epaDetail, string templatePath);
-
-        EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria);
 
         IEnumerable<MasterReportModel> GetMaster(GetMasterReportCriteria criteria);
     }

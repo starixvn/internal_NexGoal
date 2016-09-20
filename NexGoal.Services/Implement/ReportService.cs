@@ -102,7 +102,7 @@
 
         #region EPA Detail Report
 
-        public EPADetailModel GetEPADetailReport(GetEPADetailCriteria criteria)
+        public EPADetailModel GetEPADetailReport(GetPAReportCriteria criteria)
         {
             EPADetailModel result = new EPADetailModel();
 
@@ -123,18 +123,6 @@
             return ExportEPASummaryReport(epaSummary, Lang.MonthlyEPASummaryReportTitle);
         }
 
-        public EPADetailModel GetMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
-        {
-            EPADetailModel result = new EPADetailModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = reportRepository.GetMonthlyEPADetail(criteria);
-            }
-
-            return result;
-        }
-
         public void ExportMonthlyEPADetailReport(EPADetailModel epaDetail, string templatePath)
         {
             string reportName = Lang.MonthlyEPADetailReportName;
@@ -146,18 +134,6 @@
             writer.SyncColumnsWidth(11);
 
             writer.Render();
-        }
-
-        public EPASummaryModel GetMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
-        {
-            EPASummaryModel result = new EPASummaryModel();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = reportRepository.GetMonthlyEPASummary(criteria);
-            }
-
-            return result;
         }
 
         #endregion Monthly EPA Detail Report

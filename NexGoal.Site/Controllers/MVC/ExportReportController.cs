@@ -79,36 +79,13 @@
             return File(output.ToArray(), "application/vnd.ms-excel", fileName);
         }
 
-        public ActionResult ExportMonthlyEPASummaryReport(GetMonthlyEPASummaryCriteria criteria)
+        public ActionResult ExportEPADetailReport(GetPAReportCriteria criteria)
         {
-            string fileName = Lang.MonthlyEPASummaryReportName + ".xls";
-
-            criteria.EmployeeId = this.sessionService.EmployeeId;
-
-            EPASummaryModel epaSummary = _reportService.GetMonthlyEPASummaryReport(criteria);
-
-            MemoryStream output = _reportService.ExportMonthlyEPASummaryReport(epaSummary);
-
-            return File(output.ToArray(), "application/vnd.ms-excel", fileName);
-        }
-
-        public ActionResult ExportEPADetailReport(GetEPADetailCriteria criteria)
-        {
-            criteria.EmployeeId = this.sessionService.EmployeeId;
+            criteria.UserId = this.sessionService.EmployeeId;
 
             EPADetailModel epaDetail = _reportService.GetEPADetailReport(criteria);
 
             _epaDetailReportService.Render(epaDetail);
-
-            return new EmptyResult();
-        }
-
-        public ActionResult ExportMonthlyEPADetailReport(GetMonthlyEPADetailCriteria criteria)
-        {
-            criteria.EmployeeId = this.sessionService.EmployeeId;
-
-            EPADetailModel epaDetail = _reportService.GetMonthlyEPADetailReport(criteria);
-            _monthlyEPADetailReportService.Render(epaDetail);
 
             return new EmptyResult();
         }
