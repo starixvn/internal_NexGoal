@@ -15,7 +15,7 @@
         vm.filter = {
             periodId: '',
             teamIds: '',
-            employeeId: 0
+            employeeId: null
         };
 
         function initialize() {
@@ -33,10 +33,6 @@
                     vm.filter.periodId = vm.periods[0].PeriodId;
                 }
             });
-
-            ReportModel.getMasterReport();
-
-            vm.employeeReports = ReportModel.masterReports;
         }
 
         vm.getEmployee = function () {
@@ -46,8 +42,18 @@
         vm.unselectEmployee = function () {
             if (vm.searchEmployee.trim() === '') {
                 vm.employee = null;
-                vm.filter.employeeId = 0;
+                vm.filter.employeeId = null;
             }
+        };
+
+        vm.query = function () {
+            vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
+
+            console.log(vm.filter);
+
+            ReportModel.getMasterReport(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                console.log(ReportModel.masterReports);
+            });
         };
 
         initialize();

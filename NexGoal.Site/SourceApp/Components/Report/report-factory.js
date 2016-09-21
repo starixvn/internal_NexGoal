@@ -18,6 +18,16 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
                         EmployeeId: employeeId
                     }
                 });
+        },
+        getMasterReport: function (periodId, groupIds, employeeId) {
+            return $http.get(baseUrl + 'api/Report/GetMasterReport',
+                {
+                    params: {
+                        PeriodId: periodId,
+                        GroupIds: groupIds,
+                        EmployeeId: employeeId
+                    }
+                });
         }
     };
 }]);

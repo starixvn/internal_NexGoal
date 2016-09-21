@@ -26,11 +26,26 @@
             return htmlString;
         }
 
+        function renderEmployeeWorkings(cell) {
+            var htmlString = '<table class="table employee-working-table">';
+
+            angular.forEach(cell.Value, function (project) {
+                htmlString += "<tr><td width=150>" + project.ProjectName +
+                    "</td><td width=50 class='text-center'>" + project.DecryptedScore +
+                    "</td><td width=60 class='text-center'><a class='project-comment' data-employee-id='" + project.EmployeeId +
+                    "' data-project-name='" + project.ProjectName + "'>" + "<i class='fa fa-search' aria-hidden='true'></i></a></td></tr>";
+            });
+
+            htmlString += '</table>';
+
+            return htmlString;
+        }
+
         function groupData(data) {
             var groups = [];
 
             angular.forEach(data, function (record) {
-                var groupIndex = groups.map(function (item) { return item.GroupId }).indexOf(record.PAFocus.Employee.Group.GroupId);
+                var groupIndex = groups.map(function (item) { return item.GroupId; }).indexOf(record.PAFocus.Employee.Group.GroupId);
                 var group = {};
 
                 if (groupIndex === -1) {
@@ -90,9 +105,9 @@
                { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center", CustomCellRender: renderNextObjectives },
                { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderNominations },
                { HeaderText: "Status", Width: 80, Name: "AwardStatus" },
-               { HeaderText: "Project Name ", Width: 80, Name: "ProjectName" },
-               { HeaderText: "Score", Width: 80, Name: "ProjectScore" },
-               { HeaderText: "Comment", Width: 80, Name: "ProjectComment", CellAlign: "center" }
+               { HeaderText: "Project Name ", Width: 150, Name: "ProjectName", CustomCellRender: renderEmployeeWorkings },
+               { HeaderText: "Score", Width: 50, Name: "ProjectScore" },
+               { HeaderText: "Comment", Width: 60, Name: "ProjectComment", CellAlign: "center" }
             ];
         }
 
@@ -126,9 +141,7 @@
                     row.Columns.push({ Name: "ObjectiveAchievement", Value: member.PAFocus.LastCompletedPercentObjective + "%" });
                     row.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.Employee.EmployeeId });
                     row.Columns.push({ Name: "AwardName", Value: member.Nominations, MergeColNumber: 2 });
-                    row.Columns.push({ Name: "ProjectName", Value: 1 });
-                    row.Columns.push({ Name: "ProjectScore", Value: 1 });
-                    row.Columns.push({ Name: "ProjectComment", Value: 1 });
+                    row.Columns.push({ Name: "ProjectName", Value: member.EmployeeWorkings, MergeColNumber: 3 });
 
                     rows.push(row);
                     index++;

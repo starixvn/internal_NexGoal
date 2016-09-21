@@ -56,266 +56,287 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         }
     }
 
-    reportModel.getMasterReport = function () {
-        var data = [];
-        var forrest = {
-            ReviewerAdjustment: 3,
-            EvaluatorComment: "Evaluator Comment",
-            PAFocus: {
-                FinalScore: "85.55",
-                Contribution: 1,
-                BonusGiven: 25,
-                BonusRanking: 2,
-                IsReadyPromotion: false,
-                LastCompletedPercentObjective: 80,
-                NextDescriptionObjective: "Next Description Objective",
-                Employee: {
-                    EmployeeId: 1,
-                    NickName: "Forrest",
-                    FullName: "Nguyễn Văn Lâm",
-                    JobTitle: {
-                        JobTitleName: "Software Engineer"
-                    },
-                    Group: {
-                        GroupId: 1,
-                        GroupName: "Nexus"
-                    }
-                }
-            },
-            Nominations: [
-                {
-                    StatusToString: "Nominated",
-                    Title: "EOQ: 1st 2016"
-                },
-                {
-                    StatusToString: "Shortlisted",
-                    Title: "EOQ: 2nd 2016"
-                },
-                {
-                    StatusToString: "Winner",
-                    Title: "EOQ: 3rd 2016"
-                },
-                {
-                    StatusToString: "Winner",
-                    Title: "EOY: 2016"
-                }
-            ],
-            EmployeeWorkings: [
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project A's Comment"
-                },
-                {
-                    ProjectName: "Project B",
-                    DecryptedScore: 4,
-                    Comment: "Project B's Comment"
-                },
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project B's Comment"
-                }
-            ]
-        };
-        var tim = {
-            ReviewerAdjustment: 3,
-            EvaluatorComment: "Evaluator Comment",
-            PAFocus: {
-                FinalScore: 85,
-                Contribution: 1,
-                BonusGiven: 25,
-                BonusRanking: 2,
-                IsReadyPromotion: false,
-                LastCompletedPercentObjective: 80,
-                NextDescriptionObjective: "Next Description Objective",
-                Employee: {
-                    EmployeeId: 2,
-                    NickName: "Tim",
-                    FullName: "Trịnh Đăng Thắng",
-                    JobTitle: {
-                        JobTitleName: "Software Engineer"
-                    },
-                    Group: {
-                        GroupId: 1,
-                        GroupName: "Nexus"
-                    }
-                }
-            },
-            Nominations: [
-                {
-                    StatusToString: "Shortlisted",
-                    Title: "EOQ: 1st 2016"
-                },
-                {
-                    StatusToString: "Winner",
-                    Title: "EOQ: 2nd 2016"
-                },
-                {
-                    StatusToString: "Nominated",
-                    Title: "EOQ: 3rd 2016"
-                },
-                {
-                    StatusToString: "Shortlisted",
-                    Title: "EOY: 2016"
-                }
-            ],
-            EmployeeWorkings: [
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project A's Comment"
-                },
-                {
-                    ProjectName: "Project B",
-                    DecryptedScore: 4,
-                    Comment: "Project B's Comment"
-                },
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project B's Comment"
-                }
-            ]
-        };
-        var quinn = {
-            ReviewerAdjustment: 3,
-            EvaluatorComment: "Evaluator Comment",
-            PAFocus: {
-                FinalScore: 85,
-                Contribution: 1,
-                BonusGiven: 25,
-                BonusRanking: 2,
-                IsReadyPromotion: false,
-                LastCompletedPercentObjective: 80,
-                NextDescriptionObjective: "Next Description Objective",
-                Employee: {
-                    EmployeeId: 3,
-                    NickName: "Quinn",
-                    FullName: "Võ Kim Quang",
-                    JobTitle: {
-                        JobTitleName: "Software Engineer / Team Leader"
-                    },
-                    Group: {
-                        GroupId: 1,
-                        GroupName: "Nexus"
-                    }
-                }
-            },
-            Nominations: [],
-            EmployeeWorkings: [
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project A's Comment"
-                },
-                {
-                    ProjectName: "Project B",
-                    DecryptedScore: 4,
-                    Comment: "Project B's Comment"
-                },
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project B's Comment"
-                }
-            ]
-        };
+    reportModel.getMasterReport = function (periodId, groupIds, employeeId) {
+        //var data = [];
+        //var forrest = {
+        //    ReviewerAdjustment: 3,
+        //    EvaluatorComment: "Evaluator Comment",
+        //    PAFocus: {
+        //        FinalScore: "85.55",
+        //        Contribution: 1,
+        //        BonusGiven: 25,
+        //        BonusRanking: 2,
+        //        IsReadyPromotion: false,
+        //        LastCompletedPercentObjective: 80,
+        //        NextDescriptionObjective: "Next Description Objective",
+        //        Employee: {
+        //            EmployeeId: 1,
+        //            NickName: "Forrest",
+        //            FullName: "Nguyễn Văn Lâm",
+        //            JobTitle: {
+        //                JobTitleName: "Software Engineer"
+        //            },
+        //            Group: {
+        //                GroupId: 1,
+        //                GroupName: "Nexus"
+        //            }
+        //        }
+        //    },
+        //    Nominations: [
+        //        {
+        //            StatusToString: "Nominated",
+        //            Title: "EOQ: 1st 2016"
+        //        },
+        //        {
+        //            StatusToString: "Shortlisted",
+        //            Title: "EOQ: 2nd 2016"
+        //        },
+        //        {
+        //            StatusToString: "Winner",
+        //            Title: "EOQ: 3rd 2016"
+        //        },
+        //        {
+        //            StatusToString: "Winner",
+        //            Title: "EOY: 2016"
+        //        }
+        //    ],
+        //    EmployeeWorkings: [
+        //        {
+        //            EmployeeId: 1,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project A's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 1,
+        //            ProjectName: "Project B",
+        //            DecryptedScore: 4,
+        //            Comment: "Project B's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 1,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project B's Comment"
+        //        }
+        //    ]
+        //};
+        //var tim = {
+        //    ReviewerAdjustment: 3,
+        //    EvaluatorComment: "Evaluator Comment",
+        //    PAFocus: {
+        //        FinalScore: 85,
+        //        Contribution: 1,
+        //        BonusGiven: 25,
+        //        BonusRanking: 2,
+        //        IsReadyPromotion: false,
+        //        LastCompletedPercentObjective: 80,
+        //        NextDescriptionObjective: "Next Description Objective",
+        //        Employee: {
+        //            EmployeeId: 2,
+        //            NickName: "Tim",
+        //            FullName: "Trịnh Đăng Thắng",
+        //            JobTitle: {
+        //                JobTitleName: "Software Engineer"
+        //            },
+        //            Group: {
+        //                GroupId: 1,
+        //                GroupName: "Nexus"
+        //            }
+        //        }
+        //    },
+        //    Nominations: [
+        //        {
+        //            StatusToString: "Shortlisted",
+        //            Title: "EOQ: 1st 2016"
+        //        },
+        //        {
+        //            StatusToString: "Winner",
+        //            Title: "EOQ: 2nd 2016"
+        //        },
+        //        {
+        //            StatusToString: "Nominated",
+        //            Title: "EOQ: 3rd 2016"
+        //        },
+        //        {
+        //            StatusToString: "Shortlisted",
+        //            Title: "EOY: 2016"
+        //        }
+        //    ],
+        //    EmployeeWorkings: [
+        //        {
+        //            EmployeeId: 2,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project A's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 2,
+        //            ProjectName: "Project B",
+        //            DecryptedScore: 4,
+        //            Comment: "Project B's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 2,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project B's Comment"
+        //        }
+        //    ]
+        //};
+        //var quinn = {
+        //    ReviewerAdjustment: 3,
+        //    EvaluatorComment: "Evaluator Comment",
+        //    PAFocus: {
+        //        FinalScore: 85,
+        //        Contribution: 1,
+        //        BonusGiven: 25,
+        //        BonusRanking: 2,
+        //        IsReadyPromotion: false,
+        //        LastCompletedPercentObjective: 80,
+        //        NextDescriptionObjective: "Next Description Objective",
+        //        Employee: {
+        //            EmployeeId: 3,
+        //            NickName: "Quinn",
+        //            FullName: "Võ Kim Quang",
+        //            JobTitle: {
+        //                JobTitleName: "Software Engineer / Team Leader"
+        //            },
+        //            Group: {
+        //                GroupId: 1,
+        //                GroupName: "Nexus"
+        //            }
+        //        }
+        //    },
+        //    Nominations: [],
+        //    EmployeeWorkings: [
+        //        {
+        //            EmployeeId: 3,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project A's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 3,
+        //            ProjectName: "Project B",
+        //            DecryptedScore: 4,
+        //            Comment: "Project B's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 3,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project B's Comment"
+        //        }
+        //    ]
+        //};
 
-        var jacob = {
-            ReviewerAdjustment: -1,
-            EvaluatorComment: "Evaluator Comment",
-            PAFocus: {
-                FinalScore: 85,
-                Contribution: 1,
-                BonusGiven: 25,
-                BonusRanking: 2,
-                IsReadyPromotion: false,
-                LastCompletedPercentObjective: 80,
-                NextDescriptionObjective: "Next Description Objective",
-                Employee: {
-                    EmployeeId: 4,
-                    NickName: "Jacob",
-                    FullName: "Phan Đình Hải Sơn",
-                    JobTitle: {
-                        JobTitleName: "Staff Software Engineer / Team Leader"
-                    },
-                    Group: {
-                        GroupId: 2,
-                        GroupName: "Olympus"
-                    }
-                }
-            },
-            Nominations: [],
-            EmployeeWorkings: [
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project A's Comment"
-                },
-                {
-                    ProjectName: "Project B",
-                    DecryptedScore: 4,
-                    Comment: "Project B's Comment"
-                },
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project B's Comment"
-                }
-            ]
-        };
-        var kaden = {
-            ReviewerAdjustment: -1,
-            EvaluatorComment: "Evaluator Comment",
-            PAFocus: {
-                FinalScore: 85,
-                Contribution: 1,
-                BonusGiven: 25,
-                BonusRanking: 2,
-                IsReadyPromotion: false,
-                LastCompletedPercentObjective: 80,
-                NextDescriptionObjective: "Next Description Objective",
-                Employee: {
-                    EmployeeId: 5,
-                    NickName: "Kaden",
-                    FullName: "Trịnh Đăng Khoa",
-                    JobTitle: {
-                        JobTitleName: "Software Engineer"
-                    },
-                    Group: {
-                        GroupId: 2,
-                        GroupName: "Olympus"
-                    }
-                }
-            },
-            Nominations: [],
-            EmployeeWorkings: [
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project A's Comment"
-                },
-                {
-                    ProjectName: "Project B",
-                    DecryptedScore: 4,
-                    Comment: "Project B's Comment"
-                },
-                {
-                    ProjectName: "Project A",
-                    DecryptedScore: 5,
-                    Comment: "Project B's Comment"
-                }
-            ]
-        };
+        //var jacob = {
+        //    ReviewerAdjustment: -1,
+        //    EvaluatorComment: "Evaluator Comment",
+        //    PAFocus: {
+        //        FinalScore: 85,
+        //        Contribution: 1,
+        //        BonusGiven: 25,
+        //        BonusRanking: 2,
+        //        IsReadyPromotion: false,
+        //        LastCompletedPercentObjective: 80,
+        //        NextDescriptionObjective: "Next Description Objective",
+        //        Employee: {
+        //            EmployeeId: 4,
+        //            NickName: "Jacob",
+        //            FullName: "Phan Đình Hải Sơn",
+        //            JobTitle: {
+        //                JobTitleName: "Staff Software Engineer / Team Leader"
+        //            },
+        //            Group: {
+        //                GroupId: 2,
+        //                GroupName: "Olympus"
+        //            }
+        //        }
+        //    },
+        //    Nominations: [],
+        //    EmployeeWorkings: [
+        //        {
+        //            EmployeeId: 4,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project A's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 4,
+        //            ProjectName: "Project B",
+        //            DecryptedScore: 4,
+        //            Comment: "Project B's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 4,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project B's Comment"
+        //        }
+        //    ]
+        //};
+        //var kaden = {
+        //    ReviewerAdjustment: -1,
+        //    EvaluatorComment: "Evaluator Comment",
+        //    PAFocus: {
+        //        FinalScore: 85,
+        //        Contribution: 1,
+        //        BonusGiven: 25,
+        //        BonusRanking: 2,
+        //        IsReadyPromotion: false,
+        //        LastCompletedPercentObjective: 80,
+        //        NextDescriptionObjective: "Next Description Objective",
+        //        Employee: {
+        //            EmployeeId: 5,
+        //            NickName: "Kaden",
+        //            FullName: "Trịnh Đăng Khoa",
+        //            JobTitle: {
+        //                JobTitleName: "Software Engineer"
+        //            },
+        //            Group: {
+        //                GroupId: 2,
+        //                GroupName: "Olympus"
+        //            }
+        //        }
+        //    },
+        //    Nominations: [],
+        //    EmployeeWorkings: [
+        //        {
+        //            EmployeeId: 5,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project A's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 5,
+        //            ProjectName: "Project B",
+        //            DecryptedScore: 4,
+        //            Comment: "Project B's Comment"
+        //        },
+        //        {
+        //            EmployeeId: 5,
+        //            ProjectName: "Project A",
+        //            DecryptedScore: 5,
+        //            Comment: "Project B's Comment"
+        //        }
+        //    ]
+        //};
 
-        data.push(forrest);
-        data.push(tim);
-        data.push(quinn);
-        data.push(jacob);
-        data.push(kaden);
+        //data.push(forrest);
+        //data.push(tim);
+        //data.push(quinn);
+        //data.push(jacob);
+        //data.push(kaden);
 
-        reportModel.masterReports = data;
+        //reportModel.masterReports = data;
+
+        return reportFactory.getMasterReport(periodId, groupIds, employeeId)
+            .success(function (masterReports) {
+                reportModel.masterReports = masterReports;
+            }).error(function (response, status) {
+            });
     };
 
     reportModel.requestExportEPA = function (epaId) {
