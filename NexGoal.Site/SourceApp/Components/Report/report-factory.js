@@ -9,9 +9,6 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
         requestExportSemiEPA: function (epaId) {
             return $http.get(baseUrl + 'ExportPDF/RequestExportSemiEPA/', { params: { epaId: epaId } });
         },
-        getAllPeriodIncludeImport: function () {
-            return $http.get(baseUrl + 'api/Report/GetAllPeriodIncludeImport');
-        },
         getEPASummaryReport: function (periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
             return $http.get(baseUrl + 'api/Report/GetEPASummaryReport',
                 {

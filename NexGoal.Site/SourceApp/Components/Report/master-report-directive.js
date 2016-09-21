@@ -3,9 +3,9 @@
 
     reportModule.directive("gridMasterReport", masterReportDirective);
 
-    masterReportDirective.$inject = [];
+    masterReportDirective.$inject = ["ReportModel"];
 
-    function masterReportDirective() {
+    function masterReportDirective(ReportModel) {
         function renderEvaluatorCommentCell(cell) {
             return '<a class="evaluator-comment" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
@@ -128,13 +128,14 @@
             scope: {
                 gridData: "="
             },
-            link: function ($scope, iElement) {
+            link: function (scope, iElement) {
+                scope.modalInstance = null;
                 var gridOptions = {
                     customizeHeader: true,
                     gridExpandHeight: 500
                 };
 
-                $scope.$watch("gridData", function (gridData) {
+                scope.$watch("gridData", function (gridData) {
                     var groupReports = groupData(gridData);
                     var groupHeaders = generateGroupHeaders();
                     var columnHeaders = generateColumnHeaders();
@@ -149,8 +150,11 @@
 
                     element.find(".evaluator-comment").bind("click", function () {
                         var $self = $(this);
-                        
-                        console.log($self.data("employee-id"));
+                        var employeeId = $self.data("employee-id");
+
+                        if (employeeId) {
+                            ReportModel.openPopupEvaluatorComment(employeeId);
+                        }
                     });
                 });
             }

@@ -13,7 +13,7 @@
                         <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
                         <div class="control-content">
                             <select class="form-control" ng-model="masterReportCtrl.filter.periodId"
-                                    ng-options="opt.PeriodId as opt.Name for opt in masterReportCtrl.periods">
+                                    ng-options="item.PeriodId as item.Name group by item.Year for item in masterReportCtrl.periods">
                             </select>
                         </div>
                     </div>
