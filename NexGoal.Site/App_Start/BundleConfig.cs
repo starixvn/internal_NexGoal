@@ -155,7 +155,7 @@
                             "~/SourceApp/Components/Report/epaDetailReport-controller.js",
                             "~/SourceApp/Components/Report/master-report-controller.js",
                             "~/SourceApp/Components/Report/master-report-directive.js",
-                            "~/SourceApp/Components/Report/modal-master-report-evaluator-comment-controller.js",
+                            "~/SourceApp/Components/Report/modal-master-report-comment-controller.js",
                             "~/SourceApp/Components/Report/pa-report-controller.js",
                             "~/SourceApp/Components/Report/pa-report-directive.js",
                             "~/SourceApp/Components/MonthlyPeriod/monthlyPeriod-factory.js",

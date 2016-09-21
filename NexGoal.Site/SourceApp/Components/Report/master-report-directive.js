@@ -10,6 +10,22 @@
             return '<a class="evaluator-comment" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
 
+        function renderNextObjectives(cell) {
+            return '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+        }
+
+        function renderNominations(cell) {
+            var htmlString = '<table class="table employee-award-table">';
+
+            angular.forEach(cell.Value, function (nomination) {
+                htmlString += "<tr><td width=100>" + nomination.Title + "</td><td width=80 class='text-center'>" + nomination.StatusToString + "</tr>";
+            });
+
+            htmlString += '</table>';
+
+            return htmlString;
+        }
+
         function groupData(data) {
             var groups = [];
 
@@ -71,8 +87,8 @@
                { HeaderText: "Bonus Given", Width: 50, Name: "BonusGiven", CellAlign: "center" },
                { HeaderText: "Bonus Ranking", Width: 50, Name: "BonusRanking", CellAlign: "center" },
                { HeaderText: "Accessing of Objective achievement", Width: 80, Name: "ObjectiveAchievement", CellAlign: "center" },
-               { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center" },
-               { HeaderText: "Award Name ", Width: 80, Name: "AwardName" },
+               { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center", CustomCellRender: renderNextObjectives },
+               { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderNominations },
                { HeaderText: "Status", Width: 80, Name: "AwardStatus" },
                { HeaderText: "Project Name ", Width: 80, Name: "ProjectName" },
                { HeaderText: "Score", Width: 80, Name: "ProjectScore" },
@@ -108,9 +124,8 @@
                     row.Columns.push({ Name: "BonusGiven", Value: member.PAFocus.BonusGiven });
                     row.Columns.push({ Name: "BonusRanking", Value: member.PAFocus.BonusRanking });
                     row.Columns.push({ Name: "ObjectiveAchievement", Value: member.PAFocus.LastCompletedPercentObjective + "%" });
-                    row.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.NextDescriptionObjective });
-                    row.Columns.push({ Name: "AwardName", Value: 1 });
-                    row.Columns.push({ Name: "AwardStatus", Value: 1 });
+                    row.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.Employee.EmployeeId });
+                    row.Columns.push({ Name: "AwardName", Value: member.Nominations, MergeColNumber: 2 });
                     row.Columns.push({ Name: "ProjectName", Value: 1 });
                     row.Columns.push({ Name: "ProjectScore", Value: 1 });
                     row.Columns.push({ Name: "ProjectComment", Value: 1 });
@@ -154,6 +169,15 @@
 
                         if (employeeId) {
                             ReportModel.openPopupEvaluatorComment(employeeId);
+                        }
+                    });
+
+                    element.find(".next-objectives").bind("click", function () {
+                        var $self = $(this);
+                        var employeeId = $self.data("employee-id");
+
+                        if (employeeId) {
+                            ReportModel.openPopupNextObjectives(employeeId);
                         }
                     });
                 });

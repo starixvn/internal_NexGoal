@@ -21,25 +21,40 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         return employee;
     }
 
+    function openMasterReportCommentModal(modalTitle, comment) {
+        reportModel.modalInstance = $modal.open({
+            templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportComment.html",
+            controller: "ModalMasterReportCommentController as modalMasterReportCommentCtrl",
+            backdrop: "static",
+            windowClass: "modal-confirm-center popup-lg",
+            resolve: {
+                comment: function () {
+                    return angular.copy(comment);
+                },
+                modalTitle: function () {
+                    return angular.copy(modalTitle);
+                }
+            }
+        });
+
+        return reportModel.modalInstance.result;
+    }
+
     reportModel.openPopupEvaluatorComment = function (employeeId) {
         var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
-
+        var modalTitle = "Evaluator's Comment";
         if (employee) {
-            reportModel.modalInstance = $modal.open({
-                templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportEvaluatorComment.html",
-                controller: "ModalMasterReportEvaluatorCommentController as modalMasterReportEvaluatorCommentCtrl",
-                backdrop: "static",
-                windowClass: "modal-confirm-center popup-lg",
-                resolve: {
-                    evaluatorComment: function () {
-                        return angular.copy(employee.EvaluatorComment);
-                    }
-                }
-            });
-
-            return reportModel.modalInstance.result;
+            return openMasterReportCommentModal(modalTitle, employee.EvaluatorComment);
         }
     };
+
+    reportModel.openPopupNextObjectives = function (employeeId) {
+        var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+        var modalTitle = "Next Objectives";
+        if (employee) {
+            return openMasterReportCommentModal(modalTitle, employee.PAFocus.NextDescriptionObjective);
+        }
+    }
 
     reportModel.getMasterReport = function () {
         var data = [];
@@ -69,24 +84,20 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             },
             Nominations: [
                 {
-                    Quarter: 1,
-                    Year: 2016,
-                    Status: 1
+                    StatusToString: "Nominated",
+                    Title: "EOQ: 1st 2016"
                 },
                 {
-                    Quarter: 2,
-                    Year: 2016,
-                    Status: 2
+                    StatusToString: "Shortlisted",
+                    Title: "EOQ: 2nd 2016"
                 },
                 {
-                    Quarter: 3,
-                    Year: 2016,
-                    Status: 3
+                    StatusToString: "Winner",
+                    Title: "EOQ: 3rd 2016"
                 },
                 {
-                    Quarter: "",
-                    Year: 2016,
-                    Status: 3
+                    StatusToString: "Winner",
+                    Title: "EOY: 2016"
                 }
             ],
             EmployeeWorkings: [
@@ -133,24 +144,20 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             },
             Nominations: [
                 {
-                    Quarter: 1,
-                    Year: 2016,
-                    Status: 2
+                    StatusToString: "Shortlisted",
+                    Title: "EOQ: 1st 2016"
                 },
                 {
-                    Quarter: 2,
-                    Year: 2016,
-                    Status: 3
+                    StatusToString: "Winner",
+                    Title: "EOQ: 2nd 2016"
                 },
                 {
-                    Quarter: 3,
-                    Year: 2016,
-                    Status: 1
+                    StatusToString: "Nominated",
+                    Title: "EOQ: 3rd 2016"
                 },
                 {
-                    Quarter: "",
-                    Year: 2016,
-                    Status: 2
+                    StatusToString: "Shortlisted",
+                    Title: "EOY: 2016"
                 }
             ],
             EmployeeWorkings: [

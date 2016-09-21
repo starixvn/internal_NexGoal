@@ -5,7 +5,7 @@
                 <li class="current">Master Report</li>
             </ul>
         </div>
-        
+
         <div class="col-sm-12">
             <form novalidate class="filter form-inline" role="form">
                 <div class="form-group">
@@ -13,8 +13,7 @@
                         <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
                         <div class="control-content">
                             <select class="form-control" ng-model="masterReportCtrl.filter.periodId"
-                                    ng-options="item.PeriodId as item.Name group by item.Year for item in masterReportCtrl.periods">
-                            </select>
+                                    ng-options="item.PeriodId as item.Name group by item.Year for item in masterReportCtrl.periods"></select>
                         </div>
                     </div>
 
@@ -46,7 +45,7 @@
         </div>
 
         <div class="col-sm-12">
-            <div class="freegrid" 
+            <div class="freegrid master-report-table"
                  data-grid-master-report
                  data-grid-data="masterReportCtrl.employeeReports">
             </div>

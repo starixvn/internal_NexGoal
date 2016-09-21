@@ -1,6 +1,5 @@
 ﻿.epa-summary-report, .epa-detail-report {
     //max-width: 1240px;
-
     .filter {
         &.form-horizontal {
             .form-group {
@@ -14,12 +13,13 @@
             }
         }
 
-        .multiSelect { 
+        .multiSelect {
             .checkboxLayer {
                 min-width: 180px;
+
                 .acol {
-                    label{
-                        height:22px;
+                    label {
+                        height: 22px;
                     }
                 }
             }
@@ -64,7 +64,7 @@
 
             tbody tr {
                 td {
-                background-color: #fff !important;
+                    background-color: #fff !important;
                 }
 
                 &:nth-child(even) {
@@ -89,6 +89,28 @@
 
         #itemperpage {
             height: 20px;
+        }
+    }
+}
+
+.master-report-table {
+    td {
+        background: #FFF !important;
+    }
+}
+
+.employee-award-table {
+    tr {
+        td {
+            &:last-child {
+                border-right: none;
+            }
+        }
+
+        &:last-child {
+            td {
+                border-bottom: none;
+            }
         }
     }
 }
