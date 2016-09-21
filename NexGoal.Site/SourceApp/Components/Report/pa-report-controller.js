@@ -1,9 +1,11 @@
 ﻿(function (reportModule) {
+    "use strict";
+
     reportModule.controller("PAReportController", paReportController);
 
-    paReportController.$inject = ["ReportModel", "CommonModel", "EmployeeModel", "utilitiesFactory", "lockScreenService"];
+    paReportController.$inject = ["$scope", "ReportModel", "CommonModel", "EmployeeModel", "utilitiesFactory", "lockScreenService"];
 
-    function paReportController(ReportModel, CommonModel, EmployeeModel, utilitiesFactory, lockScreenService) {
+    function paReportController($scope, ReportModel, CommonModel, EmployeeModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.paReports = [];
@@ -13,15 +15,15 @@
         vm.periods = [];
         vm.teams = [];
         vm.filter = {
-            periodIds: '',
-            teamIds: '',
-            employeeId: 0
+            periodIds: null,
+            teamIds: "",
+            employeeId: null
         };
 
         vm.filteredItems = [];
         vm.currentPage = 1;
         vm.pageSize = 20;
-        vm.searchKey = '';
+        vm.searchKey = "";
 
         function initialize() {
             CommonModel.getDepartment(null, true).then(function () {
@@ -31,9 +33,11 @@
                 utilitiesFactory.setSelectAll(vm.teams);
             });
 
-            ReportModel.getAllPeriodIncludeImport().then(function () {
-                vm.periods = utilitiesFactory.groupingPeriods(ReportModel.periods);
+            CommonModel.getAllPeriodIncludeImport().then(function () {
+                vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
             });
+
+            utilitiesFactory.numberEntryList(vm);
         }
 
         vm.getIndex = function (index, currentPage, pageSize) {
@@ -47,8 +51,25 @@
         vm.unselectEmployee = function () {
             if (vm.searchEmployee.trim() === '') {
                 vm.employee = null;
-                vm.filter.employeeId = 0;
+                vm.filter.employeeId = null;
             }
+        };
+
+        vm.exportExcel = function () {
+            $scope.$broadcast("exportPAReport");
+        };
+
+        vm.query = function () {
+            lockScreenService.start();
+            vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
+            vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
+
+            ReportModel.getPAReport(vm.filter.periodIds, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+                vm.paReports = ReportModel.paReports;
+                utilitiesFactory.searchOnPage(vm, vm.paReports);
+            })["finally"](function () {
+                lockScreenService.stop();
+            });
         };
 
         initialize();

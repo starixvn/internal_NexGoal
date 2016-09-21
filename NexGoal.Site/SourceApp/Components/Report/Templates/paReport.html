@@ -39,8 +39,9 @@
                     </div>
 
                     <div class="col">
-                        <button class="button" data-translate="Search"></button>
-                        <button class="button btnExcel" data-translate="Excel"></button>
+                        <button class="button" data-translate="Search" ng-click="paReportCtrl.query()"></button>
+                        <button class="button btnExcel" export-Pa
+                                ng-click="paReportCtrl.exportExcel()">Excel</button>
                     </div>
                 </div>
             </form>
@@ -50,7 +51,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">
-                        <th colspan="11">
+                        <th colspan="12">
                             <input type="text" class="search-inline-textbox search pull-right"
                                    ng-model="paReportCtrl.searchKey"
                                    ng-change="paReportCtrl.search()" />
@@ -60,6 +61,7 @@
                         <th data-translate="SymbolCount"></th>
                         <th data-translate="NickName"></th>
                         <th data-translate="FullName"></th>
+                        <th data-translate="JobTitle"></th>
                         <th data-translate="Team"></th>
                         <th data-translate="EvaluationPeriod"></th>
                         <th data-translate="PeriodType"></th>
@@ -71,17 +73,28 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr class="text-center" dir-paginate="pa in paReportCtrl.filteredItems | itemsPerPage: paReportCtrl.pageSize"
+                    <tr dir-paginate="pa in paReportCtrl.filteredItems | itemsPerPage: paReportCtrl.pageSize"
                         current-page="paReportCtrl.currentPage">
-                        <td colspan="11">Hey</td>
+                        <td class="text-center" ng-bind="paReportCtrl.getIndex($index, paReportCtrl.currentPage, paReportCtrl.pageSize)"></td>
+                        <td class="text-center" ng-bind="pa.Employee.NickName"></td>
+                        <td ng-bind="pa.Employee.FullName"></td>
+                        <td ng-bind="pa.Employee.JobTitleName"></td>
+                        <td ng-bind="pa.Employee.GroupName"></td>
+                        <td class="text-center" ng-bind="pa.Period.Name"></td>
+                        <td class="text-center" ng-bind="pa.Period.TargetTypeName"></td>
+                        <td class="text-center" ng-bind="pa.FinalScore"></td>
+                        <td class="text-center" ng-bind="pa.Process.Self.TotalScore"></td>
+                        <td class="text-center" ng-bind="pa.Process.AverageScoreByEvaluators"></td>
+                        <td class="text-center" ng-bind="pa.Process.AverageScoreByReviewers"></td>
+                        <td class="text-center" ng-bind="pa.Grade"></td>
                     </tr>
                     <tr ng-show="paReportCtrl.filteredItems.length == 0">
-                        <td class="empty-result" colspan="11" data-translate="EmptyResult"></td>
+                        <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
                 <tfoot ng-show="paReportCtrl.filteredItems.length > 0">
                     <tr>
-                        <td colspan="7" class="paging">
+                        <td colspan="12" class="paging">
                             <span data-translate="Show"></span>
                             <select class="dropdown-entry" ng-model="paReportCtrl.pageSize"
                                     ng-options="entry for entry in paReportCtrl.entries"></select>

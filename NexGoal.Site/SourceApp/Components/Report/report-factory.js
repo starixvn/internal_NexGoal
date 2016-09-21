@@ -9,61 +9,13 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
         requestExportSemiEPA: function (epaId) {
             return $http.get(baseUrl + 'ExportPDF/RequestExportSemiEPA/', { params: { epaId: epaId } });
         },
-        getEPASummaryReport: function (periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-            return $http.get(baseUrl + 'api/Report/GetEPASummaryReport',
-                {
-                    params: {
-                        periodIds: periodIds,
-                        departmentId: departmentId,
-                        isLocal: isLocal,
-                        sortColumnName: sortColumnName,
-                        sortDirection: sortDirection,
-                        pageIndex: pageIndex,
-                        itemsPerPage: itemsPerPage
-                    }
-                });
-        },
-        getMonthlyEPASummaryReport: function (periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-            return $http.get(baseUrl + 'api/Report/GetMonthlyEPASummaryReport',
-                {
-                    params: {
-                        periodIds: periodIds,
-                        departmentId: departmentId,
-                        isLocal: isLocal,
-                        sortColumnName: sortColumnName,
-                        sortDirection: sortDirection,
-                        pageIndex: pageIndex,
-                        itemsPerPage: itemsPerPage
-                    }
-                });
-        },
-        getEPADetailReport: function (periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
+        getPAReport: function (periodIds, groupIds, employeeId) {
             return $http.get(baseUrl + 'api/Report/GetEPADetailReport',
                 {
                     params: {
-                        periodId: periodId,
-                        departmentId: departmentId,
-                        isLocal: isLocal,
-                        phaseIds: phaseIds,
-                        sortColumnName: sortColumnName,
-                        sortDirection: sortDirection,
-                        pageIndex: pageIndex,
-                        itemsPerPage: itemsPerPage
-                    }
-                });
-        },
-        getMonthlyEPADetailReport: function (periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-            return $http.get(baseUrl + 'api/Report/GetMonthlyEPADetailReport',
-                {
-                    params: {
-                        periodId: periodId,
-                        departmentId: departmentId,
-                        isLocal: isLocal,
-                        phaseIds: phaseIds,
-                        sortColumnName: sortColumnName,
-                        sortDirection: sortDirection,
-                        pageIndex: pageIndex,
-                        itemsPerPage: itemsPerPage
+                        PeriodIds: periodIds,
+                        GroupIds: groupIds,
+                        EmployeeId: employeeId
                     }
                 });
         }

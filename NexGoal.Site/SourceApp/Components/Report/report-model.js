@@ -7,9 +7,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
     var reportModel = {};
 
     reportModel.masterReports = [];
-    reportModel.epaSummary = [];
-    reportModel.epaDetail = [];
-    reportModel.periods = [];
+    reportModel.paReports = [];
     reportModel.pdfFileName = "";
 
     function findEmployeeInMasterReport(masterReports, employeeId) {
@@ -331,47 +329,10 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             });
     };
 
-    reportModel.getAllPeriodIncludeImport = function () {
-        return reportFactory.getAllPeriodIncludeImport()
-        .success(function (periods) {
-            reportModel.periods = periods;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-
-    reportModel.getEPASummaryReport = function (periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-        return reportFactory.getEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage)
-        .success(function (epaSummary) {
-            reportModel.epaSummary = epaSummary;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    reportModel.getMonthlyEPASummaryReport = function (periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-        return reportFactory.getMonthlyEPASummaryReport(periodIds, departmentId, isLocal, sortColumnName, sortDirection, pageIndex, itemsPerPage)
-        .success(function (epaSummary) {
-            reportModel.epaSummary = epaSummary;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    reportModel.getEPADetailReport = function (periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-        return reportFactory.getEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage)
-        .success(function (epaDetail) {
-            reportModel.epaDetail = epaDetail;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    reportModel.getMonthlyEPADetailReport = function (periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage) {
-        return reportFactory.getMonthlyEPADetailReport(periodId, departmentId, isLocal, phaseIds, sortColumnName, sortDirection, pageIndex, itemsPerPage)
-        .success(function (epaDetail) {
-            reportModel.epaDetail = epaDetail;
+    reportModel.getPAReport = function (periodIds, groupIds, employeeId) {
+        return reportFactory.getPAReport(periodIds, groupIds, employeeId)
+        .success(function (paReports) {
+            reportModel.paReports = paReports;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
