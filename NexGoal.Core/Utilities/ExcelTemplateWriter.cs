@@ -76,6 +76,12 @@
             cell.SetCellValue(value);
         }
 
+        public void WriteCellRange(int rowIndex, int totalRow, int colIndex, int totalCol)
+        {
+            var cellRange = new CellRangeAddress(rowIndex, rowIndex + totalRow - 1, colIndex, colIndex + totalCol - 1);
+            this._sheet.AddMergedRegion(cellRange);
+        }
+
         #region Auto resize columns' width
 
         public void AutosizeColumns(int from, int to)

@@ -13,14 +13,7 @@ namespace NexGoal.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<EmployeeWorkingViewModel, Employee, EmployeeWorkingViewModel>(
-                    (att, emp) =>
-                    {
-                        att.ProjectManager = emp;
-                        return att;
-                    },
-                    "ProjectManagerId",
-                    criteria.GetSpParams());
+                return db.Query<EmployeeWorkingViewModel>(criteria.GetSpParams());
             }
         }
     }

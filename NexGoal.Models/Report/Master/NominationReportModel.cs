@@ -69,5 +69,17 @@
                 return status;
             }
         }
+        
+        public string ToString
+        {
+            get
+            {
+                var quarterText = "EOQ: {0} {1}";
+                var yearText = "EOY: {0}";
+
+                return Quarter.HasValue ?
+                    string.Format(quarterText, Quarter.Value, Year) : string.Format(yearText, Year);
+            }
+        }
     }
 }

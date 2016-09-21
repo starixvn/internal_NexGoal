@@ -1492,6 +1492,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluation by PM.
+        /// </summary>
+        public static string EvaluationByPM {
+            get {
+                return ResourceManager.GetString("EvaluationByPM", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evaluation Date.
         /// </summary>
         public static string EvaluationDate {
@@ -2388,6 +2397,24 @@ namespace NexGoal.Resources {
         public static string ManagerRequired {
             get {
                 return ResourceManager.GetString("ManagerRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MasterReport.
+        /// </summary>
+        public static string MasterReportFileName {
+            get {
+                return ResourceManager.GetString("MasterReportFileName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Master Report.
+        /// </summary>
+        public static string MasterReportTitleFile {
+            get {
+                return ResourceManager.GetString("MasterReportTitleFile", resourceCulture);
             }
         }
         
@@ -3504,6 +3531,15 @@ namespace NexGoal.Resources {
         public static string Reviewer {
             get {
                 return ResourceManager.GetString("Reviewer", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reviewer&apos;s Adjustment.
+        /// </summary>
+        public static string ReviewerAdjustment {
+            get {
+                return ResourceManager.GetString("ReviewerAdjustment", resourceCulture);
             }
         }
         

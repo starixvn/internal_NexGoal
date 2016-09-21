@@ -5,6 +5,7 @@
     using NexGoal.Criteria.Period;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.AttendanceSummary;
+    using NexGoal.Model.Report;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Model.Report.EPASummary;
     using NexGoal.Resources;
@@ -17,27 +18,31 @@
     public class ExportReportController : Controller
     {
         private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
+        private const string _MasterReportTemplatePath = @"~\ExcelTemplates\MasterReport.xls";
 
         private readonly IPeriodService _periodService;
         private readonly IReportService _reportService;
-        private readonly IEPADetailReportService _epaDetailReportService;
+        private readonly IEPADetailReportService _paReportService;
+        private readonly IMasterExportService masterExportService;
         private readonly ISessionService sessionService;
 
         public ExportReportController()
-            : this(null, null, null, null)
+            : this(null, null, null, null, null)
         {
         }
 
         public ExportReportController(
             IPeriodService checkFlowService,
             IReportService reportService,
-            IEPADetailReportService epaDetailReportService,
+            IEPADetailReportService paReportService,
+            IMasterExportService masterExportService,
             ISessionService sessionService)
         {
             _periodService = checkFlowService ?? new PeriodService();
             _reportService = reportService ?? new ReportService();
-            _epaDetailReportService = epaDetailReportService ?? new EPADetailReportService();
+            _paReportService = paReportService ?? new EPADetailReportService();
             this.sessionService = sessionService ?? new SessionService();
+            this.masterExportService = masterExportService ?? new MasterExportService();
         }
 
         public ActionResult Index()
@@ -64,8 +69,27 @@
 
             IEnumerable<EPADetailModel> epaDetail = _reportService.GetEPADetailReport(criteria);
 
-            _epaDetailReportService.Render(epaDetail);
+            _paReportService.Render(epaDetail);
 
+            return new EmptyResult();
+        }
+
+        public ActionResult ExportMasterReport(
+            int periodId,
+            int? groupIds = null,
+            int? employeeId = null)
+        {
+            string templatePath = Server.MapPath(_MasterReportTemplatePath);
+            var criteria = new GetMasterReportCriteria()
+            {
+                EmployeeId = employeeId,
+                PeriodId = periodId,
+                GroupIds = groupIds
+            };
+
+            IEnumerable<MasterReportModel> employees = _reportService.GetMaster(criteria);
+            var period= this._periodService.GetPeriodById(periodId);
+            this.masterExportService.Export(employees,templatePath,period.Name);
             return new EmptyResult();
         }
     }

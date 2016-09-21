@@ -105,6 +105,7 @@
   <ItemGroup>
     <Compile Include="Implement\AttendanceSummaryService.cs" />
     <Compile Include="Implement\CommonService.cs" />
+    <Compile Include="Implement\ExportFile\MasterExportService.cs" />
     <Compile Include="Implement\System\DepartmentService.cs" />
     <Compile Include="Implement\System\EmployeeService.cs" />
     <Compile Include="Implement\Assessment\NominationService.cs" />
@@ -115,6 +116,7 @@
     <Compile Include="Implement\EPA\EPAReviewerService.cs" />
     <Compile Include="Implement\EPA\EPASelfService.cs" />
     <Compile Include="Implement\ExportFile\ExportPdfService.cs" />
+    <Compile Include="Interfaces\ExportFile\IMasterExportService.cs" />
     <Compile Include="Interfaces\ExportFile\IPAFocusReportService.cs" />
     <Compile Include="Implement\ExportFile\PAFocusReportService.cs" />
     <Compile Include="Implement\EPA\IntergrationService.cs" />

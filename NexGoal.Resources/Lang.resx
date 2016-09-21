@@ -1698,4 +1698,16 @@
   <data name="PeriodType" xml:space="preserve">
     <value>Period Type</value>
   </data>
+  <data name="MasterReportFileName" xml:space="preserve">
+    <value>MasterReport</value>
+  </data>
+  <data name="EvaluationByPM" xml:space="preserve">
+    <value>Evaluation by PM</value>
+  </data>
+  <data name="MasterReportTitleFile" xml:space="preserve">
+    <value>Master Report</value>
+  </data>
+  <data name="ReviewerAdjustment" xml:space="preserve">
+    <value>Reviewer's Adjustment</value>
+  </data>
 </root>

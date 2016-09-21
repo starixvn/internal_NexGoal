@@ -3,7 +3,10 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Model.Employee;
     using NexGoal.Model.EmployeeEPA;
+    using NexGoal.Model.Enitites;
+    using NexGoal.Model.PAFocus;
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Model.Report.EPASummary;
@@ -20,7 +23,17 @@
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    employees = multi.Read<MasterReportModel>();
+                    employees = multi.Read<MasterReportModel, PAFocusModel, EmployeeModel, JobTitle, Group, MasterReportModel>(
+                        (report, focus, emp, job, gr) =>
+                        {
+                            emp.JobTitle = job;
+                            emp.Group = gr;
+                            focus.Employee = emp;
+                            report.PAFocus = focus;
+
+                            return report;
+                        },
+                        "PAFocusId,EmployeeId,JobTitleId,GroupId");
 
                     var nominations = multi.Read<NominationReportModel>();
 

@@ -778,6 +778,7 @@
     <Content Include="Content\Fonts\Roboto\Roboto-Regular.woff" />
     <Content Include="Content\Fonts\Roboto\Roboto-Regular.woff2" />
     <Content Include="ExcelTemplates\EOQYNomination.xls" />
+    <Content Include="ExcelTemplates\MasterReport.xls" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
