@@ -3,9 +3,9 @@
 
     reportModule.controller("PAReportController", paReportController);
 
-    paReportController.$inject = ["$scope", "ReportModel", "CommonModel", "EmployeeModel", "utilitiesFactory", "lockScreenService", "enumerationsFactory"];
+    paReportController.$inject = ["$scope", "ReportModel", "CommonModel", "EmployeeModel", "utilitiesFactory", "lockScreenService"];
 
-    function paReportController($scope, ReportModel, CommonModel, EmployeeModel, utilitiesFactory, lockScreenService, enumerationsFactory) {
+    function paReportController($scope, ReportModel, CommonModel, EmployeeModel, utilitiesFactory, lockScreenService) {
         var vm = this;
 
         vm.paReports = [];
@@ -25,18 +25,19 @@
         vm.searchKey = "";
 
         function initialize() {
-            CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
-                CommonModel.getDepartment(null, true).then(function () {
-                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getDepartment(null, true).then(function () {
+                var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
 
-                    vm.teams = angular.copy(treeDepartment);
-                    utilitiesFactory.setSelectAll(vm.teams);
-
-                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periods);
-                    utilitiesFactory.numberEntryList(vm);
-                    vm.query();
-                });
+                vm.teams = angular.copy(treeDepartment);
+                utilitiesFactory.setSelectAll(vm.teams);
             });
+
+            CommonModel.getAllPeriodIncludeImport().then(function () {
+                vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
+            });
+
+            utilitiesFactory.numberEntryList(vm);
+            vm.query();
         }
 
         vm.getIndex = function (index, currentPage, pageSize) {
