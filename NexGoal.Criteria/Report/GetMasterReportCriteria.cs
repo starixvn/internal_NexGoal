@@ -8,7 +8,7 @@
 
         public int? EmployeeId { get; set; }
 
-        public int? GroupIds { get; set; }
+        public string GroupIds { get; set; }
 
         public override string GetSettingKey()
         {

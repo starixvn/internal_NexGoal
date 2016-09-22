@@ -254,23 +254,15 @@
                 reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
             }
 
-            if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod)
+            if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod && !string.IsNullOrEmpty(memberEPA.FinalScore))
             {
-                if (string.IsNullOrEmpty(memberEPA.FinalScore))
-                {
-                    finalScore = Lang.NotAvailable;
-                    grade = Lang.NotAvailable;
-                }
-                else
-                {
-                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore), 2).ToString();
-                    grade = memberEPA.Grade;
-                }
+                finalScore = Math.Round(float.Parse(memberEPA.FinalScore), 2).ToString();
+                grade = memberEPA.Grade;
             }
             else
             {
-                finalScore = Lang.Pending;
-                grade = Lang.Pending;
+                finalScore = Lang.NotAvailable;
+                grade = Lang.NotAvailable;
             }
 
             return new

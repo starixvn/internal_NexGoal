@@ -3,21 +3,20 @@
 
     reportModule.controller("PAReportController", paReportController);
 
-    paReportController.$inject = ["$scope", "ReportModel", "CommonModel", "EmployeeModel", "utilitiesFactory", "lockScreenService"];
+    paReportController.$inject = ["$scope", "ReportModel", "CommonModel", "EmployeeModel", "utilitiesFactory", "lockScreenService", "enumerationsFactory"];
 
-    function paReportController($scope, ReportModel, CommonModel, EmployeeModel, utilitiesFactory, lockScreenService) {
+    function paReportController($scope, ReportModel, CommonModel, EmployeeModel, utilitiesFactory, lockScreenService, enumerationsFactory) {
         var vm = this;
 
         vm.paReports = [];
         vm.employeeReports = [];
         vm.searchEmployee = "";
-        vm.employee = null;
         vm.periods = [];
         vm.teams = [];
         vm.filter = {
             periodIds: null,
             teamIds: "",
-            employeeId: null
+            employee: {}
         };
 
         vm.filteredItems = [];
@@ -26,18 +25,18 @@
         vm.searchKey = "";
 
         function initialize() {
-            CommonModel.getDepartment(null, true).then(function () {
-                var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
+            CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
+                CommonModel.getDepartment(null, true).then(function () {
+                    var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
 
-                vm.teams = angular.copy(treeDepartment);
-                utilitiesFactory.setSelectAll(vm.teams);
+                    vm.teams = angular.copy(treeDepartment);
+                    utilitiesFactory.setSelectAll(vm.teams);
+
+                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periods);
+                    utilitiesFactory.numberEntryList(vm);
+                    vm.query();
+                });
             });
-
-            CommonModel.getAllPeriodIncludeImport().then(function () {
-                vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
-            });
-
-            utilitiesFactory.numberEntryList(vm);
         }
 
         vm.getIndex = function (index, currentPage, pageSize) {
@@ -49,9 +48,8 @@
         };
 
         vm.unselectEmployee = function () {
-            if (vm.searchEmployee.trim() === '') {
-                vm.employee = null;
-                vm.filter.employeeId = null;
+            if (vm.searchEmployee.trim() === '' && vm.filter.employee) {
+                vm.filter.employee = {};
             }
         };
 
@@ -64,7 +62,7 @@
             vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
             vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
-            ReportModel.getPAReport(vm.filter.periodIds, vm.filter.teamIds, vm.filter.employeeId).then(function () {
+            ReportModel.getPAReport(vm.filter.periodIds, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
                 vm.paReports = ReportModel.paReports;
                 utilitiesFactory.searchOnPage(vm, vm.paReports);
             })["finally"](function () {

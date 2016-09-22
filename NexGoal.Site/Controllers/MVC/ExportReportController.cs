@@ -76,7 +76,7 @@
 
         public ActionResult ExportMasterReport(
             int periodId,
-            int? groupIds = null,
+            string groupIds = null,
             int? employeeId = null)
         {
             string templatePath = Server.MapPath(MasterReportTemplatePath);

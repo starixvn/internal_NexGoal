@@ -34,14 +34,16 @@
                                    ng-model="paReportCtrl.searchEmployee"
                                    search-employees="paReportCtrl.getEmployee()"
                                    ng-change="paReportCtrl.unselectEmployee()"
-                                   employee="paReportCtrl.employee" />
+                                   employee="paReportCtrl.filter.employee" />
                         </div>
                     </div>
 
                     <div class="col">
                         <button class="button" data-translate="Search" ng-click="paReportCtrl.query()"></button>
-                        <button class="button btnExcel" export-Pa
-                                ng-click="paReportCtrl.exportExcel()">Excel</button>
+                        <button class="button btnExcel" export-pa
+                                ng-click="paReportCtrl.exportExcel()">
+                            Excel
+                        </button>
                     </div>
                 </div>
             </form>
@@ -73,7 +75,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr dir-paginate="pa in paReportCtrl.filteredItems | itemsPerPage: paReportCtrl.pageSize"
+                    <tr dir-paginate="pa in paReportCtrl.filteredItems | itemsPerPage: paReportCtrl.pageSize | orderBy:'-Employee.NickName':true"
                         current-page="paReportCtrl.currentPage">
                         <td class="text-center" ng-bind="paReportCtrl.getIndex($index, paReportCtrl.currentPage, paReportCtrl.pageSize)"></td>
                         <td class="text-center" ng-bind="pa.Employee.NickName"></td>
@@ -82,11 +84,21 @@
                         <td ng-bind="pa.Employee.GroupName"></td>
                         <td class="text-center" ng-bind="pa.Period.Name"></td>
                         <td class="text-center" ng-bind="pa.Period.TargetTypeName"></td>
-                        <td class="text-center" ng-bind="pa.FinalScore"></td>
                         <td class="text-center" ng-bind="pa.Process.Self.TotalScore"></td>
-                        <td class="text-center" ng-bind="pa.Process.AverageScoreByEvaluators"></td>
-                        <td class="text-center" ng-bind="pa.Process.AverageScoreByReviewers"></td>
-                        <td class="text-center" ng-bind="pa.Grade"></td>
+                        <td class="text-center" >
+                            <span ng-bind="pa.Process.AverageScoreByEvaluators" ng-show="pa.process.averagescorebyevaluators && pa.process.averagescorebyevaluators!==0 "></span>
+                        </td>
+                        <td class="text-center">
+                            <span ng-bind="pa.Process.AverageScoreByReviewers" ng-show="pa.process.AverageScoreByReviewers && pa.process.AverageScoreByReviewers!==0 "></span>
+                        </td>
+                        <td class="text-center">
+                            <span ng-bind="pa.FinalScore" ng-show="pa.FinalScore && pa.Grade"></span>
+                            <span data-translate="NotAvailable" ng-show="!pa.FinalScore || !pa.Grade"></span>
+                        </td>
+                        <td class="text-center">
+                            <span ng-bind="pa.Grade" ng-show="pa.FinalScore && pa.Grade"></span>
+                            <span data-translate="NotAvailable" ng-show="!pa.FinalScore || !pa.Grade"></span>
+                        </td>
                     </tr>
                     <tr ng-show="paReportCtrl.filteredItems.length == 0">
                         <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>

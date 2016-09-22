@@ -57,7 +57,7 @@
         [HttpGet]
         public HttpResponseMessage GetMasterReport(
             int periodId,
-            int? groupIds = null,
+            string groupIds = null,
             int? employeeId = null)
         {
             var criteria = new GetMasterReportCriteria()
