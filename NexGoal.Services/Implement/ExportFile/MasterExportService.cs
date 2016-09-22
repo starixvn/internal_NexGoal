@@ -17,7 +17,6 @@
             var reportTitle = string.Format("{0} - {1}", Lang.MasterReportTitleFile, periodName);
             this.writer = new ExcelTemplateWriter(templatePath, reportName);
 
-
             // Fill report title.
             this.writer.WriteRow(0, new object[] { reportTitle });
             this.writer.CopyRows(1, 1);
@@ -32,30 +31,39 @@
 
         private void FillContentRow(IEnumerable<MasterReportModel> employeeEvaluations)
         {
-            var rowIndexOfEmployee = 1;
+            var indexRow = 1;
             var groupName = string.Empty;
-            var rowIndexOfGroup = this.writer.RowId;
+            var rowIndexBeginGroup = this.writer.RowId;
+            var indexOnGroup = 1;
             foreach (var employee in employeeEvaluations)
             {
-                if (groupName == employee.PAFocus.Employee.Group.GroupName) rowIndexOfGroup++;
-                //else 
-                //{
+                if (groupName != employee.PAFocus.Employee.Group.GroupName)
+                {
+                    indexOnGroup = 1;
+                    rowIndexBeginGroup = this.writer.RowId;
+                    groupName = employee.PAFocus.Employee.Group.GroupName;
 
-                //}
-                groupName = groupName == employee.PAFocus.Employee.Group.GroupName ? groupName : employee.PAFocus.Employee.Group.GroupName;
+                    FillRow(employee, indexOnGroup, ref indexRow);
+                }
+                else
+                {
+                    indexOnGroup++;
+                    FillRow(employee, indexOnGroup, ref indexRow);
 
-                FillRow(employee, groupName, ref rowIndexOfEmployee);
+                    var totalRowToMerger = this.writer.RowId - rowIndexBeginGroup;
+                    this.writer.WriteCellRange(rowIndexBeginGroup, this.writer.RowId - rowIndexBeginGroup, 0, 1);
+                }
             }
         }
 
-        private void FillRow(MasterReportModel employee, string groupName, ref int rowIndexOfEmployee)
+        private void FillRow(MasterReportModel employee, int indexOnGroup, ref int indexRow)
         {
             int numberRowOfEmployee = GetNumberRowOfEmployee(employee);
             int rowIndexBeginMerger = this.writer.RowId;
             for (int i = 0; i < numberRowOfEmployee; i++)
             {
-                object record = CreateRecord(employee, groupName, i, rowIndexOfEmployee);
-                if (rowIndexOfEmployee % 2 == 1)
+                object record = CreateRecord(employee, i, indexOnGroup);
+                if (indexRow % 2 == 1)
                 {
                     this.writer.WriteRow(4, record);
                 }
@@ -65,23 +73,22 @@
                 }
             }
 
-            rowIndexOfEmployee++;
+            indexRow++;
             for (int i = 0; i < 13; i++)
             {
                 this.writer.WriteCellRange(rowIndexBeginMerger, numberRowOfEmployee, i, 1);
             }
-
         }
 
-        private object CreateRecord(MasterReportModel evaluation, string groupName, int index, int rowIndex)
+        private object CreateRecord(MasterReportModel evaluation, int index, int rowIndex)
         {
             var record = new
             {
                 GroupName = evaluation.PAFocus.Employee.Group.GroupName,
-                RowIndex = index == 0 ? rowIndex.ToString() : string.Empty,
-                NickName = index == 0 ? evaluation.PAFocus.Employee.NickName : string.Empty,
-                FullName = index == 0 ? evaluation.PAFocus.Employee.FullName : string.Empty,
-                Jobtitle = index == 0 ? evaluation.PAFocus.Employee.JobTitle.JobTitleName : string.Empty,
+                RowIndex = rowIndex.ToString(),
+                NickName = evaluation.PAFocus.Employee.NickName,
+                FullName = evaluation.PAFocus.Employee.FullName,
+                Jobtitle = evaluation.PAFocus.Employee.JobTitle.JobTitleName,
                 ReviewerAdjustment = index == 0 ? evaluation.ReviewerAdjustment : string.Empty,
                 EvaluatorComment = index == 0 ? evaluation.EvaluatorComment : string.Empty,
                 Contribution = index == 0 ? evaluation.PAFocus.Contribution.ToString() : string.Empty,
@@ -90,8 +97,8 @@
                 BonusRanking = index == 0 ? evaluation.PAFocus.BonusRanking.ToString() : string.Empty,
                 LastObjective = index == 0 ? evaluation.PAFocus.LastCompletedPercentObjective : string.Empty,
                 NextObjective = index == 0 ? evaluation.PAFocus.NextDescriptionObjective : string.Empty,
-                Award = evaluation.Nominations.Count > index ? evaluation.Nominations[index].ToString : string.Empty,
-                AwardStatus = evaluation.Nominations.Count > index ? evaluation.Nominations[index].StatusId.ToString() : string.Empty,
+                Award = evaluation.Nominations.Count > index ? evaluation.Nominations[index].Title : string.Empty,
+                AwardStatus = evaluation.Nominations.Count > index ? evaluation.Nominations[index].StatusToString : string.Empty,
                 ProjectName = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].ProjectName : string.Empty,
                 ProjectScore = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].DecryptedScore : string.Empty,
                 ProjectComment = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].Comment : string.Empty

@@ -2,6 +2,7 @@
 {
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
+    using NexGoal.Resources;
 
     public class NominationReportModel
     {
@@ -37,7 +38,8 @@
                             break;
                     }
                 }
-                else {
+                else
+                {
                     title = "EOY: " + Year.ToString();
                 }
 
@@ -50,7 +52,6 @@
             get
             {
                 var status = string.Empty;
-
                 switch (StatusId)
                 {
                     case (int)NominationStatus.Nominated:
@@ -67,18 +68,6 @@
                 }
 
                 return status;
-            }
-        }
-        
-        public string ToString
-        {
-            get
-            {
-                var quarterText = "EOQ: {0} {1}";
-                var yearText = "EOY: {0}";
-
-                return Quarter.HasValue ?
-                    string.Format(quarterText, Quarter.Value, Year) : string.Format(yearText, Year);
             }
         }
     }

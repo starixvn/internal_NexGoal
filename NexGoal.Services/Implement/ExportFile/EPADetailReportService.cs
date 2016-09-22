@@ -18,22 +18,22 @@
 
     public class EPADetailReportService : IEPADetailReportService
     {
-        private HSSFWorkbook _workbook;
+        private HSSFWorkbook workbook;
 
-        private ISheet _sheet;
+        private ISheet sheet;
 
         private int _currentRow = 0;
 
-        private IList<string> _columnsName;
+        private IList<string> columnsName;
 
-        public IEnumerable<EPADetailModel> epaDetails { get; set; }
+        public IEnumerable<EPADetailModel> Details { get; set; }
 
         public MemoryStream Export(IEnumerable<EPADetailModel> epaDetails)
         {
-            this.epaDetails = epaDetails;
-            _workbook = new HSSFWorkbook();
-            _sheet = _workbook.CreateSheet(Lang.EPADetailReportSheet);
-            _columnsName = CreateColumnsName();
+            this.Details = epaDetails;
+            workbook = new HSSFWorkbook();
+            sheet = workbook.CreateSheet(Lang.EPADetailReportSheet);
+            columnsName = CreateColumnsName();
             WriteTitleSheet();
             _currentRow += 2;
 
@@ -43,7 +43,7 @@
             WriteContentTable();
             using (var output = new MemoryStream())
             {
-                _workbook.Write(output);
+                workbook.Write(output);
 
                 return output;
             }
@@ -51,7 +51,7 @@
 
         public void Render(IEnumerable<EPADetailModel> epaDetail)
         {
-            if (_workbook == null)
+            if (workbook == null)
             {
                 Export(epaDetail);
             }
@@ -62,35 +62,35 @@
             response.ContentType = "application/vnd.ms-excel";
             response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Lang.EPADetailReportName));
 
-            _workbook.Write(response.OutputStream);
+            workbook.Write(response.OutputStream);
         }
 
         private void WriteTitleSheet()
         {
-            IRow rowTitle = _sheet.CreateRow(_currentRow);
+            IRow rowTitle = sheet.CreateRow(_currentRow);
 
-            IFont font = _workbook.CreateFont();
+            IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 18;
             font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICell cell = rowTitle.CreateCell(0);
             cell.SetCellValue(Lang.EPADetailReportSheet);
-            cell.CellStyle = _workbook.CreateCellStyle();
+            cell.CellStyle = workbook.CreateCellStyle();
             cell.CellStyle.Alignment = HorizontalAlignment.Center;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
 
-            _sheet.AddMergedRegion(new CellRangeAddress(_currentRow, _currentRow, 0, _columnsName.Count));
+            sheet.AddMergedRegion(new CellRangeAddress(_currentRow, _currentRow, 0, columnsName.Count));
         }
 
         private void WriteTitleTable()
         {
-            IFont font = _workbook.CreateFont();
+            IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 11;
             font.Color = HSSFColor.White.Index;
             font.Boldweight = (short)FontBoldWeight.Bold;
 
-            ICellStyle cellStyle = _workbook.CreateCellStyle();
+            ICellStyle cellStyle = workbook.CreateCellStyle();
             cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
             cellStyle.FillPattern = FillPattern.SolidForeground;
             cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
@@ -98,20 +98,20 @@
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
             cellStyle.SetFont(font);
 
-            IRow row = _sheet.CreateRow(_currentRow);
-            for (int i = 0; i < _columnsName.Count; i++)
+            IRow row = sheet.CreateRow(_currentRow);
+            for (int i = 0; i < columnsName.Count; i++)
             {
                 var cell = row.CreateCell(i);
                 cell.CellStyle = cellStyle;
-                cell.SetCellValue(_columnsName[i]);
-                _sheet.AutoSizeColumn(i);
+                cell.SetCellValue(columnsName[i]);
+                sheet.AutoSizeColumn(i);
             }
         }
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void WriteContentTable()
         {
-            IFont redFont = _workbook.CreateFont();
+            IFont redFont = workbook.CreateFont();
             redFont.Color = HSSFColor.Red.Index;
 
             ICellStyle evenStyle = CreateEvenStyle();
@@ -122,14 +122,14 @@
             oddRedStyle.SetFont(redFont);
 
             var index = 1;
-            foreach (var memberEPA in epaDetails)
+            foreach (var memberEPA in Details)
             {
                 var currentColumn = 0;
 
-                ICellStyle bodyStyle = _workbook.CreateCellStyle();
+                ICellStyle bodyStyle = workbook.CreateCellStyle();
                 bodyStyle = _currentRow % 2 == 0 ? evenStyle : oddStyle;
 
-                IRow row = _sheet.CreateRow(_currentRow);
+                IRow row = sheet.CreateRow(_currentRow);
                 dynamic score = CalculateScore(memberEPA);
 
                 var cell = row.CreateCell(currentColumn++);
@@ -286,7 +286,7 @@
 
         private ICellStyle CreateOddStyle()
         {
-            ICellStyle oddStyle = _workbook.CreateCellStyle();
+            ICellStyle oddStyle = workbook.CreateCellStyle();
             oddStyle.Alignment = HorizontalAlignment.Center;
             oddStyle.VerticalAlignment = VerticalAlignment.Center;
 
@@ -295,7 +295,7 @@
 
         private ICellStyle CreateEvenStyle()
         {
-            ICellStyle evenStyle = _workbook.CreateCellStyle();
+            ICellStyle evenStyle = workbook.CreateCellStyle();
             evenStyle.Alignment = HorizontalAlignment.Center;
             evenStyle.VerticalAlignment = VerticalAlignment.Center;
             evenStyle.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;

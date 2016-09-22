@@ -17,12 +17,12 @@
 
     public class ExportReportController : Controller
     {
-        private const string _EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
-        private const string _MasterReportTemplatePath = @"~\ExcelTemplates\MasterReport.xls";
+        private const string EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
+        private const string MasterReportTemplatePath = @"~\ExcelTemplates\MasterReport.xls";
 
-        private readonly IPeriodService _periodService;
-        private readonly IReportService _reportService;
-        private readonly IEPADetailReportService _paReportService;
+        private readonly IPeriodService periodService;
+        private readonly IReportService reportService;
+        private readonly IEPADetailReportService epaReportService;
         private readonly IMasterExportService masterExportService;
         private readonly ISessionService sessionService;
 
@@ -34,13 +34,13 @@
         public ExportReportController(
             IPeriodService checkFlowService,
             IReportService reportService,
-            IEPADetailReportService paReportService,
+            IEPADetailReportService epaReportService,
             IMasterExportService masterExportService,
             ISessionService sessionService)
         {
-            _periodService = checkFlowService ?? new PeriodService();
-            _reportService = reportService ?? new ReportService();
-            _paReportService = paReportService ?? new EPADetailReportService();
+            this.periodService = checkFlowService ?? new PeriodService();
+            this.reportService = reportService ?? new ReportService();
+            this.epaReportService = epaReportService ?? new EPADetailReportService();
             this.sessionService = sessionService ?? new SessionService();
             this.masterExportService = masterExportService ?? new MasterExportService();
         }
@@ -54,10 +54,10 @@
         {
             if (criteria != null)
             {
-                var employeeFlowSettings = _periodService.GetPeriodEmployeeSettingById(criteria);
+                var employeeFlowSettings = periodService.GetPeriodEmployeeSettingById(criteria);
 
-                string templatePath = Server.MapPath(_EmployeeFlowSettingReportTemplatePath);
-                _periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
+                string templatePath = Server.MapPath(EmployeeFlowSettingReportTemplatePath);
+                periodService.ExportEmployeeSettingReport(employeeFlowSettings, templatePath, criteria.PeriodName);
             }
 
             return new EmptyResult();
@@ -67,9 +67,9 @@
         {
             criteria.UserId = this.sessionService.EmployeeId;
 
-            IEnumerable<EPADetailModel> epaDetail = _reportService.GetEPADetailReport(criteria);
+            IEnumerable<EPADetailModel> epaDetail = reportService.GetEPADetailReport(criteria);
 
-            _paReportService.Render(epaDetail);
+            epaReportService.Render(epaDetail);
 
             return new EmptyResult();
         }
@@ -79,7 +79,7 @@
             int? groupIds = null,
             int? employeeId = null)
         {
-            string templatePath = Server.MapPath(_MasterReportTemplatePath);
+            string templatePath = Server.MapPath(MasterReportTemplatePath);
             var criteria = new GetMasterReportCriteria()
             {
                 EmployeeId = employeeId,
@@ -87,9 +87,10 @@
                 GroupIds = groupIds
             };
 
-            IEnumerable<MasterReportModel> employees = _reportService.GetMaster(criteria);
-            var period= this._periodService.GetPeriodById(periodId);
-            this.masterExportService.Export(employees,templatePath,period.Name);
+            IEnumerable<MasterReportModel> employees = reportService.GetMaster(criteria);
+            var period = this.periodService.GetPeriodById(periodId);
+            this.masterExportService.Export(employees, templatePath, period.Name);
+
             return new EmptyResult();
         }
     }
