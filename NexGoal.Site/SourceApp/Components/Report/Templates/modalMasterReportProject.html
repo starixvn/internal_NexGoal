@@ -1,0 +1,31 @@
+﻿<div class="custom-modal">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span>Evaluation By PM</span>
+            <span class="close-popup" ng-click="modalMasterReportProjectCtrl.close()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <form class="form-horizontal" role="form">
+            <div class="form-group">
+                <label class="col-sm-1 control-label">{{"Name" | translate}}:</label>
+                <label class="col-sm-5 control-label text-left">
+                    <b>{{modalMasterReportProjectCtrl.project.Employee.FullName}} ({{modalMasterReportProjectCtrl.project.Employee.NickName}})</b>
+                </label>
+                <label class="col-sm-1 control-label">{{"Project" | translate}}:</label>
+                <label class="col-sm-5 control-label text-left">
+                    <b ng-bind="modalMasterReportProjectCtrl.project.ProjectName"></b>
+                </label>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12 field">
+                    <textarea class="form-control none-resize" readonly rows="15"
+                              ng-model="modalMasterReportProjectCtrl.project.Comment"></textarea>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer button-block">
+        <button class="button btn-cancel customize" ng-click="modalMasterReportProjectCtrl.close()" data-translate="Cancel"></button>
+    </div>
+</div>

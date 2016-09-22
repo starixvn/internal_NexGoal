@@ -12,7 +12,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
 
     function findEmployeeInMasterReport(masterReports, employeeId) {
         var employee = null;
-        var employeeIndex = masterReports.map(function (item) { return item.PAFocus.Employee.EmployeeId }).indexOf(employeeId);
+        var employeeIndex = masterReports.map(function (item) { return item.PAFocus.Employee.EmployeeId; }).indexOf(employeeId);
 
         if (employeeIndex !== -1) {
             employee = masterReports[employeeIndex];
@@ -21,12 +21,33 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         return employee;
     }
 
+    function findProjectInMasterReport(masterReports, employeeId, projectId) {
+        var project = null;
+        var employee = null;
+
+        employee = findEmployeeInMasterReport(masterReports, employeeId);
+
+        if (employee) {
+            var projectIndex = employee.EmployeeWorkings.map(function (item) { return item.ProjectId; }).indexOf(projectId);
+
+            if (projectIndex !== -1) {
+                project = employee.EmployeeWorkings[projectIndex];
+                project.Employee = {
+                    FullName: employee.PAFocus.Employee.FullName,
+                    NickName: employee.PAFocus.Employee.NickName
+                };
+            }
+        }
+
+        return project;
+    }
+
     function openMasterReportCommentModal(modalTitle, comment) {
         reportModel.modalInstance = $modal.open({
             templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportComment.html",
             controller: "ModalMasterReportCommentController as modalMasterReportCommentCtrl",
             backdrop: "static",
-            windowClass: "modal-confirm-center popup-lg",
+            windowClass: "modal-confirm-center",
             resolve: {
                 comment: function () {
                     return angular.copy(comment);
@@ -39,6 +60,50 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
 
         return reportModel.modalInstance.result;
     }
+
+    function correctMasterReportData(masterReports) {
+        angular.forEach(masterReports, function (record) {
+            var projectIndex = 1;
+
+            record.Nominations = record.Nominations || [];
+            record.EmployeeWorkings = record.EmployeeWorkings || [];
+
+            var differIndex = record.EmployeeWorkings.length - record.Nominations.length;
+
+            angular.forEach(record.EmployeeWorkings, function (project) {
+                project.ProjectId = projectIndex;
+                projectIndex++;
+            });
+
+            if (differIndex > 0) {
+                for (var index = 0; index < differIndex; index++) {
+                    record.Nominations.push({ AdditionalRow: true });
+                }
+            } else if (differIndex < 0) {
+                for (var index = 0; index < -differIndex; index++) {
+                    record.EmployeeWorkings.push({ AdditionalRow: true });
+                }
+            }
+        });
+    }
+
+    reportModel.openPopupProjectComment = function (employeeId, projectId) {
+        var project = findProjectInMasterReport(reportModel.masterReports, employeeId, projectId);
+
+        reportModel.modalInstance = $modal.open({
+            templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportProject.html",
+            controller: "ModalMasterReportProjectController as modalMasterReportProjectCtrl",
+            backdrop: "static",
+            windowClass: "modal-confirm-center",
+            resolve: {
+                project: function () {
+                    return angular.copy(project);
+                }
+            }
+        });
+
+        return reportModel.modalInstance.result;
+    };
 
     reportModel.openPopupEvaluatorComment = function (employeeId) {
         var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
@@ -57,283 +122,10 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
     }
 
     reportModel.getMasterReport = function (periodId, groupIds, employeeId) {
-        //var data = [];
-        //var forrest = {
-        //    ReviewerAdjustment: 3,
-        //    EvaluatorComment: "Evaluator Comment",
-        //    PAFocus: {
-        //        FinalScore: "85.55",
-        //        Contribution: 1,
-        //        BonusGiven: 25,
-        //        BonusRanking: 2,
-        //        IsReadyPromotion: false,
-        //        LastCompletedPercentObjective: 80,
-        //        NextDescriptionObjective: "Next Description Objective",
-        //        Employee: {
-        //            EmployeeId: 1,
-        //            NickName: "Forrest",
-        //            FullName: "Nguyễn Văn Lâm",
-        //            JobTitle: {
-        //                JobTitleName: "Software Engineer"
-        //            },
-        //            Group: {
-        //                GroupId: 1,
-        //                GroupName: "Nexus"
-        //            }
-        //        }
-        //    },
-        //    Nominations: [
-        //        {
-        //            StatusToString: "Nominated",
-        //            Title: "EOQ: 1st 2016"
-        //        },
-        //        {
-        //            StatusToString: "Shortlisted",
-        //            Title: "EOQ: 2nd 2016"
-        //        },
-        //        {
-        //            StatusToString: "Winner",
-        //            Title: "EOQ: 3rd 2016"
-        //        },
-        //        {
-        //            StatusToString: "Winner",
-        //            Title: "EOY: 2016"
-        //        }
-        //    ],
-        //    EmployeeWorkings: [
-        //        {
-        //            EmployeeId: 1,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project A's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 1,
-        //            ProjectName: "Project B",
-        //            DecryptedScore: 4,
-        //            Comment: "Project B's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 1,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project B's Comment"
-        //        }
-        //    ]
-        //};
-        //var tim = {
-        //    ReviewerAdjustment: 3,
-        //    EvaluatorComment: "Evaluator Comment",
-        //    PAFocus: {
-        //        FinalScore: 85,
-        //        Contribution: 1,
-        //        BonusGiven: 25,
-        //        BonusRanking: 2,
-        //        IsReadyPromotion: false,
-        //        LastCompletedPercentObjective: 80,
-        //        NextDescriptionObjective: "Next Description Objective",
-        //        Employee: {
-        //            EmployeeId: 2,
-        //            NickName: "Tim",
-        //            FullName: "Trịnh Đăng Thắng",
-        //            JobTitle: {
-        //                JobTitleName: "Software Engineer"
-        //            },
-        //            Group: {
-        //                GroupId: 1,
-        //                GroupName: "Nexus"
-        //            }
-        //        }
-        //    },
-        //    Nominations: [
-        //        {
-        //            StatusToString: "Shortlisted",
-        //            Title: "EOQ: 1st 2016"
-        //        },
-        //        {
-        //            StatusToString: "Winner",
-        //            Title: "EOQ: 2nd 2016"
-        //        },
-        //        {
-        //            StatusToString: "Nominated",
-        //            Title: "EOQ: 3rd 2016"
-        //        },
-        //        {
-        //            StatusToString: "Shortlisted",
-        //            Title: "EOY: 2016"
-        //        }
-        //    ],
-        //    EmployeeWorkings: [
-        //        {
-        //            EmployeeId: 2,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project A's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 2,
-        //            ProjectName: "Project B",
-        //            DecryptedScore: 4,
-        //            Comment: "Project B's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 2,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project B's Comment"
-        //        }
-        //    ]
-        //};
-        //var quinn = {
-        //    ReviewerAdjustment: 3,
-        //    EvaluatorComment: "Evaluator Comment",
-        //    PAFocus: {
-        //        FinalScore: 85,
-        //        Contribution: 1,
-        //        BonusGiven: 25,
-        //        BonusRanking: 2,
-        //        IsReadyPromotion: false,
-        //        LastCompletedPercentObjective: 80,
-        //        NextDescriptionObjective: "Next Description Objective",
-        //        Employee: {
-        //            EmployeeId: 3,
-        //            NickName: "Quinn",
-        //            FullName: "Võ Kim Quang",
-        //            JobTitle: {
-        //                JobTitleName: "Software Engineer / Team Leader"
-        //            },
-        //            Group: {
-        //                GroupId: 1,
-        //                GroupName: "Nexus"
-        //            }
-        //        }
-        //    },
-        //    Nominations: [],
-        //    EmployeeWorkings: [
-        //        {
-        //            EmployeeId: 3,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project A's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 3,
-        //            ProjectName: "Project B",
-        //            DecryptedScore: 4,
-        //            Comment: "Project B's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 3,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project B's Comment"
-        //        }
-        //    ]
-        //};
-
-        //var jacob = {
-        //    ReviewerAdjustment: -1,
-        //    EvaluatorComment: "Evaluator Comment",
-        //    PAFocus: {
-        //        FinalScore: 85,
-        //        Contribution: 1,
-        //        BonusGiven: 25,
-        //        BonusRanking: 2,
-        //        IsReadyPromotion: false,
-        //        LastCompletedPercentObjective: 80,
-        //        NextDescriptionObjective: "Next Description Objective",
-        //        Employee: {
-        //            EmployeeId: 4,
-        //            NickName: "Jacob",
-        //            FullName: "Phan Đình Hải Sơn",
-        //            JobTitle: {
-        //                JobTitleName: "Staff Software Engineer / Team Leader"
-        //            },
-        //            Group: {
-        //                GroupId: 2,
-        //                GroupName: "Olympus"
-        //            }
-        //        }
-        //    },
-        //    Nominations: [],
-        //    EmployeeWorkings: [
-        //        {
-        //            EmployeeId: 4,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project A's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 4,
-        //            ProjectName: "Project B",
-        //            DecryptedScore: 4,
-        //            Comment: "Project B's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 4,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project B's Comment"
-        //        }
-        //    ]
-        //};
-        //var kaden = {
-        //    ReviewerAdjustment: -1,
-        //    EvaluatorComment: "Evaluator Comment",
-        //    PAFocus: {
-        //        FinalScore: 85,
-        //        Contribution: 1,
-        //        BonusGiven: 25,
-        //        BonusRanking: 2,
-        //        IsReadyPromotion: false,
-        //        LastCompletedPercentObjective: 80,
-        //        NextDescriptionObjective: "Next Description Objective",
-        //        Employee: {
-        //            EmployeeId: 5,
-        //            NickName: "Kaden",
-        //            FullName: "Trịnh Đăng Khoa",
-        //            JobTitle: {
-        //                JobTitleName: "Software Engineer"
-        //            },
-        //            Group: {
-        //                GroupId: 2,
-        //                GroupName: "Olympus"
-        //            }
-        //        }
-        //    },
-        //    Nominations: [],
-        //    EmployeeWorkings: [
-        //        {
-        //            EmployeeId: 5,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project A's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 5,
-        //            ProjectName: "Project B",
-        //            DecryptedScore: 4,
-        //            Comment: "Project B's Comment"
-        //        },
-        //        {
-        //            EmployeeId: 5,
-        //            ProjectName: "Project A",
-        //            DecryptedScore: 5,
-        //            Comment: "Project B's Comment"
-        //        }
-        //    ]
-        //};
-
-        //data.push(forrest);
-        //data.push(tim);
-        //data.push(quinn);
-        //data.push(jacob);
-        //data.push(kaden);
-
-        //reportModel.masterReports = data;
-
         return reportFactory.getMasterReport(periodId, groupIds, employeeId)
             .success(function (masterReports) {
+                correctMasterReportData(masterReports);
+
                 reportModel.masterReports = masterReports;
             }).error(function (response, status) {
             });

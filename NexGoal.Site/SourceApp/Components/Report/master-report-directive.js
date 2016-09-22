@@ -14,31 +14,13 @@
             return '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
 
-        function renderNominations(cell) {
-            var htmlString = '<table class="table employee-award-table">';
-
-            angular.forEach(cell.Value, function (nomination) {
-                htmlString += "<tr><td width=100>" + nomination.Title + "</td><td width=80 class='text-center'>" + nomination.StatusToString + "</tr>";
-            });
-
-            htmlString += '</table>';
-
-            return htmlString;
+        function renderProjectScore(cell) {
+            return '<span>' + cell.Value + '<span>&nbsp;<i class="fa fa-star" aria-hidden="true"></i>';
         }
 
-        function renderEmployeeWorkings(cell) {
-            var htmlString = '<table class="table employee-working-table">';
-
-            angular.forEach(cell.Value, function (project) {
-                htmlString += "<tr><td width=150>" + project.ProjectName +
-                    "</td><td width=50 class='text-center'>" + project.DecryptedScore +
-                    "</td><td width=60 class='text-center'><a class='project-comment' data-employee-id='" + project.EmployeeId +
-                    "' data-project-name='" + project.ProjectName + "'>" + "<i class='fa fa-search' aria-hidden='true'></i></a></td></tr>";
-            });
-
-            htmlString += '</table>';
-
-            return htmlString;
+        function renderProjectComment(cell) {
+            return '<a class="project-comment" data-employee-id=' + cell.Value.EmployeeId +
+                ' data-project-id=' + cell.Value.ProjectId + '><i class="fa fa-search" aria-hidden="true"></i></a>';;
         }
 
         function groupData(data) {
@@ -103,10 +85,10 @@
                { HeaderText: "Bonus Ranking", Width: 50, Name: "BonusRanking", CellAlign: "center" },
                { HeaderText: "Accessing of Objective achievement", Width: 80, Name: "ObjectiveAchievement", CellAlign: "center" },
                { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center", CustomCellRender: renderNextObjectives },
-               { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderNominations },
+               { HeaderText: "Title", Width: 100, Name: "AwardName" },
                { HeaderText: "Status", Width: 80, Name: "AwardStatus" },
-               { HeaderText: "Project Name ", Width: 150, Name: "ProjectName", CustomCellRender: renderEmployeeWorkings },
-               { HeaderText: "Score", Width: 50, Name: "ProjectScore" },
+               { HeaderText: "Project Name ", Width: 150, Name: "ProjectName" },
+               { HeaderText: "Score", Width: 60, Name: "ProjectScore" },
                { HeaderText: "Comment", Width: 60, Name: "ProjectComment", CellAlign: "center" }
             ];
         }
@@ -114,37 +96,75 @@
         function generateBodyRows(groupReports) {
             var rows = [];
             angular.forEach(groupReports, function (group) {
-                var index = 1;
-                var firstRow = true;
+                var itemCount = 1;
+                var firstRowOfGroup = true;
 
                 angular.forEach(group.Members, function (member) {
+                    var firstRowOfMember = true;
                     var row = {
                         Columns: []
                     };
 
-                    if (firstRow) {
-                        row.Columns.push({ Name: "TeamName", Value: group.GroupName, MergeRowNumber: group.Members.length });
-                        firstRow = false;
+                    if (firstRowOfGroup) {
+                        var groupNominations = group.Members.map(function (item) { return item.Nominations; });
+                        var nominationCount = 0;
+
+                        angular.forEach(groupNominations, function (nomination) {
+                            nominationCount += nomination.length;
+                        })
+
+                        var mergeRowNumber = nominationCount > group.Members.length ? nominationCount : group.Members.length;
+
+                        row.Columns.push({ Name: "TeamName", Value: group.GroupName, MergeRowNumber: mergeRowNumber });
+                        firstRowOfGroup = false;
                     }
 
-                    row.Columns.push({ Name: "SymbolCount", Value: index });
-                    row.Columns.push({ Name: "NickName", Value: member.PAFocus.Employee.NickName });
-                    row.Columns.push({ Name: "FullName", Value: member.PAFocus.Employee.FullName });
-                    row.Columns.push({ Name: "JobTitle", Value: member.PAFocus.Employee.JobTitle.JobTitleName });
-                    row.Columns.push({ Name: "ReviewerAdjustment", Value: member.ReviewerAdjustment });
-                    row.Columns.push({ Name: "PAFinalScore", Value: member.PAFocus.FinalScore });
-                    row.Columns.push({ Name: "EvaluatorComment", Value: member.PAFocus.Employee.EmployeeId });
-                    row.Columns.push({ Name: "Contribution", Value: member.PAFocus.Contribution });
-                    row.Columns.push({ Name: "ApplicableToPromote", Value: member.PAFocus.IsReadyPromotion ? "Yes" : "No" });
-                    row.Columns.push({ Name: "BonusGiven", Value: member.PAFocus.BonusGiven });
-                    row.Columns.push({ Name: "BonusRanking", Value: member.PAFocus.BonusRanking });
-                    row.Columns.push({ Name: "ObjectiveAchievement", Value: member.PAFocus.LastCompletedPercentObjective + "%" });
-                    row.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.Employee.EmployeeId });
-                    row.Columns.push({ Name: "AwardName", Value: member.Nominations, MergeColNumber: 2 });
-                    row.Columns.push({ Name: "ProjectName", Value: member.EmployeeWorkings, MergeColNumber: 3 });
+                    if (firstRowOfMember) {
+                        row.Columns.push({ Name: "SymbolCount", Value: itemCount, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "NickName", Value: member.PAFocus.Employee.NickName, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "FullName", Value: member.PAFocus.Employee.FullName, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "JobTitle", Value: member.PAFocus.Employee.JobTitle.JobTitleName, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "ReviewerAdjustment", Value: member.ReviewerAdjustment, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "PAFinalScore", Value: member.PAFocus.FinalScore, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "EvaluatorComment", Value: member.PAFocus.Employee.EmployeeId, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "Contribution", Value: member.PAFocus.Contribution, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "ApplicableToPromote", Value: member.PAFocus.IsReadyPromotion ? "Yes" : "No", MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "BonusGiven", Value: member.PAFocus.BonusGiven, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "BonusRanking", Value: member.PAFocus.BonusRanking, MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "ObjectiveAchievement", Value: member.PAFocus.LastCompletedPercentObjective + "%", MergeRowNumber: member.Nominations.length });
+                        row.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.Employee.EmployeeId, MergeRowNumber: member.Nominations.length });
+                    }
 
-                    rows.push(row);
-                    index++;
+                    if (member.Nominations.length > 0) {
+                        for (var index = 0; index < member.Nominations.length; index++) {
+                            var nomination = member.Nominations[index];
+                            var project = member.EmployeeWorkings[index];
+
+                            if (firstRowOfMember) {
+                                firstRowOfMember = false;
+                            } else {
+                                row.Columns = [];
+                            }
+
+                            row.Columns.push({ Name: "AwardName", Value: nomination.AdditionalRow ? "" : nomination.Title });
+                            row.Columns.push({ Name: "AwardStatus", Value: nomination.AdditionalRow ? "" : nomination.StatusToString, CellAlign: "center" });
+                            row.Columns.push({ Name: "ProjectName", Value: project.AdditionalRow ? "" : project.ProjectName });
+                            row.Columns.push({
+                                Name: "ProjectScore", Value: project.AdditionalRow ? "" : project.DecryptedScore,
+                                CellAlign: "center", CustomCellRender: renderProjectScore
+                            });
+                            row.Columns.push({
+                                Name: "ProjectComment", Value: project.AdditionalRow ? "" : project,
+                                CellAlign: "center", CustomCellRender: renderProjectComment
+                            });
+
+                            rows.push(angular.copy(row));
+                        }
+                    } else {
+
+                    }
+
+                    itemCount++;
                 });
             });
 
@@ -160,7 +180,8 @@
                 scope.modalInstance = null;
                 var gridOptions = {
                     customizeHeader: true,
-                    gridExpandHeight: 500
+                    gridExpandHeight: 500,
+                    autoFixFrozenRowHeight: true
                 };
 
                 scope.$watch("gridData", function (gridData) {
@@ -173,6 +194,7 @@
                     gridOptions.groupHeaderRows = groupHeaders;
                     gridOptions.columns = columnHeaders;
                     gridOptions.bodyRows = bodyRows;
+                    //gridOptions.numberOfFrozenColumn = gridData.length > 0 ? 7 : 0;
 
                     element.fanexGrid(gridOptions);
 
@@ -191,6 +213,16 @@
 
                         if (employeeId) {
                             ReportModel.openPopupNextObjectives(employeeId);
+                        }
+                    });
+
+                    element.find(".project-comment").bind("click", function () {
+                        var $self = $(this);
+                        var employeeId = $self.data("employee-id");
+                        var projectId = $self.data("project-id");
+
+                        if (employeeId) {
+                            ReportModel.openPopupProjectComment(employeeId, projectId);
                         }
                     });
                 });

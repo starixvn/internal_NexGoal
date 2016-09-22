@@ -50,8 +50,12 @@
             lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
 
+            if (vm.employee) {
+                vm.filter.employeeId = vm.employee.EmployeeId;
+            }
+
             ReportModel.getMasterReport(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
-                console.log(ReportModel.masterReports);
+                vm.employeeReports = ReportModel.masterReports;
             })["finally"](function () {
                 lockScreenService.stop();
             });
