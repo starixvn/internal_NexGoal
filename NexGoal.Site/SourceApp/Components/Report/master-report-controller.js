@@ -47,12 +47,13 @@
         };
 
         vm.query = function () {
+            lockScreenService.start();
             vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
-
-            console.log(vm.filter);
 
             ReportModel.getMasterReport(vm.filter.periodId, vm.filter.teamIds, vm.filter.employeeId).then(function () {
                 console.log(ReportModel.masterReports);
+            })["finally"](function () {
+                lockScreenService.stop();
             });
         };
 
