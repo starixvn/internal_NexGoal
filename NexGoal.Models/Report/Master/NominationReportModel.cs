@@ -2,7 +2,6 @@
 {
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
-    using NexGoal.Resources;
 
     public class NominationReportModel
     {
