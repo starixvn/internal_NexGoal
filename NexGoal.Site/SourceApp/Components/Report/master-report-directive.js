@@ -110,7 +110,7 @@
                         var nominationCount = 0;
 
                         angular.forEach(groupNominations, function (nomination) {
-                            nominationCount += nomination.length;
+                            nominationCount += nomination.length > 0 ? nomination.length : 1;
                         })
 
                         var mergeRowNumber = nominationCount > group.Members.length ? nominationCount : group.Members.length;
@@ -161,7 +161,13 @@
                             rows.push(angular.copy(row));
                         }
                     } else {
+                        row.Columns.push({ Name: "AwardName", Value: "" });
+                        row.Columns.push({ Name: "AwardStatus", Value: "" });
+                        row.Columns.push({ Name: "ProjectName", Value: "" });
+                        row.Columns.push({ Name: "ProjectScore", Value: "" });
+                        row.Columns.push({ Name: "ProjectComment", Value: "" });
 
+                        rows.push(angular.copy(row));
                     }
 
                     itemCount++;
