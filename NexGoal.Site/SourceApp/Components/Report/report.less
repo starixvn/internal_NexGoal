@@ -94,23 +94,16 @@
 }
 
 .master-report-table {
-    td {
-        background: #FFF !important;
-    }
-}
-
-.employee-award-table,
-.employee-working-table {
     tr {
-        td {
-            &:last-child {
-                border-right: none;
+        &.normal-row {
+            td {
+                background: #FFF !important;
             }
         }
 
-        &:last-child {
+        &.on-focus-row {
             td {
-                border-bottom: none;
+                background: #fdf2c5 !important;
             }
         }
     }

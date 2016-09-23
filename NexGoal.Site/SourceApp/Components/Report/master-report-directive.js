@@ -49,7 +49,7 @@
         function generateGroupHeaders() {
             return [{
                 Columns: [
-                    { HeaderText: "Team", Name: "TeamName", MergeRowNumber: 2 },
+                    //{ HeaderText: "Team", Name: "TeamName", MergeRowNumber: 2 },
                     { HeaderText: "#", Name: "SymbolCount", MergeRowNumber: 2 },
                     { HeaderText: "Nick Name", Name: "NickName", MergeRowNumber: 2 },
                     { HeaderText: "Full Name", Name: "FullName", MergeRowNumber: 2 },
@@ -71,7 +71,7 @@
 
         function generateColumnHeaders() {
             return [
-               { HeaderText: "Team", Width: 80, Name: "TeamName", CellAlign: "center" },
+               //{ HeaderText: "Team", Width: 80, Name: "TeamName", CellAlign: "center" },
                { HeaderText: "#", Width: 50, Name: "SymbolCount", CellAlign: "center" },
                { HeaderText: "Nick Name", Width: 80, Name: "NickName", CellAlign: "center" },
                { HeaderText: "Full Name", Width: 150, Name: "FullName" },
@@ -105,19 +105,19 @@
                         Columns: []
                     };
 
-                    if (firstRowOfGroup) {
-                        var groupNominations = group.Members.map(function (item) { return item.Nominations; });
-                        var nominationCount = 0;
+                    //if (firstRowOfGroup) {
+                    //    var groupNominations = group.Members.map(function (item) { return item.Nominations; });
+                    //    var nominationCount = 0;
 
-                        angular.forEach(groupNominations, function (nomination) {
-                            nominationCount += nomination.length > 0 ? nomination.length : 1;
-                        })
+                    //    angular.forEach(groupNominations, function (nomination) {
+                    //        nominationCount += nomination.length > 0 ? nomination.length : 1;
+                    //    })
 
-                        var mergeRowNumber = nominationCount > group.Members.length ? nominationCount : group.Members.length;
+                    //    var mergeRowNumber = nominationCount > group.Members.length ? nominationCount : group.Members.length;
 
-                        row.Columns.push({ Name: "TeamName", Value: group.GroupName, MergeRowNumber: mergeRowNumber });
-                        firstRowOfGroup = false;
-                    }
+                    //    row.Columns.push({ Name: "TeamName", Value: group.GroupName, MergeRowNumber: mergeRowNumber });
+                    //    firstRowOfGroup = false;
+                    //}
 
                     if (firstRowOfMember) {
                         row.Columns.push({ Name: "SymbolCount", Value: itemCount, MergeRowNumber: member.Nominations.length });
@@ -200,7 +200,7 @@
                     gridOptions.groupHeaderRows = groupHeaders;
                     gridOptions.columns = columnHeaders;
                     gridOptions.bodyRows = bodyRows;
-                    //gridOptions.numberOfFrozenColumn = gridData.length > 0 ? 7 : 0;
+                    //gridOptions.numberOfFrozenColumn = gridData.length > 0 ? 6 : 0;
 
                     element.fanexGrid(gridOptions);
 

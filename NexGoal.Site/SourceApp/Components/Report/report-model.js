@@ -76,20 +76,26 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             });
 
             if (differIndex > 0) {
+                record.Nominations.AdditionalRow = true;
+                record.Nominations.RealRowCount = record.Nominations.length;
+
                 for (var index = 0; index < differIndex; index++) {
                     record.Nominations.push({ AdditionalRow: true });
                 }
             } else if (differIndex < 0) {
+                record.EmployeeWorkings.AdditionalRow = true;
+                record.EmployeeWorkings.RealRowCount = record.EmployeeWorkings.length;
+
                 for (var index = 0; index < -differIndex; index++) {
                     record.EmployeeWorkings.push({ AdditionalRow: true });
                 }
             }
         });
+
+        console.log(masterReports);
     }
 
-    reportModel.openPopupProjectComment = function (employeeId, projectId) {
-        var project = findProjectInMasterReport(reportModel.masterReports, employeeId, projectId);
-
+    reportModel.openPopupProjectComment = function (project) {
         reportModel.modalInstance = $modal.open({
             templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportProject.html",
             controller: "ModalMasterReportProjectController as modalMasterReportProjectCtrl",
@@ -105,21 +111,33 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         return reportModel.modalInstance.result;
     };
 
-    reportModel.openPopupEvaluatorComment = function (employeeId) {
-        var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+    reportModel.openPopupEvaluatorComment = function (comment) {
         var modalTitle = "Evaluator's Comment";
-        if (employee) {
-            return openMasterReportCommentModal(modalTitle, employee.EvaluatorComment);
-        }
+
+        return openMasterReportCommentModal(modalTitle, comment);
     };
 
-    reportModel.openPopupNextObjectives = function (employeeId) {
-        var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+    //reportModel.openPopupEvaluatorComment = function (employeeId) {
+    //    var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+    //    var modalTitle = "Evaluator's Comment";
+    //    if (employee) {
+    //        return openMasterReportCommentModal(modalTitle, employee.EvaluatorComment);
+    //    }
+    //};
+
+    reportModel.openPopupNextObjectives = function (comment) {
         var modalTitle = "Next Objectives";
-        if (employee) {
-            return openMasterReportCommentModal(modalTitle, employee.PAFocus.NextDescriptionObjective);
-        }
+
+        return openMasterReportCommentModal(modalTitle, comment);
     }
+
+    //reportModel.openPopupNextObjectives = function (employeeId) {
+    //    var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+    //    var modalTitle = "Next Objectives";
+    //    if (employee) {
+    //        return openMasterReportCommentModal(modalTitle, employee.PAFocus.NextDescriptionObjective);
+    //    }
+    //}
 
     reportModel.getMasterReport = function (periodId, groupIds, employeeId) {
         return reportFactory.getMasterReport(periodId, groupIds, employeeId)

@@ -45,10 +45,152 @@
         </div>
 
         <div class="col-sm-12">
-            <div class="freegrid master-report-table"
-                 data-grid-master-report
-                 data-grid-data="masterReportCtrl.employeeReports">
-            </div>
+            <table class="table table-bordered master-report-table">
+                <thead>
+                    <tr>
+                        <th rowspan="2">#</th>
+                        <th rowspan="2">Nick Name</th>
+                        <th rowspan="2">Full Name</th>
+                        <th rowspan="2">Job Title</th>
+                        <th rowspan="2" class="width-60">Reviewer's Adjustment</th>
+                        <th rowspan="2">PA Final Score</th>
+                        <th rowspan="2" class="width-60">Evaluator's Comment</th>
+                        <th rowspan="2">Contribution</th>
+                        <th rowspan="2" class="width-60">Applicable to promote</th>
+                        <th rowspan="2">Bonus Given</th>
+                        <th rowspan="2">Bonus Ranking</th>
+                        <th rowspan="2" class="width-60">Accessing of Objective achievement</th>
+                        <th rowspan="2">Next Objectives</th>
+                        <th colspan="2">Award</th>
+                        <th colspan="3">Evaluation By PM</th>
+                    </tr>
+                    <tr>
+                        <th>Title</th>
+                        <th>Status</th>
+                        <th>Project Name</th>
+                        <th class="width-60">Score</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody ng-show="masterReportCtrl.masterReports.length === 0">
+                    <tr>
+                        <td colspan="18" class="empty-result" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+                <tbody ng-repeat="group in masterReportCtrl.masterReports">
+                    <tr class="normal-row"
+                        ng-click="masterReportCtrl.groupOnClick(group)">
+                        <td colspan="18" ng-bind="group.GroupName"></td>
+                    </tr>
+                    <tr ng-show="group.onGroupExpand"
+                        ng-class="{'normal-row': !member.onFocus, 'on-focus-row': member.onFocus}"
+                        ng-repeat-start="member in group.Members"
+                        ng-click="masterReportCtrl.recordOnFocus(member)">
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}"
+                            ng-bind="$index + 1"></td>
+                        <td rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.Employee.NickName"></td>
+                        <td rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.Employee.FullName"></td>
+                        <td rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.Employee.JobTitle.JobTitleName"></td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}"
+                            ng-bind="member.ReviewerAdjustment"></td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.FinalScore"></td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}">
+                            <a href="" ng-click="masterReportCtrl.openPopupEvaluatorComment(member)">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.Contribution"></td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.IsReadyPromotion ? 'Yes' : 'No'"></td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.Employee.BonusGiven"></td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.Employee.BonusRanking"></td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}"
+                            ng-bind="member.PAFocus.Employee.LastCompletedPercentObjective"></td>
+                        <td class="text-center"
+                            rowspan="{{member.NominationCount}}">
+                            <a href="" ng-click="masterReportCtrl.openPopupNextObjectives(member)">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </a>
+                        </td>
+
+                        <td ng-if="member.NominationCount > 0"
+                            ng-bind="member.Nominations[0].Title">
+                        </td>
+                        <td class="text-center"
+                            ng-if="member.NominationCount > 0"
+                            ng-bind="member.Nominations[0].StatusToString"></td>
+                        <td ng-if="member.EmployeeWorkings.length > 0"
+                            ng-bind="member.EmployeeWorkings[0].ProjectName">
+                        </td>
+                        <td class="text-center"
+                            ng-if="member.EmployeeWorkings.length > 0">
+                            {{member.EmployeeWorkings[0].DecryptedScore}}
+                            <i class="fa fa-star"
+                               ng-if="!member.EmployeeWorkings[0].AdditionalRow"></i>
+                        </td>
+                        <td class="text-center"
+                            ng-if="member.EmployeeWorkings.length > 0">
+                            <a href=""
+                               ng-click="masterReportCtrl.openPopupProjectComment(member, member.EmployeeWorkings[0])"
+                               ng-if="!member.EmployeeWorkings[0].AdditionalRow">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </a>
+                        </td>
+
+                        <td ng-if="member.NominationCount === 0"></td>
+                        <td ng-if="member.NominationCount === 0"></td>
+                        <td ng-if="member.NominationCount === 0"></td>
+                        <td ng-if="member.NominationCount === 0"></td>
+                        <td ng-if="member.NominationCount === 0"></td>
+
+                        <!--Case Nominations 0 - 1 Employee Workings-->
+                    </tr>
+                    <tr ng-show="group.onGroupExpand"
+                        ng-class="{'normal-row': !member.onFocus, 'on-focus-row': member.onFocus}"
+                        ng-click="masterReportCtrl.recordOnFocus(member)"
+                        ng-repeat-end ng-repeat="nomination in member.Nominations"
+                        ng-if="!$first">
+                        <td ng-if="!$first"
+                            ng-bind="nomination.Title"></td>
+                        <td class="text-center"
+                            ng-if="!$first"
+                            ng-bind="nomination.StatusToString"></td>
+
+                        <td ng-if="!$first"
+                            ng-bind="member.EmployeeWorkings[$index].ProjectName"></td>
+                        <td class="text-center"
+                            ng-if="!$first">
+                            {{member.EmployeeWorkings[$index].DecryptedScore}}
+                            <i class="fa fa-star"
+                               ng-if="!member.EmployeeWorkings[$index].AdditionalRow"></i>
+                        </td>
+                        <td class="text-center"
+                            ng-if="!$first">
+                            <a href="" 
+                               ng-click="masterReportCtrl.openPopupProjectComment(member, member.EmployeeWorkings[$index])"
+                               ng-if="!member.EmployeeWorkings[$index].AdditionalRow">
+                                <i class="fa fa-search" aria-hidden="true"></i>
+                            </a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
