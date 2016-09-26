@@ -222,6 +222,8 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                     memberEPA.Process.CurrentProcess.AdjustScore = maxAdditionScore;
                 } else if (adjustScore < maxSubtractScore) {
                     memberEPA.Process.CurrentProcess.AdjustScore = maxSubtractScore;
+                } else {
+                    memberEPA.Process.CurrentProcess.AdjustScore = adjustScore;
                 }
 
                 reviewerMngModel.calculateScore(memberEPA, true);
