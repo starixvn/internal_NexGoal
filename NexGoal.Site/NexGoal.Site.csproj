@@ -556,6 +556,14 @@
     <Content Include="SourceApp\Components\Report\Templates\paReport.html" />
     <Content Include="SourceApp\Components\UserInfo\Templates\index.html" />
     <Content Include="SourceApp\Components\UserInfo\user-info-controller.js" />
+    <Content Include="SourceApp\Components\Violation\create-violation-controller.js" />
+    <Content Include="SourceApp\Components\Violation\Templates\createViolation.html" />
+    <Content Include="SourceApp\Components\Violation\Templates\index.html" />
+    <Content Include="SourceApp\Components\Violation\Templates\updateViolation.html" />
+    <Content Include="SourceApp\Components\Violation\update-violation-controller.js" />
+    <Content Include="SourceApp\Components\Violation\violation-controller.js" />
+    <Content Include="SourceApp\Components\Violation\violation-factory.js" />
+    <Content Include="SourceApp\Components\Violation\violation-model.js" />
     <Content Include="SourceApp\Shared\history-factory.js" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiDetail.html" />
     <Content Include="SourceApp\Components\EPA\Management\Templates\semiPerformanceResult.html" />

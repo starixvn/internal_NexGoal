@@ -5,7 +5,7 @@ var appModule = angular.module("appModule", ['userInfoModule', 'menuModule', 'em
 'roleModule', 'targetTemplateModule', 'flowMngModule', 'targetEmployeeSettingModule', 'departmentModule', 'epaModule', 'periodModule',
 'dashboardModule', 'attendanceModule', 'reportModule', 'monthlyPeriodModule', "assessmentModule",
 'ui.bootstrap.contextMenu', 'ui.bootstrap', 'angular.chosen', 'pascalprecht.translate', 'angularUtils.directives.dirPagination',
-'ngRoute', 'multi-select', 'purplefox.numeric', 'angular.filter'])
+'ngRoute', 'multi-select', 'purplefox.numeric', 'angular.filter', 'violationModule'])
 .config(['$translateProvider', '$locationProvider', 'paginationTemplateProvider', '$routeProvider',
     'datepickerConfig', 'datepickerPopupConfig', '$provide',
 function ($translateProvider, $locationProvider, paginationTemplateProvider, $routeProvider,

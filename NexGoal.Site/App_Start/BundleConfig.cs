@@ -201,7 +201,12 @@
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/view-eoy-nomination-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/eoy-access-controller.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/Year/eoy-modal-information-controller.js",
-                            "~/SourceApp/Components/Assessment/EmployeeAward/Year/create-eoy-controller.js"));
+                            "~/SourceApp/Components/Assessment/EmployeeAward/Year/create-eoy-controller.js",
+                            "~/SourceApp/Components/Violation/violation-controller.js",
+                            "~/SourceApp/Components/Violation/create-violation-controller.js",
+                            "~/SourceApp/Components/Violation/update-violation-controller.js",
+                            "~/SourceApp/Components/Violation/violation-model.js",
+                            "~/SourceApp/Components/Violation/violation-factory.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/common/js").Include(
                             "~/SourceApp/Shared/epa-directives.js",

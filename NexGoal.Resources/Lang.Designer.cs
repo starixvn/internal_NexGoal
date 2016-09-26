@@ -736,6 +736,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Violation.
+        /// </summary>
+        public static string CreateViolation {
+            get {
+                return ResourceManager.GetString("CreateViolation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Current Score.
         /// </summary>
         public static string CurrentScore {
@@ -1038,6 +1047,15 @@ namespace NexGoal.Resources {
         public static string EditUser {
             get {
                 return ResourceManager.GetString("EditUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Effective Date field is required!.
+        /// </summary>
+        public static string EffectiveDateRequired {
+            get {
+                return ResourceManager.GetString("EffectiveDateRequired", resourceCulture);
             }
         }
         
@@ -4728,6 +4746,15 @@ namespace NexGoal.Resources {
         public static string ViolationTypeRequired {
             get {
                 return ResourceManager.GetString("ViolationTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Warning Content field is required!.
+        /// </summary>
+        public static string WarningContentRequired {
+            get {
+                return ResourceManager.GetString("WarningContentRequired", resourceCulture);
             }
         }
         

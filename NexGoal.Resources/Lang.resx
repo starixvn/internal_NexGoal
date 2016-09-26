@@ -1710,4 +1710,13 @@
   <data name="ReviewerAdjustment" xml:space="preserve">
     <value>Reviewer's Adjustment</value>
   </data>
+  <data name="CreateViolation" xml:space="preserve">
+    <value>Create Violation</value>
+  </data>
+  <data name="EffectiveDateRequired" xml:space="preserve">
+    <value>Effective Date field is required!</value>
+  </data>
+  <data name="WarningContentRequired" xml:space="preserve">
+    <value>Warning Content field is required!</value>
+  </data>
 </root>

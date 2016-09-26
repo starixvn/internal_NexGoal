@@ -190,3 +190,12 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     .when('/EOY/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/eoyAccess.html', caseInsensitiveMatch: true });
 }]);
+
+var violationModule = angular.module("violationModule", ["ngRoute"]);
+
+violationModule.config(["$routeProvider", function ($routeProvider) {
+    var baseUrl = $("base").first().attr("href");
+
+    $routeProvider.when("/Violation/Index",
+    { templateUrl: baseUrl + "SourceApp/Components/Violation/Templates/index.html", caseInsensitiveMatch: true });
+}]);

@@ -1,0 +1,117 @@
+﻿<div ng-controller="ViolationController as violationCtrl">
+    <div class="row">
+        <div class="col-sm-12 sub-header">
+            <ul class="row breadcrumb">
+                <li class="current">Violation Management</li>
+            </ul>
+        </div>
+
+        <div class="col-sm-12">
+            <form novalidate class="form-inline filter">
+
+                <div class="form-group">
+
+                    <div class="col">
+                        <label class="control-label" data-translate="From"></label>
+                        <div class="control-content">
+                            <input readonly class="calendar-form-control" type="text" datepicker-popup
+                                   ng-model="violationCtrl.filter.RawFromDate"
+                                   ng-click="violationCtrl.openPopupFromDate($event)"
+                                   is-open="violationCtrl.calendar.fromDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="violationCtrl.openPopupFromDate($event)"></calendar-image>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="To"></label>
+                        <div class="control-content">
+                            <input readonly class="calendar-form-control" type="text" datepicker-popup
+                                   ng-model="violationCtrl.filter.RawToDate"
+                                   ng-click="violationCtrl.openPopupToDate($event)"
+                                   is-open="violationCtrl.calendar.toDateOpened" />
+                            <calendar-image class="calendar-image" ng-click="violationCtrl.openPopupToDate($event)"></calendar-image>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Status"></label>
+                        <div class="control-content">
+                            <select class="form-control" ng-model="violationCtrl.filter.StatusId">
+                                <option value="">-- All --</option>
+                                <option value="1" data-translate="Active"></option>
+                                <option value="0" data-translate="Inactive"></option>
+                            </select>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="form-group">
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Team"></label>
+                        <div class="control-content">
+                            <add-class-to-role-filter class="multi-select" multi-select input-model="violationCtrl.teams" button-label="Name"
+                                                      helper-elements="all none filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                            </add-class-to-role-filter>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <label class="control-label" data-translate="Employee"></label>
+                        <div class="control-content">
+                            <input class="form-control employe-search" placeholder="-- Search an employee --" search-auto-complete
+                                   ng-model="violationCtrl.searchEmployee"
+                                   search-employees="violationCtrl.getEmployee()"
+                                   ng-change="violationCtrl.unselectEmployee()"
+                                   employee="violationCtrl.filteredEmployee" />
+                        </div>
+                    </div>
+
+                    <div class="col button-block">
+                        <button class="button" data-translate="Search"></button>
+                    </div>
+
+                </div>
+
+            </form>
+        </div>
+
+        <div class="col-sm-12">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr class="header-table">
+                        <th colspan="9">
+                            <a class="pull-left button-icon create-button"
+                               ng-click="violationCtrl.createViolation()">
+                                <!--ng-show="violationCtrl.permission == violationCtrl.policyEnum.Host"-->
+                                <span class="icon plus"></span>
+                                <span class="button-text" data-translate="CreateViolation"></span>
+                            </a>
+                            <input type="text" class="search-inline-textbox search pull-right"
+                                   ng-model="violationCtrl.searchKey"
+                                   ng-change="violationCtrl.search()">
+                        </th>
+                    </tr>
+                    <tr>
+                        <th data-translate="SymbolCount"></th>
+                        <th data-translate="FullName"></th>
+                        <th data-translate="NickName"></th>
+                        <th data-translate="Team"></th>
+                        <th>Warning Content</th>
+                        <th>Effective Date</th>
+                        <th data-translate="Creator"></th>
+                        <th data-translate="Active"></th>
+                        <th data-translate="Action"></th>
+                    </tr>
+                </thead>
+                <tbody ng-show="violationCtrl.violations.length === 0">
+                    <tr>
+                        <td colspan="9" class="empty-result" data-translate="EmptyResult"></td>
+                    </tr>
+                </tbody>
+                <tbody ng-show="violationCtrl.violations.length > 0"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
