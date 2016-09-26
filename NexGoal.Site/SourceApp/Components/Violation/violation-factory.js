@@ -16,7 +16,14 @@
                     EmployeeId: employeeId
                 };
 
-                return $http.get(baseUrl + "api/EOQ/GetEOQ", { params: params });
+                return $http.get(baseUrl + "api/Violation/Get", { params: params });
+            },
+            getViolation: function (violationId) {
+                var params = {
+                   ViolationId: violationId
+                };
+
+                return $http.get(baseUrl + "api/Violation/GetById", { params: params });
             },
             createViolation: function (employeeId, effectiveDate, description) {
                 var criteria = {
@@ -26,6 +33,22 @@
                 };
 
                 return $http.post(baseUrl + "api/Violation/Create", criteria);
+            },
+            updateViolation: function (violationId, effectiveDate, description) {
+                var criteria = {
+                    ViolationId: violationId,
+                    EffectedDate: effectiveDate,
+                    Description: description
+                };
+
+                return $http.post(baseUrl + "api/Violation/Update", criteria);
+            },
+            modifyViolationStatus: function (violationId) {
+                var criteria = {
+                    ViolationId: violationId,
+                };
+
+                return $http.post(baseUrl + "api/Violation/UpdateActive", criteria);
             }
         };
     }

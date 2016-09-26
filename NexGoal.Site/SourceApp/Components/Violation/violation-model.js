@@ -8,6 +8,8 @@
     function violationModel($modal, notificationFactory, errorFactory, violationFactory) {
         var model = {};
 
+        model.violation = {};
+        model.violations = [];
         model.calendar = {
             fromDateOpened: false,
             toDateOpened: false
@@ -72,6 +74,49 @@
                 else {
                     notificationFactory.error("", response.Message);
                 }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.updateViolation = function (violationId, effectiveDate, description, modalInstance) {
+            return violationFactory.updateViolation(violationId, effectiveDate, description).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                    modalInstance.close();
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.modifyViolationStatus = function (violationId) {
+            return violationFactory.modifyViolationStatus(violationId).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("UpdatedSuccessfully");
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getViolation = function (violationId) {
+            return violationFactory.getViolation(violationId).success(function (violation) {
+                model.violation = violation;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getViolations = function (fromDate, toDate, isActive, groupIds, employeeId) {
+            return violationFactory.getViolations(fromDate, toDate, isActive, groupIds, employeeId).success(function (violations) {
+                model.violations = violations;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
