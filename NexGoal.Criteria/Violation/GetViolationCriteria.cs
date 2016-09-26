@@ -11,7 +11,7 @@
 
         public int? IsActive { get; set; }
 
-        public int? GroupId { get; set; }
+        public string GroupIds { get; set; }
 
         public int? EmployeeId { get; set; }
 
