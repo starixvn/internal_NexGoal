@@ -7,6 +7,7 @@
     using NexGoal.Criteria.Violation;
     using NexGoal.Model.Violation;
     using NexGoal.Services.Interfaces;
+    using System;
     using System.Collections.Generic;
     using System.Web.Http;
 

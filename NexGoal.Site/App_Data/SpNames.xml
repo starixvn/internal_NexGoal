@@ -459,17 +459,10 @@
     <Setting Key="Violation_UpdateActive" SpName="Violation_UpdateActive" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="Violation_Insert" SpName="Violation_Insert" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="Violation_Get" SpName="Violation_Get" DbName="NexGoal" Plain="0">
-      <Mapping DataField="CreatedById" ObjectProperty="EmployeeId" />
     </Setting>
     <Setting Key="Violation_GetById" SpName="Violation_GetById" DbName="NexGoal" Plain="0">
-      <Mapping DataField="CreatedById" ObjectProperty="EmployeeId" />
-      <Mapping DataField="CreatedByNickName" ObjectProperty="NickName" />
-      <Mapping DataField="CreatedByFullName" ObjectProperty="FullName" />
     </Setting>
     <Setting Key="Violation_GetByPeriodId" SpName="Violation_GetByPeriodId" DbName="NexGoal" Plain="0">
-      <Mapping DataField="CreatedById" ObjectProperty="EmployeeId" />
-      <Mapping DataField="CreatedByNickName" ObjectProperty="NickName" />
-      <Mapping DataField="CreatedByFullName" ObjectProperty="FullName" />
     </Setting>
   </Function>
 </Functions>

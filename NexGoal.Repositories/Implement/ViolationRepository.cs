@@ -14,7 +14,17 @@ namespace NexGoal.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<ViolationViewModel>(criteria.GetSpParams());
+                return db.Query<ViolationViewModel, Employee, Employee, ViolationViewModel>(
+                    (v, e, c) =>
+                    {
+                        v.Employee = e;
+                        v.CreatedBy = c;
+
+                        return v;
+                    },
+                    "EmployeeId,CreatedBy",
+                    criteria.GetSpParams()
+                    );
             }
         }
 
@@ -22,7 +32,17 @@ namespace NexGoal.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.Query<ViolationViewModel>(criteria.GetSpParams());
+                return db.Query<ViolationViewModel, Employee, Employee, ViolationViewModel>(
+                   (v, e, c) =>
+                   {
+                       v.Employee = e;
+                       v.CreatedBy = c;
+
+                       return v;
+                   },
+                   "EmployeeId,CreatedBy",
+                   criteria.GetSpParams()
+                   );
             }
         }
 
@@ -30,7 +50,17 @@ namespace NexGoal.Repositories.Implement
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                return db.QueryEntity<ViolationViewModel>(criteria.GetSpParams());
+                return db.QueryEntity<ViolationViewModel, Employee, Employee, ViolationViewModel>(
+                   (v, e, c) =>
+                   {
+                       v.Employee = e;
+                       v.CreatedBy = c;
+
+                       return v;
+                   },
+                   "EmployeeId,CreatedBy",
+                   criteria.GetSpParams()
+                   );
             }
         }
     }
