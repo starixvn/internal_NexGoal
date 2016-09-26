@@ -293,5 +293,17 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
+    reviewerMngModel.updateSelectedEmployees = function (memberEPAs, selectedEmployees) {
+        angular.forEach(memberEPAs, function (memberEPA) {
+            if (!memberEPA.Process.CurrentProcess.IsEndProcess) {
+                angular.forEach(selectedEmployees, function (selectedEmployee) {
+                    if (memberEPA.EPAId === selectedEmployee.EPAId) {
+                        memberEPA.Selected = true;
+                    }
+                });
+            }
+        });
+    };
+
     return reviewerMngModel;
 }]);

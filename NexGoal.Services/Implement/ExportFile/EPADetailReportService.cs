@@ -312,7 +312,7 @@
                 Lang.JobTitle,
                 Lang.Team,
                 Lang.EvaluationPeriod,
-                Lang.TargetType,
+                Lang.PeriodType,
                 Lang.SelfScore,
                 Lang.EvaluationScore,
                 Lang.ReviewerScore,

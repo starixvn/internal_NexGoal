@@ -104,12 +104,56 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         return count > 0 ? utilitiesFactory.splitNumber(totalScore / count, 2) : 0;
     }
 
+    function CalculateEvaluatorScoreOnKPI(evaluators) {
+        var averageScore = 0;
+
+        if (evaluators.length > 0) {
+            var score = 0;
+            var length = 0;
+            angular.forEach(evaluators, function (evaluator) {
+                if (evaluator.ScoreEncode) {
+                    score += evaluator.Score;
+                    length++;
+                }
+            });
+
+            averageScore = score / length;
+        }
+
+        return utilitiesFactory.splitNumber(averageScore, 2);
+    }
+
+    function CalculateEvaluatorScoreOnGroup(kpiGroup) {
+        if (kpiGroup.EvaluatorsScore.length === 0)
+            return 0;
+
+        var score = 0;
+        var length = 0;
+        angular.forEach(kpiGroup.EvaluatorsScore, function (evaluator) {
+            if (evaluator.Score != 0) {
+                score += evaluator.Score;
+                length++;
+            }
+        });
+
+        return utilitiesFactory.splitNumber(score / length, 2);
+    }
+
     function getEPAInfoByReviewer() {
         lockScreenService.start();
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
             var averageScoreEvaluators = calculateAverageEvaluator(vm.epaInfo.Process.Evaluators);
+
+            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    kpi.EvaluatorScore = CalculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
+                });
+                var scoreOfGroup = CalculateEvaluatorScoreOnGroup(kpiGroup);
+
+                kpiGroup.EvaluatorScore = scoreOfGroup;
+            })
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);

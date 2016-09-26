@@ -348,7 +348,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             } else {
                 ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
                 ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
-                    getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
+                    getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds, selectedEmployees);
                 });
             }
         }
@@ -369,11 +369,11 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     vm.query = function () {
         vm.filter.employeeIds = utilitiesFactory.getSelectedDataByProperty(vm.members, 'EmployeeId');
-
         if (vm.filter.periodIds === null || vm.filter.groupIds === null || vm.filter.employeeIds === null) {
             vm.memberEPAs = [];
         } else {
             getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds);
+            vm.selectedAll = false;
         }
     };
 
