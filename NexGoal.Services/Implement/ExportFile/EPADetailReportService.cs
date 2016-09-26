@@ -138,7 +138,7 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(memberEPA.Employee.Code);
+                cell.SetCellValue(memberEPA.Employee.NickName);
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
@@ -146,11 +146,7 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(memberEPA.Employee.NickName);
-
-                cell = row.CreateCell(currentColumn++);
-                cell.CellStyle = bodyStyle;
-                cell.SetCellValue(memberEPA.Employee.Category);
+                cell.SetCellValue(memberEPA.Employee.JobTitleName);
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
@@ -158,11 +154,7 @@
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
-                cell.SetCellValue(memberEPA.Employee.JobTitleName);
-
-                cell = row.CreateCell(currentColumn++);
-                cell.CellStyle = bodyStyle;
-                cell.SetCellValue(memberEPA.Employee.JoinedDate.ToString(Constants.DateFormat));
+                cell.SetCellValue(memberEPA.Period.Name);
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
@@ -315,13 +307,11 @@
             return new List<string>
             {
                 Lang.SymbolCount,
-                Lang.Code,
-                Lang.FullName,
                 Lang.NickName,
-                Lang.Category,
-                Lang.Section,
+                Lang.FullName,
                 Lang.JobTitle,
-                Lang.JoinedDate,
+                Lang.Team,
+                Lang.EvaluationPeriod,
                 Lang.TargetType,
                 Lang.SelfScore,
                 Lang.EvaluationScore,

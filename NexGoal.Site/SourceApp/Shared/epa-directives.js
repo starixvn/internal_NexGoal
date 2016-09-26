@@ -26,28 +26,37 @@ appModule.directive('searchAutoComplete', ['$timeout', 'errorFactory', function 
                 source: function (request, response) {
                     scope.searchEmployees().success(function (employees) {
                         var data = [];
-                        angular.forEach(employees, function (employee) {
-                            data.push(
-                            {
-                                value: employee.NickName + ' (' + employee.FullName + ')',
-                                id: employee.EmployeeId,
-                                employee: {
-                                    EmployeeId: employee.EmployeeId,
-                                    Name: employee.NickName,
-                                    HasMonthlyEPA: employee.HasMonthlyEPA,
-                                    TeamName: employee.Group.GroupName
-                                }
+                        if (employees.length > 0) {
+                            angular.forEach(employees, function (employee) {
+                                data.push(
+                                {
+                                    value: employee.NickName + ' (' + employee.FullName + ')',
+                                    id: employee.EmployeeId,
+                                    employee: {
+                                        EmployeeId: employee.EmployeeId,
+                                        Name: employee.NickName,
+                                        HasMonthlyEPA: employee.HasMonthlyEPA,
+                                        TeamName: employee.Group.GroupName
+                                    }
+                                });
                             });
-                        });
 
-                        response(data);
+                            response(data);
 
-                        if (scope.employeeStyle) {
-                            if (data.length > 0) {
-                                angular.element(".ui-autocomplete").attr("style", scope.employeeStyle);
-                            } else {
-                                angular.element(".ui-autocomplete").attr("style", "display: none;");
+                            if (scope.employeeStyle) {
+                                if (data.length > 0) {
+                                    angular.element(".ui-autocomplete").attr("style", scope.employeeStyle);
+                                } else {
+                                    angular.element(".ui-autocomplete").attr("style", "display: none;");
+                                }
                             }
+                        } else {
+                            scope.employee = {
+                                EmployeeId: 0,
+                                Name: scope.searchEmployees,
+                                HasMonthlyEPA: false,
+                                TeamName: ""
+                            };
                         }
                     }).error(function (response, status) {
                         errorFactory.errorHandle(status);
@@ -55,7 +64,7 @@ appModule.directive('searchAutoComplete', ['$timeout', 'errorFactory', function 
                 },
                 select: function (event, ui) {
                     scope.employee = ui.item.employee;
-                   
+
                     $timeout(function () {
                         //iElement.trigger('input');
                     }, 0);
