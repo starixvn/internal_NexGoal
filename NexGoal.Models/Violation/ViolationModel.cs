@@ -16,6 +16,8 @@
 
         public DateTime EffectedDate { get; set; }
 
+        public string GroupName { get; set; }
+
         public Employee Employee { get; set; }
 
         public Employee CreatedBy { get; set; }

@@ -8,6 +8,8 @@ namespace NexGoal.Repositories.Interfaces
     {
         IEnumerable<ViolationViewModel> Get(ICriteria criteria);
 
+        IEnumerable<ViolationViewModel> GetByPeriodId(ICriteria criteria);
+
         ViolationViewModel GetById(ICriteria criteria);
     }
 }

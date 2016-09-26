@@ -80,5 +80,16 @@
 
             return model;
         }
+
+        public IEnumerable<ViolationViewModel> GetByPeriodId(GetViolationByPeriodIdCriteria criteria)
+        {
+            IEnumerable<ViolationViewModel> model = new List<ViolationViewModel>();
+            if (criteria != null && criteria.IsValid())
+            {
+                model = this.violationRepository.GetByPeriodId(criteria);
+            }
+
+            return model;
+        }
     }
 }

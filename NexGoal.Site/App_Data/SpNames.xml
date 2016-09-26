@@ -466,5 +466,10 @@
       <Mapping DataField="CreatedByNickName" ObjectProperty="NickName" />
       <Mapping DataField="CreatedByFullName" ObjectProperty="FullName" />
     </Setting>
+    <Setting Key="Violation_GetByPeriodId" SpName="Violation_GetByPeriodId" DbName="NexGoal" Plain="0">
+      <Mapping DataField="CreatedById" ObjectProperty="EmployeeId" />
+      <Mapping DataField="CreatedByNickName" ObjectProperty="NickName" />
+      <Mapping DataField="CreatedByFullName" ObjectProperty="FullName" />
+    </Setting>
   </Function>
 </Functions>

@@ -10,6 +10,14 @@ namespace NexGoal.Repositories.Implement
 {
     public class ViolationRepository : IViolationRepository
     {
+        public IEnumerable<ViolationViewModel> GetByPeriodId(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                return db.Query<ViolationViewModel>(criteria.GetSpParams());
+            }
+        }
+
         public IEnumerable<ViolationViewModel> Get(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))

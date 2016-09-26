@@ -25,6 +25,15 @@
         }
 
         [HttpGet]
+        public IEnumerable<ViolationViewModel> GetByPeriodId(int periodId, int employeeId)
+        {
+            var criteria = new GetViolationByPeriodIdCriteria { PeriodId = periodId, EmployeeId = employeeId };
+            IEnumerable<ViolationViewModel> result = integrationService.GetByPeriodId(criteria);
+
+            return result;
+        }
+
+        [HttpGet]
         [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Read)]
         public ViolationViewModel GetById(int violationId)
         {
