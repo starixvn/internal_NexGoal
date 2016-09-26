@@ -46,7 +46,10 @@
             if (ViolationModel.validateViolation(vm.violation)) {
                 vm.violation.EffectiveDate = vm.violation.RawEffectiveDate.toDateString();
 
-                ViolationModel.createViolation(vm.violation, $modalInstance);
+                ViolationModel.createViolation(vm.violation.EmployeeId,
+                                                vm.violation.EffectiveDate,
+                                                vm.violation.WarningContent,
+                                                $modalInstance);
             }
         };
 

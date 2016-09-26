@@ -3,9 +3,9 @@
 
     violationModule.factory("ViolationModel", violationModel);
 
-    violationModel.$inject = ["$modal", "notificationFactory"];
+    violationModel.$inject = ["$modal", "notificationFactory", "errorFactory", "violationFactory"];
 
-    function violationModel($modal, notificationFactory) {
+    function violationModel($modal, notificationFactory, errorFactory, violationFactory) {
         var model = {};
 
         model.calendar = {
@@ -63,8 +63,18 @@
             return true;
         };
 
-        model.createViolation = function (violation, modalInstance) {
-            modalInstance.close();
+        model.createViolation = function (employeeId, effectiveDate, description, modalInstance) {
+            return violationFactory.createViolation(employeeId, effectiveDate, description).success(function (response) {
+                if (response.IsSuccessful) {
+                    notificationFactory.success("CreatedSuccessfully");
+                    modalInstance.close();
+                }
+                else {
+                    notificationFactory.error("", response.Message);
+                }
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
         };
 
         return model;
