@@ -3,9 +3,9 @@
 
     assessmentModule.controller('UpdateEOYController', updateEOYController);
 
-    updateEOYController.$inject = ['$routeParams', '$location', 'EOYModel', 'historyFactory', 'lockScreenService', 'baseUrl'];
+    updateEOYController.$inject = ['$routeParams', '$location', 'EOYModel', 'historyFactory', 'lockScreenService'];
 
-    function updateEOYController($routeParams, $location, EOYModel, historyFactory, lockScreenService, baseUrl) {
+    function updateEOYController($routeParams, $location, EOYModel, historyFactory, lockScreenService) {
         var vm = this;
 
         vm.period = null;

@@ -7,15 +7,12 @@ epaModule.controller('DetailEvaluatorController',
 function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, EvaluatorManagementModel, CommonModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, LastRatingModel, lockScreenService) {
     var vm = this;
-    vm.autoSave = true;
-    vm.autoSaveInterval;
     vm.hrmSummary = {};
     vm.employeeProjects = [];
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id, 10);
     vm.evaluatorId = parseInt($routeParams.evaluatorId, 10);
     vm.maxStar = utilitiesFactory.maxStar;
-    vm.dataSaved = false;
     vm.evaluatedDate = null;
     vm.standardGrades = CommonModel.standardGrades;
     vm.policyEnum = enumerationsFactory.policy;
@@ -23,16 +20,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.lastRating = [];
-
-    function initAutoSave() {
-        if (vm.autoSave) {
-            vm.autoSaveInterval = $interval(function () {
-                vm.save(vm.epaInfo);
-            }, 300000);
-        } else {
-            $interval.cancel(vm.autoSaveInterval);
-        }
-    }
 
     function checkStatus(epaInfo) {
         if (!epaInfo.IsAllowedToEdit) {
@@ -107,24 +94,9 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = EvaluatorManagementModel.employeeProjects;
             });
-
-            //initAutoSave();
-            $scope.$on("$destroy", function () {
-                $interval.cancel(vm.autoSaveInterval);
-            });
         })["finally"](function () {
             lockScreenService.stop();
-        });;
-    }
-
-    function initAutoSave() {
-        if (vm.autoSave) {
-            vm.autoSaveInterval = $interval(function () {
-                vm.save(vm.epaInfo);
-            }, 300000);
-        } else {
-            $interval.cancel(vm.autoSaveInterval);
-        }
+        });
     }
 
     function calculateSubTotalScore(kpiGroup) {

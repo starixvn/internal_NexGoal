@@ -130,7 +130,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         var score = 0;
         var length = 0;
         angular.forEach(kpiGroup.EvaluatorsScore, function (evaluator) {
-            if (evaluator.Score != 0) {
+            if (evaluator.Score !== 0) {
                 score += evaluator.Score;
                 length++;
             }
@@ -153,7 +153,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
                 var scoreOfGroup = CalculateEvaluatorScoreOnGroup(kpiGroup);
 
                 kpiGroup.EvaluatorScore = scoreOfGroup;
-            })
+            });
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
@@ -199,7 +199,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             });
         })["finally"](function () {
             lockScreenService.stop();
-        });;
+        });
     }
 
     function initialize() {

@@ -79,14 +79,14 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
                 record.Nominations.AdditionalRow = true;
                 record.Nominations.RealRowCount = record.Nominations.length;
 
-                for (var index = 0; index < differIndex; index++) {
+                for (var i = 0; i < differIndex; i++) {
                     record.Nominations.push({ AdditionalRow: true });
                 }
             } else if (differIndex < 0) {
                 record.EmployeeWorkings.AdditionalRow = true;
                 record.EmployeeWorkings.RealRowCount = record.EmployeeWorkings.length;
 
-                for (var index = 0; index < -differIndex; index++) {
+                for (var j = 0; j < -differIndex; j++) {
                     record.EmployeeWorkings.push({ AdditionalRow: true });
                 }
             }
@@ -137,7 +137,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         if (employee) {
             return openMasterReportCommentModal(modalTitle, employee.PAFocus.NextDescriptionObjective);
         }
-    }
+    };
 
     reportModel.getMasterReport = function (periodId, groupIds, employeeId) {
         return reportFactory.getMasterReport(periodId, groupIds, employeeId)
@@ -146,6 +146,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
 
                 reportModel.masterReports = masterReports;
             }).error(function (response, status) {
+                errorFactory.errorHandle(status);
             });
     };
 

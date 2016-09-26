@@ -6,7 +6,7 @@
     violationModel.$inject = ["$modal", "notificationFactory"];
 
     function violationModel($modal, notificationFactory) {
-        var model = {}
+        var model = {};
 
         model.calendar = {
             fromDateOpened: false,

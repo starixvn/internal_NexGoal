@@ -10,8 +10,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.epaId = parseInt($routeParams.id, 10);
     vm.maxStar = utilitiesFactory.maxStar;
-    vm.dataSaved = false;
-
     vm.epaInfo = SelfEvalutorModel.epaInfo;
     vm.hrmSummary = {};
     vm.employeeProjects = [];
@@ -39,16 +37,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
             kpiGroup.SelfDecodeScore = kpiGroup.Weight;
         } else {
             kpiGroup.SelfDecodeScore = score;
-        }
-    }
-
-    function initAutoSave() {
-        if (vm.autoSave) {
-            vm.autoSaveInterval = $interval(function () {
-                vm.save(vm.epaInfo);
-            }, 60000);
-        } else {
-            $interval.cancel(vm.autoSaveInterval);
         }
     }
 

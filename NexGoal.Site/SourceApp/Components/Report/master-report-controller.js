@@ -1,4 +1,5 @@
 ﻿(function (reportModule) {
+    "use strict";
 
     reportModule.controller("MasterReportController", masterReportController);
 
@@ -66,11 +67,11 @@
 
         vm.nominationOnClick = function (record) {
             record.onNominationExpand = !record.onNominationExpand;
-        }
+        };
 
         vm.groupOnClick = function (group) {
             group.onGroupExpand = !group.onGroupExpand;
-        }
+        };
 
         vm.recordOnFocus = function (record) {
             if (vm.currentOnFocusRecord) {
@@ -104,11 +105,11 @@
 
         vm.openPopupEvaluatorComment = function (employee) {
             ReportModel.openPopupEvaluatorComment(employee.EvaluatorComment);
-        }
+        };
 
         vm.openPopupNextObjectives = function (employee) {
             ReportModel.openPopupNextObjectives(employee.PAFocus.openPopupNextObjectives);
-        }
+        };
 
         vm.openPopupProjectComment = function (member, project) {
             project.Employee = {
@@ -117,7 +118,7 @@
             };
 
             ReportModel.openPopupProjectComment(project);
-        }
+        };
 
         initialize();
     }

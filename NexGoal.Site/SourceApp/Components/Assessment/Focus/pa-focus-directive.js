@@ -1,7 +1,7 @@
 ﻿(function (assessmentModule) {
     'use strict';
 
-    periodModule.directive('exportFocus', ['baseUrl', function (baseUrl) {
+    assessmentModule.directive('exportFocus', ['baseUrl', function (baseUrl) {
         return {
             link: function (scope) {
                 scope.$on('exportPAFocus', function () {

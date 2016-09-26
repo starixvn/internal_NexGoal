@@ -5,8 +5,6 @@ epaModule.factory('ReviewerManagementModel',
 ['$modal', 'EmployeeEPAModel', 'employeeEPAFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
 function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var reviewerMngModel = this;
-    var maxAdditionScore = utilitiesFactory.maxAdditionScore;
-    var maxSubtractScore = utilitiesFactory.maxSubtractScore;
 
     reviewerMngModel.epaInfo = {};
     reviewerMngModel.groups = [];
@@ -209,9 +207,6 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.calculateAdjustScoreMultiple = function (memberEPAs, adjust, isReviewer) {
-        var scoreAdjusted, averageScore, totalScore;
-        var isValidAdjustScore = true;
-
         angular.forEach(memberEPAs, function (memberEPA) {
             if (memberEPA.Selected) {
                 var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,

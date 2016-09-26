@@ -129,26 +129,9 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, cacheService, history
         }
     });
 
-    var getSelectedDepartment = function (departments, departmentId) {
-        var department = '',
-            departmentLength = departments.length;
-
-        for (var i = 0; i < departmentLength; i++) {
-            var departmentItem = departments[i];
-
-            if (departmentItem.DepartmentId === departmentId) {
-                department = departmentItem;
-                i = departmentLength;
-            }
-        }
-
-        return department;
-    };
-
     vm.saveDepartmentFlow = function () {
         if (FlowMngModel.validateDepartmentFlow(vm)) {
             FlowMngModel.createDepartmentFlow(vm).then(function () {
-                var department = getSelectedDepartment($scope.updateCtrl.departments, vm.department.DepartmentId);
                 getDepartmentHasSetting();
             });
         }

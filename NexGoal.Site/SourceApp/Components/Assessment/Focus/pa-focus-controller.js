@@ -232,7 +232,8 @@
             } else {
                 return "bonus-give-warning";
             }
-        }
+        };
+
         initialize();
     }
 })(angular.module("assessmentModule"));

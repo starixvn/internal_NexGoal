@@ -14,23 +14,11 @@
             return '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
 
-        function renderProjectScore(cell) {
-            return '<span>' + cell.Value + '<span>&nbsp;<i class="fa fa-star" aria-hidden="true"></i>';
-        }
-
-        function renderProjectComment(cell) {
-            return '<a class="project-comment" data-employee-id=' + cell.Value.EmployeeId +
-                ' data-project-id=' + cell.Value.ProjectId + '><i class="fa fa-search" aria-hidden="true"></i></a>';;
-        }
-
         function renderEmployeeAward(cell) {
             var employee = cell.Value;
             var htmlString = "";
             if (employee.nominations.length > 0) {
                 htmlString = "Hello";
-            }
-            else {
-
             }
 
             return htmlString;
@@ -57,7 +45,7 @@
             });
 
             return groups;
-        };
+        }
 
         function generateGroupHeaders() {
             return [{
