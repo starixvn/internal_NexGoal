@@ -253,6 +253,7 @@
     <Compile Include="TargetType\GetTargetTypeCriteria.cs" />
     <Compile Include="RoleManagement\AssignFunctionToRoleCriteria.cs" />
     <Compile Include="RoleManagement\GetFunctionByRoleIdCriteria.cs" />
+    <Compile Include="Violation\GetViolationByPeriodIdCriteria.cs" />
     <Compile Include="Violation\UpdateViolationCriteria.cs" />
     <Compile Include="Violation\UpdateViolationActiveCriteria.cs" />
     <Compile Include="Violation\GetViolationCriteria.cs" />

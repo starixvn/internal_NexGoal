@@ -20,7 +20,7 @@
 
         public override bool IsValid()
         {
-            return EmployeeId > 0 && CreatedBy > 0 && string.IsNullOrEmpty(Description);
+            return EmployeeId > 0 && CreatedBy > 0 && !string.IsNullOrEmpty(Description);
         }
     }
 }

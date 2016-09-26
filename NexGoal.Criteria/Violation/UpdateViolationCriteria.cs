@@ -20,7 +20,7 @@
 
         public override bool IsValid()
         {
-            return ViolationId > 0 && ModifiedBy > 0 && string.IsNullOrEmpty(Description);
+            return ViolationId > 0 && ModifiedBy > 0 && !string.IsNullOrEmpty(Description);
         }
     }
 }
