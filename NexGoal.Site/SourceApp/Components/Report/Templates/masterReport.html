@@ -44,7 +44,7 @@
             </form>
         </div>
 
-        <div class="col-sm-12">
+        <!--<div class="col-sm-12">
             <table class="table table-bordered master-report-table">
                 <thead>
                     <tr>
@@ -139,35 +139,16 @@
                                 </tbody>
                             </table>
                         </td>
-
-                        <!--<td ng-if="member.NominationCount > 0"
-                            ng-bind="member.Nominations[0].Title">
-                        </td>
-                        <td class="text-center"
-                            ng-if="member.NominationCount > 0"
-                            ng-bind="member.Nominations[0].StatusToString"></td>
-                        <td ng-if="member.EmployeeWorkings.length > 0"
-                            ng-bind="member.EmployeeWorkings[0].ProjectName">
-                        </td>
-                        <td class="text-center"
-                            ng-if="member.EmployeeWorkings.length > 0">
-                            {{member.EmployeeWorkings[0].DecryptedScore}}
-                            <i class="fa fa-star"
-                               ng-if="!member.EmployeeWorkings[0].AdditionalRow"></i>
-                        </td>
-                        <td class="text-center"
-                            ng-if="member.EmployeeWorkings.length > 0">
-                            <a href=""
-                               ng-click="masterReportCtrl.openPopupProjectComment(member, member.EmployeeWorkings[0])"
-                               ng-if="!member.EmployeeWorkings[0].AdditionalRow">
-                                <i class="fa fa-search" aria-hidden="true"></i>
-                            </a>
-                        </td>-->
-
-                        <!--Case Nominations 0 - 2 Employee Workings-->
                     </tr>
                 </tbody>
             </table>
+        </div>-->
+
+        <div class="col-sm-12">
+            <div class="freegrid master-report-table"
+                 data-grid-master-report
+                 data-grid-data="masterReportCtrl.masterReports">
+            </div>
         </div>
     </div>
 </div>

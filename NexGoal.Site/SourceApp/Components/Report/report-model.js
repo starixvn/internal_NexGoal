@@ -111,33 +111,33 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         return reportModel.modalInstance.result;
     };
 
-    reportModel.openPopupEvaluatorComment = function (comment) {
-        var modalTitle = "Evaluator's Comment";
-
-        return openMasterReportCommentModal(modalTitle, comment);
-    };
-
-    //reportModel.openPopupEvaluatorComment = function (employeeId) {
-    //    var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+    //reportModel.openPopupEvaluatorComment = function (comment) {
     //    var modalTitle = "Evaluator's Comment";
-    //    if (employee) {
-    //        return openMasterReportCommentModal(modalTitle, employee.EvaluatorComment);
-    //    }
+
+    //    return openMasterReportCommentModal(modalTitle, comment);
     //};
 
-    reportModel.openPopupNextObjectives = function (comment) {
-        var modalTitle = "Next Objectives";
+    reportModel.openPopupEvaluatorComment = function (employeeId) {
+        var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+        var modalTitle = "Evaluator's Comment";
+        if (employee) {
+            return openMasterReportCommentModal(modalTitle, employee.EvaluatorComment);
+        }
+    };
 
-        return openMasterReportCommentModal(modalTitle, comment);
-    }
-
-    //reportModel.openPopupNextObjectives = function (employeeId) {
-    //    var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+    //reportModel.openPopupNextObjectives = function (comment) {
     //    var modalTitle = "Next Objectives";
-    //    if (employee) {
-    //        return openMasterReportCommentModal(modalTitle, employee.PAFocus.NextDescriptionObjective);
-    //    }
+
+    //    return openMasterReportCommentModal(modalTitle, comment);
     //}
+
+    reportModel.openPopupNextObjectives = function (employeeId) {
+        var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+        var modalTitle = "Next Objectives";
+        if (employee) {
+            return openMasterReportCommentModal(modalTitle, employee.PAFocus.NextDescriptionObjective);
+        }
+    }
 
     reportModel.getMasterReport = function (periodId, groupIds, employeeId) {
         return reportFactory.getMasterReport(periodId, groupIds, employeeId)

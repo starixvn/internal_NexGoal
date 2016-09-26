@@ -35,34 +35,34 @@
             });
         }
 
-        function groupData(data) {
-            var groups = [];
+        //function groupData(data) {
+        //    var groups = [];
 
-            angular.forEach(data, function (record) {
-                var groupIndex = groups.map(function (item) { return item.GroupId; }).indexOf(record.PAFocus.Employee.Group.GroupId);
-                var group = {
-                    onGroupExpand: true
-                };
+        //    angular.forEach(data, function (record) {
+        //        var groupIndex = groups.map(function (item) { return item.GroupId; }).indexOf(record.PAFocus.Employee.Group.GroupId);
+        //        var group = {
+        //            onGroupExpand: true
+        //        };
 
-                if (groupIndex === -1) {
-                    group.GroupName = record.PAFocus.Employee.Group.GroupName;
-                    group.GroupId = record.PAFocus.Employee.Group.GroupId;
-                    group.Members = [];
+        //        if (groupIndex === -1) {
+        //            group.GroupName = record.PAFocus.Employee.Group.GroupName;
+        //            group.GroupId = record.PAFocus.Employee.Group.GroupId;
+        //            group.Members = [];
 
-                    groups.push(group);
-                } else {
-                    group = groups[groupIndex];
-                }
+        //            groups.push(group);
+        //        } else {
+        //            group = groups[groupIndex];
+        //        }
 
-                record.NominationCount = record.Nominations.length;
-                record.onFocus = false;
-                record.onNominationExpand = false;
+        //        record.NominationCount = record.Nominations.length;
+        //        record.onFocus = false;
+        //        record.onNominationExpand = false;
 
-                group.Members.push(record);
-            });
+        //        group.Members.push(record);
+        //    });
 
-            return groups;
-        };
+        //    return groups;
+        //};
 
         vm.nominationOnClick = function (record) {
             record.onNominationExpand = !record.onNominationExpand;
@@ -96,7 +96,7 @@
             vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
 
             ReportModel.getMasterReport(vm.filter.periodId, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
-                vm.masterReports = groupData(ReportModel.masterReports);
+                vm.masterReports = ReportModel.masterReports;
             })["finally"](function () {
                 lockScreenService.stop();
             });
