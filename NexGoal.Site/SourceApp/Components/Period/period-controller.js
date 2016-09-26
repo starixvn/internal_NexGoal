@@ -27,7 +27,6 @@ function ($location, PeriodModel, CommonModel, utilitiesFactory, enumerationsFac
     vm.filter = initFilter();
 
     vm.currentPage = 1;
-    vm.pageSize = 20;
 
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);

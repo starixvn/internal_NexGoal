@@ -13,7 +13,6 @@
             groupId: '',
             employee: null
         };
-        vm.pageSize = 20;
         vm.periods = [];
         vm.selectedAll = false;
 

@@ -60,7 +60,7 @@
 
             response.Clear();
             response.ContentType = "application/vnd.ms-excel";
-            response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}.xls", Lang.EPADetailReportName));
+            response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}_{1}.xls", Lang.EPADetailReportName, DateTime.Now.ToString("yyyyMMddhhmmss")));
 
             workbook.Write(response.OutputStream);
         }
@@ -122,7 +122,7 @@
             oddRedStyle.SetFont(redFont);
 
             var index = 1;
-            foreach (var memberEPA in Details)
+            foreach (var memberEPA in Details.OrderBy(i => i.Employee.NickName))
             {
                 var currentColumn = 0;
 
@@ -168,40 +168,13 @@
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(memberEPA.Period.TargetTypeName);
 
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Self.IsEndProcess)
-                {
-                    bodyStyle = evenRedStyle;
-                }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Self.IsEndProcess)
-                {
-                    bodyStyle = oddRedStyle;
-                }
-
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(score.SelfScore);
 
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Evaluators[0].IsEndProcess)
-                {
-                    bodyStyle = evenRedStyle;
-                }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Evaluators[0].IsEndProcess)
-                {
-                    bodyStyle = oddRedStyle;
-                }
-
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(score.EvaluatorScore);
-
-                if (_currentRow % 2 == 0 && !memberEPA.Process.Reviewers[0].IsEndProcess)
-                {
-                    bodyStyle = evenRedStyle;
-                }
-                else if (_currentRow % 2 != 0 && !memberEPA.Process.Reviewers[0].IsEndProcess)
-                {
-                    bodyStyle = oddRedStyle;
-                }
 
                 cell = row.CreateCell(currentColumn++);
                 cell.CellStyle = bodyStyle;
@@ -231,38 +204,79 @@
                 finalScore = string.Empty,
                 grade = string.Empty;
 
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Self.StatusEndProcess != (int)ProcessStatusType.Open)
+            if (!memberEPA.Process.Self.IsEndProcess)
             {
-                float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
+                selfScore = Lang.Pending;
+            }
+            else
+            {
+                if (string.IsNullOrEmpty(memberEPA.Process.Self.TotalScore))
+                {
+                    selfScore = Lang.NotAvailable;
+                }
+                else
+                {
+                    float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
 
-                selfScore = Math.Round(score, 2).ToString();
+                    selfScore = Math.Round(score, 2).ToString();
+                }
             }
 
             if (memberEPA.EPAId > 0
                 && memberEPA.Process.Evaluators != null
                 && memberEPA.Process.Evaluators.Any()
-                && memberEPA.Process.Evaluators[0].StatusEndProcess != (int)ProcessStatusType.Open)
+                && memberEPA.Process.Evaluators[0].IsEndProcess)
             {
-                evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
+                if (memberEPA.Process.AverageScoreByEvaluators == 0)
+                {
+                    evaluatorScore = Lang.NotAvailable;
+                }
+                else
+                {
+                    evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
+                }
+            }
+            else
+            {
+                evaluatorScore = Lang.Pending;
             }
 
             if (memberEPA.EPAId > 0
                 && memberEPA.Process.Reviewers != null
                 && memberEPA.Process.Reviewers.Any()
-                && memberEPA.Process.Reviewers[0].StatusEndProcess != (int)ProcessStatusType.Open)
+                && memberEPA.Process.Reviewers[0].IsEndProcess)
             {
-                reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
-            }
-
-            if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod && !string.IsNullOrEmpty(memberEPA.FinalScore))
-            {
-                finalScore = Math.Round(float.Parse(memberEPA.FinalScore), 2).ToString();
-                grade = memberEPA.Grade;
+                if (memberEPA.Process.AverageScoreByReviewers == 0)
+                {
+                    reviewerScore = Lang.NotAvailable;
+                }
+                else
+                {
+                    reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
+                }
             }
             else
             {
-                finalScore = Lang.NotAvailable;
-                grade = Lang.NotAvailable;
+                reviewerScore = Lang.Pending;
+            }
+
+            if (!memberEPA.Period.IsEndPeriod)
+            {
+                finalScore = Lang.Pending;
+                grade = Lang.Pending;
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(memberEPA.FinalScore) && memberEPA.FinalScore != "0")
+                {
+                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore), 2).ToString();
+                    grade = memberEPA.Grade;
+                }
+                else
+                {
+                    finalScore = Lang.NotAvailable;
+                    grade = Lang.NotAvailable;
+                }
             }
 
             return new
@@ -270,7 +284,6 @@
                 SelfScore = selfScore,
                 EvaluatorScore = evaluatorScore,
                 ReviewerScore = reviewerScore,
-                ManagementScore = managementScore,
                 FinalScore = finalScore,
                 Grade = grade
             };

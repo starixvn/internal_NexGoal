@@ -24,7 +24,6 @@ function ($routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, 
     };
 
     utilitiesFactory.numberEntryList(vm);
-    vm.pageSize = 15;
     vm.currentPage = 1;
 
     var getKPI = function (kpiGroupId, isActive, isRequiredEvaluate) {

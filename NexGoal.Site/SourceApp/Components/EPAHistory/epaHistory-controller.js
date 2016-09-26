@@ -21,7 +21,6 @@ function ($location, $routeParams, EPAHistoryModel, utilitiesFactory, CommonMode
     }
 
     vm.currentPage = 1;
-    vm.pageSize = 20;
 
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);

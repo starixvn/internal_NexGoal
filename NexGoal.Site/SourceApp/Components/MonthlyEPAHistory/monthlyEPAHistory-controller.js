@@ -20,7 +20,6 @@ function ($window, $routeParams, monthlyEPAHistoryModel, utilitiesFactory, Commo
     }
 
     vm.currentPage = 1;
-    vm.pageSize = 20;
 
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);

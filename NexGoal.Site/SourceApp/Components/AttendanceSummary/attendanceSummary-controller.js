@@ -206,7 +206,6 @@ function ($scope, $modalInstance, AttendanceModel, CommonModel, utilitiesFactory
     };
 
     vm.currentPage = 1;
-    vm.pageSize = 5;
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
 
@@ -313,7 +312,6 @@ function ($scope, $routeParams, AttendanceModel, CommonModel, utilitiesFactory, 
         hasSaved = false;
 
     vm.currentPage = 1;
-    vm.pageSize = 15;
 
     vm.violationOptions = AttendanceModel.violations;
     vm.attendanceDetails = AttendanceModel.attendanceDetails;

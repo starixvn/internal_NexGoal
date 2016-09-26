@@ -38,7 +38,6 @@ function (MonthlyPeriodModel, CommonModel, utilitiesFactory, enumerationsFactory
         };
 
         vm.currentPage = 1;
-        vm.pageSize = 20;
 
         vm.dateOptions = {
             minMode: 'month'

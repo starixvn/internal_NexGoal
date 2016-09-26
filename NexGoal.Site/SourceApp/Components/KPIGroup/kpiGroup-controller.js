@@ -20,7 +20,6 @@ function ($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enu
     }
 
     utilitiesFactory.numberEntryList(vm);
-    vm.pageSize = 15;
     vm.currentPage = 1;
 
     var getKPIGroup = function (isActive) {

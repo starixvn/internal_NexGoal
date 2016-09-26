@@ -9,7 +9,6 @@
         vm.memberEPAs = [];
         vm.maxStar = utilitiesFactory.maxStar;
         vm.currentPage = 1;
-        vm.pageSize = 20;
         vm.filter = {
             periodId: '',
             targetTemplateId: '',

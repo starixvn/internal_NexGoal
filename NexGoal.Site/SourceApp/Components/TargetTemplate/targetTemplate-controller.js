@@ -18,7 +18,6 @@ function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumera
     };
 
     vm.currentPage = 1;
-    vm.pageSize = 20;
 
     utilitiesFactory.numberEntryList(vm);
 

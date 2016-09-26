@@ -28,7 +28,6 @@
         vm.searchKey = '';
         vm.filteredItems = [];
         vm.currentPage = 1;
-        vm.pageSize = 0;
 
         function initialize() {
             utilitiesFactory.getDateFormat(vm);
@@ -57,7 +56,6 @@
 
                 vm.teams = angular.copy(treeDepartment);
                 utilitiesFactory.setSelectAll(vm.teams);
-                vm.pageSize = 20;
 
                 vm.query();
             });

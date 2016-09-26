@@ -15,7 +15,6 @@
         vm.years = [];
         vm.filter = {};
         vm.currentPage = 1;
-        vm.pageSize = 20;
         vm.searchKey = '';
         vm.modalInstance = null;
         vm.permission = 0;

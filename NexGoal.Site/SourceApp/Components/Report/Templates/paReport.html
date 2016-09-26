@@ -13,7 +13,7 @@
                         <label class="control-label size-l" data-translate="EvaluationPeriod"></label>
                         <div class="control-content">
                             <add-class-to-role-filter class="multi-select" multi-select input-model="paReportCtrl.periods" button-label="Name"
-                                                      helper-elements="all reset filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
+                                                      helper-elements="all none filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
                             </add-class-to-role-filter>
                         </div>
                     </div>
@@ -84,20 +84,30 @@
                         <td ng-bind="pa.Employee.GroupName"></td>
                         <td class="text-center" ng-bind="pa.Period.Name"></td>
                         <td class="text-center" ng-bind="pa.Period.TargetTypeName"></td>
-                        <td class="text-center" ng-bind="pa.Process.Self.TotalScore"></td>
-                        <td class="text-center" >
-                            <span ng-bind="pa.Process.AverageScoreByEvaluators" ng-show="pa.process.averagescorebyevaluators && pa.process.averagescorebyevaluators!==0 "></span>
+                        <td class="text-center">
+                            <span ng-show="!pa.Process.Self.IsEndProcess" data-translate="Pending"></span>
+                            <span ng-show="pa.Process.Self.IsEndProcess && !pa.Process.Self.TotalScore" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Process.Self.IsEndProcess && pa.Process.Self.TotalScore">{{pa.Process.Self.TotalScore | customScore}}</span>
                         </td>
                         <td class="text-center">
-                            <span ng-bind="pa.Process.AverageScoreByReviewers" ng-show="pa.process.AverageScoreByReviewers && pa.process.AverageScoreByReviewers!==0 "></span>
+                            <span ng-show="!pa.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
+                            <span ng-show="pa.Process.Evaluators[0].IsEndProcess && !pa.Process.AverageScoreByEvaluators" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Process.Evaluators[0].IsEndProcess && pa.Process.AverageScoreByEvaluators">{{pa.Process.AverageScoreByEvaluators| customScore}}</span>
                         </td>
                         <td class="text-center">
-                            <span ng-bind="pa.FinalScore" ng-show="pa.FinalScore && pa.Grade"></span>
-                            <span data-translate="NotAvailable" ng-show="!pa.FinalScore || !pa.Grade"></span>
+                            <span ng-show="!pa.Process.Reviewers[0].IsEndProcess" data-translate="Pending"></span>
+                            <span ng-show="pa.Process.Reviewers[0].IsEndProcess && !pa.Process.AverageScoreByReviewers" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Process.Reviewers[0].IsEndProcess && pa.Process.AverageScoreByReviewers">{{pa.Process.AverageScoreByReviewers| customScore}}</span>
                         </td>
                         <td class="text-center">
-                            <span ng-bind="pa.Grade" ng-show="pa.FinalScore && pa.Grade"></span>
-                            <span data-translate="NotAvailable" ng-show="!pa.FinalScore || !pa.Grade"></span>
+                            <span ng-show="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
+                            <span ng-show="pa.Period.IsEndPeriod && pa.FinalScore==0" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Period.IsEndPeriod && pa.FinalScore && pa.FinalScore!=0">{{pa.FinalScore| customScore}}</span>
+                        </td>
+                        <td class="text-center">
+                            <span ng-show="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
+                            <span ng-show="pa.Period.IsEndPeriod && !pa.Grade" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Period.IsEndPeriod && pa.Grade">{{pa.Grade}}</span>
                         </td>
                     </tr>
                     <tr ng-show="paReportCtrl.filteredItems.length == 0">

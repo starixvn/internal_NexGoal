@@ -3,9 +3,9 @@
 
 epaModule.controller('DetailReviewerController',
 ['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory','lockScreenService',
 function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory, lockScreenService) {
     var vm = this;
 
     vm.permission = 0;
@@ -47,9 +47,9 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     };
 
     vm.inputScore = function (currentProcess) {
-        var maxSubtractScore = (currentProcess.MaxSubtractScore).toFixed(2),
-            maxAdditionScore = (currentProcess.MaxPerformanceScore - vm.epaInfo.Process.AverageScoreByEvaluators).toFixed(2);
-        var adjustScore = currentProcess.AdjustScore;
+        var maxSubtractScore = currentProcess.MaxSubtractScore,
+        maxAdditionScore = currentProcess.MaxAdditionScore;
+        var adjustScore = currentProcess.AdjustScore === "" ? 0 : currentProcess.AdjustScore;
 
         if (adjustScore > maxAdditionScore || adjustScore < maxSubtractScore) {
             notificationFactory.error('AdjustScoreInvalid');
@@ -91,61 +91,25 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         }, 1);
     };
 
-    function calculateEvaluatorScoreOnKPI(evaluators) {
-        var averageScore = 0;
+    function calculateAverageEvaluator(Evaluators) {
+        var totalScore = 0, count = 0;
 
-        if (evaluators.length > 0) {
-            var score = 0;
-            var length = 0;
-            angular.forEach(evaluators, function (evaluator) {
-                if (evaluator.ScoreEncode) {
-                    score += evaluator.Score;
-                    length++;
-                }
-            });
-
-            averageScore = score / length;
-        }
-
-        return utilitiesFactory.splitNumber(averageScore, 2);
-    }
-
-    function calculateEvaluatorScoreOnGroup(kpiGroup) {
-        if (kpiGroup.EvaluatorsScore.length === 0) {
-            return 0;
-        }
-
-        var score = 0;
-        var length = 0;
-        angular.forEach(kpiGroup.EvaluatorsScore, function (evaluator) {
-            if (evaluator.Score !== 0) {
-                score += evaluator.Score;
-                length++;
+        angular.forEach(Evaluators, function (evaluator) {
+            if (evaluator.TotalScore) {
+                totalScore += utilitiesFactory.parseFloat(evaluator.TotalScore);
+                count++;
             }
         });
 
-        return utilitiesFactory.splitNumber(score / length, 2);
+        return count > 0 ? utilitiesFactory.splitNumber(totalScore / count, 2) : 0;
     }
 
     function getEPAInfoByReviewer() {
+        lockScreenService.start();
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-
-            var totalScoreOfEvaluator = 0;
-            for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
-                var kpiGroup = vm.epaInfo.KPIGroups[index];
-                var evaluatorScore = 0;
-
-                angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    kpi.EvaluatorScore = calculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
-                    evaluatorScore += kpi.EvaluatorScore;
-                });
-                var scoreOfGroup = calculateEvaluatorScoreOnGroup(kpiGroup);
-
-                kpiGroup.EvaluatorScore = scoreOfGroup;
-                totalScoreOfEvaluator += scoreOfGroup;
-            }
+            var averageScoreEvaluators = calculateAverageEvaluator(vm.epaInfo.Process.Evaluators);
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
@@ -154,10 +118,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
-            vm.epaInfo.Process.AverageScoreByEvaluators = totalScoreOfEvaluator;
+            vm.epaInfo.Process.AverageScoreByEvaluators = averageScoreEvaluators;
 
             // reviewer
-            var maxAdditionScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore - totalScoreOfEvaluator);
+            var maxAdditionScore = parseFloat((vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore - averageScoreEvaluators).toFixed(2));
 
             vm.epaInfo.Process.CurrentProcess.MaxSubtractScore = -10;
             vm.epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore > 10 ? 10 : maxAdditionScore;
@@ -189,7 +153,9 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
-        });
+        })["finally"](function () {
+            lockScreenService.stop();
+        });;
     }
 
     function initialize() {

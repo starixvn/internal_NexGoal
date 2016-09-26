@@ -18,7 +18,6 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
     };
 
     utilitiesFactory.numberEntryList(vm);
-    vm.pageSize = 15;
     vm.currentPage = 1;
 
     var getFlowTemplate = function (targetTypeId, isActive) {

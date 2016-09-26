@@ -13,7 +13,6 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
     vm.departmentOptions = [];
 
     vm.currentPage = 1;
-    vm.pageSize = 15;
     utilitiesFactory.numberEntryList(vm);
     utilitiesFactory.getDateFormat(vm);
     vm.selectedAll = false;

@@ -3,9 +3,9 @@
 
 epaModule.controller('IndexReviewerController',
 ['$translate', '$location', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'enumerationsFactory',
-    'utilitiesFactory', 'notificationFactory', 'historyFactory', 'baseUrl',
+    'utilitiesFactory', 'notificationFactory', 'historyFactory', 'baseUrl','lockScreenService',
 function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel, enumerationsFactory,
-    utilitiesFactory, notificationFactory, historyFactory, baseUrl) {
+    utilitiesFactory, notificationFactory, historyFactory, baseUrl, lockScreenService) {
     var vm = this;
     var isFirstLoad = true;
 
@@ -123,7 +123,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     function getEPAByReviewer(periodIds, groupIds, employeeIds, selectedEmployees) {
         vm.isEndProcessAll = false;
         resetSorting();
-
+        lockScreenService.start();
         ReviewerManagementModel.getEPAByReviewer(periodIds, groupIds, employeeIds).then(function () {
             vm.memberEPAs = ReviewerManagementModel.memberEPAs;
 
@@ -166,6 +166,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             }
 
             $(".rating-loading").rating();
+        })["finally"](function () {
+            lockScreenService.stop();
         });
 
         historyFactory.saveState(vm.filter);
@@ -301,8 +303,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     };
 
     vm.inputScore = function (memberEPA) {
-        var maxSubtractScore = (memberEPA.Process.CurrentProcess.MaxSubtractScore).toFixed(2),
-            maxAdditionScore = (memberEPA.Process.MaxPerformanceScore - memberEPA.Process.AverageScoreByEvaluators).toFixed(2);
+        var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
+            maxA = memberEPA.Process.MaxAdditionScore - memberEPA.Process.AverageScoreByEvaluators;
+        maxAdditionScore = maxA > memberEPA.Process.CurrentProcess.MaxAdditionScore ? memberEPA.Process.CurrentProcess.MaxAdditionScore : parseFloat(maxA.toFixed(2));
         var adjustScore = memberEPA.Process.CurrentProcess.AdjustScore === "" ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;
 
         if (adjustScore > maxAdditionScore || adjustScore < maxSubtractScore) {

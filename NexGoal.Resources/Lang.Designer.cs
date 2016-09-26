@@ -1294,7 +1294,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA_Detail_Report.
+        ///   Looks up a localized string similar to PA_Report.
         /// </summary>
         public static string EPADetailReportName {
             get {

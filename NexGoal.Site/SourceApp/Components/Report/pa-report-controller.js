@@ -15,13 +15,12 @@
         vm.teams = [];
         vm.filter = {
             periodIds: null,
-            teamIds: "",
+            groupIds: "",
             employee: {}
         };
 
         vm.filteredItems = [];
         vm.currentPage = 1;
-        vm.pageSize = 20;
         vm.searchKey = "";
 
         function initialize() {
@@ -30,14 +29,14 @@
 
                 vm.teams = angular.copy(treeDepartment);
                 utilitiesFactory.setSelectAll(vm.teams);
-            });
 
-            CommonModel.getAllPeriodIncludeImport().then(function () {
-                vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
-            });
+                CommonModel.getAllPeriodIncludeImport().then(function () {
+                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
 
-            utilitiesFactory.numberEntryList(vm);
-            vm.query();
+                    utilitiesFactory.numberEntryList(vm);
+                    vm.query();
+                });
+            });
         }
 
         vm.getIndex = function (index, currentPage, pageSize) {
@@ -60,10 +59,10 @@
 
         vm.query = function () {
             lockScreenService.start();
-            vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
+            vm.filter.groupIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
             vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
-            ReportModel.getPAReport(vm.filter.periodIds, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
+            ReportModel.getPAReport(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employee.EmployeeId).then(function () {
                 vm.paReports = ReportModel.paReports;
                 utilitiesFactory.searchOnPage(vm, vm.paReports);
             })["finally"](function () {

@@ -21,7 +21,6 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFac
 
     vm.groupOptions = [];
     vm.currentPage = 1;
-    vm.pageSize = 20;
 
     utilitiesFactory.numberEntryList(vm);
 

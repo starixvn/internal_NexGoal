@@ -54,7 +54,6 @@ function ($scope, TargetEmployeeSettingModel, EmployeeModel, CommonModel, Target
     vm.selectedAll = false;
     vm.groupOptions = [];
     vm.currentPage = 1;
-    vm.pageSize = 15;
 
     utilitiesFactory.numberEntryList(vm);
 
@@ -195,7 +194,6 @@ function ($scope, TargetEmployeeSettingModel, CommonModel, TargetTemplateModel, 
 
     vm.selectedAll = false;
     vm.currentPage = 1;
-    vm.pageSize = 15;
 
     utilitiesFactory.numberEntryList(vm);
 

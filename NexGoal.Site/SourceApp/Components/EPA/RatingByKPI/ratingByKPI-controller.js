@@ -23,7 +23,6 @@ function ($window, $timeout, $translate, RatingByKPIModel, EmployeeEPAModel, Com
     vm.hasRatingByStar = false;
     vm.showRatingScoreByStar = true;
     vm.currentPage = 1;
-    vm.pageSize = 20;
     utilitiesFactory.numberEntryList(vm);
 
     vm.filter = {

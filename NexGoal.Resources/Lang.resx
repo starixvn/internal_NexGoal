@@ -1087,7 +1087,7 @@
     <value>The Discipline Start Date field is required!</value>
   </data>
   <data name="EPADetailReportName" xml:space="preserve">
-    <value>EPA_Detail_Report</value>
+    <value>PA_Report</value>
   </data>
   <data name="EPADetailReportSheet" xml:space="preserve">
     <value>EPA Detail Report</value>

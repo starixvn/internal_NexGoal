@@ -14,7 +14,6 @@
         vm.filteredItems = [];
         vm.filter = {};
         vm.currentPage = 1;
-        vm.pageSize = 0;
         vm.searchKey = '';
         vm.modalInstance = null;
         vm.permission = 0;
@@ -40,7 +39,6 @@
             utilitiesFactory.numberEntryList(vm);
             utilitiesFactory.getDateFormat(vm);
             vm.filter = initFilter();
-            vm.pageSize = 20;
 
             vm.query();
         }

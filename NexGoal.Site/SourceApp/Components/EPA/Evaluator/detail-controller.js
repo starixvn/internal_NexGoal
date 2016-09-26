@@ -3,9 +3,9 @@
 
 epaModule.controller('DetailEvaluatorController',
 ["$scope", '$interval', '$translate', '$routeParams', 'EmployeeEPAModel', 'EvaluatorManagementModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'LastRatingModel',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'LastRatingModel','lockScreenService',
 function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, EvaluatorManagementModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, LastRatingModel) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, LastRatingModel, lockScreenService) {
     var vm = this;
     vm.autoSave = true;
     vm.autoSaveInterval;
@@ -69,6 +69,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
     }
 
     function getEPAInfoByEvaluator() {
+        lockScreenService.start();
         EvaluatorManagementModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = EvaluatorManagementModel.epaInfo;
             LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId).then(function () {
@@ -111,7 +112,9 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             $scope.$on("$destroy", function () {
                 $interval.cancel(vm.autoSaveInterval);
             });
-        });
+        })["finally"](function () {
+            lockScreenService.stop();
+        });;
     }
 
     function initAutoSave() {

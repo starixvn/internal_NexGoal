@@ -17,7 +17,6 @@
         vm.searchKey = '';
         vm.filteredItems = [];
         vm.currentPage = 1;
-        vm.pageSize = 20;
         vm.filter = {
             query: '',
             teamIds: '',

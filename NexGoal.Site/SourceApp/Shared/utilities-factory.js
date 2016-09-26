@@ -116,6 +116,7 @@ appModule.factory('utilitiesFactory',
 
     utilities.numberEntryList = function (vm) {
         vm.entries = [5, 10, 15, 20, 50, 100, 200];
+        vm.pageSize = 20;
     };
 
     utilities.getDateFormat = function (vm) {
