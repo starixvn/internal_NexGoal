@@ -37,5 +37,7 @@
         public const string Nomination = "Nomination";
 
         public const string MasterReport = "MasterReport";
+
+        public const string ViolationManagement = "ViolationManagement";
     }
 }

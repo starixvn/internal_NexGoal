@@ -64,6 +64,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Implement\ViolationRepository.cs" />
     <Compile Include="Implement\NominationRepository.cs" />
     <Compile Include="Implement\ManageNominationRepository.cs" />
     <Compile Include="Implement\PAFocusRepository.cs" />
@@ -85,6 +86,7 @@
     <Compile Include="Interfaces\IDepartmentRepository.cs" />
     <Compile Include="Interfaces\IEmployeeRepository.cs" />
     <Compile Include="Implement\KPIRepository.cs" />
+    <Compile Include="Interfaces\IViolationRepository.cs" />
     <Compile Include="Interfaces\INominationRepository.cs" />
     <Compile Include="Interfaces\IManageNominationRepository.cs" />
     <Compile Include="Interfaces\IEPAHistoryRepository.cs" />

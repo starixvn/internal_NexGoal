@@ -134,6 +134,7 @@
     <Compile Include="TargetTemplate\TargetTemplateKPIModel.cs" />
     <Compile Include="TargetTemplate\TargetTemplateModel.cs" />
     <Compile Include="TargetType\TargetTypeModel.cs" />
+    <Compile Include="Violation\ViolationModel.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">
