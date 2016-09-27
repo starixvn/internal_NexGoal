@@ -35,6 +35,12 @@
         }
 
         [HttpGet]
+        public int GetUserPermissionOnViolation()
+        {
+            return SessionService.CurrentUser.GetPermission(FunctionKey.ViolationManagement);
+        }
+
+        [HttpGet]
         [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Read)]
         public ViolationViewModel GetById(int violationId)
         {
