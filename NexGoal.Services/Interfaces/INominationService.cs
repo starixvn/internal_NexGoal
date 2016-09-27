@@ -13,6 +13,8 @@
 
         IEnumerable<NominationViewModel> GetNominationByNominatorId(GetNominationByNominatorIdCriteria criteria);
 
+        IEnumerable<NominationEPAModel> GetNominationByPeriodId(GetNominationByPeriodIdCriteria criteria);
+
         IEnumerable<QuestionModel> GetEOQQuestion();
 
         IEnumerable<QuestionModel> GetEOYQuestion();

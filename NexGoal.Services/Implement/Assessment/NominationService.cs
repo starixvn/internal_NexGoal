@@ -91,6 +91,18 @@
             return result;
         }
 
+        public IEnumerable<NominationEPAModel> GetNominationByPeriodId(GetNominationByPeriodIdCriteria criteria)
+        {
+            IEnumerable<NominationEPAModel> result = new List<NominationEPAModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                result = nominationRepository.GetNominationByPeriodId(criteria);
+            }
+
+            return result;
+        }
+
         public IEnumerable<QuestionModel> GetEOQQuestion()
         {
             var criteria = new GetEOQQuestionCriteria();

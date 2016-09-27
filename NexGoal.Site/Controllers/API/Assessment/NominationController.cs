@@ -69,6 +69,19 @@
             return nominations;
         }
 
+        public IEnumerable<NominationEPAModel> GetNominationByPeriodId(int employeeId, int periodId)
+        {
+            var criteria = new GetNominationByPeriodIdCriteria
+            {
+                PeriodId = periodId,
+                NomineeId = employeeId
+            };
+
+            IEnumerable<NominationEPAModel> nominations = nominationService.GetNominationByPeriodId(criteria);
+
+            return nominations;
+        }
+
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
         public NominationModel GetEOQNominationById(int nominationId)
         {

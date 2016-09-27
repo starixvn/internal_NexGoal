@@ -439,9 +439,10 @@
   <Function Name="Nomination">
     <Setting Key="EOQ_GetQuestion" SpName="EOQ_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_GetQuestion" SpName="EOY_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQYNomination_GetByNominatorId" SpName="EOQYNomination_GetByNominatorId_razor" DbName="NexGoal" Plain="0">
+    <Setting Key="EOQYNomination_GetByNominatorId" SpName="EOQYNomination_GetByNominatorId" DbName="NexGoal" Plain="0">
       <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
     </Setting>
+    <Setting Key="EOQYNomination_GetByPeriodId" SpName="EOQYNomination_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQNomination_Insert" SpName="EOQNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOYNomination_Insert" SpName="EOYNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EOQNomination_GetById" SpName="EOQNomination_GetById" DbName="NexGoal" Plain="0">

@@ -50,6 +50,16 @@
             }
         }
 
+        public IEnumerable<NominationEPAModel> GetNominationByPeriodId(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                IEnumerable<NominationEPAModel> nominations = db.Query<NominationEPAModel>(criteria.GetSpParams());
+
+                return nominations;
+            }
+        }
+
         public NominationModel GetNominationById(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))

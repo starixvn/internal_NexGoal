@@ -11,5 +11,7 @@
         IEnumerable<NominationModel> GetNominationByNominatorId(ICriteria criteria);
 
         NominationModel GetNominationById(ICriteria criteria);
+
+        IEnumerable<NominationEPAModel> GetNominationByPeriodId(ICriteria criteria);
     }
 }
