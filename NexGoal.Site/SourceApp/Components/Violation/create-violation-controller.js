@@ -44,7 +44,8 @@
             }
 
             if (ViolationModel.validateViolation(vm.violation)) {
-                var createConfirmed = confirm("Do you want to send this warning to " + vm.filteredEmployee.Name + "!");
+                var employeeFullName = vm.filteredEmployee.FullName + " (" + vm.filteredEmployee.Name + ")";
+                var createConfirmed = confirm("Do you want to send this warning to " + employeeFullName + "!");
                 if (createConfirmed) {
                     vm.violation.EffectedDate = vm.violation.RawEffectedDate.toDateString();
 

@@ -120,7 +120,10 @@
                         <td class="text-center" ng-bind="violation.Employee.NickName"></td>
                         <td class="text-center" ng-bind="violation.GroupName"></td>
                         <td>
-                            <span ng-if="violation.Description.length > 50" tooltip="{{violation.Description}}">
+                            <span ng-if="violation.Description.length > 50" 
+                                  tooltip="{{violation.Description}}"
+                                  tooltip-placement="left"
+                                  >
                                 {{violation.Description | limitTo : 50}} ...
                             </span>
                             <span ng-if="violation.Description.length <= 50">
