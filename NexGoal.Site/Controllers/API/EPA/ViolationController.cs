@@ -62,7 +62,7 @@
                 EmployeeId = employeeId
             };
 
-            IEnumerable<ViolationViewModel> result = integrationService.Get(criteria);
+            IEnumerable<ViolationViewModel> result = violationService.Get(criteria);
 
             return result;
         }

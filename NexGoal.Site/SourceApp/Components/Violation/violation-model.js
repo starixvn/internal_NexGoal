@@ -8,6 +8,7 @@
     function violationModel($modal, notificationFactory, errorFactory, violationFactory) {
         var model = {};
 
+        model.permission = 0;
         model.violation = {};
         model.violations = [];
         model.calendar = {
@@ -133,6 +134,14 @@
         model.getViolations = function (fromDate, toDate, isActive, groupIds, employeeId) {
             return violationFactory.getViolations(fromDate, toDate, isActive, groupIds, employeeId).success(function (violations) {
                 model.violations = violations;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+
+        model.getUserPermissionOnViolation = function () {
+            return violationFactory.getUserPermissionOnViolation().success(function (permission) {
+                model.permission = permission;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });

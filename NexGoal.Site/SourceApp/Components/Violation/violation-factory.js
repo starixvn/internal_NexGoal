@@ -20,10 +20,13 @@
             },
             getViolation: function (violationId) {
                 var params = {
-                   ViolationId: violationId
+                    ViolationId: violationId
                 };
 
                 return $http.get(baseUrl + "api/Violation/GetById", { params: params });
+            },
+            getUserPermissionOnViolation: function () {
+                return $http.get(baseUrl + "api/Violation/GetUserPermissionOnViolation");
             },
             createViolation: function (employeeId, effectiveDate, description) {
                 var criteria = {

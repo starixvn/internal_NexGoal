@@ -3,11 +3,17 @@
 
     violationModule.controller("ViolationController", violationController);
 
-    violationController.$inject = ["CommonModel", "EmployeeModel", "ViolationModel", "utilitiesFactory", "lockScreenService"];
+    violationController.$inject = ["CommonModel", "EmployeeModel", "ViolationModel", "enumerationsFactory",
+        "utilitiesFactory", "lockScreenService"];
 
-    function violationController(CommonModel, EmployeeModel, ViolationModel, utilitiesFactory, lockScreenService) {
+    function violationController(CommonModel, EmployeeModel, ViolationModel, enumerationsFactory,
+        utilitiesFactory, lockScreenService) {
         var vm = this;
 
+        vm.searchKey = "";
+        vm.filteredItems = [];
+        vm.policyEnum = enumerationsFactory.policy;
+        vm.permission = 0;
         vm.violations = [];
         vm.teams = [];
         vm.searchEmployee = "";
@@ -33,6 +39,10 @@
                 utilitiesFactory.setSelectAll(vm.teams);
 
                 vm.query();
+            });
+
+            ViolationModel.getUserPermissionOnViolation().then(function () {
+                vm.permission = ViolationModel.permission;
             });
         }
 
@@ -78,6 +88,7 @@
                                         vm.filter.GroupIds,
                                         vm.filter.EmployeeId).then(function () {
                                             vm.violations = ViolationModel.violations;
+                                            utilitiesFactory.searchOnPage(vm, vm.violations);
                                         })["finally"](function () {
                                             lockScreenService.stop();
                                         });

@@ -44,12 +44,17 @@
             }
 
             if (ViolationModel.validateViolation(vm.violation)) {
-                vm.violation.EffectedDate = vm.violation.RawEffectedDate.toDateString();
+                var createConfirmed = confirm("Do you want to send this warning to " + vm.filteredEmployee.Name + "!");
+                if (createConfirmed) {
+                    vm.violation.EffectedDate = vm.violation.RawEffectedDate.toDateString();
 
-                ViolationModel.createViolation(vm.violation.EmployeeId,
-                                                vm.violation.EffectedDate,
-                                                vm.violation.Description,
-                                                $modalInstance);
+                    ViolationModel.createViolation(vm.violation.EmployeeId,
+                                                    vm.violation.EffectedDate,
+                                                    vm.violation.Description,
+                                                    $modalInstance);
+                }
+
+
             }
         };
 
