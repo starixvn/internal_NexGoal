@@ -51,7 +51,8 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Read)]
-        public IEnumerable<ViolationViewModel> Get(DateTime fromDate,
+        public IEnumerable<ViolationViewModel> Get(
+            DateTime fromDate,
             DateTime toDate,
             int? isActive,
             int? employeeId,

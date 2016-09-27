@@ -23,6 +23,8 @@
 
         public string Comment { get; set; }
 
-        public Employee ProjectManager { get; set; }
+        public int ProjectManagerId { get; set; }
+
+        public string ProjectManagerName { get; set; }
     }
 }
