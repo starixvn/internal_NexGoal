@@ -9,6 +9,7 @@
         var model = {};
 
         model.permission = 0;
+        model.violationsByPeriod = [];
         model.violation = {};
         model.violations = [];
         model.calendar = {
@@ -138,6 +139,14 @@
                 errorFactory.errorHandle(status);
             });
         };
+
+        model.getViolationsByPeriod = function (periodId, employeeId) {
+            return violationFactory.getViolationsByPeriod(periodId, employeeId).success(function (violations) {
+                model.violationsByPeriod = violations;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        }
 
         model.getUserPermissionOnViolation = function () {
             return violationFactory.getUserPermissionOnViolation().success(function (permission) {

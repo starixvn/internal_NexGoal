@@ -23,7 +23,7 @@
             </thead>
             <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data === undifined || memberEPAInfoCtrl.hrmSummary.Data.length === 0">
                 <tr>
-                    <td colspan="10" class="text-center" data-translate="EmptyResult"></td>
+                    <td colspan="10" class="empty-result" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
             <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">
@@ -60,7 +60,7 @@
 
 </div>
 
-<!--<div>
+<div>
 
     <div class="level-2">B. {{"Violation" | translate}}</div>
 
@@ -72,23 +72,33 @@
                 <th data-translate="Remark"></th>
             </tr>
         </thead>
-        <tbody>
-            <tr>
-                <td class="text-center">1st</td>
-                <td></td>
-                <td></td>
+        <tbody ng-show="memberEPAInfoCtrl.violations.length > 0"
+               ng-repeat="violation in memberEPAInfoCtrl.violations">
+            <tr ng-if="violation.IsActive === true">
+                <td class="text-center" ng-bind="$index + 1"></td>
+                <td class="text-center" ng-bind="violation.EffectedDate | customDate"></td>
+                <td>
+                    <span ng-if="violation.Description.length > 50"
+                          tooltip="{{violation.Description}}"
+                          tooltip-placement="left">
+                        {{violation.Description | limitTo : 50}} ...
+                    </span>
+                    <span ng-if="violation.Description.length <= 50">
+                        {{violation.Description}}
+                    </span>
+                </td>
             </tr>
+        </tbody>
+        <tbody ng-show="memberEPAInfoCtrl.violations.length === 0">
             <tr>
-                <td class="text-center">2nd</td>
-                <td></td>
-                <td></td>
+                <td colspan="3" class="empty-result" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
     </table>
 
 </div>
 
-<div>
+<!--<div>
 
     <div class="level-2">C. {{"EmployeeAwards" | translate}}</div>
 

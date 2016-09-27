@@ -21,7 +21,7 @@
         </thead>
         <tbody>
             <tr ng-if="memberEPAInfoCtrl.employeeProjects.length === 0">
-                <td colspan="9" data-translate="EmptyResult" class="text-center"></td>
+                <td colspan="9" data-translate="EmptyResult" class="empty-result"></td>
             </tr>
             <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects" ng-if="memberEPAInfoCtrl.employeeProjects.length > 0">
                 <td class="text-center">{{$index + 1}}</td>

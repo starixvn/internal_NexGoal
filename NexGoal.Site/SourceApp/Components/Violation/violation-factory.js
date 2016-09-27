@@ -25,6 +25,14 @@
 
                 return $http.get(baseUrl + "api/Violation/GetById", { params: params });
             },
+            getViolationsByPeriod: function (periodId, employeeId) {
+                var params = {
+                    PeriodId: periodId,
+                    EmployeeId: employeeId
+                };
+
+                return $http.get(baseUrl + "api/Violation/GetByPeriodId", { params: params });
+            },
             getUserPermissionOnViolation: function () {
                 return $http.get(baseUrl + "api/Violation/GetUserPermissionOnViolation");
             },

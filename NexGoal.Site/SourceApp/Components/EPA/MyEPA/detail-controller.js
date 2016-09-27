@@ -3,9 +3,9 @@
 
 epaModule.controller('DetailEmployeeController',
 ["$scope", "$interval", '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl', 'LastRatingModel',
+    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl', 'LastRatingModel', 'ViolationModel',
 function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, LastRatingModel) {
+    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, LastRatingModel, ViolationModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id, 10);
@@ -13,6 +13,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.epaInfo = SelfEvalutorModel.epaInfo;
     vm.hrmSummary = {};
     vm.employeeProjects = [];
+    vm.violations = [];
     vm.standardGrades = CommonModel.standardGrades;
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
@@ -97,6 +98,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
+            });
+
+            ViolationModel.getViolationsByPeriod(vm.epaInfo.Period.PeriodId, vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.violations = ViolationModel.violationsByPeriod;
             });
 
             LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId).then(function () {

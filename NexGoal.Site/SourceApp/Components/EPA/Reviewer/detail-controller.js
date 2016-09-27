@@ -3,11 +3,16 @@
 
 epaModule.controller('DetailReviewerController',
 ['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory','lockScreenService',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory', 'lockScreenService',
+    'ViolationModel',
 function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory, lockScreenService) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory, lockScreenService,
+    ViolationModel) {
     var vm = this;
 
+    vm.violations = [];
+    vm.hrmSummary = {};
+    vm.employeeProjects = [];
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id, 10);
     vm.standardGrades = CommonModel.standardGrades;
@@ -196,6 +201,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
+            });
+
+            ViolationModel.getViolationsByPeriod(vm.epaInfo.Period.PeriodId, vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.violations = ViolationModel.violationsByPeriod;
             });
         })["finally"](function () {
             lockScreenService.stop();

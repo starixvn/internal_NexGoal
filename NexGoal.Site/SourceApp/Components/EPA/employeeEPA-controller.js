@@ -3,11 +3,14 @@
 
 epaModule.controller('ViewEPADetailController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', "SelfEvalutorModel",
-    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+    'ViolationModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, SelfEvalutorModel,
-utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+ViolationModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
 
+    vm.hrmSummary = {};
+    vm.employeeProjects = [];
+    vm.violations = [];
     vm.epaId = parseInt($routeParams.id, 10);
     vm.exportPDF = $routeParams.exportpdf;
     vm.standardGrades = CommonModel.standardGrades;
@@ -110,6 +113,10 @@ utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
 
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
+            });
+
+            ViolationModel.getViolationsByPeriod(vm.epaInfo.Period.PeriodId, vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.violations = ViolationModel.violationsByPeriod;
             });
         });
     }

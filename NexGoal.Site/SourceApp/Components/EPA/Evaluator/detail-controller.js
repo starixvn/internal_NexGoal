@@ -3,12 +3,14 @@
 
 epaModule.controller('DetailEvaluatorController',
 ["$scope", '$interval', '$translate', '$routeParams', 'EmployeeEPAModel', 'EvaluatorManagementModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'LastRatingModel','lockScreenService',
+    'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'LastRatingModel', 'lockScreenService',
+    'ViolationModel',
 function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, EvaluatorManagementModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, LastRatingModel, lockScreenService) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, LastRatingModel, lockScreenService, ViolationModel) {
     var vm = this;
     vm.hrmSummary = {};
     vm.employeeProjects = [];
+    vm.violations = [];
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id, 10);
     vm.evaluatorId = parseInt($routeParams.evaluatorId, 10);
@@ -62,6 +64,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.lastRating = LastRatingModel.groups;
             });
+
             vm.epaInfo.LastPerformanceScore = LastRatingModel.getLastTotalScore();
             checkStatus(vm.epaInfo);
             bindingCurrentEvaluatorGroupScore(vm.epaInfo.Process.CurrentProcess.EvaluatorId);
@@ -73,11 +76,13 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             vm.finalScoreOfSelf = EmployeeEPAModel.checkScore(vm.finalScoreOfSelf, 0, vm.epaInfo.Process.Self.MaxPerformanceScore);
             vm.finalScore = vm.epaInfo.Process.CurrentProcess.TotalScore + vm.epaInfo.DisciplineScore;
             vm.finalScore = EmployeeEPAModel.checkScore(vm.finalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
+
             if (vm.epaInfo.LastFinalScore.length > 0) {
                 vm.epaInfo.LastFinalScore = utilitiesFactory.parseFloat(vm.epaInfo.LastFinalScore);
             } else {
                 vm.epaInfo.LastFinalScore = null;
             }
+
             vm.gradeOfSelf = EmployeeEPAModel.convertScoreToGrade(vm.finalScoreOfSelf, vm.standardGrades);
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.finalScore, vm.standardGrades);
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
@@ -88,12 +93,19 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
                     vm.hoveringLeave = null;
                 }
             });
+
             EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
             });
+
             EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = EvaluatorManagementModel.employeeProjects;
             });
+
+            ViolationModel.getViolationsByPeriod(vm.epaInfo.Period.PeriodId, vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.violations = ViolationModel.violationsByPeriod;
+            });
+
         })["finally"](function () {
             lockScreenService.stop();
         });
