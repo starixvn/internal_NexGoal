@@ -10,24 +10,6 @@ namespace NexGoal.Repositories.Implement
 {
     public class ViolationRepository : IViolationRepository
     {
-        public IEnumerable<ViolationViewModel> GetByPeriodId(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                return db.Query<ViolationViewModel, Employee, Employee, ViolationViewModel>(
-                    (v, e, c) =>
-                    {
-                        v.Employee = e;
-                        v.CreatedBy = c;
-
-                        return v;
-                    },
-                    "EmployeeId,CreatedBy",
-                    criteria.GetSpParams()
-                    );
-            }
-        }
-
         public IEnumerable<ViolationViewModel> Get(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -41,8 +23,7 @@ namespace NexGoal.Repositories.Implement
                        return v;
                    },
                    "EmployeeId,CreatedBy",
-                   criteria.GetSpParams()
-                   );
+                   criteria.GetSpParams());
             }
         }
 
@@ -59,8 +40,7 @@ namespace NexGoal.Repositories.Implement
                        return v;
                    },
                    "EmployeeId,CreatedBy",
-                   criteria.GetSpParams()
-                   );
+                   criteria.GetSpParams());
             }
         }
     }

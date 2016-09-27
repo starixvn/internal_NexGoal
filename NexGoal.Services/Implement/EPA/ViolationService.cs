@@ -86,7 +86,7 @@
             IEnumerable<ViolationViewModel> model = new List<ViolationViewModel>();
             if (criteria != null && criteria.IsValid())
             {
-                model = this.violationRepository.GetByPeriodId(criteria);
+                model = this.violationRepository.Get(criteria);
             }
 
             return model;

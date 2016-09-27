@@ -13,7 +13,7 @@
 
     public class ViolationController : BaseController
     {
-        private readonly IViolationService integrationService;
+        private readonly IViolationService violationService;
 
         public ViolationController()
             : this(null)
@@ -22,14 +22,14 @@
 
         public ViolationController(IViolationService integrationService)
         {
-            this.integrationService = integrationService ?? new ViolationService();
+            this.violationService = integrationService ?? new ViolationService();
         }
 
         [HttpGet]
         public IEnumerable<ViolationViewModel> GetByPeriodId(int periodId, int employeeId)
         {
             var criteria = new GetViolationByPeriodIdCriteria { PeriodId = periodId, EmployeeId = employeeId };
-            IEnumerable<ViolationViewModel> result = integrationService.GetByPeriodId(criteria);
+            IEnumerable<ViolationViewModel> result = violationService.GetByPeriodId(criteria);
 
             return result;
         }
@@ -38,7 +38,7 @@
         [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Read)]
         public ViolationViewModel GetById(int violationId)
         {
-            ViolationViewModel result = integrationService.GetById(violationId);
+            ViolationViewModel result = violationService.GetById(violationId);
 
             return result;
         }
@@ -47,7 +47,7 @@
         [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Read)]
         public IEnumerable<ViolationViewModel> Get(GetViolationCriteria criteria)
         {
-            IEnumerable<ViolationViewModel> result = integrationService.Get(criteria);
+            IEnumerable<ViolationViewModel> result = violationService.Get(criteria);
 
             return result;
         }
@@ -61,7 +61,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = integrationService.Insert(criteria);
+            CommandResult commandResult = violationService.Insert(criteria);
             return commandResult;
         }
 
@@ -74,7 +74,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = integrationService.Update(criteria);
+            CommandResult commandResult = violationService.Update(criteria);
             return commandResult;
         }
 
@@ -87,7 +87,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = integrationService.UpdateActive(criteria);
+            CommandResult commandResult = violationService.UpdateActive(criteria);
             return commandResult;
         }
     }
