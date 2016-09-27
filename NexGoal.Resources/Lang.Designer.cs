@@ -1051,11 +1051,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Effective Date field is required!.
+        ///   Looks up a localized string similar to Effected Date field is required!.
         /// </summary>
-        public static string EffectiveDateRequired {
+        public static string EffectedDateRequired {
             get {
-                return ResourceManager.GetString("EffectiveDateRequired", resourceCulture);
+                return ResourceManager.GetString("EffectedDateRequired", resourceCulture);
             }
         }
         
@@ -4575,6 +4575,15 @@ namespace NexGoal.Resources {
         public static string UpdatePeriod {
             get {
                 return ResourceManager.GetString("UpdatePeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Violation.
+        /// </summary>
+        public static string UpdateViolation {
+            get {
+                return ResourceManager.GetString("UpdateViolation", resourceCulture);
             }
         }
         

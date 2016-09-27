@@ -91,8 +91,6 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
                 }
             }
         });
-
-        console.log(masterReports);
     }
 
     reportModel.openPopupProjectComment = function (project) {

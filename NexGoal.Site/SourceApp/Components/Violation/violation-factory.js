@@ -45,7 +45,7 @@
             },
             modifyViolationStatus: function (violationId) {
                 var criteria = {
-                    ViolationId: violationId,
+                    ViolationId: violationId
                 };
 
                 return $http.post(baseUrl + "api/Violation/UpdateActive", criteria);

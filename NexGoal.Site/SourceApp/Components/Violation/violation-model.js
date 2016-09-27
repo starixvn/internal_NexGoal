@@ -42,6 +42,22 @@
             return model.modalInstance.result;
         };
 
+        model.openPopupUpdateViolation = function (violation) {
+            model.modalInstance = $modal.open({
+                templateUrl: "SourceApp/Components/Violation/Templates/updateViolation.html",
+                controller: "UpdateViolationController as updateViolationCtrl",
+                backdrop: "static",
+                windowClass: "modal-confirm-center",
+                resolve: {
+                    violation: function () {
+                        return angular.copy(violation);
+                    }
+                }
+            });
+
+            return model.modalInstance.result;
+        };
+
         model.validateViolation = function (violation) {
             if (!violation) {
                 return false;
@@ -51,12 +67,12 @@
                     return false;
                 }
 
-                if (!violation.RawEffectiveDate) {
-                    notificationFactory.error("EffectiveDateRequired");
+                if (!violation.RawEffectedDate) {
+                    notificationFactory.error("EffectedDateRequired");
                     return false;
                 }
 
-                if (!violation.WarningContent) {
+                if (!violation.Description) {
                     notificationFactory.error("WarningContentRequired");
                     return false;
                 }
@@ -65,8 +81,8 @@
             return true;
         };
 
-        model.createViolation = function (employeeId, effectiveDate, description, modalInstance) {
-            return violationFactory.createViolation(employeeId, effectiveDate, description).success(function (response) {
+        model.createViolation = function (employeeId, effectedDate, description, modalInstance) {
+            return violationFactory.createViolation(employeeId, effectedDate, description).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("CreatedSuccessfully");
                     modalInstance.close();
@@ -79,8 +95,8 @@
             });
         };
 
-        model.updateViolation = function (violationId, effectiveDate, description, modalInstance) {
-            return violationFactory.updateViolation(violationId, effectiveDate, description).success(function (response) {
+        model.updateViolation = function (violationId, effectedDate, description, modalInstance) {
+            return violationFactory.updateViolation(violationId, effectedDate, description).success(function (response) {
                 if (response.IsSuccessful) {
                     notificationFactory.success("UpdatedSuccessfully");
                     modalInstance.close();

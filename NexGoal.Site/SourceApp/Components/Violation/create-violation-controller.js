@@ -12,11 +12,11 @@
         vm.filteredEmployee = null;
         vm.violation = {
             EmployeeId: null,
-            RawEffectiveDate: new Date(),
-            EffectiveDate: null,
-            WarningContent: null
+            RawEffectedDate: new Date(),
+            EffectedDate: null,
+            Description: null
         };
-        vm.calendar = { EffectiveDateOpened: false };
+        vm.calendar = { EffectedDateOpened: false };
 
         vm.getEmployee = function () {
             return EmployeeModel.getAllEmployee(vm.searchEmployee);
@@ -31,11 +31,11 @@
             }
         };
 
-        vm.openPopupEffectiveDate = function (event) {
+        vm.openPopupEffectedDate = function (event) {
             event.preventDefault();
             event.stopPropagation();
 
-            vm.calendar.EffectiveDateOpened = true;
+            vm.calendar.EffectedDateOpened = true;
         };
 
         vm.submit = function () {
@@ -44,11 +44,11 @@
             }
 
             if (ViolationModel.validateViolation(vm.violation)) {
-                vm.violation.EffectiveDate = vm.violation.RawEffectiveDate.toDateString();
+                vm.violation.EffectedDate = vm.violation.RawEffectedDate.toDateString();
 
                 ViolationModel.createViolation(vm.violation.EmployeeId,
-                                                vm.violation.EffectiveDate,
-                                                vm.violation.WarningContent,
+                                                vm.violation.EffectedDate,
+                                                vm.violation.Description,
                                                 $modalInstance);
             }
         };

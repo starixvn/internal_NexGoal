@@ -51,9 +51,18 @@
 
         [HttpGet]
         [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Read)]
-        public IEnumerable<ViolationViewModel> Get(GetViolationCriteria criteria)
+        public IEnumerable<ViolationViewModel> Get(DateTime fromDate, DateTime toDate, string groupIds, int? isActive, int? employeeId)
         {
-            IEnumerable<ViolationViewModel> result = violationService.Get(criteria);
+            var criteria = new GetViolationCriteria
+            {
+                FromDate = fromDate,
+                ToDate = toDate,
+                GroupIds = groupIds,
+                IsActive = isActive,
+                EmployeeId = employeeId
+            };
+
+            IEnumerable<ViolationViewModel> result = integrationService.Get(criteria);
 
             return result;
         }

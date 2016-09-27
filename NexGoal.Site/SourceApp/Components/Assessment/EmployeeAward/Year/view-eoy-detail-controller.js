@@ -46,8 +46,6 @@
             })['finally'](function () {
                 lockScreenService.stop();
             });
-
-            console.log(vm.pageSize);
         }
 
         function initRolesManagementTab() {
@@ -104,8 +102,6 @@
                     vm.currentPage = 1;
 
                     utilitiesFactory.searchOnPage(vm, vm.nominatorSettings);
-
-                    console.log(vm.pageSize);
                 })['finally'](function () {
                     lockScreenService.stop();
                 });

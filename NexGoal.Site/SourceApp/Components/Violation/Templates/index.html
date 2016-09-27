@@ -69,7 +69,8 @@
                     </div>
 
                     <div class="col button-block">
-                        <button class="button" data-translate="Search"></button>
+                        <button class="button" data-translate="Search"
+                                ng-click="violationCtrl.query()"></button>
                     </div>
 
                 </div>
@@ -99,7 +100,7 @@
                         <th data-translate="NickName"></th>
                         <th data-translate="Team"></th>
                         <th>Warning Content</th>
-                        <th>Effective Date</th>
+                        <th>Effected Date</th>
                         <th data-translate="Creator"></th>
                         <th data-translate="Active"></th>
                         <th data-translate="Action"></th>
@@ -110,7 +111,34 @@
                         <td colspan="9" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="violationCtrl.violations.length > 0"></tbody>
+                <tbody ng-show="violationCtrl.violations.length > 0"
+                       ng-repeat="violation in violationCtrl.violations">
+                    <tr>
+                        <td class="text-center" ng-bind="$index + 1"></td>
+                        <td ng-bind="violation.Employee.FullName"></td>
+                        <td class="text-center" ng-bind="violation.Employee.NickName"></td>
+                        <td class="text-center" ng-bind="violation.GroupName"></td>
+                        <td>
+                            <span ng-if="violation.Description.length > 50" tooltip="{{violation.Description}}">
+                                {{violation.Description | limitTo : 50}} ...
+                            </span>
+                            <span ng-if="violation.Description.length <= 50">
+                                {{violation.Description}}
+                            </span>
+                        </td>
+                        <td class="text-center" ng-bind="violation.EffectedDate | customDate"></td>
+                        <td>{{violation.CreatedBy.FullName}} ({{violation.CreatedBy.NickName}})</td>
+                        <td class="text-center">
+                            <input type="checkbox" 
+                                   ng-model="violation.IsActive" 
+                                   ng-click="violationCtrl.modifyViolationStatus(violation.ViolationId)"/>
+                        </td>
+                        <td class="text-center">
+                            <a class="fa fa-pencil-square-o icon-edit" title="Edit"
+                               ng-click="violationCtrl.updateViolation(violation)"></a>
+                        </td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

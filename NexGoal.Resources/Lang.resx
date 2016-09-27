@@ -1713,10 +1713,13 @@
   <data name="CreateViolation" xml:space="preserve">
     <value>Create Violation</value>
   </data>
-  <data name="EffectiveDateRequired" xml:space="preserve">
-    <value>Effective Date field is required!</value>
+  <data name="EffectedDateRequired" xml:space="preserve">
+    <value>Effected Date field is required!</value>
   </data>
   <data name="WarningContentRequired" xml:space="preserve">
     <value>Warning Content field is required!</value>
+  </data>
+  <data name="UpdateViolation" xml:space="preserve">
+    <value>Update Violation</value>
   </data>
 </root>
