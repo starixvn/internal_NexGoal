@@ -29,8 +29,18 @@
         };
         vm.calendar = {};
 
+        function getRawFromDate() {
+            var currentDate = new Date();
+            var sixMonthAgoDate = new Date(currentDate.setMonth(currentDate.getMonth() - 6));
+            var month = sixMonthAgoDate.getMonth();
+            var year = sixMonthAgoDate.getFullYear();
+
+            return new Date(year, month, 1);
+        }
+
         function initialize() {
             vm.calendar = ViolationModel.calendar;
+            vm.filter.RawFromDate = getRawFromDate();
 
             CommonModel.getDepartment(null, true).then(function () {
                 var treeDepartment = CommonModel.generateTreeDepartment(CommonModel.treeDepartment.Childrens);
