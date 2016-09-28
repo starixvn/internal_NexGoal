@@ -117,6 +117,9 @@ textarea.none-resize {
 .tooltip.left .tooltip-arrow {
   border-left-color: white !important;
 }
+.tooltip.top .tooltip-arrow {
+  border-bottom-color: white !important;
+}
 .text-uppercase {
   text-transform: uppercase;
 }
