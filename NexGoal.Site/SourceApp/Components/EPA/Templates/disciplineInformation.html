@@ -76,8 +76,11 @@
         <tbody ng-repeat="nomination in memberEPAInfoCtrl.employeeNominations">
             <tr>
                 <td class="text-center" ng-bind="$index + 1"></td>
-                <td ng-bind="nomination.Title"></td>
-                <td ng-bind="nomination.StatusToString"></td>
+                <td>
+                    {{nomination.Title}}
+                    <span ng-show="nomination.NumberVotes > 1"> - ({{nomination.NumberVotes}} votes)</span>
+                </td>
+                 <td ng-bind="nomination.StatusToString"></td>
             </tr>
         </tbody>
     </table>
