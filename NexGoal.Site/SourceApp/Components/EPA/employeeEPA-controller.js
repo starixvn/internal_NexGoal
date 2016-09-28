@@ -70,6 +70,7 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
     }
 
     function getEPAInfoById() {
+        lockScreenService.start();
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
@@ -122,6 +123,8 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
             NominationModel.getNominationByPeriodId(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeNominations = NominationModel.employeeNominations;
             });
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     }
 
