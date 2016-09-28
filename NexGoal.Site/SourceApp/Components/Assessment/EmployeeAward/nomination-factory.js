@@ -64,7 +64,7 @@
                 return $http.get(baseUrl + 'api/Nomination/GetUserPermissionOnManageNomination');
             },
             getUserPermissionOnNomination: function () {
-                return $http.get(baseUrl + 'api/Nomination/GetUserPermissionOnManageNomination');
+                return $http.get(baseUrl + 'api/Nomination/GetUserPermissionOnNomination');
             },
             getNominationByPeriodId: function (employeeId, periodId) {
                 var params = {
