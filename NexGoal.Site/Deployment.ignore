@@ -1,0 +1,9 @@
+\\Avatars\\.*
+\\*.local.config
+\\*.uat.config
+\\*.pro.config
+\\*.dev.config
+\\*.hr.config
+\\*.qc.config
+\\*.Debug.config
+\\*.Release.config

@@ -610,6 +610,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Completed.
+        /// </summary>
+        public static string Completed {
+            get {
+                return ResourceManager.GetString("Completed", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Password.
         /// </summary>
         public static string ConfirmPassword {
@@ -876,15 +885,6 @@ namespace NexGoal.Resources {
         public static string DisciplineEndDatePeriodRequired {
             get {
                 return ResourceManager.GetString("DisciplineEndDatePeriodRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Discipline Information.
-        /// </summary>
-        public static string DisciplineInformation {
-            get {
-                return ResourceManager.GetString("DisciplineInformation", resourceCulture);
             }
         }
         
@@ -1249,7 +1249,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End Period.
+        ///   Looks up a localized string similar to End of Period.
         /// </summary>
         public static string EndPeriod {
             get {

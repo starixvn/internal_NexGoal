@@ -1201,7 +1201,7 @@
     <value>Working Under Time</value>
   </data>
   <data name="EndPeriod" xml:space="preserve">
-    <value>End Period</value>
+    <value>End of Period</value>
   </data>
   <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
     <value>The Discipline Start Date must be less than or equal the Discipline End Date!</value>
@@ -1382,9 +1382,6 @@
   </data>
   <data name="BehaviorAndAttitutes" xml:space="preserve">
     <value>Behaviors &amp; Attitutes</value>
-  </data>
-  <data name="DisciplineInformation" xml:space="preserve">
-    <value>Discipline Information</value>
   </data>
   <data name="ForEmployeeUse" xml:space="preserve">
     <value>For Employee Use</value>
@@ -1724,5 +1721,8 @@
   </data>
   <data name="AwardTitle" xml:space="preserve">
     <value>Award Title</value>
+  </data>
+  <data name="Completed" xml:space="preserve">
+    <value>Completed</value>
   </data>
 </root>
