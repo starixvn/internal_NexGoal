@@ -180,7 +180,7 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
         var selectedEmployees = PeriodModel.getSelectedEmployee(vm.employeeSettings);
 
         if (!selectedEmployees || selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeEditSettingWarning");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         } else if (!checkEditSettingOnDifferentType(selectedEmployees)) {
             notificationFactory.error("CanNotEditSettingOnDifferentTypeWarning");
         } else {
@@ -197,7 +197,7 @@ function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFact
             };
 
         if (!selectedEmployees || selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         } else if (PeriodModel.validateEmployeeSettingGenerateEPA(selectedEmployees)) {
             PeriodModel.openPopupGenerateEvaluation(vm, period).then(function () {
                 vm.query(vm.filter);

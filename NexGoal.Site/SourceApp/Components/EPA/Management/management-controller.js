@@ -236,7 +236,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         var selectedEmployees = ReviewerManagementModel.getSelectedEmployee(vm.memberEPAs);
 
         if (selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         } else {
             ReviewerManagementModel.openPopupAdjustScore(vm, selectedEmployees, false).then(function (adjust) {
                 ReviewerManagementModel.calculateAdjustScoreMultiple(selectedEmployees, adjust, false);
@@ -250,7 +250,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         var selectedEmployees = ReviewerManagementModel.getSelectedEmployee(vm.memberEPAs);
 
         if (selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         } else {
             ReviewerManagementModel.calculateAdjustScore(selectedEmployees, false);
             ReviewerManagementModel.adjustScoreByManagement(vm, selectedEmployees)['finally'](function () {

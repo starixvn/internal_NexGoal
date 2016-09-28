@@ -489,9 +489,6 @@
   <data name="Search" xml:space="preserve">
     <value>Search</value>
   </data>
-  <data name="SelectEmployeeBeforeAssignWarning" xml:space="preserve">
-    <value>Please select at least an employee to assign target template!</value>
-  </data>
   <data name="None" xml:space="preserve">
     <value>None</value>
   </data>
@@ -533,9 +530,6 @@
   </data>
   <data name="ParentNodeRequired" xml:space="preserve">
     <value>The Parent Node field is required!</value>
-  </data>
-  <data name="SelectEmployeeBeforeAssingFlowSettingWarning" xml:space="preserve">
-    <value>Please select at least an employee before assign!</value>
   </data>
   <data name="EditFlowSetting" xml:space="preserve">
     <value>Edit Flow Setting</value>
@@ -771,9 +765,6 @@
   <data name="AverageScoreByEvaluators" xml:space="preserve">
     <value>Average Score By Evaluators</value>
   </data>
-  <data name="SelectEmployeeBeforeEditSettingWarning" xml:space="preserve">
-    <value>Please select at least an employee before editing setting!</value>
-  </data>
   <data name="HRRangeDateGreaterThanSelfRangeDateWarning" xml:space="preserve">
     <value>The End Date of Human Resources must be less than or equal the Start Date of Self Evaluator!</value>
   </data>
@@ -869,9 +860,6 @@
   </data>
   <data name="GenerateEvaluation" xml:space="preserve">
     <value>Generate EPA</value>
-  </data>
-  <data name="SelectEmployeeBeforeGenerateEvaluation" xml:space="preserve">
-    <value>Please select at least an employee before generating EPA!</value>
   </data>
   <data name="PersonalProfile" xml:space="preserve">
     <value>Personal Profile</value>
@@ -1020,14 +1008,11 @@
   <data name="EmployeeRequired" xml:space="preserve">
     <value>The Employee field is required!</value>
   </data>
-  <data name="SelectEmployeeBeforeAdjustScoreWarning" xml:space="preserve">
-    <value>Please select at least an employee before adjusting score!</value>
-  </data>
-  <data name="SelectEmployeeBeforeSaveWarning" xml:space="preserve">
-    <value>Please select employee before saving!</value>
+  <data name="NoEmployeeSelectedWarning" xml:space="preserve">
+    <value>No employee is selected.</value>
   </data>
   <data name="AdjustScoreInvalid" xml:space="preserve">
-    <value>Your adjusted score is higher than the total score. The system is automatically set the adjusted score as the total score! Please re-check!</value>
+    <value>Your score adjustment is higher than the total score. The system is automatically set the score adjustment as the total score. Please re-check.</value>
   </data>
   <data name="ViewEPAResult" xml:space="preserve">
     <value>View EPA Result</value>
@@ -1345,16 +1330,16 @@
     <value>Excellent: 5</value>
   </data>
   <data name="FiveRatingDescription" xml:space="preserve">
-    <value>Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated.</value>
+    <value>Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives.</value>
   </data>
   <data name="FourRating" xml:space="preserve">
     <value>Good: 4</value>
   </data>
   <data name="FourRatingDescription" xml:space="preserve">
-    <value>Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating.</value>
+    <value>Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction.</value>
   </data>
   <data name="NARatingDescription" xml:space="preserve">
-    <value>Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating.</value>
+    <value>Unable to evaluate, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating.</value>
   </data>
   <data name="NotAvai" xml:space="preserve">
     <value>N/A</value>
@@ -1363,7 +1348,7 @@
     <value>Poor: 1</value>
   </data>
   <data name="OneRatingDescription" xml:space="preserve">
-    <value>Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps.</value>
+    <value>Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed.</value>
   </data>
   <data name="PerformanceRatingNote" xml:space="preserve">
     <value>Please rate the performance using the following rating scale. Where not applicable, please indicate 'NA'.</value>
@@ -1372,13 +1357,13 @@
     <value>Satisfactory: 3</value>
   </data>
   <data name="ThreeRatingDesciption" xml:space="preserve">
-    <value>Meets expectations: refers to solid performance with a full skills base; most people fall into this category.</value>
+    <value>Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value.</value>
   </data>
   <data name="TwoRating" xml:space="preserve">
     <value>Below Average: 2</value>
   </data>
   <data name="TwoRatingDescription" xml:space="preserve">
-    <value>Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed.</value>
+    <value>Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed.</value>
   </data>
   <data name="BehaviorAndAttitutes" xml:space="preserve">
     <value>Behaviors &amp; Attitutes</value>
@@ -1426,7 +1411,7 @@
     <value>Overtime</value>
   </data>
   <data name="PerformanceReview" xml:space="preserve">
-    <value>Performance review skills and abilities</value>
+    <value>Performance review: skills and abilities</value>
   </data>
   <data name="ProjectManager" xml:space="preserve">
     <value>Project Manager</value>
@@ -1499,9 +1484,6 @@
   </data>
   <data name="EvaluatorScoring" xml:space="preserve">
     <value>Evaluator's Scoring</value>
-  </data>
-  <data name="FinalGrading" xml:space="preserve">
-    <value>Final Grading</value>
   </data>
   <data name="ReviewerScores" xml:space="preserve">
     <value>Reviewer's +/- Scores</value>
@@ -1724,5 +1706,8 @@
   </data>
   <data name="Completed" xml:space="preserve">
     <value>Completed</value>
+  </data>
+  <data name="EvaluationManagement" xml:space="preserve">
+    <value>Evaluation Management</value>
   </data>
 </root>

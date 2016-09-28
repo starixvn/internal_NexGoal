@@ -160,7 +160,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Your adjusted score is higher than the total score. The system is automatically set the adjusted score as the total score! Please re-check!.
+        ///   Looks up a localized string similar to Your score adjustment is higher than the total score. The system is automatically set the score adjustment as the total score. Please re-check..
         /// </summary>
         public static string AdjustScoreInvalid {
             get {
@@ -1537,6 +1537,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluation Management.
+        /// </summary>
+        public static string EvaluationManagement {
+            get {
+                return ResourceManager.GetString("EvaluationManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Evaluation Period.
         /// </summary>
         public static string EvaluationPeriod {
@@ -1672,15 +1681,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Final Grading.
-        /// </summary>
-        public static string FinalGrading {
-            get {
-                return ResourceManager.GetString("FinalGrading", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Final Score.
         /// </summary>
         public static string FinalScore {
@@ -1699,7 +1699,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Substantially exceeds expectations: refers to truly outstanding performance; should be someone you regard as a role model in the area rated..
+        ///   Looks up a localized string similar to Exceptional: The most outstanding performance and far exceeded expectations due to exceptionally high quality of work. Made a superior contribution in support team/department objectives..
         /// </summary>
         public static string FiveRatingDescription {
             get {
@@ -1807,7 +1807,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Exceeds expectations: refers to significant performance ability; only very strong performers should receive this rating..
+        ///   Looks up a localized string similar to Exceeds expectations: Significant performance and exceeded expectations. The quality of work overall was excellent and was able to deal with big problems with minimal direction..
         /// </summary>
         public static string FourRatingDescription {
             get {
@@ -2653,7 +2653,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unable to judge, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating..
+        ///   Looks up a localized string similar to Unable to evaluate, if the nature or extent of your interaction does not enable you to provide feedback on a particular category for a particular individual, select the “NA” rating..
         /// </summary>
         public static string NARatingDescription {
             get {
@@ -2721,6 +2721,15 @@ namespace NexGoal.Resources {
         public static string No {
             get {
                 return ResourceManager.GetString("No", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to No employee is selected..
+        /// </summary>
+        public static string NoEmployeeSelectedWarning {
+            get {
+                return ResourceManager.GetString("NoEmployeeSelectedWarning", resourceCulture);
             }
         }
         
@@ -2995,7 +3004,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Needs much Improvement: refers to performance which fails to measure up to standard and must be improved through corrective action steps..
+        ///   Looks up a localized string similar to Unsatisfactory: Performance was consistently below expectations. Poor quality of work, frequently needs rework. Significant improvement is needed..
         /// </summary>
         public static string OneRatingDescription {
             get {
@@ -3130,7 +3139,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Performance review skills and abilities.
+        ///   Looks up a localized string similar to Performance review: skills and abilities.
         /// </summary>
         public static string PerformanceReview {
             get {
@@ -3787,60 +3796,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select at least an employee before adjusting score!.
-        /// </summary>
-        public static string SelectEmployeeBeforeAdjustScoreWarning {
-            get {
-                return ResourceManager.GetString("SelectEmployeeBeforeAdjustScoreWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please select at least an employee to assign target template!.
-        /// </summary>
-        public static string SelectEmployeeBeforeAssignWarning {
-            get {
-                return ResourceManager.GetString("SelectEmployeeBeforeAssignWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please select at least an employee before assign!.
-        /// </summary>
-        public static string SelectEmployeeBeforeAssingFlowSettingWarning {
-            get {
-                return ResourceManager.GetString("SelectEmployeeBeforeAssingFlowSettingWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please select at least an employee before editing setting!.
-        /// </summary>
-        public static string SelectEmployeeBeforeEditSettingWarning {
-            get {
-                return ResourceManager.GetString("SelectEmployeeBeforeEditSettingWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please select at least an employee before generating EPA!.
-        /// </summary>
-        public static string SelectEmployeeBeforeGenerateEvaluation {
-            get {
-                return ResourceManager.GetString("SelectEmployeeBeforeGenerateEvaluation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Please select employee before saving!.
-        /// </summary>
-        public static string SelectEmployeeBeforeSaveWarning {
-            get {
-                return ResourceManager.GetString("SelectEmployeeBeforeSaveWarning", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Please select at least an EPA before update final score!.
         /// </summary>
         public static string SelectEPABeforeEditSettingWarning {
@@ -4300,7 +4255,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Meets expectations: refers to solid performance with a full skills base; most people fall into this category..
+        ///   Looks up a localized string similar to Meets expectations: Solid performance with a good quality of work, at times possibly exceeding expectations and contributing additional value..
         /// </summary>
         public static string ThreeRatingDesciption {
             get {
@@ -4462,7 +4417,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Partially meets expectations: refers to performance and skills which are adequate in some respects but not fully up to standard; some corrective action is needed..
+        ///   Looks up a localized string similar to Improvement needed: Performance did not consistently meet expectations. Did not generally contribute extra effort or energy. An improvement plan is needed..
         /// </summary>
         public static string TwoRatingDescription {
             get {

@@ -145,7 +145,7 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
         var selectedEmployees = MonthlyPeriodModel.getSelectedEmployee(vm.employeeSettings);
 
         if (!selectedEmployees || selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeEditSettingWarning");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         }
         else {
             MonthlyPeriodModel.openPopupUpdateEmployeeSetting(vm, selectedEmployees);
@@ -165,7 +165,7 @@ function ($scope, $routeParams, $window, MonthlyPeriodModel, utilitiesFactory, C
             };
 
         if (!selectedEmployees || selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeGenerateEvaluation");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         }
         else {
             if (MonthlyPeriodModel.validateEmployeeSettingGenerateEPA(selectedEmployees)) {

@@ -43,7 +43,7 @@ function ($modal, targetEmployeeSettingFactory, notificationFactory, errorFactor
             });
         }
         else {
-            notificationFactory.error("SelectEmployeeBeforeAssignWarning");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         }
     };
 

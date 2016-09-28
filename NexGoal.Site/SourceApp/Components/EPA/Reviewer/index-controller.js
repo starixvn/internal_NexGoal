@@ -324,7 +324,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         var selectedEmployees = ReviewerManagementModel.getSelectedEmployee(vm.memberEPAs);
 
         if (selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeAdjustScoreWarning");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         } else {
             ReviewerManagementModel.openPopupAdjustScore(vm, selectedEmployees, true)
             .then(function (adjust) {
@@ -340,7 +340,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         var selectedEmployees = ReviewerManagementModel.getSelectedEmployee(vm.memberEPAs);
 
         if (selectedEmployees.length === 0) {
-            notificationFactory.error("SelectEmployeeBeforeSaveWarning");
+            notificationFactory.error("NoEmployeeSelectedWarning");
         } else {
             var isValidComment = ReviewerManagementModel.validateComments(selectedEmployees);
             if (!isValidComment) {

@@ -11,12 +11,7 @@
 
         public string Quarter { get; set; }
 
-        public string AwardTitle
-        {
-            get { return string.IsNullOrEmpty(Quarter) ? "Employee of the Year" : "Employee of the Quarter"; }
-        }
-
-        public string PeriodName
+        public string Title
         {
             get
             {

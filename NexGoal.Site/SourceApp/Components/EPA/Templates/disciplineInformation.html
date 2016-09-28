@@ -67,8 +67,7 @@
         <thead>
             <tr>
                 <th class="width-40" data-translate="SymbolCount"></th>
-                <th data-translate="Period"></th>
-                <th data-translate="AwardTitle"></th>
+                <th data-translate="Title"></th>
                 <th data-translate="Status"></th>
             </tr>
         </thead>
@@ -81,8 +80,7 @@
                ng-repeat="nomination in memberEPAInfoCtrl.employeeNominations">
             <tr>
                 <td class="text-center" ng-bind="$index + 1"></td>
-                <td ng-bind="nomination.PeriodName"></td>
-                <td ng-bind="nomination.AwardTitle"></td>
+                <td ng-bind="nomination.Title"></td>
                 <td class="text-center" ng-bind="nomination.StatusToString"></td>
             </tr>
         </tbody>
@@ -101,7 +99,7 @@
         <thead>
             <tr>
                 <th class="width-40" data-translate="SymbolCount"></th>
-                <th class="width-150" data-translate="Date"></th>
+                <th data-translate="Date"></th>
                 <th data-translate="Remark"></th>
             </tr>
         </thead>
