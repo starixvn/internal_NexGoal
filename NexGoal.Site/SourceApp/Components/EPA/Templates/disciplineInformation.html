@@ -80,7 +80,10 @@
                     {{nomination.Title}}
                     <span ng-show="nomination.NumberVotes > 1"> - ({{nomination.NumberVotes}} votes)</span>
                 </td>
-                 <td ng-bind="nomination.StatusToString"></td>
+                 <td class="nomination-status"
+                     ng-class="{'nominated': nomination.StatusId === 1, 'shortlisted': nomination.StatusId === 2, 'winner': nomination.StatusId === 3}">
+                     <b>{{nomination.StatusToString}}</b>
+                 </td>
             </tr>
         </tbody>
     </table>
