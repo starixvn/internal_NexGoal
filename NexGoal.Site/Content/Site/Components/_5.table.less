@@ -53,7 +53,6 @@
             border-color: @color-table-border !important;
             vertical-align: middle !important;
             //padding: 8px 20px !important;
-
             &.objective-edit {
                 .fa {
                     font-size: 14px;
@@ -173,6 +172,16 @@
             &:last-child {
                 border-right-color: @c-bg-table-tfoot;
             }*/
+        }
+    }
+
+    &.table-non-hover {
+        tr {
+            &:hover {
+                td {
+                    background: #fff;
+                }
+            }
         }
     }
 }
