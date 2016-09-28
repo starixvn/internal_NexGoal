@@ -3,9 +3,9 @@
 
 epaModule.controller('ViewEPADetailController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', "SelfEvalutorModel",
-    'ViolationModel', 'NominationModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl',
+    'ViolationModel', 'NominationModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl','lockScreenService',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, SelfEvalutorModel,
-ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl) {
+ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, lockScreenService) {
     var vm = this;
 
     vm.hrmSummary = {};

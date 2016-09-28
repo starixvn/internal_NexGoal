@@ -15,29 +15,25 @@
         {
             get
             {
-                var title = string.Empty;
+                var title = "Employee of Year " + Year.ToString();
 
                 if (!string.IsNullOrEmpty(Quarter))
                 {
                     switch (Quarter)
                     {
                         case "1":
-                            title = "1st Quarter, " + Year.ToString();
+                            title = "Employee of 1st Quarter, " + Year.ToString();
                             break;
                         case "2":
-                            title = "2nd Quarter, " + Year.ToString();
+                            title = "Employee of 2nd Quarter, " + Year.ToString();
                             break;
                         case "3":
-                            title = "3rd Quarter, " + Year.ToString();
+                            title = "Employee of 3rd Quarter, " + Year.ToString();
                             break;
                         default:
-                            title = "4th Quarter, " + Year.ToString();
+                            title = "Employee of 4th Quarter, " + Year.ToString();
                             break;
                     }
-                }
-                else
-                {
-                    title = Year.ToString();
                 }
 
                 return title;
