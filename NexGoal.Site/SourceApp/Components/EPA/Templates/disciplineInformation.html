@@ -1,74 +1,107 @@
-﻿<div>
-
-    <div class="level-2" data-toggle="collapse" data-target=".discipline-information-table">
-        A. {{"HRMSystem" | translate}}
-        <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
-    </div>
-
-    <div class="collapse in discipline-information-table">
-
-        <table class="table table-bordered pa-form">
-            <thead>
-                <tr>
-                    <th data-translate="Month"></th>
-                    <th data-translate="CheckInOut"></th>
-                    <th data-translate="LateIn"></th>
-                    <th data-translate="EarlyOut"></th>
-                    <th data-translate="UnpaidLeave"></th>
-                    <th data-translate="UnplannedAnnualLeave"></th>
-                    <th data-translate="AverageWorkingHours"></th>
-                    <th data-translate="Overtime"></th>
-                    <th data-translate="ToeicScore"></th>
-                </tr>
-            </thead>
-            <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data === undifined || memberEPAInfoCtrl.hrmSummary.Data.length === 0">
-                <tr>
-                    <td colspan="10" class="empty-result" data-translate="EmptyResult"></td>
-                </tr>
-            </tbody>
-            <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">
-                <tr class="text-center" ng-repeat="item in memberEPAInfoCtrl.hrmSummary.Data">
-                    <td>{{item.Month}}/{{item.Year}}</td>
-                    <td>{{item.NumberMissingCheckInOut}}</td>
-                    <td>{{item.NumberLateIn}}</td>
-                    <td>{{item.NumberEarlyOut}}</td>
-                    <td>{{item.NumberUnpaidLeave}}</td>
-                    <td>{{item.NumberUnplannedAnnualLeave}}</td>
-                    <td>{{item.ConvertedAverageWorkingHours}}</td>
-                    <td>{{item.NumberOvertime}}</td>
-                    <td ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length}}">
-                        <span ng-if="item.TOEICScore">
-                            {{item.TOEICScore}} <br/> {{item.UpdatedDateTOEIC | customDate}}
-                        </span>
-                    </td>
-                </tr>
-            <tfoot ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">
-                <tr class="text-center">
-                    <td data-translate="Total">Total</td>
-                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberMissingCheckInOut}}</td>
-                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberLateIn}}</td>
-                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberEarlyOut}}</td>
-                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnpaidLeave}}</td>
-                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnplannedAnnualLeave}}</td>
-                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.ConvertedAverageWorkingHours}}</td>
-                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberOvertime}}</td>
-                    <td>{{memberEPAInfoCtrl.hrmSummary.Total.TOEICScore}}</td>
-                </tr>
-            </tfoot>
-        </table>
-    </div>
-
+﻿<div class="level-2" data-toggle="collapse" data-target=".discipline-information-table">
+    A. {{"HRMSystem" | translate}}
+    <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
 </div>
 
-<div>
+<div class="collapse in discipline-information-table">
 
-    <div class="level-2">B. {{"Violation" | translate}}</div>
+    <table class="table table-bordered pa-form">
+        <thead>
+            <tr>
+                <th data-translate="Month"></th>
+                <th data-translate="CheckInOut"></th>
+                <th data-translate="LateIn"></th>
+                <th data-translate="EarlyOut"></th>
+                <th data-translate="UnpaidLeave"></th>
+                <th data-translate="UnplannedAnnualLeave"></th>
+                <th data-translate="AverageWorkingHours"></th>
+                <th data-translate="Overtime"></th>
+                <th data-translate="ToeicScore"></th>
+            </tr>
+        </thead>
+        <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data === undifined || memberEPAInfoCtrl.hrmSummary.Data.length === 0">
+            <tr>
+                <td colspan="10" class="empty-result" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">
+            <tr class="text-center" ng-repeat="item in memberEPAInfoCtrl.hrmSummary.Data">
+                <td>{{item.Month}}/{{item.Year}}</td>
+                <td>{{item.NumberMissingCheckInOut}}</td>
+                <td>{{item.NumberLateIn}}</td>
+                <td>{{item.NumberEarlyOut}}</td>
+                <td>{{item.NumberUnpaidLeave}}</td>
+                <td>{{item.NumberUnplannedAnnualLeave}}</td>
+                <td>{{item.ConvertedAverageWorkingHours}}</td>
+                <td>{{item.NumberOvertime}}</td>
+                <td ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length}}">
+                    <span ng-if="item.TOEICScore">
+                        {{item.TOEICScore}} <br /> {{item.UpdatedDateTOEIC | customDate}}
+                    </span>
+                </td>
+            </tr>
+        <tfoot ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">
+            <tr class="text-center">
+                <td data-translate="Total">Total</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberMissingCheckInOut}}</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberLateIn}}</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberEarlyOut}}</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnpaidLeave}}</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnplannedAnnualLeave}}</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.ConvertedAverageWorkingHours}}</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberOvertime}}</td>
+                <td>{{memberEPAInfoCtrl.hrmSummary.Total.TOEICScore}}</td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+<div class="level-2" data-toggle="collapse" data-target=".employee-award-table">
+    B. {{"EmployeeAwards" | translate}}
+    <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
+</div>
+
+<div class="collapse in employee-award-table">
 
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th data-translate="LetterOfWarning"></th>
-                <th data-translate="Date"></th>
+                <th class="width-40" data-translate="SymbolCount"></th>
+                <th data-translate="Period"></th>
+                <th data-translate="AwardTitle"></th>
+                <th data-translate="Status"></th>
+            </tr>
+        </thead>
+        <tbody ng-show="memberEPAInfoCtrl.employeeNominations.length === 0">
+            <tr>
+                <td colspan="4" class="empty-result" data-translate="EmptyResult"></td>
+            </tr>
+        </tbody>
+        <tbody ng-show="memberEPAInfoCtrl.employeeNominations.length > 0"
+               ng-repeat="nomination in memberEPAInfoCtrl.employeeNominations">
+            <tr>
+                <td class="text-center" ng-bind="$index + 1"></td>
+                <td ng-bind="nomination.PeriodName"></td>
+                <td ng-bind="nomination.AwardTitle"></td>
+                <td class="text-center" ng-bind="nomination.StatusToString"></td>
+            </tr>
+        </tbody>
+    </table>
+
+</div>
+
+<div class="level-2" data-toggle="collapse" data-target=".violation-table">
+    C. {{"Violation" | translate}}
+    <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
+</div>
+
+<div class="collapse in violation-table">
+
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th class="width-40" data-translate="SymbolCount"></th>
+                <th class="width-150" data-translate="Date"></th>
                 <th data-translate="Remark"></th>
             </tr>
         </thead>
@@ -97,40 +130,3 @@
     </table>
 
 </div>
-
-<!--<div>
-
-    <div class="level-2">C. {{"EmployeeAwards" | translate}}</div>
-
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>#</th>
-                <th data-translate="Period"></th>
-                <th data-translate="NominationTitle"></th>
-                <th data-translate="Nominator"></th>
-                <th data-translate="Status"></th>
-                <th data-translate="Comment"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td class="text-center">1</td>
-                <td class="text-center">2nd Quarter, 2016</td>
-                <td class="text-center">EOQ</td>
-                <td class="text-center">Tony Nguyen</td>
-                <td class="text-center">Nominated</td>
-                <td>Good quality at work...</td>
-            </tr>
-            <tr>
-                <td class="text-center">2</td>
-                <td class="text-center">Year 2016</td>
-                <td class="text-center">EOY</td>
-                <td class="text-center">Ronny Nguyen</td>
-                <td class="text-center">Approved</td>
-                <td>...</td>
-            </tr>
-        </tbody>
-    </table>
-
-</div>-->

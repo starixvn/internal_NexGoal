@@ -367,6 +367,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Award Title.
+        /// </summary>
+        public static string AwardTitle {
+            get {
+                return ResourceManager.GetString("AwardTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Back to list.
         /// </summary>
         public static string BackToList {

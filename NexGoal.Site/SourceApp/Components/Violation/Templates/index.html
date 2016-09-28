@@ -122,8 +122,7 @@
                         <td>
                             <span ng-if="violation.Description.length > 50" 
                                   tooltip="{{violation.Description}}"
-                                  tooltip-placement="left"
-                                  >
+                                  tooltip-placement="left">
                                 {{violation.Description | limitTo : 50}} ...
                             </span>
                             <span ng-if="violation.Description.length <= 50">

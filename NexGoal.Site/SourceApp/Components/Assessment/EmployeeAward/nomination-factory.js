@@ -66,6 +66,14 @@
             getUserPermissionOnNomination: function () {
                 return $http.get(baseUrl + 'api/Nomination/GetUserPermissionOnManageNomination');
             },
+            getNominationByPeriodId: function (employeeId, periodId) {
+                var params = {
+                    EmployeeId: employeeId,
+                    PeriodId: periodId
+                };
+
+                return $http.get(baseUrl + "api/Nomination/GetNominationByPeriodId", { params: params });
+            },
             updateNomination: function (nominationId, eoyQuestions) {
                 var criteria = {
                     NominationId: nominationId,

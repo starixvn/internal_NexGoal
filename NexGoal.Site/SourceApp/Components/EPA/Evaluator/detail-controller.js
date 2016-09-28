@@ -4,13 +4,15 @@
 epaModule.controller('DetailEvaluatorController',
 ["$scope", '$interval', '$translate', '$routeParams', 'EmployeeEPAModel', 'EvaluatorManagementModel', 'CommonModel',
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'LastRatingModel', 'lockScreenService',
-    'ViolationModel',
+    'ViolationModel', 'NominationModel',
 function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, EvaluatorManagementModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, LastRatingModel, lockScreenService, ViolationModel) {
+    utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, LastRatingModel, lockScreenService,
+    ViolationModel, NominationModel) {
     var vm = this;
     vm.hrmSummary = {};
     vm.employeeProjects = [];
     vm.violations = [];
+    vm.employeeNominations = [];
     vm.permission = 0;
     vm.epaId = parseInt($routeParams.id, 10);
     vm.evaluatorId = parseInt($routeParams.evaluatorId, 10);
@@ -106,6 +108,9 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
                 vm.violations = ViolationModel.violationsByPeriod;
             });
 
+            NominationModel.getNominationByPeriodId(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.employeeNominations = NominationModel.employeeNominations;
+            });
         })["finally"](function () {
             lockScreenService.stop();
         });

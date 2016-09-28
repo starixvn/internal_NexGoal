@@ -223,7 +223,9 @@
                 </td>
                 <td rowspan="{{kpi.EvaluationByEvaluators.length}}" ng-if="$first">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                        <span ng-if="kpi.EvaluationBySelf.Comment.length > 50" tooltip="{{kpi.EvaluationBySelf.Comment}}">
+                        <span ng-if="kpi.EvaluationBySelf.Comment.length > 50" 
+                              tooltip="{{kpi.EvaluationBySelf.Comment}}"
+                              tooltip-placement="left">
                             {{kpi.EvaluationBySelf.Comment | limitTo : 50}} ...
                         </span>
                         <span ng-if="kpi.EvaluationBySelf.Comment.length <= 50">
@@ -241,7 +243,9 @@
                 </td>
                 <td>
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
-                        <span ng-if="evaluator.Comment.length > 50" tooltip="{{evaluator.Comment}}">
+                        <span ng-if="evaluator.Comment.length > 50" 
+                              tooltip="{{evaluator.Comment}}"
+                              tooltip-placement="left">
                             {{evaluator.Comment | limitTo : 50}} ...
                         </span>
                         <span ng-if="evaluator.Comment.length <= 50">

@@ -1722,4 +1722,7 @@
   <data name="UpdateViolation" xml:space="preserve">
     <value>Update Violation</value>
   </data>
+  <data name="AwardTitle" xml:space="preserve">
+    <value>Award Title</value>
+  </data>
 </root>

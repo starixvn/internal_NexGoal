@@ -4,10 +4,10 @@
 epaModule.controller('DetailReviewerController',
 ['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory', 'lockScreenService',
-    'ViolationModel',
+    'ViolationModel', 'NominationModel',
 function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory, lockScreenService,
-    ViolationModel) {
+    ViolationModel, NominationModel) {
     var vm = this;
 
     vm.violations = [];
@@ -205,6 +205,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
             ViolationModel.getViolationsByPeriod(vm.epaInfo.Period.PeriodId, vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.violations = ViolationModel.violationsByPeriod;
+            });
+
+            NominationModel.getNominationByPeriodId(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.employeeNominations = NominationModel.employeeNominations;
             });
         })["finally"](function () {
             lockScreenService.stop();

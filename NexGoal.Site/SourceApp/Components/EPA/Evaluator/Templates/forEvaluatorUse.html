@@ -32,7 +32,9 @@
                     {{project.DecryptedScore}} <i class="fa fa-star"></i>                    
                 </td>
                 <td>
-                    <span ng-if="project.Comment.length > 50" tooltip="{{project.Comment}}">
+                    <span ng-if="project.Comment.length > 50" 
+                          tooltip="{{project.Comment}}"
+                          tooltip-placement="left">
                         {{project.Comment | limitTo : 50}} ...
                     </span>
                     <span ng-if="project.Comment.length <= 50">

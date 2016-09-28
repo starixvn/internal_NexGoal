@@ -173,6 +173,7 @@
                             "~/SourceApp/Components/Assessment/Focus/pa-modal-objective-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-model.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-factory.js",
+                            "~/SourceApp/Components/Assessment/EmployeeAward/nomination-model.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/nomination-directive.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/nomination-factory.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/manage-nomination-controller.js",

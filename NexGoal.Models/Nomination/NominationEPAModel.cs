@@ -11,11 +11,41 @@
 
         public string Quarter { get; set; }
 
-        public string QuarterToString
+        public string AwardTitle
+        {
+            get { return string.IsNullOrEmpty(Quarter) ? "Employee of the Year" : "Employee of the Quarter"; }
+        }
+
+        public string PeriodName
         {
             get
             {
-                return string.IsNullOrEmpty(Quarter) ? string.Empty : Quarter + "st Quarter";
+                var title = string.Empty;
+
+                if (!string.IsNullOrEmpty(Quarter))
+                {
+                    switch (Quarter)
+                    {
+                        case "1":
+                            title = "1st Quarter, " + Year.ToString();
+                            break;
+                        case "2":
+                            title = "2nd Quarter, " + Year.ToString();
+                            break;
+                        case "3":
+                            title = "3rd Quarter, " + Year.ToString();
+                            break;
+                        default:
+                            title = "4th Quarter, " + Year.ToString();
+                            break;
+                    }
+                }
+                else
+                {
+                    title = Year.ToString();
+                }
+
+                return title;
             }
         }
 
