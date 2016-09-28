@@ -7,6 +7,8 @@
     {
         public int EOQYId { get; set; }
 
+        public int NominationId { get; set; }
+
         public int Year { get; set; }
 
         public string Quarter { get; set; }
