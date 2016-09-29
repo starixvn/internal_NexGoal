@@ -273,6 +273,7 @@
                     <span data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>
                 </td>
                 <td></td>
+                <td ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1"></td>
             </tr>
         </tbody>
     </table>

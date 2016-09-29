@@ -116,7 +116,7 @@
 </div>
 
 <div class="collapse in performance-detail-table">
-    <table class="table table-bordered table-performance-result pa-form" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups">
+    <table class="table table-bordered table-non-hover table-performance-result pa-form" ng-repeat="kpiGroup in memberEPAInfoCtrl.epaInfo.KPIGroups">
         <thead>
             <tr class="level-3">
                 <th colspan="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1 ? 8 : 7}}" class="text-left">
@@ -203,6 +203,7 @@
                     <span class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>
                 </td>
                 <td></td>
+                <td ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1"></td>
             </tr>
         </tbody>
     </table>
