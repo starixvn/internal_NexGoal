@@ -1,14 +1,16 @@
-﻿<div id="viewPopup">
-    <div class="modal-header">
-        <div class="popup-header">
-            {{"Comment" | translate}}
-            <span class="close-popup" ng-click="modalViewCommentCtrl.cancel()"></span>
+﻿<div class="custom-modal">
+    <div id="viewPopup">
+        <div class="modal-header">
+            <div class="popup-header">
+                {{"Comment" | translate}}
+                <span class="close-popup" ng-click="modalViewCommentCtrl.cancel()"></span>
+            </div>
         </div>
-    </div>
-    <div class="modal-body modal-view-comment">
-        <div class="comment" ng-bind="modalViewCommentCtrl.comment"></div>
-    </div>
-    <div class="modal-footer">
-        <button class="btn btn-default customize" ng-click="modalViewCommentCtrl.cancel()" data-translate="OK"></button>
+        <div class="modal-body modal-view-comment">
+            <div class="comment" ng-bind="modalViewCommentCtrl.comment"></div>
+        </div>
+        <div class="modal-footer">
+            <button class="button btn-cancel" ng-click="modalViewCommentCtrl.cancel()" data-translate="OK"></button>
+        </div>
     </div>
 </div>

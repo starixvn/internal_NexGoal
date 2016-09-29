@@ -1,30 +1,38 @@
-﻿<div id="updateCommentPopup">
-    <div class="modal-header">
-        <div class="popup-header">
-            <span ng-show="modalUpdateCommentCtrl.isEdit">{{"EditComment" | translate}}</span>
-            <span ng-show="!modalUpdateCommentCtrl.isEdit">{{"ViewComment" | translate}}</span>
-            <span class="close-popup" ng-click="modalUpdateCommentCtrl.cancel()"></span>
+﻿<div class="custom-modal">
+    <div id="updateCommentPopup">
+        <div class="modal-header">
+            <div class="popup-header">
+                <span ng-show="modalUpdateCommentCtrl.isEdit">{{"EditComment" | translate}}</span>
+                <span ng-show="!modalUpdateCommentCtrl.isEdit">{{"ViewComment" | translate}}</span>
+                <span class="close-popup" ng-click="modalUpdateCommentCtrl.cancel()"></span>
+            </div>
         </div>
-    </div>
-    <div class="modal-body modal-update-comment">
-        <div class="row">
-            <form class="row form-horizontal col-sm-11" role="form">
-                <div class="form-group">
-                    <label class="col-sm-4 control-label">
-                        <span data-translate="Comment"></span>
-                        <span data-translate="(*)" class="note"></span>
-                    </label>
-                    <div class="col-sm-8 field">
-                        <textarea type="text" class="form-control comment" ng-readonly="!modalUpdateCommentCtrl.isEdit"
-                                  ng-model="modalUpdateCommentCtrl.comment" required></textarea>
+        <div class="modal-body modal-update-comment">
+            <div class="row">
+                <form class="row form-horizontal col-sm-11" role="form">
+                    <div class="form-group">
+                        <label class="col-sm-4 control-label">
+                            <span data-translate="Comment"></span>
+                            <span data-translate="(*)" class="note"></span>
+                        </label>
+                        <div class="col-sm-8 field">
+                            <textarea type="text" class="form-control comment" ng-readonly="!modalUpdateCommentCtrl.isEdit"
+                                      ng-model="modalUpdateCommentCtrl.comment" required></textarea>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
-    <div class="modal-footer">
-        <button class="button" ng-show="modalUpdateCommentCtrl.isEdit" ng-click="modalUpdateCommentCtrl.ok()" data-translate="OK"></button>
-        <button ng-if="modalUpdateCommentCtrl.isEdit" class="btn btn-default customize" ng-click="modalUpdateCommentCtrl.cancel()" data-translate="Cancel"></button>
-        <button ng-if="!modalUpdateCommentCtrl.isEdit" class="btn btn-default customize" ng-click="modalUpdateCommentCtrl.cancel()" data-translate="OK"></button>
+        <div class="modal-footer">
+            <button class="button btn-cancel"
+                    ng-if="modalUpdateCommentCtrl.isEdit"
+                    ng-click="modalUpdateCommentCtrl.cancel()" data-translate="Cancel"></button>
+            <button class="button btn-cancel"
+                    ng-if="!modalUpdateCommentCtrl.isEdit"
+                    ng-click="modalUpdateCommentCtrl.cancel()" data-translate="OK"></button>
+            <button class="button"
+                    ng-show="modalUpdateCommentCtrl.isEdit"
+                    ng-click="modalUpdateCommentCtrl.ok()" data-translate="OK"></button>
+        </div>
     </div>
 </div>
