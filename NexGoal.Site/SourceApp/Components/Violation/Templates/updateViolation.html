@@ -1,7 +1,7 @@
 ﻿<div class="custom-modal">
     <div class="modal-header">
         <div class="popup-header">
-            <span data-translate="UpdateViolation"></span>
+            <span data-translate="UpdateDisciplineRecord"></span>
             <span class="close-popup" ng-click="updateViolationCtrl.cancel()"></span>
         </div>
     </div>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-group">
-                <label class="col-sm-3 control-label required-label">Warning Content</label>
+                <label class="col-sm-3 control-label required-label" data-translate="Content"></label>
                 <div class="col-sm-9 field">
                     <textarea class="form-control none-resize" rows="3" maxlength="2000"
                               ng-model="updateViolationCtrl.violation.Description"></textarea>

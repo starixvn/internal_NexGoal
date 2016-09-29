@@ -2,7 +2,7 @@
     <div class="row">
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
-                <li class="current">Violation Management</li>
+                <li class="current" data-translate="DisciplineManagement"></li>
             </ul>
         </div>
 
@@ -87,7 +87,7 @@
                                ng-click="violationCtrl.createViolation()"
                                ng-show="violationCtrl.permission === violationCtrl.policyEnum.Host">
                                 <span class="icon plus"></span>
-                                <span class="button-text" data-translate="CreateViolation"></span>
+                                <span class="button-text" data-translate="AddDisciplineRecord"></span>
                             </a>
                             <input type="text" class="search-inline-textbox search pull-right"
                                    ng-model="violationCtrl.searchKey"
@@ -99,7 +99,7 @@
                         <th data-translate="FullName"></th>
                         <th data-translate="NickName"></th>
                         <th data-translate="Team"></th>
-                        <th>Warning Content</th>
+                        <th data-translate="Content"></th>
                         <th>Effective Date</th>
                         <th data-translate="Creator"></th>
                         <th data-translate="Active"></th>

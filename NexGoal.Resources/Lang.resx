@@ -1713,4 +1713,13 @@
   <data name="AdjustmentScore" xml:space="preserve">
     <value>Adjustment Score</value>
   </data>
+  <data name="AddDisciplineRecord" xml:space="preserve">
+    <value>Add Discipline Record</value>
+  </data>
+  <data name="DisciplineManagement" xml:space="preserve">
+    <value>Discipline Management</value>
+  </data>
+  <data name="UpdateDisciplineRecord" xml:space="preserve">
+    <value>Update Discipline Record</value>
+  </data>
 </root>

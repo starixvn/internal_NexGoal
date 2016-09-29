@@ -106,6 +106,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Add Discipline Record.
+        /// </summary>
+        public static string AddDisciplineRecord {
+            get {
+                return ResourceManager.GetString("AddDisciplineRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Add KPI.
         /// </summary>
         public static string AddKPI {
@@ -894,6 +903,15 @@ namespace NexGoal.Resources {
         public static string DisciplineEndDatePeriodRequired {
             get {
                 return ResourceManager.GetString("DisciplineEndDatePeriodRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline Management.
+        /// </summary>
+        public static string DisciplineManagement {
+            get {
+                return ResourceManager.GetString("DisciplineManagement", resourceCulture);
             }
         }
         
@@ -4503,6 +4521,15 @@ namespace NexGoal.Resources {
         public static string UnplannedAnnualLeave {
             get {
                 return ResourceManager.GetString("UnplannedAnnualLeave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update Discipline Record.
+        /// </summary>
+        public static string UpdateDisciplineRecord {
+            get {
+                return ResourceManager.GetString("UpdateDisciplineRecord", resourceCulture);
             }
         }
         

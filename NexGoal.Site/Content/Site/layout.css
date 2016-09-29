@@ -1092,8 +1092,14 @@ header {
                 border-right-color: @c-bg-table-tfoot;
             }*/
 }
-.table.table-non-hover tr:hover td {
-  background: #fff;
+.table.table-non-hover {
+  /*tr {
+            &:hover {
+                td {
+                    background: #fff;
+                }
+            }
+        }*/
 }
 .table-custom thead tr th {
   background: #ebe4d4;
