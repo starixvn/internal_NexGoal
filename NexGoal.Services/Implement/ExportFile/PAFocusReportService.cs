@@ -223,12 +223,6 @@ namespace NexGoal.Services.Implement
                         sheet.SetColumnWidth(8, columnWidth);
                     }
 
-                    var bonusRanking = pa.BonusRanking.HasValue ? pa.BonusRanking.ToString() : string.Empty;
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(bonusRanking);
-                    sheet.SetColumnWidth(10, columnWidth);
-
                     cellBody = row.CreateCell(columnIndex++);
                     cellBody.CellStyle = bodyStyle;
                     cellBody.SetCellValue(pa.NextDescriptionObjective);

@@ -11,7 +11,7 @@
     public class UpdatePAFocusCriteria : CriteriaBase
     {
         private const string XMLTemplate = @"<PAFocus PAFocusId='{0}' LastObjective='{1}' NextObjective='{2}'
-                IsReadyPromotion='{3}' Contribution='{4}' BonusGiven='{5}' BonusRanking='{6}'></PAFocus>";
+                IsReadyPromotion='{3}' IsPoorPerformance='{4}' Contribution='{5}' BonusGiven='{6}'></PAFocus>";
 
         public int ModifiedBy { get; set; }
 
@@ -35,9 +35,9 @@
                             item.LastCompletedPercentObjective,
                             HttpUtility.HtmlEncode(item.NextDescriptionObjective),
                             item.EncryptIsReadyPromotion,
+                            item.EncryptIsPoorPerformance,
                             item.EncryptedContribution,
-                            item.EncryptedBonusGiven,
-                            item.EncryptedBonusRanking);
+                            item.EncryptedBonusGiven);
                     }
                 }
 
