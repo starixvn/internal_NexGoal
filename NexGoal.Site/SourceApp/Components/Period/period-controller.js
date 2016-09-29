@@ -363,11 +363,15 @@ function ($scope, PeriodModel, CommonModel, PAFocusModel, historyFactory, lockSc
 
         lockScreenService.start();
 
-        PAFocusModel.updatePAProcessSettingByPeriodId(vm.period.PeriodId, vm.paProcessSettings);
-
-        PeriodModel.updatePeriodProcessSetting(periodProcessSetting)["finally"](function () {
-            lockScreenService.stop();
-        });
+        PAFocusModel.updatePAProcessSettingByPeriodId(vm.period.PeriodId, vm.paProcessSettings).then(function (result) {
+            if (result.data.IsSuccessful) {
+                PeriodModel.updatePeriodProcessSetting(periodProcessSetting).then()["finally"](function () {
+                    lockScreenService.stop();
+                });
+            } else {
+                lockScreenService.stop();
+            }
+        })
     };
 
     vm.cancel = function () {

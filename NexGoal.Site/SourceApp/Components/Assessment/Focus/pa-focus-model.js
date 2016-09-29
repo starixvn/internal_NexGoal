@@ -139,10 +139,7 @@
 
         vm.updatePAProcessSettingByPeriodId = function (periodId, processes) {
             return paFocusFactory.updatePAProcessSettingByPeriodId(periodId, processes).success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
-                }
-                else {
+                if (!response.IsSuccessful) {
                     notificationFactory.error("UpdatedUnsuccessfully");
                 }
             }).error(function (response, status) {
