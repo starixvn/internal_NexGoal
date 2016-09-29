@@ -151,6 +151,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Adjustment Score.
+        /// </summary>
+        public static string AdjustmentScore {
+            get {
+                return ResourceManager.GetString("AdjustmentScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Adjust Score.
         /// </summary>
         public static string AdjustScore {

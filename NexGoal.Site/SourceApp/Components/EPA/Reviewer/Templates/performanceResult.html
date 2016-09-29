@@ -22,7 +22,7 @@
                 <th data-translate="Comment"></th>
                 <th ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" data-translate="AvgScore"></th>
                 <th>
-                    <label data-translate="AdjustScore"></label>
+                    <label data-translate="AdjustmentScore"></label>
                     <label class="note" data-translate="(*)"></label>
                 </th>
                 <th>
@@ -130,10 +130,10 @@
                 <th colspan="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1 ? 4 : 3}}" data-translate="Evaluator"></th>
             </tr>
             <tr class="text-center">
-                <th data-translate="Score" class="col-score"></th>
+                <th data-translate="Score" class="col-score-lg"></th>
                 <th data-translate="Comment" class="col-comment"></th>
                 <th data-translate="NickName" class="col-score"></th>
-                <th data-translate="Score" class="col-score"></th>
+                <th data-translate="Score" class="col-score-lg"></th>
                 <th data-translate="Comment" class="col-comment"></th>
                 <th ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" data-translate="AvgScore" class="col-score"></th>
             </tr>
@@ -192,14 +192,17 @@
         <tbody>
             <tr class="sub-total text-center">
                 <td colspan="2" data-translate="SubTotal"></td>
-                <td colspan="2">
+                <td>
                     <span class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">{{kpiGroup.SelfDecodeScore | customScore}} / {{kpiGroup.Weight}} pts</span>
                     <span class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></span>
                 </td>
-                <td colspan="4">
+                <td></td>
+                <td></td>
+                <td>
                     <span class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">{{kpiGroup.EvaluatorScore | customScore}} / {{kpiGroup.Weight}} pts</span>
                     <span class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>
                 </td>
+                <td></td>
             </tr>
         </tbody>
     </table>

@@ -1,7 +1,8 @@
-﻿<div>
+﻿<div class="custom-modal">
     <div class="modal-header">
         <div class="popup-header">
-            {{"AssignRoleToUser" | translate}}<span class="close-popup" ng-click="assignRoleCtrl.cancel()"></span>
+            {{"AssignRoleToUser" | translate}}
+            <span class="close-popup" ng-click="assignRoleCtrl.cancel()"></span>
         </div>
     </div>
 
@@ -30,8 +31,8 @@
     </div>
 
     <div class="modal-footer">
-        <button class="button" data-translate="Save" get-employee-permission></button>
-        <button class="btn btn-default customize" ng-click="assignRoleCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button btn-cancel" ng-click="assignRoleCtrl.cancel()" data-translate="Cancel"></button>
+        <button class="button" data-translate="Submit" get-employee-permission></button>
     </div>
 </div>
 

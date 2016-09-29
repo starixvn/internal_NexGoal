@@ -134,11 +134,11 @@
                             </tbody>
                         </table>
                         <form class="row form-inline department-form" role="form">
+                            <button class="button btn-cancel" ng-click="personalFlowCtrl.cancel()" data-translate="Cancel"></button>
                             <button class="button" ng-click="personalFlowCtrl.savePersonalFlow()"
                                     ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Save"></button>
                             <button class="button" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete"
                                     ng-show="personalFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
-                            <button class="btn btn-default customize" ng-click="personalFlowCtrl.cancel()" data-translate="Cancel"></button>
                         </form>
                     </div>
                 </div>

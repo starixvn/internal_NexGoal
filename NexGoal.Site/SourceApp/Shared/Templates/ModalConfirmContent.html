@@ -1,15 +1,17 @@
-﻿<div id="confirmPopup">
-    <div class="modal-header">
-        <div class="popup-header">
-            {{"Confirmation" | translate}}
-            <span class="close-popup" ng-click="modalConfirmCtrl.cancel()"></span>
+﻿<div class="custom-modal">
+    <div id="confirmPopup">
+        <div class="modal-header">
+            <div class="popup-header">
+                {{"Confirmation" | translate}}
+                <span class="close-popup" ng-click="modalConfirmCtrl.cancel()"></span>
+            </div>
         </div>
-    </div>
-    <div class="modal-body">
-        {{modalConfirmCtrl.message}}
-    </div>
-    <div class="modal-footer">
-        <button class="button" ng-click="modalConfirmCtrl.ok()" data-translate="OK"></button>
-        <button class="btn btn-default customize" ng-click="modalConfirmCtrl.cancel()" data-translate="Cancel"></button>
+        <div class="modal-body">
+            {{modalConfirmCtrl.message}}
+        </div>
+        <div class="modal-footer">
+            <button class="button btn-cancel" ng-click="modalConfirmCtrl.cancel()" data-translate="Cancel"></button>
+            <button class="button" ng-click="modalConfirmCtrl.ok()" data-translate="OK"></button>
+        </div>
     </div>
 </div>

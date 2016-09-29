@@ -55,16 +55,22 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         var maxSubtractScore = currentProcess.MaxSubtractScore,
         maxAdditionScore = currentProcess.MaxAdditionScore;
         var adjustScore = currentProcess.AdjustScore === "" ? 0 : currentProcess.AdjustScore;
+        var defaultAdditionScore = 10, defaultSubtractScore = -10;
 
-        if (adjustScore > maxAdditionScore || adjustScore < maxSubtractScore) {
-            notificationFactory.error('AdjustScoreInvalid');
-
-            if (adjustScore > maxAdditionScore) {
-                currentProcess.AdjustScore = maxAdditionScore;
-            } else if (adjustScore < maxSubtractScore) {
-                currentProcess.AdjustScore = maxSubtractScore;
+        if (adjustScore > maxAdditionScore) {
+            if (maxAdditionScore < defaultAdditionScore) {
+                notificationFactory.error('AdjustScoreInvalid');
             }
+
+            currentProcess.AdjustScore = maxAdditionScore;
+        } else if (adjustScore < maxSubtractScore) {
+            if (maxSubtractScore > defaultSubtractScore) {
+                notificationFactory.error('AdjustScoreInvalid');
+            }
+
+            currentProcess.AdjustScore = maxSubtractScore;
         }
+
 
         ReviewerManagementModel.calculateScore(vm.epaInfo, true);
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(currentProcess.TotalScore, vm.standardGrades);

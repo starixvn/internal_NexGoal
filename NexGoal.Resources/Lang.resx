@@ -1710,4 +1710,7 @@
   <data name="EvaluationManagement" xml:space="preserve">
     <value>Evaluation Management</value>
   </data>
+  <data name="AdjustmentScore" xml:space="preserve">
+    <value>Adjustment Score</value>
+  </data>
 </root>

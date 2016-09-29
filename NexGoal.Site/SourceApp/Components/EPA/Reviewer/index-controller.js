@@ -306,15 +306,20 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
         maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore,
         adjustScore = memberEPA.Process.CurrentProcess.AdjustScore === "" ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;
+        var defaultAdditionScore = 10, defaultSubtractScore = -10;
 
-        if (adjustScore > maxAdditionScore || adjustScore < maxSubtractScore) {
-            notificationFactory.error('AdjustScoreInvalid');
-
-            if (adjustScore > maxAdditionScore) {
-                memberEPA.Process.CurrentProcess.AdjustScore = maxAdditionScore;
-            } else if (adjustScore < maxSubtractScore) {
-                memberEPA.Process.CurrentProcess.AdjustScore = maxSubtractScore;
+        if (adjustScore > maxAdditionScore) {
+            if (maxAdditionScore < defaultAdditionScore) {
+                notificationFactory.error('AdjustScoreInvalid');
             }
+
+            memberEPA.Process.CurrentProcess.AdjustScore = maxAdditionScore;
+        } else if (adjustScore < maxSubtractScore) {
+            if (maxSubtractScore > defaultSubtractScore) {
+                notificationFactory.error('AdjustScoreInvalid');
+            }
+
+            memberEPA.Process.CurrentProcess.AdjustScore = maxSubtractScore;
         }
 
         ReviewerManagementModel.calculateScore(memberEPA, true);
