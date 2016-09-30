@@ -556,6 +556,7 @@
     <Content Include="SourceApp\Components\Report\Templates\modalMasterReportComment.html" />
     <Content Include="SourceApp\Components\Report\Templates\modalMasterReportProject.html" />
     <Content Include="SourceApp\Components\Report\Templates\paReport.html" />
+    <Content Include="SourceApp\Components\TargetTemplate\create-target-template-controller.js" />
     <Content Include="SourceApp\Components\UserInfo\Templates\index.html" />
     <Content Include="SourceApp\Components\UserInfo\user-info-controller.js" />
     <Content Include="SourceApp\Components\Violation\create-violation-controller.js" />

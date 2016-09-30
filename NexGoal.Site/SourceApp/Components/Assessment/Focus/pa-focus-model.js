@@ -113,7 +113,7 @@
         };
 
         vm.getPAFocus = function (periodId, groupIds, employeeId) {
-            return paFocusFactory.getPAFocus(periodId, groupIds).success(function (evaluations) {
+            return paFocusFactory.getPAFocus(periodId, groupIds, employeeId).success(function (evaluations) {
                 var groups = evaluations;
                 vm.evaluations = buildData(groups, employeeId);
             }).error(function (response, status) {
