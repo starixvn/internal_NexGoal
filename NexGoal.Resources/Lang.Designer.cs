@@ -889,6 +889,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discipline.
+        /// </summary>
+        public static string Discipline {
+            get {
+                return ResourceManager.GetString("Discipline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discipline End Date.
         /// </summary>
         public static string DisciplineEndDate {
@@ -2172,6 +2181,15 @@ namespace NexGoal.Resources {
         public static string IsSpecialUser {
             get {
                 return ResourceManager.GetString("IsSpecialUser", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Issue Date.
+        /// </summary>
+        public static string IssueDate {
+            get {
+                return ResourceManager.GetString("IssueDate", resourceCulture);
             }
         }
         

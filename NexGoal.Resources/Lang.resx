@@ -1722,4 +1722,10 @@
   <data name="UpdateDisciplineRecord" xml:space="preserve">
     <value>Update Discipline Record</value>
   </data>
+  <data name="IssueDate" xml:space="preserve">
+    <value>Issue Date</value>
+  </data>
+  <data name="Discipline" xml:space="preserve">
+    <value>Discipline</value>
+  </data>
 </root>

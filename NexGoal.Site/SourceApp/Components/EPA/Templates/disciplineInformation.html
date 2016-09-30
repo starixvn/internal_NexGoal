@@ -1,9 +1,9 @@
-﻿<div class="level-2" data-toggle="collapse" data-target=".discipline-information-table">
+﻿<div class="level-2" data-toggle="collapse" data-target=".approach-to-work-table">
     A. {{"HRMSystem" | translate}}
     <i class="fa fa-chevron-down pull-right" aria-hidden="true"></i>
 </div>
 
-<div class="collapse in discipline-information-table">
+<div class="collapse in approach-to-work-table">
 
     <table class="table table-bordered table-non-hover pa-form">
         <thead>
@@ -69,7 +69,7 @@
         <thead>
             <tr>
                 <th class="width-40" data-translate="SymbolCount"></th>
-                <th class="width-360" data-translate="Title"></th>
+                <th class="width-360" data-translate="Award"></th>
                 <th data-translate="Status"></th>
             </tr>
         </thead>
@@ -90,13 +90,13 @@
 
 </div>
 
-<div class="level-2" data-toggle="collapse" data-target=".violation-table">
-    C. {{"Violation" | translate}}
+<div class="level-2" data-toggle="collapse" data-target=".discipline-table">
+    C. {{"Discipline" | translate}}
     <i class="fa fa-chevron-down pull-right" aria-hidden="true"
        ng-show="memberEPAInfoCtrl.violations.length > 0"></i>
 </div>
 
-<div class="collapse in violation-table"
+<div class="collapse in discipline-table"
      ng-show="memberEPAInfoCtrl.violations.length > 0">
 
     <table class="table table-bordered">
@@ -104,7 +104,7 @@
             <tr>
                 <th class="width-40" data-translate="SymbolCount"></th>
                 <th class="width-360" data-translate="Date"></th>
-                <th data-translate="Remark"></th>
+                <th data-translate="Remarks"></th>
             </tr>
         </thead>
         <tbody ng-repeat="violation in memberEPAInfoCtrl.violations">
