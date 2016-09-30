@@ -30,11 +30,11 @@
 
         public bool? IsReadyPromotion { get; set; }
 
-        public string EncryptIsReadyPromotion { get; set; }
+        public string EncryptedIsReadyPromotion { get; set; }
 
         public bool? IsPoorPerformance { get; set; }
 
-        public string EncryptIsPoorPerformance { get; set; }
+        public string EncryptedIsPoorPerformance { get; set; }
 
         public DateTime StartDate { get; set; }
 
@@ -51,8 +51,8 @@
         public void Decrypt()
         {
             ICertificateService encryptService = new CertificateService();
-            IsReadyPromotion = string.IsNullOrEmpty(EncryptIsReadyPromotion) ? IsReadyPromotion : bool.Parse(encryptService.Decrypt(EncryptIsReadyPromotion));
-            IsPoorPerformance = string.IsNullOrEmpty(EncryptIsPoorPerformance) ? IsPoorPerformance : bool.Parse(encryptService.Decrypt(EncryptIsPoorPerformance));
+            IsReadyPromotion = string.IsNullOrEmpty(EncryptedIsReadyPromotion) ? IsReadyPromotion : bool.Parse(encryptService.Decrypt(EncryptedIsReadyPromotion));
+            IsPoorPerformance = string.IsNullOrEmpty(EncryptedIsPoorPerformance) ? IsPoorPerformance : bool.Parse(encryptService.Decrypt(EncryptedIsPoorPerformance));
             Contribution = string.IsNullOrEmpty(EncryptedContribution) ? Contribution : int.Parse(encryptService.Decrypt(EncryptedContribution));
             BonusGiven = string.IsNullOrEmpty(EncryptedBonusGiven) ? BonusGiven : int.Parse(encryptService.Decrypt(EncryptedBonusGiven));
             FinalScore = string.IsNullOrEmpty(EncryptedFinalScore) ? FinalScore : float.Parse(encryptService.Decrypt(EncryptedFinalScore));
@@ -61,8 +61,8 @@
         public void Encrypt()
         {
             ICertificateService encryptService = new CertificateService();
-            EncryptIsReadyPromotion = !IsReadyPromotion.HasValue ? string.Empty : encryptService.Encrypt(IsReadyPromotion.ToString());
-            EncryptIsPoorPerformance = !IsPoorPerformance.HasValue ? string.Empty : encryptService.Encrypt(IsPoorPerformance.ToString());
+            EncryptedIsReadyPromotion = !IsReadyPromotion.HasValue ? string.Empty : encryptService.Encrypt(IsReadyPromotion.ToString());
+            EncryptedIsPoorPerformance = !IsPoorPerformance.HasValue ? string.Empty : encryptService.Encrypt(IsPoorPerformance.ToString());
             EncryptedContribution = !Contribution.HasValue ? string.Empty : encryptService.Encrypt(Contribution.ToString());
             EncryptedBonusGiven = !BonusGiven.HasValue ? string.Empty : encryptService.Encrypt(BonusGiven.ToString());
         }

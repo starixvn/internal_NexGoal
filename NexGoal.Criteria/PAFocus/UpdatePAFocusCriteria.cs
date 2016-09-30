@@ -34,8 +34,8 @@
                             item.PAFocusId,
                             item.LastCompletedPercentObjective,
                             HttpUtility.HtmlEncode(item.NextDescriptionObjective),
-                            item.EncryptIsReadyPromotion,
-                            item.EncryptIsPoorPerformance,
+                            item.EncryptedIsReadyPromotion,
+                            item.EncryptedIsPoorPerformance,
                             item.EncryptedContribution,
                             item.EncryptedBonusGiven);
                     }
