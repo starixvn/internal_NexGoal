@@ -7,19 +7,25 @@
 
     function paFocusFactory($http, baseUrl) {
         return {
-            getPAFocusFullPermission:function(){
+            getPAFocusFullPermission: function () {
                 return $http.get(baseUrl + 'api/PAFocus/GetPAFocusFullPermission');
             },
             getPAProcessSettingByPeriodId: function (periodId) {
                 return $http.get(baseUrl + 'api/PAFocus/GetPAProcessSettingByPeriodId', { params: { periodId: periodId } });
             },
-            getPAFocus: function (periodId, groupIds) {
-                return $http.get(baseUrl + 'api/PAFocus/GetPAFocus', { params: { periodId: periodId, groupIds : groupIds} });
+            getPAFocus: function (periodId, groupIds, employeeId) {
+                var params = {
+                    PeriodId: periodId,
+                    GroupIds: groupIds,
+                    EmployeeId: employeeId
+                };
+
+                return $http.get(baseUrl + 'api/PAFocus/GetPAFocus', { params: params });
             },
             getPAFocusProcess: function (periodId) {
-                return $http.get(baseUrl + 'api/PAFocus/GetPAFocusProcess', { params: { periodId: periodId} });
+                return $http.get(baseUrl + 'api/PAFocus/GetPAFocusProcess', { params: { periodId: periodId } });
             },
-            updatePAFocus: function(evaluations){
+            updatePAFocus: function (evaluations) {
                 return $http.post(baseUrl + 'api/PAFocus/UpdatePAFocus', evaluations);
             },
             updatePAProcessSettingByPeriodId: function (periodId, processes) {
