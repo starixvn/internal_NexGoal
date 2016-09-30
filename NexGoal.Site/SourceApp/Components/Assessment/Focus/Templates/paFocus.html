@@ -87,9 +87,8 @@
                 <td class="text-center">
                     <select class="form-control"
                             ng-model="member.Contribution"
-                            ng-disabled="member.IsReadOnly">
-                        <option value="1">Agree</option>
-                        <option value="0">Disagree</option>
+                            ng-disabled="member.IsReadOnly"
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.focusEvaluationLevel">
                     </select>
                 </td>
                 <td class="text-center">
