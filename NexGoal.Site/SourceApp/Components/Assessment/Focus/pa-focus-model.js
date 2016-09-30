@@ -12,6 +12,28 @@
         vm.processSettings = [];
         vm.evaluations = [];
         vm.PAFocusPermission = {};
+        vm.focusEvaluationLevel = [
+            {
+                Value: 1,
+                Name: "Strongly disagrees"
+            },
+            {
+                Value: 2,
+                Name: "Disagree"
+            },
+            {
+                Value: 3,
+                Name: "Neither agree nor disagree"
+            },
+            {
+                Value: 4,
+                Name: "Agree"
+            },
+            {
+                Value: 5,
+                Name: "Strongly agree"
+            }
+        ];
 
         function buildData(evaluations, employeeId) {
             var teams = [];

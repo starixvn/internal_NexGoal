@@ -21,6 +21,7 @@
             }
         ];
         vm.process = [];
+        vm.focusEvaluationLevel = PAFocusModel.focusEvaluationLevel;
 
         vm.isFirst = true;
         vm.isChangedData = false;
