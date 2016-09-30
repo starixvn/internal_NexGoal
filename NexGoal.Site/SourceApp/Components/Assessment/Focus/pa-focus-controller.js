@@ -9,7 +9,7 @@
     function paFocusController($scope, CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory,
         lockScreenService, notificationFactory, enumerationsFactory) {
         var vm = this;
-        
+
         vm.booleanRanges = [
             {
                 Value: true,
@@ -67,7 +67,6 @@
 
             PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
                 $scope.groups = PAFocusModel.evaluations;
-                console.log($scope.groups);
                 vm.isFirst = true;
             })["finally"](function () {
                 lockScreenService.stop();
@@ -96,7 +95,9 @@
 
         vm.save = function () {
             lockScreenService.start();
-            PAFocusModel.updatePAFocus($scope.groups)["finally"](function () {
+            PAFocusModel.updatePAFocus($scope.groups).then(function () {
+                vm.isChangedData = false;
+            })["finally"](function () {
                 lockScreenService.stop();
             });
         };
