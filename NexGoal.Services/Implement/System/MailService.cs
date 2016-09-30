@@ -2,6 +2,7 @@
 {
     using NexGoal.Core;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
@@ -26,43 +27,63 @@
             _baseMailService = baseMailService ?? new BaseMailService();
         }
 
-        public void SendMailToHRStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToHRStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
                 string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
                     endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                .Replace(EmailFormat.AdminNick, employeeSetting.EvaluatorInfo.NickName)
+                .Replace(EmailFormat.PeriodName, period.Name)
+                .Replace(EmailFormat.StartDate, startDate)
+                .Replace(EmailFormat.EndDate, endDate)
+                .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
+                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
-                email.Subject = string.Format(Lang.StartDateEmailToHRSubject, periodName, startDate, endDate);
+                var subject = Email.StartDateEmailToHRSubject
+                .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
+                .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbationForHR);
+
+                email.Subject = subject;
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
             }
         }
 
-        public void SendMailToSelfStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToSelfStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
                 string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
                     endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                   .Replace(EmailFormat.EmployeeNick, employeeSetting.EvaluatorInfo.NickName)
+                   .Replace(EmailFormat.PeriodName, period.Name)
+                   .Replace(EmailFormat.StartDate, startDate)
+                   .Replace(EmailFormat.EndDate, endDate)
+                   .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
+                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
-                email.Subject = string.Format(Lang.StartDateEmailToSelfSubject, periodName, startDate, endDate);
+                var subject = Email.StartDateEmailToSelfSubject
+                  .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
+                  .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+
+                email.Subject = subject;
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
             }
         }
 
-        public void SendMailToEvaluatorStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToEvaluatorStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
@@ -70,17 +91,28 @@
                 string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
                     endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-                email.Subject = string.Format(Lang.StartDateEmailToEvaluatorSubject, periodName, startDate, endDate);
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                    .Replace(EmailFormat.EvaluatorNick, employeeSetting.EvaluatorInfo.NickName)
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.StartDate, startDate)
+                    .Replace(EmailFormat.EndDate, endDate)
+                    .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
+                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+
+                var subject = Email.StartDateEmailToEvaluatorSubject
+                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
+                    .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+
+                email.Subject = subject;
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
             }
         }
 
-        public void SendMailToReviewerStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToReviewerStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
@@ -88,17 +120,27 @@
                 string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
                     endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-                email.Subject = string.Format(Lang.StartDateEmailToReviewerSubject, periodName, startDate, endDate);
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                   .Replace(EmailFormat.ReviewerNick, employeeSetting.EvaluatorInfo.NickName)
+                   .Replace(EmailFormat.PeriodName, period.Name)
+                   .Replace(EmailFormat.StartDate, startDate)
+                   .Replace(EmailFormat.EndDate, endDate)
+                   .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
+                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                var subject = Email.StartDateEmailToEvaluatorSubject
+                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
+                    .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+
+                email.Subject = subject;
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
             }
         }
 
-        public void SendMailToManagementStartDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToSelfRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
@@ -106,17 +148,27 @@
                 string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
                     endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-                email.Subject = string.Format(Lang.StartDateEmailToManagementSubject, periodName, startDate, endDate);
-                email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, email.Title, periodName, startDate, endDate);
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                    .Replace(EmailFormat.EmployeeNick, employeeSetting.EvaluatorInfo.NickName)
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.StartDate, startDate)
+                    .Replace(EmailFormat.EndDate, endDate)
+                    .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
+                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+
+                var subject = Email.RemindDateEmailToSelfSubject
+                  .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
+                  .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+
+                email.Subject = subject;
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
             }
         }
 
-        public void SendMailToSelfRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToEvaluatorRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
@@ -124,16 +176,27 @@
                 string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
                     endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-                email.Subject = string.Format(Lang.RemindDateEmailToSelfSubject, periodName, startDate, endDate);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName, startDate, endDate);
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                    .Replace(EmailFormat.EvaluatorNick, employeeSetting.EvaluatorInfo.NickName)
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.StartDate, startDate)
+                    .Replace(EmailFormat.EndDate, endDate)
+                    .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
+                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+
+                var subject = Email.RemindDateEmailToEvaluatorSubject
+                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
+                    .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+
+                email.Subject = subject;
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
             }
         }
 
-        public void SendMailToEvaluatorRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToReviewerRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
@@ -141,16 +204,27 @@
                 string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
                     endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-                email.Subject = string.Format(Lang.RemindDateEmailToEvaluatorSubject, periodName, startDate, endDate);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                   .Replace(EmailFormat.ReviewerNick, employeeSetting.EvaluatorInfo.NickName)
+                   .Replace(EmailFormat.PeriodName, period.Name)
+                   .Replace(EmailFormat.StartDate, startDate)
+                   .Replace(EmailFormat.EndDate, endDate)
+                   .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
+                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+
+                var subject = Email.RemindDateEmailToReviewerSubject
+                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
+                    .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+
+                email.Subject = subject;
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
             }
         }
 
-        public void SendMailToReviewerRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailToHRRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
@@ -158,26 +232,20 @@
                 string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
                     endDate = ChangeEndDate(employeeSetting.EndDate.Value);
 
-                email.Subject = string.Format(Lang.RemindDateEmailToReviewerSubject, periodName, startDate, endDate);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
-                email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                   .Replace(EmailFormat.AdminNick, employeeSetting.EvaluatorInfo.NickName)
+                   .Replace(EmailFormat.PeriodName, period.Name)
+                   .Replace(EmailFormat.StartDate, startDate)
+                   .Replace(EmailFormat.EndDate, endDate)
+                   .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
+                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
-                _baseMailService.SendEmail(email);
-            }
-        }
+                var subject = Email.RemindDateEmailToHRSubject
+                  .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
+                  .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbationForHR);
 
-        public void SendMailToManagementRemindDate(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
-        {
-            if (employeeSetting != null)
-            {
-                MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
-
-                email.Subject = string.Format(Lang.RemindDateEmailToManagementSubject, periodName, startDate, endDate);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, startDate, endDate);
+                email.Subject = subject;
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);
@@ -199,44 +267,6 @@
             }
         }
 
-        public void SendMailToSelfEndEvaluation(
-            string templateEmailPath,
-            EPAModel evaluationInfo,
-            float averagePerformanceScore,
-            float disciplineScore)
-        {
-            if (evaluationInfo != null)
-            {
-                MailModel email = new MailModel();
-                email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
-
-                float finalScore = averagePerformanceScore + disciplineScore,
-                    adjustmentScore = GetAdjustmentScore(evaluationInfo, averagePerformanceScore);
-                string evaluatorNames = GetEvaluator(evaluationInfo.Process.Evaluators),
-                    reviewerNames = GetEvaluator(evaluationInfo.Process.Reviewers),
-                    managementNames = GetEvaluator(evaluationInfo.Process.Managements);
-
-                finalScore = finalScore >= 0 ? finalScore : 0;
-
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(
-                    email.Body,
-                    evaluationInfo.Employee.NickName,
-                    evaluationInfo.Period.Name,
-                    disciplineScore,
-                    averagePerformanceScore,
-                    adjustmentScore,
-                    Math.Round(finalScore, 2),
-                    evaluationInfo.Grade,
-                    evaluatorNames,
-                    reviewerNames,
-                    managementNames);
-                email.ReceiverEmail = evaluationInfo.Employee.Email;
-
-                _baseMailService.SendEmail(email);
-            }
-        }
-
         public void SendMailEndToHumanResourcesByEmployee(
             string templateEmailPath,
             EPAModel evaluationInfo,
@@ -245,15 +275,18 @@
             if (evaluationInfo != null && humanResource != null)
             {
                 MailModel email = new MailModel();
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                    .Replace(EmailFormat.AdminNick, humanResource.NickName)
+                    .Replace(EmailFormat.EmployeeNick, evaluationInfo.Employee.NickName)
+                    .Replace(EmailFormat.EmployeeCode, evaluationInfo.Employee.Code)
+                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                    .Replace(EmailFormat.ConfirmedDate, evaluationInfo.Employee.ConfirmedDate.ToString("dd MMM yyyy"));
 
-                email.Subject = string.Format(Lang.EndMailEvaluationToSelf, evaluationInfo.Period.Name);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(
-                    email.Body,
-                    humanResource.NickName,
-                    evaluationInfo.Employee.NickName,
-                    evaluationInfo.Employee.EmployeeId,
-                    evaluationInfo.Period.Name);
+                var subject = Lang.EndMailEvaluationToSelf
+                    .Replace(EmailFormat.StartMonthYear, evaluationInfo.Period.StartDate.Value.ToString("MMMM yyyy"));
+
+                email.Subject = subject;
+                email.Body = body;
                 email.ReceiverEmail = humanResource.Email;
 
                 _baseMailService.SendEmail(email);
@@ -265,10 +298,15 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
+                var body = _baseMailService.ReadTextFile(templateEmailPath)
+                   .Replace(EmailFormat.AdminNick, employeeSetting.EvaluatorInfo.NickName)
+                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
-                email.Subject = string.Format(Lang.EndMailEvaluationToSelf, periodName);
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath);
-                email.Body = string.Format(email.Body, employeeSetting.EvaluatorInfo.NickName, periodName);
+                var subject = Lang.EndMailEvaluationToSelf
+                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"));
+
+                email.Subject = subject;
+                email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
 
                 _baseMailService.SendEmail(email);

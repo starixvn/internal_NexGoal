@@ -83,7 +83,7 @@
                 <td class="text-center" ng-bind="$index + 1"></td>
                 <td ng-bind="member.Employee.FullName"></td>
                 <td class="text-center" ng-bind="member.Employee.NickName"></td>
-                <td class="text-center" ng-bind="member.Employee.JobTitle.JobTitleName"></td>
+                <td ng-bind="member.Employee.JobTitle.JobTitleName"></td>
                 <td class="text-center">
                     <select class="form-control"
                             ng-model="member.Contribution"
@@ -99,21 +99,19 @@
                 </td>
                 <td class="text-center">
                     <select class="form-control focus-evaluation-status"
-                            ng-class="{'good': member.IsReadyPromotion, 'warning': !member.IsReadyPromotion}"
+                            ng-class="{'good': member.IsReadyPromotion, 'normal': !member.IsReadyPromotion}"
                             ng-model="member.IsReadyPromotion"
                             ng-disabled="member.IsReadOnly"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
-                            options-class="{ 'focus-evaluation-status good' : Value, 'focus-evaluation-status warning': !Value }">
-                    </select>
+                            options-class="{ 'focus-evaluation-status good' : Value, 'focus-evaluation-status normal' : !Value}"></select>
                 </td>
                 <td class="text-center">
                     <select class="form-control focus-evaluation-status"
-                            ng-class="{'good': !member.IsPoorPerformance, 'warning': member.IsPoorPerformance}"
+                            ng-class="{'warning': member.IsPoorPerformance, 'normal': !member.IsPoorPerformance}"
                             ng-model="member.IsPoorPerformance"
                             ng-disabled="member.IsReadOnly"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
-                            options-class="{ 'focus-evaluation-status warning' : Value, 'focus-evaluation-status good': !Value }">
-                    </select>
+                            options-class="{ 'focus-evaluation-status warning' : Value, 'focus-evaluation-status normal' : !Value}"></select>
                 </td>
                 <td class="text-center">
                     <select class="form-control"

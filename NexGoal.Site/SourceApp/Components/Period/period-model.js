@@ -303,7 +303,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     if (!period.RawFocusStartDate) {
                         notificationFactory.error("FocusStartDateRequired");
                         return false;
-                    } else if (new Date(period.RawEndDate).setHours(0, 0, 0, 0) > new Date(period.RawFocusStartDate).setHours(0, 0, 0, 0)) {
+                    } else if (new Date(period.RawEndDate).setHours(0, 0, 0, 0) >= new Date(period.RawFocusStartDate).setHours(0, 0, 0, 0)) {
                         notificationFactory.error("StartFocusDateGreaterThanEndDateWarning");
                         return false;
                     }

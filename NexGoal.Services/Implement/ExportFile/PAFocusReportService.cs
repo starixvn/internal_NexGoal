@@ -107,8 +107,18 @@ namespace NexGoal.Services.Implement
             var columnIndex = 0;
             var index = 1;
 
+            IFont redFont = workbook.CreateFont();
+            redFont.Color = HSSFColor.Red.Index;
+
+            IFont blueFont = workbook.CreateFont();
+            blueFont.Color = HSSFColor.Green.Index;
+
             ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
             ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
+            bodyStyleLeft2.VerticalAlignment = VerticalAlignment.Center;
+            bodyStyleLeft2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyleLeft2.FillPattern = FillPattern.SolidForeground;
+            bodyStyleLeft2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
 
             ICellStyle bodyStyleLeft1 = workbook.CreateCellStyle();
             bodyStyleLeft1.Alignment = HorizontalAlignment.Left;
@@ -125,6 +135,16 @@ namespace NexGoal.Services.Implement
             bodyStyleCenter1.Alignment = HorizontalAlignment.Center;
             bodyStyleCenter1.VerticalAlignment = VerticalAlignment.Center;
 
+            ICellStyle bodyStyleRedCenter1 = workbook.CreateCellStyle();
+            bodyStyleRedCenter1.Alignment = HorizontalAlignment.Center;
+            bodyStyleRedCenter1.VerticalAlignment = VerticalAlignment.Center;
+            bodyStyleRedCenter1.SetFont(redFont);
+
+            ICellStyle bodyStyleBlueCenter1 = workbook.CreateCellStyle();
+            bodyStyleBlueCenter1.Alignment = HorizontalAlignment.Center;
+            bodyStyleBlueCenter1.VerticalAlignment = VerticalAlignment.Center;
+            bodyStyleBlueCenter1.SetFont(blueFont);
+
             ICellStyle bodyStyleCenter2 = workbook.CreateCellStyle();
             bodyStyleCenter2.Alignment = HorizontalAlignment.Center;
             bodyStyleCenter2.VerticalAlignment = VerticalAlignment.Center;
@@ -132,8 +152,21 @@ namespace NexGoal.Services.Implement
             bodyStyleCenter2.FillPattern = FillPattern.SolidForeground;
             bodyStyleCenter2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
 
-            IFont font = workbook.CreateFont();
-            font.Color = HSSFColor.White.Index;
+            ICellStyle bodyStyleBlueCenter2 = workbook.CreateCellStyle();
+            bodyStyleBlueCenter2.Alignment = HorizontalAlignment.Center;
+            bodyStyleBlueCenter2.VerticalAlignment = VerticalAlignment.Center;
+            bodyStyleBlueCenter2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyleBlueCenter2.FillPattern = FillPattern.SolidForeground;
+            bodyStyleBlueCenter2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyleBlueCenter2.SetFont(blueFont);
+
+            ICellStyle bodyStyleRedCenter2 = workbook.CreateCellStyle();
+            bodyStyleRedCenter2.Alignment = HorizontalAlignment.Center;
+            bodyStyleRedCenter2.VerticalAlignment = VerticalAlignment.Center;
+            bodyStyleRedCenter2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyleRedCenter2.FillPattern = FillPattern.SolidForeground;
+            bodyStyleRedCenter2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyleRedCenter2.SetFont(redFont);
 
             ICell cellBody;
 
@@ -190,16 +223,53 @@ namespace NexGoal.Services.Implement
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                 var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? "Yes" : "No" : string.Empty;
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleCenter;
-                cellBody.SetCellValue(promotion);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                if (promotion == "Yes")
+                {
+                    if (rowIndex % 2 == 0)
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = bodyStyleBlueCenter2;
+                        cellBody.SetCellValue(promotion);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = bodyStyleBlueCenter1;
+                        cellBody.SetCellValue(promotion);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
+                }
+                else
+                {
+                    cellBody = row.CreateCell(columnIndex);
+                    cellBody.CellStyle = bodyStyleCenter;
+                    cellBody.SetCellValue(promotion);
+                    sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                }
 
                 var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? "Yes" : "No" : string.Empty;
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleCenter;
-                cellBody.SetCellValue(performance);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                if (performance == "Yes") 
+                {
+                    if (rowIndex % 2 == 0)
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = bodyStyleRedCenter2;
+                        cellBody.SetCellValue(performance);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
+                    else
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = bodyStyleRedCenter1;
+                        cellBody.SetCellValue(performance);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
+                }
+                else
+                {
+                    cellBody = row.CreateCell(columnIndex);
+                    cellBody.CellStyle = bodyStyleCenter;
+                    cellBody.SetCellValue(performance);
+                    sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                }
 
                 var lastObjective = pa.LastCompletedPercentObjective.HasValue ? Enumerations.GetDescription((PAFocusType)pa.LastCompletedPercentObjective.Value) : string.Empty;
                 cellBody = row.CreateCell(columnIndex);

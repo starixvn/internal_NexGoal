@@ -10,8 +10,6 @@
 
         void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
 
-        void SendEndEvaluationMailToSelf(EPAModel evaluationInfo, float averagePerformanceScore, float disciplineScore);
-
         void SendEndEvaluationMailToHumanResourceByEmployee(EPAModel evaluationInfo);
 
         void SendEndEvaluationMailToHumanResourceByPeriod(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
