@@ -63,9 +63,11 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         lockScreenService.start();
         EvaluatorManagementModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = EvaluatorManagementModel.epaInfo;
-            LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId).then(function () {
-                vm.lastRating = LastRatingModel.groups;
-            });
+            if (vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual) {
+                LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId, vm.targetTypeEnum.SemiAnnual).then(function () {
+                    vm.lastRating = LastRatingModel.groups;
+                });
+            }
 
             vm.epaInfo.LastPerformanceScore = LastRatingModel.getLastTotalScore();
             checkStatus(vm.epaInfo);

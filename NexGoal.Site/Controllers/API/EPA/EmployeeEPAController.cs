@@ -436,11 +436,9 @@
 
         #endregion Update Final Score
 
-        public IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int? targetTypeId = null)
+        public IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId)
         {
-            targetTypeId = targetTypeId.HasValue ? targetTypeId.Value : (int)TargetType.SemiAnnual;
-
-            return employeeEPAService.GetLastRating(employeeId, targetTypeId.Value);
+            return employeeEPAService.GetLastRating(employeeId, targetTypeId);
         }
 
         private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
