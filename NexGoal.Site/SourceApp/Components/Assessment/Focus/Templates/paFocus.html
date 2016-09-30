@@ -98,7 +98,8 @@
                             ng-disabled="member.IsReadOnly"></select>
                 </td>
                 <td class="text-center">
-                    <select class="form-control"
+                    <select class="form-control focus-evaluation-status"
+                            ng-class="{'good': member.IsReadyPromotion, 'warning': !member.IsReadyPromotion}"
                             ng-model="member.IsReadyPromotion"
                             ng-disabled="member.IsReadOnly"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
@@ -106,7 +107,8 @@
                     </select>
                 </td>
                 <td class="text-center">
-                    <select class="form-control"
+                    <select class="form-control focus-evaluation-status"
+                            ng-class="{'good': !member.IsPoorPerformance, 'warning': member.IsPoorPerformance}"
                             ng-model="member.IsPoorPerformance"
                             ng-disabled="member.IsReadOnly"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
