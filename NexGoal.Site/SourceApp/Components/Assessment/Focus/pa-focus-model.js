@@ -88,7 +88,9 @@
 
             angular.forEach(teams, function (team) {
                 angular.forEach(team.Members, function (member) {
-                    evaluations.push(member);
+                    if (!member.IsReadOnly) {
+                        evaluations.push(member);
+                    }
                 });
             });
 

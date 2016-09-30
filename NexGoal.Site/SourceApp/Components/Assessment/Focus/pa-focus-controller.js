@@ -95,6 +95,7 @@
 
         vm.save = function () {
             lockScreenService.start();
+
             PAFocusModel.updatePAFocus($scope.groups).then(function () {
                 vm.isChangedData = false;
             })["finally"](function () {
