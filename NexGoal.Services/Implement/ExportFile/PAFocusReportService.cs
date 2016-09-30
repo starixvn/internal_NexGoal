@@ -35,17 +35,17 @@ namespace NexGoal.Services.Implement
         {
             this.titleHeaders = new List<string> 
             { 
-                Lang.No,
+                Lang.SymbolCount,
                 Lang.FullName,
                 Lang.NickName,
                 Lang.JobTitle,
                 Lang.Team,
-                Lang.Contribution,
-                Lang.BonusGiven,
+                Lang.SuitableForTeamGoals,
+                Lang.DeserveRewards,
                 Lang.ApplicableToPromote,
                 Lang.PoorPerformance,
-                Lang.PersonalObjectives,
-                Lang.EPAScore,
+                Lang.AccomplishedCurrentObjectives,
+                Lang.PAScore,
                 Lang.NextObjectives
             };
             this.workbook = new HSSFWorkbook();
