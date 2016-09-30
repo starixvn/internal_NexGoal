@@ -66,7 +66,8 @@
                             "~/SourceApp/Components/EPA/ratingByStar.less",
                             "~/SourceApp/Components/Dashboard/dashboard.less",
                             "~/SourceApp/Components/AttendanceSummary/attendanceSummary.less",
-                            "~/SourceApp/Components/Report/report.less");
+                            "~/SourceApp/Components/Report/report.less",
+                            "~/SourceApp/Components/Assessment/Focus/pa-focus.less");
 
             bundles.Add(new ScriptBundle("~/bundles/app").Include(
                             "~/SourceApp/app.js",

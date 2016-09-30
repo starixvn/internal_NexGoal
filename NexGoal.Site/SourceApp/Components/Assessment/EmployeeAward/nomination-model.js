@@ -15,7 +15,7 @@
                 model.employeeNominations = employeeNominations;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
-            })
+            });
         };
 
         return model;

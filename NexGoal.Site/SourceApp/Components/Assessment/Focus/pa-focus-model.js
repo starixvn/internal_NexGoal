@@ -95,29 +95,6 @@
             return evaluations;
         }
 
-        vm.validatePAFocusForm = function (groups) {
-            var isValid = true;
-            angular.forEach(groups, function (group) {
-                if (isValid && group.IsDisplay && group.TotalBonus > group.MaxBonus) {
-                    isValid = false;
-                    notificationFactory.error("TotalBonusGivenMoreThanMaxMessage");
-                }
-            });
-
-            return isValid;
-        };
-
-        vm.isWarningPAFocusForm = function (groups) {
-            var isWarning = false;
-            angular.forEach(groups, function (group) {
-                if (group.IsDisplay && group.TotalBonus < group.MaxBonus) {
-                    isWarning = true;
-                }
-            });
-
-            return isWarning;
-        };
-
         vm.getPAFocusProcess = function (periodId) {
             return paFocusFactory.getPAFocusProcess(periodId).success(function (process) {
                 vm.process = process;
