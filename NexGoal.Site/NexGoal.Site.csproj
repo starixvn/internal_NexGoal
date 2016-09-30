@@ -870,6 +870,7 @@
     </Content>
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\view-eoq-nomination-controller.js" />
+    <Content Include="SourceApp\Components\Assessment\Focus\pa-focus.less" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">

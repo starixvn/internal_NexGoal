@@ -371,7 +371,7 @@ function ($scope, PeriodModel, CommonModel, PAFocusModel, historyFactory, lockSc
             } else {
                 lockScreenService.stop();
             }
-        })
+        });
     };
 
     vm.cancel = function () {

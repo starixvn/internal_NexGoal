@@ -53,15 +53,11 @@
                 <button class="button btnExcel" export-focus ng-click="paFocusCtrl.exportExcel()"> Excel</button>
             </div>
 
-            <div class="col">
-
-            </div>
-
         </div>
 
     </form>
 
-    <table class="table table-bordered table-striped">
+    <table class="table table-bordered table-striped pa-focus-table">
         <thead>
             <tr>
                 <th data-translate="SymbolCount"></th>
@@ -69,96 +65,78 @@
                 <th data-translate="NickName"></th>
                 <th data-translate="JobTitle"></th>
                 <th data-translate="SuitableForTeamGoals"></th>
-                <th data-translate="DeserveRewards"></th>
+                <th class="width-220" data-translate="DeserveRewards"></th>
                 <th data-translate="ApplicableToPromote"></th>
                 <th data-translate="PoorPerformance"></th>
-                <th data-translate="AccomplishedCurrentObjectives"></th>
+                <th class="width-220" data-translate="AccomplishedCurrentObjectives"></th>
                 <th data-translate="PAScore"></th>
                 <th colspan="2" data-translate="NextObjectives"></th>
             </tr>
         </thead>
-
-        <!--ng-show="groups.length === 0"-->
-
-        <tbody>
+        <tbody ng-show="groups.length === 0">
             <tr>
                 <td class="text-center empty-result" colspan="12" data-translate="EmptyResult"></td>
             </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td>
-                    <select class="form-control">
-                        <option value="item.Value" ng-repeat="item in paFocusCtrl.focusEvaluationLevel">{{item.Name}}</option>
+        </tbody>
+        <tbody ng-show="groups.length > 0" ng-repeat="group in groups">
+            <tr class="group-row">
+                <td colspan="12"><b>{{group.Name}}</b></td>
+            </tr>
+            <tr ng-repeat="member in group.Members">
+                <td class="text-center" ng-bind="$index + 1"></td>
+                <td ng-bind="member.Employee.FullName"></td>
+                <td class="text-center" ng-bind="member.Employee.NickName"></td>
+                <td class="text-center" ng-bind="member.Employee.JobTitle.JobTitleName"></td>
+                <td class="text-center">
+                    <select class="form-control"
+                            ng-model="member.Contribution">
+                        <option value="1">Agree</option>
+                        <option value="0">Disagree</option>
                     </select>
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td class="text-center">
+                    <select class="form-control"
+                            ng-model="member.BonusGiven"
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.focusEvaluationLevel"
+                            ng-disabled="member.IsReadOnly"></select>
+                </td>
+                <td class="text-center">
+                    <select class="form-control"
+                            ng-model="member.IsReadyPromotion"
+                            ng-disabled="member.IsReadOnly">
+                        <option value="true" class="focus-evaluation-status good">Yes</option>
+                        <option value="false" class="focus-evaluation-status warning">No</option>
+                    </select>
+                </td>
+                <td class="text-center">
+                    <select class="form-control"
+                            ng-model="member.IsPoorPerformance"
+                            ng-disabled="member.IsReadOnly">
+                        <option value="true" class="focus-evaluation-status warning">Yes</option>
+                        <option value="false" class="focus-evaluation-status good">No</option>
+                    </select>
+                </td>
+                <td class="text-center">
+                    <select class="form-control"
+                            ng-model="member.LastCompletedPercentObjective"
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.focusEvaluationLevel"
+                            ng-disabled="member.IsReadOnly"></select>
+                </td>
+                <td class="text-center">
+                    <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
+                    <span ng-if="!member.FinalScore" data-translate="NotAvailable"></span>
+                </td>
+                <td>
+                    <span ng-show="member.NextDescriptionObjective.length <= 50">{{member.NextDescriptionObjective}}</span>
+                    <span ng-show="member.NextDescriptionObjective.length > 50">{{member.NextDescriptionObjective | limitTo : 50}} ...</span>
+                </td>
+                <td class="text-center objective-edit">
+                    <a href="" ng-click="paFocusCtrl.openPopupObjective(member)">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
+                </td>
             </tr>
         </tbody>
-        <!--<tbody ng-show="groups.length > 0" ng-repeat="group in groups">
-            <div ng-show="group.IsDisplay">
-                <tr ng-repeat="member in group.Members | orderBy: '-IsDisplay'" ng-show="member.IsDisplay">
-                    <td class="text-center" rowspan="{{group.Members.length}}" ng-if="$first">{{group.Name}}</td>
-                    <td class="text-center">{{$index +1}}</td>
-                    <td>{{member.Employee.NickName}}</td>
-                    <td>{{member.Employee.FullName}}</td>
-                    <td class="text-center">
-                        <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}/100</span>
-                        <span ng-if="!member.FinalScore" data-translate="NotAvailable"></span>
-                    </td>
-                    <td class="text-center">
-                        <select ng-model="member.LastCompletedPercentObjective"
-                                ng-options="opt as (opt + '%') for opt in paFocusCtrl.objectivesAchievementRanges"
-                                ng-disabled="member.IsReadOnly">
-                            <option></option>
-                        </select>
-                    </td>
-                    <td class="text-center">
-                        <select ng-model="member.IsReadyPromotion"
-                                ng-options="opt.Value as opt.Name for opt in paFocusCtrl.promotionsRanges"
-                                ng-disabled="member.IsReadOnly">
-                            <option></option>
-                        </select>
-                    </td>
-                    <td class="text-center">
-                        <select ng-model="member.Contribution"
-                                ng-options="opt as opt for opt in [] | range : 6"
-                                ng-disabled="member.IsReadOnly">
-                            <option></option>
-                        </select>
-                    </td>
-                    <td class="text-center">
-                        <input class="form-control bonus-give" numeric decimals="2" min="0"
-                               ng-model="member.BonusGiven"
-                               ng-disabled="member.IsReadOnly"
-                               ng-change="paFocusCtrl.inputBonus(member,group)" />
-                    </td>
-                    <td rowspan="{{group.Members.length}}" class="text-center"
-                        ng-if="$first"
-                        ng-class="paFocusCtrl.pickupColorForBonusGiven(group)">
-                        {{group.TotalBonus | customScore}} / {{group.MaxBonus}}
-                    </td>
-                    <td class="text-center">{{member.BonusRanking}}</td>
-                    <td>
-                        <span ng-show="member.NextDescriptionObjective.length <= 50">{{member.NextDescriptionObjective}}</span>
-                        <span ng-show="member.NextDescriptionObjective.length > 50">{{member.NextDescriptionObjective | limitTo : 50}} ...</span>
-                    </td>
-                    <td class="text-center objective-edit">
-                        <a href="" ng-click="paFocusCtrl.openPopupObjective(member)">
-                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
-                        </a>
-                    </td>
-                </tr>
-            </div>
-        </tbody>-->
     </table>
 
     <div class="navbar navbar-default navbar-fixed-bottom action-section">
