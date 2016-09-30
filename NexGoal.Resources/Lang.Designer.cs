@@ -70,6 +70,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Accomplished current objectives.
+        /// </summary>
+        public static string AccomplishedCurrentObjectives {
+            get {
+                return ResourceManager.GetString("AccomplishedCurrentObjectives", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Action.
         /// </summary>
         public static string Action {
@@ -201,6 +210,15 @@ namespace NexGoal.Resources {
         public static string All {
             get {
                 return ResourceManager.GetString("All", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Applicable to promote.
+        /// </summary>
+        public static string ApplicableToPromote {
+            get {
+                return ResourceManager.GetString("ApplicableToPromote", resourceCulture);
             }
         }
         
@@ -876,6 +894,15 @@ namespace NexGoal.Resources {
         public static string Description {
             get {
                 return ResourceManager.GetString("Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Deserve rewards (salary increase and bonus).
+        /// </summary>
+        public static string DeserveRewards {
+            get {
+                return ResourceManager.GetString("DeserveRewards", resourceCulture);
             }
         }
         
@@ -3112,6 +3139,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PA Score.
+        /// </summary>
+        public static string PAScore {
+            get {
+                return ResourceManager.GetString("PAScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Password must be between 6-32 characters!.
         /// </summary>
         public static string PasswordLengthWarning {
@@ -3270,6 +3306,15 @@ namespace NexGoal.Resources {
         public static string PoorDescription {
             get {
                 return ResourceManager.GetString("PoorDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Poor performance.
+        /// </summary>
+        public static string PoorPerformance {
+            get {
+                return ResourceManager.GetString("PoorPerformance", resourceCulture);
             }
         }
         
@@ -4134,6 +4179,15 @@ namespace NexGoal.Resources {
         public static string SubtractScore {
             get {
                 return ResourceManager.GetString("SubtractScore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Suitable for team goals.
+        /// </summary>
+        public static string SuitableForTeamGoals {
+            get {
+                return ResourceManager.GetString("SuitableForTeamGoals", resourceCulture);
             }
         }
         
