@@ -2,14 +2,14 @@
 /*global epaModule*/
 
 epaModule.factory('LastRatingModel',
-['employeeEPAFactory', 'utilitiesFactory',  'errorFactory',
+['employeeEPAFactory', 'utilitiesFactory', 'errorFactory',
 function (employeeEPAFactory, utilitiesFactory, errorFactory) {
     var LastRating = this;
 
     LastRating.groups = [];
 
-    LastRating.getLastRating = function (employeeId) {
-        return employeeEPAFactory.getLastRating(employeeId)
+    LastRating.getLastRating = function (employeeId, targetTypeId) {
+        return employeeEPAFactory.getLastRating(employeeId, targetTypeId)
         .success(function (lastRating) {
             LastRating.groups = lastRating;
         }).error(function (response, status) {

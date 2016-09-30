@@ -110,10 +110,11 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
             NominationModel.getNominationByPeriodId(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeNominations = NominationModel.employeeNominations;
             });
-
-            LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId).then(function () {
-                vm.lastRating = LastRatingModel.groups;
-            });
+            if (vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual) {
+                LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId, vm.targetTypeEnum.SemiAnnual).then(function () {
+                    vm.lastRating = LastRatingModel.groups;
+                });
+            }
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 vm.epaInfo.LastPerformanceScore += utilitiesFactory.parseFloat(vm.getSubLastScore(kpiGroup));
