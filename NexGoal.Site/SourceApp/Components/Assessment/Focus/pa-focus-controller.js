@@ -9,7 +9,17 @@
     function paFocusController($scope, CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory,
         lockScreenService, notificationFactory, enumerationsFactory) {
         var vm = this;
-
+        
+        vm.booleanRanges = [
+            {
+                Value: true,
+                Name: "Yes"
+            },
+            {
+                Value: false,
+                Name: "No"
+            }
+        ];
         vm.process = [];
         vm.focusEvaluationLevel = PAFocusModel.focusEvaluationLevel;
         vm.isFirst = true;

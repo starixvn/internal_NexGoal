@@ -54,6 +54,20 @@
         </div>
     </div>
 
+    <div class="panel-group dashboard">
+        <div class="panel panel-default no-border">
+            <div class="panel-heading level-2">
+                <h4 class="panel-title" data-translate="EvaluationProcess"></h4>
+            </div>
+
+            <div class="panel-body">
+                <div class="evaluation-process-section"
+                     ng-include src="'/SourceApp/Components/Assessment/Focus/Templates/focusProcess.html'">
+                </div>
+            </div>
+        </div>
+    </div>
+
     <table class="table table-bordered table-striped pa-focus-table">
         <thead>
             <tr>
@@ -86,7 +100,8 @@
                 <td class="text-center" ng-bind="member.Employee.JobTitle.JobTitleName"></td>
                 <td class="text-center">
                     <select class="form-control"
-                            ng-model="member.Contribution">
+                            ng-model="member.Contribution"
+                            ng-disabled="member.IsReadOnly">
                         <option value="1">Agree</option>
                         <option value="0">Disagree</option>
                     </select>
@@ -100,17 +115,17 @@
                 <td class="text-center">
                     <select class="form-control"
                             ng-model="member.IsReadyPromotion"
-                            ng-disabled="member.IsReadOnly">
-                        <option value="true" class="focus-evaluation-status good">Yes</option>
-                        <option value="false" class="focus-evaluation-status warning">No</option>
+                            ng-disabled="member.IsReadOnly"
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
+                            options-class="{ 'focus-evaluation-status good' : Value, 'focus-evaluation-status warning': !Value }">
                     </select>
                 </td>
                 <td class="text-center">
                     <select class="form-control"
                             ng-model="member.IsPoorPerformance"
-                            ng-disabled="member.IsReadOnly">
-                        <option value="true" class="focus-evaluation-status warning">Yes</option>
-                        <option value="false" class="focus-evaluation-status good">No</option>
+                            ng-disabled="member.IsReadOnly"
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
+                            options-class="{ 'focus-evaluation-status warning' : Value, 'focus-evaluation-status good': !Value }">
                     </select>
                 </td>
                 <td class="text-center">
