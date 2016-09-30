@@ -197,12 +197,24 @@ namespace NexGoal.Services.Implement
 
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(pa.Employee.FullName);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(pa.Employee.NickName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleLeft;
                 cellBody.SetCellValue(pa.Employee.JobTitle.JobTitleName);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                var bonusGiven = pa.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)pa.BonusGiven.Value) : string.Empty;
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(bonusGiven);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                 cellBody = row.CreateCell(columnIndex);
