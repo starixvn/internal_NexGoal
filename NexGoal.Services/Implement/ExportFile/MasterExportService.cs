@@ -94,7 +94,7 @@
                 Contribution = index == 0 ? evaluation.PAFocus.Contribution.ToString() : string.Empty,
                 Promotion = index == 0 ? evaluation.PAFocus.IsReadyPromotion.ToString() : string.Empty,
                 BonusGiven = index == 0 ? evaluation.PAFocus.BonusGiven.ToString() : string.Empty,
-                LastObjective = index == 0 ? evaluation.PAFocus.LastCompletedPercentObjective : string.Empty,
+                LastObjective = index == 0 ? evaluation.PAFocus.LastCompletedPercentObjective.ToString() : string.Empty,
                 NextObjective = index == 0 ? evaluation.PAFocus.NextDescriptionObjective : string.Empty,
                 Award = evaluation.Nominations.Count > index ? evaluation.Nominations[index].Title : string.Empty,
                 AwardStatus = evaluation.Nominations.Count > index ? evaluation.Nominations[index].StatusToString : string.Empty,

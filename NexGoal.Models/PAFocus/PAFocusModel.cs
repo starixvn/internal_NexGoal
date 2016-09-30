@@ -16,7 +16,7 @@
 
         public string EncryptedFinalScore { get; set; }
 
-        public string LastCompletedPercentObjective { get; set; }
+        public int? LastCompletedPercentObjective { get; set; }
 
         public string NextDescriptionObjective { get; set; }
 

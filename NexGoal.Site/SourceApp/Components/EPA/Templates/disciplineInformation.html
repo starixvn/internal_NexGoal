@@ -56,73 +56,75 @@
     </table>
 </div>
 
-<div class="level-2" data-toggle="collapse" data-target=".employee-award-table">
-    B. {{"EmployeeAwards" | translate}}
-    <i class="fa fa-chevron-down pull-right" aria-hidden="true"
-       ng-show="memberEPAInfoCtrl.employeeNominations.length > 0"></i>
-</div>
+<div ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
+    <div class="level-2" data-toggle="collapse" data-target=".employee-award-table">
+        B. {{"EmployeeAwards" | translate}}
+        <i class="fa fa-chevron-down pull-right" aria-hidden="true"
+           ng-show="memberEPAInfoCtrl.employeeNominations.length > 0"></i>
+    </div>
 
-<div class="collapse in employee-award-table"
-     ng-show="memberEPAInfoCtrl.employeeNominations.length > 0">
+    <div class="collapse in employee-award-table"
+         ng-show="memberEPAInfoCtrl.employeeNominations.length > 0">
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th class="width-40" data-translate="SymbolCount"></th>
-                <th class="width-360" data-translate="Title"></th>
-                <th data-translate="Status"></th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="nomination in memberEPAInfoCtrl.employeeNominations">
-            <tr>
-                <td class="text-center" ng-bind="$index + 1"></td>
-                <td>
-                    {{nomination.Title}}
-                    <span ng-show="nomination.NumberVotes > 1"> - (<b>{{nomination.NumberVotes}} votes</b>)</span>
-                </td>
-                <td class="nomination-status"
-                    ng-class="{'nominated': nomination.StatusId === 1, 'shortlisted': nomination.StatusId === 2, 'winner': nomination.StatusId === 3}">
-                    <b>{{nomination.StatusToString}}</b>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="width-40" data-translate="SymbolCount"></th>
+                    <th class="width-360" data-translate="Title"></th>
+                    <th data-translate="Status"></th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="nomination in memberEPAInfoCtrl.employeeNominations">
+                <tr>
+                    <td class="text-center" ng-bind="$index + 1"></td>
+                    <td>
+                        {{nomination.Title}}
+                        <span ng-show="nomination.NumberVotes > 1"> - (<b>{{nomination.NumberVotes}} votes</b>)</span>
+                    </td>
+                    <td class="nomination-status"
+                        ng-class="{'nominated': nomination.StatusId === 1, 'shortlisted': nomination.StatusId === 2, 'winner': nomination.StatusId === 3}">
+                        <b>{{nomination.StatusToString}}</b>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
-</div>
+    </div>
 
-<div class="level-2" data-toggle="collapse" data-target=".violation-table">
-    C. {{"Violation" | translate}}
-    <i class="fa fa-chevron-down pull-right" aria-hidden="true"
-       ng-show="memberEPAInfoCtrl.violations.length > 0"></i>
-</div>
+    <div class="level-2" data-toggle="collapse" data-target=".violation-table">
+        C. {{"Violation" | translate}}
+        <i class="fa fa-chevron-down pull-right" aria-hidden="true"
+           ng-show="memberEPAInfoCtrl.violations.length > 0"></i>
+    </div>
 
-<div class="collapse in violation-table"
-     ng-show="memberEPAInfoCtrl.violations.length > 0">
+    <div class="collapse in violation-table"
+         ng-show="memberEPAInfoCtrl.violations.length > 0">
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th class="width-40" data-translate="SymbolCount"></th>
-                <th class="width-360" data-translate="Date"></th>
-                <th data-translate="Remark"></th>
-            </tr>
-        </thead>
-        <tbody ng-repeat="violation in memberEPAInfoCtrl.violations">
-            <tr ng-if="violation.IsActive === true">
-                <td class="text-center" ng-bind="$index + 1"></td>
-                <td ng-bind="violation.EffectedDate | customDate"></td>
-                <td>
-                    <span ng-if="violation.Description.length > 50"
-                          tooltip="{{violation.Description}}"
-                          tooltip-placement="left">
-                        {{violation.Description | limitTo : 50}} ...
-                    </span>
-                    <span ng-if="violation.Description.length <= 50">
-                        {{violation.Description}}
-                    </span>
-                </td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th class="width-40" data-translate="SymbolCount"></th>
+                    <th class="width-360" data-translate="Date"></th>
+                    <th data-translate="Remark"></th>
+                </tr>
+            </thead>
+            <tbody ng-repeat="violation in memberEPAInfoCtrl.violations">
+                <tr ng-if="violation.IsActive === true">
+                    <td class="text-center" ng-bind="$index + 1"></td>
+                    <td ng-bind="violation.EffectedDate | customDate"></td>
+                    <td>
+                        <span ng-if="violation.Description.length > 50"
+                              tooltip="{{violation.Description}}"
+                              tooltip-placement="left">
+                            {{violation.Description | limitTo : 50}} ...
+                        </span>
+                        <span ng-if="violation.Description.length <= 50">
+                            {{violation.Description}}
+                        </span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
 
+    </div>
 </div>
