@@ -83,7 +83,7 @@ appModule.factory('utilitiesFactory',
                 }
 
                 if (!period.Year) {
-                    period.ticked = false;
+                    period.ticked = !period.IsEndProcess;
                     result.unshift(period);
                 }
             });
