@@ -1,4 +1,6 @@
-﻿using NexGoal.Model.PAFocus;
+﻿using NexGoal.Core.Enumerations;
+using NexGoal.Core.Utilities;
+using NexGoal.Model.PAFocus;
 using NexGoal.Resources;
 using NexGoal.Services.Interfaces;
 using NPOI.HSSF.UserModel;
@@ -8,7 +10,6 @@ using NPOI.SS.Util;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Linq;
 
 namespace NexGoal.Services.Implement
 {
@@ -34,17 +35,17 @@ namespace NexGoal.Services.Implement
         {
             this.titleHeaders = new List<string> 
             { 
-                Lang.Team,
                 Lang.No,
-                Lang.NickName,
                 Lang.FullName,
-                Lang.EPAScore,
-                Lang.PersonalObjectives,
-                Lang.Promotability,
+                Lang.NickName,
+                Lang.JobTitle,
+                Lang.Team,
                 Lang.Contribution,
-                string.Format("{0} ({1})", Lang.BonusGiven, Lang.Points),
-                string.Empty,
-                Lang.BonusRanking,
+                Lang.BonusGiven,
+                Lang.ApplicableToPromote,
+                Lang.PoorPerformance,
+                Lang.PersonalObjectives,
+                Lang.EPAScore,
                 Lang.NextObjectives
             };
             this.workbook = new HSSFWorkbook();
@@ -97,8 +98,6 @@ namespace NexGoal.Services.Implement
                 cell.CellStyle = cellStyle;
                 cell.SetCellValue(titleHeaders[i]);
             }
-
-            sheet.AddMergedRegion(new CellRangeAddress(2, 2, 8, 9));
         }
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
@@ -106,133 +105,120 @@ namespace NexGoal.Services.Implement
         {
             var rowIndex = 3;
             var columnIndex = 0;
-            ICellStyle bodyStyle = workbook.CreateCellStyle();
+            var index = 1;
 
-            ICellStyle bodyStyle1 = workbook.CreateCellStyle();
-            bodyStyle1.Alignment = HorizontalAlignment.Left;
-            bodyStyle1.VerticalAlignment = VerticalAlignment.Center;
+            ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
+            ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
 
-            ICellStyle bodyStyle2 = workbook.CreateCellStyle();
-            bodyStyle2.Alignment = HorizontalAlignment.Left;
-            bodyStyle2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyle2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyle2.FillPattern = FillPattern.SolidForeground;
-            bodyStyle2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+            ICellStyle bodyStyleLeft1 = workbook.CreateCellStyle();
+            bodyStyleLeft1.Alignment = HorizontalAlignment.Left;
+            bodyStyleLeft1.VerticalAlignment = VerticalAlignment.Center;
+
+            ICellStyle bodyStyleLeft2 = workbook.CreateCellStyle();
+            bodyStyleLeft2.Alignment = HorizontalAlignment.Left;
+            bodyStyleLeft2.VerticalAlignment = VerticalAlignment.Center;
+            bodyStyleLeft2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyleLeft2.FillPattern = FillPattern.SolidForeground;
+            bodyStyleLeft2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+
+            ICellStyle bodyStyleCenter1 = workbook.CreateCellStyle();
+            bodyStyleCenter1.Alignment = HorizontalAlignment.Center;
+            bodyStyleCenter1.VerticalAlignment = VerticalAlignment.Center;
+
+            ICellStyle bodyStyleCenter2 = workbook.CreateCellStyle();
+            bodyStyleCenter2.Alignment = HorizontalAlignment.Center;
+            bodyStyleCenter2.VerticalAlignment = VerticalAlignment.Center;
+            bodyStyleCenter2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
+            bodyStyleCenter2.FillPattern = FillPattern.SolidForeground;
+            bodyStyleCenter2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
 
             IFont font = workbook.CreateFont();
             font.Color = HSSFColor.White.Index;
 
-            ICellStyle redStyle = workbook.CreateCellStyle();
-            redStyle.Alignment = HorizontalAlignment.Center;
-            redStyle.VerticalAlignment = VerticalAlignment.Center;
-            redStyle.FillForegroundColor = HSSFColor.Red.Index;
-            redStyle.FillPattern = FillPattern.SolidForeground;
-            redStyle.FillBackgroundColor = HSSFColor.Red.Index;
-            redStyle.SetFont(font);
-
-            ICellStyle blueStyle = workbook.CreateCellStyle();
-            blueStyle.Alignment = HorizontalAlignment.Center;
-            blueStyle.VerticalAlignment = VerticalAlignment.Center;
-            blueStyle.FillForegroundColor = HSSFColor.Green.Index;
-            blueStyle.FillPattern = FillPattern.SolidForeground;
-            blueStyle.FillBackgroundColor = HSSFColor.Green.Index;
-            blueStyle.SetFont(font);
-
             ICell cellBody;
-            var groupNames = GroupPAFocus(focuses);
-            foreach (var group in groupNames)
+
+            foreach (PAFocusModel pa in focuses)
             {
-                var index = 1;
-                var firstRow = rowIndex;
-                float total = 0;
-                foreach (PAFocusModel pa in focuses.Where(i => i.Employee.Group.GroupName == group))
+                columnIndex = 0;
+                if (rowIndex % 2 == 0)
                 {
-                    if (rowIndex % 2 == 0)
-                    {
-                        bodyStyle = bodyStyle2;
-                    }
-                    else
-                    {
-                        bodyStyle = bodyStyle1;
-                    }
-
-                    columnIndex = 1;
-
-                    IRow row = sheet.CreateRow(rowIndex);
-                    cellBody = row.CreateCell(0);
-                    cellBody.CellStyle = bodyStyle1;
-                    cellBody.SetCellValue(group);
-                    sheet.SetColumnWidth(0, columnWidth * 2);
-
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(index++);
-
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(pa.Employee.NickName);
-                    sheet.SetColumnWidth(2, columnWidth);
-
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(pa.Employee.FullName);
-                    sheet.SetColumnWidth(3, columnWidth * 2);
-
-                    var score = pa.FinalScore.HasValue ? pa.FinalScore.ToString() + "/100" : Lang.NotAvailable;
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(score);
-                    sheet.SetColumnWidth(4, columnWidth);
-
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(pa.LastCompletedPercentObjective);
-                    sheet.SetColumnWidth(5, columnWidth);
-
-                    var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.ToString() : string.Empty;
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(promotion);
-                    sheet.SetColumnWidth(6, columnWidth);
-
-                    var contribution = pa.Contribution.HasValue ? pa.Contribution.ToString() : string.Empty;
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(contribution);
-                    sheet.SetColumnWidth(7, columnWidth);
-
-                    var bonusGiven = pa.BonusGiven.HasValue ? pa.BonusGiven.ToString() : string.Empty;
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(bonusGiven);
-                    sheet.SetColumnWidth(7, columnWidth);
-
-                    total += pa.BonusGiven.HasValue ? pa.BonusGiven.Value : 0;
-                    if (total < 100)
-                    {
-                        cellBody = row.CreateCell(columnIndex++);
-                        cellBody.CellStyle = redStyle;
-                        cellBody.SetCellValue(total + "/100");
-                        sheet.SetColumnWidth(8, columnWidth);
-                    }
-                    else
-                    {
-                        cellBody = row.CreateCell(columnIndex++);
-                        cellBody.CellStyle = blueStyle;
-                        cellBody.SetCellValue(total + "/100");
-                        sheet.SetColumnWidth(8, columnWidth);
-                    }
-
-                    cellBody = row.CreateCell(columnIndex++);
-                    cellBody.CellStyle = bodyStyle;
-                    cellBody.SetCellValue(pa.NextDescriptionObjective);
-                    sheet.SetColumnWidth(11, columnWidth * 10);
-
-                    rowIndex++;
+                    bodyStyleLeft = bodyStyleLeft2;
+                    bodyStyleCenter = bodyStyleCenter2;
+                }
+                else
+                {
+                    bodyStyleLeft = bodyStyleLeft1;
+                    bodyStyleCenter = bodyStyleCenter1;
                 }
 
-                sheet.AddMergedRegion(new CellRangeAddress(firstRow, rowIndex - 1, 0, 0));
-                sheet.AddMergedRegion(new CellRangeAddress(firstRow, rowIndex - 1, 9, 9));
+                IRow row = sheet.CreateRow(rowIndex);
+
+                cellBody = row.CreateCell(columnIndex++);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(index++);
+
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleLeft;
+                cellBody.SetCellValue(pa.Employee.FullName);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(pa.Employee.NickName);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleLeft;
+                cellBody.SetCellValue(pa.Employee.JobTitle.JobTitleName);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleLeft;
+                cellBody.SetCellValue(pa.Employee.Group.GroupName);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                var contribution = pa.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)pa.Contribution.Value) : string.Empty;
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(contribution);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                var bonusGiven = pa.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)pa.BonusGiven.Value) : string.Empty;
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(bonusGiven);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.ToString() : string.Empty;
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(promotion);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.ToString() : string.Empty;
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(performance);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                var lastObjective = pa.LastCompletedPercentObjective.HasValue ? Enumerations.GetDescription((PAFocusType)pa.LastCompletedPercentObjective.Value) : string.Empty;
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(lastObjective);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                var score = pa.FinalScore.HasValue ? pa.FinalScore.ToString() : Lang.NotAvailable;
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(score);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleLeft;
+                cellBody.SetCellValue(pa.NextDescriptionObjective);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
+
+                rowIndex++;
             }
         }
 
@@ -244,20 +230,6 @@ namespace NexGoal.Services.Implement
 
                 return output;
             }
-        }
-
-        private List<string> GroupPAFocus(IEnumerable<PAFocusModel> focuses)
-        {
-            var groupNames = new List<string>();
-            foreach (var focus in focuses)
-            {
-                if (!groupNames.Contains(focus.Employee.Group.GroupName))
-                {
-                    groupNames.Add(focus.Employee.Group.GroupName);
-                }
-            }
-
-            return groupNames;
         }
     }
 }
