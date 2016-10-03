@@ -6,6 +6,43 @@
     masterReportDirective.$inject = ["ReportModel"];
 
     function masterReportDirective(ReportModel) {
+        var focusEvaluationLevel = [
+            {
+                Value: 1,
+                Name: "Strongly disagrees"
+            },
+            {
+                Value: 2,
+                Name: "Disagree"
+            },
+            {
+                Value: 3,
+                Name: "Neither agree nor disagree"
+            },
+            {
+                Value: 4,
+                Name: "Agree"
+            },
+            {
+                Value: 5,
+                Name: "Strongly agree"
+            }
+        ];
+
+        function getFocusEvaluationLevel(value) {
+            var level = {
+                Value: 0,
+                Name: ""
+            }
+            var itemIndex = focusEvaluationLevel.map(function (item) { return item.Value }).indexOf(value);
+
+            if (itemIndex != -1) {
+                level = angular.copy(focusEvaluationLevel[itemIndex]);
+            }
+
+            return level.Name;
+        }
+
         function renderEvaluatorCommentCell(cell) {
             return '<a class="evaluator-comment" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
@@ -14,14 +51,56 @@
             return '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
 
-        function renderEmployeeAward(cell) {
-            var employee = cell.Value;
-            var htmlString = "";
-            if (employee.nominations.length > 0) {
-                htmlString = "Hello";
-            }
+        function renderExpandEmployeeAward(nominations, projects) {
+            var htmlString = "<table class='employee-award-expand-table' data-visiable='false'>";
+
+            htmlString += "</table>"
 
             return htmlString;
+        }
+
+        function renderCollapseEmployeeAward(nominations, projects) {
+            var htmlString = "<table class='employee-award-collapse-table' data-visible='true'>";
+
+            if (projects.RealRowCount && projects.RealRowCount > 2) {
+
+            } else {
+                for (var i = 0; i < nominations.length; i++) {
+                    var nomination = nominations[i];
+                    var project = projects[i];
+                    var row = "<tr>";
+
+                    if (nomination.IsAdditonalRow) {
+                        row += "<td colspan='2'></td>";
+                    } else {
+                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.Status.ToString + "</td>";
+                    }
+
+                    if (project.IsAdditonalRow) {
+                        row += "<td colspan='3'</td>";
+                    } else {
+                        row += "<td>2</td><td>2</td><td>2</td>";
+                    }
+
+                    row += "</tr>";
+                }
+            }
+
+            htmlString += "</table>";
+
+            return htmlString;
+        }
+
+        function renderEmployeeAward(cell) {
+            var employee = cell.Value;
+            var renderCollapseHtml = "";
+            var renderExpandHtml = "";
+            var renderHtml = "";
+
+            renderHtml += renderCollapseEmployeeAward(employee.nominations, employee.employeeWorkings);
+            //renderHtml += renderExpandEmployeeAward(employee.Nominations, employee.EmployeeWorkings);
+
+            return renderHtml;
         }
 
         function groupData(data) {
@@ -57,11 +136,11 @@
                     { HeaderText: "Reviewer's Adjustment", Name: "ReviewerAdjustment", MergeRowNumber: 2 },
                     { HeaderText: "PA Final Score", Name: "PAFinalScore", MergeRowNumber: 2 },
                     { HeaderText: "Evaluator's Comment", Name: "EvaluatorComment", MergeRowNumber: 2 },
-                    { HeaderText: "Contribution", Name: "Contribution", MergeRowNumber: 2 },
+                    { HeaderText: "Suitable for team goal", Name: "Contribution", MergeRowNumber: 2 },
+                    { HeaderText: "Deserve rewards (salary increase and bonus)", Name: "BonusGiven", MergeRowNumber: 2 },
                     { HeaderText: "Applicable to promote", Name: "ApplicableToPromote", MergeRowNumber: 2 },
-                    { HeaderText: "Bonus Given", Name: "BonusGiven", MergeRowNumber: 2 },
-                    { HeaderText: "Bonus Ranking", Name: "BonusRanking", MergeRowNumber: 2 },
-                    { HeaderText: "Accessing of Objective achievement", Name: "ObjectiveAchievement", MergeRowNumber: 2 },
+                    { HeaderText: "Poor Performance", Name: "IsPoorPerformance", MergeRowNumber: 2 },
+                    { HeaderText: "Assessing of Current Objective Achievement", Name: "ObjectiveAchievement", MergeRowNumber: 2 },
                     { HeaderText: "Next Objectives", Name: "NextObjectives", MergeRowNumber: 2 },
                     { HeaderText: "Award", Name: "AwardName", MergeColNumber: 2 },
                     { HeaderText: "Evaluation by PM", Name: "ProjectName", MergeColNumber: 3 }
@@ -78,11 +157,11 @@
                { HeaderText: "Reviewer's Adjustment", Width: 80, Name: "ReviewerAdjustment", CellAlign: "center" },
                { HeaderText: "PA Final Score", Width: 60, Name: "PAFinalScore", CellAlign: "center" },
                { HeaderText: "Evaluator's Comment", Width: 80, Name: "EvaluatorComment", CellAlign: "center", CustomCellRender: renderEvaluatorCommentCell },
-               { HeaderText: "Contribution", Width: 80, Name: "Contribution", CellAlign: "center" },
+               { HeaderText: "Suitable for team goal", Width: 80, Name: "Contribution", CellAlign: "center" },
+               { HeaderText: "Deserve rewards (salary increase and bonus)", Width: 150, Name: "BonusGiven", CellAlign: "center" },
                { HeaderText: "Applicable to promote", Width: 50, Name: "ApplicableToPromote", CellAlign: "center" },
-               { HeaderText: "Bonus Given", Width: 50, Name: "BonusGiven", CellAlign: "center" },
-               { HeaderText: "Bonus Ranking", Width: 50, Name: "BonusRanking", CellAlign: "center" },
                { HeaderText: "Accessing of Objective achievement", Width: 80, Name: "ObjectiveAchievement", CellAlign: "center" },
+               { HeaderText: "Poor Performance", Name: "IsPoorPerformance", Width: 80, CellAlign: "center" },
                { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center", CustomCellRender: renderNextObjectives },
                { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderEmployeeAward },
                { HeaderText: "Status", Width: 80, Name: "AwardStatus" },
@@ -119,11 +198,11 @@
                     subRow.Columns.push({ Name: "ReviewerAdjustment", Value: member.ReviewerAdjustment });
                     subRow.Columns.push({ Name: "PAFinalScore", Value: member.PAFocus.FinalScore });
                     subRow.Columns.push({ Name: "EvaluatorComment", Value: member.PAFocus.Employee.EmployeeId });
-                    subRow.Columns.push({ Name: "Contribution", Value: member.PAFocus.Contribution });
+                    subRow.Columns.push({ Name: "Contribution", Value: getFocusEvaluationLevel(member.Contribution) });
+                    subRow.Columns.push({ Name: "BonusGiven", Value: getFocusEvaluationLevel(member.BonusGiven) });
                     subRow.Columns.push({ Name: "ApplicableToPromote", Value: member.PAFocus.IsReadyPromotion ? "Yes" : "No" });
-                    subRow.Columns.push({ Name: "BonusGiven", Value: member.PAFocus.BonusGiven });
-                    subRow.Columns.push({ Name: "BonusRanking", Value: member.PAFocus.BonusRanking });
-                    subRow.Columns.push({ Name: "ObjectiveAchievement", Value: member.PAFocus.LastCompletedPercentObjective + "%" });
+                    subRow.Columns.push({ Name: "IsPoorPerformance", Value: member.PAFocus.IsPoorPerformance ? "Yes" : "No" });
+                    subRow.Columns.push({ Name: "ObjectiveAchievement", Value: getFocusEvaluationLevel(member.LastCompletedPercentObjective) });
                     subRow.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.Employee.EmployeeId });
                     subRow.Columns.push({ Name: "AwardName", Value: employee, MergeColNumber: 5 });
 

@@ -36,35 +36,6 @@
             });
         }
 
-        //function groupData(data) {
-        //    var groups = [];
-
-        //    angular.forEach(data, function (record) {
-        //        var groupIndex = groups.map(function (item) { return item.GroupId; }).indexOf(record.PAFocus.Employee.Group.GroupId);
-        //        var group = {
-        //            onGroupExpand: true
-        //        };
-
-        //        if (groupIndex === -1) {
-        //            group.GroupName = record.PAFocus.Employee.Group.GroupName;
-        //            group.GroupId = record.PAFocus.Employee.Group.GroupId;
-        //            group.Members = [];
-
-        //            groups.push(group);
-        //        } else {
-        //            group = groups[groupIndex];
-        //        }
-
-        //        record.NominationCount = record.Nominations.length;
-        //        record.onFocus = false;
-        //        record.onNominationExpand = false;
-
-        //        group.Members.push(record);
-        //    });
-
-        //    return groups;
-        //};
-
         vm.nominationOnClick = function (record) {
             record.onNominationExpand = !record.onNominationExpand;
         };

@@ -76,18 +76,18 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             });
 
             if (differIndex > 0) {
-                record.Nominations.AdditionalRow = true;
+                record.Nominations.HasAdditionalRow = true;
                 record.Nominations.RealRowCount = record.Nominations.length;
 
                 for (var i = 0; i < differIndex; i++) {
-                    record.Nominations.push({ AdditionalRow: true });
+                    record.Nominations.push({ IsAdditionalRow: true });
                 }
             } else if (differIndex < 0) {
-                record.EmployeeWorkings.AdditionalRow = true;
+                record.EmployeeWorkings.HasAdditionalRow = true;
                 record.EmployeeWorkings.RealRowCount = record.EmployeeWorkings.length;
 
                 for (var j = 0; j < -differIndex; j++) {
-                    record.EmployeeWorkings.push({ AdditionalRow: true });
+                    record.EmployeeWorkings.push({ IsAdditionalRow: true });
                 }
             }
         });
@@ -109,12 +109,6 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         return reportModel.modalInstance.result;
     };
 
-    //reportModel.openPopupEvaluatorComment = function (comment) {
-    //    var modalTitle = "Evaluator's Comment";
-
-    //    return openMasterReportCommentModal(modalTitle, comment);
-    //};
-
     reportModel.openPopupEvaluatorComment = function (employeeId) {
         var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
         var modalTitle = "Evaluator's Comment";
@@ -122,12 +116,6 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             return openMasterReportCommentModal(modalTitle, employee.EvaluatorComment);
         }
     };
-
-    //reportModel.openPopupNextObjectives = function (comment) {
-    //    var modalTitle = "Next Objectives";
-
-    //    return openMasterReportCommentModal(modalTitle, comment);
-    //}
 
     reportModel.openPopupNextObjectives = function (employeeId) {
         var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
