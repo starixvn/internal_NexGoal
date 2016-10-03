@@ -51,41 +51,136 @@
             return '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
 
-        function renderExpandEmployeeAward(nominations, projects) {
-            var htmlString = "<table class='employee-award-expand-table' data-visiable='false'>";
+        function renderExpandEmployeeAward(nominationGroup, projectGroup, employeeId) {
+            var htmlString = "";
 
-            htmlString += "</table>"
+            if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
+                htmlString = "<table class='employee-award-table' data-employee-id='" + employeeId + "' data-collapse='false' data-visible='false'>";
+                htmlString += "<tbody>";
+                htmlString += "<tr class='row-header'>" +
+                    "<td class='col-title'></td>" +
+                    "<td class='col-common'></td>" +
+                    "<td class='col-project-name'></td>" +
+                    "<td class='col-score'></td>" +
+                    "<td class='col-common'></td>" +
+                    "</tr>";
+
+                var firstProject = true;
+                for (var i = 0; i < projectGroup.Items.length; i++) {
+                    var nomination = nominationGroup.Items[i];
+                    var project = projectGroup.Items[i];
+                    var row = "<tr>";
+
+                    if (nomination.IsAdditionalRow) {
+                        row += "<td colspan='2'></td>";
+                    } else {
+                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
+                    }
+
+                    if (project.IsAdditionalRow) {
+                        row += "<td colspan='3'></td>";
+                    } else {
+
+                        if (firstProject) {
+                            row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
+                                "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>";
+                            firstProject = false;
+                        } else {
+                            row += "<td>&nbsp;&nbsp;&nbsp;&nbsp;" + project.ProjectName + "</td>";
+                        }
+
+                        row += "<td class='text-center'>" + project.DecryptedScore +
+                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
+                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
+                            "><i class='fa fa-search'></i></a></td>";
+                    }
+
+                    row += "</tr>";
+
+                    htmlString += row;
+                }
+
+                htmlString += "</tbody>";
+                htmlString += "</table>"
+            }
 
             return htmlString;
         }
 
-        function renderCollapseEmployeeAward(nominations, projects) {
-            var htmlString = "<table class='employee-award-collapse-table' data-visible='true'>";
+        function renderCollapseEmployeeAward(nominationGroup, projectGroup, employeeId) {
+            var htmlString = "<table class='employee-award-table' data-employee-id='" + employeeId + "' data-collapse='true' data-visible='true'>";
 
-            if (projects.RealRowCount && projects.RealRowCount > 2) {
+            htmlString += "<tbody>";
+            htmlString += "<tr class='row-header'>" +
+                "<td class='col-title'></td>" +
+                "<td class='col-common'></td>" +
+                "<td class='col-project-name'></td>" +
+                "<td class='col-score'></td>" +
+                "<td class='col-common'></td>" +
+                "</tr>";
 
-            } else {
-                for (var i = 0; i < nominations.length; i++) {
-                    var nomination = nominations[i];
-                    var project = projects[i];
+            if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
+                var firstProject = true;
+                for (var i = 0; i < projectGroup.Items.length; i++) {
+                    var nomination = nominationGroup.Items[i];
+                    var project = projectGroup.Items[i];
                     var row = "<tr>";
 
-                    if (nomination.IsAdditonalRow) {
+                    if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.Status.ToString + "</td>";
+                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
                     }
 
-                    if (project.IsAdditonalRow) {
-                        row += "<td colspan='3'</td>";
+                    if (project.IsAdditionalRow || !firstProject) {
+                        row += "<td colspan='3'></td>";
                     } else {
-                        row += "<td>2</td><td>2</td><td>2</td>";
+                        row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
+                            "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>" +
+                            "<td class='text-center'>" + project.DecryptedScore +
+                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
+                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
+                            "><i class='fa fa-search'></i></a></td>";
+                        firstProject = false;
                     }
 
                     row += "</tr>";
+
+                    htmlString += row;
+
+                    if (projectGroup.RealRowCount > nominationGroup.RealRowCount &&
+                        nominationGroup.RealRowCount === i) {
+                        break;
+                    }
+                }
+            } else {
+                for (var i = 0; i < projectGroup.Items.length; i++) {
+                    var nomination = nominationGroup.Items[i];
+                    var project = projectGroup.Items[i];
+                    var row = "<tr>";
+
+                    if (nomination.IsAdditionalRow) {
+                        row += "<td colspan='2'></td>";
+                    } else {
+                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
+                    }
+
+                    if (project.IsAdditionalRow) {
+                        row += "<td colspan='3'</td>";
+                    } else {
+                        row += "<td>" + project.ProjectName + "</td><td class='text-center'>" + project.DecryptedScore +
+                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
+                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
+                            "><i class='fa fa-search'></i></a></td>";
+                    }
+
+                    row += "</tr>";
+
+                    htmlString += row;
                 }
             }
 
+            htmlString += "</tbody>";
             htmlString += "</table>";
 
             return htmlString;
@@ -97,8 +192,8 @@
             var renderExpandHtml = "";
             var renderHtml = "";
 
-            renderHtml += renderCollapseEmployeeAward(employee.nominations, employee.employeeWorkings);
-            //renderHtml += renderExpandEmployeeAward(employee.Nominations, employee.EmployeeWorkings);
+            renderHtml += renderCollapseEmployeeAward(employee.Nomination, employee.Project, employee.EmployeeId);
+            renderHtml += renderExpandEmployeeAward(employee.Nomination, employee.Project, employee.EmployeeId);
 
             return renderHtml;
         }
@@ -157,13 +252,13 @@
                { HeaderText: "Reviewer's Adjustment", Width: 80, Name: "ReviewerAdjustment", CellAlign: "center" },
                { HeaderText: "PA Final Score", Width: 60, Name: "PAFinalScore", CellAlign: "center" },
                { HeaderText: "Evaluator's Comment", Width: 80, Name: "EvaluatorComment", CellAlign: "center", CustomCellRender: renderEvaluatorCommentCell },
-               { HeaderText: "Suitable for team goal", Width: 80, Name: "Contribution", CellAlign: "center" },
+               { HeaderText: "Suitable for team goal", Width: 150, Name: "Contribution", CellAlign: "center" },
                { HeaderText: "Deserve rewards (salary increase and bonus)", Width: 150, Name: "BonusGiven", CellAlign: "center" },
                { HeaderText: "Applicable to promote", Width: 50, Name: "ApplicableToPromote", CellAlign: "center" },
-               { HeaderText: "Accessing of Objective achievement", Width: 80, Name: "ObjectiveAchievement", CellAlign: "center" },
+               { HeaderText: "Accessing of Objective achievement", Width: 150, Name: "ObjectiveAchievement", CellAlign: "center" },
                { HeaderText: "Poor Performance", Name: "IsPoorPerformance", Width: 80, CellAlign: "center" },
                { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center", CustomCellRender: renderNextObjectives },
-               { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderEmployeeAward },
+               { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderEmployeeAward, TdClass: 'col-employee-award' },
                { HeaderText: "Status", Width: 80, Name: "AwardStatus" },
                { HeaderText: "Project Name ", Width: 150, Name: "ProjectName" },
                { HeaderText: "Score", Width: 80, Name: "ProjectScore" },
@@ -187,8 +282,17 @@
                         Columns: []
                     };
                     var employee = {
-                        nominations: member.Nominations,
-                        employeeWorkings: member.EmployeeWorkings
+                        EmployeeId: member.PAFocus.Employee.EmployeeId,
+                        Nomination: {
+                            Items: member.Nominations,
+                            HasAdditionRow: member.HasAdditionalNomination,
+                            RealRowCount: member.RealNominationCount
+                        },
+                        Project: {
+                            Items: member.EmployeeWorkings,
+                            HasAdditionRow: member.HasAdditionalProject,
+                            RealRowCount: member.RealProjectCount
+                        }
                     };
 
                     subRow.Columns.push({ Name: "SymbolCount", Value: itemCount });
@@ -198,11 +302,11 @@
                     subRow.Columns.push({ Name: "ReviewerAdjustment", Value: member.ReviewerAdjustment });
                     subRow.Columns.push({ Name: "PAFinalScore", Value: member.PAFocus.FinalScore });
                     subRow.Columns.push({ Name: "EvaluatorComment", Value: member.PAFocus.Employee.EmployeeId });
-                    subRow.Columns.push({ Name: "Contribution", Value: getFocusEvaluationLevel(member.Contribution) });
-                    subRow.Columns.push({ Name: "BonusGiven", Value: getFocusEvaluationLevel(member.BonusGiven) });
+                    subRow.Columns.push({ Name: "Contribution", Value: getFocusEvaluationLevel(member.PAFocus.Contribution) });
+                    subRow.Columns.push({ Name: "BonusGiven", Value: getFocusEvaluationLevel(member.PAFocus.BonusGiven) });
                     subRow.Columns.push({ Name: "ApplicableToPromote", Value: member.PAFocus.IsReadyPromotion ? "Yes" : "No" });
                     subRow.Columns.push({ Name: "IsPoorPerformance", Value: member.PAFocus.IsPoorPerformance ? "Yes" : "No" });
-                    subRow.Columns.push({ Name: "ObjectiveAchievement", Value: getFocusEvaluationLevel(member.LastCompletedPercentObjective) });
+                    subRow.Columns.push({ Name: "ObjectiveAchievement", Value: getFocusEvaluationLevel(member.PAFocus.LastCompletedPercentObjective) });
                     subRow.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.Employee.EmployeeId });
                     subRow.Columns.push({ Name: "AwardName", Value: employee, MergeColNumber: 5 });
 
@@ -226,8 +330,8 @@
                 scope.modalInstance = null;
                 var gridOptions = {
                     customizeHeader: true,
-                    fullHeight: false,
-                    gridHeight: 600,
+                    //fullHeight: false,
+                    //gridHeight: 600,
                     showTree: true
                 };
 
@@ -269,6 +373,26 @@
 
                         if (employeeId) {
                             ReportModel.openPopupProjectComment(employeeId, projectId);
+                        }
+                    });
+
+                    element.find(".col-projects-expand").bind("click", function () {
+                        var $self = $(this);
+                        var employeeId = $self.data("employee-id");
+                        var tables = $(".employee-award-table[data-employee-id=" + employeeId + "]");
+
+                        console.log($(tables[0]).data("visible"));
+                        console.log($(tables[1]).data("visible"));
+                        console.log("----------------------------");
+                        console.log($(tables[0]).attr("data-visible"));
+                        console.log($(tables[1]).attr("data-visible"));
+                        console.log("----------------------------");
+
+                        for (var i = 0; i < tables.length; i++) {
+                            var $table = $(tables[i]);
+                            var visible = $table.attr("data-visible") === "true";
+
+                            $table.attr("data-visible", !visible);
                         }
                     });
                 });

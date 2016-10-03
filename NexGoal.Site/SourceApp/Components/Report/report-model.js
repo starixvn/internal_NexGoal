@@ -75,16 +75,17 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
                 projectIndex++;
             });
 
+            record.RealNominationCount = record.Nominations ? record.Nominations.length : 0;
+            record.RealProjectCount = record.EmployeeWorkings ? record.EmployeeWorkings.length : 0;
+
             if (differIndex > 0) {
-                record.Nominations.HasAdditionalRow = true;
-                record.Nominations.RealRowCount = record.Nominations.length;
+                record.HasAdditionalNomination = true;
 
                 for (var i = 0; i < differIndex; i++) {
                     record.Nominations.push({ IsAdditionalRow: true });
                 }
             } else if (differIndex < 0) {
-                record.EmployeeWorkings.HasAdditionalRow = true;
-                record.EmployeeWorkings.RealRowCount = record.EmployeeWorkings.length;
+                record.HasAdditionalProject = true;
 
                 for (var j = 0; j < -differIndex; j++) {
                     record.EmployeeWorkings.push({ IsAdditionalRow: true });
@@ -93,7 +94,9 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         });
     }
 
-    reportModel.openPopupProjectComment = function (project) {
+    reportModel.openPopupProjectComment = function (employeeId, projectId) {
+        var project = findProjectInMasterReport(reportModel.masterReports, employeeId, projectId);
+
         reportModel.modalInstance = $modal.open({
             templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportProject.html",
             controller: "ModalMasterReportProjectController as modalMasterReportProjectCtrl",

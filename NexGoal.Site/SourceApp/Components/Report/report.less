@@ -95,22 +95,70 @@
 
 .master-report-table {
     tr {
-        &.normal-row {
-            td {
-                background: #FFF !important;
-            }
-        }
+        td {
+            &.col-employee-award {
+                padding: 0;
 
-        &.on-focus-row {
-            td {
-                background: #fdf2c5 !important;
+                .table-cell {
+                    width: 100%;
+                }
             }
         }
     }
+}
 
-    td {
-        &.col-award-project {
-            padding: 0 !important;
+.employee-award-table {
+    &[data-visible="true"] {
+        display: table;
+    }
+
+    &[data-visible="false"] {
+        display: none;
+    }
+
+    tbody {
+        tr {
+            &:first-child {
+                td {
+                    border-top: none !important;
+                }
+            }
+
+            &:last-child {
+                td {
+                    border-bottom: none !important;
+                }
+            }
+
+            &.row-header {
+                td {
+                    height: 0 !important;
+                    padding: 0 !important;
+                    border: 0 !important;
+                }
+            }
+
+            td {
+                &:last-child {
+                    border-right: none !important;
+                }
+
+                &.col-title {
+                    width: 108px;
+                }
+
+                &.col-common {
+                    width: 80px;
+                }
+
+                &.col-score {
+                    width: 85px;
+                }
+
+                &.col-project-name {
+                    width: 155px;
+                }
+            }
         }
     }
 }
