@@ -47,6 +47,43 @@
             return level.Name;
         }
 
+        var focusEvaluationLevel = [
+            {
+                Value: 1,
+                Name: "Strongly disagrees"
+            },
+            {
+                Value: 2,
+                Name: "Disagree"
+            },
+            {
+                Value: 3,
+                Name: "Neither agree nor disagree"
+            },
+            {
+                Value: 4,
+                Name: "Agree"
+            },
+            {
+                Value: 5,
+                Name: "Strongly agree"
+            }
+        ];
+
+        function getFocusEvaluationLevel(value) {
+            var level = {
+                Value: 0,
+                Name: ""
+            }
+            var itemIndex = focusEvaluationLevel.map(function (item) { return item.Value }).indexOf(value);
+
+            if (itemIndex != -1) {
+                level = angular.copy(focusEvaluationLevel[itemIndex]);
+            }
+
+            return level.Name;
+        }
+
         function renderEvaluatorCommentCell(cell) {
             return '<a class="evaluator-comment" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
@@ -56,7 +93,7 @@
         }
 
         function renderEmployeeAwardCol(nomination) {
-            var htmlString = "";
+
 
             var statusClass = getClassByNominationStatus(nomination.StatusId);
             var tooltipContent = "";
@@ -121,7 +158,36 @@
 
                 htmlString += "</tbody>";
                 htmlString += "</table>";
+        }
+
+        function renderCollapseEmployeeAward(nominations, projects) {
+            var htmlString = "<table class='employee-award-collapse-table' data-visible='true'>";
+
+            if (projects.RealRowCount && projects.RealRowCount > 2) {
+
+            } else {
+                for (var i = 0; i < nominations.length; i++) {
+                    var nomination = nominations[i];
+                    var project = projects[i];
+                    var row = "<tr>";
+
+                    if (nomination.IsAdditonalRow) {
+                        row += "<td colspan='2'></td>";
+                    } else {
+                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.Status.ToString + "</td>";
+                    }
+
+                    if (project.IsAdditonalRow) {
+                        row += "<td colspan='3'</td>";
+                    } else {
+                        row += "<td>2</td><td>2</td><td>2</td>";
+                    }
+
+                    row += "</tr>";
+                }
             }
+
+            htmlString += "</table>";
 
             return htmlString;
         }
@@ -281,6 +347,7 @@
                { HeaderText: "Deserve rewards (salary increase and bonus)", Width: 150, Name: "BonusGiven", CellAlign: "center" },
                { HeaderText: "Applicable to promote", Width: 50, Name: "ApplicableToPromote", CellAlign: "center" },
                { HeaderText: "Accessing of Objective achievement", Width: 150, Name: "ObjectiveAchievement", CellAlign: "center" },
+               { HeaderText: "Poor Performance", Name: "IsPoorPerformance", Width: 80, CellAlign: "center" },
                { HeaderText: "Poor Performance", Name: "IsPoorPerformance", Width: 80, CellAlign: "center" },
                { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center", CustomCellRender: renderNextObjectives },
                { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderEmployeeAward, TdClass: 'col-employee-award' },
