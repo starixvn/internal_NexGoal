@@ -189,13 +189,13 @@ namespace NexGoal.Services.Implement
                 cellBody.SetCellValue(bonusGiven);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.ToString() : string.Empty;
+                var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? "Yes" : "No" : string.Empty;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(promotion);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.ToString() : string.Empty;
+                var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? "Yes" : "No" : string.Empty;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(performance);
@@ -207,7 +207,7 @@ namespace NexGoal.Services.Implement
                 cellBody.SetCellValue(lastObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var score = pa.FinalScore.HasValue ? pa.FinalScore.ToString() : Lang.NotAvailable;
+                var score = pa.FinalScore.HasValue && pa.FinalScore.Value != 0 ? pa.FinalScore.ToString() : Lang.NotAvailable;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(score);

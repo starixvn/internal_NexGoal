@@ -29,7 +29,7 @@
         vm.teams = [];
         vm.filter = {
             periodId: 0,
-            teamIds: null,
+            groupIds: null,
             employee: {}
         };
         vm.searchEmployee = "";
@@ -60,12 +60,12 @@
 
         function query() {
             lockScreenService.start();
-            vm.filter.teamIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
+            vm.filter.groupIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
             PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
                 vm.process = PAFocusModel.process;
             });
 
-            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.teamIds, vm.filter.employee.EmployeeId).then(function () {
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.groupIds, vm.filter.employee.EmployeeId).then(function () {
                 $scope.groups = PAFocusModel.evaluations;
                 vm.isFirst = true;
             })["finally"](function () {
