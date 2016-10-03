@@ -51,10 +51,11 @@
                 result = this.reportRepository.GetMaster(criteria);
 
                 var nexPMs = this.integrationService.GetEmployeeWorking(criteria.EmployeeId, criteria.PeriodId);
-                foreach (var employee in result)
+                foreach (var employeeFocus in result)
                 {
-                    var nexPMsOfEmployee = nexPMs.Where(i => i.EmployeeId == employee.PAFocus.Employee.EmployeeId);
-                    employee.EmployeeWorkings.AddRange(nexPMsOfEmployee);
+                    var nexPMsOfEmployee = nexPMs.Where(i => i.EmployeeId == employeeFocus.PAFocus.Employee.EmployeeId);
+                    employeeFocus.EmployeeWorkings.AddRange(nexPMsOfEmployee);
+                    employeeFocus.Decrypt();
                 }
             }
 

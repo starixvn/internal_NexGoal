@@ -26,11 +26,11 @@
                     employees = multi.Read<MasterReportModel, PAFocusModel, EmployeeModel, JobTitle, Group, MasterReportModel>(
                         (report, focus, emp, job, gr) =>
                         {
+                            report.PAFocus = focus;
+                            focus.Employee = emp;
                             emp.JobTitle = job;
                             emp.Group = gr;
-                            focus.Employee = emp;
-                            report.PAFocus = focus;
-
+                            
                             return report;
                         },
                         "PAFocusId,EmployeeId,JobTitleId,GroupId");

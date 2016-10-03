@@ -13,11 +13,11 @@ namespace NexGoal.Model.Report
             EmployeeWorkings = new List<EmployeeWorkingViewModel>();
         }
 
-        public PAFocusModel PAFocus { get; set; }
-
         public string ReviewerAdjustment { get; set; }
 
         public string EvaluatorComment { get; set; }
+
+        public PAFocusModel PAFocus { get; set; }
 
         public List<NominationReportModel> Nominations { get; set; }
 

@@ -32,13 +32,14 @@
             this.focusService = focusService ?? new PAFocusService();
         }
 
-        public ActionResult ExportPAFocus(int periodId, string teamIds = null)
+        public ActionResult ExportPAFocus(int periodId, string groupIds = null, int? employeeId = null)
         {
             string fileName = "PAFocusReport_" + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls";
             var criteria = new GetPAFocusCriteria
             {
                 PeriodId = periodId,
-                GroupIds = teamIds,
+                GroupIds = groupIds,
+                EmployeeId = employeeId,
                 EvaluatorId = this.sessionService.EmployeeId
             };
             IEnumerable<PAFocusModel> focuses = focusService.GetPAFocus(criteria);
