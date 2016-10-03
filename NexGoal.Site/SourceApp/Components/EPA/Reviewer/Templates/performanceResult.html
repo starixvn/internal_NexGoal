@@ -134,7 +134,7 @@
                 <th data-translate="Comment" class="col-comment"></th>
                 <th data-translate="NickName" class="col-score"></th>
                 <th data-translate="Score" 
-                    ng-class="{'col-score': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1;'col-score-lg': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length === 1}"></th>
+                    ng-class="{'col-score': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1?'col-score-lg': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length === 1}"></th>
                 <th data-translate="Comment" class="col-comment"></th>
                 <th ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" data-translate="AvgScore" class="col-score-lg"></th>
             </tr>

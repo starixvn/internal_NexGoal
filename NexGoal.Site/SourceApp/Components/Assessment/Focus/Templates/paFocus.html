@@ -33,7 +33,7 @@
 
             <div class="col button-block">
                 <button class="button" ng-click="paFocusCtrl.query()" data-translate="Submit"></button>
-                <button class="button btnExcel" export-focus ng-click="paFocusCtrl.exportExcel()"> Excel</button>
+                <button class="button btnExcel" export-focus ng-click="paFocusCtrl.exportExcel()" ng-if="paFocusCtrl.showExportButton()"> Excel</button>
             </div>
 
         </div>
