@@ -137,6 +137,14 @@
             });
         };
 
+        vm.showExportButton = function () {
+            if (vm.process.length === 3 && vm.process[2].ProcessStatus == vm.processStatus.InProgress) {
+                return true;
+            }
+
+            return false;
+        }
+
         initialize();
     }
 })(angular.module("assessmentModule"));
