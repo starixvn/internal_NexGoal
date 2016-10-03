@@ -94,6 +94,49 @@
 
         function renderEmployeeAwardCol(nomination) {
 
+            if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
+                htmlString = "<table class='employee-award-table' data-employee-id='" + employeeId + "' data-collapse='false' data-visible='false'>";
+                htmlString += "<tbody>";
+                htmlString += "<tr class='row-header'>" +
+                    "<td class='col-title'></td>" +
+                    "<td class='col-common'></td>" +
+                    "<td class='col-project-name'></td>" +
+                    "<td class='col-score'></td>" +
+                    "<td class='col-common'></td>" +
+                    "</tr>";
+
+                var firstProject = true;
+                for (var i = 0; i < projectGroup.Items.length; i++) {
+                    var nomination = nominationGroup.Items[i];
+                    var project = projectGroup.Items[i];
+                    var row = "<tr>";
+
+                    if (nomination.IsAdditionalRow) {
+                        row += "<td colspan='2'></td>";
+                    } else {
+                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
+                    }
+
+                    if (project.IsAdditionalRow) {
+                        row += "<td colspan='3'></td>";
+                    } else {
+
+                        if (firstProject) {
+                            row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
+                                "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>";
+                            firstProject = false;
+                        } else {
+                            row += "<td>&nbsp;&nbsp;&nbsp;&nbsp;" + project.ProjectName + "</td>";
+                        }
+
+                        row += "<td class='text-center'>" + project.DecryptedScore +
+                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
+                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
+                            "><i class='fa fa-search'></i></a></td>";
+                    }
+
+                    row += "</tr>";
+
 
             var statusClass = getClassByNominationStatus(nomination.StatusId);
             var tooltipContent = "";
@@ -160,33 +203,78 @@
                 htmlString += "</table>";
         }
 
-        function renderCollapseEmployeeAward(nominations, projects) {
-            var htmlString = "<table class='employee-award-collapse-table' data-visible='true'>";
 
-            if (projects.RealRowCount && projects.RealRowCount > 2) {
+            htmlString += "<tbody>";
+            htmlString += "<tr class='row-header'>" +
+                "<td class='col-title'></td>" +
+                "<td class='col-common'></td>" +
+                "<td class='col-project-name'></td>" +
+                "<td class='col-score'></td>" +
+                "<td class='col-common'></td>" +
+                "</tr>";
 
-            } else {
-                for (var i = 0; i < nominations.length; i++) {
-                    var nomination = nominations[i];
-                    var project = projects[i];
+            if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
+                var firstProject = true;
+                for (var i = 0; i < projectGroup.Items.length; i++) {
+                    var nomination = nominationGroup.Items[i];
+                    var project = projectGroup.Items[i];
                     var row = "<tr>";
 
-                    if (nomination.IsAdditonalRow) {
+                    if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.Status.ToString + "</td>";
+                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
                     }
 
-                    if (project.IsAdditonalRow) {
-                        row += "<td colspan='3'</td>";
+                    if (project.IsAdditionalRow || !firstProject) {
+                        row += "<td colspan='3'></td>";
                     } else {
-                        row += "<td>2</td><td>2</td><td>2</td>";
+                        row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
+                            "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>" +
+                            "<td class='text-center'>" + project.DecryptedScore +
+                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
+                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
+                            "><i class='fa fa-search'></i></a></td>";
+                        firstProject = false;
                     }
 
                     row += "</tr>";
+
+                    htmlString += row;
+
+                    if (projectGroup.RealRowCount > nominationGroup.RealRowCount &&
+                        nominationGroup.RealRowCount === i) {
+                        break;
+                    }
+                }
+            } else {
+                for (var i = 0; i < projectGroup.Items.length; i++) {
+                    var nomination = nominationGroup.Items[i];
+                    var project = projectGroup.Items[i];
+                    var row = "<tr>";
+
+                    if (nomination.IsAdditionalRow) {
+                        row += "<td colspan='2'></td>";
+                    } else {
+                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
+                    }
+
+                    if (project.IsAdditionalRow) {
+                        row += "<td colspan='3'</td>";
+                    } else {
+                        row += "<td>" + project.ProjectName + "</td><td class='text-center'>" + project.DecryptedScore +
+                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
+                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
+                            "><i class='fa fa-search'></i></a></td>";
+                    }
+
+                    row += "</tr>";
+
+                    htmlString += row;
                 }
             }
 
+            htmlString += "</tbody>";
             htmlString += "</table>";
 
             return htmlString;
@@ -423,8 +511,8 @@
                 scope.modalInstance = null;
                 var gridOptions = {
                     customizeHeader: true,
-                    fullHeight: false,
-                    gridHeight: 600,
+                    //fullHeight: false,
+                    //gridHeight: 600,
                     showTree: true,
                     gridExpandHeight: 150
                 };
@@ -467,6 +555,26 @@
 
                         if (employeeId) {
                             ReportModel.openPopupProjectComment(employeeId, projectId);
+                        }
+                    });
+
+                    element.find(".col-projects-expand").bind("click", function () {
+                        var $self = $(this);
+                        var employeeId = $self.data("employee-id");
+                        var tables = $(".employee-award-table[data-employee-id=" + employeeId + "]");
+
+                        console.log($(tables[0]).data("visible"));
+                        console.log($(tables[1]).data("visible"));
+                        console.log("----------------------------");
+                        console.log($(tables[0]).attr("data-visible"));
+                        console.log($(tables[1]).attr("data-visible"));
+                        console.log("----------------------------");
+
+                        for (var i = 0; i < tables.length; i++) {
+                            var $table = $(tables[i]);
+                            var visible = $table.attr("data-visible") === "true";
+
+                            $table.attr("data-visible", !visible);
                         }
                     });
 
