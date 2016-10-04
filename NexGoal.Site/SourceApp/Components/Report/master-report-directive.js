@@ -74,7 +74,7 @@
                     if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
+                        row += "<td>" + nomination.Title + "</td><td class='text-center'>" + nomination.StatusToString + "</td>";
                     }
 
                     if (project.IsAdditionalRow) {
@@ -129,7 +129,7 @@
                     if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
+                        row += "<td>" + nomination.Title + "</td><td class='text-center'>" + nomination.StatusToString + "</td>";
                     }
 
                     if (project.IsAdditionalRow || !firstProject) {
@@ -162,11 +162,11 @@
                     if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        row += "<td>" + nomination.Title + "</td<td class='text-center'>" + nomination.StatusToString + "</td>";
+                        row += "<td>" + nomination.Title + "</td><td class='text-center'>" + nomination.StatusToString + "</td>";
                     }
 
                     if (project.IsAdditionalRow) {
-                        row += "<td colspan='3'</td>";
+                        row += "<td colspan='3'></td>";
                     } else {
                         row += "<td>" + project.ProjectName + "</td><td class='text-center'>" + project.DecryptedScore +
                             "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
