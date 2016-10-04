@@ -43,7 +43,6 @@
         .panel-title {
             font-size: 14px;
             //font-weight: 600;
-
             &:hover {
                 cursor: pointer;
             }
@@ -99,7 +98,6 @@
             padding: 9px 20px;
             text-transform: uppercase;
         }
-
     }
 
     .level-3 {
@@ -114,22 +112,26 @@
 
         .panel-body {
             padding: 20px;
-        }      
-        
+        }
+
         .img-user {
             float: left;
             width: 200px;
-            
-        }  
+        }
 
         .info-user {
-            float: left;  
+            float: left;
             width: calc(~"100% - 200px");
 
             .info-item {
                 float: left;
                 margin-right: 30px;
+
+                &:last-child {
+                    margin-right: 0;
+                }
             }
+
 
             .info-label {
                 float: left;
@@ -144,3 +146,15 @@
     }
 }
 
+@media (max-width: 1366px) {
+    .panel-default {
+        .personal-profile {  
+            .info-user {                
+                .info-detail {
+                    float: left;
+                    width: 200px;
+                }
+            }
+        }
+    }
+}

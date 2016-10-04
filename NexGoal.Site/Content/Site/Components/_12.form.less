@@ -153,6 +153,7 @@ input[type=checkbox], input[type=radio] {
             border-radius: 3px;
             color: #727272;
             transition: all 0.2s ease;
+            background: #eaeaea;
 
             &:focus, &:hover {
                 background-color: rgba(49,65,114,0.6);
@@ -168,6 +169,15 @@ input[type=checkbox], input[type=radio] {
                 &:focus, &:hover {
                     background: #314172;
                 }
+            }
+        }
+    }
+
+    .disabled  {
+        > a, > span {
+            background: #d9d9d9;
+            &:hover, &:focus {
+                background: #d9d9d9;
             }
         }
     }

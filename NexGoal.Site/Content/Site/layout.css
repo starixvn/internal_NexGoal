@@ -267,6 +267,9 @@ textarea.none-resize {
   float: left;
   margin-right: 30px;
 }
+.panel-default .personal-profile .info-user .info-item:last-child {
+  margin-right: 0;
+}
 .panel-default .personal-profile .info-user .info-label {
   float: left;
   width: 130px;
@@ -274,6 +277,12 @@ textarea.none-resize {
 .panel-default .personal-profile .info-user .info-detail {
   float: left;
   width: 260px;
+}
+@media (max-width: 1366px) {
+  .panel-default .personal-profile .info-user .info-detail {
+    float: left;
+    width: 200px;
+  }
 }
 .container-fluid.page {
   width: 100%;
@@ -554,7 +563,7 @@ textarea.none-resize {
 }
 .container-fluid.page .filter {
   min-width: 600px;
-  padding: 15px 0 0;
+  padding: 4px 0 0;
 }
 .container-fluid.page .filter .lstBox-limit {
   width: 180px;
@@ -564,10 +573,7 @@ textarea.none-resize {
   line-height: 22px;
 }
 .container-fluid.page .filter .form-group:last-child {
-  margin-bottom: 0;
-}
-.container-fluid.page .filter.form-inline .form-group {
-  margin-bottom: 15px;
+  margin-bottom: 10px;
 }
 .container-fluid.page .filter label {
   font-weight: normal;
@@ -677,6 +683,11 @@ textarea.none-resize {
 }
 .container-fluid.page .boxtitle .title-score {
   padding-left: 35px;
+}
+@media (max-width: 1366px) {
+  .container-fluid.page .search-inline-textbox {
+    width: 138px;
+  }
 }
 .page-content {
   text-align: center;
@@ -972,7 +983,7 @@ header {
   border-color: #c3c3c3 !important;
   text-align: center;
   vertical-align: middle !important;
-  padding: 8px 10px !important;
+  padding: 7px 10px !important;
   background: #324373;
   color: #fff;
   border-bottom: 0;
@@ -1086,6 +1097,10 @@ header {
             &:last-child {
                 border-right-color: @c-bg-table-tfoot;
             }*/
+}
+.table tfoot tr td.paging {
+  background: #eaeaea;
+  padding: 5px 8px;
 }
 .table.table-non-hover {
   /*tr {
@@ -1452,7 +1467,7 @@ header {
   margin-right: 10px;
 }
 .button-block .button + .button {
-  margin-left: 8px;
+  margin-left: 16px;
 }
 .button {
   border: none;
@@ -1604,7 +1619,7 @@ header {
   -webkit-border-radius: 0 0 3x 3px;
   -moz-border-radius: 0 0 3x 3px;
   border-radius: 0 0 3x 3px;
-  padding: 12px 20px;
+  padding: 20px 20px 30px;
   margin-top: 0;
 }
 .modal-confirm-center .modal-dialog {
@@ -1666,7 +1681,8 @@ header {
   border: 0;
 }
 .target-tabset .tab-content .filter {
-  margin-top: 12px;
+  margin-top: 20px;
+  padding: 0;
 }
 .target-tabset .tab-content .common-form {
   margin-top: 10px;
@@ -1869,6 +1885,7 @@ input[type=radio] {
   border-radius: 3px;
   color: #727272;
   transition: all 0.2s ease;
+  background: #eaeaea;
 }
 .pagination > li > a:focus,
 .pagination > li span:focus,
@@ -1887,6 +1904,16 @@ input[type=radio] {
 .pagination > li.active > a:hover,
 .pagination > li.active span:hover {
   background: #314172;
+}
+.pagination .disabled > a,
+.pagination .disabled > span {
+  background: #d9d9d9;
+}
+.pagination .disabled > a:hover,
+.pagination .disabled > span:hover,
+.pagination .disabled > a:focus,
+.pagination .disabled > span:focus {
+  background: #d9d9d9;
 }
 @media (max-width: 770px) {
   .container-fluid.page .header .logo {
