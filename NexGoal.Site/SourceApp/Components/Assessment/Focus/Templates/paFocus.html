@@ -33,6 +33,7 @@
 
             <div class="col button-block">
                 <button class="button" ng-click="paFocusCtrl.query()" data-translate="Submit"></button>
+                <button class="button btnExcel" export-focus ng-click="paFocusCtrl.exportExcel()" ng-if="paFocusCtrl.showExportButton()"> Excel</button>
             </div>
 
         </div>
@@ -55,12 +56,6 @@
 
     <table class="table table-bordered table-striped pa-focus-table">
         <thead>
-            <tr class="header-table">
-                <th colspan="12">
-                    <input class="button  pull-right btnExcel" export-focus ng-click="paFocusCtrl.exportExcel()" ng-if="paFocusCtrl.showExportButton()" title="Export to Excel"></input>
-                </th>
-            </tr>
-
             <tr>
                 <th data-translate="SymbolCount"></th>
                 <th data-translate="FullName"></th>

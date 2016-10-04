@@ -823,37 +823,16 @@
     <Content Include="Views\Emails\StartDateEmailToReviewer.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\StartDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\StartDateEmailToSpecialReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\StartDateEmailToSpecialEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\StartDateEmailToSpecialManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\RemindDateEmailToSpecialEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
     <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\RemindDateEmailToSpecialReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToManagement.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToSpecialManagement.cshtml">
+    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
@@ -872,6 +851,12 @@
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\view-eoq-nomination-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus.less" />
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">

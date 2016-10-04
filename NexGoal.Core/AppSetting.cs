@@ -33,5 +33,13 @@
                 return password;
             }
         }
+
+        public static string ApplicationDomain
+        {
+            get
+            {
+                return ConfigurationManager.AppSettings["ApplicationDomain"];
+            }
+        }
     }
 }

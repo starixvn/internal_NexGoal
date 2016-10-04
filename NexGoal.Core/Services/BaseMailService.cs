@@ -13,7 +13,7 @@
         {
             if (email == null
                 || !IsValidEmail(email.ReceiverEmail)
-                || ConfigurationManager.AppSettings["NotSendMail"].Equals("true", StringComparison.OrdinalIgnoreCase))
+                || ConfigurationManager.AppSettings["AllowSendMail"].Equals("false", StringComparison.OrdinalIgnoreCase))
             {
                 return;
             }

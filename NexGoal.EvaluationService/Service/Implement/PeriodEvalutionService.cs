@@ -65,12 +65,9 @@ namespace NexGoal.BackgroundService
             int periods = 0;
             if (AppSetting.SendMailEndPeriod)
             {
-                float averagePerformanceScore = GetFinalScoreOfEvalution(epa);
-                autoMailService.SendEndEvaluationMailToSelf(epa, averagePerformanceScore, epa.DisciplineScore);
                 if (epa.Period != null)
                 {
-                    if (epa.Period.TargetTypeId == (int)TargetType.Probation
-                        || epa.Period.TargetTypeId == (int)TargetType.Promotion)
+                    if (epa.Period.TargetTypeId == (int)TargetType.Probation)
                     {
                         autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(epa);
                     }

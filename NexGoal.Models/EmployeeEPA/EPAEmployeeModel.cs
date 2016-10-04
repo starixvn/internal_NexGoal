@@ -43,5 +43,7 @@
         public string JobTitleName { get; set; }
 
         public DateTime JoinedDate { get; set; }
+
+        public DateTime ConfirmedDate { get; set; }
     }
 }
