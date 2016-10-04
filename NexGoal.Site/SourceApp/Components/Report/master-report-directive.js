@@ -70,14 +70,18 @@
             }
         ];
 
+        function getClassByNominationStatus(statusId) {
+            return utilitiesFactory.getClassByNominationStatus(statusId);
+        }
+
         function getFocusEvaluationLevel(value) {
             var level = {
                 Value: 0,
                 Name: ""
-            }
-            var itemIndex = focusEvaluationLevel.map(function (item) { return item.Value }).indexOf(value);
+            };
+            var itemIndex = focusEvaluationLevel.map(function (item) { return item.Value; }).indexOf(value);
 
-            if (itemIndex != -1) {
+            if (itemIndex !== -1) {
                 level = angular.copy(focusEvaluationLevel[itemIndex]);
             }
 
@@ -114,13 +118,14 @@
                     if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        row += "<td>" + nomination.Title + "</td><td class='text-center'>" + nomination.StatusToString + "</td>";
+                        var statusClass = getClassByNominationStatus(nomination.StatusId);
+                        row += "<td><b class='award-tooltip' title='SomeThing'>" + nomination.Title +
+                            "</b></td><td class='text-center nomination-status " + statusClass + "'>" + nomination.StatusToString + "</td>";
                     }
 
                     if (project.IsAdditionalRow) {
                         row += "<td colspan='3'></td>";
                     } else {
-
                         if (firstProject) {
                             row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
                                 "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>";
@@ -221,14 +226,17 @@
                     var row = "<tr>";
 
                     if (nomination.IsAdditionalRow) {
-                        row += "<td colspan='2'></td>";
+                        if (nominationGroup.RealRowCount >= projectGroup.RealRowCount || nominationGroup.RealRowCount === 0) {
+                            row += "<td colspan='2'></td>";
+                        }
                     } else {
-                        row += "<td>" + nomination.Title + "</td><td class='text-center'>" + nomination.StatusToString + "</td>";
+                        var statusClass = getClassByNominationStatus(nomination.StatusId);
+                        var content = "2 votes: <br/> Nguyễn Văn Lâm (Forrest) <br/> Trịnh Đăng Thắng (Tim)";
+                        row += "<td><b class='award-tooltip' title='" + content + "'>" + nomination.Title +
+                            "</b></td><td class='text-center nomination-status " + statusClass + "'>" + nomination.StatusToString + "</td>";
                     }
 
-                    if (project.IsAdditionalRow || !firstProject) {
-                        row += "<td colspan='3'></td>";
-                    } else {
+                    if (firstProject) {
                         row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
                             "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>" +
                             "<td class='text-center'>" + project.DecryptedScore +
@@ -236,6 +244,10 @@
                             "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
                             "><i class='fa fa-search'></i></a></td>";
                         firstProject = false;
+                    } else {
+                        if (nominationGroup.RealRowCount >= projectGroup.RealRowCount || nominationGroup.RealRowCount === 0) {
+                            row += "<td colspan='3'></td>";
+                        }
                     }
 
                     row += "</tr>";
@@ -256,7 +268,9 @@
                     if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        row += "<td>" + nomination.Title + "</td><td class='text-center'>" + nomination.StatusToString + "</td>";
+                        var statusClass = getClassByNominationStatus(nomination.StatusId);
+                        row += "<td><b class='award-tooltip' title='SomeThing'>" + nomination.Title +
+                            "</b></td><td class='text-center nomination-status " + statusClass + "'>" + nomination.StatusToString + "</td>";
                     }
 
                     if (project.IsAdditionalRow) {
@@ -511,8 +525,8 @@
                 scope.modalInstance = null;
                 var gridOptions = {
                     customizeHeader: true,
-                    //fullHeight: false,
-                    //gridHeight: 600,
+                    fullHeight: false,
+                    gridHeight: 600,
                     showTree: true,
                     gridExpandHeight: 150
                 };
@@ -562,13 +576,6 @@
                         var $self = $(this);
                         var employeeId = $self.data("employee-id");
                         var tables = $(".employee-award-table[data-employee-id=" + employeeId + "]");
-
-                        console.log($(tables[0]).data("visible"));
-                        console.log($(tables[1]).data("visible"));
-                        console.log("----------------------------");
-                        console.log($(tables[0]).attr("data-visible"));
-                        console.log($(tables[1]).attr("data-visible"));
-                        console.log("----------------------------");
 
                         for (var i = 0; i < tables.length; i++) {
                             var $table = $(tables[i]);
