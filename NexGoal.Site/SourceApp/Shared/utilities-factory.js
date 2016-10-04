@@ -11,6 +11,24 @@ appModule.factory('utilitiesFactory',
 
     utilities.maxStar = 5;
 
+    utilities.getClassByNominationStatus = function (statusId) {
+        var statusClass = "";
+
+        switch (statusId) {
+            case 1:
+                statusClass = "nominated";
+                break;
+            case 2:
+                statusClass = "shortlisted";
+                break;
+            case 3:
+                statusClass = "winner";
+                break;
+        }
+
+        return statusClass;
+    }
+
     utilities.groupingTeams = function (teams) {
         var result = [], parents = [];
         var startGrouping, endGrouping;

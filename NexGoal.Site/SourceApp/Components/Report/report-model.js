@@ -68,10 +68,6 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             record.Nominations = record.Nominations || [];
             record.EmployeeWorkings = record.EmployeeWorkings || [];
 
-            // Fake data
-            record.Nominations.push({ Title: "EOQ: 1st 2015", StatusToString: "Nominated" });
-            record.Nominations.push({ Title: "EOQ: 2nd 2015", StatusToString: "Nominated" });
-
             var differIndex = record.EmployeeWorkings.length - record.Nominations.length;
 
             angular.forEach(record.EmployeeWorkings, function (project) {
