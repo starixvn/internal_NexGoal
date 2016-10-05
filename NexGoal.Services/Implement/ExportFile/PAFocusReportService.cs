@@ -115,10 +115,6 @@ namespace NexGoal.Services.Implement
 
             ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
             ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
-            bodyStyleLeft2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyleLeft2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyleLeft2.FillPattern = FillPattern.SolidForeground;
-            bodyStyleLeft2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
 
             ICellStyle bodyStyleLeft1 = workbook.CreateCellStyle();
             bodyStyleLeft1.Alignment = HorizontalAlignment.Left;
@@ -227,13 +223,7 @@ namespace NexGoal.Services.Implement
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(contribution);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-
-                var bonusGiven = pa.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)pa.BonusGiven.Value) : string.Empty;
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleCenter;
-                cellBody.SetCellValue(bonusGiven);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-
+             
                 var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? "Yes" : "No" : string.Empty;
                 if (promotion == "Yes")
                 {
