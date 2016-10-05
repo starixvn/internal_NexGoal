@@ -51,9 +51,10 @@
 
         function renderEvaluatorCommentCell(cell) {
             var htmlString = "";
+            var employee = cell.Value;
 
-            if (cell.Value && cell.Value.length > 0) {
-                htmlString = '<a class="evaluator-comment" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+            if (employee && employee.Comment && employee.Comment.length > 0) {
+                htmlString = '<a class="evaluator-comment" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
             }
 
             return htmlString;
@@ -61,9 +62,10 @@
 
         function renderNextObjectives(cell) {
             var htmlString = "";
+            var employee = cell.Value;
 
-            if (cell.Value && cell.Value.length > 0) {
-                htmlString = '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+            if (employee && employee.Comment && employee.Comment.length > 0) {
+                htmlString = '<a class="next-objectives" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
             }
 
             return htmlString;
@@ -381,7 +383,10 @@
                     subRow.Columns.push({
                         Name: "PAFinalScore", Value: member.PAFocus.FinalScore === 0 ? "N/A" : member.PAFocus.FinalScore
                     });
-                    subRow.Columns.push({ Name: "EvaluatorComment", Value: member.PAFocus.Employee.EmployeeId });
+                    subRow.Columns.push({
+                        Name: "EvaluatorComment",
+                        Value: { EmployeeId: member.PAFocus.Employee.EmployeeId, Comment: member.EvaluatorComment }
+                    });
                     subRow.Columns.push({ Name: "Contribution", Value: getFocusEvaluationLevel(member.PAFocus.Contribution) });
                     subRow.Columns.push({ Name: "BonusGiven", Value: getFocusEvaluationLevel(member.PAFocus.BonusGiven) });
                     subRow.Columns.push({
@@ -393,7 +398,10 @@
                         TdClass: member.PAFocus.IsPoorPerformance ? "warning" : ""
                     });
                     subRow.Columns.push({ Name: "ObjectiveAchievement", Value: getFocusEvaluationLevel(member.PAFocus.LastCompletedPercentObjective) });
-                    subRow.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.Employee.EmployeeId });
+                    subRow.Columns.push({
+                        Name: "NextObjectives",
+                        Value: { EmployeeId: member.PAFocus.Employee.EmployeeId, Comment: member.PAFocus.NextDescriptionObjective }
+                    });
                     subRow.Columns.push({ Name: "AwardName", Value: employee, MergeColNumber: 5 });
 
                     row.SubRows.push(subRow);
