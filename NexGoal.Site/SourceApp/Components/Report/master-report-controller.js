@@ -91,6 +91,10 @@
             ReportModel.openPopupProjectComment(project);
         };
 
+        vm.exportExcel = function () {
+            $scope.$broadcast("exportExcelMasterReport");
+        };
+
         initialize();
     }
 })(angular.module("reportModule"));

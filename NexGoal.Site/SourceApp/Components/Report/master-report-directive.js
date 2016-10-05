@@ -2,8 +2,10 @@
     "use strict";
 
     reportModule.directive("gridMasterReport", masterReportDirective);
+    reportModule.directive("exportMasterReport", exportExcelMasterReportDirective);
 
     masterReportDirective.$inject = ["ReportModel", "utilitiesFactory"];
+    exportExcelMasterReportDirective.$inject = ["baseUrl"];
 
     function masterReportDirective(ReportModel, utilitiesFactory) {
         var focusEvaluationLevel = [
@@ -463,6 +465,26 @@
                         placement: 'left',
                         html: true
                     });
+                });
+            }
+        };
+    }
+
+    function exportExcelMasterReportDirective(baseUrl) {
+        return {
+            link: function (scope) {
+                scope.$on("exportExcelMasterReport", function () {
+                    var data = $.param(scope.masterReportCtrl.filter),
+                        url = baseUrl + "ExportReport/ExportMasterReport",
+                        downloadUrl = url + "?" + data,
+                        iframe = $("body iframe");
+
+                    if (iframe.length === 0) {
+                        iframe = $("<iframe width='0' height='0' class='display-none'></iframe>");
+                        iframe.appendTo("body");
+                    }
+
+                    iframe.attr("src", downloadUrl);
                 });
             }
         };

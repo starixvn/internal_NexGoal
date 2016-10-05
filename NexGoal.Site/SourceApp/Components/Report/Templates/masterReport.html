@@ -37,8 +37,10 @@
                         </div>
                     </div>
 
-                    <div class="col">
+                    <div class="col button-block">
                         <button class="button" data-translate="Search" ng-click="masterReportCtrl.query()"></button>
+                        <button class="button btnExcel" export-master-report data-translate="Excel"
+                                ng-click="masterReportCtrl.exportExcel()"></button>
                     </div>
                 </div>
             </form>
