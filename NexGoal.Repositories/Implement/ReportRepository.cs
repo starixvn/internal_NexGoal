@@ -32,7 +32,7 @@
                             focus.Employee = emp;
                             emp.JobTitle = job;
                             emp.Group = gr;
-                            
+
                             return report;
                         },
                         "PAFocusId,EmployeeId,JobTitleId,GroupId");
