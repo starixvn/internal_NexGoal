@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
     using NexGoal.Model.Report;
     using NexGoal.Resources;
@@ -32,27 +33,10 @@
         private void FillContentRow(IEnumerable<MasterReportModel> employeeEvaluations)
         {
             var indexRow = 1;
-            var groupName = string.Empty;
-            var rowIndexBeginGroup = this.writer.RowId;
             var indexOnGroup = 1;
             foreach (var employee in employeeEvaluations)
             {
-                if (groupName != employee.PAFocus.Employee.Group.GroupName)
-                {
-                    indexOnGroup = 1;
-                    rowIndexBeginGroup = this.writer.RowId;
-                    groupName = employee.PAFocus.Employee.Group.GroupName;
-
-                    FillRow(employee, indexOnGroup, ref indexRow);
-                }
-                else
-                {
-                    indexOnGroup++;
-                    FillRow(employee, indexOnGroup, ref indexRow);
-
-                    var totalRowToMerger = this.writer.RowId - rowIndexBeginGroup;
-                    this.writer.WriteCellRange(rowIndexBeginGroup, this.writer.RowId - rowIndexBeginGroup, 0, 1);
-                }
+                FillRow(employee, indexOnGroup++, ref indexRow);
             }
         }
 
@@ -74,7 +58,7 @@
             }
 
             indexRow++;
-            for (int i = 0; i < 13; i++)
+            for (int i = 0; i < 14; i++)
             {
                 this.writer.WriteCellRange(rowIndexBeginMerger, numberRowOfEmployee, i, 1);
             }
@@ -82,18 +66,24 @@
 
         private object CreateRecord(MasterReportModel evaluation, int index, int rowIndex)
         {
+            var bonusGiven = evaluation.PAFocus.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.BonusGiven.Value) : string.Empty;
+            var contribution = evaluation.PAFocus.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.Contribution.Value) : string.Empty;
+            var promotion = evaluation.PAFocus.IsReadyPromotion.HasValue ? evaluation.PAFocus.IsReadyPromotion.Value ? Lang.Yes : Lang.No : string.Empty;
+            var performance = evaluation.PAFocus.IsPoorPerformance.HasValue ? evaluation.PAFocus.IsPoorPerformance.Value ? Lang.Yes : Lang.No : string.Empty;
             var record = new
             {
-                GroupName = evaluation.PAFocus.Employee.Group.GroupName,
                 RowIndex = rowIndex.ToString(),
                 NickName = evaluation.PAFocus.Employee.NickName,
                 FullName = evaluation.PAFocus.Employee.FullName,
                 Jobtitle = evaluation.PAFocus.Employee.JobTitle.JobTitleName,
+                GroupName = evaluation.PAFocus.Employee.Group.GroupName,
                 ReviewerAdjustment = index == 0 ? evaluation.ReviewerAdjustment : string.Empty,
+                Score = index == 0 ? evaluation.PAFocus.FinalScore.ToString() : string.Empty,
                 EvaluatorComment = index == 0 ? evaluation.EvaluatorComment : string.Empty,
-                Contribution = index == 0 ? evaluation.PAFocus.Contribution.ToString() : string.Empty,
-                Promotion = index == 0 ? evaluation.PAFocus.IsReadyPromotion.ToString() : string.Empty,
-                BonusGiven = index == 0 ? evaluation.PAFocus.BonusGiven.ToString() : string.Empty,
+                Contribution = index == 0 ? contribution : string.Empty,
+                BonusGiven = index == 0 ? bonusGiven : string.Empty,
+                Promotion = index == 0 ? promotion : string.Empty,
+                Performance = index == 0 ? performance : string.Empty,
                 LastObjective = index == 0 ? evaluation.PAFocus.LastCompletedPercentObjective.ToString() : string.Empty,
                 NextObjective = index == 0 ? evaluation.PAFocus.NextDescriptionObjective : string.Empty,
                 Award = evaluation.Nominations.Count > index ? evaluation.Nominations[index].Title : string.Empty,

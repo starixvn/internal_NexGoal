@@ -218,8 +218,8 @@ namespace NexGoal.Services.Implement
                 cellBody.SetCellValue(contribution);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? "Yes" : "No" : string.Empty;
-                if (promotion == "Yes")
+                var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? Lang.Yes : Lang.No : string.Empty;
+                if (promotion == Lang.Yes)
                 {
                     if (rowIndex % 2 == 0)
                     {
@@ -244,8 +244,8 @@ namespace NexGoal.Services.Implement
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                 }
 
-                var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? "Yes" : "No" : string.Empty;
-                if (performance == "Yes")
+                var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? Lang.Yes : Lang.No : string.Empty;
+                if (performance == Lang.Yes)
                 {
                     if (rowIndex % 2 == 0)
                     {
