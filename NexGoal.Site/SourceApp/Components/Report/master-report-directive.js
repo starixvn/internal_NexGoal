@@ -158,10 +158,11 @@
 
 
             var statusClass = getClassByNominationStatus(nomination.StatusId);
-            var tooltipContent = "";
+            var tooltipContent = "111";
 
             var htmlString = "<td><b>" + nomination.Title + "</b></td>" +
-            "<td class='award-tooltip text-center nomination-status " + statusClass + "' title='" + tooltipContent + "'>" + nomination.StatusToString + "</td>";
+            "<td class='text-center nomination-status " + statusClass + "'><span class='award-tooltip' title='" + tooltipContent + "'>"
+            + nomination.StatusToString + "</span></td>";
 
             return htmlString;
         }
