@@ -1,4 +1,5 @@
 ﻿using NexGoal.Model.Integration;
+using NexGoal.Model.Nomination;
 using NexGoal.Model.PAFocus;
 using System.Collections.Generic;
 

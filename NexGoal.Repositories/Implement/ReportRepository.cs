@@ -6,6 +6,8 @@
     using NexGoal.Model.Employee;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Enitites;
+    using NexGoal.Model.Integration;
+    using NexGoal.Model.Nomination;
     using NexGoal.Model.PAFocus;
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.EPADetail;
@@ -30,14 +32,18 @@
                             focus.Employee = emp;
                             emp.JobTitle = job;
                             emp.Group = gr;
-                            
+
                             return report;
                         },
                         "PAFocusId,EmployeeId,JobTitleId,GroupId");
 
                     var nominations = multi.Read<NominationReportModel>();
 
-                    GroupMasterReport(employees, nominations);
+                    var nominators = multi.Read<NominatorReportModel>();
+
+                    var nexPMs = multi.Read<EmployeeWorkingViewModel>();
+
+                    GroupMasterReport(employees, nominations, nominators, nexPMs);
                 }
             }
 
@@ -46,12 +52,22 @@
 
         private IEnumerable<MasterReportModel> GroupMasterReport(
             IEnumerable<MasterReportModel> reports,
-            IEnumerable<NominationReportModel> nominations)
+            IEnumerable<NominationReportModel> nominations,
+            IEnumerable<NominatorReportModel> nominators,
+            IEnumerable<EmployeeWorkingViewModel> nexPMs)
         {
             foreach (var employee in reports)
             {
-                var nominationOfEmployee = nominations.Where(i => i.NomineeId == employee.PAFocus.Employee.EmployeeId);
-                employee.Nominations.AddRange(nominationOfEmployee);
+                var nexPMsOfEmployee = nexPMs.Where(i => i.EmployeeId == employee.PAFocus.Employee.EmployeeId);
+                var nominationsOfEmployee = nominations.Where(i => i.NomineeId == employee.PAFocus.Employee.EmployeeId);
+                foreach (var nomination in nominationsOfEmployee)
+                {
+                    var nominatorsOfEmployee = nominators.Where(i => i.NomineeId == nomination.NomineeId);
+                    nomination.Nominators.AddRange(nominatorsOfEmployee);
+                }
+
+                employee.Nominations.AddRange(nominationsOfEmployee);
+                employee.EmployeeWorkings.AddRange(nexPMsOfEmployee);
             }
 
             return reports;
