@@ -70,7 +70,7 @@
         }
 
         function renderProjectComment(projectId, employeeId, projectComment) {
-            var htmlString = "";
+            var htmlString = "-";
 
             if (projectComment && projectComment.length > 0) {
                 htmlString = "<a class='project-comment' data-employee-id=" + employeeId + " data-project-id=" + projectId +
@@ -108,10 +108,10 @@
         function renderEmployeeAwardTableHeader() {
             return "<tr class='row-header'>" +
                     "<td class='col-title'></td>" +
-                    "<td class='col-common'></td>" +
+                    "<td class='col-status'></td>" +
                     "<td class='col-project-name'></td>" +
                     "<td class='col-score'></td>" +
-                    "<td class='col-common'></td>" +
+                    "<td class='col-comment'></td>" +
                     "</tr>";
         }
 
@@ -130,13 +130,13 @@
                     var row = "<tr>";
 
                     if (nomination.IsAdditionalRow) {
-                        row += "<td></td><td></td>";
+                        row += "<td class='text-center'>-</td><td class='text-center'>-</td>";
                     } else {
                         row += renderEmployeeAwardCol(nomination);
                     }
 
                     if (project.IsAdditionalRow) {
-                        row += "<td></td><td></td><td></td>";
+                        row += "<td class='text-center'>-</td class='text-center'><td>-</td><td class='text-center'>-</td>";
                     } else {
                         if (firstProject) {
                             row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
@@ -172,13 +172,13 @@
                 var row = "<tr>";
 
                 if (nomination.IsAdditionalRow) {
-                    row += "<td></td><td></td>";
+                    row += "<td class='text-center'>-</td><td class='text-center'>-</td>";
                 } else {
                     row += renderEmployeeAwardCol(nomination);
                 }
 
                 if (project.IsAdditionalRow) {
-                    row += "<td></td><td></td><td></td>";
+                    row += "<td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td>";
                 } else {
                     row += "<td>" + project.ProjectName + "</td><td class='text-center'>" + project.DecryptedScore +
                         "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
@@ -205,7 +205,7 @@
 
                 if (nomination.IsAdditionalRow) {
                     if (nominationGroup.RealRowCount >= projectGroup.RealRowCount || nominationGroup.RealRowCount === 0) {
-                        row += "<td></td><td></td>";
+                        row += "<td class='text-center'>-</td><td class='text-center'>-</td>";
                         syncRender = true;
                     }
                 } else {
@@ -221,7 +221,7 @@
                         renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
                     firstProject = false;
                 } else {
-                    row += syncRender ? "<td></td><td></td><td></td>" : "";
+                    row += syncRender ? "<td class='text-center'>-</td><td  class='text-center'>-</td><td  class='text-center'>-</td>" : "";
                 }
 
                 row += "</tr>";
@@ -378,7 +378,9 @@
                     subRow.Columns.push({ Name: "FullName", Value: member.PAFocus.Employee.FullName });
                     subRow.Columns.push({ Name: "JobTitle", Value: member.PAFocus.Employee.JobTitle.JobTitleName });
                     subRow.Columns.push({ Name: "ReviewerAdjustment", Value: reviewerAdjustment });
-                    subRow.Columns.push({ Name: "PAFinalScore", Value: member.PAFocus.FinalScore });
+                    subRow.Columns.push({
+                        Name: "PAFinalScore", Value: member.PAFocus.FinalScore === 0 ? "N/A" : member.PAFocus.FinalScore
+                    });
                     subRow.Columns.push({ Name: "EvaluatorComment", Value: member.PAFocus.Employee.EmployeeId });
                     subRow.Columns.push({ Name: "Contribution", Value: getFocusEvaluationLevel(member.PAFocus.Contribution) });
                     subRow.Columns.push({ Name: "BonusGiven", Value: getFocusEvaluationLevel(member.PAFocus.BonusGiven) });
@@ -473,6 +475,8 @@
 
                             $table.attr("data-visible", !visible);
                         }
+
+                        $(".master-report-table").fanexGrid('resizeGrid');
                     });
 
                     element.find(".child-row").bind("click", function () {
