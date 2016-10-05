@@ -41,9 +41,7 @@
 
                     var nominators = multi.Read<NominatorReportModel>();
 
-                    var nexPMs = multi.Read<EmployeeWorkingViewModel>();
-
-                    GroupMasterReport(employees, nominations, nominators, nexPMs);
+                    GroupMasterReport(employees, nominations, nominators);
                 }
             }
 
@@ -53,12 +51,10 @@
         private IEnumerable<MasterReportModel> GroupMasterReport(
             IEnumerable<MasterReportModel> reports,
             IEnumerable<NominationReportModel> nominations,
-            IEnumerable<NominatorReportModel> nominators,
-            IEnumerable<EmployeeWorkingViewModel> nexPMs)
+            IEnumerable<NominatorReportModel> nominators)
         {
             foreach (var employee in reports)
             {
-                var nexPMsOfEmployee = nexPMs.Where(i => i.EmployeeId == employee.PAFocus.Employee.EmployeeId);
                 var nominationsOfEmployee = nominations.Where(i => i.NomineeId == employee.PAFocus.Employee.EmployeeId);
                 foreach (var nomination in nominationsOfEmployee)
                 {
@@ -67,7 +63,6 @@
                 }
 
                 employee.Nominations.AddRange(nominationsOfEmployee);
-                employee.EmployeeWorkings.AddRange(nexPMsOfEmployee);
             }
 
             return reports;

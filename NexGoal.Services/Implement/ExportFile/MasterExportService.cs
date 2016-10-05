@@ -70,6 +70,7 @@
             var contribution = evaluation.PAFocus.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.Contribution.Value) : string.Empty;
             var promotion = evaluation.PAFocus.IsReadyPromotion.HasValue ? evaluation.PAFocus.IsReadyPromotion.Value ? Lang.Yes : Lang.No : string.Empty;
             var performance = evaluation.PAFocus.IsPoorPerformance.HasValue ? evaluation.PAFocus.IsPoorPerformance.Value ? Lang.Yes : Lang.No : string.Empty;
+            var lastObjective = evaluation.PAFocus.LastCompletedPercentObjective.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.LastCompletedPercentObjective.Value) : string.Empty;
             var record = new
             {
                 RowIndex = rowIndex.ToString(),
@@ -84,7 +85,7 @@
                 BonusGiven = index == 0 ? bonusGiven : string.Empty,
                 Promotion = index == 0 ? promotion : string.Empty,
                 Performance = index == 0 ? performance : string.Empty,
-                LastObjective = index == 0 ? evaluation.PAFocus.LastCompletedPercentObjective.ToString() : string.Empty,
+                LastObjective = index == 0 ? lastObjective : string.Empty,
                 NextObjective = index == 0 ? evaluation.PAFocus.NextDescriptionObjective : string.Empty,
                 Award = evaluation.Nominations.Count > index ? evaluation.Nominations[index].Title : string.Empty,
                 AwardStatus = evaluation.Nominations.Count > index ? evaluation.Nominations[index].StatusToString : string.Empty,
