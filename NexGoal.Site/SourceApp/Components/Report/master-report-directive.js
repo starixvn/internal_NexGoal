@@ -55,19 +55,35 @@
             return '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
         }
 
-        function renderExpandEmployeeAward(nominationGroup, projectGroup, employeeId) {
+        function renderEmployeeAwardCol(nomination) {
             var htmlString = "";
 
-            if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
-                htmlString = "<table class='employee-award-table' data-employee-id='" + employeeId + "' data-collapse='false' data-visible='false'>";
-                htmlString += "<tbody>";
-                htmlString += "<tr class='row-header'>" +
+            var statusClass = getClassByNominationStatus(nomination.StatusId);
+            var tooltipContent = "";
+
+            var htmlString = "<td><b>" + nomination.Title + "</b></td>" +
+            "<td class='award-tooltip text-center nomination-status " + statusClass + "' title='" + tooltipContent + "'>" + nomination.StatusToString + "</td>";
+
+            return htmlString;
+        }
+
+        function renderEmployeeAwardTableHeader() {
+            return "<tr class='row-header'>" +
                     "<td class='col-title'></td>" +
                     "<td class='col-common'></td>" +
                     "<td class='col-project-name'></td>" +
                     "<td class='col-score'></td>" +
                     "<td class='col-common'></td>" +
                     "</tr>";
+        }
+
+        function renderExpandEmployeeAward(nominationGroup, projectGroup, employeeId) {
+            var htmlString = "";
+
+            if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
+                htmlString = "<table class='employee-award-table' data-employee-id='" + employeeId + "' data-collapse='false' data-visible='false'>";
+                htmlString += "<tbody>";
+                htmlString += renderEmployeeAwardTableHeader();
 
                 var firstProject = true;
                 for (var i = 0; i < projectGroup.Items.length; i++) {
@@ -78,9 +94,7 @@
                     if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        var statusClass = getClassByNominationStatus(nomination.StatusId);
-                        row += "<td><b class='award-tooltip' title='SomeThing'>" + nomination.Title +
-                            "</b></td><td class='text-center nomination-status " + statusClass + "'>" + nomination.StatusToString + "</td>";
+                        row += renderEmployeeAwardCol(nomination);
                     }
 
                     if (project.IsAdditionalRow) {
@@ -116,13 +130,7 @@
             var htmlString = "<table class='employee-award-table' data-employee-id='" + employeeId + "' data-collapse='true' data-visible='true'>";
 
             htmlString += "<tbody>";
-            htmlString += "<tr class='row-header'>" +
-                "<td class='col-title'></td>" +
-                "<td class='col-common'></td>" +
-                "<td class='col-project-name'></td>" +
-                "<td class='col-score'></td>" +
-                "<td class='col-common'></td>" +
-                "</tr>";
+            htmlString += renderEmployeeAwardTableHeader();
 
             if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
                 var firstProject = true;
@@ -136,10 +144,7 @@
                             row += "<td colspan='2'></td>";
                         }
                     } else {
-                        var statusClass = getClassByNominationStatus(nomination.StatusId);
-                        var content = "2 votes: <br/> Nguyễn Văn Lâm (Forrest) <br/> Trịnh Đăng Thắng (Tim)";
-                        row += "<td><b class='award-tooltip' title='" + content + "'>" + nomination.Title +
-                            "</b></td><td class='text-center nomination-status " + statusClass + "'>" + nomination.StatusToString + "</td>";
+                        row += renderEmployeeAwardCol(nomination);
                     }
 
                     if (firstProject) {
@@ -174,9 +179,7 @@
                     if (nomination.IsAdditionalRow) {
                         row += "<td colspan='2'></td>";
                     } else {
-                        var statusClass = getClassByNominationStatus(nomination.StatusId);
-                        row += "<td><b class='award-tooltip' title='SomeThing'>" + nomination.Title +
-                            "</b></td><td class='text-center nomination-status " + statusClass + "'>" + nomination.StatusToString + "</td>";
+                        row += renderEmployeeAwardCol(nomination);
                     }
 
                     if (project.IsAdditionalRow) {
