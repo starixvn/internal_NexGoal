@@ -96,7 +96,7 @@
 .master-report-table {
     tr {
         &.on-focus {
-        td {
+            td {
                 background: #E2FFFF;
                 padding: 0;
 
@@ -108,23 +108,24 @@
     }
 }
 
-    &[data-visible="true"] {
-        display: table;
-    }
+&[data-visible="true"] {
+    display: table;
+}
 
-    &[data-visible="false"] {
-        display: none;
-    }
+&[data-visible="false"] {
+    display: none;
+}
 
-    tbody {
-        tr {
-            &:first-child {
-        td {
-            &.col-employee-award {
-                padding: 0;
+tbody {
+    tr {
+        &:first-child {
+            td {
+                &.col-employee-award {
+                    padding: 0;
 
-                .table-cell {
-                    width: 100%;
+                    .table-cell {
+                        width: 100%;
+                    }
                 }
             }
         }
