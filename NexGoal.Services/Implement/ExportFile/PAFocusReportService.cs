@@ -193,11 +193,6 @@ namespace NexGoal.Services.Implement
 
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
-                cellBody.SetCellValue(pa.Employee.FullName);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(pa.Employee.NickName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
@@ -205,6 +200,10 @@ namespace NexGoal.Services.Implement
                 cellBody.CellStyle = bodyStyleLeft;
                 cellBody.SetCellValue(pa.Employee.JobTitle.JobTitleName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(pa.Employee.Group.GroupName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                 var bonusGiven = pa.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)pa.BonusGiven.Value) : string.Empty;
@@ -213,17 +212,12 @@ namespace NexGoal.Services.Implement
                 cellBody.SetCellValue(bonusGiven);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleLeft;
-                cellBody.SetCellValue(pa.Employee.Group.GroupName);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-
                 var contribution = pa.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)pa.Contribution.Value) : string.Empty;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(contribution);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-             
+
                 var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? "Yes" : "No" : string.Empty;
                 if (promotion == "Yes")
                 {
@@ -233,6 +227,9 @@ namespace NexGoal.Services.Implement
                         cellBody.CellStyle = bodyStyleBlueCenter2;
                         cellBody.SetCellValue(promotion);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
+                    else
+                    {
                         cellBody = row.CreateCell(columnIndex);
                         cellBody.CellStyle = bodyStyleBlueCenter1;
                         cellBody.SetCellValue(promotion);
@@ -248,7 +245,7 @@ namespace NexGoal.Services.Implement
                 }
 
                 var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? "Yes" : "No" : string.Empty;
-                if (performance == "Yes") 
+                if (performance == "Yes")
                 {
                     if (rowIndex % 2 == 0)
                     {
