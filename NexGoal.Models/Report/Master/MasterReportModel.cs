@@ -1,4 +1,5 @@
-﻿using NexGoal.Model.Integration;
+﻿using NexGoal.Core.Services;
+using NexGoal.Model.Integration;
 using NexGoal.Model.Nomination;
 using NexGoal.Model.PAFocus;
 using System.Collections.Generic;
@@ -27,6 +28,8 @@ namespace NexGoal.Model.Report
         public void Decrypt()
         {
             PAFocus.Decrypt();
+            ICertificateService encryptService = new CertificateService();
+            ReviewerAdjustment = string.IsNullOrEmpty(ReviewerAdjustment) ? ReviewerAdjustment : encryptService.Decrypt(ReviewerAdjustment);
         }
     }
 }
