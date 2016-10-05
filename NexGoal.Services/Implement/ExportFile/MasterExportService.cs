@@ -71,6 +71,7 @@
             var promotion = evaluation.PAFocus.IsReadyPromotion.HasValue ? evaluation.PAFocus.IsReadyPromotion.Value ? Lang.Yes : Lang.No : string.Empty;
             var performance = evaluation.PAFocus.IsPoorPerformance.HasValue ? evaluation.PAFocus.IsPoorPerformance.Value ? Lang.Yes : Lang.No : string.Empty;
             var lastObjective = evaluation.PAFocus.LastCompletedPercentObjective.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.LastCompletedPercentObjective.Value) : string.Empty;
+            var score = evaluation.PAFocus.FinalScore.HasValue && evaluation.PAFocus.FinalScore.Value != 0 ? evaluation.PAFocus.FinalScore.ToString() : Lang.NotAvailable;
             var record = new
             {
                 RowIndex = rowIndex.ToString(),
@@ -79,7 +80,7 @@
                 Jobtitle = evaluation.PAFocus.Employee.JobTitle.JobTitleName,
                 GroupName = evaluation.PAFocus.Employee.Group.GroupName,
                 ReviewerAdjustment = index == 0 ? evaluation.ReviewerAdjustment : string.Empty,
-                Score = index == 0 ? evaluation.PAFocus.FinalScore.ToString() : string.Empty,
+                Score = index == 0 ? score : string.Empty,
                 EvaluatorComment = index == 0 ? evaluation.EvaluatorComment : string.Empty,
                 Contribution = index == 0 ? contribution : string.Empty,
                 BonusGiven = index == 0 ? bonusGiven : string.Empty,
