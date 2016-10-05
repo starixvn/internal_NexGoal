@@ -495,7 +495,13 @@
         return {
             link: function (scope) {
                 scope.$on("exportExcelMasterReport", function () {
-                    var data = $.param(scope.masterReportCtrl.filter),
+                    var filter = scope.masterReportCtrl.filter;
+                    var params = {
+                        PeriodId: filter.periodId,
+                        GroupIds: filter.teamIds,
+                        EmployeeId: filter.employee.EmployeeId
+                    };
+                    var data = $.param(params),
                         url = baseUrl + "ExportReport/ExportMasterReport",
                         downloadUrl = url + "?" + data,
                         iframe = $("body iframe");
