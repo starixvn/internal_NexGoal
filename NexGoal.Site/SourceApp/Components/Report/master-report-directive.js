@@ -139,6 +139,82 @@
             return htmlString;
         }
 
+        function renderUnexpandableEmployeeAward(nominationGroup, projectGroup) {
+            var htmlString = "";
+
+            for (var i = 0; i < projectGroup.Items.length; i++) {
+                var nomination = nominationGroup.Items[i];
+                var project = projectGroup.Items[i];
+                var row = "<tr>";
+
+                if (nomination.IsAdditionalRow) {
+                    row += "<td colspan='2'></td>";
+                } else {
+                    row += renderEmployeeAwardCol(nomination);
+                }
+
+                if (project.IsAdditionalRow) {
+                    row += "<td colspan='3'></td>";
+                } else {
+                    row += "<td>" + project.ProjectName + "</td><td class='text-center'>" + project.DecryptedScore +
+                        "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
+                        "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
+                        "><i class='fa fa-search'></i></a></td>";
+                }
+
+                row += "</tr>";
+
+                htmlString += row;
+            }
+
+            return htmlString;
+        }
+
+        function renderExpandableEmployeeAward(nominationGroup, projectGroup, employeeId) {
+            var htmlString = "";
+            var firstProject = true;
+
+            for (var i = 0; i < projectGroup.Items.length; i++) {
+                var nomination = nominationGroup.Items[i];
+                var project = projectGroup.Items[i];
+                var row = "<tr>";
+                var syncRender = false;
+
+                if (nomination.IsAdditionalRow) {
+                    if (nominationGroup.RealRowCount >= projectGroup.RealRowCount || nominationGroup.RealRowCount === 0) {
+                        row += "<td colspan='2'></td>";
+                        syncRender = true;
+                    }
+                } else {
+                    row += renderEmployeeAwardCol(nomination);
+                    syncRender = true;
+                }
+
+                if (firstProject) {
+                    row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
+                        "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>" +
+                        "<td class='text-center'>" + project.DecryptedScore +
+                        "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
+                        "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
+                        "><i class='fa fa-search'></i></a></td>";
+                    firstProject = false;
+                } else {
+                    row += syncRender ? "<td colspan='3'></td>" : "";
+                }
+
+                row += "</tr>";
+
+                if (projectGroup.RealRowCount > nominationGroup.RealRowCount &&
+                    nominationGroup.RealRowCount === i) {
+                    break;
+                }
+
+                htmlString += row;
+            }
+
+            return htmlString;
+        }
+
         function renderCollapseEmployeeAward(nominationGroup, projectGroup, employeeId) {
             var htmlString = "<table class='employee-award-table' data-employee-id='" + employeeId + "' data-collapse='true' data-visible='true'>";
 
@@ -146,68 +222,9 @@
             htmlString += renderEmployeeAwardTableHeader();
 
             if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
-                var firstProject = true;
-                for (var i = 0; i < projectGroup.Items.length; i++) {
-                    var nomination = nominationGroup.Items[i];
-                    var project = projectGroup.Items[i];
-                    var row = "<tr>";
-                    var syncRender = false;
-                    if (nomination.IsAdditionalRow) {
-                        if (nominationGroup.RealRowCount >= projectGroup.RealRowCount || nominationGroup.RealRowCount === 0) {
-                            row += "<td colspan='2'></td>";
-                            syncRender = true;
-                        }
-                    } else {
-                        row += renderEmployeeAwardCol(nomination);
-                        syncRender = true;
-                    }
-
-                    if (firstProject) {
-                        row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
-                            "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>" +
-                            "<td class='text-center'>" + project.DecryptedScore +
-                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
-                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
-                            "><i class='fa fa-search'></i></a></td>";
-                        firstProject = false;
-                    } else {
-                        row += syncRender ? "<td colspan='3'></td>" : "";
-                    }
-
-                    row += "</tr>";
-
-                    if (projectGroup.RealRowCount > nominationGroup.RealRowCount &&
-                        nominationGroup.RealRowCount === i) {
-                        break;
-                    }
-
-                    htmlString += row;
-                }
+                htmlString += renderExpandableEmployeeAward(nominationGroup, projectGroup, employeeId);
             } else {
-                for (var i = 0; i < projectGroup.Items.length; i++) {
-                    var nomination = nominationGroup.Items[i];
-                    var project = projectGroup.Items[i];
-                    var row = "<tr>";
-
-                    if (nomination.IsAdditionalRow) {
-                        row += "<td colspan='2'></td>";
-                    } else {
-                        row += renderEmployeeAwardCol(nomination);
-                    }
-
-                    if (project.IsAdditionalRow) {
-                        row += "<td colspan='3'></td>";
-                    } else {
-                        row += "<td>" + project.ProjectName + "</td><td class='text-center'>" + project.DecryptedScore +
-                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
-                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
-                            "><i class='fa fa-search'></i></a></td>";
-                    }
-
-                    row += "</tr>";
-
-                    htmlString += row;
-                }
+                htmlString += renderUnexpandableEmployeeAward(nominationGroup, projectGroup);
             }
 
             htmlString += "</tbody>";
