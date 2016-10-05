@@ -50,11 +50,34 @@
         }
 
         function renderEvaluatorCommentCell(cell) {
-            return '<a class="evaluator-comment" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+            var htmlString = "";
+
+            if (cell.Value && cell.Value.length > 0) {
+                htmlString = '<a class="evaluator-comment" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+            }
+
+            return htmlString;
         }
 
         function renderNextObjectives(cell) {
-            return '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+            var htmlString = "";
+
+            if (cell.Value && cell.Value.length > 0) {
+                htmlString = '<a class="next-objectives" data-employee-id=' + cell.Value + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+            }
+
+            return htmlString;
+        }
+
+        function renderProjectComment(projectId, employeeId, projectComment) {
+            var htmlString = "";
+
+            if (projectComment && projectComment.length > 0) {
+                htmlString = "<a class='project-comment' data-employee-id=" + employeeId + " data-project-id=" + projectId +
+                        "><i class='fa fa-search'></i></a>";
+            }
+
+            return htmlString;
         }
 
         function renderEmployeeAwardTooltip(nominators) {
@@ -107,26 +130,25 @@
                     var row = "<tr>";
 
                     if (nomination.IsAdditionalRow) {
-                        row += "<td colspan='2'></td>";
+                        row += "<td></td><td></td>";
                     } else {
                         row += renderEmployeeAwardCol(nomination);
                     }
 
                     if (project.IsAdditionalRow) {
-                        row += "<td colspan='3'></td>";
+                        row += "<td></td><td></td><td></td>";
                     } else {
                         if (firstProject) {
                             row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
                                 "'><i class='fa fa-caret-up'></i></a>&nbsp;" + project.ProjectName + "</td>";
                             firstProject = false;
                         } else {
-                            row += "<td>&nbsp;&nbsp;&nbsp;&nbsp;" + project.ProjectName + "</td>";
+                            row += "<td>&nbsp;&nbsp;&nbsp;" + project.ProjectName + "</td>";
                         }
 
                         row += "<td class='text-center'>" + project.DecryptedScore +
                             "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
-                            "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
-                            "><i class='fa fa-search'></i></a></td>";
+                            renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
                     }
 
                     row += "</tr>";
@@ -150,18 +172,17 @@
                 var row = "<tr>";
 
                 if (nomination.IsAdditionalRow) {
-                    row += "<td colspan='2'></td>";
+                    row += "<td></td><td></td>";
                 } else {
                     row += renderEmployeeAwardCol(nomination);
                 }
 
                 if (project.IsAdditionalRow) {
-                    row += "<td colspan='3'></td>";
+                    row += "<td></td><td></td><td></td>";
                 } else {
                     row += "<td>" + project.ProjectName + "</td><td class='text-center'>" + project.DecryptedScore +
                         "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
-                        "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
-                        "><i class='fa fa-search'></i></a></td>";
+                        renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
                 }
 
                 row += "</tr>";
@@ -184,7 +205,7 @@
 
                 if (nomination.IsAdditionalRow) {
                     if (nominationGroup.RealRowCount >= projectGroup.RealRowCount || nominationGroup.RealRowCount === 0) {
-                        row += "<td colspan='2'></td>";
+                        row += "<td></td><td></td>";
                         syncRender = true;
                     }
                 } else {
@@ -197,21 +218,20 @@
                         "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>" +
                         "<td class='text-center'>" + project.DecryptedScore +
                         "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
-                        "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
-                        "><i class='fa fa-search'></i></a></td>";
+                        renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
                     firstProject = false;
                 } else {
-                    row += syncRender ? "<td colspan='3'></td>" : "";
+                    row += syncRender ? "<td></td><td></td><td></td>" : "";
                 }
 
                 row += "</tr>";
+
+                htmlString += syncRender ? row : "";
 
                 if (projectGroup.RealRowCount > nominationGroup.RealRowCount &&
                     nominationGroup.RealRowCount === i) {
                     break;
                 }
-
-                htmlString += row;
             }
 
             return htmlString;
@@ -397,7 +417,8 @@
                     fullHeight: false,
                     gridHeight: 600,
                     showTree: true,
-                    gridExpandHeight: 150
+                    gridExpandHeight: 150,
+                    showDistinctRow: false
                 };
 
                 scope.$watch("gridData", function (gridData) {
