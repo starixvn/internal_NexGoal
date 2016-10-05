@@ -360,8 +360,14 @@
                     subRow.Columns.push({ Name: "EvaluatorComment", Value: member.PAFocus.Employee.EmployeeId });
                     subRow.Columns.push({ Name: "Contribution", Value: getFocusEvaluationLevel(member.PAFocus.Contribution) });
                     subRow.Columns.push({ Name: "BonusGiven", Value: getFocusEvaluationLevel(member.PAFocus.BonusGiven) });
-                    subRow.Columns.push({ Name: "ApplicableToPromote", Value: member.PAFocus.IsReadyPromotion ? "Yes" : "No" });
-                    subRow.Columns.push({ Name: "IsPoorPerformance", Value: member.PAFocus.IsPoorPerformance ? "Yes" : "No" });
+                    subRow.Columns.push({
+                        Name: "ApplicableToPromote", Value: member.PAFocus.IsReadyPromotion ? "Yes" : "No",
+                        TdClass: member.PAFocus.IsReadyPromotion ? "good" : ""
+                    });
+                    subRow.Columns.push({
+                        Name: "IsPoorPerformance", Value: member.PAFocus.IsPoorPerformance ? "Yes" : "No",
+                        TdClass: member.PAFocus.IsPoorPerformance ? "warning" : ""
+                    });
                     subRow.Columns.push({ Name: "ObjectiveAchievement", Value: getFocusEvaluationLevel(member.PAFocus.LastCompletedPercentObjective) });
                     subRow.Columns.push({ Name: "NextObjectives", Value: member.PAFocus.Employee.EmployeeId });
                     subRow.Columns.push({ Name: "AwardName", Value: employee, MergeColNumber: 5 });

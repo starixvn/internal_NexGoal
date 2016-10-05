@@ -97,11 +97,29 @@
     tr {
         &.on-focus {
             td {
-                background: #E2FFFF;
+                background: #fdf2c5;
 
                 .table-cell {
                     width: 100%;
                 }
+            }
+        }
+
+        &:hover {
+            td {
+                background: #fdf2c5 !important;
+            }
+        }
+
+        td {
+            &.warning {
+                color: red;
+                font-weight: bold;
+            }
+
+            &.good {
+                color: #3da52a;
+                font-weight: bold;
             }
         }
     }
