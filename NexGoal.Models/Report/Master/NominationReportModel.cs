@@ -30,16 +30,16 @@
                 switch (Quarter)
                 {
                     case 1:
-                        title = "EOQ: 1st" + Year.ToString();
+                        title = "EOQ: 1st " + Year.ToString();
                         break;
                     case 2:
-                        title = "EOQ: 2nd" + Year.ToString();
+                        title = "EOQ: 2nd " + Year.ToString();
                         break;
                     case 3:
-                        title = "EOQ: 3rd" + Year.ToString();
+                        title = "EOQ: 3rd " + Year.ToString();
                         break;
                     case 4:
-                        title = "EOQ: 4th" + Year.ToString();
+                        title = "EOQ: 4th " + Year.ToString();
                         break;
                     default:
                         title = "EOY: " + Year.ToString();
