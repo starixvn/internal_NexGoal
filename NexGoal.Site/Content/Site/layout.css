@@ -123,6 +123,9 @@ textarea.none-resize {
 .text-uppercase {
   text-transform: uppercase;
 }
+.default-select option {
+  color: #555;
+}
 .navbar {
   min-height: 6rem;
   line-height: 6rem;

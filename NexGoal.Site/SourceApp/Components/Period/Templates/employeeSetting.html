@@ -91,7 +91,7 @@
                                placeholder="Enter full name or nick name" search-auto-complete search-employees="empSettingCtrl.getEmployee()"
                                ng-change="empSettingCtrl.unSelectEmployee()" employee="empSettingCtrl.filterAssign.employee" />
                     </div>
-                    <button class="button pull-left period-add" ng-click="empSettingCtrl.addEmployee(empSettingCtrl.filterAssign)"
+                    <button class="button pull-left" ng-click="empSettingCtrl.addEmployee(empSettingCtrl.filterAssign)"
                             ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Add"></button>
                     <input class="btnExcel pull-right" export-employee-setting-report
                            ng-click="empSettingCtrl.exportReport(empSettingCtrl.filter)"

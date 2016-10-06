@@ -199,12 +199,14 @@
                         <td>{{nomination.Nominator.FullName}} ({{nomination.Nominator.NickName}})</td>
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
-                            <select ng-model="item.StatusId"
+                            <select class="nomination-status default-select"
+                                    ng-model="item.StatusId"
                                     ng-change="eoqAccessCtrl.updateStatusNomination(item)"
                                     ng-options="opt.Value as opt.Name for opt in eoqAccessCtrl.nominationStatus"
-                                    ng-if="eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></select>
+                                    ng-if="eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"
+                                    ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': item.StatusId === 3}"></select>
                             <span class="nomination-status"
-                                  ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': v.StatusId === 3}"
+                                  ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': item.StatusId === 3}"
                                   ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                                 {{item.StatusToString}}
                             </span>

@@ -38,7 +38,7 @@
         function getFocusEvaluationLevel(value) {
             var level = {
                 Value: 0,
-                Name: ""
+                Name: "-"
             };
             var itemIndex = focusEvaluationLevel.map(function (item) { return item.Value; }).indexOf(value);
 
@@ -50,7 +50,7 @@
         }
 
         function renderEvaluatorCommentCell(cell) {
-            var htmlString = "";
+            var htmlString = "-";
             var employee = cell.Value;
 
             if (employee && employee.Comment && employee.Comment.length > 0) {
@@ -61,7 +61,7 @@
         }
 
         function renderNextObjectives(cell) {
-            var htmlString = "";
+            var htmlString = "-";
             var employee = cell.Value;
 
             if (employee && employee.Comment && employee.Comment.length > 0) {
@@ -496,7 +496,8 @@
 
                     $(element.find(".award-tooltip")).tooltip({
                         placement: 'left',
-                        html: true
+                        html: true,
+                        container: "body"
                     });
                 });
             }

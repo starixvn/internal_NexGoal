@@ -98,20 +98,18 @@
                             ng-disabled="member.IsReadOnly"></select>
                 </td>
                 <td class="text-center">
-                    <select class="form-control focus-evaluation-status"
+                    <select class="form-control focus-evaluation-status default-select"
                             ng-class="{'good': member.IsReadyPromotion, 'normal': !member.IsReadyPromotion}"
                             ng-model="member.IsReadyPromotion"
                             ng-disabled="member.IsReadOnly"
-                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
-                            options-class="{ 'focus-evaluation-status good' : Value, 'focus-evaluation-status normal' : !Value}"></select>
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"></select>
                 </td>
                 <td class="text-center">
-                    <select class="form-control focus-evaluation-status"
+                    <select class="form-control focus-evaluation-status default-select"
                             ng-class="{'warning': member.IsPoorPerformance, 'normal': !member.IsPoorPerformance}"
                             ng-model="member.IsPoorPerformance"
                             ng-disabled="member.IsReadOnly"
-                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
-                            options-class="{ 'focus-evaluation-status warning' : Value, 'focus-evaluation-status normal' : !Value}"></select>
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"></select>
                 </td>
                 <td class="text-center">
                     <select class="form-control"

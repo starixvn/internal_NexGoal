@@ -73,6 +73,7 @@
                                 evaluation.IsDisplay = false;
                             }
                         }
+
                         team.Members.push(evaluation);
                         team.TotalBonus += evaluation.BonusGiven;
                     }

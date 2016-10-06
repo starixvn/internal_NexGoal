@@ -182,25 +182,3 @@ appModule.directive('numberOnly', ['$filter', function ($filter) {
         }
     };
 }]);
-
-appModule.directive('optionsClass', ['$parse', function ($parse) {
-    return {
-        require: 'select',
-        link: function (scope, elem, attrs, ngSelect) {
-            var optionsSourceStr = attrs.ngOptions.split(' ').pop(),
-                getOptionsClass = $parse(attrs.optionsClass);
-
-            scope.$watch(optionsSourceStr, function (items) {
-                angular.forEach(items, function (item, index) {
-                    var classes = getOptionsClass(item),
-                        option = elem.find('option[value=' + index + ']');
-                    angular.forEach(classes, function (add, className) {
-                        if (add) {
-                            angular.element(option).addClass(className);
-                        }
-                    });
-                });
-            });
-        }
-    };
-}]);

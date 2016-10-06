@@ -72,7 +72,8 @@
                 <calendar-image class="calendar-image" ng-click="basicInfoPeriodCtrl.openPopupAttendanceEndDate($event)"></calendar-image>
             </div>
         </div>
-        <div class="form-group top-buffer">
+        <div class="form-group top-buffer"
+             ng-show="basicInfoPeriodCtrl.period.TargetTypeId == 3 || basicInfoPeriodCtrl.period.TargetTypeId == 5">
             <label class="col-sm-3 col-lg-2 control-label required-label" data-translate="FocusStartDate"
                    ng-show="basicInfoPeriodCtrl.period.TargetTypeId == 3 || basicInfoPeriodCtrl.period.TargetTypeId == 5">
             </label>

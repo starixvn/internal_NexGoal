@@ -34,7 +34,7 @@
                             ng-options="opt for opt in processSettingPeriodCtrl.remindDay"></select>
                 </td>
             </tr>
-            <tr>
+            <tr ng-show="processSettingPeriodCtrl.period.TargetTypeId == 3 || processSettingPeriodCtrl.period.TargetTypeId == 5">
                 <td data-translate="FocusDay"></td>
                 <td></td>
                 <td></td>
