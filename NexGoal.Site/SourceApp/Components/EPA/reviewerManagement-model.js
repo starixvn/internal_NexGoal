@@ -221,6 +221,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                     memberEPA.Process.CurrentProcess.AdjustScore = adjustScore;
                 }
 
+                memberEPA.Process.CurrentProcess.AdjustScoreOriginal = memberEPA.Process.CurrentProcess.AdjustScore;
                 reviewerMngModel.calculateScore(memberEPA, true);
 
                 memberEPA.Process.CurrentProcess.Comment = adjust.Comment;
