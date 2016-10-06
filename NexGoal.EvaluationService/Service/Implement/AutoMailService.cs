@@ -12,10 +12,10 @@
 
     public class AutoMailService : IAutoMailService
     {
-        private string _startDateMailToHumanResources = "~/Views/Emails/StartEvaluationToHR.cshtml";
-        private string _startDateMailToSelf = "~/Views/Emails/StartEvaluationToSelf.cshtml";
-        private string _startDateMailToEvaluator = "~/Views/Emails/StartEvaluationToEvaluator.cshtml";
-        private string _startDateMailToReviewer = "~/Views/Emails/StartEvaluationToReviewer.cshtml";
+        private string _startDateMailToHumanResources = "Views\\Emails\\StartEvaluationToHR.cshtml";
+        private string _startDateMailToSelf = "Views\\Emails\\StartEvaluationToSelf.cshtml";
+        private string _startDateMailToEvaluator = "Views\\Emails\\StartEvaluationToEvaluator.cshtml";
+        private string _startDateMailToReviewer = "Views\\Emails\\StartEvaluationToReviewer.cshtml";
 
         private string _endMailToHumanResourcesByEmployee = "Views\\Emails\\EndEvaluationToHRByEmployee.cshtml";
         private string _endMailToHumanReouscesByPeriod = "Views\\Emails\\EndEvaluationToHRByPeriod.cshtml";
