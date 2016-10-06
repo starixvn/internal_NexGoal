@@ -284,12 +284,12 @@
             {
                 MailModel email = new MailModel();
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
-                   .Replace(EmailFormat.AdminNick, employeeSetting.EvaluatorInfo.NickName)
-                   .Replace(EmailFormat.PeriodName, period.Name);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.AdminNick, employeeSetting.EvaluatorInfo.NickName);
 
                 var subject = Email.EndMailEvaluationSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
-                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId))
 
                 email.Subject = subject;
                 email.Body = body;
@@ -308,7 +308,9 @@
                     .Replace(EmailFormat.PeriodName, evaluationInfo.Period.Name)
                     .Replace(EmailFormat.TargetType, GetTargetType(evaluationInfo.Period.TargetTypeId));
 
-                email.Body = _baseMailService.ReadTextFile(templateEmailPath).Replace(EmailFormat.PeriodName, evaluationInfo.Period.Name);
+                email.Body = _baseMailService.ReadTextFile(templateEmailPath)
+                    .Replace(EmailFormat.PeriodName, evaluationInfo.Period.Name)
+                    .Replace(EmailFormat.EmployeeNick, evaluationInfo.Employee.NickName);
 
                 email.ReceiverEmail = evaluationInfo.Employee.Email;
 
