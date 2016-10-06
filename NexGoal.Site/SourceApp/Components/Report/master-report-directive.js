@@ -247,8 +247,10 @@
 
             if (projectGroup.RealRowCount && projectGroup.RealRowCount > 1) {
                 htmlString += renderExpandableEmployeeAward(nominationGroup, projectGroup, employeeId);
-            } else {
+            } else if (projectGroup.RealRowCount > 0) {
                 htmlString += renderUnexpandableEmployeeAward(nominationGroup, projectGroup);
+            } else {
+                htmlString += "<td>-</td><td>-</td><td>-</td><td>-</td><td>-</td>";
             }
 
             htmlString += "</tbody>";
@@ -345,6 +347,22 @@
             ];
         }
 
+        function getEmployeePerformanceRowClass(contribution, bonusGiven) {
+            var cssClass = "";
+            var totalPoint = (contribution || 0) + (bonusGiven || 0);
+
+            switch (totalPoint) {
+                case 10:
+                    cssClass = "outstanding";
+                    break;
+                case 9:
+                    cssClass = "very-good";
+                    break;
+            }
+
+            return cssClass
+        }
+
         function generateBodyRows(groupReports) {
             var rows = [];
             angular.forEach(groupReports, function (group) {
@@ -358,7 +376,8 @@
 
                 angular.forEach(group.Members, function (member) {
                     var subRow = {
-                        Columns: []
+                        Columns: [],
+                        CssClass: getEmployeePerformanceRowClass(angular.copy(member.PAFocus.Contribution), angular.copy(member.PAFocus.BonusGiven))
                     };
                     var employee = {
                         EmployeeId: member.PAFocus.Employee.EmployeeId,

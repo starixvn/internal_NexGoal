@@ -54,7 +54,7 @@
         </div>
     </div>
 
-    <table class="table table-bordered table-striped pa-focus-table">
+    <table class="table table-bordered table-striped pa-focus-table employee-performance-table">
         <thead>
             <tr>
                 <th data-translate="SymbolCount"></th>
@@ -79,7 +79,8 @@
             <tr class="group-row">
                 <td colspan="12"><b>{{group.Name}}</b></td>
             </tr>
-            <tr ng-repeat="member in group.Members">
+            <tr ng-repeat="member in group.Members"
+                ng-class="{'outstanding': member.Contribution + member.BonusGiven === 10, 'very-good': member.Contribution + member.BonusGiven === 9}">
                 <td class="text-center" ng-bind="$index + 1"></td>
                 <td ng-bind="member.Employee.FullName"></td>
                 <td class="text-center" ng-bind="member.Employee.NickName"></td>

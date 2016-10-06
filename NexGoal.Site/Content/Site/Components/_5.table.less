@@ -52,7 +52,7 @@
             color: @color-table-body;
             border-color: @color-table-border !important;
             vertical-align: middle !important;
-            //padding: 8px 20px !important;            
+            //padding: 8px 20px !important;
         }
 
         .fa-search {
@@ -165,7 +165,6 @@
             &:last-child {
                 border-right-color: @c-bg-table-tfoot;
             }*/
-
             &.paging {
                 background: #eaeaea;
                 padding: 5px 8px;
@@ -271,8 +270,6 @@
     }
 }
 
-//-------------------------------- TABLE FOR PA FORM -----------------------------//
-
 .pa-form {
     thead {
         > tr {
@@ -302,153 +299,18 @@
     }
 }
 
-.bonus-give-success {
-    background: #5dbb43;
-    color: #fff !important;
+.employee-performance-table {
+    tr {
+        &.outstanding {
+            td {
+                background: #4d7de3;
+            }
+        }
+
+        &.very-good {
+            td {
+                background: #f5915f;
+            }
+        }
+    }
 }
-
-.bonus-give-warning {
-    background: #f5915f;
-    color: #fff !important;
-}
-
-.bonus-give-error {
-    background: #ba3536;
-    color: #fff !important;
-}
-
-/*.table {
-        &.header-table th {
-            background: #818181;
-            border: 1px solid #515151;
-            border-width: 0 1px 1px 0;
-            border-color: none #515151 #515151 #ddd;
-            margin: 0 1%;
-            padding: 0;
-            width: 98%;
-            color: #fff;
-            text-shadow: none;
-            font-weight: normal;
-
-            .table-entries, .search {
-                margin: 5px;
-            }
-
-            .search {
-                margin: 5px;
-            }
-
-            .table-entries {
-                margin-left: 10px;
-
-                select {
-                    color: @font-color;
-                    height: 23px;
-                    margin: 0 3px;
-                    padding: 0;
-                    .box-shadow(none);
-                }
-            }
-
-            label {
-                font-weight: normal;
-                margin: 0;
-            }
-
-            .search-inline-textbox {
-                background: url(images/icon-search.png) #fff no-repeat 188px center;
-                border: 1px solid #ccc;
-                width: 210px;
-                height: 23px;
-                color: #555;
-                padding: 0 24px 0 3px;
-                .border-radius(3px);
-                .box-shadow(none);
-            }
-
-            .button-icon.create-button {
-                margin: 5px 0 0 5px;
-                height: 23px;
-
-                .plus {
-                    background-position: -4px -74px;
-                    height: 20px;
-                    width: 17px;
-                }
-
-                .button-text {
-                    top: -6px;
-                    padding: 0;
-                }
-
-                .email {
-                    background-position: -123px -26px;
-                    height: 21px;
-                    width: 17px;
-                }
-            }
-        }
-    }
-
-    thead tr th, tbody tr td {
-        padding: 6px 10px;
-        vertical-align: middle;
-    }
-
-    &.table-bordered {
-        td {
-            border-color: @table-border-color;
-        }
-
-        thead tr {
-            th {
-                border-width: 0 1px 0 0;
-
-                &:first-child {
-                    border-left: 1px solid #373737;
-                }
-            }
-
-            &.header-table th {
-                border-width: 0 1px 1px 1px;
-            }
-        }
-    }
-
-    &.table-striped > tbody > tr:nth-child(2n+1) > td,
-    &.table-striped > tbody > tr:nth-child(2n+1) > th {
-        background-color: @odd-td-bg;
-    }
-
-    .pagingactive {
-        color: #fff !important;
-        background-color: #428bca !important;
-    }
-
-    tfoot td.paging {
-        background-color: white;
-        color: #666666;
-        padding: 6px 3px 3px 7px;
-
-        select {
-            display: inline-block;
-            height: 30px;
-            margin-top: 2px;
-            font-size: 13px;
-            padding: 2px 12px;
-            width: auto;
-        }
-
-        .custom-paging {
-            margin: 0;
-        }
-
-        ul, li {
-            margin: 0;
-        }
-    }
-
-    tfoot tr {
-        border: 0;
-    }
-}*/
