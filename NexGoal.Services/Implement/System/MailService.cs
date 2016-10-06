@@ -121,7 +121,7 @@
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
-                var subject = Email.StartDateEmailToEvaluatorSubject
+                var subject = Email.StartDateEmailToReviewerSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
                     .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
@@ -289,7 +289,7 @@
 
                 var subject = Email.EndMailEvaluationSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
-                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId))
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Body = body;
