@@ -9,10 +9,10 @@
 
     public class ManualMailService : IManualMailService
     {
-        private string _startDateMailToHumanResources = "~/Views/Emails/StartDateEmailToHR.cshtml";
-        private string _startDateMailToSelf = "~/Views/Emails/StartDateEmailToSelf.cshtml";
-        private string _startDateMailToEvaluator = "~/Views/Emails/StartDateEmailToEvaluator.cshtml";
-        private string _startDateMailToReviewer = "~/Views/Emails/StartDateEmailToReviewer.cshtml";
+        private string _startDateMailToHumanResources = "~/Views/Emails/StartEvaluationToHR.cshtml";
+        private string _startDateMailToSelf = "~/Views/Emails/StartEvaluationToSelf.cshtml";
+        private string _startDateMailToEvaluator = "~/Views/Emails/StartEvaluationToEvaluator.cshtml";
+        private string _startDateMailToReviewer = "~/Views/Emails/StartEvaluationToReviewer.cshtml";
         private string _mailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
 
         private IMailService _mailService;

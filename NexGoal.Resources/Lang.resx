@@ -1035,9 +1035,6 @@
   <data name="ScoredBy" xml:space="preserve">
     <value>Scored By</value>
   </data>
-  <data name="EndMailEvaluationToSelf" xml:space="preserve">
-    <value>{0} completed</value>
-  </data>
   <data name="DisciplineEndDatePeriodRequired" xml:space="preserve">
     <value>The Discipline End Date field is required!</value>
   </data>
@@ -1695,7 +1692,7 @@
   <data name="UpdateDisciplineRecord" xml:space="preserve">
     <value>Update Discipline Record</value>
   </data>
-    <data name="IssueDate" xml:space="preserve">
+  <data name="IssueDate" xml:space="preserve">
     <value>Issue Date</value>
   </data>
   <data name="Discipline" xml:space="preserve">
@@ -1719,5 +1716,4 @@
   <data name="SuitableForTeamGoals" xml:space="preserve">
     <value>Suitable for team goals</value>
   </data>
-
 </root>

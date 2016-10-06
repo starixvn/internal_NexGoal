@@ -117,46 +117,37 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="RemindDateEmailToEvaluatorSubject" xml:space="preserve">
-    <value>Reminder: [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel]</value>
+  <data name="EndMailEvaluationSubject" xml:space="preserve">
+    <value>[NexGoal] #PeriodName# - #TargetType# Completed</value>
   </data>
-  <data name="RemindDateEmailToHRForProbationSubject" xml:space="preserve">
-    <value>Reminder: [NexGoal] #StartMonthYear# Probation Appraisal for self-appraisal Form confirmation [Nexcel]</value>
+  <data name="RemindDateEmailToEvaluatorSubject" xml:space="preserve">
+    <value>Reminder: [NexGoal] #PeriodName# - #TargetType# Evaluation</value>
   </data>
   <data name="RemindDateEmailToHRSubject" xml:space="preserve">
-    <value>Reminder: [NexGoal] #StartMonthYear# PA Form confirmation [Nexcel]</value>
+    <value>Reminder: [NexGoal] #PeriodName# - #TargetType# Employee List Confirmation</value>
   </data>
   <data name="RemindDateEmailToReviewerSubject" xml:space="preserve">
-    <value>Reminder: [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel]</value>
+    <value>Reminder: [NexGoal] #PeriodName# - #TargetType# Review</value>
   </data>
   <data name="RemindDateEmailToSelfSubject" xml:space="preserve">
-    <value>Reminder: [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel]</value>
+    <value>Reminder: [NexGoal] #PeriodName# - #TargetType# Self-evaluation</value>
   </data>
   <data name="StartDateEmailToEvaluatorSubject" xml:space="preserve">
-    <value>[NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel]</value>
-  </data>
-  <data name="StartDateEmailToHRForProbationSubject" xml:space="preserve">
-    <value>[NexGoal] #StartMonthYear# Probation Appraisal for self-appraisal Form confirmation [Nexcel]</value>
+    <value>[NexGoal] #PeriodName# - #TargetType# Evaluation</value>
   </data>
   <data name="StartDateEmailToHRSubject" xml:space="preserve">
-    <value>[NexGoal] #StartMonthYear# PA Form confirmation [Nexcel]</value>
-  </data>
-  <data name="StartDateEmailToManagementSubject" xml:space="preserve">
-    <value>[NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel]</value>
+    <value>[NexGoal] #PeriodName# - #TargetType# Employee List Confirmation</value>
   </data>
   <data name="StartDateEmailToReviewerSubject" xml:space="preserve">
-    <value>[NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel]</value>
+    <value>[NexGoal] #PeriodName# - #TargetType# Review</value>
   </data>
   <data name="StartDateEmailToSelfSubject" xml:space="preserve">
-    <value>[NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel]</value>
+    <value>[NexGoal] #PeriodName# - #TargetType# Self-evaluation</value>
+  </data>
+  <data name="TargetTypePA" xml:space="preserve">
+    <value>PA</value>
   </data>
   <data name="TargetTypeProbation" xml:space="preserve">
-    <value>Probation Appraisal Form Notification</value>
-  </data>
-  <data name="TargetTypeProbationForHR" xml:space="preserve">
-    <value>Probation Appraisal for self-appraisal Form confirmation</value>
-  </data>
-  <data name="TargetTypeSemi" xml:space="preserve">
-    <value>PA Form</value>
+    <value>Probation Appraisal</value>
   </data>
 </root>

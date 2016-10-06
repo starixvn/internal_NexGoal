@@ -811,28 +811,16 @@
     <Content Include="SourceApp\Components\Period\period.less" />
     <Content Include="SourceApp\Components\EPA\epa.less" />
     <Content Include="SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls" />
-    <Content Include="Views\Emails\StartDateEmailToHR.cshtml">
+    <Content Include="Views\Emails\StartEvaluationToHR.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\StartDateEmailToSelf.cshtml">
+    <Content Include="Views\Emails\StartEvaluationToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\StartDateEmailToEvaluator.cshtml">
+    <Content Include="Views\Emails\StartEvaluationToEvaluator.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\StartDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToSelf.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToEvaluator.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToReviewer.cshtml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Views\Emails\RemindDateEmailToHR.cshtml">
+    <Content Include="Views\Emails\StartEvaluationToReviewer.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
@@ -851,10 +839,13 @@
     <Content Include="Views\Auth\Login.cshtml" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\view-eoq-nomination-controller.js" />
     <Content Include="SourceApp\Components\Assessment\Focus\pa-focus.less" />
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByEmployee.cshtml">
+    <Content Include="Views\Emails\EndEvaluationToHRByPeriod.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Views\Emails\EndEvaluationEmailToHRByPeriod.cshtml">
+    <Content Include="Views\Emails\EndEvaluationToHRByEmployee.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\EndEvaluationToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

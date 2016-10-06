@@ -1303,15 +1303,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} completed.
-        /// </summary>
-        public static string EndMailEvaluationToSelf {
-            get {
-                return ResourceManager.GetString("EndMailEvaluationToSelf", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to End of Period.
         /// </summary>
         public static string EndPeriod {

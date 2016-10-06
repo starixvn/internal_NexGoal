@@ -10,8 +10,10 @@
 
         void SendReminderMail(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
 
-        void SendEndEvaluationMailToHumanResourceByEmployee(EPAModel evaluationInfo);
+        void SendEndEvaluationMailToHRByEmployee(EPAModel evaluationInfo);
 
-        void SendEndEvaluationMailToHumanResourceByPeriod(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
+        void SendEndEvaluationMailToHRByPeriod(PeriodModel period, IEnumerable<PeriodFlowModel> employeeSettings);
+
+        void SendEndEvaluationMailToSelf(EPAModel evaluationInfo);
     }
 }

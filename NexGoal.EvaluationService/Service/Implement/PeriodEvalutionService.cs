@@ -65,11 +65,12 @@ namespace NexGoal.BackgroundService
             int periods = 0;
             if (AppSetting.SendMailEndPeriod)
             {
+                autoMailService.SendEndEvaluationMailToSelf(epa);
                 if (epa.Period != null)
                 {
                     if (epa.Period.TargetTypeId == (int)TargetType.Probation)
                     {
-                        autoMailService.SendEndEvaluationMailToHumanResourceByEmployee(epa);
+                        autoMailService.SendEndEvaluationMailToHRByEmployee(epa);
                     }
                     else if (epa.Period.TargetTypeId == (int)TargetType.SemiAnnual)
                     {
@@ -124,7 +125,7 @@ namespace NexGoal.BackgroundService
             PeriodModel period = periodService.GetPeriodById(periodId);
             IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, processId);
 
-            autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
+            autoMailService.SendEndEvaluationMailToHRByPeriod(period, employeeSettings);
         }
 
         private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, int? processId)

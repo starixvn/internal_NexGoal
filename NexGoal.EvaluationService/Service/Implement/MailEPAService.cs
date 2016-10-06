@@ -89,7 +89,7 @@ namespace NexGoal.BackgroundService
                     break;
 
                 case (int)MailMode.EndPeriod:
-                    autoMailService.SendEndEvaluationMailToHumanResourceByPeriod(period, employeeSettings);
+                    autoMailService.SendEndEvaluationMailToHRByPeriod(period, employeeSettings);
                     break;
             }
         }

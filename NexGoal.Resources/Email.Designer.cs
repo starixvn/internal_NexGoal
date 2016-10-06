@@ -61,7 +61,16 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reminder: [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel].
+        ///   Looks up a localized string similar to [NexGoal] #PeriodName# - #TargetType# Completed.
+        /// </summary>
+        public static string EndMailEvaluationSubject {
+            get {
+                return ResourceManager.GetString("EndMailEvaluationSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reminder: [NexGoal] #PeriodName# - #TargetType# Evaluation.
         /// </summary>
         public static string RemindDateEmailToEvaluatorSubject {
             get {
@@ -70,16 +79,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reminder: [NexGoal] #StartMonthYear# Probation Appraisal for self-appraisal Form confirmation [Nexcel].
-        /// </summary>
-        public static string RemindDateEmailToHRForProbationSubject {
-            get {
-                return ResourceManager.GetString("RemindDateEmailToHRForProbationSubject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Reminder: [NexGoal] #StartMonthYear# PA Form confirmation [Nexcel].
+        ///   Looks up a localized string similar to Reminder: [NexGoal] #PeriodName# - #TargetType# Employee List Confirmation.
         /// </summary>
         public static string RemindDateEmailToHRSubject {
             get {
@@ -88,7 +88,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reminder: [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel].
+        ///   Looks up a localized string similar to Reminder: [NexGoal] #PeriodName# - #TargetType# Review.
         /// </summary>
         public static string RemindDateEmailToReviewerSubject {
             get {
@@ -97,7 +97,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Reminder: [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel].
+        ///   Looks up a localized string similar to Reminder: [NexGoal] #PeriodName# - #TargetType# Self-evaluation.
         /// </summary>
         public static string RemindDateEmailToSelfSubject {
             get {
@@ -106,7 +106,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel].
+        ///   Looks up a localized string similar to [NexGoal] #PeriodName# - #TargetType# Evaluation.
         /// </summary>
         public static string StartDateEmailToEvaluatorSubject {
             get {
@@ -115,16 +115,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [NexGoal] #StartMonthYear# Probation Appraisal for self-appraisal Form confirmation [Nexcel].
-        /// </summary>
-        public static string StartDateEmailToHRForProbationSubject {
-            get {
-                return ResourceManager.GetString("StartDateEmailToHRForProbationSubject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [NexGoal] #StartMonthYear# PA Form confirmation [Nexcel].
+        ///   Looks up a localized string similar to [NexGoal] #PeriodName# - #TargetType# Employee List Confirmation.
         /// </summary>
         public static string StartDateEmailToHRSubject {
             get {
@@ -133,16 +124,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel].
-        /// </summary>
-        public static string StartDateEmailToManagementSubject {
-            get {
-                return ResourceManager.GetString("StartDateEmailToManagementSubject", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel].
+        ///   Looks up a localized string similar to [NexGoal] #PeriodName# - #TargetType# Review.
         /// </summary>
         public static string StartDateEmailToReviewerSubject {
             get {
@@ -151,7 +133,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to [NexGoal] #StartMonthYear# #TargetType# Notification [Nexcel].
+        ///   Looks up a localized string similar to [NexGoal] #PeriodName# - #TargetType# Self-evaluation.
         /// </summary>
         public static string StartDateEmailToSelfSubject {
             get {
@@ -160,29 +142,20 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Probation Appraisal Form Notification.
+        ///   Looks up a localized string similar to PA.
+        /// </summary>
+        public static string TargetTypePA {
+            get {
+                return ResourceManager.GetString("TargetTypePA", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Probation Appraisal.
         /// </summary>
         public static string TargetTypeProbation {
             get {
                 return ResourceManager.GetString("TargetTypeProbation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Probation Appraisal for self-appraisal Form confirmation.
-        /// </summary>
-        public static string TargetTypeProbationForHR {
-            get {
-                return ResourceManager.GetString("TargetTypeProbationForHR", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to PA Form.
-        /// </summary>
-        public static string TargetTypeSemi {
-            get {
-                return ResourceManager.GetString("TargetTypeSemi", resourceCulture);
             }
         }
     }

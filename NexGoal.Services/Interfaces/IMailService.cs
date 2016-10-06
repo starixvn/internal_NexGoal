@@ -23,8 +23,10 @@
 
         void SendMailToNotifyChangeSetting(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
 
-        void SendMailEndToHumanResourcesByEmployee(string templateEmailPath, EPAModel evaluationInfo, EPAProcessModel humanResource);
+        void SendMailEndToHRByEmployee(string templateEmailPath, EPAModel evaluationInfo, EPAProcessModel humanResource);
 
-        void SendMailEndToHumanResourceByPeriod(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName);
+        void SendMailEndToHRByPeriod(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period);
+
+        void SendMailToSelfEndEvaluation(string templateEmailPath, EPAModel evaluationInfo);
     }
 }

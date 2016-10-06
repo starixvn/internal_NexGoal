@@ -9,9 +9,7 @@
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
     using System;
-    using System.Collections.Generic;
     using System.Configuration;
-    using System.Linq;
 
     public class MailService : IMailService
     {
@@ -39,12 +37,11 @@
                 .Replace(EmailFormat.PeriodName, period.Name)
                 .Replace(EmailFormat.StartDate, startDate)
                 .Replace(EmailFormat.EndDate, endDate)
-                .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
                 .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
                 var subject = Email.StartDateEmailToHRSubject
-                .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
-                .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbationForHR);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -67,12 +64,11 @@
                    .Replace(EmailFormat.PeriodName, period.Name)
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
-                   .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
                 var subject = Email.StartDateEmailToSelfSubject
-                  .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
-                  .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -96,12 +92,11 @@
                     .Replace(EmailFormat.PeriodName, period.Name)
                     .Replace(EmailFormat.StartDate, startDate)
                     .Replace(EmailFormat.EndDate, endDate)
-                    .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
                     .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
                 var subject = Email.StartDateEmailToEvaluatorSubject
-                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
-                    .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -125,11 +120,10 @@
                    .Replace(EmailFormat.PeriodName, period.Name)
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
-                   .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
                 var subject = Email.StartDateEmailToEvaluatorSubject
-                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
-                    .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Title = ConfigurationManager.AppSettings["Email.SenderName"];
@@ -153,12 +147,11 @@
                     .Replace(EmailFormat.PeriodName, period.Name)
                     .Replace(EmailFormat.StartDate, startDate)
                     .Replace(EmailFormat.EndDate, endDate)
-                    .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
                     .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
                 var subject = Email.RemindDateEmailToSelfSubject
-                  .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
-                  .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Body = body;
@@ -181,12 +174,11 @@
                     .Replace(EmailFormat.PeriodName, period.Name)
                     .Replace(EmailFormat.StartDate, startDate)
                     .Replace(EmailFormat.EndDate, endDate)
-                    .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
                     .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
                 var subject = Email.RemindDateEmailToEvaluatorSubject
-                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
-                    .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Body = body;
@@ -209,12 +201,11 @@
                    .Replace(EmailFormat.PeriodName, period.Name)
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
-                   .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
                 var subject = Email.RemindDateEmailToReviewerSubject
-                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
-                    .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbation);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Body = body;
@@ -237,12 +228,11 @@
                    .Replace(EmailFormat.PeriodName, period.Name)
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
-                   .Replace(EmailFormat.Duration, ((employeeSetting.EndDate.Value - employeeSetting.StartDate.Value).Days + 1).ToString())
                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
 
                 var subject = Email.RemindDateEmailToHRSubject
-                  .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"))
-                  .Replace(EmailFormat.TargetType, period.TargetType.TargetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypeSemi : Email.TargetTypeProbationForHR);
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Body = body;
@@ -267,23 +257,18 @@
             }
         }
 
-        public void SendMailEndToHumanResourcesByEmployee(
-            string templateEmailPath,
-            EPAModel evaluationInfo,
-            EPAProcessModel humanResource)
+        public void SendMailEndToHRByEmployee(string templateEmailPath, EPAModel evaluationInfo, EPAProcessModel humanResource)
         {
             if (evaluationInfo != null && humanResource != null)
             {
                 MailModel email = new MailModel();
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                     .Replace(EmailFormat.AdminNick, humanResource.NickName)
-                    .Replace(EmailFormat.EmployeeNick, evaluationInfo.Employee.NickName)
-                    .Replace(EmailFormat.EmployeeCode, evaluationInfo.Employee.Code)
-                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
-                    .Replace(EmailFormat.ConfirmedDate, evaluationInfo.Employee.ConfirmedDate.ToString("dd MMM yyyy"));
+                    .Replace(EmailFormat.PeriodName, evaluationInfo.Period.Name);
 
-                var subject = Lang.EndMailEvaluationToSelf
-                    .Replace(EmailFormat.StartMonthYear, evaluationInfo.Period.StartDate.Value.ToString("MMMM yyyy"));
+                var subject = Email.EndMailEvaluationSubject
+                    .Replace(EmailFormat.PeriodName, evaluationInfo.Period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(evaluationInfo.Period.TargetTypeId));
 
                 email.Subject = subject;
                 email.Body = body;
@@ -293,21 +278,39 @@
             }
         }
 
-        public void SendMailEndToHumanResourceByPeriod(string templateEmailPath, PeriodFlowModel employeeSetting, string periodName)
+        public void SendMailEndToHRByPeriod(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period)
         {
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                    .Replace(EmailFormat.AdminNick, employeeSetting.EvaluatorInfo.NickName)
-                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                   .Replace(EmailFormat.PeriodName, period.Name);
 
-                var subject = Lang.EndMailEvaluationToSelf
-                    .Replace(EmailFormat.StartMonthYear, employeeSetting.StartDate.Value.ToString("MMMM yyyy"));
+                var subject = Email.EndMailEvaluationSubject
+                    .Replace(EmailFormat.PeriodName, period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
 
                 email.Subject = subject;
                 email.Body = body;
                 email.ReceiverEmail = employeeSetting.EvaluatorInfo.Email;
+
+                _baseMailService.SendEmail(email);
+            }
+        }
+
+        public void SendMailToSelfEndEvaluation(string templateEmailPath, EPAModel evaluationInfo)
+        {
+            if (evaluationInfo != null)
+            {
+                MailModel email = new MailModel();
+                email.Subject = Email.EndMailEvaluationSubject
+                    .Replace(EmailFormat.PeriodName, evaluationInfo.Period.Name)
+                    .Replace(EmailFormat.TargetType, GetTargetType(evaluationInfo.Period.TargetTypeId));
+
+                email.Body = _baseMailService.ReadTextFile(templateEmailPath).Replace(EmailFormat.PeriodName, evaluationInfo.Period.Name);
+
+                email.ReceiverEmail = evaluationInfo.Employee.Email;
 
                 _baseMailService.SendEmail(email);
             }
@@ -325,34 +328,9 @@
             return result.ToString(Constants.FormatDateTimeEmail);
         }
 
-        private string GetEvaluator(IList<EPAProcessModel> evaluators)
+        private string GetTargetType(int targetTypeId)
         {
-            string names = string.Join(",", evaluators.Select(x => x.NickName));
-
-            return names;
-        }
-
-        private float GetAdjustmentScore(EPAModel evaluationInfo, float averagePerformanceScore)
-        {
-            float adjustScore = 0;
-
-            if (evaluationInfo.Process.AverageScoreByManagements > 0)
-            {
-                if (evaluationInfo.Process.AverageScoreByReviewers > 0)
-                {
-                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByReviewers;
-                }
-                else
-                {
-                    adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators;
-                }
-            }
-            else if (evaluationInfo.Process.AverageScoreByReviewers > 0)
-            {
-                adjustScore = averagePerformanceScore - evaluationInfo.Process.AverageScoreByEvaluators;
-            }
-
-            return adjustScore;
+            return targetTypeId == (int)TargetType.SemiAnnual ? Email.TargetTypePA : Email.TargetTypeProbation;
         }
     }
 }
