@@ -188,6 +188,10 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         ReviewerManagementModel.getAllPeriodByReviewer().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(ReviewerManagementModel.periodOptions);
 
+            if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
+                utilitiesFactory.checkLastestPeriods(vm.periods);
+            }
+
             vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
             getGroupsByPeriods(vm.filter.periodIds);

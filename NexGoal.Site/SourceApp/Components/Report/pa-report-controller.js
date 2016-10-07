@@ -31,7 +31,13 @@
                 utilitiesFactory.setSelectAll(vm.teams);
 
                 CommonModel.getAllPeriodIncludeImport().then(function () {
-                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
+                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions); 
+
+                    if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
+                        utilitiesFactory.checkLastestPeriods(vm.periods);
+                    }
+
+                    utilitiesFactory.checkLastestPeriods(vm.periods);
 
                     utilitiesFactory.numberEntryList(vm);
                     vm.query();

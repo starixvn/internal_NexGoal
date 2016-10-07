@@ -116,6 +116,10 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         CommonModel.getAllPeriodByEvaluator().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
 
+            if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
+                utilitiesFactory.checkLastestPeriods(vm.periods);
+            }
+
             vm.filter.periodIds = utilitiesFactory.getSelectedData(vm.periods, "PeriodId");
 
             getGroupsByPeriods(vm.filter.periodIds);

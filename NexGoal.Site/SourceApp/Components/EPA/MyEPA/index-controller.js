@@ -53,6 +53,11 @@ function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilit
 
         CommonModel.getAllPeriodByEmployee().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
+
+            if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
+                utilitiesFactory.checkLastestPeriods(vm.periods);
+            }
+
             vm.query();
         });
     }

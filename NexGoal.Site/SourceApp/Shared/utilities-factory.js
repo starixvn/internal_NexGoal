@@ -7,7 +7,29 @@ appModule.factory('utilitiesFactory',
     var limitNumber = 100,
         dateTimeFormatString = "MM/DD/YYYY HH:mm",
         dateFormat = "dd MMM, yyyy",
-        timeFormat = 'HH:mm';
+        timeFormat = 'HH:mm',
+        SEMI_ANNUAL_TARGET_TYPE = 3;
+
+    function getLatestPeriodsIndex(periods) {
+        var listIndex = [];
+        var maxDate = new Date(1, 1, 1);
+
+        angular.forEach(periods, function (period, index) {
+            if (period.TargetType && period.TargetType.TargetTypeId === SEMI_ANNUAL_TARGET_TYPE && period.IsEndProcess) {
+                var periodEndDate = new Date(period.EndDate);
+
+                if (periodEndDate.setHours(0, 0, 0, 0) > maxDate.setHours(0, 0, 0, 0)) {
+                    listIndex = [];
+                    maxDate = angular.copy(periodEndDate);
+                    listIndex.push(index);
+                } else if (periodEndDate.setHours(0, 0, 0, 0) === maxDate.setHours(0, 0, 0, 0)) {
+                    listIndex.push(index);
+                }
+            }
+        });
+
+        return listIndex;
+    }
 
     utilities.maxStar = 5;
 
@@ -59,6 +81,30 @@ appModule.factory('utilitiesFactory',
         result.push(endGrouping);
 
         return result;
+    };
+
+    utilities.checkInProcessPeriod = function (periods) {
+        var hasProcessPeriod = false;
+
+        angular.forEach(periods, function (period) {
+            if (period.TargetType && period.TargetType.TargetTypeId === SEMI_ANNUAL_TARGET_TYPE && !period.IsEndProcess) {
+                hasProcessPeriod = true;
+            }
+        })
+
+        return hasProcessPeriod;
+    };
+
+    utilities.checkLastestPeriods = function (periods) {
+        var listIndex = getLatestPeriodsIndex(periods);
+
+        angular.forEach(listIndex, function (singleIndex) {
+            var period = periods[singleIndex];
+
+            if (period) {
+                period.ticked = true;
+            }
+        })
     };
 
     utilities.groupingPeriods = function (periods) {
