@@ -184,25 +184,24 @@ function ($modal, kpiFactory, utilitiesFactory, notificationFactory, errorFactor
     kpiModel.openPopupUpdateRequiredEvaluateKPI = function (kpi) {
         kpi.IsRequiredEvaluate = !kpi.IsRequiredEvaluate;
 
-        var action = kpi.IsRequiredEvaluate ? "required" : "not required",
-            newKPI = {
+        var newKPI = {
                 KPIId: kpi.KPIId,
                 IsRequiredEvaluate: kpi.IsRequiredEvaluate
             };
 
         var modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/KPI/Templates/modalConfirmRequired.html',
+            templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
             controller: "ModalConfirmController as modalConfirmCtrl",
             backdrop: 'static',
             resolve: {
                 name: function () {
-                    return kpi.Name;
+                    return "";
                 },
                 action: function () {
-                    return action;
+                    return "";
                 },
                 message: function () {
-                    return "";
+                    return "Is this KPI's evaluation required?";
                 }
             },
             windowClass: "modal-confirm-center"

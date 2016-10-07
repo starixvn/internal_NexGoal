@@ -5,7 +5,7 @@ appModule.controller("ModalConfirmController", ['$modalInstance', 'name', 'actio
  function ($modalInstance, name, action, message) {
      var vm = this;
 
-     vm.message = !message ? "Are you sure to want " + action + " " + name + " ?" : message;
+     vm.message = !message ? "Do you want to " + action + " " + name + " ?" : message;
 
      vm.ok = function () {
          $modalInstance.close();

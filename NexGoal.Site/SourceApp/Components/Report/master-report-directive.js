@@ -443,10 +443,8 @@
                 scope.modalInstance = null;
                 var gridOptions = {
                     customizeHeader: true,
-                    fullHeight: false,
-                    gridHeight: 600,
                     showTree: true,
-                    gridExpandHeight: 150,
+                    gridExpandHeight: 300,
                     showDistinctRow: false
                 };
 

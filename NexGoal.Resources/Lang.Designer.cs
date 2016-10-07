@@ -295,7 +295,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - Detail Discipline Report for EPA From {1}  to {2}.
+        ///   Looks up a localized string similar to {0} - Detail Discipline Report for PA From {1}  to {2}.
         /// </summary>
         public static string AttendanceDetailReportTitle {
             get {
@@ -304,7 +304,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Detail Discipline Report for EPA From {0}  to {1}.
+        ///   Looks up a localized string similar to Detail Discipline Report for PA From {0}  to {1}.
         /// </summary>
         public static string AttendanceDetailReportTitleNoPrefix {
             get {
@@ -331,7 +331,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - Summary Discipline Report for EPA From {1}  to {2}.
+        ///   Looks up a localized string similar to {0} - Summary Discipline Report for PA From {1}  to {2}.
         /// </summary>
         public static string AttendanceSummaryReportTitle {
             get {
@@ -340,7 +340,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Summary Discipline Report for EPA From {0}  to {1}.
+        ///   Looks up a localized string similar to Summary Discipline Report for PA From {0}  to {1}.
         /// </summary>
         public static string AttendanceSummaryReportTitleNoPrefix {
             get {
@@ -1177,7 +1177,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}_EPA_Evaluator_Reviewer_List_of_Section.
+        ///   Looks up a localized string similar to {0}_PA_Evaluator_Reviewer_List_of_Section.
         /// </summary>
         public static string EmployeeFlowSettingReportName {
             get {
@@ -1186,7 +1186,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA_Evaluator_Reviewer_List_of_Section.
+        ///   Looks up a localized string similar to PA_Evaluator_Reviewer_List_of_Section.
         /// </summary>
         public static string EmployeeFlowSettingReportSheet {
             get {
@@ -1195,7 +1195,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} - EPA Evaluator/Reviewer List of Section.
+        ///   Looks up a localized string similar to {0} - PA Evaluator/Reviewer List of Section.
         /// </summary>
         public static string EmployeeFlowSettingReportTitle {
             get {
@@ -1357,7 +1357,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA.
+        ///   Looks up a localized string similar to PA.
         /// </summary>
         public static string EPA {
             get {
@@ -1366,7 +1366,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Detail Report.
+        ///   Looks up a localized string similar to PA Detail Report.
         /// </summary>
         public static string EPADetailReport {
             get {
@@ -1393,7 +1393,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is EPA Generated.
+        ///   Looks up a localized string similar to Is PA Generated.
         /// </summary>
         public static string EPAGenerated {
             get {
@@ -1402,7 +1402,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Generated Status.
+        ///   Looks up a localized string similar to PA Generated Status.
         /// </summary>
         public static string EPAGeneratedStatus {
             get {
@@ -1411,7 +1411,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA History.
+        ///   Looks up a localized string similar to PA History.
         /// </summary>
         public static string EPAHistory {
             get {
@@ -1420,7 +1420,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Processing.
+        ///   Looks up a localized string similar to PA Processing.
         /// </summary>
         public static string EPAProcessing {
             get {
@@ -1429,7 +1429,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Result.
+        ///   Looks up a localized string similar to PA Result.
         /// </summary>
         public static string EPAResult {
             get {
@@ -1438,7 +1438,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Score.
+        ///   Looks up a localized string similar to PA Score.
         /// </summary>
         public static string EPAScore {
             get {
@@ -1447,7 +1447,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Status.
+        ///   Looks up a localized string similar to PA Status.
         /// </summary>
         public static string EPAStatus {
             get {
@@ -1456,7 +1456,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Summary Report.
+        ///   Looks up a localized string similar to PA Summary Report.
         /// </summary>
         public static string EPASummaryReport {
             get {
@@ -1465,7 +1465,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA_Summary_Report.
+        ///   Looks up a localized string similar to PA_Summary_Report.
         /// </summary>
         public static string EPASummaryReportName {
             get {
@@ -1474,7 +1474,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Summary Report.
+        ///   Looks up a localized string similar to PA Summary Report.
         /// </summary>
         public static string EPASummaryReportSheet {
             get {
@@ -1483,7 +1483,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to EPA Summary Report.
+        ///   Looks up a localized string similar to PA Summary Report.
         /// </summary>
         public static string EPASummaryReportTitle {
             get {
@@ -1501,7 +1501,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Welcome to SMS EPA.
+        ///   Looks up a localized string similar to Welcome to SMS PA.
         /// </summary>
         public static string EPAWelcome {
             get {
@@ -1924,7 +1924,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Generate EPA.
+        ///   Looks up a localized string similar to Generate PA.
         /// </summary>
         public static string GenerateEvaluation {
             get {
@@ -1996,7 +1996,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Has Monthly EPA.
+        ///   Looks up a localized string similar to Has Monthly PA.
         /// </summary>
         public static string HasMonthlyEPA {
             get {
@@ -2464,7 +2464,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage My EPA.
+        ///   Looks up a localized string similar to Manage My PA.
         /// </summary>
         public static string ManageMyEPA {
             get {
@@ -2518,7 +2518,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Member EPA.
+        ///   Looks up a localized string similar to Member PA.
         /// </summary>
         public static string MemberEPA {
             get {
@@ -2581,7 +2581,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly EPA.
+        ///   Looks up a localized string similar to Monthly PA.
         /// </summary>
         public static string MonthlyEPA {
             get {
@@ -2590,7 +2590,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly EPA Detail Report.
+        ///   Looks up a localized string similar to Monthly PA Detail Report.
         /// </summary>
         public static string MonthlyEPADetailReport {
             get {
@@ -2599,7 +2599,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly_EPA_Detail_Report.
+        ///   Looks up a localized string similar to Monthly_PA_Detail_Report.
         /// </summary>
         public static string MonthlyEPADetailReportName {
             get {
@@ -2608,7 +2608,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly EPA Detail Report.
+        ///   Looks up a localized string similar to Monthly PA Detail Report.
         /// </summary>
         public static string MonthlyEPADetailReportSheet {
             get {
@@ -2617,7 +2617,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly EPA History.
+        ///   Looks up a localized string similar to Monthly PA History.
         /// </summary>
         public static string MonthlyEPAHistory {
             get {
@@ -2626,7 +2626,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly EPA List.
+        ///   Looks up a localized string similar to Monthly PA List.
         /// </summary>
         public static string monthlyEPAs {
             get {
@@ -2635,7 +2635,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly EPA Summary Report.
+        ///   Looks up a localized string similar to Monthly PA Summary Report.
         /// </summary>
         public static string MonthlyEPASummaryReport {
             get {
@@ -2644,7 +2644,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly_EPA_Summary_Report.
+        ///   Looks up a localized string similar to Monthly_PA_Summary_Report.
         /// </summary>
         public static string MonthlyEPASummaryReportName {
             get {
@@ -2653,7 +2653,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly EPA Summary Report.
+        ///   Looks up a localized string similar to Monthly PA Summary Report.
         /// </summary>
         public static string MonthlyEPASummaryReportSheet {
             get {
@@ -2662,7 +2662,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Monthly EPA Summary Report.
+        ///   Looks up a localized string similar to Monthly PA Summary Report.
         /// </summary>
         public static string MonthlyEPASummaryReportTitle {
             get {
@@ -2689,7 +2689,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My EPA.
+        ///   Looks up a localized string similar to My PA.
         /// </summary>
         public static string MyEPA {
             get {
@@ -2698,7 +2698,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to My EPAs.
+        ///   Looks up a localized string similar to My PAs.
         /// </summary>
         public static string MyEPAs {
             get {
@@ -4453,7 +4453,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Unfinished EPA.
+        ///   Looks up a localized string similar to Unfinished PA.
         /// </summary>
         public static string UnfinishedEPA {
             get {
@@ -4651,7 +4651,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View EPA Result.
+        ///   Looks up a localized string similar to View PA Result.
         /// </summary>
         public static string ViewEPAResult {
             get {
@@ -4687,7 +4687,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to View Semi EPA Result.
+        ///   Looks up a localized string similar to View Semi PA Result.
         /// </summary>
         public static string ViewSemiEPAResult {
             get {
