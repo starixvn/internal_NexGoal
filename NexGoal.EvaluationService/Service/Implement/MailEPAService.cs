@@ -5,7 +5,9 @@ using NexGoal.Criteria.Period.GenerationEvaluation;
 using NexGoal.Model.Period;
 using NexGoal.Services.Implement;
 using NexGoal.Services.Interfaces;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NexGoal.BackgroundService
 {
@@ -92,10 +94,12 @@ namespace NexGoal.BackgroundService
             switch (mailMode)
             {
                 case (int)MailMode.Start:
+                    employeeSettings = employeeSettings.Where(i => i.StartDate.Value.Date == DateTime.Now.Date);
                     autoMailService.SendStartMail(period, employeeSettings);
                     break;
 
                 case (int)MailMode.Reminder:
+                    employeeSettings = employeeSettings.Where(i => i.RemindDate.Value.Date == DateTime.Now.Date && i.StartDate.Value.Date <= DateTime.Now.Date);
                     autoMailService.SendReminderMail(period, employeeSettings);
                     break;
 

@@ -17,6 +17,7 @@
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
+    using NexGoal.Criteria.EPAHistory;
 
     public class PeriodService : BaseService, IPeriodService
     {
@@ -32,6 +33,18 @@
         {
             _periodRepository = periodRepository ?? new PeriodRepository();
             _manualMailService = manualMailService ?? new ManualMailService();
+        }
+
+        public IEnumerable<PeriodModel> GetAllPeriod(GetAllPeriodIncludeImportCriteria criteria)
+        {
+            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = _periodRepository.GetPeriod(criteria);
+            }
+
+            return periods;
         }
 
         public IEnumerable<PeriodModel> GetAllPeriodByEmployee(GetAllPeriodByEmployeeCriteria criteria)

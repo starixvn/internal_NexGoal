@@ -29,17 +29,19 @@
     public class CommonController : BaseController
     {
         private readonly ICommonService commonService;
+        private readonly IPeriodService periodService;
         private readonly IExportPdfService exportPdfService;
 
         public CommonController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
-        public CommonController(ICommonService commonService, IExportPdfService exportPdfService)
+        public CommonController(ICommonService commonService, IExportPdfService exportPdfService, IPeriodService periodService)
         {
             this.commonService = commonService ?? new CommonService();
             this.exportPdfService = exportPdfService ?? new ExportPdfService();
+            this.periodService = periodService ?? new PeriodService();
         }
 
         [HttpGet]
@@ -217,11 +219,11 @@
         }
 
         [HttpGet]
-        public IList<PeriodModel> GetAllPeriodIncludeImport()
+        public IEnumerable<PeriodModel> GetAllPeriodIncludeImport()
         {
             var criteria = new GetAllPeriodIncludeImportCriteria();
 
-            return commonService.GetAllPeriodIncludeImport(criteria);
+            return periodService.GetAllPeriod(criteria);
         }
 
         [HttpGet]

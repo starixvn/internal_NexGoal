@@ -12,6 +12,8 @@
 
         public DateTime? EndDate { get; set; }
 
+        public DateTime? RemindDate { get; set; }
+
         public bool HasEvaluationGenerated { get; set; }
 
         public int ProcessStatus { get; set; }
