@@ -250,7 +250,7 @@
             } else if (projectGroup.RealRowCount > 0) {
                 htmlString += renderUnexpandableEmployeeAward(nominationGroup, projectGroup);
             } else {
-                htmlString += "<tr class='text-center'><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td><tr/>";
+                htmlString += "<tr class='text-center'><td>-</td><td>-</td><td>-</td><td>-</td><td>-</td></tr>";
             }
 
             htmlString += "</tbody>";
