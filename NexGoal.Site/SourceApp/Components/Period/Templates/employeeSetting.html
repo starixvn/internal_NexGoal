@@ -56,24 +56,24 @@
             <div class="col">
                 
                 <div class="control-content">                    
-                    <input type="checkbox" ng-model="empSettingCtrl.filter.isExcludedEmployee" />
-                    <label data-translate="ShowExcludedEmployee"></label>
+                    <input type="checkbox" ng-model="empSettingCtrl.filter.isExcludedEmployee" id="chbExcludeEmp" />
+                    <label data-translate="ShowExcludedEmployee" for="chbExcludeEmp"></label>
                 </div>
             </div>
             <div class="col">
                 <button class="button" ng-click="empSettingCtrl.query()" data-translate="Search"></button>
             </div>
         </div>
-        <div class="form-group">
-            <!--<label class="col-sm-2 control-label" data-translate="HasMonthlyEPA"></label>
+        <!--<div class="form-group">
+            <label class="col-sm-2 control-label" data-translate="HasMonthlyEPA"></label>
             <div class="col-sm-2">
                 <input type="checkbox" ng-model="empSettingCtrl.filter.hasMonthlyEPA" />
-            </div>-->
+            </div>
             <div class="col-sm-2"></div>
             <div class="col-sm-1">
                 
             </div>
-        </div>
+        </div>-->
     </form>
     <table class="row table table-bordered table-striped" id="data">
         <thead>
