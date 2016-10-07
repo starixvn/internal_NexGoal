@@ -405,9 +405,6 @@
   <data name="Priority" xml:space="preserve">
     <value>Priority</value>
   </data>
-  <data name="UncheckKPIGroupWarning" xml:space="preserve">
-    <value>* Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecking KPI Group !</value>
-  </data>
   <data name="TotalWeightWarning" xml:space="preserve">
     <value>Total Groups weight must be equal or less than {0}</value>
   </data>
@@ -1614,12 +1611,6 @@
   <data name="EOY" xml:space="preserve">
     <value>Employee Of The Year</value>
   </data>
-  <data name="ManageNomination" xml:space="preserve">
-    <value>Manage Nomination</value>
-  </data>
-  <data name="NominationRolesManagement" xml:space="preserve">
-    <value>Nomination Roles Management</value>
-  </data>
   <data name="Nomination" xml:space="preserve">
     <value>Nomination</value>
   </data>
@@ -1637,9 +1628,6 @@
   </data>
   <data name="NominationProcess" xml:space="preserve">
     <value>Nomination Process</value>
-  </data>
-  <data name="NominationBoard" xml:space="preserve">
-    <value>Nomination Board</value>
   </data>
   <data name="PAFinalScore" xml:space="preserve">
     <value>PA Final Score</value>
@@ -1715,5 +1703,11 @@
   </data>
   <data name="SuitableForTeamGoals" xml:space="preserve">
     <value>Suitable for team goals</value>
+  </data>
+  <data name="NominationManagement" xml:space="preserve">
+    <value>Nomination Management</value>
+  </data>
+  <data name="SelectionCommittee" xml:space="preserve">
+    <value>Selection Committee</value>
   </data>
 </root>

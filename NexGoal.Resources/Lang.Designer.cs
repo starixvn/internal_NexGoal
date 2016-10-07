@@ -2473,15 +2473,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Manage Nomination.
-        /// </summary>
-        public static string ManageNomination {
-            get {
-                return ResourceManager.GetString("ManageNomination", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to The Manager field is required!.
         /// </summary>
         public static string ManagerRequired {
@@ -2815,15 +2806,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nomination Board.
-        /// </summary>
-        public static string NominationBoard {
-            get {
-                return ResourceManager.GetString("NominationBoard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to All nomination comments are required!.
         /// </summary>
         public static string NominationCommentRequired {
@@ -2842,20 +2824,20 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nomination Management.
+        /// </summary>
+        public static string NominationManagement {
+            get {
+                return ResourceManager.GetString("NominationManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nomination Process.
         /// </summary>
         public static string NominationProcess {
             get {
                 return ResourceManager.GetString("NominationProcess", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Nomination Roles Management.
-        /// </summary>
-        public static string NominationRolesManagement {
-            get {
-                return ResourceManager.GetString("NominationRolesManagement", resourceCulture);
             }
         }
         
@@ -3850,6 +3832,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Selection Committee.
+        /// </summary>
+        public static string SelectionCommittee {
+            get {
+                return ResourceManager.GetString("SelectionCommittee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Select Violation Type.
         /// </summary>
         public static string SelectViolationType {
@@ -4440,15 +4431,6 @@ namespace NexGoal.Resources {
         public static string Type {
             get {
                 return ResourceManager.GetString("Type", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to * Note: All KPIs in KPI Group setting will be removed. Please check carefully before unchecking KPI Group !.
-        /// </summary>
-        public static string UncheckKPIGroupWarning {
-            get {
-                return ResourceManager.GetString("UncheckKPIGroupWarning", resourceCulture);
             }
         }
         

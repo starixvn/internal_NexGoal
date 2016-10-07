@@ -1,11 +1,11 @@
 ﻿<div class="result-setting-flow" ng-controller="ResultSettingFlowController as resultSettingFlowCtrl">
     <tabset id="ResultSettingTab">
-        <tab heading="DEPARTMENT / TEAM" class="tab-cursor" select="resultSettingFlowCtrl.tabDepartmentSelected()">
+        <tab heading="TEAM" class="tab-cursor" select="resultSettingFlowCtrl.tabDepartmentSelected()">
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr>
                         <th class="text-center" data-translate="SymbolCount"></th>
-                        <th data-translate="DepartmentTeam"></th>
+                        <th data-translate="Team"></th>
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
@@ -60,7 +60,7 @@
                         <th data-translate="Code"></th>
                         <th data-translate="NickName"></th>
                         <th data-translate="FullName"></th>
-                        <th data-translate="DepartmentTeam"></th>
+                        <th data-translate="Team"></th>
                         <th data-translate="HumanResource"></th>
                         <th data-translate="Evaluator"></th>
                         <th data-translate="Reviewer"></th>
@@ -86,7 +86,7 @@
                                 {{flow.Evaluators[0].FullName}} ({{flow.Evaluators[0].NickName}})
                             </div>
                             <div ng-show="flow.Evaluators.length > 1">
-                                <ul><li ng-repeat="evaluator in flow.Evaluators">{{evaluator.FullName}} ({{evaluator.NickName}})</li></ul>
+                                <p ng-repeat="evaluator in flow.Evaluators">{{evaluator.FullName}} ({{evaluator.NickName}})</p>
                             </div>
                         </td>
                         <td>
@@ -94,7 +94,7 @@
                                 {{flow.Reviewers[0].FullName}} ({{flow.Reviewers[0].NickName}})
                             </div>
                             <div ng-show="flow.Reviewers.length > 1">
-                                <ul><li ng-repeat="reviewer in flow.Reviewers">{{reviewer.FullName}} ({{reviewer.NickName}})</li></ul>
+                                <p ng-repeat="reviewer in flow.Reviewers">{{reviewer.FullName}} ({{reviewer.NickName}})</p>
                             </div>
                         </td>
                     </tr>

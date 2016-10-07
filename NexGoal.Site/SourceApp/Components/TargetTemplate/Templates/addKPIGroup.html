@@ -12,7 +12,7 @@
                     <th class="middle-align">
                         <input type="checkbox" ng-model="addKPIGroupCtrl.selectedAll" ng-click="addKPIGroupCtrl.checkAll(addKPIGroupCtrl.selectedAll)" />
                     </th>
-                    <th class="middle-align" data-translate="Name">
+                    <th class="middle-align" data-translate="KPIGroup">
                     </th>
                     <th class="middle-align" data-translate="Weight">
                     </th>
@@ -46,7 +46,6 @@
         </table>
     </div>
     <div class="modal-footer error-message">
-        <span class="pull-left" data-translate="UncheckKPIGroupWarning"></span>
         <button class="button btn-cancel" ng-click="addKPIGroupCtrl.cancel()" data-translate="Cancel"></button>
         <button class="button" get-group-weight data-translate="OK"></button>
     </div>
