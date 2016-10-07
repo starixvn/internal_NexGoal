@@ -40,7 +40,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                periods = GetData<PeriodModel>(criteria);
+                periods = _periodRepository.GetPeriod(criteria);
             }
 
             return periods;
@@ -52,7 +52,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                periods = GetData<PeriodModel>(criteria);
+                periods = _periodRepository.GetPeriod(criteria);
             }
 
             return periods;
@@ -64,7 +64,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                periods = GetData<PeriodModel>(criteria);
+                periods = _periodRepository.GetPeriod(criteria);
             }
 
             return periods;
