@@ -10,5 +10,7 @@ namespace NexGoal.BackgroundService
         void CheckSendNoticeAtBeginEmail();
 
         void CheckSendReminderEmail();
+
+        void CheckSendNoticeAtEndPeriod();
     }
 }

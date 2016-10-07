@@ -41,10 +41,10 @@ namespace NexGoal.BackgroundService
                 semiAnnualService.GeneratedEPA();
                 probationService.GeneratedEPA();
                 promotionService.GeneratedEPA();
-                CheckSendMail();
                 processService.UpdateInformationAtEndProccess();
                 periodEvalutionService.UpdatePeriodIsEnd();
                 periodEvalutionService.GeneratePAFocus();
+                CheckSendMail();
             }
             catch (Exception ex)
             {
@@ -56,6 +56,7 @@ namespace NexGoal.BackgroundService
         {
             mailService.CheckSendNoticeAtBeginEmail();
             mailService.CheckSendReminderEmail();
+            mailService.CheckSendNoticeAtEndPeriod();
         }
     }
 }

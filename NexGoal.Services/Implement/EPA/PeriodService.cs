@@ -269,7 +269,31 @@
             return employeeSettings;
         }
 
+        public IEnumerable<PeriodFlowModel> GetEmployeeSettingOfHR(GetEmployeeSettingOfHRCriteria criteria)
+        {
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                employeeSettings = _periodRepository.GetEmployeeSettingOfHR(criteria);
+            }
+
+            return employeeSettings;
+        }
+
         public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasStartedProcess(GetPeriodHasStartedProcessCriteria criteria)
+        {
+            IEnumerable<AutoEmployeePeriodModel> startedPeriods = new List<AutoEmployeePeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                startedPeriods = GetData<AutoEmployeePeriodModel>(criteria);
+            }
+
+            return startedPeriods;
+        }
+
+        public IEnumerable<AutoEmployeePeriodModel> GetPeriodHasEndedProcess(GetPeriodHasEndedProcessCriteria criteria)
         {
             IEnumerable<AutoEmployeePeriodModel> startedPeriods = new List<AutoEmployeePeriodModel>();
 

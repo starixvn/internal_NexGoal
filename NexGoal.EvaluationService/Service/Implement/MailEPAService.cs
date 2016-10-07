@@ -27,6 +27,17 @@ namespace NexGoal.BackgroundService
             this.autoMailService = autoMailService ?? new AutoMailService();
         }
 
+        public void CheckSendNoticeAtEndPeriod()
+        {
+            var criteria = new GetPeriodHasEndedProcessCriteria();
+            IEnumerable<AutoEmployeePeriodModel> startedProcess = periodService.GetPeriodHasEndedProcess(criteria);
+
+            foreach (AutoEmployeePeriodModel periodProcess in startedProcess)
+            {
+                GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, (int)ProcessType.HumanResource, (int)MailMode.EndPeriod);
+            }
+        }
+
         public void CheckSendNoticeAtBeginEmail()
         {
             var criteria = new GetPeriodHasStartedProcessCriteria();
@@ -89,6 +100,7 @@ namespace NexGoal.BackgroundService
                     break;
 
                 case (int)MailMode.EndPeriod:
+                    employeeSettings = GetEmployeeSettingOfHR(periodId);
                     autoMailService.SendEndEvaluationMailToHRByPeriod(period, employeeSettings);
                     break;
             }
@@ -105,6 +117,19 @@ namespace NexGoal.BackgroundService
                 ProcessId = processId
             };
             employeeSettings = periodService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+
+            return employeeSettings;
+        }
+
+        private IEnumerable<PeriodFlowModel> GetEmployeeSettingOfHR(int periodId)
+        {
+            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
+
+            var getEmployeeSettingCriteria = new GetEmployeeSettingOfHRCriteria
+            {
+                PeriodId = periodId
+            };
+            employeeSettings = periodService.GetEmployeeSettingOfHR(getEmployeeSettingCriteria);
 
             return employeeSettings;
         }

@@ -62,7 +62,6 @@ namespace NexGoal.BackgroundService
 
         private void SendMail(EPAModel epa)
         {
-            int periods = 0;
             if (AppSetting.SendMailEndPeriod)
             {
                 autoMailService.SendEndEvaluationMailToSelf(epa);
@@ -72,16 +71,6 @@ namespace NexGoal.BackgroundService
                     {
                         autoMailService.SendEndEvaluationMailToHRByEmployee(epa);
                     }
-                    else if (epa.Period.TargetTypeId == (int)TargetType.SemiAnnual)
-                    {
-                        periods = epa.Period.PeriodId;
-                    }
-                }
-
-                int lastestProcessOfPeriod = CheckLastestProcessOfPeriod(periods);
-                if (lastestProcessOfPeriod == (int)ProcessType.HumanResource)
-                {
-                    SendEmailToAllRelatedEmployee(periods, lastestProcessOfPeriod);
                 }
             }
         }

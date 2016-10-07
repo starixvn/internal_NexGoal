@@ -299,6 +299,8 @@
     </Setting>
   </Function>
   <Function Name="Generation Evaluation">
+    <Setting Key="EpaAuto_GetPeriodHasEndedProcess" SpName="EpaAuto_GetPeriodHasEndedProcess" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EpaAuto_GetEmployeeSettingToSendMailHR" SpName="EpaAuto_GetEmployeeSettingToSendMailHR" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="NexGoal" Plain="0">
     </Setting>
     <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="NexGoal" Plain="0">

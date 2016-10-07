@@ -33,7 +33,7 @@ namespace NexGoal.BackgroundService
             {
                 AddEmployeeToPeriod(periodId);
                 GenerateEPA(periodId);
-                SendEmailToAllRelatedEmployee(periodId);
+                SendEmailToAll(periodId);
             }
         }
 
@@ -71,7 +71,7 @@ namespace NexGoal.BackgroundService
             return commandResult;
         }
 
-        private void SendEmailToAllRelatedEmployee(int periodId)
+        private void SendEmailToAll(int periodId)
         {
             if (AppSetting.SendMailAllWhenPeriodStarted)
             {

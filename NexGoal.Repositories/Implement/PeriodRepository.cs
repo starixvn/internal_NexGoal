@@ -98,6 +98,21 @@
             }
         }
 
+        public IEnumerable<PeriodFlowModel> GetEmployeeSettingOfHR(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                return db.Query<PeriodFlowModel, EmployeeModel, PeriodFlowModel>(
+                    (empS, eva) =>
+                    {
+                        empS.EvaluatorInfo = eva;
+                        return empS;
+                    },
+                    "EvaluatorId",
+                    criteria.GetSpParams());
+            }
+        }
+
         private static void GetFlowSetting(
             IEnumerable<PeriodFlowSettingModel> flowSettings,
             PeriodEmployeeSettingModel employeeSetting)

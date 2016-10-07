@@ -155,6 +155,8 @@
     <Compile Include="PAFocus\UpdatePAFocusProcessSetingCriteria.cs" />
     <Compile Include="PAFocus\GetPAFocusProcessSetingByIdCriteria.cs" />
     <Compile Include="Period\AutoCreateMonthlyPeriodCriteria.cs" />
+    <Compile Include="Period\GenerationEvaluation\GetEmployeeSettingOfHRCriteria.cs" />
+    <Compile Include="Period\GenerationEvaluation\GetPeriodHasEndedProcessCriteria.cs" />
     <Compile Include="Period\GetAllPeriodByEmployeeCriteria.cs" />
     <Compile Include="Period\GetAllPeriodByEvaluatorCriteria.cs" />
     <Compile Include="Period\GetAllPeriodByReviewerCriteria.cs" />

@@ -13,5 +13,7 @@
         IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(ICriteria criteria);
 
         IEnumerable<PeriodFlowModel> GetEmployeeSettingByPeriodId(ICriteria criteria);
+
+        IEnumerable<PeriodFlowModel> GetEmployeeSettingOfHR(ICriteria criteria);
     }
 }

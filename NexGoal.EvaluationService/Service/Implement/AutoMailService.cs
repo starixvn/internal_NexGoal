@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.BackgroundService
 {
     using NexGoal.Core.Enumerations;
+    using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
     using NexGoal.Services.Implement;
@@ -126,7 +127,6 @@
             {
                 string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
                     templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
-
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
                     _mailService.SendMailEndToHRByPeriod(templateEmailPath, employeeSetting, period);
