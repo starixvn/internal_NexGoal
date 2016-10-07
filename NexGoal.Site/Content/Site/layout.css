@@ -1193,10 +1193,10 @@ header {
   min-width: 200px !important;
 }
 .employee-performance-table tr.outstanding td {
-  background: #4d7de3;
+  background: #fff8ad;
 }
 .employee-performance-table tr.very-good td {
-  background: #f5915f;
+  background: #ffc4c4;
 }
 .calendar-form-control {
   background-color: #FFF;

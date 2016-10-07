@@ -32,7 +32,7 @@
             </div>
 
             <div class="col button-block">
-                <button class="button" ng-click="paFocusCtrl.query()" data-translate="Submit"></button>
+                <button class="button" ng-click="paFocusCtrl.query()" data-translate="Search"></button>
                 <button class="button btnExcel" export-focus ng-click="paFocusCtrl.exportExcel()" ng-if="paFocusCtrl.showExportButton()"> Excel</button>
             </div>
 
@@ -77,7 +77,7 @@
         </tbody>
         <tbody ng-show="groups.length > 0" ng-repeat="group in groups">
             <tr class="group-row">
-                <td colspan="12"><b>{{group.Name}}</b></td>
+                <td colspan="12">{{group.Name}}</td>
             </tr>
             <tr ng-repeat="member in group.Members"
                 ng-class="{'outstanding': member.Contribution + member.BonusGiven === 10, 'very-good': member.Contribution + member.BonusGiven === 9}">
