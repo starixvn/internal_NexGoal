@@ -1005,6 +1005,13 @@ header {
   padding: 0 6px;
   width: 18px;
 }
+.table thead tr.header-table .button {
+  height: 26px;
+  line-height: 26px;
+}
+.table thead tr.header-table input[type="text"] {
+  height: 26px;
+}
 .table thead tr.header-table th {
   background: #eaeaea;
   color: #333;
@@ -1201,6 +1208,9 @@ header {
 }
 .employee-performance-table tr.very-good td {
   background: #ffc4c4;
+}
+#ResultSettingTab .table {
+  margin-top: 20px;
 }
 .calendar-form-control {
   background-color: #FFF;
