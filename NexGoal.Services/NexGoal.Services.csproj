@@ -137,7 +137,6 @@
     <Compile Include="Implement\EPA\TargetTemplateService.cs" />
     <Compile Include="Implement\EPA\TargetTypeService.cs" />
     <Compile Include="Implement\System\RoleService.cs" />
-    <Compile Include="Interfaces\GetAllPeriodIncludeImport.cs" />
     <Compile Include="Interfaces\IAttendanceSummaryService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
