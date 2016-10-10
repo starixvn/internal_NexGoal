@@ -22,12 +22,21 @@
             background: none;
             border: none;
             box-shadow: none;
-            color: #5e5e5e;
+            color: #fff;
             text-shadow: none;
-            padding: 5px 0;
+            padding: 8px 0;
+            font-weight: 500;
+            display: block;
+            strong {
+                font-weight: normal; 
+                font-size: 14px;
+            }
 
             &.btn-info {
-                background: #a7ddf7;
+                background: #1BA0E1;
+                &.active span{
+                    color: #fff;
+                }
             }
         }
 
@@ -39,27 +48,27 @@
             }
 
             th {
-                padding: 8px 7px !important;
+                padding: 8px 12px;
                 background: none;
                 border: none;
-                color: #4F4F4F;
+                color: #2197ff;
                 text-shadow: none;
+                font-weight: normal;
+                font-size: 13px;
+                text-transform: uppercase;
             }
 
             tr:first-child {
-                #gradient .vertical(#EDEDED, #C4C4C4);
-
-                th {
-                    padding: 3px 10px 1px;
-                }
+                background: #324373;
 
                 .glyphicon {
                     color: #fff;
-                    border-radius: 11px;
                     font-size: 10px;
-                    padding: 4px 6px 4px 4px;
-                    text-shadow: 0 0 #666;
-                    background-color: #B5B5B5;
+                }
+            }
+            tr:last-child {
+                th {
+                    padding: 25px 10px 13px;
                 }
             }
         }
