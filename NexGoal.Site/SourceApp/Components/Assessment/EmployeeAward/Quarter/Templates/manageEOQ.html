@@ -73,7 +73,7 @@
                            ng-show="period.Year >= manageEOQCtrl.currentYear"></a>
                         <a class="fa fa-trash-o icon-remove" title="Delete" 
                            ng-click="manageEOQCtrl.deleteEOQ(period)"
-                           ng-show="period.Year >= manageEOQCtrl.currentYear"></a>
+                           ng-show="period.Year >= manageEOQCtrl.currentYear && period.StatusId === 0"></a>
                     </div>
                 </td>
             </tr>
