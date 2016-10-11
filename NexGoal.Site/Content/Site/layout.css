@@ -1177,27 +1177,12 @@ header {
 .table tfoot tr:last-child {
   border-bottom-color: #fff;
 }
-.table tfoot tr td {
-  /*&:first-child {
-                border-left-color: @c-bg-table-tfoot;
-            }
-
-            &:last-child {
-                border-right-color: @c-bg-table-tfoot;
-            }*/
-}
 .table tfoot tr td.paging {
   background: #eaeaea;
   padding: 5px 8px;
 }
-.table.table-non-hover {
-  /*tr {
-            &:hover {
-                td {
-                    background: #fff;
-                }
-            }
-        }*/
+.table.table-non-hover tr:hover td {
+  background: #fff;
 }
 .table-custom thead tr th {
   background: #ebe4d4;
