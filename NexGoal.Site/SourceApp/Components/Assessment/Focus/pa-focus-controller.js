@@ -34,7 +34,7 @@
         };
         vm.searchEmployee = "";
         vm.processStatus = enumerationsFactory.processStatusType;
-		vm.permission = 0;
+		vm.permission = [];
 		
         function initialize() {
             CommonModel.getReadyPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
@@ -144,7 +144,9 @@
         };
 
         vm.showExportButton = function () {
-            if (vm.process.length === 3 && vm.process[2].ProcessStatus == vm.processStatus.InProgress && vm.permission == enumerationsFactory.processType.Management) {
+            if (vm.process.length === 3 
+			&& vm.process[2].ProcessStatus == vm.processStatus.InProgress 
+			&& vm.permission.indexOf(enumerationsFactory.processType.Management) >= 0) {
                 return true;
             }
 

@@ -8,7 +8,7 @@
     function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory, $translate) {
         var vm = {};
 
-		vm.permission = 0;
+		vm.permission = [];
         vm.process = [];
         vm.processSettings = [];
         vm.evaluations = [];

@@ -78,7 +78,7 @@
         }
 
         [HttpGet]
-        public int GetPermission(int periodId)
+        public IEnumerable<int> GetPermission(int periodId)
         {
             var result = this.focusService.GetProcessId(periodId, SessionService.EmployeeId);
 

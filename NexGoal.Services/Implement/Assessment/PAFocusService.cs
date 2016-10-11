@@ -24,13 +24,13 @@
             this.focusRepository = focusRepository ?? new PAFocusRepository();
         }
 
-        public int GetProcessId(int periodId, int evaluatorId)
+        public IEnumerable<int> GetProcessId(int periodId, int evaluatorId)
         {
-            int processSettings = 0;
+            IEnumerable<int> processSettings = new List<int>();
             var criteria = new GetPAFocusProcessIdCriteria { PeriodId = periodId, EvaluatorId = evaluatorId };
             if (criteria.IsValid())
             {
-                processSettings = GetDataEntity<int>(criteria);
+                processSettings = GetData<int>(criteria);
             }
 
             return processSettings;

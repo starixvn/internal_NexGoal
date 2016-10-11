@@ -9,7 +9,7 @@
 
     public interface IPAFocusService
     {
-        int GetProcessId(int periodId, int evaluatorId);
+        IEnumerable<int> GetProcessId(int periodId, int evaluatorId);
 
         IEnumerable<FocusProcessSettingModel> GetPAFocusProcessSettingByPeriodId(int periodId);
 
