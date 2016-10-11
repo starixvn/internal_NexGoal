@@ -105,6 +105,7 @@
     <Compile Include="EOQ\CreateEOQCriteria.cs" />
     <Compile Include="EOQ\GetYearEOQCriteria.cs" />
     <Compile Include="Integration\GetEmployeeWorkingByPeriodIdCriteria.cs" />
+    <Compile Include="Integration\GetHRMSummaryOnProbationCriteria.cs" />
     <Compile Include="Nomination\CreateEOYNominationCriteria.cs" />
     <Compile Include="Nomination\CreateEOQNominationCriteria.cs" />
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />

@@ -67,6 +67,18 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         }
     }
 
+	function getHRMSummary(){
+		if(vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual){
+		SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+		}else{
+			SelfEvalutorModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+		}
+	}
+	
     function getEPAInfoByEmployee() {
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
@@ -95,9 +107,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 }
             });
 
-            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
-                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
-            });
+            getHRMSummary();
 
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;

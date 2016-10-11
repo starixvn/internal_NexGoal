@@ -59,6 +59,18 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         });
     }
 
+	function getHRMSummary(){
+		if(vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual){
+			EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
+            });
+		}else{
+			EvaluatorManagementModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
+            });
+		}
+	}
+	
     function getEPAInfoByEvaluator() {
         lockScreenService.start();
         EvaluatorManagementModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
@@ -98,9 +110,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
                 }
             });
 
-            EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
-                vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
-            });
+            getHRMSummary();
 
             EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = EvaluatorManagementModel.employeeProjects;

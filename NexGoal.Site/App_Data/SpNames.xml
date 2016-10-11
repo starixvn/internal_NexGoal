@@ -405,6 +405,7 @@
   </Function>
   <Function Name="Integration">
     <Setting Key="HRMSummary_GetByEmployeeId" SpName="HRMSummary_GetByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="HRMSummary_GetOnProbation" SpName="HRMSummary_GetOnProbation" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="NexPM_GetEmployeeWorkingByEmployeeId" SpName="NexPM_GetEmployeeWorkingByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="NexPM_GetEmployeeWorkingByPeriodId" SpName="NexPM_GetEmployeeWorkingByPeriodId" DbName="NexGoal" Plain="0"></Setting>
   </Function>

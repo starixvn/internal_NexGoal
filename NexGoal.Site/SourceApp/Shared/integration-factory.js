@@ -10,6 +10,9 @@
             getHRMSummary: function (employeeId, periodId) {
                 return $http.get(baseUrl + "api/Integration/GetHRMSummary",{ params: { employeeId: employeeId, PeriodId: periodId } });
             },
+			getHRMSummaryOnProbation: function (employeeId) {
+                return $http.get(baseUrl + "api/Integration/GetHRMSummaryOnProbation",{ params: { employeeId: employeeId} });
+            },
             getEmployeeProject: function (employeeId, periodId) {
                 return $http.get(baseUrl + "api/Integration/GetEmployeeWorking", { params: { employeeId: employeeId, PeriodId: periodId } });
             }

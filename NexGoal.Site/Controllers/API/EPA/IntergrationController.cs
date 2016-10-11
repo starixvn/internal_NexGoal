@@ -27,6 +27,13 @@
             return result;
         }
 
+        public IEnumerable<HRMSummaryViewModel> GetHRMSummaryOnProbation(int employeeId)
+        {
+            IEnumerable<HRMSummaryViewModel> result = integrationService.GetHRMSummaryOnProbation(employeeId);
+
+            return result;
+        }
+
         public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId, int periodId)
         {
             IEnumerable<EmployeeWorkingViewModel> result = integrationService.GetEmployeeWorking(employeeId, periodId);

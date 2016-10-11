@@ -46,6 +46,20 @@
             return result;
         }
 
+        public IEnumerable<HRMSummaryViewModel> GetHRMSummaryOnProbation(int employeeId)
+        {
+            IEnumerable<HRMSummaryViewModel> result = new List<HRMSummaryViewModel>();
+            
+                var criteria = new GetHRMSummaryOnProbationCriteria
+                {
+                    EmployeeId = employeeId
+                };
+                result = GetData<HRMSummaryViewModel>(criteria);
+            
+
+            return result;
+        }
+
         public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId, int periodId)
         {
             IEnumerable<EmployeeWorkingViewModel> result = new List<EmployeeWorkingViewModel>();

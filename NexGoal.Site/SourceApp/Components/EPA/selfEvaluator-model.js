@@ -275,6 +275,43 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
+	selfEvalutorModel.getHRMSummaryOnProbation = function (employeeId) {
+        return integrateFactory.getHRMSummaryOnProbation(employeeId).success(function (hrmSummary) {
+            var total = {};
+
+            total.AverageWorkingHours = 0;
+            total.NumberLateIn = 0;
+            total.NumberEarlyOut = 0;
+            total.NumberMissingCheckInOut = 0;
+            total.NumberOvertime = 0;
+            total.NumberUnpaidLeave = 0;
+            total.NumberUnplannedAnnualLeave = 0;
+
+            if (hrmSummary.length > 0) {
+                angular.forEach(hrmSummary, function (item) {
+                    total.AverageWorkingHours += item.AverageWorkingHours;
+                    total.NumberLateIn += item.NumberLateIn;
+                    total.NumberEarlyOut += item.NumberEarlyOut;
+                    total.NumberMissingCheckInOut += item.NumberMissingCheckInOut;
+                    total.NumberOvertime += item.NumberOvertime;
+                    total.NumberUnpaidLeave += item.NumberUnpaidLeave;
+                    total.NumberUnplannedAnnualLeave += item.NumberUnplannedAnnualLeave;
+
+                    item.ConvertedAverageWorkingHours = convertDecimalHoursToString(item.AverageWorkingHours);
+                });
+
+                total.ConvertedAverageWorkingHours = convertDecimalHoursToString(total.AverageWorkingHours / hrmSummary.length);
+                total.TOEICScore = hrmSummary[0].TOEICScore;
+
+                selfEvalutorModel.hrmSummary.Total = total;
+            }
+
+            selfEvalutorModel.hrmSummary.Data = hrmSummary;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+	
     function convertDecimalHoursToString(value) {
         var convertedValue = "0";
 
