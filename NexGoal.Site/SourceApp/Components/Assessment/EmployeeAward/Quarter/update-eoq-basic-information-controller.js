@@ -17,9 +17,9 @@
 
         function initialize() {
             var date = new Date();
-            var year = date.getFullYear();
+            var year = date.getFullYear() - 1;
 
-            for (var index = year; index <= year + 1 ; index++) {
+            for (var index = year; index <= date.getFullYear() + 1 ; index++) {
                 vm.years.push(index);
             }
         }
