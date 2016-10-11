@@ -68,6 +68,10 @@
             border-radius: 0;
             padding: 6px 0;
 
+            &.sub-menu {
+                padding: 0;
+            }
+
             &:hover {
                 cursor: pointer;
             }
@@ -75,6 +79,8 @@
             a {
                 padding: 6px 10px;
                 color: @c-sidebar-menu-item-text;
+                width: 100%;
+                display: inline-block;
 
                 &:hover, &:active, &:focus {
                     text-decoration: none;
@@ -113,11 +119,12 @@
                 }
 
                 .sub-menu {
-                    padding-left: 48px;
-
                     a {
-                        padding-left: 0;
+                        padding-left: 48px;
                         transition: 0.3s all ease;
+                        &:hover {
+                            color: #485e9c;
+                        }
                     }
 
                     &.active {
@@ -132,12 +139,6 @@
                             a {
                                 color: #fff;
                             }
-                        }
-                    }
-
-                    &:hover {
-                        a {
-                            color: @c-sidebar-menu-item-sub-link-active-text;
                         }
                     }
 

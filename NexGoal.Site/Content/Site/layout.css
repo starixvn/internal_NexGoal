@@ -1276,18 +1276,22 @@ header {
   box-shadow: none;
   color: #fff;
   text-shadow: none;
-  padding: 8px 0;
   font-weight: 500;
   display: block;
+}
+.dropdown-menu table .btn:focus,
+.dropdown-menu table .btn:active {
+  background: transparent;
+  outline: none;
 }
 .dropdown-menu table .btn strong {
   font-weight: normal;
   font-size: 14px;
 }
 .dropdown-menu table .btn.btn-info {
-  background: #1BA0E1;
+  background: #5297e5;
 }
-.dropdown-menu table .btn.btn-info.active span {
+.dropdown-menu table .btn.btn-info span {
   color: #fff;
 }
 .dropdown-menu table thead .btn.btn-block {
@@ -1310,17 +1314,14 @@ header {
   color: #fff;
   font-size: 10px;
 }
-.dropdown-menu table thead tr:last-child th {
-  padding: 25px 10px 13px;
-}
 .dropdown-menu table tbody .btn:hover {
-  background: #1BA0E1;
+  background: #5297e5;
 }
 .dropdown-menu table tbody .btn:hover span {
   color: #fff;
 }
 .dropdown-menu table tbody .ng-binding {
-  color: #0789D1;
+  color: #545454;
 }
 .dropdown-menu table tbody .ng-binding.text-muted {
   color: #CDCDE2;
@@ -1331,6 +1332,35 @@ header {
 .dropdown-menu table tbody em.ng-binding {
   color: #4F4F4F;
   font-size: 13px;
+}
+.dropdown-menu table[ng-switch-when="day"] .btn {
+  padding: 2px 5px;
+  border-radius: 5px;
+}
+.dropdown-menu table[ng-switch-when="day"] thead tr:last-child th {
+  padding: 25px 8px 13px;
+}
+.dropdown-menu table[ng-switch-when="day"] thead tr:last-child th:nth-child(2) {
+  margin-left: 20px;
+  display: inline-block;
+}
+.dropdown-menu table[ng-switch-when="day"] thead tr:last-child th:last-child {
+  margin-right: 20px;
+  display: inline-block;
+}
+.dropdown-menu table[ng-switch-when="day"] tbody td {
+  padding: 3px 9px !important;
+}
+.dropdown-menu table[ng-switch-when="day"] tbody tr td:nth-child(2) {
+  margin-left: 20px;
+  display: inline-block;
+}
+.dropdown-menu table[ng-switch-when="day"] tbody tr td:last-child {
+  margin-right: 20px;
+  display: inline-block;
+}
+.dropdown-menu table[ng-switch-when="day"] tbody tr:last-child td {
+  padding-bottom: 20px !important;
 }
 .btn {
   padding: 5px 25px;
@@ -1935,12 +1965,17 @@ input[type=radio] {
                 padding-bottom: 0;
             }*/
 }
+.sidebar .list-group .list-group-item.sub-menu {
+  padding: 0;
+}
 .sidebar .list-group .list-group-item:hover {
   cursor: pointer;
 }
 .sidebar .list-group .list-group-item a {
   padding: 6px 10px;
   color: #484550;
+  width: 100%;
+  display: inline-block;
 }
 .sidebar .list-group .list-group-item a:hover,
 .sidebar .list-group .list-group-item a:active,
@@ -1966,12 +2001,12 @@ input[type=radio] {
 .sidebar .list-group .list-group-item.has-sub .sub-menu-title.collapsed .fa-chevron-down {
   transform: rotate(-90deg);
 }
-.sidebar .list-group .list-group-item.has-sub .sub-menu {
-  padding-left: 48px;
-}
 .sidebar .list-group .list-group-item.has-sub .sub-menu a {
-  padding-left: 0;
+  padding-left: 48px;
   transition: 0.3s all ease;
+}
+.sidebar .list-group .list-group-item.has-sub .sub-menu a:hover {
+  color: #485e9c;
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu.active {
   background: #324373;
@@ -1982,9 +2017,6 @@ input[type=radio] {
 }
 .sidebar .list-group .list-group-item.has-sub .sub-menu.active:hover a {
   color: #fff;
-}
-.sidebar .list-group .list-group-item.has-sub .sub-menu:hover a {
-  color: #324373;
 }
 .sidebar .list-group .list-group-item.has-sub.active > a {
   color: #324373;
