@@ -46,6 +46,11 @@
             LogService.Error(message);
         }
 
+        public void Session_Start(object sender, EventArgs e)
+        {
+            string sessionId = Session.SessionID;
+        }
+
         private static bool IsWebApiRequest()
         {
             return HttpContext.Current.Request.AppRelativeCurrentExecutionFilePath != null
