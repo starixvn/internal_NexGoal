@@ -1012,7 +1012,7 @@
     <value>Is PA Generated</value>
   </data>
   <data name="SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning" xml:space="preserve">
-    <value>Please select at least a department/team/employee to add to this evaluation period!</value>
+    <value>No employee/team is selected.</value>
   </data>
   <data name="SelfEvaluationScore" xml:space="preserve">
     <value>Self-Evaluation Score</value>
@@ -1709,5 +1709,8 @@
   </data>
   <data name="SelectionCommittee" xml:space="preserve">
     <value>Selection Committee</value>
+  </data>
+  <data name="String" xml:space="preserve">
+    <value>NoEmployeeSelectedWarning</value>
   </data>
 </root>

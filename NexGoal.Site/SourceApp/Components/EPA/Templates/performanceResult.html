@@ -40,9 +40,10 @@
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center col-comment" ng-show="$first">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                        <a href="" ng-attr-title='{{"ViewComment" | translate}}'
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Self.Comment)"
                            ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.Comment.length > 0">
+                            <i class="fa fa-search"></i>
                         </a>
                     </div>
                     <div data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></div>
@@ -69,9 +70,10 @@
                 <td class="text-center col-comment">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                        <a href="" ng-attr-title='{{"ViewComment" | translate}}'
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment)"
                            ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment.length > 0">
+                            <i class="fa fa-search"></i>
                         </a>
                     </div>
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index]
@@ -107,9 +109,10 @@
                 <td class="text-center col-comment" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                        <a href="" ng-attr-title='{{"ViewComment" | translate}}'
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Comment)"
                            ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index].Comment.length > 0">
+                            <i class="fa fa-search"></i>
                         </a>
                     </div>
                     <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[$index]
@@ -137,9 +140,10 @@
                 <td class="text-center col-comment" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements.length > 0">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
                             && memberEPAInfoCtrl.epaInfo.Process.Managements[$index].IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                        <a href="" ng-attr-title='{{"ViewComment" | translate}}'
                            ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Comment)"
                            ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index].Comment.length > 0">
+                            <i class="fa fa-search"></i>
                         </a>
                     </div>
                     <div data-translate="Pending" ng-show="memberEPAInfoCtrl.epaInfo.Process.Managements[$index]
@@ -203,7 +207,7 @@
                 <th data-translate="Comment" class="col-comment"></th>
                 <th data-translate="NickName" class="col-score"></th>
                 <th data-translate="Score"
-                    ng-class="{'col-score': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1;'col-score-lg': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length === 1}"></th>
+                    ng-class="{'col-score': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1,'col-score-lg': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length === 1}"></th>
                 <th data-translate="Comment" class="col-comment"></th>
                 <th ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" data-translate="AvgScore" class="col-score-lg"></th>
             </tr>

@@ -48,12 +48,16 @@
                             <span ng-show="myEPA.Period.IsEndPeriod">{{myEPA.Grade}}</span>
                         </td>
                         <td class="text-center col-action" ng-switch="myEPA.IsAllowedToEdit">
-                            <a ng-switch-when="true" class="glyphicon glyphicon-edit icon-edit" href=""
+                            <a ng-switch-when="true" href=""
                                ng-click="empEPACtrl.viewEPADetail(myEPA)"
-                               ng-attr-title='{{"EvaluateNow" | translate}}'></a>
-                            <a ng-switch-default class="glyphicon icon-view" href=""
+                               ng-show="!myEPA.Period.IsEndPeriod">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a>
+                            <a ng-switch-default href=""
                                ng-click="empEPACtrl.viewEPAResult(myEPA)"
-                               ng-attr-title='{{"ViewEPAResult" | translate}}'></a>
+                               ng-show="myEPA.Period.IsEndPeriod">
+                                <i class="fa fa-search"></i>
+                            </a>
                         </td>
                     </tr>
                     <tr ng-show="empEPACtrl.myEPAs.length == 0">

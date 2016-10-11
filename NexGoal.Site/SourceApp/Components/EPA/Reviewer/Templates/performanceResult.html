@@ -42,9 +42,11 @@
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-show="$first">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                        <a href="" ng-attr-title='{{"ViewComment" | translate}}'
                            ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.Comment.length > 0"
-                           ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Self.Comment)"></a>
+                           ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Self.Comment)">
+                            <i class="fa fa-search"></i>
+                        </a>
                     </div>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></div>
                 </td>
@@ -57,9 +59,11 @@
                 </td>
                 <td class="text-center">
                     <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess">
-                        <a class="glyphicon icon-view" href="" ng-attr-title='{{"ViewComment" | translate}}'
+                        <a href="" ng-attr-title='{{"ViewComment" | translate}}'
                            ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment.length > 0"
-                           ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment)"></a>
+                           ng-click="memberEPAInfoCtrl.openPopupViewComment(memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].Comment)">
+                            <i class="fa fa-search"></i>
+                        </a>
                     </div>
                     <div ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
                 </td>
@@ -133,7 +137,7 @@
                 <th data-translate="Score" class="col-score-lg"></th>
                 <th data-translate="Comment" class="col-comment"></th>
                 <th data-translate="NickName" class="col-score"></th>
-                <th data-translate="Score" 
+                <th data-translate="Score"
                     ng-class="{'col-score': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1?'col-score-lg': memberEPAInfoCtrl.epaInfo.Process.Evaluators.length === 1}"></th>
                 <th data-translate="Comment" class="col-comment"></th>
                 <th ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" data-translate="AvgScore" class="col-score-lg"></th>

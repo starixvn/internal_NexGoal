@@ -3814,7 +3814,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Please select at least a department/team/employee to add to this evaluation period!.
+        ///   Looks up a localized string similar to No employee/team is selected..
         /// </summary>
         public static string SelectDepartmentSectionEmployeeBeforeAddToPeriodWarning {
             get {
@@ -4071,6 +4071,15 @@ namespace NexGoal.Resources {
         public static string Step {
             get {
                 return ResourceManager.GetString("Step", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to NoEmployeeSelectedWarning.
+        /// </summary>
+        public static string String {
+            get {
+                return ResourceManager.GetString("String", resourceCulture);
             }
         }
         

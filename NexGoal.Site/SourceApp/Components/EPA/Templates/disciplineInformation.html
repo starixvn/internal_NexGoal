@@ -57,13 +57,13 @@
 </div>
 
 <div ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
-    <div class="level-2" data-toggle="collapse" data-target=".employee-award-table">
+    <div class="level-2" data-toggle="collapse" data-target=".employee-awards-table">
         B. {{"EmployeeAwards" | translate}}
         <i class="fa fa-chevron-down pull-right" aria-hidden="true"
            ng-show="memberEPAInfoCtrl.employeeNominations.length > 0"></i>
     </div>
 
-    <div class="collapse in employee-award-table"
+    <div class="collapse in employee-awards-table"
          ng-show="memberEPAInfoCtrl.employeeNominations.length > 0">
 
         <table class="table table-bordered">
