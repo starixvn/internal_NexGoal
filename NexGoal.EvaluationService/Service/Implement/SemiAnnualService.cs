@@ -4,6 +4,7 @@ using NexGoal.Criteria.Period.GenerationEvaluation;
 using NexGoal.Model.Period;
 using NexGoal.Services.Implement;
 using NexGoal.Services.Interfaces;
+using System;
 using System.Collections.Generic;
 
 namespace NexGoal.BackgroundService
@@ -66,6 +67,10 @@ namespace NexGoal.BackgroundService
             if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
+                if (!commandResult.IsSuccessful)
+                {
+                    throw new Exception(commandResult.Message);
+                }
             }
 
             return commandResult;
