@@ -6,12 +6,12 @@
     paFocusFactory.$inject = ["$http", "baseUrl"];
 
     function paFocusFactory($http, baseUrl) {
-        return {
-            getPAFocusFullPermission: function () {
-                return $http.get(baseUrl + 'api/PAFocus/GetPAFocusFullPermission');
-            },
+        return {            
             getPAProcessSettingByPeriodId: function (periodId) {
                 return $http.get(baseUrl + 'api/PAFocus/GetPAProcessSettingByPeriodId', { params: { periodId: periodId } });
+            },
+			getPermission: function (periodId) {
+                return $http.get(baseUrl + 'api/PAFocus/GetPermission', { params: { periodId: periodId } });
             },
             getPAFocus: function (periodId, groupIds, employeeId) {
                 var params = {

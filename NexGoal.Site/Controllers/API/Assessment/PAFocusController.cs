@@ -61,15 +61,6 @@
             return result;
         }
 
-        [HttpPost]
-        [ApiAuthorize(FunctionKey.PAFocusFull, Policy.Host)]
-        public CommandResult UpdatePAFocusByManagement(IEnumerable<PAFocusModel> evaluations)
-        {
-            var result = this.focusService.UpdatePAFocus(SessionService.EmployeeId, evaluations);
-
-            return result;
-        }
-
         [HttpGet]
         [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
         public IEnumerable<PAFocusModel> GetPAFocus(int periodId, string groupIds = null, int? employeeId = null)
@@ -87,23 +78,11 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey.PAFocusFull, Policy.Read)]
-        public IEnumerable<PAFocusModel> GetPAFocusByManagement(int periodId, string groupIds = null, int? employeeId = null)
+        public int GetPermission(int periodId)
         {
-            var criteria = new GetPAFocusByManagementCriteria
-            {
-                PeriodId = periodId,
-                EmployeeId = employeeId,
-                GroupIds = groupIds
-            };
-            var result = this.focusService.GetPAFocus(criteria);
+            var result = this.focusService.GetProcessId(periodId, SessionService.EmployeeId);
 
             return result;
-        }
-
-        public int GetPAFocusFullPermission()
-        {
-            return SessionService.CurrentUser.GetPermission(FunctionKey.PAFocusFull);
         }
     }
 }

@@ -28,9 +28,7 @@
 
         public const string MenuManagement = "MenuManagement";
 
-        public const string PAFocus = "PAFocus";
-
-        public const string PAFocusFull = "PAFocusFull";
+        public const string PAFocus = "PAFocus";        
 
         public const string ManageNomination = "ManageNomination";
 

@@ -8,6 +8,7 @@
     function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory, $translate) {
         var vm = {};
 
+		vm.permission = 0;
         vm.process = [];
         vm.processSettings = [];
         vm.evaluations = [];
@@ -106,7 +107,14 @@
             });
         };
 
-
+		vm.getPermission = function (periodId) {
+            return paFocusFactory.getPermission(periodId).success(function (permission) {
+                vm.permission = permission;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
+        };
+		
         vm.getPAProcessSettingByPeriodId = function (periodId) {
             return paFocusFactory.getPAProcessSettingByPeriodId(periodId).success(function (processSettings) {
                 vm.processSettings = processSettings;

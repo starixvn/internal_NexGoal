@@ -9,6 +9,8 @@
 
     public interface IPAFocusService
     {
+        int GetProcessId(int periodId, int evaluatorId);
+
         IEnumerable<FocusProcessSettingModel> GetPAFocusProcessSettingByPeriodId(int periodId);
 
         CommandResult UpdateProcessSetting(UpdatePAFocusProcessSetingCriteria criteria);

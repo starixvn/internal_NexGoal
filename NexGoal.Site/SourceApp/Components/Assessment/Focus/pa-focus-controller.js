@@ -34,7 +34,8 @@
         };
         vm.searchEmployee = "";
         vm.processStatus = enumerationsFactory.processStatusType;
-
+		vm.permission = 0;
+		
         function initialize() {
             CommonModel.getReadyPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
                 vm.periods = CommonModel.periods;
@@ -61,6 +62,11 @@
         function query() {
             lockScreenService.start();
             vm.filter.groupIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
+			
+			PAFocusModel.getPermission(vm.filter.periodId).then(function(){
+				vm.permission = PAFocusModel.permission;
+			});			
+			
             PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
                 vm.process = PAFocusModel.process;
             });
@@ -138,7 +144,7 @@
         };
 
         vm.showExportButton = function () {
-            if (vm.process.length === 3 && vm.process[2].ProcessStatus == vm.processStatus.InProgress) {
+            if (vm.process.length === 3 && vm.process[2].ProcessStatus == vm.processStatus.InProgress && vm.permission == enumerationsFactory.processType.Management) {
                 return true;
             }
 
