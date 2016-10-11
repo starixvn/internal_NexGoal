@@ -241,7 +241,7 @@
     <value>The Title field is required!</value>
   </data>
   <data name="CreatedSuccessfully" xml:space="preserve">
-    <value>Created successfully!</value>
+    <value>Created successfully.</value>
   </data>
   <data name="Required" xml:space="preserve">
     <value>Required</value>
@@ -262,7 +262,7 @@
     <value>Edit KPI</value>
   </data>
   <data name="CreateUnsuccessfully" xml:space="preserve">
-    <value>Created Unsuccessfully!</value>
+    <value>Created Unsuccessfully.</value>
   </data>
   <data name="Username" xml:space="preserve">
     <value>UserName</value>
@@ -325,19 +325,19 @@
     <value>New password does not match the confirm password.</value>
   </data>
   <data name="ActivationFail" xml:space="preserve">
-    <value>Activated unsuccessfully!</value>
+    <value>Activated unsuccessfully.</value>
   </data>
   <data name="ActivationSuccess" xml:space="preserve">
-    <value>Activated successfully!</value>
+    <value>Activated successfully.</value>
   </data>
   <data name="DeactivationFail" xml:space="preserve">
-    <value>Deactivated unsuccessfully!</value>
+    <value>Deactivated unsuccessfully.</value>
   </data>
   <data name="DeactivationSuccess" xml:space="preserve">
-    <value>Deactivated successfully!</value>
+    <value>Deactivated successfully.</value>
   </data>
   <data name="DeletedSuccessfully" xml:space="preserve">
-    <value>Deleted successfully!</value>
+    <value>Deleted successfully.</value>
   </data>
   <data name="ManageKPIGroup" xml:space="preserve">
     <value>KPI Group Management</value>
@@ -550,7 +550,7 @@
     <value>The End Date of Reviewer must be less than or equal the Start Date of Management!</value>
   </data>
   <data name="StartDateGreaterThanEndDateWarning" xml:space="preserve">
-    <value>The Start Date must be less than or equal the End Date!</value>
+    <value>The Start Date must be less than or equal the End Date.</value>
   </data>
   <data name="EmployeeFlowSettingReportName" xml:space="preserve">
     <value>{0}_PA_Evaluator_Reviewer_List_of_Section</value>
@@ -1156,7 +1156,7 @@
     <value>End of Period</value>
   </data>
   <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
-    <value>The Discipline Start Date must be less than or equal the Discipline End Date!</value>
+    <value>The Discipline Start Date must be less than or equal the Discipline End Date.</value>
   </data>
   <data name="ViewOtherViolation" xml:space="preserve">
     <value>View other violation</value>

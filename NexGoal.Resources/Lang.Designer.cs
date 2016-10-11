@@ -88,7 +88,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Activated unsuccessfully!.
+        ///   Looks up a localized string similar to Activated unsuccessfully..
         /// </summary>
         public static string ActivationFail {
             get {
@@ -97,7 +97,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Activated successfully!.
+        ///   Looks up a localized string similar to Activated successfully..
         /// </summary>
         public static string ActivationSuccess {
             get {
@@ -700,7 +700,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created successfully!.
+        ///   Looks up a localized string similar to Created successfully..
         /// </summary>
         public static string CreatedSuccessfully {
             get {
@@ -772,7 +772,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Created Unsuccessfully!.
+        ///   Looks up a localized string similar to Created Unsuccessfully..
         /// </summary>
         public static string CreateUnsuccessfully {
             get {
@@ -817,7 +817,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deactivated unsuccessfully!.
+        ///   Looks up a localized string similar to Deactivated unsuccessfully..
         /// </summary>
         public static string DeactivationFail {
             get {
@@ -826,7 +826,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deactivated successfully!.
+        ///   Looks up a localized string similar to Deactivated successfully..
         /// </summary>
         public static string DeactivationSuccess {
             get {
@@ -835,7 +835,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deleted successfully!.
+        ///   Looks up a localized string similar to Deleted successfully..
         /// </summary>
         public static string DeletedSuccessfully {
             get {
@@ -979,7 +979,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Discipline Start Date must be less than or equal the Discipline End Date!.
+        ///   Looks up a localized string similar to The Discipline Start Date must be less than or equal the Discipline End Date..
         /// </summary>
         public static string DisciplineStartDateGreaterThanEndDateWarning {
             get {
@@ -4021,7 +4021,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Start Date must be less than or equal the End Date!.
+        ///   Looks up a localized string similar to The Start Date must be less than or equal the End Date..
         /// </summary>
         public static string StartDateGreaterThanEndDateWarning {
             get {

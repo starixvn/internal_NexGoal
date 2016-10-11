@@ -3,7 +3,7 @@
 
 epaModule.controller('ViewEPADetailController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', "SelfEvalutorModel",
-    'ViolationModel', 'NominationModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl','lockScreenService',
+    'ViolationModel', 'NominationModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl', 'lockScreenService',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, SelfEvalutorModel,
 ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, lockScreenService) {
     var vm = this;
@@ -152,8 +152,10 @@ function ($modalInstance, comment) {
 }]);
 
 epaModule.controller('ModalAdjustScoreController',
-['$modalInstance', 'EmployeeEPAModel', 'ReviewerManagementModel', 'utilitiesFactory', 'notificationFactory', 'selectedEmployees', 'isReviewer',
-function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFactory, notificationFactory, selectedEmployees, isReviewer) {
+['$translate', '$modalInstance', 'EmployeeEPAModel', 'ReviewerManagementModel', 'utilitiesFactory', 'notificationFactory',
+    'selectedEmployees', 'isReviewer',
+function ($translate, $modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFactory, notificationFactory,
+    selectedEmployees, isReviewer) {
     var vm = this;
 
     vm.adjust = {
@@ -163,6 +165,13 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
 
     vm.selectedEmployees = selectedEmployees;
     vm.isReviewer = isReviewer;
+    vm.scoreInputValidMessage = "";
+
+    function initialize() {
+        $translate('ScoreInputValid').then(function (message) {
+            vm.scoreInputValidMessage = message;
+        });
+    }
 
     vm.ok = function () {
         if (!vm.adjust.Score) {
@@ -178,6 +187,8 @@ function ($modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFa
     vm.cancel = function () {
         $modalInstance.dismiss('cancel');
     };
+
+    initialize();
 }]);
 
 epaModule.controller('ModalUpdateCommentController',
