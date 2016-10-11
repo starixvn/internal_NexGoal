@@ -1,14 +1,11 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Core.Utilities;
+    using NexGoal.Criteria.EPAHistory;
     using NexGoal.Criteria.Period;
     using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.FlowManagement;
@@ -17,7 +14,10 @@
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
-    using NexGoal.Criteria.EPAHistory;
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
 
     public class PeriodService : BaseService, IPeriodService
     {
