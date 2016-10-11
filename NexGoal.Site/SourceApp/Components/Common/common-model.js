@@ -193,6 +193,15 @@ function ($modal, commonFactory, errorFactory) {
         });
     };
 
+	commonModel.getReadyPeriod = function (targetTypeId) {
+        return commonFactory.getReadyPeriod(targetTypeId)
+        .success(function (periods) {
+            commonModel.periods = periods;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+	
     commonModel.getStandardGrade = function () {
         return commonFactory.getStandardGrade()
         .success(function (standardGrades) {

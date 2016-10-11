@@ -257,6 +257,7 @@
   </Function>
   <Function Name="Period">
     <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EpaPeriod_GetReadyPeriod" SpName="EpaPeriod_GetReadyPeriod" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetAllByReviewer" SpName="Period_GetAllByReviewer" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetAllByEvaluator" SpName="Period_GetAllByEvaluator" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetAllByEmployee" SpName="Period_GetAllByEmployee" DbName="NexGoal" Plain="0"></Setting>

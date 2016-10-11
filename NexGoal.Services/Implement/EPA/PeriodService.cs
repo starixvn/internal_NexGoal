@@ -95,6 +95,17 @@
             return periods;
         }
 
+        public IEnumerable<PeriodModel> GetReadyPeriod(GetReadyPeriodCriteria criteria)
+        {
+            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = _periodRepository.GetPeriod(criteria);
+            }
+
+            return periods;
+        }
         public PeriodModel GetPeriodById(int periodId)
         {
             var period = new PeriodModel();

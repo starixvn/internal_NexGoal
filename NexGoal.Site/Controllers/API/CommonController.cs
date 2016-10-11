@@ -213,6 +213,17 @@
         }
 
         [HttpGet]
+        public IEnumerable<PeriodModel> GetReadyPeriod(int? targetTypeId = null)
+        {
+            var criteria = new GetReadyPeriodCriteria
+            {
+                TargetTypeId = targetTypeId
+            };
+
+            return commonService.GetReadyPeriod(criteria);
+        }
+
+        [HttpGet]
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
             return commonService.GetStandardGrade();

@@ -42,6 +42,8 @@
 
         IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria);
 
+        IEnumerable<PeriodModel> GetReadyPeriod(GetReadyPeriodCriteria criteria);
+
         IEnumerable<StandardGradeModel> GetStandardGrade();
 
         IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria);

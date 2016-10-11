@@ -164,6 +164,7 @@
     <Compile Include="Period\GetAllMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\GetMonthlyPeriodCriteria.cs" />
     <Compile Include="Period\CheckSelfProcessStartedCriteria.cs" />
+    <Compile Include="Period\GetReadyPeriodCriteria.cs" />
     <Compile Include="Period\GetProcessSettingPeriodCriteria.cs" />
     <Compile Include="Period\UpdateProcessSettingPeriodCriteria.cs" />
     <Compile Include="Report\GetDashboardCriteria.cs" />

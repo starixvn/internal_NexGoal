@@ -10,6 +10,8 @@
 
     public interface IPeriodService
     {
+        IEnumerable<PeriodModel> GetReadyPeriod(GetReadyPeriodCriteria criteria);
+
         IEnumerable<PeriodModel> GetPeriod(GetPeriodCriteria criteria);
 
         IEnumerable<PeriodModel> GetAllPeriod(GetAllPeriodIncludeImportCriteria criteria);

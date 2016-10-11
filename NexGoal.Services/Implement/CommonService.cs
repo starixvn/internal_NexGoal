@@ -126,6 +126,11 @@
             return periodService.GetPeriod(criteria);
         }
 
+        public IEnumerable<PeriodModel> GetReadyPeriod(GetReadyPeriodCriteria criteria)
+        {
+            return periodService.GetReadyPeriod(criteria);
+        }
+
         public IEnumerable<StandardGradeModel> GetStandardGrade()
         {
             return employeeEPAService.GetStandardGrade();

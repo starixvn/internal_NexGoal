@@ -36,7 +36,7 @@
         vm.processStatus = enumerationsFactory.processStatusType;
 
         function initialize() {
-            CommonModel.getPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
+            CommonModel.getReadyPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
                 vm.periods = CommonModel.periods;
 
                 if (vm.periods.length > 0) {

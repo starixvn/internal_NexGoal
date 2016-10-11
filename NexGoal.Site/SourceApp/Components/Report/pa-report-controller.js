@@ -30,8 +30,8 @@
                 vm.teams = angular.copy(treeDepartment);
                 utilitiesFactory.setSelectAll(vm.teams);
 
-                CommonModel.getAllPeriodIncludeImport().then(function () {
-                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions); 
+                CommonModel.getReadyPeriod().then(function () {
+                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periods); 
 
                     if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
                         utilitiesFactory.checkLastestPeriods(vm.periods);
