@@ -147,7 +147,7 @@ appModule.factory('utilitiesFactory',
                 }
 
                 if (!period.Year) {
-                    period.ticked = !period.IsEndProcess;
+                    period.ticked = false;
                     result.unshift(period);
                 }
             });
