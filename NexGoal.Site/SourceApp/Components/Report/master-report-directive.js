@@ -71,6 +71,16 @@
             return htmlString;
         }
 
+        function renderProjectScore(score) {
+            var htmlString = "<td class='text-center'></td>";
+
+            if (score && score.length > 0) {
+                htmlString = "<td class='text-center'>" + project.DecryptedScore + "&nbsp;<i class='fa fa-star'></i></td>";
+            }
+
+            return htmlString;
+        }
+
         function renderNextObjectives(cell) {
             var htmlString = "-";
             var employee = cell.Value;
@@ -159,9 +169,8 @@
                             row += "<td>&nbsp;&nbsp;&nbsp;" + project.ProjectName + "</td>";
                         }
 
-                        row += "<td class='text-center'>" + project.DecryptedScore +
-                            "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
-                            renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
+                        row += renderProjectScore(project.DecryptedScore) +
+                            "<td class='text-center'>" + renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
                     }
 
                     row += "</tr>";
@@ -193,9 +202,9 @@
                 if (project.IsAdditionalRow) {
                     row += "<td class='text-center'>-</td><td class='text-center'>-</td><td class='text-center'>-</td>";
                 } else {
-                    row += "<td>" + project.ProjectName + "</td><td class='text-center'>" + project.DecryptedScore +
-                        "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
-                        renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
+                    row += "<td>" + project.ProjectName + "</td>" +
+                        renderProjectScore(project.DecryptedScore) +
+                        "<td class='text-center'>" + renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
                 }
 
                 row += "</tr>";
@@ -229,9 +238,8 @@
                 if (firstProject) {
                     row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
                         "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>" +
-                        "<td class='text-center'>" + project.DecryptedScore +
-                        "&nbsp;<i class='fa fa-star'></i></td><td class='text-center'>" +
-                        renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
+                        renderProjectScore(project.DecryptedScore) +
+                        "<td class='text-center'>" + renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
                     firstProject = false;
                 } else {
                     row += syncRender ? "<td class='text-center'>-</td><td  class='text-center'>-</td><td  class='text-center'>-</td>" : "";
