@@ -4,8 +4,12 @@
             <li class="current" data-translate="TargetTemplateDetail"></li>
         </ul>
     </div>
+    <div class="button-icon button-period-back">
+        <span class="fa fa-angle-left icon-back"></span>
+        <a data-translate="BackToList" ng-click="detailCtrl.back()"></a>
+    </div>
     <form class="common-form kpi-list-form" novalidate>
-    <div>
+    <div class="kpi-list-content">
         <div class="boxtitle first tab-header" data-translate="TargetTemplateInformation">
         </div>
         <div class="boxcontent information">
@@ -74,10 +78,6 @@
                 </ul>
             </div>
         </div>
-    </div>
-    <div class="action-button text-center">
-        <button class="btn btn-default customize" ng-click="detailCtrl.back()" data-translate="Back">
-        </button>
     </div>
     </form>
 </div>

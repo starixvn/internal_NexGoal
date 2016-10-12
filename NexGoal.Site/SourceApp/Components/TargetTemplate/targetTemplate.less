@@ -58,11 +58,17 @@ table {
 }
 
 .kpi-list-form {
-    margin: 10px 0 !important;
+    margin: 0 !important;
     padding: 0 !important;
 
-    .tab-header {
-        text-transform: uppercase;
+    &.common-form {
+        border: none;
+        box-shadow: none;
+        background: #fff;
+    }
+
+    .kpi-list-content {
+        overflow: hidden;
     }
 
     .boxtitle.first {
@@ -74,13 +80,15 @@ table {
         display: table;
     }
 
-    .line {
+    /*.line {
         border-bottom: 1px solid #e5e3e3;
         margin-bottom: 8px;
-    }
+    }*/
 
     .label-bold {
         font-weight: bold !important;
+        margin-top: 0;
+        text-align: right;
     }
 
     .kpi-list li {
