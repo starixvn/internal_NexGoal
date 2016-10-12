@@ -49,6 +49,17 @@
             return level.Name;
         }
 
+        function renderCurrentObjective(cell) {
+            var htmlString = "-";
+            var employee = cell.Value;
+
+            if (employee && employee.CurrentObjective && employee.CurrentObjective.length > 0) {
+                htmlString = '<a class="current-objective" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+            }
+
+            return htmlString;
+        }
+
         function renderEvaluatorCommentCell(cell) {
             var htmlString = "-";
             var employee = cell.Value;
@@ -64,7 +75,7 @@
             var htmlString = "-";
             var employee = cell.Value;
 
-            if (employee && employee.Comment && employee.Comment.length > 0) {
+            if (employee && employee.NextDescriptionObjective && employee.NextDescriptionObjective.length > 0) {
                 htmlString = '<a class="next-objectives" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
             }
 
@@ -476,6 +487,15 @@
 
                         if (employeeId) {
                             ReportModel.openPopupNextObjectives(employeeId);
+                        }
+                    });
+
+                    element.find(".current-objectives").bind("click", function () {
+                        var $self = $(this);
+                        var employeeId = $self.data("employee-id");
+
+                        if (employeeId) {
+                            ReportModel.openPopupCurrentObjective(employeeId);
                         }
                     });
 

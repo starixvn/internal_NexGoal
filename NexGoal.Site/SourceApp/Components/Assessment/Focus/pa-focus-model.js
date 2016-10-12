@@ -218,6 +218,22 @@
             return vm.modalInstance.result;
         };
 
+        vm.openPopupCurrentObjective = function (member) {
+            vm.modalInstance = $modal.open({
+                templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalCurrentObjective.html',
+                controller: "PAModalCurrentObjectiveController as paModalCurrentObjectiveCtrl",
+                backdrop: 'static',
+                windowClass: "modal-confirm-center",
+                resolve: {
+                    member: function () {
+                        return angular.copy(member);
+                    }
+                }
+            });
+
+            return vm.modalInstance.result;
+        };
+
         vm.openPopupObjective = function (member) {
             vm.modalInstance = $modal.open({
                 templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalObjective.html',

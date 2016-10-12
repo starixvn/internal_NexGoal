@@ -112,6 +112,15 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         return reportModel.modalInstance.result;
     };
 
+    reportModel.openPopupCurrentObjective = function (employeeId) {
+        var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
+        var modalTitle = "Current Objective";
+
+        if (employee) {
+            return openMasterReportCommentModal(modalTitle, employee.CurrentObjective);
+        }
+    };
+
     reportModel.openPopupEvaluatorComment = function (employeeId) {
         var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
         var modalTitle = "Evaluator's Comment";

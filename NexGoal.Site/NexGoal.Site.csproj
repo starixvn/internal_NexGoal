@@ -465,6 +465,7 @@
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\chart.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\focusProcess.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\index.html" />
+    <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalCurrentObjective.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalInformation.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\paFocus.html" />
     <Content Include="SourceApp\Components\Assessment\Focus\Templates\modalObjective.html" />
@@ -848,6 +849,7 @@
     <Content Include="Views\Emails\EndEvaluationToSelf.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-current-objective.controller.js" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">
