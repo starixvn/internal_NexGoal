@@ -3,7 +3,6 @@
     using NexGoal.Model.Integration;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System;
     using System.Collections.Generic;
 
     public class IntegrationController : BaseController

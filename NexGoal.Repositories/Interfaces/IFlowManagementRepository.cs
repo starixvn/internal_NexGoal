@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Repositories.Interfaces
 {
-    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using NexGoal.Model.FlowManagement;
+    using System.Collections.Generic;
 
     public interface IFlowManagementRepository
     {

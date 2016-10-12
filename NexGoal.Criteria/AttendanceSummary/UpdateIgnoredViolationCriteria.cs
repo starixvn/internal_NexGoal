@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Criteria.AttendanceSummary
 {
-    using System.Collections.Generic;
-    using System.Text;
     using Fanex.Data.Repository;
     using NexGoal.Model.AttendanceSummary;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class UpdateIgnoredViolationCriteria : CriteriaBase
     {

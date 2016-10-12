@@ -1,8 +1,6 @@
 ﻿namespace NexGoal.Model.PAFocus
 {
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Services;
-    using NexGoal.Model.Employee;
     using System;
 
     public class PAFocusProcessModel

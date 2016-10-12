@@ -73,6 +73,7 @@
             var lastObjective = evaluation.PAFocus.LastCompletedPercentObjective;
             var lastObjectiveValue = lastObjective.HasValue ? Enumerations.GetDescription((PAFocusType)lastObjective.Value) : string.Empty;
             var score = evaluation.PAFocus.FinalScore.HasValue && evaluation.PAFocus.FinalScore.Value != 0 ? evaluation.PAFocus.FinalScore.ToString() : Lang.NotAvailable;
+            var comment = FormatEvaluatorComment(evaluation.EvaluatorComments);
             var record = new
             {
                 RowIndex = rowIndex.ToString(),
@@ -82,7 +83,7 @@
                 GroupName = evaluation.PAFocus.Employee.Group.GroupName,
                 ReviewerAdjustment = index == 0 ? evaluation.ReviewerAdjustment : string.Empty,
                 Score = index == 0 ? score : string.Empty,
-                EvaluatorComment = index == 0 ? evaluation.EvaluatorComment : string.Empty,
+                EvaluatorComment = index == 0 ? comment : string.Empty,
                 Contribution = index == 0 ? contribution : string.Empty,
                 BonusGiven = index == 0 ? bonusGiven : string.Empty,
                 Promotion = index == 0 ? promotion : string.Empty,
@@ -97,6 +98,18 @@
             };
 
             return record;
+        }
+
+        private string FormatEvaluatorComment(IEnumerable<EvaluatorCommentReportModel> comments)
+        {
+            var result = string.Empty;
+            foreach (var evaluator in comments)
+            {
+                var comment = string.Format("{0}: {1} ({2}) \n {3} \n \n", Lang.Evaluator, evaluator.EvaluatorFullName, evaluator.EvaluatorNickName, evaluator.Comment);
+                result += comment;
+            }
+
+            return result;
         }
 
         private int GetNumberRowOfEmployee(MasterReportModel evaluation)

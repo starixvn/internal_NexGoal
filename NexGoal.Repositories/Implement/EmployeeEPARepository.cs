@@ -1,8 +1,5 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -11,6 +8,9 @@
     using NexGoal.Model.Report.Dashboard;
     using NexGoal.Model.ScoreRatingType;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {

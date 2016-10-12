@@ -1,14 +1,13 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Criteria.EmployeeEPA.RatingByKPI;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
     using NexGoal.Model.Enitites;
-    using NexGoal.Model.ScoreRatingType;
     using NexGoal.Model.TargetTemplate;
+    using System.Collections.Generic;
 
     public interface IEmployeeEPAService
     {

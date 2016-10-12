@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.TargetTemplate
 {
-    using System.Collections.Generic;
     using NexGoal.Model.KPI;
     using NexGoal.Model.KPIGroup;
+    using System.Collections.Generic;
 
     public class TargetTemplateKPIGroupModel : KPIGroupModel
     {

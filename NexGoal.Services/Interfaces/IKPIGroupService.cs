@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.KPIGroup;
     using NexGoal.Model.KPIGroup;
+    using System.Collections.Generic;
 
     public interface IKPIGroupService
     {

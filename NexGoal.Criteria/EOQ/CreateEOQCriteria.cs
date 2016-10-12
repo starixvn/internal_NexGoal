@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
     using NexGoal.Core.Attribute;
+    using System;
 
     public class CreateEOQCriteria : CriteriaBase
     {

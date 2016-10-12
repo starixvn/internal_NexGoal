@@ -3,7 +3,6 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PAFocus;
     using NexGoal.Model.PAFocus;
-    using NexGoal.Model.Period;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
     using System;

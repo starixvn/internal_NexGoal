@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Site
 {
+    using Fanex.Data.Configuration;
+    using Fanex.Logging;
     using System;
     using System.Web;
     using System.Web.Http;
@@ -7,8 +9,6 @@
     using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.SessionState;
-    using Fanex.Data.Configuration;
-    using Fanex.Logging;
 
     public class WebApiApplication : HttpApplication
     {

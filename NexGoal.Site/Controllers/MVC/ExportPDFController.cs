@@ -2,7 +2,6 @@
 {
     using NexGoal.Core.Constants;
     using NexGoal.Core.Utilities;
-    using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;

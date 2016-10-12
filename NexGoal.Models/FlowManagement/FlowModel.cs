@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.FlowManagement
 {
-    using System;
     using NexGoal.Model.Employee;
+    using System;
 
     [Serializable]
     public class FlowModel

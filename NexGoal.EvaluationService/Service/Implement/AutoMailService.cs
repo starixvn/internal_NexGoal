@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.BackgroundService
 {
     using NexGoal.Core.Enumerations;
-    using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
     using NexGoal.Services.Implement;

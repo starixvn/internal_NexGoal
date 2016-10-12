@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using NexGoal.Core.Constants;
-    using NexGoal.Core.Enumerations;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;

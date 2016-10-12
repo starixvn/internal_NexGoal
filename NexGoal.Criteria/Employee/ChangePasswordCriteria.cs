@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Criteria.Employee
 {
-    using System;
     using Fanex.Data.Repository;
+    using System;
 
     public class ChangePasswordCriteria : CriteriaBase
     {

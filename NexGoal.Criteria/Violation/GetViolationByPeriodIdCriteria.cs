@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Criteria.Violation
 {
     using Fanex.Data.Repository;
-    using System;
 
     public class GetViolationByPeriodIdCriteria : CriteriaBase
     {

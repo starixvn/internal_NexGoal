@@ -1,13 +1,13 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model;
     using NexGoal.Model.Department;
     using NexGoal.Model.Enitites;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class NominationRepository : INominationRepository
     {

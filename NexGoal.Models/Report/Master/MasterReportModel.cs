@@ -1,6 +1,5 @@
 ﻿using NexGoal.Core.Services;
 using NexGoal.Model.Integration;
-using NexGoal.Model.Nomination;
 using NexGoal.Model.PAFocus;
 using System.Collections.Generic;
 
@@ -13,11 +12,13 @@ namespace NexGoal.Model.Report
             Nominations = new List<NominationReportModel>();
 
             EmployeeWorkings = new List<EmployeeWorkingViewModel>();
+
+            EvaluatorComments = new List<EvaluatorCommentReportModel>();
         }
 
         public string ReviewerAdjustment { get; set; }
 
-        public string EvaluatorComment { get; set; }
+        public List<EvaluatorCommentReportModel> EvaluatorComments { get; set; }
 
         public PAFocusModel PAFocus { get; set; }
 

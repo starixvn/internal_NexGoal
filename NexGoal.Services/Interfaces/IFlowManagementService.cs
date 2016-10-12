@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.FlowManagement;
     using NexGoal.Model.Department;
     using NexGoal.Model.Employee;
     using NexGoal.Model.FlowManagement;
+    using System.Collections.Generic;
 
     public interface IFlowManagementService
     {

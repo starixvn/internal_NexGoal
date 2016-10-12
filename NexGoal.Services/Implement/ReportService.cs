@@ -1,10 +1,8 @@
 ﻿namespace NexGoal.Services.Implement
 {
     using NexGoal.Core.Constants;
-    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
     using NexGoal.Criteria.Report;
-    using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.Dashboard;
     using NexGoal.Model.Report.EPADetail;

@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.TargetTemplate;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.KPIGroup;
     using NexGoal.Model.TargetTemplate;
+    using System.Collections.Generic;
 
     public interface ITargetTemplateService
     {

@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Criteria.Report
 {
     using Fanex.Data.Repository;
-    using NexGoal.Core.Attribute;
 
     public class GetPAReportCriteria : CriteriaBase
     {

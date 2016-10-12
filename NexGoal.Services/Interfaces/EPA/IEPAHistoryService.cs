@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Criteria.EPAHistory;
     using NexGoal.Model.EPAHistory;
     using NexGoal.Model.Period;
+    using System.Collections.Generic;
 
     public interface IEPAHistoryService
     {

@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria;
     using NexGoal.Model;
+    using System.Collections.Generic;
 
     public interface IEOYService
     {

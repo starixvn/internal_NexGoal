@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.AttendanceSummary
 {
-    using System;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
+    using System;
 
     [Serializable]
     public class AttendanceDetailModel

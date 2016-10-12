@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.Report.Dashboard
 {
-    using System.Collections.Generic;
     using NexGoal.Model.Employee;
     using NexGoal.Model.EmployeeEPA;
+    using System.Collections.Generic;
 
     public class DashboardModel
     {

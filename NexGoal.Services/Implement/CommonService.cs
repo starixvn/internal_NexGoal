@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
     using NexGoal.Criteria.EmployeeEPA;
@@ -21,6 +19,8 @@
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Model.TargetType;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class CommonService : ICommonService
     {

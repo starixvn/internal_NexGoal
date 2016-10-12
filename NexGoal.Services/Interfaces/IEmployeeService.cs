@@ -1,11 +1,10 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.Employee;
-    using NexGoal.Model.Authentication;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
+    using System.Collections.Generic;
 
     public interface IEmployeeService
     {

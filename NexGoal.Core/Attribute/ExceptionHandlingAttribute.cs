@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Core.Attribute
 {
+    using Fanex.Logging;
     using System;
     using System.Web;
     using System.Web.Http.Filters;
-    using Fanex.Logging;
 
     [AttributeUsage(AttributeTargets.All)]
     public class ExceptionHandlingAttribute : ExceptionFilterAttribute

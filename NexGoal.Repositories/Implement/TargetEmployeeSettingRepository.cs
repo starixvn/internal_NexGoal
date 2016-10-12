@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model.Department;
@@ -9,6 +8,7 @@
     using NexGoal.Model.TargetEmployeeSetting;
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
 
     public class TargetEmployeeSettingRepository : ITargetEmployeeSettingRepository
     {

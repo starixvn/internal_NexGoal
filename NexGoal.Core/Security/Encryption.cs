@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Core.Security
 {
+    using NexGoal.Core.Enumerations;
     using System;
     using System.Security.Cryptography;
     using System.Text;
-    using NexGoal.Core.Enumerations;
 
     public static class Encryption
     {

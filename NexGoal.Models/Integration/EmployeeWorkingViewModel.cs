@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Model.Integration
 {
     using System;
-    using NexGoal.Model.Enitites;
 
     public class EmployeeWorkingViewModel
     {

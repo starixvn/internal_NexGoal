@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Core.Utilities.NPOIExtensions
 {
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
 
     public static class HSSFSheetExtensions
     {

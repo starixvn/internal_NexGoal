@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Model.Period;
+    using System.Collections.Generic;
 
     public interface IManualMailService
     {

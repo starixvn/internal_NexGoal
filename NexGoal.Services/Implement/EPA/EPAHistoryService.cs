@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EPAHistory;
     using NexGoal.Model.EPAHistory;
@@ -9,6 +7,8 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class EPAHistoryService : BaseService, IEPAHistoryService
     {

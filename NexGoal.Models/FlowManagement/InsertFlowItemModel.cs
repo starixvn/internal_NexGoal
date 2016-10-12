@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.FlowManagement
 {
-    using System.Collections.Generic;
     using NexGoal.Model.Employee;
+    using System.Collections.Generic;
 
     public class InsertFlowItemModel
     {

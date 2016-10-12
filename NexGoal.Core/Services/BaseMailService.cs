@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Core.Services
 {
+    using Fanex.MailDeliver.MailClient.API;
+    using Fanex.MailDeliver.Model;
     using System;
     using System.Configuration;
     using System.IO;
     using System.Text.RegularExpressions;
-    using Fanex.MailDeliver.MailClient.API;
-    using Fanex.MailDeliver.Model;
 
     public class BaseMailService : IBaseMailService
     {

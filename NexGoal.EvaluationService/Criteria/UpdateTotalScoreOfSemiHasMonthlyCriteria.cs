@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.BackgroundService
 {
-    using System.Text;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
+    using System.Text;
 
     public class UpdateTotalScoreOfSemiHasMonthlyCriteria : CriteriaBase
     {

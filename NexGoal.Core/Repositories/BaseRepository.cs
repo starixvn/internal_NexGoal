@@ -1,15 +1,15 @@
 ﻿namespace NexGoal.Core.Repositories
 {
-    using System;
-    using System.Collections;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Reflection;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Criteria;
     using NexGoal.Core.Model;
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Reflection;
 
     public class BaseRepository : IBaseRepository
     {

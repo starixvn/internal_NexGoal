@@ -1,12 +1,12 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.RoleManagement;
     using NexGoal.Model.RoleManagement;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class RoleService : BaseService, IRoleService
     {

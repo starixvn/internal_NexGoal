@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
+    using NexGoal.Core.Constants;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using NexGoal.Core.Constants;
 
     public class EvaluationProcessModel
     {

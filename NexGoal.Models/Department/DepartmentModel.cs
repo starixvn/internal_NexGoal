@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.Department
 {
+    using NexGoal.Model.Enitites;
     using System;
     using System.Collections.Generic;
-    using NexGoal.Model.Enitites;
 
     [Serializable]
     public class DepartmentModel

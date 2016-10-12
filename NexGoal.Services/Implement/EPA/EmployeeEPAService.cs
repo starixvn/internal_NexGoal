@@ -1,8 +1,5 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -17,6 +14,9 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {

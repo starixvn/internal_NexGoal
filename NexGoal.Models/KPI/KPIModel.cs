@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Model.KPI
 {
-    using System;
-    using System.Collections.Generic;
     using NexGoal.Model.KPIGroup;
     using NexGoal.Model.TargetType;
+    using System;
+    using System.Collections.Generic;
 
     public class KPIModel
     {

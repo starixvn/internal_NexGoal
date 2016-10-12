@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using System;
     using NexGoal.Core.Services;
+    using System;
 
     [Serializable]
     public class EPAProcessModel

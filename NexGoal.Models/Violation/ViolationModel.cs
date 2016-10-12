@@ -1,10 +1,7 @@
 ﻿namespace NexGoal.Model.Violation
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
     using NexGoal.Model.Enitites;
+    using System;
 
     public class ViolationViewModel
     {

@@ -1,7 +1,4 @@
-﻿using NexGoal.Core.Constants;
-using NexGoal.Core.Criteria;
-using NexGoal.Core.Model;
-using NexGoal.Core.Services;
+﻿using NexGoal.Core.Model;
 using System.Collections.Generic;
 using System.Web;
 

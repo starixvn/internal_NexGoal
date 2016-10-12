@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using NexGoal.Core.Constants;
-    using NexGoal.Core.Enumerations;
 
     public class MonthlyEPAModel
     {

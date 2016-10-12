@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.TargetType;
     using NexGoal.Model.TargetType;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
 
     public class TargetTypeService : BaseService, ITargetTypeService
     {

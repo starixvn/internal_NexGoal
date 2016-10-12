@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.FlowManagement
 {
+    using NexGoal.Core.Enumerations;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
-    using NexGoal.Core.Enumerations;
 
     public class InsertFlowModel
     {

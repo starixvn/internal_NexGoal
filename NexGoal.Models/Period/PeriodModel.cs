@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.Period
 {
-    using System;
     using NexGoal.Model.TargetType;
+    using System;
 
     public class PeriodModel
     {

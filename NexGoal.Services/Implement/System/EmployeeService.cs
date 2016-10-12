@@ -1,20 +1,19 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
+    using Core.Utilities;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Core.Security;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Employee;
-    using NexGoal.Model.Authentication;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.RoleManagement;
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using Core.Utilities;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class EmployeeService : BaseService, IEmployeeService
     {

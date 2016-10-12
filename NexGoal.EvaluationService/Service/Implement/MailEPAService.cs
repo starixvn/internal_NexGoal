@@ -1,6 +1,5 @@
 ﻿using NexGoal.Core.Enumerations;
 using NexGoal.Core.Services;
-using NexGoal.Criteria.Period;
 using NexGoal.Criteria.Period.GenerationEvaluation;
 using NexGoal.Model.Period;
 using NexGoal.Services.Implement;

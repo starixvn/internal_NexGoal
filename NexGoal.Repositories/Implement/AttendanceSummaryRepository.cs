@@ -1,14 +1,14 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model.AttendanceSummary;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     public class AttendanceSummaryRepository : IAttendanceSummaryRepository
     {

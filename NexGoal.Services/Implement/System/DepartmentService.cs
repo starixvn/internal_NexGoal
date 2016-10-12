@@ -1,12 +1,12 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Department;
     using NexGoal.Model.Department;
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
 
     public class DepartmentService : BaseService, IDepartmentService
     {

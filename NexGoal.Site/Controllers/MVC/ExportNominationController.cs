@@ -1,13 +1,12 @@
 ﻿namespace NexGoal.Site.Controllers
 {
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Web.Mvc;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Model;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Web.Mvc;
 
     public class ExportNominationController : Controller
     {

@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
     using NexGoal.Criteria.EmployeeEPA;
@@ -19,6 +18,7 @@
     using NexGoal.Model.Period;
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Model.TargetType;
+    using System.Collections.Generic;
 
     public interface ICommonService
     {

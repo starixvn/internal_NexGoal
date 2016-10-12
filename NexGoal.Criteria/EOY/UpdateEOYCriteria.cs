@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Criteria
 {
-    using System;
     using Fanex.Data.Repository;
+    using System;
 
     public class UpdateEOYCriteria : CriteriaBase
     {

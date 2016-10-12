@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.TargetEmployeeSetting
 {
-    using System.Collections.Generic;
     using NexGoal.Model.Department;
     using NexGoal.Model.TargetTemplate;
+    using System.Collections.Generic;
 
     public class TargetDepartmentModel : DepartmentModel
     {

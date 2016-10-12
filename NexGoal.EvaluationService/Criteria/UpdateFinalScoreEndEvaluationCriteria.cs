@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.BackgroundService
 {
-    using System.Text;
     using Fanex.Data.Repository;
+    using System.Text;
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
     {

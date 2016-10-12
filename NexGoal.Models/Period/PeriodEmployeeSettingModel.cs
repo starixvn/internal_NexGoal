@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Model.Period
 {
-    using System;
-    using System.Collections.Generic;
     using NexGoal.Core.Enumerations;
     using NexGoal.Model.Department;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.TargetTemplate;
+    using System;
+    using System.Collections.Generic;
 
     [Serializable]
     public class PeriodEmployeeSettingModel

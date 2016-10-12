@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.FlowManagement
 {
-    using System.Collections.Generic;
     using NexGoal.Model.Enitites;
+    using System.Collections.Generic;
 
     public class PersonalFlowModel
     {

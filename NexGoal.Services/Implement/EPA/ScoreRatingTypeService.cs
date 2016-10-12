@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.ScoreRatingType;
     using NexGoal.Model.ScoreRatingType;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
 
     public class ScoreRatingTypeService : BaseService, IScoreRatingTypeService
     {

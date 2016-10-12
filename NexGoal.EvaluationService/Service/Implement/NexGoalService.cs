@@ -1,6 +1,5 @@
 ﻿using Fanex.Logging;
 using System;
-using System.Threading.Tasks;
 
 namespace NexGoal.BackgroundService
 {

@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.Period
 {
-    using System;
     using NexGoal.Model.FlowManagement;
+    using System;
 
     [Serializable]
     public class PeriodFlowModel : FlowModel

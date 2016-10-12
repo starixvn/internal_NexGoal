@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using NexGoal.Resources;
     using System.Collections;
     using System.Globalization;
     using System.Linq;
     using System.Resources;
     using System.Web.Http;
-    using NexGoal.Resources;
 
     public class ResourcesController : ApiController
     {

@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Services;
+    using System.Collections.Generic;
 
     public class EPAKPIGroupModel
     {

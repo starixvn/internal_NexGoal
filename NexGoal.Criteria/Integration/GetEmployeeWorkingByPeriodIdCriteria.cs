@@ -1,5 +1,4 @@
 ﻿using Fanex.Data.Repository;
-using System;
 
 namespace NexGoal.Criteria
 {

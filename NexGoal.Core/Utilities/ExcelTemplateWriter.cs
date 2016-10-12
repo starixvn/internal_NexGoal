@@ -1,14 +1,14 @@
 ﻿namespace NexGoal.Core.Utilities
 {
+    using NexGoal.Core.Utilities.NPOIExtensions;
+    using NPOI.HSSF.UserModel;
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Reflection;
-    using NexGoal.Core.Utilities.NPOIExtensions;
-    using NPOI.HSSF.UserModel;
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
 
     public class ExcelTemplateWriter
     {

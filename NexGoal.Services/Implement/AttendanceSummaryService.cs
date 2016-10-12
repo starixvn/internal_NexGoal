@@ -1,9 +1,5 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
@@ -15,6 +11,10 @@
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     public class AttendanceSummaryService : BaseService, IAttendanceSummaryService
     {

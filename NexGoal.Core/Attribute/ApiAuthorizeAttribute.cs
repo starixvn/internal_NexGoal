@@ -1,8 +1,6 @@
 ﻿namespace NexGoal.Core.Attribute
 {
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using System;
     using System.Net;

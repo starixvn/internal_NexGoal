@@ -1,15 +1,11 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using NexGoal.Core.Attribute;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Model;
     using NexGoal.Criteria.AttendanceSummary;
     using NexGoal.Model.AttendanceSummary;
     using NexGoal.Model.RoleManagement;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web.Http;

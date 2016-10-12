@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Criteria.Department;
     using NexGoal.Model.Department;
+    using System.Collections.Generic;
 
     public interface IDepartmentService
     {

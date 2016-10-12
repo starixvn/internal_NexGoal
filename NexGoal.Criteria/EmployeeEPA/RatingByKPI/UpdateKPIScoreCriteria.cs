@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Criteria.EmployeeEPA.RatingByKPI
 {
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Web;
     using Fanex.Data.Repository;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
+    using System.Collections.Generic;
+    using System.Text;
+    using System.Web;
 
     public class UpdateKPIScoreCriteria : CriteriaBase
     {

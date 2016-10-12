@@ -6,7 +6,6 @@
     using NexGoal.Model.Employee;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Enitites;
-    using NexGoal.Model.Integration;
     using NexGoal.Model.Nomination;
     using NexGoal.Model.PAFocus;
     using NexGoal.Model.Report;
@@ -36,12 +35,13 @@
                             return report;
                         },
                         "PAFocusId,EmployeeId,JobTitleId,GroupId");
+                    var evaluatorComments = multi.Read<EvaluatorCommentReportModel>();
 
                     var nominations = multi.Read<NominationReportModel>();
 
                     var nominators = multi.Read<NominatorReportModel>();
 
-                    GroupMasterReport(employees, nominations, nominators);
+                    GroupMasterReport(employees, evaluatorComments, nominations, nominators);
                 }
             }
 
@@ -50,11 +50,13 @@
 
         private IEnumerable<MasterReportModel> GroupMasterReport(
             IEnumerable<MasterReportModel> reports,
+            IEnumerable<EvaluatorCommentReportModel> evaluatorComments,
             IEnumerable<NominationReportModel> nominations,
             IEnumerable<NominatorReportModel> nominators)
         {
             foreach (var employee in reports)
             {
+                var evaluatorCommentOfEmployee = evaluatorComments.Where(i => i.EmployeeId == employee.PAFocus.Employee.EmployeeId);
                 var nominationsOfEmployee = nominations.Where(i => i.NomineeId == employee.PAFocus.Employee.EmployeeId);
                 foreach (var nomination in nominationsOfEmployee)
                 {
@@ -63,6 +65,7 @@
                 }
 
                 employee.Nominations.AddRange(nominationsOfEmployee);
+                employee.EvaluatorComments.AddRange(evaluatorCommentOfEmployee);
             }
 
             return reports;

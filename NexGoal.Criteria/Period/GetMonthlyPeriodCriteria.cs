@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Criteria.Period
 {
-    using System;
     using Fanex.Data.Repository;
+    using System;
 
     public class GetMonthlyPeriodCriteria : CriteriaBase
     {

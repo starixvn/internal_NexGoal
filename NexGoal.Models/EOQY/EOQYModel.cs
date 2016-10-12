@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model
 {
-    using System;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
+    using System;
 
     public class EOQYModel
     {

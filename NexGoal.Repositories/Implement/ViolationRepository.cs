@@ -1,7 +1,6 @@
 ﻿using Fanex.Data;
 using Fanex.Data.Repository;
 using NexGoal.Model.Enitites;
-using NexGoal.Model.Integration;
 using NexGoal.Model.Violation;
 using NexGoal.Repositories.Interfaces;
 using System.Collections.Generic;

@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.KPIGroup;
     using NexGoal.Model.KPIGroup;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
 
     public class KPIGroupService : BaseService, IKPIGroupService
     {

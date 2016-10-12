@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web;
     using NexGoal.Core.Enumerations;
     using NexGoal.Model.Period;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web;
 
     public class ManualMailService : IManualMailService
     {

@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Model
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class NominationViewModel
     {

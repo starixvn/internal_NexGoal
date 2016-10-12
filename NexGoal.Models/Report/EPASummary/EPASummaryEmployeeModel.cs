@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.Report.EPASummary
 {
+    using NexGoal.Model.Enitites;
     using System;
     using System.Collections.Generic;
-    using NexGoal.Model.Enitites;
 
     public class EPASummaryEmployeeModel
     {

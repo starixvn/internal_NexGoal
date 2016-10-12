@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Criteria
 {
     using Fanex.Data.Repository;
-    using System;
 
     public class GetHRMSummaryOnProbationCriteria : CriteriaBase
     {

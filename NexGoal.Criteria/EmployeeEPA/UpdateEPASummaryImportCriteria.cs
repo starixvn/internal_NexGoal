@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Criteria.EmployeeEPA
 {
-    using System.Collections.Generic;
-    using System.Text;
     using Fanex.Data.Repository;
     using NexGoal.Model.EmployeeEPA;
+    using System.Collections.Generic;
+    using System.Text;
 
     public class UpdateEPASummaryImportCriteria : CriteriaBase
     {

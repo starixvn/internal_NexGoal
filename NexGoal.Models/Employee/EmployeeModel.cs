@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Model.Employee
 {
-    using System;
-    using System.Collections.Generic;
     using NexGoal.Model.Department;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.RoleManagement;
+    using System;
+    using System.Collections.Generic;
 
     [Serializable]
     public class EmployeeModel : Employee

@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Criteria.ScoreRatingType;
     using NexGoal.Model.ScoreRatingType;
+    using System.Collections.Generic;
 
     public interface IScoreRatingTypeService
     {

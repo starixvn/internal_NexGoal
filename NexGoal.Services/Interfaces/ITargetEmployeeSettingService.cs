@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.TargetEmployeeSetting;
     using NexGoal.Model.TargetEmployeeSetting;
+    using System.Collections.Generic;
 
     public interface ITargetEmployeeSettingService
     {
