@@ -243,7 +243,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
 
     vm.save = function (epaInfo) {
         if (EvaluatorManagementModel.validateEPA(epaInfo)) {
-            EvaluatorManagementModel.updateEPAScoreByEvaluator(vm);
+            lockScreenService.start();
+            EvaluatorManagementModel.updateEPAScoreByEvaluator(vm)["finally"](function () {
+                lockScreenService.stop();
+            });
         }
         else {
             EvaluatorManagementModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);

@@ -3,11 +3,11 @@
 
 epaModule.controller('DetailEmployeeController',
 ["$scope", "$interval", '$translate', '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl', 'LastRatingModel', 'ViolationModel',
-    'NominationModel',
+    'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'lockScreenService', 'baseUrl', 'LastRatingModel',
+    'ViolationModel', 'NominationModel',
 function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, LastRatingModel, ViolationModel,
-    NominationModel) {
+    utilitiesFactory, enumerationsFactory, historyFactory, lockScreenService, baseUrl, LastRatingModel,
+    ViolationModel, NominationModel) {
     var vm = this;
 
     vm.epaId = parseInt($routeParams.id, 10);
@@ -67,19 +67,20 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         }
     }
 
-	function getHRMSummary(){
-		if(vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual){
-		SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+    function getHRMSummary() {
+        if (vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual) {
+            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.hrmSummary = SelfEvalutorModel.hrmSummary;
             });
-		}else{
-			SelfEvalutorModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
+        } else {
+            SelfEvalutorModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.hrmSummary = SelfEvalutorModel.hrmSummary;
             });
-		}
-	}
-	
+        }
+    }
+
     function getEPAInfoByEmployee() {
+        lockScreenService.start();
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
             checkStatus(vm.epaInfo);
@@ -129,6 +130,8 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 vm.epaInfo.LastPerformanceScore += utilitiesFactory.parseFloat(vm.getSubLastScore(kpiGroup));
             });
+        })["finally"](function () {
+            lockScreenService.stop();
         });
     }
 
@@ -211,7 +214,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
     vm.save = function (epaInfo) {
         if (SelfEvalutorModel.validateEPA(epaInfo)) {
-            SelfEvalutorModel.updateEPAScoreByEmployee(vm);
+            lockScreenService.start();
+            SelfEvalutorModel.updateEPAScoreByEmployee(vm)["finally"](function () {
+                lockScreenService.stop();
+            });
         } else {
             SelfEvalutorModel.openPopupNotificationInvalidComment(vm, vm.evaluateEPAInvalidMessage);
         }

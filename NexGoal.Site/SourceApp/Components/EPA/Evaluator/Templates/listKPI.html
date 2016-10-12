@@ -9,7 +9,7 @@
     </tr>
     <tr ng-repeat-start="kpi in kpiGroup.KPIs">
         <td class="kpi-title">
-            {{$parent.index + 1}}-{{$index + 1}}. {{kpi.Name}} ({{kpi.Weight | splitScore}} pts)
+            {{$parent.$index + 1}}-{{$index + 1}}. {{kpi.Name}} ({{kpi.Weight | splitScore}} pts)
             <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
             <p ng-if="kpi.IsMissingEvaluation" data-translate="RequiredEvaluation" class="note"></p>
         </td>

@@ -1716,4 +1716,7 @@
   <data name="EvaluationTemplate" xml:space="preserve">
     <value>Evaluation Template</value>
   </data>
+  <data name="UpdateEvaluationPeriod" xml:space="preserve">
+    <value>Update Evaluation Period</value>
+  </data>
 </root>

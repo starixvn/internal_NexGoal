@@ -34,8 +34,8 @@
         };
         vm.searchEmployee = "";
         vm.processStatus = enumerationsFactory.processStatusType;
-		vm.permission = [];
-		
+        vm.permission = [];
+
         function initialize() {
             CommonModel.getReadyPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
                 vm.periods = CommonModel.periods;
@@ -62,11 +62,11 @@
         function query() {
             lockScreenService.start();
             vm.filter.groupIds = utilitiesFactory.getSelectedData(vm.teams, 'DepartmentId');
-			
-			PAFocusModel.getPermission(vm.filter.periodId).then(function(){
-				vm.permission = PAFocusModel.permission;
-			});			
-			
+
+            PAFocusModel.getPermission(vm.filter.periodId).then(function () {
+                vm.permission = PAFocusModel.permission;
+            });
+
             PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
                 vm.process = PAFocusModel.process;
             });
@@ -137,6 +137,11 @@
             }
         };
 
+        vm.openPopupViewObjective = function (member) {
+            member.IsReadOnly = true;
+            PAFocusModel.openPopupObjective(member);
+        };
+
         vm.openPopupObjective = function (member) {
             PAFocusModel.openPopupObjective(member).then(function (NextDescriptionObjective) {
                 member.NextDescriptionObjective = NextDescriptionObjective;
@@ -144,14 +149,14 @@
         };
 
         vm.showExportButton = function () {
-            if (vm.process.length === 3 
-			&& vm.process[2].ProcessStatus == vm.processStatus.InProgress 
+            if (vm.process.length === 3
+			&& vm.process[2].ProcessStatus == vm.processStatus.InProgress
 			&& vm.permission.indexOf(enumerationsFactory.processType.Management) >= 0) {
                 return true;
             }
 
             return false;
-        }
+        };
 
         initialize();
     }

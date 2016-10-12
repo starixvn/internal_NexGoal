@@ -91,14 +91,7 @@
 
 <div class="collapse in quality-of-work-table">
 
-    <any ng-switch="memberEPAInfoCtrl.viewBySelf()">
-        <any ng-switch-when="true">
-            <table class="table table-bordered" ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPI.html'"></table>
-        </any>
-        <any ng-switch-when="false">
-            <table class="table table-bordered" ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPIToView.html'"></table>
-        </any>
-    </any>
+    <table class="table table-bordered" ng-include src="'/SourceApp/Components/EPA/Evaluator/Templates/listKPI.html'"></table>
 
     <table class="table table-bordered table-total pa-form">
         <tbody>

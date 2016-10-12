@@ -388,6 +388,7 @@ textarea.none-resize {
   border: 1px solid #C8C8C8;
   height: 28px;
   padding: 0 0 0 7px;
+  font-size: 13px;
 }
 .container-fluid.page select.txt-phone {
   width: 193px;

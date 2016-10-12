@@ -4534,6 +4534,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Update Evaluation Period.
+        /// </summary>
+        public static string UpdateEvaluationPeriod {
+            get {
+                return ResourceManager.GetString("UpdateEvaluationPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Update Final Score.
         /// </summary>
         public static string UpdateFinalScore {

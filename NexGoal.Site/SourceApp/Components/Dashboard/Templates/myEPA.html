@@ -29,7 +29,7 @@
                     <i class="fa fa-pencil-square-o "></i>
                 </a>
                 <a ng-click="dashboardCtrl.viewEPAResult(myEPA)" href=""
-                   ng-if="myEPA.EPAId > 0 && !(myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"
+                   ng-if="myEPA.EPAId > 0 && myEPA.Period.IsEndPeriod"
                    ng-attr-title='{{"ViewEPAResult" | translate}}'>
                     <i class="fa fa-search"></i>
                 </a>
