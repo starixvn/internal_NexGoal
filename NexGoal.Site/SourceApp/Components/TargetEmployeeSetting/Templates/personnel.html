@@ -21,7 +21,7 @@
             </div>
 
             <div class="col">
-                <label class="control-label size-m" data-translate="TargetType"></label>
+                <label class="control-label size-m" data-translate="Type"></label>
                 <div class="control-content">
                     <select class="form-control lstBox-limit" ng-model="personnelCtrl.filter.targetTypeId"
                             ng-options="opt.TargetTypeId as opt.Name for opt in personnelCtrl.targetTypes">
@@ -48,7 +48,7 @@
             <tr class="header-table">
                 <th colspan="9">
                     <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
-                        <label class="control-label" data-translate="TargetTemplate">
+                        <label class="control-label" data-translate="EvaluationTemplate">
                         </label>
                         <select ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId" 
                                 ng-options="opt.TargetTemplateId as opt.Name for opt in personnelCtrl.targetTemplates"
@@ -74,9 +74,9 @@
                 </th>
                 <th data-translate="FullName">
                 </th>
-                <th data-translate="TargetType">
+                <th data-translate="Type">
                 </th>
-                <th data-translate="TargetTemplate">
+                <th data-translate="EvaluationTemplate">
                 </th>
                 <th data-translate="Delete" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                 </th>
@@ -99,7 +99,7 @@
                 <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
                 <td class="text-center" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
-                    <a class="glyphicon glyphicon-remove icon-remove" href="" ng-click="personnelCtrl.deleteTargetTemplate(employee, targetTemplate)"
+                    <a class="fa fa-trash-o icon-remove" href="" ng-click="personnelCtrl.deleteTargetTemplate(employee, targetTemplate)"
                        ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
             </tr>

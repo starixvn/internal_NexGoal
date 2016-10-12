@@ -9,7 +9,7 @@
             <form novalidate class="filter form-inline" role="form">
                 <div class="form-group">
                     <div class="col">
-                        <label class="control-label size-m" data-translate="TargetType"></label>
+                        <label class="control-label" data-translate="Type"></label>
                         <div class="control-content">
                             <select class="form-control lstBox-limit" ng-model="targetTemplateCtrl.filter.targetTypeId"
                                     ng-options="opt.TargetTypeId as opt.Name for opt in targetTemplateCtrl.targetTypes">
@@ -50,7 +50,7 @@
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
                         <th data-translate="Name"></th>
-                        <th data-translate="TargetType"></th>
+                        <th data-translate="Type"></th>
                         <th data-translate="ScoreRatingType"></th>
                         <th data-translate="RatingType"></th>
                         <th data-translate="Description"></th>
@@ -86,9 +86,9 @@
                         </td>
                         <td class="target-template-action text-center" ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host">
                             <div class="btn-group">
-                                <a class="glyphicon glyphicon-edit icon-edit" title="Edit"
+                                <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                                    ng-click="targetTemplateCtrl.update(targetTemplate)"></a>
-                                <a class="glyphicon glyphicon-remove icon-remove" title="Delete" ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"></a>
+                                <a class="fa fa-trash-o icon-remove" title="Delete" ng-click="targetTemplateCtrl.deleteTargetTemplate(targetTemplate)"></a>
                             </div>
                         </td>
                     </tr>

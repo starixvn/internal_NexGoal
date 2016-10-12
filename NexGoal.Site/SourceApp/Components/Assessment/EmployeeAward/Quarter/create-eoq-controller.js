@@ -45,9 +45,9 @@
 
         function initialize() {
             var date = new Date();
-            var year = date.getFullYear() - 1;
+            var year = date.getFullYear();
 
-            for (var index = year; index <= date.getFullYear() + 1 ; index++) {
+            for (var index = year; index <= year + 1 ; index++) {
                 vm.years.push(index);
             }
 

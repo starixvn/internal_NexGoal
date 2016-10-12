@@ -107,8 +107,8 @@
                                ng-click="kpiCtrl.readLess(kpi)" data-translate="ReadLess"></a>
                         </td>
                         <td class="text-center col-action" ng-if="kpiCtrl.permission == kpiCtrl.policyEnum.Host">
-                            <a class="glyphicon glyphicon-edit icon-edit" ng-click="kpiCtrl.updateKPI(kpi)" ng-attr-title='{{"Edit" | translate}}'></a>
-                            <a class="glyphicon glyphicon-remove icon-remove" ng-click="kpiCtrl.deleteKPI(kpi)" ng-attr-title='{{"Delete" | translate}}'></a>
+                            <a class="fa fa-pencil-square-o icon-edit" ng-click="kpiCtrl.updateKPI(kpi)" ng-attr-title='{{"Edit" | translate}}'></a>
+                            <a class="fa fa-trash-o icon-remove" ng-click="kpiCtrl.deleteKPI(kpi)" ng-attr-title='{{"Delete" | translate}}'></a>
                         </td>
                     </tr>
                     <tr ng-show="kpiCtrl.filteredItems.length == 0">

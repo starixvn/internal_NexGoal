@@ -51,10 +51,15 @@ a.glyphicon.icon-delete {
   color: #6f6e6e;
   margin-right: 5px;
 }
-a.fa.icon-remove {
-  color: #DE5144;
+a.fa {
   margin-left: 5px;
   font-size: 15px;
+}
+a.fa.icon-remove {
+  color: #DE5144;
+}
+a.fa.icon-add {
+  color: #8CBF26;
 }
 a.button {
   color: #fff;

@@ -67,9 +67,9 @@
                                ng-click="kpiGroupCtrl.readLess(kpiGroup)" data-translate="ReadLess"></a>
                         </td>
                         <td class="text-center" ng-if="kpiGroupCtrl.permission == kpiGroupCtrl.policyEnum.Host">
-                            <a class="glyphicon glyphicon-edit icon-edit" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
-                            <a class="glyphicon glyphicon-remove icon-remove" ng-click="kpiGroupCtrl.deleteKPIGroup(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
-                            <a class="glyphicon glyphicon-plus icon-add"
+                            <a class="fa fa-pencil-square-o icon-edit" ng-click="kpiGroupCtrl.updateKPIGroup(kpiGroup)" ng-attr-title='{{"Edit" | translate}}'></a>
+                            <a class="fa fa-trash-o icon-remove" ng-click="kpiGroupCtrl.deleteKPIGroup(kpiGroup)" ng-attr-title='{{"Delete" | translate}}'></a>
+                            <a class="fa fa-plus icon-add"
                                ng-if="kpiGroupCtrl.permissionOnKPI == kpiGroupCtrl.policyEnum.Host"
                                ng-click="kpiGroupCtrl.addKPI(kpiGroup)" ng-attr-title='{{"AddKPI" | translate}}'></a>
                         </td>
