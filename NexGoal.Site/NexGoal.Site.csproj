@@ -791,6 +791,7 @@
     <Content Include="ExcelTemplates\EOQYNomination.xls" />
     <Content Include="ExcelTemplates\MasterReport.xls" />
     <Content Include="Deployment.ignore" />
+    <Content Include="Content\Common\bootstrap.min.css.map" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
