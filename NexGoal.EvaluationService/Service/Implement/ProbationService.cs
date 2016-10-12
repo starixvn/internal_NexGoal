@@ -66,7 +66,7 @@ namespace NexGoal.BackgroundService
             if (criteria != null && criteria.IsValid())
             {
                 comandResult = Repository.Insert(criteria);
-                if(!comandResult.IsSuccessful)
+                if (!comandResult.IsSuccessful)
                 {
                     throw new Exception(comandResult.Message);
                 }

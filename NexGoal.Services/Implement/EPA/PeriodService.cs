@@ -106,6 +106,7 @@
 
             return periods;
         }
+
         public PeriodModel GetPeriodById(int periodId)
         {
             var period = new PeriodModel();

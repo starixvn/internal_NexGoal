@@ -51,13 +51,7 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
             windowClass: "modal-confirm-center"
         });
 
-        modalInstance.result.then(function (editedRole) {
-            employeeModel.assignRoleToEmployee(employee.EmployeeId, editedRole.roleIds).then(function () {
-                employee.Roles = editedRole.roles;
-            });
-        })['finally'](function () {
-            modalInstance = '';
-        });
+        return modalInstance.result;
     };
 
     employeeModel.assignRoleToEmployee = function (employeeId, roleIds) {

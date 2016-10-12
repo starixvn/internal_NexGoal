@@ -14,6 +14,7 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
+    using Core.Utilities;
 
     public class EmployeeService : BaseService, IEmployeeService
     {
@@ -142,6 +143,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
+                criteria.RoleIds = string.IsNullOrEmpty(criteria.RoleIds) ? ((int)SystemRole.Employee).ToString() : criteria.RoleIds;
                 commandResult = Repository.Update(criteria);
             }
 
@@ -194,6 +196,17 @@
                     RoleName = role.RoleName,
                     RoleCode = role.RoleCode
                 }).ToList();
+
+                if (!employeeRoles.Any())
+                {
+                    employeeRoles.Add(
+                        new SystemRoleModel
+                        {
+                            RoleId = (int)SystemRole.Employee,
+                            RoleCode = SystemRole.Employee.ToString(),
+                            RoleName = Enumerations.GetDescription(SystemRole.Employee)
+                        });
+                }
 
                 employee.Roles = employeeRoles;
             }
