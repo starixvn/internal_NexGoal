@@ -2,13 +2,14 @@
 /*global appModule, moment*/
 
 appModule.factory('utilitiesFactory',
-['$filter', function ($filter) {
+['$filter', 'enumerationsFactory', function ($filter, enumerationsFactory) {
     var utilities = {};
     var limitNumber = 100,
         dateTimeFormatString = "MM/DD/YYYY HH:mm",
         dateFormat = "dd MMM, yyyy",
         timeFormat = 'HH:mm',
         SEMI_ANNUAL_TARGET_TYPE = 3;
+    var focusEvaluationLevel = enumerationsFactory.focusEvaluationLevel;
 
     function getLatestPeriodsIndex(periods) {
         var listIndex = [];
@@ -33,6 +34,20 @@ appModule.factory('utilitiesFactory',
 
     utilities.maxStar = 5;
 
+    utilities.getFocusEvaluationLevel = function (value) {
+        var level = {
+            Value: 0,
+            Name: ""
+        };
+        var itemIndex = focusEvaluationLevel.map(function (item) { return item.Value; }).indexOf(value);
+
+        if (itemIndex !== -1) {
+            level = angular.copy(focusEvaluationLevel[itemIndex]);
+        }
+
+        return level;
+    };
+
     utilities.getClassByNominationStatus = function (statusId) {
         var statusClass = "";
 
@@ -49,7 +64,7 @@ appModule.factory('utilitiesFactory',
         }
 
         return statusClass;
-    }
+    };
 
     utilities.groupingTeams = function (teams) {
         var result = [], parents = [];
@@ -90,7 +105,7 @@ appModule.factory('utilitiesFactory',
             if (period.TargetType && period.TargetType.TargetTypeId === SEMI_ANNUAL_TARGET_TYPE && !period.IsEndProcess) {
                 hasProcessPeriod = true;
             }
-        })
+        });
 
         return hasProcessPeriod;
     };
@@ -104,7 +119,7 @@ appModule.factory('utilitiesFactory',
             if (period) {
                 period.ticked = true;
             }
-        })
+        });
     };
 
     utilities.groupingPeriods = function (periods) {

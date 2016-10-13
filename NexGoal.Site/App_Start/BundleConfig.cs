@@ -173,7 +173,7 @@
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-chart-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-modal-information-controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-modal-objective-controller.js",
-                            "~/SourceApp/Components/Assessment/Focus/pa-modal-current-objective.controller.js",
+                            "~/SourceApp/Components/Assessment/Focus/pa-modal-last-objective.controller.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-model.js",
                             "~/SourceApp/Components/Assessment/Focus/pa-focus-factory.js",
                             "~/SourceApp/Components/Assessment/EmployeeAward/nomination-model.js",

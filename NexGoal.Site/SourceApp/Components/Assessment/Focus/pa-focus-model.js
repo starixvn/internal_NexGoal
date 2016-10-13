@@ -13,28 +13,6 @@
         vm.processSettings = [];
         vm.evaluations = [];
         vm.PAFocusPermission = {};
-        vm.focusEvaluationLevel = [
-            {
-                Value: 1,
-                Name: "Strongly disagrees"
-            },
-            {
-                Value: 2,
-                Name: "Disagree"
-            },
-            {
-                Value: 3,
-                Name: "Neither agree nor disagree"
-            },
-            {
-                Value: 4,
-                Name: "Agree"
-            },
-            {
-                Value: 5,
-                Name: "Strongly agree"
-            }
-        ];
 
         function buildData(evaluations, employeeId) {
             var teams = [];
@@ -220,8 +198,8 @@
 
         vm.openPopupCurrentObjective = function (member) {
             vm.modalInstance = $modal.open({
-                templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalCurrentObjective.html',
-                controller: "PAModalCurrentObjectiveController as paModalCurrentObjectiveCtrl",
+                templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalLastObjective.html',
+                controller: "PAModalLastObjectiveController as paModalLastObjectiveCtrl",
                 backdrop: 'static',
                 windowClass: "modal-confirm-center",
                 resolve: {

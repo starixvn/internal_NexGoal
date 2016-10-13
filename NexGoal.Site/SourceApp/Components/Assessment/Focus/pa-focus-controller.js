@@ -21,7 +21,7 @@
             }
         ];
         vm.process = [];
-        vm.focusEvaluationLevel = PAFocusModel.focusEvaluationLevel;
+        vm.focusEvaluationLevel = enumerationsFactory.focusEvaluationLevel;
         vm.isFirst = true;
         vm.isChangedData = false;
         $scope.groups = [];
@@ -137,9 +137,10 @@
             }
         };
 
-        vm.openPopupViewObjective = function (member) {
-            member.IsReadOnly = true;
-            PAFocusModel.openPopupObjective(member);
+        vm.openPopupLastObjective = function (member) {
+            PAFocusModel.openPopupCurrentObjective(member).then(function (LastCompletedPercentObjective) {
+                member.LastCompletedPercentObjective = LastCompletedPercentObjective;
+            });
         };
 
         vm.openPopupObjective = function (member) {

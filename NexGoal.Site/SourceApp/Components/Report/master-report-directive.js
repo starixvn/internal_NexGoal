@@ -8,42 +8,15 @@
     exportExcelMasterReportDirective.$inject = ["baseUrl"];
 
     function masterReportDirective(ReportModel, utilitiesFactory) {
-        var focusEvaluationLevel = [
-            {
-                Value: 1,
-                Name: "Strongly disagrees"
-            },
-            {
-                Value: 2,
-                Name: "Disagree"
-            },
-            {
-                Value: 3,
-                Name: "Neither agree nor disagree"
-            },
-            {
-                Value: 4,
-                Name: "Agree"
-            },
-            {
-                Value: 5,
-                Name: "Strongly agree"
-            }
-        ];
-
         function getClassByNominationStatus(statusId) {
             return utilitiesFactory.getClassByNominationStatus(statusId);
         }
 
         function getFocusEvaluationLevel(value) {
-            var level = {
-                Value: 0,
-                Name: "-"
-            };
-            var itemIndex = focusEvaluationLevel.map(function (item) { return item.Value; }).indexOf(value);
+            var level = utilitiesFactory.getFocusEvaluationLevel(value);
 
-            if (itemIndex !== -1) {
-                level = angular.copy(focusEvaluationLevel[itemIndex]);
+            if (level && level.Name.length === 0) {
+                level.Name = "-";
             }
 
             return level.Name;
@@ -72,10 +45,10 @@
         }
 
         function renderProjectScore(score) {
-            var htmlString = "<td class='text-center'></td>";
+            var htmlString = "<td class='text-center'>-</td>";
 
             if (score && score.length > 0) {
-                htmlString = "<td class='text-center'>" + project.DecryptedScore + "&nbsp;<i class='fa fa-star'></i></td>";
+                htmlString = "<td class='text-center'>" + score + "&nbsp;<i class='fa fa-star'></i></td>";
             }
 
             return htmlString;
@@ -379,7 +352,7 @@
                     break;
             }
 
-            return cssClass
+            return cssClass;
         }
 
         function generateBodyRows(groupReports) {

@@ -1687,22 +1687,22 @@
     <value>Discipline</value>
   </data>
   <data name="AccomplishedCurrentObjectives" xml:space="preserve">
-    <value>Accomplished current objectives</value>
+    <value>Accomplished Current Objectives</value>
   </data>
   <data name="ApplicableToPromote" xml:space="preserve">
-    <value>Applicable to promote</value>
+    <value>Applicable To Promote</value>
   </data>
   <data name="DeserveRewards" xml:space="preserve">
-    <value>Deserve rewards (salary increase and bonus)</value>
+    <value>Deserve Rewards (Salary Increase And Bonus)</value>
   </data>
   <data name="PAScore" xml:space="preserve">
     <value>PA Score</value>
   </data>
   <data name="PoorPerformance" xml:space="preserve">
-    <value>Poor performance</value>
+    <value>Poor Performance</value>
   </data>
   <data name="SuitableForTeamGoals" xml:space="preserve">
-    <value>Suitable for team goals</value>
+    <value>Suitable For Team Goals</value>
   </data>
   <data name="NominationManagement" xml:space="preserve">
     <value>Nomination Management</value>
@@ -1718,5 +1718,11 @@
   </data>
   <data name="UpdateEvaluationPeriod" xml:space="preserve">
     <value>Update Evaluation Period</value>
+  </data>
+  <data name="EditCurrentObjective" xml:space="preserve">
+    <value>Edit Accomplished Current Objectives</value>
+  </data>
+  <data name="ViewCurrentObjective" xml:space="preserve">
+    <value>View Accomplished Current Objectives</value>
   </data>
 </root>

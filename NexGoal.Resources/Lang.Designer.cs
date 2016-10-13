@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NexGoal.Resources
-{
-
-
+namespace NexGoal.Resources {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -70,7 +70,7 @@ namespace NexGoal.Resources
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Accomplished current objectives.
+        ///   Looks up a localized string similar to Accomplished Current Objectives.
         /// </summary>
         public static string AccomplishedCurrentObjectives {
             get {
@@ -214,7 +214,7 @@ namespace NexGoal.Resources
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Applicable to promote.
+        ///   Looks up a localized string similar to Applicable To Promote.
         /// </summary>
         public static string ApplicableToPromote {
             get {
@@ -898,7 +898,7 @@ namespace NexGoal.Resources
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deserve rewards (salary increase and bonus).
+        ///   Looks up a localized string similar to Deserve Rewards (Salary Increase And Bonus).
         /// </summary>
         public static string DeserveRewards {
             get {
@@ -1047,6 +1047,15 @@ namespace NexGoal.Resources
         public static string EditComment {
             get {
                 return ResourceManager.GetString("EditComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Accomplished Current Objectives.
+        /// </summary>
+        public static string EditCurrentObjective {
+            get {
+                return ResourceManager.GetString("EditCurrentObjective", resourceCulture);
             }
         }
         
@@ -3310,7 +3319,7 @@ namespace NexGoal.Resources
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Poor performance.
+        ///   Looks up a localized string similar to Poor Performance.
         /// </summary>
         public static string PoorPerformance {
             get {
@@ -4120,7 +4129,7 @@ namespace NexGoal.Resources
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Suitable for team goals.
+        ///   Looks up a localized string similar to Suitable For Team Goals.
         /// </summary>
         public static string SuitableForTeamGoals {
             get {
@@ -4656,6 +4665,15 @@ namespace NexGoal.Resources
         public static string ViewComment {
             get {
                 return ResourceManager.GetString("ViewComment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to View Accomplished Current Objectives.
+        /// </summary>
+        public static string ViewCurrentObjective {
+            get {
+                return ResourceManager.GetString("ViewCurrentObjective", resourceCulture);
             }
         }
         

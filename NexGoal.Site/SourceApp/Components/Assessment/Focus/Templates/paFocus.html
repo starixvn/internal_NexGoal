@@ -65,19 +65,19 @@
                 <th class="width-220" data-translate="DeserveRewards"></th>
                 <th data-translate="ApplicableToPromote"></th>
                 <th data-translate="PoorPerformance"></th>
-                <th class="width-220" data-translate="AccomplishedCurrentObjectives"></th>
+                <th colspan="2" data-translate="AccomplishedCurrentObjectives"></th>
                 <th data-translate="PAScore"></th>
                 <th colspan="2" data-translate="NextObjectives"></th>
             </tr>
         </thead>
         <tbody ng-show="groups.length === 0">
             <tr>
-                <td class="text-center empty-result" colspan="12" data-translate="EmptyResult"></td>
+                <td class="text-center empty-result" colspan="13" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tbody ng-show="groups.length > 0" ng-repeat="group in groups">
             <tr class="group-row">
-                <td colspan="12">{{group.Name}}</td>
+                <td colspan="13">{{group.Name}}</td>
             </tr>
             <tr ng-repeat="member in group.Members"
                 ng-class="{'outstanding': member.Contribution + member.BonusGiven === 10, 'very-good': member.Contribution + member.BonusGiven === 9}">
@@ -112,21 +112,24 @@
                             ng-disabled="member.IsReadOnly"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"></select>
                 </td>
+                <td>
+                    <span ng-show="member.LastCompletedPercentObjective.length <= 25">{{member.LastCompletedPercentObjective}}</span>
+                    <span ng-show="member.LastCompletedPercentObjective.length > 25">{{member.LastCompletedPercentObjective | limitTo : 25}} ...</span>
+                </td>
                 <td class="text-center">
-                    <select class="form-control"
-                            ng-model="member.LastCompletedPercentObjective"
-                            ng-options="item.Value as item.Name for item in paFocusCtrl.focusEvaluationLevel"
-                            ng-disabled="member.IsReadOnly"></select>
+                    <a href="" ng-click="paFocusCtrl.openPopupLastObjective(member)">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                    </a>
                 </td>
                 <td class="text-center">
                     <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
                     <span ng-if="!member.FinalScore" data-translate="NotAvailable"></span>
                 </td>
                 <td>
-                    <span ng-show="member.NextDescriptionObjective.length <= 50">{{member.NextDescriptionObjective}}</span>
-                    <span ng-show="member.NextDescriptionObjective.length > 50">{{member.NextDescriptionObjective | limitTo : 50}} ...</span>
+                    <span ng-show="member.NextDescriptionObjective.length <= 25">{{member.NextDescriptionObjective}}</span>
+                    <span ng-show="member.NextDescriptionObjective.length > 25">{{member.NextDescriptionObjective | limitTo : 25}} ...</span>
                 </td>
-                <td class="text-center objective-edit">
+                <td class="text-center">
                     <a href="" ng-click="paFocusCtrl.openPopupObjective(member)">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
@@ -137,7 +140,7 @@
 
     <div class="navbar navbar-default navbar-fixed-bottom action-section"
          ng-show="groups.length > 0">
-        <button class="btn btn-back" data-translate="Reset" ng-click="paFocusCtrl.query()"></button>
-        <button class="btn button-save" data-translate="Save" ng-click="paFocusCtrl.save()"></button>
+        <button class="button btn-cancel" data-translate="Reset" ng-click="paFocusCtrl.query()"></button>
+        <button class="button" data-translate="Submit" ng-click="paFocusCtrl.save()"></button>
     </div>
 </div>
