@@ -5,6 +5,8 @@
     </Setting>
     <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="NexGoal" Plain="0">
     </Setting>
+    <Setting Key="LogLogin_Insert" SpName="LogLogin_Insert" DbName="NexGoal" Plain="0">
+    </Setting>
     <Setting Key="EpaEmployeeIpAddress_Insert" SpName="EpaEmployeeIpAddress_Insert" DbName="NexGoal" Plain="0">
     </Setting>
   </Function>

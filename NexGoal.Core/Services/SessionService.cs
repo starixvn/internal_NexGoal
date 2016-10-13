@@ -1,9 +1,9 @@
-﻿using NexGoal.Core.Model;
-using System.Collections.Generic;
-using System.Web;
-
-namespace NexGoal.Core.Services
+﻿namespace NexGoal.Core.Services
 {
+    using NexGoal.Core.Model;
+    using System.Collections.Generic;
+    using System.Web;
+
     public class SessionService : ISessionService
     {
         private readonly IAuthenticationService authenticationService;
@@ -53,6 +53,8 @@ namespace NexGoal.Core.Services
                 {
                     var domainUsername = HttpContext.Current.User.Identity.Name;
                     UserSession currentUser = authenticationService.GetEmployeeByUsername(domainUsername);
+                    var username = domainUsername.Split('\\')[1];
+                    authenticationService.InsertEmployeeIPAddress(username);
                     CurrentUser = currentUser;
                 }
 

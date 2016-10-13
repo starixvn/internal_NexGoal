@@ -3,6 +3,8 @@
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using System.Configuration;
+    using System.Net;
+    using System.Net.Sockets;
     using System.Web.Mvc;
     using System.Web.Security;
 
@@ -42,8 +44,8 @@
         [HttpPost]
         public ActionResult Login(string username)
         {
-            var canLogin = ConfigurationManager.AppSettings["IsSimulatedLoginUser"].ToString();
-            if (canLogin == "true")
+            var canLogin = bool.Parse(ConfigurationManager.AppSettings["IsSimulatedLoginUser"].ToString());
+            if (canLogin)
             {
                 var domainName = "spvn\\" + username;
                 if (!string.IsNullOrEmpty(username))
@@ -51,6 +53,7 @@
                     UserSession user = employeeService.GetEmployeeByUsername(domainName);
                     if (user != null)
                     {
+                        employeeService.InsertLogLogin(username);
                         this.sessionService.CurrentUser = user;
                         FormsAuthentication.SetAuthCookie(username, false);
 

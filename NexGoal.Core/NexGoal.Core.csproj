@@ -126,6 +126,7 @@
     <Compile Include="Constants\Constants.cs" />
     <Compile Include="Constants\EmailFormat.cs" />
     <Compile Include="Constants\FunctionKey.cs" />
+    <Compile Include="Criteria\InsertLogLoginCriteria.cs" />
     <Compile Include="Criteria\GetAuthenticationByDomainUsernameCriteria.cs" />
     <Compile Include="Criteria\ResultCriteria.cs" />
     <Compile Include="Enumerations\HashProvider.cs" />
