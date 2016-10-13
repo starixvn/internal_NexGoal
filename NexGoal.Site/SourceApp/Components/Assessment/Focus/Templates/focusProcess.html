@@ -1,4 +1,4 @@
-﻿<ul class="evaluation-process" ng-if="paFocusCtrl.process.length===3">
+﻿<ul class="evaluation-process" ng-if="paFocusCtrl.process.length===2">
     <li ng-class="paFocusCtrl.getClassProgress(paFocusCtrl.process[0].ProcessStatus)" class="process-item">
         <div>
             <span>{{"Evaluator" | translate}} </span>
@@ -21,12 +21,11 @@
     </li>
     <li ng-class="paFocusCtrl.getClassProgress(paFocusCtrl.process[1].ProcessStatus)" class="process-item">
         <div>
-            <span>{{"Reviewer" | translate}}</span>
+            <span>{{"Reviewer" | translate}}</span>/<span>{{"Management" | translate}}</span>
         </div>
         <div>
             <span>
-                {{paFocusCtrl.process[1].StartDate | customDate}} -
-                {{paFocusCtrl.process[1].EndDate | customDate}}
+                {{paFocusCtrl.process[1].StartDate | customDate}}
             </span>
         </div>
         <div ng-show="paFocusCtrl.process[1].ProcessStatus == paFocusCtrl.processStatus.Closed">
@@ -38,25 +37,9 @@
         <div ng-if="paFocusCtrl.process[1].ProcessStatus == paFocusCtrl.processStatus.Open">
             <label data-translate="Open"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
         </div>
-    </li>
-    <li ng-class="paFocusCtrl.getClassProgress(paFocusCtrl.process[2].ProcessStatus)" class="process-item">
-        <div>
-            <span>{{"Management" | translate}}</span>
-        </div>
-        <div>
-            <span>
-                {{paFocusCtrl.process[2].StartDate | customDate}}
-            </span>
-        </div>
-        <div ng-show="paFocusCtrl.process[2].ProcessStatus == paFocusCtrl.processStatus.InProgress">
-            <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
-        </div>
-        <div ng-if="paFocusCtrl.process[2].ProcessStatus == paFocusCtrl.processStatus.Open">
-            <label data-translate="Open"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
-        </div>
-    </li>
+    </li>   
 </ul>
-<div class="evaluation-process" ng-if="paFocusCtrl.process.length!==3">
+<div class="evaluation-process" ng-if="paFocusCtrl.process.length!==2">
     <div class="text-center empty-result" data-translate="EmptyResult"></div>
     <br/>
 </div>
