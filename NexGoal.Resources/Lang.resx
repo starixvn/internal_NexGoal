@@ -1725,4 +1725,7 @@
   <data name="ViewCurrentObjective" xml:space="preserve">
     <value>View Accomplished Current Objectives</value>
   </data>
+  <data name="Dash" xml:space="preserve">
+    <value>-</value>
+  </data>
 </root>

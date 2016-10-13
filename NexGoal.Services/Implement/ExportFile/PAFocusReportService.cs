@@ -206,19 +206,19 @@ namespace NexGoal.Services.Implement
                 cellBody.SetCellValue(pa.Employee.Group.GroupName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var bonusGiven = pa.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)pa.BonusGiven.Value) : string.Empty;
+                var bonusGiven = pa.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)pa.BonusGiven.Value) : Lang.Dash;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(bonusGiven);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var contribution = pa.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)pa.Contribution.Value) : string.Empty;
+                var contribution = pa.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)pa.Contribution.Value) : Lang.Dash;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(contribution);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? Lang.Yes : Lang.No : string.Empty;
+                var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? Lang.Yes : Lang.No : Lang.Dash;
                 if (promotion == Lang.Yes)
                 {
                     if (rowIndex % 2 == 0)
@@ -244,7 +244,7 @@ namespace NexGoal.Services.Implement
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                 }
 
-                var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? Lang.Yes : Lang.No : string.Empty;
+                var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? Lang.Yes : Lang.No : Lang.Dash;
                 if (performance == Lang.Yes)
                 {
                     if (rowIndex % 2 == 0)
@@ -275,7 +275,7 @@ namespace NexGoal.Services.Implement
                 cellBody.SetCellValue(pa.LastCompletedPercentObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var score = pa.FinalScore.HasValue && pa.FinalScore.Value != 0 ? pa.FinalScore.ToString() : Lang.NotAvailable;
+                var score = pa.FinalScore.HasValue && pa.FinalScore.Value != 0 ? pa.FinalScore.ToString() : Lang.Dash;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(score);
