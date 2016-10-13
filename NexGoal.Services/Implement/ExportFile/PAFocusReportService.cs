@@ -269,11 +269,10 @@ namespace NexGoal.Services.Implement
                     cellBody.SetCellValue(performance);
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                 }
-
-                var lastObjective = pa.LastCompletedPercentObjective.HasValue ? Enumerations.GetDescription((PAFocusType)pa.LastCompletedPercentObjective.Value) : string.Empty;
+                
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
-                cellBody.SetCellValue(lastObjective);
+                cellBody.SetCellValue(pa.LastCompletedPercentObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                 var score = pa.FinalScore.HasValue && pa.FinalScore.Value != 0 ? pa.FinalScore.ToString() : Lang.NotAvailable;

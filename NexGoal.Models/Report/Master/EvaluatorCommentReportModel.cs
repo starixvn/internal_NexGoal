@@ -10,7 +10,6 @@
 
         public string EvaluatorNickName { get; set; }
 
-        public string EvaluatorFullName { get; set; }
-        
+        public string EvaluatorFullName { get; set; }        
     }
 }
