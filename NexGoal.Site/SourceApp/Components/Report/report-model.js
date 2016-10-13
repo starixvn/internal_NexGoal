@@ -114,7 +114,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
 
     reportModel.openPopupCurrentObjective = function (employeeId) {
         var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
-        var modalTitle = "Current Objective";
+        var modalTitle = "Current Objectives";
 
         if (employee) {
             return openMasterReportCommentModal(modalTitle, employee.PAFocus.LastCompletedPercentObjective);
@@ -125,11 +125,22 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
         var modalTitle = "Evaluator's Comment";
 
-        console.log(employee.EvaluatorComments);
+        reportModel.modalInstance = $modal.open({
+            templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportEvaluatorComment.html",
+            controller: "ModalMasterReportEvaluatorCommentController as modalMasterReportEvaluatorCommentCtrl",
+            backdrop: "static",
+            windowClass: "modal-confirm-center popup-lg",
+            resolve: {
+                evaluatorComments: function () {
+                    return angular.copy(employee.EvaluatorComments);
+                },
+                modalTitle: function () {
+                    return angular.copy(modalTitle);
+                }
+            }
+        });
 
-        if (employee) {
-            return openMasterReportCommentModal(modalTitle, employee.EvaluatorComment);
-        }
+        return reportModel.modalInstance.result;
     };
 
     reportModel.openPopupNextObjectives = function (employeeId) {

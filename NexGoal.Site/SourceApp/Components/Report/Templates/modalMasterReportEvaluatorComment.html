@@ -1,0 +1,20 @@
+﻿<div class="custom-modal">
+    <div class="modal-header">
+        <div class="popup-header">
+            <span>{{modalMasterReportEvaluatorCommentCtrl.modalTitle}}</span>
+            <span class="close-popup" ng-click="modalMasterReportCommentCtrl.close()"></span>
+        </div>
+    </div>
+    <div class="modal-body">
+        <div ng-repeat="evaluator in modalMasterReportEvaluatorCommentCtrl.evaluatorComments">
+            <div>
+                {{"Evaluator" | translate}}: <b>{{evaluator.EvaluatorFullName}} ({{evaluator.EvaluatorNickName}})</b>
+                <p ng-bind="evaluator.Comment"></p>
+                <br />
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer button-block">
+        <button class="button btn-cancel customize" ng-click="modalMasterReportEvaluatorCommentCtrl.close()" data-translate="Close"></button>
+    </div>
+</div>

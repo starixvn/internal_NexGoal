@@ -550,10 +550,12 @@
     <Content Include="SourceApp\Components\Report\master-report-controller.js" />
     <Content Include="SourceApp\Components\Report\master-report-directive.js" />
     <Content Include="SourceApp\Components\Report\modal-master-report-comment-controller.js" />
+    <Content Include="SourceApp\Components\Report\modal-master-report-evaluator-comment-controller.js" />
     <Content Include="SourceApp\Components\Report\modal-master-report-project-controller.js" />
     <Content Include="SourceApp\Components\Report\pa-report-controller.js" />
     <Content Include="SourceApp\Components\Report\pa-report-directive.js" />
     <Content Include="SourceApp\Components\Report\Templates\masterReport.html" />
+    <Content Include="SourceApp\Components\Report\Templates\modalMasterReportEvaluatorComment.html" />
     <Content Include="SourceApp\Components\Report\Templates\modalMasterReportComment.html" />
     <Content Include="SourceApp\Components\Report\Templates\modalMasterReportProject.html" />
     <Content Include="SourceApp\Components\Report\Templates\paReport.html" />

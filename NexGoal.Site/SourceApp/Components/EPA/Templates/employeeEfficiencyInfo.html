@@ -33,17 +33,21 @@
                     <td class="text-center">{{project.Roles}}</td>
                     <td class="text-center">{{project.WorkingHour}}</td>
                     <td class="text-center">
-                        {{project.DecryptedScore}} <i class="fa fa-star"></i>
+                        <span ng-if="project.DecryptedScore !== null">
+                            {{project.DecryptedScore}} <i class="fa fa-star"></i>
+                        </span>
+                        <span ng-if="project.DecryptedScore === null">-</span>
                     </td>
-                    <td>
+                    <td class="text-center">
                         <span ng-if="project.Comment.length > 50"
                               tooltip="{{project.Comment}}"
                               tooltip-placement="left">
                             {{project.Comment | limitTo : 50}} ...
                         </span>
-                        <span ng-if="project.Comment.length <= 50">
+                        <span ng-if="project.Comment.length <= 50 && project.Comment.length > 0">
                             {{project.Comment}}
                         </span>
+                        <span ng-if="project.Comment === null || project.Comment.length === 0">-</span>
                     </td>
                 </tr>
             </tbody>
