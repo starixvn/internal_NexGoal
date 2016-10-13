@@ -4,18 +4,19 @@
 
     public class InsertLogLoginCriteria : CriteriaBase
     {
-        public string WindowsUser { get; set; }
-
         public string IdentifyUser { get; set; }
 
         public string LoginUser { get; set; }
 
+        public string MachineName { get; set; }
+
         public string IPAddress { get; set; }
+
+        public string BrowserName { get; set; }
         
         public override bool IsValid()
         {
-            return !string.IsNullOrWhiteSpace(WindowsUser)
-                && !string.IsNullOrWhiteSpace(IdentifyUser)
+            return !string.IsNullOrWhiteSpace(IdentifyUser)
                 && !string.IsNullOrWhiteSpace(LoginUser)
                 && !string.IsNullOrWhiteSpace(IPAddress);
         }

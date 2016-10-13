@@ -53,8 +53,8 @@
                 {
                     var domainUsername = HttpContext.Current.User.Identity.Name;
                     UserSession currentUser = authenticationService.GetEmployeeByUsername(domainUsername);
-                    authenticationService.InsertLogLogin(domainUsername);
                     CurrentUser = currentUser;
+                    authenticationService.InsertLogLogin(domainUsername);
                 }
 
                 return session[Constants.Constants.CurrentSessionKey] as UserSession;

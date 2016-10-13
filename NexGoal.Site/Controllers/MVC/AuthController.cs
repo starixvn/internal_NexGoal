@@ -53,9 +53,9 @@
                     UserSession user = employeeService.GetEmployeeByUsername(domainName);
                     if (user != null)
                     {
-                        employeeService.InsertLogLogin(username);
                         this.sessionService.CurrentUser = user;
                         FormsAuthentication.SetAuthCookie(username, false);
+                        employeeService.InsertLogLogin(username);
 
                         return RedirectToAction("Index", "Home");
                     }

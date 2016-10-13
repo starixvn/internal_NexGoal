@@ -3,9 +3,9 @@
     using NexGoal.Core.Criteria;
     using NexGoal.Core.Model;
     using NexGoal.Core.Repositories;
-    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Net;
-    using System.Net.Sockets;
     using System.Web;
 
     public class AuthenticationService : BaseService, IAuthenticationService
@@ -39,13 +39,22 @@
         {
             var criteria = new InsertLogLoginCriteria() 
             {
-                WindowsUser = Environment.UserName,
                 IdentifyUser = GetShortUsername(HttpContext.Current.User.Identity.Name),
                 LoginUser = GetShortUsername(username),
-                IPAddress = GetLocalIPAddress()
+                MachineName = DetermineCompName(HttpContext.Current.Request.UserHostName),
+                IPAddress = HttpContext.Current.Request.UserHostAddress,
+                BrowserName = HttpContext.Current.Request.Headers["User-Agent"]
             };
 
             Repository.Insert(criteria);
+        }
+
+        public string DetermineCompName(string IP)
+        {
+            IPAddress myIP = IPAddress.Parse(IP);
+            IPHostEntry GetIPHost = Dns.GetHostEntry(myIP);
+            List<string> compName = GetIPHost.HostName.ToString().Split('.').ToList();
+            return compName.First();
         }
 
         private string GetShortUsername(string username)
@@ -56,20 +65,6 @@
             }
 
             return username;
-        }
-
-        private string GetLocalIPAddress()
-        {
-            var host = Dns.GetHostEntry(Dns.GetHostName());
-            foreach (var ip in host.AddressList)
-            {
-                if (ip.AddressFamily == AddressFamily.InterNetwork)
-                {
-                    return ip.ToString();
-                }
-            }
-
-            return string.Empty;
         }
     }
 }
