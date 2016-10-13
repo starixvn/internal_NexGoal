@@ -34,19 +34,7 @@
 
         public bool? IsPoorPerformance { get; set; }
 
-        public string EncryptedIsPoorPerformance { get; set; }
-
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
-
-        public bool IsReadOnly
-        {
-            get
-            {
-                return DateTime.Now.Date < StartDate.Date || DateTime.Now.Date > EndDate.Date;
-            }
-        }
+        public string EncryptedIsPoorPerformance { get; set; }        
 
         public void Decrypt()
         {
