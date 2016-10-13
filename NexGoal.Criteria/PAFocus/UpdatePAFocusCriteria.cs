@@ -32,7 +32,7 @@
                         epaXmlBuilder.AppendFormat(
                             XMLTemplate,
                             item.PAFocusId,
-                            item.LastCompletedPercentObjective,
+                            HttpUtility.HtmlEncode(item.LastCompletedPercentObjective),
                             HttpUtility.HtmlEncode(item.NextDescriptionObjective),
                             item.EncryptedIsReadyPromotion,
                             item.EncryptedIsPoorPerformance,
