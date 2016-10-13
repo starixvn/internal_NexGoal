@@ -15,7 +15,8 @@
         </td>
         <td class="text-center width-150">
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{kpi.EvaluationBySelf.Score | customScore}} pts
+                <span ng-if="kpi.EvaluationBySelf.Score==0" data-translate="Dash"></span>
+                <span ng-if="kpi.EvaluationBySelf.Score!=0">{{kpi.EvaluationBySelf.Score | customScore}} pts</span>
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
@@ -72,7 +73,10 @@
     <tr class="sub-total text-center">
         <td data-translate="SubTotal"></td>
         <td>
-            <span class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">{{kpiGroup.SelfDecodeScore | customScore}} / {{kpiGroup.Weight}} pts</span>
+            <span class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
+                <span ng-if="kpiGroup.SelfDecodeScore==0" data-translate="Dash"></span>
+                <span ng-if="kpiGroup.SelfDecodeScore!=0">{{kpiGroup.SelfDecodeScore | customScore}} / {{kpiGroup.Weight}} pts</span>
+            </span>
             <span class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></span>
         </td>
         <td>
@@ -90,7 +94,8 @@
         <td>{{"Total" | translate}}:</td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}
+                <span ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore==0" data-translate="Dash"></span>
+                <span ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore!=0">{{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}</span>
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
 
@@ -109,7 +114,9 @@
         <td>{{"Grade" | translate}}:</td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                {{memberEPAInfoCtrl.gradeOfSelf}}
+                <span ng-if="memberEPAInfoCtrl.gradeOfSelf==''" data-translate="Dash"></span>
+                <span ng-if="memberEPAInfoCtrl.gradeOfSelf!=''">{{memberEPAInfoCtrl.gradeOfSelf}}</span>
+
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>

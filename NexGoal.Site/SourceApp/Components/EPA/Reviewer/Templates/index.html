@@ -17,7 +17,7 @@
                             </add-class-to-role-filter>
                         </div>
                     </div>
-                    
+
                     <div class="col">
                         <label class="control-label" data-translate="Team"></label>
                         <div class="control-content">
@@ -27,7 +27,7 @@
                             </add-class-to-role-filter>
                         </div>
                     </div>
-                    
+
                     <div class="col">
                         <label class="control-label" data-translate="Employee"></label>
                         <div class="control-content">
@@ -36,7 +36,7 @@
                             </add-class-to-role-filter>
                         </div>
                     </div>
-                    
+
                     <div class="col">
                         <button class="button" ng-click="reviewerCtrl.query()" data-translate="Search"></button>
                     </div>
@@ -112,24 +112,19 @@
                         </td>
                         <td ng-bind="memberEPA.Employee.JobTitleName"></td>
                         <td class="text-center" ng-switch="memberEPA.Process.Self.IsEndProcess">
-                            <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
-                                <span ng-switch-when="true">
-                                    {{memberEPA.MonthlyEPA.AverageSelfScoreConverted | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
-                                </span>
-                                <span ng-switch-default>
-                                    {{memberEPA.Process.Self.TotalScore | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
-                                </span>
-                            </div>
-                            <div ng-switch-default data-translate="Pending"></div>
+                            <span ng-if="memberEPA.Process.Self.IsEndProcess"></span>
+                            <span ng-if="memberEPA.Process.Self.TotalScore">
+                                {{memberEPA.Process.Self.TotalScore | customScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
+                            </span>
+                            <span ng-if="memberEPA.Process.Self.TotalScore==0" data-translate="Dash"></span>
+                            <div ng-if="!memberEPA.Process.Self.IsEndProcess" data-translate="Pending"></div>
                         </td>
                         <td class="text-center" ng-switch="memberEPA.Process.Evaluators[0].IsEndProcess">
-                            <div ng-switch-when="true" ng-switch="memberEPA.HasMonthlyEPA">
-                                <span ng-switch-when="true">
-                                    {{memberEPA.MonthlyEPA.AverageEvaluatorScoreConverted | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
-                                </span>
-                                <span ng-switch-default>
+                            <div ng-switch-when="true">
+                                <span ng-if="memberEPA.Process.AverageScoreByEvaluators!=0">
                                     {{memberEPA.Process.AverageScoreByEvaluators | customScore}} / {{memberEPA.ScoreRatingType.Evaluator | customScore}}
                                 </span>
+                                <span ng-if="memberEPA.Process.AverageScoreByEvaluators==0" data-translate="Dash"></span>
                             </div>
                             <div ng-switch-default data-translate="Pending"></div>
                         </td>
@@ -137,7 +132,7 @@
                             <div class="form-inline-block">
                                 <input type="text" maxlength="6" class="form-control text-center epa-input-score"
                                        ng-disabled="!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host"
-                                       ng-model="memberEPA.Process.CurrentProcess.AdjustScore" numeric decimals="2" 
+                                       ng-model="memberEPA.Process.CurrentProcess.AdjustScore" numeric decimals="2"
                                        ng-change="reviewerCtrl.inputScore(memberEPA)"
                                        tooltip="{{reviewerCtrl.scoreInputValidMessage}}" tooltip-trigger="focus" />
                             </div>
@@ -183,5 +178,5 @@
                 </tbody>
             </table>
         </div>
-    </div>    
+    </div>
 </div>
