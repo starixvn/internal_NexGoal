@@ -78,11 +78,12 @@
         }
 
         [HttpGet]
-        public IEnumerable<int> GetPermission(int periodId)
+        public int GetPermission()
         {
-            var result = this.focusService.GetProcessId(periodId, SessionService.EmployeeId);
+            var permission = SessionService.CurrentUser.GetPermission(FunctionKey.PAFocus);
 
-            return result;
+            return permission;
+
         }
     }
 }
