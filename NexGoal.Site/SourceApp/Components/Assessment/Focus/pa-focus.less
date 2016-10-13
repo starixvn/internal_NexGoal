@@ -1,17 +1,5 @@
 ﻿.pa-focus-table {
-    tr {
-        &.group-row {
-            td {
-                background: #525e86;
-                color: #fff;
-                font-weight: 500;
-
-                &:hover {
-                    background: #525e86 !important;
-                }
-            }
-        }
-
+    tr {   
         td {
             &.objective-edit {
                 .fa {
@@ -20,7 +8,27 @@
                     cursor: pointer;
                 }
             }
+            padding: 4px 8px !important
         }
+
+        &.group-row {
+            td {
+                background: #525e86;
+                color: #fff;
+                font-weight: 500;
+                padding: 6px 8px !important;
+
+                &:hover {
+                    background: #525e86 !important;
+                }
+            }
+        }
+    }
+
+    .form-control {
+        height: 23px !important;
+        line-height: 23px;
+        padding-bottom: 1px !important;
     }
 }
 

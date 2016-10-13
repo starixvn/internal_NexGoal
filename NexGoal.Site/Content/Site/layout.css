@@ -13,7 +13,6 @@ html {
 body {
   font-family: Roboto, Verdana, Helvetical, sans-serif;
   font-size: 13px;
-  color: #010101;
   min-width: 760px;
   height: 100%;
   background: #ececec;
@@ -1287,6 +1286,16 @@ header {
 #ResultSettingTab .table {
   margin-top: 20px;
 }
+.freegrid {
+  font-size: inherit;
+}
+.freegrid td,
+.freegrid .grid-fixed-table td {
+  color: #545454;
+}
+.freegrid .tr-grid-collapse-expand {
+  padding: 7px 10px !important;
+}
 .calendar-form-control {
   background-color: #FFF;
   background-image: none;
@@ -1801,6 +1810,7 @@ header {
   border-radius: 0;
   border-color: #dfdfdf;
   box-shadow: none;
+  font-size: 13px;
 }
 .form-control.bonus-give {
   width: 50px;
