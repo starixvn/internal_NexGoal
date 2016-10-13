@@ -75,8 +75,6 @@
                 vm.allowToEdit = vm.process.length > 0
                     && vm.process[0].ProcessStatus === vm.processStatus.InProgress
                     && vm.permission === vm.policy.Host;
-
-                console.log(vm.allowToEdit);
             });
 
             PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.groupIds, vm.filter.employee.EmployeeId).then(function () {
