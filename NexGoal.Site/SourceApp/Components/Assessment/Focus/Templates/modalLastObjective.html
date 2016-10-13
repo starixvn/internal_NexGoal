@@ -3,7 +3,7 @@
         <div class="popup-header">
             <span ng-show="paModalLastObjectiveCtrl.IsReadOnly" data-translate="ViewCurrentObjective"></span>
             <span ng-show="!paModalLastObjectiveCtrl.IsReadOnly" data-translate="EditCurrentObjective"></span>
-            <span class="close-popup" ng-click="paModalObjectiveCtrl.cancel()"></span>
+            <span class="close-popup" ng-click="paModalLastObjectiveCtrl.cancel()"></span>
         </div>
     </div>
     <div class="modal-body modal-update-comment">
@@ -22,8 +22,8 @@
     </div>
     <div class="modal-footer button-block">
         <button class="button btn-cancel" ng-click="paModalLastObjectiveCtrl.cancel()">
-            <span ng-show="paModalLastObjectiveCtrl.IsReadOnly" data-translate="Cancel"></span>
-            <span ng-show="!paModalLastObjectiveCtrl.IsReadOnly" data-translate="Close"></span>
+            <span ng-show="paModalLastObjectiveCtrl.IsReadOnly" data-translate="Close"></span>
+            <span ng-show="!paModalLastObjectiveCtrl.IsReadOnly" data-translate="Cancel"></span>
         </button>
         <button class="button" ng-click="paModalLastObjectiveCtrl.ok()" data-translate="Submit" ng-show="!paModalLastObjectiveCtrl.IsReadOnly"></button>
     </div>

@@ -22,11 +22,11 @@
             return level.Name;
         }
 
-        function renderCurrentObjective(cell) {
+        function renderCurrentObjectiveCell(cell) {
             var htmlString = "-";
             var employee = cell.Value;
 
-            if (employee && employee.CurrentObjective && employee.CurrentObjective.length > 0) {
+            if (employee && employee.Comment && employee.Comment.length > 0) {
                 htmlString = '<a class="current-objective" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
             }
 
@@ -37,7 +37,7 @@
             var htmlString = "-";
             var employee = cell.Value;
 
-            if (employee && employee.Comment && employee.Comment.length > 0) {
+            if (employee && employee.Comments && employee.Comments.length > 0) {
                 htmlString = '<a class="evaluator-comment" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
             }
 
@@ -58,7 +58,7 @@
             var htmlString = "-";
             var employee = cell.Value;
 
-            if (employee && employee.NextDescriptionObjective && employee.NextDescriptionObjective.length > 0) {
+            if (employee && employee.Comment && employee.Comment.length > 0) {
                 htmlString = '<a class="next-objectives" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
             }
 
@@ -304,14 +304,14 @@
                     { HeaderText: "Reviewer's Adjustment", Name: "ReviewerAdjustment", MergeRowNumber: 2 },
                     { HeaderText: "PA Final Score", Name: "PAFinalScore", MergeRowNumber: 2 },
                     { HeaderText: "Evaluator's Comment", Name: "EvaluatorComment", MergeRowNumber: 2 },
-                    { HeaderText: "Suitable for team goal", Name: "Contribution", MergeRowNumber: 2 },
-                    { HeaderText: "Deserve rewards (salary increase and bonus)", Name: "BonusGiven", MergeRowNumber: 2 },
-                    { HeaderText: "Applicable to promote", Name: "ApplicableToPromote", MergeRowNumber: 2 },
+                    { HeaderText: "Suitable For Team Goal", Name: "Contribution", MergeRowNumber: 2 },
+                    { HeaderText: "Deserve Rewards (Salary Increase And Bonus)", Name: "BonusGiven", MergeRowNumber: 2 },
+                    { HeaderText: "Applicable To Promote", Name: "ApplicableToPromote", MergeRowNumber: 2 },
                     { HeaderText: "Poor Performance", Name: "IsPoorPerformance", MergeRowNumber: 2 },
-                    { HeaderText: "Assessing of Current Objective Achievement", Name: "ObjectiveAchievement", MergeRowNumber: 2 },
+                    { HeaderText: "Assessing Of Current Objective Achievement", Name: "ObjectiveAchievement", MergeRowNumber: 2 },
                     { HeaderText: "Next Objectives", Name: "NextObjectives", MergeRowNumber: 2 },
                     { HeaderText: "Award", Name: "AwardName", MergeColNumber: 2 },
-                    { HeaderText: "Evaluation by PM", Name: "ProjectName", MergeColNumber: 3 }
+                    { HeaderText: "Evaluation By PM", Name: "ProjectName", MergeColNumber: 3 }
                 ]
             }];
         }
@@ -328,7 +328,10 @@
                { HeaderText: "Suitable for team goal", Width: 150, Name: "Contribution", CellAlign: "center" },
                { HeaderText: "Deserve rewards (salary increase and bonus)", Width: 150, Name: "BonusGiven", CellAlign: "center" },
                { HeaderText: "Applicable to promote", Width: 50, Name: "ApplicableToPromote", CellAlign: "center" },
-               { HeaderText: "Accessing of Objective achievement", Width: 150, Name: "ObjectiveAchievement", CellAlign: "center" },
+               {
+                   HeaderText: "Accessing of Objective achievement", Width: 150, Name: "ObjectiveAchievement",
+                   CellAlign: "center", CustomCellRender: renderCurrentObjectiveCell
+               },
                { HeaderText: "Poor Performance", Name: "IsPoorPerformance", Width: 80, CellAlign: "center" },
                { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center", CustomCellRender: renderNextObjectives },
                { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderEmployeeAward, TdClass: 'col-employee-award' },
@@ -396,7 +399,7 @@
                     });
                     subRow.Columns.push({
                         Name: "EvaluatorComment",
-                        Value: { EmployeeId: member.PAFocus.Employee.EmployeeId, Comment: member.EvaluatorComment }
+                        Value: { EmployeeId: member.PAFocus.Employee.EmployeeId, Comments: member.EvaluatorComments }
                     });
                     subRow.Columns.push({ Name: "Contribution", Value: getFocusEvaluationLevel(member.PAFocus.Contribution) });
                     subRow.Columns.push({ Name: "BonusGiven", Value: getFocusEvaluationLevel(member.PAFocus.BonusGiven) });
@@ -408,7 +411,10 @@
                         Name: "IsPoorPerformance", Value: member.PAFocus.IsPoorPerformance ? "Yes" : "No",
                         TdClass: member.PAFocus.IsPoorPerformance ? "warning" : ""
                     });
-                    subRow.Columns.push({ Name: "ObjectiveAchievement", Value: getFocusEvaluationLevel(member.PAFocus.LastCompletedPercentObjective) });
+                    subRow.Columns.push({
+                        Name: "ObjectiveAchievement",
+                        Value: { EmployeeId: member.PAFocus.Employee.EmployeeId, Comment: member.PAFocus.LastCompletedPercentObjective }
+                    });
                     subRow.Columns.push({
                         Name: "NextObjectives",
                         Value: { EmployeeId: member.PAFocus.Employee.EmployeeId, Comment: member.PAFocus.NextDescriptionObjective }
@@ -471,7 +477,7 @@
                         }
                     });
 
-                    element.find(".current-objectives").bind("click", function () {
+                    element.find(".current-objective").bind("click", function () {
                         var $self = $(this);
                         var employeeId = $self.data("employee-id");
 

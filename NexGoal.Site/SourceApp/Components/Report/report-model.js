@@ -117,13 +117,16 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         var modalTitle = "Current Objective";
 
         if (employee) {
-            return openMasterReportCommentModal(modalTitle, employee.CurrentObjective);
+            return openMasterReportCommentModal(modalTitle, employee.PAFocus.LastCompletedPercentObjective);
         }
     };
 
     reportModel.openPopupEvaluatorComment = function (employeeId) {
         var employee = findEmployeeInMasterReport(reportModel.masterReports, employeeId);
         var modalTitle = "Evaluator's Comment";
+
+        console.log(employee.EvaluatorComments);
+
         if (employee) {
             return openMasterReportCommentModal(modalTitle, employee.EvaluatorComment);
         }

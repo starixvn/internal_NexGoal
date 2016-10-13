@@ -72,7 +72,9 @@
             PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
                 vm.process = PAFocusModel.process;
 
-                vm.allowToEdit = vm.process.length > 0 && vm.process[0].ProcessStatus === vm.processStatus.InProgress;
+                vm.allowToEdit = vm.process.length > 0
+                    && vm.process[0].ProcessStatus === vm.processStatus.InProgress
+                    && vm.permission === vm.policy.Host;
 
                 console.log(vm.allowToEdit);
             });
@@ -154,13 +156,21 @@
         };
 
         vm.openPopupLastObjective = function (member) {
-            PAFocusModel.openPopupCurrentObjective(member).then(function (LastCompletedPercentObjective) {
+            var copiedMember = angular.copy(member);
+
+            copiedMember.IsReadOnly = !vm.allowToEdit;
+
+            PAFocusModel.openPopupCurrentObjective(copiedMember).then(function (LastCompletedPercentObjective) {
                 member.LastCompletedPercentObjective = LastCompletedPercentObjective;
             });
         };
 
         vm.openPopupObjective = function (member) {
-            PAFocusModel.openPopupObjective(member).then(function (NextDescriptionObjective) {
+            var copiedMember = angular.copy(member);
+
+            copiedMember.IsReadOnly = !vm.allowToEdit;
+
+            PAFocusModel.openPopupObjective(copiedMember).then(function (NextDescriptionObjective) {
                 member.NextDescriptionObjective = NextDescriptionObjective;
             });
         };
