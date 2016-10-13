@@ -35,20 +35,30 @@
             return employee;
         }
 
-        public void InsertEmployeeIPAddress(string username)
+        public void InsertLogLogin(string username)
         {
             var criteria = new InsertLogLoginCriteria() 
             {
                 WindowsUser = Environment.UserName,
-                IdentifyUser = HttpContext.Current.User.Identity.Name,
-                LoginUser = username,
+                IdentifyUser = GetShortUsername(HttpContext.Current.User.Identity.Name),
+                LoginUser = GetShortUsername(username),
                 IPAddress = GetLocalIPAddress()
             };
 
             Repository.Insert(criteria);
         }
 
-        public static string GetLocalIPAddress()
+        private string GetShortUsername(string username)
+        {
+            if(username.IndexOf('\\') > 0)
+            {
+                username = username.Split('\\')[1];
+            }
+
+            return username;
+        }
+
+        private string GetLocalIPAddress()
         {
             var host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (var ip in host.AddressList)

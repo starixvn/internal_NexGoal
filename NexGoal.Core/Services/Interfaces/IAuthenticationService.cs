@@ -6,6 +6,6 @@ namespace NexGoal.Core.Services
     {
         UserSession GetEmployeeByUsername(string domainName);
 
-        void InsertEmployeeIPAddress(string nickName);
+        void InsertLogLogin(string nickName);
     }
 }

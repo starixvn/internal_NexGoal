@@ -53,8 +53,7 @@
                 {
                     var domainUsername = HttpContext.Current.User.Identity.Name;
                     UserSession currentUser = authenticationService.GetEmployeeByUsername(domainUsername);
-                    var username = domainUsername.Split('\\')[1];
-                    authenticationService.InsertEmployeeIPAddress(username);
+                    authenticationService.InsertLogLogin(domainUsername);
                     CurrentUser = currentUser;
                 }
 
