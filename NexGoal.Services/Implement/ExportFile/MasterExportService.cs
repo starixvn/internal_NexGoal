@@ -66,10 +66,10 @@
 
         private object CreateRecord(MasterReportModel evaluation, int index, int rowIndex)
         {
-            var bonusGiven = evaluation.PAFocus.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.BonusGiven.Value) : Lang.Dash;
-            var contribution = evaluation.PAFocus.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.Contribution.Value) : Lang.Dash;
-            var promotion = evaluation.PAFocus.IsReadyPromotion.HasValue ? evaluation.PAFocus.IsReadyPromotion.Value ? Lang.Yes : Lang.No : Lang.Dash;
-            var performance = evaluation.PAFocus.IsPoorPerformance.HasValue ? evaluation.PAFocus.IsPoorPerformance.Value ? Lang.Yes : Lang.No : Lang.Dash;
+            var bonusGiven = evaluation.PAFocus.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.BonusGiven.Value) : string.Empty;
+            var contribution = evaluation.PAFocus.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)evaluation.PAFocus.Contribution.Value) : string.Empty;
+            var promotion = evaluation.PAFocus.IsReadyPromotion.HasValue ? evaluation.PAFocus.IsReadyPromotion.Value ? Lang.Yes : Lang.No : string.Empty;
+            var performance = evaluation.PAFocus.IsPoorPerformance.HasValue ? evaluation.PAFocus.IsPoorPerformance.Value ? Lang.Yes : Lang.No : string.Empty;
             var lastObjective = evaluation.PAFocus.LastCompletedPercentObjective;
             var score = evaluation.PAFocus.FinalScore.HasValue && evaluation.PAFocus.FinalScore.Value != 0 ? evaluation.PAFocus.FinalScore.ToString() : Lang.Dash;
             var comment = FormatEvaluatorComment(evaluation.EvaluatorComments);
@@ -80,20 +80,20 @@
                 FullName = evaluation.PAFocus.Employee.FullName,
                 Jobtitle = evaluation.PAFocus.Employee.JobTitle.JobTitleName,
                 GroupName = evaluation.PAFocus.Employee.Group.GroupName,
-                ReviewerAdjustment = index == 0 ? evaluation.ReviewerAdjustment : Lang.Dash,
+                ReviewerAdjustment = index == 0 ? evaluation.ReviewerAdjustment : string.Empty,
                 Score = index == 0 ? score : Lang.Dash,
-                EvaluatorComment = index == 0 ? comment : Lang.Dash,
-                Contribution = index == 0 ? contribution : Lang.Dash,
-                BonusGiven = index == 0 ? bonusGiven : Lang.Dash,
-                Promotion = index == 0 ? promotion : Lang.Dash,
-                Performance = index == 0 ? performance : Lang.Dash,
-                LastObjective = index == 0 ? lastObjective : Lang.Dash,
-                NextObjective = index == 0 ? evaluation.PAFocus.NextDescriptionObjective : Lang.Dash,
-                Award = evaluation.Nominations.Count > index ? evaluation.Nominations[index].Title : Lang.Dash,
-                AwardStatus = evaluation.Nominations.Count > index ? evaluation.Nominations[index].StatusToString : Lang.Dash,
-                ProjectName = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].ProjectName : Lang.Dash,
-                ProjectScore = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].DecryptedScore : Lang.Dash,
-                ProjectComment = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].Comment : Lang.Dash
+                EvaluatorComment = index == 0 ? comment : string.Empty,
+                Contribution = index == 0 ? contribution : string.Empty,
+                BonusGiven = index == 0 ? bonusGiven : string.Empty,
+                Promotion = index == 0 ? promotion : string.Empty,
+                Performance = index == 0 ? performance : string.Empty,
+                LastObjective = index == 0 ? lastObjective : string.Empty,
+                NextObjective = index == 0 ? evaluation.PAFocus.NextDescriptionObjective : string.Empty,
+                Award = evaluation.Nominations.Count > index ? evaluation.Nominations[index].Title : string.Empty,
+                AwardStatus = evaluation.Nominations.Count > index ? evaluation.Nominations[index].StatusToString : string.Empty,
+                ProjectName = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].ProjectName : string.Empty,
+                ProjectScore = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].DecryptedScore : string.Empty,
+                ProjectComment = evaluation.EmployeeWorkings.Count > index ? evaluation.EmployeeWorkings[index].Comment : string.Empty
             };
 
             return record;
