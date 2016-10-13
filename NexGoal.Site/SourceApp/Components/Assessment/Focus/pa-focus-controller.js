@@ -36,6 +36,7 @@
         vm.processStatus = enumerationsFactory.processStatusType;
         vm.permission = [];
         vm.policy = enumerationsFactory.policy;
+        vm.allowToEdit = false;
 
         function initialize() {
             CommonModel.getReadyPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
@@ -70,6 +71,10 @@
 
             PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
                 vm.process = PAFocusModel.process;
+
+                vm.allowToEdit = vm.process.length > 0 && vm.process[0].ProcessStatus === vm.processStatus.InProgress;
+
+                console.log(vm.allowToEdit);
             });
 
             PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.groupIds, vm.filter.employee.EmployeeId).then(function () {
@@ -109,6 +114,16 @@
                 lockScreenService.stop();
             });
         };
+
+        vm.getFocusEvaluationLevel = function (value) {
+            var level = utilitiesFactory.getFocusEvaluationLevel(value);
+
+            if (level && level.Name.length === 0) {
+                level.Name = "-";
+            }
+
+            return level.Name;
+        }
 
         vm.getClassProgress = function (processStatus) {
             if (processStatus === vm.processStatus.InProgress) {
