@@ -98,7 +98,7 @@
                             ng-model="member.BonusGiven"
                             ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.focusEvaluationLevel"></select>
-                    <span ng-bind="::paFocusCtrl.getFocusEvaluationLevel(member.Contribution)"
+                    <span ng-bind="::paFocusCtrl.getFocusEvaluationLevel(member.BonusGiven)"
                           ng-show="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></span>
                 </td>
                 <td class="text-center">

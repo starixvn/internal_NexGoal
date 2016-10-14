@@ -1042,6 +1042,7 @@ header {
   border: none;
   background-color: #fff;
   width: 100%;
+  border-collapse: collapse;
 }
 .table thead tr th {
   border-bottom-width: 1px !important;
