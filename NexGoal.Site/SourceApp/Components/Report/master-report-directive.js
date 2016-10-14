@@ -262,7 +262,7 @@
         }
 
         function adjustReviewerScoreAdjustment(score) {
-            var scoreToString = "";
+            var scoreToString = "-";
 
             if (score) {
                 scoreToString = score > 0 ? "+" + score : score;

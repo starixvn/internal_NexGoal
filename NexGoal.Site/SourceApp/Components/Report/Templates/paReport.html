@@ -86,27 +86,27 @@
                         <td class="text-center" ng-bind="pa.Period.TargetTypeName"></td>
                         <td class="text-center">
                             <span ng-show="!pa.Process.Self.IsEndProcess" data-translate="Pending"></span>
-                            <span ng-show="pa.Process.Self.IsEndProcess && !pa.Process.Self.TotalScore" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Process.Self.IsEndProcess && !pa.Process.Self.TotalScore" data-translate="Dash></span>
                             <span ng-show="pa.Process.Self.IsEndProcess && pa.Process.Self.TotalScore">{{pa.Process.Self.TotalScore | customScore}}</span>
                         </td>
                         <td class="text-center">
                             <span ng-show="!pa.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
-                            <span ng-show="pa.Process.Evaluators[0].IsEndProcess && !pa.Process.AverageScoreByEvaluators" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Process.Evaluators[0].IsEndProcess && !pa.Process.AverageScoreByEvaluators" data-translate="Dash"></span>
                             <span ng-show="pa.Process.Evaluators[0].IsEndProcess && pa.Process.AverageScoreByEvaluators">{{pa.Process.AverageScoreByEvaluators| customScore}}</span>
                         </td>
                         <td class="text-center">
                             <span ng-show="!pa.Process.Reviewers[0].IsEndProcess" data-translate="Pending"></span>
-                            <span ng-show="pa.Process.Reviewers[0].IsEndProcess && !pa.Process.AverageScoreByReviewers" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Process.Reviewers[0].IsEndProcess && !pa.Process.AverageScoreByReviewers" data-translate="Dash"></span>
                             <span ng-show="pa.Process.Reviewers[0].IsEndProcess && pa.Process.AverageScoreByReviewers">{{pa.Process.AverageScoreByReviewers| customScore}}</span>
                         </td>
                         <td class="text-center">
                             <span ng-show="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
-                            <span ng-show="pa.Period.IsEndPeriod && pa.FinalScore==0" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Period.IsEndPeriod && pa.FinalScore==0" data-translate="Dash"></span>
                             <span ng-show="pa.Period.IsEndPeriod && pa.FinalScore && pa.FinalScore!=0">{{pa.FinalScore| customScore}}</span>
                         </td>
                         <td class="text-center">
                             <span ng-show="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
-                            <span ng-show="pa.Period.IsEndPeriod && !pa.Grade" data-translate="NotAvailable"></span>
+                            <span ng-show="pa.Period.IsEndPeriod && !pa.Grade" data-translate="Dash"></span>
                             <span ng-show="pa.Period.IsEndPeriod && pa.Grade">{{pa.Grade}}</span>
                         </td>
                     </tr>
