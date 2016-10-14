@@ -376,7 +376,7 @@
     <value>Create Evaluation Template</value>
   </data>
   <data name="TargetTemplateManagement" xml:space="preserve">
-    <value>Evaluation Template</value>
+    <value>Evaluation Template Management</value>
   </data>
   <data name="TargetType" xml:space="preserve">
     <value>Target Type</value>
@@ -592,7 +592,7 @@
     <value>Show All</value>
   </data>
   <data name="TargetEmployeeSettingTemplate" xml:space="preserve">
-    <value>Evaluation Template Assignment</value>
+    <value>Evaluation Assignment Management</value>
   </data>
   <data name="ApplyToDepartment" xml:space="preserve">
     <value>Apply to Department / Team</value>
@@ -964,7 +964,7 @@
     <value>The Violation Type field is required!</value>
   </data>
   <data name="FlowTemplateManagement" xml:space="preserve">
-    <value>Evaluation Flow</value>
+    <value>Evaluation Flow Management</value>
   </data>
   <data name="UnpaidLeaveAbsentShort" xml:space="preserve">
     <value>UPL Absent</value>
@@ -1666,7 +1666,7 @@
     <value>Completed</value>
   </data>
   <data name="EvaluationManagement" xml:space="preserve">
-    <value>Evaluation Management</value>
+    <value>Evaluation Period Management</value>
   </data>
   <data name="AdjustmentScore" xml:space="preserve">
     <value>Adjustment Score</value>

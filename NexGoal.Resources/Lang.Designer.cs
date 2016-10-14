@@ -1609,7 +1609,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluation Management.
+        ///   Looks up a localized string similar to Evaluation Period Management.
         /// </summary>
         public static string EvaluationManagement {
             get {
@@ -1807,7 +1807,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluation Flow.
+        ///   Looks up a localized string similar to Evaluation Flow Management.
         /// </summary>
         public static string FlowTemplateManagement {
             get {
@@ -4201,7 +4201,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluation Template Assignment.
+        ///   Looks up a localized string similar to Evaluation Assignment Management.
         /// </summary>
         public static string TargetEmployeeSettingTemplate {
             get {
@@ -4237,7 +4237,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluation Template.
+        ///   Looks up a localized string similar to Evaluation Template Management.
         /// </summary>
         public static string TargetTemplateManagement {
             get {

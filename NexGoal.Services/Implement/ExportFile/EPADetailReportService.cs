@@ -202,7 +202,7 @@
             {
                 if (string.IsNullOrEmpty(memberEPA.Process.Self.TotalScore))
                 {
-                    selfScore = Lang.NotAvailable;
+                    selfScore = Lang.Dash;
                 }
                 else
                 {
@@ -219,7 +219,7 @@
             {
                 if (memberEPA.Process.AverageScoreByEvaluators == 0)
                 {
-                    evaluatorScore = Lang.NotAvailable;
+                    evaluatorScore = Lang.Dash;
                 }
                 else
                 {
@@ -238,7 +238,7 @@
             {
                 if (memberEPA.Process.AverageScoreByReviewers == 0)
                 {
-                    reviewerScore = Lang.NotAvailable;
+                    reviewerScore = Lang.Dash;
                 }
                 else
                 {
@@ -264,8 +264,8 @@
                 }
                 else
                 {
-                    finalScore = Lang.NotAvailable;
-                    grade = Lang.NotAvailable;
+                    finalScore = Lang.Dash;
+                    grade = Lang.Dash;
                 }
             }
 
