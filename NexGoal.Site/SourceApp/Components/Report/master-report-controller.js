@@ -57,10 +57,8 @@
             return EmployeeModel.getAllEmployee(vm.searchEmployee);
         };
 
-        vm.unselectEmployee = function () {
-            if (vm.searchEmployee.trim() === '' && vm.filter.employee) {
-                vm.filter.employee = {};
-            }
+        vm.employeeFilterChanged = function () {
+            vm.filter.employee = {};
         };
 
         vm.query = function () {

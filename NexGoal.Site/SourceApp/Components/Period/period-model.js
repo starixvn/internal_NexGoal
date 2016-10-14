@@ -704,7 +704,7 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             backdrop: 'static',
             resolve: {
                 name: function () {
-                    return "EPA";
+                    return "PA for these selected employee(s)";
                 },
                 action: function () {
                     return 'generate';

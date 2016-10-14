@@ -60,10 +60,10 @@
                     <div class="col">
                         <label class="control-label" data-translate="Employee"></label>
                         <div class="control-content">
-                            <input class="form-control employe-search" placeholder="-- Search an employee --" search-auto-complete
+                            <input class="form-control employe-search" search-auto-complete placeholder="-- Search an employee --"
                                    ng-model="violationCtrl.searchEmployee"
                                    search-employees="violationCtrl.getEmployee()"
-                                   ng-change="violationCtrl.unselectEmployee()"
+                                   ng-change="violationCtrl.employeeFilterChanged()"
                                    employee="violationCtrl.filteredEmployee" />
                         </div>
                     </div>

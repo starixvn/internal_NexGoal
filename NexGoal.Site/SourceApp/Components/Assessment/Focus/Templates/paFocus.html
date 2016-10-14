@@ -23,10 +23,10 @@
             <div class="col">
                 <label class="control-label" data-translate="Employee"></label>
                 <div class="control-content">
-                    <input class="form-control employe-search" placeholder="Enter full name or nick name" search-auto-complete
+                    <input class="form-control employe-search" placeholder="-- Search an employee --" search-auto-complete
                            ng-model="paFocusCtrl.searchEmployee"
                            search-employees="paFocusCtrl.getEmployee()"
-                           ng-change="paFocusCtrl.unSelectEmployee()"
+                           ng-change="paFocusCtrl.employeeFilterChanged()"
                            employee="paFocusCtrl.filter.employee" />
                 </div>
             </div>

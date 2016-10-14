@@ -174,7 +174,7 @@
                 backdrop: 'static',
                 resolve: {
                     name: function () {
-                        return period.QuarterToString + " of " + period.Year;
+                        return "Employee of the Year " + period.Year;
                     },
                     action: function () {
                         return 'delete';
