@@ -39,8 +39,6 @@
 
         public void InsertLogLogin(string username)
         {
-            var x = Converter.ToBool(1);
-            var y = Converter.To<bool>(0);
             var criteria = new InsertLogLoginCriteria() 
             {
                 IdentifyUser = GetShortUsername(HttpContext.Current.User.Identity.Name),
