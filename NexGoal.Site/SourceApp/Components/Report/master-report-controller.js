@@ -33,6 +33,8 @@
                 if (vm.periods.length > 0) {
                     vm.filter.periodId = vm.periods[0].PeriodId;
                 }
+
+                vm.query();
             });
         }
 

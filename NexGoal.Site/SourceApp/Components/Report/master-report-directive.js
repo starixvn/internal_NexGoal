@@ -95,7 +95,7 @@
             var tooltipContent = renderEmployeeAwardTooltip(nomination.Nominators);
 
             var htmlString = "<td><b>" + nomination.Title + "</b></td>" +
-            "<td class='text-center nomination-status " + statusClass + "'><span class='award-tooltip' title='" + tooltipContent + "'>"
+            "<td class='text-center'><span class='award-tooltip nomination-status " + statusClass + "' title='" + tooltipContent + "'>"
             + nomination.StatusToString + "</span></td>";
 
             return htmlString;
