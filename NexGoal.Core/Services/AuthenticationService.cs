@@ -65,7 +65,7 @@
             }
             catch (SocketException ex)
             {
-                LogService.Error(ex.InnerException.Message);
+                ////LogService.Error(ex.InnerException.Message);
             }
 
             return hostName;
