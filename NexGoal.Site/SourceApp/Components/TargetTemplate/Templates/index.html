@@ -30,7 +30,7 @@
                     </div>  
                     
                     <div class="col">
-                        <button class="button" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Submit"></button>
+                        <button class="button" ng-click="targetTemplateCtrl.query(targetTemplateCtrl.filter)" data-translate="Search"></button>
                     </div>                
                 </div>  
             </form>
@@ -39,10 +39,10 @@
                 <thead>
                     <tr class="header-table">
                         <th colspan="9">
-                            <a class="pull-left button-icon create-button" ng-click="targetTemplateCtrl.create()"
+                            <a class="button pull-left" 
+                               ng-click="targetTemplateCtrl.create()"
                                ng-if="targetTemplateCtrl.permission == targetTemplateCtrl.policyEnum.Host">
-                                <span class="icon plus"></span>
-                                <span class="button-text" data-translate="CreateTargetTemplate"></span>
+                                <i class="fa fa-plus"></i> {{"CreateTargetTemplate" | translate}}
                             </a>
                             <input type="text" ng-model="targetTemplateCtrl.searchKey" ng-change="targetTemplateCtrl.search()" class="search-inline-textbox search pull-right">
                         </th>

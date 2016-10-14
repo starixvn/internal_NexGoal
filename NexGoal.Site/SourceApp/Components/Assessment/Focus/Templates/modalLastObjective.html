@@ -8,14 +8,17 @@
     </div>
     <div class="modal-body modal-update-comment">
         <form class="form-horizontal" role="form">
-            <div class="form-group">
+            <div ng-show="paModalLastObjectiveCtrl.IsReadOnly">
+                {{paModalLastObjectiveCtrl.LastCompletedPercentObjective}}
+            </div>
+            <div class="form-group"
+                 ng-show="!paModalLastObjectiveCtrl.IsReadOnly">
                 <label class="col-sm-3 control-label text-left">
                     <span data-translate="Objectives"></span>
                 </label>
                 <div class="col-sm-9 field">
                     <textarea type="text" class="form-control comment"
-                              ng-model="paModalLastObjectiveCtrl.LastCompletedPercentObjective"
-                              ng-readonly="paModalLastObjectiveCtrl.IsReadOnly"></textarea>
+                              ng-model="paModalLastObjectiveCtrl.LastCompletedPercentObjective"></textarea>
                 </div>
             </div>
         </form>

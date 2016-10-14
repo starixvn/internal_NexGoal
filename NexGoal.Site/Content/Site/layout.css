@@ -67,6 +67,10 @@ a.button {
 a.button:hover {
   text-decoration: none;
 }
+a.button .fa {
+  font-size: 14px;
+  margin-right: 5px;
+}
 a.icon-add-header {
   color: #fff;
 }

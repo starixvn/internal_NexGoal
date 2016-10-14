@@ -16,37 +16,37 @@
                                     ng-change="roleCtrl.query()"></select>
                         </div>
                     </div>
-
-                    <div class="col">
-                        <button class="button" get-role-permission ng-show="!roleCtrl.isSystemAdmin" data-translate="Submit"></button>
-                    </div>
-                </div>                
+                </div>
             </form>
 
             <form class="authority-table clearfix" novalidate>
-                <table name="tableFunction" class="table table-bordered">
-                    <thead>
-                        <tr>
-                            <th class="text-center" data-translate="Function" rowspan="2">
-                            </th>
-                            <th class="text-center" data-translate="RolePermission" colspan="2">
-                            </th>
+                <div class="form-group">
+                    <table name="tableFunction" class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th class="text-center" data-translate="Function" rowspan="2">
+                                </th>
+                                <th class="text-center" data-translate="RolePermission" colspan="2">
+                                </th>
+                            </tr>
+                            <tr>
+                                <th class="text-center" data-translate="Read">
+                                </th>
+                                <th class="text-center" data-translate="Host">
+                                </th>
+                            </tr>
+                        </thead>
+                        <tr ng-repeat="data in roleCtrl.roleFunctions">
+                            <td ng-include src="'/SourceApp/Components/Role/Templates/treeItem.html'"></td>
+                            <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeReadCheckbox.html'"></td>
+                            <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeHostCheckbox.html'"></td>
                         </tr>
-                        <tr>
-                            <th class="text-center" data-translate="Read">
-                            </th>
-                            <th class="text-center" data-translate="Host">
-                            </th>
-                        </tr>
-                    </thead>
-                    <tr ng-repeat="data in roleCtrl.roleFunctions">
-                        <td ng-include src="'/SourceApp/Components/Role/Templates/treeItem.html'"></td>
-                        <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeReadCheckbox.html'"></td>
-                        <td class="text-center" ng-include src="'/SourceApp/Components/Role/Templates/treeHostCheckbox.html'"></td>
-                    </tr>
-                </table>
+                    </table>
+                </div>
+                <div class="form-group button-block">
+                    <button class="button" get-role-permission ng-show="!roleCtrl.isSystemAdmin" data-translate="Submit"></button>
+                </div>
             </form>
-        </div>               
-
+        </div>
     </div>
 </div>

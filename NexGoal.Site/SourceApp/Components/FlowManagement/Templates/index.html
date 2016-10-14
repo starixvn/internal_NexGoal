@@ -39,10 +39,10 @@
                 <thead>
                     <tr class="header-table">
                         <th colspan="6">
-                            <a class="pull-left button-icon create-button" ng-show="flowMngCtrl.permission == flowMngCtrl.policyEnum.Host"
+                            <a class="button pull-left" 
+                               ng-show="flowMngCtrl.permission == flowMngCtrl.policyEnum.Host"
                                ng-click="flowMngCtrl.createFlowTemplate()">
-                                <span class="icon plus"></span>
-                                <span class="button-text" data-translate="CreateFlowTemplate"></span>
+                                <i class="icon plus"></i> {{"CreateFlowTemplate" | translate}}
                             </a>
                             <input type="text" ng-model="flowMngCtrl.searchKey" ng-change="flowMngCtrl.search()"
                                    class="search-inline-textbox search pull-right">

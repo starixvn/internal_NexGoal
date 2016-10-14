@@ -36,7 +36,7 @@
                         <span ng-if="project.DecryptedScore !== null">
                             {{project.DecryptedScore}} <i class="fa fa-star"></i>
                         </span>
-                        <span ng-if="project.DecryptedScore === null">-</span>
+                        <span ng-if="project.DecryptedScore === null || project.DecryptedScore.length === 0">-</span>
                     </td>
                     <td class="text-center">
                         <span ng-if="project.Comment.length > 50"

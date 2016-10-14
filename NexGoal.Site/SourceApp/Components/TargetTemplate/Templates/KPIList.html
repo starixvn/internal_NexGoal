@@ -1,8 +1,9 @@
 ﻿<div ng-controller="KPIListController as kpiListCtrl">
     <form class="form-horizontal common-form project-form" novalidate>
         <div>
-            <a class="button" title="Manage KPI Group" ng-click="kpiListCtrl.addKPIGroup()">
-                <span class="glyphicon glyphicon-cog icon-setting"></span> {{"ManageKPIGroupTargetTemplate" | translate}}
+            <a class="button" 
+               ng-click="kpiListCtrl.addKPIGroup()">
+                <i class="fa fa-cog"></i> {{"ManageKPIGroupTargetTemplate" | translate}}
             </a>
             <input class="search-inline-textbox search-textbox pull-right" placeholder="KPI Name" type="text" ng-model="KPIName" ng-keypress="kpiListCtrl.preventEnter($event)" />
         </div>

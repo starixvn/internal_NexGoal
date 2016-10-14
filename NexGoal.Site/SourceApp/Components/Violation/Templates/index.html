@@ -83,11 +83,10 @@
                 <thead>
                     <tr class="header-table">
                         <th colspan="9">
-                            <a class="pull-left button-icon create-button"
+                            <a class="button pull-left"
                                ng-click="violationCtrl.createViolation()"
                                ng-show="violationCtrl.permission === violationCtrl.policyEnum.Host">
-                                <span class="icon plus"></span>
-                                <span class="button-text" data-translate="AddDisciplineRecord"></span>
+                                <i class="fa fa-plus"></i> {{"AddDisciplineRecord" | translate}}
                             </a>
                             <input type="text" class="search-inline-textbox search pull-right"
                                    ng-model="violationCtrl.searchKey"

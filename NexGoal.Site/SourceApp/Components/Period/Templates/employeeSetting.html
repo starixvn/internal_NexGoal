@@ -101,14 +101,16 @@
             </tr>
             <tr class="header-table" ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host">
                 <th colspan="14">
-                    <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.manageSetting()">
-                        <span class="icon-edit fa fa-pencil-square-o"></span>
-                        <span class="button-text btn-edit-employee-setting" data-translate="EditEmployeeSetting"></span>
-                    </a>
-                    <a class="pull-left button-icon period-create-button" ng-click="empSettingCtrl.generateEvaluation()">
-                        <span class="icon-edit fa fa-pencil-square-o"></span>
-                        <span class="button-text btn-edit-employee-setting" data-translate="GenerateEvaluation"></span>
-                    </a>
+                    <div class="button-block">
+                        <a class="button pull-left"
+                           ng-click="empSettingCtrl.manageSetting()">
+                            <i class="fa fa-pencil-square-o"></i> {{"EditEmployeeSetting" | translate}}
+                        </a>
+                        <a class="button pull-left"
+                           ng-click="empSettingCtrl.generateEvaluation()">
+                            <i class="fa fa-pencil-square-o"></i> {{"GenerateEvaluation" | translate}}
+                        </a>
+                    </div>
                 </th>
             </tr>
             <tr class="headerName">

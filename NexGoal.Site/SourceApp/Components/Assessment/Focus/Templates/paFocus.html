@@ -125,33 +125,45 @@
                           ng-bind="::member.IsPoorPerformance ? 'Yes' : (member.IsPoorPerformance === null ? '-' : 'No')">
                     </span>
                 </td>
-                <td>
-                    <span ng-show="member.LastCompletedPercentObjective.length <= 25">{{member.LastCompletedPercentObjective}}</span>
+                <td ng-class="{'text-center': member.LastCompletedPercentObjective.length === 0}">
+                    <span ng-show="member.LastCompletedPercentObjective.length <= 25 && member.LastCompletedPercentObjective.length > 0">
+                        {{member.LastCompletedPercentObjective}}
+                    </span>
                     <span ng-show="member.LastCompletedPercentObjective.length > 25">{{member.LastCompletedPercentObjective | limitTo : 25}} ...</span>
+                    <span ng-show="member.LastCompletedPercentObjective.length === 0" data-translate="Dash"></span>
                 </td>
                 <td class="text-center">
-                    <a href="" ng-click="paFocusCtrl.openPopupLastObjective(member)">
+                    <a href="" 
+                       ng-click="paFocusCtrl.openPopupLastObjective(member)"
+                       ng-show="member.LastCompletedPercentObjective.length > 0">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"
                            ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"></i>
                         <i class="fa fa-search" aria-hidden="true"
                            ng-show="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></i>
                     </a>
+                    <span ng-show="member.LastCompletedPercentObjective.length === 0" data-translate="Dash"></span>
                 </td>
                 <td class="text-center">
                     <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
                     <span ng-if="!member.FinalScore" data-translate="Dash"></span>
                 </td>
-                <td>
-                    <span ng-show="member.NextDescriptionObjective.length <= 25">{{member.NextDescriptionObjective}}</span>
+                <td ng-class="{'text-center': member.NextDescriptionObjective.length === 0}">
+                    <span ng-show="member.NextDescriptionObjective.length <= 25 && member.NextDescriptionObjective.length > 0">
+                        {{member.NextDescriptionObjective}}
+                    </span>
                     <span ng-show="member.NextDescriptionObjective.length > 25">{{member.NextDescriptionObjective | limitTo : 25}} ...</span>
+                    <span ng-show="member.NextDescriptionObjective.length === 0" data-translate="Dash"></span>
                 </td>
                 <td class="text-center">
-                    <a href="" ng-click="paFocusCtrl.openPopupObjective(member)">
+                    <a href=""
+                       ng-click="paFocusCtrl.openPopupObjective(member)"
+                       ng-show="member.NextDescriptionObjective.length > 0">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"
                            ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"></i>
                         <i class="fa fa-search" aria-hidden="true"
                            ng-show="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></i>
                     </a>
+                    <span ng-show="member.NextDescriptionObjective.length === 0" data-translate="Dash"></span>
                 </td>
             </tr>
         </tbody>

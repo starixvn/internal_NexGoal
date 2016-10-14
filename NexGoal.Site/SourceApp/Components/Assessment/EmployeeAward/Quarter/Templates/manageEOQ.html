@@ -31,11 +31,10 @@
         <thead>
             <tr class="header-table">
                 <th colspan="7">
-                    <a class="pull-left button-icon create-button"
+                    <a href="" class="button pull-left"
                        ng-click="manageEOQCtrl.createEOQ()"
                        ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host">
-                        <span class="icon plus"></span>
-                        <span class="button-text" data-translate="CreateNominationPeriod"></span>
+                        <i class="fa fa-plus"></i> {{"CreateNominationPeriod" | translate}}
                     </a>
                     <input type="text" class="search-inline-textbox search pull-right"
                            ng-model="manageEOQCtrl.searchKey"
@@ -71,7 +70,7 @@
                         <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                            ng-click="manageEOQCtrl.updateEOQ(period.EOQYId)"
                            ng-show="period.Year >= manageEOQCtrl.currentYear"></a>
-                        <a class="fa fa-trash-o icon-remove" title="Delete" 
+                        <a class="fa fa-trash-o icon-remove" title="Delete"
                            ng-click="manageEOQCtrl.deleteEOQ(period)"
                            ng-show="period.Year >= manageEOQCtrl.currentYear && period.StatusId === 0"></a>
                     </div>
