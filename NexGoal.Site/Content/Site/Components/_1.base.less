@@ -179,6 +179,9 @@ textarea {
     border: @tooltip-border-width solid @tooltip-border-color;
     background: #eaeaea;
     color: #3b3b3b;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    text-align: left;
+    padding: 10px;
 }
 
 .tooltip-arrow:after {
@@ -191,7 +194,7 @@ textarea {
     z-index: -1;
 }
 
-.tooltip {
+.tooltip {    
     &.top .tooltip-arrow {
         bottom: 2 * @tooltip-border-width;
         border-top-color: #eaeaea !important;
@@ -216,6 +219,7 @@ textarea {
     &.left .tooltip-arrow {
         right: 2 * @tooltip-border-width;
         border-left-color: #eaeaea !important;
+        //background: #eaeaea;
         &:after {
             right: -2 * @tooltip-border-width;
             top: 50%;
@@ -233,6 +237,10 @@ textarea {
             border-width: @tooltip-arrow-border-width @tooltip-arrow-border-width @tooltip-arrow-border-width 0;
             border-right-color: @tooltip-border-color;
         }
+    }
+
+    &.in {
+        opacity: 1;
     }
 }
 
