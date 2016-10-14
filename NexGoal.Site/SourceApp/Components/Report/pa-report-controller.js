@@ -37,8 +37,6 @@
                         utilitiesFactory.checkLastestPeriods(vm.periods);
                     }
 
-                    utilitiesFactory.checkLastestPeriods(vm.periods);
-
                     utilitiesFactory.numberEntryList(vm);
                     vm.query();
                 });
