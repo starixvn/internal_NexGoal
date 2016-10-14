@@ -8,7 +8,7 @@
     function paFocusModel($modal, paFocusFactory, errorFactory, notificationFactory, $translate) {
         var vm = {};
 
-		vm.permission = [];
+        vm.permission = [];
         vm.process = [];
         vm.processSettings = [];
         vm.evaluations = [];
@@ -53,6 +53,9 @@
                             }
                         }
 
+                        evaluation.NextDescriptionObjective = evaluation.NextDescriptionObjective ? evaluation.NextDescriptionObjective : "";
+                        evaluation.LastCompletedPercentObjective = evaluation.LastCompletedPercentObjective ? evaluation.LastCompletedPercentObjective : "";
+
                         team.Members.push(evaluation);
                         team.TotalBonus += evaluation.BonusGiven;
                     }
@@ -85,14 +88,14 @@
             });
         };
 
-		vm.getPermission = function (periodId) {
+        vm.getPermission = function (periodId) {
             return paFocusFactory.getPermission(periodId).success(function (permission) {
                 vm.permission = permission;
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
         };
-		
+
         vm.getPAProcessSettingByPeriodId = function (periodId) {
             return paFocusFactory.getPAProcessSettingByPeriodId(periodId).success(function (processSettings) {
                 vm.processSettings = processSettings;

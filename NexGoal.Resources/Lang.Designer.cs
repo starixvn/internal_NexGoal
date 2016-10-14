@@ -4201,7 +4201,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Evaluation Assignment Management.
+        ///   Looks up a localized string similar to Evaluation Assignment.
         /// </summary>
         public static string TargetEmployeeSettingTemplate {
             get {

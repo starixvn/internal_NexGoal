@@ -592,7 +592,7 @@
     <value>Show All</value>
   </data>
   <data name="TargetEmployeeSettingTemplate" xml:space="preserve">
-    <value>Evaluation Assignment Management</value>
+    <value>Evaluation Assignment</value>
   </data>
   <data name="ApplyToDepartment" xml:space="preserve">
     <value>Apply to Department / Team</value>
