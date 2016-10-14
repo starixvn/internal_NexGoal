@@ -8,6 +8,17 @@
     public class CertificateService : ICertificateService
     {
         private const bool OptimalAsymmetricEncryptionPadding = false;
+        private static X509Certificate2 cert2 = null;
+
+        public CertificateService()
+        {
+            InitCertificate();
+        }
+
+        public CertificateService(X509Certificate2 cert)
+        {
+            cert2 = cert;
+        }
 
         public string Encrypt(string plainText)
         {
@@ -17,7 +28,6 @@
             {
                 if (AppSetting.EnableEncrypt)
                 {
-                    X509Certificate2 cert2 = GetCertificate();
                     byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
 
                     int keySize = cert2.PublicKey.Key.KeySize,
@@ -59,7 +69,6 @@
             {
                 if (AppSetting.EnableEncrypt)
                 {
-                    X509Certificate2 cert2 = GetCertificate();
                     int keySize = cert2.PrivateKey.KeySize;
                     if (!IsKeySizeValid(keySize))
                     {
@@ -86,12 +95,13 @@
             return plainText;
         }
 
-        public X509Certificate2 GetCertificate()
+        public void InitCertificate()
         {
-            X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
-            X509Certificate2 cert2 = new X509Certificate2(AppSetting.CertificateFilePath, AppSetting.PasswordToSignTheCertificateFile, flags);
-
-            return cert2;
+            if (cert2 == null)
+            {
+                X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
+                cert2 = new X509Certificate2(AppSetting.CertificateFilePath, AppSetting.PasswordToSignTheCertificateFile, flags);
+            }
         }
 
         private int GetMaxDataLength(int keySize)
