@@ -426,5 +426,13 @@ appModule.factory('utilitiesFactory',
         return result;
     };
 
+    utilities.getEmployeeIdFromAutoSearch = function getEmployeeId(searchEmployee, employee) {
+        if (searchEmployee != "" && angular.isUndefined(employee.EmployeeId)) {
+            return 0;
+        }
+
+        return employee.EmployeeId;
+    }
+
     return utilities;
 }]);

@@ -477,13 +477,6 @@
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\manageEOQ.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\modalCreateEOQ.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\view-eoy-nomination-controller.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-controller.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-directive.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-factory.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary-model.js" />
-    <Content Include="SourceApp\Components\AttendanceSummary\Templates\detail.html" />
-    <Content Include="SourceApp\Components\AttendanceSummary\Templates\index.html" />
-    <Content Include="SourceApp\Components\AttendanceSummary\Templates\otherViolation.html" />
     <Content Include="SourceApp\Components\Common\common-controller.js" />
     <Content Include="SourceApp\Components\Common\Templates\modalViewOtherViolationDetail.html" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
@@ -530,22 +523,12 @@
     <Content Include="SourceApp\Components\Menu\menu-factory.js" />
     <Content Include="SourceApp\Components\Menu\menu-model.js" />
     <Content Include="SourceApp\Components\Menu\Templates\index.html" />
-    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-factory.js" />
-    <Content Include="SourceApp\Components\MonthlyEPAHistory\monthlyEPAHistory-model.js" />
-    <Content Include="SourceApp\Components\MonthlyEPAHistory\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPAHistory\epaHistory-controller.js" />
-    <Content Include="SourceApp\Components\EPAHistory\epaHistory-factory.js" />
-    <Content Include="SourceApp\Components\EPAHistory\epaHistory-model.js" />
-    <Content Include="SourceApp\Components\EPAHistory\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Convert\convertEPA-controller.js" />
     <Content Include="SourceApp\Components\EPA\Convert\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-controller.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-directive.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-factory.js" />
     <Content Include="SourceApp\Components\EPA\employeeEPA-model.js" />
-    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
-    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\updateFinalScore-controller.js" />
     <Content Include="SourceApp\Components\Period\employeeSettingUpdate-controller.js" />
     <Content Include="SourceApp\Components\Report\master-report-controller.js" />
     <Content Include="SourceApp\Components\Report\master-report-directive.js" />
@@ -639,18 +622,6 @@
     <Content Include="SourceApp\Components\KPI\Templates\edit.html" />
     <Content Include="SourceApp\Components\KPI\Templates\create.html" />
     <Content Include="SourceApp\Components\KPI\Templates\modalConfirmRequired.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-directive.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-factory.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-model.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\monthlyPeriod-employeeSetting-controller.js" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\basicInformation.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\create.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\edit.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\editEmployeeSetting.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\employeeSetting.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\index.html" />
-    <Content Include="SourceApp\Components\MonthlyPeriod\Templates\processSetting.html" />
     <Content Include="SourceApp\Components\Period\period-employeeSetting-controller.js" />
     <Content Include="SourceApp\Components\Period\period-controller.js" />
     <Content Include="SourceApp\Components\Period\period-directive.js" />
@@ -828,13 +799,10 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SourceApp\Components\Dashboard\dashboard.less" />
-    <Content Include="SourceApp\Components\AttendanceSummary\attendanceSummary.less" />
     <Content Include="SourceApp\Components\Report\report.less" />
     <Content Include="Views\Emails\EmailNotifyChangeSetting.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineSummaryReport.xls" />
-    <Content Include="SourceApp\Components\AttendanceSummary\ExcelTemplates\DisciplineDetailReport.xls" />
     <Content Include="SourceApp\Components\EPA\ratingByStar.less" />
     <Content Include="Web.hr.config" />
     <Content Include="Web.dev.config">

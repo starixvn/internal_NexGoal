@@ -59,7 +59,7 @@
             PAFocusModel.openPopupLostData().then(function () {
                 query();
             });
-        }
+        }        
 
         function query() {
             lockScreenService.start();
@@ -77,7 +77,7 @@
                     && vm.permission === vm.policy.Host;
             });
 
-            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.groupIds, vm.filter.employee.EmployeeId).then(function () {
+            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.groupIds, utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee,vm.filter.employee)).then(function () {
                 $scope.groups = PAFocusModel.evaluations;
                 vm.isFirst = true;
             })["finally"](function () {
