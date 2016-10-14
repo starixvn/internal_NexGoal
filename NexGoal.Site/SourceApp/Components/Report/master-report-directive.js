@@ -395,7 +395,7 @@
                     subRow.Columns.push({ Name: "JobTitle", Value: member.PAFocus.Employee.JobTitle.JobTitleName });
                     subRow.Columns.push({ Name: "ReviewerAdjustment", Value: reviewerAdjustment });
                     subRow.Columns.push({
-                        Name: "PAFinalScore", Value: member.PAFocus.FinalScore === 0 ? "N/A" : member.PAFocus.FinalScore
+                        Name: "PAFinalScore", Value: !member.PAFocus.FinalScore ? "-" : member.PAFocus.FinalScore
                     });
                     subRow.Columns.push({
                         Name: "EvaluatorComment",
