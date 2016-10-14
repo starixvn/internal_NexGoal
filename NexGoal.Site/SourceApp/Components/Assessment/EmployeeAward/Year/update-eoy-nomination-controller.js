@@ -39,6 +39,10 @@
             }
         };
 
+        vm.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+
         initialize();
     }
 })(angular.module('assessmentModule'));
