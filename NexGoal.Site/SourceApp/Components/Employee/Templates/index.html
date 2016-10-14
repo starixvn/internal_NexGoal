@@ -60,8 +60,8 @@
                         <th data-translate="Code"></th>
                         <th data-translate="NickName"></th>
                         <th data-translate="FullName"></th>
-                        <th data-translate="JobTitle"></th>
                         <th data-translate="Team"></th>
+                        <th data-translate="JobTitle"></th>
                         <th data-translate="Roles"></th>
                         <th data-translate="Action" ng-if="employeeCtrl.permission == employeeCtrl.policyEnum.Host"></th>
                     </tr>
@@ -72,10 +72,10 @@
                         <td class="text-center" ng-bind="employee.Code"></td>
                         <td class="text-center" ng-bind="employee.NickName"></td>
                         <td ng-bind="employee.FullName"></td>
-                        <td ng-bind="employee.JobTitle.JobTitleName"></td>
                         <td class="text-center">
                             <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                         </td>
+                        <td ng-bind="employee.JobTitle.JobTitleName"></td>
                         <td class="authority-employee-role text-center">
                             <span ng-repeat="role in employee.Roles">
                                 {{role.RoleCode}}<span ng-if="!$last">,</span>

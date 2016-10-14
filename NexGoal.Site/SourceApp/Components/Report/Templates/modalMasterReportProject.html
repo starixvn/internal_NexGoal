@@ -5,7 +5,7 @@
             <span class="close-popup" ng-click="modalMasterReportProjectCtrl.close()"></span>
         </div>
     </div>
-    <div class="modal-body">
+    <div class="modal-body modal-view-comment">
         <form class="form-horizontal" role="form">
             <div class="form-group">
                 <label class="col-sm-1 control-label">{{"Name" | translate}}:</label>
@@ -19,8 +19,7 @@
             </div>
             <div class="form-group">
                 <div class="col-sm-12 field">
-                    <textarea class="form-control none-resize ready-only" readonly rows="15"
-                              ng-model="modalMasterReportProjectCtrl.project.Comment"></textarea>
+                    <div class="comment" ng-bind="::modalMasterReportProjectCtrl.project.Comment"></div>
                 </div>
             </div>
         </form>

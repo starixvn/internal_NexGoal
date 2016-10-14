@@ -5,11 +5,11 @@
             <span class="close-popup" ng-click="modalMasterReportEvaluatorCommentCtrl.close()"></span>
         </div>
     </div>
-    <div class="modal-body">
+    <div class="modal-body modal-view-comment">
         <div ng-repeat="evaluator in modalMasterReportEvaluatorCommentCtrl.evaluatorComments">
             <div>
-                {{"Evaluator" | translate}}: <b>{{evaluator.EvaluatorFullName}} ({{evaluator.EvaluatorNickName}})</b>
-                <p ng-bind="evaluator.Comment"></p>
+                <p>{{"Evaluator" | translate}}: <b>{{evaluator.EvaluatorFullName}} ({{evaluator.EvaluatorNickName}})</b></p>
+                <div class="comment" ng-bind="evaluator.Comment"></div>
                 <br />
             </div>
         </div>

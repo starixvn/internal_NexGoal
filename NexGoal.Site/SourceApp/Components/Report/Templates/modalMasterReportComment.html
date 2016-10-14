@@ -5,11 +5,8 @@
             <span class="close-popup" ng-click="modalMasterReportCommentCtrl.close()"></span>
         </div>
     </div>
-    <div class="modal-body">
-        <textarea type="text" class="form-control none-resize ready-only"
-                  ng-model="modalMasterReportCommentCtrl.comment"
-                  rows="20"
-                  readonly></textarea>
+    <div class="modal-body modal-view-comment">
+        <div class="comment" ng-bind="::modalMasterReportCommentCtrl.comment"></div>
     </div>
     <div class="modal-footer button-block">
         <button class="button btn-cancel" ng-click="modalMasterReportCommentCtrl.close()" data-translate="Close"></button>

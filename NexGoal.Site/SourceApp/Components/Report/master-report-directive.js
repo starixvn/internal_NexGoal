@@ -80,10 +80,10 @@
             var tooltipContent = "";
 
             if (nominators && nominators.length > 0) {
-                tooltipContent += "<b>" + nominators.length + "</b> vote(s):<br/>";
+                tooltipContent += "<p class=\"text-left\"><b>" + nominators.length + "</b> vote(s):<p/>";
 
-                angular.forEach(nominators, function (nominator) {
-                    tooltipContent += nominator.NominatorFullName + " (" + nominator.NominatorNickName + ")<br/>";
+                angular.forEach(nominators, function (nominator, index) {
+                    tooltipContent += "<p class=\"text-left\">" + (index + 1) + ". " + nominator.NominatorFullName + " (" + nominator.NominatorNickName + ")<p/>";
                 });
             }
 

@@ -88,17 +88,6 @@ label:hover {
 textarea.none-resize {
   resize: none;
 }
-textarea.ready-only {
-  background: #FFF !important;
-  border: none;
-  box-shadow: none;
-}
-textarea.ready-only:active,
-textarea.ready-only:hover,
-textarea.ready-only:focus {
-  border: none;
-  box-shadow: none;
-}
 .font-size-14 {
   font-size: 14px;
 }
