@@ -6,7 +6,10 @@
         </div>
     </div>
     <div class="modal-body">
-        {{modalMasterReportCommentCtrl.comment}}
+        <textarea type="text" class="form-control none-resize ready-only"
+                  ng-model="modalMasterReportCommentCtrl.comment"
+                  rows="20"
+                  readonly></textarea>
     </div>
     <div class="modal-footer button-block">
         <button class="button btn-cancel" ng-click="modalMasterReportCommentCtrl.close()" data-translate="Close"></button>
