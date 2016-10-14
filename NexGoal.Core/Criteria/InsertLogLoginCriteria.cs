@@ -17,8 +17,7 @@
         public override bool IsValid()
         {
             return !string.IsNullOrWhiteSpace(IdentifyUser)
-                && !string.IsNullOrWhiteSpace(LoginUser)
-                && !string.IsNullOrWhiteSpace(IPAddress);
+                && !string.IsNullOrWhiteSpace(LoginUser);
         }
 
         public override string GetSettingKey()
