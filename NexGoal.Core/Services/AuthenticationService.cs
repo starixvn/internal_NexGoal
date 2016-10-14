@@ -56,10 +56,11 @@
             string hostName = string.Empty;
             try
             {
-                IPHostEntry entry = Dns.GetHostEntry(ipAddress);
+                IPAddress ip = IPAddress.Parse(ipAddress);
+                IPHostEntry entry = Dns.GetHostEntry(ip);
                 if (entry != null)
                 {
-                    hostName = entry.HostName.ToString().Split('.').ToList().First();
+                    hostName = entry.HostName;
                 }
             }
             catch (SocketException ex)

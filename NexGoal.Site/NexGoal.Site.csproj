@@ -853,6 +853,7 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-last-objective.controller.js" />
+    <None Include="Properties\PublishProfiles\NexGoal.pubxml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">
