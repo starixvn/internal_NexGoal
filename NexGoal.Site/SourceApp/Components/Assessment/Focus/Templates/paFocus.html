@@ -120,7 +120,7 @@
                             ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"></select>
                     <span class="focus-evaluation-status"
-                          ng-class="{'good': member.IsPoorPerformance, 'normal': !member.IsPoorPerformance}"
+                          ng-class="{'warning': member.IsPoorPerformance, 'normal': !member.IsPoorPerformance}"
                           ng-show="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"
                           ng-bind="::member.IsPoorPerformance ? 'Yes' : (member.IsPoorPerformance === null ? '-' : 'No')">
                     </span>
