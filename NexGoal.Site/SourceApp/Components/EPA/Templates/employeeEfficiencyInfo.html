@@ -33,7 +33,7 @@
                     <td class="text-center">{{project.Roles}}</td>
                     <td class="text-center">{{project.WorkingHour}}</td>
                     <td class="text-center">
-                        <span ng-if="project.DecryptedScore !== null">
+                        <span ng-if="project.DecryptedScore !== null && project.DecryptedScore.length > 0">
                             {{project.DecryptedScore}} <i class="fa fa-star"></i>
                         </span>
                         <span ng-if="project.DecryptedScore === null || project.DecryptedScore.length === 0">-</span>
