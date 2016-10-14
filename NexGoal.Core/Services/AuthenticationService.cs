@@ -1,11 +1,13 @@
 ﻿namespace NexGoal.Core.Services
 {
+    using Fanex.Common;
+    using Fanex.Logging;
     using NexGoal.Core.Criteria;
     using NexGoal.Core.Model;
     using NexGoal.Core.Repositories;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Net;
+    using System.Net.Sockets;
     using System.Web;
 
     public class AuthenticationService : BaseService, IAuthenticationService
@@ -37,11 +39,13 @@
 
         public void InsertLogLogin(string username)
         {
+            var x = Converter.ToBool(1);
+            var y = Converter.To<bool>(0);
             var criteria = new InsertLogLoginCriteria() 
             {
                 IdentifyUser = GetShortUsername(HttpContext.Current.User.Identity.Name),
                 LoginUser = GetShortUsername(username),
-                MachineName = DetermineCompName(HttpContext.Current.Request.UserHostName),
+                MachineName = GetHostName(HttpContext.Current.Request.UserHostName),
                 IPAddress = HttpContext.Current.Request.UserHostAddress,
                 BrowserName = HttpContext.Current.Request.Headers["User-Agent"]
             };
@@ -49,12 +53,23 @@
             Repository.Insert(criteria);
         }
 
-        public string DetermineCompName(string ip)
+        public string GetHostName(string ipAddress)
         {
-            IPAddress myIP = IPAddress.Parse(ip);
-            IPHostEntry getIPHost = Dns.GetHostEntry(myIP);
-            List<string> compName = getIPHost.HostName.ToString().Split('.').ToList();
-            return compName.First();
+            string hostName = string.Empty;
+            try
+            {
+                IPHostEntry entry = Dns.GetHostEntry(ipAddress);
+                if (entry != null)
+                {
+                    hostName = entry.HostName.ToString().Split('.').ToList().First();
+                }
+            }
+            catch (SocketException ex)
+            {
+                LogService.Error(ex.InnerException.Message);
+            }
+
+            return hostName;
         }
 
         private string GetShortUsername(string username)
