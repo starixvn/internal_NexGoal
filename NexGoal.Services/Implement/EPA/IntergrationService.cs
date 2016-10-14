@@ -55,7 +55,6 @@
                     EmployeeId = employeeId
                 };
                 result = GetData<HRMSummaryViewModel>(criteria);
-            
 
             return result;
         }

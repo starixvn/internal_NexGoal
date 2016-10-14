@@ -49,17 +49,17 @@
             Repository.Insert(criteria);
         }
 
-        public string DetermineCompName(string IP)
+        public string DetermineCompName(string ip)
         {
-            IPAddress myIP = IPAddress.Parse(IP);
-            IPHostEntry GetIPHost = Dns.GetHostEntry(myIP);
-            List<string> compName = GetIPHost.HostName.ToString().Split('.').ToList();
+            IPAddress myIP = IPAddress.Parse(ip);
+            IPHostEntry getIPHost = Dns.GetHostEntry(myIP);
+            List<string> compName = getIPHost.HostName.ToString().Split('.').ToList();
             return compName.First();
         }
 
         private string GetShortUsername(string username)
         {
-            if(username.IndexOf('\\') > 0)
+            if (username.IndexOf('\\') > 0)
             {
                 username = username.Split('\\')[1];
             }

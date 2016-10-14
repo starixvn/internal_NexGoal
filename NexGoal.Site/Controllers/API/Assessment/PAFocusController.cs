@@ -83,7 +83,6 @@
             var permission = SessionService.CurrentUser.GetPermission(FunctionKey.PAFocus);
 
             return permission;
-
         }
     }
 }
