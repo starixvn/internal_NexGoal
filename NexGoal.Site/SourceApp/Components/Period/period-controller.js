@@ -222,8 +222,8 @@ function ($routeParams, PeriodModel, enumerationsFactory, historyFactory, lockSc
 }]);
 
 periodModule.controller('UpdateBasicInformationPeriodController',
-['$scope', 'PeriodModel', 'CommonModel', 'enumerationsFactory', 'historyFactory', "lockScreenService",
-function ($scope, PeriodModel, CommonModel, enumerationsFactory, historyFactory, lockScreenService) {
+['$scope', 'PeriodModel', 'CommonModel', 'enumerationsFactory', "lockScreenService",
+function ($scope, PeriodModel, CommonModel, enumerationsFactory, lockScreenService) {
     var vm = this;
 
     vm.targetTypes = CommonModel.targetTypes;
@@ -303,10 +303,6 @@ function ($scope, PeriodModel, CommonModel, enumerationsFactory, historyFactory,
                 lockScreenService.stop();
             });
         }
-    };
-
-    vm.cancel = function () {
-        historyFactory.back();
     };
 }]);
 

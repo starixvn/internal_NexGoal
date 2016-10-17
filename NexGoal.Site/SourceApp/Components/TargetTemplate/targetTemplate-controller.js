@@ -87,13 +87,13 @@ function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumera
     };
 
     vm.detail = function (targetTemplate) {
-        $location.path(baseUrl + "TargetTemplate/Detail/" + targetTemplate.TargetTemplateId);
+        TargetTemplateModel.openPopupViewTargetTemplateDetail(targetTemplate.TargetTemplateId)
     };
 }]);
 
 targetTemplateModule.controller('UpdateTargetTemplateController',
-['$routeParams', 'TargetTemplateModel', "lockScreenService",
-function ($routeParams, TargetTemplateModel, lockScreenService) {
+['$routeParams', 'TargetTemplateModel', "lockScreenService", "historyFactory",
+function ($routeParams, TargetTemplateModel, lockScreenService, historyFactory) {
     var vm = this;
 
     vm.targetTemplateId = parseInt($routeParams.id, 10);
@@ -127,11 +127,15 @@ function ($routeParams, TargetTemplateModel, lockScreenService) {
         vm.dataTab.information = false;
         vm.dataTab.kpi = true;
     };
+
+    vm.backToList = function () {
+        historyFactory.back();
+    };
 }]);
 
 targetTemplateModule.controller('TargetTemplateGeneralInformationController',
-['$scope', 'TargetTemplateModel', 'CommonModel', 'historyFactory',
-function ($scope, TargetTemplateModel, CommonModel, historyFactory) {
+['$scope', 'TargetTemplateModel', 'CommonModel',
+function ($scope, TargetTemplateModel, CommonModel) {
     var vm = this;
 
     vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
@@ -159,15 +163,11 @@ function ($scope, TargetTemplateModel, CommonModel, historyFactory) {
             });
         }
     };
-
-    vm.cancel = function () {
-        historyFactory.back();
-    };
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
-function ($scope, $translate, TargetTemplateModel, utilitiesFactory, historyFactory) {
+['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory',
+function ($scope, $translate, TargetTemplateModel, utilitiesFactory) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
@@ -372,10 +372,6 @@ function ($scope, $translate, TargetTemplateModel, utilitiesFactory, historyFact
         var totalWeight = getTotalWeight(vm.kpiList);
         TargetTemplateModel.updateTargetTemplate(targetTemplate, totalWeight, vm);
     };
-
-    vm.cancel = function () {
-        historyFactory.back();
-    };
 }]);
 
 targetTemplateModule.controller('AddedKPIGroupController',
@@ -454,30 +450,6 @@ function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, max
 
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
-    };
-}]);
-
-targetTemplateModule.controller('DetailTargetTemplateController',
-['$window', '$routeParams', 'TargetTemplateModel', 'utilitiesFactory', 'historyFactory',
-function ($window, $routeParams, TargetTemplateModel, utilitiesFactory, historyFactory) {
-    var vm = this;
-
-    vm.targetTemplateId = parseInt($routeParams.id, 10);
-    vm.targetTemplate = TargetTemplateModel.targetTemplate;
-    vm.kpiList = TargetTemplateModel.kpiList;
-
-    utilitiesFactory.getDateFormat(vm);
-
-    TargetTemplateModel.getTargetTemplateById(vm.targetTemplateId).then(function () {
-        vm.targetTemplate = TargetTemplateModel.targetTemplate;
-    });
-
-    TargetTemplateModel.getKPIOfTargetTemplate(vm.targetTemplateId, true).then(function () {
-        vm.kpiList = TargetTemplateModel.kpiList;
-    });
-
-    vm.back = function () {
-        historyFactory.back();
     };
 }]);
 

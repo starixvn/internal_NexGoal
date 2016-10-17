@@ -146,7 +146,7 @@
             }).error(function (response, status) {
                 errorFactory.errorHandle(status);
             });
-        }
+        };
 
         model.getUserPermissionOnViolation = function () {
             return violationFactory.getUserPermissionOnViolation().success(function (permission) {

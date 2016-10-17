@@ -4,9 +4,10 @@
             <ul class="row breadcrumb period-breadcrumb">
                 <li class="current" data-translate="NominationManagement"></li>
             </ul>
-            <div class="button-icon button-period-back">
-                <span class="fa fa-angle-left icon-back"></span>
-                <a data-translate="BackToList" ng-click="viewEOYDetailCtrl.backToList()" href="" class="ng-scope"></a>
+            <div class="button-block">
+                <a class="button btn-cancel" ng-click="viewEOYDetailCtrl.backToList()">
+                    <i class="fa fa-angle-left icon-back"></i> {{"BackToList" | translate}}
+                </a>
             </div>
         </div>
         <div class="col-sm-12 target-tabset">

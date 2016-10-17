@@ -169,6 +169,22 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         });
     };
 
+    targetTemplateModel.openPopupViewTargetTemplateDetail = function (targetTemplateId) {
+        targetTemplateModel.modalInstance = $modal.open({
+            templateUrl: "SourceApp/Components/TargetTemplate/Templates/modalViewTargetTemplateDetail.html",
+            controller: "ViewTargetTemplateDetailController as viewTargetTemplateDetailCtrl",
+            backdrop: "static",
+            windowClass: "modal-confirm-center popup-lg",
+            resolve: {
+                targetTemplateId: function () {
+                    return targetTemplateId;
+                }
+            },
+        });
+
+        return targetTemplateModel.modalInstance.result;
+    };
+
     targetTemplateModel.openPopupCreateTargetTemplate = function () {
         targetTemplateModel.modalInstance = $modal.open({
             templateUrl: "SourceApp/Components/TargetTemplate/Templates/modalCreateTargetTemplate.html",

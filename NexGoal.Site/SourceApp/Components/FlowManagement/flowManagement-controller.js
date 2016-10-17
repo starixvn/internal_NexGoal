@@ -86,53 +86,9 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
     };
 }]);
 
-//flowMngModule.controller("CreateFlowTemplateController",
-//['$location', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-//function ($location, FlowMngModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
-//    var vm = this;
-
-//    vm.targetTypes = CommonModel.targetTypes;
-//    vm.permission = FlowMngModel.permission;
-
-//    vm.policyEnum = enumerationsFactory.policy;
-
-//    vm.flowTemplate = {
-//        Name: '',
-//        TargetTypeId: '',
-//        IsActive: true,
-//        Description: ''
-//    };
-
-//    vm.initialize = function () {
-//        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
-//            vm.permission = FlowMngModel.permission;
-
-//            if (vm.permission !== vm.policyEnum.Host) {
-//                $location.path(baseUrl + 'Home/AccessDenied');
-//            }
-//        });
-
-//        CommonModel.getTargetType(true).then(function () {
-//            vm.targetTypes = CommonModel.targetTypes;
-//        });
-//    };
-
-//    vm.initialize();
-
-//    vm.save = function (flowTemplate) {
-//        if (FlowMngModel.validateFlowTemplate(flowTemplate)) {
-//            FlowMngModel.createFlowTemplate(flowTemplate);
-//        }
-//    };
-
-//    vm.cancel = function () {
-//        historyFactory.back();
-//    };
-//}]);
-
 flowMngModule.controller("UpdateFlowTemplateController",
-['$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService',
-function ($routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService) {
+['$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService', 'historyFactory',
+function ($routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService, historyFactory) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id, 10);
@@ -172,12 +128,16 @@ function ($routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheSer
         });
     };
 
+    vm.backToList = function () {
+        historyFactory.back();
+    };
+
     vm.initialize();
 }]);
 
 flowMngModule.controller("GeneralInformationController",
-['$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'historyFactory',
-function ($scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
+['$scope', '$routeParams', 'FlowMngModel', 'CommonModel',
+function ($scope, $routeParams, FlowMngModel, CommonModel) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id, 10);

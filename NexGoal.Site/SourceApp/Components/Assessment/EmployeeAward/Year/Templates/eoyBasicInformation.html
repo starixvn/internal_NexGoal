@@ -1,7 +1,7 @@
 ﻿<div ng-controller="UpdateEOYBasicInformationController as eoyBasicInfoCtrl">
     <form class="col-sm-12 col-lg-12 form-horizontal common-form info-form" novalidate>
         <div class="form-group">
-            <label class="col-sm-2 control-label" data-translate="Year"></label>
+            <label class="col-sm-1 control-label" data-translate="Year"></label>
             <div class="col-sm-2 field">
                 <select class="form-control" ng-model="eoyBasicInfoCtrl.period.Year">
                     <option value=""></option>
@@ -11,7 +11,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-2 control-label required-label" data-translate="StartDate"></label>
+            <label class="col-sm-1 control-label required-label" data-translate="StartDate"></label>
             <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control" type="text" datepicker-popup
                        ng-model="eoyBasicInfoCtrl.period.RawStartDate"
@@ -20,7 +20,7 @@
                 <calendar-image class="calendar-image" ng-click="eoyBasicInfoCtrl.openPopupStartDate($event)"></calendar-image>
             </div>
 
-            <label class="col-sm-2 control-label required-label" data-translate="EndDate"></label>
+            <label class="col-sm-1 control-label required-label" data-translate="EndDate"></label>
             <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control" type="text" datepicker-popup
                        ng-model="eoyBasicInfoCtrl.period.RawEndDate"
@@ -30,7 +30,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-2 control-label" data-translate="Description"></label>
+            <label class="col-sm-1 control-label" data-translate="Description"></label>
             <div class="col-sm-5 field">
                 <textarea type="text" class="form-control comment" rows="3" ng-model="eoyBasicInfoCtrl.period.Description"></textarea>
             </div>

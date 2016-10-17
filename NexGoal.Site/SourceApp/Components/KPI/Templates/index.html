@@ -48,12 +48,12 @@
                     </div>           
                 </div>               
             </form>
-            <div class="button-icon button-period-back"
-                 ng-if="kpiCtrl.isViewAll === false">
-                <span class="fa fa-angle-left icon-back"></span>
-                <a data-translate="BackToList" ng-click="kpiCtrl.backToList()" href=""></a>
+            <div class="button-block"
+                 ng-if="!kpiCtrl.isViewAll">
+                <a class="button btn-cancel" ng-click="kpiCtrl.backToList()">
+                    <i class="fa fa-angle-left icon-back"></i> {{"BackToList" | translate}}
+                </a>
             </div>
-
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">

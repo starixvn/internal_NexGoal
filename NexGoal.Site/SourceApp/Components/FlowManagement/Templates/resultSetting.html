@@ -20,7 +20,7 @@
                                 {{flow.HumanResources[0].FullName}} ({{flow.HumanResources[0].NickName}})
                             </div>
                             <div ng-show="flow.HumanResources.length > 1">
-                                <ul><li ng-repeat="hr in flow.HumanResources">{{hr.FullName}} ({{hr.NickName}})</li></ul>
+                                <p ng-repeat="hr in flow.HumanResources">{{hr.FullName}} ({{hr.NickName}})</p>
                             </div>
                         </td>
                         <td>
@@ -28,7 +28,7 @@
                                 {{flow.Evaluators[0].FullName}} ({{flow.Evaluators[0].NickName}})
                             </div>
                             <div ng-show="flow.Evaluators.length > 1">
-                                <ul><li ng-repeat="evaluator in flow.Evaluators">{{evaluator.FullName}} ({{evaluator.NickName}})</li></ul>
+                                <p ng-repeat="evaluator in flow.Evaluators">{{evaluator.FullName}} ({{evaluator.NickName}})</p>
                             </div>
                         </td>
                         <td>
@@ -36,7 +36,7 @@
                                 {{flow.Reviewers[0].FullName}} ({{flow.Reviewers[0].NickName}})
                             </div>
                             <div ng-show="flow.Reviewers.length > 1">
-                                <ul><li ng-repeat="reviewer in flow.Reviewers">{{reviewer.FullName}} ({{reviewer.NickName}})</li></ul>
+                                <p ng-repeat="reviewer in flow.Reviewers">{{reviewer.FullName}} ({{reviewer.NickName}})</p>
                             </div>
                         </td>
                     </tr>
@@ -45,12 +45,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            <br />
-
-            <div>
-                <button class="button btn-cancel" ng-click="resultSettingFlowCtrl.cancel()" data-translate="Cancel"></button>
-            </div>
         </tab>
         <tab heading="PERSONAL" class="tab-cursor" select="resultSettingFlowCtrl.tabPersonalSelected()">
             <table table class="row table table-bordered table-striped">
@@ -78,7 +72,7 @@
                                 {{flow.HumanResources[0].FullName}} ({{flow.HumanResources[0].NickName}})
                             </div>
                             <div ng-show="flow.HumanResources.length > 1">
-                                <ul><li ng-repeat="hr in flow.HumanResources">{{hr.FullName}} ({{hr.NickName}})</li></ul>
+                                <p ng-repeat="hr in flow.HumanResources">{{hr.FullName}} ({{hr.NickName}})</p>
                             </div>
                         </td>
                         <td>
@@ -103,12 +97,6 @@
                     </tr>
                 </tbody>
             </table>
-
-            <br />
-
-            <div>
-                <button class="button btn-cancel" ng-click="resultSettingFlowCtrl.cancel()" data-translate="Cancel"></button>
-            </div>
         </tab>
     </tabset>
 </div>
