@@ -63,7 +63,7 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFac
     };
 
     vm.assignRole = function (employee) {
-        var a = EmployeeModel.openPopupAssignRole(employee).then(function (result) {
+        EmployeeModel.openPopupAssignRole(employee).then(function (result) {
             EmployeeModel.assignRoleToEmployee(employee.EmployeeId, result.roleIds).then(function () {
                 employee.Roles = result.roles;
                 vm.queryEmployee(vm.filter);
@@ -95,7 +95,7 @@ function ($modalInstance, EmployeeModel, employee, CommonModel) {
                 isChecked = true;
             }
         });
-        
+
         return isChecked;
     };
 

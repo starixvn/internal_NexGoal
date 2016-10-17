@@ -68,7 +68,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     }
 
     function getHRMSummary() {
-        if (vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual) {
+        if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
             SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.hrmSummary = SelfEvalutorModel.hrmSummary;
             });
@@ -121,7 +121,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
             NominationModel.getNominationByPeriodId(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeNominations = NominationModel.employeeNominations;
             });
-            if (vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual) {
+            if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
                 LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId, vm.targetTypeEnum.SemiAnnual).then(function () {
                     vm.lastRating = LastRatingModel.groups;
                 });

@@ -187,10 +187,22 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
         return true;
     };
 
-    flowMngModel.createFlowTemplate = function (flowTemplate) {
+    flowMngModel.openPopupCreateFlowTemplate = function () {
+        flowMngModel.modalInstance = $modal.open({
+            templateUrl: "SourceApp/Components/FlowManagement/Templates/modalCreateFlowTemplate.html",
+            controller: "CreateFlowTemplateController as createFlowTemplateCtrl",
+            backdrop: "static",
+            windowClass: "modal-confirm-center"
+        });
+
+        return flowMngModel.modalInstance.result;
+    };
+
+    flowMngModel.createFlowTemplate = function (flowTemplate, modalInstance) {
         return flowMngFactory.createFlowTemplate(flowTemplate).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("CreatedSuccessfully");
+                modalInstance.close();
             }
             else {
                 notificationFactory.error("", response.Message);

@@ -32,7 +32,9 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
     };
 
     vm.createFlowTemplate = function () {
-        $location.path(baseUrl + 'Flow/Create');
+        FlowMngModel.openPopupCreateFlowTemplate().then(function () {
+            vm.query(vm.filter);
+        });
     };
 
     vm.updateFlowTemplate = function (flowTemplate) {
@@ -84,49 +86,49 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
     };
 }]);
 
-flowMngModule.controller("CreateFlowTemplateController",
-['$location', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($location, FlowMngModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
-    var vm = this;
+//flowMngModule.controller("CreateFlowTemplateController",
+//['$location', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
+//function ($location, FlowMngModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
+//    var vm = this;
 
-    vm.targetTypes = CommonModel.targetTypes;
-    vm.permission = FlowMngModel.permission;
+//    vm.targetTypes = CommonModel.targetTypes;
+//    vm.permission = FlowMngModel.permission;
 
-    vm.policyEnum = enumerationsFactory.policy;
+//    vm.policyEnum = enumerationsFactory.policy;
 
-    vm.flowTemplate = {
-        Name: '',
-        TargetTypeId: '',
-        IsActive: true,
-        Description: ''
-    };
+//    vm.flowTemplate = {
+//        Name: '',
+//        TargetTypeId: '',
+//        IsActive: true,
+//        Description: ''
+//    };
 
-    vm.initialize = function () {
-        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
-            vm.permission = FlowMngModel.permission;
+//    vm.initialize = function () {
+//        FlowMngModel.getUserPermissionOnFlowManagement().then(function () {
+//            vm.permission = FlowMngModel.permission;
 
-            if (vm.permission !== vm.policyEnum.Host) {
-                $location.path(baseUrl + 'Home/AccessDenied');
-            }
-        });
+//            if (vm.permission !== vm.policyEnum.Host) {
+//                $location.path(baseUrl + 'Home/AccessDenied');
+//            }
+//        });
 
-        CommonModel.getTargetType(true).then(function () {
-            vm.targetTypes = CommonModel.targetTypes;
-        });
-    };
+//        CommonModel.getTargetType(true).then(function () {
+//            vm.targetTypes = CommonModel.targetTypes;
+//        });
+//    };
 
-    vm.initialize();
+//    vm.initialize();
 
-    vm.save = function (flowTemplate) {
-        if (FlowMngModel.validateFlowTemplate(flowTemplate)) {
-            FlowMngModel.createFlowTemplate(flowTemplate);
-        }
-    };
+//    vm.save = function (flowTemplate) {
+//        if (FlowMngModel.validateFlowTemplate(flowTemplate)) {
+//            FlowMngModel.createFlowTemplate(flowTemplate);
+//        }
+//    };
 
-    vm.cancel = function () {
-        historyFactory.back();
-    };
-}]);
+//    vm.cancel = function () {
+//        historyFactory.back();
+//    };
+//}]);
 
 flowMngModule.controller("UpdateFlowTemplateController",
 ['$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService',

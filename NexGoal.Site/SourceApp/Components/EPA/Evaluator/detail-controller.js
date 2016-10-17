@@ -60,7 +60,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
     }
 
 	function getHRMSummary(){
-		if(vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual){
+		if(vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual){
 			EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
             });
@@ -75,7 +75,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         lockScreenService.start();
         EvaluatorManagementModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = EvaluatorManagementModel.epaInfo;
-            if (vm.epaInfo.Period.TargetTypeId == vm.targetTypeEnum.SemiAnnual) {
+            if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
                 LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId, vm.targetTypeEnum.SemiAnnual).then(function () {
                     vm.lastRating = LastRatingModel.groups;
                 });
