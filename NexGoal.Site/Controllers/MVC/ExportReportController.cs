@@ -7,13 +7,14 @@
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using System;
     using System.Collections.Generic;
+    using System.IO;
     using System.Web.Mvc;
 
     public class ExportReportController : Controller
     {
         private const string EmployeeFlowSettingReportTemplatePath = @"~\SourceApp\Components\Period\ExcelTemplates\EmployeeFlowSettingReport.xls";
-        private const string MasterReportTemplatePath = @"~\ExcelTemplates\MasterReport.xls";
 
         private readonly IPeriodService periodService;
         private readonly IReportService reportService;
@@ -74,7 +75,6 @@
             string groupIds = null,
             int? employeeId = null)
         {
-            string templatePath = Server.MapPath(MasterReportTemplatePath);
             var criteria = new GetMasterReportCriteria()
             {
                 EmployeeId = employeeId,
@@ -84,9 +84,9 @@
 
             IEnumerable<MasterReportModel> employees = reportService.GetMaster(criteria);
             var period = this.periodService.GetPeriodById(periodId);
-            this.masterExportService.Export(employees, templatePath, period.Name);
+            MemoryStream output = this.masterExportService.Export(employees, period.Name);
 
-            return new EmptyResult();
+            return File(output.ToArray(), "application/vnd.ms-excel", "MasterReport_" + period.Name + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls");
         }
     }
 }

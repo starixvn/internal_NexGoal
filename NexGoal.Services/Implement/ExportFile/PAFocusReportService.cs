@@ -33,8 +33,8 @@ namespace NexGoal.Services.Implement
 
         public MemoryStream ExportPAFocus(IEnumerable<PAFocusModel> focuses, int periodId)
         {
-            this.titleHeaders = new List<string> 
-            { 
+            this.titleHeaders = new List<string>
+            {
                 Lang.SymbolCount,
                 Lang.FullName,
                 Lang.NickName,
@@ -113,71 +113,106 @@ namespace NexGoal.Services.Implement
             IFont blueFont = workbook.CreateFont();
             blueFont.Color = HSSFColor.Green.Index;
 
-            ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
             ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
+            ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
 
-            ICellStyle bodyStyleLeft1 = workbook.CreateCellStyle();
-            bodyStyleLeft1.Alignment = HorizontalAlignment.Left;
-            bodyStyleLeft1.VerticalAlignment = VerticalAlignment.Center;
+            ICellStyle goldStyleLeft = workbook.CreateCellStyle();
+            goldStyleLeft.Alignment = HorizontalAlignment.Left;
+            goldStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            goldStyleLeft.FillForegroundColor = HSSFColor.LightYellow.Index;
+            goldStyleLeft.FillPattern = FillPattern.SolidForeground;
+            goldStyleLeft.FillBackgroundColor = HSSFColor.LightYellow.Index;
 
-            ICellStyle bodyStyleLeft2 = workbook.CreateCellStyle();
-            bodyStyleLeft2.Alignment = HorizontalAlignment.Left;
-            bodyStyleLeft2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyleLeft2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyleLeft2.FillPattern = FillPattern.SolidForeground;
-            bodyStyleLeft2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+            ICellStyle goldStyleCenter = workbook.CreateCellStyle();
+            goldStyleCenter.Alignment = HorizontalAlignment.Center;
+            goldStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            goldStyleCenter.FillForegroundColor = HSSFColor.LightYellow.Index;
+            goldStyleCenter.FillPattern = FillPattern.SolidForeground;
+            goldStyleCenter.FillBackgroundColor = HSSFColor.LightYellow.Index;
 
-            ICellStyle bodyStyleCenter1 = workbook.CreateCellStyle();
-            bodyStyleCenter1.Alignment = HorizontalAlignment.Center;
-            bodyStyleCenter1.VerticalAlignment = VerticalAlignment.Center;
+            ICellStyle goldBlueStyleCenter = workbook.CreateCellStyle();
+            goldBlueStyleCenter.Alignment = HorizontalAlignment.Center;
+            goldBlueStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            goldBlueStyleCenter.FillForegroundColor = HSSFColor.LightYellow.Index;
+            goldBlueStyleCenter.FillPattern = FillPattern.SolidForeground;
+            goldBlueStyleCenter.FillBackgroundColor = HSSFColor.LightYellow.Index;
+            goldBlueStyleCenter.SetFont(blueFont);
 
-            ICellStyle bodyStyleRedCenter1 = workbook.CreateCellStyle();
-            bodyStyleRedCenter1.Alignment = HorizontalAlignment.Center;
-            bodyStyleRedCenter1.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyleRedCenter1.SetFont(redFont);
+            ICellStyle goldRedStyleCenter = workbook.CreateCellStyle();
+            goldRedStyleCenter.Alignment = HorizontalAlignment.Center;
+            goldRedStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            goldRedStyleCenter.FillForegroundColor = HSSFColor.LightYellow.Index;
+            goldRedStyleCenter.FillPattern = FillPattern.SolidForeground;
+            goldRedStyleCenter.FillBackgroundColor = HSSFColor.LightYellow.Index;
+            goldRedStyleCenter.SetFont(redFont);
 
-            ICellStyle bodyStyleBlueCenter1 = workbook.CreateCellStyle();
-            bodyStyleBlueCenter1.Alignment = HorizontalAlignment.Center;
-            bodyStyleBlueCenter1.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyleBlueCenter1.SetFont(blueFont);
+            ICellStyle normalStyleLeft = workbook.CreateCellStyle();
+            normalStyleLeft.Alignment = HorizontalAlignment.Left;
+            normalStyleLeft.VerticalAlignment = VerticalAlignment.Center;
 
-            ICellStyle bodyStyleCenter2 = workbook.CreateCellStyle();
-            bodyStyleCenter2.Alignment = HorizontalAlignment.Center;
-            bodyStyleCenter2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyleCenter2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyleCenter2.FillPattern = FillPattern.SolidForeground;
-            bodyStyleCenter2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
+            ICellStyle normalStyleCenter = workbook.CreateCellStyle();
+            normalStyleCenter.Alignment = HorizontalAlignment.Center;
+            normalStyleCenter.VerticalAlignment = VerticalAlignment.Center;
 
-            ICellStyle bodyStyleBlueCenter2 = workbook.CreateCellStyle();
-            bodyStyleBlueCenter2.Alignment = HorizontalAlignment.Center;
-            bodyStyleBlueCenter2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyleBlueCenter2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyleBlueCenter2.FillPattern = FillPattern.SolidForeground;
-            bodyStyleBlueCenter2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyleBlueCenter2.SetFont(blueFont);
+            ICellStyle normalBlueStyleCenter = workbook.CreateCellStyle();
+            normalBlueStyleCenter.Alignment = HorizontalAlignment.Center;
+            normalBlueStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            normalBlueStyleCenter.SetFont(blueFont);
 
-            ICellStyle bodyStyleRedCenter2 = workbook.CreateCellStyle();
-            bodyStyleRedCenter2.Alignment = HorizontalAlignment.Center;
-            bodyStyleRedCenter2.VerticalAlignment = VerticalAlignment.Center;
-            bodyStyleRedCenter2.FillForegroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyleRedCenter2.FillPattern = FillPattern.SolidForeground;
-            bodyStyleRedCenter2.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
-            bodyStyleRedCenter2.SetFont(redFont);
+            ICellStyle normalRedStyleCenter = workbook.CreateCellStyle();
+            normalRedStyleCenter.Alignment = HorizontalAlignment.Center;
+            normalRedStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            normalRedStyleCenter.SetFont(redFont);
+
+            ICellStyle roseStyleCenter = workbook.CreateCellStyle();
+            roseStyleCenter.Alignment = HorizontalAlignment.Center;
+            roseStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            roseStyleCenter.FillForegroundColor = HSSFColor.Rose.Index;
+            roseStyleCenter.FillPattern = FillPattern.SolidForeground;
+            roseStyleCenter.FillBackgroundColor = HSSFColor.Rose.Index;
+
+            ICellStyle roseBlueStyleCenter = workbook.CreateCellStyle();
+            roseBlueStyleCenter.Alignment = HorizontalAlignment.Center;
+            roseBlueStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            roseBlueStyleCenter.FillForegroundColor = HSSFColor.Rose.Index;
+            roseBlueStyleCenter.FillPattern = FillPattern.SolidForeground;
+            roseBlueStyleCenter.FillBackgroundColor = HSSFColor.Rose.Index;
+            roseBlueStyleCenter.SetFont(blueFont);
+
+            ICellStyle roseRedStyleCenter = workbook.CreateCellStyle();
+            roseRedStyleCenter.Alignment = HorizontalAlignment.Center;
+            roseRedStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            roseRedStyleCenter.FillForegroundColor = HSSFColor.Rose.Index;
+            roseRedStyleCenter.FillPattern = FillPattern.SolidForeground;
+            roseRedStyleCenter.FillBackgroundColor = HSSFColor.Rose.Index;
+            roseRedStyleCenter.SetFont(redFont);
+
+            ICellStyle roseStyleLeft = workbook.CreateCellStyle();
+            roseStyleLeft.Alignment = HorizontalAlignment.Left;
+            roseStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            roseStyleLeft.FillForegroundColor = HSSFColor.Rose.Index;
+            roseStyleLeft.FillPattern = FillPattern.SolidForeground;
+            roseStyleLeft.FillBackgroundColor = HSSFColor.Rose.Index;
 
             ICell cellBody;
 
             foreach (PAFocusModel pa in focuses)
             {
                 columnIndex = 0;
-                if (rowIndex % 2 == 0)
+                if (pa.BonusGiven + pa.Contribution == 10)
                 {
-                    bodyStyleLeft = bodyStyleLeft2;
-                    bodyStyleCenter = bodyStyleCenter2;
+                    bodyStyleCenter = goldStyleCenter;
+                    bodyStyleLeft = goldStyleLeft;
+                }
+                else if (pa.BonusGiven + pa.Contribution == 9)
+                {
+                    bodyStyleCenter = roseStyleCenter;
+                    bodyStyleLeft = roseStyleLeft;
                 }
                 else
                 {
-                    bodyStyleLeft = bodyStyleLeft1;
-                    bodyStyleCenter = bodyStyleCenter1;
+                    bodyStyleCenter = normalStyleCenter;
+                    bodyStyleLeft = normalStyleLeft;
                 }
 
                 IRow row = sheet.CreateRow(rowIndex);
@@ -202,7 +237,7 @@ namespace NexGoal.Services.Implement
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                 cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.CellStyle = bodyStyleLeft;
                 cellBody.SetCellValue(pa.Employee.Group.GroupName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
@@ -221,17 +256,24 @@ namespace NexGoal.Services.Implement
                 var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? Lang.Yes : Lang.No : Lang.Dash;
                 if (promotion == Lang.Yes)
                 {
-                    if (rowIndex % 2 == 0)
+                    if (pa.BonusGiven + pa.Contribution == 10)
                     {
                         cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = bodyStyleBlueCenter2;
+                        cellBody.CellStyle = goldBlueStyleCenter;
+                        cellBody.SetCellValue(promotion);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
+                    else if (pa.BonusGiven + pa.Contribution == 9)
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = roseBlueStyleCenter;
                         cellBody.SetCellValue(promotion);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
                     else
                     {
                         cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = bodyStyleBlueCenter1;
+                        cellBody.CellStyle = normalBlueStyleCenter;
                         cellBody.SetCellValue(promotion);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
@@ -247,17 +289,24 @@ namespace NexGoal.Services.Implement
                 var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? Lang.Yes : Lang.No : Lang.Dash;
                 if (performance == Lang.Yes)
                 {
-                    if (rowIndex % 2 == 0)
+                    if (pa.BonusGiven + pa.Contribution == 10)
                     {
                         cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = bodyStyleRedCenter2;
+                        cellBody.CellStyle = goldRedStyleCenter;
+                        cellBody.SetCellValue(performance);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
+                    else if (pa.BonusGiven + pa.Contribution == 9)
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = roseRedStyleCenter;
                         cellBody.SetCellValue(performance);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
                     else
                     {
                         cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = bodyStyleRedCenter1;
+                        cellBody.CellStyle = normalRedStyleCenter;
                         cellBody.SetCellValue(performance);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
@@ -269,9 +318,9 @@ namespace NexGoal.Services.Implement
                     cellBody.SetCellValue(performance);
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                 }
-                
+
                 cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.CellStyle = bodyStyleLeft;
                 cellBody.SetCellValue(pa.LastCompletedPercentObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
