@@ -48,10 +48,11 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         return true;
     };
 
-    targetTemplateModel.createTargetTemplate = function (targetTemplate) {
+    targetTemplateModel.createTargetTemplate = function (targetTemplate, modalInstance) {
         return targetTemplateFactory.createTargetTemplate(targetTemplate).success(function (response) {
             if (response.IsSuccessful) {
                 notificationFactory.success("CreatedSuccessfully");
+                modalInstance.close();
             }
             else {
                 notificationFactory.error("", response.Message);
@@ -166,6 +167,17 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
         .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    targetTemplateModel.openPopupCreateTargetTemplate = function () {
+        targetTemplateModel.modalInstance = $modal.open({
+            templateUrl: "SourceApp/Components/TargetTemplate/Templates/modalCreateTargetTemplate.html",
+            controller: "CreateTargetTemplateController as createTargetTemplateCtrl",
+            backdrop: "static",
+            windowClass: "modal-confirm-center"
+        });
+
+        return targetTemplateModel.modalInstance.result;
     };
 
     targetTemplateModel.openPopupDeleteTargetTemplate = function (vm, targetTemplate) {

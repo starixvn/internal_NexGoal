@@ -64,7 +64,9 @@ function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumera
     };
 
     vm.create = function () {
-        $location.path(baseUrl + "TargetTemplate/Create");
+        TargetTemplateModel.openPopupCreateTargetTemplate().then(function () {
+            vm.query(vm.filter);
+        });
     };
 
     vm.confirmActive = function (targetTemplate) {
@@ -86,53 +88,6 @@ function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumera
 
     vm.detail = function (targetTemplate) {
         $location.path(baseUrl + "TargetTemplate/Detail/" + targetTemplate.TargetTemplateId);
-    };
-}]);
-
-targetTemplateModule.controller('CreateTargetTemplateController',
-['$location', 'TargetTemplateModel', 'CommonModel', 'enumerationsFactory', 'baseUrl', 'historyFactory',
-function ($location, TargetTemplateModel, CommonModel, enumerationsFactory, baseUrl, historyFactory) {
-    var vm = this;
-    vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
-    vm.permission = TargetTemplateModel.permission;
-    vm.ratingTypes = TargetTemplateModel.ratingTypes;
-
-    if (vm.permission !== enumerationsFactory.policy.Host) {
-        $location.path(baseUrl + 'Home/AccessDenied');
-    }
-
-    vm.targetTemplate = {
-        Name: '',
-        TargetTypeId: '',
-        ScoreRatingTypeId: 3,
-        RatingTypeId: 1,
-        IsActive: true,
-        Description: ''
-    };
-    vm.targetTypes = CommonModel.targetTypes;
-
-    CommonModel.getTargetType(true).then(function () {
-        vm.targetTypes = CommonModel.targetTypes;
-    });
-
-    TargetTemplateModel.getScoreRatingType(null, true).then(function () {
-        vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
-    });
-
-    TargetTemplateModel.getRatingType().then(function () {
-        vm.ratingTypes = TargetTemplateModel.ratingTypes;
-    });
-
-    vm.save = function (targetTemplate) {
-        if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-            TargetTemplateModel.createTargetTemplate(targetTemplate).then(function () {
-                historyFactory.back();
-            });
-        }
-    };
-
-    vm.cancel = function () {
-        historyFactory.back();
     };
 }]);
 

@@ -1,15 +1,14 @@
-﻿(function (targetTemplateModule) { 
+﻿(function (targetTemplateModule) {
     "use strict";
 
-    targetEmployeeSettingModule.controller("CreateTargetTemplateController2", createTargetTemplateController);
+    targetTemplateModule.controller("CreateTargetTemplateController", createTargetTemplateController);
 
-    createTargetTemplateController.$inject = ['$modalInstance', 'TargetTemplateModel', 'CommonModel']
+    createTargetTemplateController.$inject = ['$modalInstance', 'TargetTemplateModel', 'CommonModel'];
 
     function createTargetTemplateController($modalInstance, TargetTemplateModel, CommonModel) {
         var vm = this;
 
         vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
-        vm.permission = TargetTemplateModel.permission;
         vm.ratingTypes = TargetTemplateModel.ratingTypes;
 
         vm.targetTemplate = {
@@ -34,11 +33,9 @@
             vm.ratingTypes = TargetTemplateModel.ratingTypes;
         });
 
-        vm.save = function (targetTemplate) {
-            if (TargetTemplateModel.validateTargetTemplate(targetTemplate)) {
-                TargetTemplateModel.createTargetTemplate(targetTemplate).then(function () {
-                    historyFactory.back();
-                });
+        vm.save = function () {
+            if (TargetTemplateModel.validateTargetTemplate(vm.targetTemplate)) {
+                TargetTemplateModel.createTargetTemplate(vm.targetTemplate, $modalInstance);
             }
         };
 
