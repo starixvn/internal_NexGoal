@@ -302,6 +302,10 @@
     border: none;
     margin-left: 295px;
     padding-left: 17px;
+
+    &.full-size {
+        margin-left: 0;
+    }
 }
 
 .kpiGroup {
@@ -613,7 +617,7 @@
 
     .sub-total {
         td {
-            background: #f5cdb0;
+            background: #f5cdb0 !important;
             color: #2b2b2b;
             font-weight: 600;
         }
@@ -674,9 +678,10 @@
     }
 }
 
-.modal-view-comment {
+.modal-view-comment,
+.modal-scrollable {
     min-height: 200px;
-    max-height: 400px;
+    max-height: 550px;
     overflow-y: auto;
 
     .comment {

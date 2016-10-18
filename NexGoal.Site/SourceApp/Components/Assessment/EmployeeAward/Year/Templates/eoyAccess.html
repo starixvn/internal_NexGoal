@@ -175,9 +175,9 @@
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
                         <th data-translate="Nominee"></th>
-                        <th data-translate="Nominator"></th>
                         <th data-translate="Team"></th>
                         <th data-translate="Status"></th>
+                        <th data-translate="Nominator"></th>
                         <th data-translate="Action"></th>
                     </tr>
                 </thead>
@@ -195,7 +195,6 @@
                             {{item.Nominee.FullName}} ({{item.Nominee.NickName}})
                             <span ng-show="item.Nominations.length > 1"> - ({{item.Nominations.length}} votes)</span>
                         </td>
-                        <td>{{nomination.Nominator.FullName}} ({{nomination.Nominator.NickName}})</td>
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
                             <select class="nomination-status default-select"
@@ -211,6 +210,7 @@
                                 {{item.StatusToString}}
                             </span>
                         </td>
+                        <td>{{nomination.Nominator.FullName}} ({{nomination.Nominator.NickName}})</td>
                         <td class="text-center">
                             <a class="fa fa-search" title="View Detail"
                                ng-click="eoyAccessCtrl.viewNomination(nomination)"></a>

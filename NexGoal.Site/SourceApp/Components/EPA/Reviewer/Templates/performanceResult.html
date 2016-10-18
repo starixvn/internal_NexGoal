@@ -172,9 +172,10 @@
                     <span data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></span>
                 </td>
                 <td rowspan="{{kpi.EvaluationByEvaluators.length}}" ng-if="$first">
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
+                    <div class="comment-wrapper"
+                         ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                         <span ng-if="kpi.EvaluationBySelf.Comment.length > 50"
-                              tooltip="{{kpi.EvaluationBySelf.Comment}}"
+                              tooltip-html-unsafe='<div class="pre-line-tooltip">{{kpi.EvaluationBySelf.Comment}}</div>'
                               tooltip-placement="left">
                             {{kpi.EvaluationBySelf.Comment | limitTo : 50}} ...
                         </span>
@@ -193,9 +194,10 @@
                     <span data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>
                 </td>
                 <td>
-                    <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
+                    <div class="comment-wrapper"
+                         ng-show="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
                         <span ng-if="evaluator.Comment.length > 50"
-                              tooltip="{{evaluator.Comment}}"
+                              tooltip-html-unsafe='<div class="pre-line-tooltip">{{evaluator.Comment}}</div>'
                               tooltip-placement="left">
                             {{evaluator.Comment | limitTo : 50}} ...
                         </span>

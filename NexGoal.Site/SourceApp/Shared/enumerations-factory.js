@@ -53,24 +53,24 @@ appModule.factory('enumerationsFactory',
 
     enumerations.focusEvaluationLevel = [
         {
-            Value: 1,
-            Name: "Strongly disagree"
-        },
-        {
-            Value: 2,
-            Name: "Disagree"
-        },
-        {
-            Value: 3,
-            Name: "Neither agree nor disagree"
+            Value: 5,
+            Name: "Strongly agree"
         },
         {
             Value: 4,
             Name: "Agree"
         },
         {
-            Value: 5,
-            Name: "Strongly agree"
+            Value: 3,
+            Name: "Neither agree nor disagree"
+        },
+        {
+            Value: 2,
+            Name: "Disagree"
+        },
+        {
+            Value: 1,
+            Name: "Strongly disagree"
         }
     ];
 

@@ -161,7 +161,7 @@
                 templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/modalCreateEOY.html',
                 controller: "CreateEOYController as createEOYCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center period-create-popup"
+                windowClass: "modal-confirm-center popup-md"
             });
 
             return vm.modalInstance.result;
@@ -338,7 +338,7 @@
                 templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/modalEOYInfomation.html',
                 controller: "EOYModalInformationController as eoyModalInfoCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center"
+                windowClass: "modal-confirm-center popup-lg"
             });
 
             return vm.modalInstance.result;

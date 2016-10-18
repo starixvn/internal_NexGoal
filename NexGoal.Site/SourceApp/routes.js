@@ -2,7 +2,9 @@
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, departmentModule*/
 /*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule*/
-/*exported monthlyPeriodModule, menuModule, userInfoModule*/
+/*exported monthlyPeriodModule, menuModule, userInfoModule, pageModule*/
+
+var pageModule = angular.module("pageModule", []);
 
 var employeeModule = angular.module("employeeModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {

@@ -1,24 +1,31 @@
 ﻿@{
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container-fluid">
-        <a class="navbar-brand">
-            <img src="~/Content/Site/Components/images/nexgoal.svg" />
-        </a>
-        <div class="pull-right" ng-include src="'/SourceApp/Components/UserInfo/Templates/index.html'"></div>
-    </div>
-</nav>
-
-<div class="container-fluid page">
-    <div class="row">
-        <div class="sidebar" ng-include src="'/SourceApp/Components/Menu/Templates/index.html'">
+<div ng-controller="PageController as pageCtrl">
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="left-bar pull-left">
+            <a class="navbar-brand">
+                <img src="~/Content/Site/Components/images/nexgoal.svg" />
+            </a>
+            <a class="pull-right btn-hamberger"
+               ng-click="pageCtrl.modifyMenuVisibility()">
+                <i class="fa fa-bars"></i>
+            </a>
         </div>
-        <div class="main">
-            <div class="loading-process" style="display: none"></div>
-            <div class="section-wrap">
-                <div data-ng-view class="section-body"></div>
-            </div>            
+        <div class="auth-info pull-right" ng-include src="'/SourceApp/Components/UserInfo/Templates/index.html'"></div>
+        <div class="sidebar" ng-show="pageCtrl.menuVisibility">
+            <div ng-include src="'/SourceApp/Components/Menu/Templates/index.html'"></div>
+        </div>
+    </nav>
+
+    <div class="container-fluid page">
+        <div class="row">
+            <div class="main" ng-class="{'full-size': !menuVisibility}">
+                <div class="loading-process" style="display: none"></div>
+                <div class="section-wrap">
+                    <div data-ng-view class="section-body"></div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

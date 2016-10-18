@@ -170,7 +170,7 @@
                 templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/modalCreateEOQ.html',
                 controller: "CreateEOQController as createEOQCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center period-create-popup"
+                windowClass: "modal-confirm-center popup-md"
             });
 
             return vm.modalInstance.result;
@@ -352,7 +352,7 @@
                 templateUrl: 'SourceApp/Components/Assessment/EmployeeAward/Quarter/Templates/modelEOQInfomation.html',
                 controller: "EOQModalInformationController as eoqModalInfoCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center"
+                windowClass: "modal-confirm-center popup-lg"
             });
 
             return vm.modalInstance.result;

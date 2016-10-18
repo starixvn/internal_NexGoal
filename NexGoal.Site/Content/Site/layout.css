@@ -183,11 +183,19 @@ textarea.none-resize {
 .tooltip.in {
   opacity: 1;
 }
+.comment-wrapper .tooltip .tooltip-inner {
+  max-width: 700px;
+  min-width: 200px !important;
+}
 .text-uppercase {
   text-transform: uppercase;
 }
 .default-select option {
   color: #555;
+}
+.pre-line-tooltip {
+  white-space: pre-line;
+  line-height: 20px;
 }
 .navbar {
   min-height: 6rem;
@@ -1139,7 +1147,6 @@ header {
 .table tbody .comment td textarea.form-control[readonly],
 .table tbody .comment td textarea.form-control [disabled] {
   color: #808080;
-  background-color: #fff;
 }
 .table tbody .comment td ::-webkit-input-placeholder {
   color: #a6a6a6;
@@ -1241,7 +1248,7 @@ header {
   font-weight: 600;
 }
 .pa-form tr.total-row td {
-  background: #f5cdb0;
+  background: #f5cdb0 !important;
   border-color: #c3c3c3;
   color: #2b2b2b;
   font-weight: 600;
@@ -1603,7 +1610,7 @@ header {
   margin-top: 0;
 }
 .modal-confirm-center .modal-dialog {
-  margin-top: 13% !important;
+  margin-top: 5% !important;
 }
 .custom-modal .modal-header {
   background: none;
@@ -2027,6 +2034,7 @@ input[type=radio] {
   border: none;
   border-radius: 0;
   padding: 6px 0;
+  line-height: 1.8rem;
   /*&:last-child {
                 padding-bottom: 0;
             }*/
@@ -2200,11 +2208,6 @@ input[type=radio] {
 .pagination {
   margin: 0px;
 }
-@media (min-width: 768px) {
-  .main {
-    padding-left: 280px;
-  }
-}
 .textarea-comment textarea {
   height: 4em;
   resize: none;
@@ -2303,4 +2306,26 @@ input:checked + .slider:before {
 }
 .nomination-period-status.not-started {
   color: red;
+}
+.auth-info {
+  margin-right: 15px;
+}
+.left-bar {
+  padding-right: 15px;
+}
+.left-bar .btn-hamberger {
+  font-size: 15px;
+  color: #fff;
+}
+@media (min-width: 768px) {
+  .left-bar {
+    width: 279px;
+    background: #2C3B66;
+  }
+  .main {
+    padding-left: 280px;
+  }
+  .main.full-size {
+    padding-left: 0;
+  }
 }

@@ -82,6 +82,7 @@
                             "~/SourceApp/Components/Menu/menu-model.js",
                             "~/SourceApp/Components/Menu/menu-tab-directive.js",
                             "~/SourceApp/Components/Menu/menu-controller.js",
+                            "~/SourceApp/Components/Page/page-controller.js",
                             "~/SourceApp/Components/Employee/employee-factory.js",
                             "~/SourceApp/Components/Employee/employee-model.js",
                             "~/SourceApp/Components/Employee/employee-controller.js",

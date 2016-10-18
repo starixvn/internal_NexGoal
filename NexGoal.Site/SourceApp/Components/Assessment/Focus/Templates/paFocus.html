@@ -65,19 +65,19 @@
                 <th class="width-220" data-translate="DeserveRewards"></th>
                 <th data-translate="ApplicableToPromote"></th>
                 <th data-translate="PoorPerformance"></th>
-                <th colspan="2" data-translate="AccomplishedCurrentObjectives"></th>
+                <th data-translate="AccomplishedCurrentObjectives"></th>
                 <th data-translate="PAScore"></th>
-                <th colspan="2" data-translate="NextObjectives"></th>
+                <th data-translate="NextObjectives"></th>
             </tr>
         </thead>
         <tbody ng-show="groups.length === 0">
             <tr>
-                <td class="text-center empty-result" colspan="13" data-translate="EmptyResult"></td>
+                <td class="text-center empty-result" colspan="11" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tbody ng-show="groups.length > 0" ng-repeat="group in groups">
             <tr class="group-row">
-                <td colspan="13">{{group.Name}}</td>
+                <td colspan="11">{{group.Name}}</td>
             </tr>
             <tr ng-repeat="member in group.Members"
                 ng-class="{'outstanding': member.Contribution + member.BonusGiven === 10, 'very-good': member.Contribution + member.BonusGiven === 9}">
@@ -125,17 +125,12 @@
                           ng-bind="::member.IsPoorPerformance ? 'Yes' : (member.IsPoorPerformance === null ? '-' : 'No')">
                     </span>
                 </td>
-                <td ng-class="{'text-center': member.LastCompletedPercentObjective.length === 0}">
-                    <span ng-show="member.LastCompletedPercentObjective.length <= 25 && member.LastCompletedPercentObjective.length > 0">
-                        {{member.LastCompletedPercentObjective}}
-                    </span>
-                    <span ng-show="member.LastCompletedPercentObjective.length > 25">{{member.LastCompletedPercentObjective | limitTo : 25}} ...</span>
-                    <span ng-show="member.LastCompletedPercentObjective.length === 0" data-translate="Dash"></span>
-                </td>
-                <td class="text-center">
-                    <a href="" 
+                <td class="text-center comment-wrapper">
+                    <a href=""
                        ng-click="paFocusCtrl.openPopupLastObjective(member)"
-                       ng-show="member.LastCompletedPercentObjective.length > 0">
+                       ng-show="member.LastCompletedPercentObjective.length > 0"
+                       tooltip-html-unsafe='<div class="pre-line-tooltip">{{member.LastCompletedPercentObjective}}</div>'
+                       tooltip-placement="left">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"
                            ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"></i>
                         <i class="fa fa-search" aria-hidden="true"
@@ -147,17 +142,12 @@
                     <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
                     <span ng-if="!member.FinalScore" data-translate="Dash"></span>
                 </td>
-                <td ng-class="{'text-center': member.NextDescriptionObjective.length === 0}">
-                    <span ng-show="member.NextDescriptionObjective.length <= 25 && member.NextDescriptionObjective.length > 0">
-                        {{member.NextDescriptionObjective}}
-                    </span>
-                    <span ng-show="member.NextDescriptionObjective.length > 25">{{member.NextDescriptionObjective | limitTo : 25}} ...</span>
-                    <span ng-show="member.NextDescriptionObjective.length === 0" data-translate="Dash"></span>
-                </td>
-                <td class="text-center">
+                <td class="text-center comment-wrapper">
                     <a href=""
                        ng-click="paFocusCtrl.openPopupObjective(member)"
-                       ng-show="member.NextDescriptionObjective.length > 0">
+                       ng-show="member.NextDescriptionObjective.length > 0"
+                       tooltip-html-unsafe='<div class="pre-line-tooltip">{{member.NextDescriptionObjective}}</div>'
+                       tooltip-placement="left">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"
                            ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"></i>
                         <i class="fa fa-search" aria-hidden="true"
@@ -170,8 +160,10 @@
     </table>
 
     <div class="navbar navbar-default navbar-fixed-bottom action-section"
-         ng-show="groups.length > 0 && vm.permission === vm.policy.Host && paFocusCtrl.allowToEdit">
+         ng-show="groups.length > 0 && vm.permission === vm.policy.Host && paFocusCtrl.allowToEdit"
+         ng-class="{'full-size': !menuVisibility}">
         <button class="button btn-cancel" data-translate="Reset" ng-click="paFocusCtrl.query()"></button>
         <button class="button" data-translate="Submit" ng-click="paFocusCtrl.save()"></button>
+        <span>{{pageCtrl.menuVisibility}}</span>
     </div>
 </div>

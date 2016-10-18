@@ -75,9 +75,7 @@
             <tbody ng-repeat="nomination in memberEPAInfoCtrl.employeeNominations">
                 <tr>
                     <td class="text-center" ng-bind="$index + 1"></td>
-                    <td>
-                        {{nomination.Title}}
-                        <span ng-show="nomination.NumberVotes > 1"> - (<b>{{nomination.NumberVotes}} votes</b>)</span>
+                    <td ng-bind="nomination.Title">
                     </td>
                     <td class="nomination-status"
                         ng-class="{'nominated': nomination.StatusId === 1, 'shortlisted': nomination.StatusId === 2, 'winner': nomination.StatusId === 3}">
@@ -110,9 +108,9 @@
                 <tr ng-if="violation.IsActive === true">
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="violation.EffectedDate | customDate"></td>
-                    <td>
+                    <td class="comment-wrapper">
                         <span ng-if="violation.Description.length > 50"
-                              tooltip="{{violation.Description}}"
+                              tooltip-html-unsafe='<div class="pre-line-tooltip">{{violation.Description}}</div>'
                               tooltip-placement="left">
                             {{violation.Description | limitTo : 50}} ...
                         </span>

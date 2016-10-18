@@ -38,9 +38,10 @@
                         </span>
                         <span ng-if="project.DecryptedScore === null || project.DecryptedScore.length === 0">-</span>
                     </td>
-                    <td class="text-center">
+                    <td class="comment-wrapper"
+                        ng-class="{'text-center': project.Comment === null || project.Comment.length === 0}">
                         <span ng-if="project.Comment.length > 50"
-                              tooltip="{{project.Comment}}"
+                              tooltip-html-unsafe='<div class="pre-line-tooltip">{{project.Comment}}</div>'
                               tooltip-placement="left">
                             {{project.Comment | limitTo : 50}} ...
                         </span>

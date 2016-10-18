@@ -521,6 +521,7 @@
     <Content Include="SourceApp\Components\EPA\Templates\employeeEfficiencyInfo.html" />
     <Content Include="SourceApp\Components\FlowManagement\create-flow-template-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\modalCreateFlowTemplate.html" />
+    <Content Include="SourceApp\Components\Page\page-controller.js" />
     <Content Include="SourceApp\Components\Menu\menu-controller.js" />
     <Content Include="SourceApp\Components\Menu\menu-factory.js" />
     <Content Include="SourceApp\Components\Menu\menu-model.js" />

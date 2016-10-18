@@ -193,7 +193,7 @@
                 templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalInformation.html',
                 controller: "PAModalInformationController as paModalInformationCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center"
+                windowClass: "modal-confirm-center popup-md"
             });
 
             return vm.modalInstance.result;
@@ -204,7 +204,7 @@
                 templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalLastObjective.html',
                 controller: "PAModalLastObjectiveController as paModalLastObjectiveCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center",
+                windowClass: "modal-confirm-center popup-md",
                 resolve: {
                     member: function () {
                         return angular.copy(member);
@@ -220,7 +220,7 @@
                 templateUrl: 'SourceApp/Components/Assessment/Focus/Templates/modalObjective.html',
                 controller: "PAModalObjectiveController as paModalObjectiveCtrl",
                 backdrop: 'static',
-                windowClass: "modal-confirm-center",
+                windowClass: "modal-confirm-center popup-md",
                 resolve: {
                     member: function () {
                         return angular.copy(member);

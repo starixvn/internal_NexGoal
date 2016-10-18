@@ -178,7 +178,7 @@ textarea {
     z-index: -1;
 }
 
-.tooltip {    
+.tooltip {
     &.top .tooltip-arrow {
         bottom: 2 * @tooltip-border-width;
         border-top-color: #eaeaea !important;
@@ -234,7 +234,12 @@ textarea {
     }
 }
 
-
+.comment-wrapper {
+    .tooltip .tooltip-inner {
+        max-width: 700px;
+        min-width: 200px !important;
+    }
+}
 
 .text-uppercase {
     text-transform: uppercase;
@@ -244,4 +249,9 @@ textarea {
     option {
         color: #555;
     }
+}
+
+.pre-line-tooltip {
+    white-space: pre-line;
+    line-height: 20px;
 }
