@@ -59,7 +59,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
                     return comment;
                 }
             },
-            windowClass: "modal-confirm-center"
+            windowClass: "modal-confirm-center popup-md"
         });
 
         return vm.modalInstance.result;

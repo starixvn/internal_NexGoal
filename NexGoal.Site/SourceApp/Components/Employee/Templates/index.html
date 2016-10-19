@@ -76,7 +76,7 @@
                             <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                         </td>
                         <td ng-bind="employee.JobTitle.JobTitleName"></td>
-                        <td class="authority-employee-role text-center">
+                        <td class="authority-employee-role">
                             <span ng-repeat="role in employee.Roles">
                                 {{role.RoleCode}}<span ng-if="!$last">,</span>
                             </span>
