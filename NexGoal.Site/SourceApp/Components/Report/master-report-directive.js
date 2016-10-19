@@ -27,8 +27,20 @@
             var employee = cell.Value;
 
             if (employee && employee.Comment && employee.Comment.length > 0) {
-                htmlString = '<a class="current-objective" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+                htmlString = "<a class=\"current-objective\" data-employee-id=" +
+                employee.EmployeeId + " title='" + employee.Comment + "'><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
             }
+
+            return htmlString;
+        }
+
+        function renderEvaluatorComments(evaluators) {
+            var htmlString = "";
+
+            angular.forEach(evaluators, function (evaluator) {
+                htmlString += "<p>Evaluator: " + "<b>" + evaluator.EvaluatorFullName + " (" + evaluator.EvaluatorNickName + ")</b></p>";
+                htmlString += "<p>" + evaluator.Comment + "</p>";
+            });
 
             return htmlString;
         }
@@ -38,7 +50,10 @@
             var employee = cell.Value;
 
             if (employee && employee.Comments && employee.Comments.length > 0) {
-                htmlString = '<a class="evaluator-comment" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+                var commentHtmlString = renderEvaluatorComments(employee.Comments);
+
+                htmlString = "<a class=\"evaluator-comment\" data-employee-id=" +
+                employee.EmployeeId + " title='" + commentHtmlString + "'><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
             }
 
             return htmlString;
@@ -59,17 +74,24 @@
             var employee = cell.Value;
 
             if (employee && employee.Comment && employee.Comment.length > 0) {
-                htmlString = '<a class="next-objectives" data-employee-id=' + employee.EmployeeId + '><i class="fa fa-search" aria-hidden="true"></i></a>';
+                htmlString = "<a class=\"next-objectives\" data-employee-id=" +
+                employee.EmployeeId + " title='" + employee.Comment + "'><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
             }
 
             return htmlString;
         }
 
-        function renderProjectComment(projectId, employeeId, projectComment) {
+        function renderProjectCommentTooltip(project) {
+            var htmlString = "";
+
+            return htmlString;
+        }
+
+        function renderProjectComment(project) {
             var htmlString = "-";
 
-            if (projectComment && projectComment.length > 0) {
-                htmlString = "<a class='project-comment' data-employee-id=" + employeeId + " data-project-id=" + projectId +
+            if (project.Comment && project.Comment.length > 0) {
+                htmlString = "<a class='project-comment' data-employee-id=" + project.EmployeeId + " data-project-id=" + project.ProjectId +
                         "><i class='fa fa-search'></i></a>";
             }
 
@@ -144,7 +166,7 @@
                         }
 
                         row += renderProjectScore(project.DecryptedScore) +
-                            "<td class='text-center'>" + renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
+                            "<td class='text-center'>" + renderProjectComment(project) + "</td>";
                     }
 
                     row += "</tr>";
@@ -178,7 +200,7 @@
                 } else {
                     row += "<td>" + project.ProjectName + "</td>" +
                         renderProjectScore(project.DecryptedScore) +
-                        "<td class='text-center'>" + renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
+                        "<td class='text-center'>" + renderProjectComment(project) + "</td>";
                 }
 
                 row += "</tr>";
@@ -213,7 +235,7 @@
                     row += "<td><a class='col-projects-expand' data-employee-id='" + employeeId +
                         "'><i class='fa fa-caret-down'></i></a>&nbsp;" + project.ProjectName + "</td>" +
                         renderProjectScore(project.DecryptedScore) +
-                        "<td class='text-center'>" + renderProjectComment(project.ProjectId, project.EmployeeId, project.Comment) + "</td>";
+                        "<td class='text-center'>" + renderProjectComment(project) + "</td>";
                     firstProject = false;
                 } else {
                     row += syncRender ? "<td class='text-center'>-</td><td  class='text-center'>-</td><td  class='text-center'>-</td>" : "";
@@ -519,10 +541,10 @@
                         $self.addClass("on-focus");
                     });
 
-                    $(element.find(".award-tooltip")).tooltip({
+                    $(element.find(".award-tooltip, .next-objectives, .current-objective, .evaluator-comment")).tooltip({
                         placement: 'left',
                         html: true,
-                        container: "body"
+                        container: ".master-report-container"
                     });
                 });
             }

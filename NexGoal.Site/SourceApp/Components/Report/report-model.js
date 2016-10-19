@@ -47,7 +47,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportComment.html",
             controller: "ModalMasterReportCommentController as modalMasterReportCommentCtrl",
             backdrop: "static",
-            windowClass: "modal-confirm-center",
+            windowClass: "modal-confirm-center popup-md",
             resolve: {
                 comment: function () {
                     return angular.copy(comment);
@@ -101,7 +101,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportProject.html",
             controller: "ModalMasterReportProjectController as modalMasterReportProjectCtrl",
             backdrop: "static",
-            windowClass: "modal-confirm-center",
+            windowClass: "modal-confirm-center popup-md",
             resolve: {
                 project: function () {
                     return angular.copy(project);
@@ -129,7 +129,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
             templateUrl: "SourceApp/Components/Report/Templates/modalMasterReportEvaluatorComment.html",
             controller: "ModalMasterReportEvaluatorCommentController as modalMasterReportEvaluatorCommentCtrl",
             backdrop: "static",
-            windowClass: "modal-confirm-center popup-lg",
+            windowClass: "modal-confirm-center popup-md",
             resolve: {
                 evaluatorComments: function () {
                     return angular.copy(employee.EvaluatorComments);

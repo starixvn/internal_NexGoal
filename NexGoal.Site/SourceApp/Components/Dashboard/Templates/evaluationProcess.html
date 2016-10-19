@@ -39,7 +39,7 @@
 
                 <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Self.StatusEndProcess)" class="process-item"
                     ng-if="!(epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual)">
-                    <div><strong data-translate="Self"></strong></div>
+                    <div data-translate="Self"></div>
                     <div>
                         <span ng-bind="epaInfo.Process.Self.StartDate | customDate"></span>
                         <span> - </span>
@@ -58,7 +58,7 @@
                 <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Evaluators[0].StatusEndProcess)" class="process-item"
                     ng-if="!(epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual)">
                     <div>
-                        <strong>{{"Evaluator" | translate}}: </strong>
+                        <span>{{"Evaluator" | translate}}: </span>
                         <span ng-show="epaInfo.Process.Evaluators.length == 1" ng-bind="epaInfo.Process.Evaluators[0].NickName"
                               popover-avatar avatar-src="{{epaInfo.Process.Evaluators[0].Avatar}}"></span>
                         <span ng-show="epaInfo.Process.Evaluators.length > 1" ng-repeat="evaluator in epaInfo.Process.Evaluators">
@@ -84,7 +84,7 @@
                 <li ng-if="epaInfo.Process.Reviewers.length > 0"
                     ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Reviewers[0].StatusEndProcess)" class="process-item">
                     <div>
-                        <strong>{{"Reviewer" | translate}}:</strong>
+                        <span>{{"Reviewer" | translate}}:</span>
                         <span ng-show="epaInfo.Process.Reviewers.length == 1" ng-bind="epaInfo.Process.Reviewers[0].NickName"
                               popover-avatar avatar-src="{{epaInfo.Process.Reviewers[0].Avatar}}"></span>
                         <span ng-show="epaInfo.Process.Reviewers.length > 1" ng-repeat="reviewer in epaInfo.Process.Reviewers">
@@ -108,7 +108,7 @@
                     </div>
                 </li>
                 <li ng-if="epaInfo.IsMonthly || epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual" class="process-item final">
-                    <div><strong data-translate="FinalScore"></strong></div>
+                    <div><span data-translate="FinalScore"></span></div>
                     <div>
                         <span data-translate="EndPeriod"></span>: <span ng-bind="epaInfo.Period.EndDate | customDate"></span>
                     </div>

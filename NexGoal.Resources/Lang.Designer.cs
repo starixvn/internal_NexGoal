@@ -1735,6 +1735,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exam Date.
+        /// </summary>
+        public static string ExamDate {
+            get {
+                return ResourceManager.GetString("ExamDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Excellent.
         /// </summary>
         public static string Excellent {
@@ -2406,6 +2415,15 @@ namespace NexGoal.Resources {
         public static string LimitedWords {
             get {
                 return ResourceManager.GetString("LimitedWords", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Listening.
+        /// </summary>
+        public static string Listening {
+            get {
+                return ResourceManager.GetString("Listening", resourceCulture);
             }
         }
         
@@ -3459,6 +3477,15 @@ namespace NexGoal.Resources {
         public static string RatingTypeRequired {
             get {
                 return ResourceManager.GetString("RatingTypeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Reading.
+        /// </summary>
+        public static string Reading {
+            get {
+                return ResourceManager.GetString("Reading", resourceCulture);
             }
         }
         
@@ -4665,6 +4692,15 @@ namespace NexGoal.Resources {
         public static string ValidateWrongPassword {
             get {
                 return ResourceManager.GetString("ValidateWrongPassword", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to (*) Vietnamese is recommended..
+        /// </summary>
+        public static string VietnameseIsRecommendedLabel {
+            get {
+                return ResourceManager.GetString("VietnameseIsRecommendedLabel", resourceCulture);
             }
         }
         

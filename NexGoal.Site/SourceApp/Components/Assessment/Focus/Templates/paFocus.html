@@ -106,7 +106,8 @@
                             ng-class="{'good': member.IsReadyPromotion, 'normal': !member.IsReadyPromotion}"
                             ng-model="member.IsReadyPromotion"
                             ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
-                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"></select>
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
+                            ng-change="paFocusCtrl.onIsReadyPromotionFieldChange(member)"></select>
                     <span class="focus-evaluation-status"
                           ng-class="{'good': member.IsReadyPromotion, 'normal': !member.IsReadyPromotion}"
                           ng-show="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"
@@ -118,7 +119,8 @@
                             ng-class="{'warning': member.IsPoorPerformance, 'normal': !member.IsPoorPerformance}"
                             ng-model="member.IsPoorPerformance"
                             ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
-                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"></select>
+                            ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
+                            ng-change="paFocusCtrl.onIsPoorPerformanceFieldChange(member)"></select>
                     <span class="focus-evaluation-status"
                           ng-class="{'warning': member.IsPoorPerformance, 'normal': !member.IsPoorPerformance}"
                           ng-show="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"

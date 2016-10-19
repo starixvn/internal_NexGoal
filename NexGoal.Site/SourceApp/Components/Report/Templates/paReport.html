@@ -53,7 +53,7 @@
             <table class="table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">
-                        <th colspan="12">
+                        <th colspan="13">
                             <input type="text" class="search-inline-textbox search pull-right"
                                    ng-model="paReportCtrl.searchKey"
                                    ng-change="paReportCtrl.search()" />
@@ -72,6 +72,7 @@
                         <th data-translate="ReviewerScore"></th>
                         <th data-translate="PAFinalScore"></th>
                         <th data-translate="Grade"></th>
+                        <th data-translate="Action"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -109,14 +110,23 @@
                             <span ng-show="pa.Period.IsEndPeriod && !pa.Grade" data-translate="Dash"></span>
                             <span ng-show="pa.Period.IsEndPeriod && pa.Grade">{{pa.Grade}}</span>
                         </td>
+                        <td class="text-center">
+                            <span ng-show="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
+                            <span ng-show="pa.Period.IsEndPeriod">
+                                <a title="View Detail"
+                                   ng-click="paReportCtrl.viewEPADetail(pa.EPAId)">
+                                    <i class="fa fa-search"></i>
+                                </a>
+                            </span>
+                        </td>
                     </tr>
                     <tr ng-show="paReportCtrl.filteredItems.length == 0">
-                        <td class="empty-result" colspan="12" data-translate="EmptyResult"></td>
+                        <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
                 <tfoot ng-show="paReportCtrl.filteredItems.length > 0">
                     <tr>
-                        <td colspan="12" class="paging">
+                        <td colspan="13" class="paging">
                             <span data-translate="Show"></span>
                             <select class="dropdown-entry" ng-model="paReportCtrl.pageSize"
                                     ng-options="entry for entry in paReportCtrl.entries"></select>

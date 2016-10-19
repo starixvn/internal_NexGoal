@@ -3,9 +3,11 @@
 
     reportModule.controller("PAReportController", paReportController);
 
-    paReportController.$inject = ["$scope", "ReportModel", "CommonModel", "EmployeeModel", "utilitiesFactory", "lockScreenService"];
+    paReportController.$inject = ["$location", "$scope", "ReportModel", "CommonModel",
+        "EmployeeModel", "utilitiesFactory", "lockScreenService", "baseUrl"];
 
-    function paReportController($scope, ReportModel, CommonModel, EmployeeModel, utilitiesFactory, lockScreenService) {
+    function paReportController($location, $scope, ReportModel, CommonModel,
+        EmployeeModel, utilitiesFactory, lockScreenService, baseUrl) {
         var vm = this;
 
         vm.paReports = [];
@@ -31,7 +33,7 @@
                 utilitiesFactory.setSelectAll(vm.teams);
 
                 CommonModel.getReadyPeriod().then(function () {
-                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periods); 
+                    vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periods);
 
                     if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
                         utilitiesFactory.checkLastestPeriods(vm.periods);
@@ -66,12 +68,16 @@
             vm.filter.groupIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
             vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
-            ReportModel.getPAReport(vm.filter.periodIds, vm.filter.groupIds, utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee,vm.filter.employee)).then(function () {
+            ReportModel.getPAReport(vm.filter.periodIds, vm.filter.groupIds, utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee)).then(function () {
                 vm.paReports = ReportModel.paReports;
                 utilitiesFactory.searchOnPage(vm, vm.paReports);
             })["finally"](function () {
                 lockScreenService.stop();
             });
+        };
+
+        vm.viewEPADetail = function (epaId) {
+            $location.path(baseUrl + 'EPA/Detail/' + epaId);
         };
 
         initialize();

@@ -1728,4 +1728,16 @@
   <data name="Dash" xml:space="preserve">
     <value>-</value>
   </data>
+  <data name="Listening" xml:space="preserve">
+    <value>Listening</value>
+  </data>
+  <data name="Reading" xml:space="preserve">
+    <value>Reading</value>
+  </data>
+  <data name="ExamDate" xml:space="preserve">
+    <value>Exam Date</value>
+  </data>
+  <data name="VietnameseIsRecommendedLabel" xml:space="preserve">
+    <value>(*) Vietnamese is recommended.</value>
+  </data>
 </root>
