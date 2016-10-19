@@ -72,11 +72,6 @@
 
         private int GetMaxDataLength(int keySize)
         {
-            if (OptimalAsymmetricEncryptionPadding)
-            {
-                return ((keySize - 384) / 8) + 7;
-            }
-
             return ((keySize - 384) / 8) + 37;
         }
 

@@ -2,54 +2,54 @@
 'use strict';
 
 appModule.factory('notificationFactory', ['$translate', function ($translate) {
-    var normalOptions = {
-        timeout: 3000
-    },
-    errorOptions = {
-        timeout: 7000,
-        escapeHtml: true
+    var options = {
+        showDuration: "10000",
+        hideDuration: "1000",
+        timeOut: "5000",
+        extendedTimeOut: "1000"
     };
+    var title = '';
 
     return {
         success: function (keyMessage, message) {
             if (message === '' || message === null || message === undefined) {
                 $translate(keyMessage).then(function (responseMessage) {
-                    toastr.success(responseMessage, normalOptions);
+                    toastr.success(responseMessage, title, options);
                 });
             }
             else {
-                toastr.success(message, errorOptions);
+                toastr.success(message, title, options);
             }
         },
         error: function (keyMessage, message) {
             if (message === '' || message === null || message === undefined) {
                 $translate(keyMessage).then(function (responseMessage) {
-                    toastr.error(responseMessage, errorOptions);
+                    toastr.error(responseMessage, options);
                 });
             }
             else {
-                toastr.error(message, errorOptions);
+                toastr.error(message, title, options);
             }
         },
         warning: function (keyMessage, message) {
             if (message === '' || message === null || message === undefined) {
                 $translate(keyMessage).then(function (responseMessage) {
-                    toastr.warning(responseMessage, errorOptions);
+                    toastr.warning(responseMessage, title, options);
                 });
             }
             else {
-                toastr.warning(message, errorOptions);
+                toastr.warning(message, title, options);
             }
         },
         info: function (keyMessage, message) {
             if (message === '' || message === null || message === undefined) {
                 $translate(keyMessage).then(function (responseMessage) {
-                    toastr.info(responseMessage, normalOptions);
+                    toastr.info(responseMessage, title, options);
                 });
             }
             else {
-                toastr.info(message, normalOptions);
+                toastr.info(message, title, options);
             }
         }
     };
-} ]);
+}]);
