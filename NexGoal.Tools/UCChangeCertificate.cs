@@ -59,6 +59,7 @@
                 if (result == DialogResult.Yes)
                 {
                     IList<EPAModel> epaInfos = new List<EPAModel>();
+                    IEnumerable<PAFocusModel> pafocus = new List<PAFocusModel>();
                     X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
 
                     var connectionString = new StringBuilder();
@@ -69,6 +70,9 @@
                         X509Certificate2 oldCert2 = new X509Certificate2(txtOldCertificate.Text, txtOldPassword.Text, flags);
                         epaInfos = GetEPAInfoToChangeCertificate(connectionString.ToString());
                         DecryptScore(epaInfos, oldCert2);
+
+                        pafocus = commonService.GetAllPAFocus(connectionString.ToString());
+                        DecryptPAFocus(pafocus, oldCert2);
                     }
                     catch (Exception ex)
                     {
@@ -80,6 +84,8 @@
                     {
                         X509Certificate2 newCert2 = new X509Certificate2(txtNewCertificate.Text, txtNewPassword.Text, flags);
                         EncryptScore(epaInfos, newCert2);
+
+                        EncryptPAFocus(pafocus, newCert2);
                     }
                     catch (Exception ex)
                     {
@@ -87,6 +93,7 @@
                         return;
                     }
 
+                    commonService.UpdatePAFocus(connectionString.ToString(), pafocus);
                     UpdateEPAScore(epaInfos, connectionString.ToString());
                 }
             }
@@ -105,6 +112,28 @@
             IList<EPAModel> epaInfos = commonService.GetEPAInfoToChangeCertificate(setting, criteria);
 
             return epaInfos;
+        }
+
+        private void DecryptPAFocus(IEnumerable<PAFocusModel> focus, X509Certificate2 cert2)
+        {
+            foreach (var item in focus)
+            {
+                item.EncryptedBonusGiven = certificateService.Decrypt(cert2, item.EncryptedBonusGiven);
+                item.EncryptedContribution = certificateService.Decrypt(cert2, item.EncryptedContribution);
+                item.EncryptedIsPoorPerformance = certificateService.Decrypt(cert2, item.EncryptedIsPoorPerformance);
+                item.EncryptedIsReadyPromotion = certificateService.Decrypt(cert2, item.EncryptedIsReadyPromotion);
+            }
+        }
+
+        private void EncryptPAFocus(IEnumerable<PAFocusModel> focus, X509Certificate2 cert2)
+        {
+            foreach (var item in focus)
+            {
+                item.EncryptedBonusGiven = certificateService.Encrypt(cert2, item.EncryptedBonusGiven);
+                item.EncryptedContribution = certificateService.Encrypt(cert2, item.EncryptedContribution);
+                item.EncryptedIsPoorPerformance = certificateService.Encrypt(cert2, item.EncryptedIsPoorPerformance);
+                item.EncryptedIsReadyPromotion = certificateService.Encrypt(cert2, item.EncryptedIsReadyPromotion);
+            }
         }
 
         private void DecryptScore(IList<EPAModel> epaInfos, X509Certificate2 cert2)
@@ -222,6 +251,6 @@
             }
 
             return isValid;
-        }
+        }        
     }
 }

@@ -4,5 +4,7 @@
     <Setting Key="NexGoalTools_ResetScore" SpName="NexGoalTools_ResetScore" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="NexGoalTools_GetEPAInfoToChangeCertificate" SpName="NexGoalTools_GetEPAInfoToChangeCertificate" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="NexGoalTools_UpdateEPAScore" SpName="NexGoalTools_UpdateEPAScore" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="NexGoalTools_UpdatePAFocus" SpName="NexGoalTools_UpdatePAFocus" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="NexGoalTools_GetAllPAFocus" SpName="NexGoalTools_GetAllPAFocus" DbName="NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

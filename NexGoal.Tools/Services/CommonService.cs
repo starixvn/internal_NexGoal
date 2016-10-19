@@ -56,5 +56,33 @@
 
             return commandResult;
         }
+
+        public CommandResult UpdatePAFocus(string connectionString, IEnumerable<PAFocusModel> focus)
+        {
+            CommandResult commandResult = new CommandResult();
+            var criteria = new UpdatePAFocusCriteria { Evaluations = focus };
+            var setting = new DbSetting { ConnectionString = connectionString, SpName = criteria.GetSettingKey() };
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = repository.Update(setting, criteria);
+            }
+
+            return commandResult;
+        }
+
+        public IEnumerable<PAFocusModel> GetAllPAFocus(string connectionString)
+        {
+            var criteria = new GetAllPAFocusCriteria();
+            var setting = new DbSetting { ConnectionString = connectionString, SpName = criteria.GetSettingKey() };
+            IEnumerable<PAFocusModel> focuses = new List<PAFocusModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                focuses = commonRepository.GetAllPAFocus(setting, criteria);
+            }
+
+            return focuses;
+
+        }
     }
 }

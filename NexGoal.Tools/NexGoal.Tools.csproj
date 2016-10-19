@@ -81,6 +81,8 @@
     <Compile Include="Criteria\ResetScoreCriteria.cs" />
     <Compile Include="Criteria\ResultCriteria.cs" />
     <Compile Include="Criteria\UpdateEPAScoreCriteria.cs" />
+    <Compile Include="Criteria\GetAllPAFocusCriteria.cs" />
+    <Compile Include="Criteria\UpdatePAFocusCriteria.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -92,6 +94,7 @@
     <Compile Include="Model\EPAGroupDetailModel.cs" />
     <Compile Include="Model\EPAModel.cs" />
     <Compile Include="Model\EPAProcessModel.cs" />
+    <Compile Include="Model\PAFocus.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Repositories\BaseRepository.cs" />

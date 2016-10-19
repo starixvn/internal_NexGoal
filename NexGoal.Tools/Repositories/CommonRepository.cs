@@ -48,5 +48,13 @@
                 }
             }
         }
+
+        public IEnumerable<PAFocusModel> GetAllPAFocus(IDbSetting setting, ICriteria criteria)
+        {
+            using (var db = new ObjectDb(setting))
+            {
+                return db.Query<PAFocusModel>(criteria.GetSpParams());
+            }
+        }
     }
 }

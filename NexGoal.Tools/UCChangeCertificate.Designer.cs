@@ -241,6 +241,7 @@
             this.txtDatabaseName.Name = "txtDatabaseName";
             this.txtDatabaseName.Size = new System.Drawing.Size(190, 20);
             this.txtDatabaseName.TabIndex = 3;
+            this.txtDatabaseName.Text = "NexGoal";
             // 
             // label6
             // 
@@ -258,6 +259,7 @@
             this.txtServerName.Name = "txtServerName";
             this.txtServerName.Size = new System.Drawing.Size(216, 20);
             this.txtServerName.TabIndex = 21;
+            this.txtServerName.Text = "10.18.200.114";
             // 
             // groupBox3
             // 
@@ -305,6 +307,7 @@
             this.txtPassword.PasswordChar = '*';
             this.txtPassword.Size = new System.Drawing.Size(190, 21);
             this.txtPassword.TabIndex = 2;
+            this.txtPassword.Text = "@357$abc^FFZ%";
             // 
             // txtUserName
             // 
@@ -313,6 +316,7 @@
             this.txtUserName.Name = "txtUserName";
             this.txtUserName.Size = new System.Drawing.Size(190, 21);
             this.txtUserName.TabIndex = 1;
+            this.txtUserName.Text = "internalteam";
             // 
             // label5
             // 
