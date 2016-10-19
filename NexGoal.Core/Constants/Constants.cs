@@ -49,5 +49,7 @@
         public const string EndRootTag = "</ROOT>";
 
         public const int ExcelColumnWidth = 256;
+
+        public const int NotFoundHostName = 11001;
     }
 }

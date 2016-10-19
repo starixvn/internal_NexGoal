@@ -1,11 +1,10 @@
 ﻿namespace NexGoal.Core.Services
 {
-    using Fanex.Common;
     using Fanex.Logging;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Criteria;
     using NexGoal.Core.Model;
     using NexGoal.Core.Repositories;
-    using System.Linq;
     using System.Net;
     using System.Net.Sockets;
     using System.Web;
@@ -65,7 +64,10 @@
             }
             catch (SocketException ex)
             {
-                LogService.Error(ex.Message);
+                if (ex.ErrorCode != Constants.NotFoundHostName)
+                {
+                    LogService.Error("Can not find Host Name", ex);
+                }                
             }
 
             return hostName;
