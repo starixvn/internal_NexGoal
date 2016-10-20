@@ -9,9 +9,9 @@
 
     public partial class UCChangeCertificate : UserControl
     {
-        private readonly ICertificateService certificateService;
-        private readonly ICommonService commonService;
         private const int NumberOfItemToOperate = 50;
+        private readonly ICertificateService certificateService;
+        private readonly ICommonService commonService;        
 
         public UCChangeCertificate()
         {
@@ -89,14 +89,14 @@
             int idFrom = 1, idTo = NumberOfItemToOperate;
             while (isContinue)
             {
-                var paFocuses = commonService.GetAllPAFocus(connectionString, idFrom, idTo);
-                if (paFocuses.Any())
+                var focuses = commonService.GetAllPAFocus(connectionString, idFrom, idTo);
+                if (focuses.Any())
                 {
-                    DecryptPAFocus(paFocuses, oldCertificate);
+                    DecryptPAFocus(focuses, oldCertificate);
 
-                    EncryptPAFocus(paFocuses, newCertificate);
+                    EncryptPAFocus(focuses, newCertificate);
 
-                    var result = commonService.UpdatePAFocus(connectionString, paFocuses);
+                    var result = commonService.UpdatePAFocus(connectionString, focuses);
                     if (!result.IsSuccessful)
                     {
                         throw new Exception("Update PA Focus unsuccessful");
