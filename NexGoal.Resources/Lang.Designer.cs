@@ -4696,7 +4696,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to (*) Vietnamese is recommended..
+        ///   Looks up a localized string similar to Comments in Vietnamese are preferred..
         /// </summary>
         public static string VietnameseIsRecommendedLabel {
             get {

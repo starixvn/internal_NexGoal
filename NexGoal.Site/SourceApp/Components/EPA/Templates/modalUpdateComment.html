@@ -7,21 +7,21 @@
                 <span class="close-popup" ng-click="modalUpdateCommentCtrl.cancel()"></span>
             </div>
         </div>
-        <div class="modal-body modal-update-comment">
-            <div class="row">
-                <form class="row form-horizontal col-sm-11" role="form">
-                    <div class="form-group">
-                        <label class="col-sm-4 control-label">
-                            <span data-translate="Comment"></span>
-                            <span data-translate="(*)" class="note"></span>
-                        </label>
-                        <div class="col-sm-8 field">
-                            <textarea type="text" class="form-control comment" ng-readonly="!modalUpdateCommentCtrl.isEdit"
-                                      ng-model="modalUpdateCommentCtrl.comment" required></textarea>
-                        </div>
+        <div class="modal-body">
+            <form class="form-horizontal" role="form">
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">
+                        <span data-translate="Comment"></span>
+                        <span data-translate="(*)" class="note"
+                              ng-show="modalUpdateCommentCtrl.isEdit"></span>
+                    </label>
+                    <div class="col-sm-10 field">
+                        <textarea type="text" class="form-control" required rows="20"
+                                  ng-readonly="!modalUpdateCommentCtrl.isEdit"
+                                  ng-model="modalUpdateCommentCtrl.comment"></textarea>
                     </div>
-                </form>
-            </div>
+                </div>
+            </form>
         </div>
         <div class="modal-footer">
             <button class="button btn-cancel"

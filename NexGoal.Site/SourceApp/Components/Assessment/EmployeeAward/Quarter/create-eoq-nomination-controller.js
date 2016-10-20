@@ -7,6 +7,7 @@
 
     function createEOQNomination($filter, $modalInstance, EmployeeModel, EOQModel, utilitiesFactory, eoqNominationPeriod) {
         var vm = this;
+        var originEOQQuestions = [];
 
         vm.eoqNominationPeriod = eoqNominationPeriod;
         vm.searchEmployee = "";
@@ -24,6 +25,7 @@
                 });
 
                 vm.nominee.eoqQuestions = EOQModel.eoqQuestions;
+                originEOQQuestions = angular.copy(EOQModel.eoqQuestions);
             });
 
             utilitiesFactory.getDateFormat(vm);
@@ -60,7 +62,15 @@
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss("cancel");
+            if (EOQModel.isQuestionModified(originEOQQuestions, vm.nominee.eoqQuestions)) {
+                var cancelConfirm = confirm("Confirm message goes here.");
+
+                if (cancelConfirm) {
+                    $modalInstance.dismiss("cancel");
+                }
+            } else {
+                $modalInstance.dismiss("cancel");
+            }
         };
 
         initialize();

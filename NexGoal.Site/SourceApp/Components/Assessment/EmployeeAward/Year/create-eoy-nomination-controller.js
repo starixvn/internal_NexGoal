@@ -7,6 +7,7 @@
 
     function createEOYNominationController($filter, $modalInstance, EmployeeModel, EOYModel, utilitiesFactory, eoyNominationPeriod) {
         var vm = this;
+        var originEOYQuestions = [];
 
         vm.eoyNominationPeriod = eoyNominationPeriod;
         vm.searchEmployee = "";
@@ -24,6 +25,7 @@
                 });
 
                 vm.nominee.eoyQuestions = EOYModel.eoyQuestions;
+                originEOYQuestions = angular.copy(EOYModel.eoyQuestions);
             });
 
             utilitiesFactory.getDateFormat(vm);
@@ -60,7 +62,15 @@
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss("cancel");
+            if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions)) {
+                var cancelConfirm = confirm("Confirm message goes here.");
+
+                if (cancelConfirm) {
+                    $modalInstance.dismiss("cancel");
+                }
+            } else {
+                $modalInstance.dismiss("cancel");
+            }
         };
 
         initialize();

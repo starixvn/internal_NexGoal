@@ -38,7 +38,7 @@
                 templateUrl: "SourceApp/Components/Violation/Templates/createViolation.html",
                 controller: "CreateViolationController as createViolationCtrl",
                 backdrop: "static",
-                windowClass: "modal-confirm-center"
+                windowClass: "modal-confirm-center popup-md"
             });
 
             return model.modalInstance.result;
@@ -49,7 +49,7 @@
                 templateUrl: "SourceApp/Components/Violation/Templates/updateViolation.html",
                 controller: "UpdateViolationController as updateViolationCtrl",
                 backdrop: "static",
-                windowClass: "modal-confirm-center",
+                windowClass: "modal-confirm-center popup-md",
                 resolve: {
                     violation: function () {
                         return angular.copy(violation);

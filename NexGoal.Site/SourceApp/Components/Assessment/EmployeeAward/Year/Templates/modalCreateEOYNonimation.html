@@ -29,7 +29,11 @@
                     <input class="form-control" ng-model="createEOYNominationCtrl.eoyNominationPeriod.DueDay" ng-disabled="true" />
                 </div>
             </div>
-
+            <div class="form-group">
+                <div class="col-sm-12 field">
+                    <p class="note" data-translate="VietnameseIsRecommendedLabel"></p>
+                </div>
+            </div>
             <div class="form-group" ng-repeat="question in createEOYNominationCtrl.nominee.eoyQuestions">
                 <label class="col-sm-12 control-label required-label text-left">{{$index + 1}}. {{question.Name}}</label>
                 <div class="col-sm-12 field"
@@ -40,7 +44,6 @@
         </form>
     </div>
     <div class="modal-footer button-block">
-        <span class="note pull-left" data-translate="VietnameseIsRecommendedLabel"></span>
         <button class="button btn-cancel customize" ng-click="createEOYNominationCtrl.cancel()" data-translate="Cancel"></button>
         <button class="button" ng-click="createEOYNominationCtrl.submit()" data-translate="Submit"></button>
     </div>

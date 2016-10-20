@@ -17,6 +17,23 @@
         vm.nomination = {};
         vm.years = [];
 
+        vm.isQuestionModified = function (origin, modified) {
+            var isModified = false;
+
+            if (origin.length !== modified.length) {
+                isModified = true;
+            } else {
+                for (var i = 0; i < origin.length; i++) {
+                    if (origin[i].Comment !== modified[i].Comment) {
+                        isModified = true;
+                        break;
+                    }
+                }
+            }
+
+            return isModified;
+        };
+
         vm.getYearEOQ = function () {
             return eoqFactory.getYearEOQ().success(function (years) {
                 vm.years = years;

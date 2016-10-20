@@ -15,13 +15,13 @@
             </span>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.HumanResources[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
-            <label data-translate="Completed"></label><i class="fa fa-check-square-o" aria-hidden="true"></i>
+            <span data-translate="Completed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.HumanResources[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
-            <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+            <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.HumanResources[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
-            <label data-translate="Open"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+            <span data-translate="Open"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
         </div>
     </li>
     <li ng-class="memberEPAInfoCtrl.getClassProgress(memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess)" class="process-item">
@@ -35,13 +35,13 @@
             </span>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
-            <label data-translate="Completed"></label><i class="fa fa-check-square-o" aria-hidden="true"></i>
+            <span data-translate="Completed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
-            <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+            <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
-            <label data-translate="Open"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+            <span data-translate="Open"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
         </div>
     </li>
     <li ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 0"
@@ -60,13 +60,13 @@
             </span>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
-            <label data-translate="Completed"></label><i class="fa fa-check-square-o" aria-hidden="true"></i>
+            <span data-translate="Completed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
-            <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+            <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
-            <label data-translate="Open"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+            <span data-translate="Open"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
         </div>
     </li>
     <li ng-if="memberEPAInfoCtrl.epaInfo.Process.Reviewers.length > 0"
@@ -85,13 +85,13 @@
             </span>
         </div>
         <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.EndProcess">
-            <label data-translate="Completed"></label><i class="fa fa-check-square-o" aria-hidden="true"></i>
+            <span data-translate="Completed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
         </div>
         <div ng-show="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.InProgress">
-            <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+            <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
         </div>
         <div ng-if="memberEPAInfoCtrl.epaInfo.Process.Reviewers[0].StatusEndProcess == memberEPAInfoCtrl.statusEndProcessEnum.Open">
-            <label data-translate="Open"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+            <span data-translate="Open"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
         </div>
     </li>
     <li class="process-item final"

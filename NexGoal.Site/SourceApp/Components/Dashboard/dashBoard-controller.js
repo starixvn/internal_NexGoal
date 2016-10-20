@@ -3,11 +3,14 @@
 (function (dashboardModule) {
     dashboardModule.controller("DashboardController", dashboardController);
 
-    dashboardController.$inject = ["$location", 'DashboardModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
+    dashboardController.$inject = ["$interval", "$location", 'DashboardModel', 'CommonModel',
+    'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
 
-    function dashboardController($location, DashboardModel, CommonModel, utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl) {
+    function dashboardController($interval, $location, DashboardModel, CommonModel,
+    utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl) {
         var vm = this;
 
+        var stopInterval;
         vm.showScore = false;
 
         vm.epaStatusEnum = enumerationsFactory.epaStatus;
@@ -16,6 +19,13 @@
 
         vm.showHideScore = function () {
             vm.showScore = !vm.showScore;
+
+            if (vm.showScore) {
+                stop = $interval(function () {
+                    vm.showScore = false;
+                    $interval.cancel(stop);
+                }, 5000);
+            }
         };
 
         vm.getClassProgress = function (statusEndProcess) {

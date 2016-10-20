@@ -28,19 +28,8 @@
 
             if (employee && employee.Comment && employee.Comment.length > 0) {
                 htmlString = "<a class=\"current-objective\" data-employee-id=" +
-                employee.EmployeeId + " title='" + employee.Comment + "'><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
+                    employee.EmployeeId + "><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
             }
-
-            return htmlString;
-        }
-
-        function renderEvaluatorComments(evaluators) {
-            var htmlString = "";
-
-            angular.forEach(evaluators, function (evaluator) {
-                htmlString += "<p>Evaluator: " + "<b>" + evaluator.EvaluatorFullName + " (" + evaluator.EvaluatorNickName + ")</b></p>";
-                htmlString += "<p>" + evaluator.Comment + "</p>";
-            });
 
             return htmlString;
         }
@@ -50,10 +39,8 @@
             var employee = cell.Value;
 
             if (employee && employee.Comments && employee.Comments.length > 0) {
-                var commentHtmlString = renderEvaluatorComments(employee.Comments);
-
                 htmlString = "<a class=\"evaluator-comment\" data-employee-id=" +
-                employee.EmployeeId + " title='" + commentHtmlString + "'><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
+                    employee.EmployeeId + "><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
             }
 
             return htmlString;
@@ -75,14 +62,8 @@
 
             if (employee && employee.Comment && employee.Comment.length > 0) {
                 htmlString = "<a class=\"next-objectives\" data-employee-id=" +
-                employee.EmployeeId + " title='" + employee.Comment + "'><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
+                    employee.EmployeeId + "><i class=\"fa fa-search\" aria-hidden=\"true\"></i></a>";
             }
-
-            return htmlString;
-        }
-
-        function renderProjectCommentTooltip(project) {
-            var htmlString = "";
 
             return htmlString;
         }

@@ -16,6 +16,23 @@
         vm.eoyNominations = [];
         vm.nomination = {};
 
+        vm.isQuestionModified = function (origin, modified) {
+            var isModified = false;
+
+            if (origin.length !== modified.length) {
+                isModified = true;
+            } else {
+                for (var i = 0; i < origin.length; i++) {
+                    if (origin[i].Comment !== modified[i].Comment) {
+                        isModified = true;
+                        break;
+                    }
+                }
+            }
+
+            return isModified;
+        };
+
         vm.createEOY = function (period, modalInstance) {
             return eoyFactory.createEOY(period).success(function (response) {
                 if (response.IsSuccessful) {

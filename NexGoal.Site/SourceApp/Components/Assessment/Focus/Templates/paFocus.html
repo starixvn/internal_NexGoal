@@ -127,12 +127,10 @@
                           ng-bind="::member.IsPoorPerformance ? 'Yes' : (member.IsPoorPerformance === null ? '-' : 'No')">
                     </span>
                 </td>
-                <td class="text-center comment-wrapper">
+                <td class="text-center">
                     <a href=""
                        ng-click="paFocusCtrl.openPopupLastObjective(member)"
-                       ng-show="member.LastCompletedPercentObjective.length > 0"
-                       tooltip-html-unsafe='<div class="pre-line-tooltip">{{member.LastCompletedPercentObjective}}</div>'
-                       tooltip-placement="left">
+                       ng-show="member.LastCompletedPercentObjective.length > 0">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"
                            ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"></i>
                         <i class="fa fa-search" aria-hidden="true"
@@ -144,12 +142,10 @@
                     <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
                     <span ng-if="!member.FinalScore" data-translate="Dash"></span>
                 </td>
-                <td class="text-center comment-wrapper">
+                <td class="text-center">
                     <a href=""
                        ng-click="paFocusCtrl.openPopupObjective(member)"
-                       ng-show="member.NextDescriptionObjective.length > 0"
-                       tooltip-html-unsafe='<div class="pre-line-tooltip">{{member.NextDescriptionObjective}}</div>'
-                       tooltip-placement="left">
+                       ng-show="member.NextDescriptionObjective.length > 0">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"
                            ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"></i>
                         <i class="fa fa-search" aria-hidden="true"

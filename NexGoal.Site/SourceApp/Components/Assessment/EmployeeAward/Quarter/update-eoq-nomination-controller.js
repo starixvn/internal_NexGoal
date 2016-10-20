@@ -7,6 +7,7 @@
 
     function updateEOQNominationController($filter, $modalInstance, EOQModel, utilitiesFactory, nominationId) {
         var vm = this;
+        var originEOQQuestions = [];
 
         vm.nomination = {
             nominationId: nominationId,
@@ -30,6 +31,8 @@
                 vm.nomination.dueDate = $filter('date')(EOQModel.nomination.Period.EndDate, vm.dateFormat);
                 vm.nomination.employeeId = EOQModel.nomination.Nominee.EmployeeId;
                 vm.nomination.eoqQuestions = EOQModel.nomination.NominationDetails;
+
+                originEOQQuestions = angular.copy(EOQModel.nomination.NominationDetails);
             });
         }
 
@@ -40,7 +43,15 @@
         };
 
         vm.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            if (EOQModel.isQuestionModified(originEOQQuestions, vm.nomination.eoqQuestions)) {
+                var cancelConfirm = confirm("Confirm message goes here.");
+
+                if (cancelConfirm) {
+                    $modalInstance.dismiss("cancel");
+                }
+            } else {
+                $modalInstance.dismiss("cancel");
+            }
         };
 
         initialize();

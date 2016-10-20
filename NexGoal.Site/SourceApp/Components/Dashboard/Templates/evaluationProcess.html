@@ -27,13 +27,13 @@
                         </span>
                     </div>
                     <div ng-if="epaInfo.Process.HumanResources[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
-                        <label data-translate="Completed"></label><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                        <span data-translate="Completed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
                     </div>
                     <div ng-if="epaInfo.Process.HumanResources[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
-                        <label data-translate="InProgress"></label><i class="fa fa-spinner" aria-hidden="true"></i>
+                        <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
                     </div>
                     <div ng-if="epaInfo.Process.HumanResources[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
-                        <label data-translate="Open"></label><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+                        <span data-translate="Open"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
                     </div>
                 </li>
 
@@ -72,13 +72,13 @@
                         <span ng-bind="epaInfo.Process.Evaluators[0].EndDate | customDate"></span>
                     </div>
                     <div ng-show="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
-                        <label data-translate="Completed"></label><i class="fa fa-check-square-o"></i>
+                        <span data-translate="Completed"></span><i class="fa fa-check-square-o"></i>
                     </div>
                     <div ng-show="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
-                        <label data-translate="InProgress"></label><i class="fa fa-spinner"></i>
+                        <span data-translate="InProgress"></span><i class="fa fa-spinner"></i>
                     </div>
                     <div ng-show="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
-                        <label data-translate="Open"></label><i class="fa fa-hourglass-start"></i>
+                        <span data-translate="Open"></span><i class="fa fa-hourglass-start"></i>
                     </div>
                 </li>
                 <li ng-if="epaInfo.Process.Reviewers.length > 0"
@@ -98,13 +98,13 @@
                         <span ng-bind="epaInfo.Process.Reviewers[0].EndDate | customDate"></span>
                     </div>
                     <div ng-show="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
-                        <label data-translate="Completed"></label><i class="fa fa-check-square-o"></i>
+                        <span data-translate="Completed"></span><i class="fa fa-check-square-o"></i>
                     </div>
                     <div ng-show="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
-                        <label data-translate="InProgress"></label><i class="fa fa-spinner"></i>
+                        <span data-translate="InProgress"></span><i class="fa fa-spinner"></i>
                     </div>
                     <div ng-show="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
-                        <label data-translate="Open"></label><i class="fa fa-hourglass-start"></i>
+                        <span data-translate="Open"></span><i class="fa fa-hourglass-start"></i>
                     </div>
                 </li>
                 <li ng-if="epaInfo.IsMonthly || epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual" class="process-item final">
