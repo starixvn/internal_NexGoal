@@ -7,21 +7,21 @@
 
     public class CommonRepository : ICommonRepository
     {
-        public IList<EPAModel> GetEPAInfoToChangeCertificate(IDbSetting setting, ICriteria criteria)
+        public IEnumerable<EPAModel> GetEPAInfoToChangeCertificate(IDbSetting setting, ICriteria criteria)
         {
             using (var db = new ObjectDb(setting))
             {
                 using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IList<EPAModel> epaInfos = multi.Read<EPAModel>().ToList();
+                    IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel>();
 
                     if (epaInfos.Any())
                     {
-                        IList<EPAProcessModel> epaProcesses = multi.Read<EPAProcessModel>().ToList();
+                        IEnumerable<EPAProcessModel> epaProcesses = multi.Read<EPAProcessModel>();
 
-                        IList<EPAGroupDetailModel> epaGroupDetails = multi.Read<EPAGroupDetailModel>().ToList();
+                        IEnumerable<EPAGroupDetailModel> epaGroupDetails = multi.Read<EPAGroupDetailModel>();
 
-                        IList<EPADetailModel> epaDetails = multi.Read<EPADetailModel>().ToList();
+                        IEnumerable<EPADetailModel> epaDetails = multi.Read<EPADetailModel>();
 
                         foreach (EPAGroupDetailModel detail in epaGroupDetails)
                         {

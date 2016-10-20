@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Tools
 {
-    using System.Collections.Generic;
     using Fanex.Data;
+    using System.Collections.Generic;
 
     public class CommonService : ICommonService
     {
@@ -33,10 +33,11 @@
             return commandResult;
         }
 
-        public IList<EPAModel> GetEPAInfoToChangeCertificate(IDbSetting setting, GetEPAInfoToChangeCertificateCriteria criteria)
+        public IEnumerable<EPAModel> GetEPAInfo(string connectionString, int idFrom, int idTo)
         {
-            IList<EPAModel> epaInfos = new List<EPAModel>();
-
+            IEnumerable<EPAModel> epaInfos = new List<EPAModel>();
+            var criteria = new GetEPAInfoToChangeCertificateCriteria { EPAIdFrom = idFrom, EPAIdTo = idTo };
+            var setting = new DbSetting { ConnectionString = connectionString, SpName = criteria.GetSettingKey() };
             if (criteria != null && criteria.IsValid())
             {
                 epaInfos = commonRepository.GetEPAInfoToChangeCertificate(setting, criteria);
@@ -45,10 +46,12 @@
             return epaInfos;
         }
 
-        public CommandResult UpdateEPAScore(IDbSetting setting, UpdateEPAScoreCriteria criteria)
+        public CommandResult UpdateEPAScore(string connectionString, IEnumerable<EPAModel> epas)
         {
-            CommandResult commandResult = new CommandResult();
-
+            var commandResult = new CommandResult();
+            var criteria = new UpdateEPAScoreCriteria { EpaInfos = epas };
+            criteria.ConvertToXml();
+            var setting = new DbSetting { ConnectionString = connectionString, SpName = criteria.GetSettingKey() };
             if (criteria != null && criteria.IsValid())
             {
                 commandResult = repository.Update(setting, criteria);
@@ -70,9 +73,9 @@
             return commandResult;
         }
 
-        public IEnumerable<PAFocusModel> GetAllPAFocus(string connectionString)
+        public IEnumerable<PAFocusModel> GetAllPAFocus(string connectionString, int idFrom, int idTo)
         {
-            var criteria = new GetAllPAFocusCriteria();
+            var criteria = new GetAllPAFocusCriteria { PAFocusIdFrom = idFrom, PAFocusIdTo = idTo };
             var setting = new DbSetting { ConnectionString = connectionString, SpName = criteria.GetSettingKey() };
             IEnumerable<PAFocusModel> focuses = new List<PAFocusModel>();
 
@@ -82,7 +85,6 @@
             }
 
             return focuses;
-
         }
     }
 }

@@ -1,25 +1,24 @@
 ﻿namespace NexGoal.Tools
 {
+    using NexGoal.Tools.Properties;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
-    using System.Text;
     using System.Windows.Forms;
-    using Fanex.Data;
-    using NexGoal.Tools.Properties;
 
     public partial class UCChangeCertificate : UserControl
     {
         private readonly ICertificateService certificateService;
         private readonly ICommonService commonService;
+        private const int NumberOfItemToOperate = 50;
 
         public UCChangeCertificate()
         {
             InitializeComponent();
 
             certificateService = new CertificateService();
-            commonService = new CommonService();
+            commonService = new CommonService();            
         }
 
         private void OpenOldFile_Click(object sender, EventArgs e)
@@ -58,60 +57,88 @@
 
                 if (result == DialogResult.Yes)
                 {
-                    IList<EPAModel> epaInfos = new List<EPAModel>();
-                    IEnumerable<PAFocusModel> pafocus = new List<PAFocusModel>();
-                    X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
-
-                    var connectionString = new StringBuilder();
-                    connectionString.AppendFormat(Constants.ConnectionStringTemplate, txtServerName.Text, txtDatabaseName.Text, txtUserName.Text, txtPassword.Text);
-
-                    try
-                    {
-                        X509Certificate2 oldCert2 = new X509Certificate2(txtOldCertificate.Text, txtOldPassword.Text, flags);
-                        epaInfos = GetEPAInfoToChangeCertificate(connectionString.ToString());
-                        DecryptScore(epaInfos, oldCert2);
-
-                        pafocus = commonService.GetAllPAFocus(connectionString.ToString());
-                        DecryptPAFocus(pafocus, oldCert2);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                        return;
-                    }
-
-                    try
-                    {
-                        X509Certificate2 newCert2 = new X509Certificate2(txtNewCertificate.Text, txtNewPassword.Text, flags);
-                        EncryptScore(epaInfos, newCert2);
-
-                        EncryptPAFocus(pafocus, newCert2);
-                    }
-                    catch (Exception ex)
-                    {
-                        MessageBox.Show(ex.Message);
-                        return;
-                    }
-
-                    commonService.UpdatePAFocus(connectionString.ToString(), pafocus);
-                    UpdateEPAScore(epaInfos, connectionString.ToString());
+                    ChangeCertification();
                 }
             }
         }
 
-        private IList<EPAModel> GetEPAInfoToChangeCertificate(string connectionString)
+        private void ChangeCertification()
         {
-            var criteria = new GetEPAInfoToChangeCertificateCriteria();
-
-            IDbSetting setting = new DbSetting
+            try
             {
-                ConnectionString = connectionString,
-                SpName = criteria.GetSettingKey()
-            };
+                var oldCertificate = new X509Certificate2(txtOldCertificate.Text, txtOldPassword.Text, X509KeyStorageFlags.MachineKeySet);
+                var newCertificate = new X509Certificate2(txtNewCertificate.Text, txtNewPassword.Text, X509KeyStorageFlags.MachineKeySet);
+                var connectionString = string.Format(Constants.ConnectionStringTemplate, txtServerName.Text, txtDatabaseName.Text, txtUserName.Text, txtPassword.Text);
 
-            IList<EPAModel> epaInfos = commonService.GetEPAInfoToChangeCertificate(setting, criteria);
+                ChangeCertificatedOfEPA(oldCertificate, newCertificate, connectionString);
 
-            return epaInfos;
+                ChangeCertificatedOfPAFocus(oldCertificate, newCertificate, connectionString);
+
+                MessageBox.Show(Resources.UpdateSuccessfully, Resources.Notification, MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+                return;
+            }            
+        }
+
+        private void ChangeCertificatedOfPAFocus(X509Certificate2 oldCertificate, X509Certificate2 newCertificate, string connectionString)
+        {
+            var isContinue = true;
+            int idFrom = 1, idTo = NumberOfItemToOperate;
+            while (isContinue)
+            {
+                var paFocuses = commonService.GetAllPAFocus(connectionString, idFrom, idTo);
+                if (paFocuses.Any())
+                {
+                    DecryptPAFocus(paFocuses, oldCertificate);
+
+                    EncryptPAFocus(paFocuses, newCertificate);
+
+                    var result = commonService.UpdatePAFocus(connectionString, paFocuses);
+                    if (!result.IsSuccessful)
+                    {
+                        throw new Exception("Update PA Focus unsuccessful");
+                    }
+
+                    idFrom = idTo;
+                    idTo += NumberOfItemToOperate;
+                }
+                else
+                {
+                    isContinue = false;
+                }
+            }
+        }
+
+        private void ChangeCertificatedOfEPA(X509Certificate2 oldCertificate, X509Certificate2 newCertificate, string connectionString)
+        {
+            var isContinue = true;
+            int idFrom = 1, idTo = NumberOfItemToOperate;
+            while (isContinue)
+            {
+                var epas = commonService.GetEPAInfo(connectionString, idFrom, idTo);
+                if (epas.Any())
+                {
+                    DecryptScore(epas, oldCertificate);
+
+                    EncryptScore(epas, newCertificate);
+
+                    var result = commonService.UpdateEPAScore(connectionString, epas);
+                    if (!result.IsSuccessful)
+                    {
+                        throw new Exception("Update PA unsuccessful");
+                    }
+
+                    idFrom = idTo;
+                    idTo += NumberOfItemToOperate;
+                }
+                else
+                {
+                    isContinue = false;
+                }
+            }
         }
 
         private void DecryptPAFocus(IEnumerable<PAFocusModel> focus, X509Certificate2 cert2)
@@ -136,7 +163,7 @@
             }
         }
 
-        private void DecryptScore(IList<EPAModel> epaInfos, X509Certificate2 cert2)
+        private void DecryptScore(IEnumerable<EPAModel> epaInfos, X509Certificate2 cert2)
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
@@ -162,7 +189,7 @@
             }
         }
 
-        private void EncryptScore(IList<EPAModel> epaInfos, X509Certificate2 cert2)
+        private void EncryptScore(IEnumerable<EPAModel> epaInfos, X509Certificate2 cert2)
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
@@ -188,54 +215,6 @@
             }
         }
 
-        private void UpdateEPAScore(IList<EPAModel> epaInfos, string connectionString)
-        {
-            int skip = 0,
-                numberOfRecords = 50;
-            List<EPAModel> thisBatch;
-            Queue<List<EPAModel>> allBatches = new Queue<List<EPAModel>>();
-
-            do
-            {
-                thisBatch = epaInfos.Skip(skip).Take(numberOfRecords).ToList();
-
-                if (thisBatch.Any())
-                {
-                    allBatches.Enqueue(thisBatch);
-                    skip += numberOfRecords;
-                }
-            }
-            while (thisBatch.Any());
-
-            try
-            {
-                while (allBatches.Any())
-                {
-                    List<EPAModel> currentBatch = allBatches.Dequeue();
-
-                    var criteria = new UpdateEPAScoreCriteria
-                    {
-                        EpaInfos = currentBatch
-                    };
-                    criteria.ConvertToXml();
-
-                    IDbSetting setting = new DbSetting
-                    {
-                        ConnectionString = connectionString,
-                        SpName = criteria.GetSettingKey()
-                    };
-
-                    CommandResult commandResult = commonService.UpdateEPAScore(setting, criteria);
-                }
-
-                MessageBox.Show(Resources.UpdateSuccessfully, Resources.Notification, MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message, Resources.Error, MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private bool CheckDataInput()
         {
             bool isValid = true;
@@ -251,6 +230,6 @@
             }
 
             return isValid;
-        }        
+        }
     }
 }

@@ -7,11 +7,11 @@
     {
         CommandResult ResetScore(IDbSetting setting, ResetScoreCriteria criteria);
 
-        IList<EPAModel> GetEPAInfoToChangeCertificate(IDbSetting setting, GetEPAInfoToChangeCertificateCriteria criteria);
+        IEnumerable<EPAModel> GetEPAInfo(string connectionString, int idFrom, int idTo);
 
-        CommandResult UpdateEPAScore(IDbSetting setting, UpdateEPAScoreCriteria criteria);
+        CommandResult UpdateEPAScore(string connectionString, IEnumerable<EPAModel> epas);
 
-        IEnumerable<PAFocusModel> GetAllPAFocus(string connectionString);
+        IEnumerable<PAFocusModel> GetAllPAFocus(string connectionString, int idFrom, int idTo);
 
         CommandResult UpdatePAFocus(string connectionString, IEnumerable<PAFocusModel> evaluations);
     }

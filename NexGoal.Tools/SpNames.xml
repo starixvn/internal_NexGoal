@@ -1,10 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
   <Function>
-    <Setting Key="NexGoalTools_ResetScore" SpName="NexGoalTools_ResetScore" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="NexGoalTools_ResetScore" SpName="NexGoalTools_ResetScore"></Setting>
     <Setting Key="NexGoalTools_GetEPAInfoToChangeCertificate" SpName="NexGoalTools_GetEPAInfoToChangeCertificate" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="NexGoalTools_UpdateEPAScore" SpName="NexGoalTools_UpdateEPAScore" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="NexGoalTools_UpdatePAFocus" SpName="NexGoalTools_UpdatePAFocus" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="NexGoalTools_GetAllPAFocus" SpName="NexGoalTools_GetAllPAFocus" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="NexGoalTools_UpdateEPAScore" SpName="NexGoalTools_UpdateEPAScore" ></Setting>
+    <Setting Key="NexGoalTools_UpdatePAFocus" SpName="NexGoalTools_UpdatePAFocus" ></Setting>
+    <Setting Key="NexGoalTools_GetAllPAFocus" SpName="NexGoalTools_GetAllPAFocus"></Setting>
   </Function>
 </Functions>

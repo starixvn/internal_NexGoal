@@ -64,7 +64,7 @@
             // 
             // btnUpdate
             // 
-            this.btnUpdate.Location = new System.Drawing.Point(170, 387);
+            this.btnUpdate.Location = new System.Drawing.Point(170, 382);
             this.btnUpdate.Name = "btnUpdate";
             this.btnUpdate.Size = new System.Drawing.Size(80, 30);
             this.btnUpdate.TabIndex = 5;
@@ -205,7 +205,7 @@
             this.label10.AutoSize = true;
             this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.ForeColor = System.Drawing.Color.Red;
-            this.label10.Location = new System.Drawing.Point(348, 12);
+            this.label10.Location = new System.Drawing.Point(348, 14);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(21, 16);
             this.label10.TabIndex = 24;

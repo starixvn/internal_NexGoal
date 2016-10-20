@@ -123,11 +123,14 @@
   <data name="Error" xml:space="preserve">
     <value>Error</value>
   </data>
+  <data name="Inprogress" xml:space="preserve">
+    <value>Please wait a moment!........................</value>
+  </data>
   <data name="MsgConfirmResetScore" xml:space="preserve">
     <value>Are you sure you want to reset score?</value>
   </data>
   <data name="MsgConfirmUpdateScore" xml:space="preserve">
-    <value>Are you sure you want to update score?</value>
+    <value>Are you sure you want to change certification?</value>
   </data>
   <data name="Notification" xml:space="preserve">
     <value>Notification</value>

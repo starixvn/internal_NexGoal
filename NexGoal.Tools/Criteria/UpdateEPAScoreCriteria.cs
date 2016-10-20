@@ -16,7 +16,7 @@
             KPIGroupId='{3}' KPIId='{4}' Score='{5}' Rate='{6}'></EPADetail>";
 
         [SpParam(Ignored = true)]
-        public List<EPAModel> EpaInfos { get; set; }
+        public IEnumerable<EPAModel> EpaInfos { get; set; }
 
         public string EpaInfoXml { get; set; }
 

@@ -10,7 +10,8 @@
 
 namespace NexGoal.Tools.Properties {
     using System;
-
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -78,6 +79,15 @@ namespace NexGoal.Tools.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Please wait a moment!.........................
+        /// </summary>
+        public static string Inprogress {
+            get {
+                return ResourceManager.GetString("Inprogress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Are you sure you want to reset score?.
         /// </summary>
         public static string MsgConfirmResetScore {
@@ -87,7 +97,7 @@ namespace NexGoal.Tools.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Are you sure you want to update score?.
+        ///   Looks up a localized string similar to Are you sure you want to change certification?.
         /// </summary>
         public static string MsgConfirmUpdateScore {
             get {
