@@ -59,11 +59,16 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         });
     }
 
-	function getHRMSummary(){
+	function getIntegrationInformation(){
 		if(vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual){
 			EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
-            });
+			});
+
+			EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+			    vm.employeeProjects = EvaluatorManagementModel.employeeProjects;
+			});
+
 		}else{
 			EvaluatorManagementModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
@@ -110,11 +115,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
                 }
             });
 
-            getHRMSummary();
-
-            EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
-                vm.employeeProjects = EvaluatorManagementModel.employeeProjects;
-            });
+            getIntegrationInformation();
 
             ViolationModel.getViolationsByPeriod(vm.epaInfo.Period.PeriodId, vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.violations = ViolationModel.violationsByPeriod;

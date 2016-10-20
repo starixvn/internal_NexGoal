@@ -69,6 +69,23 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
         return utilitiesFactory.splitNumber(score / length, 2);
     }
 
+    function getIntegrationInformation() {
+        if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+
+            SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
+            });
+
+        } else {
+            SelfEvalutorModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
+            });
+        }
+    }
+
     function getEPAInfoById() {
         lockScreenService.start();
         EmployeeEPAModel.getEPAInfoById(vm.epaId).then(function () {
@@ -108,13 +125,7 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
                 vm.epaInfo.FinalScore = null;
             }
 
-            SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
-                vm.hrmSummary = SelfEvalutorModel.hrmSummary;
-            });
-
-            SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
-                vm.employeeProjects = SelfEvalutorModel.employeeProjects;
-            });
+            getIntegrationInformation();
 
             ViolationModel.getViolationsByPeriod(vm.epaInfo.Period.PeriodId, vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.violations = ViolationModel.violationsByPeriod;
@@ -126,7 +137,7 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
         })["finally"](function () {
             lockScreenService.stop();
         });
-    }
+    }    
 
     function initialize() {
         CommonModel.getStandardGrade().then(function () {
