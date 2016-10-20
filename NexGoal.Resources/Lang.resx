@@ -1546,7 +1546,7 @@
     <value>Next Objectives</value>
   </data>
   <data name="StartFocusDateGreaterThanEndDateWarning" xml:space="preserve">
-    <value>The Focus start date must more than the Period End date</value>
+    <value>The Focus Start Date must be after the (Period) End Date.</value>
   </data>
   <data name="TotalBonusGivenMoreThanMaxMessage" xml:space="preserve">
     <value>The Bonus is required max 100 points!</value>
@@ -1600,7 +1600,7 @@
     <value>Nominee</value>
   </data>
   <data name="NominationCommentRequired" xml:space="preserve">
-    <value>All nomination comments are required!</value>
+    <value>All comment fields are required.</value>
   </data>
   <data name="NomineeRequired" xml:space="preserve">
     <value>Nominee field is required!</value>
@@ -1739,5 +1739,8 @@
   </data>
   <data name="VietnameseIsRecommendedLabel" xml:space="preserve">
     <value>Comments in Vietnamese are preferred.</value>
+  </data>
+  <data name="ConfirmCancelFormMessage" xml:space="preserve">
+    <value>The data has been changed. Are you sure you want to Cancel this form?</value>
   </data>
 </root>

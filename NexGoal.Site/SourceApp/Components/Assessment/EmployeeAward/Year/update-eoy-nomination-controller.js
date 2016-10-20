@@ -44,7 +44,7 @@
 
         vm.cancel = function () {
             if (EOYModel.isQuestionModified(originEOYQuestions, vm.nomination.eoyQuestions)) {
-                var cancelConfirm = confirm("Confirm message goes here.");
+                var cancelConfirm = confirm(EOYModel.confirmCancelFormMessage);
 
                 if (cancelConfirm) {
                     $modalInstance.dismiss("cancel");

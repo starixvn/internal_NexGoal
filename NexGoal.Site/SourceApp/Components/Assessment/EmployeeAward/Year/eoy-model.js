@@ -3,11 +3,13 @@
 
     assessmentModule.factory("EOYModel", eoyModel);
 
-    eoyModel.$inject = ["$modal", "eoyFactory", "nominationFactory", "errorFactory", "notificationFactory", "utilitiesFactory"];
+    eoyModel.$inject = ["$translate", "$modal", "eoyFactory", "nominationFactory",
+        "errorFactory", "notificationFactory", "utilitiesFactory"];
 
-    function eoyModel($modal, eoyFactory, nominationFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function eoyModel($translate, $modal, eoyFactory, nominationFactory, errorFactory, notificationFactory, utilitiesFactory) {
         var vm = {};
 
+        vm.confirmCancelFormMessage = "";
         vm.periods = [];
         vm.period = {};
         vm.nominatorSettings = [];
@@ -15,6 +17,12 @@
         vm.eoyQuestions = [];
         vm.eoyNominations = [];
         vm.nomination = {};
+
+        function initialize() {
+            $translate("ConfirmCancelFormMessage").then(function (message) {
+                vm.confirmCancelFormMessage = message;
+            });
+        }
 
         vm.isQuestionModified = function (origin, modified) {
             var isModified = false;
@@ -324,7 +332,7 @@
                 return false;
             } else {
                 if (!nominee.employeeId || nominee.employeeId === 0) {
-                    notificationFactory.error("NomineeRequired");
+                    notificationFactory.error("NoEmployeeSelectedWarning");
                     return false;
                 }
 
@@ -411,6 +419,8 @@
                 errorFactory.errorHandle(status);
             });
         };
+
+        initialize();
 
         return vm;
     }

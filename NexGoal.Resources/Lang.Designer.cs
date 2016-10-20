@@ -655,6 +655,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The data has been changed. Are you sure you want to Cancel this form?.
+        /// </summary>
+        public static string ConfirmCancelFormMessage {
+            get {
+                return ResourceManager.GetString("ConfirmCancelFormMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Confirm Password.
         /// </summary>
         public static string ConfirmPassword {
@@ -2851,7 +2860,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to All nomination comments are required!.
+        ///   Looks up a localized string similar to All comment fields are required..
         /// </summary>
         public static string NominationCommentRequired {
             get {
@@ -4102,7 +4111,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Focus start date must more than the Period End date.
+        ///   Looks up a localized string similar to The Focus Start Date must be after the (Period) End Date..
         /// </summary>
         public static string StartFocusDateGreaterThanEndDateWarning {
             get {

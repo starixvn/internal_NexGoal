@@ -3,11 +3,14 @@
 
     assessmentModule.factory("EOQModel", eoqModel);
 
-    eoqModel.$inject = ["$modal", "eoqFactory", "nominationFactory", "errorFactory", "notificationFactory", "utilitiesFactory"];
+    eoqModel.$inject = ["$translate", "$modal", "eoqFactory", "nominationFactory",
+        "errorFactory", "notificationFactory", "utilitiesFactory"];
 
-    function eoqModel($modal, eoqFactory, nominationFactory, errorFactory, notificationFactory, utilitiesFactory) {
+    function eoqModel($translate, $modal, eoqFactory, nominationFactory,
+        errorFactory, notificationFactory, utilitiesFactory) {
         var vm = {};
 
+        vm.confirmCancelFormMessage = "";
         vm.periods = [];
         vm.period = {};
         vm.nominatorSettings = [];
@@ -16,6 +19,12 @@
         vm.eoqNominations = [];
         vm.nomination = {};
         vm.years = [];
+
+        function initialize() {
+            $translate("ConfirmCancelFormMessage").then(function (message) {
+                vm.confirmCancelFormMessage = message;
+            });
+        }
 
         vm.isQuestionModified = function (origin, modified) {
             var isModified = false;
@@ -338,7 +347,7 @@
                 return false;
             } else {
                 if (!nominee.employeeId || nominee.employeeId === 0) {
-                    notificationFactory.error("NomineeRequired");
+                    notificationFactory.error("NoEmployeeSelectedWarning");
                     return false;
                 }
 
@@ -425,6 +434,8 @@
                 errorFactory.errorHandle(status);
             });
         };
+
+        initialize();
 
         return vm;
     }

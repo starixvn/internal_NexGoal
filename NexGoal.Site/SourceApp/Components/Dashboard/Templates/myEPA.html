@@ -18,10 +18,10 @@
             <td class="text-center" ng-bind="::myEPA.Period.StartDate | date : 'dd MMM, yyyy'"></td>
             <td class="text-center" ng-bind="::myEPA.Period.EndDate | date : 'dd MMM, yyyy'"></td>
             <td class="text-center">
-                <span class="sample-show-hide" ng-show="dashboardCtrl.showScore" ng-bind="::myEPA.FinalScore"></span>
+                <span ng-show="dashboardCtrl.showScore" ng-bind="::myEPA.FinalScore"></span>
             </td>
             <td class="text-center">
-                <span class="sample-show-hide" ng-show="dashboardCtrl.showScore" ng-bind="::myEPA.Grade"></span>
+                <span ng-show="dashboardCtrl.showScore" ng-bind="::myEPA.Grade"></span>
             <td class="text-center col-action">
                 <a ng-click="dashboardCtrl.viewEPADetail(myEPA)" href=""
                    ng-if="myEPA.EPAId > 0 && (myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"

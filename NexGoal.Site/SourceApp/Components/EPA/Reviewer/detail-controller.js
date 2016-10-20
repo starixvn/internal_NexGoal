@@ -43,6 +43,15 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         EmployeeEPAModel.openPopupViewComment(vm, comment);
     };
 
+    vm.openPopupEditComment = function (memberPA) {
+        ReviewerManagementModel.openPopupUpdateComment(vm, memberPA, memberPA.Process.CurrentProcess.Comment, true, true)
+        .then(function (comment) {
+            vm.epaInfo.Process.CurrentProcess.Comment = comment;
+        })['finally'](function () {
+            vm.modalInstance = null;
+        });
+    }
+
     vm.range = function (n) {
         return new Array(n);
     };

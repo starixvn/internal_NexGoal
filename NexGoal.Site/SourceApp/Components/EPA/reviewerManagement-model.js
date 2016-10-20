@@ -48,7 +48,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                     return isReviewer;
                 }
             },
-            windowClass: "modal-confirm-center"
+            windowClass: "modal-confirm-center popup-md"
         });
 
         return vm.modalInstance.result;
