@@ -712,7 +712,7 @@
     <value>Number Of Employees</value>
   </data>
   <data name="DisciplineEndDate" xml:space="preserve">
-    <value>Discipline End Date</value>
+    <value>Incident End Date</value>
   </data>
   <data name="DisciplineStartDate" xml:space="preserve">
     <value>Discipline Start Date</value>
@@ -836,9 +836,6 @@
   </data>
   <data name="EmployeeCode" xml:space="preserve">
     <value>Employee Code</value>
-  </data>
-  <data name="MyEPAs" xml:space="preserve">
-    <value>My PAs</value>
   </data>
   <data name="DisciplineSummary" xml:space="preserve">
     <value>Discipline Summary</value>
@@ -1033,10 +1030,10 @@
     <value>Scored By</value>
   </data>
   <data name="DisciplineEndDatePeriodRequired" xml:space="preserve">
-    <value>The Discipline End Date field is required!</value>
+    <value>The Incident End Date field is required!</value>
   </data>
   <data name="DisciplineStartDatePeriodRequired" xml:space="preserve">
-    <value>The Discipline Start Date field is required!</value>
+    <value>The Incident Start Date field is required!</value>
   </data>
   <data name="EPADetailReportName" xml:space="preserve">
     <value>PA_Report</value>
@@ -1156,7 +1153,7 @@
     <value>End of Period</value>
   </data>
   <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
-    <value>The Discipline Start Date must be less than or equal the Discipline End Date.</value>
+    <value>The Incident Start Date must be less than or equal the Discipline End Date.</value>
   </data>
   <data name="ViewOtherViolation" xml:space="preserve">
     <value>View other violation</value>
@@ -1672,19 +1669,19 @@
     <value>Adjustment Score</value>
   </data>
   <data name="AddDisciplineRecord" xml:space="preserve">
-    <value>Add Discipline Record</value>
+    <value>Add Incident Record</value>
   </data>
   <data name="DisciplineManagement" xml:space="preserve">
-    <value>Discipline Management</value>
+    <value>Incident Management</value>
   </data>
   <data name="UpdateDisciplineRecord" xml:space="preserve">
-    <value>Update Discipline Record</value>
+    <value>Update Incident Record</value>
   </data>
   <data name="IssueDate" xml:space="preserve">
     <value>Issue Date</value>
   </data>
   <data name="Discipline" xml:space="preserve">
-    <value>Discipline</value>
+    <value>Incident</value>
   </data>
   <data name="AccomplishedCurrentObjectives" xml:space="preserve">
     <value>Accomplished Current Objectives</value>

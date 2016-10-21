@@ -115,7 +115,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Discipline Record.
+        ///   Looks up a localized string similar to Add Incident Record.
         /// </summary>
         public static string AddDisciplineRecord {
             get {
@@ -934,7 +934,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discipline.
+        ///   Looks up a localized string similar to Incident.
         /// </summary>
         public static string Discipline {
             get {
@@ -943,7 +943,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discipline End Date.
+        ///   Looks up a localized string similar to Incident End Date.
         /// </summary>
         public static string DisciplineEndDate {
             get {
@@ -952,7 +952,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Discipline End Date field is required!.
+        ///   Looks up a localized string similar to The Incident End Date field is required!.
         /// </summary>
         public static string DisciplineEndDatePeriodRequired {
             get {
@@ -961,7 +961,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discipline Management.
+        ///   Looks up a localized string similar to Incident Management.
         /// </summary>
         public static string DisciplineManagement {
             get {
@@ -997,7 +997,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Discipline Start Date must be less than or equal the Discipline End Date..
+        ///   Looks up a localized string similar to The Incident Start Date must be less than or equal the Discipline End Date..
         /// </summary>
         public static string DisciplineStartDateGreaterThanEndDateWarning {
             get {
@@ -1006,7 +1006,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The Discipline Start Date field is required!.
+        ///   Looks up a localized string similar to The Incident Start Date field is required!.
         /// </summary>
         public static string DisciplineStartDatePeriodRequired {
             get {
@@ -2739,15 +2739,6 @@ namespace NexGoal.Resources {
         public static string MyEPA {
             get {
                 return ResourceManager.GetString("MyEPA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to My PAs.
-        /// </summary>
-        public static string MyEPAs {
-            get {
-                return ResourceManager.GetString("MyEPAs", resourceCulture);
             }
         }
         
@@ -4561,7 +4552,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update Discipline Record.
+        ///   Looks up a localized string similar to Update Incident Record.
         /// </summary>
         public static string UpdateDisciplineRecord {
             get {

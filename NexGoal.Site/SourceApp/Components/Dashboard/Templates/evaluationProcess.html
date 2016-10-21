@@ -46,13 +46,13 @@
                         <span ng-bind="epaInfo.Process.Self.EndDate | customDate"></span>
                     </div>
                     <div ng-show="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
-                        <label data-translate="Completed"></label><i class="fa fa-check-square-o"></i>
+                        <span data-translate="Completed"></span><i class="fa fa-check-square-o"></i>
                     </div>
                     <div ng-show="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
-                        <label data-translate="InProgress"></label><i class="fa fa-spinner"></i>
+                        <span data-translate="InProgress"></span><i class="fa fa-spinner"></i>
                     </div>
                     <div ng-show="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
-                        <label data-translate="Open"></label><i class="fa fa-hourglass-start"></i>
+                        <span data-translate="Open"></span><i class="fa fa-hourglass-start"></i>
                     </div>
                 </li>
                 <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Evaluators[0].StatusEndProcess)" class="process-item"

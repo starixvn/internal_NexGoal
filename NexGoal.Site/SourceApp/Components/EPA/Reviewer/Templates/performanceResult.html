@@ -89,10 +89,10 @@
                            tooltip="{{memberEPAInfoCtrl.scoreInputValidMessage}}" tooltip-trigger="focus" />
                 </td>
                 <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment.length < 25"
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment.length < 50"
                           ng-bind="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment"></span>
-                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment.length >= 25">
-                        {{ memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment | limitTo:25 }} ...
+                    <span ng-show="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment.length >= 50">
+                        {{ memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.Comment | limitTo:50 }} ...
                     </span>
                 </td>
                 <td class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-show="$first">
