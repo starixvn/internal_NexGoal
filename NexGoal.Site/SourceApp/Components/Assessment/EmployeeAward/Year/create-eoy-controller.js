@@ -3,9 +3,9 @@
 
     assessmentModule.controller('CreateEOYController', createEOQController);
 
-    createEOQController.$inject = ['$modalInstance', 'EOYModel'];
+    createEOQController.$inject = ['$scope', '$modalInstance', 'EOYModel'];
 
-    function createEOQController($modalInstance, EOYModel) {
+    function createEOQController($scope, $modalInstance, EOYModel) {
         var vm = this;
 
         vm.years = [];
@@ -51,6 +51,10 @@
             }
 
             vm.calendar = EOYModel.calendar;
+
+            $scope.$on('$routeChangeStart', function () {
+                $modalInstance.dismiss('cancel');
+            });
         }
 
         initialize();

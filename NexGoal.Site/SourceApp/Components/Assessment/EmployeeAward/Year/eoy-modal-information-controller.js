@@ -3,13 +3,21 @@
 
     assessmentModule.controller('EOYModalInformationController', eoyModalInformationController);
 
-    eoyModalInformationController.$inject = ['$modalInstance'];
+    eoyModalInformationController.$inject = ['$scope', '$modalInstance'];
 
-    function eoyModalInformationController($modalInstance) {
+    function eoyModalInformationController($scope, $modalInstance) {
         var vm = this;
+
+        function initialze() {
+            $scope.$on('$routeChangeStart', function () {
+                $modalInstance.dismiss("cancel");
+            });
+        }
 
         vm.close = function () {
             $modalInstance.dismiss('cancel');
         };
+
+        initialze();
     }
 })(angular.module('assessmentModule'));

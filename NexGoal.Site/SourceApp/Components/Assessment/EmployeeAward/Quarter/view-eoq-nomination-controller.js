@@ -3,9 +3,11 @@
 
     assessmentModule.controller('ViewEOQNominationController', viewEOQNominationController);
 
-    viewEOQNominationController.$inject = ['$filter', '$modalInstance', 'EOQModel', 'utilitiesFactory', 'lockScreenService', 'nominationId'];
+    viewEOQNominationController.$inject = ['$scope', '$filter', '$modalInstance', 'EOQModel',
+        'utilitiesFactory', 'lockScreenService', 'nominationId'];
 
-    function viewEOQNominationController($filter, $modalInstance, EOQModel, utilitiesFactory, lockScreenService, nominationId) {
+    function viewEOQNominationController($scope, $filter, $modalInstance, EOQModel,
+        utilitiesFactory, lockScreenService, nominationId) {
         var vm = this;
 
         vm.nomination = {};
@@ -20,6 +22,10 @@
                 vm.nomination.Period.DueDate = $filter('date')(vm.nomination.Period.EndDate, vm.dateFormat);
             })['finally'](function () {
                 lockScreenService.stop();
+            });
+
+            $scope.$on('$routeChangeStart', function () {
+                $modalInstance.dismiss('cancel');
             });
         }
 
