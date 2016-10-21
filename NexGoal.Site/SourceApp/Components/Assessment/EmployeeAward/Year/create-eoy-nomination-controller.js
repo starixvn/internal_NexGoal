@@ -3,9 +3,11 @@
 
     assessmentModule.controller("CreateEOYNominationController", createEOYNominationController);
 
-    createEOYNominationController.$inject = ["$filter", "$modalInstance", "EmployeeModel", "EOYModel", "utilitiesFactory", "eoyNominationPeriod"];
+    createEOYNominationController.$inject = ["$scope", "$filter", "$modalInstance", "EmployeeModel",
+        "EOYModel", "utilitiesFactory", "eoyNominationPeriod"];
 
-    function createEOYNominationController($filter, $modalInstance, EmployeeModel, EOYModel, utilitiesFactory, eoyNominationPeriod) {
+    function createEOYNominationController($scope, $filter, $modalInstance, EmployeeModel,
+        EOYModel, utilitiesFactory, eoyNominationPeriod) {
         var vm = this;
         var originEOYQuestions = [];
 
@@ -31,6 +33,20 @@
             utilitiesFactory.getDateFormat(vm);
 
             vm.eoyNominationPeriod.DueDay = $filter('date')(vm.eoyNominationPeriod.Period.EndDate, vm.dateFormat);
+
+            $scope.$on('$routeChangeStart', function (event) {
+                if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions)) {
+                    var cancelConfirm = confirm(EOYModel.confirmCancelFormMessage);
+
+                    if (cancelConfirm) {
+                        $modalInstance.dismiss("cancel");
+                    } else {
+                        event.preventDefault();
+                    }
+                } else {
+                    $modalInstance.dismiss("cancel");
+                }
+            });
         }
 
         vm.getEmployee = function () {

@@ -3,9 +3,11 @@
 
     assessmentModule.controller("CreateEOQNominationController", createEOQNomination);
 
-    createEOQNomination.$inject = ["$filter", "$modalInstance", "EmployeeModel", "EOQModel", "utilitiesFactory", "eoqNominationPeriod"];
+    createEOQNomination.$inject = ["$scope", "$filter", "$modalInstance", "EmployeeModel",
+        "EOQModel", "utilitiesFactory", "eoqNominationPeriod"];
 
-    function createEOQNomination($filter, $modalInstance, EmployeeModel, EOQModel, utilitiesFactory, eoqNominationPeriod) {
+    function createEOQNomination($scope, $filter, $modalInstance, EmployeeModel,
+        EOQModel, utilitiesFactory, eoqNominationPeriod) {
         var vm = this;
         var originEOQQuestions = [];
 
@@ -31,6 +33,20 @@
             utilitiesFactory.getDateFormat(vm);
 
             vm.eoqNominationPeriod.DueDay = $filter('date')(vm.eoqNominationPeriod.Period.EndDate, vm.dateFormat);
+
+            $scope.$on('$routeChangeStart', function (event) {
+                if (EOQModel.isQuestionModified(originEOQQuestions, vm.nominee.eoqQuestions)) {
+                    var cancelConfirm = confirm(EOQModel.confirmCancelFormMessage);
+
+                    if (cancelConfirm) {
+                        $modalInstance.dismiss("cancel");
+                    } else {
+                        event.preventDefault();
+                    }
+                } else {
+                    $modalInstance.dismiss("cancel");
+                }
+            });
         }
 
         vm.getEmployee = function () {

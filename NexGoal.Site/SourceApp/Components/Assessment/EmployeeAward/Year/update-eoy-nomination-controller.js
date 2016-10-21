@@ -3,9 +3,11 @@
 
     assessmentModule.controller('UpdateEOYNominationController', updateEOYNominationController);
 
-    updateEOYNominationController.$inject = ['$filter', '$modalInstance', 'EOYModel', 'utilitiesFactory', 'nominationId'];
+    updateEOYNominationController.$inject = ['$scope', '$filter', '$modalInstance', 'EOYModel',
+        'utilitiesFactory', 'nominationId'];
 
-    function updateEOYNominationController($filter, $modalInstance, EOYModel, utilitiesFactory, nominationId) {
+    function updateEOYNominationController($scope, $filter, $modalInstance, EOYModel,
+        utilitiesFactory, nominationId) {
         var vm = this;
         var originEOYQuestions = [];
 
@@ -33,6 +35,20 @@
                 vm.nomination.eoyQuestions = EOYModel.nomination.NominationDetails;
 
                 originEOYQuestions = angular.copy(EOYModel.nomination.NominationDetails);
+            });
+
+            $scope.$on('$routeChangeStart', function (event) {
+                if (EOYModel.isQuestionModified(originEOYQuestions, vm.nomination.eoyQuestions)) {
+                    var cancelConfirm = confirm(EOYModel.confirmCancelFormMessage);
+
+                    if (cancelConfirm) {
+                        $modalInstance.dismiss("cancel");
+                    } else {
+                        event.preventDefault();
+                    }
+                } else {
+                    $modalInstance.dismiss("cancel");
+                }
             });
         }
 
