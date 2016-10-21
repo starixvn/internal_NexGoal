@@ -124,23 +124,28 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         return count > 0 ? utilitiesFactory.splitNumber(totalScore / count, 2) : 0;
     }
 
-    function CalculateEvaluatorScoreOnKPI(evaluators) {
+    function calculateEvaluatorScoreOnKPI(kpi) {
         var averageScore = 0;
+        var averageStar = 0;
 
-        if (evaluators.length > 0) {
+        if (kpi.EvaluationByEvaluators.length > 0) {
             var score = 0;
+            var star = 0;
             var length = 0;
-            angular.forEach(evaluators, function (evaluator) {
+            angular.forEach(kpi.EvaluationByEvaluators, function (evaluator) {
                 if (evaluator.ScoreEncode) {
                     score += evaluator.Score;
+                    star += evaluator.Rate;
                     length++;
                 }
             });
 
             averageScore = score / length;
+            averageStar = star / length;
         }
 
-        return utilitiesFactory.splitNumber(averageScore, 2);
+        kpi.EvaluatorScore = utilitiesFactory.splitNumber(averageScore, 2);
+        kpi.EvaluatorStar = utilitiesFactory.splitNumber(averageStar, 2);
     }
 
     function CalculateEvaluatorScoreOnGroup(kpiGroup) {
@@ -187,7 +192,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    kpi.EvaluatorScore = CalculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
+                    calculateEvaluatorScoreOnKPI(kpi);
                 });
                 var scoreOfGroup = CalculateEvaluatorScoreOnGroup(kpiGroup);
 

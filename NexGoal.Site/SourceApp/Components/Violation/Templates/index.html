@@ -111,9 +111,8 @@
                         <td colspan="9" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="violationCtrl.filteredItems.length > 0"
-                       ng-repeat="violation in violationCtrl.filteredItems">
-                    <tr>
+                <tbody ng-show="violationCtrl.filteredItems.length > 0">
+                    <tr ng-repeat="violation in violationCtrl.filteredItems">
                         <td class="text-center" ng-bind="$index + 1"></td>
                         <td class="text-center" ng-bind="violation.Employee.NickName"></td>
                         <td ng-bind="violation.Employee.FullName"></td>

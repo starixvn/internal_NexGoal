@@ -33,23 +33,28 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
-    function calculateEvaluatorScoreOnKPI(evaluators) {
+    function calculateEvaluatorScoreOnKPI(kpi) {
         var averageScore = 0;
+        var averageStar = 0;
 
-        if (evaluators.length > 0) {
+        if (kpi.EvaluationByEvaluators.length > 0) {
             var score = 0;
+            var star = 0;
             var length = 0;
-            angular.forEach(evaluators, function (evaluator) {
+            angular.forEach(kpi.EvaluationByEvaluators, function (evaluator) {
                 if (evaluator.ScoreEncode) {
                     score += evaluator.Score;
+                    star += evaluator.Rate;
                     length++;
                 }
             });
 
             averageScore = score / length;
+            averageStar = star / length;
         }
 
-        return utilitiesFactory.splitNumber(averageScore, 2);
+        kpi.EvaluatorScore = utilitiesFactory.splitNumber(averageScore, 2);
+        kpi.EvaluatorStar = utilitiesFactory.splitNumber(averageStar, 2);
     }
 
     function calculateEvaluatorScoreOnGroup(kpiGroup) {
@@ -98,7 +103,7 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
                 var evaluatorScore = calculateEvaluatorScoreOnGroup(kpiGroup);
 
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    kpi.EvaluatorScore = calculateEvaluatorScoreOnKPI(kpi.EvaluationByEvaluators);
+                    calculateEvaluatorScoreOnKPI(kpi);
                 });
                 kpiGroup.EvaluatorScore = evaluatorScore;
                 totalScoreOfEvaluator += evaluatorScore;
@@ -137,7 +142,7 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
         })["finally"](function () {
             lockScreenService.stop();
         });
-    }    
+    }
 
     function initialize() {
         CommonModel.getStandardGrade().then(function () {
