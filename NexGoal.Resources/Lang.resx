@@ -1690,7 +1690,7 @@
     <value>Applicable To Promote</value>
   </data>
   <data name="DeserveRewards" xml:space="preserve">
-    <value>Deserve Rewards (Salary Increase And Bonus)</value>
+    <value>I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade</value>
   </data>
   <data name="PAScore" xml:space="preserve">
     <value>PA Score</value>
@@ -1699,7 +1699,7 @@
     <value>Poor Performance</value>
   </data>
   <data name="SuitableForTeamGoals" xml:space="preserve">
-    <value>Suitable For Team Goals</value>
+    <value>I would always want him or her on my team (ability to work well with others)</value>
   </data>
   <data name="NominationManagement" xml:space="preserve">
     <value>Nomination Management</value>
@@ -1714,7 +1714,7 @@
     <value>Evaluation Template</value>
   </data>
   <data name="UpdateEvaluationPeriod" xml:space="preserve">
-    <value>Update Evaluation Period</value>
+    <value>Edit Evaluation Period</value>
   </data>
   <data name="EditCurrentObjective" xml:space="preserve">
     <value>Edit Accomplished Current Objectives</value>

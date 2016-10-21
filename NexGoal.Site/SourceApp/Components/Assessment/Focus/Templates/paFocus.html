@@ -58,8 +58,8 @@
         <thead>
             <tr>
                 <th data-translate="SymbolCount"></th>
-                <th data-translate="FullName"></th>
                 <th data-translate="NickName"></th>
+                <th data-translate="FullName"></th>
                 <th data-translate="JobTitle"></th>
                 <th class="width-220" data-translate="SuitableForTeamGoals"></th>
                 <th class="width-220" data-translate="DeserveRewards"></th>
@@ -80,10 +80,12 @@
                 <td colspan="11">{{group.Name}}</td>
             </tr>
             <tr ng-repeat="member in group.Members"
-                ng-class="{'outstanding': member.Contribution + member.BonusGiven === 10, 'very-good': member.Contribution + member.BonusGiven === 9}">
+                ng-class="{'noticeable-performance very-good': member.Contribution + member.BonusGiven > 8 && !member.IsReadyPromotion,
+                            'noticeable-performance outstanding': member.Contribution + member.BonusGiven > 8 && member.IsReadyPromotion, 
+                            'noticeable-performance poor': member.Contribution + member.BonusGiven < 3}">
                 <td class="text-center" ng-bind="$index + 1"></td>
-                <td ng-bind="member.Employee.FullName"></td>
                 <td class="text-center" ng-bind="member.Employee.NickName"></td>
+                <td ng-bind="member.Employee.FullName"></td>
                 <td ng-bind="member.Employee.JobTitle.JobTitleName"></td>
                 <td class="text-center">
                     <select class="form-control"

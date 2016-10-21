@@ -98,7 +98,7 @@
             var statusClass = getClassByNominationStatus(nomination.StatusId);
             var tooltipContent = renderEmployeeAwardTooltip(nomination.Nominators);
 
-            var htmlString = "<td><b>" + nomination.Title + "</b></td>" +
+            var htmlString = "<td>" + nomination.Title + "</td>" +
             "<td class='text-center'><span class='award-tooltip nomination-status " + statusClass + "' title='" + tooltipContent + "'>"
             + nomination.StatusToString + "</span></td>";
 
@@ -308,8 +308,12 @@
                     { HeaderText: "Reviewer's Adjustment", Name: "ReviewerAdjustment", MergeRowNumber: 2 },
                     { HeaderText: "PA Final Score", Name: "PAFinalScore", MergeRowNumber: 2 },
                     { HeaderText: "Evaluator's Comment", Name: "EvaluatorComment", MergeRowNumber: 2 },
-                    { HeaderText: "Suitable For Team Goal", Name: "Contribution", MergeRowNumber: 2 },
-                    { HeaderText: "Deserve Rewards (Salary Increase And Bonus)", Name: "BonusGiven", MergeRowNumber: 2 },
+                    { HeaderText: "I would always want him or her on my team (ability to work well with others)", Name: "Contribution", MergeRowNumber: 2 },
+                    {
+                        HeaderText: "I would want to award this person the highest " +
+                            "possible benefit (increase and bonus) which is available for her/his job grade",
+                        Name: "BonusGiven", MergeRowNumber: 2
+                    },
                     { HeaderText: "Applicable To Promote", Name: "ApplicableToPromote", MergeRowNumber: 2 },
                     { HeaderText: "Poor Performance", Name: "IsPoorPerformance", MergeRowNumber: 2 },
                     { HeaderText: "Assessing Of Current Objective Achievement", Name: "ObjectiveAchievement", MergeRowNumber: 2 },
@@ -329,8 +333,12 @@
                { HeaderText: "Reviewer's Adjustment", Width: 80, Name: "ReviewerAdjustment", CellAlign: "center" },
                { HeaderText: "PA Final Score", Width: 60, Name: "PAFinalScore", CellAlign: "center" },
                { HeaderText: "Evaluator's Comment", Width: 80, Name: "EvaluatorComment", CellAlign: "center", CustomCellRender: renderEvaluatorCommentCell },
-               { HeaderText: "Suitable for team goal", Width: 150, Name: "Contribution", CellAlign: "center" },
-               { HeaderText: "Deserve rewards (salary increase and bonus)", Width: 150, Name: "BonusGiven", CellAlign: "center" },
+               { HeaderText: "I would always want him or her on my team (ability to work well with others)", Width: 150, Name: "Contribution", CellAlign: "center" },
+               {
+                   HeaderText: "I would want to award this person the highest" +
+                       " possible benefit (increase and bonus) which is available for her/his job grade",
+                   Width: 150, Name: "BonusGiven", CellAlign: "center"
+               },
                { HeaderText: "Applicable to promote", Width: 50, Name: "ApplicableToPromote", CellAlign: "center" },
                {
                    HeaderText: "Accessing of Objective achievement", Width: 150, Name: "ObjectiveAchievement",
@@ -346,17 +354,16 @@
             ];
         }
 
-        function getEmployeePerformanceRowClass(contribution, bonusGiven) {
+        function getEmployeePerformanceRowClass(member) {
             var cssClass = "";
-            var totalPoint = (contribution || 0) + (bonusGiven || 0);
+            var totalPoint = (member.Contribution || 0) + (member.BonusGiven || 0);
 
-            switch (totalPoint) {
-                case 10:
-                    cssClass = "outstanding";
-                    break;
-                case 9:
-                    cssClass = "very-good";
-                    break;
+            if (totalPoint > 8 && member.IsReadyPromotion) {
+                cssClass = "noticeable-performance outstanding";
+            } else if (totalPoint > 8 && !member.IsReadyPromotion) {
+                cssClass = "noticeable-performance very-good";
+            } else if (member.Contribution + member.BonusGiven < 3) {
+                cssClass = "noticeable-performance poor";
             }
 
             return cssClass;
@@ -376,7 +383,7 @@
                 angular.forEach(group.Members, function (member) {
                     var subRow = {
                         Columns: [],
-                        CssClass: getEmployeePerformanceRowClass(angular.copy(member.PAFocus.Contribution), angular.copy(member.PAFocus.BonusGiven))
+                        CssClass: getEmployeePerformanceRowClass(angular.copy(member.PAFocus))
                     };
                     var employee = {
                         EmployeeId: member.PAFocus.Employee.EmployeeId,

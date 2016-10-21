@@ -1261,11 +1261,36 @@ header {
   max-width: 700px;
   min-width: 200px !important;
 }
+.employee-performance-table tr.noticeable-performance td,
+.employee-performance-table tr.noticeable-performance .nomination-status,
+.employee-performance-table tr.noticeable-performance .fa,
+.employee-performance-table tr.noticeable-performance .focus-evaluation-status {
+  color: #FFF !important;
+  font-weight: normal !important;
+}
+.employee-performance-table tr.noticeable-performance td a,
+.employee-performance-table tr.noticeable-performance .nomination-status a,
+.employee-performance-table tr.noticeable-performance .fa a,
+.employee-performance-table tr.noticeable-performance .focus-evaluation-status a {
+  color: #FFF !important;
+}
+.employee-performance-table tr.noticeable-performance:hover.outstanding td {
+  background: #59B03B !important;
+}
+.employee-performance-table tr.noticeable-performance:hover.very-good td {
+  background: #68A9BD !important;
+}
+.employee-performance-table tr.noticeable-performance:hover.poor td {
+  background: #FF5F5F !important;
+}
 .employee-performance-table tr.outstanding td {
-  background: #fff8ad;
+  background: #59B03B !important;
 }
 .employee-performance-table tr.very-good td {
-  background: #ffc4c4;
+  background: #68A9BD !important;
+}
+.employee-performance-table tr.poor td {
+  background: #FF5F5F !important;
 }
 #ResultSettingTab .table {
   margin-top: 20px;

@@ -916,7 +916,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Deserve Rewards (Salary Increase And Bonus).
+        ///   Looks up a localized string similar to I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade.
         /// </summary>
         public static string DeserveRewards {
             get {
@@ -4165,7 +4165,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Suitable For Team Goals.
+        ///   Looks up a localized string similar to I would always want him or her on my team (ability to work well with others).
         /// </summary>
         public static string SuitableForTeamGoals {
             get {
@@ -4579,7 +4579,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Update Evaluation Period.
+        ///   Looks up a localized string similar to Edit Evaluation Period.
         /// </summary>
         public static string UpdateEvaluationPeriod {
             get {

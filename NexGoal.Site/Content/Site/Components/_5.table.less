@@ -31,14 +31,16 @@
                 }
             }
 
-            &.header-table{
+            &.header-table {
                 .button {
                     height: 26px;
                     line-height: 26px;
                 }
+
                 input[type="text"] {
                     height: 26px;
                 }
+
                 th {
                     background: #eaeaea;
                     color: #333;
@@ -304,15 +306,55 @@
 
 .employee-performance-table {
     tr {
+        &.noticeable-performance {
+            td,
+            .nomination-status,
+            .fa,
+            .focus-evaluation-status {
+                color: #FFF !important;
+                font-weight: normal !important;
+
+                a {
+                    color: #FFF !important;
+                }
+            }
+
+            &:hover {
+                &.outstanding {
+                    td {
+                        background: #59B03B !important;
+                    }
+                }
+
+                &.very-good {
+                    td {
+                        background: #68A9BD !important;
+                    }
+                }
+
+                &.poor {
+                    td {
+                        background: #FF5F5F !important;
+                    }
+                }
+            }
+        }
+
         &.outstanding {
             td {
-                background: #fff8ad;
+                background: #59B03B !important;
             }
         }
 
         &.very-good {
             td {
-                background: #ffc4c4;
+                background: #68A9BD !important;
+            }
+        }
+
+        &.poor {
+            td {
+                background: #FF5F5F !important;
             }
         }
     }
