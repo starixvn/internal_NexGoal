@@ -36,8 +36,8 @@ namespace NexGoal.Services.Implement
             this.titleHeaders = new List<string>
             {
                 Lang.SymbolCount,
-                Lang.FullName,
                 Lang.NickName,
+                Lang.FullName,                
                 Lang.JobTitle,
                 Lang.Team,
                 Lang.SuitableForTeamGoals,
@@ -222,14 +222,14 @@ namespace NexGoal.Services.Implement
                 cellBody.SetCellValue(index++);
 
                 cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleLeft;
-                cellBody.SetCellValue(pa.Employee.FullName);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-
-                cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(pa.Employee.NickName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleLeft;
+                cellBody.SetCellValue(pa.Employee.FullName);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);                
 
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleLeft;

@@ -123,8 +123,8 @@
             {
                 Count = rowIndex,
                 Code = memberEPA.Employee.Code,
-                FullName = memberEPA.Employee.FullName,
                 NickName = memberEPA.Employee.NickName,
+                FullName = memberEPA.Employee.FullName,                
                 Category = memberEPA.Employee.Category,
                 Section = memberEPA.Employee.GroupName,
                 JobTitle = memberEPA.Employee.JobTitleName,
