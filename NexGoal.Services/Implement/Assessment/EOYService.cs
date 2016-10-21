@@ -8,6 +8,7 @@
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
     using System.Collections.Generic;
+    using System.Linq;
 
     public class EOYService : BaseService, IEOYService
     {
@@ -30,6 +31,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 list = this.GetData<EOQYModel>(criteria);
+                list = list.OrderByDescending(i => i.Year);
             }
 
             return list;
