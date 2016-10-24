@@ -10,6 +10,9 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     ViolationModel, NominationModel) {
     var vm = this;
 
+    $scope.epaInfo = {};
+
+    vm.isChangedData = false;
     vm.epaId = parseInt($routeParams.id, 10);
     vm.maxStar = utilitiesFactory.maxStar;
     vm.epaInfo = SelfEvalutorModel.epaInfo;
@@ -24,6 +27,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.policyEnum = enumerationsFactory.policy;
     vm.lastTotalScore = 0;
     vm.lastRating = [];
+
+    vm.scoreInputValidMessage = "";
+    vm.evaluateEPAInvalidMessage = "";
+    vm.warningLostDataMessage = "";
 
     function calculateSubTotalScore(kpiGroup) {
         var score = 0;
@@ -86,6 +93,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
         lockScreenService.start();
         SelfEvalutorModel.getEPAInfoByEmployee(vm.epaId).then(function () {
             vm.epaInfo = SelfEvalutorModel.epaInfo;
+            $scope.epaInfo = vm.epaInfo;
             checkStatus(vm.epaInfo);
 
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
@@ -129,6 +137,20 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 vm.epaInfo.LastPerformanceScore += utilitiesFactory.parseFloat(vm.getSubLastScore(kpiGroup));
             });
+
+            $scope.$watch("epaInfo", function (newValue, oldValue) {
+                vm.isChangedData = newValue !== oldValue;
+            }, true);
+
+            $scope.$on('$routeChangeStart', function (event) {
+                if (vm.isChangedData) {
+                    var cancelConfirm = confirm(vm.warningLostDataMessage);
+
+                    if (!cancelConfirm) {
+                        event.preventDefault();
+                    }
+                }
+            });
         })["finally"](function () {
             lockScreenService.stop();
         });
@@ -141,6 +163,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
 
         $translate('EvaluateEPAInvalid').then(function (message) {
             vm.evaluateEPAInvalidMessage = message;
+        });
+
+        $translate('WarningLostDataMessage').then(function (message) {
+            vm.warningLostDataMessage = message;
         });
 
         CommonModel.getStandardGrade().then(function () {
@@ -214,7 +240,9 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     vm.save = function (epaInfo) {
         if (SelfEvalutorModel.validateEPA(epaInfo)) {
             lockScreenService.start();
-            SelfEvalutorModel.updateEPAScoreByEmployee(vm)["finally"](function () {
+            SelfEvalutorModel.updateEPAScoreByEmployee(vm).then(function () {
+                vm.isChangedData = false;
+            })["finally"](function () {
                 lockScreenService.stop();
             });
         } else {
@@ -233,4 +261,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
     };
 
     initialize();
+
+
 }]);

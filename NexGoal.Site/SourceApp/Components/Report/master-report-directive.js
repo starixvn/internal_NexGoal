@@ -445,8 +445,7 @@
                 var gridOptions = {
                     customizeHeader: true,
                     showTree: true,
-                    gridExpandHeight: 300,
-                    showDistinctRow: false
+                    gridExpandHeight: 300
                 };
 
                 scope.$watch("gridData", function (gridData) {

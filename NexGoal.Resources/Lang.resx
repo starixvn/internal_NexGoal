@@ -1749,4 +1749,7 @@
   <data name="PAFocusSecondNote" xml:space="preserve">
     <value>I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade.</value>
   </data>
+  <data name="WarningLostDataMessage" xml:space="preserve">
+    <value>All unsaved changes will be lost. Do you want to proceed?</value>
+  </data>
 </root>

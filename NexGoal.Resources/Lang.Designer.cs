@@ -4858,6 +4858,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to All unsaved changes will be lost. Do you want to proceed?.
+        /// </summary>
+        public static string WarningLostDataMessage {
+            get {
+                return ResourceManager.GetString("WarningLostDataMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Weight.
         /// </summary>
         public static string Weight {

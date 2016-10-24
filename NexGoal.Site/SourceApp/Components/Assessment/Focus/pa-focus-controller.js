@@ -3,10 +3,10 @@
 
     assessmentModule.controller("PAFocusController", paFocusController);
 
-    paFocusController.$inject = ["$scope", "CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory",
+    paFocusController.$inject = ["$scope", "$translate", "CommonModel", "EmployeeModel", "PAFocusModel", "utilitiesFactory",
         'lockScreenService', 'notificationFactory', 'enumerationsFactory'];
 
-    function paFocusController($scope, CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory,
+    function paFocusController($scope, $translate, CommonModel, EmployeeModel, PAFocusModel, utilitiesFactory,
         lockScreenService, notificationFactory, enumerationsFactory) {
         var vm = this;
 
@@ -38,7 +38,13 @@
         vm.policy = enumerationsFactory.policy;
         vm.allowToEdit = false;
 
+        vm.warningLostDataMessage = "";
+
         function initialize() {
+            $translate('WarningLostDataMessage').then(function (message) {
+                vm.warningLostDataMessage = message;
+            });
+
             CommonModel.getReadyPeriod(enumerationsFactory.targetType.SemiAnnual).then(function () {
                 vm.periods = CommonModel.periods;
 
@@ -56,7 +62,7 @@
 
             $scope.$on('$routeChangeStart', function (event) {
                 if (vm.isChangedData) {
-                    var cancelConfirm = confirm("All unsaved changes will be lost. Do you want to proceed?");
+                    var cancelConfirm = confirm(vm.warningLostDataMessage);
 
                     if (!cancelConfirm) {
                         event.preventDefault();
@@ -103,7 +109,7 @@
 
         vm.query = function () {
             if (vm.isChangedData) {
-                var cancelConfirm = confirm("All unsaved changes will be lost. Do you want to proceed?");
+                var cancelConfirm = confirm(vm.warningLostDataMessage);
 
                 if (cancelConfirm) {
                     query();
