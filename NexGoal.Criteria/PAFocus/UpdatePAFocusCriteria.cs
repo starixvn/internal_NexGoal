@@ -1,12 +1,13 @@
 ﻿namespace NexGoal.Criteria.PAFocus
 {
-    using Fanex.Data.Repository;
-    using NexGoal.Core.Constants;
-    using NexGoal.Model.PAFocus;
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
     using System.Web;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using NexGoal.Core.Constants;
+    using NexGoal.Model.PAFocus;
 
     public class UpdatePAFocusCriteria : CriteriaBase
     {

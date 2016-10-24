@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -8,8 +10,6 @@
     using NexGoal.Model.FlowManagement;
     using NexGoal.Model.TargetType;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class FlowManagementRepository : IFlowManagementRepository
     {
@@ -67,7 +67,7 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     flows = multi.Read<DepartmentFlowModel>();
                     IEnumerable<ProcessFlowModel> processes = multi.Read<ProcessFlowModel>();
@@ -85,7 +85,7 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     flows = multi.Read<PersonalFlowModel, Group, PersonalFlowModel>(
                         (flow, gr) =>

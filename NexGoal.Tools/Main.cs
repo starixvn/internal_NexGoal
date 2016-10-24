@@ -14,8 +14,12 @@
             UCChangeCertificate changeCertificate = new UCChangeCertificate();
             changeCertificate.Dock = DockStyle.Fill;
 
+            UCEncryptor encryptor = new UCEncryptor();
+            encryptor.Dock = DockStyle.Fill;
+
             tabControl.TabPages[0].Controls.Add(resetScore);
             tabControl.TabPages[1].Controls.Add(changeCertificate);
+            tabControl.TabPages[2].Controls.Add(encryptor);
         }
     }
 }

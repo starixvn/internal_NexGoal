@@ -1,12 +1,12 @@
-﻿using Fanex.Data;
-using Fanex.Data.Repository;
-using NexGoal.Core.Model;
-using NexGoal.Model.Employee;
-using NexGoal.Repositories.Interfaces;
-using System.Collections.Generic;
-
-namespace NexGoal.Repositories.Implement
+﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
+    using NexGoal.Core.Model;
+    using NexGoal.Model.Employee;
+    using NexGoal.Repositories.Interfaces;
+
     public class MenuRepository : IMenuRepository
     {
         public IEnumerable<MenuViewModel> GetMenus(ICriteria criteria)
@@ -21,8 +21,8 @@ namespace NexGoal.Repositories.Implement
 
                         return m;
                     },
-                    splitOn: "FunctionId,MenuId",
-                        parameterValues: criteria.GetSpParams());
+                    "FunctionId,MenuId",
+                    criteria.GetSpParams());
 
                 return menus;
             }

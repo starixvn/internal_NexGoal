@@ -1,24 +1,24 @@
 ﻿namespace NexGoal.Tools
 {
-    using NexGoal.Tools.Properties;
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Security.Cryptography.X509Certificates;
     using System.Windows.Forms;
+    using NexGoal.Tools.Properties;
 
     public partial class UCChangeCertificate : UserControl
     {
         private const int NumberOfItemToOperate = 50;
         private readonly ICertificateService certificateService;
-        private readonly ICommonService commonService;        
+        private readonly ICommonService commonService;
 
         public UCChangeCertificate()
         {
             InitializeComponent();
 
             certificateService = new CertificateService();
-            commonService = new CommonService();            
+            commonService = new CommonService();
         }
 
         private void OpenOldFile_Click(object sender, EventArgs e)
@@ -80,7 +80,7 @@
             {
                 MessageBox.Show(ex.Message);
                 return;
-            }            
+            }
         }
 
         private void ChangeCertificatedOfPAFocus(X509Certificate2 oldCertificate, X509Certificate2 newCertificate, string connectionString)

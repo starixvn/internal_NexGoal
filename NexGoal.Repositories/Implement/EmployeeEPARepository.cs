@@ -1,5 +1,8 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -8,9 +11,6 @@
     using NexGoal.Model.Report.Dashboard;
     using NexGoal.Model.ScoreRatingType;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
@@ -18,7 +18,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EPAKPIGroupModel> groups = multi.Read<EPAKPIGroupModel>();
 
@@ -47,7 +47,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAEmployeeModel, RatingTypeModel, EPAStatusModel, EPAPeriodModel, ScoreRatingTypeModel, EPAModel>(
                     (epaInfo, employee, ratingType, status, period, scoreRatingType) =>
@@ -86,7 +86,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     EPAModel epaInfo = new EPAModel();
 
@@ -136,7 +136,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EPAModel> epaInfos = multi.Read<EPAModel, EPAStatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
                     (epaInfo, status, emp, period) =>
@@ -167,7 +167,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IList<EPAModel> epaInfos = multi.Read<EPAModel, EPAStatusModel, EPAEmployeeModel, EPAPeriodModel, EPAModel>(
                     (epaInfo, status, emp, period) =>
@@ -200,7 +200,7 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     result.MyEPAs = multi.Read<EPAModel, EPAStatusModel, EPAPeriodModel, EPAModel>(
                         (epa, status, period) =>
@@ -265,7 +265,7 @@
             IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
                         (epaInfo, employee, type, kgr) =>
@@ -306,7 +306,7 @@
             IEnumerable<RatingByKPIModel> epaInfos = new List<RatingByKPIModel>();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
                         (epaInfo, employee, type, kgr) =>

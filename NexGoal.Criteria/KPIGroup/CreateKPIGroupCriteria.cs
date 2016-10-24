@@ -1,11 +1,9 @@
 ﻿namespace NexGoal.Criteria.KPIGroup
 {
     using Fanex.Data.Repository;
-    using NexGoal.Core.Attribute;
 
     public class CreateKPIGroupCriteria : CriteriaBase
     {
-        [Output]
         public int KPIGroupId { get; set; }
 
         public string Name { get; set; }

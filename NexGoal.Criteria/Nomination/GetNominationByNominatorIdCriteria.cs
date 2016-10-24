@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Criteria
 {
+    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public class GetNominationByNominatorIdCriteria : CriteriaBase

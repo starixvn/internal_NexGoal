@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Criteria.Period
 {
+    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public class UpdateEmployeeSettingOfPeriodCriteria : CriteriaBase

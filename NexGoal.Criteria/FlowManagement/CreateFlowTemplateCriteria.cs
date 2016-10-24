@@ -1,11 +1,9 @@
 ﻿namespace NexGoal.Criteria.FlowManagement
 {
     using Fanex.Data.Repository;
-    using NexGoal.Core.Attribute;
 
     public class CreateFlowTemplateCriteria : CriteriaBase
     {
-        [Output]
         public int FlowTemplateId { get; set; }
 
         public string Name { get; set; }

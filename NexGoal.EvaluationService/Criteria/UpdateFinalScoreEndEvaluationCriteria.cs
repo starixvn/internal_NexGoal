@@ -2,6 +2,7 @@
 {
     using Fanex.Data.Repository;
     using System.Text;
+    using Fanex.Data;
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
     {

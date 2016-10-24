@@ -32,6 +32,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPageResetScore = new System.Windows.Forms.TabPage();
             this.tabPageChangeCertificate = new System.Windows.Forms.TabPage();
+            this.tabPageEncryptor = new System.Windows.Forms.TabPage();
             this.tabControl.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -42,6 +43,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tabControl.Controls.Add(this.tabPageResetScore);
             this.tabControl.Controls.Add(this.tabPageChangeCertificate);
+            this.tabControl.Controls.Add(this.tabPageEncryptor);
             this.tabControl.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Name = "tabControl";
@@ -65,10 +67,20 @@
             this.tabPageChangeCertificate.Location = new System.Drawing.Point(4, 24);
             this.tabPageChangeCertificate.Name = "tabPageChangeCertificate";
             this.tabPageChangeCertificate.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageChangeCertificate.Size = new System.Drawing.Size(476, 510);
+            this.tabPageChangeCertificate.Size = new System.Drawing.Size(486, 504);
             this.tabPageChangeCertificate.TabIndex = 1;
             this.tabPageChangeCertificate.Text = "Change Certificate";
             this.tabPageChangeCertificate.UseVisualStyleBackColor = true;
+            // 
+            // tabPageEncryptor
+            // 
+            this.tabPageEncryptor.Location = new System.Drawing.Point(4, 24);
+            this.tabPageEncryptor.Name = "tabPageEncryptor";
+            this.tabPageEncryptor.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPageEncryptor.Size = new System.Drawing.Size(486, 504);
+            this.tabPageEncryptor.TabIndex = 2;
+            this.tabPageEncryptor.Text = "Encryptor";
+            this.tabPageEncryptor.UseVisualStyleBackColor = true;
             // 
             // Main
             // 
@@ -91,5 +103,6 @@
         private System.Windows.Forms.TabControl tabControl;
         private System.Windows.Forms.TabPage tabPageResetScore;
         private System.Windows.Forms.TabPage tabPageChangeCertificate;
+        private System.Windows.Forms.TabPage tabPageEncryptor;
     }
 }

@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.BackgroundService
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model.Period;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EvaluationRepository : IEvaluationRepository
     {
@@ -12,7 +12,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<int> employees = multi.Read<int>();
                     IEnumerable<int> periods = multi.Read<int>();

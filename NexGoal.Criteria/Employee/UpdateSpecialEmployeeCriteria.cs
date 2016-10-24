@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Criteria.Employee
 {
+    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public class UpdateSpecialEmployeeCriteria : CriteriaBase

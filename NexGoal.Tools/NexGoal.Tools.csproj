@@ -111,6 +111,12 @@
     <Compile Include="UCChangeCertificate.Designer.cs">
       <DependentUpon>UCChangeCertificate.cs</DependentUpon>
     </Compile>
+    <Compile Include="UCEncryptor.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="UCEncryptor.Designer.cs">
+      <DependentUpon>UCEncryptor.cs</DependentUpon>
+    </Compile>
     <Compile Include="UCResetScore.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -132,6 +138,9 @@
     </Compile>
     <EmbeddedResource Include="UCChangeCertificate.resx">
       <DependentUpon>UCChangeCertificate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UCEncryptor.resx">
+      <DependentUpon>UCEncryptor.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="UCResetScore.resx">
       <DependentUpon>UCResetScore.cs</DependentUpon>

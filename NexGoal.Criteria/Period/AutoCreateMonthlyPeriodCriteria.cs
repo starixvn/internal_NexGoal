@@ -1,12 +1,10 @@
 ﻿namespace NexGoal.Criteria.Period
 {
-    using Fanex.Data.Repository;
-    using NexGoal.Core.Attribute;
     using System;
+    using Fanex.Data.Repository;
 
     public class AutoCreateMonthlyPeriodCriteria : CriteriaBase
     {
-        [Output]
         public int PeriodId { get; set; }
 
         public string Name { get; set; }

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Model;
@@ -8,8 +10,6 @@
     using NexGoal.Model.Enitites;
     using NexGoal.Model.RoleManagement;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EmployeeRepository : IEmployeeRepository
     {
@@ -17,7 +17,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
                            (emp, jb, gr) =>
@@ -46,7 +46,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     UserSession userSession = null;
                     IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
@@ -80,7 +80,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     EmployeeModel employee = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
                            (emp, jb, dept, gr) =>

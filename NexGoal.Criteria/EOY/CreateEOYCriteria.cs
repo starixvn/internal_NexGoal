@@ -1,12 +1,10 @@
 ﻿namespace NexGoal.Criteria
 {
-    using Fanex.Data.Repository;
-    using NexGoal.Core.Attribute;
     using System;
+    using Fanex.Data.Repository;
 
     public class CreateEOYCriteria : CriteriaBase
     {
-        [Output]
         public int EOQYId { get; set; }
 
         public int Year { get; set; }

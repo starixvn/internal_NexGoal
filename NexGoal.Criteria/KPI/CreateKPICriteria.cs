@@ -1,11 +1,9 @@
 ﻿namespace NexGoal.Criteria.KPI
 {
     using Fanex.Data.Repository;
-    using NexGoal.Core.Attribute;
 
     public class CreateKPICriteria : CriteriaBase
     {
-        [Output]
         public int KPIId { get; set; }
 
         public string Name { get; set; }

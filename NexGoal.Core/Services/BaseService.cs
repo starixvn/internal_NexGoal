@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Core.Services
 {
+    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using NexGoal.Core.Repositories;
-    using System.Collections.Generic;
 
     public class BaseService
     {

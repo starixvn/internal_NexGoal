@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Criteria.Report
 {
     using Fanex.Data.Repository;
-    using NexGoal.Core.Attribute;
 
     public class GetEPASummaryCriteria : CriteriaBase
     {
@@ -21,7 +20,6 @@
 
         public int? ItemsPerPage { get; set; }
 
-        [Output]
         public int? TotalItem { get; set; }
 
         public override string GetSettingKey()

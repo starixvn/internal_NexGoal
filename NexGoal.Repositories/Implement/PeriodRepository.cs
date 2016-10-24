@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -10,8 +12,6 @@
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Model.TargetType;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class PeriodRepository : IPeriodRepository
     {
@@ -49,7 +49,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<PeriodEmployeeSettingModel> employeeSettings =
                         multi.Read<PeriodEmployeeSettingModel, Employee, DepartmentModel, Group, JobTitle, TargetTemplateModel, PeriodEmployeeSettingModel>(

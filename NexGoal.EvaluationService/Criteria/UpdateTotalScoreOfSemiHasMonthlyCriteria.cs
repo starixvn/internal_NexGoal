@@ -5,6 +5,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
     using System.Text;
+    using Fanex.Data;
 
     public class UpdateTotalScoreOfSemiHasMonthlyCriteria : CriteriaBase
     {

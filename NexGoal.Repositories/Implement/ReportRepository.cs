@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -12,8 +14,6 @@
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Model.Report.EPASummary;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class ReportRepository : IReportRepository
     {
@@ -22,7 +22,7 @@
             IEnumerable<MasterReportModel> employees = new List<MasterReportModel>();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     employees = multi.Read<MasterReportModel, PAFocusModel, EmployeeModel, JobTitle, Group, MasterReportModel>(
                         (report, focus, emp, job, gr) =>
@@ -77,7 +77,7 @@
 
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     epaDetail = multi.Read<EPADetailModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, EPADetailModel>(
                     (info, employee, status, period) =>

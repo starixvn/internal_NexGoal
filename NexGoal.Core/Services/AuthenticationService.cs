@@ -1,13 +1,13 @@
 ﻿namespace NexGoal.Core.Services
 {
+    using System.Net;
+    using System.Net.Sockets;
+    using System.Web;
     using Fanex.Logging;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Criteria;
     using NexGoal.Core.Model;
     using NexGoal.Core.Repositories;
-    using System.Net;
-    using System.Net.Sockets;
-    using System.Web;
 
     public class AuthenticationService : BaseService, IAuthenticationService
     {
@@ -38,7 +38,7 @@
 
         public void InsertLogLogin(string username)
         {
-            var criteria = new InsertLogLoginCriteria() 
+            var criteria = new InsertLogLoginCriteria()
             {
                 IdentifyUser = GetShortUsername(HttpContext.Current.User.Identity.Name),
                 LoginUser = GetShortUsername(username),
@@ -67,7 +67,7 @@
                 if (ex.ErrorCode != Constants.NotFoundHostName)
                 {
                     LogService.Error("Can not find Host Name", ex);
-                }                
+                }
             }
 
             return hostName;

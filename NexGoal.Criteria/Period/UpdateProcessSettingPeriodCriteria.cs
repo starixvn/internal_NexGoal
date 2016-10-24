@@ -1,15 +1,16 @@
 ﻿namespace NexGoal.Criteria.Period
 {
+    using System.Collections.Generic;
+    using System.Text;
+    using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Constants;
     using NexGoal.Model.FlowManagement;
-    using System.Collections.Generic;
-    using System.Text;
 
     public class UpdateProcessSettingPeriodCriteria : CriteriaBase
     {
         private const string ProcessItemXmTemplate = "<ProcessSetting ProcessId='{0}' Duration='{1}' NoticeAtBegin='{2}' RemindDay='{3}'></ProcessSetting>";
-       
+
         public int PeriodId { get; set; }
 
         public string ProcessSettings

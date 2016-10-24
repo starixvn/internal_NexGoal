@@ -1,7 +1,8 @@
 ﻿namespace NexGoal.Criteria.AttendanceSummary
 {
-    using Fanex.Data.Repository;
     using System;
+    using Fanex.Data;
+    using Fanex.Data.Repository;
 
     public class GetAttendanceSummaryCriteria : CriteriaBase
     {

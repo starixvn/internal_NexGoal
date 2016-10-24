@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Criteria.AttendanceSummary
 {
+    using Fanex.Data;
     using Fanex.Data.Repository;
 
     public class GetAttendanceScoreByEPAIdCriteria : CriteriaBase

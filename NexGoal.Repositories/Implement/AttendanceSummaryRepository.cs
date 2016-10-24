@@ -1,14 +1,14 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model.AttendanceSummary;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
 
     public class AttendanceSummaryRepository : IAttendanceSummaryRepository
     {
@@ -34,7 +34,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReader multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, JobTitle, EmployeeModel>(
                         (emp, gr, job) =>
