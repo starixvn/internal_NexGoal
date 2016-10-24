@@ -175,15 +175,31 @@ namespace NexGoal.Services.Implement
             redStyleCenter.FillBackgroundColor = RedColor;
             redStyleCenter.SetFont(whiteFont);
 
-            var promotionStyle = workbook.CreateCellStyle();
-            promotionStyle.Alignment = HorizontalAlignment.Center;
-            promotionStyle.VerticalAlignment = VerticalAlignment.Center;
-            promotionStyle.SetFont(greenFont);
+            var promotionEvenStyle = workbook.CreateCellStyle();
+            promotionEvenStyle.Alignment = HorizontalAlignment.Center;
+            promotionEvenStyle.VerticalAlignment = VerticalAlignment.Center;
+            promotionEvenStyle.FillForegroundColor = EvenColor;
+            promotionEvenStyle.FillPattern = FillPattern.SolidForeground;
+            promotionEvenStyle.FillBackgroundColor = EvenColor;
+            promotionEvenStyle.SetFont(greenFont);
 
-            var poorStyle = workbook.CreateCellStyle();
-            poorStyle.Alignment = HorizontalAlignment.Center;
-            poorStyle.VerticalAlignment = VerticalAlignment.Center;
-            poorStyle.SetFont(redFont);
+            var promotionOddStyle = workbook.CreateCellStyle();
+            promotionOddStyle.Alignment = HorizontalAlignment.Center;
+            promotionOddStyle.VerticalAlignment = VerticalAlignment.Center;
+            promotionOddStyle.SetFont(greenFont);
+
+            var poorEvenStyle = workbook.CreateCellStyle();
+            poorEvenStyle.Alignment = HorizontalAlignment.Center;
+            poorEvenStyle.VerticalAlignment = VerticalAlignment.Center;
+            poorEvenStyle.FillForegroundColor = EvenColor;
+            poorEvenStyle.FillPattern = FillPattern.SolidForeground;
+            poorEvenStyle.FillBackgroundColor = EvenColor;
+            poorEvenStyle.SetFont(redFont);
+
+            var poorOddStyle = workbook.CreateCellStyle();
+            poorOddStyle.Alignment = HorizontalAlignment.Center;
+            poorOddStyle.VerticalAlignment = VerticalAlignment.Center;
+            poorOddStyle.SetFont(redFont);
 
             var evenlStyleLeft = workbook.CreateCellStyle();
             evenlStyleLeft.Alignment = HorizontalAlignment.Left;
@@ -287,10 +303,20 @@ namespace NexGoal.Services.Implement
                 var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? Lang.Yes : Lang.No : Lang.Dash;
                 if (promotion == Lang.Yes && condition > MinStone && condition < MaxStone)
                 {
-                    cellBody = row.CreateCell(columnIndex);
-                    cellBody.CellStyle = promotionStyle;
-                    cellBody.SetCellValue(promotion);
-                    sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    if (index % 2 == 0)
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = promotionEvenStyle;
+                        cellBody.SetCellValue(promotion);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
+                    else
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = promotionOddStyle;
+                        cellBody.SetCellValue(promotion);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }                    
                 }
                 else
                 {
@@ -303,10 +329,20 @@ namespace NexGoal.Services.Implement
                 var performance = pa.IsPoorPerformance.HasValue ? pa.IsPoorPerformance.Value ? Lang.Yes : Lang.No : Lang.Dash;
                 if (performance == Lang.Yes && condition > MinStone && condition < MaxStone)
                 {
-                    cellBody = row.CreateCell(columnIndex);
-                    cellBody.CellStyle = poorStyle;
-                    cellBody.SetCellValue(performance);
-                    sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    if (index % 2 == 0)
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = poorEvenStyle;
+                        cellBody.SetCellValue(performance);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
+                    else
+                    {
+                        cellBody = row.CreateCell(columnIndex);
+                        cellBody.CellStyle = poorOddStyle;
+                        cellBody.SetCellValue(promotion);
+                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+                    }
                 }
                 else
                 {
@@ -350,8 +386,8 @@ namespace NexGoal.Services.Implement
         private void SetColorIndex()
         {
             HSSFPalette palette = workbook.GetCustomPalette();
-            palette.SetColorAtIndex(SupperGreenColor, (byte)104, (byte)169, (byte)189);
-            palette.SetColorAtIndex(GreenColor, (byte)89, (byte)176, (byte)159);
+            palette.SetColorAtIndex(SupperGreenColor, (byte)89, (byte)176, (byte)59);
+            palette.SetColorAtIndex(GreenColor, (byte)104, (byte)169, (byte)189);
             palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
             palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
             palette.SetColorAtIndex(HeaderColor, (byte)50, (byte)67, (byte)115);

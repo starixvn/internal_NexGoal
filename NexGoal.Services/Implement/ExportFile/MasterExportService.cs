@@ -580,8 +580,8 @@
         private void SetColorIndex()
         {
             HSSFPalette palette = workbook.GetCustomPalette();
-            palette.SetColorAtIndex(SupperGreenColor, (byte)104, (byte)169, (byte)189);
-            palette.SetColorAtIndex(GreenColor, (byte)89, (byte)176, (byte)159);
+            palette.SetColorAtIndex(SupperGreenColor, (byte)89, (byte)176, (byte)59);
+            palette.SetColorAtIndex(GreenColor, (byte)104, (byte)169, (byte)189);
             palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
             palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
             palette.SetColorAtIndex(HeaderColor, (byte)50, (byte)67, (byte)115);
