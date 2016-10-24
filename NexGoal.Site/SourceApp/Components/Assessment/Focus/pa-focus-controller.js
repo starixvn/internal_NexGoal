@@ -87,7 +87,10 @@
                     && vm.permission === vm.policy.Host;
             });
 
-            PAFocusModel.getPAFocus(vm.filter.periodId, vm.filter.groupIds, utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee)).then(function () {
+            PAFocusModel.getPAFocus(
+                vm.filter.periodId,
+                vm.filter.groupIds,
+                utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee)).then(function () {
                 $scope.groups = PAFocusModel.evaluations;
                 vm.isFirst = true;
             })["finally"](function () {
@@ -137,7 +140,7 @@
             }
 
             return level.Name;
-        }
+        };
 
         vm.getClassProgress = function (processStatus) {
             if (processStatus === vm.processStatus.InProgress) {
@@ -185,15 +188,15 @@
 
         vm.onIsReadyPromotionFieldChange = function (member) {
             if (member.IsReadyPromotion !== null) {
-                member.IsPoorPerformance = !member.IsPoorPerformance ? memberember.IsPoorPerformance : !member.IsReadyPromotion;
+                member.IsPoorPerformance = !member.IsPoorPerformance ? member.IsPoorPerformance : !member.IsReadyPromotion;
             }
-        }
+        };
 
         vm.onIsPoorPerformanceFieldChange = function (member) {
             if (member.IsPoorPerformance !== null) {
                 member.IsReadyPromotion = !member.IsReadyPromotion ? member.IsReadyPromotion : !member.IsPoorPerformance;
             }
-        }
+        };
 
         initialize();
     }

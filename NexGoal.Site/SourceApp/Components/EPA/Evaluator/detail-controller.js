@@ -9,6 +9,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, LastRatingModel, lockScreenService,
     ViolationModel, NominationModel) {
     var vm = this;
+
+    $scope.epaInfo = {};
+
+    vm.isChangedData = false;
     vm.hrmSummary = {};
     vm.employeeProjects = [];
     vm.violations = [];
@@ -24,6 +28,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.lastRating = [];
+
+    vm.scoreInputValidMessage = "";
+    vm.evaluateEPAInvalidMessage = "";
+    vm.warningLostDataMessage = "";
 
     function checkStatus(epaInfo) {
         if (!epaInfo.IsAllowedToEdit) {
@@ -59,27 +67,29 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         });
     }
 
-	function getIntegrationInformation(){
-		if(vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual){
-			EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
-                vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
-			});
-
-			EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
-			    vm.employeeProjects = EvaluatorManagementModel.employeeProjects;
-			});
-
-		}else{
-			EvaluatorManagementModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
+    function getIntegrationInformation() {
+        if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            EvaluatorManagementModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
             });
-		}
-	}
-	
+
+            EvaluatorManagementModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
+                vm.employeeProjects = EvaluatorManagementModel.employeeProjects;
+            });
+
+        } else {
+            EvaluatorManagementModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
+                vm.hrmSummary = EvaluatorManagementModel.hrmSummary;
+            });
+        }
+    }
+
     function getEPAInfoByEvaluator() {
         lockScreenService.start();
         EvaluatorManagementModel.getEPAInfoByEvaluator(vm.epaId).then(function () {
             vm.epaInfo = EvaluatorManagementModel.epaInfo;
+            $scope.epaInfo = vm.epaInfo;
+
             if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
                 LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId, vm.targetTypeEnum.SemiAnnual).then(function () {
                     vm.lastRating = LastRatingModel.groups;
@@ -124,6 +134,20 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             NominationModel.getNominationByPeriodId(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeNominations = NominationModel.employeeNominations;
             });
+
+            $scope.$watch("epaInfo", function (newValue, oldValue) {
+                vm.isChangedData = newValue !== oldValue;
+            }, true);
+
+            $scope.$on('$routeChangeStart', function (event) {
+                if (vm.isChangedData) {
+                    var cancelConfirm = confirm(vm.warningLostDataMessage);
+
+                    if (!cancelConfirm) {
+                        event.preventDefault();
+                    }
+                }
+            });
         })["finally"](function () {
             lockScreenService.stop();
         });
@@ -155,6 +179,10 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
 
         $translate('EvaluateEPAInvalid').then(function (message) {
             vm.evaluateEPAInvalidMessage = message;
+        });
+
+        $translate('WarningLostDataMessage').then(function (message) {
+            vm.warningLostDataMessage = message;
         });
 
         CommonModel.getStandardGrade().then(function () {
@@ -245,7 +273,9 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
     vm.save = function (epaInfo) {
         if (EvaluatorManagementModel.validateEPA(epaInfo)) {
             lockScreenService.start();
-            EvaluatorManagementModel.updateEPAScoreByEvaluator(vm)["finally"](function () {
+            EvaluatorManagementModel.updateEPAScoreByEvaluator(vm).then(function () {
+                vm.isChangedData = false;
+            })["finally"](function () {
                 lockScreenService.stop();
             });
         }

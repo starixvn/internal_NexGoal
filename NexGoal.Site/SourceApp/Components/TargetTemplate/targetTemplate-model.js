@@ -179,7 +179,7 @@ function ($modal, targetTemplateFactory, errorFactory, notificationFactory, util
                 targetTemplateId: function () {
                     return targetTemplateId;
                 }
-            },
+            }
         });
 
         return targetTemplateModel.modalInstance.result;

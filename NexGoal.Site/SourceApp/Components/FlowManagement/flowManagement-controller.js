@@ -136,8 +136,8 @@ function ($routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheSer
 }]);
 
 flowMngModule.controller("GeneralInformationController",
-['$scope', '$routeParams', 'FlowMngModel', 'CommonModel',
-function ($scope, $routeParams, FlowMngModel, CommonModel) {
+['$scope', '$routeParams', 'FlowMngModel', 'CommonModel', 'historyFactory',
+function ($scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id, 10);

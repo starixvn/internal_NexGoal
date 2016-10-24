@@ -15,6 +15,6 @@
             localStorage.setItem("MenuVisibility", !vm.menuVisibility);
             $rootScope.menuVisibility = !vm.menuVisibility;
             vm.menuVisibility = !vm.menuVisibility;
-        }
+        };
     }
 })(angular.module("pageModule"));

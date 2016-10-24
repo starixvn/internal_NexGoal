@@ -68,7 +68,10 @@
             vm.filter.groupIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
             vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
-            ReportModel.getPAReport(vm.filter.periodIds, vm.filter.groupIds, utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee)).then(function () {
+            ReportModel.getPAReport(
+                vm.filter.periodIds,
+                vm.filter.groupIds,
+                utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee)).then(function () {
                 vm.paReports = ReportModel.paReports;
                 utilitiesFactory.searchOnPage(vm, vm.paReports);
             })["finally"](function () {

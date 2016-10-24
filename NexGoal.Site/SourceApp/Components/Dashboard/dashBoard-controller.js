@@ -21,9 +21,9 @@
             vm.showScore = !vm.showScore;
 
             if (vm.showScore) {
-                stop = $interval(function () {
+                stopInterval = $interval(function () {
                     vm.showScore = false;
-                    $interval.cancel(stop);
+                    $interval.cancel(stopInterval);
                 }, 5000);
             }
         };

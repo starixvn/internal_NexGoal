@@ -2,14 +2,17 @@
 /*global epaModule*/
 
 epaModule.controller('DetailReviewerController',
-['$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
+['$scope', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', "SelfEvalutorModel",
     'utilitiesFactory', 'enumerationsFactory', 'baseUrl', 'historyFactory', 'notificationFactory', 'lockScreenService',
     'ViolationModel', 'NominationModel',
-function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
+function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, SelfEvalutorModel,
     utilitiesFactory, enumerationsFactory, baseUrl, historyFactory, notificationFactory, lockScreenService,
     ViolationModel, NominationModel) {
     var vm = this;
 
+    $scope.epaInfo = {};
+
+    vm.isChangedData = false;
     vm.violations = [];
     vm.hrmSummary = {};
     vm.employeeProjects = [];
@@ -22,6 +25,9 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     vm.ratingTypeEnum = enumerationsFactory.ratingType;
     vm.evaluatedDate = null;
     vm.maxStar = utilitiesFactory.maxStar;
+
+    vm.scoreInputValidMessage = "";
+    vm.warningLostDataMessage = "";
 
     vm.checkEndProcess = function (members) {
         var endProcess = true;
@@ -50,7 +56,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         })['finally'](function () {
             vm.modalInstance = null;
         });
-    }
+    };
 
     vm.range = function (n) {
         return new Array(n);
@@ -80,13 +86,13 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             currentProcess.AdjustScore = maxSubtractScore;
         }
 
-
         ReviewerManagementModel.calculateScore(vm.epaInfo, true);
         vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(currentProcess.TotalScore, vm.standardGrades);
     };
 
     vm.save = function (epaInfo) {
         var isValidComment = ReviewerManagementModel.validateComment(epaInfo);
+
         if (!isValidComment) {
             notificationFactory.error('CommentRequire');
         }
@@ -95,8 +101,13 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
 
             if (ReviewerManagementModel.validateEvaluation(totalcore)) {
                 var model = new Array(epaInfo);
+                lockScreenService.start();
 
-                ReviewerManagementModel.adjustScoreByReviewer(vm, model);
+                ReviewerManagementModel.adjustScoreByReviewer(vm, model).then(function () {
+                    vm.isChangedData = false;
+                })["finally"](function () {
+                    lockScreenService.stop();
+                });
             }
         }
     };
@@ -148,7 +159,7 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         kpi.EvaluatorStar = utilitiesFactory.splitNumber(averageStar, 2);
     }
 
-    function CalculateEvaluatorScoreOnGroup(kpiGroup) {
+    function calculateEvaluatorScoreOnGroup(kpiGroup) {
         if (kpiGroup.EvaluatorsScore.length === 0) {
             return 0;
         }
@@ -188,13 +199,14 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+            $scope.epaInfo = vm.epaInfo;
             var averageScoreEvaluators = calculateAverageEvaluator(vm.epaInfo.Process.Evaluators);
 
             angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
                     calculateEvaluatorScoreOnKPI(kpi);
                 });
-                var scoreOfGroup = CalculateEvaluatorScoreOnGroup(kpiGroup);
+                var scoreOfGroup = calculateEvaluatorScoreOnGroup(kpiGroup);
 
                 kpiGroup.EvaluatorScore = scoreOfGroup;
             });
@@ -243,6 +255,20 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
             NominationModel.getNominationByPeriodId(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeNominations = NominationModel.employeeNominations;
             });
+
+            $scope.$watch("epaInfo", function (newValue, oldValue) {
+                vm.isChangedData = newValue !== oldValue;
+            }, true);
+
+            $scope.$on('$routeChangeStart', function (event) {
+                if (vm.isChangedData) {
+                    var cancelConfirm = confirm(vm.warningLostDataMessage);
+
+                    if (!cancelConfirm) {
+                        event.preventDefault();
+                    }
+                }
+            });
         })["finally"](function () {
             lockScreenService.stop();
         });
@@ -251,6 +277,10 @@ function ($timeout, $translate, $routeParams, EmployeeEPAModel, ReviewerManageme
     function initialize() {
         $translate('ScoreInputValid').then(function (message) {
             vm.scoreInputValidMessage = message;
+        });
+
+        $translate('WarningLostDataMessage').then(function (message) {
+            vm.warningLostDataMessage = message;
         });
 
         CommonModel.getStandardGrade().then(function () {

@@ -87,7 +87,7 @@ function ($location, TargetTemplateModel, CommonModel, utilitiesFactory, enumera
     };
 
     vm.detail = function (targetTemplate) {
-        TargetTemplateModel.openPopupViewTargetTemplateDetail(targetTemplate.TargetTemplateId)
+        TargetTemplateModel.openPopupViewTargetTemplateDetail(targetTemplate.TargetTemplateId);
     };
 }]);
 
@@ -383,12 +383,6 @@ function ($scope, $modalInstance, $translate, TargetTemplateModel, targetTemplat
     vm.maxWeight = maxWeight;
     vm.kpiGroups = TargetTemplateModel.kpiGroups;
     vm.selectedAll = false;
-
-    var getMessage = function () {
-        $translate('TotalWeightWarning').then(function (message) {
-            vm.totalWeightWarningMessage = message;
-        });
-    };
 
     function initialize() {
         $translate('TotalWeightWarning').then(function (message) {

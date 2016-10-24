@@ -59,15 +59,15 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
             return $http.get(baseUrl + 'api/Common/GetEmployeeByGroupId', { params: { groupId: groupId } });
         },
         getPeriod: function (targetTypeId, isActive) {
-            return $http.get(baseUrl + 'api/Common/GetPeriod', {
-                params: {
-                    targetTypeId: targetTypeId,
-                    isActive: isActive,
-                    status
-                }
-            });
+            var params = {
+                targetTypeId: targetTypeId,
+                isActive: isActive,
+                status
+            }
+
+            return $http.get(baseUrl + 'api/Common/GetPeriod', { params: params });
         },
-		getReadyPeriod: function (targetTypeId) {
+        getReadyPeriod: function (targetTypeId) {
             return $http.get(baseUrl + 'api/Common/GetReadyPeriod', {
                 params: {
                     targetTypeId: targetTypeId
