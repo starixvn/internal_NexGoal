@@ -142,13 +142,19 @@
                 <td class="text-center">
                     <a href=""
                        ng-click="paFocusCtrl.openPopupLastObjective(member)"
-                       ng-show="member.LastCompletedPercentObjective.length > 0">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"
-                           ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"></i>
-                        <i class="fa fa-search" aria-hidden="true"
-                           ng-show="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></i>
+                       ng-show="vm.permission === vm.policy.Host && paFocusCtrl.allowToEdit">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
-                    <span ng-show="member.LastCompletedPercentObjective.length === 0" data-translate="Dash"></span>
+
+                    <a href=""
+                       ng-click="paFocusCtrl.openPopupLastObjective(member)"
+                       ng-show='(!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) && member.LastCompletedPercentObjective.length > 0'>
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </a>
+
+                    <span data-translate="Dash"
+                          ng-show="(!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) &&
+                          member.LastCompletedPercentObjective.length === 0"></span>
                 </td>
                 <td class="text-center">
                     <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
@@ -157,13 +163,19 @@
                 <td class="text-center">
                     <a href=""
                        ng-click="paFocusCtrl.openPopupObjective(member)"
-                       ng-show="member.NextDescriptionObjective.length > 0">
-                        <i class="fa fa-pencil-square-o" aria-hidden="true"
-                           ng-show="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"></i>
-                        <i class="fa fa-search" aria-hidden="true"
-                           ng-show="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></i>
+                       ng-show="vm.permission === vm.policy.Host && paFocusCtrl.allowToEdit">
+                        <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
-                    <span ng-show="member.NextDescriptionObjective.length === 0" data-translate="Dash"></span>
+
+                    <a href=""
+                       ng-click="paFocusCtrl.openPopupObjective(member)"
+                       ng-show='(!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) && member.NextDescriptionObjective.length > 0'>
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                    </a>
+
+                    <span data-translate="Dash"
+                          ng-show="(!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) &&
+                          member.NextDescriptionObjective.length === 0"></span>
                 </td>
             </tr>
         </tbody>

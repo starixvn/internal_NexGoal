@@ -184,7 +184,7 @@ textarea.none-resize {
   opacity: 1;
 }
 .comment-wrapper .tooltip .tooltip-inner {
-  max-width: 700px;
+  max-width: 600px;
   min-width: 200px !important;
 }
 .text-uppercase {
