@@ -8,24 +8,20 @@
     <table class="table table-bordered table-non-hover pa-form">
         <thead>
             <tr>
-                <th rowspan="2" data-translate="Month"></th>
-                <th rowspan="2" data-translate="CheckInOut"></th>
-                <th rowspan="2" data-translate="LateIn"></th>
-                <th rowspan="2" data-translate="EarlyOut"></th>
-                <th rowspan="2" data-translate="UnpaidLeave"></th>
-                <th rowspan="2" data-translate="UnplannedAnnualLeave"></th>
-                <th rowspan="2" data-translate="AverageWorkingHours"></th>
-                <th rowspan="2" data-translate="Overtime"></th>
-                <th colspan="2" data-translate="ToeicScore"></th>
-            </tr>
-            <tr>
-                <th data-translate="Listening"></th>
-                <th data-translate="Reading"></th>
+                <th data-translate="Month"></th>
+                <th data-translate="CheckInOut"></th>
+                <th data-translate="LateIn"></th>
+                <th data-translate="EarlyOut"></th>
+                <th data-translate="UnpaidLeave"></th>
+                <th data-translate="UnplannedAnnualLeave"></th>
+                <th data-translate="AverageWorkingHours"></th>
+                <th data-translate="Overtime"></th>
+                <th data-translate="ToeicScore"></th>
             </tr>
         </thead>
         <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data === undifined || memberEPAInfoCtrl.hrmSummary.Data.length === 0">
             <tr>
-                <td colspan="10" class="empty-result" data-translate="EmptyResult"></td>
+                <td colspan="9" class="empty-result" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tbody ng-if="memberEPAInfoCtrl.hrmSummary.Data.length > 0">
@@ -38,11 +34,17 @@
                 <td>{{item.NumberUnplannedAnnualLeave}}</td>
                 <td>{{item.ConvertedAverageWorkingHours}}</td>
                 <td>{{item.NumberOvertime}}</td>
-                <td ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length}}"
-                    ng-bind="item.ListeningScore">
+                <td class="default-tooltip"
+                    ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length + 1}}">
+                    <span tooltip-html-unsafe='<div><b>Listening:</b> {{item.ListeningScore}}<br/><b>Reading:</b>: {{item.ReadingScore}}</div>'
+                          tooltip-placement="left">
+                        {{item.ListeningScore + item.ReadingScore}}
+                        <br />
+                        <span>
+                            ({{item.UpdatedDateTOEIC | customDate}})
+                        </span>
+                    </span>
                 </td>
-                <td ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length}}"
-                    ng-bind="item.ReadingScore"></td>
             </tr>
             <tr class="text-center total-row">
                 <td data-translate="Total"></td>
@@ -53,9 +55,6 @@
                 <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberUnplannedAnnualLeave}}</td>
                 <td>{{memberEPAInfoCtrl.hrmSummary.Total.ConvertedAverageWorkingHours}}</td>
                 <td>{{memberEPAInfoCtrl.hrmSummary.Total.NumberOvertime}}</td>
-                <td colspan="2">
-                    {{"ExamDate" | translate}} {{memberEPAInfoCtrl.hrmSummary.Data[0].UpdatedDateTOEIC | customDate}}
-                </td>
             </tr>
         </tbody>
     </table>
@@ -82,8 +81,7 @@
             <tbody ng-repeat="nomination in memberEPAInfoCtrl.employeeNominations">
                 <tr>
                     <td class="text-center" ng-bind="$index + 1"></td>
-                    <td ng-bind="nomination.Title">
-                    </td>
+                    <td ng-bind="nomination.Title"></td>
                     <td class="nomination-status"
                         ng-class="{'nominated': nomination.StatusId === 1, 'shortlisted': nomination.StatusId === 2, 'winner': nomination.StatusId === 3}">
                         <b>{{nomination.StatusToString}}</b>

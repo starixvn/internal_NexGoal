@@ -1261,6 +1261,10 @@ header {
   max-width: 700px;
   min-width: 200px !important;
 }
+.pa-form .default-tooltip .tooltip .tooltip-inner {
+  max-width: initial;
+  min-width: initial !important;
+}
 .employee-performance-table tr.noticeable-performance td,
 .employee-performance-table tr.noticeable-performance .nomination-status,
 .employee-performance-table tr.noticeable-performance .fa,

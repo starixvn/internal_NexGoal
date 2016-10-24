@@ -354,7 +354,7 @@
                 cssClass = "noticeable-performance outstanding";
             } else if (totalPoint > 8 && !member.IsReadyPromotion) {
                 cssClass = "noticeable-performance very-good";
-            } else if (member.Contribution + member.BonusGiven < 3 && member.Contribution + member.BonusGiven > 1) {
+            } else if (member.Contribution + member.BonusGiven < 4 && member.Contribution > 0 && member.BonusGiven > 0) {
                 cssClass = "noticeable-performance poor";
             }
 
