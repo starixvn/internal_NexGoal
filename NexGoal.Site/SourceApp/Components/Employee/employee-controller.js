@@ -2,8 +2,8 @@
 /*global employeeModule*/
 
 employeeModule.controller('EmployeeController',
-['$window', 'EmployeeModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', "lockScreenService",
-function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFactory, lockScreenService) {
+['EmployeeModel', 'utilitiesFactory', 'CommonModel', 'enumerationsFactory', "lockScreenService",
+function (EmployeeModel, utilitiesFactory, CommonModel, enumerationsFactory, lockScreenService) {
     var vm = this;
 
     vm.employees = EmployeeModel.employees;
@@ -77,12 +77,18 @@ function ($window, EmployeeModel, utilitiesFactory, CommonModel, enumerationsFac
 }]);
 
 employeeModule.controller('AssignRoleToUserController',
-['$modalInstance', 'EmployeeModel', 'employee', 'CommonModel',
-function ($modalInstance, EmployeeModel, employee, CommonModel) {
+['$scope', '$modalInstance', 'EmployeeModel', 'employee', 'CommonModel',
+function ($scope, $modalInstance, EmployeeModel, employee, CommonModel) {
     var vm = this;
 
     vm.employee = employee;
     vm.systemRoles = [];
+
+    function initialize() {
+        $scope.$on('$routeChangeStart', function () {
+            $modalInstance.dismiss('cancel');
+        });
+    }
 
     CommonModel.getSystemRoles(true).then(function () {
         vm.systemRoles = CommonModel.systemRoles;
@@ -116,6 +122,8 @@ function ($modalInstance, EmployeeModel, employee, CommonModel) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
+
+    initialize();
 }]);
 
 employeeModule.controller("ModalConfirmSetUnsetMonthlyEvaluationController",

@@ -700,6 +700,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Created By.
+        /// </summary>
+        public static string CreatedBy {
+            get {
+                return ResourceManager.GetString("CreatedBy", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Created Date.
         /// </summary>
         public static string CreatedDate {
@@ -916,7 +925,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade.
+        ///   Looks up a localized string similar to Deserve Rewards (Salary Increase And Bonus).
         /// </summary>
         public static string DeserveRewards {
             get {
@@ -3148,11 +3157,29 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to I would always want him or her on my team (ability to work well with others)..
+        /// </summary>
+        public static string PAFocusFirstNote {
+            get {
+                return ResourceManager.GetString("PAFocusFirstNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PA Focus Information.
         /// </summary>
         public static string PAFocusInformation {
             get {
                 return ResourceManager.GetString("PAFocusInformation", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade..
+        /// </summary>
+        public static string PAFocusSecondNote {
+            get {
+                return ResourceManager.GetString("PAFocusSecondNote", resourceCulture);
             }
         }
         
@@ -4165,7 +4192,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to I would always want him or her on my team (ability to work well with others).
+        ///   Looks up a localized string similar to Suitable For Team Goals.
         /// </summary>
         public static string SuitableForTeamGoals {
             get {

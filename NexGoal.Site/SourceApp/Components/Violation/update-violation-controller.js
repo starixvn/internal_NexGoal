@@ -3,10 +3,16 @@
 
     violationModule.controller("UpdateViolationController", updateViolationController);
 
-    updateViolationController.$inject = ["$modalInstance", "ViolationModel", "violation"];
+    updateViolationController.$inject = ["$scope", "$modalInstance", "ViolationModel", "violation"];
 
-    function updateViolationController($modalInstance, ViolationModel, violation) {
+    function updateViolationController($scope, $modalInstance, ViolationModel, violation) {
         var vm = this;
+
+        function initialize() {
+            $scope.$on('$routeChangeStart', function () {
+                $modalInstance.dismiss('cancel');
+            });
+        }
 
         vm.violation = {
             ViolationId: violation.ViolationId,
@@ -39,5 +45,7 @@
         vm.cancel = function () {
             $modalInstance.dismiss("cancel");
         };
+
+        initialize();
     }
 })(angular.module("violationModule"));

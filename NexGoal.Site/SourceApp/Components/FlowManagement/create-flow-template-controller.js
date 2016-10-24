@@ -3,9 +3,9 @@
 
     flowMngModule.controller("CreateFlowTemplateController", createFlowTemplateController);
 
-    createFlowTemplateController.$inject = ['$modalInstance', 'FlowMngModel', 'CommonModel'];
+    createFlowTemplateController.$inject = ['$scope', '$modalInstance', 'FlowMngModel', 'CommonModel'];
 
-    function createFlowTemplateController($modalInstance, FlowMngModel, CommonModel) {
+    function createFlowTemplateController($scope, $modalInstance, FlowMngModel, CommonModel) {
         var vm = this;
 
         vm.targetTypes = CommonModel.targetTypes;
@@ -19,6 +19,10 @@
         function initalize() {
             CommonModel.getTargetType(true).then(function () {
                 vm.targetTypes = CommonModel.targetTypes;
+            });
+
+            $scope.$on('$routeChangeStart', function () {
+                $modalInstance.dismiss('cancel');
             });
         }
 

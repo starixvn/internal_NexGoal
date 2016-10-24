@@ -113,9 +113,15 @@ function ($location, KPIGroupModel, KPIModel, CommonModel, utilitiesFactory, enu
 }]);
 
 kpiGroupModule.controller('CreateKPIGroupController',
-['$modalInstance', 'KPIGroupModel',
-function ($modalInstance, KPIGroupModel) {
+['$scope', '$modalInstance', 'KPIGroupModel',
+function ($scope, $modalInstance, KPIGroupModel) {
     var vm = this;
+
+    function initialize() {
+        $scope.$on('$routeChangeStart', function () {
+            $modalInstance.dismiss('cancel');
+        });
+    }
 
     vm.kpiGroup = {
         Name: '',
@@ -132,12 +138,20 @@ function ($modalInstance, KPIGroupModel) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
+
+    initialize();
 }]);
 
 kpiGroupModule.controller('UpdateKPIGroupController',
-['$modalInstance', 'KPIGroupModel', 'kpiGroup',
-function ($modalInstance, KPIGroupModel, kpiGroup) {
+['$scope', '$modalInstance', 'KPIGroupModel', 'kpiGroup',
+function ($scope, $modalInstance, KPIGroupModel, kpiGroup) {
     var vm = this;
+
+    function initialize() {
+        $scope.$on('$routeChangeStart', function () {
+            $modalInstance.dismiss('cancel');
+        });
+    }
 
     vm.kpiGroup = {
         KPIGroupId: kpiGroup.KPIGroupId,
@@ -155,4 +169,6 @@ function ($modalInstance, KPIGroupModel, kpiGroup) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
+
+    initialize();
 }]);

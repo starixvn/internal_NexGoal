@@ -9,6 +9,12 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
     var vm = this,
         date = new Date();
 
+    function initialize() {
+        $scope.$on('$routeChangeStart', function () {
+            $modalInstance.dismiss('cancel');
+        });
+    }
+
     vm.period = period;
     vm.selectedEmployees = selectedEmployees;
     vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
@@ -273,4 +279,6 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
+
+    initialize();
 }]);

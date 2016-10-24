@@ -53,11 +53,15 @@
                     query();
                 });
             });
-        }
 
-        function openPopupLostData() {
-            PAFocusModel.openPopupLostData().then(function () {
-                query();
+            $scope.$on('$routeChangeStart', function (event) {
+                if (vm.isChangedData) {
+                    var cancelConfirm = confirm("All unsaved changes will be lost. Do you want to proceed?");
+
+                    if (!cancelConfirm) {
+                        event.preventDefault();
+                    }
+                }
             });
         }
 
@@ -99,7 +103,11 @@
 
         vm.query = function () {
             if (vm.isChangedData) {
-                openPopupLostData();
+                var cancelConfirm = confirm("All unsaved changes will be lost. Do you want to proceed?");
+
+                if (cancelConfirm) {
+                    query();
+                }
             } else {
                 query();
             }

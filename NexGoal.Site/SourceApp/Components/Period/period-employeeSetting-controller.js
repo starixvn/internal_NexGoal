@@ -2,8 +2,8 @@
 /*global periodModule*/
 
 periodModule.controller('EmployeeSettingPeriodController',
-['$scope', '$routeParams', '$window', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'notificationFactory', "lockScreenService",
-function ($scope, $routeParams, $window, PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, notificationFactory, lockScreenService) {
+['$scope', '$routeParams', 'PeriodModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'notificationFactory', "lockScreenService",
+function ($scope, $routeParams, PeriodModel, CommonModel, utilitiesFactory, enumerationsFactory, notificationFactory, lockScreenService) {
     var vm = this;
 
     vm.period = null;

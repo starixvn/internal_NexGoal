@@ -3,10 +3,16 @@
 
     violationModule.controller("CreateViolationController", createViolationController);
 
-    createViolationController.$inject = ["$modalInstance", "EmployeeModel", "ViolationModel"];
+    createViolationController.$inject = ["$scope", "$modalInstance", "EmployeeModel", "ViolationModel"];
 
-    function createViolationController($modalInstance, EmployeeModel, ViolationModel) {
+    function createViolationController($scope, $modalInstance, EmployeeModel, ViolationModel) {
         var vm = this;
+
+        function initialize() {
+            $scope.$on('$routeChangeStart', function () {
+                $modalInstance.dismiss('cancel');
+            });
+        }
 
         vm.searchEmployee = "";
         vm.filteredEmployee = null;
@@ -54,13 +60,13 @@
                                                     vm.violation.Description,
                                                     $modalInstance);
                 }
-
-
             }
         };
 
         vm.cancel = function () {
             $modalInstance.dismiss("cancel");
         };
+
+        initialize();
     }
 })(angular.module("violationModule"));

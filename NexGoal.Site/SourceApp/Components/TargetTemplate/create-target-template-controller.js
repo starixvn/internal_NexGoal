@@ -3,10 +3,16 @@
 
     targetTemplateModule.controller("CreateTargetTemplateController", createTargetTemplateController);
 
-    createTargetTemplateController.$inject = ['$modalInstance', 'TargetTemplateModel', 'CommonModel'];
+    createTargetTemplateController.$inject = ['$scope', '$modalInstance', 'TargetTemplateModel', 'CommonModel'];
 
-    function createTargetTemplateController($modalInstance, TargetTemplateModel, CommonModel) {
+    function createTargetTemplateController($scope, $modalInstance, TargetTemplateModel, CommonModel) {
         var vm = this;
+
+        function initialize() {
+            $scope.$on('$routeChangeStart', function () {
+                $modalInstance.dismiss('cancel');
+            });
+        }
 
         vm.scoreRatingTypeOptions = TargetTemplateModel.scoreRatingTypes;
         vm.ratingTypes = TargetTemplateModel.ratingTypes;
@@ -42,5 +48,7 @@
         vm.cancel = function () {
             $modalInstance.dismiss('cancel');
         };
+
+        initialize();
     }
 })(angular.module("targetTemplateModule"));

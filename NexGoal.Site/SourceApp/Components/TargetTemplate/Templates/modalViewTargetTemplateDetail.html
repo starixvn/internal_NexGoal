@@ -5,7 +5,7 @@
             <span class="close-popup" ng-click="viewTargetTemplateDetailCtrl.cancel()"></span>
         </div>
     </div>
-    <div class="modal-body container-fluid page">
+    <div class="modal-body container-fluid page modal-scrollable">
         <form class="common-form kpi-list-form" novalidate>
             <div class="kpi-list-content">
                 <div class="boxtitle first tab-header" data-translate="TargetTemplateInformation">
@@ -53,8 +53,8 @@
                             <span ng-bind="viewTargetTemplateDetailCtrl.targetTemplate.ModifiedDate | date: viewTargetTemplateDetailCtrl.dateFormat"></span>
                         </div>
                     </div>
-                    <div class="col-sm-12">
-                        <label class="col-sm-2 label-bold" data-translate="Description">
+                    <div class="col-sm-6">
+                        <label class="col-sm-4 label-bold" data-translate="Description">
                         </label>
                         <div class="col-sm-6 target-template-information">
                             <span class="positive-margin" ng-bind="viewTargetTemplateDetailCtrl.targetTemplate.Description"></span>

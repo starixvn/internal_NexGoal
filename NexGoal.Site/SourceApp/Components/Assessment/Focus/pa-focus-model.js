@@ -138,28 +138,6 @@
             });
         };
 
-        vm.openPopupLostData = function () {
-            vm.modalInstance = $modal.open({
-                templateUrl: '/SourceApp/Shared/Templates/ModalConfirmContent.html',
-                controller: "ModalConfirmController as modalConfirmCtrl",
-                backdrop: 'static',
-                windowClass: "modal-confirm-center",
-                resolve: {
-                    name: function () {
-                        return "";
-                    },
-                    action: function () {
-                        return "";
-                    },
-                    message: function () {
-                        return "All unsaved changes will be lost. Do you want to proceed?";
-                    }
-                }
-            });
-
-            return vm.modalInstance.result;
-        };
-
         vm.OpenPopupContinue = function (groups) {
             $translate("TotalBonusGivenLessThanMaxMessage").then(function (responseMessage) {
                 var modalInstance = $modal.open({

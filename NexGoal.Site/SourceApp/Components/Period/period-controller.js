@@ -88,8 +88,8 @@ function ($location, PeriodModel, CommonModel, utilitiesFactory, enumerationsFac
 }]);
 
 periodModule.controller('CreatePeriodController',
-['$modalInstance', 'PeriodModel', 'CommonModel', 'enumerationsFactory', 'lockScreenService',
-function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScreenService) {
+['$scope', '$modalInstance', 'PeriodModel', 'CommonModel', 'enumerationsFactory', 'lockScreenService',
+function ($scope, $modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScreenService) {
     var vm = this;
 
     vm.targetTypes = {};
@@ -155,6 +155,10 @@ function ($modalInstance, PeriodModel, CommonModel, enumerationsFactory, lockScr
             vm.targetTypes = CommonModel.targetTypes;
         })["finally"](function () {
             lockScreenService.stop();
+        });
+
+        $scope.$on('$routeChangeStart', function () {
+            $modalInstance.dismiss('cancel');
         });
     }
 

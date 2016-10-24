@@ -432,7 +432,7 @@ appModule.factory('utilitiesFactory',
         }
 
         return employee.EmployeeId;
-    }
+    };
 
     return utilities;
 }]);

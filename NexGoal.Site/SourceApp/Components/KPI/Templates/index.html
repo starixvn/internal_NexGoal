@@ -18,9 +18,9 @@
                                     ng-options="opt.KPIGroupId as opt.Name for opt in kpiCtrl.kpiGroups">
                                 <option value="">-- {{"All" | translate}} --</option>
                             </select>
-                        </div>                        
-                    </div>   
-                    
+                        </div>
+                    </div>
+
                     <div class="col">
                         <label class="control-label" data-translate="Status"></label>
                         <div class="control-content">
@@ -29,9 +29,9 @@
                                 <option selected value="true" data-translate="Active"></option>
                                 <option value="false" data-translate="InActive"></option>
                             </select>
-                        </div>                        
-                    </div>  
-                    
+                        </div>
+                    </div>
+
                     <div class="col">
                         <label class="control-label size-l" data-translate="RequiredEvaluation"></label>
                         <div class="control-content">
@@ -40,13 +40,13 @@
                                 <option selected value="true" data-translate="Required"></option>
                                 <option value="false" data-translate="NotRequired"></option>
                             </select>
-                        </div>                        
-                    </div>    
-                    
+                        </div>
+                    </div>
+
                     <div class="col">
                         <button class="button" ng-click="kpiCtrl.query(kpiCtrl.filter)" data-translate="Search"></button>
-                    </div>           
-                </div>               
+                    </div>
+                </div>
             </form>
             <div class="button-block"
                  ng-if="!kpiCtrl.isViewAll">
@@ -54,12 +54,13 @@
                     <i class="fa fa-angle-left icon-back"></i> {{"BackToList" | translate}}
                 </a>
             </div>
+            <br />
             <table class="row table table-bordered table-striped">
                 <thead>
                     <tr class="header-table">
                         <th colspan="7">
-                            <a class="button pull-left button-icon create-button" 
-                               ng-click="kpiCtrl.createKPI()" 
+                            <a class="button pull-left button-icon create-button"
+                               ng-click="kpiCtrl.createKPI()"
                                ng-if="kpiCtrl.permission == kpiCtrl.policyEnum.Host">
                                 <i class="fa fa-plus"></i> {{"CreateKPI" | translate}}
                             </a>

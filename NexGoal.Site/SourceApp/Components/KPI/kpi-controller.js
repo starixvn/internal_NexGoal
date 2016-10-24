@@ -2,7 +2,7 @@
 /*global kpiModule*/
 
 kpiModule.controller('KPIController',
-['$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory','historyFactory', "lockScreenService",
+['$routeParams', 'KPIModel', 'KPIGroupModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', "lockScreenService",
 function ($routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, enumerationsFactory, historyFactory, lockScreenService) {
     var vm = this;
 
@@ -20,7 +20,7 @@ function ($routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, 
     vm.filter = {
         kpiGroupId: vm.routeParam.kpiGroupId ? parseInt(vm.routeParam.kpiGroupId, 10) : '',
         isActive: 'true',
-        isRequiredEvaluate : ''
+        isRequiredEvaluate: ''
     };
 
     utilitiesFactory.numberEntryList(vm);
@@ -128,11 +128,11 @@ function ($routeParams, KPIModel, KPIGroupModel, CommonModel, utilitiesFactory, 
     vm.getIndex = function (index, currentPage, pageSize) {
         return CommonModel.getIndex(index, currentPage, pageSize);
     };
-} ]);
+}]);
 
 kpiModule.controller('CreateKPIController',
-['$modalInstance', 'KPIModel', 'CommonModel', 'kpiGroup',
-function ($modalInstance, KPIModel, CommonModel, kpiGroup) {
+['$scope', '$modalInstance', 'KPIModel', 'CommonModel', 'kpiGroup',
+function ($scope, $modalInstance, KPIModel, CommonModel, kpiGroup) {
     var vm = this;
 
     vm.currentChosenKPIGroups = [];
@@ -164,6 +164,10 @@ function ($modalInstance, KPIModel, CommonModel, kpiGroup) {
                 }
             }
         });
+
+        $scope.$on('$routeChangeStart', function () {
+            $modalInstance.dismiss('cancel');
+        });
     };
 
     vm.initialize();
@@ -184,11 +188,11 @@ function ($modalInstance, KPIModel, CommonModel, kpiGroup) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
-} ]);
+}]);
 
 kpiModule.controller('UpdateKPIController',
-['$modalInstance', 'KPIModel', 'CommonModel', 'kpi',
-function ($modalInstance, KPIModel, CommonModel, kpi) {
+['$scope', '$modalInstance', 'KPIModel', 'CommonModel', 'kpi',
+function ($scope, $modalInstance, KPIModel, CommonModel, kpi) {
     var vm = this;
 
     vm.currentChosenKPIGroups = [];
@@ -218,6 +222,10 @@ function ($modalInstance, KPIModel, CommonModel, kpi) {
                     vm.kpiGroups.push(kpiGroup);
                 }
             });
+        });
+
+        $scope.$on('$routeChangeStart', function () {
+            $modalInstance.dismiss('cancel');
         });
     };
 
@@ -254,4 +262,4 @@ function ($modalInstance, KPIModel, CommonModel, kpi) {
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
-} ]);
+}]);

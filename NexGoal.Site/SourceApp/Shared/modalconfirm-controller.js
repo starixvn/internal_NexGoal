@@ -1,11 +1,17 @@
 ﻿/*global appModule*/
 'use strict';
 
-appModule.controller("ModalConfirmController", ['$modalInstance', 'name', 'action', 'message',
- function ($modalInstance, name, action, message) {
+appModule.controller("ModalConfirmController", ['$scope', '$modalInstance', 'name', 'action', 'message',
+ function ($scope, $modalInstance, name, action, message) {
      var vm = this;
 
      vm.message = !message ? "Do you want to " + action + " " + name + " ?" : message;
+
+     function initialize() {
+         $scope.$on('$routeChangeStart', function () {
+             $modalInstance.dismiss('cancel');
+         });
+     }
 
      vm.ok = function () {
          $modalInstance.close();
@@ -14,4 +20,6 @@ appModule.controller("ModalConfirmController", ['$modalInstance', 'name', 'actio
      vm.cancel = function () {
          $modalInstance.dismiss("cancel");
      };
+
+     initialize();
  }]);

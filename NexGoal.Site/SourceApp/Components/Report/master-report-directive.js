@@ -308,12 +308,8 @@
                     { HeaderText: "Reviewer's Adjustment", Name: "ReviewerAdjustment", MergeRowNumber: 2 },
                     { HeaderText: "PA Final Score", Name: "PAFinalScore", MergeRowNumber: 2 },
                     { HeaderText: "Evaluator's Comment", Name: "EvaluatorComment", MergeRowNumber: 2 },
-                    { HeaderText: "I would always want him or her on my team (ability to work well with others)", Name: "Contribution", MergeRowNumber: 2 },
-                    {
-                        HeaderText: "I would want to award this person the highest " +
-                            "possible benefit (increase and bonus) which is available for her/his job grade",
-                        Name: "BonusGiven", MergeRowNumber: 2
-                    },
+                    { HeaderText: "Suitable For Team Goals", Name: "Contribution", MergeRowNumber: 2 },
+                    { HeaderText: "Deserve Rewards (Salary Increase And Bonus)", Name: "BonusGiven", MergeRowNumber: 2 },
                     { HeaderText: "Applicable To Promote", Name: "ApplicableToPromote", MergeRowNumber: 2 },
                     { HeaderText: "Poor Performance", Name: "IsPoorPerformance", MergeRowNumber: 2 },
                     { HeaderText: "Assessing Of Current Objective Achievement", Name: "ObjectiveAchievement", MergeRowNumber: 2 },
@@ -333,15 +329,11 @@
                { HeaderText: "Reviewer's Adjustment", Width: 80, Name: "ReviewerAdjustment", CellAlign: "center" },
                { HeaderText: "PA Final Score", Width: 60, Name: "PAFinalScore", CellAlign: "center" },
                { HeaderText: "Evaluator's Comment", Width: 80, Name: "EvaluatorComment", CellAlign: "center", CustomCellRender: renderEvaluatorCommentCell },
-               { HeaderText: "I would always want him or her on my team (ability to work well with others)", Width: 150, Name: "Contribution", CellAlign: "center" },
-               {
-                   HeaderText: "I would want to award this person the highest" +
-                       " possible benefit (increase and bonus) which is available for her/his job grade",
-                   Width: 150, Name: "BonusGiven", CellAlign: "center"
-               },
+               { HeaderText: "Suitable For Team Goals", Width: 150, Name: "Contribution", CellAlign: "center" },
+               { HeaderText: "Deserve Rewards (Salary Increase And Bonus)", Width: 150, Name: "BonusGiven", CellAlign: "center" },
                { HeaderText: "Applicable to promote", Width: 50, Name: "ApplicableToPromote", CellAlign: "center" },
                {
-                   HeaderText: "Accessing of Objective achievement", Width: 150, Name: "ObjectiveAchievement",
+                   HeaderText: "Assessing Of Current Objective Achievement", Width: 150, Name: "ObjectiveAchievement",
                    CellAlign: "center", CustomCellRender: renderCurrentObjectiveCell
                },
                { HeaderText: "Poor Performance", Name: "IsPoorPerformance", Width: 80, CellAlign: "center" },
@@ -362,7 +354,7 @@
                 cssClass = "noticeable-performance outstanding";
             } else if (totalPoint > 8 && !member.IsReadyPromotion) {
                 cssClass = "noticeable-performance very-good";
-            } else if (member.Contribution + member.BonusGiven < 3) {
+            } else if (member.Contribution + member.BonusGiven < 3 && member.Contribution + member.BonusGiven > 1) {
                 cssClass = "noticeable-performance poor";
             }
 

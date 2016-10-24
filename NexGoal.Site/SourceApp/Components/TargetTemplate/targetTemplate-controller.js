@@ -375,8 +375,8 @@ function ($scope, $translate, TargetTemplateModel, utilitiesFactory) {
 }]);
 
 targetTemplateModule.controller('AddedKPIGroupController',
-['$modalInstance', '$translate', 'TargetTemplateModel', 'targetTemplateId', 'maxWeight',
-function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, maxWeight) {
+['$scope', '$modalInstance', '$translate', 'TargetTemplateModel', 'targetTemplateId', 'maxWeight',
+function ($scope, $modalInstance, $translate, TargetTemplateModel, targetTemplateId, maxWeight) {
     var vm = this;
 
     vm.targetTemplateId = targetTemplateId;
@@ -390,7 +390,15 @@ function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, max
         });
     };
 
-    getMessage();
+    function initialize() {
+        $translate('TotalWeightWarning').then(function (message) {
+            vm.totalWeightWarningMessage = message;
+        });
+
+        $scope.$on('$routeChangeStart', function () {
+            $modalInstance.dismiss('cancel');
+        });
+    }
 
     TargetTemplateModel.getKPIGroupOfTargetTemplate(vm.targetTemplateId).then(function () {
         vm.kpiGroups = TargetTemplateModel.kpiGroups;
@@ -451,6 +459,8 @@ function ($modalInstance, $translate, TargetTemplateModel, targetTemplateId, max
     vm.cancel = function () {
         $modalInstance.dismiss("cancel");
     };
+
+    initialize();
 }]);
 
 targetTemplateModule.controller("ModalConfirmChangeTargetTypeController", ['$modalInstance',

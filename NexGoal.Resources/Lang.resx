@@ -1690,7 +1690,7 @@
     <value>Applicable To Promote</value>
   </data>
   <data name="DeserveRewards" xml:space="preserve">
-    <value>I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade</value>
+    <value>Deserve Rewards (Salary Increase And Bonus)</value>
   </data>
   <data name="PAScore" xml:space="preserve">
     <value>PA Score</value>
@@ -1699,7 +1699,7 @@
     <value>Poor Performance</value>
   </data>
   <data name="SuitableForTeamGoals" xml:space="preserve">
-    <value>I would always want him or her on my team (ability to work well with others)</value>
+    <value>Suitable For Team Goals</value>
   </data>
   <data name="NominationManagement" xml:space="preserve">
     <value>Nomination Management</value>
@@ -1739,5 +1739,14 @@
   </data>
   <data name="ConfirmCancelFormMessage" xml:space="preserve">
     <value>The data has been changed. Are you sure you want to Cancel this form?</value>
+  </data>
+  <data name="CreatedBy" xml:space="preserve">
+    <value>Created By</value>
+  </data>
+  <data name="PAFocusFirstNote" xml:space="preserve">
+    <value>I would always want him or her on my team (ability to work well with others).</value>
+  </data>
+  <data name="PAFocusSecondNote" xml:space="preserve">
+    <value>I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade.</value>
   </data>
 </root>

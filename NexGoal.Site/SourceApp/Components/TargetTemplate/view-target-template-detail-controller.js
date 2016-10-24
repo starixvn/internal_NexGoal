@@ -3,9 +3,9 @@
 
     targetTemplateModule.controller("ViewTargetTemplateDetailController", viewTargetTemplateDetailController);
 
-    viewTargetTemplateDetailController.$inject = ["$modalInstance", "TargetTemplateModel", "utilitiesFactory", "targetTemplateId"];
+    viewTargetTemplateDetailController.$inject = ["$scope", "$modalInstance", "TargetTemplateModel", "utilitiesFactory", "targetTemplateId"];
 
-    function viewTargetTemplateDetailController($modalInstance, TargetTemplateModel, utilitiesFactory, targetTemplateId) {
+    function viewTargetTemplateDetailController($scope, $modalInstance, TargetTemplateModel, utilitiesFactory, targetTemplateId) {
         var vm = this;
 
         vm.targetTemplateId = targetTemplateId;
@@ -21,6 +21,10 @@
 
             TargetTemplateModel.getKPIOfTargetTemplate(vm.targetTemplateId, true).then(function () {
                 vm.kpiList = TargetTemplateModel.kpiList;
+            });
+
+            $scope.$on('$routeChangeStart', function () {
+                $modalInstance.dismiss('cancel');
             });
         }
 
