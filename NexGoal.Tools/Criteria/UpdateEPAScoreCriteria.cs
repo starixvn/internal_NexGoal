@@ -9,7 +9,7 @@
         private const string BeginRootTag = "<ROOT>";
         private const string EndRootTag = "</ROOT>";
         private const string EPAXmlTemplate = @"<EPA EPAId='{0}' FinalScore='{1}' Grade='{2}'></EPA>";
-        private const string EPAProcessXmlTemplate = @"<EPAProcess EPAId='{0}' ProcessId='{1}' EvaluatorId='{2}' TotalScore='{3}'></EPAProcess>";
+        private const string EPAProcessXmlTemplate = @"<EPAProcess EPAId='{0}' ProcessId='{1}' EvaluatorId='{2}' TotalScore='{3}' AdjustScore='{4}'></EPAProcess>";
         private const string EPAGroupXmlTemplate = @"<EPAGroup EPAId='{0}' ProcessId='{1}' EvaluatorId='{2}' KPIGroupId='{3}' Score='{4}'></EPAGroup>";
 
         private const string EPADetailXmlTemplate = @"<EPADetail EPAId='{0}' ProcessId='{1}' EvaluatorId='{2}'
@@ -49,7 +49,7 @@
 
                 foreach (EPAProcessModel process in epaInfo.EPAProcesses)
                 {
-                    epaProcessXml.AppendFormat(EPAProcessXmlTemplate, process.EPAId, process.ProcessId, process.EvaluatorId, process.TotalScore);
+                    epaProcessXml.AppendFormat(EPAProcessXmlTemplate, process.EPAId, process.ProcessId, process.EvaluatorId, process.TotalScore, process.AdjustScore);
 
                     foreach (EPAGroupDetailModel gr in process.EPAGroupDetails)
                     {

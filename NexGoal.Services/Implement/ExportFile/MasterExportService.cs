@@ -15,6 +15,14 @@
 
     public class MasterExportService : IMasterExportService
     {
+        private const int GreenColor = 50;
+        private const int SupperGreenColor = 51;
+        private const int RedColor = 52;
+        private const int EvenColor = 53;
+
+        private const int MinStone = 3;
+        private const int MaxStone = 9;
+
         private HSSFWorkbook workbook;
         private ISheet sheet;
         private int rowIndex = 0;
@@ -25,6 +33,7 @@
         {
             this.workbook = new HSSFWorkbook();
             this.sheet = workbook.CreateSheet();
+            SetColorIndex();
 
             RenderHearderPage(periodName);
             RenderHeaderTable();
@@ -139,118 +148,155 @@
             rowIndex++;
             IFont redFont = workbook.CreateFont();
             redFont.Color = HSSFColor.Red.Index;
+            IFont whiteFont = workbook.CreateFont();
+            whiteFont.Color = HSSFColor.White.Index;
+            IFont greenFont = workbook.CreateFont();
+            greenFont.Color = HSSFColor.Green.Index;
 
-            IFont blueFont = workbook.CreateFont();
-            blueFont.Color = HSSFColor.Green.Index;
+            var greenStyleLeft = workbook.CreateCellStyle();
+            greenStyleLeft.Alignment = HorizontalAlignment.Left;
+            greenStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            greenStyleLeft.FillForegroundColor = GreenColor;
+            greenStyleLeft.FillPattern = FillPattern.SolidForeground;
+            greenStyleLeft.FillBackgroundColor = GreenColor;
+            greenStyleLeft.SetFont(whiteFont);
 
-            ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
-            ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
+            var greenStyleCenter = workbook.CreateCellStyle();
+            greenStyleCenter.Alignment = HorizontalAlignment.Center;
+            greenStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            greenStyleCenter.FillForegroundColor = GreenColor;
+            greenStyleCenter.FillPattern = FillPattern.SolidForeground;
+            greenStyleCenter.FillBackgroundColor = GreenColor;
+            greenStyleCenter.SetFont(whiteFont);
 
-            ICellStyle goldStyleLeft = workbook.CreateCellStyle();
-            goldStyleLeft.Alignment = HorizontalAlignment.Left;
-            goldStyleLeft.VerticalAlignment = VerticalAlignment.Center;
-            goldStyleLeft.FillForegroundColor = HSSFColor.LightYellow.Index;
-            goldStyleLeft.FillPattern = FillPattern.SolidForeground;
-            goldStyleLeft.FillBackgroundColor = HSSFColor.LightYellow.Index;
+            var supperGreenStyleLeft = workbook.CreateCellStyle();
+            supperGreenStyleLeft.Alignment = HorizontalAlignment.Left;
+            supperGreenStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            supperGreenStyleLeft.FillForegroundColor = SupperGreenColor;
+            supperGreenStyleLeft.FillPattern = FillPattern.SolidForeground;
+            supperGreenStyleLeft.FillBackgroundColor = SupperGreenColor;
+            supperGreenStyleLeft.SetFont(whiteFont);
 
-            ICellStyle goldStyleCenter = workbook.CreateCellStyle();
-            goldStyleCenter.Alignment = HorizontalAlignment.Center;
-            goldStyleCenter.VerticalAlignment = VerticalAlignment.Center;
-            goldStyleCenter.FillForegroundColor = HSSFColor.LightYellow.Index;
-            goldStyleCenter.FillPattern = FillPattern.SolidForeground;
-            goldStyleCenter.FillBackgroundColor = HSSFColor.LightYellow.Index;
+            var supperGreenStyleCenter = workbook.CreateCellStyle();
+            supperGreenStyleCenter.Alignment = HorizontalAlignment.Center;
+            supperGreenStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            supperGreenStyleCenter.FillForegroundColor = SupperGreenColor;
+            supperGreenStyleCenter.FillPattern = FillPattern.SolidForeground;
+            supperGreenStyleCenter.FillBackgroundColor = SupperGreenColor;
+            supperGreenStyleCenter.SetFont(whiteFont);
 
-            ICellStyle goldBlueStyleCenter = workbook.CreateCellStyle();
-            goldBlueStyleCenter.Alignment = HorizontalAlignment.Center;
-            goldBlueStyleCenter.VerticalAlignment = VerticalAlignment.Center;
-            goldBlueStyleCenter.FillForegroundColor = HSSFColor.LightYellow.Index;
-            goldBlueStyleCenter.FillPattern = FillPattern.SolidForeground;
-            goldBlueStyleCenter.FillBackgroundColor = HSSFColor.LightYellow.Index;
-            goldBlueStyleCenter.SetFont(blueFont);
+            var redStyleLeft = workbook.CreateCellStyle();
+            redStyleLeft.Alignment = HorizontalAlignment.Left;
+            redStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            redStyleLeft.FillForegroundColor = RedColor;
+            redStyleLeft.FillPattern = FillPattern.SolidForeground;
+            redStyleLeft.FillBackgroundColor = RedColor;
+            redStyleLeft.SetFont(whiteFont);
 
-            ICellStyle goldRedStyleCenter = workbook.CreateCellStyle();
-            goldRedStyleCenter.Alignment = HorizontalAlignment.Center;
-            goldRedStyleCenter.VerticalAlignment = VerticalAlignment.Center;
-            goldRedStyleCenter.FillForegroundColor = HSSFColor.LightYellow.Index;
-            goldRedStyleCenter.FillPattern = FillPattern.SolidForeground;
-            goldRedStyleCenter.FillBackgroundColor = HSSFColor.LightYellow.Index;
-            goldRedStyleCenter.SetFont(redFont);
+            var redStyleCenter = workbook.CreateCellStyle();
+            redStyleCenter.Alignment = HorizontalAlignment.Center;
+            redStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            redStyleCenter.FillForegroundColor = RedColor;
+            redStyleCenter.FillPattern = FillPattern.SolidForeground;
+            redStyleCenter.FillBackgroundColor = RedColor;
+            redStyleCenter.SetFont(whiteFont);
 
-            ICellStyle normalStyleLeft = workbook.CreateCellStyle();
-            normalStyleLeft.Alignment = HorizontalAlignment.Left;
-            normalStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            var promotionEvenStyle = workbook.CreateCellStyle();
+            promotionEvenStyle.Alignment = HorizontalAlignment.Center;
+            promotionEvenStyle.VerticalAlignment = VerticalAlignment.Center;
+            promotionEvenStyle.FillForegroundColor = EvenColor;
+            promotionEvenStyle.FillPattern = FillPattern.SolidForeground;
+            promotionEvenStyle.FillBackgroundColor = EvenColor;
+            promotionEvenStyle.SetFont(greenFont);
 
-            ICellStyle normalStyleCenter = workbook.CreateCellStyle();
-            normalStyleCenter.Alignment = HorizontalAlignment.Center;
-            normalStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            var promotionOddStyle = workbook.CreateCellStyle();
+            promotionOddStyle.Alignment = HorizontalAlignment.Center;
+            promotionOddStyle.VerticalAlignment = VerticalAlignment.Center;
+            promotionOddStyle.SetFont(greenFont);
 
-            ICellStyle normalBlueStyleCenter = workbook.CreateCellStyle();
-            normalBlueStyleCenter.Alignment = HorizontalAlignment.Center;
-            normalBlueStyleCenter.VerticalAlignment = VerticalAlignment.Center;
-            normalBlueStyleCenter.SetFont(blueFont);
+            var poorEvenStyle = workbook.CreateCellStyle();
+            poorEvenStyle.Alignment = HorizontalAlignment.Center;
+            poorEvenStyle.VerticalAlignment = VerticalAlignment.Center;
+            poorEvenStyle.FillForegroundColor = EvenColor;
+            poorEvenStyle.FillPattern = FillPattern.SolidForeground;
+            poorEvenStyle.FillBackgroundColor = EvenColor;
+            poorEvenStyle.SetFont(redFont);
 
-            ICellStyle normalRedStyleCenter = workbook.CreateCellStyle();
-            normalRedStyleCenter.Alignment = HorizontalAlignment.Center;
-            normalRedStyleCenter.VerticalAlignment = VerticalAlignment.Center;
-            normalRedStyleCenter.SetFont(redFont);
+            var poorOddStyle = workbook.CreateCellStyle();
+            poorOddStyle.Alignment = HorizontalAlignment.Center;
+            poorOddStyle.VerticalAlignment = VerticalAlignment.Center;
+            poorOddStyle.SetFont(redFont);
 
-            ICellStyle roseStyleCenter = workbook.CreateCellStyle();
-            roseStyleCenter.Alignment = HorizontalAlignment.Center;
-            roseStyleCenter.VerticalAlignment = VerticalAlignment.Center;
-            roseStyleCenter.FillForegroundColor = HSSFColor.Rose.Index;
-            roseStyleCenter.FillPattern = FillPattern.SolidForeground;
-            roseStyleCenter.FillBackgroundColor = HSSFColor.Rose.Index;
+            var evenlStyleLeft = workbook.CreateCellStyle();
+            evenlStyleLeft.Alignment = HorizontalAlignment.Left;
+            evenlStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            evenlStyleLeft.FillForegroundColor = EvenColor;
+            evenlStyleLeft.FillPattern = FillPattern.SolidForeground;
+            evenlStyleLeft.FillBackgroundColor = EvenColor;
 
-            ICellStyle roseBlueStyleCenter = workbook.CreateCellStyle();
-            roseBlueStyleCenter.Alignment = HorizontalAlignment.Center;
-            roseBlueStyleCenter.VerticalAlignment = VerticalAlignment.Center;
-            roseBlueStyleCenter.FillForegroundColor = HSSFColor.Rose.Index;
-            roseBlueStyleCenter.FillPattern = FillPattern.SolidForeground;
-            roseBlueStyleCenter.FillBackgroundColor = HSSFColor.Rose.Index;
-            roseBlueStyleCenter.SetFont(blueFont);
+            var evenStyleCenter = workbook.CreateCellStyle();
+            evenStyleCenter.Alignment = HorizontalAlignment.Center;
+            evenStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            evenStyleCenter.FillForegroundColor = EvenColor;
+            evenStyleCenter.FillPattern = FillPattern.SolidForeground;
+            evenStyleCenter.FillBackgroundColor = EvenColor;
 
-            ICellStyle roseRedStyleCenter = workbook.CreateCellStyle();
-            roseRedStyleCenter.Alignment = HorizontalAlignment.Center;
-            roseRedStyleCenter.VerticalAlignment = VerticalAlignment.Center;
-            roseRedStyleCenter.FillForegroundColor = HSSFColor.Rose.Index;
-            roseRedStyleCenter.FillPattern = FillPattern.SolidForeground;
-            roseRedStyleCenter.FillBackgroundColor = HSSFColor.Rose.Index;
-            roseRedStyleCenter.SetFont(redFont);
+            ICellStyle oddStyleLeft = workbook.CreateCellStyle();
+            oddStyleLeft.Alignment = HorizontalAlignment.Left;
+            oddStyleLeft.VerticalAlignment = VerticalAlignment.Center;
 
-            ICellStyle roseStyleLeft = workbook.CreateCellStyle();
-            roseStyleLeft.Alignment = HorizontalAlignment.Left;
-            roseStyleLeft.VerticalAlignment = VerticalAlignment.Center;
-            roseStyleLeft.FillForegroundColor = HSSFColor.Rose.Index;
-            roseStyleLeft.FillPattern = FillPattern.SolidForeground;
-            roseStyleLeft.FillBackgroundColor = HSSFColor.Rose.Index;
+            ICellStyle oddStyleCenter = workbook.CreateCellStyle();
+            oddStyleCenter.Alignment = HorizontalAlignment.Center;
+            oddStyleCenter.VerticalAlignment = VerticalAlignment.Center;
 
             ICell cellBody;
             int index = 1;
             foreach (var employee in employeeEvaluations)
             {
+                IRow row = sheet.CreateRow(rowIndex);
+                ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
+                ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
+
                 var columnIndex = 0;
                 var rowIndexBeginMerger = rowIndex;
-                if (employee.PAFocus.BonusGiven + employee.PAFocus.Contribution == 10)
+                var condition = employee.PAFocus.BonusGiven + employee.PAFocus.Contribution;
+
+                if (condition >= MaxStone)
                 {
-                    bodyStyleCenter = goldStyleCenter;
-                    bodyStyleLeft = goldStyleLeft;
+                    if (employee.PAFocus.IsReadyPromotion.HasValue && employee.PAFocus.IsReadyPromotion.Value)
+                    {
+                        bodyStyleCenter = supperGreenStyleCenter;
+                        bodyStyleLeft = supperGreenStyleLeft;
+                    }
+                    else
+                    {
+                        bodyStyleCenter = greenStyleCenter;
+                        bodyStyleLeft = greenStyleLeft;
+                    }
                 }
-                else if (employee.PAFocus.BonusGiven + employee.PAFocus.Contribution == 9)
+                else if (condition <= MinStone)
                 {
-                    bodyStyleCenter = roseStyleCenter;
-                    bodyStyleLeft = roseStyleLeft;
+                    bodyStyleCenter = redStyleCenter;
+                    bodyStyleLeft = redStyleLeft;
                 }
                 else
                 {
-                    bodyStyleCenter = normalStyleCenter;
-                    bodyStyleLeft = normalStyleLeft;
+                    if (index % 2 == 0)
+                    {
+                        bodyStyleCenter = evenStyleCenter;
+                        bodyStyleLeft = evenlStyleLeft;
+                    }
+                    else
+                    {
+                        bodyStyleCenter = oddStyleCenter;
+                        bodyStyleLeft = oddStyleLeft;
+                    }
                 }
 
-                IRow row = sheet.CreateRow(rowIndex);
 
                 cellBody = row.CreateCell(columnIndex++);
                 cellBody.CellStyle = bodyStyleCenter;
-                cellBody.SetCellValue(index++);
+                cellBody.SetCellValue(index);
 
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
@@ -303,26 +349,19 @@
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                 var promotion = employee.PAFocus.IsReadyPromotion.HasValue ? employee.PAFocus.IsReadyPromotion.Value ? Lang.Yes : Lang.No : Lang.Dash;
-                if (promotion == Lang.Yes)
+                if (promotion == Lang.Yes && condition > MinStone && condition < MaxStone)
                 {
-                    if (employee.PAFocus.BonusGiven + employee.PAFocus.Contribution == 10)
+                    if (index % 2 == 0)
                     {
                         cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = goldBlueStyleCenter;
-                        cellBody.SetCellValue(promotion);
-                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-                    }
-                    else if (employee.PAFocus.BonusGiven + employee.PAFocus.Contribution == 9)
-                    {
-                        cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = roseBlueStyleCenter;
+                        cellBody.CellStyle = promotionEvenStyle;
                         cellBody.SetCellValue(promotion);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
                     else
                     {
                         cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = normalBlueStyleCenter;
+                        cellBody.CellStyle = promotionOddStyle;
                         cellBody.SetCellValue(promotion);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
@@ -336,27 +375,20 @@
                 }
 
                 var performance = employee.PAFocus.IsPoorPerformance.HasValue ? employee.PAFocus.IsPoorPerformance.Value ? Lang.Yes : Lang.No : Lang.Dash;
-                if (performance == Lang.Yes)
+                if (performance == Lang.Yes && condition > MinStone && condition < MaxStone)
                 {
-                    if (employee.PAFocus.BonusGiven + employee.PAFocus.Contribution == 10)
+                    if (index % 2 == 0)
                     {
                         cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = goldRedStyleCenter;
-                        cellBody.SetCellValue(performance);
-                        sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-                    }
-                    else if (employee.PAFocus.BonusGiven + employee.PAFocus.Contribution == 9)
-                    {
-                        cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = roseRedStyleCenter;
+                        cellBody.CellStyle = poorEvenStyle;
                         cellBody.SetCellValue(performance);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
                     else
                     {
                         cellBody = row.CreateCell(columnIndex);
-                        cellBody.CellStyle = normalRedStyleCenter;
-                        cellBody.SetCellValue(performance);
+                        cellBody.CellStyle = poorOddStyle;
+                        cellBody.SetCellValue(promotion);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
                 }
@@ -381,125 +413,99 @@
                 var maxRowOfEmployee = GetNumberRowOfEmployee(employee);
                 for (int i = 0; i < maxRowOfEmployee; i++)
                 {
-                    if (i < employee.Nominations.Count)
+                    if (i > 0)
+                    {
+                        row = sheet.CreateRow(rowIndex);
+                    }
+
+                    if (i < employee.Nominations.Count && i < employee.EmployeeWorkings.Count)
                     {
                         var j = columnIndex;
-                        if (i > 0)
-                        {
-                            row = sheet.CreateRow(rowIndex);
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.Nominations[i].Title);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleCenter;
-                            cellBody.SetCellValue(employee.Nominations[i].StatusToString);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleLeft;
+                        cellBody.SetCellValue(employee.Nominations[i].Title);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].ProjectName);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleCenter;
+                        cellBody.SetCellValue(employee.Nominations[i].StatusToString);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleCenter;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].DecryptedScore);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleLeft;
+                        cellBody.SetCellValue(employee.EmployeeWorkings[i].ProjectName);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].Comment);
-                            sheet.SetColumnWidth(j++, columnWidth * 4);
-                        }
-                        else
-                        {
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.Nominations[i].Title);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleCenter;
+                        cellBody.SetCellValue(employee.EmployeeWorkings[i].DecryptedScore);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleCenter;
-                            cellBody.SetCellValue(employee.Nominations[i].StatusToString);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
-
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].ProjectName);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
-
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleCenter;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].DecryptedScore);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
-
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].Comment);
-                            sheet.SetColumnWidth(j++, columnWidth * 4);
-                        }
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleLeft;
+                        cellBody.SetCellValue(employee.EmployeeWorkings[i].Comment);
+                        sheet.SetColumnWidth(j++, columnWidth * 4);
                     }
 
                     if (i >= employee.Nominations.Count && i < employee.EmployeeWorkings.Count)
                     {
                         var j = columnIndex;
-                        if (i > 0)
-                        {
-                            row = sheet.CreateRow(rowIndex);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(string.Empty);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleCenter;
+                        cellBody.SetCellValue(string.Empty);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleCenter;
-                            cellBody.SetCellValue(string.Empty);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleCenter;
+                        cellBody.SetCellValue(string.Empty);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].ProjectName);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleLeft;
+                        cellBody.SetCellValue(employee.EmployeeWorkings[i].ProjectName);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleCenter;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].DecryptedScore);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleCenter;
+                        cellBody.SetCellValue(employee.EmployeeWorkings[i].DecryptedScore);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].Comment);
-                            sheet.SetColumnWidth(j++, columnWidth * 4);
-                        }
-                        else
-                        {
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(string.Empty);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleLeft;
+                        cellBody.SetCellValue(employee.EmployeeWorkings[i].Comment);
+                        sheet.SetColumnWidth(j++, columnWidth * 4);
+                    }
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleCenter;
-                            cellBody.SetCellValue(string.Empty);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                    if (i < employee.Nominations.Count && i >= employee.EmployeeWorkings.Count)
+                    {
+                        var j = columnIndex;
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].ProjectName);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleLeft;
+                        cellBody.SetCellValue(employee.Nominations[i].Title);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleCenter;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].DecryptedScore);
-                            sheet.SetColumnWidth(j++, columnWidth * 2);
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleCenter;
+                        cellBody.SetCellValue(employee.Nominations[i].StatusToString);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                            cellBody = row.CreateCell(j);
-                            cellBody.CellStyle = bodyStyleLeft;
-                            cellBody.SetCellValue(employee.EmployeeWorkings[i].Comment);
-                            sheet.SetColumnWidth(j++, columnWidth * 4);
-                        }
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleLeft;
+                        cellBody.SetCellValue(string.Empty);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
+
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleCenter;
+                        cellBody.SetCellValue(string.Empty);
+                        sheet.SetColumnWidth(j++, columnWidth * 2);
+
+                        cellBody = row.CreateCell(j);
+                        cellBody.CellStyle = bodyStyleLeft;
+                        cellBody.SetCellValue(string.Empty);
+                        sheet.SetColumnWidth(j++, columnWidth * 4);
                     }
 
                     rowIndex++;
@@ -514,6 +520,8 @@
                 {
                     rowIndex++;
                 }
+
+                index++;
             }
         }
 
@@ -564,6 +572,15 @@
 
                 return output;
             }
+        }
+
+        private void SetColorIndex()
+        {
+            HSSFPalette palette = workbook.GetCustomPalette();
+            palette.SetColorAtIndex(SupperGreenColor, (byte)104, (byte)169, (byte)189);
+            palette.SetColorAtIndex(GreenColor, (byte)89, (byte)176, (byte)159);
+            palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
+            palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
         }
     }
 }
