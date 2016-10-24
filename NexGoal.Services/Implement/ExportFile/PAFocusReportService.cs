@@ -19,6 +19,7 @@ namespace NexGoal.Services.Implement
         private const int SupperGreenColor = 51;
         private const int RedColor = 52;
         private const int EvenColor = 53;
+        private const int HeaderColor = 54;
 
         private const int MinStone = 3;
         private const int MaxStone = 9;
@@ -48,8 +49,8 @@ namespace NexGoal.Services.Implement
                 Lang.FullName,
                 Lang.JobTitle,
                 Lang.Team,
-                Lang.SuitableForTeamGoals,
-                Lang.DeserveRewards,
+                Lang.PAFocusFirstNote,
+                Lang.PAFocusSecondNote,
                 Lang.ApplicableToPromote,
                 Lang.PoorPerformance,
                 Lang.AccomplishedCurrentObjectives,
@@ -94,14 +95,16 @@ namespace NexGoal.Services.Implement
             font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICellStyle cellStyle = workbook.CreateCellStyle();
-            cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
+            cellStyle.FillForegroundColor = HeaderColor;
             cellStyle.FillPattern = FillPattern.SolidForeground;
-            cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
+            cellStyle.FillBackgroundColor = HeaderColor;
             cellStyle.Alignment = HorizontalAlignment.Center;
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
+            cellStyle.WrapText = true;
             cellStyle.SetFont(font);
 
             IRow row = sheet.CreateRow(2);
+            row.Height = 2000;
             for (int i = 0; i < titleHeaders.Count; i++)
             {
                 var cell = row.CreateCell(i);
@@ -351,6 +354,7 @@ namespace NexGoal.Services.Implement
             palette.SetColorAtIndex(GreenColor, (byte)89, (byte)176, (byte)159);
             palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
             palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
+            palette.SetColorAtIndex(HeaderColor, (byte)50, (byte)67, (byte)115);
         }
     }
 }

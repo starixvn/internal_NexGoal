@@ -19,6 +19,7 @@
         private const int SupperGreenColor = 51;
         private const int RedColor = 52;
         private const int EvenColor = 53;
+        private const int HeaderColor = 54;
 
         private const int MinStone = 3;
         private const int MaxStone = 9;
@@ -26,7 +27,7 @@
         private HSSFWorkbook workbook;
         private ISheet sheet;
         private int rowIndex = 0;
-        private int columnWidth = 2560;
+        private int columnWidth = 3000;
         private List<string> titleRow1Headers;
 
         public MemoryStream Export(IEnumerable<MasterReportModel> evaluations, string periodName)
@@ -71,14 +72,15 @@
             font.Boldweight = (short)FontBoldWeight.Bold;
 
             ICellStyle cellStyle = workbook.CreateCellStyle();
-            cellStyle.FillForegroundColor = HSSFColor.Grey80Percent.Index;
+            cellStyle.FillForegroundColor = HeaderColor;
             cellStyle.FillPattern = FillPattern.SolidForeground;
-            cellStyle.FillBackgroundColor = HSSFColor.Grey80Percent.Index;
+            cellStyle.FillBackgroundColor = HeaderColor;
             cellStyle.Alignment = HorizontalAlignment.Center;
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
             cellStyle.SetFont(font);
 
             IRow row = sheet.CreateRow(rowIndex);
+            row.Height = 1000;
             titleRow1Headers = new List<string>
             {
                 Lang.SymbolCount,
@@ -89,8 +91,8 @@
                 Lang.ReviewerAdjustment,
                 Lang.PAFinalScore,
                 Lang.EvaluatorComment,
-                Lang.SuitableForTeamGoals,
-                Lang.DeserveRewards,
+                Lang.PAFocusFirstNote,
+                Lang.PAFocusSecondNote,
                 Lang.ApplicableToPromote,
                 Lang.PoorPerformance,
                 Lang.AccomplishedCurrentObjectives,
@@ -102,6 +104,7 @@
             {
                 cell = row.CreateCell(columnIndex);
                 cell.CellStyle = cellStyle;
+                cell.CellStyle.WrapText = true;
                 cell.SetCellValue(titleRow1Headers[columnIndex]);
                 sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + 1, columnIndex, columnIndex));
             }
@@ -121,6 +124,7 @@
             rowIndex++;
 
             row = sheet.CreateRow(rowIndex);
+            row.Height = 1000;
             cell = row.CreateCell(columnIndex++);
             cell.CellStyle = cellStyle;
             cell.SetCellValue(Lang.Title);
@@ -293,7 +297,6 @@
                     }
                 }
 
-
                 cellBody = row.CreateCell(columnIndex++);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(index);
@@ -403,12 +406,12 @@
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = string.IsNullOrEmpty(employee.PAFocus.LastCompletedPercentObjective) ? bodyStyleCenter : bodyStyleLeft;
                 cellBody.SetCellValue(string.IsNullOrEmpty(employee.PAFocus.LastCompletedPercentObjective) ? Lang.Dash : employee.PAFocus.LastCompletedPercentObjective);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 4);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = string.IsNullOrEmpty(employee.PAFocus.NextDescriptionObjective) ? bodyStyleCenter : bodyStyleLeft;
                 cellBody.SetCellValue(string.IsNullOrEmpty(employee.PAFocus.NextDescriptionObjective) ? Lang.Dash : employee.PAFocus.NextDescriptionObjective);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 4);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
                 var maxRowOfEmployee = GetNumberRowOfEmployee(employee);
                 for (int i = 0; i < maxRowOfEmployee; i++)
@@ -581,6 +584,7 @@
             palette.SetColorAtIndex(GreenColor, (byte)89, (byte)176, (byte)159);
             palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
             palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
+            palette.SetColorAtIndex(HeaderColor, (byte)50, (byte)67, (byte)115);
         }
     }
 }
