@@ -181,7 +181,7 @@ textarea {
 .tooltip {
     &.top .tooltip-arrow {
         bottom: 2 * @tooltip-border-width;
-        border-top-color: #eaeaea !important;
+        border-top-color: #eaeaea;
 
         &:after {
             bottom: -2 * @tooltip-border-width;
@@ -194,6 +194,7 @@ textarea {
 
     &.bottom .tooltip-arrow {
         top: 2 * @tooltip-border-width;
+        border-bottom-color: #eaeaea;
 
         &:after {
             top: -2 * @tooltip-border-width;
@@ -206,8 +207,8 @@ textarea {
 
     &.left .tooltip-arrow {
         right: 2 * @tooltip-border-width;
-        border-left-color: #eaeaea !important;
-        //background: #eaeaea;
+        border-left-color: #eaeaea;
+
         &:after {
             right: -2 * @tooltip-border-width;
             top: 50%;
@@ -219,6 +220,7 @@ textarea {
 
     &.right .tooltip-arrow {
         left: 2 * @tooltip-border-width;
+        border-right-color: #eaeaea;
 
         &:after {
             left: -2 * @tooltip-border-width;

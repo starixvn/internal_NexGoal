@@ -69,6 +69,14 @@
                     }
                 }
             });
+
+            window.onbeforeunload = function (event) {
+                if (vm.isChangedData) {
+                    return "";
+                }
+
+                return;
+            };
         }
 
         function query() {

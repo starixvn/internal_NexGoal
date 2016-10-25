@@ -50,6 +50,14 @@
                     $modalInstance.dismiss("cancel");
                 }
             });
+
+            window.onbeforeunload = function (event) {
+                if (EOQModel.isQuestionModified(originEOQQuestions, vm.nomination.eoqQuestions)) {
+                    return "";
+                }
+
+                return;
+            };
         }
 
         vm.submit = function () {

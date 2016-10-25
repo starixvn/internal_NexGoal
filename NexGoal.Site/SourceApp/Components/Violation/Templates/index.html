@@ -120,7 +120,7 @@
                         <td class="comment-wrapper width-360">
                             <span ng-if="violation.Description.length > 50" 
                                   tooltip-html-unsafe='<div class="pre-line-tooltip">{{violation.Description}}</div>'
-                                  tooltip-placement="left">
+                                  tooltip-placement="bottom">
                                 {{violation.Description | limitTo : 50}} ...
                             </span>
                             <span ng-if="violation.Description.length <= 50">

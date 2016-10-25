@@ -73,8 +73,8 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th class="width-percent-6" data-translate="SymbolCount"></th>
-                    <th class="width-percent-45" data-translate="Title"></th>
+                    <th class="width-80" data-translate="SymbolCount"></th>
+                    <th class="width-250" data-translate="Title"></th>
                     <th data-translate="Status"></th>
                 </tr>
             </thead>
@@ -104,8 +104,8 @@
         <table class="table table-bordered">
             <thead>
                 <tr>
-                    <th class="width-percent-6" data-translate="SymbolCount"></th>
-                    <th class="width-percent-45" data-translate="Date"></th>
+                    <th class="width-80" data-translate="SymbolCount"></th>
+                    <th class="width-250" data-translate="Date"></th>
                     <th data-translate="Remarks"></th>
                 </tr>
             </thead>
@@ -114,12 +114,12 @@
                     <td class="text-center" ng-bind="$index + 1"></td>
                     <td ng-bind="violation.EffectedDate | customDate"></td>
                     <td class="comment-wrapper">
-                        <span ng-if="violation.Description.length > 50"
+                        <span ng-if="violation.Description.length > 100"
                               tooltip-html-unsafe='<div class="pre-line-tooltip">{{violation.Description}}</div>'
-                              tooltip-placement="left">
-                            {{violation.Description | limitTo : 50}} ...
+                              tooltip-placement="top">
+                            {{violation.Description | limitTo : 100}} ...
                         </span>
-                        <span ng-if="violation.Description.length <= 50">
+                        <span ng-if="violation.Description.length <= 100">
                             {{violation.Description}}
                         </span>
                     </td>

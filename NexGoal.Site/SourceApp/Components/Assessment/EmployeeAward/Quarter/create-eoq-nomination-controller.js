@@ -47,6 +47,14 @@
                     $modalInstance.dismiss("cancel");
                 }
             });
+
+            window.onbeforeunload = function (event) {
+                if (EOQModel.isQuestionModified(originEOQQuestions, vm.nominee.eoqQuestions)) {
+                    return "";
+                }
+
+                return;
+            };
         }
 
         vm.getEmployee = function () {

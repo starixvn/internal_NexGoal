@@ -47,6 +47,14 @@
                     $modalInstance.dismiss("cancel");
                 }
             });
+
+            window.onbeforeunload = function (event) {
+                if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions)) {
+                    return "";
+                }
+
+                return;
+            };
         }
 
         vm.getEmployee = function () {

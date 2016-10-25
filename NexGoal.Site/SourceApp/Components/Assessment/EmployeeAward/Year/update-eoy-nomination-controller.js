@@ -50,6 +50,14 @@
                     $modalInstance.dismiss("cancel");
                 }
             });
+
+            window.onbeforeunload = function (event) {
+                if (EOYModel.isQuestionModified(originEOYQuestions, vm.nomination.eoyQuestions)) {
+                    return "";
+                }
+
+                return;
+            };
         }
 
         vm.submit = function () {

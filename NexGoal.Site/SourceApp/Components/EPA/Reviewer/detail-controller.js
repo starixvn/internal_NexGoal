@@ -269,6 +269,14 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
                     }
                 }
             });
+
+            window.onbeforeunload = function (event) {
+                if (vm.isChangedData) {
+                    return "";
+                }
+
+                return;
+            };
         })["finally"](function () {
             lockScreenService.stop();
         });
