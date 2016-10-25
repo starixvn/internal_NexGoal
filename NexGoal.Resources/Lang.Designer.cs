@@ -781,6 +781,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Your nomination has been submitted suceessfully..
+        /// </summary>
+        public static string CreateNominationSuccessMessage {
+            get {
+                return ResourceManager.GetString("CreateNominationSuccessMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Create Evaluation Template.
         /// </summary>
         public static string CreateTargetTemplate {

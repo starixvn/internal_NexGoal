@@ -1752,4 +1752,7 @@
   <data name="WarningLostDataMessage" xml:space="preserve">
     <value>All unsaved changes will be lost. Do you want to proceed?</value>
   </data>
+  <data name="CreateNominationSuccessMessage" xml:space="preserve">
+    <value>Your nomination has been submitted suceessfully.</value>
+  </data>
 </root>

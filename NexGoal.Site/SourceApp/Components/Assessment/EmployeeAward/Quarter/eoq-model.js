@@ -68,7 +68,7 @@
         vm.createEOQNomination = function (eoqyId, employeeId, eoqQuestions, modalInstance) {
             return nominationFactory.createEOQNomination(eoqyId, employeeId, eoqQuestions).success(function (response) {
                 if (response.IsSuccessful) {
-                    notificationFactory.success("CreatedSuccessfully");
+                    notificationFactory.success("CreateNominationSuccessMessage");
                     modalInstance.close();
                 }
                 else {
