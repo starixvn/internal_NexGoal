@@ -70,7 +70,7 @@
         private void RenderNote()
         {
             var note = "(*) " + Lang.SuitableForTeamGoals + ": " + Lang.PAFocusFirstNote
-                + "(**) " + Environment.NewLine + Lang.DeserveRewards + ": " + Lang.PAFocusSecondNote;
+                + Environment.NewLine + "(**) " + Lang.DeserveRewards + ": " + Lang.PAFocusSecondNote;
 
             IRow row = sheet.CreateRow(2);
             row.Height = 700;
