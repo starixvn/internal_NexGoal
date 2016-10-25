@@ -149,7 +149,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
                 }
             });
 
-            window.onbeforeunload = function (event) {
+            window.onbeforeunload = function () {
                 if (vm.isChangedData) {
                     return "";
                 }

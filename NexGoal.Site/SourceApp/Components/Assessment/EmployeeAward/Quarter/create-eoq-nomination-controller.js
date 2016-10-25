@@ -59,7 +59,7 @@
             $scope.$on('$destroy', function () {
                 window.onbeforeunload = function () {
                     return;
-                }
+                };
             });
         }
 

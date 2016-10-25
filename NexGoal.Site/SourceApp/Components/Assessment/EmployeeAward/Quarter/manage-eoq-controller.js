@@ -87,7 +87,7 @@
         };
 
         vm.createEOQ = function () {
-            var modalInstance = EOQModel.openPopupCreateEOQ().then(function () {
+            EOQModel.openPopupCreateEOQ().then(function () {
                 vm.query();
             });
         };

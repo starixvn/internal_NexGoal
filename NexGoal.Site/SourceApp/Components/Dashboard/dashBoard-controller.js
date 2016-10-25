@@ -24,7 +24,7 @@
                 stopInterval = $interval(function () {
                     vm.showScore = false;
                     $interval.cancel(stopInterval);
-                }, 5000);
+                }, 30000);
             }
         };
 

@@ -51,7 +51,7 @@
                 }
             });
 
-            window.onbeforeunload = function (event) {
+            window.onbeforeunload = function () {
                 if (EOYModel.isQuestionModified(originEOYQuestions, vm.nomination.eoyQuestions)) {
                     return "";
                 }
@@ -62,7 +62,7 @@
             $scope.$on('$destroy', function () {
                 window.onbeforeunload = function () {
                     return;
-                }
+                };
             });
         }
 

@@ -51,7 +51,7 @@
                 }
             });
 
-            window.onbeforeunload = function (event) {
+            window.onbeforeunload = function () {
                 if (EOQModel.isQuestionModified(originEOQQuestions, vm.nomination.eoqQuestions)) {
                     return "";
                 }
@@ -62,7 +62,7 @@
             $scope.$on('$destroy', function () {
                 window.onbeforeunload = function () {
                     return;
-                }
+                };
             });
         }
 

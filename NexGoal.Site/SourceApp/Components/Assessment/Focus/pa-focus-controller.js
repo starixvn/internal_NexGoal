@@ -70,7 +70,7 @@
                 }
             });
 
-            window.onbeforeunload = function (event) {
+            window.onbeforeunload = function () {
                 if (vm.isChangedData) {
                     return "";
                 }
