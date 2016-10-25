@@ -58,6 +58,12 @@
 
                 return;
             };
+
+            $scope.$on('$destroy', function () {
+                window.onbeforeunload = function () {
+                    return;
+                }
+            });
         }
 
         vm.submit = function () {

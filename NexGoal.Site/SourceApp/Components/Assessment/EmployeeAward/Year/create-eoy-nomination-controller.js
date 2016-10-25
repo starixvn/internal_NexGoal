@@ -35,7 +35,7 @@
             vm.eoyNominationPeriod.DueDay = $filter('date')(vm.eoyNominationPeriod.Period.EndDate, vm.dateFormat);
 
             $scope.$on('$routeChangeStart', function (event) {
-                if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions)) {
+                if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions) || vm.employee !== null) {
                     var cancelConfirm = confirm(EOYModel.confirmCancelFormMessage);
 
                     if (cancelConfirm) {
@@ -49,12 +49,18 @@
             });
 
             window.onbeforeunload = function (event) {
-                if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions)) {
+                if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions) || vm.employee !== null) {
                     return "";
                 }
 
                 return;
             };
+
+            $scope.$on('$destroy', function () {
+                window.onbeforeunload = function () {
+                    return;
+                }
+            });
         }
 
         vm.getEmployee = function () {
@@ -86,7 +92,7 @@
         };
 
         vm.cancel = function () {
-            if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions)) {
+            if (EOYModel.isQuestionModified(originEOYQuestions, vm.nominee.eoyQuestions) || vm.employee !== null) {
                 var cancelConfirm = confirm(EOYModel.confirmCancelFormMessage);
 
                 if (cancelConfirm) {
