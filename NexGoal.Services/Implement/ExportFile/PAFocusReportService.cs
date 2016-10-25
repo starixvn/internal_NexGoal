@@ -1,18 +1,19 @@
-﻿using NexGoal.Core.Enumerations;
-using NexGoal.Core.Utilities;
-using NexGoal.Model.PAFocus;
-using NexGoal.Resources;
-using NexGoal.Services.Interfaces;
-using NPOI.HSSF.UserModel;
-using NPOI.HSSF.Util;
-using NPOI.SS.UserModel;
-using NPOI.SS.Util;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.IO;
-
-namespace NexGoal.Services.Implement
+﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Utilities;
+    using NexGoal.Model.PAFocus;
+    using NexGoal.Resources;
+    using NexGoal.Services.Interfaces;
+    using NPOI.HSSF.UserModel;
+    using NPOI.HSSF.Util;
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
+
     public class PAFocusReportService : IPAFocusReportService
     {
         private const int GreenColor = 50;
@@ -20,6 +21,9 @@ namespace NexGoal.Services.Implement
         private const int RedColor = 52;
         private const int EvenColor = 53;
         private const int HeaderColor = 54;
+        private const int RowStartHeader = 3;
+        private const int RowStartBody = 4;
+        private const int TotalColumns = 12;
 
         private const int MinStone = 3;
         private const int MaxStone = 9;
@@ -49,8 +53,8 @@ namespace NexGoal.Services.Implement
                 Lang.FullName,
                 Lang.JobTitle,
                 Lang.Team,
-                Lang.PAFocusFirstNote,
-                Lang.PAFocusSecondNote,
+                Lang.SuitableForTeamGoals + " (*)",
+                Lang.DeserveRewards + " (**)",
                 Lang.ApplicableToPromote,
                 Lang.PoorPerformance,
                 Lang.AccomplishedCurrentObjectives,
@@ -63,8 +67,11 @@ namespace NexGoal.Services.Implement
 
             SetColorIndex();
             RenderHeaderPage(periodId);
+            RenderNote();
             RenderHeaderTable();
             RenderBodyTable(focuses);
+
+            this.sheet.CreateFreezePane(0, RowStartBody);
 
             return RenderToBytes();
         }
@@ -81,10 +88,30 @@ namespace NexGoal.Services.Implement
             ICell cell = rowTitle.CreateCell(0);
             cell.SetCellValue(title);
             cell.CellStyle = workbook.CreateCellStyle();
-            cell.CellStyle.Alignment = HorizontalAlignment.Center;
+            cell.CellStyle.Alignment = HorizontalAlignment.Left;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 9));
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, TotalColumns - 1));
+        }
+
+        private void RenderNote()
+        {
+            var note = "(*) " + Lang.SuitableForTeamGoals + ": " + Lang.PAFocusFirstNote
+                + "(**) " + Environment.NewLine + Lang.DeserveRewards + ": " + Lang.PAFocusSecondNote;
+
+            IRow row = sheet.CreateRow(2);
+            row.Height = 700;
+            IFont font = workbook.CreateFont();
+            font.FontHeightInPoints = 11;
+
+            ICell cell = row.CreateCell(0);
+            cell.SetCellValue(note);
+            cell.CellStyle = workbook.CreateCellStyle();
+            cell.CellStyle.Alignment = HorizontalAlignment.Left;
+            cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
+            cell.CellStyle.SetFont(font);
+
+            sheet.AddMergedRegion(new CellRangeAddress(2, 2, 0, TotalColumns - 1));
         }
 
         private void RenderHeaderTable()
@@ -103,8 +130,8 @@ namespace NexGoal.Services.Implement
             cellStyle.WrapText = true;
             cellStyle.SetFont(font);
 
-            IRow row = sheet.CreateRow(2);
-            row.Height = 2000;
+            IRow row = sheet.CreateRow(RowStartHeader);
+            row.Height = 1000;
             for (int i = 0; i < titleHeaders.Count; i++)
             {
                 var cell = row.CreateCell(i);
@@ -116,7 +143,7 @@ namespace NexGoal.Services.Implement
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void RenderBodyTable(IEnumerable<PAFocusModel> focuses)
         {
-            var rowIndex = 3;
+            var rowIndex = RowStartBody;
             var columnIndex = 0;
             var index = 1;
 
@@ -134,6 +161,7 @@ namespace NexGoal.Services.Implement
             greenStyleLeft.FillPattern = FillPattern.SolidForeground;
             greenStyleLeft.FillBackgroundColor = GreenColor;
             greenStyleLeft.SetFont(whiteFont);
+            SetBorderColor(greenStyleLeft);
 
             var greenStyleCenter = workbook.CreateCellStyle();
             greenStyleCenter.Alignment = HorizontalAlignment.Center;
@@ -142,6 +170,7 @@ namespace NexGoal.Services.Implement
             greenStyleCenter.FillPattern = FillPattern.SolidForeground;
             greenStyleCenter.FillBackgroundColor = GreenColor;
             greenStyleCenter.SetFont(whiteFont);
+            SetBorderColor(greenStyleCenter);
 
             var supperGreenStyleLeft = workbook.CreateCellStyle();
             supperGreenStyleLeft.Alignment = HorizontalAlignment.Left;
@@ -150,6 +179,7 @@ namespace NexGoal.Services.Implement
             supperGreenStyleLeft.FillPattern = FillPattern.SolidForeground;
             supperGreenStyleLeft.FillBackgroundColor = SupperGreenColor;
             supperGreenStyleLeft.SetFont(whiteFont);
+            SetBorderColor(supperGreenStyleLeft);
 
             var supperGreenStyleCenter = workbook.CreateCellStyle();
             supperGreenStyleCenter.Alignment = HorizontalAlignment.Center;
@@ -158,6 +188,7 @@ namespace NexGoal.Services.Implement
             supperGreenStyleCenter.FillPattern = FillPattern.SolidForeground;
             supperGreenStyleLeft.FillBackgroundColor = SupperGreenColor;
             supperGreenStyleCenter.SetFont(whiteFont);
+            SetBorderColor(supperGreenStyleCenter);
 
             var redStyleLeft = workbook.CreateCellStyle();
             redStyleLeft.Alignment = HorizontalAlignment.Left;
@@ -166,6 +197,7 @@ namespace NexGoal.Services.Implement
             redStyleLeft.FillPattern = FillPattern.SolidForeground;
             redStyleLeft.FillBackgroundColor = RedColor;
             redStyleLeft.SetFont(whiteFont);
+            SetBorderColor(redStyleLeft);
 
             var redStyleCenter = workbook.CreateCellStyle();
             redStyleCenter.Alignment = HorizontalAlignment.Center;
@@ -174,6 +206,7 @@ namespace NexGoal.Services.Implement
             redStyleCenter.FillPattern = FillPattern.SolidForeground;
             redStyleCenter.FillBackgroundColor = RedColor;
             redStyleCenter.SetFont(whiteFont);
+            SetBorderColor(redStyleCenter);
 
             var promotionEvenStyle = workbook.CreateCellStyle();
             promotionEvenStyle.Alignment = HorizontalAlignment.Center;
@@ -182,11 +215,13 @@ namespace NexGoal.Services.Implement
             promotionEvenStyle.FillPattern = FillPattern.SolidForeground;
             promotionEvenStyle.FillBackgroundColor = EvenColor;
             promotionEvenStyle.SetFont(greenFont);
+            SetBorderColor(promotionEvenStyle);
 
             var promotionOddStyle = workbook.CreateCellStyle();
             promotionOddStyle.Alignment = HorizontalAlignment.Center;
             promotionOddStyle.VerticalAlignment = VerticalAlignment.Center;
             promotionOddStyle.SetFont(greenFont);
+            SetBorderColor(promotionOddStyle);
 
             var poorEvenStyle = workbook.CreateCellStyle();
             poorEvenStyle.Alignment = HorizontalAlignment.Center;
@@ -195,18 +230,21 @@ namespace NexGoal.Services.Implement
             poorEvenStyle.FillPattern = FillPattern.SolidForeground;
             poorEvenStyle.FillBackgroundColor = EvenColor;
             poorEvenStyle.SetFont(redFont);
+            SetBorderColor(poorEvenStyle);
 
             var poorOddStyle = workbook.CreateCellStyle();
             poorOddStyle.Alignment = HorizontalAlignment.Center;
             poorOddStyle.VerticalAlignment = VerticalAlignment.Center;
             poorOddStyle.SetFont(redFont);
+            SetBorderColor(poorOddStyle);
 
-            var evenlStyleLeft = workbook.CreateCellStyle();
-            evenlStyleLeft.Alignment = HorizontalAlignment.Left;
-            evenlStyleLeft.VerticalAlignment = VerticalAlignment.Center;
-            evenlStyleLeft.FillForegroundColor = EvenColor;
-            evenlStyleLeft.FillPattern = FillPattern.SolidForeground;
-            evenlStyleLeft.FillBackgroundColor = EvenColor;
+            var evenStyleLeft = workbook.CreateCellStyle();
+            evenStyleLeft.Alignment = HorizontalAlignment.Left;
+            evenStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            evenStyleLeft.FillForegroundColor = EvenColor;
+            evenStyleLeft.FillPattern = FillPattern.SolidForeground;
+            evenStyleLeft.FillBackgroundColor = EvenColor;
+            SetBorderColor(evenStyleLeft);
 
             var evenStyleCenter = workbook.CreateCellStyle();
             evenStyleCenter.Alignment = HorizontalAlignment.Center;
@@ -214,14 +252,17 @@ namespace NexGoal.Services.Implement
             evenStyleCenter.FillForegroundColor = EvenColor;
             evenStyleCenter.FillPattern = FillPattern.SolidForeground;
             evenStyleCenter.FillBackgroundColor = EvenColor;
+            SetBorderColor(evenStyleCenter);
 
             ICellStyle oddStyleLeft = workbook.CreateCellStyle();
             oddStyleLeft.Alignment = HorizontalAlignment.Left;
             oddStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            SetBorderColor(oddStyleLeft);
 
             ICellStyle oddStyleCenter = workbook.CreateCellStyle();
             oddStyleCenter.Alignment = HorizontalAlignment.Center;
             oddStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            SetBorderColor(oddStyleCenter);
 
             foreach (PAFocusModel pa in focuses)
             {
@@ -254,7 +295,7 @@ namespace NexGoal.Services.Implement
                     if (index % 2 == 0)
                     {
                         bodyStyleCenter = evenStyleCenter;
-                        bodyStyleLeft = evenlStyleLeft;
+                        bodyStyleLeft = evenStyleLeft;
                     }
                     else
                     {
@@ -316,7 +357,7 @@ namespace NexGoal.Services.Implement
                         cellBody.CellStyle = promotionOddStyle;
                         cellBody.SetCellValue(promotion);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-                    }                    
+                    }
                 }
                 else
                 {
@@ -340,7 +381,7 @@ namespace NexGoal.Services.Implement
                     {
                         cellBody = row.CreateCell(columnIndex);
                         cellBody.CellStyle = poorOddStyle;
-                        cellBody.SetCellValue(promotion);
+                        cellBody.SetCellValue(performance);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
                 }
@@ -391,6 +432,14 @@ namespace NexGoal.Services.Implement
             palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
             palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
             palette.SetColorAtIndex(HeaderColor, (byte)50, (byte)67, (byte)115);
+        }
+
+        private void SetBorderColor(ICellStyle cell)
+        {
+            cell.TopBorderColor = HSSFColor.Grey40Percent.Index;
+            cell.RightBorderColor = HSSFColor.Grey40Percent.Index;
+            cell.BottomBorderColor = HSSFColor.Grey40Percent.Index;
+            cell.RightBorderColor = HSSFColor.Grey40Percent.Index;
         }
     }
 }

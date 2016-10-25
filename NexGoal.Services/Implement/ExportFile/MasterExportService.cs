@@ -1,5 +1,9 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.IO;
     using Core.Enumerations;
     using Core.Utilities;
     using NexGoal.Model.Report;
@@ -9,9 +13,6 @@
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
 
     public class MasterExportService : IMasterExportService
     {
@@ -20,13 +21,15 @@
         private const int RedColor = 52;
         private const int EvenColor = 53;
         private const int HeaderColor = 54;
+        private const int RowStartHeader = 3;
+        private const int RowStartBody = 5;
+        private const int TotalColumns = 19;
 
         private const int MinStone = 3;
         private const int MaxStone = 9;
 
         private HSSFWorkbook workbook;
         private ISheet sheet;
-        private int rowIndex = 0;
         private int columnWidth = 3000;
         private List<string> titleRow1Headers;
 
@@ -37,8 +40,11 @@
             SetColorIndex();
 
             RenderHearderPage(periodName);
+            RenderNote();
             RenderHeaderTable();
             RenderBody(evaluations);
+
+            this.sheet.CreateFreezePane(0, RowStartBody);
 
             return RenderToBytes();
         }
@@ -47,7 +53,7 @@
         {
             var reportTitle = string.Format("{0} - {1}", Lang.MasterReportTitleFile, periodName);
 
-            IRow rowTitle = sheet.CreateRow(rowIndex);
+            IRow rowTitle = sheet.CreateRow(0);
             IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 18;
             font.Boldweight = (short)FontBoldWeight.Bold;
@@ -55,12 +61,30 @@
             ICell cell = rowTitle.CreateCell(0);
             cell.SetCellValue(reportTitle);
             cell.CellStyle = workbook.CreateCellStyle();
-            cell.CellStyle.Alignment = HorizontalAlignment.Center;
+            cell.CellStyle.Alignment = HorizontalAlignment.Left;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 12));
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, TotalColumns - 1));
+        }
 
-            rowIndex += 2;
+        private void RenderNote()
+        {
+            var note = "(*) " + Lang.SuitableForTeamGoals + ": " + Lang.PAFocusFirstNote
+                + "(**) " + Environment.NewLine + Lang.DeserveRewards + ": " + Lang.PAFocusSecondNote;
+
+            IRow row = sheet.CreateRow(2);
+            row.Height = 700;
+            IFont font = workbook.CreateFont();
+            font.FontHeightInPoints = 11;
+
+            ICell cell = row.CreateCell(0);
+            cell.SetCellValue(note);
+            cell.CellStyle = workbook.CreateCellStyle();
+            cell.CellStyle.Alignment = HorizontalAlignment.Left;
+            cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
+            cell.CellStyle.SetFont(font);
+
+            sheet.AddMergedRegion(new CellRangeAddress(2, 2, 0, TotalColumns - 1));
         }
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
@@ -79,7 +103,7 @@
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
             cellStyle.SetFont(font);
 
-            IRow row = sheet.CreateRow(rowIndex);
+            IRow row = sheet.CreateRow(RowStartHeader);
             row.Height = 1000;
             titleRow1Headers = new List<string>
             {
@@ -91,8 +115,8 @@
                 Lang.ReviewerAdjustment,
                 Lang.PAFinalScore,
                 Lang.EvaluatorComment,
-                Lang.PAFocusFirstNote,
-                Lang.PAFocusSecondNote,
+                Lang.SuitableForTeamGoals + " (*)",
+                Lang.DeserveRewards + " (**)",
                 Lang.ApplicableToPromote,
                 Lang.PoorPerformance,
                 Lang.AccomplishedCurrentObjectives,
@@ -106,25 +130,23 @@
                 cell.CellStyle = cellStyle;
                 cell.CellStyle.WrapText = true;
                 cell.SetCellValue(titleRow1Headers[columnIndex]);
-                sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex + 1, columnIndex, columnIndex));
+                sheet.AddMergedRegion(new CellRangeAddress(RowStartHeader, RowStartHeader + 1, columnIndex, columnIndex));
             }
 
             cell = row.CreateCell(columnIndex);
             cell.CellStyle = cellStyle;
             cell.SetCellValue(Lang.AwardTitle);
-            sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex, columnIndex, columnIndex + 1));
+            sheet.AddMergedRegion(new CellRangeAddress(RowStartHeader, RowStartHeader, columnIndex, columnIndex + 1));
 
             columnIndex += 2;
             cell = row.CreateCell(columnIndex);
             cell.CellStyle = cellStyle;
             cell.SetCellValue(Lang.EvaluationByPM);
-            sheet.AddMergedRegion(new CellRangeAddress(rowIndex, rowIndex, columnIndex, columnIndex + 2));
+            sheet.AddMergedRegion(new CellRangeAddress(RowStartHeader, RowStartHeader, columnIndex, columnIndex + 2));
 
             columnIndex = titleRow1Headers.Count;
-            rowIndex++;
 
-            row = sheet.CreateRow(rowIndex);
-            row.Height = 1000;
+            row = sheet.CreateRow(RowStartHeader + 1);
             cell = row.CreateCell(columnIndex++);
             cell.CellStyle = cellStyle;
             cell.SetCellValue(Lang.Title);
@@ -149,7 +171,7 @@
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void RenderBody(IEnumerable<MasterReportModel> employeeEvaluations)
         {
-            rowIndex++;
+            var rowIndex = RowStartBody;
             IFont redFont = workbook.CreateFont();
             redFont.Color = HSSFColor.Red.Index;
             IFont whiteFont = workbook.CreateFont();
@@ -164,6 +186,7 @@
             greenStyleLeft.FillPattern = FillPattern.SolidForeground;
             greenStyleLeft.FillBackgroundColor = GreenColor;
             greenStyleLeft.SetFont(whiteFont);
+            SetBorderColor(greenStyleLeft);
 
             var greenStyleCenter = workbook.CreateCellStyle();
             greenStyleCenter.Alignment = HorizontalAlignment.Center;
@@ -172,6 +195,7 @@
             greenStyleCenter.FillPattern = FillPattern.SolidForeground;
             greenStyleCenter.FillBackgroundColor = GreenColor;
             greenStyleCenter.SetFont(whiteFont);
+            SetBorderColor(greenStyleCenter);
 
             var supperGreenStyleLeft = workbook.CreateCellStyle();
             supperGreenStyleLeft.Alignment = HorizontalAlignment.Left;
@@ -180,6 +204,7 @@
             supperGreenStyleLeft.FillPattern = FillPattern.SolidForeground;
             supperGreenStyleLeft.FillBackgroundColor = SupperGreenColor;
             supperGreenStyleLeft.SetFont(whiteFont);
+            SetBorderColor(supperGreenStyleLeft);
 
             var supperGreenStyleCenter = workbook.CreateCellStyle();
             supperGreenStyleCenter.Alignment = HorizontalAlignment.Center;
@@ -188,6 +213,7 @@
             supperGreenStyleCenter.FillPattern = FillPattern.SolidForeground;
             supperGreenStyleCenter.FillBackgroundColor = SupperGreenColor;
             supperGreenStyleCenter.SetFont(whiteFont);
+            SetBorderColor(supperGreenStyleCenter);
 
             var redStyleLeft = workbook.CreateCellStyle();
             redStyleLeft.Alignment = HorizontalAlignment.Left;
@@ -196,6 +222,7 @@
             redStyleLeft.FillPattern = FillPattern.SolidForeground;
             redStyleLeft.FillBackgroundColor = RedColor;
             redStyleLeft.SetFont(whiteFont);
+            SetBorderColor(redStyleLeft);
 
             var redStyleCenter = workbook.CreateCellStyle();
             redStyleCenter.Alignment = HorizontalAlignment.Center;
@@ -204,6 +231,7 @@
             redStyleCenter.FillPattern = FillPattern.SolidForeground;
             redStyleCenter.FillBackgroundColor = RedColor;
             redStyleCenter.SetFont(whiteFont);
+            SetBorderColor(redStyleCenter);
 
             var promotionEvenStyle = workbook.CreateCellStyle();
             promotionEvenStyle.Alignment = HorizontalAlignment.Center;
@@ -212,11 +240,13 @@
             promotionEvenStyle.FillPattern = FillPattern.SolidForeground;
             promotionEvenStyle.FillBackgroundColor = EvenColor;
             promotionEvenStyle.SetFont(greenFont);
+            SetBorderColor(promotionEvenStyle);
 
             var promotionOddStyle = workbook.CreateCellStyle();
             promotionOddStyle.Alignment = HorizontalAlignment.Center;
             promotionOddStyle.VerticalAlignment = VerticalAlignment.Center;
             promotionOddStyle.SetFont(greenFont);
+            SetBorderColor(promotionOddStyle);
 
             var poorEvenStyle = workbook.CreateCellStyle();
             poorEvenStyle.Alignment = HorizontalAlignment.Center;
@@ -225,18 +255,21 @@
             poorEvenStyle.FillPattern = FillPattern.SolidForeground;
             poorEvenStyle.FillBackgroundColor = EvenColor;
             poorEvenStyle.SetFont(redFont);
+            SetBorderColor(poorEvenStyle);
 
             var poorOddStyle = workbook.CreateCellStyle();
             poorOddStyle.Alignment = HorizontalAlignment.Center;
             poorOddStyle.VerticalAlignment = VerticalAlignment.Center;
             poorOddStyle.SetFont(redFont);
+            SetBorderColor(poorOddStyle);
 
-            var evenlStyleLeft = workbook.CreateCellStyle();
-            evenlStyleLeft.Alignment = HorizontalAlignment.Left;
-            evenlStyleLeft.VerticalAlignment = VerticalAlignment.Center;
-            evenlStyleLeft.FillForegroundColor = EvenColor;
-            evenlStyleLeft.FillPattern = FillPattern.SolidForeground;
-            evenlStyleLeft.FillBackgroundColor = EvenColor;
+            var evenStyleLeft = workbook.CreateCellStyle();
+            evenStyleLeft.Alignment = HorizontalAlignment.Left;
+            evenStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            evenStyleLeft.FillForegroundColor = EvenColor;
+            evenStyleLeft.FillPattern = FillPattern.SolidForeground;
+            evenStyleLeft.FillBackgroundColor = EvenColor;
+            SetBorderColor(evenStyleLeft);
 
             var evenStyleCenter = workbook.CreateCellStyle();
             evenStyleCenter.Alignment = HorizontalAlignment.Center;
@@ -244,14 +277,17 @@
             evenStyleCenter.FillForegroundColor = EvenColor;
             evenStyleCenter.FillPattern = FillPattern.SolidForeground;
             evenStyleCenter.FillBackgroundColor = EvenColor;
+            SetBorderColor(evenStyleCenter);
 
             ICellStyle oddStyleLeft = workbook.CreateCellStyle();
             oddStyleLeft.Alignment = HorizontalAlignment.Left;
             oddStyleLeft.VerticalAlignment = VerticalAlignment.Center;
+            SetBorderColor(oddStyleLeft);
 
             ICellStyle oddStyleCenter = workbook.CreateCellStyle();
             oddStyleCenter.Alignment = HorizontalAlignment.Center;
             oddStyleCenter.VerticalAlignment = VerticalAlignment.Center;
+            SetBorderColor(oddStyleCenter);
 
             ICell cellBody;
             int index = 1;
@@ -288,7 +324,7 @@
                     if (index % 2 == 0)
                     {
                         bodyStyleCenter = evenStyleCenter;
-                        bodyStyleLeft = evenlStyleLeft;
+                        bodyStyleLeft = evenStyleLeft;
                     }
                     else
                     {
@@ -585,6 +621,14 @@
             palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
             palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
             palette.SetColorAtIndex(HeaderColor, (byte)50, (byte)67, (byte)115);
+        }
+
+        private void SetBorderColor(ICellStyle cell)
+        {
+            cell.TopBorderColor = HSSFColor.Grey40Percent.Index;
+            cell.RightBorderColor = HSSFColor.Grey40Percent.Index;
+            cell.BottomBorderColor = HSSFColor.Grey40Percent.Index;
+            cell.RightBorderColor = HSSFColor.Grey40Percent.Index;
         }
     }
 }
