@@ -1,15 +1,15 @@
-﻿using NexGoal.Core.Model;
-using NexGoal.Core.Services;
-using NexGoal.Criteria.Period.GenerationEvaluation;
-using NexGoal.Model.Period;
-using NexGoal.Services.Implement;
-using NexGoal.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-
-namespace NexGoal.BackgroundService
+﻿namespace NexGoal.BackgroundService
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using NexGoal.Core.Model;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.Period.GenerationEvaluation;
+    using NexGoal.Model.Period;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
+
     public class ProbationService : BaseService, IProbationService
     {
         private readonly IPeriodService periodService;
@@ -46,7 +46,8 @@ namespace NexGoal.BackgroundService
         {
             var employeePeriod = new AutoEmployeePeriodModel();
             var criteria = new GetEmployeeProbationEvaluationCriteria();
-            if (criteria != null && criteria.IsValid())
+
+            if (criteria.IsValid())
             {
                 employeePeriod = evaluationRepository.GetEmployeeProbationEvaluation(criteria);
             }
@@ -57,13 +58,13 @@ namespace NexGoal.BackgroundService
         private CommandResult AddEmployeeToProbationPeriod(AutoEmployeePeriodModel employeePeriod)
         {
             var comandResult = new CommandResult();
-
             var criteria = new InsertEmployeeToProbationPeriodCriteria
             {
                 PeriodId = employeePeriod.PeriodId,
                 EmployeeIds = employeePeriod.EmployeeIds
             };
-            if (criteria != null && criteria.IsValid())
+
+            if (criteria.IsValid())
             {
                 comandResult = Repository.Insert(criteria);
                 if (!comandResult.IsSuccessful)

@@ -128,6 +128,7 @@
             cellStyle.Alignment = HorizontalAlignment.Center;
             cellStyle.VerticalAlignment = VerticalAlignment.Center;
             cellStyle.WrapText = true;
+            SetBorderColor(cellStyle);
             cellStyle.SetFont(font);
 
             IRow row = sheet.CreateRow(RowStartHeader);
@@ -436,10 +437,10 @@
 
         private void SetBorderColor(ICellStyle cell)
         {
-            cell.TopBorderColor = HSSFColor.Grey40Percent.Index;
-            cell.RightBorderColor = HSSFColor.Grey40Percent.Index;
-            cell.BottomBorderColor = HSSFColor.Grey40Percent.Index;
-            cell.RightBorderColor = HSSFColor.Grey40Percent.Index;
+            cell.BorderTop = BorderStyle.Thin;
+            cell.BorderRight = BorderStyle.Thin;
+            cell.BorderBottom = BorderStyle.Thin;
+            cell.BorderLeft = BorderStyle.Thin;
         }
     }
 }

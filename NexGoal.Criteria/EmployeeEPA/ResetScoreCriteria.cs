@@ -27,8 +27,7 @@
                 var epaXml = new StringBuilder(BeginRootTag);
                 ICertificateService certificateService = new CertificateService();
 
-                if (EPAInfo.HasMonthlyEPA
-                    && EPAInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (EPAInfo.IsSemiHasMonthly)
                 {
                     epaXml.AppendFormat(
                         EPAXmlTemplate,

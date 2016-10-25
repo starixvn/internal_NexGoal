@@ -1,14 +1,14 @@
-﻿using NexGoal.Core.Services;
-using NexGoal.Criteria.Period.GenerationEvaluation;
-using NexGoal.Model.Period;
-using NexGoal.Services.Implement;
-using NexGoal.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace NexGoal.BackgroundService
+﻿namespace NexGoal.BackgroundService
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.Period.GenerationEvaluation;
+    using NexGoal.Model.Period;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
+
     public class PromotionService : BaseService, IPromotionService
     {
         private readonly IPeriodService periodService;
@@ -41,7 +41,8 @@ namespace NexGoal.BackgroundService
         {
             IEnumerable<AutoEmployeePeriodModel> employeePeriods = new List<AutoEmployeePeriodModel>();
             var criteria = new GetEmployeePromotionEvaluationCriteria();
-            if (criteria != null && criteria.IsValid())
+
+            if (criteria.IsValid())
             {
                 employeePeriods = GetData<AutoEmployeePeriodModel>(criteria);
                 employeePeriods = employeePeriods.GroupBy(x => x.PeriodId).Select(x => new AutoEmployeePeriodModel

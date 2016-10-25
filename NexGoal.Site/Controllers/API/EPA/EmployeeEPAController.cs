@@ -1,5 +1,11 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -11,12 +17,6 @@
     using NexGoal.Model.RoleManagement;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
 
     public class EmployeeEPAController : BaseController
     {
@@ -332,8 +332,7 @@
                 };
 
                 CommandResult commandResult;
-                if (epaInfo.HasMonthlyEPA
-                    && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                if (epaInfo.IsSemiHasMonthly)
                 {
                     if (epaInfo.Process.Reviewers.Any()
                         && epaInfo.Process.Reviewers.First().StartDate.Date <= DateTime.Now.Date)

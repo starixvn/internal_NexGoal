@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Model.ScoreRatingType;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EPAModel
     {
@@ -101,6 +101,14 @@
             get
             {
                 return Period != null && Period.TargetTypeId == (int)TargetType.Monthly;
+            }
+        }
+
+        public bool IsSemiHasMonthly
+        {
+            get
+            {
+                return Period != null && Period.TargetTypeId == (int)TargetType.SemiAnnual && HasMonthlyEPA;
             }
         }
 

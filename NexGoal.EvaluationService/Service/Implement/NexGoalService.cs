@@ -1,8 +1,8 @@
-﻿using Fanex.Logging;
-using System;
-
-namespace NexGoal.BackgroundService
+﻿namespace NexGoal.BackgroundService
 {
+    using System;
+    using Fanex.Logging;
+
     public class NexGoalService : INexGoalService
     {
         private readonly ISemiAnnualService semiAnnualService;

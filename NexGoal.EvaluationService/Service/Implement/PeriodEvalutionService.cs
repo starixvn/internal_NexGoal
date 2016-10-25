@@ -1,17 +1,17 @@
-﻿using NexGoal.Core.Enumerations;
-using NexGoal.Core.Model;
-using NexGoal.Core.Services;
-using NexGoal.Criteria.EmployeeEPA;
-using NexGoal.Criteria.Period.GenerationEvaluation;
-using NexGoal.Model.EmployeeEPA;
-using NexGoal.Model.Period;
-using NexGoal.Services.Implement;
-using NexGoal.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NexGoal.BackgroundService
+﻿namespace NexGoal.BackgroundService
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Model;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.EmployeeEPA;
+    using NexGoal.Criteria.Period.GenerationEvaluation;
+    using NexGoal.Model.EmployeeEPA;
+    using NexGoal.Model.Period;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
+
     public class PeriodEvalutionService : BaseService, IPeriodEvalutionService
     {
         private readonly IPeriodService periodService;
@@ -65,12 +65,9 @@ namespace NexGoal.BackgroundService
             if (AppSetting.SendMailEndPeriod)
             {
                 autoMailService.SendEndEvaluationMailToSelf(epa);
-                if (epa.Period != null)
+                if (epa.Period != null && epa.Period.TargetTypeId == (int)TargetType.Probation)
                 {
-                    if (epa.Period.TargetTypeId == (int)TargetType.Probation)
-                    {
-                        autoMailService.SendEndEvaluationMailToHRByEmployee(epa);
-                    }
+                    autoMailService.SendEndEvaluationMailToHRByEmployee(epa);
                 }
             }
         }
@@ -99,7 +96,7 @@ namespace NexGoal.BackgroundService
                 PeriodId = periodId
             };
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 lastestProcess = GetDataEntity<int>(criteria);
             }

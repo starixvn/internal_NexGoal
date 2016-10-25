@@ -1,15 +1,15 @@
-﻿using NexGoal.Core.Enumerations;
-using NexGoal.Core.Services;
-using NexGoal.Criteria.Period.GenerationEvaluation;
-using NexGoal.Model.Period;
-using NexGoal.Services.Implement;
-using NexGoal.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NexGoal.BackgroundService
+﻿namespace NexGoal.BackgroundService
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.Period.GenerationEvaluation;
+    using NexGoal.Model.Period;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
+
     public class MailEPAService : BaseService, IMailEPAService
     {
         private readonly IPeriodService periodService;
@@ -56,9 +56,8 @@ namespace NexGoal.BackgroundService
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
-                if (periodProcess.TargetTypeId == (int)TargetType.SemiAnnual
-                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator)
-                    && periodProcess.HasMonthlyEPA)
+                if (periodProcess.IsSemiHasMonthly
+                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator))
                 {
                     continue;
                 }

@@ -1,15 +1,15 @@
-﻿using NexGoal.Core.Enumerations;
-using NexGoal.Core.Model;
-using NexGoal.Core.Services;
-using NexGoal.Model.EmployeeEPA;
-using NexGoal.Model.Period;
-using NexGoal.Services.Implement;
-using NexGoal.Services.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
-
-namespace NexGoal.BackgroundService
+﻿namespace NexGoal.BackgroundService
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Model;
+    using NexGoal.Core.Services;
+    using NexGoal.Model.EmployeeEPA;
+    using NexGoal.Model.Period;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
+
     public class ProcessService : BaseService, IProcessService
     {
         private readonly IAutoMailService autoMailService;
@@ -62,7 +62,8 @@ namespace NexGoal.BackgroundService
                 ProcessId = process.ProcessId,
                 AverageScore = certificateService.Encrypt(score.ToString())
             };
-            if (criteria != null && criteria.IsValid())
+
+            if (criteria.IsValid())
             {
                 commandResult = Repository.Update(criteria);
             }
@@ -78,7 +79,7 @@ namespace NexGoal.BackgroundService
                 EvaluationProcesses = evaluationProcesses
             };
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 comandResult = Repository.Update(criteria);
             }
@@ -91,7 +92,7 @@ namespace NexGoal.BackgroundService
             var criteria = new CheckEndProcessCriteria();
             IEnumerable<AutoEmployeePeriodModel> evaluationProcesses = new List<AutoEmployeePeriodModel>();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 evaluationProcesses = GetData<AutoEmployeePeriodModel>(criteria);
             }

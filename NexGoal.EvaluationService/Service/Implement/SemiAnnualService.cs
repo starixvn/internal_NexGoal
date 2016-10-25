@@ -1,14 +1,14 @@
-﻿using NexGoal.Core.Model;
-using NexGoal.Core.Services;
-using NexGoal.Criteria.Period.GenerationEvaluation;
-using NexGoal.Model.Period;
-using NexGoal.Services.Implement;
-using NexGoal.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-
-namespace NexGoal.BackgroundService
+﻿namespace NexGoal.BackgroundService
 {
+    using System;
+    using System.Collections.Generic;
+    using NexGoal.Core.Model;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.Period.GenerationEvaluation;
+    using NexGoal.Model.Period;
+    using NexGoal.Services.Implement;
+    using NexGoal.Services.Interfaces;
+
     public class SemiAnnualService : BaseService, ISemiAnnualService
     {
         private readonly IPeriodService periodService;
@@ -42,7 +42,8 @@ namespace NexGoal.BackgroundService
         {
             IEnumerable<int> startedPeriods = new List<int>();
             var criteria = new GetSemiAnnualPeriodStartedCriteria();
-            if (criteria != null && criteria.IsValid())
+
+            if (criteria.IsValid())
             {
                 startedPeriods = GetData<int>(criteria);
             }
@@ -64,7 +65,7 @@ namespace NexGoal.BackgroundService
             var criteria = new InsertEmployeeToSemiAnnualPeriodCriteria { PeriodId = periodId };
             var commandResult = new CommandResult();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 commandResult = Repository.Insert(criteria);
                 if (!commandResult.IsSuccessful)

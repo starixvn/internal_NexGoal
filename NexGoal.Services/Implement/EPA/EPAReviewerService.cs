@@ -1,18 +1,18 @@
-﻿using NexGoal.Core.Constants;
-using NexGoal.Core.Enumerations;
-using NexGoal.Criteria.EmployeeEPA;
-using NexGoal.Model.EmployeeEPA;
-using NexGoal.Repositories.Implement;
-using NexGoal.Repositories.Interfaces;
-using NexGoal.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.Serialization.Formatters.Binary;
-
-namespace NexGoal.Services.Implement
+﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    using System.Runtime.Serialization.Formatters.Binary;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Criteria.EmployeeEPA;
+    using NexGoal.Model.EmployeeEPA;
+    using NexGoal.Repositories.Implement;
+    using NexGoal.Repositories.Interfaces;
+    using NexGoal.Services.Interfaces;
+
     public class EPAReviewerService : IEPAReviewerService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
@@ -142,7 +142,7 @@ namespace NexGoal.Services.Implement
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
                 case (int)ProcessType.Reviewer:
-                    if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == (int)TargetType.SemiAnnual)
+                    if (epaInfo.IsSemiHasMonthly)
                     {
                         epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
                         maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
