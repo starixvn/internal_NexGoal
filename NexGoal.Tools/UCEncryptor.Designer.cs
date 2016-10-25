@@ -38,8 +38,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.txtPlainText = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
-            this.txtCipherText = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
+            this.txtCipherText = new System.Windows.Forms.RichTextBox();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -143,17 +143,6 @@
             this.label3.TabIndex = 9;
             this.label3.Text = "Cipher text:";
             // 
-            // txtCipherText
-            // 
-            this.txtCipherText.BackColor = System.Drawing.Color.LightGray;
-            this.txtCipherText.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtCipherText.Location = new System.Drawing.Point(69, 140);
-            this.txtCipherText.Multiline = true;
-            this.txtCipherText.Name = "txtCipherText";
-            this.txtCipherText.ReadOnly = true;
-            this.txtCipherText.Size = new System.Drawing.Size(305, 81);
-            this.txtCipherText.TabIndex = 10;
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -165,12 +154,21 @@
             this.label4.TabIndex = 11;
             this.label4.Text = "(*)";
             // 
+            // txtCipherText
+            // 
+            this.txtCipherText.Location = new System.Drawing.Point(69, 138);
+            this.txtCipherText.Name = "txtCipherText";
+            this.txtCipherText.ReadOnly = true;
+            this.txtCipherText.Size = new System.Drawing.Size(305, 83);
+            this.txtCipherText.TabIndex = 12;
+            this.txtCipherText.Text = "";
+            // 
             // UCEncryptor
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.Controls.Add(this.label4);
             this.Controls.Add(this.txtCipherText);
+            this.Controls.Add(this.label4);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.txtPlainText);
             this.Controls.Add(this.label1);
@@ -197,7 +195,7 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.TextBox txtPlainText;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.TextBox txtCipherText;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.RichTextBox txtCipherText;
     }
 }
