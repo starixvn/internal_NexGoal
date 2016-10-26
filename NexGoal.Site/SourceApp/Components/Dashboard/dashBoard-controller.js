@@ -17,6 +17,7 @@
         vm.targetTypeEnum = enumerationsFactory.targetType;
         vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
         vm.selfEvaluatorPermission = 0;
+        vm.policy = enumerationsFactory.policy;
 
         vm.getUserPermissionOnEmployee = function () {
             EmployeeEPAModel.getUserPermissionOnEmployee().then(function () {

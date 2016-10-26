@@ -10,7 +10,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.periods = [];
     employeeEPAModel.employees = [];
     employeeEPAModel.epaInfos = [];
-    employeeEPAModel.hasSelftEvaluatorPermission = 0;
+    employeeEPAModel.selftEvaluatorPermission = 0;
 
     employeeEPAModel.getEPAInfoById = function (epaId) {
         return employeeEPAFactory.getEPAInfoById(epaId)
@@ -24,7 +24,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.getUserPermissionOnEmployee = function () {
         return employeeEPAFactory.getUserPermissionOnEmployee()
         .success(function (permission) {
-            employeeEPAModel.hasSelftEvaluatorPermission = permission;
+            employeeEPAModel.selftEvaluatorPermission = permission;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
