@@ -79,12 +79,12 @@
                     <tr dir-paginate="pa in paReportCtrl.filteredItems | itemsPerPage: paReportCtrl.pageSize | orderBy:'-Employee.NickName':true"
                         current-page="paReportCtrl.currentPage">
                         <td class="text-center" ng-bind="paReportCtrl.getIndex($index, paReportCtrl.currentPage, paReportCtrl.pageSize)"></td>
-                        <td class="text-center" ng-bind="pa.Employee.NickName"></td>
+                        <td ng-bind="pa.Employee.NickName"></td>
                         <td ng-bind="pa.Employee.FullName"></td>
                         <td ng-bind="pa.Employee.JobTitleName"></td>
                         <td ng-bind="pa.Employee.GroupName"></td>
                         <td ng-bind="pa.Period.Name"></td>
-                        <td class="text-center" ng-bind="pa.Period.TargetTypeName"></td>
+                        <td ng-bind="pa.Period.TargetTypeName"></td>
                         <td class="text-center">
                             <span ng-show="!pa.Process.Self.IsEndProcess" data-translate="Pending"></span>
                             <span ng-show="pa.Process.Self.IsEndProcess && !pa.Process.Self.TotalScore" data-translate="Dash"></span>

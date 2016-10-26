@@ -94,9 +94,9 @@
                 <td class="text-center" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}">
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                 </td>
-                <td class="text-center" ng-bind="employee.Employee.NickName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td ng-bind="employee.Employee.NickName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
                 <td ng-bind="employee.Employee.FullName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td class="text-center" ng-bind="targetTemplate.TargetTypeName"></td>
+                <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
                 <td class="text-center" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
                     <a class="fa fa-trash-o icon-remove" href="" ng-click="personnelCtrl.deleteTargetTemplate(employee, targetTemplate)"

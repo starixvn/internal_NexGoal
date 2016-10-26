@@ -94,7 +94,7 @@
                 'noticeable-performance outstanding': member.Contribution + member.BonusGiven > 8 && member.IsReadyPromotion,
                 'noticeable-performance poor': member.Contribution + member.BonusGiven < 4 && member.Contribution > 0 && member.BonusGiven > 0 }">
                 <td class="text-center" ng-bind="$index + 1"></td>
-                <td class="text-center" ng-bind="member.Employee.NickName"></td>
+                <td ng-bind="member.Employee.NickName"></td>
                 <td ng-bind="member.Employee.FullName"></td>
                 <td ng-bind="member.Employee.JobTitle.JobTitleName"></td>
                 <td class="text-center">

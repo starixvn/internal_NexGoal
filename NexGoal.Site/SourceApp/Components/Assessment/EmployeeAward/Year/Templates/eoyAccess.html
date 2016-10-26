@@ -147,7 +147,7 @@
                     <tr ng-repeat="item in eoyAccessCtrl.eoyNominations">
                         <td class="text-center">{{$index + 1}}</td>
                         <td>{{item.Nominee.FullName}} ({{item.Nominee.NickName}})</td>
-                        <td class="text-center">{{item.Nominee.Group.GroupName}}</td>
+                        <td>{{item.Nominee.Group.GroupName}}</td>
                         <td class="text-center nomination-status" 
                             ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': item.StatusId === 3}">
                             {{item.StatusToString}}
@@ -195,7 +195,7 @@
                             {{item.Nominee.FullName}} ({{item.Nominee.NickName}})
                             <span ng-show="item.Nominations.length > 1"> - ({{item.Nominations.length}} votes)</span>
                         </td>
-                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
+                        <td rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
                         <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
                             <select class="nomination-status default-select"
                                     ng-model="item.StatusId"

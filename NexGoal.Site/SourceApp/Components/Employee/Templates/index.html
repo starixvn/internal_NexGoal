@@ -70,7 +70,7 @@
                     <tr dir-paginate="employee in employeeCtrl.filteredItems | itemsPerPage: employeeCtrl.pageSize" current-page="employeeCtrl.currentPage">
                         <td class="text-center" ng-bind="employeeCtrl.getIndex($index, employeeCtrl.currentPage, employeeCtrl.pageSize)"></td>
                         <td class="text-center" ng-bind="employee.Code"></td>
-                        <td class="text-center" ng-bind="employee.NickName"></td>
+                        <td ng-bind="employee.NickName"></td>
                         <td ng-bind="employee.FullName"></td>
                         <td class="text-center">
                             <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>

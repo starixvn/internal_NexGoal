@@ -323,7 +323,7 @@
         function generateColumnHeaders() {
             return [
                { HeaderText: "#", Width: 50, Name: "SymbolCount", ShowCollapseExpand: true },
-               { HeaderText: "Nick Name", Width: 80, Name: "NickName", CellAlign: "center" },
+               { HeaderText: "Nick Name", Width: 80, Name: "NickName" },
                { HeaderText: "Full Name", Width: 200, Name: "FullName" },
                { HeaderText: "Job Title", Width: 250, Name: "JobTitle" },
                { HeaderText: "Reviewer's Adjustment", Width: 80, Name: "ReviewerAdjustment", CellAlign: "center" },

@@ -64,16 +64,6 @@
                 <button class="button" ng-click="empSettingCtrl.query()" data-translate="Search"></button>
             </div>
         </div>
-        <!--<div class="form-group">
-            <label class="col-sm-2 control-label" data-translate="HasMonthlyEPA"></label>
-            <div class="col-sm-2">
-                <input type="checkbox" ng-model="empSettingCtrl.filter.hasMonthlyEPA" />
-            </div>
-            <div class="col-sm-2"></div>
-            <div class="col-sm-1">
-                
-            </div>
-        </div>-->
     </form>
     <table class="row table table-bordered table-striped" id="data">
         <thead>
@@ -143,13 +133,13 @@
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                 </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
+                <td rowspan="{{employee.NumberEvaluators}}">
                     <div ng-bind="employee.Employee.FullName"></div>
                     <div ng-bind="employee.Employee.Code"></div>
                     <div>({{employee.Employee.NickName}})</div>
                     <div ng-bind="employee.JobTitle.JobTitleName"></div>
                 </td>
-                <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"></td>
+                <td ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td class="width-190" ng-bind="employee.TargetTemplate.Name" rowspan="{{employee.NumberEvaluators}}"></td>
                 <td data-translate="SelfEvaluator"></td>
                 <td ng-bind="employee.Employee.NickName"></td>
