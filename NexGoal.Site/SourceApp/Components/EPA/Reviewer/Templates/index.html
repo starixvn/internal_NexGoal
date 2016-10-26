@@ -96,7 +96,7 @@
                         <th data-translate="Detail" class="col-action"></th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody ng-show="reviewerCtrl.memberEPAs.length > 0">
                     <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.Process.Self.IsEndProcess)}"
                         ng-repeat="memberEPA in reviewerCtrl.memberEPAs  | orderBy: '-IsAllowedToEdit'">
                         <td class="text-center" ng-if="!reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">

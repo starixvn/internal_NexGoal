@@ -52,17 +52,18 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="text-center" dir-paginate="period in manageEOQCtrl.filteredItems | itemsPerPage: manageEOQCtrl.pageSize"
+            <tr dir-paginate="period in manageEOQCtrl.filteredItems | itemsPerPage: manageEOQCtrl.pageSize"
                 current-page="manageEOQCtrl.currentPage">
-                <td ng-bind="manageEOQCtrl.getIndex($index, manageEOQCtrl.currentPage, manageEOQCtrl.pageSize)"></td>
+                <td class="text-center" ng-bind="manageEOQCtrl.getIndex($index, manageEOQCtrl.currentPage, manageEOQCtrl.pageSize)"></td>
                 <td ng-bind="period.QuarterToString"></td>
-                <td ng-bind="period.Year"></td>
-                <td ng-bind="period.StartDate | date: manageEOQCtrl.dateFormat"></td>
-                <td ng-bind="period.EndDate | date: manageEOQCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.Year"></td>
+                <td class="text-center" ng-bind="period.StartDate | date: manageEOQCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.EndDate | date: manageEOQCtrl.dateFormat"></td>
                 <td ng-bind="period.StatusToString"
                     ng-class="{'not-started': period.StatusId === 0, 'in-progress': period.StatusId === 1, 'closed': period.StatusId === 2}"
-                    class="nomination-period-status"></td>
-                <td ng-show="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host">
+                    class="nomination-period-status text-center"></td>
+                <td class="text-center"
+                    ng-show="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host">
                     <div class="btn-group">
                         <a class="fa fa-search" title="Detail"
                            ng-click="manageEOQCtrl.viewEOQDetail(period.EOQYId)"

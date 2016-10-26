@@ -14,7 +14,7 @@
         vm.periods = [];
         vm.teams = [];
         vm.filter = {
-            periodId: '',
+            periodId: '0',
             teamIds: '',
             employee: {}
         };
@@ -69,12 +69,12 @@
 
             ReportModel.getMasterReport(
                 vm.filter.periodId,
-                vm.filter.teamIds, 
+                vm.filter.teamIds,
                 utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee)).then(function () {
-                vm.masterReports = ReportModel.masterReports;
-            })["finally"](function () {
-                lockScreenService.stop();
-            });
+                    vm.masterReports = ReportModel.masterReports;
+                })["finally"](function () {
+                    lockScreenService.stop();
+                });
         };
 
         vm.openPopupEvaluatorComment = function (employee) {
