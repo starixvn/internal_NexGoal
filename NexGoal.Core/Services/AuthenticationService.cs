@@ -66,7 +66,7 @@
             {
                 if (ex.ErrorCode != Constants.NotFoundHostName)
                 {
-                    LogService.Error("Can not find Host Name", ex);
+                    LogService.Error("Can not find Host Name: " + ipAddress, ex);
                 }
             }
 
