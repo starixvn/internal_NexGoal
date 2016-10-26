@@ -1755,7 +1755,13 @@
   <data name="CreateNominationSuccessMessage" xml:space="preserve">
     <value>Your nomination has been submitted suceessfully.</value>
   </data>
-  <data name="Star" xml:space="preserve">
+  <data name="TotalScoreLessThanMaxWeightWarningMessage" xml:space="preserve">
+    <value>Total score of all KPIs is less than {0}.</value>
+  </data>
+  <data name="TotalScoreMoreThanMaxWeightWarningMessage" xml:space="preserve">
+    <value>Total score of all KPIs is more than {0}.</value>
+  </data>
+    <data name="Star" xml:space="preserve">
     <value>Star</value>
   </data>
   <data name="Score" xml:space="preserve">

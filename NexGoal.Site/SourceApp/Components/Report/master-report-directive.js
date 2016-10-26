@@ -327,11 +327,11 @@
                { HeaderText: "Full Name", Width: 200, Name: "FullName" },
                { HeaderText: "Job Title", Width: 250, Name: "JobTitle" },
                { HeaderText: "Reviewer's Adjustment", Width: 80, Name: "ReviewerAdjustment", CellAlign: "center" },
-               { HeaderText: "PA Final Score", Width: 60, Name: "PAFinalScore", CellAlign: "center" },
+               { HeaderText: "PA Final Score", Width: 80, Name: "PAFinalScore", CellAlign: "center" },
                { HeaderText: "Evaluator's Comment", Width: 80, Name: "EvaluatorComment", CellAlign: "center", CustomCellRender: renderEvaluatorCommentCell },
-               { HeaderText: "Suitable For Team Goals (*)", Width: 150, Name: "Contribution", CellAlign: "center" },
-               { HeaderText: "Deserve Rewards (Salary Increase And Bonus) (**)", Width: 150, Name: "BonusGiven", CellAlign: "center" },
-               { HeaderText: "Applicable to promote", Width: 50, Name: "ApplicableToPromote", CellAlign: "center" },
+               { HeaderText: "Suitable For Team Goals (*)", Width: 200, Name: "Contribution", CellAlign: "center" },
+               { HeaderText: "Deserve Rewards (Salary Increase And Bonus) (**)", Width: 200, Name: "BonusGiven", CellAlign: "center" },
+               { HeaderText: "Applicable to promote", Width: 80, Name: "ApplicableToPromote", CellAlign: "center" },
                {
                    HeaderText: "Assessing Of Current Objective Achievement", Width: 150, Name: "ObjectiveAchievement",
                    CellAlign: "center", CustomCellRender: renderCurrentObjectiveCell
@@ -340,7 +340,7 @@
                { HeaderText: "Next Objectives", Width: 80, Name: "NextObjectives", CellAlign: "center", CustomCellRender: renderNextObjectives },
                { HeaderText: "Title", Width: 100, Name: "AwardName", CustomCellRender: renderEmployeeAward, TdClass: 'col-employee-award' },
                { HeaderText: "Status", Width: 80, Name: "AwardStatus" },
-               { HeaderText: "Project Name ", Width: 150, Name: "ProjectName" },
+               { HeaderText: "Project Name ", Width: 200, Name: "ProjectName" },
                { HeaderText: "Score", Width: 80, Name: "ProjectScore" },
                { HeaderText: "Comment", Width: 80, Name: "ProjectComment", CellAlign: "center" }
             ];

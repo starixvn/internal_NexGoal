@@ -166,15 +166,22 @@ function ($scope, TargetTemplateModel, CommonModel) {
 }]);
 
 targetTemplateModule.controller('KPIListController',
-['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory',
-function ($scope, $translate, TargetTemplateModel, utilitiesFactory) {
+['$scope', '$translate', 'TargetTemplateModel', 'utilitiesFactory', 'notificationFactory',
+function ($scope, $translate, TargetTemplateModel, utilitiesFactory, notificationFactory) {
     var vm = this;
 
     vm.targetTemplateId = $scope.updateCtrl.targetTemplateId;
 
+    vm.totalScoreLessThanMaxWeightWarningMessage = "";
+    vm.totalScoreMoreThanMaxWeightWarningMessage = "";
+
     var getMessage = function () {
-        $translate('TotalWeightLessThanMaxWeightWarning').then(function (message) {
-            vm.totalWeightLessThanMaxWeightWarningMessage = message;
+        $translate('TotalScoreLessThanMaxWeightWarningMessage').then(function (message) {
+            vm.totalScoreLessThanMaxWeightWarningMessage = message;
+        });
+
+        $translate('TotalScoreMoreThanMaxWeightWarningMessage').then(function (message) {
+            vm.totalScoreMoreThanMaxWeightWarningMessage = message;
         });
     };
 
@@ -370,7 +377,17 @@ function ($scope, $translate, TargetTemplateModel, utilitiesFactory) {
 
     vm.save = function (targetTemplate) {
         var totalWeight = getTotalWeight(vm.kpiList);
-        TargetTemplateModel.updateTargetTemplate(targetTemplate, totalWeight, vm);
+
+        if (totalWeight === targetTemplate.MaxWeightSelf) {
+            TargetTemplateModel.updateTargetTemplate(targetTemplate, totalWeight, vm);
+        } else {
+            var messageFormat = totalWeight < targetTemplate.MaxWeightSelf ?
+                vm.totalScoreLessThanMaxWeightWarningMessage :
+                vm.totalScoreMoreThanMaxWeightWarningMessage;
+            var message = utilitiesFactory.formatString(messageFormat, targetTemplate.MaxWeightSelf);
+
+            notificationFactory.error("", message);
+        }
     };
 }]);
 
