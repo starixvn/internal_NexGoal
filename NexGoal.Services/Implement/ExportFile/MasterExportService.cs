@@ -13,6 +13,7 @@
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
+    using System.Linq;
 
     public class MasterExportService : IMasterExportService
     {
@@ -274,7 +275,7 @@
             ICell cellBody;
             int index = 1;
             foreach (var employee in employeeEvaluations)
-            {
+            {   
                 IRow row = sheet.CreateRow(rowIndex);
                 ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
                 ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
@@ -313,7 +314,7 @@
                         bodyStyleCenter = oddStyleCenter;
                         bodyStyleLeft = oddStyleLeft;
                     }
-                }
+                }               
 
                 cellBody = row.CreateCell(columnIndex++);
                 cellBody.CellStyle = bodyStyleCenter;
@@ -447,7 +448,7 @@
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                     cellBody = row.CreateCell(columnIndex);
-                    cellBody.CellStyle = bodyStyleLeft;
+                    cellBody.CellStyle = bodyStyleCenter;
                     cellBody.SetCellValue(Lang.Dash);
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
@@ -457,7 +458,7 @@
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                     var cellBodyLast = row.CreateCell(columnIndex);
-                    cellBodyLast.CellStyle = bodyStyleLeft;
+                    cellBodyLast.CellStyle = bodyStyleCenter;
                     cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                     cellBodyLast.SetCellValue(Lang.Dash);
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 4);
@@ -508,12 +509,12 @@
 
                         cellBody = row.CreateCell(j);
                         cellBody.CellStyle = bodyStyleCenter;
-                        cellBody.SetCellValue(string.Empty);
+                        cellBody.SetCellValue(Lang.Dash);
                         sheet.SetColumnWidth(j++, columnWidth * 2);
 
                         cellBody = row.CreateCell(j);
                         cellBody.CellStyle = bodyStyleCenter;
-                        cellBody.SetCellValue(string.Empty);
+                        cellBody.SetCellValue(Lang.Dash);
                         sheet.SetColumnWidth(j++, columnWidth * 2);
 
                         cellBody = row.CreateCell(j);
@@ -550,34 +551,35 @@
 
                         cellBody = row.CreateCell(j);
                         cellBody.CellStyle = bodyStyleLeft;
-                        cellBody.SetCellValue(string.Empty);
+                        cellBody.SetCellValue(Lang.Dash);
                         sheet.SetColumnWidth(j++, columnWidth * 2);
 
                         cellBody = row.CreateCell(j);
                         cellBody.CellStyle = bodyStyleCenter;
-                        cellBody.SetCellValue(string.Empty);
+                        cellBody.SetCellValue(Lang.Dash);
                         sheet.SetColumnWidth(j++, columnWidth * 2);
 
                         var cellBodyLast = row.CreateCell(j);
                         cellBodyLast.CellStyle = bodyStyleLeft;
                         cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
-                        cellBodyLast.SetCellValue(string.Empty);
+                        cellBodyLast.SetCellValue(Lang.Dash);
                         sheet.SetColumnWidth(j++, columnWidth * 4);
                     }
 
                     rowIndex++;
-                }
-
-                for (int m = 0; m < titleRow1Headers.Count; m++)
-                {
-                    sheet.AddMergedRegion(new CellRangeAddress(rowIndexBeginMerger, rowIndexBeginMerger + maxRowOfEmployee - 1, m, m));
-                }
+                }               
 
                 if (maxRowOfEmployee == 0)
                 {
                     rowIndex++;
                 }
-
+                else
+                {
+                    for (int m = 0; m < titleRow1Headers.Count; m++)
+                    {
+                        sheet.AddMergedRegion(new CellRangeAddress(rowIndexBeginMerger, rowIndexBeginMerger + maxRowOfEmployee - 1, m, m));
+                    }
+                }
                 index++;
             }
         }
@@ -602,7 +604,7 @@
                 count = evaluation.EmployeeWorkings.Count;
             }
 
-            return count > 1 ? count : 1;
+            return count;
         }
 
         private string FormatReviewerAjustment(string value)
@@ -643,7 +645,7 @@
 
         private void SetBorderColor(ICellStyle cell)
         { 
-            cell.BorderBottom = BorderStyle.Thin;
+            cell.BorderTop = BorderStyle.Thin;
             cell.BorderLeft = BorderStyle.Thin;
         }
     }

@@ -65,7 +65,7 @@
             this.sheet = workbook.CreateSheet() as HSSFSheet;
 
             SetColorIndex();
-            RenderHeaderPage(periodId);            
+            RenderHeaderPage(periodId);
             RenderHeaderTable();
             RenderBodyTable(focuses);
 
@@ -78,7 +78,7 @@
         {
             var period = periodService.GetPeriodById(periodId);
             var title = "PA Focus of " + period.Name;
-            IRow rowTitle = sheet.CreateRow(0);            
+            IRow rowTitle = sheet.CreateRow(0);
             IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 18;
             font.Boldweight = (short)FontBoldWeight.Bold;
@@ -90,7 +90,7 @@
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
             sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 8));
-        }       
+        }
 
         private void RenderHeaderTable()
         {
@@ -373,9 +373,9 @@
                 }
 
                 cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleLeft;
+                cellBody.CellStyle = string.IsNullOrEmpty(pa.LastCompletedPercentObjective) ? bodyStyleCenter : bodyStyleLeft;
                 cellBody.CellStyle.WrapText = true;
-                cellBody.SetCellValue(pa.LastCompletedPercentObjective);
+                cellBody.SetCellValue(string.IsNullOrEmpty(pa.LastCompletedPercentObjective) ? Lang.Dash : pa.LastCompletedPercentObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
                 var score = pa.FinalScore.HasValue && pa.FinalScore.Value != 0 ? pa.FinalScore.ToString() : Lang.Dash;
@@ -386,8 +386,8 @@
 
                 var cellBodyLast = row.CreateCell(columnIndex);
                 cellBodyLast.CellStyle.WrapText = true;
-                cellBodyLast.CellStyle = bodyStyleLeft;
-                cellBodyLast.CellStyle.WrapText = true;
+                cellBodyLast.CellStyle = string.IsNullOrEmpty(pa.NextDescriptionObjective) ? bodyStyleCenter :  bodyStyleLeft;
+                cellBody.SetCellValue(string.IsNullOrEmpty(pa.NextDescriptionObjective) ? Lang.Dash : pa.NextDescriptionObjective);
                 cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                 cellBodyLast.SetCellValue(pa.NextDescriptionObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
