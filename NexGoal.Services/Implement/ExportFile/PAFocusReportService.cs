@@ -289,7 +289,7 @@
                 cellBody.SetCellValue(index++);
 
                 cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.CellStyle = bodyStyleLeft;
                 cellBody.SetCellValue(pa.Employee.NickName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
