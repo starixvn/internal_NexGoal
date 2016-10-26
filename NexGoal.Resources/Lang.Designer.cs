@@ -4498,7 +4498,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total score of all KPIs is less than {0}..
+        ///   Looks up a localized string similar to The total score of all KPIs is less than {0}. Please check again!.
         /// </summary>
         public static string TotalScoreLessThanMaxWeightWarningMessage {
             get {
@@ -4507,7 +4507,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total score of all KPIs is more than {0}..
+        ///   Looks up a localized string similar to The total score of all KPIs is more than {0}. Please check again!.
         /// </summary>
         public static string TotalScoreMoreThanMaxWeightWarningMessage {
             get {

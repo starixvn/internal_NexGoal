@@ -363,7 +363,7 @@ function ($scope, $translate, TargetTemplateModel, utilitiesFactory, notificatio
                             i = kpiLength;
                         }
                         else {
-                            groupWeight += item.Weight;
+                            groupWeight += parseFloat(item.Weight);
                         }
                     }
                 }

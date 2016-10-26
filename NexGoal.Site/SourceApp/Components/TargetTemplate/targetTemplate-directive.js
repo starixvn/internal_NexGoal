@@ -145,13 +145,6 @@ targetTemplateModule.directive('getWeight', ['utilitiesFactory', 'notificationFa
                         }
                     }
                 }
-
-                if (hasSelected) {
-                    if (isValid && utilitiesFactory.parseFloat(totalWeightOfGroup) !== group.Weight) {
-                        isValid = false;
-                        notificationFactory.error("TotalKPIWeightWarning");
-                    }
-                }
             }
         });
 
