@@ -329,8 +329,8 @@
                { HeaderText: "Reviewer's Adjustment", Width: 80, Name: "ReviewerAdjustment", CellAlign: "center" },
                { HeaderText: "PA Final Score", Width: 80, Name: "PAFinalScore", CellAlign: "center" },
                { HeaderText: "Evaluator's Comment", Width: 80, Name: "EvaluatorComment", CellAlign: "center", CustomCellRender: renderEvaluatorCommentCell },
-               { HeaderText: "Suitable For Team Goals (*)", Width: 200, Name: "Contribution", CellAlign: "center" },
-               { HeaderText: "Deserve Rewards (Salary Increase And Bonus) (**)", Width: 200, Name: "BonusGiven", CellAlign: "center" },
+               { HeaderText: "Suitable For Team Goals (*)", Width: 175, Name: "Contribution", CellAlign: "center" },
+               { HeaderText: "Deserve Rewards (Salary Increase And Bonus) (**)", Width: 175, Name: "BonusGiven", CellAlign: "center" },
                { HeaderText: "Applicable to promote", Width: 80, Name: "ApplicableToPromote", CellAlign: "center" },
                {
                    HeaderText: "Assessing Of Current Objective Achievement", Width: 150, Name: "ObjectiveAchievement",
