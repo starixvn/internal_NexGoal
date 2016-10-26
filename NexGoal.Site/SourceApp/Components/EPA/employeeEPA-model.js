@@ -10,11 +10,21 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.periods = [];
     employeeEPAModel.employees = [];
     employeeEPAModel.epaInfos = [];
+    employeeEPAModel.hasSelftEvaluatorPermission = 0;
 
     employeeEPAModel.getEPAInfoById = function (epaId) {
         return employeeEPAFactory.getEPAInfoById(epaId)
         .success(function (epaInfo) {
             employeeEPAModel.epaInfo = epaInfo;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    employeeEPAModel.getUserPermissionOnEmployee = function () {
+        return employeeEPAFactory.getUserPermissionOnEmployee()
+        .success(function (permission) {
+            employeeEPAModel.hasSelftEvaluatorPermission = permission;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

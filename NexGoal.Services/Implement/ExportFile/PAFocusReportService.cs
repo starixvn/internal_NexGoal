@@ -21,8 +21,7 @@
         private const int RedColor = 52;
         private const int EvenColor = 53;
         private const int HeaderColor = 54;
-        private const int RowStartHeader = 3;
-        private const int RowStartBody = 4;
+        private const int RowStartBody = 3;
         private const int TotalColumns = 12;
 
         private const int MinStone = 3;
@@ -53,8 +52,8 @@
                 Lang.FullName,
                 Lang.JobTitle,
                 Lang.Team,
-                Lang.SuitableForTeamGoals + " (*)",
-                Lang.DeserveRewards + " (**)",
+                Lang.PAFocusFirstNote,
+                Lang.PAFocusSecondNote,
                 Lang.ApplicableToPromote,
                 Lang.PoorPerformance,
                 Lang.AccomplishedCurrentObjectives,
@@ -66,8 +65,7 @@
             this.sheet = workbook.CreateSheet() as HSSFSheet;
 
             SetColorIndex();
-            RenderHeaderPage(periodId);
-            RenderNote();
+            RenderHeaderPage(periodId);            
             RenderHeaderTable();
             RenderBodyTable(focuses);
 
@@ -80,7 +78,7 @@
         {
             var period = periodService.GetPeriodById(periodId);
             var title = "PA Focus of " + period.Name;
-            IRow rowTitle = sheet.CreateRow(0);
+            IRow rowTitle = sheet.CreateRow(0);            
             IFont font = workbook.CreateFont();
             font.FontHeightInPoints = 18;
             font.Boldweight = (short)FontBoldWeight.Bold;
@@ -88,31 +86,11 @@
             ICell cell = rowTitle.CreateCell(0);
             cell.SetCellValue(title);
             cell.CellStyle = workbook.CreateCellStyle();
-            cell.CellStyle.Alignment = HorizontalAlignment.Left;
+            cell.CellStyle.Alignment = HorizontalAlignment.Center;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, TotalColumns - 1));
-        }
-
-        private void RenderNote()
-        {
-            var note = "(*) " + Lang.SuitableForTeamGoals + ": " + Lang.PAFocusFirstNote
-                + Environment.NewLine + "(**) " + Lang.DeserveRewards + ": " + Lang.PAFocusSecondNote;
-
-            IRow row = sheet.CreateRow(2);
-            row.Height = 700;
-            IFont font = workbook.CreateFont();
-            font.FontHeightInPoints = 11;
-
-            ICell cell = row.CreateCell(0);
-            cell.SetCellValue(note);
-            cell.CellStyle = workbook.CreateCellStyle();
-            cell.CellStyle.Alignment = HorizontalAlignment.Left;
-            cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
-            cell.CellStyle.SetFont(font);
-
-            sheet.AddMergedRegion(new CellRangeAddress(2, 2, 0, TotalColumns - 1));
-        }
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 8));
+        }       
 
         private void RenderHeaderTable()
         {
@@ -131,8 +109,8 @@
             SetBorderColor(cellStyle);
             cellStyle.SetFont(font);
 
-            IRow row = sheet.CreateRow(RowStartHeader);
-            row.Height = 1000;
+            IRow row = sheet.CreateRow(2);
+            row.Height = 2200;
             for (int i = 0; i < titleHeaders.Count; i++)
             {
                 var cell = row.CreateCell(i);
@@ -330,16 +308,16 @@
                 cellBody.SetCellValue(pa.Employee.Group.GroupName);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var bonusGiven = pa.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)pa.BonusGiven.Value) : Lang.Dash;
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = bodyStyleCenter;
-                cellBody.SetCellValue(bonusGiven);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
-
                 var contribution = pa.Contribution.HasValue ? Enumerations.GetDescription((PAFocusType)pa.Contribution.Value) : Lang.Dash;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(contribution);
+                sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                var bonusGiven = pa.BonusGiven.HasValue ? Enumerations.GetDescription((PAFocusType)pa.BonusGiven.Value) : Lang.Dash;
+                cellBody = row.CreateCell(columnIndex);
+                cellBody.CellStyle = bodyStyleCenter;
+                cellBody.SetCellValue(bonusGiven);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
                 var promotion = pa.IsReadyPromotion.HasValue ? pa.IsReadyPromotion.Value ? Lang.Yes : Lang.No : Lang.Dash;
@@ -396,6 +374,7 @@
 
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleLeft;
+                cellBody.CellStyle.WrapText = true;
                 cellBody.SetCellValue(pa.LastCompletedPercentObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
@@ -405,10 +384,12 @@
                 cellBody.SetCellValue(score);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle.WrapText = true;
-                cellBody.CellStyle = bodyStyleCenter;
-                cellBody.SetCellValue(pa.NextDescriptionObjective);
+                var cellBodyLast = row.CreateCell(columnIndex);
+                cellBodyLast.CellStyle.WrapText = true;
+                cellBodyLast.CellStyle = bodyStyleLeft;
+                cellBodyLast.CellStyle.WrapText = true;
+                cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
+                cellBodyLast.SetCellValue(pa.NextDescriptionObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
                 rowIndex++;
@@ -437,8 +418,6 @@
 
         private void SetBorderColor(ICellStyle cell)
         {
-            cell.BorderTop = BorderStyle.Thin;
-            cell.BorderRight = BorderStyle.Thin;
             cell.BorderBottom = BorderStyle.Thin;
             cell.BorderLeft = BorderStyle.Thin;
         }

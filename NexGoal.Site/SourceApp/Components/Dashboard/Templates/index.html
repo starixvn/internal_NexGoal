@@ -19,7 +19,7 @@
                 <div ng-include src="'/SourceApp/Components/Dashboard/Templates/evaluationProcess.html'">
                 </div>
 
-                <div class="panel panel-default no-border">
+                <div class="panel panel-default no-border" ng-if="dashboardCtrl.selfEvaluatorPermission == 1 || dashboardCtrl.selfEvaluatorPermission == 2">
                     <div class="panel-heading level-1" data-toggle="collapse" data-target=".my-epa">
                         <h4 class="panel-title" data-translate="MyEPA"></h4>
                     </div>

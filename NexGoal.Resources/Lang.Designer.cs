@@ -3805,6 +3805,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Score.
+        /// </summary>
+        public static string Score {
+            get {
+                return ResourceManager.GetString("Score", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Scored By.
         /// </summary>
         public static string ScoredBy {
@@ -4098,6 +4107,15 @@ namespace NexGoal.Resources {
         public static string SpreadWeight {
             get {
                 return ResourceManager.GetString("SpreadWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Star.
+        /// </summary>
+        public static string Star {
+            get {
+                return ResourceManager.GetString("Star", resourceCulture);
             }
         }
         

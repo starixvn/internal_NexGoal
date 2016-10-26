@@ -40,7 +40,6 @@
             SetColorIndex();
 
             RenderHearderPage(periodName);
-            RenderNote();
             RenderHeaderTable();
             RenderBody(evaluations);
 
@@ -61,32 +60,12 @@
             ICell cell = rowTitle.CreateCell(0);
             cell.SetCellValue(reportTitle);
             cell.CellStyle = workbook.CreateCellStyle();
-            cell.CellStyle.Alignment = HorizontalAlignment.Left;
+            cell.CellStyle.Alignment = HorizontalAlignment.Center;
             cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
             cell.CellStyle.SetFont(font);
-            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, TotalColumns - 1));
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 10));
         }
-
-        private void RenderNote()
-        {
-            var note = "(*) " + Lang.SuitableForTeamGoals + ": " + Lang.PAFocusFirstNote
-                + Environment.NewLine + "(**) " + Lang.DeserveRewards + ": " + Lang.PAFocusSecondNote;
-
-            IRow row = sheet.CreateRow(2);
-            row.Height = 700;
-            IFont font = workbook.CreateFont();
-            font.FontHeightInPoints = 11;
-
-            ICell cell = row.CreateCell(0);
-            cell.SetCellValue(note);
-            cell.CellStyle = workbook.CreateCellStyle();
-            cell.CellStyle.Alignment = HorizontalAlignment.Left;
-            cell.CellStyle.VerticalAlignment = VerticalAlignment.Center;
-            cell.CellStyle.SetFont(font);
-
-            sheet.AddMergedRegion(new CellRangeAddress(2, 2, 0, TotalColumns - 1));
-        }
-
+        
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void RenderHeaderTable()
         {
@@ -105,7 +84,7 @@
             cellStyle.SetFont(font);
 
             IRow row = sheet.CreateRow(RowStartHeader);
-            row.Height = 1000;
+            row.Height = 1700;
             titleRow1Headers = new List<string>
             {
                 Lang.SymbolCount,
@@ -116,8 +95,8 @@
                 Lang.ReviewerAdjustment,
                 Lang.PAFinalScore,
                 Lang.EvaluatorComment,
-                Lang.SuitableForTeamGoals + " (*)",
-                Lang.DeserveRewards + " (**)",
+                Lang.PAFocusFirstNote,
+                Lang.PAFocusSecondNote,
                 Lang.ApplicableToPromote,
                 Lang.PoorPerformance,
                 Lang.AccomplishedCurrentObjectives,
@@ -148,6 +127,7 @@
             columnIndex = titleRow1Headers.Count;
 
             row = sheet.CreateRow(RowStartHeader + 1);
+            row.Height = 500;
             cell = row.CreateCell(columnIndex++);
             cell.CellStyle = cellStyle;
             cell.SetCellValue(Lang.Title);
@@ -160,9 +140,10 @@
             cell.CellStyle = cellStyle;
             cell.SetCellValue(Lang.ProjectName);
 
+            var scoreTitle = string.Format("{0} ({1})", Lang.Score, Lang.Star);
             cell = row.CreateCell(columnIndex++);
             cell.CellStyle = cellStyle;
-            cell.SetCellValue(Lang.TotalScore);
+            cell.SetCellValue(scoreTitle);
 
             cell = row.CreateCell(columnIndex++);
             cell.CellStyle = cellStyle;
@@ -428,7 +409,7 @@
                     {
                         cellBody = row.CreateCell(columnIndex);
                         cellBody.CellStyle = poorOddStyle;
-                        cellBody.SetCellValue(promotion);
+                        cellBody.SetCellValue(performance);
                         sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                     }
                 }
@@ -440,17 +421,48 @@
                     sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
                 }
 
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = string.IsNullOrEmpty(employee.PAFocus.LastCompletedPercentObjective) ? bodyStyleCenter : bodyStyleLeft;
-                cellBody.SetCellValue(string.IsNullOrEmpty(employee.PAFocus.LastCompletedPercentObjective) ? Lang.Dash : employee.PAFocus.LastCompletedPercentObjective);
+                var cellBody1 = row.CreateCell(columnIndex);
+                cellBody1.CellStyle = string.IsNullOrEmpty(employee.PAFocus.LastCompletedPercentObjective) ? bodyStyleCenter : bodyStyleLeft;
+                cellBody1.CellStyle.WrapText = true;
+                cellBody1.SetCellValue(string.IsNullOrEmpty(employee.PAFocus.LastCompletedPercentObjective) ? Lang.Dash : employee.PAFocus.LastCompletedPercentObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
-                cellBody = row.CreateCell(columnIndex);
-                cellBody.CellStyle = string.IsNullOrEmpty(employee.PAFocus.NextDescriptionObjective) ? bodyStyleCenter : bodyStyleLeft;
-                cellBody.SetCellValue(string.IsNullOrEmpty(employee.PAFocus.NextDescriptionObjective) ? Lang.Dash : employee.PAFocus.NextDescriptionObjective);
+                var cellBody2 = row.CreateCell(columnIndex);
+                cellBody2.CellStyle = string.IsNullOrEmpty(employee.PAFocus.NextDescriptionObjective) ? bodyStyleCenter : bodyStyleLeft;
+                cellBody2.CellStyle.WrapText = true;
+                cellBody2.SetCellValue(string.IsNullOrEmpty(employee.PAFocus.NextDescriptionObjective) ? Lang.Dash : employee.PAFocus.NextDescriptionObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
                 var maxRowOfEmployee = GetNumberRowOfEmployee(employee);
+                if (maxRowOfEmployee == 0)
+                {
+                    cellBody = row.CreateCell(columnIndex);
+                    cellBody.CellStyle = bodyStyleCenter;
+                    cellBody.SetCellValue(Lang.Dash);
+                    sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                    cellBody = row.CreateCell(columnIndex);
+                    cellBody.CellStyle = bodyStyleCenter;
+                    cellBody.SetCellValue(Lang.Dash);
+                    sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                    cellBody = row.CreateCell(columnIndex);
+                    cellBody.CellStyle = bodyStyleLeft;
+                    cellBody.SetCellValue(Lang.Dash);
+                    sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                    cellBody = row.CreateCell(columnIndex);
+                    cellBody.CellStyle = bodyStyleCenter;
+                    cellBody.SetCellValue(Lang.Dash);
+                    sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
+
+                    var cellBodyLast = row.CreateCell(columnIndex);
+                    cellBodyLast.CellStyle = bodyStyleLeft;
+                    cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
+                    cellBodyLast.SetCellValue(Lang.Dash);
+                    sheet.SetColumnWidth(columnIndex++, columnWidth * 4);
+                }
+
                 for (int i = 0; i < maxRowOfEmployee; i++)
                 {
                     if (i > 0)
@@ -482,9 +494,11 @@
                         cellBody.SetCellValue(employee.EmployeeWorkings[i].DecryptedScore);
                         sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                        cellBody = row.CreateCell(j);
-                        cellBody.CellStyle = bodyStyleLeft;
-                        cellBody.SetCellValue(employee.EmployeeWorkings[i].Comment);
+                        var cellBodyLast = row.CreateCell(j);
+                        cellBodyLast.CellStyle = bodyStyleLeft;
+                        cellBodyLast.CellStyle.WrapText = true;
+                        cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
+                        cellBodyLast.SetCellValue(employee.EmployeeWorkings[i].Comment);
                         sheet.SetColumnWidth(j++, columnWidth * 4);
                     }
 
@@ -512,9 +526,11 @@
                         cellBody.SetCellValue(employee.EmployeeWorkings[i].DecryptedScore);
                         sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                        cellBody = row.CreateCell(j);
-                        cellBody.CellStyle = bodyStyleLeft;
-                        cellBody.SetCellValue(employee.EmployeeWorkings[i].Comment);
+                        var cellBodyLast = row.CreateCell(j);
+                        cellBodyLast.CellStyle = bodyStyleLeft;
+                        cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
+                        cellBodyLast.CellStyle.WrapText = true;
+                        cellBodyLast.SetCellValue(employee.EmployeeWorkings[i].Comment);
                         sheet.SetColumnWidth(j++, columnWidth * 4);
                     }
 
@@ -542,9 +558,10 @@
                         cellBody.SetCellValue(string.Empty);
                         sheet.SetColumnWidth(j++, columnWidth * 2);
 
-                        cellBody = row.CreateCell(j);
-                        cellBody.CellStyle = bodyStyleLeft;
-                        cellBody.SetCellValue(string.Empty);
+                        var cellBodyLast = row.CreateCell(j);
+                        cellBodyLast.CellStyle = bodyStyleLeft;
+                        cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
+                        cellBodyLast.SetCellValue(string.Empty);
                         sheet.SetColumnWidth(j++, columnWidth * 4);
                     }
 
@@ -625,9 +642,7 @@
         }
 
         private void SetBorderColor(ICellStyle cell)
-        {
-            cell.BorderTop = BorderStyle.Thin;
-            cell.BorderRight = BorderStyle.Thin;
+        { 
             cell.BorderBottom = BorderStyle.Thin;
             cell.BorderLeft = BorderStyle.Thin;
         }

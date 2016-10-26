@@ -1755,4 +1755,10 @@
   <data name="CreateNominationSuccessMessage" xml:space="preserve">
     <value>Your nomination has been submitted suceessfully.</value>
   </data>
+  <data name="Star" xml:space="preserve">
+    <value>Star</value>
+  </data>
+  <data name="Score" xml:space="preserve">
+    <value>Score</value>
+  </data>
 </root>

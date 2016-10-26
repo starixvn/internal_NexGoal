@@ -4,10 +4,10 @@
     dashboardModule.controller("DashboardController", dashboardController);
 
     dashboardController.$inject = ["$interval", "$location", 'DashboardModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl'];
+    'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl','EmployeeEPAModel'];
 
     function dashboardController($interval, $location, DashboardModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl) {
+    utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl, EmployeeEPAModel) {
         var vm = this;
 
         var stopInterval;
@@ -16,6 +16,13 @@
         vm.epaStatusEnum = enumerationsFactory.epaStatus;
         vm.targetTypeEnum = enumerationsFactory.targetType;
         vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
+        vm.selfEvaluatorPermission = 0;
+
+        vm.getUserPermissionOnEmployee = function () {
+            EmployeeEPAModel.getUserPermissionOnEmployee().then(function () {
+                vm.selfEvaluatorPermission = EmployeeEPAModel.selftEvaluatorPermission;
+            });
+        };
 
         vm.showHideScore = function () {
             vm.showScore = !vm.showScore;
@@ -58,6 +65,8 @@
 
         function initialize() {
             lockScreenService.start();
+
+            vm.getUserPermissionOnEmployee();
 
             DashboardModel.getDashboard().then(function () {
                 var dashboardInfo = DashboardModel.dashboardInfo;

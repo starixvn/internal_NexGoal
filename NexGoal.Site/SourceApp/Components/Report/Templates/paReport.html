@@ -110,8 +110,7 @@
                             <span ng-show="pa.Period.IsEndPeriod && !pa.Grade" data-translate="Dash"></span>
                             <span ng-show="pa.Period.IsEndPeriod && pa.Grade">{{pa.Grade}}</span>
                         </td>
-                        <td class="text-center">
-                            <span ng-show="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
+                        <td class="text-center">                            
                             <span ng-show="pa.Period.IsEndPeriod">
                                 <a title="View Detail"
                                    ng-click="paReportCtrl.viewEPADetail(pa.EPAId)">
