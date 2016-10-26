@@ -425,13 +425,13 @@
                 var cellBody1 = row.CreateCell(columnIndex);
                 cellBody1.CellStyle = string.IsNullOrEmpty(employee.PAFocus.LastCompletedPercentObjective) ? bodyStyleCenter : bodyStyleLeft;
                 cellBody1.CellStyle.WrapText = true;
-                cellBody1.SetCellValue(string.IsNullOrEmpty(employee.PAFocus.LastCompletedPercentObjective) ? Lang.Dash : employee.PAFocus.LastCompletedPercentObjective);
+                cellBody1.SetCellValue(ReturnDashIfContentIsNull(employee.PAFocus.LastCompletedPercentObjective));
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
                 var cellBody2 = row.CreateCell(columnIndex);
                 cellBody2.CellStyle = string.IsNullOrEmpty(employee.PAFocus.NextDescriptionObjective) ? bodyStyleCenter : bodyStyleLeft;
                 cellBody2.CellStyle.WrapText = true;
-                cellBody2.SetCellValue(string.IsNullOrEmpty(employee.PAFocus.NextDescriptionObjective) ? Lang.Dash : employee.PAFocus.NextDescriptionObjective);
+                cellBody2.SetCellValue(ReturnDashIfContentIsNull(employee.PAFocus.NextDescriptionObjective));
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
                 var maxRowOfEmployee = GetNumberRowOfEmployee(employee);
@@ -499,7 +499,7 @@
                         cellBodyLast.CellStyle = bodyStyleLeft;
                         cellBodyLast.CellStyle.WrapText = true;
                         cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
-                        cellBodyLast.SetCellValue(employee.EmployeeWorkings[i].Comment);
+                        cellBodyLast.SetCellValue(ReturnDashIfContentIsNull(employee.EmployeeWorkings[i].Comment));
                         sheet.SetColumnWidth(j++, columnWidth * 4);
                     }
 
@@ -531,7 +531,7 @@
                         cellBodyLast.CellStyle = bodyStyleLeft;
                         cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                         cellBodyLast.CellStyle.WrapText = true;
-                        cellBodyLast.SetCellValue(employee.EmployeeWorkings[i].Comment);
+                        cellBodyLast.SetCellValue(ReturnDashIfContentIsNull(employee.EmployeeWorkings[i].Comment));
                         sheet.SetColumnWidth(j++, columnWidth * 4);
                     }
 
@@ -580,6 +580,7 @@
                         sheet.AddMergedRegion(new CellRangeAddress(rowIndexBeginMerger, rowIndexBeginMerger + maxRowOfEmployee - 1, m, m));
                     }
                 }
+
                 index++;
             }
         }
@@ -647,6 +648,11 @@
         { 
             cell.BorderTop = BorderStyle.Thin;
             cell.BorderLeft = BorderStyle.Thin;
+        }
+
+        private string ReturnDashIfContentIsNull(string content)
+        {
+            return string.IsNullOrEmpty(content) ? Lang.Dash : content;
         }
     }
 }

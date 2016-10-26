@@ -375,7 +375,7 @@
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = string.IsNullOrEmpty(pa.LastCompletedPercentObjective) ? bodyStyleCenter : bodyStyleLeft;
                 cellBody.CellStyle.WrapText = true;
-                cellBody.SetCellValue(string.IsNullOrEmpty(pa.LastCompletedPercentObjective) ? Lang.Dash : pa.LastCompletedPercentObjective);
+                cellBody.SetCellValue(ReturnDashIfContentIsNull(pa.LastCompletedPercentObjective));
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
                 var score = pa.FinalScore.HasValue && pa.FinalScore.Value != 0 ? pa.FinalScore.ToString() : Lang.Dash;
@@ -386,8 +386,8 @@
 
                 var cellBodyLast = row.CreateCell(columnIndex);
                 cellBodyLast.CellStyle.WrapText = true;
-                cellBodyLast.CellStyle = string.IsNullOrEmpty(pa.NextDescriptionObjective) ? bodyStyleCenter :  bodyStyleLeft;
-                cellBody.SetCellValue(string.IsNullOrEmpty(pa.NextDescriptionObjective) ? Lang.Dash : pa.NextDescriptionObjective);
+                cellBodyLast.CellStyle = string.IsNullOrEmpty(pa.NextDescriptionObjective) ? bodyStyleCenter : bodyStyleLeft;
+                cellBody.SetCellValue(ReturnDashIfContentIsNull(pa.NextDescriptionObjective));
                 cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                 cellBodyLast.SetCellValue(pa.NextDescriptionObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
@@ -420,6 +420,11 @@
         {
             cell.BorderBottom = BorderStyle.Thin;
             cell.BorderLeft = BorderStyle.Thin;
+        }
+
+        private string ReturnDashIfContentIsNull(string content)
+        {
+            return string.IsNullOrEmpty(content) ? Lang.Dash : content;
         }
     }
 }
