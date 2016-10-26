@@ -66,7 +66,7 @@
             cell.CellStyle.SetFont(font);
             sheet.AddMergedRegion(new CellRangeAddress(0, 0, 0, 10));
         }
-        
+
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private void RenderHeaderTable()
         {
@@ -275,7 +275,7 @@
             ICell cellBody;
             int index = 1;
             foreach (var employee in employeeEvaluations)
-            {   
+            {
                 IRow row = sheet.CreateRow(rowIndex);
                 ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
                 ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
@@ -314,7 +314,7 @@
                         bodyStyleCenter = oddStyleCenter;
                         bodyStyleLeft = oddStyleLeft;
                     }
-                }               
+                }
 
                 cellBody = row.CreateCell(columnIndex++);
                 cellBody.CellStyle = bodyStyleCenter;
@@ -567,7 +567,7 @@
                     }
 
                     rowIndex++;
-                }               
+                }
 
                 if (maxRowOfEmployee == 0)
                 {
@@ -583,6 +583,8 @@
 
                 index++;
             }
+
+            RenderBorderBottom(rowIndex);
         }
 
         private string FormatEvaluatorComment(IEnumerable<EvaluatorCommentReportModel> comments)
@@ -645,7 +647,7 @@
         }
 
         private void SetBorderColor(ICellStyle cell)
-        { 
+        {
             cell.BorderTop = BorderStyle.Thin;
             cell.BorderLeft = BorderStyle.Thin;
         }
@@ -654,5 +656,20 @@
         {
             return string.IsNullOrEmpty(content) ? Lang.Dash : content;
         }
+
+        private void RenderBorderBottom(int rowIndex)
+        {
+            IRow row = sheet.CreateRow(rowIndex);
+            ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
+            bodyStyleCenter.BorderTop = BorderStyle.Thin;
+
+            for (int i = 0; i < TotalColumns; i++)
+            {
+                var cell = row.CreateCell(i);
+                cell.CellStyle = bodyStyleCenter;
+            }
+
+        }
+
     }
 }

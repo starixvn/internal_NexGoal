@@ -166,7 +166,7 @@
                             <a ng-switch-default href=""
                                ng-click="reviewerCtrl.viewEPAResult(memberEPA)"
                                ng-attr-title='{{"ViewEPAResult" | translate}}'
-                               ng-show="reviewerCtrl.Period.IsEndPeriod">
+                               ng-if="memberEPA.Period.IsEndPeriod">
                                 <i class="fa fa-search"></i>
                             </a>
                         </td>
