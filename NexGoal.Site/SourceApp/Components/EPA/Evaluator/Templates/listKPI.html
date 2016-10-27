@@ -114,8 +114,8 @@
         <td>{{"Grade" | translate}}:</td>
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                <span ng-if="memberEPAInfoCtrl.gradeOfSelf==''" data-translate="Dash"></span>
-                <span ng-if="memberEPAInfoCtrl.gradeOfSelf!=''">{{memberEPAInfoCtrl.gradeOfSelf}}</span>
+                <span ng-if="!memberEPAInfoCtrl.gradeOfSelf || memberEPAInfoCtrl.gradeOfSelf === ''" data-translate="Dash"></span>
+                <span ng-if="memberEPAInfoCtrl.gradeOfSelf && memberEPAInfoCtrl.gradeOfSelf !== ''">{{memberEPAInfoCtrl.gradeOfSelf}}</span>
 
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
