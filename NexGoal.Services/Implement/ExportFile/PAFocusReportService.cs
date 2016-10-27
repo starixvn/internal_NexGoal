@@ -387,7 +387,6 @@
                 var cellBodyLast = row.CreateCell(columnIndex);
                 cellBodyLast.CellStyle.WrapText = true;
                 cellBodyLast.CellStyle = string.IsNullOrEmpty(pa.NextDescriptionObjective) ? bodyStyleCenter : bodyStyleLeft;
-                cellBody.SetCellValue(ReturnDashIfContentIsNull(pa.NextDescriptionObjective));
                 cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                 cellBodyLast.SetCellValue(pa.NextDescriptionObjective);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
