@@ -32,7 +32,7 @@
                             <input class="form-control employe-search" placeholder="-- Search an employee --" search-auto-complete
                                    ng-model="masterReportCtrl.searchEmployee"
                                    search-employees="masterReportCtrl.getEmployee()"
-                                   ng-change="masterReportCtrl.employeeFilterChanged()"
+                                   ng-change="masterReportCtrl.unselectEmployee()"
                                    employee="masterReportCtrl.filter.employee" />
                         </div>
                     </div>

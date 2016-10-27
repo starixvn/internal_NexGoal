@@ -170,8 +170,10 @@
             return EmployeeModel.getAllEmployee(vm.searchEmployee);
         };
 
-        vm.employeeFilterChanged = function () {
-            vm.filter.employee = {};
+        vm.unselectEmployee = function () {
+            if (vm.searchEmployee.trim() === '' && vm.filter.employee) {
+                vm.filter.employee = {};
+            }
         };
 
         vm.openPopupLastObjective = function (member) {
