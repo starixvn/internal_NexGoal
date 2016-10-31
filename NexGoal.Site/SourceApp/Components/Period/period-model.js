@@ -862,38 +862,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             }
         }
 
-        if (employeeOptions.management.ids && employeeOptions.management.ids.length > 0) {
-            if (employee.Managements && employee.Managements.length > 0) {
-                var originalManagement = employee.Managements[0];
-                employee.Managements = [];
-
-                angular.forEach(employeeOptions.management.ids, function (id) {
-                    var management = {
-                        ProcessId: originalManagement.ProcessId,
-                        StartDate: originalManagement.StartDate,
-                        EndDate: originalManagement.EndDate,
-                        EvaluatorInfo: {
-                            EmployeeId: id
-                        }
-                    };
-
-                    employee.Managements.push(management);
-                });
-            }
-            else {
-                angular.forEach(employeeOptions.management.ids, function (id) {
-                    var management = {
-                        ProcessId: periodModel.evaluatorType.Management,
-                        EvaluatorInfo: {
-                            EmployeeId: id
-                        }
-                    };
-
-                    employee.Managements.push(management);
-                });
-            }
-        }
-
         return employee;
     };
 
