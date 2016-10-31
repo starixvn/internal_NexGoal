@@ -882,10 +882,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             reviewer.StartDate = employeeOptions.reviewer.StartDate;
         });
 
-        angular.forEach(employee.Managements, function (management) {
-            management.StartDate = employeeOptions.management.StartDate;
-        });
-
         return employee;
     };
 
@@ -904,10 +900,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
 
         angular.forEach(employee.Reviewers, function (reviewer) {
             reviewer.EndDate = employeeOptions.reviewer.EndDate;
-        });
-
-        angular.forEach(employee.Managements, function (management) {
-            management.EndDate = employeeOptions.management.EndDate;
         });
 
         return employee;
@@ -989,26 +981,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                 }
             }
 
-            if (employee.Managements && employee.Managements.length > 0) {
-                if (new Date(employee.Managements[0].StartDate).setHours(0, 0, 0, 0) > new Date(employee.Managements[0].EndDate).setHours(0, 0, 0, 0)) {
-                    notificationFactory.error("StartDateGreaterThanEndDateWarning");
-                    return false;
-                }
-
-                if (hasReviewer) {
-                    if (new Date(employee.Reviewers[0].EndDate).setHours(0, 0, 0, 0) > new Date(employee.Managements[0].StartDate).setHours(0, 0, 0, 0)) {
-                        notificationFactory.error("ReviewerRangeDateGreaterThanManagementRangeDateWarning");
-                        return false;
-                    }
-                }
-                else {
-                    if (new Date(employee.Evaluators[0].EndDate).setHours(0, 0, 0, 0) > (employee.Managements[0].StartDate).setHours(0, 0, 0, 0)) {
-                        notificationFactory.error("EvaluatorRangeDateGreaterThanManagementRangeDateWarning");
-                        return false;
-                    }
-                }
-            }
-
             return true;
         }
     };
@@ -1079,23 +1051,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
                     employeeAssignments.push(reviewerAssignment);
                 });
             }
-
-            if (employee.Managements && employee.Managements.length > 0) {
-                angular.forEach(employee.Managements, function (management, index) {
-                    var managementAssignment = {
-                        employeeId: employee.Employee.EmployeeId,
-                        processId: periodModel.evaluatorType.Management,
-                        startDate: new Date(management.StartDate).toDateString(),
-                        endDate: new Date(management.EndDate).toDateString(),
-                        priority: index + 1,
-                        evaluatorInfo: {
-                            employeeId: management.EvaluatorInfo.EmployeeId
-                        }
-                    };
-
-                    employeeAssignments.push(managementAssignment);
-                });
-            }
         });
 
         var employeeSetting = {
@@ -1155,11 +1110,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             }
             else if (employeeSetting.Reviewers && employeeSetting.Reviewers.length > 0
                 && (!employeeSetting.Reviewers[0].StartDate || !employeeSetting.Reviewers[0].EndDate)) {
-                notificationFactory.error("NoneDateSettingWarning");
-                return false;
-            }
-            else if (employeeSetting.Managements && employeeSetting.Managements.length > 0
-                && (!employeeSetting.Managements[0].StartDate || !employeeSetting.Managements[0].EndDate)) {
                 notificationFactory.error("NoneDateSettingWarning");
                 return false;
             }
