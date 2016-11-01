@@ -712,7 +712,7 @@
     <value>Number Of Employees</value>
   </data>
   <data name="DisciplineEndDate" xml:space="preserve">
-    <value>Incident End Date</value>
+    <value>Discipline End Date</value>
   </data>
   <data name="DisciplineStartDate" xml:space="preserve">
     <value>Discipline Start Date</value>
@@ -1030,10 +1030,10 @@
     <value>Scored By</value>
   </data>
   <data name="DisciplineEndDatePeriodRequired" xml:space="preserve">
-    <value>The Incident End Date field is required!</value>
+    <value>The Discipline End Date field is required!</value>
   </data>
   <data name="DisciplineStartDatePeriodRequired" xml:space="preserve">
-    <value>The Incident Start Date field is required!</value>
+    <value>The Discipline Start Date field is required!</value>
   </data>
   <data name="EPADetailReportName" xml:space="preserve">
     <value>PA_Report</value>
@@ -1153,7 +1153,7 @@
     <value>End of Period</value>
   </data>
   <data name="DisciplineStartDateGreaterThanEndDateWarning" xml:space="preserve">
-    <value>The Incident Start Date must be less than or equal the Discipline End Date.</value>
+    <value>The Discipline Start Date must be less than or equal the Discipline End Date.</value>
   </data>
   <data name="ViewOtherViolation" xml:space="preserve">
     <value>View other violation</value>
