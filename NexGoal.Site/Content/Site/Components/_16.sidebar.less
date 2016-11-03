@@ -11,8 +11,22 @@
 /***** Styles *****/
 
 .sidebar {
-    padding-right: 10px;
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.16);
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    margin-top: 60px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    top: 0;
+    padding: 10px 0 0 0;
+    background-color: @c-sidebar-bg;
+    max-height: 950px;
+    width: 279px;
 
     .list-group {
         margin: 0;
@@ -86,14 +100,14 @@
                 &:hover, &:active, &:focus {
                     text-decoration: none;
                 }
-            }      
-            
+            }
+
             &.active {
                 background-color: transparent;
                 background-image: none;
-                text-shadow: none;                
-            }    
-            
+                text-shadow: none;
+            }
+
             &.no-sub {
                 a {
                     font-weight: 600;
@@ -104,7 +118,7 @@
                         color: @c-sidebar-menu-item-sub-link-active-text;
                     }
                 }
-            }  
+            }
 
             &.has-sub {
                 .sub-menu-title {
@@ -123,6 +137,7 @@
                     a {
                         padding-left: 48px;
                         transition: 0.3s all ease;
+
                         &:hover {
                             color: #485e9c;
                         }
@@ -142,7 +157,6 @@
                             }
                         }
                     }
-
                 }
 
                 &.active {
@@ -150,11 +164,10 @@
                         color: @c-sidebar-menu-item-sub-link-active-text;
                     }
                 }
-            }  
-            
+            }
             /*&:last-child {
                 padding-bottom: 0;
-            }*/          
+            }*/
         }
     }
 
@@ -163,22 +176,208 @@
     }
 }
 
-@media (min-width: 768px) {
-    .sidebar {
-        position: fixed;
-        top: 51px;
-        bottom: 0;
-        left: 0;
-        z-index: 1000;
-        display: block;
-        padding: 20px;
-        margin-top: 60px;
-        overflow-x: hidden;
-        overflow-y: auto;
-        top: 0;
-        padding: 10px 0 0 0;
-        background-color: @c-sidebar-bg;
-        max-height: 950px;
-        width: 279px;
+
+
+.left-bar {
+    width: 279px;
+    background: #2C3B66;
+}
+
+
+
+.main {
+    padding-left: 280px;
+
+    &.full-size {
+        padding-left: 0;
+    }
+}
+
+.left-bar-xs {
+    width: 40px;
+    background: #2C3B66;
+    padding-left: 0;
+    padding-right: 0;
+    background: url('images/nexgoal-xs.svg') center center no-repeat;
+    background-size: auto 20px;
+    float: none;
+    display: block;
+
+    img {
+        display: none;
+    }
+}
+
+.main-xs {
+    padding-top: 20px;
+    padding-left: 40px;
+
+    .page-header {
+        margin-top: 0;
+    }
+}
+
+.sidebar-xs {
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,.16);
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    margin-top: 60px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    top: 0;
+    padding: 10px 0 0 0;
+    background-color: @c-sidebar-bg;
+    max-height: 950px;
+    width: 40px;
+
+    span {
+        display: none;
+    }
+
+    .list-group {
+        margin: 0;
+        box-shadow: none;
+
+
+        .fa {
+            font-size: 16px;
+            width: 28px;
+        }
+
+        .fa-chevron-down {
+            display: none;
+        }
+
+        .fa-mydashboard:before {
+            content: "\f015";
+        }
+
+        .fa-admin:before {
+            content: "\f0c0";
+        }
+
+        .fa-epasetting:before {
+            content: "\f013";
+        }
+
+        .fa-report:before {
+            content: "\f0ce";
+        }
+
+        .fa-discipline:before {
+            content: "\f29a";
+        }
+
+        .fa-epaassessment:before {
+            content: "\f19c";
+        }
+
+        .fa-paform:before {
+            content: "\f022";
+        }
+
+        .list-group-item {
+            border: none;
+            border-radius: 0;
+            padding: 6px 0;
+            line-height: 1.8rem;
+
+            &.sub-menu {
+                padding: 0;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            a {
+                padding: 6px 10px;
+                color: @c-sidebar-menu-item-text;
+                width: 100%;
+                display: inline-block;
+
+                &:hover, &:active, &:focus {
+                    text-decoration: none;
+                }
+            }
+
+            &.active {
+                background-color: transparent;
+                background-image: none;
+                text-shadow: none;
+            }
+
+            &.no-sub {
+                a {
+                    font-weight: 600;
+                }
+
+                &.active {
+                    a {
+                        color: @c-sidebar-menu-item-sub-link-active-text;
+                    }
+                }
+            }
+
+            &.has-sub {
+                .sub-menu-title {
+                    color: @c-sidebar-menu-item-sub-text;
+                    display: block;
+                    font-weight: 600;
+
+                    &.collapsed {
+                        .fa-chevron-down {
+                            transform: rotate(-90deg);
+                        }
+                    }
+                }
+
+                .sub-menu {
+                    display: none;
+
+                    a {
+                        padding-left: 48px;
+                        transition: 0.3s all ease;
+
+                        &:hover {
+                            color: #485e9c;
+                        }
+                    }
+
+                    &.active {
+                        background: @c-sidebar-menu-item-sub-link-active-text;
+
+                        a {
+                            color: #fff;
+                            font-weight: 500;
+                        }
+
+                        &:hover {
+                            a {
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+
+                &.active {
+                    > a {
+                        color: @c-sidebar-menu-item-sub-link-active-text;
+                    }
+                }
+            }
+            /*&:last-child {
+                padding-bottom: 0;
+            }*/
+        }
+    }
+
+    .panel-body {
+        padding: 0;
     }
 }

@@ -3,24 +3,26 @@
 }
 <div ng-controller="PageController as pageCtrl">
     <nav class="navbar navbar-inverse navbar-fixed-top">
-        <div class="left-bar pull-left">
+        <div class="pull-left" ng-class="pageCtrl.getTopNavigationCSS()">
             <a class="navbar-brand" href="#/">
                 <img src="~/Content/Site/Components/images/nexgoal.svg" />
             </a>
-            <a class="pull-right btn-hamberger"
-               ng-click="pageCtrl.modifyMenuVisibility()">
-                <i class="fa fa-bars"></i>
-            </a>
         </div>
+        <div class="pull-left nav-hamberger">
+            <a ng-click="pageCtrl.modifyMenuVisibility()">
+                <i class="fa fa-bars"></i>
+            </a>            
+        </div>
+        
         <div class="auth-info pull-right" ng-include src="'/SourceApp/Components/UserInfo/Templates/index.html'"></div>
-        <div class="sidebar" ng-show="pageCtrl.menuVisibility">
+        <div ng-class="pageCtrl.getSidebarCSS()">
             <div ng-include src="'/SourceApp/Components/Menu/Templates/index.html'"></div>
         </div>
     </nav>
 
     <div class="container-fluid page">
         <div class="row">
-            <div class="main" ng-class="{'full-size': !menuVisibility}">
+            <div ng-class="pageCtrl.getMainCSS()">
                 <div class="loading-process" style="display: none"></div>
                 <div class="section-wrap">
                     <div data-ng-view class="section-body"></div>
