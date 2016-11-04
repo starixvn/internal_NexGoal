@@ -307,12 +307,9 @@
     <Content Include="Content\Site\Components\images\icon_sprite.png" />
     <Content Include="Content\Site\Components\images\line-menu.png" />
     <Content Include="Content\Site\Components\images\loading.gif" />
-    <Content Include="Content\Site\Components\images\logo-2.png" />
-    <Content Include="Content\Site\Components\images\nex-goal.png" />
     <Content Include="Content\Site\Components\images\nexgoal.svg" />
     <Content Include="Content\Site\Components\images\pdf-icon-inactive.png" />
     <Content Include="Content\Site\Components\images\pdf-icon.png" />
-    <Content Include="Content\Site\Components\images\sms_epa_logo.png" />
     <Content Include="Content\Site\Components\images\minus-icon.gif" />
     <Content Include="Content\Site\Components\images\plus-icon.gif" />
     <Content Include="Content\Site\Components\images\save_submit.png" />
@@ -774,6 +771,7 @@
     <Content Include="ExcelTemplates\EOQYNomination.xls" />
     <Content Include="Deployment.ignore" />
     <Content Include="Content\Common\bootstrap.min.css.map" />
+    <Content Include="Content\Site\Components\images\nexgoal-xs.svg" />
     <None Include="Libs\angular-resource.min.js.map" />
     <None Include="Libs\angular-route.min.js.map" />
     <None Include="Libs\angular.min.js.map" />
