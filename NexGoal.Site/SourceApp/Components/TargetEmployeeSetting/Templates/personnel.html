@@ -32,8 +32,8 @@
 
             <div class="col">
                 <div class="control-label size-m">
-                    <input type="checkbox" ng-model="personnelCtrl.filter.showAll" id="chbShowAll"/>
-                    <label data-translate="ShowAll" for="chbShowAll"></label>
+                    <input type="checkbox" ng-model="personnelCtrl.filter.showAll" id="chbShowAll-PersonalTab"/>
+                    <label data-translate="ShowAll" for="chbShowAll-PersonalTab"></label>
                 </div>  
             </div>
 
@@ -112,7 +112,7 @@
                 <td class="text-center">
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                 </td>
-                <td class="text-center" ng-bind="employee.Employee.NickName"></td>
+                <td ng-bind="employee.Employee.NickName"></td>
                 <td ng-bind="employee.Employee.FullName"></td>
                 <td></td>
                 <td></td>
