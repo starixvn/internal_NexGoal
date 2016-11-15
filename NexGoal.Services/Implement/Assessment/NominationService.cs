@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using Core.Constants;
+    using Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Core.Utilities;
@@ -19,15 +21,17 @@
         private const int RowStartBody = 3;
 
         private readonly INominationRepository nominationRepository;
+        private readonly ISessionService sessionService;
 
         public NominationService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public NominationService(INominationRepository nominationRepository)
+        public NominationService(INominationRepository nominationRepository, ISessionService sessionService)
         {
             this.nominationRepository = nominationRepository ?? new NominationRepository();
+            this.sessionService = sessionService ?? new SessionService();
         }
 
         public NominatorSettingModel GetLatestEOQByNominatorId(int nominatorId)
@@ -79,10 +83,10 @@
                         Period = g.First().Period,
                         Nominee = g.First().Nominee,
                         Nominations = g.Select(x => new NominationDetailViewModel
-                            {
-                                NominationId = x.NominationId,
-                                Nominator = x.Nominator
-                            }).ToList(),
+                        {
+                            NominationId = x.NominationId,
+                            Nominator = x.Nominator
+                        }).ToList(),
                         RoleId = g.First().RoleId,
                         StatusId = g.First().StatusId
                     });
@@ -91,9 +95,16 @@
             return result;
         }
 
-        public IEnumerable<NominationEPAModel> GetNominationByPeriodId(GetNominationByPeriodIdCriteria criteria)
+        public IEnumerable<NominationEPAModel> GetNominationByPeriodId(int nomineeId, int periodId)
         {
             IEnumerable<NominationEPAModel> result = new List<NominationEPAModel>();
+
+            var permission = sessionService.CurrentUser.GetPermission(FunctionKey.Nomination);
+            var criteria = new GetNominationByPeriodIdCriteria
+            {
+                PeriodId = periodId,
+                NomineeId = permission == (int)Policy.None ? sessionService.EmployeeId : nomineeId
+            };
 
             if (criteria != null && criteria.IsValid())
             {

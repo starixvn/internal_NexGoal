@@ -23,9 +23,11 @@
             </tr>
             <tr class="comment">
                 <td colspan="6" class="textarea-comment">
+                    <p ng-if="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.IsMissingComment" data-translate="RequiredComment" class="note"></p>
                     <p>
                         <span data-translate="Comments" class="lable-comment-if-any"></span>&nbsp;
                         <span class="label-word-countdown" data-translate="LimitedWords"></span>
+                        <span class="note" data-translate="(*)"></span>
                     </p>
                     <textarea class="form-control" maxlength="2000"
                               ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
