@@ -74,8 +74,7 @@
             {
                 if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
                 {
-                    double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
-                    averageWeight = SplitNumber(averageWeight, Constants.NumberOfDecimals);
+                    double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;                    
 
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
@@ -83,24 +82,7 @@
                     }
                 }
             }
-        }
-
-        private double SplitNumber(double number, int numberOfDecimals)
-        {
-            double result = number;
-            numberOfDecimals = numberOfDecimals <= 0 ? Constants.NumberOfDecimalDefault : numberOfDecimals;
-
-            if ((number % 1) != 0)
-            {
-                int index = number.ToString().IndexOf('.');
-                string naturalFraction = number.ToString().Substring(0, index),
-                    decimalFraction = number.ToString().Substring(index + 1);
-
-                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, Math.Min(decimalFraction.Length, numberOfDecimals)));
-            }
-
-            return result;
-        }
+        }      
 
         private void SetMaxPerformanceScore(EPAModel epaInfo)
         {

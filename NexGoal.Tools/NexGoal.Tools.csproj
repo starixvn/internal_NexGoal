@@ -91,7 +91,6 @@
     </Compile>
     <Compile Include="Model\CommandResult.cs" />
     <Compile Include="Model\EPADetailModel.cs" />
-    <Compile Include="Model\EPAGroupDetailModel.cs" />
     <Compile Include="Model\EPAModel.cs" />
     <Compile Include="Model\EPAProcessModel.cs" />
     <Compile Include="Model\PAFocus.cs" />

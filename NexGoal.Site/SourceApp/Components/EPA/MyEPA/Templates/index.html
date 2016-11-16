@@ -42,7 +42,7 @@
                         <td class="text-center">{{ myEPA.Process.CurrentProcess.StartDate | customDate }}</td>
                         <td class="text-center">{{ myEPA.Process.CurrentProcess.EndDate | customDate }}</td>
                         <td class="text-center">
-                            <span ng-show="myEPA.Period.IsEndPeriod">{{myEPA.FinalScore}}</span>
+                            <span ng-show="myEPA.Period.IsEndPeriod">{{myEPA.FinalScore | integerScore}}</span>
                         </td>
                         <td class="text-center">
                             <span ng-show="myEPA.Period.IsEndPeriod">{{myEPA.Grade}}</span>

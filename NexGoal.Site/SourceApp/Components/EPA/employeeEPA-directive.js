@@ -32,6 +32,25 @@ epaModule.directive('ngDecimal', [function () {
     };
 }]);
 
+epaModule.directive('integerOnly', [function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, element, attrs, modelCtrl) {
+            modelCtrl.$parsers.push(function (inputValue) {
+
+                if (inputValue == undefined) return ''
+                var transformedInput = inputValue.replace(/[^\d-]/g, '');
+                if (transformedInput != inputValue) {
+                    modelCtrl.$setViewValue(transformedInput);
+                    modelCtrl.$render();
+                }
+
+                return transformedInput;
+            });
+        }
+    };
+}]);
+
 epaModule.filter('integerScore', ['$filter', function ($filter) {
     return function (input) {
         var _number;
@@ -84,10 +103,10 @@ epaModule.directive('popoverAvatar', ['baseUrl', function (baseUrl) {
                     return '<img class="avatar" src="' + baseUrl + attrs.avatarSrc + '" />';
                 },
                 template: '<div class="popover popover-avatar" role="tooltip">' +
-                                '<div class="arrow"></div>' +
-                                '<h3 class="popover-title"></h3>' +
-                                '<div class="popover-content"></div>' +
-                            '</div>',
+                            '<div class="arrow"></div>' +
+                            '<h3 class="popover-title"></h3>' +
+                            '<div class="popover-content"></div>' +
+                        '</div>',
                 placement: 'top'
             });
         }

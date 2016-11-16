@@ -41,14 +41,13 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             vm.hoveringLeave = function (kpiGroup, kpi) {
                 if (kpi.CurrentEvaluation.Rate > 0) {
                     if (kpiGroup.NumberKPIOptional === 0) {
-                        var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;
-                        score = utilitiesFactory.splitNumber(score, 2);
+                        var score = (kpi.Weight * kpi.CurrentEvaluation.Rate) / vm.maxStar;                        
                         kpi.CurrentEvaluation.Score = score;
                     }
                     else {
                         EvaluatorManagementModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
                     }
-                    calculateSubTotalScore(kpiGroup);
+                    
                     EvaluatorManagementModel.calculateScore(vm);
                 }
             };
@@ -163,21 +162,13 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
 
     function calculateSubTotalScore(kpiGroup) {
         var score = 0;
-        var isEvaluateMaxScore = true;
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.CurrentEvaluation.Score) {
                 score += kpi.CurrentEvaluation.Score;
             }
-            if (kpi.CurrentEvaluation.Rate !== vm.maxStar) {
-                isEvaluateMaxScore = false;
-            }
         });
-
-        if (isEvaluateMaxScore) {
-            kpiGroup.EvaluatorScore = kpiGroup.Weight;
-        } else {
-            kpiGroup.EvaluatorScore = score;
-        }
+        
+        return score;
     }
 
     function initialize() {
@@ -269,14 +260,14 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             EvaluatorManagementModel.scoreSpreadForKPIGroupHasKPIOptional(kpiGroup, vm.maxStar);
         }
 
-        calculateSubTotalScore(kpiGroup);
-
         EvaluatorManagementModel.calculateScore(vm);
     };
 
     vm.cancel = function () {
         historyFactory.back();
     };
+
+    vm.calculateSubTotalScore = calculateSubTotalScore;
 
     vm.save = function (epaInfo) {
         if (EvaluatorManagementModel.validateEPA(epaInfo)) {

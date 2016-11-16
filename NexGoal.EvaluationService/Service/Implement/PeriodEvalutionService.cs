@@ -78,9 +78,9 @@
 
             IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
 
-            float averagePerformanceScore = GetFinalScoreOfEvalution(epa);
+            double averagePerformanceScore = GetFinalScoreOfEvalution(epa);
 
-            float finalScore = averagePerformanceScore + epa.DisciplineScore;
+            double finalScore = averagePerformanceScore + epa.DisciplineScore;
             finalScore = finalScore >= 0 ? finalScore : 0;
 
             epa.Grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
@@ -128,9 +128,9 @@
             return employeeSettings;
         }
 
-        private float GetFinalScoreOfEvalution(EPAModel evaluationInfo)
+        private double GetFinalScoreOfEvalution(EPAModel evaluationInfo)
         {
-            float finalScore = 0;
+            double finalScore = 0;
 
             if (evaluationInfo.Process.Managements.Any())
             {
@@ -148,9 +148,9 @@
             return finalScore;
         }
 
-        private void EncodeAndUpdateFinalScore(float performanceScore, float disciplineScore, int evaluationId, string grade)
+        private void EncodeAndUpdateFinalScore(double performanceScore, double disciplineScore, int evaluationId, string grade)
         {
-            float finalScore = performanceScore + disciplineScore;
+            double finalScore = performanceScore + disciplineScore;
             string finalScoreEncode = certificateService.Encrypt(finalScore.ToString()),
                 gradeEncode = certificateService.Encrypt(grade);
 

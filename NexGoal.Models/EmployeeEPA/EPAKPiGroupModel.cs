@@ -31,16 +31,11 @@
 
         public IList<EPAKPIModel> KPIs { get; set; }
 
-        public IList<EvaluationModel> EvaluatorsScore { get; set; }
-
-        public string SelfEncodeScore { get; set; }
-
-        public float SelfDecodeScore { get; set; }
+        public IList<EvaluationModel> EvaluatorsScore { get; set; }        
 
         public void Decrypt()
         {
             ICertificateService certificateService = new CertificateService();
-            SelfDecodeScore = string.IsNullOrEmpty(SelfEncodeScore) ? 0 : float.Parse(certificateService.Decrypt(SelfEncodeScore));
             foreach (var evaluator in EvaluatorsScore)
             {
                 evaluator.Decrypt();

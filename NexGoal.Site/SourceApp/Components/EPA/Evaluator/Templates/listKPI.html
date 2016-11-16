@@ -16,7 +16,7 @@
         <td class="text-center width-150">
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                 <span ng-if="kpi.EvaluationBySelf.Score==0" data-translate="Dash"></span>
-                <span ng-if="kpi.EvaluationBySelf.Score!=0">{{kpi.EvaluationBySelf.Score | customScore}} pts</span>
+                <span ng-if="kpi.EvaluationBySelf.Score!=0">{{kpi.EvaluationBySelf.Score | splitScore}} pts</span>
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
@@ -74,13 +74,13 @@
         <td data-translate="SubTotal"></td>
         <td>
             <span class="text-center" ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
-                <span ng-if="kpiGroup.SelfDecodeScore==0" data-translate="Dash"></span>
-                <span ng-if="kpiGroup.SelfDecodeScore!=0">{{kpiGroup.SelfDecodeScore | customScore}} / {{kpiGroup.Weight}} pts</span>
+                <span ng-if="kpiGroup.selfScore==0" data-translate="Dash"></span>
+                <span ng-if="kpiGroup.selfScore!=0">{{ kpiGroup.selfScore | splitScore}} / {{kpiGroup.Weight}} pts</span>
             </span>
             <span class="text-center" data-translate="Pending" ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess"></span>
         </td>
         <td>
-            {{kpiGroup.EvaluatorScore | customScore}} / {{kpiGroup.Weight}} pts
+            {{memberEPAInfoCtrl.calculateSubTotalScore(kpiGroup) | splitScore}} / {{kpiGroup.Weight}} pts
         </td>
         <td ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
             <span ng-if="memberEPAInfoCtrl.lastRating.length > 0">
@@ -95,13 +95,13 @@
         <td>
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                 <span ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore==0" data-translate="Dash"></span>
-                <span ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore!=0">{{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}</span>
+                <span ng-if="memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore!=0">{{memberEPAInfoCtrl.epaInfo.Process.Self.TotalScore | integerScore}} / {{memberEPAInfoCtrl.epaInfo.Process.Self.MaxTotalScore | customScore}}</span>
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
 
         </td>
         <td>
-            {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
+            {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
         </td>
         <td ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
             <span ng-show="memberEPAInfoCtrl.lastRating.length > 0">
@@ -134,7 +134,7 @@
         <td></td>
         <td ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore !== null">
-                {{memberEPAInfoCtrl.epaInfo.LastFinalScore | customScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
+                {{memberEPAInfoCtrl.epaInfo.LastFinalScore | integerScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
             </span>
             <span ng-if="memberEPAInfoCtrl.epaInfo.LastFinalScore === null" ng-bind="'-'"></span>
         </td>

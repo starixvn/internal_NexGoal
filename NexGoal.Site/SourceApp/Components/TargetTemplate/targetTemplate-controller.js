@@ -318,8 +318,7 @@ function ($scope, $translate, TargetTemplateModel, utilitiesFactory, notificatio
         });
 
         if (kpiSelected.length > 0) {
-            var averageWeight = group.Weight / kpiSelected.length;
-            averageWeight = utilitiesFactory.splitNumber(averageWeight, 2);
+            var averageWeight = group.Weight / kpiSelected.length;           
 
             angular.forEach(kpiSelected, function (kpi) {
                 kpi.Weight = averageWeight;

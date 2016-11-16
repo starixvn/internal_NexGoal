@@ -78,7 +78,6 @@
                 if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
                 {
                     double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
-                    averageWeight = SplitNumber(averageWeight, Constants.NumberOfDecimals);
 
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
@@ -87,24 +86,7 @@
                 }
             }
         }
-
-        private double SplitNumber(double number, int numberOfDecimals)
-        {
-            double result = number;
-            numberOfDecimals = numberOfDecimals <= 0 ? Constants.NumberOfDecimalDefault : numberOfDecimals;
-
-            if ((number % 1) != 0)
-            {
-                int index = number.ToString().IndexOf('.');
-                string naturalFraction = number.ToString().Substring(0, index),
-                    decimalFraction = number.ToString().Substring(index + 1);
-
-                result = double.Parse(naturalFraction + "." + decimalFraction.Substring(0, Math.Min(decimalFraction.Length, numberOfDecimals)));
-            }
-
-            return result;
-        }
-
+        
         private void SetMaxPerformanceScore(EPAModel epaInfo)
         {
             switch (epaInfo.Process.CurrentProcess.ProcessId)
@@ -133,7 +115,7 @@
 
         private void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
         {
-            float maxAdditionScore = 0;
+            double maxAdditionScore = 0;
 
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {

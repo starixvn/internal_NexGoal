@@ -17,27 +17,9 @@
 
                     if (epaInfos.Any())
                     {
-                        IEnumerable<EPAProcessModel> epaProcesses = multi.Read<EPAProcessModel>();
+                        IEnumerable<EPAProcessModel> epaProcesses = multi.Read<EPAProcessModel>();                        
 
-                        IEnumerable<EPAGroupDetailModel> epaGroupDetails = multi.Read<EPAGroupDetailModel>();
-
-                        IEnumerable<EPADetailModel> epaDetails = multi.Read<EPADetailModel>();
-
-                        foreach (EPAGroupDetailModel detail in epaGroupDetails)
-                        {
-                            detail.EPADetails = epaDetails.Where(x => x.EPAId == detail.EPAId
-                                && x.ProcessId == detail.ProcessId
-                                && x.EvaluatorId == detail.EvaluatorId
-                                && x.KPIGroupId == detail.KPIGroupId).ToList();
-                        }
-
-                        foreach (EPAProcessModel process in epaProcesses)
-                        {
-                            process.EPAGroupDetails = epaGroupDetails.Where(x => x.EPAId == process.EPAId
-                                && x.ProcessId == process.ProcessId
-                                && x.EvaluatorId == process.EvaluatorId).ToList();
-                        }
-
+                        IEnumerable<EPADetailModel> epaDetails = multi.Read<EPADetailModel>();  
                         foreach (EPAModel epaInfo in epaInfos)
                         {
                             epaInfo.EPAProcesses = epaProcesses.Where(x => x.EPAId == epaInfo.EPAId).ToList();

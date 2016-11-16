@@ -40,7 +40,7 @@
 
         public string Comment { get; set; }
 
-        public float MaxTotalScore { get; set; }
+        public double MaxTotalScore { get; set; }
 
         public string TotalScoreEncode { get; set; }
 
@@ -70,11 +70,11 @@
 
         public DateTime? EvaluateDate { get; set; }
 
-        public float MaxPerformanceScore { get; set; }
+        public double MaxPerformanceScore { get; set; }
 
-        public float MaxSubtractScore { get; set; }
+        public double MaxSubtractScore { get; set; }
 
-        public float MaxAdditionScore { get; set; }
+        public double MaxAdditionScore { get; set; }
 
         public void Decrypt()
         {

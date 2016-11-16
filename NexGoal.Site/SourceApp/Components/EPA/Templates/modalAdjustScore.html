@@ -10,9 +10,10 @@
                 <form class="form-horizontal" role="form">
                     <div class="form-group required">
                         <label class="col-sm-2 control-label" data-translate="Score"></label>
-                        <div class="col-sm-4 field">
-                            <input type="text" maxlength="6" class="form-control text-center epa-input-score" 
-                                   ng-model="modalAdjustScoreCtrl.adjust.Score" required numeric decimals="2" min="-10" max="10" 
+                        <div class="col-sm-3 field">
+                            <input type="text" maxlength="3" class="form-control text-center epa-input-score" 
+                                   ng-model="modalAdjustScoreCtrl.adjust.Score" required integer-only
+                                   ng-change="modalAdjustScoreCtrl.changedScore()"
                                    tooltip="{{modalAdjustScoreCtrl.scoreInputValidMessage}}"/>
                         </div>
                     </div>

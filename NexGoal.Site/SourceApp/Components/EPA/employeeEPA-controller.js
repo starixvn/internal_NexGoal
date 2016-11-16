@@ -33,46 +33,6 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
-    function calculateEvaluatorScoreOnKPI(kpi) {
-        var averageScore = 0;
-        var averageStar = 0;
-
-        if (kpi.EvaluationByEvaluators.length > 0) {
-            var score = 0;
-            var star = 0;
-            var length = 0;
-            angular.forEach(kpi.EvaluationByEvaluators, function (evaluator) {
-                if (evaluator.ScoreEncode) {
-                    score += evaluator.Score;
-                    star += evaluator.Rate;
-                    length++;
-                }
-            });
-
-            averageScore = score / length;
-            averageStar = star / length;
-        }
-
-        kpi.EvaluatorScore = utilitiesFactory.splitNumber(averageScore, 2);
-        kpi.EvaluatorStar = utilitiesFactory.splitNumber(averageStar, 2);
-    }
-
-    function calculateEvaluatorScoreOnGroup(kpiGroup) {
-        if (kpiGroup.EvaluatorsScore.length === 0) {
-            return 0;
-        }
-
-        var score = 0;
-        var length = 0;
-        angular.forEach(kpiGroup.EvaluatorsScore, function (evaluator) {
-            if (evaluator.Score !== 0) {
-                score += evaluator.Score;
-                length++;
-            }
-        });
-
-        return utilitiesFactory.splitNumber(score / length, 2);
-    }
 
     function getIntegrationInformation() {
         if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
@@ -97,18 +57,6 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
             vm.epaInfo = EmployeeEPAModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
 
-            var totalScoreOfEvaluator = 0;
-            for (var index = 0; index < vm.epaInfo.KPIGroups.length; index++) {
-                var kpiGroup = vm.epaInfo.KPIGroups[index];
-                var evaluatorScore = calculateEvaluatorScoreOnGroup(kpiGroup);
-
-                angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    calculateEvaluatorScoreOnKPI(kpi);
-                });
-                kpiGroup.EvaluatorScore = evaluatorScore;
-                totalScoreOfEvaluator += evaluatorScore;
-            }
-
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
 
@@ -116,7 +64,6 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
             angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
-            vm.epaInfo.Process.AverageScoreByEvaluators = totalScoreOfEvaluator;
 
             // reviewer
             angular.forEach(vm.epaInfo.Process.Reviewers, function (reviewer) {
@@ -169,9 +116,9 @@ function ($modalInstance, comment) {
 
 epaModule.controller('ModalAdjustScoreController',
 ['$translate', '$modalInstance', 'EmployeeEPAModel', 'ReviewerManagementModel', 'utilitiesFactory', 'notificationFactory',
-    'selectedEmployees', 'isReviewer',
+    'selectedEmployees', 'isReviewer', 'minScore', 'maxScore',
 function ($translate, $modalInstance, EmployeeEPAModel, ReviewerManagementModel, utilitiesFactory, notificationFactory,
-    selectedEmployees, isReviewer) {
+    selectedEmployees, isReviewer, minScore, maxScore) {
     var vm = this;
 
     vm.adjust = {
@@ -202,6 +149,16 @@ function ($translate, $modalInstance, EmployeeEPAModel, ReviewerManagementModel,
 
     vm.cancel = function () {
         $modalInstance.dismiss('cancel');
+    };
+
+    vm.changedScore = function () {
+        if (vm.adjust.Score < minScore) {
+            vm.adjust.Score = minScore;
+        }
+
+        if (vm.adjust.Score > maxScore) {
+            vm.adjust.Score = maxScore;
+        }
     };
 
     initialize();

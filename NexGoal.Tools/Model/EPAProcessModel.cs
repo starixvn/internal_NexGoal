@@ -4,11 +4,6 @@
 
     public class EPAProcessModel
     {
-        public EPAProcessModel()
-        {
-            EPAGroupDetails = new List<EPAGroupDetailModel>();
-        }
-
         public int EPAId { get; set; }
 
         public int ProcessId { get; set; }
@@ -19,8 +14,6 @@
 
         public string AdjustScore { get; set; }
 
-        public int StatusId { get; set; }
-
-        public IList<EPAGroupDetailModel> EPAGroupDetails { get; set; }
+        public int StatusId { get; set; }        
     }
 }

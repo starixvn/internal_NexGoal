@@ -20,10 +20,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         var totalScore = 0;
 
         angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-            totalScore += kpiGroup.EvaluatorScore;
+            angular.forEach(kpiGroup.KPIs, function (kpi) {
+                totalScore += kpi.CurrentEvaluation.Score;
+            });
         });
 
-        vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(totalScore);
+        vm.epaInfo.Process.CurrentProcess.TotalScore = totalScore;
         var maxTotalScore = vm.epaInfo.Process.CurrentProcess.MaxTotalScore;
         vm.epaInfo.Process.CurrentProcess.TotalScore = EmployeeEPAModel.checkScore(vm.epaInfo.Process.CurrentProcess.TotalScore, 0, maxTotalScore);
 
@@ -78,6 +80,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
 
     evaluatorManagementModel.validateEPA = function (epaInfo) {
         var isValid = true;
+        if (!epaInfo.Process.CurrentProcess.Comment || epaInfo.Process.CurrentProcess.Comment.length === 0) {
+            isValid = false;
+            epaInfo.Process.CurrentProcess.IsMissingComment = true;
+        } else {
+            epaInfo.Process.CurrentProcess.IsMissingComment = false;
+        }
 
         angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
             angular.forEach(kpiGroup.KPIs, function (kpi) {
@@ -145,6 +153,17 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     evaluatorManagementModel.getEPAInfoByEvaluator = function (epaId) {
         return employeeEPAFactory.getEPAInfoByEvaluator(epaId)
         .success(function (epaInfo) {
+            angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
+                var score = 0;
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    if (kpi.EvaluationBySelf.Score) {
+                        score += kpi.EvaluationBySelf.Score;
+                    }
+                });
+
+                kpiGroup.selfScore = score;
+            });
+
             evaluatorManagementModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
@@ -222,7 +241,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-	evaluatorManagementModel.getHRMSummaryOnProbation = function (employeeId) {
+    evaluatorManagementModel.getHRMSummaryOnProbation = function (employeeId) {
         return integrateFactory.getHRMSummaryOnProbation(employeeId).success(function (hrmSummary) {
             var total = {};
 
@@ -258,7 +277,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             errorFactory.errorHandle(status);
         });
     };
-	
+
     function convertDecimalHoursToString(value) {
         var convertedValue = "0";
 

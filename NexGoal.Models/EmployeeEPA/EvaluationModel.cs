@@ -22,7 +22,7 @@ namespace NexGoal.Model.EmployeeEPA
 
         public string ScoreEncode { get; set; }
 
-        public float Score { get; set; }
+        public double Score { get; set; }
 
         public string RateEncode { get; set; }
 
@@ -32,13 +32,13 @@ namespace NexGoal.Model.EmployeeEPA
 
         public bool IsMaxScore { get; set; }
 
-        public float Weight { get; set; }
+        public double Weight { get; set; }
 
         public void Decrypt()
         {
             ICertificateService certificateService = new CertificateService();
 
-            Score = string.IsNullOrEmpty(ScoreEncode) ? 0 : float.Parse(certificateService.Decrypt(ScoreEncode));
+            Score = string.IsNullOrEmpty(ScoreEncode) ? 0 : double.Parse(certificateService.Decrypt(ScoreEncode));
             Rate = string.IsNullOrEmpty(RateEncode) ? 0 : float.Parse(certificateService.Decrypt(RateEncode));
         }
     }

@@ -15,7 +15,7 @@
             Managements = new List<EPAProcessModel>();
         }
 
-        public float AverageScoreByEvaluators
+        public double AverageScoreByEvaluators
         {
             get
             {
@@ -23,7 +23,7 @@
             }
         }
 
-        public float AverageScoreByReviewers
+        public double AverageScoreByReviewers
         {
             get
             {
@@ -31,7 +31,7 @@
             }
         }
 
-        public float AverageScoreByManagements
+        public double AverageScoreByManagements
         {
             get
             {
@@ -39,11 +39,11 @@
             }
         }
 
-        public float MaxPerformanceScore
+        public double MaxPerformanceScore
         {
             get
             {
-                float maxPerformanceScore = 0;
+                double maxPerformanceScore = 0;
 
                 if (Managements.Count > 0)
                 {
@@ -62,11 +62,11 @@
             }
         }
 
-        public float PerformanceScore
+        public double PerformanceScore
         {
             get
             {
-                float performanceScore = AverageScoreByEvaluators;
+                double performanceScore = AverageScoreByEvaluators;
 
                 if (Managements.Count > 0)
                 {

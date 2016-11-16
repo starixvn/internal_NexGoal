@@ -8,11 +8,12 @@
     using NexGoal.Core.Constants;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
+    using System.Globalization;
+    using System;
 
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
         private const string KPIScoreXmlTemplate = "<KPI KPIId='{0}' KPIGroupId='{1}' Score='{2}' Rate='{3}' IsMaxScore='{4}' Comment='{5}'></KPI>";
-        private const string GroupKPIXml = "<GroupKPI GroupId='{0}' Score='{1}'></GroupKPI>";
 
         public int EPAId { get; set; }
 
@@ -68,38 +69,6 @@
                 kpiDetailXml.Append(Constants.EndRootTag);
 
                 return kpiDetailXml.ToString();
-            }
-        }
-
-        public string GroupKPIDetails
-        {
-            get
-            {
-                var groupKPIDetailXml = new StringBuilder(Constants.BeginRootTag);
-
-                foreach (EPAKPIGroupModel kpiGroup in KPIGroups)
-                {
-                    var totalScore = 0.0;
-                    var isMaxScore = true;
-                    foreach (EPAKPIModel kpi in kpiGroup.KPIs)
-                    {
-                        string scoreString = kpi.CurrentEvaluation.Score > 0 ? kpi.CurrentEvaluation.Score.ToString() : "0";
-                        isMaxScore = isMaxScore ? kpi.CurrentEvaluation.Rate == Constants.MaxNumberStar : isMaxScore;
-
-                        totalScore += float.Parse(scoreString);
-                    }
-
-                    totalScore = isMaxScore ? kpiGroup.Weight.Value : totalScore;
-
-                    groupKPIDetailXml.AppendFormat(
-                        GroupKPIXml,
-                        kpiGroup.KPIGroupId,
-                        Encrypt(totalScore.ToString()));
-                }
-
-                groupKPIDetailXml.Append(Constants.EndRootTag);
-
-                return groupKPIDetailXml.ToString();
             }
         }
 

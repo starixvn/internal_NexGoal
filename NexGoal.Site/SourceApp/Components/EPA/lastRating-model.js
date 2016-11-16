@@ -35,7 +35,7 @@ function (employeeEPAFactory, utilitiesFactory, errorFactory) {
             }
         });
 
-        return count > 0 ? utilitiesFactory.splitNumber(lastScore / count, 2) : "";
+        return count > 0 ? lastScore / count : "";
     };
 
     LastRating.getLastWeight = function (groupId, kpiId) {
@@ -69,14 +69,9 @@ function (employeeEPAFactory, utilitiesFactory, errorFactory) {
         var subScore = 0;
         angular.forEach(LastRating.groups, function (group) {
             if (group.KPIGroupId === kpiGroupId) {
-                var score = 0, count = 0;
-                angular.forEach(group.EvaluatorsScore, function (evaluator) {
-                    if (evaluator.Score) {
-                        score += evaluator.Score;
-                        count++;
-                    }
+                angular.forEach(group.KPIs, function (kpi) {
+                    subScore += LastRating.getLastScore(kpiGroupId, kpi.KPIId);
                 });
-                subScore = count > 0 ? score / count : subScore;
             }
         });
 

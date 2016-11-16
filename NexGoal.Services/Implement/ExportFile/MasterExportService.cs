@@ -668,8 +668,6 @@
                 var cell = row.CreateCell(i);
                 cell.CellStyle = bodyStyleCenter;
             }
-
         }
-
     }
 }

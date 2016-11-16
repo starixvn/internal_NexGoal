@@ -15,7 +15,7 @@
 
         public IList<EPAModel> MonthlyEPAs { get; set; }
 
-        public float AverageSelfScore
+        public double AverageSelfScore
         {
             get
             {
@@ -23,7 +23,7 @@
             }
         }
 
-        public float AverageEvaluatorScores
+        public double AverageEvaluatorScores
         {
             get
             {
@@ -31,7 +31,7 @@
             }
         }
 
-        public float AverageReviewerScores
+        public double AverageReviewerScores
         {
             get
             {
@@ -39,15 +39,15 @@
             }
         }
 
-        public float AverageSelfScoreConverted { get; set; }
+        public double AverageSelfScoreConverted { get; set; }
 
-        public float AverageEvaluatorScoreConverted { get; set; }
+        public double AverageEvaluatorScoreConverted { get; set; }
 
-        public float AverageReviewerScoreConverted { get; set; }
+        public double AverageReviewerScoreConverted { get; set; }
 
-        private float CalculateAverageScore(int processType)
+        private double CalculateAverageScore(int processType)
         {
-            float average = 0;
+            double average = 0;
             int count = 0;
 
             var finishedMonthlyEPAs = MonthlyEPAs.Where(x => x.Period.IsEndPeriod);

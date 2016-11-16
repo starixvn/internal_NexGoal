@@ -69,9 +69,9 @@
             return nominations;
         }
 
-        public IEnumerable<NominationEPAModel> GetNominationByPeriodId(int nomineeId, int periodId)
+        public IEnumerable<NominationEPAModel> GetNominationByPeriodId(int employeeId, int periodId)
         {   
-            IEnumerable<NominationEPAModel> nominations = nominationService.GetNominationByPeriodId(nomineeId, periodId);
+            IEnumerable<NominationEPAModel> nominations = nominationService.GetNominationByPeriodId(employeeId, periodId);
 
             return nominations;
         }        

@@ -89,8 +89,7 @@
                 <td colspan="13">{{group.Name}}</td>
             </tr>
             <tr ng-repeat="member in group.Members"
-                ng-class="{'noticeable-performance very-good': member.Contribution + member.BonusGiven >
-                8 && !member.IsReadyPromotion,
+                ng-class="{'noticeable-performance very-good': member.Contribution + member.BonusGiven > 8 && !member.IsReadyPromotion,
                 'noticeable-performance outstanding': member.Contribution + member.BonusGiven > 8 && member.IsReadyPromotion,
                 'noticeable-performance poor': member.Contribution + member.BonusGiven < 4 && member.Contribution > 0 && member.BonusGiven > 0 }">
                 <td class="text-center" ng-bind="$index + 1"></td>
@@ -164,7 +163,7 @@
                           member.LastCompletedPercentObjective.length === 0"></span>
                 </td>
                 <td class="text-center">
-                    <span ng-if="member.FinalScore">{{member.FinalScore | customScore}}</span>
+                    <span ng-if="member.FinalScore">{{member.FinalScore | integerScore}}</span>
                     <span ng-if="!member.FinalScore" data-translate="Dash"></span>
                 </td>
                 <td ng-class="{'text-center': member.NextDescriptionObjective.length === 0}">

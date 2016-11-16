@@ -173,18 +173,7 @@
                 foreach (EPAProcessModel process in epaInfo.EPAProcesses)
                 {
                     process.TotalScore = certificateService.Decrypt(cert2, process.TotalScore);
-                    process.AdjustScore = certificateService.Decrypt(cert2, process.AdjustScore);
-
-                    foreach (EPAGroupDetailModel gr in process.EPAGroupDetails)
-                    {
-                        gr.Score = certificateService.Decrypt(cert2, gr.Score);
-
-                        foreach (EPADetailModel detail in gr.EPADetails)
-                        {
-                            detail.Score = certificateService.Decrypt(cert2, detail.Score);
-                            detail.Rate = certificateService.Decrypt(cert2, detail.Rate);
-                        }
-                    }
+                    process.AdjustScore = certificateService.Decrypt(cert2, process.AdjustScore);                    
                 }
             }
         }
@@ -199,18 +188,7 @@
                 foreach (EPAProcessModel process in epaInfo.EPAProcesses)
                 {
                     process.TotalScore = certificateService.Encrypt(cert2, process.TotalScore);
-                    process.AdjustScore = certificateService.Encrypt(cert2, process.AdjustScore);
-
-                    foreach (EPAGroupDetailModel gr in process.EPAGroupDetails)
-                    {
-                        gr.Score = certificateService.Encrypt(cert2, gr.Score);
-
-                        foreach (EPADetailModel detail in gr.EPADetails)
-                        {
-                            detail.Score = certificateService.Encrypt(cert2, detail.Score);
-                            detail.Rate = certificateService.Encrypt(cert2, detail.Rate);
-                        }
-                    }
+                    process.AdjustScore = certificateService.Encrypt(cert2, process.AdjustScore);                    
                 }
             }
         }

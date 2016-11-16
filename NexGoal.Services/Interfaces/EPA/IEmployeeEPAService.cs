@@ -49,7 +49,7 @@
 
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
 
-        string ConvertScoreToGrade(float score, IEnumerable<StandardGradeModel> standardGrades);
+        string ConvertScoreToGrade(double score, IEnumerable<StandardGradeModel> standardGrades);
 
         int CheckEmployeePermission(GetEmployeePermissionCriteria criteria);
 

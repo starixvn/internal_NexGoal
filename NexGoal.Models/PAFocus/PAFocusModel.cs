@@ -12,7 +12,7 @@
 
         public int PeriodId { get; set; }
 
-        public float? FinalScore { get; set; }
+        public double? FinalScore { get; set; }
 
         public string EncryptedFinalScore { get; set; }
 
@@ -43,7 +43,7 @@
             IsPoorPerformance = string.IsNullOrEmpty(EncryptedIsPoorPerformance) ? IsPoorPerformance : bool.Parse(encryptService.Decrypt(EncryptedIsPoorPerformance));
             Contribution = string.IsNullOrEmpty(EncryptedContribution) ? Contribution : int.Parse(encryptService.Decrypt(EncryptedContribution));
             BonusGiven = string.IsNullOrEmpty(EncryptedBonusGiven) ? BonusGiven : int.Parse(encryptService.Decrypt(EncryptedBonusGiven));
-            FinalScore = string.IsNullOrEmpty(EncryptedFinalScore) ? FinalScore : float.Parse(encryptService.Decrypt(EncryptedFinalScore));
+            FinalScore = string.IsNullOrEmpty(EncryptedFinalScore) ? FinalScore : double.Parse(encryptService.Decrypt(EncryptedFinalScore));
         }
 
         public void Encrypt()

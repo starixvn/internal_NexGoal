@@ -9,7 +9,7 @@
 
         public EPAPeriodModel Period { get; set; }
 
-        public float FinalScore { get; set; }
+        public double FinalScore { get; set; }
 
         public string EncodeFinalScore { get; set; }
 
@@ -27,7 +27,7 @@
         {
             ICertificateService certificateService = new CertificateService();
 
-            FinalScore = !string.IsNullOrWhiteSpace(EncodeFinalScore) ? float.Parse(certificateService.Decrypt(EncodeFinalScore)) : 0;
+            FinalScore = !string.IsNullOrWhiteSpace(EncodeFinalScore) ? double.Parse(certificateService.Decrypt(EncodeFinalScore)) : 0;
             Grade = !string.IsNullOrWhiteSpace(EncodeGrade) ? certificateService.Decrypt(EncodeGrade) : string.Empty;
         }
     }

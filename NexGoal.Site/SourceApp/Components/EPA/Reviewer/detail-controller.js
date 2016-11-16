@@ -132,50 +132,8 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
             }
         });
 
-        return count > 0 ? utilitiesFactory.splitNumber(totalScore / count, 2) : 0;
-    }
-
-    function calculateEvaluatorScoreOnKPI(kpi) {
-        var averageScore = 0;
-        var averageStar = 0;
-
-        if (kpi.EvaluationByEvaluators.length > 0) {
-            var score = 0;
-            var star = 0;
-            var length = 0;
-            angular.forEach(kpi.EvaluationByEvaluators, function (evaluator) {
-                if (evaluator.ScoreEncode) {
-                    score += evaluator.Score;
-                    star += evaluator.Rate;
-                    length++;
-                }
-            });
-
-            averageScore = score / length;
-            averageStar = star / length;
-        }
-
-        kpi.EvaluatorScore = utilitiesFactory.splitNumber(averageScore, 2);
-        kpi.EvaluatorStar = utilitiesFactory.splitNumber(averageStar, 2);
-    }
-
-    function calculateEvaluatorScoreOnGroup(kpiGroup) {
-        if (kpiGroup.EvaluatorsScore.length === 0) {
-            return 0;
-        }
-
-
-        var score = 0;
-        var length = 0;
-        angular.forEach(kpiGroup.EvaluatorsScore, function (evaluator) {
-            if (evaluator.Score !== 0) {
-                score += evaluator.Score;
-                length++;
-            }
-        });
-
-        return utilitiesFactory.splitNumber(score / length, 2);
-    }
+        return count > 0 ? totalScore / count : 0;
+    } 
 
     function getIntegrationInformation() {
         if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
@@ -201,15 +159,6 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
             $scope.epaInfo = vm.epaInfo;
             var averageScoreEvaluators = calculateAverageEvaluator(vm.epaInfo.Process.Evaluators);
-
-            angular.forEach(vm.epaInfo.KPIGroups, function (kpiGroup) {
-                angular.forEach(kpiGroup.KPIs, function (kpi) {
-                    calculateEvaluatorScoreOnKPI(kpi);
-                });
-                var scoreOfGroup = calculateEvaluatorScoreOnGroup(kpiGroup);
-
-                kpiGroup.EvaluatorScore = scoreOfGroup;
-            });
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);

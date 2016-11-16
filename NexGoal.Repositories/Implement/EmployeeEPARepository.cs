@@ -20,17 +20,13 @@
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EPAKPIGroupModel> groups = multi.Read<EPAKPIGroupModel>();
-
-                    IEnumerable<EvaluationModel> groupScore = multi.Read<EvaluationModel>();
+                    IEnumerable<EPAKPIGroupModel> groups = multi.Read<EPAKPIGroupModel>();                    
 
                     IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
 
                     IEnumerable<EvaluationModel> scoreByKPIs = multi.Read<EvaluationModel>();
 
-                    GroupKPIByKPIGroup(groups, kpis);
-
-                    GroupEvaluatorScoreOnGroup(groups, groupScore);
+                    GroupKPIByKPIGroup(groups, kpis);                    
 
                     foreach (EPAKPIGroupModel kpiGroup in groups)
                     {
@@ -60,19 +56,12 @@
 
                         return epaInfo;
                     },
-                    "EmployeeId, RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId");
+                    "EmployeeId, RatingTypeId, StatusId, PeriodId, ScoreRatingTypeId");                    
 
-                    var kpiGroups = multi.Read<EPAKPIGroupModel>();
-
-                    IEnumerable<EvaluationModel> groupScore = multi.Read<EvaluationModel>();
-
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
-
-                    GroupKPIGroupOnEPA(epaInfos, kpiGroups);
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();                    
                     GroupEPAProcessByEPA(epaInfos, processes);
                     foreach (EPAModel epaInfo in epaInfos)
                     {
-                        GroupEvaluatorScoreOnGroup(epaInfo.KPIGroups, groupScore);
                         epaInfo.Decrypt();
                     }
 
@@ -107,9 +96,7 @@
                     {
                         IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
 
-                        epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();
-
-                        IEnumerable<EvaluationModel> groupScore = multi.Read<EvaluationModel>();
+                        epaInfo.KPIGroups = multi.Read<EPAKPIGroupModel>().ToList();                        
 
                         IEnumerable<EPAKPIModel> kpis = multi.Read<EPAKPIModel>();
 
@@ -117,7 +104,6 @@
 
                         GroupEPAProcessByEPA(epaInfo, processes);
                         GroupKPIByKPIGroup(epaInfo.KPIGroups, kpis);
-                        GroupEvaluatorScoreOnGroup(epaInfo.KPIGroups, groupScore);
 
                         foreach (EPAKPIGroupModel kpiGroup in epaInfo.KPIGroups)
                         {
@@ -343,16 +329,7 @@
         }
 
         #endregion Rating By KPI
-
-        private void GroupKPIGroupOnEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAKPIGroupModel> kpiGroups)
-        {
-            foreach (var epa in epaInfos)
-            {
-                var group = kpiGroups.Where(i => i.EPAId.Equals(epa.EPAId));
-                epa.KPIGroups = group.ToList();
-            }
-        }
-
+        
         private void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAProcessModel process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))

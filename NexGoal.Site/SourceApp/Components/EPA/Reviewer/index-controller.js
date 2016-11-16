@@ -3,7 +3,7 @@
 
 epaModule.controller('IndexReviewerController',
 ['$translate', '$location', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'enumerationsFactory',
-    'utilitiesFactory', 'notificationFactory', 'historyFactory', 'baseUrl','lockScreenService',
+    'utilitiesFactory', 'notificationFactory', 'historyFactory', 'baseUrl', 'lockScreenService',
 function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel, enumerationsFactory,
     utilitiesFactory, notificationFactory, historyFactory, baseUrl, lockScreenService) {
     var vm = this;
@@ -20,6 +20,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.policyEnum = enumerationsFactory.policy;
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.filter = {};
+    vm.minScore = -10;
+    vm.maxScore = 10;
 
     function initFilter() {
         var filter = historyFactory.getState();
@@ -309,17 +311,16 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.inputScore = function (memberEPA) {
         var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
         maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore,
-        adjustScore = memberEPA.Process.CurrentProcess.AdjustScore === "" ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;
-        var defaultAdditionScore = 10, defaultSubtractScore = -10;
+        adjustScore = memberEPA.Process.CurrentProcess.AdjustScore === "" ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;        
 
         if (adjustScore > maxAdditionScore) {
-            if (maxAdditionScore < defaultAdditionScore) {
+            if (maxAdditionScore < vm.minScore) {
                 notificationFactory.error('AdjustScoreInvalid');
             }
 
             memberEPA.Process.CurrentProcess.AdjustScore = maxAdditionScore;
         } else if (adjustScore < maxSubtractScore) {
-            if (maxSubtractScore > defaultSubtractScore) {
+            if (maxSubtractScore > vm.maxScore) {
                 notificationFactory.error('AdjustScoreInvalid');
             }
 

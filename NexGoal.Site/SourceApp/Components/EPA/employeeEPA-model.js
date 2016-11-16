@@ -12,9 +12,62 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
     employeeEPAModel.epaInfos = [];
     employeeEPAModel.selftEvaluatorPermission = 0;
 
+    function calculateEvaluatorScoreOnKPI(kpi) {
+        var averageScore = 0;
+        var averageStar = 0;
+
+        if (kpi.EvaluationByEvaluators.length > 0) {
+            var score = 0, star = 0, length = 0;
+            angular.forEach(kpi.EvaluationByEvaluators, function (evaluator) {
+                if (evaluator.ScoreEncode) {
+                    score += evaluator.Score;
+                    star += evaluator.Rate;
+                    length++;
+                }
+            });
+
+            averageScore = score / length;
+            averageStar = star / length;
+        }
+
+        kpi.EvaluatorScore = averageScore;
+        kpi.EvaluatorStar = averageStar;
+    }
+
+    function calculateEvaluatorScoreOnGroup(kpiGroup) {
+        var score = 0;
+        angular.forEach(kpiGroup.KPIs, function (kpi) {
+            if (kpi.EvaluatorScore !== 0) {
+                score += kpi.EvaluatorScore;
+            }
+        });
+
+        return score;
+    }
+
     employeeEPAModel.getEPAInfoById = function (epaId) {
         return employeeEPAFactory.getEPAInfoById(epaId)
         .success(function (epaInfo) {
+            angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
+                var score = 0;
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    if (kpi.EvaluationBySelf.Score) {
+                        score += kpi.EvaluationBySelf.Score;
+                    }
+                });
+
+                kpiGroup.selfScore = score;
+            });
+
+            angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
+                angular.forEach(kpiGroup.KPIs, function (kpi) {
+                    calculateEvaluatorScoreOnKPI(kpi);
+                });
+                var scoreOfGroup = calculateEvaluatorScoreOnGroup(kpiGroup);
+
+                kpiGroup.evaluatorScore = scoreOfGroup;
+            });
+
             employeeEPAModel.epaInfo = epaInfo;
         }).error(function (response, status) {
             errorFactory.errorHandle(status);

@@ -46,14 +46,14 @@
                 if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
                 {
                     EPAModel evaluationInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
-                    float averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
+                    double averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
 
                     UpdateTotalScoreOfProcess(evaluationProcess, averageScore);
                 }
             }
         }
 
-        private CommandResult UpdateTotalScoreOfProcess(AutoEmployeePeriodModel process, float score)
+        private CommandResult UpdateTotalScoreOfProcess(AutoEmployeePeriodModel process, double score)
         {
             var commandResult = new CommandResult();
             var criteria = new UpdateTotalScoreOfProcessCriteria
@@ -100,9 +100,9 @@
             return evaluationProcesses;
         }
 
-        private float GetAverageScorePreProcess(EPAModel evaluationInfo, int processId)
+        private double GetAverageScorePreProcess(EPAModel evaluationInfo, int processId)
         {
-            float averageScore = 0;
+            double averageScore = 0;
 
             switch (processId)
             {

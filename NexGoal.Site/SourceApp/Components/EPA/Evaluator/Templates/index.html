@@ -69,7 +69,7 @@
                         <td ng-bind="memberEPA.Period.Name"></td>
                         <td class="text-center">
                             <span ng-show="memberEPA.Process.Self.IsEndProcess">
-                                <span ng-if="memberEPA.Process.Self.TotalScore">{{memberEPA.Process.Self.TotalScore | customScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}</span>
+                                <span ng-if="memberEPA.Process.Self.TotalScore">{{memberEPA.Process.Self.TotalScore | integerScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}</span>
                                 <span ng-if="!memberEPA.Process.Self.TotalScore" data-translate="Dash"></span>
                             </span>
                             <span ng-show="!memberEPA.Process.Self.IsEndProcess" data-translate="Pending"></span>

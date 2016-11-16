@@ -26,7 +26,7 @@
         public string FinalScore { get; set; }
 
         [SpParam(Ignored = true)]
-        public float DisciplineScore { get; set; }
+        public double DisciplineScore { get; set; }
 
         [SpParam(Ignored = true)]
         public string Grade { get; set; }
@@ -41,7 +41,7 @@
             return "EpaAuto_UpdateFinalScoreEndEvaluation";
         }
 
-        public string ConvertToXml(int evaluationId, string finalScore, float disciplineScore, string grade)
+        public string ConvertToXml(int evaluationId, string finalScore, double disciplineScore, string grade)
         {
             var epaXmlBuilder = new StringBuilder(BeginRootTag);
 

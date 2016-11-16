@@ -412,7 +412,7 @@
 
             foreach (EPAModel epaInfo in selectedEPAs)
             {
-                float averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
+                double averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
                     finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
@@ -493,9 +493,9 @@
             return employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
         }
 
-        private float GetFinalScoreOfEPA(EPAModel epaInfo)
+        private double GetFinalScoreOfEPA(EPAModel epaInfo)
         {
-            float finalScore = 0;
+            double finalScore = 0;
 
             if (epaInfo.Process.Managements.Any())
             {
