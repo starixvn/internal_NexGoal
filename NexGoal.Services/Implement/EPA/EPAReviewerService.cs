@@ -134,7 +134,7 @@
                         maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators;
                     }
 
-                    epaInfo.Process.CurrentProcess.MaxAdditionScore = (float)Math.Round(maxAdditionScore, Constants.NumberOfDecimalDefault);
+                    epaInfo.Process.CurrentProcess.MaxAdditionScore = (int)maxAdditionScore;
                     break;
             }
         }
