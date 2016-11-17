@@ -37,13 +37,14 @@
                 <td class="default-tooltip"
                     ng-if="$index === 0" rowspan="{{::memberEPAInfoCtrl.hrmSummary.Data.length + 1}}">
                     <span tooltip-html-unsafe='<div><b>Listening:</b> {{item.ListeningScore}}<br/><b>Reading:</b>: {{item.ReadingScore}}</div>'
-                          tooltip-placement="top">
+                          tooltip-placement="top" ng-if="item.UpdatedDateTOEIC">
                         {{item.ListeningScore + item.ReadingScore}}
                         <br />
                         <span>
                             ({{item.UpdatedDateTOEIC | customDate}})
                         </span>
                     </span>
+                    <span ng-if="!item.UpdatedDateTOEIC>0" data-translate="Dash"></span>
                 </td>
             </tr>
             <tr class="text-center total-row">

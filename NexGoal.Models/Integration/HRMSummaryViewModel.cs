@@ -24,10 +24,10 @@ namespace NexGoal.Model.Integration
 
         public int NumberOvertime { get; set; }
 
-        public int ReadingScore { get; set; }
+        public int? ReadingScore { get; set; }
 
-        public int ListeningScore { get; set; }
+        public int? ListeningScore { get; set; }
 
-        public DateTime UpdatedDateTOEIC { get; set; }
+        public DateTime? UpdatedDateTOEIC { get; set; }
     }
 }
