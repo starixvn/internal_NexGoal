@@ -111,12 +111,13 @@
                             <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>
                         </td>
                         <td ng-bind="memberEPA.Employee.JobTitleName"></td>
-                        <td class="text-center" ng-switch="memberEPA.Process.Self.IsEndProcess">
-                            <span ng-if="memberEPA.Process.Self.IsEndProcess"></span>
-                            <span ng-if="memberEPA.Process.Self.TotalScore">
-                                {{memberEPA.Process.Self.TotalScore | integerScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
-                            </span>
-                            <span ng-if="memberEPA.Process.Self.TotalScore==0" data-translate="Dash"></span>
+                        <td class="text-center">
+                            <div ng-if="memberEPA.Process.Self.IsEndProcess">
+                                <span ng-if="memberEPA.Process.Self.TotalScore">
+                                    {{memberEPA.Process.Self.TotalScore | integerScore}} / {{memberEPA.ScoreRatingType.SelfEvaluated | customScore}}
+                                </span>
+                                <span ng-if="memberEPA.Process.Self.TotalScore==0" data-translate="Dash"></span>
+                            </div>
                             <div ng-if="!memberEPA.Process.Self.IsEndProcess" data-translate="Pending"></div>
                         </td>
                         <td class="text-center" ng-switch="memberEPA.Process.Evaluators[0].IsEndProcess">

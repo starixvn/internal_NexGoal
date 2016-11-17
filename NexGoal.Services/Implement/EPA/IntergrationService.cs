@@ -81,8 +81,7 @@
                     result = this.integrationRepository.GetEmployeeWorking(criteria);
                     Decrypt(result);
                 }
-            }
-            
+            }            
 
             return result;
         }

@@ -111,7 +111,6 @@
                 {
                     result = nominationRepository.GetNominationByPeriodId(criteria);
                 }
-
             }
 
             return result;
