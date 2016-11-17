@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using Core.Constants;
+    using Core.Enumerations;
     using IBCCrypt;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
@@ -16,16 +18,18 @@
         private const string KeyCryptography = "NexEPA08062014";
         private IPeriodService periodService;
         private IIntegrationRepository integrationRepository;
+        private ISessionService sessionService;
 
         public IntegrationService()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
-        public IntegrationService(IPeriodService periodService, IIntegrationRepository integrationRepository)
+        public IntegrationService(IPeriodService periodService, IIntegrationRepository integrationRepository, ISessionService sessionService)
         {
             this.periodService = periodService ?? new PeriodService();
             this.integrationRepository = integrationRepository ?? new IntegrationRepository();
+            this.sessionService = sessionService ?? new SessionService();
         }
 
         public IEnumerable<HRMSummaryViewModel> GetHRMSummary(int employeeId, int periodId)
@@ -49,12 +53,12 @@
         public IEnumerable<HRMSummaryViewModel> GetHRMSummaryOnProbation(int employeeId)
         {
             IEnumerable<HRMSummaryViewModel> result = new List<HRMSummaryViewModel>();
-            
-                var criteria = new GetHRMSummaryOnProbationCriteria
-                {
-                    EmployeeId = employeeId
-                };
-                result = GetData<HRMSummaryViewModel>(criteria);
+
+            var criteria = new GetHRMSummaryOnProbationCriteria
+            {
+                EmployeeId = employeeId
+            };
+            result = GetData<HRMSummaryViewModel>(criteria);
 
             return result;
         }
@@ -62,18 +66,23 @@
         public IEnumerable<EmployeeWorkingViewModel> GetEmployeeWorking(int employeeId, int periodId)
         {
             IEnumerable<EmployeeWorkingViewModel> result = new List<EmployeeWorkingViewModel>();
-            PeriodModel period = periodService.GetPeriodById(periodId);
-            if (period != null)
+            var policyToView = CheckPermissionToViewNexPM(employeeId);
+            if (policyToView != Policy.None)
             {
-                var criteria = new GetEmployeeWorkingByEmployeeIdCriteria
+                PeriodModel period = periodService.GetPeriodById(periodId);
+                if (period != null)
                 {
-                    EmployeeId = employeeId,
-                    StartDate = period.AttendanceStartDate.Value,
-                    EndDate = period.AttendanceEndDate.Value
-                };
-                result = this.integrationRepository.GetEmployeeWorking(criteria);
-                Decrypt(result);
+                    var criteria = new GetEmployeeWorkingByEmployeeIdCriteria
+                    {
+                        EmployeeId = employeeId,
+                        StartDate = period.AttendanceStartDate.Value,
+                        EndDate = period.AttendanceEndDate.Value
+                    };
+                    result = this.integrationRepository.GetEmployeeWorking(criteria);
+                    Decrypt(result);
+                }
             }
+            
 
             return result;
         }
@@ -133,6 +142,18 @@
             }
 
             return result;
+        }
+
+        private Policy CheckPermissionToViewNexPM(int employeeId)
+        {
+            if (employeeId != sessionService.EmployeeId)
+            {
+                var policy = sessionService.CurrentUser.GetPermission(FunctionKey.Evaluator) + sessionService.CurrentUser.GetPermission(FunctionKey.Reviewer);
+
+                return policy > (int)Policy.None ? Policy.Read : Policy.None;
+            }
+
+            return Policy.Read;
         }
     }
 }

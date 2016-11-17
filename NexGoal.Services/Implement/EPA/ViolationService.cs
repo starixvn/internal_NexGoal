@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using Core.Constants;
+    using Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Violation;
@@ -11,15 +13,17 @@
     public class ViolationService : BaseService, IViolationService
     {
         private readonly IViolationRepository violationRepository;
+        private ISessionService sessionService;
 
         public ViolationService()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public ViolationService(IViolationRepository violationRepository)
+        public ViolationService(IViolationRepository violationRepository, ISessionService sessionService)
         {
             this.violationRepository = violationRepository ?? new ViolationRepository();
+            this.sessionService = sessionService ?? new SessionService();
         }
 
         public CommandResult Insert(CreateViolationCriteria criteria)
@@ -84,12 +88,28 @@
         public IEnumerable<ViolationViewModel> GetByPeriodId(GetViolationByPeriodIdCriteria criteria)
         {
             IEnumerable<ViolationViewModel> model = new List<ViolationViewModel>();
-            if (criteria != null && criteria.IsValid())
+            var policyToView = CheckPermissionToView(criteria.EmployeeId);
+            if (policyToView != Policy.None)
             {
-                model = this.violationRepository.Get(criteria);
+                if (criteria != null && criteria.IsValid())
+                {
+                    model = this.violationRepository.Get(criteria);
+                }
             }
 
             return model;
+        }
+
+        private Policy CheckPermissionToView(int employeeId)
+        {
+            if (employeeId != sessionService.EmployeeId)
+            {
+                var policy = sessionService.CurrentUser.GetPermission(FunctionKey.Evaluator) + sessionService.CurrentUser.GetPermission(FunctionKey.Reviewer);
+
+                return policy > (int)Policy.None ? Policy.Read : Policy.None;
+            }
+
+            return Policy.Read;
         }
     }
 }

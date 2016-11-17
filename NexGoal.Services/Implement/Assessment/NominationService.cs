@@ -98,17 +98,20 @@
         public IEnumerable<NominationEPAModel> GetNominationByPeriodId(int nomineeId, int periodId)
         {
             IEnumerable<NominationEPAModel> result = new List<NominationEPAModel>();
-
-            var permission = sessionService.CurrentUser.GetPermission(FunctionKey.Nomination);
-            var criteria = new GetNominationByPeriodIdCriteria
+            var policyToView = CheckPermissionToViewNomination(nomineeId);
+            if (policyToView != Policy.None)
             {
-                PeriodId = periodId,
-                NomineeId = permission == (int)Policy.None ? sessionService.EmployeeId : nomineeId
-            };
+                var criteria = new GetNominationByPeriodIdCriteria
+                {
+                    PeriodId = periodId,
+                    NomineeId = nomineeId
+                };
 
-            if (criteria != null && criteria.IsValid())
-            {
-                result = nominationRepository.GetNominationByPeriodId(criteria);
+                if (criteria.IsValid())
+                {
+                    result = nominationRepository.GetNominationByPeriodId(criteria);
+                }
+
             }
 
             return result;
@@ -319,5 +322,17 @@
         }
 
         #endregion Export Excel
+
+        private Policy CheckPermissionToViewNomination(int employeeId)
+        {
+            if (employeeId != sessionService.EmployeeId)
+            {
+                var policy = sessionService.CurrentUser.GetPermission(FunctionKey.Evaluator) + sessionService.CurrentUser.GetPermission(FunctionKey.Reviewer);
+
+                return policy > (int)Policy.None ? Policy.Read : Policy.None;
+            }
+
+            return Policy.Read;
+        }
     }
 }
