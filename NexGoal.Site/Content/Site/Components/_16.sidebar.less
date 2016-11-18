@@ -225,28 +225,20 @@
     left: 0;
     z-index: 1000;
     display: block;
-    padding: 20px;
-    margin-top: 60px;
-    overflow-x: hidden;
-    overflow-y: auto;
-    top: 0;
-    padding: 10px 0 0 0;
-    background-color: @c-sidebar-bg;
+    margin-top: 10px;
+    background-color: #324373;
     max-height: 950px;
-    width: 40px;
+    width: 50px;
 
-    span {
-        display: none;
-    }
 
     .list-group {
         margin: 0;
         box-shadow: none;
 
-
         .fa {
             font-size: 16px;
             width: 28px;
+            color: white;
         }
 
         .fa-chevron-down {
@@ -282,37 +274,20 @@
         }
 
         .list-group-item {
-            border: none;
-            border-radius: 0;
-            padding: 6px 0;
-            line-height: 1.8rem;
+            padding: 0px 15px;
+            border: 0px;
+            background-color: #324373;
+            color: white;
 
-            &.sub-menu {
-                padding: 0;
-            }
-
-            &:hover {
-                cursor: pointer;
-            }
-
-            a {
-                padding: 6px 10px;
-                color: @c-sidebar-menu-item-text;
-                width: 100%;
-                display: inline-block;
-
-                &:hover, &:active, &:focus {
-                    text-decoration: none;
-                }
-            }
-
-            &.active {
-                background-color: transparent;
-                background-image: none;
-                text-shadow: none;
+            &:hover {                
+                background-color: rgba(0,0,0,.1);
             }
 
             &.no-sub {
+                span {
+                    display: none;
+                }
+
                 a {
                     font-weight: 600;
                 }
@@ -325,55 +300,66 @@
             }
 
             &.has-sub {
-                .sub-menu-title {
-                    color: @c-sidebar-menu-item-sub-text;
-                    display: block;
-                    font-weight: 600;
+                position: relative;
 
-                    &.collapsed {
-                        .fa-chevron-down {
-                            transform: rotate(-90deg);
-                        }
+                .sub-menu-title {
+                    color: @c-sidebar-menu-item-text;
+                    display: block;
+                    color: @c-sidebar-menu-item-sub-text;
+                    font-weight: 600;
+                    line-height: 5rem;
+
+                    &:hover, &:active, &:focus {
+                        text-decoration: none;
+                    }
+
+                    span {
+                        display: none;
+                        position: absolute;
+                        top: 0;
+                        right: -261px;
+                        background-color: #26A69A;
+                        padding: 0px 20px;
+                        width: 260px;
+                        text-align: left;
+                        color: #fff;
+                        cursor: default;
                     }
                 }
 
-                .sub-menu {
-                    display: none;
-
-                    a {
-                        padding-left: 48px;
-                        transition: 0.3s all ease;
-
-                        &:hover {
-                            color: #485e9c;
-                        }
+                &:hover {
+                    .sub-menu-title span, .list-group {
+                        display: block !important;
                     }
+                }
 
-                    &.active {
-                        background: @c-sidebar-menu-item-sub-link-active-text;
+                .list-group {
+                    position: absolute;
+                    right: -261px;
+                    top: 50px;
+                    width: 260px;
+                    display: none;
+                    background-color: #263238;
+                    color: white;
+
+                    .list-group-item {
+                        padding: 0px 20px;
 
                         a {
-                            color: #fff;
-                            font-weight: 500;
+                            color: white;
                         }
 
                         &:hover {
-                            a {
-                                color: #fff;
-                            }
+                            background-color: rgba(0,0,0,.1);
+                            cursor: pointer;
                         }
-                    }
-                }
 
-                &.active {
-                    > a {
-                        color: @c-sidebar-menu-item-sub-link-active-text;
+                        &:first-child {
+                            border-radius: 0px;
+                        }
                     }
                 }
             }
-            /*&:last-child {
-                padding-bottom: 0;
-            }*/
         }
     }
 

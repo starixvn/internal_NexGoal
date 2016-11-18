@@ -2184,18 +2184,10 @@ input[type=radio] {
   left: 0;
   z-index: 1000;
   display: block;
-  padding: 20px;
-  margin-top: 60px;
-  overflow-x: hidden;
-  overflow-y: auto;
-  top: 0;
-  padding: 10px 0 0 0;
-  background-color: #fff;
+  margin-top: 10px;
+  background-color: #324373;
   max-height: 950px;
-  width: 40px;
-}
-.sidebar-xs span {
-  display: none;
+  width: 50px;
 }
 .sidebar-xs .list-group {
   margin: 0;
@@ -2204,6 +2196,7 @@ input[type=radio] {
 .sidebar-xs .list-group .fa {
   font-size: 16px;
   width: 28px;
+  color: white;
 }
 .sidebar-xs .list-group .fa-chevron-down {
   display: none;
@@ -2230,35 +2223,16 @@ input[type=radio] {
   content: "\f022";
 }
 .sidebar-xs .list-group .list-group-item {
-  border: none;
-  border-radius: 0;
-  padding: 6px 0;
-  line-height: 1.8rem;
-  /*&:last-child {
-                padding-bottom: 0;
-            }*/
-}
-.sidebar-xs .list-group .list-group-item.sub-menu {
-  padding: 0;
+  padding: 0px 15px;
+  border: 0px;
+  background-color: #324373;
+  color: white;
 }
 .sidebar-xs .list-group .list-group-item:hover {
-  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
 }
-.sidebar-xs .list-group .list-group-item a {
-  padding: 6px 10px;
-  color: #484550;
-  width: 100%;
-  display: inline-block;
-}
-.sidebar-xs .list-group .list-group-item a:hover,
-.sidebar-xs .list-group .list-group-item a:active,
-.sidebar-xs .list-group .list-group-item a:focus {
-  text-decoration: none;
-}
-.sidebar-xs .list-group .list-group-item.active {
-  background-color: transparent;
-  background-image: none;
-  text-shadow: none;
+.sidebar-xs .list-group .list-group-item.no-sub span {
+  display: none;
 }
 .sidebar-xs .list-group .list-group-item.no-sub a {
   font-weight: 600;
@@ -2266,36 +2240,58 @@ input[type=radio] {
 .sidebar-xs .list-group .list-group-item.no-sub.active a {
   color: #324373;
 }
+.sidebar-xs .list-group .list-group-item.has-sub {
+  position: relative;
+}
 .sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title {
-  color: #545454;
+  color: #484550;
   display: block;
+  color: #545454;
   font-weight: 600;
+  line-height: 5rem;
 }
-.sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title.collapsed .fa-chevron-down {
-  transform: rotate(-90deg);
+.sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title:hover,
+.sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title:active,
+.sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title:focus {
+  text-decoration: none;
 }
-.sidebar-xs .list-group .list-group-item.has-sub .sub-menu {
+.sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title span {
   display: none;
-}
-.sidebar-xs .list-group .list-group-item.has-sub .sub-menu a {
-  padding-left: 48px;
-  transition: 0.3s all ease;
-}
-.sidebar-xs .list-group .list-group-item.has-sub .sub-menu a:hover {
-  color: #485e9c;
-}
-.sidebar-xs .list-group .list-group-item.has-sub .sub-menu.active {
-  background: #324373;
-}
-.sidebar-xs .list-group .list-group-item.has-sub .sub-menu.active a {
+  position: absolute;
+  top: 0;
+  right: -261px;
+  background-color: #26A69A;
+  padding: 0px 20px;
+  width: 260px;
+  text-align: left;
   color: #fff;
-  font-weight: 500;
+  cursor: default;
 }
-.sidebar-xs .list-group .list-group-item.has-sub .sub-menu.active:hover a {
-  color: #fff;
+.sidebar-xs .list-group .list-group-item.has-sub:hover .sub-menu-title span,
+.sidebar-xs .list-group .list-group-item.has-sub:hover .list-group {
+  display: block !important;
 }
-.sidebar-xs .list-group .list-group-item.has-sub.active > a {
-  color: #324373;
+.sidebar-xs .list-group .list-group-item.has-sub .list-group {
+  position: absolute;
+  right: -261px;
+  top: 50px;
+  width: 260px;
+  display: none;
+  background-color: #263238;
+  color: white;
+}
+.sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item {
+  padding: 0px 20px;
+}
+.sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item a {
+  color: white;
+}
+.sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+.sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item:first-child {
+  border-radius: 0px;
 }
 .sidebar-xs .panel-body {
   padding: 0;
