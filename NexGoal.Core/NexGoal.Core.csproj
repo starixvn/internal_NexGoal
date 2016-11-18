@@ -167,7 +167,6 @@
     <Compile Include="Services\Interfaces\ICertificateService.cs" />
     <Compile Include="Services\Interfaces\ISessionService.cs" />
     <Compile Include="Services\SessionService.cs" />
-    <Compile Include="Utilities\Avatar.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Utilities\ExcelTemplateWriter.cs" />
     <Compile Include="Utilities\FileUtilities.cs" />

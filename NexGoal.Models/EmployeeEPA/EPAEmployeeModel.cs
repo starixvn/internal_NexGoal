@@ -20,7 +20,7 @@
         {
             get
             {
-                return NexGoal.Core.Utilities.Avatar.GetAvatar(Code);
+                return "//10.18.200.114:8182/" + Code + ".jpg";
             }
         }
 

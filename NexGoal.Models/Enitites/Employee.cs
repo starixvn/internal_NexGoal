@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Model.Enitites
 {
+    using Core;
     using System;
 
     [Serializable]
@@ -23,7 +24,7 @@
         {
             get
             {
-                return NexGoal.Core.Utilities.Avatar.GetAvatar(Code);
+                return AppSetting.NexAvatarDomain + Code + ".jpg";
             }
         }
 
