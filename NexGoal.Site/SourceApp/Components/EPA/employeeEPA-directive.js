@@ -32,6 +32,10 @@ epaModule.directive('ngDecimal', [function () {
     };
 }]);
 
+function isNumeric(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
 epaModule.directive('integerOnly', [function () {
     return {
         require: 'ngModel',
@@ -39,6 +43,10 @@ epaModule.directive('integerOnly', [function () {
             modelCtrl.$parsers.push(function (inputValue) {
                 if (inputValue == undefined) return ''
                 var transformedInput = inputValue.replace(/[^\d-]/g, '');
+                if (!isNumeric(transformedInput)) {
+                    transformedInput = transformedInput.slice(0, transformedInput.length - 1);
+                }
+
                 if (transformedInput != inputValue) {
                     modelCtrl.$setViewValue(transformedInput);
                     modelCtrl.$render();
