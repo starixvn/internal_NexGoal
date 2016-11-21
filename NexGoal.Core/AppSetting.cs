@@ -41,6 +41,7 @@
                 return ConfigurationManager.AppSettings["ApplicationDomain"];
             }
         }
+
         public static string NexAvatarDomain
         {
             get

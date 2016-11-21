@@ -157,8 +157,7 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
             vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
-            $scope.epaInfo = vm.epaInfo;
-            var averageScoreEvaluators = calculateAverageEvaluator(vm.epaInfo.Process.Evaluators);
+            $scope.epaInfo = vm.epaInfo;            
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
@@ -166,14 +165,9 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
             // evaluator
             angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
-            });
-            vm.epaInfo.Process.AverageScoreByEvaluators = averageScoreEvaluators;
+            });            
 
-            // reviewer
-            var maxAdditionScore = parseFloat((vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore - averageScoreEvaluators).toFixed(2));
-
-            vm.epaInfo.Process.CurrentProcess.MaxSubtractScore = -10;
-            vm.epaInfo.Process.CurrentProcess.MaxAdditionScore = maxAdditionScore > 10 ? 10 : maxAdditionScore;
+            
             vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore !== "" ?
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore) :
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators);

@@ -58,6 +58,7 @@
                 epaInfo = employeeEPARepository.GetEPAInfo(criteria);
                 epaInfo.Process.CurrentProcess = CopyEPAProcess(epaInfo.Process.Reviewers.FirstOrDefault(x => x.EvaluatorId == criteria.ReviewerId));
                 SetMaxPerformanceScore(epaInfo);
+                SetMaxSubtractAndMaxAdditionScore(epaInfo);
                 SpreadKPIScore(epaInfo.KPIGroups);
             }
 

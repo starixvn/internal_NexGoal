@@ -2150,6 +2150,7 @@ input[type=radio] {
 .left-bar {
   width: 279px;
   background: #2C3B66;
+  transition: width 0.25s;
 }
 .main {
   padding-left: 280px;
@@ -2166,6 +2167,7 @@ input[type=radio] {
   background-size: auto 25px;
   float: none;
   display: block;
+  transition: width 0.25s;
 }
 .left-bar-xs img {
   display: none;
