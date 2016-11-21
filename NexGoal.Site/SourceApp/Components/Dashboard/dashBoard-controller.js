@@ -72,8 +72,7 @@
             DashboardModel.getDashboard().then(function () {
                 var dashboardInfo = DashboardModel.dashboardInfo;
 
-                vm.employee = dashboardInfo.Employee;
-                vm.employee.Avatar = baseUrl + vm.employee.Avatar;
+                vm.employee = dashboardInfo.Employee;                
                 vm.evaluationProcesses = [];
                 vm.myEPAs = dashboardInfo.MyEPAs;
 
