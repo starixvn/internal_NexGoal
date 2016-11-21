@@ -2158,7 +2158,7 @@ input[type=radio] {
 .main.full-size {
   padding-left: 0;
 }
-.left-bar-xs {
+.left-bar-xs a {
   width: 50px;
   background: #2C3B66;
   padding-left: 0;
