@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
+    using Core;
     using System;
 
     public class EPAEmployeeModel
@@ -20,7 +21,7 @@
         {
             get
             {
-                return "//10.18.200.114:8182/" + Code + ".jpg";
+                return AppSetting.NexAvatarDomain + Code + ".jpg";
             }
         }
 
