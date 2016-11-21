@@ -200,17 +200,17 @@ textarea.none-resize {
   line-height: 20px;
 }
 .navbar {
-  min-height: 6rem;
-  line-height: 6rem;
+  min-height: 5rem;
+  line-height: 5rem;
   color: #fff;
   margin-bottom: 0;
 }
 .navbar-brand {
-  height: 60px;
-  padding: 10px;
+  height: 50px;
+  padding: 15px 10px;
 }
 .navbar-brand img {
-  height: 37px;
+  height: 25px;
 }
 .navbar-inverse {
   background: #324373;
@@ -2030,7 +2030,7 @@ input[type=radio] {
   z-index: 1000;
   display: block;
   padding: 20px;
-  margin-top: 60px;
+  margin-top: 50px;
   overflow-x: hidden;
   overflow-y: auto;
   top: 0;
@@ -2038,6 +2038,7 @@ input[type=radio] {
   background-color: #fff;
   max-height: 950px;
   width: 279px;
+  transition: width 0.25s;
 }
 .sidebar .list-group {
   margin: 0;
@@ -2157,12 +2158,12 @@ input[type=radio] {
   padding-left: 0;
 }
 .left-bar-xs {
-  width: 40px;
+  width: 50px;
   background: #2C3B66;
   padding-left: 0;
   padding-right: 0;
   background: url('Components/images/nexgoal-xs.svg') center center no-repeat;
-  background-size: auto 20px;
+  background-size: auto 25px;
   float: none;
   display: block;
 }
@@ -2170,8 +2171,8 @@ input[type=radio] {
   display: none;
 }
 .main-xs {
-  padding-top: 20px;
-  padding-left: 40px;
+  padding-top: 5px;
+  padding-left: 50px;
 }
 .main-xs .page-header {
   margin-top: 0;
@@ -2179,15 +2180,16 @@ input[type=radio] {
 .sidebar-xs {
   box-shadow: 0 2px 8px 0 rgba(0, 0, 0, 0.16);
   position: fixed;
-  top: 51px;
+  top: 50px;
   bottom: 0;
   left: 0;
   z-index: 1000;
   display: block;
-  margin-top: 10px;
-  background-color: #324373;
+  margin-top: 0px;
   max-height: 950px;
   width: 50px;
+  transition: width 0.25s;
+  background-color: #fff;
 }
 .sidebar-xs .list-group {
   margin: 0;
@@ -2196,7 +2198,6 @@ input[type=radio] {
 .sidebar-xs .list-group .fa {
   font-size: 16px;
   width: 28px;
-  color: white;
 }
 .sidebar-xs .list-group .fa-chevron-down {
   display: none;
@@ -2225,26 +2226,29 @@ input[type=radio] {
 .sidebar-xs .list-group .list-group-item {
   padding: 0px 15px;
   border: 0px;
-  background-color: #324373;
   color: white;
+}
+.sidebar-xs .list-group .list-group-item.active {
+  background-color: #eeeeee;
+  background-image: none;
+  text-shadow: none;
 }
 .sidebar-xs .list-group .list-group-item:hover {
   background-color: rgba(0, 0, 0, 0.1);
 }
-.sidebar-xs .list-group .list-group-item.no-sub span {
-  display: none;
-}
 .sidebar-xs .list-group .list-group-item.no-sub a {
+  display: block;
+  color: #545454;
   font-weight: 600;
+  line-height: 5rem;
 }
-.sidebar-xs .list-group .list-group-item.no-sub.active a {
-  color: #324373;
+.sidebar-xs .list-group .list-group-item.no-sub a span {
+  display: none;
 }
 .sidebar-xs .list-group .list-group-item.has-sub {
   position: relative;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title {
-  color: #484550;
   display: block;
   color: #545454;
   font-weight: 600;
@@ -2260,11 +2264,11 @@ input[type=radio] {
   position: absolute;
   top: 0;
   right: -261px;
-  background-color: #26A69A;
+  background-color: #324373;
   padding: 0px 20px;
   width: 260px;
   text-align: left;
-  color: #fff;
+  color: white;
   cursor: default;
 }
 .sidebar-xs .list-group .list-group-item.has-sub:hover .sub-menu-title span,
@@ -2277,17 +2281,15 @@ input[type=radio] {
   top: 50px;
   width: 260px;
   display: none;
-  background-color: #263238;
-  color: white;
+  background-color: #eeeeee;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item {
-  padding: 0px 20px;
+  padding: 0px 30px;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item a {
-  color: white;
+  color: #484550;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item:hover {
-  background-color: rgba(0, 0, 0, 0.1);
   cursor: pointer;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item:first-child {

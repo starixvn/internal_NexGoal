@@ -19,7 +19,7 @@
     z-index: 1000;
     display: block;
     padding: 20px;
-    margin-top: 60px;
+    margin-top: 50px;
     overflow-x: hidden;
     overflow-y: auto;
     top: 0;
@@ -27,6 +27,7 @@
     background-color: @c-sidebar-bg;
     max-height: 950px;
     width: 279px;
+    transition: width 0.25s;
 
     .list-group {
         margin: 0;
@@ -194,12 +195,12 @@
 }
 
 .left-bar-xs {
-    width: 40px;
+    width: 50px;
     background: #2C3B66;
     padding-left: 0;
     padding-right: 0;
     background: url('images/nexgoal-xs.svg') center center no-repeat;
-    background-size: auto 20px;
+    background-size: auto 25px;
     float: none;
     display: block;
 
@@ -209,8 +210,8 @@
 }
 
 .main-xs {
-    padding-top: 20px;
-    padding-left: 40px;
+    padding-top: 5px;
+    padding-left: 50px;
 
     .page-header {
         margin-top: 0;
@@ -220,16 +221,16 @@
 .sidebar-xs {
     box-shadow: 0 2px 8px 0 rgba(0,0,0,.16);
     position: fixed;
-    top: 51px;
+    top: 50px;
     bottom: 0;
     left: 0;
     z-index: 1000;
     display: block;
-    margin-top: 10px;
-    background-color: #324373;
+    margin-top: 0px;
     max-height: 950px;
     width: 50px;
-
+    transition: width 0.25s;
+    background-color: @c-sidebar-bg;
 
     .list-group {
         margin: 0;
@@ -238,7 +239,6 @@
         .fa {
             font-size: 16px;
             width: 28px;
-            color: white;
         }
 
         .fa-chevron-down {
@@ -276,25 +276,27 @@
         .list-group-item {
             padding: 0px 15px;
             border: 0px;
-            background-color: #324373;
             color: white;
 
-            &:hover {                
+            &.active {
+                background-color: @c-sidebar-border;
+                background-image: none;
+                text-shadow: none;
+            }
+
+            &:hover {
                 background-color: rgba(0,0,0,.1);
             }
 
             &.no-sub {
-                span {
-                    display: none;
-                }
-
                 a {
+                    display: block;
+                    color: @c-sidebar-menu-item-sub-text;
                     font-weight: 600;
-                }
+                    line-height: 5rem;
 
-                &.active {
-                    a {
-                        color: @c-sidebar-menu-item-sub-link-active-text;
+                    span {
+                        display: none;
                     }
                 }
             }
@@ -303,7 +305,6 @@
                 position: relative;
 
                 .sub-menu-title {
-                    color: @c-sidebar-menu-item-text;
                     display: block;
                     color: @c-sidebar-menu-item-sub-text;
                     font-weight: 600;
@@ -318,11 +319,11 @@
                         position: absolute;
                         top: 0;
                         right: -261px;
-                        background-color: #26A69A;
+                        background-color: @c-sidebar-menu-item-sub-bg;
                         padding: 0px 20px;
                         width: 260px;
                         text-align: left;
-                        color: #fff;
+                        color: white;
                         cursor: default;
                     }
                 }
@@ -339,18 +340,16 @@
                     top: 50px;
                     width: 260px;
                     display: none;
-                    background-color: #263238;
-                    color: white;
+                    background-color: @c-sidebar-border;
 
                     .list-group-item {
-                        padding: 0px 20px;
+                        padding: 0px 30px;
 
                         a {
-                            color: white;
+                            color: @c-sidebar-menu-item-text;
                         }
 
                         &:hover {
-                            background-color: rgba(0,0,0,.1);
                             cursor: pointer;
                         }
 
