@@ -54,6 +54,7 @@
                         <th data-translate="JobTitle"></th>
                         <th data-translate="PeriodName"></th>
                         <th data-translate="SelfScore"></th>
+                        <th data-translate="EvaluatorScore"></th>
                         <th data-translate="Status"></th>
                         <th data-translate="Detail" class="col-action"></th>
                     </tr>
@@ -76,6 +77,16 @@
                             <span ng-show="!memberEPA.Process.Self.IsEndProcess" data-translate="Pending"></span>
                         </td>
                         <td class="text-center">
+                            <span ng-show="memberEPA.Period.IsEndPeriod">
+                                <span ng-if="memberEPA.Process.CurrentProcess.TotalScore">{{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}</span>
+                                <span ng-if="!memberEPA.Process.CurrentProcess.TotalScore" data-translate="Dash"></span>
+                            </span>
+                            <span ng-show="!memberEPA.Period.IsEndPeriod && !memberEPA.Process.CurrentProcess.IsEndProcess">                                
+                                <span ng-if="memberEPA.Process.CurrentProcess.TotalScore">{{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}</span>
+                                <span ng-if="!memberEPA.Process.CurrentProcess.TotalScore" data-translate="Dash"></span>
+                            </span>
+                        </td>
+                        <td class="text-center">
                             <div ng-show="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                         </td>
                         <td class="text-center text-uppercase col-action" ng-switch="memberEPA.IsAllowedToEdit">
@@ -94,7 +105,7 @@
                         </td>
                     </tr>
                     <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">
-                        <td class="empty-result" colspan="15" data-translate="EmptyResult"></td>
+                        <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
             </table>
