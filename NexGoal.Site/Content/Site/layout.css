@@ -2175,6 +2175,7 @@ input[type=radio] {
 .main-xs {
   padding-top: 5px;
   padding-left: 50px;
+  transition: width 0.25s;
 }
 .main-xs .page-header {
   margin-top: 0;
@@ -2499,6 +2500,7 @@ input:checked + .slider:before {
 .nav-hamberger {
   font-size: 15px;
   margin-left: 20px;
+  transition: width 0.25s;
 }
 .nav-hamberger a {
   color: #fff;
