@@ -156,7 +156,7 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
         lockScreenService.start();
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
-            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
+            
             $scope.epaInfo = vm.epaInfo;            
 
             // self

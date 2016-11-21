@@ -98,7 +98,6 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
             vm.epaInfo.LastPerformanceScore = LastRatingModel.getLastTotalScore();
             checkStatus(vm.epaInfo);
             bindingCurrentEvaluatorGroupScore(vm.epaInfo.Process.CurrentProcess.EvaluatorId);
-            vm.epaInfo.Employee.Avatar = baseUrl + vm.epaInfo.Employee.Avatar;
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
             vm.epaInfo.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore);
 

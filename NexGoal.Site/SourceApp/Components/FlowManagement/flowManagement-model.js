@@ -74,7 +74,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
 
     flowMngModel.addEmployee = function (listIdentity, vm, employee, position) {
         var list, allowAdd = true;
-        employee.Avatar = baseUrl + employee.Avatar;
 
         switch (listIdentity) {
             case "evaluatorList":
@@ -109,7 +108,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
 
     var successGetFlow = function (flows) {
         angular.forEach(flows, function (flow) {
-            flow.EvaluatorInfo.Avatar = baseUrl + flow.EvaluatorInfo.Avatar;
 
             switch (flow.ProcessId) {
                 case 1:

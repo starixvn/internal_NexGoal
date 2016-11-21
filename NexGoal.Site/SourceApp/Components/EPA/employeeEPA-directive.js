@@ -107,7 +107,7 @@ epaModule.directive('popoverAvatar', ['baseUrl', function (baseUrl) {
                 trigger: 'hover',
                 html: true,
                 content: function () {
-                    return '<img class="avatar" src="' + baseUrl + attrs.avatarSrc + '" />';
+                    return '<img class="avatar" src="' + attrs.avatarSrc + '" />';
                 },
                 template: '<div class="popover popover-avatar" role="tooltip">' +
                             '<div class="arrow"></div>' +
