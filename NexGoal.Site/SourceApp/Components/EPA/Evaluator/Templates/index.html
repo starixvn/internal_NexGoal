@@ -77,14 +77,8 @@
                             <span ng-show="!memberEPA.Process.Self.IsEndProcess" data-translate="Pending"></span>
                         </td>
                         <td class="text-center">
-                            <span ng-show="memberEPA.Period.IsEndPeriod">
-                                <span ng-if="memberEPA.Process.CurrentProcess.TotalScore">{{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}</span>
-                                <span ng-if="!memberEPA.Process.CurrentProcess.TotalScore" data-translate="Dash"></span>
-                            </span>
-                            <span ng-show="!memberEPA.Period.IsEndPeriod && !memberEPA.Process.CurrentProcess.IsEndProcess">                                
-                                <span ng-if="memberEPA.Process.CurrentProcess.TotalScore">{{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}</span>
-                                <span ng-if="!memberEPA.Process.CurrentProcess.TotalScore" data-translate="Dash"></span>
-                            </span>
+                            <span ng-if="memberEPA.Process.CurrentProcess.TotalScore">{{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}</span>
+                            <span ng-if="!memberEPA.Process.CurrentProcess.TotalScore" data-translate="Dash"></span>
                         </td>
                         <td class="text-center">
                             <div ng-show="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
