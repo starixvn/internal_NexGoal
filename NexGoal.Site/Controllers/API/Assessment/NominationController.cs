@@ -107,7 +107,7 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
-        public CommandResult CreateEOYNomination(CreateEOQNominationCriteria criteria)
+        public CommandResult CreateEOYNomination(CreateEOYNominationCriteria criteria)
         {
             if (criteria != null)
             {
@@ -116,7 +116,7 @@
                 criteria.StatusId = (int)NominationStatus.Nominated;
             }
 
-            CommandResult commandResult = nominationService.CreateEOQNomination(criteria);
+            CommandResult commandResult = nominationService.CreateEOYNomination(criteria);
             return commandResult;
         }
 
