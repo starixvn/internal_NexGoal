@@ -16,7 +16,7 @@
         <td class="text-center width-150">
             <span ng-show="memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess">
                 <span ng-if="kpi.EvaluationBySelf.Score==0" data-translate="Dash"></span>
-                <span ng-if="kpi.EvaluationBySelf.Score!=0">{{kpi.EvaluationBySelf.Score | splitScore}}</span>
+                <span ng-if="kpi.EvaluationBySelf.Score!=0">{{kpi.EvaluationBySelf.Score | splitScore}} / {{kpi.EvaluationBySelf.Rate}} <i class="fa fa-star"></i></span>
             </span>
             <span ng-show="!memberEPAInfoCtrl.epaInfo.Process.Self.IsEndProcess" data-translate="Pending"></span>
         </td>
