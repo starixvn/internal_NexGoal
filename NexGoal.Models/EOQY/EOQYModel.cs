@@ -45,6 +45,8 @@
 
         public DateTime EndDate { get; set; }
 
+        public DateTime RemindDate { get; set; }
+
         public int StatusId
         {
             get

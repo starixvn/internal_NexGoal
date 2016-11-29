@@ -87,5 +87,25 @@
                 }
             }
         }
+
+        public IEnumerable<EOQYEmailModel> GetToSendEmail(ICriteria criteria)
+        {
+            List<EOQYEmailModel> nominationEmail = new List<EOQYEmailModel>();
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (var multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    var nominations = multi.Read<EOQYModel>();
+                    var email = multi.Read<EmailNominatorModel>();
+
+                    foreach (var nomination in nominations)
+                    {
+                        nominationEmail.Add(new EOQYEmailModel { Nomination = nomination, EmailNominator = email.Where(i => i.EOQYId == nomination.EOQYId) });
+                    }
+                }
+            }
+
+            return nominationEmail;
+        }
     }
 }

@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.BackgroundService
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
@@ -11,6 +9,8 @@
     using NexGoal.Model.Period;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class PeriodEvalutionService : BaseService, IPeriodEvalutionService
     {

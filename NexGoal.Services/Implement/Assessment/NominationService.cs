@@ -2,6 +2,7 @@
 {
     using Core.Constants;
     using Core.Enumerations;
+    using Fanex.Data.Repository;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Core.Utilities;
@@ -332,6 +333,11 @@
             }
 
             return Policy.Read;
+        }
+
+        public IEnumerable<EOQYEmailModel> GetToSendEmail(ICriteria criteria)
+        {
+            return nominationRepository.GetToSendEmail(criteria);
         }
     }
 }

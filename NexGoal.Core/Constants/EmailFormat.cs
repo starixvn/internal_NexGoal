@@ -27,5 +27,9 @@
         public const string URL = "#URL#";
 
         public const string TargetType = "#TargetType#";
+
+        public const string NominatorNick = "#NominatorNick#";
+
+        public const string NominationName = "#NominationName#";
     }
 }

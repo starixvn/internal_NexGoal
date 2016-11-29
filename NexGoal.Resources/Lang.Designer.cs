@@ -3571,6 +3571,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remind Date.
+        /// </summary>
+        public static string RemindDate {
+            get {
+                return ResourceManager.GetString("RemindDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remind Date must be between Start Date and End Date.
+        /// </summary>
+        public static string RemindDateBetweenStartAndEndDate {
+            get {
+                return ResourceManager.GetString("RemindDateBetweenStartAndEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remind Day.
         /// </summary>
         public static string RemindDay {

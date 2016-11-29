@@ -82,7 +82,9 @@
     <Reference Include="System.Management" />
     <Reference Include="System.Security" />
     <Reference Include="System.Transactions" />
-    <Reference Include="System.Web" />
+    <Reference Include="System.Web">
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Web.Extensions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -113,6 +115,7 @@
     <Compile Include="Service\Implement\AutoMailService.cs" />
     <Compile Include="Service\Implement\NexGoalService.cs" />
     <Compile Include="Service\Implement\MailEPAService.cs" />
+    <Compile Include="Service\Implement\NominationService.cs" />
     <Compile Include="Service\Implement\PeriodEvalutionService.cs" />
     <Compile Include="Service\Implement\ProcessService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
@@ -124,6 +127,7 @@
     <Compile Include="Service\Interfaces\IProbationService.cs" />
     <Compile Include="Service\Interfaces\IProcessService.cs" />
     <Compile Include="Service\Interfaces\IMailEPAService.cs" />
+    <Compile Include="Service\Interfaces\INominationService.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config">
@@ -152,6 +156,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <None Include="packages.config" />
+    <Content Include="Views\Emails\StartNominationToAll.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
     <Content Include="SpNames.xml">

@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using Fanex.Data.Repository;
     using NexGoal.Core.Model;
     using NexGoal.Criteria;
     using NexGoal.Model;
@@ -36,5 +37,7 @@
         void ExportEOQ(IEnumerable<NominationViewModel> nominations, string periodName, string templatePath);
 
         void ExportEOY(IEnumerable<NominationViewModel> nominations, string periodName, string templatePath);
+
+        IEnumerable<EOQYEmailModel> GetToSendEmail(ICriteria criteria);
     }
 }

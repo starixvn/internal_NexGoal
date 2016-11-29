@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace NexGoal.Resources
-{
-
-
+namespace NexGoal.Resources {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -70,6 +70,15 @@ namespace NexGoal.Resources
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Reminder: [NexGoal] #NominationName# - Nomination.
+        /// </summary>
+        public static string RemindDateEmailToAllInNominationSubject {
+            get {
+                return ResourceManager.GetString("RemindDateEmailToAllInNominationSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Reminder: [NexGoal] #PeriodName# - #TargetType# Evaluation.
         /// </summary>
         public static string RemindDateEmailToEvaluatorSubject {
@@ -102,6 +111,15 @@ namespace NexGoal.Resources
         public static string RemindDateEmailToSelfSubject {
             get {
                 return ResourceManager.GetString("RemindDateEmailToSelfSubject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to [NexGoal] #NominationName# - Nomination.
+        /// </summary>
+        public static string StartDateEmailToAllInNominationSubject {
+            get {
+                return ResourceManager.GetString("StartDateEmailToAllInNominationSubject", resourceCulture);
             }
         }
         

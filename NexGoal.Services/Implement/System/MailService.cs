@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using Model;
     using NexGoal.Core;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -328,6 +329,23 @@
         {
             var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
             return result.ToString(Constants.FormatDateTimeEmail);
+        }
+
+        public void SendMailToAllInNomination(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
+        {
+            MailModel email = new MailModel();
+            var endDate = ChangeEndDate(nomination.EndDate);
+            email.Subject = Email.StartDateEmailToAllInNominationSubject
+                .Replace(EmailFormat.NominationName, nomination.QuarterToString);
+
+            email.Body = _baseMailService.ReadTextFile(templateEmailPath)
+                .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
+                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                .Replace(EmailFormat.EndDate, endDate);
+
+            email.ReceiverEmail = emailNomination.Email;
+
+            _baseMailService.SendEmail(email);
         }
 
         private string GetTargetType(int targetTypeId)

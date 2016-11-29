@@ -13,7 +13,8 @@
                     Year: period.Year,
                     Description: period.Description,
                     StartDate: period.StartDate,
-                    EndDate: period.EndDate
+                    EndDate: period.EndDate,
+                    RemindDate: period.RemindDate
                 };
 
                 return $http.post(baseUrl + "api/EOQ/CreateEOQ", criteria);
@@ -28,7 +29,8 @@
                     Quarter: period.Quarter,
                     Year: period.Year,
                     StartDate: period.StartDate,
-                    EndDate: period.EndDate
+                    EndDate: period.EndDate,
+                    RemindDate: period.RemindDate
                 };
 
                 return $http.put(baseUrl + "api/EOQ/UpdateEOQ", criteria);

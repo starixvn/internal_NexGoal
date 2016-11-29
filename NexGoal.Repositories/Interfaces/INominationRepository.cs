@@ -13,5 +13,7 @@
         NominationModel GetNominationById(ICriteria criteria);
 
         IEnumerable<NominationEPAModel> GetNominationByPeriodId(ICriteria criteria);
+
+        IEnumerable<EOQYEmailModel> GetToSendEmail(ICriteria criteria);
     }
 }

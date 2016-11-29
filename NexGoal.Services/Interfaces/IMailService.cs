@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using Model;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
 
@@ -28,5 +29,7 @@
         void SendMailEndToHRByPeriod(string templateEmailPath, PeriodFlowModel employeeSetting, PeriodModel period);
 
         void SendMailToSelfEndEvaluation(string templateEmailPath, EPAModel evaluationInfo);
+
+        void SendMailToAllInNomination(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination);
     }
 }

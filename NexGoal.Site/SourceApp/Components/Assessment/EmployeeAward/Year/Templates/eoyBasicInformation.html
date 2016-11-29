@@ -30,6 +30,17 @@
             </div>
         </div>
         <div class="form-group">
+            <label class="col-sm-1 control-label required-label" data-translate="RemindDate"></label>
+            <div class="col-sm-2 field">
+                <input readonly class="calendar-form-control" type="text" datepicker-popup
+                       ng-model="eoyBasicInfoCtrl.period.RawRemindDate"
+                       ng-click="eoyBasicInfoCtrl.openPopupRemindDate($event)" min-date="{{eoyBasicInfoCtrl.calendar.minDate}}"
+                       is-open="eoyBasicInfoCtrl.calendar.remindDateOpened" />
+                <calendar-image class="calendar-image" ng-click="eoyBasicInfoCtrl.openPopupRemindDate($event)"></calendar-image>
+            </div>
+        </div>
+
+        <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Description"></label>
             <div class="col-sm-5 field">
                 <textarea type="text" class="form-control comment" rows="3" ng-model="eoyBasicInfoCtrl.period.Description"></textarea>

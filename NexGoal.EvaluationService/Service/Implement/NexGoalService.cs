@@ -10,9 +10,10 @@
         private readonly IProcessService processService;
         private readonly IPeriodEvalutionService periodEvalutionService;
         private readonly IMailEPAService mailService;
+        private readonly INominationEmailService nominationService;
 
         public NexGoalService()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null, null, null)
         {
         }
 
@@ -21,13 +22,15 @@
             IProbationService probationService,
             IProcessService processService,
             IPeriodEvalutionService periodEvalutionService,
-            IMailEPAService mailService)
+            IMailEPAService mailService,
+            INominationEmailService nominationService)
         {
             this.semiAnnualService = semiAnnualService ?? new SemiAnnualService();
             this.probationService = probationService ?? new ProbationService();
             this.processService = processService ?? new ProcessService();
             this.periodEvalutionService = periodEvalutionService ?? new PeriodEvalutionService();
             this.mailService = mailService ?? new MailEPAService();
+            this.nominationService = nominationService ?? new NominationEmailService();
         }
 
         public void Run()
@@ -39,6 +42,8 @@
                 processService.UpdateInformationAtEndProccess();
                 periodEvalutionService.UpdatePeriodIsEnd();
                 periodEvalutionService.GeneratePAFocus();
+                nominationService.SendEmailToAllWhenBegining();
+                nominationService.SendEmailToAllWhenRemind();
                 CheckSendMail();
             }
             catch (Exception ex)

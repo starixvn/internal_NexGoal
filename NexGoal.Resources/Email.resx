@@ -120,6 +120,9 @@
   <data name="EndMailEvaluationSubject" xml:space="preserve">
     <value>[NexGoal] #PeriodName# - #TargetType# Completed</value>
   </data>
+  <data name="RemindDateEmailToAllInNominationSubject" xml:space="preserve">
+    <value>Reminder: [NexGoal] #NominationName# - Nomination</value>
+  </data>
   <data name="RemindDateEmailToEvaluatorSubject" xml:space="preserve">
     <value>Reminder: [NexGoal] #PeriodName# - #TargetType# Evaluation</value>
   </data>
@@ -131,6 +134,9 @@
   </data>
   <data name="RemindDateEmailToSelfSubject" xml:space="preserve">
     <value>Reminder: [NexGoal] #PeriodName# - #TargetType# Self-evaluation</value>
+  </data>
+  <data name="StartDateEmailToAllInNominationSubject" xml:space="preserve">
+    <value>[NexGoal] #NominationName# - Nomination</value>
   </data>
   <data name="StartDateEmailToEvaluatorSubject" xml:space="preserve">
     <value>[NexGoal] #PeriodName# - #TargetType# Evaluation</value>

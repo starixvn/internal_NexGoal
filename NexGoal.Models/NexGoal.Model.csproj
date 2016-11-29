@@ -66,6 +66,8 @@
     <Compile Include="EmployeeEPA\StandardGradeModel.cs" />
     <Compile Include="Employee\MenuViewModel.cs" />
     <Compile Include="Enitites\RatingType.cs" />
+    <Compile Include="EOQY\EmailNominatorModel.cs" />
+    <Compile Include="EOQY\EOQYEmailModel.cs" />
     <Compile Include="EOQY\EOQYModel.cs" />
     <Compile Include="EOQY\NominatorSettingModel.cs" />
     <Compile Include="EOQY\NomineeModel.cs" />

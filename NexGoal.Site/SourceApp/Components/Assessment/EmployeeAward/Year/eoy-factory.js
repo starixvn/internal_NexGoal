@@ -13,7 +13,8 @@
                     Year: period.Year,
                     Description: period.Description,
                     StartDate: period.StartDate,
-                    EndDate: period.EndDate
+                    EndDate: period.EndDate,
+                    RemindDate: period.RemindDate
                 };
 
                 return $http.post(baseUrl + "api/EOY/CreateEOY", criteria);
@@ -27,7 +28,8 @@
                     Year: period.Year,
                     Description: period.Description,
                     StartDate: period.StartDate,
-                    EndDate: period.EndDate
+                    EndDate: period.EndDate,
+                    RemindDate: period.RemindDate
                 };
 
                 return $http.put(baseUrl + "api/EOY/UpdateEOY", criteria);

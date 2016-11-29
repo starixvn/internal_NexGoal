@@ -15,6 +15,8 @@
 
         public DateTime EndDate { get; set; }
 
+        public DateTime RemindDate { get; set; }
+
         public int CreatedBy { get; set; }
 
         public override string GetSettingKey()

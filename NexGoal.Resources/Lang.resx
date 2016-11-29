@@ -1770,4 +1770,10 @@
   <data name="Confirmation" xml:space="preserve">
     <value>Confirmation</value>
   </data>
+  <data name="RemindDate" xml:space="preserve">
+    <value>Remind Date</value>
+  </data>
+  <data name="RemindDateBetweenStartAndEndDate" xml:space="preserve">
+    <value>Remind Date must be between Start Date and End Date</value>
+  </data>
 </root>

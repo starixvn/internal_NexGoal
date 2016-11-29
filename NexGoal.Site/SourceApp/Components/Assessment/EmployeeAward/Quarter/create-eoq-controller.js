@@ -11,6 +11,7 @@
         vm.years = [];
         vm.rawStartDate = null;
         vm.rawEndDate = null;
+        vm.rawRemindDate = null;
         vm.period = {
             Quarter: "",
             Year: "",
@@ -18,6 +19,8 @@
             RawStartDate: null,
             EndDate: null,
             RawEndDate: null,
+            RemindDate: null,
+            RawRemindDate: null,
             Description: null
         };
         vm.calendar = {};
@@ -30,10 +33,15 @@
             EOQModel.openPopupEndDate(event);
         };
 
+        vm.openPopupRemindDate = function (event) {
+            EOQModel.openPopupRemindDate(event);
+        };
+
         vm.submit = function () {
             if (EOQModel.validatePeriod(vm.period)) {
                 vm.period.StartDate = vm.period.RawStartDate ? vm.period.RawStartDate.toDateString() : null;
                 vm.period.EndDate = vm.period.RawEndDate ? vm.period.RawEndDate.toDateString() : null;
+                vm.period.RemindDate = vm.period.RawRemindDate ? vm.period.RawRemindDate.toDateString() : null;
 
                 EOQModel.createEOQ(vm.period, $modalInstance);
             }

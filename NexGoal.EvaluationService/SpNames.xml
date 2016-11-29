@@ -64,4 +64,8 @@
     <Setting Key="PAFocus_Generate" SpName="PAFocus_Generate" DbName="NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetToGeneratePAFocus" SpName="Period_GetToGeneratePAFocus" DbName="NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="Nomination">
+    <Setting Key="EOQY_GetToSendEmailWhenBegining" SpName="EOQY_GetToSendEmailWhenBegining" DbName="NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQY_GetToSendEmailWhenReminding" SpName="EOQY_GetToSendEmailWhenReminding" DbName="NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>

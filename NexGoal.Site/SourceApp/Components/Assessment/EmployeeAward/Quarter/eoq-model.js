@@ -309,6 +309,14 @@
             vm.calendar.endDateOpened = true;
         };
 
+        vm.openPopupRemindDate = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            vm.calendar.endDateOpened = false;
+            vm.calendar.remindDateOpened = true;
+        };
+
         vm.validatePeriod = function (period) {
             if (!period) {
                 return false;
@@ -335,6 +343,11 @@
 
                 if (new Date(period.RawStartDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
+                    return false;
+                }
+                if (new Date(period.RawRemindDate).setHours(0, 0, 0, 0) < new Date(period.RawStartDate).setHours(0, 0, 0, 0) ||
+                    new Date(period.RawRemindDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("RemindDateBetweenStartAndEndDate");
                     return false;
                 }
             }
