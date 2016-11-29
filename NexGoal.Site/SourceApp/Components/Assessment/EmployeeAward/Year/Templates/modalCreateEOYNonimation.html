@@ -38,7 +38,7 @@
                 <label class="col-sm-12 control-label required-label text-left">{{$index + 1}}. {{question.Name}}</label>
                 <div class="col-sm-12 field"
                      ng-class="{'has-error': !question.IsValid}">
-                    <textarea class="form-control comment none-resize" rows="3" ng-model="question.Comment" maxlength="1000"></textarea>
+                    <textarea class="form-control comment none-resize" rows="3" ng-model="question.Comment" maxlength="8000"></textarea>
                 </div>
             </div>
         </form>
