@@ -10,11 +10,11 @@ namespace NexGoal.BackgroundService
 {
     public class NominationEmailService : INominationEmailService
     {
-        private string startMail = "Views\\Emails\\StartNominationToAll.cshtml";
-        private string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
-
         private readonly INominationService nominationService;
         private readonly IMailService mailService;
+
+        private string startMail = "Views\\Emails\\StartNominationToAll.cshtml";
+        private string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
         
         public NominationEmailService() : this(null, null)
         {
