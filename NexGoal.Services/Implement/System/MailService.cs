@@ -336,7 +336,7 @@
             MailModel email = new MailModel();
             var endDate = ChangeEndDate(nomination.EndDate);
             email.Subject = Email.StartDateEmailToAllInNominationSubject
-                .Replace(EmailFormat.NominationName, nomination.QuarterToString);
+                .Replace(EmailFormat.NominationName, nomination.Title);
 
             email.Body = _baseMailService.ReadTextFile(templateEmailPath)
                 .Replace(EmailFormat.NominatorNick, emailNomination.NickName)

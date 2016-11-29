@@ -41,6 +41,35 @@
             }
         }
 
+        public string Title
+        {
+            get
+            {
+                var title = "EOY " + Year.ToString();
+
+                if (Quarter != 0)
+                {
+                    switch (Quarter)
+                    {
+                        case "1":
+                            title = "Employee of 1st Quarter, " + Year.ToString();
+                            break;
+                        case "2":
+                            title = "Employee of 2nd Quarter, " + Year.ToString();
+                            break;
+                        case "3":
+                            title = "Employee of 3rd Quarter, " + Year.ToString();
+                            break;
+                        default:
+                            title = "Employee of 4th Quarter, " + Year.ToString();
+                            break;
+                    }
+                }
+
+                return title;
+            }
+        }
+
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
