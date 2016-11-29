@@ -51,13 +51,13 @@
                 {
                     switch (Quarter)
                     {
-                        case "1":
+                        case 1:
                             title = "Employee of 1st Quarter, " + Year.ToString();
                             break;
-                        case "2":
+                        case 2:
                             title = "Employee of 2nd Quarter, " + Year.ToString();
                             break;
-                        case "3":
+                        case 3:
                             title = "Employee of 3rd Quarter, " + Year.ToString();
                             break;
                         default:
