@@ -30,6 +30,10 @@
 
         void SendMailToSelfEndEvaluation(string templateEmailPath, EPAModel evaluationInfo);
 
-        void SendMailToAllInNomination(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination);
+        void SendStartMailToNominator(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination);
+
+        void SendStartMailToManagement(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination);
+
+        void SendEndMailToManagement(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination);
     }
 }

@@ -2,8 +2,12 @@
 {
     public interface INominationEmailService
     {
+        void SendEmail();
+
         void SendEmailToAllWhenBegining();
 
-        void SendEmailToAllWhenRemind();
+        void SendEmailToNominatorWhenRemind();
+
+        void SendEmailToManagementWhenEnd();
     }
 }

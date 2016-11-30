@@ -107,6 +107,7 @@
     <Compile Include="EOQ\GetLatestEOQByNominatorIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQByIdCriteria.cs" />
     <Compile Include="EOQ\GetEOQCriteria.cs" />
+    <Compile Include="Nomination\GetEOQYToSendEmailWhenEndCriteria.cs" />
     <Compile Include="Nomination\GetEOQYToSendEmailWhenRemindCriteria.cs" />
     <Compile Include="Nomination\GetEOQYToSendEmailWhenBeginingCriteria.cs" />
     <Compile Include="Nomination\GetEOYQuestionCriteria.cs" />

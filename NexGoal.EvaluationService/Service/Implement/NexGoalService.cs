@@ -42,8 +42,7 @@
                 processService.UpdateInformationAtEndProccess();
                 periodEvalutionService.UpdatePeriodIsEnd();
                 periodEvalutionService.GeneratePAFocus();
-                nominationService.SendEmailToAllWhenBegining();
-                nominationService.SendEmailToAllWhenRemind();
+                nominationService.SendEmail();
                 CheckSendMail();
             }
             catch (Exception ex)

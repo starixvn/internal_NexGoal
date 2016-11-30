@@ -331,7 +331,7 @@
             return result.ToString(Constants.FormatDateTimeEmail);
         }
 
-        public void SendMailToAllInNomination(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
+        public void SendStartMailToNominator(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
         {
             MailModel email = new MailModel();
             var endDate = ChangeEndDate(nomination.EndDate);
@@ -342,6 +342,46 @@
                 .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
                 .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
                 .Replace(EmailFormat.EndDate, endDate);
+
+            email.ReceiverEmail = emailNomination.Email;
+
+            _baseMailService.SendEmail(email);
+        }
+
+        public void SendStartMailToManagement(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
+        {
+            MailModel email = new MailModel();
+            var endDate = ChangeEndDate(nomination.EndDate);
+            var startDate = ChangeEndDate(nomination.StartDate);
+
+            email.Subject = Email.StartDateEmailToAllInNominationSubject
+                .Replace(EmailFormat.NominationName, nomination.Title);
+
+            email.Body = _baseMailService.ReadTextFile(templateEmailPath)
+                .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
+                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                .Replace(EmailFormat.EndDate, endDate)
+                .Replace(EmailFormat.StartDate, startDate);
+
+            email.ReceiverEmail = emailNomination.Email;
+
+            _baseMailService.SendEmail(email);
+        }
+
+        public void SendEndMailToManagement(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
+        {
+            MailModel email = new MailModel();
+            var endDate = ChangeEndDate(nomination.EndDate);
+            var startDate = ChangeEndDate(nomination.StartDate);
+
+            email.Subject = Email.StartDateEmailToAllInNominationSubject
+                .Replace(EmailFormat.NominationName, nomination.Title);
+
+            email.Body = _baseMailService.ReadTextFile(templateEmailPath)
+                .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
+                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                .Replace(EmailFormat.EndDate, endDate)
+                .Replace(EmailFormat.StartDate, startDate);
 
             email.ReceiverEmail = emailNomination.Email;
 
