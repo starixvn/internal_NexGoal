@@ -65,7 +65,7 @@ namespace NexGoal.BackgroundService
             {
                 foreach (var email in nomination.EmailNominator.Where(i => i.RoleId == (int)NominationRole.Nominator))
                 {
-                    mailService.SendStartMailToNominator(Path.Combine(assemblyPath, startMailToNominator), nomination.Nomination, email);
+                    mailService.SendRemindMailToNominator(Path.Combine(assemblyPath, startMailToNominator), nomination.Nomination, email);
                 }
             }
         }

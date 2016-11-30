@@ -348,6 +348,24 @@
             _baseMailService.SendEmail(email);
         }
 
+        public void SendRemindMailToNominator(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
+        {
+            MailModel email = new MailModel();
+            var endDate = ChangeEndDate(nomination.EndDate);
+            email.Subject = Email.RemindDateEmailToAllInNominationSubject
+                .Replace(EmailFormat.NominationName, nomination.Title);
+
+            email.Body = _baseMailService.ReadTextFile(templateEmailPath)
+                .Replace(EmailFormat.NominationName, nomination.Title)
+                .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
+                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                .Replace(EmailFormat.EndDate, endDate);
+
+            email.ReceiverEmail = emailNomination.Email;
+
+            _baseMailService.SendEmail(email);
+        }
+
         public void SendStartMailToManagement(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
         {
             MailModel email = new MailModel();
@@ -358,6 +376,7 @@
                 .Replace(EmailFormat.NominationName, nomination.Title);
 
             email.Body = _baseMailService.ReadTextFile(templateEmailPath)
+                .Replace(EmailFormat.NominationName, nomination.Title)
                 .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
                 .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
                 .Replace(EmailFormat.EndDate, endDate)
@@ -378,6 +397,7 @@
                 .Replace(EmailFormat.NominationName, nomination.Title);
 
             email.Body = _baseMailService.ReadTextFile(templateEmailPath)
+                .Replace(EmailFormat.NominationName, nomination.Title)
                 .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
                 .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
                 .Replace(EmailFormat.EndDate, endDate)
