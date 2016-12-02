@@ -31,7 +31,7 @@
     <div class="row">
         <div class="text-center empty-result" data-translate="EmptyResult" ng-if="paFocusChartCtrl.isEmptyResult"></div>
         
-            <div style="width: 600px; height: 600px" id="pafocus-chart">{{::paFocusChartCtrl.buildChart(paFocusChartCtrl.groups)}}</div>
+            <div style="width: 600px; height: 600px" id="pafocus-chart" ng-if="!paFocusChartCtrl.isEmptyResult">{{::paFocusChartCtrl.buildChart(paFocusChartCtrl.groups)}}</div>
         
     </div>
 </div>

@@ -45,6 +45,13 @@
 
             return htmlString;
         }
+        
+        function renderTitleheader(cell) {
+            var htmlString = "<span class=\"titleHeader\" title=\"jdjdjdjdjdjd\"><i class=\"fa fa-info-circle icon-info\"></i></span>";
+            
+
+            return htmlString;
+        }
 
         function renderProjectScore(score) {
             var htmlString = "<td class='text-center'>-</td>";
@@ -299,6 +306,8 @@
         }
 
         function generateGroupHeaders() {
+            var column1 = "Best Suited to Team Goals <span class=\"titleHeader\" title=\"Best Suited to Team Goals:<span style=\'color:#324373;font-weight: bold;\'> I would always want him or her on my team (ability to work well with others). </span>\" </span><i class=\"fa fa-info-circle icon-info\"></i></span>";
+            var column2 = "Deserve Highest Reward (Increment And Bonus) <span class=\"titleHeader\" title=\"Deserve Highest Reward (Increment And Bonus): <span style=\'color:#324373;font-weight: bold;\'>I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade. </span>\"><i class=\"fa fa-info-circle icon-info\"></i></span>";
             return [{
                 Columns: [
                     { HeaderText: "#", Name: "SymbolCount", MergeRowNumber: 2 },
@@ -308,8 +317,8 @@
                     { HeaderText: "Reviewer's Adjustment", Name: "ReviewerAdjustment", MergeRowNumber: 2 },
                     { HeaderText: "PA Final Score", Name: "PAFinalScore", MergeRowNumber: 2 },
                     { HeaderText: "Evaluator's Comment", Name: "EvaluatorComment", MergeRowNumber: 2 },
-                    { HeaderText: "Best Suited to Team Goals (*)", Name: "Contribution", MergeRowNumber: 2 },
-                    { HeaderText: "Deserve Highest Reward (Increment And Bonus) (**)", Name: "BonusGiven", MergeRowNumber: 2 },
+                    { HeaderText: column1, Name: "Contribution", MergeRowNumber: 2},
+                    { HeaderText: column2, Name: "BonusGiven", MergeRowNumber: 2 },
                     { HeaderText: "Ready for Promotion", Name: "ApplicableToPromote", MergeRowNumber: 2 },
                     { HeaderText: "Poor Performance", Name: "IsPoorPerformance", MergeRowNumber: 2 },
                     { HeaderText: "Assessing Of Current Objective Achievement", Name: "ObjectiveAchievement", MergeRowNumber: 2 },
@@ -522,6 +531,11 @@
 
                     $(element.find(".award-tooltip, .next-objectives, .current-objective, .evaluator-comment")).tooltip({
                         placement: 'left',
+                        html: true,
+                        container: ".master-report-container"
+                    });
+                    $(element.find(".titleHeader")).tooltip({
+                        placement: 'bottom',
                         html: true,
                         container: ".master-report-container"
                     });
