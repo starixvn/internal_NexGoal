@@ -1687,10 +1687,10 @@
     <value>Accomplished Current Objectives</value>
   </data>
   <data name="ApplicableToPromote" xml:space="preserve">
-    <value>Applicable To Promote</value>
+    <value>Ready for Promotion</value>
   </data>
   <data name="DeserveRewards" xml:space="preserve">
-    <value>Deserve Rewards (Salary Increase And Bonus)</value>
+    <value>Deserve Highest Reward (Increment And Bonus)</value>
   </data>
   <data name="PAScore" xml:space="preserve">
     <value>PA Score</value>
@@ -1699,7 +1699,7 @@
     <value>Poor Performance</value>
   </data>
   <data name="SuitableForTeamGoals" xml:space="preserve">
-    <value>Suitable For Team Goals</value>
+    <value>Best Suited to Team Goals</value>
   </data>
   <data name="NominationManagement" xml:space="preserve">
     <value>Nomination Management</value>

@@ -30,8 +30,8 @@
 
     <div class="row">
         <div class="text-center empty-result" data-translate="EmptyResult" ng-if="paFocusChartCtrl.isEmptyResult"></div>
-        <div class="col-sm-6" ng-repeat="group in paFocusChartCtrl.groups">
-            <div id="pie-chart-group-{{group.TeamId}}">{{::paFocusChartCtrl.buildChart(group)}}</div>
-        </div>
+        
+            <div style="width: 600px; height: 600px" id="pafocus-chart">{{::paFocusChartCtrl.buildChart(paFocusChartCtrl.groups)}}</div>
+        
     </div>
 </div>

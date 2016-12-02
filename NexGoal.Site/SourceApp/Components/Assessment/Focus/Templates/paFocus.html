@@ -53,12 +53,6 @@
             </div>
         </div>
 
-        <div class="panel panel-default no-border">
-            <div class="panel-body">
-                <div>(*) {{"SuitableForTeamGoals" | translate}}: {{"PAFocusFirstNote" | translate}}</div>
-                <div>(**) {{"DeserveRewards" | translate}}: {{"PAFocusSecondNote" | translate}}</div>
-            </div>
-        </div>
     </div>
 
     <br />
@@ -70,8 +64,14 @@
                 <th data-translate="NickName"></th>
                 <th data-translate="FullName"></th>
                 <th data-translate="JobTitle"></th>
-                <th class="width-220">{{"SuitableForTeamGoals" | translate}} (*)</th>
-                <th class="width-220">{{"DeserveRewards" | translate}} (**)</th>
+                <th class="width-220">
+                    {{"SuitableForTeamGoals" | translate}}
+                    <i tooltip-html-unsafe='{{"SuitableForTeamGoals"| translate}}:<span style="color:#324373;font-weight: bold;"> {{"PAFocusFirstNote" | translate}} </span>' class="fa fa-info-circle icon-info"></i>
+                </th>
+                <th class="width-220">
+                    {{"DeserveRewards" | translate}}
+                    <i tooltip-html-unsafe='{{"DeserveRewards"| translate}}: <span style="color:#324373;font-weight: bold;">{{"PAFocusSecondNote" | translate}} </span>' class="fa fa-info-circle icon-info"></i>
+                </th>
                 <th data-translate="ApplicableToPromote"></th>
                 <th data-translate="PoorPerformance"></th>
                 <th colspan="2" data-translate="AccomplishedCurrentObjectives"></th>
@@ -89,7 +89,8 @@
                 <td colspan="13">{{group.Name}}</td>
             </tr>
             <tr ng-repeat="member in group.Members"
-                ng-class="{'noticeable-performance very-good': member.Contribution + member.BonusGiven > 8 && !member.IsReadyPromotion,
+                ng-class="{'noticeable-performance very-good': member.Contribution + member.BonusGiven >
+                8 && !member.IsReadyPromotion,
                 'noticeable-performance outstanding': member.Contribution + member.BonusGiven > 8 && member.IsReadyPromotion,
                 'noticeable-performance poor': member.Contribution + member.BonusGiven < 4 && member.Contribution > 0 && member.BonusGiven > 0 }">
                 <td class="text-center" ng-bind="$index + 1"></td>
