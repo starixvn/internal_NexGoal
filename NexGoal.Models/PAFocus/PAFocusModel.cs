@@ -34,7 +34,7 @@
 
         public bool? IsPoorPerformance { get; set; }
 
-        public string EncryptedIsPoorPerformance { get; set; }        
+        public string EncryptedIsPoorPerformance { get; set; }
 
         public void Decrypt()
         {
@@ -43,7 +43,7 @@
             IsPoorPerformance = string.IsNullOrEmpty(EncryptedIsPoorPerformance) ? IsPoorPerformance : bool.Parse(encryptService.Decrypt(EncryptedIsPoorPerformance));
             Contribution = string.IsNullOrEmpty(EncryptedContribution) ? Contribution : int.Parse(encryptService.Decrypt(EncryptedContribution));
             BonusGiven = string.IsNullOrEmpty(EncryptedBonusGiven) ? BonusGiven : int.Parse(encryptService.Decrypt(EncryptedBonusGiven));
-            FinalScore = string.IsNullOrEmpty(EncryptedFinalScore) ? FinalScore : double.Parse(encryptService.Decrypt(EncryptedFinalScore));
+            FinalScore = string.IsNullOrEmpty(EncryptedFinalScore) ? FinalScore : Math.Round(double.Parse(encryptService.Decrypt(EncryptedFinalScore)));
         }
 
         public void Encrypt()

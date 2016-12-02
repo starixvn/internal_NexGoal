@@ -194,17 +194,17 @@
                     height: 600
                 },
                 title: {
-                    text: 'PA Focus of ' + getPeriodName(vm.filter.periodId)
+                    text: 'Performance Focus of ' + getPeriodName(vm.filter.periodId)
                 },
-                export: {
-                    enabled: true
+                credits: {
+                    enabled: false
                 },
                 yAxis: {
-                    title: { text: ' I would always want him or her on my team (ability to work well with others) <span style="color:red">(*)</span></b>' },
+                    title: { text: 'Best Suited to Team Goals <span style="color:red">(*)</span></b>' },
                     tickInterval: 1,
                     min: 0,
                     max: 5,
-                    gridLineWidth: 0,
+                    gridLineWidth: 1,
                     lineWidth: 5,
                     tickWidth: 1
                 },
@@ -213,8 +213,9 @@
                 },
                 xAxis: {
                     title: {
-                        text: 'I would want to award this person the highest possible benefit (increase and bonus)<br> which is available for her/his job grade. <span style="color:red">(**)</span>'
+                        text: 'Deserve Highest Reward (Increment And Bonus) <span style="color:red">(**)</span>'
                     },
+                    gridLineWidth: 1,
                     tickInterval: 1,
                     lineWidth: 5,
                     min: 0,
