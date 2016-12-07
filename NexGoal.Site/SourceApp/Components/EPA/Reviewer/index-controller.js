@@ -171,9 +171,9 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     memberEPA.Process.CurrentProcess.MaxAdditionScore;
 
                 memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
-                memberEPA.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore !== "" ?
-                                                            utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore) :
-                                                            utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators);
+                memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.CurrentProcess.TotalScore !== "" ?
+                                                            utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore) :
+                                                            utilitiesFactory.parseFloat(memberEPA.Process.AverageScoreByEvaluators);
 
                 if (memberEPA.LastFinalScore.length > 0) {
                     memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
