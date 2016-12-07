@@ -26,7 +26,7 @@
                     <label class="note" data-translate="(*)"></label>
                 </th>
                 <th colspan="2">
-                    <label data-translate="Comment" ng-class="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.cssClass"></label>
+                    <label data-translate="Comment" ></label>
                     <label class="note" data-translate="(*)"></label>
                 </th>
 
@@ -105,6 +105,7 @@
                     <a href=""
                        ng-attr-title='{{"EditComment" | translate}}'
                        ng-show="memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
+                       ng-class="memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.cssClass"
                        ng-click="memberEPAInfoCtrl.openPopupEditComment(memberEPAInfoCtrl.epaInfo)">
                         <i class="fa fa-pencil-square-o"></i>
                     </a>

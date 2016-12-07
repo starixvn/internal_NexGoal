@@ -62,7 +62,13 @@
                         </th>
                         <th data-translate="SymbolCount"></th>
                         <th data-translate="PeriodName"></th>
-                        <th data-translate="Team"></th>
+                        <th class="sorting">
+                            <div class="col-sm-9 lab" data-translate="Team"></div>
+                            <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                                <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('Team')"
+                                   ng-click="reviewerCtrl.changeSorting('Team')"></a>
+                            </div>
+                        </th>                        
                         <th data-translate="NickName"></th>
                         <th data-translate="JobTitle"></th>
                         <th class="sorting">
@@ -87,7 +93,13 @@
                             <label data-translate="Comment"></label>
                             <label class="note" data-translate="(*)"></label>
                         </th>
-                        <th data-translate="TotalScore"></th>
+                        <th class="sorting">
+                            <div class="col-sm-9 lab" data-translate="TotalScore"></div>
+                            <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                                <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('FinalScore')"
+                                   ng-click="reviewerCtrl.changeSorting('FinalScore')"></a>
+                            </div>
+                        </th>
                         <th>
                             <span ng-show="!reviewerCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>
                             <span ng-show="reviewerCtrl.monthlyFilterSelected" data-translate="LastMonthScore"></span>

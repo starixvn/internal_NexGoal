@@ -182,12 +182,15 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     };
 
     reviewerMngModel.validateComments = function (memberEPAs) {
-        var isValid = true;
+        var isTrue = true;
         angular.forEach(memberEPAs, function (memberEPA) {
-            isValid = isValid ? reviewerMngModel.validateComment(memberEPA) : isValid;
+            var isValid = reviewerMngModel.validateComment(memberEPA);
+            if (!isValid) {
+                isTrue = false;
+            }
         });
 
-        return isValid;
+        return isTrue;
     };
 
     reviewerMngModel.calculateAdjustScore = function (memberEPAs, isReviewer) {
@@ -231,6 +234,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 reviewerMngModel.calculateScore(memberEPA, true);
 
                 memberEPA.Process.CurrentProcess.Comment = adjust.Comment;
+                memberEPA.Process.CurrentProcess.cssClass = '';
             }
         });
     };

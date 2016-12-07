@@ -39,10 +39,13 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 vm.members = [];
             } else {
                 vm.members = ReviewerManagementModel.members;
+                if (vm.filter.employeeIds) {
+                    utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
+                } else {
+                    utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
 
-                utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
-
-                vm.filter.employeeIds = utilitiesFactory.getSelectedDataByProperty(vm.members, "EmployeeId");
+                    vm.filter.employeeIds = utilitiesFactory.getSelectedDataByProperty(vm.members, "EmployeeId");
+                }
             }
 
             if (isFirstLoad) {
@@ -59,24 +62,43 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             } else {
                 vm.groupOptions = ReviewerManagementModel.groups;
 
-                utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
+                if (vm.filter.groupIds) {
+                    utilitiesFactory.setSelectedItem(vm.groupOptions, "GroupId", vm.filter.groupIds);
+                } else {
+                    utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
 
-                vm.filter.groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
+                    vm.filter.groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
+                }
 
                 getMemberByReviewer(vm.filter.periodIds, vm.filter.groupIds);
             }
         });
     }
 
-    function resetSorting() {
+    function resetSorting(field) {
         vm.sortBy = {
-            selfScore: {
-                ascending: false, descending: false
-            },
-            evaluatorScore: {
-                ascending: false, descending: false
-            }
+            name: field,
+            ascending: false
         };
+    }
+
+
+    function sortByTeam(epaInfo1, epaInfo2) {
+        var value = 0;
+        if (epaInfo1.Employee.GroupName < epaInfo2.Employee.GroupName) {
+            value = -1;
+        } else if (epaInfo1.Employee.GroupName > epaInfo2.Employee.GroupName) {
+            value = 1;
+        }
+
+        return value;
+    }
+
+    function sortByFinalScore(epaInfo1, epaInfo2) {
+        var tempa = epaInfo1.FinalScore ? parseFloat(epaInfo1.FinalScore) : 0,
+            tempb = epaInfo2.FinalScore ? parseFloat(epaInfo2.FinalScore) : 0;
+
+        return tempa - tempb;
     }
 
     function sortBySelfScore(epaInfo1, epaInfo2) {
@@ -145,8 +167,6 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
                 memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
                 memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore);
-                memberEPA.FinalScore = memberEPA.Process.CurrentProcess.TotalScore + memberEPA.DisciplineScore;
-                memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
 
                 if (memberEPA.LastFinalScore.length > 0) {
                     memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
@@ -189,12 +209,15 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
         ReviewerManagementModel.getAllPeriodByReviewer().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(ReviewerManagementModel.periodOptions);
+            if (vm.filter.periodIds) {
+                utilitiesFactory.setSelectedItem(vm.periods, "PeriodId", vm.filter.periodIds);
+            } else {
+                if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
+                    utilitiesFactory.checkLastestPeriods(vm.periods);
+                }
 
-            if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
-                utilitiesFactory.checkLastestPeriods(vm.periods);
+                vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
             }
-
-            vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
             getGroupsByPeriods(vm.filter.periodIds);
         });
@@ -222,60 +245,52 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     vm.selectedCls = function (field) {
         var cssClass = '';
-
-        switch (field) {
-            case 'SelfScore':
-                if (vm.sortBy.selfScore.ascending) {
-                    cssClass = 'sorting-asc';
-                } else if (vm.sortBy.selfScore.descending) {
-                    cssClass = 'sorting-desc';
-                }
-                break;
-            case 'EvaluatorScore':
-                if (vm.sortBy.evaluatorScore.ascending) {
-                    cssClass = 'sorting-asc';
-                } else if (vm.sortBy.evaluatorScore.descending) {
-                    cssClass = 'sorting-desc';
-                }
-                break;
+        if (vm.sortBy.name == field && vm.sortBy.ascending) {
+            cssClass = 'sorting-asc';
+        } else if (vm.sortBy.name == field && !vm.sortBy.ascending) {
+            cssClass = 'sorting-desc';
         }
 
         return cssClass;
     };
 
+
     vm.changeSorting = function (field) {
+
         switch (field) {
-            case 'SelfScore':
-                vm.sortBy.evaluatorScore = {
-                    ascending: false,
-                    descending: false
-                };
-                if (!vm.sortBy.selfScore.ascending) {
-                    vm.sortBy.selfScore.ascending = true;
-                    vm.sortBy.selfScore.descending = false;
-                    vm.memberEPAs.sort(sortBySelfScore);
-                } else {
-                    vm.sortBy.selfScore.ascending = false;
-                    vm.sortBy.selfScore.descending = true;
+            case 'Team':
+                if (vm.sortBy.name === field && vm.sortBy.ascending) {
                     vm.memberEPAs.reverse();
+                } else {
+                    vm.memberEPAs.sort(sortByTeam);
                 }
                 break;
-            case 'EvaluatorScore':
-                vm.sortBy.selfScore = {
-                    ascending: false,
-                    descending: false
-                };
-                if (!vm.sortBy.evaluatorScore.ascending) {
-                    vm.sortBy.evaluatorScore.ascending = true;
-                    vm.sortBy.evaluatorScore.descending = false;
-                    vm.memberEPAs.sort(sortByEvaluatorScore);
-                } else {
-                    vm.sortBy.evaluatorScore.ascending = false;
-                    vm.sortBy.evaluatorScore.descending = true;
+            case 'FinalScore':
+                if (vm.sortBy.name === field && vm.sortBy.ascending) {
                     vm.memberEPAs.reverse();
+                } else {
+                    vm.memberEPAs.sort(sortByFinalScore);
+                }
+                break;
+            case 'SelfScore':
+                if (vm.sortBy.name === field && vm.sortBy.ascending) {
+                    vm.memberEPAs.reverse();
+                } else {
+                    vm.memberEPAs.sort(sortBySelfScore);
+                }
+
+                break;
+            case 'EvaluatorScore':
+                if (vm.sortBy.name === field && vm.sortBy.ascending) {
+                    vm.memberEPAs.reverse();
+                } else {
+                    vm.memberEPAs.sort(sortByEvaluatorScore);
                 }
                 break;
         }
+
+        vm.sortBy.name = field;
+        vm.sortBy.ascending = !vm.sortBy.ascending;
     };
 
     vm.viewEPADetail = function (memberEPA) {
@@ -311,7 +326,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.inputScore = function (memberEPA) {
         var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
         maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore,
-        adjustScore = memberEPA.Process.CurrentProcess.AdjustScore === "" ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;        
+        adjustScore = memberEPA.Process.CurrentProcess.AdjustScore === "" ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;
 
         if (adjustScore > maxAdditionScore) {
             if (maxAdditionScore < vm.minScore) {
