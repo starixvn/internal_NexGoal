@@ -39,6 +39,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>FanexRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -196,8 +197,8 @@
     <Compile Include="Controllers\API\DashboardController.cs" />
     <Compile Include="Controllers\API\System\DepartmentController.cs" />
     <Compile Include="Controllers\API\EPA\EmployeeEPAController.cs" />
-    <Compile Include="Controllers\API\Assessment\EOYController.cs" />
-    <Compile Include="Controllers\API\Assessment\EOQController.cs" />
+    <Compile Include="Controllers\API\Assessment\EoyController.cs" />
+    <Compile Include="Controllers\API\Assessment\EoqController.cs" />
     <Compile Include="Controllers\API\EPA\EPAByKPIController.cs" />
     <Compile Include="Controllers\API\EPA\EPAHistoryController.cs" />
     <Compile Include="Controllers\API\EPA\FlowManagementController.cs" />

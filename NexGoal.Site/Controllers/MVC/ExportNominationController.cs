@@ -10,7 +10,7 @@
 
     public class ExportNominationController : Controller
     {
-        private const string EOQYNominationTemplatePath = @"~\ExcelTemplates\EOQYNomination.xls";
+        private const string EoqYNominationTemplatePath = @"~\ExcelTemplates\EOQYNomination.xls";
 
         private readonly INominationService nominationService;
         private readonly ISessionService sessionService;
@@ -26,28 +26,28 @@
             this.sessionService = sessionService ?? new SessionService();
         }
 
-        public ActionResult ExportEOQ(GetNominationByNominatorIdCriteria criteria)
+        public ActionResult ExportEoq(GetNominationByNominatorIdCriteria criteria)
         {
             if (criteria != null)
             {
                 criteria.NominatorId = sessionService.EmployeeId;
                 IEnumerable<NominationViewModel> nominations = nominationService.GetNominationByNominatorId(criteria);
 
-                string templatePath = Server.MapPath(EOQYNominationTemplatePath);
+                string templatePath = Server.MapPath(EoqYNominationTemplatePath);
                 nominationService.ExportEOQ(nominations, criteria.PeriodName, templatePath);
             }
 
             return new EmptyResult();
         }
 
-        public ActionResult ExportEOY(GetNominationByNominatorIdCriteria criteria)
+        public ActionResult ExportEoy(GetNominationByNominatorIdCriteria criteria)
         {
             if (criteria != null)
             {
                 criteria.NominatorId = sessionService.EmployeeId;
                 IEnumerable<NominationViewModel> nominations = nominationService.GetNominationByNominatorId(criteria);
 
-                string templatePath = Server.MapPath(EOQYNominationTemplatePath);
+                string templatePath = Server.MapPath(EoqYNominationTemplatePath);
                 nominationService.ExportEOY(nominations, criteria.PeriodName, templatePath);
             }
 

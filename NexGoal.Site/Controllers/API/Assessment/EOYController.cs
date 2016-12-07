@@ -11,22 +11,22 @@
     using System.Collections.Generic;
     using System.Web.Http;
 
-    public class EOYController : BaseController
+    public class EoyController : BaseController
     {
         private readonly IEOYService eoyService;
 
-        public EOYController()
+        public EoyController()
             : this(null)
         {
         }
 
-        public EOYController(IEOYService eoyService)
+        public EoyController(IEOYService eoyService)
         {
             this.eoyService = eoyService ?? new EOYService();
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<EOQYModel> GetEOY(int? statusId = null)
+        public IEnumerable<EOQYModel> GetEoy(int? statusId = null)
         {
             var criteria = new GetEOYCriteria
             {
@@ -37,7 +37,7 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public EOQYModel GetEOYById(int id)
+        public EOQYModel GetEoyById(int id)
         {
             var criteria = new GetEOYByIdCriteria
             {
@@ -48,7 +48,7 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<NominatorSettingModel> GetEOYNominatorSettingById(
+        public IEnumerable<NominatorSettingModel> GetEoyNominatorSettingById(
             int eoqyId,
             string query = null,
             string groupIds = null,
@@ -69,7 +69,7 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult CreateEOY(CreateEOYCriteria criteria)
+        public CommandResult CreateEoy(CreateEOYCriteria criteria)
         {
             if (criteria != null)
             {
@@ -82,7 +82,7 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult UpdateEOY(UpdateEOYCriteria criteria)
+        public CommandResult UpdateEoy(UpdateEOYCriteria criteria)
         {
             if (criteria != null)
             {
@@ -95,7 +95,7 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult UpdateEOYNominatorSettingById(UpdateEOYNominatorSettingByIdCriteria criteria)
+        public CommandResult UpdateEoyNominatorSettingById(UpdateEOYNominatorSettingByIdCriteria criteria)
         {
             if (criteria != null)
             {
@@ -108,7 +108,7 @@
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult DeleteEOY(int id)
+        public CommandResult DeleteEoy(int id)
         {
             var criteria = new DeleteEOYCriteria
             {

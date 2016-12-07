@@ -26,25 +26,25 @@
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public NominatorSettingModel GetLatestEOYByNominatorId()
+        public NominatorSettingModel GetLatestEoyByNominatorId()
         {
             return nominationService.GetLatestEOYByNominatorId(SessionService.EmployeeId);
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public NominatorSettingModel GetLatestEOQByNominatorId()
+        public NominatorSettingModel GetLatestEoqByNominatorId()
         {
             return nominationService.GetLatestEOQByNominatorId(SessionService.EmployeeId);
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public IEnumerable<QuestionModel> GetEOQQuestion()
+        public IEnumerable<QuestionModel> GetEoqQuestion()
         {
             return nominationService.GetEOQQuestion();
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public IEnumerable<QuestionModel> GetEOYQuestion()
+        public IEnumerable<QuestionModel> GetEoyQuestion()
         {
             return nominationService.GetEOYQuestion();
         }
@@ -77,14 +77,14 @@
         }        
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public NominationModel GetEOQNominationById(int nominationId)
+        public NominationModel GetEoqNominationById(int nominationId)
         {
             NominationModel nomination = nominationService.GetEOQNominationById(nominationId);
             return nomination;
         }
 
         [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
-        public NominationModel GetEOYNominationById(int nominationId)
+        public NominationModel GetEoyNominationById(int nominationId)
         {
             NominationModel nomination = nominationService.GetEOYNominationById(nominationId);
             return nomination;
@@ -92,7 +92,7 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
-        public CommandResult CreateEOQNomination(CreateEOQNominationCriteria criteria)
+        public CommandResult CreateEoqNomination(CreateEOQNominationCriteria criteria)
         {
             if (criteria != null)
             {
@@ -107,7 +107,7 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
-        public CommandResult CreateEOYNomination(CreateEOYNominationCriteria criteria)
+        public CommandResult CreateEoyNomination(CreateEOYNominationCriteria criteria)
         {
             if (criteria != null)
             {

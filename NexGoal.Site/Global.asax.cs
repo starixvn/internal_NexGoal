@@ -47,10 +47,10 @@
         {
             Exception ex = Server.GetLastError().GetBaseException();
             string message = ex.Message +
-                    "\r\nSource: " + ex.Source +
-                    "\r\nDomain: " + HttpContext.Current.Request.Headers["Host"] +
-                    "\r\nTargetSite: " + ex.TargetSite +
-                    "\r\nStackTrace: " + ex.StackTrace;
+                    "\r\n Source: " + ex.Source +
+                    "\r\n Domain: " + HttpContext.Current.Request.Headers["Host"] +
+                    "\r\n TargetSite: " + ex.TargetSite +
+                    "\r\n StackTrace: " + ex.StackTrace;
 
             LogService.Error(message);
         }

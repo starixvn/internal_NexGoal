@@ -61,11 +61,14 @@
 
         public ActionResult ExportEPADetailReport(GetPAReportCriteria criteria)
         {
-            criteria.UserId = this.sessionService.EmployeeId;
+            if (criteria != null)
+            {
+                criteria.UserId = this.sessionService.EmployeeId;
 
-            IEnumerable<EPADetailModel> epaDetail = reportService.GetEPADetailReport(criteria);
+                IEnumerable<EPADetailModel> epaDetail = reportService.GetEPADetailReport(criteria);
 
-            epaReportService.Render(epaDetail);
+                epaReportService.Render(epaDetail);
+            }
 
             return new EmptyResult();
         }

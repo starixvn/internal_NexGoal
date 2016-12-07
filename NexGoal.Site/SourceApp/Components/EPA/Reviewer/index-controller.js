@@ -8,6 +8,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     utilitiesFactory, notificationFactory, historyFactory, baseUrl, lockScreenService) {
     var vm = this;
     var isFirstLoad = true;
+    var isBackToList = false;
 
     vm.permission = 0;
     vm.memberEPAs = [];
@@ -25,12 +26,16 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     function initFilter() {
         var filter = historyFactory.getState();
-
-        return filter ? filter : {
-            groupIds: '',
-            employeeIds: '',
-            periodIds: ''
-        };
+        if (filter) {
+            isBackToList = true;
+        } else {
+            filter = {
+                groupIds: '',
+                employeeIds: '',
+                periodIds: ''
+            }
+        }
+        return filter;
     }
 
     function getMemberByReviewer(periodIds, groupIds) {
@@ -39,8 +44,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                 vm.members = [];
             } else {
                 vm.members = ReviewerManagementModel.members;
-                if (vm.filter.employeeIds) {
-                    utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);
+                if (isBackToList) {
+                    utilitiesFactory.setSelectedItem(vm.members, "EmployeeId", vm.filter.employeeIds);                    
                 } else {
                     utilitiesFactory.setSelectAll(vm.members, "EmployeeId");
 
@@ -62,7 +67,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             } else {
                 vm.groupOptions = ReviewerManagementModel.groups;
 
-                if (vm.filter.groupIds) {
+                if (isBackToList) {
                     utilitiesFactory.setSelectedItem(vm.groupOptions, "GroupId", vm.filter.groupIds);
                 } else {
                     utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
@@ -209,8 +214,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
         ReviewerManagementModel.getAllPeriodByReviewer().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(ReviewerManagementModel.periodOptions);
-            if (vm.filter.periodIds) {
-                utilitiesFactory.setSelectedItem(vm.periods, "PeriodId", vm.filter.periodIds);
+            if (isBackToList) {
+                utilitiesFactory.setSelectedItem(vm.periods, "PeriodId", vm.filter.periodIds);                
             } else {
                 if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
                     utilitiesFactory.checkLastestPeriods(vm.periods);
@@ -225,7 +230,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     vm.handleOnPeriodClose = function () {
         var periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
-
+        isBackToList = false;
         if (periodIds !== vm.filter.periodIds) {
             vm.filter.periodIds = periodIds;
 
@@ -235,7 +240,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
     vm.handleOnGroupClose = function () {
         var groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
-
+        isBackToList = false;
         if (groupIds !== vm.filter.groupIds) {
             vm.filter.groupIds = groupIds;
 

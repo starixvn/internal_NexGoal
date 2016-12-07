@@ -11,22 +11,22 @@
     using System.Collections.Generic;
     using System.Web.Http;
 
-    public class EOQController : BaseController
+    public class EoqController : BaseController
     {
         private readonly IEOQService eoqService;
 
-        public EOQController()
+        public EoqController()
             : this(null)
         {
         }
 
-        public EOQController(IEOQService eoqService)
+        public EoqController(IEOQService eoqService)
         {
             this.eoqService = eoqService ?? new EOQService();
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<EOQYModel> GetEOQ(int? year = null, int? statusId = null)
+        public IEnumerable<EOQYModel> GetEoq(int? year = null, int? statusId = null)
         {
             var criteria = new GetEOQCriteria
             {
@@ -38,7 +38,7 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public EOQYModel GetEOQById(int id)
+        public EOQYModel GetEoqById(int id)
         {
             var criteria = new GetEOQByIdCriteria
             {
@@ -49,13 +49,13 @@
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<int> GetYearEOQ()
+        public IEnumerable<int> GetYearEoq()
         {
             return eoqService.GetYearEOQ();
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
-        public IEnumerable<NominatorSettingModel> GetEOQNominatorSettingById(
+        public IEnumerable<NominatorSettingModel> GetEoqNominatorSettingById(
             int eoqyId,
             string query = null,
             string groupIds = null,
@@ -76,7 +76,7 @@
 
         [HttpPost]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult CreateEOQ(CreateEOQCriteria criteria)
+        public CommandResult CreateEoq(CreateEOQCriteria criteria)
         {
             if (criteria != null)
             {
@@ -89,7 +89,7 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult UpdateEOQ(UpdateEOQCriteria criteria)
+        public CommandResult UpdateEoq(UpdateEOQCriteria criteria)
         {
             if (criteria != null)
             {
@@ -102,7 +102,7 @@
 
         [HttpPut]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult UpdateEOQNominatorSettingById(UpdateEOQNominatorSettingByIdCriteria criteria)
+        public CommandResult UpdateEoqNominatorSettingById(UpdateEOQNominatorSettingByIdCriteria criteria)
         {
             if (criteria != null)
             {
@@ -115,7 +115,7 @@
 
         [HttpDelete]
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
-        public CommandResult DeleteEOQ(int id)
+        public CommandResult DeleteEoq(int id)
         {
             var criteria = new DeleteEOQCriteria
             {
