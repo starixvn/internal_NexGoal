@@ -161,7 +161,7 @@
                                 && (!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
                         </td>
                         <td class="text-center">
-                            {{memberEPA.FinalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxPerformanceScore | customScore}}
+                            {{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxPerformanceScore | customScore}}
                         </td>
                         <td class="text-center">
                             <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
