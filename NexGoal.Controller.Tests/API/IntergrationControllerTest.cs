@@ -46,7 +46,7 @@ namespace NexGoal.Controller.Tests.API
             /// Arrange
 
             /// Action
-            var actualAction = controller.GetType().GetMethod("GetHRMSummary");
+            var actualAction = controller.GetType().GetMethod("GethrmSummary");
 
             /// Assert
             Assert.IsNotNull(actualAction);
