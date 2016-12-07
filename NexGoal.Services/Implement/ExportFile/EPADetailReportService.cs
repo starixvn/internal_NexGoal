@@ -190,7 +190,6 @@
             string selfScore = string.Empty,
                 evaluatorScore = string.Empty,
                 reviewerScore = string.Empty,
-                managementScore = string.Empty,
                 finalScore = string.Empty,
                 grade = string.Empty;
 

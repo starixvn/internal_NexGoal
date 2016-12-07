@@ -21,23 +21,20 @@
         private const int ExcelColumnWidth = 256;
         private readonly IReportRepository reportRepository;
         private readonly IEmployeeEPARepository employeeEPARepository;
-        private readonly IEmployeeEPAService employeeEPAService;
         private readonly IIntegrationService integrationService;
 
         public ReportService()
-            : this(null, null, null, null)
+            : this(null, null, null)
         {
         }
 
         public ReportService(
             IReportRepository reportRepository,
             IEmployeeEPARepository employeeEPARepository,
-            IEmployeeEPAService employeeEPAService,
             IIntegrationService integrationService)
         {
             this.reportRepository = reportRepository ?? new ReportRepository();
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.integrationService = integrationService ?? new IntegrationService();
         }
 

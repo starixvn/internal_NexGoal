@@ -16,19 +16,16 @@
     public class EPAReviewerService : IEPAReviewerService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
-        private readonly IEmployeeEPAService employeeEPAService;
 
         public EPAReviewerService()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public EPAReviewerService(
-            IEmployeeEPARepository employeeEPARepository,
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPARepository employeeEPARepository)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public IEnumerable<EPAModel> GetEPA(GetEPAByReviewerCriteria criteria)

@@ -12,21 +12,18 @@
 
     public class ProcessService : BaseService, IProcessService
     {
-        private readonly IAutoMailService autoMailService;
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly ICertificateService certificateService;
 
         public ProcessService()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public ProcessService(
-            IAutoMailService autoMailService,
             IEmployeeEPAService employeeEPAService,
             ICertificateService certificateService)
         {
-            this.autoMailService = autoMailService ?? new AutoMailService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.certificateService = certificateService ?? new CertificateService();
         }

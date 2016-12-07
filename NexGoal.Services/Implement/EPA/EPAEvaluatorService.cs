@@ -16,19 +16,16 @@
     public class EPAEvaluatorService : IEPAEvaluatorService
     {
         private readonly IEmployeeEPARepository employeeEPARepository;
-        private readonly IEmployeeEPAService employeeEPAService;
 
         public EPAEvaluatorService()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public EPAEvaluatorService(
-            EmployeeEPARepository employeeEPARepository,
-            IEmployeeEPAService employeeEPAService)
+            EmployeeEPARepository employeeEPARepository)
         {
             this.employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public IEnumerable<EPAModel> GetEPA(GetEPAByEvaluatorCriteria criteria)
@@ -38,9 +35,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 memberEPAs = employeeEPARepository.GetEPA(criteria);
-
-                string epaIds = string.Join(",", memberEPAs.Where(x => x.IsSemiHasMonthly).Select(x => x.EPAId));
-
+                
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
                     memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId));

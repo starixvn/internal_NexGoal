@@ -61,7 +61,6 @@
         private string FormatPdfFileName(int epaId)
         {
             EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(epaId);
-            string code = string.IsNullOrEmpty(epaInfo.Employee.Code) ? string.Empty : "_" + epaInfo.Employee.Code;
 
             return string.Format("{0}.pdf", epaInfo.Employee.NickName + epaInfo.Employee.Code);
         }

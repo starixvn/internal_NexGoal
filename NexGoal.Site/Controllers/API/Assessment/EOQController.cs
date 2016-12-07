@@ -14,17 +14,15 @@
     public class EOQController : BaseController
     {
         private readonly IEOQService eoqService;
-        private readonly INominationService nominationService;
 
         public EOQController()
-            : this(null, null)
+            : this(null)
         {
         }
 
-        public EOQController(IEOQService eoqService, INominationService nominationService)
+        public EOQController(IEOQService eoqService)
         {
             this.eoqService = eoqService ?? new EOQService();
-            this.nominationService = nominationService ?? new NominationService();
         }
 
         [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]

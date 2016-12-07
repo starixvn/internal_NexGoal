@@ -31,7 +31,7 @@
                 hash.Add("ErrCode", 0);
                 hash.Add("ErrMsg", string.Empty);
 
-                int result = db.ExecuteNonQuery(hash);
+                db.ExecuteNonQuery(hash);
                 CommandResult commandResult = GetCommandResult(hash);
 
                 return commandResult;

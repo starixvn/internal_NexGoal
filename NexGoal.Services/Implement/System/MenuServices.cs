@@ -61,7 +61,6 @@
         public MenuModel GetMenusById(int id)
         {
             var criteria = new GetMenuByIdCriteria { MenuId = id };
-            var menu = new MenuModel();
             if (criteria.IsValid())
             {
                 return GetDataEntity<MenuModel>(criteria);

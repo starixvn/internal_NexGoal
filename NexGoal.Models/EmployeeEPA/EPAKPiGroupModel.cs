@@ -35,7 +35,6 @@
 
         public void Decrypt()
         {
-            ICertificateService certificateService = new CertificateService();
             foreach (var evaluator in EvaluatorsScore)
             {
                 evaluator.Decrypt();

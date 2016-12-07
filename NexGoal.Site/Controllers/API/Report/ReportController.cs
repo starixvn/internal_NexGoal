@@ -15,19 +15,16 @@
     public class ReportController : BaseController
     {
         private readonly IReportService _reportService;
-        private readonly CommonController _commonController;
 
         public ReportController()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public ReportController(
-            IReportService reportService,
-            CommonController commonController)
+            IReportService reportService)
         {
             _reportService = reportService ?? new ReportService();
-            _commonController = commonController ?? new CommonController();
         }
 
         [ApiAuthorize(FunctionKey.EPADetailReport, Policy.Read)]

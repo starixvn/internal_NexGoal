@@ -16,19 +16,16 @@
     public class EPASelfService : IEPASelfService
     {
         private readonly IEmployeeEPARepository _employeeEPARepository;
-        private readonly IEmployeeEPAService employeeEPAService;
 
         public EPASelfService()
-            : this(null, null)
+            : this(null)
         {
         }
 
         public EPASelfService(
-            IEmployeeEPARepository employeeEPARepository,
-            IEmployeeEPAService employeeEPAService)
+            IEmployeeEPARepository employeeEPARepository)
         {
             _employeeEPARepository = employeeEPARepository ?? new EmployeeEPARepository();
-            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
         public IEnumerable<EPAModel> GetEPA(GetEPAByEmployeeCriteria criteria)

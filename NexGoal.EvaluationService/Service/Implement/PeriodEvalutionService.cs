@@ -74,8 +74,6 @@
 
         private void UpdateFinalScore(EPAModel epa)
         {
-            var periods = new List<int>();
-
             IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
 
             double averagePerformanceScore = GetFinalScoreOfEvalution(epa);
