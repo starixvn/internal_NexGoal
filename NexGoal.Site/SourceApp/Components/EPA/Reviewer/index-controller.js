@@ -100,8 +100,8 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     }
 
     function sortByFinalScore(epaInfo1, epaInfo2) {
-        var tempa = epaInfo1.FinalScore ? parseFloat(epaInfo1.FinalScore) : 0,
-            tempb = epaInfo2.FinalScore ? parseFloat(epaInfo2.FinalScore) : 0;
+        var tempa = epaInfo1.Process.CurrentProcess.TotalScore ? parseFloat(epaInfo1.Process.CurrentProcess.TotalScore) : 0,
+            tempb = epaInfo2.Process.CurrentProcess.TotalScore ? parseFloat(epaInfo2.Process.CurrentProcess.TotalScore) : 0;
 
         return tempa - tempb;
     }
