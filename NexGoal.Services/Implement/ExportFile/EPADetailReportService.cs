@@ -207,7 +207,7 @@
                 {
                     float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
 
-                    selfScore = Math.Round(score, 2).ToString();
+                    selfScore = Math.Round(score).ToString();
                 }
             }
 
@@ -222,7 +222,7 @@
                 }
                 else
                 {
-                    evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
+                    evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators).ToString();
                 }
             }
             else
@@ -241,7 +241,7 @@
                 }
                 else
                 {
-                    reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
+                    reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers).ToString();
                 }
             }
             else
@@ -258,7 +258,7 @@
             {
                 if (!string.IsNullOrEmpty(memberEPA.FinalScore) && memberEPA.FinalScore != "0")
                 {
-                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore), 2).ToString();
+                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore)).ToString();
                     grade = memberEPA.Grade;
                 }
                 else

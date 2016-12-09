@@ -170,22 +170,22 @@
             {
                 float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
 
-                selfScore = Math.Round(score, 2).ToString();
+                selfScore = Math.Round(score).ToString();
             }
 
             if (memberEPA.EPAId > 0 && memberEPA.Process.Evaluators != null && memberEPA.Process.Evaluators.Any())
             {
-                evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators, 2).ToString();
+                evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators).ToString();
             }
 
             if (memberEPA.EPAId > 0 && memberEPA.Process.Reviewers != null && memberEPA.Process.Reviewers.Any())
             {
-                reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers, 2).ToString();
+                reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers).ToString();
             }
 
             if (memberEPA.EPAId > 0 && memberEPA.Process.Managements != null && memberEPA.Process.Managements.Any())
             {
-                managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements, 2).ToString();
+                managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements).ToString();
             }
 
             if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod)
@@ -197,7 +197,7 @@
                 }
                 else
                 {
-                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore), 2).ToString();
+                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore)).ToString();
                     grade = memberEPA.Grade;
                 }
             }
