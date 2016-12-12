@@ -529,6 +529,8 @@
     <Content Include="SourceApp\Components\EPA\Templates\disciplineInformation.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\forEmployeeUse.html" />
     <Content Include="SourceApp\Components\EPA\Templates\employeeEfficiencyInfo.html" />
+    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\Templates\index.html" />
+    <Content Include="SourceApp\Components\EPA\UpdateFinalScore\updateFinalScore-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\create-flow-template-controller.js" />
     <Content Include="SourceApp\Components\FlowManagement\Templates\modalCreateFlowTemplate.html" />
     <Content Include="SourceApp\Components\Page\page-controller.js" />

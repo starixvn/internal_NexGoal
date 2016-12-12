@@ -361,7 +361,7 @@
 
         #region Update Final Score
 
-        [ApiAuthorize(FunctionKey.UpdateFinalScore, Policy.Read)]
+        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
         public HttpResponseMessage GetPeriodToUpdateFinalScore()
         {
             var criteria = new GetPeriodToUpdateFinalScoreCriteria();
@@ -370,7 +370,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, periods);
         }
 
-        [ApiAuthorize(FunctionKey.UpdateFinalScore, Policy.Read)]
+        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
         public HttpResponseMessage GetEmployeeToUpdateFinalScore(
             int periodId,
             int? groupId = null,
@@ -387,7 +387,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, employees);
         }
 
-        [ApiAuthorize(FunctionKey.UpdateFinalScore, Policy.Read)]
+        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
         public HttpResponseMessage GetEPAToUpdateFinalScore(
             int periodId,
             int? groupId = null,
@@ -404,7 +404,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
-        [ApiAuthorize(FunctionKey.UpdateFinalScore, Policy.Host)]
+        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
         [HttpPut]
         public HttpResponseMessage UpdateFinalScore(IList<EPAModel> selectedEPAs)
         {
