@@ -61,9 +61,8 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         getPeriod: function (targetTypeId, isActive) {
             var params = {
                 targetTypeId: targetTypeId,
-                isActive: isActive,
-                status
-            }
+                isActive: isActive
+            };
 
             return $http.get(baseUrl + 'api/Common/GetPeriod', { params: params });
         },
