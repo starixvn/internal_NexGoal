@@ -72,6 +72,7 @@
     <Compile Include="EOQY\NominatorSettingModel.cs" />
     <Compile Include="EOQY\NomineeModel.cs" />
     <Compile Include="EPAHistory\EPAHistoryModel.cs" />
+    <Compile Include="Export\EpaDetailModel.cs" />
     <Compile Include="FlowManagement\DepartmentFlowModel.cs" />
     <Compile Include="FlowManagement\PersonalFlowModel.cs" />
     <Compile Include="FlowManagement\ProcessFlowModel.cs" />

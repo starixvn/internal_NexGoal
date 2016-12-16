@@ -68,7 +68,7 @@
         public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, SessionService.EmployeeId, (int)ProcessType.Self);
+            int permission = employeeEPAService.CheckEmployeePermission(epaId, SessionService.EmployeeId, (int)ProcessType.Self);
 
             switch (permission)
             {
@@ -158,7 +158,7 @@
             var processId = evaluatorId == null ? (int?)ProcessType.Evaluator : null;
             evaluatorId = evaluatorId ?? SessionService.EmployeeId;
 
-            int permission = CheckEmployeePermission(epaId, evaluatorId.Value, processId);
+            int permission = employeeEPAService.CheckEmployeePermission(epaId, evaluatorId.Value, processId);
             if (permission == (int)Policy.None)
             {
                 return Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
@@ -241,7 +241,7 @@
         public HttpResponseMessage GetEPAInfoByReviewer(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, SessionService.EmployeeId, (int)ProcessType.Reviewer);
+            int permission = employeeEPAService.CheckEmployeePermission(epaId, SessionService.EmployeeId, (int)ProcessType.Reviewer);
 
             switch (permission)
             {
@@ -286,7 +286,7 @@
         public HttpResponseMessage GetEPAInfoById(int epaId)
         {
             EPAModel epaInfo = new EPAModel();
-            int permission = CheckEmployeePermission(epaId, SessionService.EmployeeId);
+            int permission = employeeEPAService.CheckEmployeePermission(epaId, SessionService.EmployeeId);
 
             switch (permission)
             {
@@ -476,22 +476,7 @@
         private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
             return employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
-        }
-
-        private int CheckEmployeePermission(
-            int epaId,
-            int actorUserId,
-            int? processId = null)
-        {
-            var checkPermissionCriteria = new GetEmployeePermissionCriteria()
-            {
-                EPAId = epaId,
-                ActorUserId = actorUserId,
-                ProcessId = processId
-            };
-
-            return employeeEPAService.CheckEmployeePermission(checkPermissionCriteria);
-        }
+        }        
 
         private double GetFinalScoreOfEPA(EPAModel epaInfo)
         {

@@ -50,8 +50,8 @@
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
 
         string ConvertScoreToGrade(double score, IEnumerable<StandardGradeModel> standardGrades);
-
-        int CheckEmployeePermission(GetEmployeePermissionCriteria criteria);
+        
+        int CheckEmployeePermission(int epaId, int actorUserId, int? processId = null);
 
         IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
 

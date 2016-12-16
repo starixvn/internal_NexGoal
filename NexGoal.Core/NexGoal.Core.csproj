@@ -64,6 +64,14 @@
       <HintPath>..\packages\DotNetZip.1.9.8\lib\net20\Ionic.Zip.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.10\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="itextsharp.xmlworker, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\itextsharp.xmlworker.5.5.10\lib\itextsharp.xmlworker.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\EnterpriseLibrary.Common.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
       <Private>True</Private>
@@ -177,6 +185,8 @@
     <Compile Include="Utilities\NPOIExtensions\HSSFRowExtensions.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFSheetExtensions.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFWorkbookExtensions.cs" />
+    <Compile Include="Utilities\PdfRender.cs" />
+    <Compile Include="Utilities\UnicodeFontFactory.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj">

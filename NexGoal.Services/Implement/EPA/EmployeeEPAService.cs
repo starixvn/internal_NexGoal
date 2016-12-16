@@ -257,8 +257,14 @@
             return grade;
         }
 
-        public int CheckEmployeePermission(GetEmployeePermissionCriteria criteria)
+        public int CheckEmployeePermission(int epaId, int actorUserId, int? processId = null)
         {
+            var criteria = new GetEmployeePermissionCriteria
+            {
+                ActorUserId = actorUserId,
+                EPAId = epaId,
+                ProcessId = processId
+            };
             int result = -1;
 
             if (criteria != null && criteria.IsValid())

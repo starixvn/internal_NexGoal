@@ -1,80 +1,106 @@
 ﻿namespace NexGoal.Site.Controllers
 {
-    using NexGoal.Core.Constants;
-    using NexGoal.Core.Utilities;
-    using NexGoal.Model.EmployeeEPA;
+    using Core.Enumerations;
+    using Core.Services;
+    using Core.Utilities;
+    using Model.EmployeeEPA;
+    using Model.Export;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Configuration;
+    using Services.Interfaces.EPA;
+    using Services.Interfaces.ExportFile;
+    using System.Web.Hosting;
     using System.Web.Mvc;
 
     public class ExportPDFController : Controller
     {
+        private const string FileNameFormat = "{0}-{1}_{2}.pdf";
+        private const string CssFilePath = @"~\Content\Site\ExportPDF\EpaDetail.css";
+        private const string ViewTemplatePath = "~/Views/ExportPDF/EpaDetail.cshtml";
+
         private readonly IEmployeeEPAService _employeeEPAService;
-        private readonly IExportPdfService _exportPdfService;
+        private readonly ISessionService sessionService;
+        private readonly IRazorRenderService _razorRenderService;
+        private readonly IIntegrationService interationService;
+        private readonly ICommonService commonService;
 
         public ExportPDFController()
-            : this(null, null)
+            : this(null, null, null, null, null)
         {
         }
 
         public ExportPDFController(
             IEmployeeEPAService employeeEPAService,
-            IExportPdfService exportPdfService)
+            ISessionService sessionService,
+            IRazorRenderService _razorRenderService,
+            IIntegrationService interationService,
+            ICommonService commonService)
         {
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            _exportPdfService = exportPdfService ?? new ExportPdfService();
+            this.sessionService = sessionService ?? new SessionService();
+            this._razorRenderService = _razorRenderService ?? new RazorRenderService();
+            this.interationService = interationService ?? new IntegrationService();
+            this.commonService = commonService ?? new CommonService();
         }
 
-        public string RequestExportEPA(int epaId)
+        public ActionResult EpaDetail(int epaId)
         {
-            string target = "/EPA/Detail/" + epaId + "?exportpdf=true";
-            string fileName = RequestExport(epaId, target);
+            int permission = _employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
 
-            return fileName;
-        }
-
-        public string RequestExportSemiEPA(int epaId)
-        {
-            string target = "/EPA/SemiDetail/" + epaId + "?exportpdf=true";
-            string fileName = RequestExport(epaId, target);
-
-            return fileName;
-        }
-
-        public ActionResult DownloadEPADetail(int epaId, string fileName)
-        {
-            string pdfFile = Server.MapPath(Constants.ExportingFolder + fileName);
-            bool isValid = FileUtilities.IsReadyWithIntervals(pdfFile, int.Parse(ConfigurationManager.AppSettings["IntervalToDownloadFile"]));
-            if (!isValid)
+            if (permission == (int)Policy.None)
             {
-                return HttpNotFound();
+                return new EmptyResult();
             }
 
-            byte[] bytes = FileUtilities.ReadAndDeleteFile(pdfFile);
-            string newFileName = FormatPdfFileName(epaId);
+            var epa = _employeeEPAService.GetEPAInfoById(epaId);
+            var hrm = interationService.GetHRMSummary(epa.Employee.EmployeeId, epa.Period.PeriodId);
+            var grades = commonService.GetStandardGrade();
+            var epaInfo = new EpaDetailModel
+            {
+                Epa = epa,
+                Hrm = hrm,
+                Grades = grades,
+                RootApplication = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))
+            };            
 
-            return File(bytes, "application/pdf", newFileName);
+            return View(epaInfo);
         }
 
-        private string FormatPdfFileName(int epaId)
+        public ActionResult ExportEpaDetail(int epaId)
         {
-            EPAModel epaInfo = _employeeEPAService.GetEPAInfoById(epaId);
+            int permission = _employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
 
-            return string.Format("{0}.pdf", epaInfo.Employee.NickName + epaInfo.Employee.Code);
+            if (permission == (int)Policy.None)
+            {
+                return new EmptyResult();
+            }
+
+            var epa = _employeeEPAService.GetEPAInfoById(epaId);
+            var hrm = interationService.GetHRMSummary(epa.Employee.EmployeeId, epa.Period.PeriodId);
+            var grades = commonService.GetStandardGrade();
+            var epaInfo = new EpaDetailModel { Epa = epa, Hrm = hrm, Grades = grades };
+
+            var streamContent = RenderPdfContent(epaInfo);
+
+            return File(streamContent, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", "x.pdf");
         }
 
-        private string RequestExport(int epaId, string target)
+        private byte[] RenderPdfContent(EpaDetailModel epa)
         {
-            string fileName = string.Format("EPA_{0}.pdf", DateTime.Now.ToString("HHmmss"));
-            string domain = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Host, Request.Url.Port != 0 ? ":" + Request.Url.Port : string.Empty);
-            string url = domain + target;
-            string pdfFile = Server.MapPath(Constants.ExportingFolder + fileName);
+            var cssFilePath = GetPhysicalFilePath(CssFilePath);
+            var htmlString = _razorRenderService.RenderViewToString(this, ViewTemplatePath, epa);
 
-            _exportPdfService.WriteEPADetailToFileAsync(epaId, pdfFile, url, Request.Cookies);
+            return RenderPdfContent(cssFilePath, htmlString);
+        }
 
-            return fileName;
+        private string GetPhysicalFilePath(string virtualFilePath)
+        {
+            return HostingEnvironment.MapPath(virtualFilePath);
+        }
+
+        private byte[] RenderPdfContent(string cssFilePath, string htmlString)
+        {
+            return PdfRender.ContentRender(cssFilePath, htmlString);
         }
     }
 }

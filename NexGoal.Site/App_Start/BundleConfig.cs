@@ -7,11 +7,10 @@
     {
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         public static void RegisterBundles(BundleCollection bundles)
-        {
+        {            
             bundles.AddAndInclude(
-                            "~/Content/login/css",
-                            "~/Content/Less/bootstrap.less",
-                            "~/Content/Site/auth/style.less");
+                            "~/Content/EpaDetail/css",
+                            "~/Content/Site/ExportPDF/EpaDetail.css");
 
             bundles.Add(new StyleBundle("~/Content/Common/css").Include(
                             "~/Content/Common/bootstrap.min.css",

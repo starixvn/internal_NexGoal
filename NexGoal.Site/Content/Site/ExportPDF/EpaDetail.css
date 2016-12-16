@@ -1,0 +1,156 @@
+﻿body {
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    margin: 0;
+    width: 100%;
+    height: auto;
+}
+
+.title-page {
+    background: #324373;
+    color: white;
+    font-size: 16px;
+    padding: 5px 0px 5px 5px;
+    margin: 0;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+}
+
+.title0 {
+    background: #324373;
+    color: white;
+    font-size: 14px;
+    padding: 5px 0px 5px 5px;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    display: inline-block;
+}
+
+.title1 {
+    background: #535e87;
+    color: white;
+    font-size: 14px;
+    padding: 5px 0px 5px 5px;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    display: inline-block;
+}
+
+.title2 {
+    color: white;
+    padding: 5px 0px 5px 5px;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    display: inline-block;
+    font-size: 14px;
+    background: #8b8f9e;
+}
+
+.title-table {
+    text-align: center;
+    font-size: 12px;
+}
+
+.title-table-left {
+    text-align: left;
+    font-size: 12px;
+    padding: 5px 0px 5px 5px;
+}
+
+.content-table {
+    text-align: center;
+    font-size: 11px;
+}
+
+.content-table-left {
+    text-align: left;
+    font-size: 11px;
+    padding: 5px 0px 5px 5px;
+}
+
+.rating-instruction {
+    background: #eaeaea;
+    color: #2d3b66;
+    width: 100%;
+}
+
+.sub-total {
+    background: #f5cdb0;
+    color: #2b2b2b;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.rating-instruction td {
+    width: 14%;
+}
+
+.rating-instruction .star-block {
+    display: inline-block;
+}
+
+img.star {
+    width: 12px;
+    height: 12px;
+}
+
+.width-small {
+    width: 30px;
+}
+
+.width-medium {
+    width: 60px;
+}
+
+.width-large {
+    width: 100px;
+}
+
+.rating-instruction tbody {
+    font-size: 10px;
+    color: #545454;
+    text-align: left;
+    padding: 5px 0px 5px 5px;
+}
+
+.evaluation-process {
+    width: 100%;
+}
+
+table {
+    width: 100%;
+    table-layout: auto;
+}
+
+table, td {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+    padding: 5px 0px 5px 5px;
+}
+
+    table thead {
+        background: #f3e9d0;
+        color: #545454;
+        padding: 5px 0px 5px 5px;
+    }
+
+.grade-table {
+    width: 100%;
+    font-size: 14px;
+}
+
+    .grade-table tr {
+        background: #8b8f9e;
+        color: white;
+    }
+
+    .grade-table td {
+        padding: 5px 0px 5px 5px;
+    }

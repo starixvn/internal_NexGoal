@@ -77,6 +77,10 @@
       <HintPath>..\packages\Fanex.Logging.1.0.0.0\lib\net40\Fanex.Logging.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="itextsharp, Version=5.5.10.0, Culture=neutral, PublicKeyToken=8354ae6d2174ddca, processorArchitecture=MSIL">
+      <HintPath>..\packages\iTextSharp.5.5.10\lib\itextsharp.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=5.0.414.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\EnterpriseLibrary.Common.5.0.414.0\lib\net40\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
@@ -318,6 +322,7 @@
     <Content Include="Content\Site\Components\images\sprites.png" />
     <Content Include="Content\Site\Components\images\sprite_ico_2012-05-15.png" />
     <Content Include="Content\Site\Components\images\sprite_process.png" />
+    <Content Include="Content\Site\Components\images\star.png" />
     <Content Include="Content\Site\Components\images\success.png" />
     <Content Include="Content\Site\Components\images\table_header_repeat.jpg" />
     <Content Include="Content\Site\Components\images\tb_bg.gif" />
@@ -697,6 +702,9 @@
     <Content Include="SourceApp\Shared\Templates\InternalError.html" />
     <Content Include="SourceApp\Shared\Templates\ModalConfirmContent.html" />
     <Content Include="SourceApp\Shared\utilities-factory.js" />
+    <Content Include="Content\Site\ExportPDF\EpaDetail.css">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -831,6 +839,7 @@
     </Content>
     <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-last-objective.controller.js" />
     <None Include="Properties\PublishProfiles\NexGoal.pubxml" />
+    <Content Include="Views\ExportPDF\EpaDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">
