@@ -38,7 +38,7 @@
                 .Replace(EmailFormat.PeriodName, period.Name)
                 .Replace(EmailFormat.StartDate, startDate)
                 .Replace(EmailFormat.EndDate, endDate)
-                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                .Replace(EmailFormat.Url, AppSetting.ApplicationDomain);
 
                 var subject = Email.StartDateEmailToHRSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
@@ -65,7 +65,7 @@
                    .Replace(EmailFormat.PeriodName, period.Name)
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
-                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                   .Replace(EmailFormat.Url, AppSetting.ApplicationDomain);
 
                 var subject = Email.StartDateEmailToSelfSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
@@ -93,7 +93,7 @@
                     .Replace(EmailFormat.PeriodName, period.Name)
                     .Replace(EmailFormat.StartDate, startDate)
                     .Replace(EmailFormat.EndDate, endDate)
-                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                    .Replace(EmailFormat.Url, AppSetting.ApplicationDomain);
 
                 var subject = Email.StartDateEmailToEvaluatorSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
@@ -121,7 +121,7 @@
                    .Replace(EmailFormat.PeriodName, period.Name)
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
-                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                   .Replace(EmailFormat.Url, AppSetting.ApplicationDomain);
                 var subject = Email.StartDateEmailToReviewerSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
                     .Replace(EmailFormat.TargetType, GetTargetType(period.TargetType.TargetTypeId));
@@ -148,7 +148,7 @@
                     .Replace(EmailFormat.PeriodName, period.Name)
                     .Replace(EmailFormat.StartDate, startDate)
                     .Replace(EmailFormat.EndDate, endDate)
-                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                    .Replace(EmailFormat.Url, AppSetting.ApplicationDomain);
 
                 var subject = Email.RemindDateEmailToSelfSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
@@ -175,7 +175,7 @@
                     .Replace(EmailFormat.PeriodName, period.Name)
                     .Replace(EmailFormat.StartDate, startDate)
                     .Replace(EmailFormat.EndDate, endDate)
-                    .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                    .Replace(EmailFormat.Url, AppSetting.ApplicationDomain);
 
                 var subject = Email.RemindDateEmailToEvaluatorSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
@@ -202,7 +202,7 @@
                    .Replace(EmailFormat.PeriodName, period.Name)
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
-                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                   .Replace(EmailFormat.Url, AppSetting.ApplicationDomain);
 
                 var subject = Email.RemindDateEmailToReviewerSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
@@ -229,7 +229,7 @@
                    .Replace(EmailFormat.PeriodName, period.Name)
                    .Replace(EmailFormat.StartDate, startDate)
                    .Replace(EmailFormat.EndDate, endDate)
-                   .Replace(EmailFormat.URL, AppSetting.ApplicationDomain);
+                   .Replace(EmailFormat.Url, AppSetting.ApplicationDomain);
 
                 var subject = Email.RemindDateEmailToHRSubject
                     .Replace(EmailFormat.PeriodName, period.Name)
@@ -340,7 +340,7 @@
 
             email.Body = _baseMailService.ReadTextFile(templateEmailPath)
                 .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
-                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                .Replace(EmailFormat.Url, AppSetting.ApplicationDomain)
                 .Replace(EmailFormat.EndDate, endDate);
 
             email.ReceiverEmail = emailNomination.Email;
@@ -358,7 +358,7 @@
             email.Body = _baseMailService.ReadTextFile(templateEmailPath)
                 .Replace(EmailFormat.NominationName, nomination.Title)
                 .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
-                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                .Replace(EmailFormat.Url, AppSetting.ApplicationDomain)
                 .Replace(EmailFormat.EndDate, endDate);
 
             email.ReceiverEmail = emailNomination.Email;
@@ -378,7 +378,7 @@
             email.Body = _baseMailService.ReadTextFile(templateEmailPath)
                 .Replace(EmailFormat.NominationName, nomination.Title)
                 .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
-                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                .Replace(EmailFormat.Url, AppSetting.ApplicationDomain)
                 .Replace(EmailFormat.EndDate, endDate)
                 .Replace(EmailFormat.StartDate, startDate);
 
@@ -399,7 +399,7 @@
             email.Body = _baseMailService.ReadTextFile(templateEmailPath)
                 .Replace(EmailFormat.NominationName, nomination.Title)
                 .Replace(EmailFormat.NominatorNick, emailNomination.NickName)
-                .Replace(EmailFormat.URL, AppSetting.ApplicationDomain)
+                .Replace(EmailFormat.Url, AppSetting.ApplicationDomain)
                 .Replace(EmailFormat.EndDate, endDate)
                 .Replace(EmailFormat.StartDate, startDate);
 

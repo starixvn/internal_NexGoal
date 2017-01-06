@@ -9,7 +9,11 @@
   </Words>
   <Acronyms>
     <CasingExceptions>
+      <Acronym>EOQ</Acronym>
+      <Acronym>EOY</Acronym>
+      <Acronym>EOQY</Acronym>
       <Acronym>SMS</Acronym>
+      <Acronym>HRM</Acronym>
       <Acronym>EPA</Acronym>
       <Acronym>API</Acronym>
       <Acronym>KPI</Acronym>

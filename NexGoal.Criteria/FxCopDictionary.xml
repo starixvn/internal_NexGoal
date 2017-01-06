@@ -9,13 +9,19 @@
   </Words>
   <Acronyms>
     <CasingExceptions>
+      <Acronym>EOQ</Acronym>
+      <Acronym>EOY</Acronym>
+      <Acronym>EOQY</Acronym>
       <Acronym>SMS</Acronym>
       <Acronym>EPA</Acronym>
       <Acronym>EPAs</Acronym>
+      <Acronym>HRM</Acronym>
+      <Acronym>XML</Acronym>
       <Acronym>API</Acronym>
       <Acronym>KPI</Acronym>
       <Acronym>KPIs</Acronym>
-      <Acronym>XML</Acronym>
+      <Acronym>NPOI</Acronym>
+      <Acronym>HSSF</Acronym>
     </CasingExceptions>
   </Acronyms>
 </Dictionary>

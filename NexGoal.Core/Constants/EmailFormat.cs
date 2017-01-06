@@ -24,7 +24,7 @@
 
         public const string StartMonthYear = "#StartMonthYear#";
 
-        public const string URL = "#URL#";
+        public const string Url = "#URL#";
 
         public const string TargetType = "#TargetType#";
 
