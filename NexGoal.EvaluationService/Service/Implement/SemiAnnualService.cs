@@ -70,7 +70,7 @@
                 commandResult = Repository.Insert(criteria);
                 if (!commandResult.IsSuccessful)
                 {
-                    throw new Exception(commandResult.Message);
+                    throw new InvalidOperationException(commandResult.Message);
                 }
             }
 

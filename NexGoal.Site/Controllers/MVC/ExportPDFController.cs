@@ -18,9 +18,9 @@
         private const string CssFilePath = @"~\Content\Site\ExportPDF\EpaDetail.css";
         private const string ViewTemplatePath = "~/Views/ExportPDF/EpaDetail.cshtml";
 
-        private readonly IEmployeeEPAService _employeeEPAService;
+        private readonly IEmployeeEPAService employeeEPAService;
         private readonly ISessionService sessionService;
-        private readonly IRazorRenderService _razorRenderService;
+        private readonly IRazorRenderService razorRenderService;
         private readonly IIntegrationService interationService;
         private readonly ICommonService commonService;
 
@@ -32,27 +32,27 @@
         public ExportPDFController(
             IEmployeeEPAService employeeEPAService,
             ISessionService sessionService,
-            IRazorRenderService _razorRenderService,
+            IRazorRenderService razorRenderService,
             IIntegrationService interationService,
             ICommonService commonService)
         {
-            _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
+            this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.sessionService = sessionService ?? new SessionService();
-            this._razorRenderService = _razorRenderService ?? new RazorRenderService();
+            this.razorRenderService = razorRenderService ?? new RazorRenderService();
             this.interationService = interationService ?? new IntegrationService();
             this.commonService = commonService ?? new CommonService();
         }
 
         public ActionResult EpaDetail(int epaId)
         {
-            int permission = _employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
+            int permission = employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
 
             if (permission == (int)Policy.None)
             {
                 return new EmptyResult();
             }
 
-            var epa = _employeeEPAService.GetEPAInfoById(epaId);
+            var epa = employeeEPAService.GetEPAInfoById(epaId);
             var hrm = interationService.GetHRMSummary(epa.Employee.EmployeeId, epa.Period.PeriodId);
             var grades = commonService.GetStandardGrade();
             var epaInfo = new EpaDetailModel
@@ -68,14 +68,14 @@
 
         public ActionResult ExportEpaDetail(int epaId)
         {
-            int permission = _employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
+            int permission = employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
 
             if (permission == (int)Policy.None)
             {
                 return new EmptyResult();
             }
 
-            var epa = _employeeEPAService.GetEPAInfoById(epaId);
+            var epa = employeeEPAService.GetEPAInfoById(epaId);
             var hrm = interationService.GetHRMSummary(epa.Employee.EmployeeId, epa.Period.PeriodId);
             var grades = commonService.GetStandardGrade();
             var epaInfo = new EpaDetailModel { Epa = epa, Hrm = hrm, Grades = grades };
@@ -88,7 +88,7 @@
         private byte[] RenderPdfContent(EpaDetailModel epa)
         {
             var cssFilePath = GetPhysicalFilePath(CssFilePath);
-            var htmlString = _razorRenderService.RenderViewToString(this, ViewTemplatePath, epa);
+            var htmlString = razorRenderService.RenderViewToString(this, ViewTemplatePath, epa);
 
             return RenderPdfContent(cssFilePath, htmlString);
         }

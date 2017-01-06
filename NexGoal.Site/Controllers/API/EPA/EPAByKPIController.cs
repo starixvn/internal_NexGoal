@@ -27,7 +27,7 @@
             _employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
         }
 
-        [ApiAuthorize(FunctionKey.EPAByKPI, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPAByKPI, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAPeriodModel> GetPeriodToView()
         {
@@ -39,7 +39,7 @@
             return _employeeEPAService.GetPeriodToView(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.EPAByKPI, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPAByKPI, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<TargetTemplateModel> GetTargetTemplateToView(int periodId)
         {
@@ -52,7 +52,7 @@
             return _employeeEPAService.GetTargetTemplateToView(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.EPAByKPI, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPAByKPI, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(
             int periodId,
@@ -67,7 +67,7 @@
             return _employeeEPAService.GetEvaluatorsByTargetTemplate(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.EPAByKPI, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPAByKPI, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<TemporaryKPIModel> GetKPIToView(
             int periodId,
@@ -84,7 +84,7 @@
             return _employeeEPAService.GetKPIToView(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.EPAByKPI, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPAByKPI, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(
             int periodId,

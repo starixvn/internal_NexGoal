@@ -98,18 +98,7 @@
             }
 
             return epaDetail;
-        }
-
-        private void GroupPeriodByEmployee(IEnumerable<EPASummaryEmployeeModel> epaSummaries, IList<EPASummaryPeriodModel> periods)
-        {
-            foreach (EPASummaryEmployeeModel epaSummary in epaSummaries)
-            {
-                foreach (EPASummaryPeriodModel period in periods.Where(x => epaSummary.EmployeeId.Equals(x.EmployeeId)))
-                {
-                    epaSummary.Periods.Add(period);
-                }
-            }
-        }
+        }        
 
         private void GroupEPAProcessByEPA(IEnumerable<EPADetailModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
@@ -141,14 +130,6 @@
             {
                 epaInfo.Decrypt();
             }
-        }
-
-        private void DecryptTotalScore(IList<EPAProcessModel> processes)
-        {
-            foreach (EPAProcessModel process in processes)
-            {
-                process.Decrypt();
-            }
-        }
+        }        
     }
 }

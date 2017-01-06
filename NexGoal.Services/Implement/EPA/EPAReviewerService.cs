@@ -60,18 +60,7 @@
             }
 
             return epaInfo;
-        }
-
-        private void AveragedLastRating(IEnumerable<EvaluationModel> kpis)
-        {
-            foreach (var kpi in kpis)
-            {
-                var averagedRating = kpis.Where(i => i.KPIId == kpi.KPIId).Average(i => i.Rate);
-                kpi.Rate = averagedRating;
-            }
-
-            kpis = kpis.Distinct();
-        }
+        }       
 
         private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
         {

@@ -30,7 +30,7 @@
             _periodService = periodService ?? new PeriodService();
         }
 
-        [ApiAuthorize(FunctionKey.Self, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Self, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<PeriodModel> GetAllPeriodByEmployee()
         {
@@ -42,7 +42,7 @@
             return this._periodService.GetAllPeriodByEmployee(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Evaluator, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<PeriodModel> GetAllPeriodByEvaluator()
         {
@@ -54,7 +54,7 @@
             return this._periodService.GetAllPeriodByEvaluator(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Reviewer, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<PeriodModel> GetAllPeriodByReviewer()
         {
@@ -66,7 +66,7 @@
             return this._periodService.GetAllPeriodByReviewer(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
         {
             var criteria = new GetPeriodCriteria
@@ -104,7 +104,7 @@
             return periodList;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPost]
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
         {
@@ -124,7 +124,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
         {
@@ -144,7 +144,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
         public PeriodModel GetPeriodById(int periodId)
         {
             PeriodModel period = _periodService.GetPeriodById(periodId);
@@ -152,7 +152,7 @@
             return period;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
         {
@@ -172,7 +172,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpDelete]
         public CommandResult DeletePeriod(int periodId)
         {
@@ -186,7 +186,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(
             int periodId,
             int? departmentId = null,
@@ -233,7 +233,7 @@
             return periodEmployeeSettings;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPost]
         public CommandResult AddEmployeToPeriod(AssignEmployeePeriodModel model)
         {
@@ -260,7 +260,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdatedEmployeeSettingPeriodModel model)
         {
@@ -288,7 +288,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
         {
@@ -308,7 +308,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPost]
         public CommandResult GenerateEvaluation(AutoGenerateEvaluationCriteria criteria)
         {
@@ -327,7 +327,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<FlowModel> GetProcessSettingByPeriodId(int periodId)
         {
             var criteria = new GetProcessSettingPeriodCriteria
@@ -339,7 +339,7 @@
             return processSettings;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdatePeriodProcessSetting(UpdateProcessSettingPeriodCriteria criteria)
         {

@@ -58,23 +58,9 @@
             IEnumerable<Group> groups = _employeeService.GetAllGroup(criteria);
 
             return groups;
-        }
+        }       
 
-        [ApiAuthorize(FunctionKey.UserManagement, Policy.Host)]
-        [HttpPost]
-        public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.CreatedBy = SessionService.EmployeeId;
-                criteria.Password = Encryption.ComputeHash(HashProvider.Sha1, criteria.Password);
-            }
-
-            CommandResult commandResult = _employeeService.CreateSpecialEmployee(criteria);
-            return commandResult;
-        }
-
-        [ApiAuthorize(FunctionKey.UserManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
         {
@@ -92,32 +78,9 @@
             var criteria = new GetAllJobTitleCriteria();
             IEnumerable<JobTitle> jobTitles = _employeeService.GetAllJobTitle(criteria);
             return jobTitles;
-        }
+        }       
 
-        [HttpPut]
-        public CommandResult ChangePassword(ChangePasswordCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-            if (criteria != null)
-            {
-                var user = this._employeeService.GetEmployeeById(SessionService.EmployeeId);
-                if (Encryption.CompareStringToHash(HashProvider.Sha1, criteria.OldPassword, user.Password))
-                {
-                    criteria.EmployeeId = SessionService.EmployeeId;
-                    criteria.ModifiedBy = SessionService.EmployeeId;
-
-                    commandResult = _employeeService.ChangePassword(criteria);
-                }
-                else
-                {
-                    commandResult.Message = Lang.ValidateWrongPassword;
-                }
-            }
-
-            return commandResult;
-        }
-
-        [ApiAuthorize(FunctionKey.UserManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
@@ -129,23 +92,9 @@
             CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
 
             return commandResult;
-        }
+        }        
 
-        [ApiAuthorize(FunctionKey.UserManagement, Policy.Host)]
-        [HttpGet]
-        public CommandResult ResetPassword(int employeeId)
-        {
-            var criteria = new ResetPasswordCriteria()
-            {
-                EmployeeId = employeeId,
-                NewPassword = Constants.ResetDefaultPassword,
-                ModifiedBy = SessionService.EmployeeId
-            };
-
-            return _employeeService.ResetPassword(criteria);
-        }
-
-        [ApiAuthorize(FunctionKey.UserManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
         {

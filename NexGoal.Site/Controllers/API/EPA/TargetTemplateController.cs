@@ -33,7 +33,7 @@
             _scoreRatingTypeService = scoreRatingTypeService ?? new ScoreRatingTypeService();
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(int? targetTypeId = null, bool? isActive = null)
         {
             IEnumerable<TargetTemplateModel> targetTemplates = null;
@@ -47,7 +47,7 @@
             return targetTemplates;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
         public TargetTemplateModel GetTargetTemplateById(int targetTemplateId)
         {
             TargetTemplateModel targetTemplate = null;
@@ -60,7 +60,7 @@
             return targetTemplate;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPost]
         public CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria)
         {
@@ -73,7 +73,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria)
         {
@@ -86,7 +86,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateTargetTemplateBasicInformation(TargetTemplateModel targetTemplate)
         {
@@ -112,7 +112,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateTargetTemplate(TargetTemplateModel targetTemplate)
         {
@@ -133,7 +133,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteTargetTemplate(int targetTemplateId)
         {
@@ -147,7 +147,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPost]
         public CommandResult AddKPIGroupWeight(TargetKPIGroupWeightModel model)
         {
@@ -167,7 +167,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
         public IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(int targetTemplateId)
         {
             var criteria = new GetKPIGroupOfTargetTemplateCriteria
@@ -179,7 +179,7 @@
             return groups;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
         public IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(int targetTemplateId, bool onlySelected = false)
         {
             var criteria = new GetKPIOfTargetTemplateCriteria
@@ -191,7 +191,7 @@
             return kpiList;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteKPIGroupOfTargetTemplate(int targetTemplateId, int kpiGroupId)
         {

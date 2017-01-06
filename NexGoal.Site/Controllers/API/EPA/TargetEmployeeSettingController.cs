@@ -26,7 +26,7 @@
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
         public IList<TargetEmployeeModel> GetTargetEmployeeSetting(
             int? groupId = null,
             int? employeeId = null,
@@ -45,7 +45,7 @@
             return targetEmployeeSettings;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult AssignTargetTemplateToEmployee(AssignTargetTemplateToEmployeeCriteria criteria)
         {
@@ -58,7 +58,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteTargetEmployeeSetting(int targetTemplateId, int employeeId)
         {
@@ -73,7 +73,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
         public IList<TargetDepartmentModel> GetTargetDepartmentSetting(
             int? departmentId = null,
             bool? isGroup = null,
@@ -91,7 +91,7 @@
             return targetDepartments;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult AssignTargetTemplateToDepartment(TargetSettingAssignModel model)
         {
@@ -112,7 +112,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteTargetDepartmentSetting(
             int targetTemplateId,

@@ -1060,6 +1060,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Domain: .
+        /// </summary>
+        public static string Domain {
+            get {
+                return ResourceManager.GetString("Domain", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Due Date.
         /// </summary>
         public static string DueDate {
@@ -4129,11 +4138,29 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Source: .
+        /// </summary>
+        public static string Source {
+            get {
+                return ResourceManager.GetString("Source", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Spread KPIs Weight.
         /// </summary>
         public static string SpreadWeight {
             get {
                 return ResourceManager.GetString("SpreadWeight", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Stack Trace: .
+        /// </summary>
+        public static string StackTrace {
+            get {
+                return ResourceManager.GetString("StackTrace", resourceCulture);
             }
         }
         
@@ -4314,6 +4341,15 @@ namespace NexGoal.Resources {
         public static string TargetEmployeeSettingTemplate {
             get {
                 return ResourceManager.GetString("TargetEmployeeSettingTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Site: .
+        /// </summary>
+        public static string TargetSite {
+            get {
+                return ResourceManager.GetString("TargetSite", resourceCulture);
             }
         }
         

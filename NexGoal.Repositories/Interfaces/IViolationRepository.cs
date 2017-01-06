@@ -6,7 +6,7 @@ namespace NexGoal.Repositories.Interfaces
 {
     public interface IViolationRepository
     {
-        IEnumerable<ViolationViewModel> Get(ICriteria criteria);
+        IEnumerable<ViolationViewModel> GetViolation(ICriteria criteria);
 
         ViolationViewModel GetById(ICriteria criteria);
     }

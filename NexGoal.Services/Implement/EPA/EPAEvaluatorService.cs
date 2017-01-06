@@ -106,30 +106,7 @@
                 epaInfo.Process.Self.MaxPerformanceScore += epaInfo.MaxDisciplineScore;
                 epaInfo.Process.CurrentProcess.MaxPerformanceScore += epaInfo.MaxDisciplineScore;
             }
-        }
-
-        private void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
-        {
-            double maxAdditionScore = 0;
-
-            switch (epaInfo.Process.CurrentProcess.ProcessId)
-            {
-                case (int)ProcessType.Reviewer:
-                    if (epaInfo.IsSemiHasMonthly)
-                    {
-                        epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-                    }
-                    else
-                    {
-                        epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.Process.AverageScoreByEvaluators;
-                        maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators;
-                    }
-
-                    epaInfo.Process.CurrentProcess.MaxAdditionScore = Math.Round(maxAdditionScore);
-                    break;
-            }
-        }
+        }        
 
         private EPAProcessModel CopyEPAProcess(EPAProcessModel process)
         {

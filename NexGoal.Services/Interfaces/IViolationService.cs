@@ -15,7 +15,7 @@
 
         ViolationViewModel GetById(int violationId);
 
-        IEnumerable<ViolationViewModel> Get(GetViolationCriteria criteria);
+        IEnumerable<ViolationViewModel> GetViolation(GetViolationCriteria criteria);
 
         IEnumerable<ViolationViewModel> GetByPeriodId(GetViolationByPeriodIdCriteria criteria);
     }

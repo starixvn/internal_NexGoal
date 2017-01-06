@@ -18,12 +18,14 @@ namespace NexGoal.Core.Utilities
 
         public static byte[] ContentRender(string cssFilePath, string htmlText)
         {
-            using (var stream = new MemoryStream())
+            MemoryStream stream = null;
+            Document pdfDocument = null;
+            try
             {
-                using (var pdfDocument = new Document(new Rectangle(A4Width, A4Height), 20, 20, 40, 40))
+                using (stream = new MemoryStream())
                 {
+                    pdfDocument = new Document(new Rectangle(A4Width, A4Height), 20, 20, 40, 40);
                     pdfDocument.SetPageSize(PageSize.A4);
-
                     var pdfWriter = PdfWriter.GetInstance(pdfDocument, stream);
                     var worker = XMLWorkerHelper.GetInstance();
                     var font = new UnicodeFontFactory();
@@ -39,9 +41,17 @@ namespace NexGoal.Core.Utilities
                     }
 
                     pdfDocument.Close();
-                }
+                    pdfDocument = null;
 
-                return stream.ToArray();
+                    return stream.ToArray();
+                }
+            }
+            finally
+            {
+                if (pdfDocument != null)
+                {
+                    pdfDocument.Dispose();
+                }
             }
         }
     }

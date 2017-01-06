@@ -379,19 +379,7 @@
                     kpiGroup.KPIs.Add(kpi);
                 }
             }
-        }
-
-        private void GroupEvaluatorScoreOnGroup(IEnumerable<EPAKPIGroupModel> kpiGroups, IEnumerable<EvaluationModel> evaluations)
-        {
-            foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
-            {
-                var evaluatorScore = evaluations.Where(i => i.KPIGroupId.Equals(kpiGroup.KPIGroupId));
-                if (evaluatorScore.Any())
-                {
-                    kpiGroup.EvaluatorsScore = evaluatorScore.ToList();
-                }
-            }
-        }
+        }        
 
         private void GroupEvaluationOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
         {
@@ -441,22 +429,6 @@
             {
                 epaInfo.Decrypt();
             }
-        }
-
-        private void DecodeTotalScore(IList<EPAProcessModel> processes)
-        {
-            foreach (EPAProcessModel process in processes)
-            {
-                process.Decrypt();
-            }
-        }
-
-        private void DecodeScore(IList<EvaluationModel> evaluations)
-        {
-            foreach (EvaluationModel evaluation in evaluations)
-            {
-                evaluation.Decrypt();
-            }
-        }
+        }       
     }
 }

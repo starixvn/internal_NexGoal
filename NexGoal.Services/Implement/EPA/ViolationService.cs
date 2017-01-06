@@ -74,12 +74,12 @@
             return model;
         }
 
-        public IEnumerable<ViolationViewModel> Get(GetViolationCriteria criteria)
+        public IEnumerable<ViolationViewModel> GetViolation(GetViolationCriteria criteria)
         {
             IEnumerable<ViolationViewModel> model = new List<ViolationViewModel>();
             if (criteria != null && criteria.IsValid())
             {
-                model = this.violationRepository.Get(criteria);
+                model = this.violationRepository.GetViolation(criteria);
             }
 
             return model;
@@ -93,7 +93,7 @@
             {
                 if (criteria != null && criteria.IsValid())
                 {
-                    model = this.violationRepository.Get(criteria);
+                    model = this.violationRepository.GetViolation(criteria);
                 }
             }
 

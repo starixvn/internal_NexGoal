@@ -6,7 +6,7 @@
 
     public interface IEPADetailReportService
     {
-        MemoryStream Export(IEnumerable<EPADetailModel> epaDetail);
+        MemoryStream Export(IEnumerable<EPADetailModel> epaDetails);
 
         void Render(IEnumerable<EPADetailModel> epaDetail);
     }

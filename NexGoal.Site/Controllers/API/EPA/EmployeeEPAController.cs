@@ -50,7 +50,7 @@
 
         #region Self
 
-        [ApiAuthorize(FunctionKey.Self, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Self, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEmployee(string periodIds = null)
         {
@@ -63,7 +63,7 @@
             return this.selfService.GetEPA(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.Self, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Self, Policy = Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPAInfoByEmployee(int epaId)
         {
@@ -88,7 +88,7 @@
             }
         }
 
-        [ApiAuthorize(FunctionKey.Self, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Self, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateEPAScoreByEmployee(UpdateEPAScoreCriteria criteria)
         {
@@ -115,14 +115,14 @@
 
         #region Evaluator
 
-        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Evaluator, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<Group> GetGroupByEvaluator(string periodIds = null)
         {
             return GetGroupByEvaluatorOrReviewer((int)ProcessType.Evaluator, periodIds);
         }
 
-        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Evaluator, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<Employee> GetMemberByEvaluator(
             string groupIds = null,
@@ -131,7 +131,7 @@
             return GetMemberByEvaluatorOrReviewer((int)ProcessType.Evaluator, groupIds, periodIds);
         }
 
-        [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Evaluator, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByEvaluator(
             string periodIds = null,
@@ -149,9 +149,9 @@
             return this.evaluatorService.GetEPA(criteria);
         }
 
-        /// [ApiAuthorize(FunctionKey.Evaluator, Policy.Read)]
-        /// [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
-        /// [ApiAuthorize(FunctionKey.Management, Policy.Read)]
+        /// [ApiAuthorize(FunctionKey = FunctionKey.Evaluator, Policy = Policy.Read)]
+        /// [ApiAuthorize(FunctionKey = FunctionKey.Reviewer, Policy = Policy.Read)]
+        /// [ApiAuthorize(FunctionKey = FunctionKey.Management, Policy = Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPAInfoByEvaluator(int epaId, int? evaluatorId = null)
         {
@@ -175,7 +175,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }
 
-        [ApiAuthorize(FunctionKey.Evaluator, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Evaluator, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
         {
@@ -202,14 +202,14 @@
 
         #region Reviewer
 
-        [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Reviewer, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<Group> GetGroupByReviewer(string periodIds = null)
         {
             return GetGroupByEvaluatorOrReviewer((int)ProcessType.Reviewer, periodIds);
         }
 
-        [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Reviewer, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<Employee> GetMemberByReviewer(
             string groupIds = null,
@@ -218,7 +218,7 @@
             return GetMemberByEvaluatorOrReviewer((int)ProcessType.Reviewer, groupIds, periodIds);
         }
 
-        [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Reviewer, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<EPAModel> GetEPAByReviewer(
             string periodIds,
@@ -236,7 +236,7 @@
             return reviewerService.GetEPA(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.Reviewer, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Reviewer, Policy = Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPAInfoByReviewer(int epaId)
         {
@@ -261,7 +261,7 @@
             }
         }
 
-        [ApiAuthorize(FunctionKey.Reviewer, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Reviewer, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult AdjustScoreByReviewer(IEnumerable<EPAModel> memberEPAs)
         {
@@ -361,7 +361,7 @@
 
         #region Update Final Score
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
         public HttpResponseMessage GetPeriodToUpdateFinalScore()
         {
             var criteria = new GetPeriodToUpdateFinalScoreCriteria();
@@ -370,7 +370,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, periods);
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
         public HttpResponseMessage GetEmployeeToUpdateFinalScore(
             int periodId,
             int? groupId = null,
@@ -387,7 +387,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, employees);
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
         public HttpResponseMessage GetEPAToUpdateFinalScore(
             int periodId,
             int? groupId = null,
@@ -404,7 +404,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPut]
         public HttpResponseMessage UpdateFinalScore(IList<EPAModel> selectedEPAs)
         {
@@ -476,7 +476,7 @@
         private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
         {
             return employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
-        }        
+        }
 
         private double GetFinalScoreOfEPA(EPAModel epaInfo)
         {

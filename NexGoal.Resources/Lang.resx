@@ -1776,4 +1776,16 @@
   <data name="RemindDateBetweenStartAndEndDate" xml:space="preserve">
     <value>Remind Date must be between Start Date and End Date</value>
   </data>
+  <data name="Domain" xml:space="preserve">
+    <value>Domain: </value>
+  </data>
+  <data name="Source" xml:space="preserve">
+    <value>Source: </value>
+  </data>
+  <data name="StackTrace" xml:space="preserve">
+    <value>Stack Trace: </value>
+  </data>
+  <data name="TargetSite" xml:space="preserve">
+    <value>Target Site: </value>
+  </data>
 </root>

@@ -7,13 +7,6 @@
 
     public static class Encryption
     {
-        public static string ComputeHash(HashProvider hashAlgorithm, string plainText, int saltSize = 8)
-        {
-            // Random salt
-            byte[] salt = Random.RngCrypto(saltSize);
-            return ComputeHash(hashAlgorithm, plainText, salt);
-        }
-
         public static bool CompareStringToHash(HashProvider hashAlgorithm, string plainText, string encrypt, int saltSize = 8)
         {
             byte[] encryptBuffer = Convert.FromBase64String(encrypt);

@@ -23,9 +23,9 @@
             _menuRepository = menuRepository ?? new MenuRepository();
         }
 
-        public IEnumerable<MenuModel> GetMenusByUserId(int employeeId)
+        public IEnumerable<MenuModel> GetMenusByUserId(int userId)
         {
-            var criteria = new GetMenusByEmployeeIdCriteria { EmployeeId = employeeId };
+            var criteria = new GetMenusByEmployeeIdCriteria { EmployeeId = userId };
             IEnumerable<MenuModel> menus = new List<MenuModel>();
             if (criteria.IsValid())
             {

@@ -25,7 +25,7 @@
             this.eoyService = eoyService ?? new EOYService();
         }
 
-        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Read)]
         public IEnumerable<EOQYModel> GetEoy(int? statusId = null)
         {
             var criteria = new GetEOYCriteria
@@ -36,7 +36,7 @@
             return eoyService.GetEOY(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Read)]
         public EOQYModel GetEoyById(int id)
         {
             var criteria = new GetEOYByIdCriteria
@@ -47,7 +47,7 @@
             return eoyService.GetEOYById(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Read)]
         public IEnumerable<NominatorSettingModel> GetEoyNominatorSettingById(
             int eoqyId,
             string query = null,
@@ -68,7 +68,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Host)]
         public CommandResult CreateEoy(CreateEOYCriteria criteria)
         {
             if (criteria != null)
@@ -81,7 +81,7 @@
         }
 
         [HttpPut]
-        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Host)]
         public CommandResult UpdateEoy(UpdateEOYCriteria criteria)
         {
             if (criteria != null)
@@ -94,7 +94,7 @@
         }
 
         [HttpPut]
-        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Host)]
         public CommandResult UpdateEoyNominatorSettingById(UpdateEOYNominatorSettingByIdCriteria criteria)
         {
             if (criteria != null)
@@ -107,7 +107,7 @@
         }
 
         [HttpDelete]
-        [ApiAuthorize(FunctionKey.ManageNomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Host)]
         public CommandResult DeleteEoy(int id)
         {
             var criteria = new DeleteEOYCriteria

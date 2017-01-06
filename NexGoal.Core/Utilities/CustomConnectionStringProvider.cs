@@ -1,12 +1,13 @@
 ﻿namespace NexGoal.Core.Utilities
 {
+    using Fanex.Data;
+    using NexGoal.Core.Services;
+    using Resources;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Data.SqlClient;
     using System.Linq;
-    using Fanex.Data;
-    using NexGoal.Core.Services;
 
     public class CustomConnectionStringProvider : ConnectionStringProviderBase
     {
@@ -22,7 +23,7 @@
         {
             if (connectionString == null)
             {
-                throw new ArgumentNullException("Could not read the connection strings");
+                throw new ArgumentNullException(Message.NotFoundConnectionString);
             }
 
             var connectionStringBuilder = new SqlConnectionStringBuilder(connectionString);
@@ -35,7 +36,7 @@
         {
             if (ConfigurationManager.ConnectionStrings == null)
             {
-                throw new ConfigurationErrorsException("Could not read the connection strings from your web.config or app.config.");
+                throw new ConfigurationErrorsException(Message.NotFoundConnectionString);
             }
 
             IEnumerable<ConnectionStringSettings> connections = ConfigurationManager.ConnectionStrings.Cast<ConnectionStringSettings>();
@@ -49,7 +50,7 @@
         {
             if (encryptedPassword == null)
             {
-                throw new ArgumentNullException("Could not read the password");
+                throw new ArgumentNullException(Message.InvalidPassword);
             }
 
             var plainPassword = certificateService.Decrypt(encryptedPassword);

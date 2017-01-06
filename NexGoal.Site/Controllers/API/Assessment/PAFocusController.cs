@@ -26,7 +26,7 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.PAFocus, Policy = Policy.Read)]
         public IEnumerable<PAFocusProcessModel> GetPAFocusProcess(int periodId)
         {
             var result = this.focusService.GetPAFocusProcess(periodId);
@@ -35,7 +35,7 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey.Period, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
         public IEnumerable<FocusProcessSettingModel> GetPAProcessSettingByPeriodId(int periodId)
         {
             var processSettings = this.focusService.GetPAFocusProcessSettingByPeriodId(periodId);
@@ -43,7 +43,7 @@
             return processSettings;
         }
 
-        [ApiAuthorize(FunctionKey.Period, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Host)]
         [HttpPost]
         public CommandResult UpdatePAProcessSetting(UpdatePAFocusProcessSetingCriteria criteria)
         {
@@ -53,7 +53,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.PAFocus, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.PAFocus, Policy = Policy.Host)]
         public CommandResult UpdatePAFocus(IEnumerable<PAFocusModel> evaluations)
         {
             var result = this.focusService.UpdatePAFocus(SessionService.EmployeeId, evaluations);
@@ -62,7 +62,7 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey.PAFocus, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.PAFocus, Policy = Policy.Read)]
         public IEnumerable<PAFocusModel> GetPAFocus(int periodId, string groupIds = null, int? employeeId = null)
         {
             var criteria = new GetPAFocusCriteria

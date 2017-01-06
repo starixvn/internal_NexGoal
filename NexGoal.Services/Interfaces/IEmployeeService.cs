@@ -20,11 +20,7 @@
 
         CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria);
 
-        IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
-
-        CommandResult ChangePassword(ChangePasswordCriteria criteria);
-
-        CommandResult ResetPassword(ResetPasswordCriteria criteria);
+        IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);       
 
         CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);
 

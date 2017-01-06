@@ -34,7 +34,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.MenuManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.MenuManagement, Policy = Policy.Host)]
         public CommandResult Create(InsertMenuCriteria criteria)
         {
             var result = this.menuService.Insert(criteria);
@@ -43,7 +43,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.MenuManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.MenuManagement, Policy = Policy.Host)]
         public CommandResult Edit(UpdateMenuCriteria criteria)
         {
             var result = this.menuService.Update(criteria);
@@ -51,7 +51,7 @@
             return result;
         }
 
-        [ApiAuthorize(FunctionKey.MenuManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.MenuManagement, Policy = Policy.Host)]
         public CommandResult Delete(int id)
         {
             var result = this.menuService.Delete(id);

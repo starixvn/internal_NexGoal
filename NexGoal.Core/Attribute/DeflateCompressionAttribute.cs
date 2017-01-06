@@ -3,7 +3,8 @@
     using System.Net.Http;
     using System.Web.Http.Filters;
 
-    public class DeflateCompressionAttribute : ActionFilterAttribute
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1018:MarkAttributesWithAttributeUsage", Justification = "Reviewed")]
+    public sealed class DeflateCompressionAttribute : ActionFilterAttribute
     {
         public override void OnActionExecuted(HttpActionExecutedContext actionExecutedContext)
         {

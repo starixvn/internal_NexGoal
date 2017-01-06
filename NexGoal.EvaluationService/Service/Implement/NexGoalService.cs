@@ -33,12 +33,13 @@
             this.nominationService = nominationService ?? new NominationEmailService();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Reviewed")]
         public void Run()
         {
             try
             {
                 semiAnnualService.GeneratedEPA();
-                probationService.GeneratedEPA();                
+                probationService.GeneratedEPA();
                 processService.UpdateInformationAtEndProccess();
                 periodEvalutionService.UpdatePeriodIsEnd();
                 periodEvalutionService.GeneratePAFocus();
@@ -47,7 +48,7 @@
             }
             catch (Exception ex)
             {
-                LogService.Error("Error: " + ex.InnerException.Message, ex);
+                LogService.Error(ex.InnerException.Message, ex);
             }
         }
 

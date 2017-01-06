@@ -1,12 +1,13 @@
 ﻿namespace NexGoal.Core.Attribute
 {
     using Fanex.Logging;
+    using Resources;
     using System;
     using System.Web;
     using System.Web.Http.Filters;
 
     [AttributeUsage(AttributeTargets.All)]
-    public class ExceptionHandlingAttribute : ExceptionFilterAttribute
+    public sealed class ExceptionHandlingAttribute : ExceptionFilterAttribute
     {
         public override void OnException(HttpActionExecutedContext actionExecutedContext)
         {
@@ -17,10 +18,10 @@
                 {
                     var exception = actionExecutedContext.Exception;
                     string message = exception.Message +
-                            "\r\nSource: " + exception.Source +
-                            "\r\nDomain: " + HttpContext.Current.Request.Headers["Host"] +
-                            "\r\nTargetSite: " + exception.TargetSite +
-                            "\r\nStackTrace: " + exception.StackTrace;
+                            Environment.NewLine + Lang.Source + exception.Source +
+                            Environment.NewLine + Lang.Domain + HttpContext.Current.Request.Headers["Host"] +
+                            Environment.NewLine + Lang.TargetSite + exception.TargetSite +
+                            Environment.NewLine + Lang.StackTrace + exception.StackTrace;
 
                     LogService.Error(message);
                 }

@@ -25,31 +25,31 @@
             this.nominationService = nominationService ?? new NominationService();
         }
 
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
         public NominatorSettingModel GetLatestEoyByNominatorId()
         {
             return nominationService.GetLatestEOYByNominatorId(SessionService.EmployeeId);
         }
 
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
         public NominatorSettingModel GetLatestEoqByNominatorId()
         {
             return nominationService.GetLatestEOQByNominatorId(SessionService.EmployeeId);
         }
 
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
         public IEnumerable<QuestionModel> GetEoqQuestion()
         {
             return nominationService.GetEOQQuestion();
         }
 
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
         public IEnumerable<QuestionModel> GetEoyQuestion()
         {
             return nominationService.GetEOYQuestion();
         }
 
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
         public IEnumerable<NominationViewModel> GetNominationByNominatorId(
             int eoqyId,
             string query = null,
@@ -76,14 +76,14 @@
             return nominations;
         }        
 
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
         public NominationModel GetEoqNominationById(int nominationId)
         {
             NominationModel nomination = nominationService.GetEOQNominationById(nominationId);
             return nomination;
         }
 
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
         public NominationModel GetEoyNominationById(int nominationId)
         {
             NominationModel nomination = nominationService.GetEOYNominationById(nominationId);
@@ -91,7 +91,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Host)]
         public CommandResult CreateEoqNomination(CreateEOQNominationCriteria criteria)
         {
             if (criteria != null)
@@ -106,7 +106,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Host)]
         public CommandResult CreateEoyNomination(CreateEOYNominationCriteria criteria)
         {
             if (criteria != null)
@@ -121,7 +121,7 @@
         }
 
         [HttpPut]
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Host)]
         public CommandResult UpdateNomination(UpdateNominationCriteria criteria)
         {
             if (criteria != null)
@@ -135,7 +135,7 @@
         }
 
         [HttpDelete]
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Host)]
         public CommandResult DeleteNomination(int id)
         {
             var criteria = new DeleteNominationCriteria
@@ -149,7 +149,7 @@
         }
 
         [HttpPut]
-        [ApiAuthorize(FunctionKey.Nomination, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Host)]
         public CommandResult UpdateStatusNomination(UpdateStatusNominationCriteria criteria)
         {
             if (criteria != null)

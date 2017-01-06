@@ -9,7 +9,7 @@ namespace NexGoal.Repositories.Implement
 {
     public class ViolationRepository : IViolationRepository
     {
-        public IEnumerable<ViolationViewModel> Get(ICriteria criteria)
+        public IEnumerable<ViolationViewModel> GetViolation(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {

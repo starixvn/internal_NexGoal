@@ -166,7 +166,6 @@
     <Compile Include="Repositories\IBaseRepository.cs" />
     <Compile Include="Repositories\IIAuthenticationRepository.cs" />
     <Compile Include="Security\Encryption.cs" />
-    <Compile Include="Security\Random.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\CertificateService.cs" />
@@ -179,7 +178,6 @@
     <Compile Include="Services\SessionService.cs" />
     <Compile Include="Utilities\Enumerations.cs" />
     <Compile Include="Utilities\ExcelTemplateWriter.cs" />
-    <Compile Include="Utilities\FileUtilities.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFCellExtensions.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFCellRangeAddressExtensions.cs" />
     <Compile Include="Utilities\NPOIExtensions\HSSFRowExtensions.cs" />
@@ -203,14 +201,6 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('$(SolutionDir)\.nuget\NuGet.targets')" Text="$([System.String]::Format('$(ErrorText)', '$(SolutionDir)\.nuget\NuGet.targets'))" />
-    <Error Condition="!Exists('..\packages\Select.HtmlToPdf.2.2.0.0\build\Select.HtmlToPdf.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Select.HtmlToPdf.2.2.0.0\build\Select.HtmlToPdf.targets'))" />
-  </Target>
-  <Import Project="..\packages\Select.HtmlToPdf.2.2.0.0\build\Select.HtmlToPdf.targets" Condition="Exists('..\packages\Select.HtmlToPdf.2.2.0.0\build\Select.HtmlToPdf.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

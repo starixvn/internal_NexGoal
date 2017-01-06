@@ -3,9 +3,9 @@
     using Fanex.Data;
     using NexGoal.Core.Utilities;
 
-    public class Program
+    public static class Program
     {
-        public static void Main(string[] args)
+        public static void Main()
         {
             DbSettingProviderManager
             .StartNewSession()

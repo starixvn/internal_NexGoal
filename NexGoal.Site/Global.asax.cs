@@ -1,5 +1,9 @@
 ﻿namespace NexGoal.Site
 {
+    using Fanex.Data;
+    using Fanex.Logging;
+    using NexGoal.Core.Utilities;
+    using Resources;
     using System;
     using System.Web;
     using System.Web.Http;
@@ -7,9 +11,6 @@
     using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.SessionState;
-    using Fanex.Data;
-    using Fanex.Logging;
-    using NexGoal.Core.Utilities;
 
     public class WebApiApplication : HttpApplication
     {
@@ -47,17 +48,16 @@
         {
             Exception ex = Server.GetLastError().GetBaseException();
             string message = ex.Message +
-                    "\r\n Source: " + ex.Source +
-                    "\r\n Domain: " + HttpContext.Current.Request.Headers["Host"] +
-                    "\r\n TargetSite: " + ex.TargetSite +
-                    "\r\n StackTrace: " + ex.StackTrace;
+                            Environment.NewLine + Lang.Source + ex.Source +
+                            Environment.NewLine + Lang.Domain + HttpContext.Current.Request.Headers["Host"] +
+                            Environment.NewLine + Lang.TargetSite + ex.TargetSite +
+                            Environment.NewLine + Lang.StackTrace + ex.StackTrace;
 
             LogService.Error(message);
         }
 
         public void Session_Start(object sender, EventArgs e)
-        {
-            string sessionId = Session.SessionID;
+        {            
         }
 
         private static bool IsWebApiRequest()

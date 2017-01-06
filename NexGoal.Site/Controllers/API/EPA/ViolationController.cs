@@ -41,7 +41,7 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ViolationManagement, Policy = Policy.Read)]
         public ViolationViewModel GetById(int violationId)
         {
             ViolationViewModel result = violationService.GetById(violationId);
@@ -50,7 +50,7 @@
         }
 
         [HttpGet]
-        [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ViolationManagement, Policy = Policy.Read)]
         public IEnumerable<ViolationViewModel> Get(
             DateTime fromDate,
             DateTime toDate,
@@ -67,13 +67,13 @@
                 EmployeeId = employeeId
             };
 
-            IEnumerable<ViolationViewModel> result = violationService.Get(criteria);
+            IEnumerable<ViolationViewModel> result = violationService.GetViolation(criteria);
 
             return result;
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ViolationManagement, Policy = Policy.Host)]
         public CommandResult Create(CreateViolationCriteria criteria)
         {
             if (criteria != null)
@@ -86,7 +86,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ViolationManagement, Policy = Policy.Host)]
         public CommandResult Update(UpdateViolationCriteria criteria)
         {
             if (criteria != null)
@@ -99,7 +99,7 @@
         }
 
         [HttpPost]
-        [ApiAuthorize(FunctionKey.ViolationManagement, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.ViolationManagement, Policy = Policy.Host)]
         public CommandResult UpdateActive(UpdateViolationActiveCriteria criteria)
         {
             if (criteria != null)

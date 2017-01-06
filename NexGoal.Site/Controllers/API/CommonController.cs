@@ -30,17 +30,15 @@
     {
         private readonly ICommonService commonService;
         private readonly IPeriodService periodService;
-        private readonly IExportPdfService exportPdfService;
 
         public CommonController()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
-        public CommonController(ICommonService commonService, IExportPdfService exportPdfService, IPeriodService periodService)
+        public CommonController(ICommonService commonService, IPeriodService periodService)
         {
             this.commonService = commonService ?? new CommonService();
-            this.exportPdfService = exportPdfService ?? new ExportPdfService();
             this.periodService = periodService ?? new PeriodService();
         }
 
@@ -258,12 +256,6 @@
             };
 
             return commonService.GetAllTargetTemplate(criteria);
-        }
-
-        [HttpGet]
-        public bool DisplayOnNormalWidthPage(int epaId)
-        {
-            return exportPdfService.DisplayOnNormalWidthPage(epaId);
-        }
+        }        
     }
 }

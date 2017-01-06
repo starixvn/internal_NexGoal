@@ -8,6 +8,7 @@
     using NexGoal.Core.Criteria;
     using NexGoal.Core.Model;
     using NexGoal.Core.Repositories;
+    using Resources;
 
     public class AuthenticationService : BaseService, IAuthenticationService
     {
@@ -66,7 +67,7 @@
             {
                 if (ex.ErrorCode != Constants.NotFoundHostName)
                 {
-                    LogService.Error("Can not find Host Name: " + ipAddress, ex);
+                    LogService.Error(Message.NotFoundHost + ipAddress, ex);
                 }
             }
 

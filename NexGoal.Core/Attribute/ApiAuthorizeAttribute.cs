@@ -10,23 +10,13 @@
     using System.Web.Http.Controllers;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
-    public class ApiAuthorizeAttribute : AuthorizeAttribute
+    public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
     {
-        private ISessionService sessionService;
-
-        public ApiAuthorizeAttribute(string functionKey, Policy policy)
-            : this(functionKey, policy, null)
+        private readonly ISessionService sessionService;
+        
+        public ApiAuthorizeAttribute()
         {
-        }
-
-        public ApiAuthorizeAttribute(
-            string functionKey,
-            Policy policy,
-            ISessionService sessionService)
-        {
-            this.FunctionKey = functionKey;
-            this.Policy = policy;
-            this.sessionService = sessionService ?? new SessionService();
+            this.sessionService = new SessionService();
         }
 
         public string FunctionKey { get; set; }

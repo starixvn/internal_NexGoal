@@ -107,10 +107,10 @@
             return periods;
         }
 
-        public PeriodModel GetPeriodById(int periodId)
+        public PeriodModel GetPeriodById(int id)
         {
             var period = new PeriodModel();
-            var criteria = new GetPeriodByIdCriteria { PeriodId = periodId };
+            var criteria = new GetPeriodByIdCriteria { PeriodId = id };
             if (criteria != null && criteria.IsValid())
             {
                 period = _periodRepository.GetPeriodById(criteria);

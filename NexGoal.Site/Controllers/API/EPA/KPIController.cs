@@ -26,7 +26,7 @@
             _kpiService = kpiService ?? new KPIService();
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
         [HttpGet]
         public IEnumerable<KPIModel> GetKPI(
             int? kpiGroupId = null,
@@ -43,7 +43,7 @@
             return _kpiService.GetKPI(criteria);
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPost]
         public CommandResult CreateKPI(CreateKPICriteria criteria)
         {
@@ -57,7 +57,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateKPI(UpdateKPICriteria criteria)
         {
@@ -71,7 +71,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria)
         {
@@ -85,7 +85,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpPut]
         public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
         {
@@ -99,7 +99,7 @@
             return commandResult;
         }
 
-        [ApiAuthorize(FunctionKey.EPASetting, Policy.Host)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
         [HttpDelete]
         public CommandResult DeleteKPI(int kpiId)
         {

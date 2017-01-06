@@ -27,7 +27,7 @@
             _reportService = reportService ?? new ReportService();
         }
 
-        [ApiAuthorize(FunctionKey.EPADetailReport, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.EPADetailReport, Policy = Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetEPADetailReport(
             string periodIds = null,
@@ -47,7 +47,7 @@
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
 
-        [ApiAuthorize(FunctionKey.MasterReport, Policy.Read)]
+        [ApiAuthorize(FunctionKey = FunctionKey.MasterReport, Policy = Policy.Read)]
         [HttpGet]
         public HttpResponseMessage GetMasterReport(
             int periodId,

@@ -14,25 +14,22 @@
 
     public class PeriodEvalutionService : BaseService, IPeriodEvalutionService
     {
-        private readonly IPeriodService periodService;
         private readonly IPAFocusService focusService;
         private readonly IAutoMailService autoMailService;
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly ICertificateService certificateService;
 
         public PeriodEvalutionService()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null)
         {
         }
 
         public PeriodEvalutionService(
-            IPeriodService periodService,
             IAutoMailService autoMailService,
             IEmployeeEPAService employeeEPAService,
             ICertificateService certificateService,
             IPAFocusService focusService)
         {
-            this.periodService = periodService ?? new PeriodService();
             this.autoMailService = autoMailService ?? new AutoMailService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.certificateService = certificateService ?? new CertificateService();
@@ -84,46 +81,6 @@
             epa.Grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
 
             EncodeAndUpdateFinalScore(averagePerformanceScore, epa.DisciplineScore, epa.EPAId, epa.Grade);
-        }
-
-        private int CheckLastestProcessOfPeriod(int periodId)
-        {
-            int lastestProcess = 0;
-            var criteria = new CheckLastestProcessOfPeriodCriteria
-            {
-                PeriodId = periodId
-            };
-
-            if (criteria.IsValid())
-            {
-                lastestProcess = GetDataEntity<int>(criteria);
-            }
-
-            return lastestProcess;
-        }
-
-        private void SendEmailToAllRelatedEmployee(
-            int periodId,
-            int? processId)
-        {
-            PeriodModel period = periodService.GetPeriodById(periodId);
-            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettings(periodId, processId);
-
-            autoMailService.SendEndEvaluationMailToHRByPeriod(period, employeeSettings);
-        }
-
-        private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, int? processId)
-        {
-            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-
-            var criteria = new GetEmployeeSettingByPeriodIdCriteria
-            {
-                PeriodId = periodId,
-                ProcessId = processId
-            };
-            employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
-
-            return employeeSettings;
         }
 
         private double GetFinalScoreOfEvalution(EPAModel evaluationInfo)
