@@ -2036,7 +2036,6 @@ input[type=radio] {
   top: 0;
   padding: 10px 0 0 0;
   background-color: #fff;
-  max-height: 950px;
   width: 279px;
   transition: width 0.25s;
 }
@@ -2189,7 +2188,6 @@ input[type=radio] {
   z-index: 1000;
   display: block;
   margin-top: 0px;
-  max-height: 950px;
   width: 50px;
   transition: width 0.25s;
   background-color: #fff;
