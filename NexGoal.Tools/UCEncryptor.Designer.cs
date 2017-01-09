@@ -28,10 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.btnEncrypt = new System.Windows.Forms.Button();
+            this.BtnEncrypt = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label11 = new System.Windows.Forms.Label();
-            this.btnOpenFile = new System.Windows.Forms.Button();
+            this.BtnOpenFile = new System.Windows.Forms.Button();
             this.txtPassword = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtCertificate = new System.Windows.Forms.TextBox();
@@ -43,20 +43,20 @@
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // btnEncrypt
+            // BtnEncrypt
             // 
-            this.btnEncrypt.Location = new System.Drawing.Point(170, 240);
-            this.btnEncrypt.Name = "btnEncrypt";
-            this.btnEncrypt.Size = new System.Drawing.Size(75, 27);
-            this.btnEncrypt.TabIndex = 0;
-            this.btnEncrypt.Text = "Encrypt";
-            this.btnEncrypt.UseVisualStyleBackColor = true;
-            this.btnEncrypt.Click += new System.EventHandler(this.btnEncrypt_Click);
+            this.BtnEncrypt.Location = new System.Drawing.Point(170, 240);
+            this.BtnEncrypt.Name = "BtnEncrypt";
+            this.BtnEncrypt.Size = new System.Drawing.Size(75, 27);
+            this.BtnEncrypt.TabIndex = 0;
+            this.BtnEncrypt.Text = "Encrypt";
+            this.BtnEncrypt.UseVisualStyleBackColor = true;
+            this.BtnEncrypt.Click += new System.EventHandler(this.BtnEncrypt_Click);
             // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label11);
-            this.groupBox1.Controls.Add(this.btnOpenFile);
+            this.groupBox1.Controls.Add(this.BtnOpenFile);
             this.groupBox1.Controls.Add(this.txtPassword);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtCertificate);
@@ -78,15 +78,15 @@
             this.label11.TabIndex = 9;
             this.label11.Text = "(*)";
             // 
-            // btnOpenFile
+            // BtnOpenFile
             // 
-            this.btnOpenFile.Location = new System.Drawing.Point(308, 17);
-            this.btnOpenFile.Name = "btnOpenFile";
-            this.btnOpenFile.Size = new System.Drawing.Size(80, 25);
-            this.btnOpenFile.TabIndex = 8;
-            this.btnOpenFile.Text = "Choose File";
-            this.btnOpenFile.UseVisualStyleBackColor = true;
-            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
+            this.BtnOpenFile.Location = new System.Drawing.Point(308, 17);
+            this.BtnOpenFile.Name = "BtnOpenFile";
+            this.BtnOpenFile.Size = new System.Drawing.Size(80, 25);
+            this.BtnOpenFile.TabIndex = 8;
+            this.BtnOpenFile.Text = "Choose File";
+            this.BtnOpenFile.UseVisualStyleBackColor = true;
+            this.BtnOpenFile.Click += new System.EventHandler(this.BtnOpenFile_Click);
             // 
             // txtPassword
             // 
@@ -173,7 +173,7 @@
             this.Controls.Add(this.txtPlainText);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.groupBox1);
-            this.Controls.Add(this.btnEncrypt);
+            this.Controls.Add(this.BtnEncrypt);
             this.Name = "UCEncryptor";
             this.Size = new System.Drawing.Size(442, 283);
             this.groupBox1.ResumeLayout(false);
@@ -185,10 +185,10 @@
 
         #endregion
 
-        private System.Windows.Forms.Button btnEncrypt;
+        private System.Windows.Forms.Button BtnEncrypt;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label11;
-        private System.Windows.Forms.Button btnOpenFile;
+        private System.Windows.Forms.Button BtnOpenFile;
         private System.Windows.Forms.TextBox txtPassword;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtCertificate;

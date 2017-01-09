@@ -15,21 +15,7 @@
             certificateService = new CertificateService();
         }
 
-        private void btnOpenFile_Click(object sender, EventArgs e)
-        {
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            openFileDialog.Title = "Choose pfx file";
-            openFileDialog.Multiselect = false;
-            openFileDialog.Filter = "pfx file (*.pfx)|*.pfx";
-            DialogResult dialogResult = openFileDialog.ShowDialog();
-
-            if (dialogResult == DialogResult.OK)
-            {
-                txtCertificate.Text = openFileDialog.FileName;
-            }
-        }
-
-        private void btnEncrypt_Click(object sender, EventArgs e)
+        private void BtnEncrypt_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(txtPlainText.Text))
             {
@@ -43,6 +29,20 @@
                     MessageBox.Show(ex.Message);
                     return;
                 }
+            }
+        }
+
+        private void BtnOpenFile_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Title = "Choose pfx file";
+            openFileDialog.Multiselect = false;
+            openFileDialog.Filter = "pfx file (*.pfx)|*.pfx";
+            DialogResult dialogResult = openFileDialog.ShowDialog();
+
+            if (dialogResult == DialogResult.OK)
+            {
+                txtCertificate.Text = openFileDialog.FileName;
             }
         }
     }
