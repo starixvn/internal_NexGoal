@@ -67,7 +67,7 @@
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.Period, Policy = Policy.Read)]
-        public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = true)
+        public IEnumerable<PeriodModel> GetPeriod(int? targetTypeId = null, bool? isActive = null)
         {
             var criteria = new GetPeriodCriteria
             {

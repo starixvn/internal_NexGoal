@@ -282,6 +282,7 @@
             padding: 0px 15px;
             border: 0px;
             color: white;
+            cursor: pointer;
 
             &.active {
                 background-color: @c-sidebar-border;
@@ -322,8 +323,8 @@
                     span {
                         display: none;
                         position: absolute;
-                        top: 0;
-                        right: -261px;
+                        top: 1px;
+                        right: -260px;
                         background-color: @c-sidebar-menu-item-sub-bg;
                         padding: 0px 20px;
                         width: 260px;
@@ -341,17 +342,22 @@
 
                 .list-group {
                     position: absolute;
-                    right: -261px;
-                    top: 50px;
+                    right: -260px;
+                    top: 51px;
                     width: 260px;
                     display: none;
                     background-color: @c-sidebar-border;
+                    border-width: 1px;
+                    border-style: solid;
+                    border-color: @c-sidebar-border;
+                    border-radius: 0px;
 
                     .list-group-item {
                         padding: 0px 30px;
 
                         a {
                             color: @c-sidebar-menu-item-text;
+                            display: block;
                         }
 
                         &:hover {

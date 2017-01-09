@@ -2230,6 +2230,7 @@ input[type=radio] {
   padding: 0px 15px;
   border: 0px;
   color: white;
+  cursor: pointer;
 }
 .sidebar-xs .list-group .list-group-item.active {
   background-color: #eeeeee;
@@ -2265,8 +2266,8 @@ input[type=radio] {
 .sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title span {
   display: none;
   position: absolute;
-  top: 0;
-  right: -261px;
+  top: 1px;
+  right: -260px;
   background-color: #324373;
   padding: 0px 20px;
   width: 260px;
@@ -2280,17 +2281,22 @@ input[type=radio] {
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group {
   position: absolute;
-  right: -261px;
-  top: 50px;
+  right: -260px;
+  top: 51px;
   width: 260px;
   display: none;
   background-color: #eeeeee;
+  border-width: 1px;
+  border-style: solid;
+  border-color: #eeeeee;
+  border-radius: 0px;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item {
   padding: 0px 30px;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item a {
   color: #484550;
+  display: block;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item:hover {
   cursor: pointer;
