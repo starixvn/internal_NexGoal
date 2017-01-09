@@ -18,7 +18,7 @@
                         </select>
                     </div>
                 </div>
-                <div class="required" ng-show="ratingByKPICtrl.filter.periodId > 0">
+                <div class="required" ng-if="ratingByKPICtrl.filter.periodId > 0">
                     <label class="col-sm-2 control-label" data-translate="TargetTemplate"></label>
                     <div class="col-sm-2">
                         <select class="form-control" ng-model="ratingByKPICtrl.filter.targetTemplateId"
@@ -57,7 +57,7 @@
 
             <table class="table table-bordered table-striped">
                 <thead>
-                    <tr class="showRatingScoreByStar" ng-show="ratingByKPICtrl.hasRatingByStar">
+                    <tr class="showRatingScoreByStar" ng-if="ratingByKPICtrl.hasRatingByStar">
                         <th colspan="8">
                             <div class="checkbox">
                                 <label>
@@ -71,8 +71,8 @@
                             <div class="col-sm-12">
                                 <label class="kpi-selected">
                                     {{ratingByKPICtrl.kpiSelected.Name}}
-                                    <label ng-show="ratingByKPICtrl.kpiSelected.KPIGroup.NumberKPIOptional == 0"> ({{ratingByKPICtrl.kpiSelected.Weight | splitScore}} pts)</label>
-                                    <label class="note" ng-show="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate" data-translate="(*)"></label>
+                                    <label ng-if="ratingByKPICtrl.kpiSelected.KPIGroup.NumberKPIOptional == 0"> ({{ratingByKPICtrl.kpiSelected.Weight | splitScore}} pts)</label>
+                                    <label class="note" ng-if="ratingByKPICtrl.kpiSelected.IsRequiredEvaluate" data-translate="(*)"></label>
                                 </label>
                                 <input type="text" ng-model="ratingByKPICtrl.searchKey" ng-change="ratingByKPICtrl.search()"
                                        class="search-inline-textbox search pull-right">
@@ -86,14 +86,14 @@
                         <th data-translate="EmployeeScore"></th>
                         <th class="col-score">
                             <div class="col-sm-10" data-translate="CurrentScore"></div>
-                            <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
+                            <div class="col-sm-2" ng-if="ratingByKPICtrl.memberEPAs.length > 1">
                                 <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('CurrentScore')"
                                    ng-click="ratingByKPICtrl.changeSorting('CurrentScore')"></a>
                             </div>
                         </th>
                         <th class="col-adjust-score">
                             <div class="col-sm-10" data-translate="AdjustScore"></div>
-                            <div class="col-sm-2" ng-show="ratingByKPICtrl.memberEPAs.length > 1">
+                            <div class="col-sm-2" ng-if="ratingByKPICtrl.memberEPAs.length > 1">
                                 <a class="icon-sorting-bg" ng-class="ratingByKPICtrl.selectedCls('AdjustScore')"
                                    ng-click="ratingByKPICtrl.changeSorting('AdjustScore')"></a>
                             </div>
@@ -106,7 +106,7 @@
                     <tr dir-paginate="memberEPA in ratingByKPICtrl.filteredItems | itemsPerPage: ratingByKPICtrl.pageSize"
                         current-page="ratingByKPICtrl.currentPage" repeat-end="ratingByKPICtrl.generateRatingStar()">
                         <td class="text-center">
-                            <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                            <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                 <span class="glyphicon glyphicon-ok" ng-if="kpi.Score != ''"></span>
                             </div>
                         </td>
@@ -121,12 +121,12 @@
                                  ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
                                 <div tooltip="{{kpi.Comment}}">
                                     <span>{{kpi.Score | splitScore}} pts</span>
-                                    <div class="score-star-rating" ng-show="ratingByKPICtrl.showRatingScoreByStar &&
+                                    <div class="score-star-rating" ng-if="ratingByKPICtrl.showRatingScoreByStar &&
                                          (memberEPA.RatingType.RatingTypeId= =ratingByKPICtrl.ratingTypeEnum.Star
                                          || memberEPA.RatingType.RatingTypeId= =ratingByKPICtrl.ratingTypeEnum.HalfStar
                                          || (memberEPA.RatingType.RatingTypeId= =ratingByKPICtrl.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional>
                                         0))">
-                                        / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
+                                        / <span ng-if="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                         <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                value="1" data-min="0" data-max="1" data-stars="1"
                                                data-show-caption="false" data-show-clear="false">
@@ -135,9 +135,9 @@
                             </div>
                         </td>
                         <td class="text-center col-score">
-                            <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-show="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <span ng-show="kpi.Score != ''" ng-bind="kpi.Score | splitScore"></span>
-                                <span ng-show="kpi.Score == ''" data-translate="NotAvailable"></span>
+                            <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
+                                <span ng-if="kpi.Score != ''" ng-bind="kpi.Score | splitScore"></span>
+                                <span ng-if="kpi.Score == ''" data-translate="NotAvailable"></span>
                             </div>
                         </td>
                         <td class="col-adjust-score">
@@ -147,7 +147,7 @@
                                      || (memberEPA.RatingType.RatingTypeId= =ratingByKPICtrl.ratingTypeEnum.Score && memberEPA.KPIGroup.NumberKPIOptional>
                                     0)">
                                     <div class="col-sm-2 cancel-rating">
-                                        <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                        <a ng-if="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                                            title="Cancel" href="" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                     </div>
                                     <div class="col-sm-7 rating-form">
@@ -158,7 +158,7 @@
                                                ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
                                     </div>
                                     <div class="col-sm-3 percent-rating">
-                                        <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">
+                                        <span class="badge percent" ng-if="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">
                                             {{kpi.AdjustScore | splitScore}} pts
                                         </span>
                                     </div>
@@ -170,7 +170,7 @@
                                 </div>
                                 <div ng-if="memberEPA.RatingType.RatingTypeId == ratingByKPICtrl.ratingTypeEnum.HalfStar">
                                     <div class="col-sm-2 cancel-rating">
-                                        <a ng-show="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
+                                        <a ng-if="kpi.AdjustRate > 0" class="glyphicon glyphicon-remove-circle remove-star"
                                            title="Cancel" href="" ng-click="ratingByKPICtrl.cancelRating(memberEPA, kpi)"></a>
                                     </div>
                                     <div class="col-sm-7 rating-form">
@@ -181,7 +181,7 @@
                                                ng-change="ratingByKPICtrl.hoveringLeave(memberEPA, kpi)">
                                     </div>
                                     <div class="col-sm-3 percent-rating">
-                                        <span class="badge percent" ng-show="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">
+                                        <span class="badge percent" ng-if="memberEPA.KPIGroup.NumberKPIOptional == 0 && kpi.AdjustRate > 0">
                                             {{kpi.AdjustScore | splitScore}} pts
                                         </span>
                                     </div>
@@ -190,37 +190,37 @@
                         </td>
                         <td class="col-comment">
                             <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == ratingByKPICtrl.kpiIdOriginal">
-                                <div class="required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
+                                <div class="required-comment" ng-if="kpi.HasComment && kpi.IsRequiredComment">
                                     <div class="textarea">
-                                        <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"
+                                        <textarea class="form-control" ng-if="kpi.HasComment" ng-model="kpi.Comment"
                                                   ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host"></textarea>
                                     </div>
                                     <div class="note" data-translate="(*)"></div>
                                 </div>
-                                <div class="optional-comment" ng-show="kpi.HasComment && !kpi.IsRequiredComment">
-                                    <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment"
+                                <div class="optional-comment" ng-if="kpi.HasComment && !kpi.IsRequiredComment">
+                                    <textarea class="form-control" ng-if="kpi.HasComment" ng-model="kpi.Comment"
                                               ng-readonly="ratingByKPICtrl.permission != ratingByKPICtrl.policyEnum.Host"></textarea>
                                 </div>
                             </div>
                         </td>
                         <td class="text-center col-score">
                             <strong>
-                                <a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore"
+                                <a ng-if="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore"
                                    ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a>
                             </strong>
                             <strong>
-                                <a ng-show="memberEPA.TotalScore == ''" href="" data-translate="NotAvailable"
+                                <a ng-if="memberEPA.TotalScore == ''" href="" data-translate="NotAvailable"
                                    ng-click="ratingByKPICtrl.viewDetail(memberEPA)"></a>
                             </strong>
                         </td>
                     </tr>
                 </tbody>
-                <tbody ng-show="!ratingByKPICtrl.filteredItems || ratingByKPICtrl.filteredItems.length == 0">
+                <tbody ng-if="!ratingByKPICtrl.filteredItems || ratingByKPICtrl.filteredItems.length == 0">
                     <tr>
                         <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tfoot ng-show="ratingByKPICtrl.filteredItems && ratingByKPICtrl.filteredItems.length > 0">
+                <tfoot ng-if="ratingByKPICtrl.filteredItems && ratingByKPICtrl.filteredItems.length > 0">
                     <tr>
                         <td colspan="8" class="paging">
                             <span data-translate="Show"></span>

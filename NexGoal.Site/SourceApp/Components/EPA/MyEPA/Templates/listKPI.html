@@ -8,7 +8,7 @@
     <tr ng-repeat-start="kpi in kpiGroup.KPIs">
         <td class="kpi-title">
             {{$parent.$index + 1}}-{{$index + 1}}. {{kpi.Name}} ({{kpi.Weight | splitScore}} pts)
-            <label class="note" ng-show="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
+            <label class="note" ng-if="kpi.IsRequiredEvaluate" data-translate="(*)"></label>
             <p ng-if="kpi.IsMissingEvaluation" data-translate="RequiredEvaluation" class="note"></p>
         </td>
         <td class="kpi-name width-250">
@@ -30,8 +30,8 @@
                 </div>
             </div>
             <div class="kpi-percent" ng-if="memberEPAInfoCtrl.epaInfo.IsAllowedToEdit">
-                <span class="badge percent" ng-show="kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | splitScore}} pts</span>
-                <span class="badge percent" ng-show="kpi.CurrentEvaluation.Rate === 0">N/A</span>
+                <span class="badge percent" ng-if="kpi.CurrentEvaluation.Rate > 0">{{kpi.CurrentEvaluation.Score | splitScore}} pts</span>
+                <span class="badge percent" ng-if="kpi.CurrentEvaluation.Rate === 0">N/A</span>
             </div>
         </td>
         <td class="text-center width-150" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
@@ -46,7 +46,7 @@
             <p>
                 <span data-translate="CommentByEmployee" class="lable-comment-if-any"></span>
                 <span class="label-word-countdown " data-translate="LimitedWords"></span>
-                <span class="note" data-translate="(*)" ng-show="kpi.HasComment && kpi.IsRequiredComment"></span>
+                <span class="note" data-translate="(*)" ng-if="kpi.HasComment && kpi.IsRequiredComment"></span>
             </p>
             <textarea class="form-control" maxlength="2000"
                       ng-readonly="!memberEPAInfoCtrl.epaInfo.IsAllowedToEdit"
@@ -70,10 +70,10 @@
             {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPAInfoCtrl.epaInfo.Process.CurrentProcess.MaxTotalScore | customScore}}
         </td>
         <td ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId == memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
-            <span ng-show="memberEPAInfoCtrl.lastRating.length > 0">
+            <span ng-if="memberEPAInfoCtrl.lastRating.length > 0">
                 {{memberEPAInfoCtrl.getLastTotalScore() | integerScore}} / {{memberEPAInfoCtrl.epaInfo.MaxFinalScore | customScore}}
             </span>
-            <span ng-show="memberEPAInfoCtrl.lastRating.length <= 0" ng-bind="'-'"></span>
+            <span ng-if="memberEPAInfoCtrl.lastRating.length <= 0" ng-bind="'-'"></span>
         </td>
     </tr>
     <tr class="text-center">

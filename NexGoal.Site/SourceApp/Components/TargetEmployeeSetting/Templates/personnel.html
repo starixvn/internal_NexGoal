@@ -47,7 +47,7 @@
         <thead>
             <tr class="header-table">
                 <th colspan="9">
-                    <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                    <div class="pull-left div-target-templatesetting" ng-if="targetCtrl.permission == targetCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="EvaluationTemplate">
                         </label>
                         <select ng-model="personnelCtrl.targetEmployeeSetting.targetTemplateId" 
@@ -55,7 +55,7 @@
                                 class="target-template-setting-select lstBox-limit"></select>
                     </div>
                     <button class="button pull-left btn-assign" data-translate="Assign" ng-click="personnelCtrl.assignTargetTemplate()"
-                            ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host"></button>
+                            ng-if="targetCtrl.permission == targetCtrl.policyEnum.Host"></button>
                     <input type="text" ng-model="personnelCtrl.searchKey" ng-change="personnelCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
@@ -78,32 +78,32 @@
                 </th>
                 <th data-translate="EvaluationTemplate">
                 </th>
-                <th data-translate="Delete" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                <th data-translate="Delete" ng-if="targetCtrl.permission == targetCtrl.policyEnum.Host">
                 </th>
             </tr>
         </thead>
         <tbody class="table-body" current-page="personnelCtrl.currentPage" ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}"
                dir-paginate="employee in personnelCtrl.filteredItems | itemsPerPage: personnelCtrl.pageSize" pagination-id="personnel">
-            <tr ng-repeat="targetTemplate in employee.TargetTemplates" ng-show="employee.TargetTemplates.length > 0">
-                <td class="text-center" rowspan="{{employee.NumberTargetTemplates}}" ng-show="$first">
+            <tr ng-repeat="targetTemplate in employee.TargetTemplates" ng-if="employee.TargetTemplates.length > 0">
+                <td class="text-center" rowspan="{{employee.NumberTargetTemplates}}" ng-if="$first">
                     <input type="checkbox" ng-model="employee.Selected" ng-click="personnelCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="personnelCtrl.getIndex($parent.$index, personnelCtrl.currentPage, personnelCtrl.pageSize)"
-                    ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td class="text-center" ng-bind="employee.Employee.Code" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td class="text-center" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}">
+                    ng-if="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td class="text-center" ng-bind="employee.Employee.Code" ng-if="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td class="text-center" ng-if="$first" rowspan="{{employee.NumberTargetTemplates}}">
                     <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
                 </td>
-                <td ng-bind="employee.Employee.NickName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
-                <td ng-bind="employee.Employee.FullName" ng-show="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td ng-bind="employee.Employee.NickName" ng-if="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
+                <td ng-bind="employee.Employee.FullName" ng-if="$first" rowspan="{{employee.NumberTargetTemplates}}"></td>
                 <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
-                <td class="text-center" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                <td class="text-center" ng-if="targetCtrl.permission == targetCtrl.policyEnum.Host">
                     <a class="fa fa-trash-o icon-remove" href="" ng-click="personnelCtrl.deleteTargetTemplate(employee, targetTemplate)"
                        ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
             </tr>
-            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}" ng-show="employee.TargetTemplates.length == 0">
+            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}" ng-if="employee.TargetTemplates.length == 0">
                 <td class="text-center">
                     <input type="checkbox" ng-model="employee.Selected" ng-click="personnelCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
@@ -119,7 +119,7 @@
                 <td></td>
             </tr>
         </tbody>
-        <tbody ng-show="personnelCtrl.filteredItems.length == 0">
+        <tbody ng-if="personnelCtrl.filteredItems.length == 0">
             <tr>
                 <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
             </tr>

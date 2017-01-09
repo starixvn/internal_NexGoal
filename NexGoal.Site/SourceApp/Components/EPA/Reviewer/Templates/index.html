@@ -64,7 +64,7 @@
                         <th data-translate="PeriodName"></th>
                         <th class="sorting">
                             <div class="col-sm-9 lab" data-translate="Team"></div>
-                            <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                            <div class="col-sm-3 icon" ng-if="reviewerCtrl.memberEPAs.length > 1">
                                 <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('Team')"
                                    ng-click="reviewerCtrl.changeSorting('Team')"></a>
                             </div>
@@ -73,14 +73,14 @@
                         <th data-translate="JobTitle"></th>
                         <th class="sorting">
                             <div class="col-sm-9 lab" data-translate="SelfScore"></div>
-                            <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                            <div class="col-sm-3 icon" ng-if="reviewerCtrl.memberEPAs.length > 1">
                                 <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('SelfScore')"
                                    ng-click="reviewerCtrl.changeSorting('SelfScore')"></a>
                             </div>
                         </th>
                         <th class="sorting">
                             <div class="col-sm-9 lab" data-translate="EvaluatorScore"></div>
-                            <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                            <div class="col-sm-3 icon" ng-if="reviewerCtrl.memberEPAs.length > 1">
                                 <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('EvaluatorScore')"
                                    ng-click="reviewerCtrl.changeSorting('EvaluatorScore')"></a>
                             </div>
@@ -95,20 +95,20 @@
                         </th>
                         <th class="sorting">
                             <div class="col-sm-9 lab" data-translate="TotalScore"></div>
-                            <div class="col-sm-3 icon" ng-show="reviewerCtrl.memberEPAs.length > 1">
+                            <div class="col-sm-3 icon" ng-if="reviewerCtrl.memberEPAs.length > 1">
                                 <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('FinalScore')"
                                    ng-click="reviewerCtrl.changeSorting('FinalScore')"></a>
                             </div>
                         </th>
                         <th>
-                            <span ng-show="!reviewerCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>
-                            <span ng-show="reviewerCtrl.monthlyFilterSelected" data-translate="LastMonthScore"></span>
+                            <span ng-if="!reviewerCtrl.monthlyFilterSelected" data-translate="LastFinalScore"></span>
+                            <span ng-if="reviewerCtrl.monthlyFilterSelected" data-translate="LastMonthScore"></span>
                         </th>
                         <th data-translate="Status"></th>
                         <th data-translate="Detail" class="col-action"></th>
                     </tr>
                 </thead>
-                <tbody ng-show="reviewerCtrl.memberEPAs.length > 0">
+                <tbody ng-if="reviewerCtrl.memberEPAs.length > 0">
                     <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.Process.Self.IsEndProcess)}"
                         ng-repeat="memberEPA in reviewerCtrl.memberEPAs  | orderBy: '-IsAllowedToEdit'">
                         <td class="text-center" ng-if="!reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
@@ -164,11 +164,11 @@
                             {{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxPerformanceScore | customScore}}
                         </td>
                         <td class="text-center">
-                            <div ng-show="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
-                            <div ng-show="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
+                            <div ng-if="memberEPA.LastFinalScore != null" ng-bind="memberEPA.LastFinalScore | customScore"></div>
+                            <div ng-if="memberEPA.LastFinalScore == null" ng-bind="'-'"></div>
                         </td>
                         <td class="text-center">
-                            <div ng-show="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
+                            <div ng-if="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                         </td>
                         <td class="text-center col-action" ng-switch="memberEPA.IsAllowedToEdit">
                             <a ng-switch-when="true" href=""
@@ -185,7 +185,7 @@
                         </td>
                     </tr>
                 </tbody>
-                <tbody ng-show="reviewerCtrl.memberEPAs.length == 0">
+                <tbody ng-if="reviewerCtrl.memberEPAs.length == 0">
                     <tr>
                         <td class="empty-result" colspan="16" data-translate="EmptyResult"></td>
                     </tr>

@@ -41,7 +41,7 @@
                 <tr class="header-table">
                     <th colspan="8">
                         <button class="button pull-left" style="margin: 5px;"
-                                ng-show="updateCtrl.filteredItems.length > 0" ng-click="updateCtrl.updateFinalScore()" data-translate="Update"></button>
+                                ng-if="updateCtrl.filteredItems.length > 0" ng-click="updateCtrl.updateFinalScore()" data-translate="Update"></button>
                         <input type="text" ng-model="updateCtrl.searchKey" ng-change="updateCtrl.search()" class="search-inline-textbox search pull-right">
                     </th>
                 </tr>
@@ -69,18 +69,18 @@
                     <td ng-bind="epaInfo.Employee.FullName"></td>
                     <td ng-bind="epaInfo.Employee.GroupName"></td>
                     <td class="text-center">
-                        <span ng-show="epaInfo.FinalScore.length > 0" ng-bind="epaInfo.FinalScore | customScore"></span>
-                        <span ng-show="epaInfo.FinalScore.length == 0" ng-translate="NotAvailable"></span>
+                        <span ng-if="epaInfo.FinalScore.length > 0" ng-bind="epaInfo.FinalScore | customScore"></span>
+                        <span ng-if="epaInfo.FinalScore.length == 0" ng-translate="NotAvailable"></span>
                     </td>
                     <td class="text-center">
-                        <span ng-show="epaInfo.NewFinalScore" ng-bind="epaInfo.NewFinalScore | customScore"></span>
+                        <span ng-if="epaInfo.NewFinalScore" ng-bind="epaInfo.NewFinalScore | customScore"></span>
                     </td>
                 </tr>
-                <tr ng-show="!updateCtrl.filteredItems || updateCtrl.filteredItems.length == 0">
+                <tr ng-if="!updateCtrl.filteredItems || updateCtrl.filteredItems.length == 0">
                     <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>
-            <tfoot ng-show="updateCtrl.filteredItems.length > 0">
+            <tfoot ng-if="updateCtrl.filteredItems.length > 0">
                 <tr>
                     <td colspan="8" class="paging">
                         <span data-translate="Show"></span>

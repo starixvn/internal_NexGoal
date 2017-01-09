@@ -44,7 +44,7 @@
                         <th colspan="9">
                             <a class="button pull-left" 
                                ng-click="periodCtrl.create()" 
-                               ng-show="periodCtrl.permission == periodCtrl.policyEnum.Host">
+                               ng-if="periodCtrl.permission == periodCtrl.policyEnum.Host">
                                 <i class="icon plus"></i> {{"CreateEvaluationPeriod" | translate}}
                             </a>
                             <input type="text" ng-model="periodCtrl.searchKey" ng-change="periodCtrl.search()" class="search-inline-textbox search pull-right">
@@ -82,15 +82,15 @@
                             <div class="btn-group">
                                 <a class="fa fa-pencil-square-o icon-edit" title="Edit" ng-click="periodCtrl.update(period.PeriodId)"></a>
                                 <a class="fa fa-trash-o icon-remove" title="Delete" ng-click="periodCtrl.delete(period)"
-                                   ng-show="periodCtrl.permission == periodCtrl.policyEnum.Host"></a>
+                                   ng-if="periodCtrl.permission == periodCtrl.policyEnum.Host"></a>
                             </div>
                         </td>
                     </tr>
-                    <tr ng-show="periodCtrl.filteredItems.length == 0">
+                    <tr ng-if="periodCtrl.filteredItems.length == 0">
                         <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tfoot ng-show="periodCtrl.filteredItems.length !== 0">
+                <tfoot ng-if="periodCtrl.filteredItems.length !== 0">
                     <tr>
                         <td colspan="9" class="paging">
                             <span data-translate="Show"></span>

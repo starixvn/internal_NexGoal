@@ -70,9 +70,9 @@
                         <td ng-bind="targetTemplate.RatingTypeName"></td>
                         <td class="col-description">
                             {{targetTemplate.Description | limitTo: targetTemplate.numLimit > 0 ? targetTemplate.numLimit: targetTemplateCtrl.maxLengthDescription}}
-                            <a ng-show="!targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
+                            <a ng-if="!targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
                                ng-click="targetTemplateCtrl.readMore(targetTemplate)" data-translate="ReadMore"></a>
-                            <a ng-show="targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
+                            <a ng-if="targetTemplate.showReadMore && (targetTemplate.Description.length >= targetTemplateCtrl.maxLengthDescription)"
                                ng-click="targetTemplateCtrl.readLess(targetTemplate)" data-translate="ReadLess"></a>
                         </td>
                         <td class="text-center">
@@ -92,7 +92,7 @@
                             </div>
                         </td>
                     </tr>
-                    <tr ng-show="targetTemplateCtrl.filteredItems.length == 0">
+                    <tr ng-if="targetTemplateCtrl.filteredItems.length == 0">
                         <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>

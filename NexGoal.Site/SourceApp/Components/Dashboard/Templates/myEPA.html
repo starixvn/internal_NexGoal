@@ -10,7 +10,7 @@
             <th>View Detail</th>
         </tr>
     </thead>
-    <tbody ng-show="dashboardCtrl.myEPAs.length > 0">
+    <tbody ng-if="dashboardCtrl.myEPAs.length > 0">
         <tr ng-repeat="myEPA in dashboardCtrl.myEPAs">
             <td class="text-center" ng-bind="::$index + 1"></td>
             <td ng-bind="::myEPA.Period.Name"></td>
@@ -18,10 +18,10 @@
             <td class="text-center" ng-bind="::myEPA.Period.StartDate | date : 'dd MMM, yyyy'"></td>
             <td class="text-center" ng-bind="::myEPA.Period.EndDate | date : 'dd MMM, yyyy'"></td>
             <td class="text-center">
-                <span ng-show="dashboardCtrl.showScore" ng-bind="::myEPA.FinalScore | integerScore"></span>
+                <span ng-if="dashboardCtrl.showScore" ng-bind="::myEPA.FinalScore | integerScore"></span>
             </td>
             <td class="text-center">
-                <span ng-show="dashboardCtrl.showScore" ng-bind="::myEPA.Grade"></span>
+                <span ng-if="dashboardCtrl.showScore" ng-bind="::myEPA.Grade"></span>
             <td class="text-center col-action">
                 <a ng-click="dashboardCtrl.viewEPADetail(myEPA)" href=""
                    ng-if="myEPA.EPAId > 0 && (myEPA.IsAllowedToEdit || !myEPA.IsEndProcessBySelf)"
@@ -36,7 +36,7 @@
             </td>
         </tr>
     </tbody>
-    <tbody ng-show="dashboardCtrl.myEPAs.length == 0">
+    <tbody ng-if="dashboardCtrl.myEPAs.length == 0">
         <tr>
             <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
         </tr>

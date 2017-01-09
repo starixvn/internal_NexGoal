@@ -3,10 +3,10 @@
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
                 <li class="current">
-                    <span ng-show="eoqAccessCtrl.period !== null">
+                    <span ng-if="eoqAccessCtrl.period !== null">
                         Employee of the {{eoqAccessCtrl.period.Period.QuarterToString}} {{eoqAccessCtrl.period.Period.Year}}
                     </span>
-                    <span ng-show="eoqAccessCtrl.period === null" data-translate="EOQ"></span>
+                    <span ng-if="eoqAccessCtrl.period === null" data-translate="EOQ"></span>
                     <a href="" ng-click="eoqAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle icon-info"></i></a>
                 </li>
             </ul>
@@ -43,12 +43,12 @@
                     <div class="col button-block">
                         <button class="button" ng-click="eoqAccessCtrl.query()" data-translate="Search"></button>
                         <button class="button" ng-click="eoqAccessCtrl.addNominee()" data-translate="AddNominee"
-                                ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE
+                                ng-if="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE
                                     && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host
                                     && eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></button>
                         <button class="button btnExcel" export-employee-of-the-quarter
                                 ng-click="eoqAccessCtrl.exportExcel()"
-                                ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE
+                                ng-if="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE
                                 && eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                             Excel
                         </button>
@@ -56,7 +56,7 @@
                 </div>
             </form>
 
-            <div class="panel-group dashboard" ng-show="eoqAccessCtrl.period !== null">
+            <div class="panel-group dashboard" ng-if="eoqAccessCtrl.period !== null">
                 <div class="panel panel-default no-border">
                     <div class="panel-heading level-2">
                         <h4 class="panel-title" data-translate="NominationProcess"></h4>
@@ -65,7 +65,7 @@
                     <div class="panel-body">
                         <div class="evaluation-process-section">
                             <ul class="evaluation-process"
-                                ng-show="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                                 <li class="process-item in-process">
                                     <div data-translate="Nominator"></div>
                                     <div>
@@ -87,7 +87,7 @@
                                 </li>
                             </ul>
                             <ul class="evaluation-process"
-                                ng-show="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
                                 <li class="process-item end-process">
                                     <div data-translate="Nominator"></div>
                                     <div>
@@ -113,7 +113,7 @@
                 </div>
             </div>
 
-            <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period === null">
+            <table class="table table-bordered table-striped" ng-if="eoqAccessCtrl.period === null">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -130,7 +130,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered table-striped" ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE">
+            <table class="table table-bordered table-striped" ng-if="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -140,12 +140,12 @@
                         <th data-translate="Action"></th>
                     </tr>
                 </thead>
-                <tbody ng-show="eoqAccessCtrl.eoqNominations.length === 0">
+                <tbody ng-if="eoqAccessCtrl.eoqNominations.length === 0">
                     <tr>
                         <td colspan="5" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="eoqAccessCtrl.eoqNominations.length > 0">
+                <tbody ng-if="eoqAccessCtrl.eoqNominations.length > 0">
                     <tr ng-repeat="item in eoqAccessCtrl.eoqNominations">
                         <td class="text-center">{{$index + 1}}</td>
                         <td>{{item.Nominee.FullName}} ({{item.Nominee.NickName}})</td>
@@ -171,7 +171,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered table-striped table-non-hover" ng-show="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE">
+            <table class="table table-bordered table-striped table-non-hover" ng-if="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -182,22 +182,22 @@
                         <th data-translate="Action"></th>
                     </tr>
                 </thead>
-                <tbody ng-show="eoqAccessCtrl.eoqNominations.length === 0">
+                <tbody ng-if="eoqAccessCtrl.eoqNominations.length === 0">
                     <tr>
                         <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="eoqAccessCtrl.eoqNominations.length > 0" ng-repeat="item in eoqAccessCtrl.eoqNominations">
+                <tbody ng-if="eoqAccessCtrl.eoqNominations.length > 0" ng-repeat="item in eoqAccessCtrl.eoqNominations">
                     <tr ng-repeat="nomination in item.Nominations">
-                        <td rowspan="{{item.NumberOfNominators}}" class="text-center" ng-show="$first">
+                        <td rowspan="{{item.NumberOfNominators}}" class="text-center" ng-if="$first">
                             {{$parent.$index + 1}}
                         </td>
-                        <td rowspan="{{item.NumberOfNominators}}" ng-show="$first">
+                        <td rowspan="{{item.NumberOfNominators}}" ng-if="$first">
                             {{item.Nominee.FullName}} ({{item.Nominee.NickName}})
-                            <span ng-show="item.Nominations.length > 1"> - ({{item.Nominations.length}} votes)</span>
+                            <span ng-if="item.Nominations.length > 1"> - ({{item.Nominations.length}} votes)</span>
                         </td>
-                        <td rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
-                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
+                        <td rowspan="{{item.NumberOfNominators}}" ng-if="$first">{{item.Nominee.Group.GroupName}}</td>
+                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-if="$first">
                             <select class="nomination-status default-select"
                                     ng-model="item.StatusId"
                                     ng-change="eoqAccessCtrl.updateStatusNomination(item)"

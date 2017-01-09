@@ -71,7 +71,7 @@
                 <div class="boxcontent">
                     <table class="table table-bordered table-striped">
                         <thead>
-                            <tr class="showRatingScoreByStar" ng-show="epaByKPICtrl.hasRatingByStar">
+                            <tr class="showRatingScoreByStar" ng-if="epaByKPICtrl.hasRatingByStar">
                                 <th colspan="7">
                                     <div class="checkbox">
                                         <label>
@@ -111,11 +111,11 @@
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIsBySelf" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                         <div tooltip="{{kpi.Comment}}">
                                             <span>{{kpi.Score | splitScore}} pts</span>
-                                            <div class="score-star-rating" ng-show="epaByKPICtrl.showRatingScoreByStar &&
+                                            <div class="score-star-rating" ng-if="epaByKPICtrl.showRatingScoreByStar &&
                                                  (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Star
                                                  || memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.HalfStar
                                                  || (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>
-                                                / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
+                                                / <span ng-if="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                                 <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                        value="1" data-min="0" data-max="1" data-stars="1"
                                                        data-show-caption="false" data-show-clear="false">
@@ -126,12 +126,12 @@
                                 <td class="col-score employee-score">
                                     <div class="row text-center list-star" ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
                                         <span>{{kpi.Score | splitScore}} pts</span>
-                                        <div class="score-star-rating" ng-show="epaByKPICtrl.showRatingScoreByStar &&
+                                        <div class="score-star-rating" ng-if="epaByKPICtrl.showRatingScoreByStar &&
                                              (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Star
                                              || memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.HalfStar
                                              || (memberEPA.RatingType.RatingTypeId= =epaByKPICtrl.RatingType.Score && memberEPA.KPIGroup.NumberKPIOptional>
                                             0))">
-                                            / <span ng-show="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
+                                            / <span ng-if="kpi.Rate || kpi.Rate == 0" ng-bind="kpi.Rate | splitScore"></span>
                                             <input type="number" class="rating-loading" ng-readonly="true" data-size="xs"
                                                    value="1" data-min="0" data-max="1" data-stars="1"
                                                    data-show-caption="false" data-show-clear="false">
@@ -140,23 +140,23 @@
                                 </td>
                                 <td class="col-comment">
                                     <div ng-repeat="kpi in memberEPA.KPIGroup.KPIs" ng-if="kpi.KPIId == epaByKPICtrl.filter.kpiId">
-                                        <div class="required-comment" ng-show="kpi.HasComment && kpi.IsRequiredComment">
+                                        <div class="required-comment" ng-if="kpi.HasComment && kpi.IsRequiredComment">
                                             <div class="textarea">
-                                                <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="true"></textarea>
+                                                <textarea class="form-control" ng-if="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="true"></textarea>
                                             </div>
                                         </div>
-                                        <div class="optional-comment" ng-show="kpi.HasComment && !kpi.IsRequiredComment">
-                                            <textarea class="form-control" ng-show="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="true"></textarea>
+                                        <div class="optional-comment" ng-if="kpi.HasComment && !kpi.IsRequiredComment">
+                                            <textarea class="form-control" ng-if="kpi.HasComment" ng-model="kpi.Comment" ng-readonly="true"></textarea>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="text-center col-score">
-                                    <strong><a ng-show="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="epaByKPICtrl.viewDetail(memberEPA)"></a></strong>
-                                    <strong><a ng-show="memberEPA.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="epaByKPICtrl.viewDetail(memberEPA)"></a></strong>
+                                    <strong><a ng-if="memberEPA.TotalScore != ''" href="" ng-bind="memberEPA.TotalScore | customScore" ng-click="epaByKPICtrl.viewDetail(memberEPA)"></a></strong>
+                                    <strong><a ng-if="memberEPA.TotalScore == ''" href="" ng-bind="'N/A'" ng-click="epaByKPICtrl.viewDetail(memberEPA)"></a></strong>
                                 </td>
                             </tr>
                         </tbody>
-                        <tbody ng-show="epaByKPICtrl.memberEPAs.length == 0">
+                        <tbody ng-if="epaByKPICtrl.memberEPAs.length == 0">
                             <tr>
                                 <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
                             </tr>

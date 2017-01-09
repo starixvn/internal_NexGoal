@@ -70,35 +70,35 @@
                         <td ng-bind="memberEPA.Employee.JobTitleName"></td>
                         <td ng-bind="memberEPA.Period.Name"></td>
                         <td class="text-center">
-                            <span ng-show="memberEPA.Process.Self.IsEndProcess">
+                            <span ng-if="memberEPA.Process.Self.IsEndProcess">
                                 <span ng-if="memberEPA.Process.Self.TotalScore">{{memberEPA.Process.Self.TotalScore | integerScore}} / {{memberEPA.Process.Self.MaxTotalScore | customScore}}</span>
                                 <span ng-if="!memberEPA.Process.Self.TotalScore" data-translate="Dash"></span>
                             </span>
-                            <span ng-show="!memberEPA.Process.Self.IsEndProcess" data-translate="Pending"></span>
+                            <span ng-if="!memberEPA.Process.Self.IsEndProcess" data-translate="Pending"></span>
                         </td>
                         <td class="text-center">
                             <span ng-if="memberEPA.Process.CurrentProcess.TotalScore">{{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxTotalScore | customScore}}</span>
                             <span ng-if="!memberEPA.Process.CurrentProcess.TotalScore" data-translate="Dash"></span>
                         </td>
                         <td class="text-center">
-                            <div ng-show="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
+                            <div ng-if="memberEPA.Process.CurrentProcess.Evaluated" class="glyphicon glyphicon-ok"></div>
                         </td>
                         <td class="text-center text-uppercase col-action" ng-switch="memberEPA.IsAllowedToEdit">
                             <a ng-switch-when="true"
                                ng-click="evaluatorCtrl.viewEPADetail(memberEPA)"
                                ng-attr-title='{{"EvaluateNow" | translate}}'
-                               ng-show="!memberEPA.Period.IsEndPeriod">
+                               ng-if="!memberEPA.Period.IsEndPeriod">
                                 <i class="fa fa-pencil-square-o"></i>
                             </a>
                             <a ng-switch-default
                                ng-click="evaluatorCtrl.viewEPAResult(memberEPA)"
                                ng-attr-title='{{"ViewEPAResult" | translate}}'
-                               ng-show="memberEPA.Period.IsEndPeriod">
+                               ng-if="memberEPA.Period.IsEndPeriod">
                                 <i class="fa fa-search"></i>
                             </a>
                         </td>
                     </tr>
-                    <tr ng-show="evaluatorCtrl.memberEPAs.length == 0">
+                    <tr ng-if="evaluatorCtrl.memberEPAs.length == 0">
                         <td class="empty-result" colspan="10" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>

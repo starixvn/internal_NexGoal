@@ -3,10 +3,10 @@
         <div class="col-sm-12 sub-header">
             <ul class="row breadcrumb">
                 <li class="current">
-                    <span ng-show="eoyAccessCtrl.period !== null">
+                    <span ng-if="eoyAccessCtrl.period !== null">
                         Employee of the Year {{eoyAccessCtrl.period.Period.Year}}
                     </span>
-                    <span ng-show="eoyAccessCtrl.period === null" data-translate="EOY"></span>
+                    <span ng-if="eoyAccessCtrl.period === null" data-translate="EOY"></span>
                     <a href="" ng-click="eoyAccessCtrl.openPopupInformation()"><i class="fa fa-info-circle icon-info"></i></a>
                 </li>
             </ul>
@@ -43,18 +43,18 @@
                     <div class="col button-block">
                         <button class="button" ng-click="eoyAccessCtrl.query()" data-translate="Search"></button>
                         <button class="button" ng-click="eoyAccessCtrl.addNominee()" data-translate="AddNominee"
-                                ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.NOMINATOR_ROLE
+                                ng-if="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.NOMINATOR_ROLE
                                     && eoyAccessCtrl.permission === eoyAccessCtrl.policyEnum.Host
                                     && eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></button>
                         <button class="button btnExcel" export-employee-of-the-year 
                                 ng-click="eoyAccessCtrl.exportExcel()"
-                                ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.IN_BOARD_ROLE
+                                ng-if="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.IN_BOARD_ROLE
                                 && eoyAccessCtrl.period.Period.StatusId !== eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">Excel</button>
                     </div>
                 </div>
             </form>
 
-            <div class="panel-group dashboard" ng-show="eoyAccessCtrl.period !== null">
+            <div class="panel-group dashboard" ng-if="eoyAccessCtrl.period !== null">
                 <div class="panel panel-default no-border">
                     <div class="panel-heading level-2">
                         <h4 class="panel-title" data-translate="NominationProcess"></h4>
@@ -63,7 +63,7 @@
                     <div class="panel-body">
                         <div class="evaluation-process-section">
                             <ul class="evaluation-process"
-                                ng-show="eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                ng-if="eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                                 <li class="process-item in-process">
                                     <div data-translate="Nominator"></div>
                                     <div>
@@ -85,7 +85,7 @@
                                 </li>
                             </ul>
                             <ul class="evaluation-process"
-                                ng-show="eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_CLOSED_STATUS">
+                                ng-if="eoyAccessCtrl.period.Period.StatusId === eoyAccessCtrl.PERIOD_CLOSED_STATUS">
                                 <li class="process-item end-process">
                                     <div data-translate="Nominator"></div>
                                     <div>
@@ -111,7 +111,7 @@
                 </div>
             </div>
 
-            <table class="table table-bordered" ng-show="eoyAccessCtrl.period === null">
+            <table class="table table-bordered" ng-if="eoyAccessCtrl.period === null">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -128,7 +128,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered table-striped" ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.NOMINATOR_ROLE">
+            <table class="table table-bordered table-striped" ng-if="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.NOMINATOR_ROLE">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -138,12 +138,12 @@
                         <th data-translate="Action"></th>
                     </tr>
                 </thead>
-                <tbody ng-show="eoyAccessCtrl.eoyNominations.length === 0">
+                <tbody ng-if="eoyAccessCtrl.eoyNominations.length === 0">
                     <tr>
                         <td colspan="5" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="eoyAccessCtrl.eoyNominations.length > 0">
+                <tbody ng-if="eoyAccessCtrl.eoyNominations.length > 0">
                     <tr ng-repeat="item in eoyAccessCtrl.eoyNominations">
                         <td class="text-center">{{$index + 1}}</td>
                         <td>{{item.Nominee.FullName}} ({{item.Nominee.NickName}})</td>
@@ -170,7 +170,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered table-non-hover" ng-show="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.IN_BOARD_ROLE">
+            <table class="table table-bordered table-non-hover" ng-if="eoyAccessCtrl.period.RoleId === eoyAccessCtrl.IN_BOARD_ROLE">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -181,22 +181,22 @@
                         <th data-translate="Action"></th>
                     </tr>
                 </thead>
-                <tbody ng-show="eoyAccessCtrl.eoyNominations.length === 0">
+                <tbody ng-if="eoyAccessCtrl.eoyNominations.length === 0">
                     <tr>
                         <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="eoyAccessCtrl.eoyNominations.length > 0" ng-repeat="item in eoyAccessCtrl.eoyNominations">
+                <tbody ng-if="eoyAccessCtrl.eoyNominations.length > 0" ng-repeat="item in eoyAccessCtrl.eoyNominations">
                     <tr ng-repeat="nomination in item.Nominations">
-                        <td rowspan="{{item.NumberOfNominators}}" class="text-center" ng-show="$first">
+                        <td rowspan="{{item.NumberOfNominators}}" class="text-center" ng-if="$first">
                             {{$parent.$index + 1}}
                         </td>
-                        <td rowspan="{{item.NumberOfNominators}}" ng-show="$first">
+                        <td rowspan="{{item.NumberOfNominators}}" ng-if="$first">
                             {{item.Nominee.FullName}} ({{item.Nominee.NickName}})
-                            <span ng-show="item.Nominations.length > 1"> - ({{item.Nominations.length}} votes)</span>
+                            <span ng-if="item.Nominations.length > 1"> - ({{item.Nominations.length}} votes)</span>
                         </td>
-                        <td rowspan="{{item.NumberOfNominators}}" ng-show="$first">{{item.Nominee.Group.GroupName}}</td>
-                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-show="$first">
+                        <td rowspan="{{item.NumberOfNominators}}" ng-if="$first">{{item.Nominee.Group.GroupName}}</td>
+                        <td class="text-center" rowspan="{{item.NumberOfNominators}}" ng-if="$first">
                             <select class="nomination-status default-select"
                                     ng-model="item.StatusId"
                                     ng-change="eoyAccessCtrl.updateStatusNomination(item)"

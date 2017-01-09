@@ -37,7 +37,7 @@
                                        ng-click="kpiListCtrl.removeKPIGroup(group)"></a>
                                 </td>
                                 <td class="text-center row-highlight">
-                                    <a ng-show="!group.IsSpreadKPI" ng-click="kpiListCtrl.scoreSpread(group)">Spread</a>
+                                    <a ng-if="!group.IsSpreadKPI" ng-click="kpiListCtrl.scoreSpread(group)">Spread</a>
                                 </td>
                                 <td class="text-center row-highlight"></td>
                                 <td class="text-center row-highlight"></td>
@@ -51,19 +51,19 @@
                                 <td class="text-center" ng-bind="$index + 1"></td>
                                 <td ng-bind="item.Name"></td>
                                 <td class="width-100 text-center">
-                                    <input type="text" class="weight-form-control text-center" ng-show="!group.IsSpreadKPI && item.Selected"
+                                    <input type="text" class="weight-form-control text-center" ng-if="!group.IsSpreadKPI && item.Selected"
                                            ng-model="item.Weight" name="weight" number-dot />
-                                    <span ng-show="group.IsSpreadKPI && !item.Selected">-</span>
-                                    <span ng-show="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
+                                    <span ng-if="group.IsSpreadKPI && !item.Selected">-</span>
+                                    <span ng-if="group.IsSpreadKPI && item.Selected" class="glyphicon glyphicon-ok item-list-icon"></span>
                                 </td>
                                 <td class="width-100 text-center">
-                                    <input type="checkbox" ng-model="item.IsRequiredEvaluate" ng-show="item.Selected" name="IsRequiredEvaluate" />
+                                    <input type="checkbox" ng-model="item.IsRequiredEvaluate" ng-if="item.Selected" name="IsRequiredEvaluate" />
                                 </td>
                                 <td class="width-100 text-center">
-                                    <input type="checkbox" ng-model="item.HasComment" ng-show="item.Selected" ng-click="kpiListCtrl.changeHasComment(item)" name="HasComment" />
+                                    <input type="checkbox" ng-model="item.HasComment" ng-if="item.Selected" ng-click="kpiListCtrl.changeHasComment(item)" name="HasComment" />
                                 </td>
                                 <td class="text-center">
-                                    <input type="checkbox" ng-model="item.IsRequiredComment" ng-show="item.Selected" ng-disabled="!item.HasComment" name="IsRequiredComment" />
+                                    <input type="checkbox" ng-model="item.IsRequiredComment" ng-if="item.Selected" ng-disabled="!item.HasComment" name="IsRequiredComment" />
                                 </td>
                                 <td class="text-center priority-limit">
                                     <a title="Top" class="glyphicon glyphicon-open kpiTop" move-kpi-row> | </a>
@@ -74,7 +74,7 @@
                             </tr>
                         </tbody>
                         <tfoot>
-                            <tr ng-show="filterKPIs.length == 0">
+                            <tr ng-if="filterKPIs.length == 0">
                                 <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                             </tr>
                         </tfoot>

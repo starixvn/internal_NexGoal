@@ -81,11 +81,11 @@
                            ng-click="eoqRolesManagementCtrl.modifyRole(nominator, eoqRolesManagementCtrl.NOMINATOR_ROLE)" />
                 </td>
             </tr>
-            <tr ng-show="eoqRolesManagementCtrl.filteredItems.length == 0">
+            <tr ng-if="eoqRolesManagementCtrl.filteredItems.length == 0">
                 <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
-        <tfoot ng-show="eoqRolesManagementCtrl.filteredItems.length > 0">
+        <tfoot ng-if="eoqRolesManagementCtrl.filteredItems.length > 0">
             <tr>
                 <td colspan="7" class="paging">
                     <span data-translate="Show"></span>

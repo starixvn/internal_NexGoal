@@ -28,10 +28,10 @@
                 {{paFocusCtrl.process[1].StartDate | customDate}}
             </span>
         </div>
-        <div ng-show="paFocusCtrl.process[1].ProcessStatus == paFocusCtrl.processStatus.Closed">
+        <div ng-if="paFocusCtrl.process[1].ProcessStatus == paFocusCtrl.processStatus.Closed">
             <span data-translate="Completed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
         </div>
-        <div ng-show="paFocusCtrl.process[1].ProcessStatus == paFocusCtrl.processStatus.InProgress">
+        <div ng-if="paFocusCtrl.process[1].ProcessStatus == paFocusCtrl.processStatus.InProgress">
             <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
         </div>
         <div ng-if="paFocusCtrl.process[1].ProcessStatus == paFocusCtrl.processStatus.Open">

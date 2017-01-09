@@ -50,12 +50,12 @@
             <div class="row boxtitle" data-translate="EPAProcessing">
             </div>
             <div class="row">
-                <div class="expand-user" title="Show Employee List" ng-show="!personalFlowCtrl.showListEmployee"
+                <div class="expand-user" title="Show Employee List" ng-if="!personalFlowCtrl.showListEmployee"
                      ng-click="personalFlowCtrl.toggleDepartmentDraggableList()">
                     <span class="glyphicon glyphicon-user icon-user"></span>
                 </div>
                 <div class="row">
-                    <div class="col-sm-3 employee-list" id="employeeList" ng-show="personalFlowCtrl.showListEmployee">
+                    <div class="col-sm-3 employee-list" id="employeeList" ng-if="personalFlowCtrl.showListEmployee">
                         <div class="row flow-header">
                             <span data-translate="Employee"></span>
                             <a ng-click="personalFlowCtrl.toggleDepartmentDraggableList()" href=""
@@ -135,9 +135,9 @@
                         </table>
                         <form class="row form-inline department-form button-block" role="form">
                             <button class="button" ng-click="personalFlowCtrl.savePersonalFlow()"
-                                    ng-show="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Submit"></button>
+                                    ng-if="updateCtrl.permission == updateCtrl.policyEnum.Host" data-translate="Submit"></button>
                             <button class="button" ng-click="personalFlowCtrl.deletePersonalFlow()" data-translate="Delete"
-                                    ng-show="personalFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
+                                    ng-if="personalFlowCtrl.showDeleteButton && updateCtrl.permission == updateCtrl.policyEnum.Host"></button>
                         </form>
                     </div>
                 </div>

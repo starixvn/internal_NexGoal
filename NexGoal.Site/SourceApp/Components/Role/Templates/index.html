@@ -44,7 +44,7 @@
                     </table>
                 </div>
                 <div class="form-group button-block">
-                    <button class="button" get-role-permission ng-show="!roleCtrl.isSystemAdmin" data-translate="Submit"></button>
+                    <button class="button" get-role-permission ng-if="!roleCtrl.isSystemAdmin" data-translate="Submit"></button>
                 </div>
             </form>
         </div>

@@ -499,7 +499,6 @@
     <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />
     <Content Include="SourceApp\Components\Dashboard\Templates\evaluationProcess.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\index.html" />
-    <Content Include="SourceApp\Components\Dashboard\Templates\monthlyEPA.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\myEPA.html" />
     <Content Include="SourceApp\Components\Dashboard\Templates\personalProfile.html" />
     <Content Include="SourceApp\Components\Department\department-controller.js" />

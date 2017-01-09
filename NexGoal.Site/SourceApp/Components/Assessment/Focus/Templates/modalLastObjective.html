@@ -1,8 +1,8 @@
 ﻿<div class="custom-modal">
     <div class="modal-header">
         <div class="popup-header">
-            <span ng-show="paModalLastObjectiveCtrl.IsReadOnly" data-translate="ViewCurrentObjective"></span>
-            <span ng-show="!paModalLastObjectiveCtrl.IsReadOnly" data-translate="EditCurrentObjective"></span>
+            <span ng-if="paModalLastObjectiveCtrl.IsReadOnly" data-translate="ViewCurrentObjective"></span>
+            <span ng-if="!paModalLastObjectiveCtrl.IsReadOnly" data-translate="EditCurrentObjective"></span>
             <span class="close-popup" ng-click="paModalLastObjectiveCtrl.cancel()"></span>
         </div>
     </div>
@@ -11,10 +11,10 @@
 
         <div class="comment"
              ng-bind="paModalLastObjectiveCtrl.LastCompletedPercentObjective"
-             ng-show="paModalLastObjectiveCtrl.IsReadOnly"></div>
+             ng-if="paModalLastObjectiveCtrl.IsReadOnly"></div>
 
         <form class="form-horizontal" role="form"
-              ng-show="!paModalLastObjectiveCtrl.IsReadOnly">
+              ng-if="!paModalLastObjectiveCtrl.IsReadOnly">
             <div class="form-group">
                 <label class="col-sm-2 control-label text-left">
                     <span data-translate="Objectives"></span>
@@ -30,9 +30,9 @@
     </div>
     <div class="modal-footer button-block">
         <button class="button btn-cancel" ng-click="paModalLastObjectiveCtrl.cancel()">
-            <span ng-show="paModalLastObjectiveCtrl.IsReadOnly" data-translate="Close"></span>
-            <span ng-show="!paModalLastObjectiveCtrl.IsReadOnly" data-translate="Cancel"></span>
+            <span ng-if="paModalLastObjectiveCtrl.IsReadOnly" data-translate="Close"></span>
+            <span ng-if="!paModalLastObjectiveCtrl.IsReadOnly" data-translate="Cancel"></span>
         </button>
-        <button class="button" ng-click="paModalLastObjectiveCtrl.ok()" data-translate="Submit" ng-show="!paModalLastObjectiveCtrl.IsReadOnly"></button>
+        <button class="button" ng-click="paModalLastObjectiveCtrl.ok()" data-translate="Submit" ng-if="!paModalLastObjectiveCtrl.IsReadOnly"></button>
     </div>
 </div>

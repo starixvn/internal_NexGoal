@@ -24,7 +24,7 @@
                     <td class="text-center" ng-bind="otherViolation.Score | number: 1"></td>
                     <td class="text-center" ng-bind="otherViolation.Comment"></td>
                 </tr>
-                <tr ng-show="otherViolationCtrl.otherViolations.length == 0">
+                <tr ng-if="otherViolationCtrl.otherViolations.length == 0">
                     <td class="empty-result" colspan="5" data-translate="EmptyResult"></td>
                 </tr>
             </tbody>

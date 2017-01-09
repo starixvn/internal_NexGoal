@@ -1,6 +1,6 @@
 ﻿<div class="panel panel-default evaluation-process-section no-border"
      ng-repeat="epaInfo in dashboardCtrl.evaluationProcesses"
-     ng-show="epaInfo.Status.StatusId == dashboardCtrl.epaStatusEnum.Open"
+     ng-if="epaInfo.Status.StatusId == dashboardCtrl.epaStatusEnum.Open"
      ng-init="dashboardCtrl.collapses[epaInfo.Period.Name] = false;">
 
     <div class="panel-heading level-1" data-toggle="collapse" data-target=".process-{{ $index }}">
@@ -16,8 +16,8 @@
                     <div>
                         <span>{{"Admin" | translate}}: </span>
                         <span ng-repeat="humanResource in epaInfo.Process.HumanResources">
-                            <span ng-show="!$last" popover-avatar avatar-src="{{humanResource.Avatar}}">{{humanResource.NickName}}, </span>
-                            <span ng-show="$last" popover-avatar avatar-src="{{humanResource.Avatar}}">{{humanResource.NickName}}</span>
+                            <span ng-if="!$last" popover-avatar avatar-src="{{humanResource.Avatar}}">{{humanResource.NickName}}, </span>
+                            <span ng-if="$last" popover-avatar avatar-src="{{humanResource.Avatar}}">{{humanResource.NickName}}</span>
                         </span>
                     </div>
                     <div>
@@ -45,13 +45,13 @@
                         <span> - </span>
                         <span ng-bind="epaInfo.Process.Self.EndDate | customDate"></span>
                     </div>
-                    <div ng-show="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
+                    <div ng-if="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
                         <span data-translate="Completed"></span><i class="fa fa-check-square-o"></i>
                     </div>
-                    <div ng-show="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
+                    <div ng-if="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
                         <span data-translate="InProgress"></span><i class="fa fa-spinner"></i>
                     </div>
-                    <div ng-show="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
+                    <div ng-if="epaInfo.Process.Self.StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
                         <span data-translate="Open"></span><i class="fa fa-hourglass-start"></i>
                     </div>
                 </li>
@@ -59,11 +59,11 @@
                     ng-if="!(epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual)">
                     <div>
                         <span>{{"Evaluator" | translate}}: </span>
-                        <span ng-show="epaInfo.Process.Evaluators.length == 1" ng-bind="epaInfo.Process.Evaluators[0].NickName"
+                        <span ng-if="epaInfo.Process.Evaluators.length == 1" ng-bind="epaInfo.Process.Evaluators[0].NickName"
                               popover-avatar avatar-src="{{epaInfo.Process.Evaluators[0].Avatar}}"></span>
-                        <span ng-show="epaInfo.Process.Evaluators.length > 1" ng-repeat="evaluator in epaInfo.Process.Evaluators">
-                            <span ng-show="!$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}, </span>
-                            <span ng-show="$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}</span>
+                        <span ng-if="epaInfo.Process.Evaluators.length > 1" ng-repeat="evaluator in epaInfo.Process.Evaluators">
+                            <span ng-if="!$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}, </span>
+                            <span ng-if="$last" popover-avatar avatar-src="{{evaluator.Avatar}}">{{evaluator.NickName}}</span>
                         </span>
                     </div>
                     <div>
@@ -71,13 +71,13 @@
                         <span> - </span>
                         <span ng-bind="epaInfo.Process.Evaluators[0].EndDate | customDate"></span>
                     </div>
-                    <div ng-show="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
+                    <div ng-if="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
                         <span data-translate="Completed"></span><i class="fa fa-check-square-o"></i>
                     </div>
-                    <div ng-show="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
+                    <div ng-if="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
                         <span data-translate="InProgress"></span><i class="fa fa-spinner"></i>
                     </div>
-                    <div ng-show="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
+                    <div ng-if="epaInfo.Process.Evaluators[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
                         <span data-translate="Open"></span><i class="fa fa-hourglass-start"></i>
                     </div>
                 </li>
@@ -85,11 +85,11 @@
                     ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Reviewers[0].StatusEndProcess)" class="process-item">
                     <div>
                         <span>{{"Reviewer" | translate}}:</span>
-                        <span ng-show="epaInfo.Process.Reviewers.length == 1" ng-bind="epaInfo.Process.Reviewers[0].NickName"
+                        <span ng-if="epaInfo.Process.Reviewers.length == 1" ng-bind="epaInfo.Process.Reviewers[0].NickName"
                               popover-avatar avatar-src="{{epaInfo.Process.Reviewers[0].Avatar}}"></span>
-                        <span ng-show="epaInfo.Process.Reviewers.length > 1" ng-repeat="reviewer in epaInfo.Process.Reviewers">
-                            <span ng-show="!$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}, </span>
-                            <span ng-show="$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}</span>
+                        <span ng-if="epaInfo.Process.Reviewers.length > 1" ng-repeat="reviewer in epaInfo.Process.Reviewers">
+                            <span ng-if="!$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}, </span>
+                            <span ng-if="$last" popover-avatar avatar-src="{{reviewer.Avatar}}">{{reviewer.NickName}}</span>
                         </span>
                     </div>
                     <div>
@@ -97,13 +97,13 @@
                         <span> - </span>
                         <span ng-bind="epaInfo.Process.Reviewers[0].EndDate | customDate"></span>
                     </div>
-                    <div ng-show="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
+                    <div ng-if="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.EndProcess">
                         <span data-translate="Completed"></span><i class="fa fa-check-square-o"></i>
                     </div>
-                    <div ng-show="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
+                    <div ng-if="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.InProgress">
                         <span data-translate="InProgress"></span><i class="fa fa-spinner"></i>
                     </div>
-                    <div ng-show="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
+                    <div ng-if="epaInfo.Process.Reviewers[0].StatusEndProcess == dashboardCtrl.statusEndProcessEnum.Open">
                         <span data-translate="Open"></span><i class="fa fa-hourglass-start"></i>
                     </div>
                 </li>

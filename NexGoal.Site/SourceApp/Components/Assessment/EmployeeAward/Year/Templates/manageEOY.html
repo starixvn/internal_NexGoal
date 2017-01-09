@@ -24,7 +24,7 @@
                 <th colspan="7">
                     <a class="pull-left button-icon create-button"
                        ng-click="manageEOYCtrl.createEOY()"
-                       ng-show="manageEOYCtrl.permission == manageEOYCtrl.policyEnum.Host">
+                       ng-if="manageEOYCtrl.permission == manageEOYCtrl.policyEnum.Host">
                         <span class="icon plus"></span>
                         <span class="button-text" data-translate="CreateNominationPeriod"></span>
                     </a>
@@ -40,7 +40,7 @@
                 <th data-translate="EndDate"></th>
                 <th data-translate="RemindDate"></th>
                 <th data-translate="Status"></th>
-                <th data-translate="Action" ng-show="manageEOYCtrl.permission === manageEOYCtrl.policyEnum.Host"></th>
+                <th data-translate="Action" ng-if="manageEOYCtrl.permission === manageEOYCtrl.policyEnum.Host"></th>
             </tr>
         </thead>
         <tbody>
@@ -54,25 +54,25 @@
                 <td ng-bind="period.StatusToString"
                     ng-class="{'not-started': period.StatusId === 0, 'in-progress': period.StatusId === 1, 'closed': period.StatusId === 2}"
                     class="nomination-period-status"></td>
-                <td ng-show="manageEOYCtrl.permission === manageEOYCtrl.policyEnum.Host">
+                <td ng-if="manageEOYCtrl.permission === manageEOYCtrl.policyEnum.Host">
                     <div class="btn-group">
                         <a class="fa fa-search" title="Detail"
                            ng-click="manageEOYCtrl.viewEOYDetail(period.EOQYId)"
-                           ng-show="period.Year < manageEOYCtrl.currentYear"></a>
+                           ng-if="period.Year < manageEOYCtrl.currentYear"></a>
                         <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                            ng-click="manageEOYCtrl.updateEOY(period.EOQYId)"
-                           ng-show="period.Year >= manageEOYCtrl.currentYear"></a>
+                           ng-if="period.Year >= manageEOYCtrl.currentYear"></a>
                         <a class="fa fa-trash-o icon-remove" title="Delete" 
                            ng-click="manageEOYCtrl.deleteEOY(period)"
-                           ng-show="period.Year >= manageEOYCtrl.currentYear && period.StatusId === 0"></a>
+                           ng-if="period.Year >= manageEOYCtrl.currentYear && period.StatusId === 0"></a>
                     </div>
                 </td>
             </tr>
-            <tr ng-show="manageEOYCtrl.filteredItems.length == 0">
+            <tr ng-if="manageEOYCtrl.filteredItems.length == 0">
                 <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
-        <tfoot ng-show="manageEOYCtrl.filteredItems.length > 0">
+        <tfoot ng-if="manageEOYCtrl.filteredItems.length > 0">
             <tr>
                 <td colspan="7" class="paging">
                     <span data-translate="Show"></span>

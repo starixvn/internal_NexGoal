@@ -86,32 +86,32 @@
                         <td ng-bind="pa.Period.Name"></td>
                         <td ng-bind="pa.Period.TargetTypeName"></td>
                         <td class="text-center">
-                            <span ng-show="!pa.Process.Self.IsEndProcess" data-translate="Pending"></span>
-                            <span ng-show="pa.Process.Self.IsEndProcess && !pa.Process.Self.TotalScore" data-translate="Dash"></span>
-                            <span ng-show="pa.Process.Self.IsEndProcess && pa.Process.Self.TotalScore">{{pa.Process.Self.TotalScore | integerScore}}</span>
+                            <span ng-if="!pa.Process.Self.IsEndProcess" data-translate="Pending"></span>
+                            <span ng-if="pa.Process.Self.IsEndProcess && !pa.Process.Self.TotalScore" data-translate="Dash"></span>
+                            <span ng-if="pa.Process.Self.IsEndProcess && pa.Process.Self.TotalScore">{{pa.Process.Self.TotalScore | integerScore}}</span>
                         </td>
                         <td class="text-center">
-                            <span ng-show="!pa.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
-                            <span ng-show="pa.Process.Evaluators[0].IsEndProcess && !pa.Process.AverageScoreByEvaluators" data-translate="Dash"></span>
-                            <span ng-show="pa.Process.Evaluators[0].IsEndProcess && pa.Process.AverageScoreByEvaluators">{{pa.Process.AverageScoreByEvaluators| integerScore}}</span>
+                            <span ng-if="!pa.Process.Evaluators[0].IsEndProcess" data-translate="Pending"></span>
+                            <span ng-if="pa.Process.Evaluators[0].IsEndProcess && !pa.Process.AverageScoreByEvaluators" data-translate="Dash"></span>
+                            <span ng-if="pa.Process.Evaluators[0].IsEndProcess && pa.Process.AverageScoreByEvaluators">{{pa.Process.AverageScoreByEvaluators| integerScore}}</span>
                         </td>
                         <td class="text-center">
-                            <span ng-show="!pa.Process.Reviewers[0].IsEndProcess" data-translate="Pending"></span>
-                            <span ng-show="pa.Process.Reviewers[0].IsEndProcess && !pa.Process.AverageScoreByReviewers" data-translate="Dash"></span>
-                            <span ng-show="pa.Process.Reviewers[0].IsEndProcess && pa.Process.AverageScoreByReviewers">{{pa.Process.AverageScoreByReviewers| integerScore}}</span>
+                            <span ng-if="!pa.Process.Reviewers[0].IsEndProcess" data-translate="Pending"></span>
+                            <span ng-if="pa.Process.Reviewers[0].IsEndProcess && !pa.Process.AverageScoreByReviewers" data-translate="Dash"></span>
+                            <span ng-if="pa.Process.Reviewers[0].IsEndProcess && pa.Process.AverageScoreByReviewers">{{pa.Process.AverageScoreByReviewers| integerScore}}</span>
                         </td>
                         <td class="text-center">
-                            <span ng-show="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
-                            <span ng-show="pa.Period.IsEndPeriod && pa.FinalScore==0" data-translate="Dash"></span>
-                            <span ng-show="pa.Period.IsEndPeriod && pa.FinalScore && pa.FinalScore!=0">{{pa.FinalScore| integerScore}}</span>
+                            <span ng-if="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
+                            <span ng-if="pa.Period.IsEndPeriod && pa.FinalScore==0" data-translate="Dash"></span>
+                            <span ng-if="pa.Period.IsEndPeriod && pa.FinalScore && pa.FinalScore!=0">{{pa.FinalScore| integerScore}}</span>
                         </td>
                         <td class="text-center">
-                            <span ng-show="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
-                            <span ng-show="pa.Period.IsEndPeriod && !pa.Grade" data-translate="Dash"></span>
-                            <span ng-show="pa.Period.IsEndPeriod && pa.Grade">{{pa.Grade}}</span>
+                            <span ng-if="!pa.Period.IsEndPeriod" data-translate="Pending"></span>
+                            <span ng-if="pa.Period.IsEndPeriod && !pa.Grade" data-translate="Dash"></span>
+                            <span ng-if="pa.Period.IsEndPeriod && pa.Grade">{{pa.Grade}}</span>
                         </td>
                         <td class="text-center">                            
-                            <span ng-show="pa.Period.IsEndPeriod">
+                            <span ng-if="pa.Period.IsEndPeriod">
                                 <a title="View Detail"
                                    ng-click="paReportCtrl.viewEPADetail(pa.EPAId)">
                                     <i class="fa fa-search"></i>
@@ -119,11 +119,11 @@
                             </span>
                         </td>
                     </tr>
-                    <tr ng-show="paReportCtrl.filteredItems.length == 0">
+                    <tr ng-if="paReportCtrl.filteredItems.length == 0">
                         <td class="empty-result" colspan="13" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tfoot ng-show="paReportCtrl.filteredItems.length > 0">
+                <tfoot ng-if="paReportCtrl.filteredItems.length > 0">
                     <tr>
                         <td colspan="13" class="paging">
                             <span data-translate="Show"></span>

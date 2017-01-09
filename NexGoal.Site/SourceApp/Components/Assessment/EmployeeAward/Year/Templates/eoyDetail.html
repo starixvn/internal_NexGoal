@@ -136,11 +136,11 @@
                                     <input type="checkbox" ng-model="nominator.IsNominator" ng-disabled="true" />
                                 </td>
                             </tr>
-                            <tr ng-show="viewEOYDetailCtrl.filteredItems.length == 0">
+                            <tr ng-if="viewEOYDetailCtrl.filteredItems.length == 0">
                                 <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
                             </tr>
                         </tbody>
-                        <tfoot ng-show="viewEOYDetailCtrl.filteredItems.length > 0">
+                        <tfoot ng-if="viewEOYDetailCtrl.filteredItems.length > 0">
                             <tr>
                                 <td colspan="7" class="paging">
                                     <span data-translate="Show"></span>

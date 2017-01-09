@@ -60,9 +60,9 @@
             <div class="info-label"><strong data-translate="Evaluated"></strong></div>
             <div class="info-detail">
                 <span class="glyphicon glyphicon-saved epa-saved"
-                      ng-show="memberEPAInfoCtrl.evaluatedDate || memberEPAInfoCtrl.dataSaved"></span>
+                      ng-if="memberEPAInfoCtrl.evaluatedDate || memberEPAInfoCtrl.dataSaved"></span>
                 <span class="glyphicon glyphicon-list-alt epa-unsaved"
-                      ng-show="memberEPAInfoCtrl.evaluatedDate == null && !memberEPAInfoCtrl.dataSaved"></span>
+                      ng-if="memberEPAInfoCtrl.evaluatedDate == null && !memberEPAInfoCtrl.dataSaved"></span>
             </div>
         </div>
     </div>

@@ -16,7 +16,7 @@
                 </div>
                 <div class="form-group">
                     <div class="col-sm-2">
-                        <input class="period-target-chk" ng-show="!updatePeriodSettingCtrl.hasSelfStarted && !updatePeriodSettingCtrl.singleMode" type="checkbox"
+                        <input class="period-target-chk" ng-if="!updatePeriodSettingCtrl.hasSelfStarted && !updatePeriodSettingCtrl.singleMode" type="checkbox"
                                ng-model="updatePeriodSettingCtrl.fieldEdit.targetTemplate" />
                         <label class="control-label period-target-label" data-translate="TargetTemplate"></label>
                     </div>
@@ -31,17 +31,17 @@
             <table class="row table table-bordered table-striped table-period-setting">
                 <thead>
                     <tr class="headerName">
-                        <th ng-show="!updatePeriodSettingCtrl.singleMode" class="text-center col-percent-5"></th>
+                        <th ng-if="!updatePeriodSettingCtrl.singleMode" class="text-center col-percent-5"></th>
                         <th data-translate="SymbolCount"></th>
                         <th class="text-center" data-translate="Admin"></th>
-                        <th class="text-center" data-translate="SelfEvaluator" ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></th>
-                        <th class="text-center" data-translate="Evaluator" ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></th>
+                        <th class="text-center" data-translate="SelfEvaluator" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></th>
+                        <th class="text-center" data-translate="Evaluator" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></th>
                         <th class="text-center" data-translate="Reviewer"></th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td ng-show="!updatePeriodSettingCtrl.singleMode" class="text-center">
+                        <td ng-if="!updatePeriodSettingCtrl.singleMode" class="text-center">
                             <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.evaluator" />
                         </td>
                         <td data-translate="Evaluator"></td>
@@ -53,8 +53,8 @@
                                     ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
                                     on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                         </td>
-                        <td ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></td>
-                        <td ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></td>
+                        <td ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
                             <select class="form-control" multiple chosen
                                     options="updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                     ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.ids"
@@ -72,7 +72,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td ng-show="!updatePeriodSettingCtrl.singleMode" class="text-center">
+                        <td ng-if="!updatePeriodSettingCtrl.singleMode" class="text-center">
                             <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.startDate" />
                         </td>
                         <td data-translate="StartDate"></td>
@@ -84,7 +84,7 @@
                             <calendar-image class="calendar-image period-calendar"
                                             ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></calendar-image>
                         </td>
-                        <td class="calendar-box" ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td class="calendar-box" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
                             <input readonly class="calendar-form-control" type="text"
                                    ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.StartDate"
                                    ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
@@ -93,7 +93,7 @@
                             <calendar-image class="calendar-image period-calendar"
                                             ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></calendar-image>
                         </td>
-                        <td class="calendar-box" ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td class="calendar-box" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
                             <input readonly class="calendar-form-control" type="text"
                                    ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.StartDate"
                                    ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
@@ -113,7 +113,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td ng-show="!updatePeriodSettingCtrl.singleMode" class="text-center">
+                        <td ng-if="!updatePeriodSettingCtrl.singleMode" class="text-center">
                             <input type="checkbox" ng-model="updatePeriodSettingCtrl.fieldEdit.endDate" />
                         </td>
                         <td data-translate="EndDate"></td>
@@ -125,7 +125,7 @@
                             <calendar-image class="calendar-image period-calendar"
                                             ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></calendar-image>
                         </td>
-                        <td class="calendar-box" ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td class="calendar-box" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
                             <input readonly class="calendar-form-control" type="text"
                                    ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.EndDate"
                                    ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
@@ -134,7 +134,7 @@
                             <calendar-image class="calendar-image period-calendar"
                                             ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></calendar-image>
                         </td>
-                        <td class="calendar-box" ng-show="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td class="calendar-box" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
                             <input readonly class="calendar-form-control" type="text"
                                    ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.EndDate"
                                    ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
@@ -159,7 +159,7 @@
         <div class="modal-footer button-block">
             <button class="button btn-cancel" ng-click="updatePeriodSettingCtrl.cancel()" data-translate="Cancel"></button>
             <button class="button" ng-click="updatePeriodSettingCtrl.save()" data-translate="Submit"
-                    ng-show="updatePeriodSettingCtrl.permission == updatePeriodSettingCtrl.policyEnum.Host"></button>
+                    ng-if="updatePeriodSettingCtrl.permission == updatePeriodSettingCtrl.policyEnum.Host"></button>
         </div>
     </div>
 </div>

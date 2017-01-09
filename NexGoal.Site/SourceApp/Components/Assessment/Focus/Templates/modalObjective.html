@@ -1,8 +1,8 @@
 ﻿<div class="custom-modal">
     <div class="modal-header">
         <div class="popup-header">
-            <span ng-show="paModalObjectiveCtrl.IsReadOnly" data-translate="ViewObjectives"></span>
-            <span ng-show="!paModalObjectiveCtrl.IsReadOnly" data-translate="EditObjectives"></span>
+            <span ng-if="paModalObjectiveCtrl.IsReadOnly" data-translate="ViewObjectives"></span>
+            <span ng-if="!paModalObjectiveCtrl.IsReadOnly" data-translate="EditObjectives"></span>
             <span class="close-popup" ng-click="paModalObjectiveCtrl.cancel()"></span>
         </div>
     </div>
@@ -11,10 +11,10 @@
 
         <div class="comment"
              ng-bind="paModalObjectiveCtrl.NextDescriptionObjective"
-             ng-show="paModalObjectiveCtrl.IsReadOnly"></div>
+             ng-if="paModalObjectiveCtrl.IsReadOnly"></div>
 
         <form class="form-horizontal" role="form"
-              ng-show="!paModalObjectiveCtrl.IsReadOnly">
+              ng-if="!paModalObjectiveCtrl.IsReadOnly">
             <div class="form-group">
                 <label class="col-sm-2 control-label text-left">
                     <span data-translate="Objectives"></span>
@@ -30,9 +30,9 @@
     </div>
     <div class="modal-footer button-block">
         <button class="button btn-cancel" ng-click="paModalObjectiveCtrl.cancel()">
-            <span ng-show="paModalObjectiveCtrl.IsReadOnly" data-translate="Close"></span>
-            <span ng-show="!paModalObjectiveCtrl.IsReadOnly" data-translate="Cancel"></span>
+            <span ng-if="paModalObjectiveCtrl.IsReadOnly" data-translate="Close"></span>
+            <span ng-if="!paModalObjectiveCtrl.IsReadOnly" data-translate="Cancel"></span>
         </button>
-        <button class="button" ng-click="paModalObjectiveCtrl.ok()" data-translate="Submit" ng-show="!paModalObjectiveCtrl.IsReadOnly"></button>
+        <button class="button" ng-click="paModalObjectiveCtrl.ok()" data-translate="Submit" ng-if="!paModalObjectiveCtrl.IsReadOnly"></button>
     </div>
 </div>

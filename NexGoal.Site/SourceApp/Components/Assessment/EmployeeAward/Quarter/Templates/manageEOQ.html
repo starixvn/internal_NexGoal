@@ -33,7 +33,7 @@
                 <th colspan="8">
                     <a href="" class="button pull-left"
                        ng-click="manageEOQCtrl.createEOQ()"
-                       ng-show="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host">
+                       ng-if="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host">
                         <i class="fa fa-plus"></i> {{"CreateNominationPeriod" | translate}}
                     </a>
                     <input type="text" class="search-inline-textbox search pull-right"
@@ -49,7 +49,7 @@
                 <th data-translate="EndDate"></th>
                 <th data-translate="RemindDate"></th>
                 <th data-translate="Status"></th>
-                <th data-translate="Action" ng-show="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host"></th>
+                <th data-translate="Action" ng-if="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host"></th>
             </tr>
         </thead>
         <tbody>
@@ -65,25 +65,25 @@
                     ng-class="{'not-started': period.StatusId === 0, 'in-progress': period.StatusId === 1, 'closed': period.StatusId === 2}"
                     class="nomination-period-status text-center"></td>
                 <td class="text-center"
-                    ng-show="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host">
+                    ng-if="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host">
                     <div class="btn-group">
                         <a class="fa fa-search" title="Detail"
                            ng-click="manageEOQCtrl.viewEOQDetail(period.EOQYId)"
-                           ng-show="period.Year < manageEOQCtrl.currentYear"></a>
+                           ng-if="period.Year < manageEOQCtrl.currentYear"></a>
                         <a class="fa fa-pencil-square-o icon-edit" title="Edit"
                            ng-click="manageEOQCtrl.updateEOQ(period.EOQYId)"
-                           ng-show="period.Year >= manageEOQCtrl.currentYear"></a>
+                           ng-if="period.Year >= manageEOQCtrl.currentYear"></a>
                         <a class="fa fa-trash-o icon-remove" title="Delete"
                            ng-click="manageEOQCtrl.deleteEOQ(period)"
-                           ng-show="period.Year >= manageEOQCtrl.currentYear && period.StatusId === 0"></a>
+                           ng-if="period.Year >= manageEOQCtrl.currentYear && period.StatusId === 0"></a>
                     </div>
                 </td>
             </tr>
-            <tr ng-show="manageEOQCtrl.filteredItems.length == 0">
+            <tr ng-if="manageEOQCtrl.filteredItems.length == 0">
                 <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
-        <tfoot ng-show="manageEOQCtrl.filteredItems.length > 0">
+        <tfoot ng-if="manageEOQCtrl.filteredItems.length > 0">
             <tr>
                 <td colspan="8" class="paging">
                     <span data-translate="Show"></span>

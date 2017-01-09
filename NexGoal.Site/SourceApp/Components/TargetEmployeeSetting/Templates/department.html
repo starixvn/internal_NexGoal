@@ -38,7 +38,7 @@
         <thead>
             <tr class="header-table">
                 <th colspan="6">
-                    <div class="pull-left div-target-templatesetting" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                    <div class="pull-left div-target-templatesetting" ng-if="targetCtrl.permission == targetCtrl.policyEnum.Host">
                         <label class="control-label" data-translate="EvaluationTemplate">
                         </label>
                         <select ng-model="departmentCtrl.targetDepartmentSetting.targetTemplateId" 
@@ -46,7 +46,7 @@
                                 class="target-template-setting-select lstBox-limit"></select>
                     </div>
                     <button class="button pull-left btn-assign" data-translate="Assign" ng-click="departmentCtrl.assignTargetTemplate()" 
-                            ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host"></button>
+                            ng-if="targetCtrl.permission == targetCtrl.policyEnum.Host"></button>
                     <input type="text" ng-model="departmentCtrl.searchKey" ng-change="departmentCtrl.search()" class="search-inline-textbox search pull-right">
                 </th>
             </tr>
@@ -63,27 +63,27 @@
                 </th>
                 <th data-translate="EvaluationTemplate">
                 </th>
-                <th data-translate="Delete" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                <th data-translate="Delete" ng-if="targetCtrl.permission == targetCtrl.policyEnum.Host">
                 </th>
             </tr>
         </thead>
             <tbody class="table-body" dir-paginate="department in departmentCtrl.filteredItems | itemsPerPage: departmentCtrl.pageSize"
                 pagination-id="department" current-page="departmentCtrl.currentPage" ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
-            <tr ng-repeat="targetTemplate in department.TargetTemplates" ng-show="department.TargetTemplates.length > 0">
-                <td class="text-center" rowspan="{{department.NumberTargetTemplates}}" ng-show="$first">
+            <tr ng-repeat="targetTemplate in department.TargetTemplates" ng-if="department.TargetTemplates.length > 0">
+                <td class="text-center" rowspan="{{department.NumberTargetTemplates}}" ng-if="$first">
                     <input type="checkbox" ng-model="department.Selected" ng-click="departmentCtrl.syncSelectedDepartment(department, department.Selected)" />
                 </td>
                 <td class="text-center" ng-bind="departmentCtrl.getIndex($parent.$index, departmentCtrl.currentPage, departmentCtrl.pageSize)"
-                    ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
-                <td ng-bind="department.Name" ng-show="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
+                    ng-if="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
+                <td ng-bind="department.Name" ng-if="$first" rowspan="{{department.NumberTargetTemplates}}"></td>
                 <td ng-bind="targetTemplate.TargetTypeName"></td>
                 <td ng-bind="targetTemplate.Name"></td>
-                <td class="text-center" ng-show="targetCtrl.permission == targetCtrl.policyEnum.Host">
+                <td class="text-center" ng-if="targetCtrl.permission == targetCtrl.policyEnum.Host">
                     <a class="fa fa-trash-o icon-remove" ng-click="departmentCtrl.deleteTargetTemplate(department, targetTemplate)"
                        ng-attr-title='{{"Delete" | translate}}'></a>
                 </td>
             </tr>
-            <tr ng-show="department.TargetTemplates.length == 0">
+            <tr ng-if="department.TargetTemplates.length == 0">
                 <td class="text-center">
                     <input type="checkbox" ng-model="department.Selected" ng-click="departmentCtrl.syncSelectedDepartment(department, department.Selected)" />
                 </td>
@@ -94,7 +94,7 @@
                 <td></td>
             </tr>
         </tbody>
-        <tbody ng-show="departmentCtrl.filteredItems.length == 0">
+        <tbody ng-if="departmentCtrl.filteredItems.length == 0">
             <tr>
                 <td class="empty-result" colspan="6" data-translate="EmptyResult"></td>
             </tr>

@@ -75,7 +75,7 @@
                                ng-click="kpiGroupCtrl.addKPI(kpiGroup)" ng-attr-title='{{"AddKPI" | translate}}'></a>
                         </td>
                     </tr>
-                    <tr ng-show="kpiGroupCtrl.filteredItems.length == 0">
+                    <tr ng-if="kpiGroupCtrl.filteredItems.length == 0">
                         <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>

@@ -85,7 +85,7 @@
                         <th colspan="9">
                             <a class="button pull-left"
                                ng-click="violationCtrl.createViolation()"
-                               ng-show="violationCtrl.permission === violationCtrl.policyEnum.Host">
+                               ng-if="violationCtrl.permission === violationCtrl.policyEnum.Host">
                                 <i class="fa fa-plus"></i> {{"AddDisciplineRecord" | translate}}
                             </a>
                             <input type="text" class="search-inline-textbox search pull-right"
@@ -106,12 +106,12 @@
                             ng-if="violationCtrl.permission === violationCtrl.policyEnum.Host"></th>
                     </tr>
                 </thead>
-                <tbody ng-show="violationCtrl.filteredItems.length === 0">
+                <tbody ng-if="violationCtrl.filteredItems.length === 0">
                     <tr>
                         <td colspan="9" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-show="violationCtrl.filteredItems.length > 0">
+                <tbody ng-if="violationCtrl.filteredItems.length > 0">
                     <tr ng-repeat="violation in violationCtrl.filteredItems">
                         <td class="text-center" ng-bind="$index + 1"></td>
                         <td ng-bind="violation.Employee.NickName"></td>

@@ -81,10 +81,10 @@
                     <tr dir-paginate="kpi in kpiCtrl.filteredItems | itemsPerPage: kpiCtrl.pageSize" current-page="kpiCtrl.currentPage">
                         <td class="text-center" ng-bind="kpiCtrl.getIndex($index, kpiCtrl.currentPage, kpiCtrl.pageSize)"></td>
                         <td>
-                            <div ng-show="kpi.KPIGroups.length == 1">
+                            <div ng-if="kpi.KPIGroups.length == 1">
                                 <span ng-bind="kpi.KPIGroups[0].Name"></span>
                             </div>
-                            <div ng-show="kpi.KPIGroups.length > 1">
+                            <div ng-if="kpi.KPIGroups.length > 1">
                                 <ul class="list-kpi-groups">
                                     <li class="kpi-group-item" ng-repeat="group in kpi.KPIGroups" ng-bind="group.Name"></li>
                                 </ul>
@@ -103,9 +103,9 @@
                         </td>
                         <td class="col-description">
                             {{kpi.Description | limitTo: kpi.numLimit > 0 ? kpi.numLimit: kpiCtrl.maxLengthDescription}}
-                            <a ng-show="!kpi.showReadMore && (kpi.Description.length >= kpiCtrl.maxLengthDescription)"
+                            <a ng-if="!kpi.showReadMore && (kpi.Description.length >= kpiCtrl.maxLengthDescription)"
                                ng-click="kpiCtrl.readMore(kpi)" data-translate="ReadMore"></a>
-                            <a ng-show="kpi.showReadMore && (kpi.Description.length >= kpiCtrl.maxLengthDescription)"
+                            <a ng-if="kpi.showReadMore && (kpi.Description.length >= kpiCtrl.maxLengthDescription)"
                                ng-click="kpiCtrl.readLess(kpi)" data-translate="ReadLess"></a>
                         </td>
                         <td class="text-center col-action" ng-if="kpiCtrl.permission == kpiCtrl.policyEnum.Host">
@@ -113,7 +113,7 @@
                             <a class="fa fa-trash-o icon-remove" ng-click="kpiCtrl.deleteKPI(kpi)" ng-attr-title='{{"Delete" | translate}}'></a>
                         </td>
                     </tr>
-                    <tr ng-show="kpiCtrl.filteredItems.length == 0">
+                    <tr ng-if="kpiCtrl.filteredItems.length == 0">
                         <td class="empty-result" colspan="7" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
