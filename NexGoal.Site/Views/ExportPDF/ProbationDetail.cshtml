@@ -238,8 +238,16 @@
                         <td rowspan="@(numberEvaluator+1)" class="content-table">@count</td>
                         <td rowspan="@numberEvaluator" class="content-table-left">@kpi.Name (@Math.Round(kpi.Weight, 2) pts)</td>
                         <td rowspan="@numberEvaluator" class="content-table width-medium">
-                            @Math.Round(kpi.EvaluationBySelf.Score, 2) / @kpi.EvaluationBySelf.Rate
-                            <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                            @if (kpi.EvaluationBySelf.Score == 0)
+                            {
+                                @(Lang.Dash)
+                            }
+                            else
+                            {
+                                @(Math.Round(kpi.EvaluationBySelf.Score, 2) / kpi.EvaluationBySelf.Rate)
+                                <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                            }
+
                         </td>
 
                         @if (numberEvaluator > 1)
@@ -249,8 +257,15 @@
                             </td>
                         }
                         <td class="content-table width-medium">
-                            @Math.Round(kpi.EvaluationByEvaluators[0].Score, 2)/ @kpi.EvaluationByEvaluators[0].Rate
-                            <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                            @if (kpi.EvaluationByEvaluators[0].Score == 0)
+                            {
+                                @(Lang.Dash)
+                            }
+                            else
+                            {
+                                @(Math.Round(kpi.EvaluationByEvaluators[0].Score, 2) / kpi.EvaluationByEvaluators[0].Rate)
+                                <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                            }
                         </td>
                     </tr>
 
@@ -261,8 +276,15 @@
                                 @kpi.EvaluationByEvaluators[i].NickName
                             </td>
                             <td class="content-table width-medium">
-                                @Math.Round(kpi.EvaluationByEvaluators[i].Score, 2)/ @kpi.EvaluationByEvaluators[i].Rate
-                                <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                                @if (kpi.EvaluationByEvaluators[0].Score == 0)
+                                {
+                                    @(Lang.Dash)
+                                }
+                                else
+                                {
+                                    @(Math.Round(kpi.EvaluationByEvaluators[i].Score, 2) / kpi.EvaluationByEvaluators[i].Rate)
+                                    <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                                }
                             </td>
                         </tr>
                     }
@@ -289,8 +311,29 @@
 
                 <tr class="sub-total title-table">
                     <td colspan="2">Sub Total</td>
-                    <td>@group.KPIs.Sum(i => i.EvaluationBySelf.Score) / @group.Weight pts</td>
-                    <td colspan="@(1+(numberEvaluator>1?1:0))">@group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) / @group.Weight pts</td>
+                    <td>
+                        @if (group.KPIs.Sum(i => i.EvaluationBySelf.Score) == 0)
+                        {
+                            @(Lang.Dash)
+                        }
+                        else
+                        {
+                            @(group.KPIs.Sum(i => i.EvaluationBySelf.Score) / group.Weight)
+                            <span>pts</span>
+                        }
+
+                    </td>
+                    <td colspan="@(1+(numberEvaluator>1?1:0))">
+                        @if (group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) == 0)
+                        {
+                            @(Lang.Dash)
+                        }
+                        else
+                        {
+                            @(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) / group.Weight)
+                            <span>pts</span>
+                        }
+                    </td>
                 </tr>
 
             </table>
@@ -364,7 +407,7 @@
                 {
                     <tr class="content-table">
                         <td>@epa.Process.Reviewers[i].NickName</td>
-                        <td>@(string.IsNullOrEmpty(epa.Process.Reviewers[i].TotalScore) ? Lang.Dash : epa.Process.Reviewers[i].TotalScore)</td>                        
+                        <td>@(string.IsNullOrEmpty(epa.Process.Reviewers[i].TotalScore) ? Lang.Dash : epa.Process.Reviewers[i].TotalScore)</td>
                         <td>@GetGradeRange(epa.Process.Reviewers[i].TotalScore, grades)</td>
                     </tr>
                     <tr>
@@ -376,8 +419,8 @@
 
                 <tr class="sub-total title-table">
                     <td colspan="2">Total Score</td>
-                    <td>@epa.FinalScore</td>
-                    <td>@epa.Grade</td>
+                    <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.FinalScore)</td>
+                    <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.Grade)</td>
                 </tr>
             </tbody>
 
