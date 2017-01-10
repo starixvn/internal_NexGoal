@@ -16,7 +16,7 @@
     {
         private const string FileNameFormat = "{0}-{1}_{2}.pdf";
         private const string CssFilePath = @"~\Content\Site\ExportPDF\EpaDetail.css";
-        private const string ViewTemplatePath = "~/Views/ExportPDF/EpaDetail.cshtml";
+        private const string ViewTemplatePath = "~/Views/ExportPDF/ProbationDetail.cshtml";
 
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly ISessionService sessionService;
@@ -43,7 +43,7 @@
             this.commonService = commonService ?? new CommonService();
         }
 
-        public ActionResult EpaDetail(int epaId)
+        public ActionResult ProbationDetail(int epaId)
         {
             int permission = employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
 
@@ -53,36 +53,14 @@
             }
 
             var epa = employeeEPAService.GetEPAInfoById(epaId);
-            var hrm = interationService.GetHRMSummary(epa.Employee.EmployeeId, epa.Period.PeriodId);
-            var grades = commonService.GetStandardGrade();
-            var epaInfo = new EpaDetailModel
-            {
-                Epa = epa,
-                Hrm = hrm,
-                Grades = grades,
-                RootApplication = string.Format("{0}://{1}{2}", Request.Url.Scheme, Request.Url.Authority, Url.Content("~"))
-            };            
-
-            return View(epaInfo);
-        }
-
-        public ActionResult ExportEpaDetail(int epaId)
-        {
-            int permission = employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
-
-            if (permission == (int)Policy.None)
-            {
-                return new EmptyResult();
-            }
-
-            var epa = employeeEPAService.GetEPAInfoById(epaId);
-            var hrm = interationService.GetHRMSummary(epa.Employee.EmployeeId, epa.Period.PeriodId);
+            var hrm = interationService.GetHRMSummaryOnProbation(epa.Employee.EmployeeId);
             var grades = commonService.GetStandardGrade();
             var epaInfo = new EpaDetailModel { Epa = epa, Hrm = hrm, Grades = grades };
+            var fileName = string.Format(FileNameFormat, epa.Employee.Code, epa.Employee.NickName, epa.Period.StartDate.Value.ToString("MMM"));
 
             var streamContent = RenderPdfContent(epaInfo);
 
-            return File(streamContent, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", "x.pdf");
+            return File(streamContent, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", fileName);
         }
 
         private byte[] RenderPdfContent(EpaDetailModel epa)

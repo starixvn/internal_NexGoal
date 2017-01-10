@@ -93,6 +93,7 @@
 }
 
 .rating-instruction .star-block {
+    margin-top: 5px;
     display: inline-block;
 }
 
@@ -141,9 +142,15 @@ table, td {
         padding: 5px 0px 5px 5px;
     }
 
+.highlight {
+    background: #f3e9d0;
+    color: #545454;
+    padding: 5px 0px 5px 5px;
+}
+
 .grade-table {
     width: 100%;
-    font-size: 14px;
+    font-size: 12px;
 }
 
     .grade-table tr {
@@ -154,3 +161,13 @@ table, td {
     .grade-table td {
         padding: 5px 0px 5px 5px;
     }
+    .comment-title{
+        font-weight: bold;
+    }
+.comment {
+    margin-left: 10px;
+    font-style:italic;
+}
+.kpi-name{
+    font-weight: bold;
+}

@@ -47,25 +47,21 @@
         [HttpPost]
         public ActionResult Login(string username)
         {
-            var canLogin = bool.Parse(ConfigurationManager.AppSettings["IsSimulatedLoginUser"].ToString());
-            if (canLogin)
+            var domainName = "spvn\\" + username;
+            if (!string.IsNullOrEmpty(username))
             {
-                var domainName = "spvn\\" + username;
-                if (!string.IsNullOrEmpty(username))
+                UserSession user = employeeService.GetEmployeeByUsername(domainName);
+                if (user != null)
                 {
-                    UserSession user = employeeService.GetEmployeeByUsername(domainName);
-                    if (user != null)
-                    {
-                        this.sessionService.CurrentUser = user;
-                        FormsAuthentication.SetAuthCookie(username, false);
-                        employeeService.InsertLogLogin(username);
+                    this.sessionService.CurrentUser = user;
+                    FormsAuthentication.SetAuthCookie(username, false);
+                    employeeService.InsertLogLogin(username);
 
-                        return RedirectToAction("Index", "Home");
-                    }
-                    else
-                    {
-                        ModelState.AddModelError(string.Empty, "User name doesn't exist!!!!!!!!!!!!!!");
-                    }
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    ModelState.AddModelError(string.Empty, "User name doesn't exist!!!!!!!!!!!!!!");
                 }
             }
 

@@ -223,6 +223,7 @@
       <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
       <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
       <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
       <Mapping DataField="Rate" ObjectProperty="RateEncode" />
       <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
       <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />

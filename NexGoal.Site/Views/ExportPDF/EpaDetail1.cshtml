@@ -1,0 +1,312 @@
+﻿@using NexGoal.Model.EmployeeEPA
+@using NexGoal.Model.Export
+@using NexGoal.Model.Integration
+@using NexGoal.Resources
+
+@model EpaDetailModel
+@{
+    Layout = null;
+    var hrm = Model.Hrm;
+    var epa = Model.Epa;
+    var grades = Model.Grades;
+    var count = 1;
+    var countGroupKPI = 0;
+    var countNumberEvaluator = epa.Process.Evaluators.Count();
+    var countNumberReviewer = epa.Process.Reviewers.Count();
+}
+
+<html>
+<head>
+    <meta charset="utf-8" />
+    @Styles.Render("~/Content/EpaDetail/css")
+</head>
+<body>
+    <div class="container">
+        <div class="title-page">PERFORMANCE APPRAISAL (@epa.Period.Name)</div>
+        <div class="title1">Performance review (@epa.Employee.Code - @epa.Employee.FullName)</div>
+        <div class="title2">Please rate the performance using the following rating scale. Where not applicable, please indicate 'NA'.</div>
+        <table class="rating-instruction">
+
+            <tr class="title-table">
+                <td>@epa.Employee.FullName</td>
+                <td>@Lang.NotAvailable</td>
+                <td>
+                    <p>Poor: 1 </p>
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                    </p>
+                </td>
+                <td>
+                    <p>Below Average: 2 </p>
+
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                    </p>
+                </td>
+                <td>
+                    <p>Satisfactory: 3</p>
+
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                    </p>
+                </td>
+                <td>
+                    <p>Good: 4</p>
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                    </p>
+                </td>
+                <td>
+                    <p>Excellent: 5</p>
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                    </p>
+                </td>
+            </tr>
+
+            <tr class="content-table-left">
+                <td><img src="@epa.Employee.Avatar" /></td>
+                <td>@Lang.NARatingDescription</td>
+                <td>@Lang.OneRatingDescription</td>
+                <td>@Lang.OneRatingDescription</td>
+                <td>@Lang.ThreeRatingDesciption</td>
+                <td>@Lang.FourRatingDescription</td>
+                <td>@Lang.FiveRatingDescription</td>
+            </tr>
+
+        </table>
+        <div class="title2">Evaluation Process</div>
+        <table>
+            <thead>
+                <tr class="title-table">
+                    <td class="title-table">#</td>
+                    <td>Evaluation Step</td>
+                    <td>Name</td>
+                    <td>Start Date</td>
+                    <td>End Date</td>
+                </tr>
+            </thead>
+            <tr class="content-table">
+                <td class="content-table">1</td>
+                <td>@Lang.Admin</td>
+                <td>
+                    @foreach (var hr in epa.Process.HumanResources)
+                    {
+                        <p>@hr.NickName</p>
+                    }
+                </td>
+                <td>@epa.Process.HumanResources[0].StartDate.ToString("dd MMM, yyyy ")</td>
+                <td>@epa.Process.HumanResources[0].EndDate.ToString("dd MMM, yyyy ")</td>
+            </tr>
+            <tr class="title-table">
+                <td class="content-table">2</td>
+                <td>Self</td>
+                <td>@epa.Process.Self.NickName</td>
+                <td>@epa.Process.Self.StartDate.ToString("dd MMM, yyyy ")</td>
+                <td>@epa.Process.Self.EndDate.ToString("dd MMM, yyyy ")</td>
+            </tr>
+            <tr class="title-table">
+                <td class="content-table">3</td>
+                <td>@Lang.Evaluator</td>
+                <td>
+                    @foreach (var pepole in epa.Process.Evaluators)
+                    {
+                        <p>@pepole.NickName</p>
+                    }
+                </td>
+                <td>@epa.Process.Evaluators[0].StartDate.ToString("dd MMM, yyyy ")</td>
+                <td>@epa.Process.Evaluators[0].EndDate.ToString("dd MMM, yyyy ")</td>
+            </tr>
+            <tr class="title-table">
+                <td class="content-table">4</td>
+                <td>@Lang.Reviewer</td>
+                <td>
+                    @foreach (var pepole in epa.Process.Reviewers)
+                    {
+                        <p>@pepole.NickName</p>
+                    }
+                </td>
+                <td>@epa.Process.Reviewers[0].StartDate.ToString("dd MMM, yyyy ")</td>
+                <td>@epa.Process.Reviewers[0].EndDate.ToString("dd MMM, yyyy ")</td>
+            </tr>
+        </table>
+
+        <div class="title0">@Lang.ApproachToWork</div>
+        <div class="title1">@Lang.HRMSystem</div>
+        <table>
+            <thead>
+                <tr class="title-table">
+                    <td class="width-medium">Month</td>
+                    <td>@Lang.CheckInOut</td>
+                    <td>@Lang.LateIn</td>
+                    <td>@Lang.EarlyOut</td>
+                    <td>@Lang.UnpaidLeave</td>
+                    <td>@Lang.UnplannedAnnualLeave</td>
+                    <td>@Lang.AverageWorkingHours</td>
+                    <td class="width-medium">@Lang.Overtime</td>
+                    <td>@Lang.ToeicScore</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    count = 1;
+                }
+                @foreach (var item in hrm)
+            {
+                    <tr class="content-table">
+                        <td>@item.Month/@item.Year</td>
+                        <td>@item.NumberMissingCheckInOut</td>
+                        <td>@item.NumberLateIn</td>
+                        <td>@item.NumberEarlyOut</td>
+                        <td>@item.NumberUnpaidLeave</td>
+                        <td>@item.NumberUnplannedAnnualLeave</td>
+                        <td>08h20'</td>
+                        <td>@item.NumberOvertime</td>
+                        @if (count == 1)
+                        {
+                            count++;
+                            <td rowspan="@hrm.Count()">
+                                @if (item.UpdatedDateTOEIC.HasValue)
+                                {
+                                    @(item.ListeningScore + item.ReadingScore);
+                                    <br />
+                                    if (item.UpdatedDateTOEIC.HasValue)
+                                    {
+                                        item.UpdatedDateTOEIC.Value.ToString("dd MMM, yyyy ");
+                                    }
+                                }
+                                else
+                                {
+                                    @Lang.Dash;
+                                }
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="title0">@Lang.PerformanceResult</div>
+        <div class="title1">A. Result Detail</div>
+        @foreach (var group in epa.KPIGroups)
+        {
+            count = 0;
+            countGroupKPI++;
+            var colSpan = countNumberEvaluator > 1 ? 3 : 2;
+            <div class="title2">@countGroupKPI. @group.Name (@group.Weight pts)</div>
+            <table>
+                <thead class="title-table">
+                    <tr>
+                        <td rowspan="1" class="width-small">@Lang.No</td>
+                        <td>@Lang.KPI</td>
+                        <td>
+                            Employee
+                            <br />
+                            @Lang.Score (pts)/<img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        </td>
+                        <td>
+                            @Lang.Evaluator
+                        <br />
+                        @Lang.Score (pts)/<img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                    </td>
+                </tr>
+            </thead>
+            @foreach (var kpi in group.KPIs)
+                {
+                    count++;
+                <tr>
+                    <td rowspan="1" class="content-table">@count</td>
+                    <td class="content-table-left">@kpi.Name (@Math.Round(kpi.Weight, 2) pts)</td>
+                    <td class="content-table">
+                        @Math.Round(kpi.EvaluationBySelf.Score, 2) / @kpi.EvaluationBySelf.Rate
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                    </td>
+                    <td class="content-table">
+                        @Math.Round(kpi.EvaluationByEvaluators[0].Score, 2)/ @kpi.EvaluationByEvaluators[0].Rate
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                    </td>
+                </tr>
+
+            }
+
+        </table>
+        }
+
+        <div class="title1">B. Result Summary</div>
+        <table class="Result-table">
+            <thead>
+                <tr class="content-table">
+                    <td>NickName</td>
+                    <td>Score</td>
+                    <td>Grade</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="content-table">
+                        Comment
+                    </td>
+                </tr>
+            </thead>
+            <tbody>                
+                <tr class="content-table">
+                    <td>Self - @epa.Process.Self.NickName</td>
+                    <td>@(Math.Round(float.Parse(epa.Process.Self.TotalScore)))</td>
+                    <td>A</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="content-table-left">
+                        @epa.Process.Self.Comment
+                    </td>
+                </tr>
+                <tr class="content-table">
+                    <td>Evalator - @epa.Process.Evaluators[0].NickName</td>
+                    <td>@(Math.Round(float.Parse(epa.Process.Evaluators[0].TotalScore)))</td>
+                    <td>A</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="content-table-left">
+                        @epa.Process.Evaluators[0].Comment
+                    </td>
+                </tr>
+                <tr class="content-table">
+                    <td>Reviewer - @epa.Process.Reviewers[0].NickName</td>
+                    <td>@(Math.Round(float.Parse(epa.Process.Reviewers[0].TotalScore)))</td>
+                    <td>A</td>
+                </tr>
+                <tr>
+                    <td colspan="3" class="content-table-left">
+                        @epa.Process.Reviewers[0].Comment
+                    </td>
+                </tr>
+                <tr class="sub-total title-table">
+                    <td>Total Score</td>
+                    <td>100</td>
+                    <td>A</td>
+                </tr>
+            </tbody>
+            
+        </table>
+
+        <table class="grade-table">
+            <tr>
+                @foreach (var grade in grades)
+                {
+                    <td>@grade.Code. @grade.Name: @grade.LeftScore ~ @grade.RightScore</td>
+                }
+            </tr>
+
+        </table>
+    </div>
+
+</body>
+</html>

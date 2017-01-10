@@ -10,6 +10,7 @@
     var epa = Model.Epa;
     var grades = Model.Grades;
     var count = 1;
+    var countGroupKPI = 0;
     var countNumberEvaluator = epa.Process.Evaluators.Count();
     var countNumberReviewer = epa.Process.Reviewers.Count();
 }
@@ -31,44 +32,44 @@
                 <td>@Lang.NotAvailable</td>
                 <td>
                     <p>Poor: 1 </p>
-                    <p>
-                        <img class="star" src="@(Model.RootApplication + "/Content/Site/Components/images/star.png")" />
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                     </p>
                 </td>
                 <td>
                     <p>Below Average: 2 </p>
 
-                    <p>
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                     </p>
                 </td>
                 <td>
                     <p>Satisfactory: 3</p>
 
-                    <p>
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                     </p>
                 </td>
                 <td>
                     <p>Good: 4</p>
-                    <p>
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                     </p>
                 </td>
                 <td>
                     <p>Excellent: 5</p>
-                    <p>
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
+                    <p class="star-block">
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                     </p>
                 </td>
             </tr>
@@ -140,13 +141,70 @@
             </tr>
         </table>
 
+        <div class="title0">@Lang.ApproachToWork</div>
+        <div class="title1">@Lang.HRMSystem</div>
+        <table>
+            <thead>
+                <tr class="title-table">
+                    <td class="width-medium">Month</td>
+                    <td>@Lang.CheckInOut</td>
+                    <td>@Lang.LateIn</td>
+                    <td>@Lang.EarlyOut</td>
+                    <td>@Lang.UnpaidLeave</td>
+                    <td>@Lang.UnplannedAnnualLeave</td>
+                    <td>@Lang.AverageWorkingHours</td>
+                    <td class="width-medium">@Lang.Overtime</td>
+                    <td>@Lang.ToeicScore</td>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    count = 1;
+                }
+                @foreach (var item in hrm)
+            {
+                    <tr class="content-table">
+                        <td>@item.Month/@item.Year</td>
+                        <td>@item.NumberMissingCheckInOut</td>
+                        <td>@item.NumberLateIn</td>
+                        <td>@item.NumberEarlyOut</td>
+                        <td>@item.NumberUnpaidLeave</td>
+                        <td>@item.NumberUnplannedAnnualLeave</td>
+                        <td>08h20'</td>
+                        <td>@item.NumberOvertime</td>
+                        @if (count == 1)
+                        {
+                            count++;
+                            <td rowspan="@hrm.Count()">
+                                @if (item.UpdatedDateTOEIC.HasValue)
+                                {
+                                    @(item.ListeningScore + item.ReadingScore);
+                                    <br />
+                                    if (item.UpdatedDateTOEIC.HasValue)
+                                    {
+                                        item.UpdatedDateTOEIC.Value.ToString("dd MMM, yyyy ");
+                                    }
+                                }
+                                else
+                                {
+                                    @Lang.Dash;
+                                }
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+
         <div class="title0">@Lang.PerformanceResult</div>
-        <div class="title1">A. @Lang.DetailResult</div>
+        <div class="title1">A. Result Detail</div>
         @foreach (var group in epa.KPIGroups)
         {
             count = 0;
+            countGroupKPI++;
             var colSpan = countNumberEvaluator > 1 ? 3 : 2;
-            <div class="title2">@group.Name (@group.Weight pts)</div>
+            <div class="title2">@countGroupKPI. @group.Name (@group.Weight pts)</div>
             <table>
                 <thead class="title-table">
                     <tr>
@@ -156,55 +214,55 @@
                         <td colspan="@colSpan">@Lang.Evaluator</td>
                     </tr>
                     <tr>
-                        <td class="width-medium">@Lang.Score (pts)/<img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" /></td>
+                        <td class="width-medium">@Lang.Score (pts)/<img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" /></td>
                         <td>@Lang.Comment</td>
                         @if (countNumberEvaluator > 1)
                         {
-                        <td class="width-medium">@Lang.NickName</td>
+                            <td class="width-medium">@Lang.NickName</td>
                         }
 
-                        <td class="width-medium">@Lang.Score (pts)/<img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" /></td>
+                        <td class="width-medium">@Lang.Score (pts)/<img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" /></td>
                         <td>@Lang.Comment</td>
                     </tr>
                 </thead>
                 @foreach (var kpi in group.KPIs)
                 {
                     count++;
-                <tr>
-                    <td rowspan="@countNumberEvaluator" class="content-table">@count</td>
-                    <td rowspan="@countNumberEvaluator" class="content-table-left">
+                    <tr>
+                        <td rowspan="@countNumberEvaluator" class="content-table">@count</td>
+                        <td rowspan="@countNumberEvaluator" class="content-table-left">
 
-                        @kpi.Name (@Math.Round(kpi.Weight, 2) pts)
-                    </td>
-                    <td rowspan="@countNumberEvaluator" class="content-table">
-                        @Math.Round(kpi.EvaluationBySelf.Score, 2) / @kpi.EvaluationBySelf.Rate
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                    </td>
-                    <td rowspan="@countNumberEvaluator" class="content-table-left">@kpi.EvaluationBySelf.Comment</td>
-                    @if (countNumberEvaluator > 1)
+                            @kpi.Name (@Math.Round(kpi.Weight, 2) pts)
+                        </td>
+                        <td rowspan="@countNumberEvaluator" class="content-table">
+                            @Math.Round(kpi.EvaluationBySelf.Score, 2) / @kpi.EvaluationBySelf.Rate
+                            <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                        </td>
+                        <td rowspan="@countNumberEvaluator" class="content-table-left">@kpi.EvaluationBySelf.Comment</td>
+                        @if (countNumberEvaluator > 1)
                         {
-                        <td class="content-table-left">@kpi.EvaluationByEvaluators[0].NickName</td>
+                            <td class="content-table-left">@kpi.EvaluationByEvaluators[0].NickName</td>
                         }
 
-                    <td class="content-table">
-                        @Math.Round(kpi.EvaluationByEvaluators[0].Score, 2)/ @kpi.EvaluationByEvaluators[0].Rate
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
+                        <td class="content-table">
+                            @Math.Round(kpi.EvaluationByEvaluators[0].Score, 2)/ @kpi.EvaluationByEvaluators[0].Rate
+                            <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
 
-                    </td>
-                    <td class="content-table-left">@kpi.EvaluationByEvaluators[0].Comment</td>
-                </tr>
+                        </td>
+                        <td class="content-table-left">@kpi.EvaluationByEvaluators[0].Comment</td>
+                    </tr>
 
 
                     for (var i = 1; i < countNumberEvaluator; i++)
                     {
-                <tr>
-                    <td class="content-table-left">@kpi.EvaluationByEvaluators[i].NickName</td>
-                    <td class="content-table">
-                        @Math.Round(kpi.EvaluationByEvaluators[i].Score, 2)/ @kpi.EvaluationByEvaluators[i].Rate
-                        <img class="star" src="@(Model.RootApplication + "Content/Site/Components/images/star.png")" />
-                    </td>
-                    <td class="content-table-left">@kpi.EvaluationByEvaluators[i].Comment</td>
-                </tr>
+                        <tr>
+                            <td class="content-table-left">@kpi.EvaluationByEvaluators[i].NickName</td>
+                            <td class="content-table">
+                                @Math.Round(kpi.EvaluationByEvaluators[i].Score, 2)/ @kpi.EvaluationByEvaluators[i].Rate
+                                <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                            </td>
+                            <td class="content-table-left">@kpi.EvaluationByEvaluators[i].Comment</td>
+                        </tr>
 
                     }
                 }
@@ -216,7 +274,7 @@
             </table>
         }
 
-        <div class="title1">A. @Lang.Result</div>
+        <div class="title1">B. Result Summary</div>
         <table class="Result-table">
             <thead>
                 <tr class="title-table">
@@ -288,7 +346,7 @@
             </tbody>
         </table>
 
-        <table class="grade-table" s>
+        <table class="grade-table">
             <tr>
                 @foreach (var grade in grades)
                 {
@@ -296,56 +354,6 @@
                 }
             </tr>
 
-        </table>
-
-
-        <div class="title0">@Lang.ApproachToWork</div>
-        <div class="title1">@Lang.HRMSystem</div>
-        <table>
-            <thead>
-                <tr class="title-table">
-                    <td>@Lang.MonthlyEPA</td>
-                    <td>@Lang.CheckInOut</td>
-                    <td>@Lang.LateIn</td>
-                    <td>@Lang.EarlyOut</td>
-                    <td>@Lang.UnpaidLeave</td>
-                    <td>@Lang.UnplannedAnnualLeave</td>
-                    <td>@Lang.AverageWorkingHours</td>
-                    <td>@Lang.Overtime</td>
-                    <td>@Lang.ToeicScore</td>
-                </tr>
-            </thead>
-            <tbody>
-                @{
-                    count = 1;
-                }
-                @foreach (var item in hrm)
-            {
-                    <tr class="content-table">
-                        <td>@item.Month/@item.Year</td>
-                        <td>@item.NumberMissingCheckInOut</td>
-                        <td>@item.NumberLateIn</td>
-                        <td>@item.NumberEarlyOut</td>
-                        <td>@item.NumberUnpaidLeave</td>
-                        <td>@item.NumberUnplannedAnnualLeave</td>
-                        <td>1</td>
-                        <td>@item.NumberOvertime</td>
-                        @if (count == 1)
-                        {
-                            count++;
-                            <td rowspan="@hrm.Count()">
-                                @(item.ListeningScore + item.ReadingScore)
-                                <br />
-                                @if (item.UpdatedDateTOEIC.HasValue)
-                                {
-                                    item.UpdatedDateTOEIC.Value.ToString("dd MMM, yyyy ");
-                                }
-                            </td>
-                        }
-
-                    </tr>
-                }
-            </tbody>
         </table>
     </div>
 
