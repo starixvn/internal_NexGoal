@@ -72,7 +72,7 @@
                         <th data-translate="ReviewerScore"></th>
                         <th data-translate="PAFinalScore"></th>
                         <th data-translate="Grade"></th>
-                        <th data-translate="Action"></th>
+                        <th data-translate="Action"></th>                        
                     </tr>
                 </thead>
                 <tbody>
@@ -115,6 +115,10 @@
                                 <a title="View Detail"
                                    ng-click="paReportCtrl.viewEPADetail(pa.EPAId)">
                                     <i class="fa fa-search"></i>
+                                </a> | 
+                                <a title="Export PDF"
+                                   ng-click="paReportCtrl.exportPDF(pa.EPAId)">
+                                    <i class="icon-pdf"></i>
                                 </a>
                             </span>
                         </td>

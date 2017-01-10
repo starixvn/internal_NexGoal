@@ -1807,6 +1807,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Export PDF.
+        /// </summary>
+        public static string ExportPdf {
+            get {
+                return ResourceManager.GetString("ExportPdf", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This field is required!.
         /// </summary>
         public static string FieldRequire {

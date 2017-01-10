@@ -1788,4 +1788,7 @@
   <data name="TargetSite" xml:space="preserve">
     <value>Target Site: </value>
   </data>
+  <data name="ExportPdf" xml:space="preserve">
+    <value>Export PDF</value>
+  </data>
 </root>

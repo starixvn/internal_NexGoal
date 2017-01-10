@@ -236,7 +236,7 @@
                     count++;
                     <tr>
                         <td rowspan="@(numberEvaluator+1)" class="content-table">@count</td>
-                        <td rowspan="@numberEvaluator" class="content-table-left kpi-name">@kpi.Name (@Math.Round(kpi.Weight, 2) pts)</td>
+                        <td rowspan="@numberEvaluator" class="content-table-left">@kpi.Name (@Math.Round(kpi.Weight, 2) pts)</td>
                         <td rowspan="@numberEvaluator" class="content-table width-medium">
                             @Math.Round(kpi.EvaluationBySelf.Score, 2) / @kpi.EvaluationBySelf.Rate
                             <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
@@ -269,9 +269,13 @@
 
                     <tr>
                         <td colspan="@(3+(numberEvaluator>1?1:0))" class="content-table-left">
-                            <span class="comment-title">Self:</span>
-                            <span class="comment">@kpi.EvaluationBySelf.Comment</span>
-                            @foreach (var evaluator in kpi.EvaluationByEvaluators)
+                            @if (!string.IsNullOrEmpty(kpi.EvaluationBySelf.Comment))
+                            {
+                                <span class="comment-title">Self:</span>
+                                <span class="comment">@kpi.EvaluationBySelf.Comment</span>
+                            }
+
+                            @foreach (var evaluator in kpi.EvaluationByEvaluators.Where(i => !string.IsNullOrEmpty(i.Comment)))
                             {
                                 <br />
                                 <br />
@@ -311,8 +315,8 @@
                 <tr class="content-table">
                     <td rowspan="2">Self</td>
                     <td>@epa.Process.Self.NickName</td>
-                    <td>@(Math.Round(float.Parse(epa.Process.Self.TotalScore)))</td>
-                    <td>@GetGradeRange(double.Parse(epa.Process.Self.TotalScore), grades)</td>
+                    <td>@(string.IsNullOrEmpty(epa.Process.Self.TotalScore) ? Lang.Dash : epa.Process.Self.TotalScore)</td>
+                    <td>@GetGradeRange(epa.Process.Self.TotalScore, grades)</td>
                 </tr>
                 <tr>
                     <td colspan="3" class="content-table-left comment">
@@ -322,8 +326,8 @@
                 <tr class="content-table">
                     <td rowspan="@(numberEvaluator*2)">Evaluator</td>
                     <td>@epa.Process.Evaluators[0].NickName</td>
-                    <td>@(Math.Round(float.Parse(epa.Process.Evaluators[0].TotalScore)))</td>
-                    <td>@GetGradeRange(double.Parse(epa.Process.Evaluators[0].TotalScore), grades)</td>
+                    <td>@(string.IsNullOrEmpty(epa.Process.Evaluators[0].TotalScore) ? Lang.Dash : epa.Process.Evaluators[0].TotalScore)</td>
+                    <td>@GetGradeRange(epa.Process.Evaluators[0].TotalScore, grades)</td>
                 </tr>
                 <tr>
                     <td colspan="3" class="content-table-left comment">
@@ -336,7 +340,7 @@
                     <tr class="content-table">
                         <td>@epa.Process.Evaluators[i].NickName</td>
                         <td>@(Math.Round(float.Parse(epa.Process.Evaluators[i].TotalScore)))</td>
-                        <td>@GetGradeRange(double.Parse(epa.Process.Evaluators[i].TotalScore), grades)</td>
+                        <td>@GetGradeRange(epa.Process.Evaluators[i].TotalScore, grades)</td>
                     </tr>
                     <tr>
                         <td colspan="3" class="content-table-left comment">
@@ -348,8 +352,8 @@
                 <tr class="content-table">
                     <td rowspan="@(numberReviewer *2)">Reviewer</td>
                     <td>@epa.Process.Reviewers[0].NickName</td>
-                    <td>@(Math.Round(float.Parse(epa.Process.Reviewers[0].TotalScore)))</td>
-                    <td>@GetGradeRange(double.Parse(epa.Process.Reviewers[0].TotalScore), grades)</td>
+                    <td>@(string.IsNullOrEmpty(epa.Process.Reviewers[0].TotalScore) ? Lang.Dash : epa.Process.Reviewers[0].TotalScore)</td>
+                    <td>@GetGradeRange(epa.Process.Reviewers[0].TotalScore, grades)</td>
                 </tr>
                 <tr>
                     <td colspan="3" class="content-table-left comment">
@@ -360,8 +364,8 @@
                 {
                     <tr class="content-table">
                         <td>@epa.Process.Reviewers[i].NickName</td>
-                        <td>@(Math.Round(float.Parse(epa.Process.Reviewers[i].TotalScore)))</td>
-                        <td>@GetGradeRange(double.Parse(epa.Process.Reviewers[i].TotalScore), grades)</td>
+                        <td>@(string.IsNullOrEmpty(epa.Process.Reviewers[i].TotalScore) ? Lang.Dash : epa.Process.Reviewers[i].TotalScore)</td>                        
+                        <td>@GetGradeRange(epa.Process.Reviewers[i].TotalScore, grades)</td>
                     </tr>
                     <tr>
                         <td colspan="3" class="content-table-left comment">
@@ -412,14 +416,24 @@ minuteStr += "'";
     <span>@(hourStr + minuteStr)</span>
 }
 
-@helper GetGradeRange(double score, IEnumerable<StandardGradeModel> grades)
+@helper GetGradeRange(string scoreStr, IEnumerable<StandardGradeModel> grades)
 {
-foreach (var grade in grades)
+if (string.IsNullOrEmpty(scoreStr))
 {
-    if (score >= grade.LeftScore && score <= grade.RightScore)
-    {
-            <span>@grade.Code</span>
-    }
-
+        <span>@Lang.Dash</span>
 }
+else
+{
+    float score = float.Parse(scoreStr);
+
+    foreach (var grade in grades)
+    {
+        if (score >= grade.LeftScore && score <= grade.RightScore)
+        {
+                <span>@grade.Code</span>
+        }
+
+    }
+}
+
 }
