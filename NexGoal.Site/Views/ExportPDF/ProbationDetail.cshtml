@@ -318,8 +318,7 @@
                         }
                         else
                         {
-                            @(group.KPIs.Sum(i => i.EvaluationBySelf.Score) / group.Weight)
-                            <span>pts</span>
+                            @(group.KPIs.Sum(i => i.EvaluationBySelf.Score) + " / " + group.Weight + " pts")
                         }
 
                     </td>
@@ -330,8 +329,7 @@
                         }
                         else
                         {
-                            @(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) / group.Weight)
-                            <span>pts</span>
+                            @(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) + " / " + group.Weight + " pts");
                         }
                     </td>
                 </tr>
