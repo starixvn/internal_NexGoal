@@ -84,7 +84,7 @@
             </div>
         </div>
 
-        <div class="title2">Please rate the performance using the following rating scale. Where not applicable, please indicate 'NA'.</div>
+        <div class="title2">The rating scale.</div>
         <table class="rating-instruction">
 
             <tr class="title-table">
@@ -151,7 +151,7 @@
                 <td>
                     @foreach (var hr in epa.Process.HumanResources)
                     {
-                        <p>@hr.NickName</p>
+                    <p>@hr.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.HumanResources[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -170,7 +170,7 @@
                 <td>
                     @foreach (var pepole in epa.Process.Evaluators)
                     {
-                        <p>@pepole.NickName</p>
+                    <p>@pepole.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.Evaluators[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -182,7 +182,7 @@
                 <td>
                     @foreach (var pepole in epa.Process.Reviewers)
                     {
-                        <p>@pepole.NickName</p>
+                    <p>@pepole.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.Reviewers[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -381,7 +381,7 @@
                     else
                     {
                         <td class="content-table-left">
-                            @(group.KPIs.Sum(i => i.EvaluationBySelf.Score) + "/" + group.Weight)
+                            @(Math.Round(group.KPIs.Sum(i => i.EvaluationBySelf.Score), 2) + "/" + group.Weight)
                         </td>
                     }
 
@@ -396,7 +396,7 @@
                     else
                     {
                         <td colspan="@(1+(numberEvaluator>1?1:0))" class="content-table-left">
-                            @(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) + "/" + group.Weight)
+                            @(Math.Round(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)), 2) + "/" + group.Weight)
                         </td>
                     }
 
@@ -413,7 +413,7 @@
                 </tr>
                 <tr class="content-table">
                     <td>@epa.Process.Self.NickName</td>
-                    <td>@(string.IsNullOrEmpty(epa.Process.Self.TotalScore) ? Lang.Dash : epa.Process.Self.TotalScore)</td>
+                    <td>@(string.IsNullOrEmpty(epa.Process.Self.TotalScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Self.TotalScore)).ToString())</td>
                     <td>@GetGradeRange(epa.Process.Self.TotalScore, grades)</td>
                 </tr>
                 <tr>
@@ -427,7 +427,7 @@
                 </tr>
                 <tr class="content-table">
                     <td>@epa.Process.Evaluators[0].NickName</td>
-                    <td>@(string.IsNullOrEmpty(epa.Process.Evaluators[0].TotalScore) ? Lang.Dash : epa.Process.Evaluators[0].TotalScore)</td>
+                    <td>@(string.IsNullOrEmpty(epa.Process.Evaluators[0].TotalScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Evaluators[0].TotalScore)).ToString())</td>
                     <td>@GetGradeRange(epa.Process.Evaluators[0].TotalScore, grades)</td>
                 </tr>
                 <tr>
@@ -440,7 +440,7 @@
                 {
                     <tr class="content-table">
                         <td>@epa.Process.Evaluators[i].NickName</td>
-                        <td>@(Math.Round(float.Parse(epa.Process.Evaluators[i].TotalScore)))</td>
+                        <td>@(int.Parse(epa.Process.Evaluators[i].TotalScore).ToString())</td>
                         <td>@GetGradeRange(epa.Process.Evaluators[i].TotalScore, grades)</td>
                     </tr>
                     <tr>
@@ -456,8 +456,7 @@
 
                 <tr class="content-table">
                     <td>@epa.Process.Reviewers[0].NickName</td>
-                    <td>@(string.IsNullOrEmpty(epa.Process.Reviewers[0].TotalScore) ? Lang.Dash : epa.Process.Reviewers[0].TotalScore)</td>
-                    <td>@GetGradeRange(epa.Process.Reviewers[0].TotalScore, grades)</td>
+                    <td colspan="2">@(string.IsNullOrEmpty(epa.Process.Reviewers[0].AdjustScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Reviewers[0].AdjustScore)) > 0 ? "+" + epa.Process.Reviewers[0].TotalScore : epa.Process.Reviewers[0].AdjustScore)</td>
                 </tr>
                 <tr>
                     <td colspan="3" class="content-table-left comment">
@@ -468,8 +467,7 @@
                 {
                     <tr class="content-table">
                         <td>@epa.Process.Reviewers[i].NickName</td>
-                        <td>@(string.IsNullOrEmpty(epa.Process.Reviewers[i].TotalScore) ? Lang.Dash : epa.Process.Reviewers[i].TotalScore)</td>
-                        <td>@GetGradeRange(epa.Process.Reviewers[i].TotalScore, grades)</td>
+                        <td colspan="2"s>@(string.IsNullOrEmpty(epa.Process.Reviewers[i].AdjustScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Reviewers[i].AdjustScore)) > 0 ? "+" + epa.Process.Reviewers[i].AdjustScore : epa.Process.Reviewers[i].AdjustScore)</td>
                     </tr>
                     <tr>
                         <td colspan="3" class="content-table-left comment">
@@ -479,7 +477,7 @@
                 }
 
                 <tr class="sub-total title-table">
-                    <td>Total Score</td>
+                    <td>Final Score</td>
                     <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.FinalScore)</td>
                     <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.Grade)</td>
                 </tr>
