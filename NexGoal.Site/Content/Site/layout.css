@@ -2280,7 +2280,7 @@ input[type=radio] {
 .sidebar-xs .list-group .list-group-item.has-sub .list-group {
   position: absolute;
   right: -260px;
-  top: 51px;
+  top: 50px;
   width: 260px;
   display: none;
   background-color: #eeeeee;
