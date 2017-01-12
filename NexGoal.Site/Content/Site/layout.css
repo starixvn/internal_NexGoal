@@ -2290,11 +2290,12 @@ input[type=radio] {
   border-radius: 0px;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item {
-  padding: 0px 30px;
+  padding: 0px;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item a {
   color: #484550;
   display: block;
+  padding: 0px 30px;
 }
 .sidebar-xs .list-group .list-group-item.has-sub .list-group .list-group-item:hover {
   cursor: pointer;
