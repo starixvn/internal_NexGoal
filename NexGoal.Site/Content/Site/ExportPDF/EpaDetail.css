@@ -89,7 +89,7 @@
 }
 
 .rating-instruction td {
-    width: 14%;
+    width: 20%;
 }
 
 .rating-instruction .star-block {
@@ -101,7 +101,15 @@ img.star {
     width: 12px;
     height: 12px;
 }
-
+.width05{
+    width:5%;
+}
+.width10{
+    width:10%;
+}
+.width75{
+    width:75%;
+}
 .width-small {
     width: 30px;
 }
@@ -124,7 +132,6 @@ img.star {
 .evaluation-process {
     width: 100%;
 }
-
 table {
     width: 100%;
     table-layout: auto;
@@ -161,13 +168,64 @@ table, td {
     .grade-table td {
         padding: 5px 0px 5px 5px;
     }
-    .comment-title{
-        font-weight: bold;
-    }
+
 .comment {
     margin-left: 10px;
-    font-style:italic;
+    font-style: italic;
 }
-.kpi-name{
+
+.kpi-name {
     font-weight: bold;
 }
+
+.empty-result {
+    color: red;
+}
+
+.evaluator-step {
+    background: #ededed;
+}
+
+.dashboard {
+    background-color: #fefefe;
+    color: #545454;
+    font-size: 12px;
+}
+
+    .dashboard .row-item {
+        padding: 5px 0;
+        margin: 0;
+    }
+
+    .dashboard .img-user {
+        text-align: left;
+        float: left;        
+        padding: 10px 10px 10px 0px;        
+    }
+
+    .dashboard .info-user {
+        float: left;
+        padding-top:10px;
+    }
+
+        .dashboard .info-user .info-item {
+            float: left;
+            margin-right: 30px;
+        }
+
+        .dashboard .info-user .info-label {
+            float: left;
+            width: 100px;
+        }
+
+        .dashboard .info-user .info-detail {
+            float: left;
+            width: 200px;
+        }
+
+    .dashboard .img-default {
+        width: 100px;
+        height: 120px;
+        border: 2px solid #606d91;
+        margin: 10px 0px;
+    }

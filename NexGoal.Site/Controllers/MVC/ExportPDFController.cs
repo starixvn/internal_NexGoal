@@ -3,6 +3,7 @@
     using Core.Enumerations;
     using Core.Services;
     using Core.Utilities;
+    using Criteria.Violation;
     using Model.EmployeeEPA;
     using Model.Export;
     using NexGoal.Services.Implement;
@@ -16,16 +17,19 @@
     {
         private const string FileNameFormat = "{0}-{1}_{2}.pdf";
         private const string CssFilePath = @"~\Content\Site\ExportPDF\EpaDetail.css";
-        private const string ViewTemplatePath = "~/Views/ExportPDF/ProbationDetail.cshtml";
+        private const string ProbationViewTemplatePath = "~/Views/ExportPDF/ProbationDetail.cshtml";
+        private const string SemiViewTemplatePath = "~/Views/ExportPDF/SemiDetail.cshtml";
 
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly ISessionService sessionService;
         private readonly IRazorRenderService razorRenderService;
         private readonly IIntegrationService interationService;
         private readonly ICommonService commonService;
+        private readonly IViolationService violationService;
+        private readonly INominationService nominationService;
 
         public ExportPDFController()
-            : this(null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         {
         }
 
@@ -34,13 +38,17 @@
             ISessionService sessionService,
             IRazorRenderService razorRenderService,
             IIntegrationService interationService,
-            ICommonService commonService)
+            ICommonService commonService,
+            IViolationService violationService,
+            INominationService nominationService)
         {
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.sessionService = sessionService ?? new SessionService();
             this.razorRenderService = razorRenderService ?? new RazorRenderService();
             this.interationService = interationService ?? new IntegrationService();
             this.commonService = commonService ?? new CommonService();
+            this.violationService = violationService ?? new ViolationService();
+            this.nominationService = nominationService ?? new NominationService();
         }
 
         public ActionResult ProbationDetail(int epaId)
@@ -58,15 +66,52 @@
             var epaInfo = new EpaDetailModel { Epa = epa, Hrm = hrm, Grades = grades };
             var fileName = string.Format(FileNameFormat, epa.Employee.Code, epa.Employee.NickName, epa.Period.StartDate.Value.ToString("MMM"));
 
-            var streamContent = RenderPdfContent(epaInfo);
+            var streamContent = RenderPdfContent(epaInfo, ProbationViewTemplatePath);
 
             return File(streamContent, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", fileName);
         }
 
-        private byte[] RenderPdfContent(EpaDetailModel epa)
+        public ActionResult SemiDetail(int epaId)
+        {
+            int permission = employeeEPAService.CheckEmployeePermission(epaId, sessionService.EmployeeId);
+
+            if (permission == (int)Policy.None)
+            {
+                return new EmptyResult();
+            }
+
+            var epa = employeeEPAService.GetEPAInfoById(epaId);
+            var hrm = interationService.GetHRMSummaryOnProbation(epa.Employee.EmployeeId);
+            var nexPMs = interationService.GetEmployeeWorking(epa.Employee.EmployeeId, epa.Period.PeriodId);
+            var grades = commonService.GetStandardGrade();
+            var nominations = nominationService.GetNominationByPeriodId(epa.Employee.EmployeeId, epa.Period.PeriodId);
+            var violationCriteria = new GetViolationByPeriodIdCriteria
+            {
+                PeriodId = epa.Period.PeriodId,
+                EmployeeId = epa.Employee.EmployeeId
+            };
+
+            var violations = violationService.GetByPeriodId(violationCriteria);
+            var epaInfo = new EpaDetailModel
+            {
+                Epa = epa,
+                Hrm = hrm,
+                Grades = grades,
+                NexPMs = nexPMs,
+                Nominations = nominations,
+                Violations = violations
+            };
+            var fileName = string.Format(FileNameFormat, epa.Employee.Code, epa.Employee.NickName, epa.Period.StartDate.Value.ToString("MMM"));
+
+            var streamContent = RenderPdfContent(epaInfo, SemiViewTemplatePath);
+
+            return File(streamContent, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", fileName);
+        }
+
+        private byte[] RenderPdfContent(EpaDetailModel epa, string filePatch)
         {
             var cssFilePath = GetPhysicalFilePath(CssFilePath);
-            var htmlString = razorRenderService.RenderViewToString(this, ViewTemplatePath, epa);
+            var htmlString = razorRenderService.RenderViewToString(this, filePatch, epa);
 
             return RenderPdfContent(cssFilePath, htmlString);
         }

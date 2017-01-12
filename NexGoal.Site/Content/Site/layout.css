@@ -2264,7 +2264,7 @@ input[type=radio] {
 .sidebar-xs .list-group .list-group-item.has-sub .sub-menu-title span {
   display: none;
   position: absolute;
-  top: 1px;
+  top: 0px;
   right: -260px;
   background-color: #324373;
   padding: 0px 20px;

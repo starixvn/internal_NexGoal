@@ -839,6 +839,7 @@
     <Content Include="SourceApp\Components\Assessment\Focus\pa-modal-last-objective.controller.js" />
     <None Include="Properties\PublishProfiles\NexGoal.pubxml" />
     <Content Include="Views\ExportPDF\ProbationDetail.cshtml" />
+    <Content Include="Views\ExportPDF\SemiDetail.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj">

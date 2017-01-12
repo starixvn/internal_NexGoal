@@ -23,13 +23,71 @@
 <body>
     <div class="container">
         <div class="title-page">PERFORMANCE APPRAISAL (@epa.Period.Name)</div>
-        <div class="title1">Performance review (@epa.Employee.Code - @epa.Employee.FullName)</div>
+        <div class="title2">Information Profile</div>
+        <div class="dashboard">
+            <div class="panel-body">
+                <div class="img-user">
+                    <img class="img-default" src="@epa.Employee.Avatar" />
+                </div>
+                <div class="info-user">
+                    <div class="row-item">
+                        <div class="info-item">
+                            <div class="info-label"><strong>@Lang.EmployeeCode</strong></div>
+                            <div class="info-detail">
+                                <span>@epa.Employee.Code</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label"><strong>@Lang.NickName</strong></div>
+                            <div class="info-detail">
+                                <span>@epa.Employee.NickName</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-item">
+                        <div class="info-item">
+                            <div class="info-label"><strong>@Lang.FullName</strong></div>
+                            <div class="info-detail">
+                                <span>@epa.Employee.FullName</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label"><strong>@Lang.JobTitle</strong></div>
+                            <div class="info-detail">
+                                <span>@epa.Employee.JobTitleName</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-item">
+                        <div class="info-item">
+                            <div class="info-label"><strong>@Lang.Department</strong></div>
+                            <div class="info-detail">
+                                <span>@epa.Employee.DepartmentName</span>
+                            </div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label"><strong>@Lang.Team</strong></div>
+                            <div class="info-detail">
+                                <span>@epa.Employee.GroupName</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row-item">
+                        <div class="info-item">
+                            <div class="info-label"><strong>@Lang.JoinedDate</strong></div>
+                            <div class="info-detail">
+                                <span>@epa.Employee.JoinedDate.ToString("dd MMM, yyyy")</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <div class="title2">Please rate the performance using the following rating scale. Where not applicable, please indicate 'NA'.</div>
         <table class="rating-instruction">
 
             <tr class="title-table">
-                <td>@epa.Employee.FullName</td>
-                <td>@Lang.NotAvailable</td>
                 <td>
                     <p>Poor: 1 </p>
                     <p class="star-block">
@@ -73,18 +131,9 @@
                     </p>
                 </td>
             </tr>
-
-            <tr class="content-table-left">
-                <td><img src="@epa.Employee.Avatar" /></td>
-                <td>@Lang.NARatingDescription</td>
-                <td>@Lang.OneRatingDescription</td>
-                <td>@Lang.OneRatingDescription</td>
-                <td>@Lang.ThreeRatingDesciption</td>
-                <td>@Lang.FourRatingDescription</td>
-                <td>@Lang.FiveRatingDescription</td>
-            </tr>
-
         </table>
+
+
         <div class="title2">Evaluation Process</div>
         <table>
             <thead>
@@ -102,7 +151,7 @@
                 <td>
                     @foreach (var hr in epa.Process.HumanResources)
                     {
-                    <p>@hr.NickName</p>
+                        <p>@hr.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.HumanResources[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -121,7 +170,7 @@
                 <td>
                     @foreach (var pepole in epa.Process.Evaluators)
                     {
-                    <p>@pepole.NickName</p>
+                        <p>@pepole.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.Evaluators[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -133,7 +182,7 @@
                 <td>
                     @foreach (var pepole in epa.Process.Reviewers)
                     {
-                    <p>@pepole.NickName</p>
+                        <p>@pepole.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.Reviewers[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -175,16 +224,16 @@
                             <td rowspan="@(hrm.Count()+1)">
                                 @if (item.UpdatedDateTOEIC.HasValue)
                                 {
-                                    @(item.ListeningScore + item.ReadingScore);
+                                    @(item.ListeningScore + item.ReadingScore)
                                     <br />
                                     if (item.UpdatedDateTOEIC.HasValue)
                                     {
-                                        @("(" + item.UpdatedDateTOEIC.Value.ToString("dd MMM, yyyy ") + ")");
+                                        @("(" + item.UpdatedDateTOEIC.Value.ToString("dd MMM, yyyy ") + ")")
                                     }
                                 }
                                 else
                                 {
-                                    @Lang.Dash;
+                                    @Lang.Dash
                                 }
                             </td>
                         }
@@ -215,18 +264,18 @@
             <table>
                 <thead class="title-table">
                     <tr>
-                        <td rowspan="1" class="width-small">@Lang.No</td>
-                        <td>@Lang.KPI</td>
-                        <td class="width-medium">
-                            Employee
+                        <td rowspan="1" class="width05">@Lang.No</td>
+                        <td class="width75">@Lang.KPI</td>
+                        <td class="width10 content-table-left">
+                            Self
                         </td>
-                        <td class="width-medium">
+                        <td class="width10 content-table-left">
                             @Lang.Evaluator
                         </td>
                         @if (numberEvaluator > 1)
                         {
-                            <td class="width-medium">
-                                @Lang.Score (pts)/<img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                            <td class="width10 content-table-left">
+                                @Lang.Score/<img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                             </td>
                         }
                     </tr>
@@ -235,20 +284,23 @@
                 {
                     count++;
                     <tr>
-                        <td rowspan="@(numberEvaluator+1)" class="content-table">@count</td>
-                        <td rowspan="@numberEvaluator" class="content-table-left">@kpi.Name (@Math.Round(kpi.Weight, 2) pts)</td>
-                        <td rowspan="@numberEvaluator" class="content-table width-medium">
-                            @if (kpi.EvaluationBySelf.Score == 0)
-                            {
-                                @(Lang.Dash)
-                            }
-                            else
-                            {
-                                @(Math.Round(kpi.EvaluationBySelf.Score, 2) / kpi.EvaluationBySelf.Rate)
-                                <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
-                            }
+                        <td rowspan="@(numberEvaluator+1)" class="content-table width-small">@count</td>
+                        <td rowspan="@numberEvaluator" class="content-table-left"><strong>@kpi.Name (@Math.Round(kpi.Weight, 2) pts) </strong></td>
 
-                        </td>
+                        @if (kpi.EvaluationBySelf.Score == 0)
+                        {
+                            <td rowspan="@numberEvaluator" class="content-table width-medium">
+                                @(Lang.Dash)
+                            </td>
+                        }
+                        else
+                        {
+                            <td rowspan="@numberEvaluator" class="content-table-left width-medium">
+                                @(Math.Round(kpi.EvaluationBySelf.Score, 2) + "/" + kpi.EvaluationBySelf.Rate)
+                                <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                            </td>
+                        }
+
 
                         @if (numberEvaluator > 1)
                         {
@@ -256,17 +308,21 @@
                                 @kpi.EvaluationByEvaluators[0].NickName
                             </td>
                         }
-                        <td class="content-table width-medium">
-                            @if (kpi.EvaluationByEvaluators[0].Score == 0)
-                            {
+
+                        @if (kpi.EvaluationByEvaluators[0].Score == 0)
+                        {
+                            <td class="content-table width-medium">
                                 @(Lang.Dash)
-                            }
-                            else
-                            {
-                                @(Math.Round(kpi.EvaluationByEvaluators[0].Score, 2) / kpi.EvaluationByEvaluators[0].Rate)
+                            </td>
+                        }
+                        else
+                        {
+                            <td class="content-table-left width-medium">
+                                @(Math.Round(kpi.EvaluationByEvaluators[0].Score, 2) + "/" + kpi.EvaluationByEvaluators[0].Rate)
                                 <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
-                            }
-                        </td>
+                            </td>
+                        }
+
                     </tr>
 
                     for (int i = 1; i < kpi.EvaluationByEvaluators.Count; i++)
@@ -275,17 +331,21 @@
                             <td class="content-table width-medium">
                                 @kpi.EvaluationByEvaluators[i].NickName
                             </td>
-                            <td class="content-table width-medium">
-                                @if (kpi.EvaluationByEvaluators[0].Score == 0)
-                                {
+
+                            @if (kpi.EvaluationByEvaluators[0].Score == 0)
+                            {
+                                <td class="content-table width-medium">
                                     @(Lang.Dash)
-                                }
-                                else
-                                {
-                                    @(Math.Round(kpi.EvaluationByEvaluators[i].Score, 2) / kpi.EvaluationByEvaluators[i].Rate)
+                                </td>
+                            }
+                            else
+                            {
+                                <td class="content-table-left width-medium">
+                                    @(Math.Round(kpi.EvaluationByEvaluators[i].Score, 2) + "/" + kpi.EvaluationByEvaluators[i].Rate)
                                     <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
-                                }
-                            </td>
+
+                                </td>
+                            }
                         </tr>
                     }
 
@@ -293,7 +353,7 @@
                         <td colspan="@(3+(numberEvaluator>1?1:0))" class="content-table-left">
                             @if (!string.IsNullOrEmpty(kpi.EvaluationBySelf.Comment))
                             {
-                                <span class="comment-title">Self:</span>
+                                <span>Self:</span>
                                 <span class="comment">@kpi.EvaluationBySelf.Comment</span>
                             }
 
@@ -301,7 +361,7 @@
                             {
                                 <br />
                                 <br />
-                                <span class="comment-title">Evalator @evaluator.NickName:</span>
+                                <span>@Lang.Evaluator (@evaluator.NickName):</span>
                                 <span class="comment">@evaluator.Comment</span>
                             }
 
@@ -311,27 +371,35 @@
 
                 <tr class="sub-total title-table">
                     <td colspan="2">Sub Total</td>
-                    <td>
-                        @if (group.KPIs.Sum(i => i.EvaluationBySelf.Score) == 0)
-                        {
-                            @(Lang.Dash)
-                        }
-                        else
-                        {
-                            @(group.KPIs.Sum(i => i.EvaluationBySelf.Score) + " / " + group.Weight + " pts")
-                        }
 
-                    </td>
-                    <td colspan="@(1+(numberEvaluator>1?1:0))">
-                        @if (group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) == 0)
-                        {
+                    @if (group.KPIs.Sum(i => i.EvaluationBySelf.Score) == 0)
+                    {
+                        <td>
                             @(Lang.Dash)
-                        }
-                        else
-                        {
-                            @(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) + " / " + group.Weight + " pts");
-                        }
-                    </td>
+                        </td>
+                    }
+                    else
+                    {
+                        <td class="content-table-left">
+                            @(group.KPIs.Sum(i => i.EvaluationBySelf.Score) + "/" + group.Weight)
+                        </td>
+                    }
+
+
+
+                    @if (group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) == 0)
+                    {
+                        <td colspan="@(1+(numberEvaluator>1?1:0))">
+                            @(Lang.Dash)
+                        </td>
+                    }
+                    else
+                    {
+                        <td colspan="@(1+(numberEvaluator>1?1:0))" class="content-table-left">
+                            @(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) + "/" + group.Weight)
+                        </td>
+                    }
+
                 </tr>
 
             </table>
@@ -339,22 +407,11 @@
 
         <div class="title1">B. Result Summary</div>
         <table class="Result-table">
-            <thead>
-                <tr class="content-table">
-                    <td rowspan="2" class="width-medium">Step</td>
-                    <td>NickName</td>
-                    <td>Total Score</td>
-                    <td>Grade</td>
-                </tr>
-                <tr>
-                    <td colspan="3" class="content-table">
-                        Comment
-                    </td>
-                </tr>
-            </thead>
             <tbody>
+                <tr class="content-table-left evaluator-step">
+                    <td colspan="3">1. Self</td>
+                </tr>
                 <tr class="content-table">
-                    <td rowspan="2">Self</td>
                     <td>@epa.Process.Self.NickName</td>
                     <td>@(string.IsNullOrEmpty(epa.Process.Self.TotalScore) ? Lang.Dash : epa.Process.Self.TotalScore)</td>
                     <td>@GetGradeRange(epa.Process.Self.TotalScore, grades)</td>
@@ -364,8 +421,11 @@
                         @epa.Process.Self.Comment
                     </td>
                 </tr>
+
+                <tr class="content-table-left evaluator-step">
+                    <td colspan="3">2. @Lang.Evaluator</td>
+                </tr>
                 <tr class="content-table">
-                    <td rowspan="@(numberEvaluator*2)">Evaluator</td>
                     <td>@epa.Process.Evaluators[0].NickName</td>
                     <td>@(string.IsNullOrEmpty(epa.Process.Evaluators[0].TotalScore) ? Lang.Dash : epa.Process.Evaluators[0].TotalScore)</td>
                     <td>@GetGradeRange(epa.Process.Evaluators[0].TotalScore, grades)</td>
@@ -390,8 +450,11 @@
                     </tr>
                 }
 
+                <tr class="content-table-left evaluator-step">
+                    <td colspan="3">3. @Lang.Reviewer</td>
+                </tr>
+
                 <tr class="content-table">
-                    <td rowspan="@(numberReviewer *2)">Reviewer</td>
                     <td>@epa.Process.Reviewers[0].NickName</td>
                     <td>@(string.IsNullOrEmpty(epa.Process.Reviewers[0].TotalScore) ? Lang.Dash : epa.Process.Reviewers[0].TotalScore)</td>
                     <td>@GetGradeRange(epa.Process.Reviewers[0].TotalScore, grades)</td>
@@ -416,7 +479,7 @@
                 }
 
                 <tr class="sub-total title-table">
-                    <td colspan="2">Total Score</td>
+                    <td>Total Score</td>
                     <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.FinalScore)</td>
                     <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.Grade)</td>
                 </tr>
@@ -438,7 +501,7 @@
 </body>
 </html>
 @helper FormatWorkingHours(double value)
-{
+        {
 var hour = (int)value;
 var hourStr = hour.ToString();
 if (hour < 10)

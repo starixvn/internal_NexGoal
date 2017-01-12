@@ -1,5 +1,6 @@
 ﻿using NexGoal.Model.EmployeeEPA;
 using NexGoal.Model.Integration;
+using NexGoal.Model.Violation;
 using System.Collections.Generic;
 
 namespace NexGoal.Model.Export
@@ -12,6 +13,10 @@ namespace NexGoal.Model.Export
 
         public IEnumerable<StandardGradeModel> Grades { get; set; }
 
-        public string RootApplication { get; set; }
+        public IEnumerable<EmployeeWorkingViewModel> NexPMs {get;set;}
+
+        public IEnumerable<ViolationViewModel> Violations { get; set; }
+
+        public IEnumerable<NominationEPAModel> Nominations { get; set; }        
     }
 }
