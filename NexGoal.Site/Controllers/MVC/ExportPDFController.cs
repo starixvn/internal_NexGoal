@@ -81,7 +81,7 @@
             }
 
             var epa = employeeEPAService.GetEPAInfoById(epaId);
-            var hrm = interationService.GetHRMSummaryOnProbation(epa.Employee.EmployeeId);
+            var hrm = interationService.GetHRMSummary(epa.Employee.EmployeeId, epa.Period.PeriodId);
             var nexPMs = interationService.GetEmployeeWorking(epa.Employee.EmployeeId, epa.Period.PeriodId);
             var grades = commonService.GetStandardGrade();
             var nominations = nominationService.GetNominationByPeriodId(epa.Employee.EmployeeId, epa.Period.PeriodId);

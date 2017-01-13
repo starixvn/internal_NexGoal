@@ -101,15 +101,19 @@ img.star {
     width: 12px;
     height: 12px;
 }
-.width05{
-    width:5%;
+
+.width05 {
+    width: 5%;
 }
-.width10{
-    width:10%;
+
+.width10 {
+    width: 10%;
 }
-.width75{
-    width:75%;
+
+.width75 {
+    width: 75%;
 }
+
 .width-small {
     width: 30px;
 }
@@ -132,6 +136,7 @@ img.star {
 .evaluation-process {
     width: 100%;
 }
+
 table {
     width: 100%;
     table-layout: auto;
@@ -199,13 +204,13 @@ table, td {
 
     .dashboard .img-user {
         text-align: left;
-        float: left;        
-        padding: 10px 10px 10px 0px;        
+        float: left;
+        padding: 10px 10px 10px 0px;
     }
 
     .dashboard .info-user {
         float: left;
-        padding-top:10px;
+        padding-top: 10px;
     }
 
         .dashboard .info-user .info-item {
@@ -229,3 +234,15 @@ table, td {
         border: 2px solid #606d91;
         margin: 10px 0px;
     }
+
+.nominationStatus-1 {
+    color: #ff6b23;
+}
+
+.nominationStatus-2 {
+    color: #307def;
+}
+
+.nominationStatus-3 {
+    color: #3da52a;
+}
