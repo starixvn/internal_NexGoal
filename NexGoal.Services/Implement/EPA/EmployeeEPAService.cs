@@ -395,6 +395,8 @@
                 {
                     group.Decrypt();
                 }
+
+                SpreadKPIScore(groups.ToList());
             }
 
             return groups;

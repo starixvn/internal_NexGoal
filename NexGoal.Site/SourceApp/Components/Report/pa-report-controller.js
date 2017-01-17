@@ -4,10 +4,10 @@
     reportModule.controller("PAReportController", paReportController);
 
     paReportController.$inject = ["$location", "$scope", "ReportModel", "CommonModel",
-        "EmployeeModel", "utilitiesFactory", "lockScreenService", "baseUrl"];
+        "EmployeeModel", "utilitiesFactory", "lockScreenService", "baseUrl", "enumerationsFactory"];
 
     function paReportController($location, $scope, ReportModel, CommonModel,
-        EmployeeModel, utilitiesFactory, lockScreenService, baseUrl) {
+        EmployeeModel, utilitiesFactory, lockScreenService, baseUrl, enumerationsFactory) {
         var vm = this;
 
         vm.paReports = [];
@@ -24,6 +24,7 @@
         vm.filteredItems = [];
         vm.currentPage = 1;
         vm.searchKey = "";
+        var targetType = enumerationsFactory.targetType;
 
         function initialize() {
             CommonModel.getDepartment(null, true).then(function () {
@@ -63,10 +64,14 @@
             $scope.$broadcast("exportPAReport");
         };
 
-        vm.exportPDF = function (epaId) {
+        vm.exportPDF = function (epaId, targetTypeId) {
             var iframe = $('body iframe');
-            var url = baseUrl + 'ExportPDF/ProbationDetail?epaId=' + epaId;
+            var url = baseUrl + 'ExportPDF/ProbationDetail';
+            if (targetTypeId === targetType.SemiAnnual) {
+                url = baseUrl + 'ExportPDF/SemiDetail'
+            }
 
+            url += '?epaId=' + epaId;
             if (iframe.length === 0) {
                 iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
                 iframe.appendTo('body');
@@ -84,11 +89,11 @@
                 vm.filter.periodIds,
                 vm.filter.groupIds,
                 utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee)).then(function () {
-                vm.paReports = ReportModel.paReports;
-                utilitiesFactory.searchOnPage(vm, vm.paReports);
-            })["finally"](function () {
-                lockScreenService.stop();
-            });
+                    vm.paReports = ReportModel.paReports;
+                    utilitiesFactory.searchOnPage(vm, vm.paReports);
+                })["finally"](function () {
+                    lockScreenService.stop();
+                });
         };
 
         vm.viewEPADetail = function (epaId) {

@@ -33,10 +33,14 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
         return EmployeeEPAModel.getClassProgress(statusEndProcess);
     };
 
-    vm.exportPDF = function (epaId) {
+    vm.exportPDF = function (epaId, targetTypeId) {
         var iframe = $('body iframe');
-        var url = baseUrl + 'ExportPDF/ProbationDetail?epaId=' + epaId;
+        var url = baseUrl + 'ExportPDF/ProbationDetail';
+        if (targetTypeId === vm.targetTypeEnum.SemiAnnual) {
+            url = baseUrl + 'ExportPDF/SemiDetail';
+        }
 
+        url += '?epaId=' + epaId;
         if (iframe.length === 0) {
             iframe = $('<iframe width="0" height="0" class="display-none"></iframe>');
             iframe.appendTo('body');

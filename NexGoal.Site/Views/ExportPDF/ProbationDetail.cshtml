@@ -456,7 +456,7 @@
 
                 <tr class="content-table">
                     <td>@epa.Process.Reviewers[0].NickName</td>
-                    <td colspan="2">@(string.IsNullOrEmpty(epa.Process.Reviewers[0].AdjustScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Reviewers[0].AdjustScore)) > 0 ? "+" + epa.Process.Reviewers[0].TotalScore : epa.Process.Reviewers[0].AdjustScore)</td>
+                    <td colspan="2">@(string.IsNullOrEmpty(epa.Process.Reviewers[0].AdjustScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Reviewers[0].AdjustScore)) > 0 ? "+" + epa.Process.Reviewers[0].AdjustScore : epa.Process.Reviewers[0].AdjustScore)</td>
                 </tr>
                 <tr>
                     <td colspan="3" class="content-table-left comment">

@@ -18,5 +18,7 @@ namespace NexGoal.Model.Export
         public IEnumerable<ViolationViewModel> Violations { get; set; }
 
         public IEnumerable<NominationEPAModel> Nominations { get; set; }
+
+        public IEnumerable<EPAKPIGroupModel> LastRatings { get; set; }
     }
 }

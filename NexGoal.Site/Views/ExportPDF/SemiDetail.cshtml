@@ -13,6 +13,7 @@
     var nominations = Model.Nominations;
     var violations = Model.Violations;
     var nexPMs = Model.NexPMs;
+    var lastRatings = Model.LastRatings;
     var count = 0;
     var countGroupKPI = 0;
     var numberEvaluator = epa.Process.Evaluators.Count;
@@ -276,7 +277,7 @@
                     <tr>
                         <td class="content-table">@count</td>
                         <td class="content-table-left">@nomination.Title</td>
-                        <td class="content-table-left nominationStatus-@nomination.StatusId">@nomination.StatusToString</td>                        
+                        <td class="content-table-left nominationStatus-@nomination.StatusId">@nomination.StatusToString</td>
                     </tr>
                 }
             }
@@ -292,7 +293,7 @@
         <table>
             <thead class="title-table">
                 <tr>
-                    <td class="content-table width-small">@Lang.SymbolCount</td>                    
+                    <td class="content-table width-small">@Lang.SymbolCount</td>
                     <td class="content-table-left width75">@Lang.Remark</td>
                     <td class="content-table-left width10">@Lang.Date</td>
                 </tr>
@@ -304,7 +305,7 @@
                 {
                     count++;
                     <tr>
-                        <td class="content-table">@count</td>                        
+                        <td class="content-table">@count</td>
                         <td class="content-table-left">@violation.Description</td>
                         <td class="content-table-left">@violation.EffectedDate.ToString("dd MMM, yyyy")</td>
                     </tr>
@@ -387,9 +388,14 @@
                         </td>
                         @if (numberEvaluator > 1)
                         {
-                        <td class="width10 content-table-left">
-                            @Lang.Score/<img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
-                        </td>
+                            <td class="width10 content-table-left">
+                                @Lang.Score/<img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                            </td>
+                        }
+
+                        @if (lastRatings.Any())
+                        {
+                            <td class="width10 content-table-left">Last Rating</td>
                         }
                     </tr>
                 </thead>
@@ -436,6 +442,12 @@
                             </td>
                         }
 
+                        @if (lastRatings.Any())
+                        {
+                            <td rowspan="@numberEvaluator" class="content-table-left width-medium">
+                                @(GetLastScore(lastRatings, kpi.KPIGroupId, kpi.KPIId) + "/" + GetLastWeight(lastRatings, kpi.KPIGroupId, kpi.KPIId))
+                            </td>
+                        }
                     </tr>
 
                     for (int i = 1; i < kpi.EvaluationByEvaluators.Count; i++)
@@ -498,8 +510,6 @@
                         </td>
                     }
 
-
-
                     @if (group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)) == 0)
                     {
                         <td colspan="@(1+(numberEvaluator>1?1:0))">
@@ -513,6 +523,10 @@
                         </td>
                     }
 
+                    @if (lastRatings.Any())
+                    {
+                        <td class="content-table-left"> @(GetSubtotalLastScore(lastRatings, group.KPIGroupId) + "/" + GetSubtotalLastWeight(lastRatings, group.KPIGroupId)) </td>
+                    }
                 </tr>
 
             </table>
@@ -569,7 +583,7 @@
 
                 <tr class="content-table">
                     <td>@epa.Process.Reviewers[0].NickName</td>
-                    <td colspan="2">@(string.IsNullOrEmpty(epa.Process.Reviewers[0].AdjustScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Reviewers[0].AdjustScore)) > 0 ? "+" + epa.Process.Reviewers[0].TotalScore : epa.Process.Reviewers[0].AdjustScore)</td>
+                    <td colspan="2">@(string.IsNullOrEmpty(epa.Process.Reviewers[0].AdjustScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Reviewers[0].AdjustScore)) > 0 ? "+" + epa.Process.Reviewers[0].AdjustScore : epa.Process.Reviewers[0].AdjustScore)</td>
                 </tr>
                 <tr>
                     <td colspan="3" class="content-table-left comment">
@@ -593,6 +607,11 @@
                     <td>Final Score</td>
                     <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.FinalScore)</td>
                     <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.Grade)</td>
+                </tr>
+                <tr class="sub-total title-table">
+                    <td>Last Final Score</td>
+                    <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.LastFinalScore)</td>
+                    <td>@(epa.FinalScore == "0" ? Lang.Dash : epa.LastGrade)</td>
                 </tr>
             </tbody>
 
@@ -651,4 +670,32 @@ else
     }
 }
 
+}
+
+@helper GetLastScore(IEnumerable<EPAKPIGroupModel> lastRatings, int groupId, int kpiId)
+{
+var lastScore = lastRatings.Where(i => i.KPIGroupId == groupId).SelectMany(a => a.KPIs.Where(i => i.KPIId == kpiId).Select(k => k.EvaluationByEvaluators.Where(d => d.Score != 0).Average(c => c.Score)));
+
+    @lastScore.Select(i => Math.Round(i, 2)).SingleOrDefault()
+}
+
+@helper GetLastWeight(IEnumerable<EPAKPIGroupModel> lastRatings, int groupId, int kpiId)
+{
+var lastWeight = lastRatings.Where(i => i.KPIGroupId == groupId).SelectMany(a => a.KPIs.Where(i => i.KPIId == kpiId).Select(w => w.Weight));
+
+    @lastWeight.Select(i => Math.Round(i, 2)).SingleOrDefault()
+}
+
+@helper GetSubtotalLastScore(IEnumerable<EPAKPIGroupModel> lastRatings, int groupId)
+{
+var lastScore = lastRatings.Where(i => i.KPIGroupId == groupId).SelectMany(a => a.KPIs).Sum(s => s.EvaluationByEvaluators.Where(d => d.Score != 0).Average(c => c.Score));
+
+    @Math.Round(lastScore, 2)
+}
+
+@helper GetSubtotalLastWeight(IEnumerable<EPAKPIGroupModel> lastRatings, int groupId)
+{
+var lastWeight = lastRatings.Where(i => i.KPIGroupId == groupId).Select(w => w.Weight);
+
+    @lastWeight.Select(i => Math.Round(i.Value, 2)).SingleOrDefault()
 }
