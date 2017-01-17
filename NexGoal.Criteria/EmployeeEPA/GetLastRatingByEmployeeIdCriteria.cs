@@ -6,6 +6,8 @@
     {
         public int EmployeeId { get; set; }
 
+        public int EpaId { get; set; }
+
         public int TargetTypeId { get; set; }
 
         public override string GetSettingKey()

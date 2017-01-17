@@ -117,7 +117,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, SelfEva
                 vm.employeeNominations = NominationModel.employeeNominations;
             });
             if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-                LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId, vm.targetTypeEnum.SemiAnnual).then(function () {
+                LastRatingModel.getLastRating(vm.epaInfo.Employee.EmployeeId, vm.targetTypeEnum.SemiAnnual, vm.epaId).then(function () {
                     vm.lastRating = LastRatingModel.groups;
                 });
             }

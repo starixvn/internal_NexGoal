@@ -8,8 +8,8 @@ function (employeeEPAFactory, utilitiesFactory, errorFactory) {
 
     LastRating.groups = [];
 
-    LastRating.getLastRating = function (employeeId, targetTypeId) {
-        return employeeEPAFactory.getLastRating(employeeId, targetTypeId)
+    LastRating.getLastRating = function (employeeId, targetTypeId, epaId) {
+        return employeeEPAFactory.getLastRating(employeeId, targetTypeId, epaId)
         .success(function (lastRating) {
             LastRating.groups = lastRating;
         }).error(function (response, status) {

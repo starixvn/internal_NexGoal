@@ -384,10 +384,16 @@
             }
         }
 
-        public IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId)
+        public IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId, int epaId)
         {
             IEnumerable<EPAKPIGroupModel> groups = new List<EPAKPIGroupModel>();
-            var criteria = new GetLastRatingByEmployeeIdCriteria { EmployeeId = employeeId, TargetTypeId = targetTypeId };
+            var criteria = new GetLastRatingByEmployeeIdCriteria
+            {
+                EmployeeId = employeeId,
+                TargetTypeId = targetTypeId,
+                EpaId= epaId
+            };
+
             if (criteria != null && criteria.IsValid())
             {
                 groups = _employeeEPARepository.GetLastRating(criteria);

@@ -3,8 +3,8 @@
 
 epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getLastRating: function (employeeId, targetTypeId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/getLastRating', { params: { employeeId: employeeId, targetTypeId: targetTypeId } });
+        getLastRating: function (employeeId, targetTypeId, epaId) {
+            return $http.get(baseUrl + 'api/EmployeeEPA/getLastRating', { params: { employeeId: employeeId, targetTypeId: targetTypeId, epaId: epaId } });
         },
         getAllPeriodByReviewer: function () {
             return $http.get(baseUrl + 'api/Period/getAllPeriodByReviewer');

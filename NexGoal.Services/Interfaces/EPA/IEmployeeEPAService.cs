@@ -71,6 +71,6 @@
 
         IList<EPAModel> GetEPAToUpdateFinalScore(GetEPAToUpdateFinalScoreCriteria criteria);
 
-        IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId);
+        IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId, int epaId);
     }
 }

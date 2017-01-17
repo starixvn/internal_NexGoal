@@ -85,7 +85,7 @@
             var nexPMs = interationService.GetEmployeeWorking(epa.Employee.EmployeeId, epa.Period.PeriodId);
             var grades = commonService.GetStandardGrade();
             var nominations = nominationService.GetNominationByPeriodId(epa.Employee.EmployeeId, epa.Period.PeriodId);
-            var lastRatings = employeeEPAService.GetLastRating(epa.Employee.EmployeeId, epa.Period.TargetTypeId);
+            var lastRatings = employeeEPAService.GetLastRating(epa.Employee.EmployeeId, epa.Period.TargetTypeId, epa.EPAId);
 
             var violationCriteria = new GetViolationByPeriodIdCriteria
             {
