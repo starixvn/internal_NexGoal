@@ -74,7 +74,7 @@
                     </div>
                     <div ng-if="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
                 </td>
-                <td ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" ng-if="$first">
+                <td ng-if="$first && memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1" class="text-center" rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}">
                     <span ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
                         <span ng-if="memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators!=0">{{memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators | integerScore}}</span>
                         <span ng-if="memberEPAInfoCtrl.epaInfo.Process.AverageScoreByEvaluators==0" data-translate="Dash"></span>

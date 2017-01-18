@@ -296,7 +296,7 @@
                         else
                         {
                             <td rowspan="@numberEvaluator" class="content-table-left width-medium">
-                                @(Math.Round(kpi.EvaluationBySelf.Score, 2) + "/" + kpi.EvaluationBySelf.Rate)
+                                @(FormatScore(kpi.EvaluationBySelf.Score) + "/" + kpi.EvaluationBySelf.Rate)
                                 <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                             </td>
                         }
@@ -318,7 +318,7 @@
                         else
                         {
                             <td class="content-table-left width-medium">
-                                @(Math.Round(kpi.EvaluationByEvaluators[0].Score, 2) + "/" + kpi.EvaluationByEvaluators[0].Rate)
+                                @(FormatScore(kpi.EvaluationByEvaluators[0].Score) + "/" + kpi.EvaluationByEvaluators[0].Rate)
                                 <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                             </td>
                         }
@@ -341,7 +341,7 @@
                             else
                             {
                                 <td class="content-table-left width-medium">
-                                    @(Math.Round(kpi.EvaluationByEvaluators[i].Score, 2) + "/" + kpi.EvaluationByEvaluators[i].Rate)
+                                    @(FormatScore(kpi.EvaluationByEvaluators[i].Score) + "/" + kpi.EvaluationByEvaluators[i].Rate)
                                     <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
 
                                 </td>
@@ -381,7 +381,7 @@
                     else
                     {
                         <td class="content-table-left">
-                            @(Math.Round(group.KPIs.Sum(i => i.EvaluationBySelf.Score), 2) + "/" + group.Weight)
+                            @(FormatScore(group.KPIs.Sum(i => i.EvaluationBySelf.Score)) + "/" + group.Weight)
                         </td>
                     }
 
@@ -396,7 +396,7 @@
                     else
                     {
                         <td colspan="@(1+(numberEvaluator>1?1:0))" class="content-table-left">
-                            @(Math.Round(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score)), 2) + "/" + group.Weight)
+                            @(FormatScore(group.KPIs.Sum(i => i.EvaluationByEvaluators.Average(j => j.Score))) + "/" + group.Weight)
                         </td>
                     }
 
@@ -538,4 +538,15 @@ else
     }
 }
 
+}
+
+@functions
+{
+    private static double FormatScore(double value)
+    {
+        double step = (double)Math.Pow(10, 2);
+        int tmp = (int)Math.Truncate(step * value);
+
+        return tmp / step;
+    }
 }

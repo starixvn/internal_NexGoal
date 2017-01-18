@@ -12,7 +12,6 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
     vm.employeeProjects = [];
     vm.violations = [];
     vm.epaId = parseInt($routeParams.id, 10);
-    vm.exportPDF = $routeParams.exportpdf;
     vm.standardGrades = CommonModel.standardGrades;
     vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
     vm.targetTypeEnum = enumerationsFactory.targetType;

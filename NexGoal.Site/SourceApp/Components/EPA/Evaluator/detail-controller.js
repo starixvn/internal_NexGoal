@@ -163,7 +163,7 @@ function ($scope, $interval, $translate, $routeParams, EmployeeEPAModel, Evaluat
         var score = 0;
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.CurrentEvaluation.Score) {
-                score += kpi.CurrentEvaluation.Score;
+                score += utilitiesFactory.splitNumber(kpi.CurrentEvaluation.Score,2);
             }
         });
         

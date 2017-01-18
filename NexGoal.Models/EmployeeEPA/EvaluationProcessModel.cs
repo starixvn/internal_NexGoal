@@ -95,18 +95,18 @@
 
         public double CalculateAverageScore(IList<EPAProcessModel> processes)
         {
-            double average = 0;
+            double average = 0.0;
             int count = 0;
 
             foreach (EPAProcessModel process in processes.Where(x => !string.IsNullOrEmpty(x.TotalScore)))
             {
                 count++;
-                average += Math.Round(float.Parse(process.TotalScore));
+                average += Math.Round(double.Parse(process.TotalScore));
             }
 
             if (count > 0)
             {
-                average = (float)Math.Round(average / count);
+                average = (double)Math.Round(average / count);
             }
 
             return average;

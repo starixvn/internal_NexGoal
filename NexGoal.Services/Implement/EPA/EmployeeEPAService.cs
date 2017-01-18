@@ -391,7 +391,7 @@
             {
                 EmployeeId = employeeId,
                 TargetTypeId = targetTypeId,
-                EpaId= epaId
+                EpaId = epaId
             };
 
             if (criteria != null && criteria.IsValid())
@@ -422,6 +422,6 @@
                     }
                 }
             }
-        }        
+        }
     }
 }

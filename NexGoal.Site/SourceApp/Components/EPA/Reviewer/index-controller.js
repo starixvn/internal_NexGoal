@@ -141,12 +141,12 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
 
         angular.forEach(Evaluators, function (evaluator) {
             if (evaluator.TotalScore) {
-                totalScore += utilitiesFactory.parseFloat(evaluator.TotalScore);
+                totalScore += parseInt(evaluator.TotalScore);
                 count++;
             }
         });
 
-        return count > 0 ? utilitiesFactory.splitNumber(totalScore / count, 2) : 0;
+        return count > 0 ? parseInt(totalScore / count) : 0;
     }
 
     function getEPAByReviewer(periodIds, groupIds, employeeIds, selectedEmployees) {

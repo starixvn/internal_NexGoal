@@ -268,7 +268,7 @@
                 </td>
                 <td colspan="4">
                     <span ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess">
-                        <span ng-if="kpiGroup.evaluatorScore!=0">{{kpiGroup.evaluatorScore | integerScore}} / {{kpiGroup.Weight}} pts</span>
+                        <span ng-if="kpiGroup.evaluatorScore!=0">{{kpiGroup.evaluatorScore | splitScore}} / {{kpiGroup.Weight}} pts</span>
                         <span ng-if="kpiGroup.evaluatorScore==0" data-translate="Dash"></span>
                     </span>
                     <span data-translate="Pending" ng-if="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[0].IsEndProcess"></span>

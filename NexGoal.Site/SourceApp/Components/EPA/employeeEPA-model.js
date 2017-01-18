@@ -38,7 +38,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
         var score = 0;
         angular.forEach(kpiGroup.KPIs, function (kpi) {
             if (kpi.EvaluatorScore !== 0) {
-                score += kpi.EvaluatorScore;
+                score += utilitiesFactory.splitNumber(kpi.EvaluatorScore, 2);
             }
         });
 
@@ -52,7 +52,7 @@ function ($modal, employeeEPAFactory, utilitiesFactory, notificationFactory, err
                 var score = 0;
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
                     if (kpi.EvaluationBySelf.Score) {
-                        score += kpi.EvaluationBySelf.Score;
+                        score += utilitiesFactory.splitNumber(kpi.EvaluationBySelf.Score, 2);
                     }
                 });
 

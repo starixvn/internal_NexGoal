@@ -157,7 +157,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 var score = 0;
                 angular.forEach(kpiGroup.KPIs, function (kpi) {
                     if (kpi.EvaluationBySelf.Score) {
-                        score += kpi.EvaluationBySelf.Score;
+                        score += utilitiesFactory.splitNumber(kpi.EvaluationBySelf.Score, 2);
                     }
                 });
 
