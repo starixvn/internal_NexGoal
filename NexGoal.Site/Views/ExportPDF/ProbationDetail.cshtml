@@ -241,16 +241,26 @@
                     </tr>
                 }
 
-                <tr class="sub-total title-table">
-                    <td>Total</td>
-                    <td>@hrm.Sum(i => i.NumberMissingCheckInOut)</td>
-                    <td>@hrm.Sum(i => i.NumberLateIn)</td>
-                    <td>@hrm.Sum(i => i.NumberUnpaidLeave)</td>
-                    <td>@hrm.Sum(i => i.NumberEarlyOut)</td>
-                    <td>@hrm.Sum(i => i.NumberUnplannedAnnualLeave)</td>
-                    <td>@FormatWorkingHours(hrm.Average(i => i.AverageWorkingHours))</td>
-                    <td>@hrm.Sum(i => i.NumberOvertime)</td>
-                </tr>
+                @if (hrm.Any())
+                {
+                    <tr class="sub-total title-table">
+                        <td>Total</td>
+                        <td>@hrm.Sum(i => i.NumberMissingCheckInOut)</td>
+                        <td>@hrm.Sum(i => i.NumberLateIn)</td>
+                        <td>@hrm.Sum(i => i.NumberUnpaidLeave)</td>
+                        <td>@hrm.Sum(i => i.NumberEarlyOut)</td>
+                        <td>@hrm.Sum(i => i.NumberUnplannedAnnualLeave)</td>
+                        <td>@FormatWorkingHours(hrm.Average(i => i.AverageWorkingHours))</td>
+                        <td>@hrm.Sum(i => i.NumberOvertime)</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan = "9" class="empty-result content-table">@Lang.EmptyResult</td>
+                    </tr>                
+                }
+
             </tbody>
         </table>
 
@@ -467,7 +477,7 @@
                 {
                     <tr class="content-table">
                         <td>@epa.Process.Reviewers[i].NickName</td>
-                        <td colspan="2"s>@(string.IsNullOrEmpty(epa.Process.Reviewers[i].AdjustScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Reviewers[i].AdjustScore)) > 0 ? "+" + epa.Process.Reviewers[i].AdjustScore : epa.Process.Reviewers[i].AdjustScore)</td>
+                        <td colspan="2" s>@(string.IsNullOrEmpty(epa.Process.Reviewers[i].AdjustScore) ? Lang.Dash : Math.Round(float.Parse(epa.Process.Reviewers[i].AdjustScore)) > 0 ? "+" + epa.Process.Reviewers[i].AdjustScore : epa.Process.Reviewers[i].AdjustScore)</td>
                     </tr>
                     <tr>
                         <td colspan="3" class="content-table-left comment">
