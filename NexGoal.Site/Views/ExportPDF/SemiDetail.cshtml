@@ -156,7 +156,7 @@
                 <td>
                     @foreach (var hr in epa.Process.HumanResources)
                     {
-                    <p>@hr.NickName</p>
+                        <p>@hr.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.HumanResources[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -175,7 +175,7 @@
                 <td>
                     @foreach (var pepole in epa.Process.Evaluators)
                     {
-                    <p>@pepole.NickName</p>
+                        <p>@pepole.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.Evaluators[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -187,7 +187,7 @@
                 <td>
                     @foreach (var pepole in epa.Process.Reviewers)
                     {
-                    <p>@pepole.NickName</p>
+                        <p>@pepole.NickName</p>
                     }
                 </td>
                 <td>@epa.Process.Reviewers[0].StartDate.ToString("dd MMM, yyyy ")</td>
@@ -212,58 +212,58 @@
                 </tr>
             </thead>
             <tbody>
-    @foreach (var item in hrm)
+                @foreach (var item in hrm)
             {
-        <tr class="content-table">
-            <td>@item.Month/@item.Year</td>
-            <td>@item.NumberMissingCheckInOut</td>
-            <td>@item.NumberLateIn</td>
-            <td>@item.NumberEarlyOut</td>
-            <td>@item.NumberUnpaidLeave</td>
-            <td>@item.NumberUnplannedAnnualLeave</td>
-            <td>@FormatWorkingHours(item.AverageWorkingHours)</td>
-            <td>@item.NumberOvertime</td>
-            @if (count == 0)
-            {
-                count++;
-                <td rowspan="@(hrm.Count()+1)">
-                    @if (item.UpdatedDateTOEIC.HasValue)
-                    {
-                        @(item.ListeningScore + item.ReadingScore)
-                        <br />
-                        if (item.UpdatedDateTOEIC.HasValue)
+                    <tr class="content-table">
+                        <td>@item.Month/@item.Year</td>
+                        <td>@item.NumberMissingCheckInOut</td>
+                        <td>@item.NumberLateIn</td>
+                        <td>@item.NumberEarlyOut</td>
+                        <td>@item.NumberUnpaidLeave</td>
+                        <td>@item.NumberUnplannedAnnualLeave</td>
+                        <td>@FormatWorkingHours(item.AverageWorkingHours)</td>
+                        <td>@item.NumberOvertime</td>
+                        @if (count == 0)
                         {
-                            @("(" + item.UpdatedDateTOEIC.Value.ToString("dd MMM, yyyy") + ")")
-                        }
-                    }
-                    else
+                            count++;
+                            <td rowspan="@(hrm.Count()+1)">
+                                @if (item.UpdatedDateTOEIC.HasValue)
                     {
-                        @Lang.Dash
-                    }
-                </td>
-            }
+                                    @(item.ListeningScore + item.ReadingScore)
+                                    <br />
+                                    if (item.UpdatedDateTOEIC.HasValue)
+                                    {
+                                        @("(" + item.UpdatedDateTOEIC.Value.ToString("dd MMM, yyyy") + ")")
+                                    }
+                                }
+                                else
+                                {
+                                    @Lang.Dash
+                                }
+                            </td>
+                        }
 
-        </tr>
-    }
-    @if (hrm.Any())
-    {
-        <tr class="sub-total title-table">
-            <td>Total</td>
-            <td>@hrm.Sum(i => i.NumberMissingCheckInOut)</td>
-            <td>@hrm.Sum(i => i.NumberLateIn)</td>
-            <td>@hrm.Sum(i => i.NumberUnpaidLeave)</td>
-            <td>@hrm.Sum(i => i.NumberEarlyOut)</td>
-            <td>@hrm.Sum(i => i.NumberUnplannedAnnualLeave)</td>
-            <td>@FormatWorkingHours(hrm.Select(i => i.AverageWorkingHours).DefaultIfEmpty(0).Average())</td>
-            <td>@hrm.Sum(i => i.NumberOvertime)</td>
-        </tr>
-    }
-    else
-    {
-        <tr>
-            <td colspan="9" class="empty-result content-table">@Lang.EmptyResult</td>
-        </tr>
-    }
+                    </tr>
+                }
+                @if (hrm.Any())
+                {
+                    <tr class="sub-total title-table">
+                        <td>Total</td>
+                        <td>@hrm.Sum(i => i.NumberMissingCheckInOut)</td>
+                        <td>@hrm.Sum(i => i.NumberLateIn)</td>
+                        <td>@hrm.Sum(i => i.NumberUnpaidLeave)</td>
+                        <td>@hrm.Sum(i => i.NumberEarlyOut)</td>
+                        <td>@hrm.Sum(i => i.NumberUnplannedAnnualLeave)</td>
+                        <td>@FormatWorkingHours(hrm.Select(i => i.AverageWorkingHours).DefaultIfEmpty(0).Average())</td>
+                        <td>@hrm.Sum(i => i.NumberOvertime)</td>
+                    </tr>
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="9" class="empty-result content-table">@Lang.EmptyResult</td>
+                    </tr>
+                }
 
             </tbody>
         </table>
@@ -283,18 +283,18 @@
                 foreach (var nomination in nominations)
                 {
                     count++;
-            <tr>
-                <td class="content-table">@count</td>
-                <td class="content-table-left">@nomination.Title</td>
-                <td class="content-table-left nominationStatus-@nomination.StatusId">@nomination.StatusToString</td>
-            </tr>
+                    <tr>
+                        <td class="content-table">@count</td>
+                        <td class="content-table-left">@nomination.Title</td>
+                        <td class="content-table-left nominationStatus-@nomination.StatusId">@nomination.StatusToString</td>
+                    </tr>
                 }
             }
             else
             {
-            <tr>
-                <td colspan="3" class="empty-result content-table">@Lang.EmptyResult</td>
-            </tr>
+                <tr>
+                    <td colspan="3" class="empty-result content-table">@Lang.EmptyResult</td>
+                </tr>
             }
         </table>
 
@@ -313,18 +313,18 @@
                 foreach (var violation in violations)
                 {
                     count++;
-            <tr>
-                <td class="content-table">@count</td>
-                <td class="content-table-left">@violation.Description</td>
-                <td class="content-table-left">@violation.EffectedDate.ToString("dd MMM, yyyy")</td>
-            </tr>
+                    <tr>
+                        <td class="content-table">@count</td>
+                        <td class="content-table-left">@violation.Description</td>
+                        <td class="content-table-left">@violation.EffectedDate.ToString("dd MMM, yyyy")</td>
+                    </tr>
                 }
             }
             else
             {
-            <tr>
-                <td colspan="3" class="empty-result content-table">@Lang.EmptyResult</td>
-            </tr>
+                <tr>
+                    <td colspan="3" class="empty-result content-table">@Lang.EmptyResult</td>
+                </tr>
             }
             <tr></tr>
         </table>
@@ -346,9 +346,9 @@
             </thead>
             @if (nexPMs.Count() == 0)
             {
-            <tr>
-                <td colspan="8" class="empty-result content-table">@Lang.EmptyResult</td>
-            </tr>
+                <tr>
+                    <td colspan="8" class="empty-result content-table">@Lang.EmptyResult</td>
+                </tr>
             }
             else
             {
@@ -356,32 +356,32 @@
                 foreach (var item in nexPMs)
                 {
                     count++;
-            <tr>
-                <td class="content-table" rowspan="@(string.IsNullOrEmpty(item.Comment)?1:2)">@count</td>
-                <td class="content-table-left" rowspan="@(string.IsNullOrEmpty(item.Comment)?1:2)">@item.ProjectName</td>
-                <td class="content-table-left">@item.ProjectManagerName</td>
-                <td class="content-table-left">@item.StartDate.ToString("dd MMM, yyyy")</td>
-                <td class="content-table-left">@(item.EndDate.HasValue ? item.EndDate.Value.ToString("dd MMM, yyyy") : Lang.Dash)</td>
-                <td class="content-table-left">@item.Roles</td>
-                <td class="content-table-left">@item.WorkingHour</td>
-                <td class="content-table-left">
-                    @if (string.IsNullOrEmpty(item.DecryptedScore))
+                    <tr>
+                        <td class="content-table" rowspan="@(string.IsNullOrEmpty(item.Comment)?1:2)">@count</td>
+                        <td class="content-table-left" rowspan="@(string.IsNullOrEmpty(item.Comment)?1:2)">@item.ProjectName</td>
+                        <td class="content-table-left">@item.ProjectManagerName</td>
+                        <td class="content-table-left">@item.StartDate.ToString("dd MMM, yyyy")</td>
+                        <td class="content-table-left">@(item.EndDate.HasValue ? item.EndDate.Value.ToString("dd MMM, yyyy") : Lang.Dash)</td>
+                        <td class="content-table-left">@item.Roles</td>
+                        <td class="content-table-left">@item.WorkingHour</td>
+                        <td class="content-table-left">
+                            @if (string.IsNullOrEmpty(item.DecryptedScore))
                             {
-                            @(Lang.Dash)
+                                @(Lang.Dash)
                             }
                             else
                             {
-                            @(item.DecryptedScore)
-                            <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
+                                @(item.DecryptedScore)
+                                <img class="star" src="@Server.MapPath("~/Content/Site/Components/images/star.png")" />
                             }
 
-                </td>
-            </tr>
+                        </td>
+                    </tr>
                     if (!string.IsNullOrEmpty(item.Comment))
                     {
-            <tr>
-                <td colspan="6" class="content-table-left">@item.Comment</td>
-            </tr>
+                        <tr>
+                            <td colspan="6" class="content-table-left">@item.Comment</td>
+                        </tr>
                     }
                 }
             }
@@ -696,7 +696,7 @@ else
     {
         var lastScore = lastRatings.Where(i => i.KPIGroupId == groupId).SelectMany(a => a.KPIs.Where(i => i.KPIId == kpiId).Select(k => k.EvaluationByEvaluators.Where(d => d.Score != 0).Select(s => s.Score).DefaultIfEmpty(0).Average()));
 
-        return lastScore.Select(i => Math.Round(i, 2)).SingleOrDefault();
+        return lastScore.Select(i => FormatScore(i)).SingleOrDefault();
     }
 
     private static double GetLastWeight(IEnumerable<EPAKPIGroupModel> lastRatings, int groupId, int kpiId)
@@ -708,9 +708,14 @@ else
 
     private static double GetSubtotalLastScore(IEnumerable<EPAKPIGroupModel> lastRatings, int groupId)
     {
-        var lastScore = lastRatings.Where(i => i.KPIGroupId == groupId).SelectMany(a => a.KPIs).Sum(e => e.EvaluationByEvaluators.Where(d => d.Score != 0).Select(s => s.Score).DefaultIfEmpty(0).Average());
+        double lastScore = 0;
+        var group = lastRatings.Where(i => i.KPIGroupId == groupId).FirstOrDefault();
+        foreach (var kpi in group.KPIs)
+        {
+            lastScore += GetLastScore(lastRatings, groupId, kpi.KPIId);
+        }
 
-        return Math.Round(lastScore, 2);
+        return lastScore;
     }
 
     private static double GetSubtotalLastWeight(IEnumerable<EPAKPIGroupModel> lastRatings, int groupId)
