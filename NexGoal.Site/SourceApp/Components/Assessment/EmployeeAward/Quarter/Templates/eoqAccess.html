@@ -187,10 +187,11 @@
                         <td colspan="6" class="empty-result" data-translate="EmptyResult"></td>
                     </tr>
                 </tbody>
-                <tbody ng-if="eoqAccessCtrl.eoqNominations.length > 0" ng-repeat="item in eoqAccessCtrl.eoqNominations">
+                <tbody ng-if="eoqAccessCtrl.eoqNominations.length > 0" ng-repeat="item in eoqAccessCtrl.eoqNominations"
+                       ng-init="rowIndex=$index">
                     <tr ng-repeat="nomination in item.Nominations">
                         <td rowspan="{{item.NumberOfNominators}}" class="text-center" ng-if="$first">
-                            {{$parent.$index + 1}}
+                            {{rowIndex + 1}}
                         </td>
                         <td rowspan="{{item.NumberOfNominators}}" ng-if="$first">
                             {{item.Nominee.FullName}} ({{item.Nominee.NickName}})
