@@ -24,14 +24,14 @@
             this.employeeService = authenticationService ?? new AuthenticationService();
         }
 
-        [NonAction]
+        /// [NonAction]
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
-        [NonAction]
+        /// [NonAction]
         [HttpGet]
         public ActionResult Logout()
         {
@@ -43,7 +43,7 @@
             return RedirectToAction("Login");
         }
 
-        [NonAction]
+        /// [NonAction]
         [HttpPost]
         public ActionResult Login(string username)
         {
