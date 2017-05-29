@@ -122,19 +122,6 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
         }, 1);
     };
 
-    function calculateAverageEvaluator(Evaluators) {
-        var totalScore = 0, count = 0;
-
-        angular.forEach(Evaluators, function (evaluator) {
-            if (evaluator.TotalScore) {
-                totalScore += utilitiesFactory.parseFloat(evaluator.TotalScore);
-                count++;
-            }
-        });
-
-        return count > 0 ? totalScore / count : 0;
-    } 
-
     function getIntegrationInformation() {
         if (vm.epaInfo.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
             SelfEvalutorModel.getHRMSummary(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
@@ -144,7 +131,6 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
-
         } else {
             SelfEvalutorModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.hrmSummary = SelfEvalutorModel.hrmSummary;
@@ -156,8 +142,8 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
         lockScreenService.start();
         ReviewerManagementModel.getEPAInfoByReviewer(vm.epaId).then(function () {
             vm.epaInfo = ReviewerManagementModel.epaInfo;
-            
-            $scope.epaInfo = vm.epaInfo;            
+
+            $scope.epaInfo = vm.epaInfo;
 
             // self
             vm.epaInfo.Process.Self.TotalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.Self.TotalScore);
@@ -165,9 +151,8 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
             // evaluator
             angular.forEach(vm.epaInfo.Process.Evaluators, function (evaluator) {
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
-            });            
+            });
 
-            
             vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore !== "" ?
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore) :
                                                             utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators);
