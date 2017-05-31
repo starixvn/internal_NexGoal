@@ -91,6 +91,8 @@
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateToViewCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetTargetTemplateByEvaluatorCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\UpdateKPIScoreCriteria.cs" />
+    <Compile Include="EmployeeEPA\RecalculateFinalScoreCriteria.cs" />
+    <Compile Include="EmployeeEPA\RecalculateReviewerScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\ResetScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPASummaryImportCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateFinalScoreEPAEndEvaluationCriteria.cs" />

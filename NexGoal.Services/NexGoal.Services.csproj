@@ -137,6 +137,7 @@
   <ItemGroup>
     <Compile Include="Implement\AttendanceSummaryService.cs" />
     <Compile Include="Implement\CommonService.cs" />
+    <Compile Include="Implement\EPA\RecalculateScoreService.cs" />
     <Compile Include="Implement\EPA\ViolationService.cs" />
     <Compile Include="Implement\ExportFile\MasterExportService.cs" />
     <Compile Include="Implement\System\DepartmentService.cs" />
@@ -178,6 +179,7 @@
     <Compile Include="Interfaces\EPA\IEPAHistoryService.cs" />
     <Compile Include="Interfaces\EPA\IEPAReviewerService.cs" />
     <Compile Include="Interfaces\EPA\IEPASelfService.cs" />
+    <Compile Include="Interfaces\EPA\IRecalculateScoreService.cs" />
     <Compile Include="Interfaces\IViolationService.cs" />
     <Compile Include="Interfaces\INominationService.cs" />
     <Compile Include="Interfaces\IEOYService.cs" />

@@ -28,6 +28,12 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
                         EmployeeId: employeeId
                     }
                 });
+        },
+        getPermissionOnRecalculateScore: function () {
+            return $http.get(baseUrl + 'api/Report/GetPermissionOnRecalculateScore');
+        },
+        recalculateScore: function (criteria) {
+            return $http.put(baseUrl + 'api/Report/RecalculateScore', criteria);
         }
     };
 }]);

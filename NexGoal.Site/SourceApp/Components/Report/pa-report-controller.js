@@ -20,6 +20,7 @@
             groupIds: "",
             employee: {}
         };
+        vm.permissionOnRecalculateScore = false;
 
         vm.filteredItems = [];
         vm.currentPage = 1;
@@ -43,6 +44,10 @@
                     utilitiesFactory.numberEntryList(vm);
                     vm.query();
                 });
+            });
+
+            ReportModel.getPermissionOnRecalculateScore().then(function () {
+                vm.permissionOnRecalculateScore = ReportModel.permissionOnRecalculateScore;
             });
         }
 
@@ -98,6 +103,17 @@
 
         vm.viewEPADetail = function (epaId) {
             $location.path(baseUrl + 'EPA/Detail/' + epaId);
+        };
+
+        vm.recalculateScore = function () {
+            vm.filter.groupIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
+            vm.filter.periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
+
+            ReportModel.recalculateScore(
+                vm,
+                vm.filter.periodIds,
+                vm.filter.groupIds,
+                utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee))
         };
 
         initialize();

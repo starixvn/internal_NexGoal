@@ -2,9 +2,6 @@
 {
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
-    using System.Configuration;
-    using System.Net;
-    using System.Net.Sockets;
     using System.Web.Mvc;
     using System.Web.Security;
 

@@ -9,6 +9,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
     reportModel.masterReports = [];
     reportModel.paReports = [];
     reportModel.pdfFileName = "";
+    reportModel.permissionOnRecalculateScore = false;
 
     function findEmployeeInMasterReport(masterReports, employeeId) {
         var employee = null;
@@ -184,6 +185,37 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         return reportFactory.getPAReport(periodIds, groupIds, employeeId)
         .success(function (paReports) {
             reportModel.paReports = paReports;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    reportModel.getPermissionOnRecalculateScore = function () {
+        return reportFactory.getPermissionOnRecalculateScore()
+        .success(function (isHost) {
+            reportModel.permissionOnRecalculateScore = isHost;
+        }).error(function (response, status) {
+            errorFactory.errorHandle(status);
+        });
+    };
+
+    reportModel.recalculateScore = function (vm, periodIds, groupIds, employeeId) {
+        var criteria = {
+            PeriodIds: periodIds,
+            GroupIds: groupIds,
+            EmployeeId: employeeId
+        };
+
+        return reportFactory.recalculateScore(criteria)
+        .success(function (response) {
+            if (response.IsSuccessful) {
+                notificationFactory.success("UpdatedSuccessfully");
+                
+                vm.query();
+            }
+            else {
+                notificationFactory.error("", response.Message);
+            }
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });

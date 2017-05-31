@@ -54,6 +54,10 @@
                 <thead>
                     <tr class="header-table">
                         <th colspan="13">
+                            <button ng-if="paReportCtrl.permissionOnRecalculateScore"
+                                    ng-click="paReportCtrl.recalculateScore()"
+                                    class="button pull-left">Recalculate Score</button>
+
                             <input type="text" class="search-inline-textbox search pull-right"
                                    ng-model="paReportCtrl.searchKey"
                                    ng-change="paReportCtrl.search()" />
