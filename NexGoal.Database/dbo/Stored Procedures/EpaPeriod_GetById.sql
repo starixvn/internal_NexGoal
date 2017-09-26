@@ -1,5 +1,8 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_GetById    Script Date: 7/21/2016 2:45:53 PM ******/
+﻿
 
+
+
+/****** Object:  Stored Procedure dbo.EpaPeriod_GetById    Script Date: 7/21/2016 2:45:53 PM ******/
 CREATE PROCEDURE [dbo].[EpaPeriod_GetById] @PeriodId INT
 AS
 /*
@@ -20,6 +23,7 @@ BEGIN
 		,pe.[EndDate]
 		,pe.[AttendanceStartDate]
 		,pe.[AttendanceEndDate]
+		,pe.PAFocusStartDate
 		,pe.[Description]
 		,pe.[IsActive]
 		,tar.[TargetTypeId]

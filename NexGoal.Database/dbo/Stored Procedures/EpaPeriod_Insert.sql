@@ -1,12 +1,19 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_Insert    Script Date: 7/21/2016 2:45:53 PM ******/
+﻿
 
-CREATE PROCEDURE dbo.EpaPeriod_Insert @PeriodId INT = 0 OUTPUT
+
+
+
+
+
+/****** Object:  Stored Procedure dbo.EpaPeriod_Insert    Script Date: 7/21/2016 2:45:53 PM ******/
+CREATE PROCEDURE [dbo].[EpaPeriod_Insert] @PeriodId INT = 0 OUTPUT
 	,@Name NVARCHAR(200) = NULL
 	,@TargetTypeId INT
 	,@StartDate DATETIME = NULL
 	,@EndDate DATETIME = NULL
 	,@AttendanceStartDate DATETIME = NULL
 	,@AttendanceEndDate DATETIME = NULL
+	,@PAFocusStartDate DATETIME = NULL
 	,@IsActive BIT = 1
 	,@Description NVARCHAR(MAX) = NULL
 	,@CreatedBy INT = NULL
@@ -24,6 +31,10 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+
+	DECLARE @Duration INT
+
+	SET @Duration = 4;
 
 	IF EXISTS (
 			SELECT 1
@@ -84,6 +95,8 @@ BEGIN
 			,EndDate
 			,AttendanceStartDate
 			,AttendanceEndDate
+			,PAFocusStartDate
+			,PAFocusEndDate
 			,IsActive
 			,[Description]
 			,CreatedBy
@@ -96,6 +109,8 @@ BEGIN
 			,@EndDate
 			,@AttendanceStartDate
 			,@AttendanceEndDate
+			,@PAFocusStartDate
+			,DATEADD(day, @Duration -1 , @PAFocusStartDate)
 			,@IsActive
 			,@Description
 			,@CreatedBy
@@ -103,6 +118,9 @@ BEGIN
 			)
 
 		SET @PeriodId = SCOPE_IDENTITY()
+
+		EXEC dbo.PAFocusProcessSetting_Insert @PeriodId
+			,@Duration
 
 		INSERT INTO dbo.PeriodProcessSetting (
 			PeriodId

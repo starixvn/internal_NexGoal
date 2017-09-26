@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE PROCEDURE [dbo].[EPA_GetByReviewer] @ReviewerId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
 	,@GroupIds VARCHAR(MAX) = NULL
@@ -85,12 +86,6 @@ BEGIN
 
 	-- General Info
 	EXECUTE dbo.EPA_GetGeneralInfo @EPAIds;
-
-	-- KPI Group
-	EXECUTE dbo.EPA_GetKPIGroup @EPAIds;
-
-	EXECUTE dbo.[EPA_GetKPIGroupScore] @EPAIds
-		,@EvaluatorProcessId;
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @EPAIds;

@@ -1,4 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaEmployee_Get    Script Date: 7/21/2016 2:45:50 PM ******/
+﻿
+/****** Object:  Stored Procedure dbo.EpaEmployee_Get    Script Date: 7/21/2016 2:45:50 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaEmployee_Get] @Query NVARCHAR(100) = NULL
 	,@GroupId INT = NULL
@@ -22,7 +23,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT DISTINCT emp.[EmployeeId]
+	SELECT emp.[EmployeeId]
 		,emp.[Code]
 		,emp.[DomainUsername]
 		,emp.[NickName]
@@ -38,10 +39,15 @@ BEGIN
 		,empGr.[GroupId]
 		,empGr.[Name] AS GroupName
 		,empGr.[Code] AS GroupCode
+		,(CASE emp.EmployeeId
+			WHEN empGr.LeaderId THEN 2 -- employee is leader
+			WHEN empGr.AssistantLeaderId THEN 1 -- employee is assistant leader
+			ELSE 0 END
+        ) AS EmployeeRank
 	FROM [dbo].[Employee] AS emp WITH (NOLOCK)
 		LEFT JOIN [dbo].[Group] AS empGr WITH (NOLOCK) ON emp.[GroupId] = empGr.[GroupId]
 		LEFT JOIN [dbo].[HRMJobTitle] AS job WITH (NOLOCK) ON emp.[JobTitle] = job.[Id]
-		LEFT JOIN [dbo].[EmployeeRole] AS empRo WITH (NOLOCK) ON emp.[EmployeeId] = empRo.[EmployeeId]
+		--LEFT JOIN [dbo].[EmployeeRole] AS empRo WITH (NOLOCK) ON emp.[EmployeeId] = empRo.[EmployeeId]
 	WHERE emp.[IsDeleted] = 0
 		AND (
 			ISNULl(@GroupId, '') = ''
@@ -70,41 +76,10 @@ BEGIN
 				AND emp.[Enabled] = ~ @IsDisabledUser
 				)
 			)
-		AND (
-			ISNULL(@ApproverId, '') = ''
-			OR (
-				ISNULL(@IncludeVerifier, '') = ''
-				AND EXISTS (
-					SELECT TOP 1 1
-					FROM [dbo].[HRMGroupSupervisor] AS grS WITH (NOLOCK)
-					WHERE empGr.[GroupId] = grS.[GroupId]
-						AND @ApproverId = grS.[OwnerId]
-						AND grS.[ActionType] = 3 -- Approver
-					)
-				)
-			OR (
-				ISNULL(@IncludeVerifier, '') <> ''
-				AND (
-					EXISTS (
-						SELECT TOP 1 1
-						FROM [dbo].[EmployeeRole] AS empR
-						WHERE [empR].[EmployeeId] = @ApproverId
-							AND RoleId IN (1, 2, 3)
-						)
-					OR EXISTS (
-						SELECT TOP 1 1
-						FROM [dbo].[HRMGroupSupervisor] AS grS WITH (NOLOCK)
-						WHERE empGr.[GroupId] = grS.[GroupId]
-							AND @ApproverId = grS.[OwnerId]
-							AND grS.[ActionType] IN (2, 3) -- Approver and Verfier
-						)
-					)
-				)
-			)
-		AND (
-			@HasMonthlyEPA IS NULL
-			OR emp.HasMonthlyEPA = @HasMonthlyEPA
-			)
+	 ORDER BY empGr.[Rank]
+        ,empGr.Code
+        ,EmployeeRank DESC
+        ,emp.JoinedDate
 
 	SELECT ro.[EmployeeId]
 		,ro.[RoleId]

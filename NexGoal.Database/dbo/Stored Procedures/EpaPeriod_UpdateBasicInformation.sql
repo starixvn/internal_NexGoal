@@ -1,5 +1,10 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateBasicInformation    Script Date: 7/21/2016 2:45:53 PM ******/
+﻿
 
+
+
+
+
+/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateBasicInformation    Script Date: 7/21/2016 2:45:53 PM ******/
 CREATE PROCEDURE [dbo].[EpaPeriod_UpdateBasicInformation] @PeriodId INT
 	,@Name NVARCHAR(200) = NULL
 	,@TargetTypeId INT
@@ -7,6 +12,7 @@ CREATE PROCEDURE [dbo].[EpaPeriod_UpdateBasicInformation] @PeriodId INT
 	,@EndDate DATE = NULL
 	,@AttendanceStartDate DATE = NULL
 	,@AttendanceEndDate DATE = NULL
+	,@PAFocusStartDate DATE = NULL
 	,@IsActive BIT = 1
 	,@Description NVARCHAR(MAX) = NULL
 	,@ModifiedBy INT = NULL
@@ -24,6 +30,11 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+
+	CREATE TABLE #EmployeeIds (EmployeeId INT)
+
+	DECLARE @Duration INT
+		,@EmployeeId INT
 
 	IF NOT EXISTS (
 			SELECT 1
@@ -81,6 +92,10 @@ BEGIN
 	EXEC @OldData = [dbo].[fncGetDataForWriteLog] @ObjectId = @PeriodId
 		,@ObjectType = 8
 
+	SELECT @Duration = SUM(Duration) - 1
+	FROM dbo.PAFocusProcessSetting WITH (NOLOCK)
+	WHERE PeriodId = @PeriodId
+
 	BEGIN TRY
 		BEGIN TRANSACTION
 
@@ -95,11 +110,44 @@ BEGIN
 			,[EndDate] = @EndDate
 			,[AttendanceStartDate] = @AttendanceStartDate
 			,[AttendanceEndDate] = @AttendanceEndDate
+			,[PAFocusStartDate] = @PAFocusStartDate
+			,[PAFocusEndDate] = DATEADD(day, @Duration, @PAFocusStartDate)
 			,[IsActive] = @IsActive
 			,[Description] = @Description
 			,[ModifiedBy] = @ModifiedBy
 			,[ModifiedDate] = GETDATE()
 		WHERE [PeriodId] = @PeriodId
+
+		DELETE
+		FROM dbo.PAFocusProcess
+		WHERE PAFocusId IN (
+				SELECT PAFocusId
+				FROM dbo.PAFocus
+				WHERE PeriodId = @PeriodId
+				)
+
+		INSERT INTO #EmployeeIds
+		SELECT EmployeeId
+		FROM dbo.PAFocus WITH (NOLOCK)
+		WHERE PeriodId = @PeriodId
+
+		WHILE (
+				EXISTS (
+					SELECT 1
+					FROM #EmployeeIds
+					)
+				)
+		BEGIN
+			SELECT TOP 1 @EmployeeId = EmployeeId
+			FROM #EmployeeIds
+
+			EXEC dbo.[PAFocusProcess_Generate] @periodId
+				,@EmployeeId
+
+			DELETE
+			FROM #EmployeeIds
+			WHERE EmployeeId = @EmployeeId
+		END
 
 		IF (
 				ISNULL(@OldEndDate, '') <> ''
@@ -148,4 +196,6 @@ BEGIN
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Update Period unsuccessfully.'
 	END CATCH
+
+	DROP TABLE #EmployeeIds;
 END

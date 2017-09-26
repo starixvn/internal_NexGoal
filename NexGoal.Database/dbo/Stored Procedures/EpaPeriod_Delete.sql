@@ -1,4 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_Delete    Script Date: 7/21/2016 2:45:52 PM ******/
+﻿
+/****** Object:  Stored Procedure dbo.EpaPeriod_Delete    Script Date: 7/21/2016 2:45:52 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaPeriod_Delete] @PeriodId INT
 	,@ModifiedBy INT
@@ -66,9 +67,13 @@ BEGIN
 		WHERE [PeriodId] = @PeriodId
 		
 		DELETE
-		FROM [dbo].[PeriodTargetSetting]
+		FROM [dbo].[PAFocusProcessSetting]
 		WHERE [PeriodId] = @PeriodId
 
+		DELETE 
+		FROM dbo.PAFocusProcessSetting
+		WHERE PeriodId=@PeriodId
+		
 		COMMIT TRANSACTION
 
 		EXEC [dbo].[LogDetail_Insert] @ActorId = @ModifiedBy, @SpName = 'EpaPeriod_Delete', @ObjectId = @PeriodId, @ObjectTypeId = 8, @Data = NULL, @OldData = @OldData, @ObjectIds = NULL

@@ -1,7 +1,6 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_Get    Script Date: 7/21/2016 2:45:53 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaPeriod_Get] @TargetTypeId INT = NULL
-	,@IsActive BIT = 1
+	,@IsActive BIT = NULL
 AS
 /*
 Created: 2015-06-12@Josh.Phan
@@ -11,6 +10,7 @@ Original:
 
 Revisions:  
 Param's Explanation:
+
 */
 BEGIN
 	SET NOCOUNT ON;
@@ -79,6 +79,7 @@ BEGIN
 		,pe.EndDate
 		,pe.AttendanceStartDate
 		,pe.AttendanceEndDate
+		,pe.PAFocusStartDate
 		,pe.[Description]
 		,pe.IsActive
 		,peF.TotalEmployees
@@ -109,4 +110,5 @@ BEGIN
 			OR pe.IsActive = @IsActive
 			)
 		AND pe.TargetTypeId <> 2 -- monthly
+	ORDER BY pe.EndDate DESC
 END

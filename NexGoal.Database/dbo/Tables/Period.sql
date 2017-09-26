@@ -12,8 +12,12 @@
     [CreatedDate]         DATETIME       NULL,
     [ModifiedBy]          INT            NULL,
     [ModifiedDate]        DATETIME       NULL,
+    [PAFocusStartDate]    DATETIME       NULL,
+    [PAFocusEndDate]      DATETIME       NULL,
     CONSTRAINT [PK_EvaluationPeriod] PRIMARY KEY CLUSTERED ([PeriodId] ASC)
 );
+
+
 
 
 

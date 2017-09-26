@@ -1,11 +1,16 @@
-﻿CREATE PROCEDURE [dbo].[EPA_UpdateScore] @EPAId INT
+﻿
+
+/****** Object:  Stored Procedure dbo.EPA_UpdateScore    Script Date: 5/16/2016 2:20:11 PM ******/
+/****** Object:  Stored Procedure dbo.EPA_UpdateScore    Script Date: 5/16/2016 2:15:34 PM ******/
+/****** Object:  Stored Procedure dbo.EPA_UpdateScore    Script Date: 5/16/2016 1:59:44 PM ******/
+/****** Object:  Stored Procedure dbo.EPA_UpdateScore    Script Date: 4/6/2016 11:27:42 AM ******/
+CREATE PROCEDURE [dbo].[EPA_UpdateScore] @EPAId INT
 	,@ProcessId TINYINT
 	,@EmployeeId INT
 	,@EvaluatorId INT
 	,@Comment NVARCHAR(MAX) = ''
 	,@Score NVARCHAR(MAX) = ''
 	,@KPIDetails NVARCHAR(MAX) = ''
-	,@GroupKPIDetails NVARCHAR(MAX) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -52,17 +57,7 @@ BEGIN
 		,Rate NVARCHAR(MAX)
 		,IsMaxScore BIT
 		,Comment NVARCHAR(MAX)
-		);
-
-	IF OBJECT_ID('tempdb..#GroupKPIScores') IS NOT NULL
-	BEGIN
-		DROP TABLE #GroupKPIScores;
-	END;
-
-	CREATE TABLE #GroupKPIScores (
-		KPIGroupId INT
-		,Score NVARCHAR(MAX)
-		);
+		);	
 
 	INSERT INTO #Evaluator (EvaluatorId)
 	SELECT DISTINCT EvaluatorId
@@ -142,19 +137,8 @@ BEGIN
 			,IsMaxScore
 			,Comment
 		FROM OPENXML(@DocHandler, '/ROOT/KPI', 1) WITH (KPIId INT, KPIGroupId INT, Score NVARCHAR(MAX), Rate NVARCHAR(MAX), IsMaxScore BIT, Comment NVARCHAR(MAX)) AS Data;
-
-		EXEC sp_xml_preparedocument @DocHandler OUTPUT
-			,@GroupKPIDetails;
-
-		INSERT INTO #GroupKPIScores
-		SELECT GroupId
-			,Score
-		FROM OPENXML(@DocHandler, '/ROOT/GroupKPI', 1) WITH (GroupId INT, Score NVARCHAR(MAX)) AS Data;
-
+		
 		EXEC sp_xml_removedocument @DocHandler;
-
-		SELECT *
-		FROM #GroupKPIScores
 	END TRY
 
 	BEGIN CATCH
@@ -175,14 +159,6 @@ BEGIN
 		BEGIN TRANSACTION;
 
 		SET @ModifiedDate = GETDATE();
-
-		UPDATE dt
-		SET dt.Score = k.Score
-		FROM dbo.EPAGroupDetail AS dt WITH (ROWLOCK, UPDLOCK)
-			INNER JOIN #GroupKPIScores AS k ON dt.KPIGroupId = k.KPIGroupId
-		WHERE dt.EPAId = @EPAId
-			AND dt.ProcessId = @ProcessId
-			AND dt.EvaluatorId = @EvaluatorId;
 
 		-- update table EPADetail
 		UPDATE dt
@@ -244,6 +220,4 @@ BEGIN
 	DROP TABLE #Evaluator;
 
 	DROP TABLE #KPIScores;
-
-	DROP TABLE #GroupKPIScores;
 END;

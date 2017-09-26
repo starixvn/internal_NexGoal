@@ -1,6 +1,6 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_GetAllPeriodIncludeImport    Script Date: 7/21/2016 2:45:53 PM ******/
+﻿
 
-
+/****** Object:  Stored Procedure dbo.EpaPeriod_GetAllPeriodIncludeImport    Script Date: 7/21/2016 2:45:53 PM ******/
 /****** Object:  Stored Procedure dbo.EpaPeriod_GetAllPeriodIncludeImport    Script Date: 4/6/2016 11:27:45 AM ******/
 CREATE PROCEDURE [dbo].[EpaPeriod_GetAllPeriodIncludeImport]
 AS
@@ -17,22 +17,15 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT pe.[PeriodId]
-		,pe.[Name]
-		,pe.StartDate
-	FROM (
-		SELECT [PeriodId]
-			,[Name]
-			,[StartDate]
-		FROM [dbo].[Period] WITH (NOLOCK)
-		WHERE [IsActive] = 1
-			AND [TargetTypeId] != 2
-		
-		UNION
-		SELECT [PeriodId]
-			,[PeriodName] AS NAME
-			,[PeriodDate] AS StartDate
-		FROM [dbo].[EPASummaryImport] WITH (NOLOCK)
-		) AS pe
-	ORDER BY pe.[StartDate] DESC
+	SELECT DISTINCT p.[PeriodId]
+		,p.[Name]
+		,p.[StartDate]
+		,p.[EndDate]
+		,tg.TargetTypeId
+		,tg.Name
+	FROM [dbo].[Period] AS p WITH (NOLOCK)
+		INNER JOIN dbo.TargetType AS tg WITH (NOLOCK) ON tg.TargetTypeId = p.TargetTypeId
+	WHERE p.[IsActive] = 1
+		AND p.[TargetTypeId] != 2
+	ORDER BY p.[EndDate] DESC
 END

@@ -1,4 +1,6 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 7/21/2016 2:45:43 PM ******/
+﻿
+
+/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 7/21/2016 2:45:43 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
@@ -53,6 +55,7 @@ BEGIN
 
 	SELECT DISTINCT epa.EPAId
 		,epa.FinalScore
+		,epa.Grade
 		,(CASE srt.ScoreRatingTypeId
 			WHEN 1 THEN 1
 			ELSE 0 END

@@ -1,4 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_GetEmployeeSetting    Script Date: 7/21/2016 2:45:53 PM ******/
+﻿
+/****** Object:  Stored Procedure dbo.EpaPeriod_GetEmployeeSetting    Script Date: 7/21/2016 2:45:53 PM ******/
 
 /****** Object:  Stored Procedure dbo.EpaPeriod_GetEmployeeSetting    Script Date: 5/16/2016 2:20:08 PM ******/
 /****** Object:  Stored Procedure dbo.EpaPeriod_GetEmployeeSetting    Script Date: 5/16/2016 2:15:31 PM ******/
@@ -112,19 +113,14 @@ BEGIN
 			)
 		AND (
 			ISNULL(@DepartmentId, '') = ''
+			OR @DepartmentId = 999 --root
 			OR (
 				@DepartmentId < 0
 				AND gr.GroupId = - @DepartmentId
 				)
 			OR (
 				@DepartmentId > 0
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.Department WITH (NOLOCK)
-					WHERE DepartmentId = @DepartmentId
-						AND Department.lft <= gr.lft
-						AND Department.rgt >= gr.rgt
-					)
+				AND dept.DepartmentId = @DepartmentId
 				)
 			)
 		AND (

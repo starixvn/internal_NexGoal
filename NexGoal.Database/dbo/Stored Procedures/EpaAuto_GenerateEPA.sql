@@ -1,4 +1,6 @@
 ﻿
+
+
 /****** Object:  Stored Procedure dbo.EpaAuto_GenerateEPA    Script Date: 7/21/2016 2:45:47 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaAuto_GenerateEPA] @PeriodId    INT,
@@ -164,31 +166,7 @@ Param's Explanation:
                            END
                     FROM #PeriodEmployee AS peEmp
                          INNER JOIN dbo.TargetTemplate AS tg WITH (NOLOCK) ON peEmp.TargetTemplateId = tg.TargetTemplateId;
-             INSERT INTO dbo.EPAGroupDetail
-             (EPAId,
-              ProcessId,
-              EvaluatorId,
-              KPIGroupId,
-              [Weight]
-             )
-                    SELECT epa.EPAId,
-                           peFS.ProcessId,
-                           CASE peFS.EvaluatorId
-                               WHEN-1
-                               THEN epa.EmployeeId
-                               ELSE peFS.EvaluatorId
-                           END,
-                           kpiGr.KPIGroupId,
-                           tarGr.[Weight]
-                    FROM #PeriodEmployee AS peEmp
-                         INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON peEmp.PeriodId = epa.PeriodId
-                                                                    AND peEmp.EmployeeId = epa.EmployeeId
-                         INNER JOIN dbo.PeriodFlowSetting AS peFS WITH (NOLOCK) ON peEmp.PeriodId = peFS.PeriodId
-                                                                                   AND peEmp.EmployeeId = peFS.EmployeeId
-                         INNER JOIN dbo.TargetTemplateKPIGroup AS tarGr WITH (NOLOCK) ON peEmp.TargetTemplateId = tarGr.TargetTemplateId
-                         INNER JOIN dbo.KPIGroup AS kpiGr WITH (NOLOCK) ON tarGr.KPIGroupId = kpiGr.KPIGroupId
-                    WHERE peFS.ProcessId IN(2, 3); -- Self-evaluator and Evaluator process
-
+             
              INSERT INTO dbo.EPADetail
              (EPAId,
               ProcessId,
@@ -341,6 +319,7 @@ Param's Explanation:
                          INNER JOIN dbo.SemiPeriodSettingDetail AS semiSD WITH (NOLOCK) ON semiS.SemiPeriodSettingId = semiSD.SemiPeriodSettingId
                                                                                            AND semiSD.IsActive = 1
                     WHERE epa.HasMonthlyEPA = 1;
+
              COMMIT TRANSACTION;
              EXEC @Data = dbo.fncGetDataForWriteLog_Period_GenerateEPA
                   @PeriodId = @PeriodId,

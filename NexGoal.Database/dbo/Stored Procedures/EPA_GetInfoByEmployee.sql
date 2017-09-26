@@ -1,6 +1,5 @@
 ﻿
 /****** Object:  Stored Procedure dbo.EPA_GetInfoByEmployee    Script Date: 7/21/2016 2:45:44 PM ******/
-
 CREATE PROCEDURE [dbo].[EPA_GetInfoByEmployee] @EPAId INT
 	,@EmployeeId INT
 AS
@@ -41,8 +40,6 @@ BEGIN
 	-- KPI Group
 	EXECUTE dbo.EPA_GetKPIGroup @EPAIds
 
-	EXECUTE dbo.[EPA_GetKPIGroupScore] @EPAIds
-		,3;
 	-- KPI
 	EXECUTE dbo.EPA_GetKPI @EPAIds
 

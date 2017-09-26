@@ -1,4 +1,6 @@
 ﻿
+
+
 CREATE PROCEDURE [dbo].[NexPM_GetEmployeeWorkingByEmployeeId] @EmployeeId INT,
                                                              @StartDate  DATETIME,
                                                              @EndDate    DATETIME
@@ -22,12 +24,11 @@ Param's Explanation:
                 pm.EndDate,
                 pm.Roles,
                 pm.Score AS EncryptedScore,
-                pm.Grade AS EncryptedGrade,
                 pm.Comment,
                 pm.EmployeeId,
                 ISNULL(rm.Hours, 0) AS WorkingHour,
                 pm.projectManager AS ProjectManagerId,
-                m.NickName
+                m.NickName as ProjectManagerName
          FROM dbo.NexPM AS pm WITH (NOLOCK)
               INNER JOIN dbo.Employee AS m ON m.EmployeeId = pm.projectManager
               LEFT JOIN

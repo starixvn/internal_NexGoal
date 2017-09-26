@@ -1,6 +1,5 @@
-﻿/****** Object:  Stored Procedure dbo.EpaPeriod_EditEmployeeSetting    Script Date: 7/21/2016 2:45:52 PM ******/
+﻿
 
-/****** Object:  Stored Procedure dbo.EpaPeriod_EditEmployeeSetting    Script Date: 4/6/2016 11:27:45 AM ******/
 CREATE PROCEDURE [dbo].[EpaPeriod_EditEmployeeSetting] @PeriodId INT
 	,@TargetTemplateId INT = NULL
 	,@EmployeeAssignments NVARCHAR(MAX) = NULL
@@ -396,7 +395,7 @@ BEGIN
 					SELECT 1
 					FROM #EmployeeChangedTarget
 					WHERE dt.EPAId = EPAId
-					)
+					)	
 
 			DROP TABLE #ProcessDeleted
 
@@ -486,7 +485,7 @@ BEGIN
 					SELECT 1
 					FROM #EmployeeChangedTarget
 					WHERE epa.EPAId = EPAId
-					)
+					)			
 
 			INSERT INTO dbo.EPAProcess (
 				EPAId
@@ -619,8 +618,6 @@ BEGIN
 			DROP TABLE #EmployeeProcess
 		END
 
-		COMMIT TRANSACTION
-
 		DECLARE @Data NVARCHAR(MAX)
 
 		SET @Data = '<r>'
@@ -689,6 +686,8 @@ BEGIN
 
 			RETURN
 		END
+
+		COMMIT TRANSACTION
 	END TRY
 
 	BEGIN CATCH

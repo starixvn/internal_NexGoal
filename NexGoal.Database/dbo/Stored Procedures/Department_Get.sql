@@ -1,5 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.Department_Get    Script Date: 7/21/2016 2:45:42 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[Department_Get] @ParentId INT = NULL
 	,@IsActive BIT = NULL
 AS

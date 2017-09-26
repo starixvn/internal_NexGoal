@@ -1,5 +1,6 @@
 ﻿
 
+
 /****** Object:  Stored Procedure dbo.EPA_GetByEvaluator    Script Date: 7/21/2016 2:45:43 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_GetByEvaluator] @EvaluatorId INT,
@@ -81,13 +82,6 @@ Param's Explanation:
          -- General Info
          EXECUTE dbo.EPA_GetGeneralInfo
                  @EPAIds;
-
-         -- KPI Group
-         EXECUTE dbo.EPA_GetKPIGroup
-                 @EPAIds;
-         EXECUTE dbo.[EPA_GetKPIGroupScore]
-                 @EPAIds,
-                 @EvaluatorProcessId;
 
          -- Process
          EXECUTE dbo.EPA_GetProcess

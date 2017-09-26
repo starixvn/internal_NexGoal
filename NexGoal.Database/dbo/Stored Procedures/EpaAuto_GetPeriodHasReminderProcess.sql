@@ -1,4 +1,6 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetPeriodHasReminderProcess    Script Date: 7/21/2016 2:45:48 PM ******/
+﻿
+
+/****** Object:  Stored Procedure dbo.EpaAuto_GetPeriodHasReminderProcess    Script Date: 7/21/2016 2:45:48 PM ******/
 
 CREATE PROCEDURE [dbo].[EpaAuto_GetPeriodHasReminderProcess]
 AS
@@ -14,18 +16,18 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT DISTINCT pe.PeriodId
-		,epaP.ProcessId
-		,pe.TargetTypeId
-		,0 AS HasMonthlyEPA
-	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.EPAProcess AS epaP WITH (NOLOCK) ON epa.EPAId = epaP.EPAId
-		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
-	WHERE CAST(epaP.RemindDate AS DATE) = CAST(GETDATE() AS DATE)
-		AND epa.[Status] = 0 -- Open
-		AND pe.TargetTypeId IN (1, 5) -- Probation or Promotion
+	--SELECT DISTINCT pe.PeriodId
+	--	,epaP.ProcessId
+	--	,pe.TargetTypeId
+	--	,0 AS HasMonthlyEPA
+	--FROM dbo.EPA AS epa WITH (NOLOCK)
+	--	INNER JOIN dbo.EPAProcess AS epaP WITH (NOLOCK) ON epa.EPAId = epaP.EPAId
+	--	INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
+	--WHERE CAST(epaP.RemindDate AS DATE) = CAST(GETDATE() AS DATE)
+	--	AND epa.[Status] = 0 -- Open
+	--	AND pe.TargetTypeId IN (1, 5) -- Probation or Promotion
 	
-	UNION
+	--UNION
 	SELECT DISTINCT period.PeriodId
 		,pc.ProcessId
 		,period.TargetTypeId
@@ -40,6 +42,6 @@ BEGIN
 		INNER JOIN dbo.PeriodProcessSetting AS periodPS WITH (NOLOCK) ON period.PeriodId = periodPS.PeriodId
 		AND pc.ProcessId = periodPS.ProcessId
 	WHERE epa.[Status] = 0 -- Open
-		AND period.TargetTypeId IN (2, 3) -- Monthly, Semi annual
+		--AND period.TargetTypeId IN (2, 3) -- Monthly, Semi annual
 		AND CAST(DATEADD(DAY, - periodPS.RemindDay, pc.EndDate) AS DATE) = CAST(GETDATE() AS DATE)
 END

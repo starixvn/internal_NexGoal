@@ -1,4 +1,7 @@
 ﻿
+
+
+
                                                    
 CREATE PROCEDURE [dbo].[HRMSummary_GetByEmployeeId] @EmployeeId INT,
                                                    @StartDate  DATETIME,
@@ -25,7 +28,8 @@ Param's Explanation:
                 T.NumberUnpaidLeave,
                 T.NumberUnplannedAnnualLeave,
                 T.AverageWorkingHours,
-                [to].Listening + [to].Reading AS TOEICScore,
+                [to].Listening AS ListeningScore,
+                [to].Reading AS ReadingScore,
                 [to].ExamDate As UpdatedDateTOEIC,
                 ISNULL(ot.Times, 0) AS NumberOvertime,
                 @EmployeeId AS EmployeeId

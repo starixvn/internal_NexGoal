@@ -1,4 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_CheckPermission    Script Date: 7/21/2016 2:45:42 PM ******/
+﻿
 
 CREATE PROCEDURE [dbo].[EPA_CheckPermission] @EPAId INT
 	,@ActorUserId INT
@@ -18,7 +18,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Permission INT
-	DECLARE @ToDay DATE
+		,@ToDay DATE
 
 	SET @ToDay = CAST(GETDATE() AS DATE)
 
@@ -38,11 +38,13 @@ BEGIN
 						AND pc.EvaluatorId = @ActorUserId
 						AND pc.ProcessId = @ProcessId
 						AND CAST(pc.StartDate AS DATE) <= @ToDay
+						AND CAST(pc.EndDate AS DATE) >= @ToDay
 					WHERE epa.EPAId = @EPAId
 					)
 				SET @Permission = 1
 			ELSE
 				SET @Permission = 0 -- don't permission
+				print 'jjj'
 		END
 		ELSE
 		BEGIN
@@ -56,10 +58,11 @@ BEGIN
 				SET @Permission = 1
 			ELSE
 				SET @Permission = 0 -- don't permission
+				print 'jjjdd'
 		END
 	END
 	ELSE
-	BEGIN		
+	BEGIN
 		IF @ProcessId IS NULL
 			AND (
 				EXISTS (
@@ -68,8 +71,8 @@ BEGIN
 						INNER JOIN dbo.LookupData AS lo WITH (NOLOCK) ON ro.RoleId = lo.Value
 					WHERE lo.LookupId = 2 -- role
 						AND ro.EmployeeId = @ActorUserId
-						AND ro.RoleId IN (1, 2) -- SA, HR
-					)				
+						AND ro.RoleId IN (1, 2, 3) -- SA, HR, MGT
+					)
 				OR EXISTS (
 					SELECT TOP 1 1
 					FROM [dbo].[EmployeeRole] AS empR
@@ -146,7 +149,7 @@ BEGIN
 													AND epaPT.[ProcessId] = 1
 												GROUP BY epaT.[EmployeeId]
 												)
-										)							
+										)
 								)
 							)
 					)

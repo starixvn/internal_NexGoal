@@ -48,8 +48,8 @@ BEGIN
 							+ '</ed><iep>' + CAST([IsEndProcess] AS NVARCHAR)
 							+ '</iep><nab>' + CAST([NoticeAtBegin] AS NVARCHAR)
 							+ '</nab><rd>' + CAST([RemindDate] AS NVARCHAR(20))
-							+ '</rd><ts>' + CAST([TotalScore] AS NVARCHAR(MAX)) 
-							+ '</ts><as>' + CAST([AdjustScore] AS NVARCHAR(MAX))
+							+ '</rd><ts>' + CAST([TotalScore] AS NVARCHAR(100)) 
+							+ '</ts><as>' + CAST([AdjustScore] AS NVARCHAR(100))
 							+ '</as><ed>' + CAST([EvaluateDate] AS NVARCHAR(100))
 							+ '</ed></ep>'
 	FROM [dbo].[EPAProcess] AS epap WITH (NOLOCK)

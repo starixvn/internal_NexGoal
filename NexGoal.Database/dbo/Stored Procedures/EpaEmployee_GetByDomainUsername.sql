@@ -1,10 +1,5 @@
 ﻿
-/****** Object:  Stored Procedure dbo.EpaEmployee_GetByDomainUsername    Script Date: 5/16/2016 2:20:07 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_GetByDomainUsername    Script Date: 5/16/2016 2:15:29 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_GetByDomainUsername    Script Date: 5/16/2016 1:59:43 PM ******/
-/****** Object:  Stored Procedure dbo.EpaEmployee_GetByDomainUsername    Script Date: 4/6/2016 11:27:44 AM ******/
-
-CREATE PROCEDURE [dbo].[EpaEmployee_GetByDomainUsername] --'sms\thuthi'
+CREATE PROCEDURE [dbo].[EpaEmployee_GetByDomainUsername] 
 	@DomainUsername NVARCHAR(50) = NULL
 AS
 /*
@@ -29,8 +24,26 @@ BEGIN
 				AND IsDeleted = 0
 			)
 
+	IF (@EmployeeId IS NOT NULL AND
+			NOT EXISTS (
+				SELECT 1
+				FROM dbo.EmployeeRole AS er WITH (NOLOCK)
+				WHERE er.EmployeeId = @EmployeeId
+					AND er.RoleId = 6
+				)
+			)
+	BEGIN
+		INSERT INTO dbo.EmployeeRole
+		VALUES (
+			@EmployeeId
+			,6
+			,NULL
+			,NULL
+			)
+	END
+
 	SELECT DISTINCT @EmployeeId
-	
+
 	SELECT f.FunctionId
 		,f.FunctionKey
 		,CAST(MAX(IsRead) AS BIT) AS IsRead
@@ -47,5 +60,4 @@ BEGIN
 	WHERE er.EmployeeId = @EmployeeId
 	GROUP BY f.FunctionId
 		,FunctionKey
-
 END

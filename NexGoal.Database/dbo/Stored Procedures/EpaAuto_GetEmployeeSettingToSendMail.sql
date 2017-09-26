@@ -1,8 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 7/21/2016 2:45:48 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 5/16/2016 2:20:10 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 5/16/2016 2:15:33 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 5/16/2016 1:59:44 PM ******/
-/****** Object:  Stored Procedure dbo.EpaAuto_GetEmployeeSettingToSendMail    Script Date: 4/6/2016 11:27:43 AM ******/
+﻿
 
 CREATE PROCEDURE [dbo].[EpaAuto_GetEmployeeSettingToSendMail] @PeriodId INT
 	,@EmployeeIds VARCHAR(MAX) = NULL
@@ -43,15 +39,14 @@ BEGIN
 				,eva.Email
 			FROM dbo.EPA AS epa WITH (NOLOCK)
 				INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-				AND pc.IsEndProcess = 0 -- in progress
+				--AND pc.IsEndProcess = 0 -- in progress
 				INNER JOIN dbo.Employee AS eva WITH (NOLOCK) ON pc.EvaluatorId = eva.EmployeeId
 				AND eva.[Enabled] = 1
 				AND eva.IsDeleted = 0
 				INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 				INNER JOIN dbo.PeriodProcessSetting AS periodPS WITH (NOLOCK) ON period.PeriodId = periodPS.PeriodId
 				AND pc.ProcessId = periodPS.ProcessId
-			WHERE epa.[Status] = 0 -- open
-				AND epa.PeriodId = @PeriodId
+			WHERE epa.PeriodId = @PeriodId
 				AND (
 					ISNULL(@ProcessId, '') = ''
 					OR pc.ProcessId = @ProcessId
@@ -63,7 +58,7 @@ BEGIN
 						FROM fnc_strSplit(@EmployeeIds, ',')
 						)
 					)
-				AND CAST(pc.StartDate AS DATE) = CAST(GETDATE() AS DATE)
+				--AND CAST(pc.StartDate AS DATE) = CAST(GETDATE() AS DATE)
 		END
 	END
 	ELSE

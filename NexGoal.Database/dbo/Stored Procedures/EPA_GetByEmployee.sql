@@ -1,5 +1,6 @@
 ﻿
 
+
 CREATE PROCEDURE [dbo].[EPA_GetByEmployee] @EmployeeId INT
 	,@PeriodIds VARCHAR(MAX) = NULL
 AS
@@ -51,13 +52,7 @@ BEGIN
 
 	-- General Info
 	EXECUTE dbo.EPA_GetGeneralInfo @EPAIds;
-
-	-- KPI Group
-	EXECUTE dbo.EPA_GetKPIGroup @EPAIds;
-
-	EXECUTE dbo.[EPA_GetKPIGroupScore] @EPAIds
-		,@EmployeeProcessId;
-
+	
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @EPAIds;
 END;

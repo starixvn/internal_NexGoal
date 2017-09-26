@@ -1,6 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[EPA_GetLastEvaluation] @EmployeeId INT
 	,@TargetTypeId INT
+	,@epaId INT
 AS
 /*
 Created: 20160808@Razor.Nguyen
@@ -27,6 +28,7 @@ BEGIN
 	FROM dbo.EPA epa WITH (NOLOCK)
 		INNER JOIN dbo.Period p WITH (NOLOCK) ON p.PeriodId = epa.PeriodId
 	WHERE epa.EmployeeId = @EmployeeId
+		AND epa.EPAId <> @epaId
 		AND epa.[Status] = @EpaStatusIsClosed
 		AND p.TargetTypeId = @TargetTypeId
 		AND p.IsActive = 1
@@ -44,9 +46,6 @@ BEGIN
 
 	-- KPI Group
 	EXECUTE dbo.EPA_GetKPIGroup @EPAIds
-
-	EXECUTE dbo.[EPA_GetKPIGroupScore] @EPAIds
-		,@EvaluatorProcess;
 
 	EXECUTE dbo.EPA_GetKPI @EPAIds
 

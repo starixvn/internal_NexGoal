@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetLastScore    Script Date: 7/21/2016 2:45:44 PM ******/
-
-
+﻿
 CREATE PROCEDURE [dbo].[EPA_GetLastScore] @EPAIds IntId READONLY
 AS
 /*
@@ -55,13 +53,12 @@ BEGIN
 		,epa.Grade
 		,epa.DisciplineScore
 	FROM dbo.EPA AS epa WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period ON epa.PeriodId = period.PeriodId
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
-		INNER JOIN dbo.TargetType AS tt ON period.TargetTypeId = tt.TargetTypeId
+		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON epa.EmployeeId = emp.EmployeeId
 		INNER JOIN @TblEPA AS tblEPA ON emp.EmployeeId = tblEPA.EmployeeId
 		AND tt.TargetTypeId = tblEPA.TargetTypeId
-		AND CAST(period.StartDate AS DATE) < tblEPA.StartDate
 	WHERE epa.[Status] = 1 -- closed
 		AND epa.EPAId NOT IN (
 			SELECT Id
@@ -70,37 +67,13 @@ BEGIN
 		AND EXISTS (
 			SELECT 1
 			FROM dbo.Period AS period1 WITH (NOLOCK)
-			WHERE period.PeriodId = period1.PeriodId
+			WHERE period1.PeriodId = period.PeriodId
 				AND period1.EndDate IN (
 					SELECT MAX(period2.EndDate)
 					FROM dbo.Period AS period2 WITH (NOLOCK)
 					GROUP BY CAST(period2.EndDate AS DATE)
 					)
 			)
-	
-	UNION ALL
-	SELECT DISTINCT - lastEPA.Id
-		,tblEPA.EPAId
-		,emp.EmployeeId
-		,emp.Code
-		,CAST(lastEPA.PeriodDate AS DATE)
-		,lastEPA.FinalScore
-		,NULL
-		,NULL
-	FROM dbo.EPASummaryImport AS lastEPA WITH (NOLOCK)
-		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON lastEPA.Code = emp.Code
-		INNER JOIN @TblEPA AS tblEPA ON emp.EmployeeId = tblEPA.EmployeeId
-		AND tblEPA.TargetTypeId = 3
-		INNER JOIN (
-		SELECT lastEPA1.Code
-			,MAX(CAST(lastEPA1.PeriodDate AS DATE)) AS PeriodDate
-		FROM dbo.EPASummaryImport AS lastEPA1 WITH (NOLOCK)
-			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON lastEPA1.Code = emp.Code
-			INNER JOIN @TblEPA AS tbl ON emp.EmployeeId = tbl.EmployeeId
-			AND tbl.TargetTypeId = 3
-		GROUP BY lastEPA1.Code
-		) AS tblData ON lastEPA.Code = tblData.Code
-		AND CAST(lastEPA.PeriodDate AS DATE) = tblData.PeriodDate
 
 	SELECT DISTINCT tbl.EPAId
 		,tbl.EmployeeId

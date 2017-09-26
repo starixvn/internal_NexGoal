@@ -1,4 +1,5 @@
 ﻿
+
 /****** Object:  Stored Procedure dbo.EPA_GetKPIGroup    Script Date: 7/21/2016 2:45:44 PM ******/
 
 CREATE PROCEDURE [dbo].[EPA_GetKPIGroup] @EPAIds INTID READONLY
@@ -72,8 +73,7 @@ Param's Explanation:
                      WHEN tbl2.NumberKPIOptional > 0
                      THEN 1
                      ELSE 0
-                 END) AS HasKPIOptional,
-                epag.Score AS SelfEncodeScore
+                 END) AS HasKPIOptional
          FROM @EPAIds AS epat
               INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epat.Id = epa.EPAId
               INNER JOIN dbo.EPADetail AS dt WITH (NOLOCK) ON epa.EPAId = dt.EPAId
@@ -86,8 +86,5 @@ Param's Explanation:
               LEFT JOIN @TblKPIGroup AS tbl2 ON epa.EPAId = tbl2.EPAId
                                                 AND dt.TargetTemplateId = tbl2.TargetTemplateId
                                                 AND dt.KPIGroupId = tbl2.KPIGroupId
-              INNER JOIN dbo.EPAGroupDetail AS epag ON epag.EPAId = epat.Id
-                                                       AND epag.ProcessId = 2--self
-                                                       AND epag.KPIGroupId = dt.KPIGroupId
          ORDER BY dt.KPIGroupDisplayOrder;
      END;
