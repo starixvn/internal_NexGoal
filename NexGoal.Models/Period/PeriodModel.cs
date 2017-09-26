@@ -35,7 +35,7 @@
             {
                 int? year = null;
 
-                if (StartDate != null)
+                if (StartDate != null && TargetType != null && TargetType.TargetTypeId != (int)Core.Enumerations.TargetType.Probation)
                 {
                     year = StartDate.Value.Year;
                 }
