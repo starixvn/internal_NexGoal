@@ -8,7 +8,7 @@
     public class AuthController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IAuthenticationService employeeService;
+        private readonly IAuthenticationService authenticationService;
 
         public AuthController()
             : this(null, null)
@@ -18,17 +18,21 @@
         public AuthController(ISessionService sessionService, IAuthenticationService authenticationService)
         {
             this.sessionService = sessionService ?? new SessionService();
-            this.employeeService = authenticationService ?? new AuthenticationService();
+            this.authenticationService = authenticationService ?? new AuthenticationService();
         }
 
+#if(RELEASE)
         [NonAction]
+#endif
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
+#if (RELEASE)
         [NonAction]
+#endif
         [HttpGet]
         public ActionResult Logout()
         {
@@ -40,19 +44,21 @@
             return RedirectToAction("Login");
         }
 
+#if (RELEASE)
         [NonAction]
+#endif
         [HttpPost]
         public ActionResult Login(string username)
         {
             var domainName = "spvn\\" + username;
             if (!string.IsNullOrEmpty(username))
             {
-                UserSession user = employeeService.GetEmployeeByUsername(domainName);
+                UserSession user = authenticationService.GetEmployeeByUsername(domainName);
                 if (user != null)
                 {
                     this.sessionService.CurrentUser = user;
                     FormsAuthentication.SetAuthCookie(username, false);
-                    employeeService.InsertLogLogin(username);
+                    authenticationService.InsertLogLogin(username);
 
                     return RedirectToAction("Index", "Home");
                 }

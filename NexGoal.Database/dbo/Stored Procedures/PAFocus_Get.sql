@@ -1,7 +1,4 @@
-﻿
-
-
-CREATE PROCEDURE [dbo].[PAFocus_Get] @EvaluatorId INT
+﻿CREATE PROCEDURE [dbo].[PAFocus_Get] @EvaluatorId INT
 	,@PeriodId INT
 	,@GroupIds NVARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
@@ -10,20 +7,22 @@ AS
 Created: 20160830@Razor.Nguyen
 Task: PA Focus
 DB: NexGoal
-Original: 
+Original:
 
-Revisions:  
+Revisions:
+    20170927@Tim.Trinh: evaluator/reviewer can view the process of that period anytime instead of waiting until their period
 Param's Explanation:
 
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Groups INTID
-		,@IsManagementSA BIT
-		,@PAFocusIds INTID
+	DECLARE @Groups IntId
+		,@Is_MGT_SA BIT
+		,@PAFocusIds IntId
+		,@Today DATE = GETDATE()
 
-	IF ISNULL(@GroupIds, '') <> ''
+	IF @GroupIds IS NOT NULL
 	BEGIN
 		INSERT INTO @Groups (Id)
 		SELECT DISTINCT fnc_strSplit.val
@@ -32,10 +31,10 @@ BEGIN
 
 	IF EXISTS (
 			SELECT 1
-			FROM dbo.Employee e
-				INNER JOIN dbo.EmployeeRole er  WITH(NOLOCK)  ON er.EmployeeId = e.EmployeeId
-				INNER JOIN dbo.RoleFunction r  WITH(NOLOCK)  ON r.RoleId = er.RoleId
-				INNER JOIN dbo.FunctionKey f  WITH(NOLOCK)  ON f.FunctionId = r.FunctionId
+			FROM dbo.Employee AS e WITH (NOLOCK)
+				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = e.EmployeeId
+				INNER JOIN dbo.RoleFunction AS r WITH (NOLOCK) ON r.RoleId = er.RoleId
+				INNER JOIN dbo.FunctionKey AS f WITH (NOLOCK) ON f.FunctionId = r.FunctionId
 			WHERE f.FunctionKey = 'PAFocus'
 				AND r.IsRead = 1
 				AND e.[Enabled] = 1
@@ -45,18 +44,18 @@ BEGIN
 			
 			UNION
 			SELECT 1
-			FROM dbo.Employee e
-				INNER JOIN dbo.EmployeeRole er  WITH(NOLOCK)  ON er.EmployeeId = e.EmployeeId
+			FROM dbo.Employee AS e WITH (NOLOCK)
+				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = e.EmployeeId
 			WHERE e.[Enabled] = 1
 				AND e.IsDeleted = 0
 				AND e.EmployeeId = @EvaluatorId
 				AND er.RoleId = 1 --SA
 			)
 	BEGIN
-		SET @IsManagementSA = 1
+		SET @Is_MGT_SA = 1
 	END
 
-	IF (@IsManagementSA = 1)
+	IF (@Is_MGT_SA = 1)
 	BEGIN
 		INSERT INTO @PAFocusIds (Id)
 		SELECT DISTINCT f.PAFocusId
@@ -64,7 +63,7 @@ BEGIN
 			INNER JOIN dbo.PAFocusProcess AS pc WITH (NOLOCK) ON pc.PAFocusId = f.PAFocusId
 			INNER JOIN dbo.Period AS p WITH (NOLOCK) ON p.PeriodId = f.PeriodId
 		WHERE p.PeriodId = @PeriodId
-			AND pc.EndDate < CONVERT(DATE, getdate())
+			AND pc.StartDate <= @Today
 			AND pc.ProcessId = 3
 	END
 
@@ -75,7 +74,7 @@ BEGIN
 		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON p.PeriodId = f.PeriodId
 	WHERE pc.EvaluatorId = @EvaluatorId
 		AND p.PeriodId = @PeriodId
-		AND pc.StartDate <= CONVERT(DATE, getdate())
+		AND pc.StartDate <= @Today
 		AND f.PAFocusId NOT IN (
 			SELECT Id
 			FROM @PAFocusIds
@@ -94,9 +93,9 @@ BEGIN
 		,e.NickName
 		,e.FullName
 		,title.Id AS JobTitleId
-		,title.NAME AS JobTitleName
+		,title.[Name] AS JobTitleName
 		,g.GroupId
-		,g.NAME AS GroupName
+		,g.[Name] AS GroupName
 	FROM @PAFocusIds AS f1
 		INNER JOIN dbo.PAFocus AS f WITH (NOLOCK) ON f.PAFocusId = f1.Id
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON f.EmployeeId = e.EmployeeId
@@ -109,10 +108,7 @@ BEGIN
 		LEFT JOIN dbo.ObjectiveEmployee AS n WITH (NOLOCK) ON n.ObjectiveId = f.NextObjectiveId
 	WHERE e.IsDeleted = 0
 		AND e.[Enabled] = 1
-		AND (
-			@EmployeeId IS NULL
-			OR e.EmployeeId = @EmployeeId
-			)
+		AND ISNULL(@EmployeeId, e.EmployeeId) = e.EmployeeId
 		AND (
 			@GroupIds IS NULL
 			OR g.GroupId IN (
@@ -121,5 +117,6 @@ BEGIN
 				WHERE Id LIKE '-%'
 				)
 			)
-	ORDER BY g.NAME, e.EmployeeId
+	ORDER BY g.[Name]
+		,e.EmployeeId
 END

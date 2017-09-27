@@ -11,16 +11,18 @@ Task: Get nomination by NominatorId.
 DB: NexGoal
 Original: 
 
-Revisions:  
+Revisions:
+    20170927@Tim.Trinh: evaluator/reviewer can view the process of that period anytime instead of waiting until their period  
 Param's Explanation:
 
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Groups IntId;
+	DECLARE @Groups IntId
+		,@Today DATE = GETDATE()
 
-	IF @GroupIds IS NULL
+	IF @GroupIds IS NOT NULL
 	BEGIN
 		INSERT INTO @Groups (Id)
 		SELECT DISTINCT val
@@ -60,24 +62,14 @@ BEGIN
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON nominee.JobTitle = job.Id
 		INNER JOIN dbo.Employee AS nominator WITH (NOLOCK) ON nt.NominatorId = nominator.EmployeeId
 	WHERE eoq.EOQYId = @EOQYId
-		AND (
-			(
-				nt.NominatorId = @NominatorId
-				AND setting.RoleId = 1
-				AND eoq.StartDate <= CAST(GETDATE() AS DATE)
-				)
-			OR (
-				setting.NominatorId = @NominatorId
-				AND setting.RoleId = 2
-				--AND eoq.EndDate < CAST(GETDATE() AS DATE)
-				)
-			)
+		AND nt.NominatorId = @NominatorId
+		AND eoq.StartDate <= @Today
 		AND (
 			nominee.FullName LIKE '%' + ISNULL(@Query, nominee.FullName) + '%'
 			OR nominee.NickName LIKE '%' + ISNULL(@Query, nominee.NickName) + '%'
 			)
 		AND (
-			ISNULL(@GroupIds, '') = ''
+			@GroupIds IS NULL
 			OR EXISTS (
 				SELECT 1
 				FROM @Groups

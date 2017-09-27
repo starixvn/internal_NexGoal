@@ -70,11 +70,11 @@
         }
 
         public IEnumerable<NominationEPAModel> GetNominationByPeriodId(int employeeId, int periodId)
-        {   
+        {
             IEnumerable<NominationEPAModel> nominations = nominationService.GetNominationByPeriodId(employeeId, periodId);
 
             return nominations;
-        }        
+        }
 
         [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
         public NominationModel GetEoqNominationById(int nominationId)

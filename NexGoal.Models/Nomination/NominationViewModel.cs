@@ -3,7 +3,6 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
     using System.Collections.Generic;
-    using System.Linq;
 
     public class NominationViewModel
     {
@@ -21,7 +20,7 @@
         {
             get
             {
-                return Nominations.Count();
+                return Nominations.Count;
             }
         }
 
