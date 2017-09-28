@@ -1,14 +1,14 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model.AttendanceSummary;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
 
     public class AttendanceSummaryRepository : IAttendanceSummaryRepository
     {
@@ -34,9 +34,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, JobTitle, EmployeeModel>(
+                    var employees = multi.Read<EmployeeModel, Group, JobTitle, EmployeeModel>(
                         (emp, gr, job) =>
                         {
                             emp.JobTitle = job;
@@ -45,7 +45,7 @@
                         },
                         "GroupId, JobTitleId");
 
-                    IEnumerable<AttendanceDetailModel> firstViolations =
+                    var firstViolations =
                         multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
                         (attD, missInO, tot, laI, earO) =>
                         {
@@ -57,7 +57,7 @@
                         },
                         "MissingCheckInOutId, TotalHoursId, LateInId, EarlyOutId");
 
-                    IEnumerable<AttendanceDetailModel> lastViolations =
+                    var lastViolations =
                         multi.Read<AttendanceDetailModel, ViolationModel, ViolationModel, ViolationModel, ViolationModel, AttendanceDetailModel>(
                         (attD, ab, up, ch, upa) =>
                         {
@@ -69,8 +69,7 @@
                         },
                         "AbsentId, UnpaidLeaveId, ChangeShiftId, UnpaidLeaveAbsentId");
 
-                    IEnumerable<AttendanceDetailModel> commentViolations = multi.Read<AttendanceDetailModel>();
-
+                    var commentViolations = multi.Read<AttendanceDetailModel>();
                     IEnumerable<AttendanceDetailModel> violations = new List<AttendanceDetailModel>();
 
                     if (firstViolations != null && firstViolations.Any())

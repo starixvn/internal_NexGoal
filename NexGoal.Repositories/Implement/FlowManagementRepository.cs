@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -10,6 +8,8 @@
     using NexGoal.Model.FlowManagement;
     using NexGoal.Model.TargetType;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class FlowManagementRepository : IFlowManagementRepository
     {
@@ -47,7 +47,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<FlowModel> epaFlow = db.Query<FlowModel, FlowTemplateModel, EmployeeModel, FlowModel>(
+                return db.Query<FlowModel, FlowTemplateModel, EmployeeModel, FlowModel>(
                    (f, ft, e) =>
                    {
                        f.FlowTemplate = ft;
@@ -56,38 +56,32 @@
                    },
                    "FlowTemplateId, EmployeeId",
                    criteria.GetSpParams());
-
-                return epaFlow;
             }
         }
 
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(ICriteria criteria)
         {
-            IEnumerable<DepartmentFlowModel> flows = new List<DepartmentFlowModel>();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    flows = multi.Read<DepartmentFlowModel>();
-                    IEnumerable<ProcessFlowModel> processes = multi.Read<ProcessFlowModel>();
+                    var flows = multi.Read<DepartmentFlowModel>();
+                    var processes = multi.Read<ProcessFlowModel>();
 
                     GroupProcessFlowByDepartment(flows, processes);
+
+                    return flows;
                 }
             }
-
-            return flows;
         }
 
         public IEnumerable<PersonalFlowModel> GetPersonalFlow(ICriteria criteria)
         {
-            IEnumerable<PersonalFlowModel> flows = new List<PersonalFlowModel>();
-
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    flows = multi.Read<PersonalFlowModel, Group, PersonalFlowModel>(
+                    var flows = multi.Read<PersonalFlowModel, Group, PersonalFlowModel>(
                         (flow, gr) =>
                         {
                             flow.Group = gr;
@@ -96,13 +90,13 @@
                         },
                         "GroupId");
 
-                    IEnumerable<ProcessFlowModel> processes = multi.Read<ProcessFlowModel>();
+                    var processes = multi.Read<ProcessFlowModel>();
 
                     GroupProcessFlowByEmployee(flows, processes);
+
+                    return flows;
                 }
             }
-
-            return flows;
         }
 
         private void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)

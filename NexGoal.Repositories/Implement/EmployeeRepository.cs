@@ -17,19 +17,19 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
-                           (emp, jb, gr) =>
-                           {
-                               emp.JobTitle = jb;
-                               emp.Group = gr;
+                    var employees = multi.Read<EmployeeModel, JobTitle, Group, EmployeeModel>(
+                        (emp, jb, gr) =>
+                        {
+                            emp.JobTitle = jb;
+                            emp.Group = gr;
 
-                               return emp;
-                           },
-                           "JobTitleId, GroupId");
+                            return emp;
+                        },
+                        "JobTitleId, GroupId");
 
-                    IEnumerable<RawEmployeeRoleModel> roles = multi.Read<RawEmployeeRoleModel>();
+                    var roles = multi.Read<RawEmployeeRoleModel>();
 
                     var rawEmployee = new RawEmployeeModel
                     {
@@ -46,23 +46,23 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
                     UserSession userSession = null;
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
-                           (emp, jb, dept, gr) =>
-                           {
-                               emp.JobTitle = jb;
-                               emp.Department = dept;
-                               emp.Group = gr;
-                               return emp;
-                           },
-                           "JobTitleId, DepartmentId, GroupId");
+                    var employees = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
+                        (emp, jb, dept, gr) =>
+                        {
+                            emp.JobTitle = jb;
+                            emp.Department = dept;
+                            emp.Group = gr;
+                            return emp;
+                        },
+                        "JobTitleId, DepartmentId, GroupId");
 
                     if (employees != null && employees.Any())
                     {
                         EmployeeModel employee = employees.First();
-                        IEnumerable<FunctionModel> functions = multi.Read<FunctionModel>();
+                        var functions = multi.Read<FunctionModel>();
 
                         userSession = new UserSession
                         {
@@ -80,9 +80,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    EmployeeModel employee = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
+                    var employee = multi.Read<EmployeeModel, JobTitle, DepartmentModel, Group, EmployeeModel>(
                            (emp, jb, dept, gr) =>
                            {
                                emp.JobTitle = jb;

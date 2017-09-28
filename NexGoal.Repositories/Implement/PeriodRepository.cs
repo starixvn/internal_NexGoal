@@ -1,7 +1,5 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -12,6 +10,8 @@
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Model.TargetType;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class PeriodRepository : IPeriodRepository
     {
@@ -49,9 +49,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<PeriodEmployeeSettingModel> employeeSettings =
+                    var employeeSettings =
                         multi.Read<PeriodEmployeeSettingModel, Employee, DepartmentModel, Group, JobTitle, TargetTemplateModel, PeriodEmployeeSettingModel>(
                             (pe, emp, dep, gr, job, tar) =>
                             {
@@ -64,14 +64,13 @@
                             },
                             "EmployeeId, DepartmentId, GroupId, JobTitleId, TargetTemplateId");
 
-                    IEnumerable<PeriodFlowSettingModel> flowSettings =
-                        multi.Read<PeriodFlowSettingModel, EmployeeModel, PeriodFlowSettingModel>(
-                            (fl, eva) =>
-                            {
-                                fl.EvaluatorInfo = eva;
-                                return fl;
-                            },
-                            "EvaluatorId");
+                    var flowSettings = multi.Read<PeriodFlowSettingModel, EmployeeModel, PeriodFlowSettingModel>(
+                        (fl, eva) =>
+                        {
+                            fl.EvaluatorInfo = eva;
+                            return fl;
+                        },
+                        "EvaluatorId");
 
                     foreach (PeriodEmployeeSettingModel employeeSetting in employeeSettings)
                     {

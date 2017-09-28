@@ -1,10 +1,9 @@
 ﻿namespace NexGoal.BackgroundService
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model.Period;
+    using System.Linq;
 
     public class EvaluationRepository : IEvaluationRepository
     {
@@ -12,10 +11,10 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<int> employees = multi.Read<int>();
-                    IEnumerable<int> periods = multi.Read<int>();
+                    var employees = multi.Read<int>();
+                    var periods = multi.Read<int>();
                     var employeePeriod = new AutoEmployeePeriodModel();
 
                     if (periods != null && periods.Any() && employees != null && employees.Any())

@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model.Department;
@@ -16,9 +15,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EmployeeModel> employees = multi.Read<EmployeeModel, Group, EmployeeModel>(
+                    var employees = multi.Read<EmployeeModel, Group, EmployeeModel>(
                         (emp, gr) =>
                         {
                             emp.Group = gr;
@@ -26,7 +25,7 @@
                         },
                         "GroupId");
 
-                    IEnumerable<TargetEmployeeModel> targetEmployees = multi.Read<TargetEmployeeModel, TargetTemplateModel, TargetEmployeeModel>(
+                    var targetEmployees = multi.Read<TargetEmployeeModel, TargetTemplateModel, TargetEmployeeModel>(
                         (tarEmp, tar) =>
                         {
                             tarEmp.RawTargetTemplate = tar;
@@ -49,11 +48,10 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<DepartmentModel> deparments = multi.Read<DepartmentModel>();
-
-                    IEnumerable<TargetDepartmentModel> targetDepartments = multi.Read<TargetDepartmentModel, TargetTemplateModel, TargetDepartmentModel>(
+                    var deparments = multi.Read<DepartmentModel>();
+                    var targetDepartments = multi.Read<TargetDepartmentModel, TargetTemplateModel, TargetDepartmentModel>(
                         (tarEmp, tar) =>
                         {
                             tarEmp.RawTargetTemplate = tar;

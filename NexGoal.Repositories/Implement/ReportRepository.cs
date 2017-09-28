@@ -22,10 +22,9 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<MasterReportModel> employees =
-                        multi.Read<MasterReportModel, PAFocusModel, EmployeeModel, JobTitle, Group, MasterReportModel>(
+                    var employees = multi.Read<MasterReportModel, PAFocusModel, EmployeeModel, JobTitle, Group, MasterReportModel>(
                         (report, focus, emp, job, gr) =>
                         {
                             report.PAFocus = focus;
@@ -52,20 +51,20 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    IEnumerable<EPADetailModel> epaDetail = multi.Read<EPADetailModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, EPADetailModel>(
-                    (info, employee, status, period) =>
-                    {
-                        info.Employee = employee;
-                        info.Status = status;
-                        info.Period = period;
+                    var epaDetail = multi.Read<EPADetailModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, EPADetailModel>(
+                        (info, employee, status, period) =>
+                        {
+                            info.Employee = employee;
+                            info.Status = status;
+                            info.Period = period;
 
-                        return info;
-                    },
-                    "EmployeeId, StatusId, PeriodId");
+                            return info;
+                        },
+                        "EmployeeId, StatusId, PeriodId");
 
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+                    var processes = multi.Read<EPAProcessModel>();
 
                     GroupEPAProcessByEPA(epaDetail, processes);
                     DecryptAllScore(epaDetail);
@@ -79,7 +78,7 @@
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
-                IEnumerable<NominationModel> nominations =
+                var nominations =
                     db.Query<NominationModel, EOQYModel, NomineeModel, DepartmentModel, Group, JobTitle, NomineeModel, NominationModel>(
                         (nomination, period, nominee, dept, gr, jb, nominator) =>
                         {
