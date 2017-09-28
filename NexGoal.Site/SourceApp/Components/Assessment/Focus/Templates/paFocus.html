@@ -100,29 +100,29 @@
                 <td class="text-center">
                     <select class="form-control"
                             ng-model="member.Contribution"
-                            ng-if="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
+                            ng-if="member.IsAllowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.focusEvaluationLevel"></select>
                     <span ng-bind="::paFocusCtrl.getFocusEvaluationLevel(member.Contribution)"
-                          ng-if="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></span>
+                          ng-if="!member.IsAllowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></span>
                 </td>
                 <td class="text-center">
                     <select class="form-control"
                             ng-model="member.BonusGiven"
-                            ng-if="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
+                            ng-if="member.IsAllowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.focusEvaluationLevel"></select>
                     <span ng-bind="::paFocusCtrl.getFocusEvaluationLevel(member.BonusGiven)"
-                          ng-if="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></span>
+                          ng-if="!member.IsAllowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"></span>
                 </td>
                 <td class="text-center">
                     <select class="form-control focus-evaluation-status default-select"
                             ng-class="{'good': member.IsReadyPromotion, 'normal': !member.IsReadyPromotion}"
                             ng-model="member.IsReadyPromotion"
-                            ng-if="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
+                            ng-if="member.IsAllowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
                             ng-change="paFocusCtrl.onIsReadyPromotionFieldChange(member)"></select>
                     <span class="focus-evaluation-status"
                           ng-class="{'good': member.IsReadyPromotion, 'normal': !member.IsReadyPromotion}"
-                          ng-if="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"
+                          ng-if="!member.IsAllowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"
                           ng-bind="::member.IsReadyPromotion ? 'Yes' : (member.IsReadyPromotion === null ? '-' : 'No')">
                     </span>
                 </td>
@@ -130,12 +130,12 @@
                     <select class="form-control focus-evaluation-status default-select"
                             ng-class="{'warning': member.IsPoorPerformance, 'normal': !member.IsPoorPerformance}"
                             ng-model="member.IsPoorPerformance"
-                            ng-if="paFocusCtrl.allowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
+                            ng-if="member.IsAllowToEdit && paFocusCtrl.permission === paFocusCtrl.policy.Host"
                             ng-options="item.Value as item.Name for item in paFocusCtrl.booleanRanges"
                             ng-change="paFocusCtrl.onIsPoorPerformanceFieldChange(member)"></select>
                     <span class="focus-evaluation-status"
                           ng-class="{'warning': member.IsPoorPerformance, 'normal': !member.IsPoorPerformance}"
-                          ng-if="!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"
+                          ng-if="!member.IsAllowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host"
                           ng-bind="::member.IsPoorPerformance ? 'Yes' : (member.IsPoorPerformance === null ? '-' : 'No')">
                     </span>
                 </td>
@@ -149,18 +149,18 @@
                 <td class="text-center">
                     <a href=""
                        ng-click="paFocusCtrl.openPopupLastObjective(member)"
-                       ng-if="vm.permission === vm.policy.Host && paFocusCtrl.allowToEdit">
+                       ng-if="vm.permission === vm.policy.Host && member.IsAllowToEdit">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
 
                     <a href=""
                        ng-click="paFocusCtrl.openPopupLastObjective(member)"
-                       ng-show='(!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) && member.LastCompletedPercentObjective.length > 0'>
+                       ng-show='(!member.IsAllowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) && member.LastCompletedPercentObjective.length > 0'>
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </a>
 
                     <span data-translate="Dash"
-                          ng-if="(!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) &&
+                          ng-if="(!member.IsAllowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) &&
                           member.LastCompletedPercentObjective.length === 0"></span>
                 </td>
                 <td class="text-center">
@@ -177,18 +177,18 @@
                 <td class="text-center">
                     <a href=""
                        ng-click="paFocusCtrl.openPopupObjective(member)"
-                       ng-if="vm.permission === vm.policy.Host && paFocusCtrl.allowToEdit">
+                       ng-if="vm.permission === vm.policy.Host && member.IsAllowToEdit">
                         <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
                     </a>
 
                     <a href=""
                        ng-click="paFocusCtrl.openPopupObjective(member)"
-                       ng-show='(!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) && member.NextDescriptionObjective.length > 0'>
+                       ng-show='(!member.IsAllowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) && member.NextDescriptionObjective.length > 0'>
                         <i class="fa fa-search" aria-hidden="true"></i>
                     </a>
 
                     <span data-translate="Dash"
-                          ng-if="(!paFocusCtrl.allowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) &&
+                          ng-if="(!member.IsAllowToEdit || paFocusCtrl.permission !== paFocusCtrl.policy.Host) &&
                           member.NextDescriptionObjective.length === 0"></span>
                 </td>
             </tr>
@@ -196,7 +196,7 @@
     </table>
 
     <div class="navbar navbar-default navbar-fixed-bottom action-section"
-         ng-if="groups.length > 0 && vm.permission === vm.policy.Host && paFocusCtrl.allowToEdit"
+         ng-if="groups.length > 0 && vm.permission === vm.policy.Host && member.IsAllowToEdit"
          ng-class="{'full-size': !menuVisibility}">
         <button class="button btn-cancel" data-translate="Reset" ng-click="paFocusCtrl.query()"></button>
         <button class="button" data-translate="Submit" ng-click="paFocusCtrl.save()"></button>

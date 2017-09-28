@@ -36,6 +36,8 @@
 
         public string EncryptedIsPoorPerformance { get; set; }
 
+        public bool IsAllowToEdit { get; set; }
+
         public void Decrypt()
         {
             ICertificateService encryptService = new CertificateService();

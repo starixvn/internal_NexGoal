@@ -36,7 +36,6 @@
         vm.processStatus = enumerationsFactory.processStatusType;
         vm.permission = [];
         vm.policy = enumerationsFactory.policy;
-        vm.allowToEdit = false;
 
         vm.warningLostDataMessage = "";
 
@@ -89,10 +88,6 @@
 
             PAFocusModel.getPAFocusProcess(vm.filter.periodId).then(function () {
                 vm.process = PAFocusModel.process;
-
-                vm.allowToEdit = vm.process.length > 0
-                    && vm.process[0].ProcessStatus === vm.processStatus.InProgress
-                    && vm.permission === vm.policy.Host;
             });
 
             PAFocusModel.getPAFocus(
@@ -179,7 +174,7 @@
         vm.openPopupLastObjective = function (member) {
             var copiedMember = angular.copy(member);
 
-            copiedMember.IsReadOnly = !vm.allowToEdit;
+            copiedMember.IsReadOnly = !(member.IsAllowToEdit && vm.permission === vm.policy.Host);
 
             PAFocusModel.openPopupCurrentObjective(copiedMember).then(function (LastCompletedPercentObjective) {
                 member.LastCompletedPercentObjective = LastCompletedPercentObjective;
@@ -189,7 +184,7 @@
         vm.openPopupObjective = function (member) {
             var copiedMember = angular.copy(member);
 
-            copiedMember.IsReadOnly = !vm.allowToEdit;
+            copiedMember.IsReadOnly = !(member.IsAllowToEdit && vm.permission === vm.policy.Host);
 
             PAFocusModel.openPopupObjective(copiedMember).then(function (NextDescriptionObjective) {
                 member.NextDescriptionObjective = NextDescriptionObjective;

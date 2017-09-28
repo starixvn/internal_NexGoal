@@ -89,6 +89,10 @@ BEGIN
 		,f.IsPoorPerformance AS EncryptedIsPoorPerformance
 		,f.IsReadyPromotion AS EncryptedIsReadyPromotion
 		,epa.FinalScore AS EncryptedFinalScore
+		,(CASE 
+			WHEN fp.PAFocusId IS NOT NULL THEN 1
+			ELSE 0 END
+			) AS IsAllowToEdit
 		,e.EmployeeId
 		,e.NickName
 		,e.FullName
@@ -106,6 +110,11 @@ BEGIN
 		AND epa.PeriodId = p.PeriodId
 		LEFT JOIN dbo.ObjectiveEmployee AS l WITH (NOLOCK) ON l.ObjectiveId = f.LastObjectiveId
 		LEFT JOIN dbo.ObjectiveEmployee AS n WITH (NOLOCK) ON n.ObjectiveId = f.NextObjectiveId
+		LEFT JOIN dbo.PAFocusProcess AS fp WITH (NOLOCK) ON f.PAFocusId = fp.PAFocusId
+		AND fp.EvaluatorId = @EvaluatorId
+		AND fp.ProcessId = 3
+		AND @Today BETWEEN fp.StartDate
+			AND fp.EndDate
 	WHERE e.IsDeleted = 0
 		AND e.[Enabled] = 1
 		AND ISNULL(@EmployeeId, e.EmployeeId) = e.EmployeeId
