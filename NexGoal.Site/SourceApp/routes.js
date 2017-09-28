@@ -155,6 +155,8 @@ var reportModule = angular.module("reportModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/masterReport.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Report/PAReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/paReport.html', caseInsensitiveMatch: true });
+    $routeProvider.when('/Report/NominationReport',
+    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/nominationReport.html', caseInsensitiveMatch: true });
 }]);
 
 var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
@@ -170,9 +172,8 @@ var menuModule = angular.module("menuModule", ["ngRoute"]);
 
 var userInfoModule = angular.module("userInfoModule", ["ngRoute"]);
 
-var assessmentModule = angular.module("assessmentModule", ["ngRoute"]);
-
-assessmentModule.config(["$routeProvider", function ($routeProvider) {
+var assessmentModule = angular.module("assessmentModule", ["ngRoute"])
+.config(["$routeProvider", function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
 
     $routeProvider.when("/PAFocus/Index",
@@ -193,9 +194,8 @@ assessmentModule.config(["$routeProvider", function ($routeProvider) {
     { templateUrl: baseUrl + 'SourceApp/Components/Assessment/EmployeeAward/Year/Templates/eoyAccess.html', caseInsensitiveMatch: true });
 }]);
 
-var violationModule = angular.module("violationModule", ["ngRoute"]);
-
-violationModule.config(["$routeProvider", function ($routeProvider) {
+var violationModule = angular.module("violationModule", ["ngRoute"])
+.config(["$routeProvider", function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
 
     $routeProvider.when("/Violation/Index",

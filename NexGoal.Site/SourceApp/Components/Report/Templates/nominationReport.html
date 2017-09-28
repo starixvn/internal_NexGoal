@@ -1,0 +1,21 @@
+﻿<div ng-controller="NominationReportController as nominationReportCtrl">
+    <div class="row">
+        <div class="col-sm-12 sub-header">
+            <ul class="row breadcrumb">
+                <li class="current" data-translate="NominationReport"></li>
+            </ul>
+        </div>
+        <div class="col-sm-12 target-tabset">
+            <tabset>
+                <tab class="tab-cursor" active="manageNominationCtrl.dataTab.eoq" select="nominationReportCtrl.tabEOQSelected()">
+                    <tab-heading data-translate="EOQ"></tab-heading>
+                    <div ng-include src="'/SourceApp/Components/Report/EmployeeAward/Templates/eoqReport.html'"></div>
+                </tab>
+                <tab class="tab-cursor" active="manageNominationCtrl.dataTab.eoy" select="nominationReportCtrl.tabEOYSelected()">
+                    <tab-heading data-translate="EOY"></tab-heading>
+                    <div ng-include src="'/SourceApp/Components/Report/EmployeeAward/Templates/eoyReport.html'"></div>
+                </tab>
+            </tabset>
+        </div>
+    </div>
+</div>

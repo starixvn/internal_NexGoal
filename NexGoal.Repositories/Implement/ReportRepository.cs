@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using Model;
+    using Model.Department;
     using NexGoal.Core.Enumerations;
     using NexGoal.Model.Employee;
     using NexGoal.Model.EmployeeEPA;
@@ -12,19 +12,20 @@
     using NexGoal.Model.PAFocus;
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.EPADetail;
-    using NexGoal.Model.Report.EPASummary;
     using NexGoal.Repositories.Interfaces;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class ReportRepository : IReportRepository
     {
         public IEnumerable<MasterReportModel> GetMaster(ICriteria criteria)
         {
-            IEnumerable<MasterReportModel> employees = new List<MasterReportModel>();
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {
                 using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
                 {
-                    employees = multi.Read<MasterReportModel, PAFocusModel, EmployeeModel, JobTitle, Group, MasterReportModel>(
+                    IEnumerable<MasterReportModel> employees =
+                        multi.Read<MasterReportModel, PAFocusModel, EmployeeModel, JobTitle, Group, MasterReportModel>(
                         (report, focus, emp, job, gr) =>
                         {
                             report.PAFocus = focus;
@@ -35,20 +36,70 @@
                             return report;
                         },
                         "PAFocusId,EmployeeId,JobTitleId,GroupId");
+
                     var evaluatorComments = multi.Read<EvaluatorCommentReportModel>();
-
                     var nominations = multi.Read<NominationReportModel>();
-
                     var nominators = multi.Read<NominatorReportModel>();
 
                     GroupMasterReport(employees, evaluatorComments, nominations, nominators);
+
+                    return employees;
                 }
             }
-
-            return employees;
         }
 
-        private IEnumerable<MasterReportModel> GroupMasterReport(
+        public IEnumerable<EPADetailModel> GetEPADetail(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
+                {
+                    IEnumerable<EPADetailModel> epaDetail = multi.Read<EPADetailModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, EPADetailModel>(
+                    (info, employee, status, period) =>
+                    {
+                        info.Employee = employee;
+                        info.Status = status;
+                        info.Period = period;
+
+                        return info;
+                    },
+                    "EmployeeId, StatusId, PeriodId");
+
+                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
+
+                    GroupEPAProcessByEPA(epaDetail, processes);
+                    DecryptAllScore(epaDetail);
+
+                    return epaDetail;
+                }
+            }
+        }
+
+        public IEnumerable<NominationModel> GetNomination(ICriteria criteria)
+        {
+            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            {
+                IEnumerable<NominationModel> nominations =
+                    db.Query<NominationModel, EOQYModel, NomineeModel, DepartmentModel, Group, JobTitle, NomineeModel, NominationModel>(
+                        (nomination, period, nominee, dept, gr, jb, nominator) =>
+                        {
+                            nomination.Period = period;
+                            nominee.Department = dept;
+                            nominee.Group = gr;
+                            nominee.JobTitle = jb;
+                            nomination.Nominee = nominee;
+                            nomination.Nominator = nominator;
+
+                            return nomination;
+                        },
+                        "EOQYId, EmployeeId, DepartmentId, GroupId, JobTitleId, NominatorId",
+                        criteria.GetSpParams());
+
+                return nominations;
+            }
+        }
+
+        private void GroupMasterReport(
             IEnumerable<MasterReportModel> reports,
             IEnumerable<EvaluatorCommentReportModel> evaluatorComments,
             IEnumerable<NominationReportModel> nominations,
@@ -67,38 +118,7 @@
                 employee.Nominations.AddRange(nominationsOfEmployee);
                 employee.EvaluatorComments.AddRange(evaluatorCommentOfEmployee);
             }
-
-            return reports;
         }
-
-        public IEnumerable<EPADetailModel> GetEPADetail(ICriteria criteria)
-        {
-            IEnumerable<EPADetailModel> epaDetail = new List<EPADetailModel>();
-
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                using (GridReaderWrapper multi = db.QueryMultiple(criteria.GetSpParams()))
-                {
-                    epaDetail = multi.Read<EPADetailModel, EPAEmployeeModel, EPAStatusModel, EPAPeriodModel, EPADetailModel>(
-                    (info, employee, status, period) =>
-                    {
-                        info.Employee = employee;
-                        info.Status = status;
-                        info.Period = period;
-
-                        return info;
-                    },
-                    "EmployeeId, StatusId, PeriodId");
-
-                    IEnumerable<EPAProcessModel> processes = multi.Read<EPAProcessModel>();
-
-                    GroupEPAProcessByEPA(epaDetail, processes);
-                    DecryptAllScore(epaDetail);
-                }
-            }
-
-            return epaDetail;
-        }        
 
         private void GroupEPAProcessByEPA(IEnumerable<EPADetailModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
@@ -130,6 +150,6 @@
             {
                 epaInfo.Decrypt();
             }
-        }        
+        }
     }
 }

@@ -231,6 +231,7 @@
     <Compile Include="Period\UpdateEmployeeSettingOfPeriodCriteria.cs" />
     <Compile Include="Period\UpdateStatusPeriodCriteria.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Report\GetNominationReportCriteria.cs" />
     <Compile Include="Report\GetMasterReportCriteria.cs" />
     <Compile Include="Report\GetPAReportCriteria.cs" />
     <Compile Include="Report\GetEPASummaryCriteria.cs" />

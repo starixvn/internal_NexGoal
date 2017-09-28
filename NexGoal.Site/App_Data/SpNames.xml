@@ -1,475 +1,476 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
-  <Function Name="Authentication">
-    <Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="LogLogin_Insert" SpName="LogLogin_Insert" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployeeIpAddress_Insert" SpName="EpaEmployeeIpAddress_Insert" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Employee">
-    <Setting Key="EpaEmployee_Get" SpName="EpaEmployee_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_Update" SpName="EpaEmployee_Update" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaJobTitle_Get" SpName="EpaJobTitle_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_GetByDepartmentId" SpName="EpaEmployee_GetByDepartmentId" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_GetByGroupId" SpName="EpaEmployee_GetByGroupId" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="NexGoal" Plain="0" ></Setting>
-  </Function>
-  <Function Name="KPI">
-    <Setting Key="KPI_Get" SpName="KPI_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPI_Insert" SpName="KPI_Insert" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPI_Update" SpName="KPI_Update" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPI_UpdateStatus" SpName="KPI_UpdateStatus" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPI_UpdateRequiredEvaluate" SpName="KPI_UpdateRequiredEvaluate" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPI_Delete" SpName="KPI_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="KPIGroup">
-    <Setting Key="KPIGroup_Get" SpName="KPIGroup_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPIGroup_GetById" SpName="KPIGroup_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPIGroup_Insert" SpName="KPIGroup_Insert" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPIGroup_Update" SpName="KPIGroup_Update" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPIGroup_UpdateStatus" SpName="KPIGroup_UpdateStatus" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="KPIGroup_Delete" SpName="KPIGroup_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="TargetType">
-    <Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Role">
-    <Setting Key="EpaRole_AssignFunctionToRole" SpName="EpaRole_AssignFunctionToRole" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaRole_GetFunctionByRoleId" SpName="EpaRole_GetFunctionByRoleId" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="Role_GetRolesByEmployeeId" SpName="Role_GetRolesByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="TargetTemplate">
-    <Setting Key="TargetTemplate_GetAll" SpName="TargetTemplate_GetAll" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_Insert" SpName="TargetTemplate_Insert" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_UpdateStatus" SpName="TargetTemplate_UpdateStatus" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_GetById" SpName="TargetTemplate_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_Delete" SpName="TargetTemplate_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_Update" SpName="TargetTemplate_Update" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_UpdateBasicInformation" SpName="TargetTemplate_UpdateBasicInformation" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_GetKPIGroup" SpName="TargetTemplate_GetKPIGroup" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_SetKPIGroup" SpName="TargetTemplate_SetKPIGroup" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_GetAllKPIByKPIGroups" SpName="TargetTemplate_GetAllKPIByKPIGroups" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="TargetTemplate_RemoveKPIGroup" SpName="TargetTemplate_RemoveKPIGroup" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaRatingType_Get" SpName="EpaRatingType_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Flow">
-    <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="FlowTemplate_GetById" SpName="FlowTemplate_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="FlowTemplate_Insert" SpName="FlowTemplate_Insert" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="FlowTemplate_Update" SpName="FlowTemplate_Update" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="FlowTemplate_UpdateStatus" SpName="FlowTemplate_UpdateStatus" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="SettingDepartmentFlow_Get" SpName="SettingDepartmentFlow_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="SettingDepartmentFlow_GetById" SpName="SettingDepartmentFlow_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="SettingDepartmentFlow_Set" SpName="SettingDepartmentFlow_Set" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="SettingDepartmentFlow_Delete" SpName="SettingDepartmentFlow_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="SettingEmployeeFlow_Get" SpName="SettingEmployeeFlow_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="SettingEmployeeFlow_GetById" SpName="SettingEmployeeFlow_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="SettingEmployeeFlow_Set" SpName="SettingEmployeeFlow_Set" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="SettingEmployeeFlow_Delete" SpName="SettingEmployeeFlow_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="FlowTemplate_GetDepartmentHasSetting" SpName="FlowTemplate_GetDepartmentHasSetting" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Target Employee Setting Template">
-    <Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaTargetTemplateEmployee_Get" SpName="EpaTargetTemplateEmployee_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaTargetTemplateEmployee_Delete" SpName="EpaTargetTemplateEmployee_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaTargetTemplateDepartment_Assign" SpName="EpaTargetTemplateDepartment_Assign" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaTargetTemplateDepartment_Get" SpName="EpaTargetTemplateDepartment_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaTargetTemplateDepartment_Delete" SpName="EpaTargetTemplateDepartment_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Department">
-    <Setting Key="Department_Get" SpName="Department_Get" DbName="NexGoal" Plain="0">
-      <Mapping DataField="ManagerId" ObjectProperty="EmployeeId" />
-    </Setting>
-  </Function>
-  <Function Name="Score Rating Type">
-    <Setting Key="EpaScoreRatingType_Get" SpName="EpaScoreRatingType_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="EPA">
-    <Setting Key="EPA_GetNumberOfRow" SpName="EPA_GetNumberOfRow" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_GetLastEvaluation" SpName="EPA_GetLastEvaluation" DbName="NexGoal" Plain="0">
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-    </Setting>
-    <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-      <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
-      <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_AdjustScoreByReviewerOrManagement" SpName="EPA_AdjustScoreByReviewerOrManagement" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPASummaryImport_Get" SpName="EPASummaryImport_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPASummaryImport_Update" SpName="EPASummaryImport_Update" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_GetOtherViolations" SpName="EPA_GetOtherViolations" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_GetEPAToUpdateFinalScore" SpName="EPA_GetEPAToUpdateFinalScore" DbName="NexGoal" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetEmployeeToUpdateFinalScore" SpName="EPA_GetEmployeeToUpdateFinalScore" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_GetPeriodToUpdateFinalScore" SpName="EPA_GetPeriodToUpdateFinalScore" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Period">
-    <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaPeriod_GetReadyPeriod" SpName="EpaPeriod_GetReadyPeriod" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Period_GetAllByReviewer" SpName="Period_GetAllByReviewer" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Period_GetAllByEvaluator" SpName="Period_GetAllByEvaluator" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Period_GetAllByEmployee" SpName="Period_GetAllByEmployee" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaPeriod_Insert" SpName="EpaPeriod_Insert" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_UpdateBasicInformation" SpName="EpaPeriod_UpdateBasicInformation" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_UpdateStatus" SpName="EpaPeriod_UpdateStatus" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_Delete" SpName="EpaPeriod_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_GetEmployeeSetting" SpName="EpaPeriod_GetEmployeeSetting" DbName="NexGoal" Plain="0">
-      <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
-    </Setting>
-    <Setting Key="EpaPeriod_AddEmployee" SpName="EpaPeriod_AddEmployee" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_EditEmployeeSetting" SpName="EpaPeriod_EditEmployeeSetting" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_GetProcessSetting" SpName="EpaPeriod_GetProcessSetting" DbName="NexGoal" Plain="0">
-      <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
-    </Setting>
-    <Setting Key="EpaPeriod_UpdateProcessSetting" SpName="EpaPeriod_UpdateProcessSetting" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPAPeriod_CheckSelfProcessStarted" SpName="EPAPeriod_CheckSelfProcessStarted" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" SpName="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" DbName="NexGoal" Plain="0">
-      <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
-    </Setting>
-    <Setting Key="Period_GetInprogressSemiPeriod" SpName="Period_GetInprogressSemiPeriod" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="Dashboard">
-    <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
-    </Setting>
-  </Function>
-  <Function Name="Generation Evaluation">
-    <Setting Key="EpaAuto_GetPeriodHasEndedProcess" SpName="EpaAuto_GetPeriodHasEndedProcess" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaAuto_GetEmployeeSettingToSendMailHR" SpName="EpaAuto_GetEmployeeSettingToSendMailHR" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="NexGoal" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-  </Function>
-  <Function Name="Attendance Summary">
-    <Setting Key="EpaAttendanceSummary_Get" SpName="EpaAttendanceSummary_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAttendanceSummary_GetOtherViolations" SpName="EpaAttendanceSummary_GetOtherViolations" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAttendanceSummary_AddOtherViolations" SpName="EpaAttendanceSummary_AddOtherViolations" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAttendanceSummary_Delete" SpName="EpaAttendanceSummary_Delete" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAttendanceSummary_GetViolations" SpName="EpaAttendanceSummary_GetViolations" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAttendanceSummary_GetDetail" SpName="EpaAttendanceSummary_GetDetail" DbName="NexGoal" Plain="0">
-      <Mapping DataField="MissingCheckInOutId" ObjectProperty="ViolationId" />
-      <Mapping DataField="TotalHoursId" ObjectProperty="ViolationId" />
-      <Mapping DataField="LateInId" ObjectProperty="ViolationId" />
-      <Mapping DataField="EarlyOutId" ObjectProperty="ViolationId" />
-      <Mapping DataField="AbsentId" ObjectProperty="ViolationId" />
-      <Mapping DataField="UnpaidLeaveId" ObjectProperty="ViolationId" />
-      <Mapping DataField="ChangeShiftId" ObjectProperty="ViolationId" />
-      <Mapping DataField="UnpaidLeaveAbsentId" ObjectProperty="ViolationId" />
-    </Setting>
-    <Setting Key="EpaAttendanceSummary_IgnoredViolation" SpName="EpaAttendanceSummary_IgnoredViolation" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="OtherViolationType_Get" SpName="OtherViolationType_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Rating By KPI">
-    <Setting Key="EPA_RatingByKPI_GetPeriodByEvaluator" SpName="EPA_RatingByKPI_GetPeriodByEvaluator" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_RatingByKPI_GetTargetTemplateToView" SpName="EPA_RatingByKPI_GetTargetTemplateToView" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_RatingByKPI_GetKPIByTargetTemplate" SpName="EPA_RatingByKPI_GetKPIByTargetTemplate" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_RatingByKPI_GetKPIToView" SpName="EPA_RatingByKPI_GetKPIToView" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_RatingByKPI_GetPeriodToView" SpName="EPA_RatingByKPI_GetPeriodToView" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" SpName="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="NexGoal" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-    </Setting>
-    <Setting Key="EPA_RatingByKPI_GetEmployeeToView" SpName="EPA_RatingByKPI_GetEmployeeToView" DbName="NexGoal" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-    </Setting>
-    <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Report">
-    <Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
-    </Setting>
-    <Setting Key="Report_PAReport" SpName="Report_PAReport" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
-    </Setting>
-    <Setting Key="Report_Master" SpName="Report_Master" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="EPA History">
-    <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="Epa_GetMonthlyEPAHistory" SpName="Epa_GetMonthlyEPAHistory" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Monthly Period">
-    <Setting Key="EpaMonthlyPeriod_Get" SpName="EpaMonthlyPeriod_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaMonthlyPeriod_GetAll" SpName="EpaMonthlyPeriod_GetAll" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="Menu">
-    <Setting Key="Menu_GetMenusByEmployeeId" SpName="Menu_GetMenusByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Menu_GetMenus" SpName="Menu_GetMenus" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Menu_GetMenuById" SpName="Menu_GetMenuById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Menu_Insert" SpName="Menu_Insert" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Menu_Update" SpName="Menu_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Menu_Delete" SpName="Menu_Delete" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="Integration">
-    <Setting Key="HRMSummary_GetByEmployeeId" SpName="HRMSummary_GetByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="HRMSummary_GetOnProbation" SpName="HRMSummary_GetOnProbation" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="NexPM_GetEmployeeWorkingByEmployeeId" SpName="NexPM_GetEmployeeWorkingByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="NexPM_GetEmployeeWorkingByPeriodId" SpName="NexPM_GetEmployeeWorkingByPeriodId" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="PAFocus">
-    <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocusProcessSetting_Update" SpName="PAFocusProcessSetting_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_GetByManagement" SpName="PAFocus_GetByManagement" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_GetProcessByPeriodId" SpName="PAFocus_GetProcessByPeriodId" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_GetProcessId" SpName="PAFocus_GetProcessId" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="EOQ">
-    <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_GetYear" SpName="EOQ_GetYear" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_GetById" SpName="EOQ_GetById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_Insert" SpName="EOQ_Insert" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_Update" SpName="EOQ_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_GetNominatorSettingById" SpName="EOQ_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_UpdateNominatorSettingById" SpName="EOQ_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_GetLatestNominationByNominatorId" SpName="EOQ_GetLatestNominationByNominatorId" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="EOY">
-    <Setting Key="EOY_Get" SpName="EOY_Get" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_GetById" SpName="EOY_GetById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_Insert" SpName="EOY_Insert" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_Update" SpName="EOY_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_Delete" SpName="EOY_Delete" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_GetNominatorSettingById" SpName="EOY_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_UpdateNominatorSettingById" SpName="EOY_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_GetLatestNominationByNominatorId" SpName="EOY_GetLatestNominationByNominatorId" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="Nomination">
-    <Setting Key="EOQ_GetQuestion" SpName="EOQ_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_GetQuestion" SpName="EOY_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQYNomination_GetByNominatorId" SpName="EOQYNomination_GetByNominatorId" DbName="NexGoal" Plain="0">
-      <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
-    </Setting>
-    <Setting Key="EOQYNomination_GetByPeriodId" SpName="EOQYNomination_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQNomination_Insert" SpName="EOQNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOYNomination_Insert" SpName="EOYNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQNomination_GetById" SpName="EOQNomination_GetById" DbName="NexGoal" Plain="0">
-      <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
-    </Setting>
-    <Setting Key="EOYNomination_GetById" SpName="EOYNomination_GetById" DbName="NexGoal" Plain="0">
-      <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
-    </Setting>
-    <Setting Key="EOQYNomination_Update" SpName="EOQYNomination_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQYNomination_Delete" SpName="EOQYNomination_Delete" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQYNomination_UpdateStatus" SpName="EOQYNomination_UpdateStatus" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function>
-    <Setting Key="Violation_Update" SpName="Violation_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Violation_UpdateActive" SpName="Violation_UpdateActive" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Violation_Insert" SpName="Violation_Insert" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Violation_Get" SpName="Violation_Get" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="Violation_GetById" SpName="Violation_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="Violation_GetByPeriodId" SpName="Violation_GetByPeriodId" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
+    <Function Name="Authentication">
+        <Setting Key="EpaEmployee_GetByCode" SpName="EpaEmployee_GetByCode" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_GetByDomainUsername" SpName="EpaEmployee_GetByDomainUsername" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="LogLogin_Insert" SpName="LogLogin_Insert" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployeeIpAddress_Insert" SpName="EpaEmployeeIpAddress_Insert" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Employee">
+        <Setting Key="EpaEmployee_Get" SpName="EpaEmployee_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_GetById" SpName="EpaEmployee_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaGroup_Get" SpName="EpaGroup_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_Insert" SpName="EpaEmployee_Insert" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_Update" SpName="EpaEmployee_Update" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaJobTitle_Get" SpName="EpaJobTitle_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_ChangePassword" SpName="EpaEmployee_ChangePassword" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_AssignRoleToEmployee" SpName="EpaEmployee_AssignRoleToEmployee" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_GetByDepartmentId" SpName="EpaEmployee_GetByDepartmentId" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_GetByGroupId" SpName="EpaEmployee_GetByGroupId" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="NexGoal" Plain="0" ></Setting>
+    </Function>
+    <Function Name="KPI">
+        <Setting Key="KPI_Get" SpName="KPI_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPI_Insert" SpName="KPI_Insert" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPI_Update" SpName="KPI_Update" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPI_UpdateStatus" SpName="KPI_UpdateStatus" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPI_UpdateRequiredEvaluate" SpName="KPI_UpdateRequiredEvaluate" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPI_Delete" SpName="KPI_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="KPIGroup">
+        <Setting Key="KPIGroup_Get" SpName="KPIGroup_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPIGroup_GetById" SpName="KPIGroup_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPIGroup_Insert" SpName="KPIGroup_Insert" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPIGroup_Update" SpName="KPIGroup_Update" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPIGroup_UpdateStatus" SpName="KPIGroup_UpdateStatus" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="KPIGroup_Delete" SpName="KPIGroup_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="TargetType">
+        <Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Role">
+        <Setting Key="EpaRole_AssignFunctionToRole" SpName="EpaRole_AssignFunctionToRole" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaRole_GetFunctionByRoleId" SpName="EpaRole_GetFunctionByRoleId" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="Role_GetRolesByEmployeeId" SpName="Role_GetRolesByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="TargetTemplate">
+        <Setting Key="TargetTemplate_GetAll" SpName="TargetTemplate_GetAll" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_Insert" SpName="TargetTemplate_Insert" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_UpdateStatus" SpName="TargetTemplate_UpdateStatus" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_GetById" SpName="TargetTemplate_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_Delete" SpName="TargetTemplate_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_Update" SpName="TargetTemplate_Update" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_UpdateBasicInformation" SpName="TargetTemplate_UpdateBasicInformation" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_GetKPIGroup" SpName="TargetTemplate_GetKPIGroup" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_SetKPIGroup" SpName="TargetTemplate_SetKPIGroup" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_GetAllKPIByKPIGroups" SpName="TargetTemplate_GetAllKPIByKPIGroups" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="TargetTemplate_RemoveKPIGroup" SpName="TargetTemplate_RemoveKPIGroup" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaRatingType_Get" SpName="EpaRatingType_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Flow">
+        <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="FlowTemplate_GetById" SpName="FlowTemplate_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="FlowTemplate_Insert" SpName="FlowTemplate_Insert" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="FlowTemplate_Update" SpName="FlowTemplate_Update" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="FlowTemplate_UpdateStatus" SpName="FlowTemplate_UpdateStatus" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="SettingDepartmentFlow_Get" SpName="SettingDepartmentFlow_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="SettingDepartmentFlow_GetById" SpName="SettingDepartmentFlow_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="SettingDepartmentFlow_Set" SpName="SettingDepartmentFlow_Set" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="SettingDepartmentFlow_Delete" SpName="SettingDepartmentFlow_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="SettingEmployeeFlow_Get" SpName="SettingEmployeeFlow_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="SettingEmployeeFlow_GetById" SpName="SettingEmployeeFlow_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="SettingEmployeeFlow_Set" SpName="SettingEmployeeFlow_Set" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="SettingEmployeeFlow_Delete" SpName="SettingEmployeeFlow_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaEmployeeFlowSetting_Get" SpName="EpaEmployeeFlowSetting_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="FlowTemplate_GetDepartmentHasSetting" SpName="FlowTemplate_GetDepartmentHasSetting" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Target Employee Setting Template">
+        <Setting Key="EpaTargetTemplateEmployee_Assign" SpName="EpaTargetTemplateEmployee_Assign" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaTargetTemplateEmployee_Get" SpName="EpaTargetTemplateEmployee_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaTargetTemplateEmployee_Delete" SpName="EpaTargetTemplateEmployee_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Assign" SpName="EpaTargetTemplateDepartment_Assign" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Get" SpName="EpaTargetTemplateDepartment_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaTargetTemplateDepartment_Delete" SpName="EpaTargetTemplateDepartment_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Department">
+        <Setting Key="Department_Get" SpName="Department_Get" DbName="NexGoal" Plain="0">
+            <Mapping DataField="ManagerId" ObjectProperty="EmployeeId" />
+        </Setting>
+    </Function>
+    <Function Name="Score Rating Type">
+        <Setting Key="EpaScoreRatingType_Get" SpName="EpaScoreRatingType_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="EPA">
+        <Setting Key="EPA_GetNumberOfRow" SpName="EPA_GetNumberOfRow" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_CheckPermission" SpName="EPA_CheckPermission" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetByEmployee" SpName="EPA_GetByEmployee" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
+            <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
+            <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByEmployee" SpName="EPA_GetInfoByEmployee" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+            <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
+            <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_UpdateScore" SpName="EPA_UpdateScore" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetMember" SpName="EPA_GetMember" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetGroup" SpName="EPA_GetGroup" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetLastEvaluation" SpName="EPA_GetLastEvaluation" DbName="NexGoal" Plain="0">
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+        </Setting>
+        <Setting Key="EPA_GetByEvaluator" SpName="EPA_GetByEvaluator" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
+            <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByEvaluator" SpName="EPA_GetInfoByEvaluator" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+            <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
+            <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_GetByReviewer" SpName="EPA_GetByReviewer" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
+            <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_GetInfoByReviewer" SpName="EPA_GetInfoByReviewer" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+            <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
+            <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+            <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+            <Mapping DataField="LastFinalScore" ObjectProperty="LastFinalScoreEncode" />
+            <Mapping DataField="LastGrade" ObjectProperty="LastGradeEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_AdjustScoreByReviewerOrManagement" SpName="EPA_AdjustScoreByReviewerOrManagement" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPASummaryImport_Get" SpName="EPASummaryImport_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPASummaryImport_Update" SpName="EPASummaryImport_Update" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetOtherViolations" SpName="EPA_GetOtherViolations" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetEPAToUpdateFinalScore" SpName="EPA_GetEPAToUpdateFinalScore" DbName="NexGoal" Plain="0">
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_GetEmployeeToUpdateFinalScore" SpName="EPA_GetEmployeeToUpdateFinalScore" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_GetPeriodToUpdateFinalScore" SpName="EPA_GetPeriodToUpdateFinalScore" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Period">
+        <Setting Key="EpaPeriod_Get" SpName="EpaPeriod_Get" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetReadyPeriod" SpName="EpaPeriod_GetReadyPeriod" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Period_GetAllByReviewer" SpName="Period_GetAllByReviewer" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Period_GetAllByEvaluator" SpName="Period_GetAllByEvaluator" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Period_GetAllByEmployee" SpName="Period_GetAllByEmployee" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_Insert" SpName="EpaPeriod_Insert" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_UpdateBasicInformation" SpName="EpaPeriod_UpdateBasicInformation" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_UpdateStatus" SpName="EpaPeriod_UpdateStatus" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_Delete" SpName="EpaPeriod_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_GetEmployeeSetting" SpName="EpaPeriod_GetEmployeeSetting" DbName="NexGoal" Plain="0">
+            <Mapping DataField="EvaluatorId" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EpaPeriod_AddEmployee" SpName="EpaPeriod_AddEmployee" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_EditEmployeeSetting" SpName="EpaPeriod_EditEmployeeSetting" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" SpName="EpaPeriod_UpdateIncludeStatusEmployeeToPeriod" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_GetProcessSetting" SpName="EpaPeriod_GetProcessSetting" DbName="NexGoal" Plain="0">
+            <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
+        </Setting>
+        <Setting Key="EpaPeriod_UpdateProcessSetting" SpName="EpaPeriod_UpdateProcessSetting" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPAPeriod_CheckSelfProcessStarted" SpName="EPAPeriod_CheckSelfProcessStarted" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" SpName="EpaPeriod_GetEvaluationGlobalSettingByTargetTypeId" DbName="NexGoal" Plain="0">
+            <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
+        </Setting>
+        <Setting Key="Period_GetInprogressSemiPeriod" SpName="Period_GetInprogressSemiPeriod" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="Dashboard">
+        <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+        </Setting>
+    </Function>
+    <Function Name="Generation Evaluation">
+        <Setting Key="EpaAuto_GetPeriodHasEndedProcess" SpName="EpaAuto_GetPeriodHasEndedProcess" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaAuto_GetEmployeeSettingToSendMailHR" SpName="EpaAuto_GetEmployeeSettingToSendMailHR" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="NexGoal" Plain="0">
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+    </Function>
+    <Function Name="Attendance Summary">
+        <Setting Key="EpaAttendanceSummary_Get" SpName="EpaAttendanceSummary_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAttendanceSummary_GetOtherViolations" SpName="EpaAttendanceSummary_GetOtherViolations" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAttendanceSummary_AddOtherViolations" SpName="EpaAttendanceSummary_AddOtherViolations" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAttendanceSummary_Delete" SpName="EpaAttendanceSummary_Delete" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAttendanceSummary_GetViolations" SpName="EpaAttendanceSummary_GetViolations" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAttendanceSummary_GetDetail" SpName="EpaAttendanceSummary_GetDetail" DbName="NexGoal" Plain="0">
+            <Mapping DataField="MissingCheckInOutId" ObjectProperty="ViolationId" />
+            <Mapping DataField="TotalHoursId" ObjectProperty="ViolationId" />
+            <Mapping DataField="LateInId" ObjectProperty="ViolationId" />
+            <Mapping DataField="EarlyOutId" ObjectProperty="ViolationId" />
+            <Mapping DataField="AbsentId" ObjectProperty="ViolationId" />
+            <Mapping DataField="UnpaidLeaveId" ObjectProperty="ViolationId" />
+            <Mapping DataField="ChangeShiftId" ObjectProperty="ViolationId" />
+            <Mapping DataField="UnpaidLeaveAbsentId" ObjectProperty="ViolationId" />
+        </Setting>
+        <Setting Key="EpaAttendanceSummary_IgnoredViolation" SpName="EpaAttendanceSummary_IgnoredViolation" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="OtherViolationType_Get" SpName="OtherViolationType_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Rating By KPI">
+        <Setting Key="EPA_RatingByKPI_GetPeriodByEvaluator" SpName="EPA_RatingByKPI_GetPeriodByEvaluator" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetTargetTemplateToView" SpName="EPA_RatingByKPI_GetTargetTemplateToView" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetKPIByTargetTemplate" SpName="EPA_RatingByKPI_GetKPIByTargetTemplate" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetKPIToView" SpName="EPA_RatingByKPI_GetKPIToView" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetPeriodToView" SpName="EPA_RatingByKPI_GetPeriodToView" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" SpName="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="NexGoal" Plain="0">
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_GetEmployeeToView" SpName="EPA_RatingByKPI_GetEmployeeToView" DbName="NexGoal" Plain="0">
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+        </Setting>
+        <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Report">
+        <Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+        </Setting>
+        <Setting Key="Report_PAReport" SpName="Report_PAReport" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+        </Setting>
+        <Setting Key="Report_Master" SpName="Report_Master" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Report_Nomination" SpName="Report_Nomination" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="EPA History">
+        <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="Epa_GetMonthlyEPAHistory" SpName="Epa_GetMonthlyEPAHistory" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Monthly Period">
+        <Setting Key="EpaMonthlyPeriod_Get" SpName="EpaMonthlyPeriod_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaMonthlyPeriod_GetAll" SpName="EpaMonthlyPeriod_GetAll" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="Menu">
+        <Setting Key="Menu_GetMenusByEmployeeId" SpName="Menu_GetMenusByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Menu_GetMenus" SpName="Menu_GetMenus" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Menu_GetMenuById" SpName="Menu_GetMenuById" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Menu_Insert" SpName="Menu_Insert" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Menu_Update" SpName="Menu_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Menu_Delete" SpName="Menu_Delete" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="Integration">
+        <Setting Key="HRMSummary_GetByEmployeeId" SpName="HRMSummary_GetByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="HRMSummary_GetOnProbation" SpName="HRMSummary_GetOnProbation" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="NexPM_GetEmployeeWorkingByEmployeeId" SpName="NexPM_GetEmployeeWorkingByEmployeeId" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="NexPM_GetEmployeeWorkingByPeriodId" SpName="NexPM_GetEmployeeWorkingByPeriodId" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="PAFocus">
+        <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocusProcessSetting_Update" SpName="PAFocusProcessSetting_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_GetByManagement" SpName="PAFocus_GetByManagement" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_GetProcessByPeriodId" SpName="PAFocus_GetProcessByPeriodId" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_GetProcessId" SpName="PAFocus_GetProcessId" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="EOQ">
+        <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQ_GetYear" SpName="EOQ_GetYear" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQ_GetById" SpName="EOQ_GetById" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQ_Insert" SpName="EOQ_Insert" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQ_Update" SpName="EOQ_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQ_GetNominatorSettingById" SpName="EOQ_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQ_UpdateNominatorSettingById" SpName="EOQ_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQ_GetLatestNominationByNominatorId" SpName="EOQ_GetLatestNominationByNominatorId" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="EOY">
+        <Setting Key="EOY_Get" SpName="EOY_Get" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOY_GetById" SpName="EOY_GetById" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOY_Insert" SpName="EOY_Insert" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOY_Update" SpName="EOY_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOY_Delete" SpName="EOY_Delete" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOY_GetNominatorSettingById" SpName="EOY_GetNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOY_UpdateNominatorSettingById" SpName="EOY_UpdateNominatorSettingById" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOY_GetLatestNominationByNominatorId" SpName="EOY_GetLatestNominationByNominatorId" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="Nomination">
+        <Setting Key="EOQ_GetQuestion" SpName="EOQ_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOY_GetQuestion" SpName="EOY_GetQuestion" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQYNomination_GetByNominatorId" SpName="EOQYNomination_GetByNominatorId" DbName="NexGoal" Plain="0">
+            <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EOQYNomination_GetByPeriodId" SpName="EOQYNomination_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQNomination_Insert" SpName="EOQNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOYNomination_Insert" SpName="EOYNomination_Insert" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQNomination_GetById" SpName="EOQNomination_GetById" DbName="NexGoal" Plain="0">
+            <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EOYNomination_GetById" SpName="EOYNomination_GetById" DbName="NexGoal" Plain="0">
+            <Mapping DataField="NominatorId" ObjectProperty="EmployeeId" />
+        </Setting>
+        <Setting Key="EOQYNomination_Update" SpName="EOQYNomination_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQYNomination_Delete" SpName="EOQYNomination_Delete" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQYNomination_UpdateStatus" SpName="EOQYNomination_UpdateStatus" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function>
+        <Setting Key="Violation_Update" SpName="Violation_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Violation_UpdateActive" SpName="Violation_UpdateActive" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Violation_Insert" SpName="Violation_Insert" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Violation_Get" SpName="Violation_Get" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="Violation_GetById" SpName="Violation_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="Violation_GetByPeriodId" SpName="Violation_GetByPeriodId" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
 </Functions>

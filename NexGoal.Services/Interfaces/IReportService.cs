@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using Model;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.Dashboard;
@@ -13,5 +14,7 @@
         IEnumerable<EPADetailModel> GetEPADetailReport(GetPAReportCriteria criteria);
 
         IEnumerable<MasterReportModel> GetMaster(GetMasterReportCriteria criteria);
+
+        IEnumerable<NominationViewModel> GetNomination(GetNominationReportCriteria criteria);
     }
 }

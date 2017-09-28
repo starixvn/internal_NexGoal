@@ -1791,4 +1791,7 @@
   <data name="ExportPdf" xml:space="preserve">
     <value>Export PDF</value>
   </data>
+  <data name="NominationReport" xml:space="preserve">
+    <value>Nomination Report</value>
+  </data>
 </root>

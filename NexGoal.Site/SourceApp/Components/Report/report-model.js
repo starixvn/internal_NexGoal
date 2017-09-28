@@ -8,6 +8,7 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
 
     reportModel.masterReports = [];
     reportModel.paReports = [];
+    reportModel.nominationReports = [];
     reportModel.pdfFileName = "";
     reportModel.permissionOnRecalculateScore = false;
 
@@ -219,6 +220,15 @@ function ($modal, reportFactory, notificationFactory, errorFactory) {
         }).error(function (response, status) {
             errorFactory.errorHandle(status);
         });
+    };
+
+    reportModel.getNominationReport = function (eoqyId, query, groupIds, statusId) {
+        return reportFactory.getNominationReport(eoqyId, query, groupIds, statusId)
+            .success(function (nominationReports) {
+                reportModel.nominationReports = nominationReports;
+            }).error(function (response, status) {
+                errorFactory.errorHandle(status);
+            });
     };
 
     return reportModel;

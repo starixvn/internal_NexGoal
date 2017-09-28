@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
     using Core.Model;
+    using Model;
     using Model.RoleManagement;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
@@ -17,7 +18,7 @@
 
     public class ReportController : BaseController
     {
-        private readonly IReportService _reportService;
+        private readonly IReportService reportService;
         private readonly IRoleService roleService;
         private readonly IRecalculateScoreService recalculateScoreService;
 
@@ -31,7 +32,7 @@
             IRoleService roleService,
             IRecalculateScoreService recalculateScoreService)
         {
-            _reportService = reportService ?? new ReportService();
+            this.reportService = reportService ?? new ReportService();
             this.recalculateScoreService = recalculateScoreService ?? new RecalculateScoreService();
             this.roleService = roleService ?? new RoleService();
         }
@@ -51,7 +52,7 @@
                 EmployeeId = employeeId
             };
 
-            IEnumerable<EPADetailModel> epaInfos = _reportService.GetEPADetailReport(criteria);
+            IEnumerable<EPADetailModel> epaInfos = reportService.GetEPADetailReport(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfos);
         }
@@ -70,9 +71,30 @@
                 GroupIds = groupIds
             };
 
-            var report = _reportService.GetMaster(criteria);
+            var report = reportService.GetMaster(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, report);
+        }
+
+        [HttpGet]
+        [ApiAuthorize(FunctionKey = FunctionKey.NominationReport, Policy = Policy.Read)]
+        public HttpResponseMessage GetNominationReport(
+            int eoqyId,
+            string query = null,
+            string groupIds = null,
+            int? statusId = null)
+        {
+            var criteria = new GetNominationReportCriteria
+            {
+                EOQYId = eoqyId,
+                Query = query,
+                GroupIds = groupIds,
+                StatusId = statusId
+            };
+
+            IEnumerable<NominationViewModel> nominations = reportService.GetNomination(criteria);
+
+            return Request.CreateResponse(HttpStatusCode.OK, nominations);
         }
 
         public bool GetPermissionOnRecalculateScore()
@@ -101,7 +123,7 @@
             {
                 criteria.UserId = SessionService.EmployeeId;
 
-                IEnumerable<EPADetailModel> epaInfos = _reportService.GetEPADetailReport(criteria);
+                IEnumerable<EPADetailModel> epaInfos = reportService.GetEPADetailReport(criteria);
 
                 CommandResult commandResult = recalculateScoreService.RecalculateScore(SessionService.EmployeeId, epaInfos.Select(x => x.EPAId));
 

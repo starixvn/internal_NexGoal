@@ -29,6 +29,17 @@ reportModule.factory('reportFactory', ['$http', 'baseUrl', function ($http, base
                     }
                 });
         },
+        getNominationReport: function (eoqyId, query, groupIds, statusId) {
+            return $http.get(baseUrl + 'api/Report/GetNominationReport',
+                {
+                    params: {
+                        EOQYId: eoqyId,
+                        Query: query,
+                        GroupIds: groupIds,
+                        StatusId: statusId
+                    }
+                });
+        },
         getPermissionOnRecalculateScore: function () {
             return $http.get(baseUrl + 'api/Report/GetPermissionOnRecalculateScore');
         },

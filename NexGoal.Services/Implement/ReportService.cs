@@ -1,24 +1,18 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using NexGoal.Core.Constants;
-    using NexGoal.Core.Utilities;
+    using Model;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.Dashboard;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
-    using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
-    using NPOI.SS.UserModel;
-    using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
     public class ReportService : IReportService
     {
-        private const int ExcelColumnWidth = 256;
         private readonly IReportRepository reportRepository;
         private readonly IEmployeeEPARepository employeeEPARepository;
         private readonly IIntegrationService integrationService;
@@ -81,147 +75,31 @@
             return result;
         }
 
-        private void FillContentRowEPADetailReport(
-            IEnumerable<EPADetailModel> epaDetails,
-            ref ExcelTemplateWriter writer)
+        public IEnumerable<NominationViewModel> GetNomination(GetNominationReportCriteria criteria)
         {
-            int rowIndex = 1;
+            IEnumerable<NominationViewModel> result = new List<NominationViewModel>();
 
-            foreach (EPADetailModel memberEPA in epaDetails)
+            if (criteria != null && criteria.IsValid())
             {
-                FillRowEPADetailReport(memberEPA, ref writer, ref rowIndex);
-            }
-        }
+                IEnumerable<NominationModel> nominations = reportRepository.GetNomination(criteria);
 
-        private void FillRowEPADetailReport(
-            EPADetailModel memberEPA,
-            ref ExcelTemplateWriter writer,
-            ref int rowIndex)
-        {
-            object record = CreateRecordEPADetailReport(memberEPA, ref rowIndex);
-
-            if ((rowIndex - 1) % 2 == 0)
-            {
-                writer.WriteRow(4, record);
-            }
-            else
-            {
-                writer.WriteRow(3, record);
-            }
-        }
-
-        private object CreateRecordEPADetailReport(
-            EPADetailModel memberEPA,
-            ref int rowIndex)
-        {
-            dynamic score = CalculateScore(memberEPA);
-
-            var record = new
-            {
-                Count = rowIndex,
-                Code = memberEPA.Employee.Code,
-                NickName = memberEPA.Employee.NickName,
-                FullName = memberEPA.Employee.FullName,                
-                Category = memberEPA.Employee.Category,
-                Section = memberEPA.Employee.GroupName,
-                JobTitle = memberEPA.Employee.JobTitleName,
-                JoinedDate = memberEPA.Employee.JoinedDate.ToString(Constants.DateFormat),
-                TargetType = memberEPA.Period.TargetTypeName,
-                SelfScore = score.SelfScore,
-                EvaluatorScore = score.EvaluatorScore,
-                ReviewerScore = score.ReviewerScore,
-                ManagementScore = score.ManagementScore.ToString(),
-                DisciplineScore = score.DisciplineScore,
-                FinalScore = score.FinalScore,
-                Grade = score.Grade
-            };
-            rowIndex++;
-
-            return record;
-        }
-
-        private string GetScoreByPhaseSelected(
-            IEnumerable<EvaluationPhaseModel> phaseSelecteds,
-            string score,
-            int phaseId)
-        {
-            var result = "-";
-
-            if (phaseSelecteds.Count(x => x.PhaseId == phaseId).Equals(1))
-            {
-                result = score;
+                result = nominations.GroupBy(
+                    x => new { x.Period.EOQYId, x.Nominee.EmployeeId },
+                    (key, g) => new NominationViewModel
+                    {
+                        Period = g.First().Period,
+                        Nominee = g.First().Nominee,
+                        Nominations = g.Select(x => new NominationDetailViewModel
+                        {
+                            NominationId = x.NominationId,
+                            Nominator = x.Nominator
+                        }).ToList(),
+                        RoleId = g.First().RoleId,
+                        StatusId = g.First().StatusId
+                    });
             }
 
             return result;
-        }
-
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
-        private dynamic CalculateScore(EPADetailModel memberEPA)
-        {
-            string disciplineScore = string.Empty,
-                selfScore = string.Empty,
-                evaluatorScore = string.Empty,
-                reviewerScore = string.Empty,
-                managementScore = string.Empty,
-                finalScore = string.Empty,
-                grade = string.Empty;
-
-            if (memberEPA.EPAId > 0)
-            {
-                float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
-
-                selfScore = Math.Round(score).ToString();
-            }
-
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Evaluators != null && memberEPA.Process.Evaluators.Any())
-            {
-                evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators).ToString();
-            }
-
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Reviewers != null && memberEPA.Process.Reviewers.Any())
-            {
-                reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers).ToString();
-            }
-
-            if (memberEPA.EPAId > 0 && memberEPA.Process.Managements != null && memberEPA.Process.Managements.Any())
-            {
-                managementScore = Math.Round(memberEPA.Process.AverageScoreByManagements).ToString();
-            }
-
-            if (memberEPA.Period != null && memberEPA.Period.IsEndPeriod)
-            {
-                if (string.IsNullOrEmpty(memberEPA.FinalScore))
-                {
-                    finalScore = Lang.NotAvailable;
-                    grade = Lang.NotAvailable;
-                }
-                else
-                {
-                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore)).ToString();
-                    grade = memberEPA.Grade;
-                }
-            }
-            else
-            {
-                finalScore = Lang.Pending;
-                grade = Lang.Pending;
-            }
-
-            return new
-            {
-                SelfScore = selfScore,
-                EvaluatorScore = evaluatorScore,
-                ReviewerScore = reviewerScore,
-                ManagementScore = managementScore,
-                DisciplineScore = disciplineScore,
-                FinalScore = finalScore,
-                Grade = grade
-            };
-        }
-
-        private void SetColumnWidth(ref ISheet sheet, int columnIndex, int width)
-        {
-            sheet.SetColumnWidth(columnIndex, width * ExcelColumnWidth);
         }
     }
 }
