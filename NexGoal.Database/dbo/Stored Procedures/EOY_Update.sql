@@ -1,14 +1,9 @@
-﻿
-
-
-
-
-
-CREATE PROCEDURE [dbo].[EOY_Update] @EOQYId INT
+﻿CREATE PROCEDURE [dbo].[EOY_Update] @EOQYId INT
 	,@Year INT
 	,@StartDate DATE
 	,@EndDate DATE
 	,@RemindDate DATE
+	,@EndDateForCommittee DATE
 	,@Description NVARCHAR(200) = NULL
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -20,7 +15,8 @@ Task: Update EOY.
 DB: NexGoal
 Original: 
 
-Revisions:  
+Revisions:
+    20170929@Tim.Trinh: add EndDateForCommittee  
 Param's Explanation:
 • @ErrCode:
 	= 0: Transaction recorded successfully.
@@ -70,7 +66,8 @@ BEGIN
 		UPDATE dbo.EOQY WITH (ROWLOCK, UPDLOCK)
 		SET StartDate = @StartDate
 			,EndDate = @EndDate
-			,RemindDate=@RemindDate
+			,RemindDate = @RemindDate
+			,EndDateForCommittee = @EndDateForCommittee
 			,[Year] = @Year
 			,[Description] = @Description
 			,ModifiedBy = @ModifiedBy

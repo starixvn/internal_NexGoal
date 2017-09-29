@@ -359,6 +359,11 @@
                     return false;
                 }
 
+                if (!period.RawRemindDate) {
+                    notificationFactory.error("RemindDateRequired");
+                    return false;
+                }
+
                 if (!period.RawEndDateForCommittee) {
                     notificationFactory.error("EndDateForCommitteeRequired");
                     return false;

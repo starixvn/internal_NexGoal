@@ -20,7 +20,7 @@
                 <calendar-image class="calendar-image" ng-click="eoyBasicInfoCtrl.openPopupStartDate($event)"></calendar-image>
             </div>
 
-            <label class="col-sm-1 control-label required-label" data-translate="EndDate"></label>
+            <label class="col-sm-2 control-label required-label" data-translate="EndDate"></label>
             <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control" type="text" datepicker-popup
                        ng-model="eoyBasicInfoCtrl.period.RawEndDate"
@@ -38,11 +38,20 @@
                        is-open="eoyBasicInfoCtrl.calendar.remindDateOpened" />
                 <calendar-image class="calendar-image" ng-click="eoyBasicInfoCtrl.openPopupRemindDate($event)"></calendar-image>
             </div>
+
+            <label class="col-sm-2 control-label required-label" data-translate="EndDateForCommittee"></label>
+            <div class="col-sm-2 field">
+                <input readonly class="calendar-form-control" type="text" datepicker-popup
+                       ng-model="eoyBasicInfoCtrl.period.RawEndDateForCommittee"
+                       ng-click="eoyBasicInfoCtrl.openPopupEndDateForCommittee($event)" min-date="{{eoyBasicInfoCtrl.calendar.minDate}}"
+                       is-open="eoyBasicInfoCtrl.calendar.endDateForCommitteeOpened" />
+                <calendar-image class="calendar-image" ng-click="eoyBasicInfoCtrl.openPopupEndDateForCommittee($event)"></calendar-image>
+            </div>
         </div>
 
         <div class="form-group">
             <label class="col-sm-1 control-label" data-translate="Description"></label>
-            <div class="col-sm-5 field">
+            <div class="col-sm-6 field">
                 <textarea type="text" class="form-control comment" rows="3" ng-model="eoyBasicInfoCtrl.period.Description"></textarea>
             </div>
         </div>

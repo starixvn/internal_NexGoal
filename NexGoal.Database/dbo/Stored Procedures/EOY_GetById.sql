@@ -1,7 +1,4 @@
-﻿
-
-
-CREATE PROCEDURE [dbo].[EOY_GetById] @EOQYId INT
+﻿CREATE PROCEDURE [dbo].[EOY_GetById] @EOQYId INT
 AS
 /*
 Created: 20160907@Tim.Trinh
@@ -9,22 +6,22 @@ Task: Get EOY by Id.
 DB: NexGoal
 Original: 
 
-Revisions:  
+Revisions:
+    20170929@Tim.Trinh: get EndDateForCommittee 
 Param's Explanation:
 
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Date DATE
-
-	SET @Date = CAST(GETDATE() AS DATE)
+	DECLARE @Date DATE = GETDATE()
 
 	SELECT EOQYId
 		,[Year]
 		,StartDate
 		,EndDate
 		,RemindDate
+		,EndDateForCommittee
 		,[Description]
 		,(CASE 
 			WHEN StartDate > @Date THEN 0

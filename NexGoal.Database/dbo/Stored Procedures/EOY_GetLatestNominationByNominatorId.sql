@@ -1,7 +1,4 @@
-﻿
-
-
-CREATE PROCEDURE [dbo].[EOY_GetLatestNominationByNominatorId] @NominatorId INT
+﻿CREATE PROCEDURE [dbo].[EOY_GetLatestNominationByNominatorId] @NominatorId INT
 AS
 /*
 Created: 20160912@Tim.Trinh
@@ -9,7 +6,8 @@ Task: Get current nomination by NominatorId.
 DB: NexGoal
 Original: 
 
-Revisions:  
+Revisions:
+    20170929@Tim.Trinh: get EndDateForCommittee  
 Param's Explanation:
 
 */
@@ -23,6 +21,7 @@ BEGIN
 		,eoq.StartDate
 		,eoq.EndDate
 		,eoq.RemindDate
+		,EndDateForCommittee
 	FROM dbo.EOQY AS eoq WITH (NOLOCK)
 		INNER JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON eoq.EOQYId = setting.EOQYId
 	WHERE setting.NominatorId = @NominatorId

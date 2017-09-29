@@ -9,9 +9,6 @@
         var vm = this;
 
         vm.years = [];
-        vm.rawStartDate = null;
-        vm.rawEndDate = null;
-        vm.rawRemindDate = null;
         vm.period = {
             Quarter: "",
             Year: "",

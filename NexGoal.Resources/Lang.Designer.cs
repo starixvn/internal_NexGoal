@@ -3652,6 +3652,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remind Date field is required!.
+        /// </summary>
+        public static string RemindDateRequired {
+            get {
+                return ResourceManager.GetString("RemindDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remind Day.
         /// </summary>
         public static string RemindDay {

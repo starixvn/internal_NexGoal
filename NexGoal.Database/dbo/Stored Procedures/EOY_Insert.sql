@@ -1,15 +1,9 @@
-﻿
-
-
-
-
-
-
-CREATE PROCEDURE [dbo].[EOY_Insert] @EOQYId INT OUTPUT
+﻿CREATE PROCEDURE [dbo].[EOY_Insert] @EOQYId INT OUTPUT
 	,@Year INT
 	,@StartDate DATE
 	,@EndDate DATE
 	,@RemindDate DATE
+	,@EndDateForCommittee DATE
 	,@Description NVARCHAR(200) = NULL
 	,@CreatedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -21,7 +15,8 @@ Task: Insert EOY.
 DB: NexGoal
 Original: 
 
-Revisions:  
+Revisions:
+    20170929@Tim.Trinh: add EndDateForCommittee
 Param's Explanation:
 • @ErrCode:
 	= 0: Transaction recorded successfully.
@@ -32,9 +27,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Date DATETIME
-
-	SET @Date = GETDATE()
+	DECLARE @Date DATETIME = GETDATE()
 
 	IF EXISTS (
 			SELECT 1
@@ -75,6 +68,7 @@ BEGIN
 			,StartDate
 			,EndDate
 			,RemindDate
+			,EndDateForCommittee
 			,IsQuarter
 			,[Description]
 			,ModifiedBy
@@ -85,6 +79,7 @@ BEGIN
 			,@StartDate
 			,@EndDate
 			,@RemindDate
+			,@EndDateForCommittee
 			,0
 			,@Description
 			,@CreatedBy

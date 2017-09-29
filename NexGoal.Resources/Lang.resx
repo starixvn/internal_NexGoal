@@ -1806,4 +1806,7 @@
   <data name="EndDateForCommitteeRequired" xml:space="preserve">
     <value>The End Date For Committee filed is required!</value>
   </data>
+  <data name="RemindDateRequired" xml:space="preserve">
+    <value>Remind Date field is required!</value>
+  </data>
 </root>

@@ -1,7 +1,4 @@
-﻿
-
-
-CREATE PROCEDURE [dbo].[EOY_Get] @Year INT = NULL
+﻿CREATE PROCEDURE [dbo].[EOY_Get] @Year INT = NULL
 	,@StatusId TINYINT = NULL
 AS
 /*
@@ -10,16 +7,15 @@ Task: Get EOY.
 DB: NexGoal
 Original: 
 
-Revisions:  
+Revisions:
+    20170929@Tim.Trinh: get EndDateForCommittee  
 Param's Explanation:
 
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Date DATE
-
-	SET @Date = CAST(GETDATE() AS DATE)
+	DECLARE @Date DATE = GETDATE()
 
 	SELECT EOQYId
 		,[Quarter]
@@ -27,13 +23,11 @@ BEGIN
 		,StartDate
 		,EndDate
 		,RemindDate
+		,EndDateForCommittee
 		,[Description]
 	FROM dbo.EOQY WITH (NOLOCK)
 	WHERE IsQuarter = 0
-		AND (
-			@Year IS NULL
-			OR [Year] = @Year
-			)
+		AND ISNULL(@Year, [Year]) = [Year]
 		AND (
 			@StatusId IS NULL
 			OR (

@@ -14,7 +14,8 @@
                     Description: period.Description,
                     StartDate: period.StartDate,
                     EndDate: period.EndDate,
-                    RemindDate: period.RemindDate
+                    RemindDate: period.RemindDate,
+                    EndDateForCommittee: period.EndDateForCommittee
                 };
 
                 return $http.post(baseUrl + "api/EOQ/CreateEOQ", criteria);
