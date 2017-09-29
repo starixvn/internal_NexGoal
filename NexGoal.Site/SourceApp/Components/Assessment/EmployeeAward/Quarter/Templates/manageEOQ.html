@@ -30,7 +30,7 @@
     <table class="row table table-bordered table-striped">
         <thead>
             <tr class="header-table">
-                <th colspan="8">
+                <th colspan="9">
                     <a href="" class="button pull-left"
                        ng-click="manageEOQCtrl.createEOQ()"
                        ng-if="manageEOQCtrl.permission == manageEOQCtrl.policyEnum.Host">
@@ -48,6 +48,7 @@
                 <th data-translate="StartDate"></th>
                 <th data-translate="EndDate"></th>
                 <th data-translate="RemindDate"></th>
+                <th data-translate="EndDateForCommittee"></th>
                 <th data-translate="Status"></th>
                 <th data-translate="Action" ng-if="manageEOQCtrl.permission === manageEOQCtrl.policyEnum.Host"></th>
             </tr>
@@ -61,6 +62,7 @@
                 <td class="text-center" ng-bind="period.StartDate | date: manageEOQCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="period.EndDate | date: manageEOQCtrl.dateFormat"></td>
                 <td class="text-center" ng-bind="period.RemindDate | date: manageEOQCtrl.dateFormat"></td>
+                <td class="text-center" ng-bind="period.EndDateForCommittee | date: manageEOQCtrl.dateFormat"></td>
                 <td ng-bind="period.StatusToString"
                     ng-class="{'not-started': period.StatusId === 0, 'in-progress': period.StatusId === 1, 'closed': period.StatusId === 2}"
                     class="nomination-period-status text-center"></td>
@@ -80,12 +82,12 @@
                 </td>
             </tr>
             <tr ng-if="manageEOQCtrl.filteredItems.length == 0">
-                <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
+                <td class="empty-result" colspan="9" data-translate="EmptyResult"></td>
             </tr>
         </tbody>
         <tfoot ng-if="manageEOQCtrl.filteredItems.length > 0">
             <tr>
-                <td colspan="8" class="paging">
+                <td colspan="9" class="paging">
                     <span data-translate="Show"></span>
                     <select class="dropdown-entry" ng-model="manageEOQCtrl.pageSize"
                             ng-options="entry for entry in manageEOQCtrl.entries"></select>

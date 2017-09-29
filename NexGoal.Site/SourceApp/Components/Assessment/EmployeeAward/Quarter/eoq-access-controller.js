@@ -48,12 +48,6 @@
             EOQModel.getCurrentEOQByNominatorId().then(function () {
                 vm.period = EOQModel.period;
 
-                if (vm.period) {
-                    var endDate = new Date(vm.period.Period.EndDate);
-
-                    vm.period.Period.InBoardStartDate = endDate.setDate(endDate.getDate() + 1);
-                }
-
                 vm.query();
             });
 

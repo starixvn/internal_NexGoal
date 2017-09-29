@@ -290,7 +290,9 @@
 
         vm.calendar = {
             startDateOpened: false,
-            endDateOpened: false
+            endDateOpened: false,
+            remindDateOpened: false,
+            endDateForCommitteeOpened: false
         };
 
         vm.openPopupStartDate = function (event) {
@@ -299,6 +301,8 @@
 
             vm.calendar.startDateOpened = true;
             vm.calendar.endDateOpened = false;
+            vm.calendar.remindDateOpened = false;
+            vm.calendar.endDateForCommitteeOpened = false;
         };
 
         vm.openPopupEndDate = function (event) {
@@ -307,14 +311,28 @@
 
             vm.calendar.startDateOpened = false;
             vm.calendar.endDateOpened = true;
+            vm.calendar.remindDateOpened = false;
+            vm.calendar.endDateForCommitteeOpened = false;
         };
 
         vm.openPopupRemindDate = function (event) {
             event.preventDefault();
             event.stopPropagation();
 
+            vm.calendar.startDateOpened = false;
             vm.calendar.endDateOpened = false;
             vm.calendar.remindDateOpened = true;
+            vm.calendar.endDateForCommitteeOpened = false;
+        };
+
+        vm.openPopupEndDateForCommittee = function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+
+            vm.calendar.startDateOpened = false;
+            vm.calendar.endDateOpened = false;
+            vm.calendar.remindDateOpened = false;
+            vm.calendar.endDateForCommitteeOpened = true;
         };
 
         vm.validatePeriod = function (period) {
@@ -341,13 +359,24 @@
                     return false;
                 }
 
+                if (!period.RawEndDateForCommittee) {
+                    notificationFactory.error("EndDateForCommitteeRequired");
+                    return false;
+                }
+
                 if (new Date(period.RawStartDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("StartDateGreaterThanEndDateWarning");
                     return false;
                 }
+
                 if (new Date(period.RawRemindDate).setHours(0, 0, 0, 0) < new Date(period.RawStartDate).setHours(0, 0, 0, 0) ||
                     new Date(period.RawRemindDate).setHours(0, 0, 0, 0) > new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
                     notificationFactory.error("RemindDateBetweenStartAndEndDate");
+                    return false;
+                }
+
+                if (new Date(period.RawEndDateForCommittee).setHours(0, 0, 0, 0) < new Date(period.RawEndDate).setHours(0, 0, 0, 0)) {
+                    notificationFactory.error("EndDateForCommitteeGreaterThanEndDateWarning");
                     return false;
                 }
             }

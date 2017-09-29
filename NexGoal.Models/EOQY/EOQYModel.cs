@@ -76,6 +76,10 @@
 
         public DateTime RemindDate { get; set; }
 
+        public DateTime StartDateForCommittee { get { return EndDate.AddDays(1); } }
+
+        public DateTime EndDateForCommittee { get; set; }
+
         public int StatusId
         {
             get
@@ -102,5 +106,22 @@
         }
 
         public string Description { get; set; }
+
+        public int StatusIdForCommittee
+        {
+            get
+            {
+                if (StartDateForCommittee.Date > DateTime.Now.Date)
+                {
+                    return (int)NominationSettingStatus.NotReady;
+                }
+                else if (StartDateForCommittee.Date <= DateTime.Now.Date && EndDateForCommittee.Date >= DateTime.Now.Date)
+                {
+                    return (int)NominationSettingStatus.InProgress;
+                }
+
+                return (int)NominationSettingStatus.Closed;
+            }
+        }
     }
 }

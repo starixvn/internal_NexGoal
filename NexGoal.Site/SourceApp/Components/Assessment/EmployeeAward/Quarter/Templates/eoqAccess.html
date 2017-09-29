@@ -64,47 +64,53 @@
 
                     <div class="panel-body">
                         <div class="evaluation-process-section">
-                            <ul class="evaluation-process"
-                                ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
-                                <li class="process-item in-process">
+                            <ul class="evaluation-process">
+                                <li class="process-item"
+                                    ng-class="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS
+                                        ? 'in-process'
+                                        : (eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_CLOSED_STATUS ? 'end-process' : 'open')">
                                     <div data-translate="Nominator"></div>
                                     <div>
                                         {{eoqAccessCtrl.period.Period.StartDate | customDate}} -
                                         {{eoqAccessCtrl.period.Period.EndDate | customDate}}
                                     </div>
                                     <div>
-                                        <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                            <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
+                                        </div>
+
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                            <span data-translate="Closed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                        </div>
+
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS
+                                             && eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                            <span data-translate="NotReady"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </li>
-                                <li class="process-item open">
+                                <li class="process-item"
+                                    ng-class="eoqAccessCtrl.period.Period.StatusIdForCommittee === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS
+                                        ? 'in-process'
+                                        : (eoqAccessCtrl.period.Period.StatusIdForCommittee === eoqAccessCtrl.PERIOD_CLOSED_STATUS ? 'end-process' : 'open')">
                                     <div data-translate="SelectionCommittee"></div>
                                     <div>
-                                        {{eoqAccessCtrl.period.Period.InBoardStartDate | customDate}}
+                                        {{eoqAccessCtrl.period.Period.StartDateForCommittee | customDate}} -
+                                        {{eoqAccessCtrl.period.Period.EndDateForCommittee | customDate}}
                                     </div>
                                     <div>
-                                        <span data-translate="NotReady"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
-                                    </div>
-                                </li>
-                            </ul>
-                            <ul class="evaluation-process"
-                                ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
-                                <li class="process-item end-process">
-                                    <div data-translate="Nominator"></div>
-                                    <div>
-                                        {{eoqAccessCtrl.period.Period.StartDate | customDate}} -
-                                        {{eoqAccessCtrl.period.Period.EndDate | customDate}}
-                                    </div>
-                                    <div>
-                                        <span data-translate="Closed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
-                                    </div>
-                                </li>
-                                <li class="process-item in-process">
-                                    <div data-translate="SelectionCommittee"></div>
-                                    <div>
-                                        {{eoqAccessCtrl.period.Period.InBoardStartDate | customDate}}
-                                    </div>
-                                    <div>
-                                        <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusIdForCommittee === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                            <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
+                                        </div>
+
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusIdForCommittee === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                            <span data-translate="Closed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
+                                        </div>
+
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusIdForCommittee !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS
+                                             && eoqAccessCtrl.period.Period.StatusIdForCommittee !== eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                            <span data-translate="NotReady"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
+                                        </div>
                                     </div>
                                 </li>
                             </ul>
@@ -203,11 +209,11 @@
                                     ng-model="item.StatusId"
                                     ng-change="eoqAccessCtrl.updateStatusNomination(item)"
                                     ng-options="opt.Value as opt.Name for opt in eoqAccessCtrl.nominationStatus"
-                                    ng-if="eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"
+                                    ng-if="eoqAccessCtrl.period.Period.StatusIdForCommittee === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"
                                     ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': item.StatusId === 3}"></select>
                             <span class="nomination-status"
                                   ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': item.StatusId === 3}"
-                                  ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                  ng-if="eoqAccessCtrl.period.Period.StatusIdForCommittee === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
                                 {{item.StatusToString}}
                             </span>
                         </td>

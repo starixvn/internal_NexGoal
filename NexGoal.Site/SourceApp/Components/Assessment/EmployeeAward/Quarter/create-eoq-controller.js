@@ -21,6 +21,8 @@
             RawEndDate: null,
             RemindDate: null,
             RawRemindDate: null,
+            EndDateForCommittee: null,
+            RawEndDateForCommittee: null,
             Description: null
         };
         vm.calendar = {};
@@ -37,11 +39,16 @@
             EOQModel.openPopupRemindDate(event);
         };
 
+        vm.openPopupEndDateForCommittee = function (event) {
+            EOQModel.openPopupEndDateForCommittee(event);
+        };
+
         vm.submit = function () {
             if (EOQModel.validatePeriod(vm.period)) {
                 vm.period.StartDate = vm.period.RawStartDate ? vm.period.RawStartDate.toDateString() : null;
                 vm.period.EndDate = vm.period.RawEndDate ? vm.period.RawEndDate.toDateString() : null;
                 vm.period.RemindDate = vm.period.RawRemindDate ? vm.period.RawRemindDate.toDateString() : null;
+                vm.period.EndDateForCommittee = vm.period.RawEndDateForCommittee ? vm.period.RawEndDateForCommittee.toDateString() : null;
 
                 EOQModel.createEOQ(vm.period, $modalInstance);
             }

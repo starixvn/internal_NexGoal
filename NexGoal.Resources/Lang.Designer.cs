@@ -1348,6 +1348,33 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to End Date For Committee.
+        /// </summary>
+        public static string EndDateForCommittee {
+            get {
+                return ResourceManager.GetString("EndDateForCommittee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The End Date must be less than the End Date For Committee..
+        /// </summary>
+        public static string EndDateForCommitteeGreaterThanEndDateWarning {
+            get {
+                return ResourceManager.GetString("EndDateForCommitteeGreaterThanEndDateWarning", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The End Date For Committee filed is required!.
+        /// </summary>
+        public static string EndDateForCommitteeRequired {
+            get {
+                return ResourceManager.GetString("EndDateForCommitteeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The End Date field is required for Semi-annual!.
         /// </summary>
         public static string EndDatePeriodRequired {

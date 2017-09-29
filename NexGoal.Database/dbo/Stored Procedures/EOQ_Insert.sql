@@ -1,16 +1,10 @@
-﻿
-
-
-
-
-
-
-CREATE PROCEDURE [dbo].[EOQ_Insert] @EOQYId INT OUTPUT
+﻿CREATE PROCEDURE [dbo].[EOQ_Insert] @EOQYId INT OUTPUT
 	,@Quarter TINYINT
 	,@Year INT
 	,@StartDate DATE
 	,@EndDate DATE
 	,@RemindDate DATE
+	,@EndDateForCommittee DATE
 	,@Description NVARCHAR(200) = NULL
 	,@CreatedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -22,7 +16,8 @@ Task: Insert EOQ.
 DB: NexGoal
 Original: 
 
-Revisions:  
+Revisions:
+    20170929@Tim.Trinh: add EndDateForCommittee  
 Param's Explanation:
 • @ErrCode:
 	= 0: Transaction recorded successfully.
@@ -33,9 +28,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Date DATETIME
-
-	SET @Date = GETDATE()
+	DECLARE @Date DATETIME = GETDATE()
 
 	IF EXISTS (
 			SELECT 1
@@ -78,6 +71,7 @@ BEGIN
 			,StartDate
 			,EndDate
 			,RemindDate
+			,EndDateForCommittee
 			,IsQuarter
 			,[Description]
 			,ModifiedBy
@@ -89,6 +83,7 @@ BEGIN
 			,@StartDate
 			,@EndDate
 			,@RemindDate
+			,@EndDateForCommittee
 			,1
 			,@Description
 			,@CreatedBy
@@ -110,8 +105,8 @@ BEGIN
 			,setting.NominatorId
 			,@CreatedBy
 			,@Date
-		FROM dbo.EOQYNominatorSetting AS setting WITH(NOLOCK)
-			INNER JOIN dbo.EOQY AS eoq  WITH(NOLOCK) ON setting.EOQYId = eoq.EOQYId
+		FROM dbo.EOQYNominatorSetting AS setting WITH (NOLOCK)
+			INNER JOIN dbo.EOQY AS eoq WITH (NOLOCK) ON setting.EOQYId = eoq.EOQYId
 		WHERE eoq.IsQuarter = 1
 			AND eoq.EndDate IN (
 				SELECT MAX(EndDate)

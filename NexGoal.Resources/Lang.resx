@@ -1797,4 +1797,13 @@
   <data name="InvalidEmployeeName" xml:space="preserve">
     <value>The employee's name is invalid</value>
   </data>
+  <data name="EndDateForCommittee" xml:space="preserve">
+    <value>End Date For Committee</value>
+  </data>
+  <data name="EndDateForCommitteeGreaterThanEndDateWarning" xml:space="preserve">
+    <value>The End Date must be less than the End Date For Committee.</value>
+  </data>
+  <data name="EndDateForCommitteeRequired" xml:space="preserve">
+    <value>The End Date For Committee filed is required!</value>
+  </data>
 </root>

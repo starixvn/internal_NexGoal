@@ -30,7 +30,8 @@
                     Year: period.Year,
                     StartDate: period.StartDate,
                     EndDate: period.EndDate,
-                    RemindDate: period.RemindDate
+                    RemindDate: period.RemindDate,
+                    EndDateForCommittee: period.EndDateForCommittee
                 };
 
                 return $http.put(baseUrl + "api/EOQ/UpdateEOQ", criteria);

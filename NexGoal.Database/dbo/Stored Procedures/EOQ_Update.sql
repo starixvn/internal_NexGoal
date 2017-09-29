@@ -1,15 +1,10 @@
-﻿
-
-
-
-
-
-CREATE PROCEDURE [dbo].[EOQ_Update] @EOQYId INT
+﻿CREATE PROCEDURE [dbo].[EOQ_Update] @EOQYId INT
 	,@Quarter INT
 	,@Year INT
 	,@StartDate DATE
 	,@EndDate DATE
 	,@RemindDate DATE
+	,@EndDateForCommittee DATE
 	,@Description NVARCHAR(200) = NULL
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -19,9 +14,10 @@ AS
 Created: 20160901@Tim.Trinh
 Task: Update EOQ.
 DB: NexGoal
-Original: 
+Original:
 
-Revisions:  
+Revisions:
+    20170929@Tim.Trinh: add EndDateForCommittee
 Param's Explanation:
 • @ErrCode:
 	= 0: Transaction recorded successfully.
@@ -51,13 +47,13 @@ BEGIN
 		RETURN
 	END
 
-IF EXISTS (
+	IF EXISTS (
 			SELECT 1
 			FROM dbo.EOQY WITH (NOLOCK)
 			WHERE IsQuarter = 1
 				AND EOQYId != @EOQYId
 				AND [Year] = @Year
-				And [Quarter] = @Quarter
+				AND [Quarter] = @Quarter
 			)
 	BEGIN
 		SELECT @ErrCode = 2
@@ -65,7 +61,7 @@ IF EXISTS (
 
 		RETURN
 	END
-	
+
 	BEGIN TRY
 		BEGIN TRANSACTION
 
@@ -75,6 +71,7 @@ IF EXISTS (
 			,RemindDate = @RemindDate
 			,[Quarter] = @Quarter
 			,[Year] = @Year
+			,EndDateForCommittee = @EndDateForCommittee
 			,[Description] = @Description
 			,ModifiedBy = @ModifiedBy
 			,ModifiedDate = GETDATE()

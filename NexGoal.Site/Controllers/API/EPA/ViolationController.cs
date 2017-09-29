@@ -45,7 +45,6 @@
         public ViolationViewModel GetById(int violationId)
         {
             ViolationViewModel result = violationService.GetById(violationId);
-
             return result;
         }
 
@@ -68,7 +67,6 @@
             };
 
             IEnumerable<ViolationViewModel> result = violationService.GetViolation(criteria);
-
             return result;
         }
 

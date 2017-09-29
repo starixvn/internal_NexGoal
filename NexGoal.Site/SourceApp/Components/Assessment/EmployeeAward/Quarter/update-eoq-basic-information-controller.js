@@ -36,6 +36,10 @@
             EOQModel.openPopupRemindDate(event);
         };
 
+        vm.openPopupEndDateForCommittee = function (event) {
+            EOQModel.openPopupEndDateForCommittee(event);
+        };
+
         $scope.$watch(function () {
             return $scope.updateEOQCtrl.period;
         }, function (newVal) {
@@ -44,6 +48,7 @@
                 vm.period.RawStartDate = vm.period.StartDate ? new Date(vm.period.StartDate) : null;
                 vm.period.RawEndDate = vm.period.EndDate ? new Date(vm.period.EndDate) : null;
                 vm.period.RawRemindDate = vm.period.RemindDate ? new Date(vm.period.RemindDate) : null;
+                vm.period.RawEndDateForCommittee = vm.period.EndDateForCommittee ? new Date(vm.period.EndDateForCommittee) : null;
             }
         });
 
@@ -60,6 +65,7 @@
                 period.StartDate = period.RawStartDate ? period.RawStartDate.toDateString() : null;
                 period.EndDate = period.RawEndDate ? period.RawEndDate.toDateString() : null;
                 period.RemindDate = period.RawRemindDate ? period.RawRemindDate.toDateString() : null;
+                period.EndDateForCommittee = period.RawEndDateForCommittee ? period.RawEndDateForCommittee.toDateString() : null;
 
                 EOQModel.updateEOQ(period).then(function () {
                     $route.reload();
