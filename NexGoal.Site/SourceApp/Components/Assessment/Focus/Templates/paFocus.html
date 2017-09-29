@@ -35,12 +35,10 @@
                 <button class="button" ng-click="paFocusCtrl.query()" data-translate="Search"></button>
                 <button class="button btnExcel" export-focus ng-click="paFocusCtrl.exportExcel()" data-translate="Excel"></button>
             </div>
-
         </div>
-
     </form>
 
-    <div class="panel-group dashboard">
+    <div class="panel-group" style="margin-bottom: 0;">
         <div class="panel panel-default no-border">
             <div class="panel-heading level-2">
                 <h4 class="panel-title" data-translate="EvaluationProcess"></h4>
@@ -52,7 +50,6 @@
                 </div>
             </div>
         </div>
-
     </div>
 
     <br />
@@ -89,7 +86,7 @@
                 <td colspan="13">{{group.Name}}</td>
             </tr>
             <tr ng-repeat="member in group.Members"
-                ng-class="{'noticeable-performance very-good': member.Contribution + member.BonusGiven >
+                ng-class="{'noticeable-performance very-good': member.Contribution + member.BonusGiven>
                 8 && !member.IsReadyPromotion,
                 'noticeable-performance outstanding': member.Contribution + member.BonusGiven > 8 && member.IsReadyPromotion,
                 'noticeable-performance poor': member.Contribution + member.BonusGiven < 4 && member.Contribution > 0 && member.BonusGiven > 0 }">
