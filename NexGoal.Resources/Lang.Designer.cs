@@ -2239,6 +2239,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The employee&apos;s name is invalid.
+        /// </summary>
+        public static string InvalidEmployeeName {
+            get {
+                return ResourceManager.GetString("InvalidEmployeeName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Invalid input..
         /// </summary>
         public static string InvalidInputData {

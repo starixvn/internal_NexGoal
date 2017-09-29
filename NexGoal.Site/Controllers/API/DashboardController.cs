@@ -2,7 +2,7 @@
 {
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.Report;
-    using NexGoal.Model.Report.Dashboard;
+    using NexGoal.Model.Dashboard;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
     using System.Linq;
@@ -29,14 +29,12 @@
         [HttpGet]
         public DashboardModel GetDashboard()
         {
-            DashboardModel dashboard = new DashboardModel();
-
             var criteria = new GetDashboardCriteria()
             {
                 EmployeeId = SessionService.EmployeeId
             };
 
-            dashboard = _reportService.GetDashboard(criteria);
+            DashboardModel dashboard = _reportService.GetDashboard(criteria);
             dashboard.Employee = this.employeeService.GetEmployeeById(SessionService.EmployeeId);
             dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
 

@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Model.Report.Dashboard
+﻿namespace NexGoal.Model.Dashboard
 {
     using NexGoal.Model.Employee;
     using NexGoal.Model.EmployeeEPA;

@@ -53,6 +53,8 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Authentication\LoginModel.cs" />
+    <Compile Include="Dashboard\DashboardModel.cs" />
+    <Compile Include="Dashboard\ToDoList.cs" />
     <Compile Include="EmployeeEPA\EmployeeOtherViolationDetailModel.cs" />
     <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />
     <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />
@@ -87,7 +89,6 @@
     <Compile Include="Nomination\QuestionModel.cs" />
     <Compile Include="PAFocus\PAFocusModel.cs" />
     <Compile Include="PAFocus\FocusProcessSettingModel.cs" />
-    <Compile Include="Report\Dashboard\DashboardModel.cs" />
     <Compile Include="Department\DepartmentInfoModel.cs" />
     <Compile Include="Department\DepartmentModel.cs" />
     <Compile Include="EmployeeEPA\EPAModel.cs" />

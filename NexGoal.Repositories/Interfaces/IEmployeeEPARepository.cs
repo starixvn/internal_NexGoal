@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Repositories.Interfaces
 {
     using Fanex.Data.Repository;
+    using NexGoal.Model.Dashboard;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
-    using NexGoal.Model.Report.Dashboard;
     using System.Collections.Generic;
 
     public interface IEmployeeEPARepository

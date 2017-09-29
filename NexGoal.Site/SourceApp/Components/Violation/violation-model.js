@@ -64,6 +64,11 @@
             if (!violation) {
                 return false;
             } else {
+                if (violation.Employee.length > 0 && !violation.EmployeeId) {
+                    notificationFactory.error("InvalidEmployeeName");
+                    return false;
+                }
+
                 if (!violation.EmployeeId) {
                     notificationFactory.error("EmployeeRequired");
                     return false;

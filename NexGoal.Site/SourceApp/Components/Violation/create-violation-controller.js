@@ -45,6 +45,7 @@
         };
 
         vm.submit = function () {
+            vm.violation.Employee = vm.searchEmployee;
             if (vm.filteredEmployee) {
                 vm.violation.EmployeeId = vm.filteredEmployee.EmployeeId;
             }

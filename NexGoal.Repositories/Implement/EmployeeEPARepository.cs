@@ -3,9 +3,9 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Model.Dashboard;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
-    using NexGoal.Model.Report.Dashboard;
     using NexGoal.Model.ScoreRatingType;
     using NexGoal.Repositories.Interfaces;
     using System.Collections.Generic;

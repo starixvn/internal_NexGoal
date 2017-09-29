@@ -1794,4 +1794,7 @@
   <data name="NominationReport" xml:space="preserve">
     <value>Nomination Report</value>
   </data>
+  <data name="InvalidEmployeeName" xml:space="preserve">
+    <value>The employee's name is invalid</value>
+  </data>
 </root>

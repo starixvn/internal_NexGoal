@@ -2,8 +2,8 @@
 {
     using Model;
     using NexGoal.Criteria.Report;
+    using NexGoal.Model.Dashboard;
     using NexGoal.Model.Report;
-    using NexGoal.Model.Report.Dashboard;
     using NexGoal.Model.Report.EPADetail;
     using System.Collections.Generic;
 
