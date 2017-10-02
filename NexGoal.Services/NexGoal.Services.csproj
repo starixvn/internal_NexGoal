@@ -142,6 +142,7 @@
   <ItemGroup>
     <Compile Include="Implement\AttendanceSummaryService.cs" />
     <Compile Include="Implement\CommonService.cs" />
+    <Compile Include="Implement\DashboardService.cs" />
     <Compile Include="Implement\EPA\RecalculateScoreService.cs" />
     <Compile Include="Implement\EPA\ViolationService.cs" />
     <Compile Include="Implement\ExportFile\MasterExportService.cs" />
@@ -177,6 +178,7 @@
     <Compile Include="Interfaces\ExportFile\IRazorRenderService.cs" />
     <Compile Include="Interfaces\IAttendanceSummaryService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
+    <Compile Include="Interfaces\IDashboardService.cs" />
     <Compile Include="Interfaces\IDepartmentService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
     <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />

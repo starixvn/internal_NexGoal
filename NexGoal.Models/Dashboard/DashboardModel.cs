@@ -9,5 +9,7 @@
         public EmployeeModel Employee { get; set; }
 
         public IEnumerable<EPAModel> MyEPAs { get; set; }
+
+        public ToDoListModel ToDoList { get; set; }
     }
 }

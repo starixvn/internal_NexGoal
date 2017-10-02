@@ -10,8 +10,8 @@
 
     public class DashboardController : BaseController
     {
-        private readonly IReportService _reportService;
-        private readonly IEmployeeService employeeService;
+        private readonly IReportService reportService;
+        private readonly IDashboardService dashboardService;
 
         public DashboardController() :
             this(null, null)
@@ -20,10 +20,10 @@
 
         public DashboardController(
             IReportService reportService,
-            IEmployeeService employeeService)
+            IDashboardService dashboardService)
         {
-            _reportService = reportService ?? new ReportService();
-            this.employeeService = employeeService ?? new EmployeeService();
+            this.reportService = reportService ?? new ReportService();
+            this.dashboardService = dashboardService ?? new DashboardService();
         }
 
         [HttpGet]
@@ -34,9 +34,9 @@
                 EmployeeId = SessionService.EmployeeId
             };
 
-            DashboardModel dashboard = _reportService.GetDashboard(criteria);
-            dashboard.Employee = this.employeeService.GetEmployeeById(SessionService.EmployeeId);
+            DashboardModel dashboard = reportService.GetDashboard(criteria);
             dashboard.MyEPAs = dashboard.MyEPAs.Where(x => x.Period.TargetTypeId != (int)TargetType.Monthly);
+            dashboard.ToDoList = dashboardService.GetToDoList(SessionService.EmployeeId);
 
             return dashboard;
         }

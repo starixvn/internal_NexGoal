@@ -3,6 +3,7 @@
     using Core.Constants;
     using Core.Enumerations;
     using Fanex.Data.Repository;
+    using Model.Nomination;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Core.Utilities;

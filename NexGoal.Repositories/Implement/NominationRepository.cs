@@ -2,6 +2,7 @@
 {
     using Fanex.Data;
     using Fanex.Data.Repository;
+    using Model.Nomination;
     using NexGoal.Model;
     using NexGoal.Model.Department;
     using NexGoal.Model.Enitites;

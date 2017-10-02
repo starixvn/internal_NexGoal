@@ -53,8 +53,11 @@
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
     <Compile Include="Authentication\LoginModel.cs" />
+    <Compile Include="Dashboard\EPAInfoModel.cs" />
+    <Compile Include="Dashboard\NominationModel.cs" />
     <Compile Include="Dashboard\DashboardModel.cs" />
-    <Compile Include="Dashboard\ToDoList.cs" />
+    <Compile Include="Dashboard\PAFocusModel.cs" />
+    <Compile Include="Dashboard\ToDoListModel.cs" />
     <Compile Include="EmployeeEPA\EmployeeOtherViolationDetailModel.cs" />
     <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />
     <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />

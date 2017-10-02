@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using Model.Nomination;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;

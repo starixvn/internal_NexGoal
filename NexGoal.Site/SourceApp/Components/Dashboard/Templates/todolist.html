@@ -1,0 +1,17 @@
+﻿<div class="panel-body">
+    <div ng-repeat="epaInfo in dashboardCtrl.toDoList.EPAInfos">
+        <p class="green-border">
+            
+        </p>
+    </div>
+    <div ng-repeat="nomination in dashboardCtrl.toDoList.Nominations">
+        <p class="green-border">
+            You are given until <strong ng-bind="nomination.EndDate | date : 'dd MMM, yyyy'"></strong> to complete <strong>{{nomination.Title}}</strong>
+        </p>
+    </div>
+    <div ng-repeat="pafocus in dashboardCtrl.toDoList.PAFocuses">
+        <p class="green-border">
+            You are given until <strong ng-bind="pafocus.EndDate | date : 'dd MMM, yyyy'"></strong> to complete PA Focus for <strong>{{pafocus.PeriodName}}</strong>
+        </p>
+    </div>
+</div>

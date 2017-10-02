@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
     using Fanex.Data.Repository;
+    using Model.Nomination;
     using NexGoal.Core.Model;
     using NexGoal.Criteria;
     using NexGoal.Model;

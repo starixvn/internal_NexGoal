@@ -473,4 +473,7 @@
         <Setting Key="Violation_GetByPeriodId" SpName="Violation_GetByPeriodId" DbName="NexGoal" Plain="0">
         </Setting>
     </Function>
+    <Function Name="Dashboard">
+        <Setting Key="Dashboard_GetToDoList" SpName="Dashboard_GetToDoList" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
 </Functions>

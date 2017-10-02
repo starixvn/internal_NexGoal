@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Services.Implement
 {
     using Model;
+    using Model.Dashboard;
     using NexGoal.Criteria.Report;
-    using NexGoal.Model.Dashboard;
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Repositories.Implement;
@@ -53,7 +53,7 @@
 
         public DashboardModel GetDashboard(GetDashboardCriteria criteria)
         {
-            DashboardModel result = new DashboardModel();
+            var result = new DashboardModel();
 
             if (criteria != null && criteria.IsValid())
             {
@@ -81,7 +81,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                IEnumerable<NominationModel> nominations = reportRepository.GetNomination(criteria);
+                IEnumerable<Model.Nomination.NominationModel> nominations = reportRepository.GetNomination(criteria);
 
                 result = nominations.GroupBy(
                     x => new { x.Period.EOQYId, x.Nominee.EmployeeId },

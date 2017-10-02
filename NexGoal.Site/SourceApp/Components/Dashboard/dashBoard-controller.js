@@ -4,7 +4,7 @@
     dashboardModule.controller("DashboardController", dashboardController);
 
     dashboardController.$inject = ["$interval", "$location", 'DashboardModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl','EmployeeEPAModel'];
+    'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl', 'EmployeeEPAModel'];
 
     function dashboardController($interval, $location, DashboardModel, CommonModel,
     utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl, EmployeeEPAModel) {
@@ -72,9 +72,9 @@
             DashboardModel.getDashboard().then(function () {
                 var dashboardInfo = DashboardModel.dashboardInfo;
 
-                vm.employee = dashboardInfo.Employee;                
                 vm.evaluationProcesses = [];
                 vm.myEPAs = dashboardInfo.MyEPAs;
+                vm.toDoList = dashboardInfo.ToDoList;
 
                 angular.forEach(vm.myEPAs, function (myEPA) {
                     if (myEPA.Period.IsEndPeriod && myEPA.FinalScore.length > 0) {

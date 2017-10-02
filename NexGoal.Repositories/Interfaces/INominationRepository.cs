@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Repositories.Interfaces
 {
     using Fanex.Data.Repository;
+    using Model.Nomination;
     using NexGoal.Model;
     using System.Collections.Generic;
 

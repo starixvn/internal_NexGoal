@@ -54,12 +54,15 @@
                         case 1:
                             title = "Employee of 1st Quarter, " + Year.ToString();
                             break;
+
                         case 2:
                             title = "Employee of 2nd Quarter, " + Year.ToString();
                             break;
+
                         case 3:
                             title = "Employee of 3rd Quarter, " + Year.ToString();
                             break;
+
                         default:
                             title = "Employee of 4th Quarter, " + Year.ToString();
                             break;
@@ -76,7 +79,10 @@
 
         public DateTime RemindDate { get; set; }
 
-        public DateTime StartDateForCommittee { get { return EndDate.AddDays(1); } }
+        public DateTime StartDateForCommittee
+        {
+            get { return EndDate.AddDays(1); }
+        }
 
         public DateTime EndDateForCommittee { get; set; }
 

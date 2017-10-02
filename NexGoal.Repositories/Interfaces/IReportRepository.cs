@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Repositories.Interfaces
 {
     using Fanex.Data.Repository;
-    using Model;
+    using Model.Nomination;
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.EPADetail;
     using System.Collections.Generic;

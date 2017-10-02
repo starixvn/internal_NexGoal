@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Model
+﻿namespace NexGoal.Model.Nomination
 {
     using System.Collections.Generic;
 

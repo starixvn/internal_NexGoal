@@ -1809,4 +1809,7 @@
   <data name="RemindDateRequired" xml:space="preserve">
     <value>Remind Date field is required!</value>
   </data>
+  <data name="ToDoList" xml:space="preserve">
+    <value>To Do List</value>
+  </data>
 </root>

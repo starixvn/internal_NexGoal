@@ -4552,6 +4552,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to To Do List.
+        /// </summary>
+        public static string ToDoList {
+            get {
+                return ResourceManager.GetString("ToDoList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to TOEIC Score.
         /// </summary>
         public static string ToeicScore {
