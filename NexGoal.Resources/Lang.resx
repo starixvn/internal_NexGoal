@@ -438,12 +438,6 @@
   <data name="EPA" xml:space="preserve">
     <value>PA</value>
   </data>
-  <data name="AdjustDiscipline" xml:space="preserve">
-    <value>Adjust Discipline</value>
-  </data>
-  <data name="DisciplineReport" xml:space="preserve">
-    <value>Discipline Report</value>
-  </data>
   <data name="CheckAssignment" xml:space="preserve">
     <value>Check Assignment</value>
   </data>
@@ -723,9 +717,6 @@
   <data name="MemberEPA" xml:space="preserve">
     <value>Member PA</value>
   </data>
-  <data name="DepartmentSection" xml:space="preserve">
-    <value>Department / Section</value>
-  </data>
   <data name="DisciplineScore" xml:space="preserve">
     <value>Discipline Score</value>
   </data>
@@ -801,9 +792,6 @@
   <data name="Type" xml:space="preserve">
     <value>Type</value>
   </data>
-  <data name="EmployeeRating" xml:space="preserve">
-    <value>Employee Rating</value>
-  </data>
   <data name="EmployeeScore" xml:space="preserve">
     <value>Employee Score</value>
   </data>
@@ -822,9 +810,6 @@
   <data name="CommentByEvaluator" xml:space="preserve">
     <value>Comment by evaluator</value>
   </data>
-  <data name="EmployeePerformanceScore" xml:space="preserve">
-    <value>Employee Performance Score</value>
-  </data>
   <data name="EPAResult" xml:space="preserve">
     <value>PA Result</value>
   </data>
@@ -836,9 +821,6 @@
   </data>
   <data name="EmployeeCode" xml:space="preserve">
     <value>Employee Code</value>
-  </data>
-  <data name="DisciplineSummary" xml:space="preserve">
-    <value>Discipline Summary</value>
   </data>
   <data name="Absent" xml:space="preserve">
     <value>Absent</value>
@@ -906,9 +888,6 @@
   <data name="WorkDateRequried" xml:space="preserve">
     <value>The Work Date filed is required!</value>
   </data>
-  <data name="DisciplineSummaryDetail" xml:space="preserve">
-    <value>Discipline Detail Adjustment</value>
-  </data>
   <data name="ApproverComment" xml:space="preserve">
     <value>Approver's Comment</value>
   </data>
@@ -968,9 +947,6 @@
   </data>
   <data name="UnpaidLeaveShort" xml:space="preserve">
     <value>UPL</value>
-  </data>
-  <data name="AddOtherViolations" xml:space="preserve">
-    <value>Add Other Violations</value>
   </data>
   <data name="EmployeeRequired" xml:space="preserve">
     <value>The Employee field is required!</value>
@@ -1478,9 +1454,6 @@
   </data>
   <data name="FocusStartDate" xml:space="preserve">
     <value>Focus Start Date</value>
-  </data>
-  <data name="AddTeamOrEmployee" xml:space="preserve">
-    <value>Add Team / Employee</value>
   </data>
   <data name="ListOfEmployee" xml:space="preserve">
     <value>List Of Employee</value>

@@ -1,8 +1,8 @@
 ﻿'use strict';
 /*exported employeeModule, commonModule, kpiModule, kpiGroupModule, roleModule, targetTemplateModule*/
 /*exported flowMngModule, targetEmployeeSettingModule, departmentModule*/
-/*exported epaModule, periodModule, dashboardModule, attendanceModule, reportModule*/
-/*exported monthlyPeriodModule, menuModule, userInfoModule, pageModule*/
+/*exported epaModule, periodModule, dashboardModule, reportModule*/
+/*exported menuModule, userInfoModule, pageModule*/
 
 var pageModule = angular.module("pageModule", []);
 
@@ -91,12 +91,6 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/detail.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Reviewer/SemiDetail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/semiDetail.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Management/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/index.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Management/Detail/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/detail.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Management/SemiDetail/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Management/Templates/semiDetail.html', caseInsensitiveMatch: true });
     $routeProvider.when('/EPA/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewDetail.html', caseInsensitiveMatch: true });
     $routeProvider.when('/EPA/SemiDetail/:id',
@@ -129,43 +123,15 @@ var dashboardModule = angular.module("dashboardModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/Dashboard/Templates/index.html', caseInsensitiveMatch: true });
 }]);
 
-var attendanceModule = angular.module("attendanceModule", ['ngRoute'])
-.config(['$routeProvider', function ($routeProvider) {
-    var baseUrl = $("base").first().attr("href");
-    $routeProvider.when('/Discipline/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/index.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Discipline/Detail/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Discipline/Detail',
-    { templateUrl: baseUrl + 'SourceApp/Components/AttendanceSummary/Templates/detail.html', caseInsensitiveMatch: true });
-}]);
-
 var reportModule = angular.module("reportModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
     var baseUrl = $("base").first().attr("href");
-    $routeProvider.when('/Report/EPASummaryReport',
-    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPASummaryReport.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Report/EPADetailReport',
-    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/EPADetailReport.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Report/MonthlyEPADetailReport',
-    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPADetailReport.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Report/MonthlyEPASummaryReport',
-    { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/MonthlyEPASummaryReport.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Report/MasterReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/masterReport.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Report/PAReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/paReport.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Report/NominationReport',
     { templateUrl: baseUrl + 'SourceApp/Components/Report/Templates/nominationReport.html', caseInsensitiveMatch: true });
-}]);
-
-var monthlyPeriodModule = angular.module("monthlyPeriodModule", ['ngRoute'])
-.config(['$routeProvider', function ($routeProvider) {
-    var baseUrl = $("base").first().attr("href");
-    $routeProvider.when('/MonthlyPeriod/Index',
-    { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/index.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/MonthlyPeriod/Update/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/MonthlyPeriod/Templates/edit.html', caseInsensitiveMatch: true });
 }]);
 
 var menuModule = angular.module("menuModule", ["ngRoute"]);

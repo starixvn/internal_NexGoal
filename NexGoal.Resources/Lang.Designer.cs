@@ -142,33 +142,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Add Other Violations.
-        /// </summary>
-        public static string AddOtherViolations {
-            get {
-                return ResourceManager.GetString("AddOtherViolations", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Add Team / Employee.
-        /// </summary>
-        public static string AddTeamOrEmployee {
-            get {
-                return ResourceManager.GetString("AddTeamOrEmployee", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Adjust Discipline.
-        /// </summary>
-        public static string AdjustDiscipline {
-            get {
-                return ResourceManager.GetString("AdjustDiscipline", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Adjustment Score.
         /// </summary>
         public static string AdjustmentScore {
@@ -916,15 +889,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Department / Section.
-        /// </summary>
-        public static string DepartmentSection {
-            get {
-                return ResourceManager.GetString("DepartmentSection", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Department / Team.
         /// </summary>
         public static string DepartmentTeam {
@@ -997,15 +961,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discipline Report.
-        /// </summary>
-        public static string DisciplineReport {
-            get {
-                return ResourceManager.GetString("DisciplineReport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Discipline Score.
         /// </summary>
         public static string DisciplineScore {
@@ -1038,24 +993,6 @@ namespace NexGoal.Resources {
         public static string DisciplineStartDatePeriodRequired {
             get {
                 return ResourceManager.GetString("DisciplineStartDatePeriodRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Discipline Summary.
-        /// </summary>
-        public static string DisciplineSummary {
-            get {
-                return ResourceManager.GetString("DisciplineSummary", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Discipline Detail Adjustment.
-        /// </summary>
-        public static string DisciplineSummaryDetail {
-            get {
-                return ResourceManager.GetString("DisciplineSummaryDetail", resourceCulture);
             }
         }
         
@@ -1281,24 +1218,6 @@ namespace NexGoal.Resources {
         public static string EmployeeNotSetMonthlyEvaluation {
             get {
                 return ResourceManager.GetString("EmployeeNotSetMonthlyEvaluation", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Employee Performance Score.
-        /// </summary>
-        public static string EmployeePerformanceScore {
-            get {
-                return ResourceManager.GetString("EmployeePerformanceScore", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Employee Rating.
-        /// </summary>
-        public static string EmployeeRating {
-            get {
-                return ResourceManager.GetString("EmployeeRating", resourceCulture);
             }
         }
         

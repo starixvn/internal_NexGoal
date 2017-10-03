@@ -38,21 +38,9 @@
         </div>
     </form>
 
-    <div class="panel-group" style="margin-bottom: 0;">
-        <div class="panel panel-default no-border">
-            <div class="panel-heading level-2">
-                <h4 class="panel-title" data-translate="EvaluationProcess"></h4>
-            </div>
-
-            <div class="panel-body">
-                <div class="evaluation-process-section"
-                     ng-include src="'/SourceApp/Components/Assessment/Focus/Templates/focusProcess.html'">
-                </div>
-            </div>
-        </div>
+    <div class="focus-process evaluation-process-section" ng-if="paFocusCtrl.process[0] !== null"
+         ng-include src="'/SourceApp/Components/Assessment/Focus/Templates/focusProcess.html'">
     </div>
-
-    <br />
 
     <table class="table table-bordered table-striped pa-focus-table employee-performance-table comment-wrapper">
         <thead>

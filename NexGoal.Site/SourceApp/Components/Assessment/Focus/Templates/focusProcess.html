@@ -1,26 +1,19 @@
-﻿<ul class="evaluation-process" ng-if="paFocusCtrl.process.length === 2">
+﻿<ul class="evaluation-process">
     <li ng-class="paFocusCtrl.getClassProgress(paFocusCtrl.process[0].ProcessStatus)" class="process-item">
         <div>
-            <span>{{"Evaluator" | translate}} </span>
-        </div>
-        <div>
+            Evaluator Process:
             <span>
-                {{paFocusCtrl.process[0].StartDate | customDate}} -
-                {{paFocusCtrl.process[0].EndDate | customDate}}
+                {{paFocusCtrl.process[0].StartDate | customDate}} - {{paFocusCtrl.process[0].EndDate | customDate}}
             </span>
         </div>
-        <div ng-if="paFocusCtrl.process[0].ProcessStatus == paFocusCtrl.processStatus.Closed">
+        <div ng-if="paFocusCtrl.process[0].ProcessStatus === paFocusCtrl.processStatus.Closed">
             <span data-translate="Completed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
         </div>
-        <div ng-if="paFocusCtrl.process[0].ProcessStatus == paFocusCtrl.processStatus.InProgress">
+        <div ng-if="paFocusCtrl.process[0].ProcessStatus === paFocusCtrl.processStatus.InProgress">
             <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
         </div>
-        <div ng-if="paFocusCtrl.process[0].ProcessStatus == paFocusCtrl.processStatus.Open" aria-hidden="true">
+        <div ng-if="paFocusCtrl.process[0].ProcessStatus === paFocusCtrl.processStatus.Open" aria-hidden="true">
             <span data-translate="Open"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
         </div>
     </li>
 </ul>
-<div class="evaluation-process" ng-if="paFocusCtrl.process.length !== 2">
-    <div class="text-center empty-result" data-translate="EmptyResult"></div>
-    <br />
-</div>
