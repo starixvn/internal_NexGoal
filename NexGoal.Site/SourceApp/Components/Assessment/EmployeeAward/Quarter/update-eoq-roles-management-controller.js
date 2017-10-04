@@ -10,7 +10,7 @@
         enumerationsFactory, lockScreenService) {
         var vm = this;
 
-        vm.IN_BOARD_ROLE = 2;
+        vm.COMMITTEE_ROLE = 2;
         vm.NOMINATOR_ROLE = 1;
         vm.period = {};
         vm.nominatorSettings = [];
@@ -82,11 +82,6 @@
                 vm.filter.showAllEmployee).then(function () {
                     vm.nominatorSettings = EOQModel.nominatorSettings;
 
-                    angular.forEach(vm.nominatorSettings, function (nominator) {
-                        nominator.IsInBoard = nominator.RoleId === vm.IN_BOARD_ROLE;
-                        nominator.IsNominator = nominator.RoleId === vm.NOMINATOR_ROLE;
-                    });
-
                     vm.searchKey = '';
                     vm.currentPage = 1;
 
@@ -97,17 +92,21 @@
         };
 
         vm.modifyRole = function (nominator, role) {
-            if (role === vm.IN_BOARD_ROLE) {
-                nominator.RoleId = nominator.IsInBoard ? vm.IN_BOARD_ROLE : 0;
-                nominator.IsNominator = false;
-            } else if (role === vm.NOMINATOR_ROLE) {
-                nominator.RoleId = nominator.IsNominator ? vm.NOMINATOR_ROLE : 0;
-                nominator.IsInBoard = false;
+            if (role === vm.NOMINATOR_ROLE) {
+                if (nominator.IsNominator) {
+                    nominator.Roles.push(vm.NOMINATOR_ROLE);
+                } else {
+                    nominator.Roles.splice(nominator.Roles.indexOf(vm.NOMINATOR_ROLE), 1);
+                }
             } else {
-                nominator.RoleId = 0;
-                nominator.IsInBoard = false;
-                nominator.IsNominator = false;
+                if (nominator.IsCommittee) {
+                    nominator.Roles.push(vm.COMMITTEE_ROLE);
+                } else {
+                    nominator.Roles.splice(nominator.Roles.indexOf(vm.COMMITTEE_ROLE), 1);
+                }
             }
+
+            nominator.RoleIds = nominator.Roles.join(',');
 
             lockScreenService.start();
 

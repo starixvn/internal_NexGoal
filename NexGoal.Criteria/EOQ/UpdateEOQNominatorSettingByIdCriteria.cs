@@ -27,7 +27,7 @@
                 {
                     foreach (NominatorSettingModel nominator in Nominators)
                     {
-                        settingXml.AppendFormat(NominatorSettingXmlTemp, nominator.RoleId, nominator.NominatorInfo.EmployeeId);
+                        settingXml.AppendFormat(NominatorSettingXmlTemp, nominator.RoleIds, nominator.NominatorInfo.EmployeeId);
                     }
                 }
 

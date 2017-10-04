@@ -6,15 +6,14 @@ Task: Get current nomination by NominatorId.
 DB: NexGoal
 Original: 
 
-Revisions:
-    20170929@Tim.Trinh: get EndDateForCommittee
+Revisions:  
 Param's Explanation:
 
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT TOP 1 setting.RoleId
+	SELECT TOP 1 setting.RoleId AS RoleIds
 		,eoq.EOQYId
 		,eoq.[Quarter]
 		,eoq.[Year]

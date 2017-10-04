@@ -8,8 +8,6 @@
     function viewEOQDetailController($routeParams, $filter, EOQModel, CommonModel, historyFactory, utilitiesFactory, lockScreenService) {
         var vm = this;
         var firstRolesManagementLoaded = true;
-        var IN_BOARD_ROLE = 2;
-        var NOMINATOR_ROLE = 1;
 
         vm.period = null;
         vm.eoqyId = parseInt($routeParams.id, 10);
@@ -95,11 +93,6 @@
                 vm.filter.roleId,
                 vm.filter.showAllEmployee).then(function () {
                     vm.nominatorSettings = EOQModel.nominatorSettings;
-
-                    angular.forEach(vm.nominatorSettings, function (nominator) {
-                        nominator.IsInBoard = nominator.RoleId === IN_BOARD_ROLE;
-                        nominator.IsNominator = nominator.RoleId === NOMINATOR_ROLE;
-                    });
 
                     vm.searchKey = '';
                     vm.currentPage = 1;

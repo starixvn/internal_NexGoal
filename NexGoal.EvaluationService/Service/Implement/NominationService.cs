@@ -15,10 +15,10 @@ namespace NexGoal.BackgroundService
         private readonly INominationService nominationService;
         private readonly IMailService mailService;
 
-        private string startMailToNominator = "Views\\Emails\\StartNominationToNominator.cshtml";
-        private string startMailToManagement = "Views\\Emails\\StartNominationToManagement.cshtml";
-        private string endMailToManagement = "Views\\Emails\\EndNominationToManagement.cshtml";
-        private string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+        private readonly string startMailToNominator = "Views\\Emails\\StartNominationToNominator.cshtml";
+        private readonly string startMailToManagement = "Views\\Emails\\StartNominationToManagement.cshtml";
+        private readonly string endMailToManagement = "Views\\Emails\\EndNominationToManagement.cshtml";
+        private readonly string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
 
         public NominationEmailService() : this(null, null)
         {
@@ -76,7 +76,7 @@ namespace NexGoal.BackgroundService
             IEnumerable<EOQYEmailModel> nominations = nominationService.GetToSendEmail(criteria);
             foreach (var nomination in nominations)
             {
-                foreach (var email in nomination.EmailNominator.Where(i => i.RoleId == (int)NominationRole.NominationBoard))
+                foreach (var email in nomination.EmailNominator.Where(i => i.RoleId == (int)NominationRole.Committee))
                 {
                     mailService.SendEndMailToManagement(Path.Combine(assemblyPath, endMailToManagement), nomination.Nomination, email);
                 }

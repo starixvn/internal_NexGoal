@@ -1,6 +1,4 @@
-﻿
-
-CREATE PROCEDURE [dbo].[EOQY_GetToSendEmailWhenReminding]
+﻿CREATE PROCEDURE [dbo].[EOQY_GetToSendEmailWhenReminding]
 AS
 /*
 Created: 20161229@Razor.Nguyen
@@ -14,9 +12,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @NominatorType TINYINT
-
-	SET @NominatorType = 1
+	DECLARE @NominatorType TINYINT = 1
+		,@Today DATE = GETDATE()
 
 	SELECT EOQYId
 		,[Quarter]
@@ -26,19 +23,20 @@ BEGIN
 		,RemindDate
 		,[Description]
 	FROM dbo.EOQY WITH (NOLOCK)
-	WHERE RemindDate = CAST(GETDATE() AS DATE)
+	WHERE RemindDate = @Today
 	ORDER BY [Year]
 		,[Quarter] DESC
 
 	SELECT eoqy.EOQYId
-		,setting.RoleId
+		,f.val AS RoleId
 		,e.NickName
 		,e.Email
 	FROM dbo.EOQY AS eoqy WITH (NOLOCK)
-		INNER JOIN dbo.EOQYNominatorSetting AS setting WITH(NOLOCK) ON setting.EOQYId = eoqy.EOQYId
+		INNER JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON setting.EOQYId = eoqy.EOQYId
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON e.EmployeeId = setting.NominatorId
-	WHERE eoqy.RemindDate = CAST(GETDATE() AS DATE)
-		AND setting.RoleId = @NominatorType
+		CROSS APPLY dbo.fnc_strSplit(setting.RoleId, ',') AS f
+	WHERE eoqy.RemindDate = @Today
+		AND f.val = @NominatorType
 	ORDER BY [Year]
 		,[Quarter] DESC
 END

@@ -1,6 +1,4 @@
-﻿
-
-CREATE PROCEDURE [dbo].[EOQY_GetToSendEmailWhenBegining]
+﻿CREATE PROCEDURE [dbo].[EOQY_GetToSendEmailWhenBegining]
 AS
 /*
 Created: 20161229@Razor.Nguyen
@@ -14,6 +12,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @Today DATE = GETDATE()
+
 	SELECT EOQYId
 		,[Quarter]
 		,[Year]
@@ -22,18 +22,19 @@ BEGIN
 		,RemindDate
 		,[Description]
 	FROM dbo.EOQY WITH (NOLOCK)
-	WHERE StartDate = CAST(GETDATE() AS DATE)
+	WHERE StartDate = @Today
 	ORDER BY [Year]
 		,[Quarter] DESC
 
 	SELECT eoqy.EOQYId
 		,e.NickName
 		,e.Email
-		,setting.RoleId
+		,f.val AS RoleId
 	FROM dbo.EOQY AS eoqy WITH (NOLOCK)
-		INNER JOIN dbo.EOQYNominatorSetting AS setting WITH(NOLOCK) ON setting.EOQYId = eoqy.EOQYId
+		INNER JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON setting.EOQYId = eoqy.EOQYId
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON e.EmployeeId = setting.NominatorId
-	WHERE eoqy.StartDate = CAST(GETDATE() AS DATE)
+		CROSS APPLY dbo.fnc_strSplit(setting.RoleId, ',') AS f
+	WHERE eoqy.StartDate = @Today
 	ORDER BY [Year]
 		,[Quarter] DESC
 END

@@ -10,7 +10,7 @@ namespace NexGoal.Model.Dashboard
 
         public int Quarter { get; set; }
 
-        public int RoleId { get; set; }
+        public string RoleIds { get; set; }
 
         public string Title
         {

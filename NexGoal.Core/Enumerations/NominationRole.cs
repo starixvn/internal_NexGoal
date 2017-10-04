@@ -10,7 +10,7 @@
         [Description("Nominator")]
         Nominator = 1,
 
-        [Description("Nomination Board")]
-        NominationBoard = 2
+        [Description("Committee")]
+        Committee = 2
     }
 }

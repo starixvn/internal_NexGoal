@@ -8,8 +8,9 @@
     function eoqAccessController($scope, EOQModel, CommonModel, enumerationsFactory, utilitiesFactory, lockScreenService) {
         var vm = this;
 
+        vm.roleId = 0;
         vm.NOMINATOR_ROLE = 1;
-        vm.IN_BOARD_ROLE = 2;
+        vm.COMMITTEE_ROLE = 2;
         vm.PERIOD_IN_PROGRESS_STATUS = 1;
         vm.PERIOD_CLOSED_STATUS = 2;
         vm.period = null;
@@ -68,6 +69,7 @@
                     vm.filter.teamIds,
                     vm.filter.statusId).then(function () {
                         vm.eoqNominations = EOQModel.eoqNominations;
+                        vm.roleId = vm.eoqNominations.length > 0 ? vm.eoqNominations[0].RoleId : 0;
                     })['finally'](function () {
                         lockScreenService.stop();
                     });

@@ -14,7 +14,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT TOP 1 setting.RoleId
+	SELECT TOP 1 setting.RoleId AS RoleIds
 		,eoq.EOQYId
 		,eoq.[Quarter]
 		,eoq.[Year]

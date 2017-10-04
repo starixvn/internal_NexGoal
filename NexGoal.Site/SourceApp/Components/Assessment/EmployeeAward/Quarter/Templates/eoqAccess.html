@@ -43,12 +43,12 @@
                     <div class="col button-block">
                         <button class="button" ng-click="eoqAccessCtrl.query()" data-translate="Search"></button>
                         <button class="button" ng-click="eoqAccessCtrl.addNominee()" data-translate="AddNominee"
-                                ng-if="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE
+                                ng-if="eoqAccessCtrl.roleId === eoqAccessCtrl.NOMINATOR_ROLE
                                     && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host
                                     && eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></button>
                         <button class="button btnExcel" export-employee-of-the-quarter
                                 ng-click="eoqAccessCtrl.exportExcel()"
-                                ng-if="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE
+                                ng-if="eoqAccessCtrl.roleId === eoqAccessCtrl.COMMITTEE_ROLE
                                 && eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                             Excel
                         </button>
@@ -119,7 +119,7 @@
                 </div>
             </div>
 
-            <table class="table table-bordered table-striped" ng-if="eoqAccessCtrl.period === null">
+            <table class="table table-bordered table-striped" ng-if="eoqAccessCtrl.roleId === 0">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -136,7 +136,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered table-striped" ng-if="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.NOMINATOR_ROLE">
+            <table class="table table-bordered table-striped" ng-if="eoqAccessCtrl.roleId === eoqAccessCtrl.NOMINATOR_ROLE">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -177,7 +177,7 @@
                 </tbody>
             </table>
 
-            <table class="table table-bordered table-striped table-non-hover" ng-if="eoqAccessCtrl.period.RoleId === eoqAccessCtrl.IN_BOARD_ROLE">
+            <table class="table table-bordered table-striped table-non-hover" ng-if="eoqAccessCtrl.roleId === eoqAccessCtrl.COMMITTEE_ROLE">
                 <thead>
                     <tr class="headerName">
                         <th data-translate="SymbolCount"></th>
@@ -213,7 +213,7 @@
                                     ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': item.StatusId === 3}"></select>
                             <span class="nomination-status"
                                   ng-class="{'nominated': item.StatusId === 1, 'shortlisted': item.StatusId === 2, 'winner': item.StatusId === 3}"
-                                  ng-if="eoqAccessCtrl.period.Period.StatusIdForCommittee === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                  ng-if="eoqAccessCtrl.period.Period.StatusIdForCommittee !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                                 {{item.StatusToString}}
                             </span>
                         </td>

@@ -1,8 +1,4 @@
-﻿
-
-
-
-CREATE PROCEDURE [dbo].[EOQ_GetNominatorSettingById] @EOQYId INT
+﻿CREATE PROCEDURE [dbo].[EOQ_GetNominatorSettingById] @EOQYId INT
 	,@Query NVARCHAR(200) = NULL
 	,@GroupIds NVARCHAR(MAX) = NULL
 	,@RoleId TINYINT = NULL
@@ -23,14 +19,14 @@ BEGIN
 
 	DECLARE @Groups IntId
 
-	IF ISNULL(@GroupIds, '') <> ''
+	IF @GroupIds IS NOT NULL
 	BEGIN
 		INSERT INTO @Groups (Id)
 		SELECT DISTINCT val
 		FROM dbo.fnc_strSplit(@GroupIds, ',')
 	END
 
-	SELECT setting.RoleId
+	SELECT DISTINCT setting.RoleId AS RoleIds
 		,emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
@@ -48,10 +44,10 @@ BEGIN
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON emp.EmployeeId = setting.NominatorId
 		AND EOQYId = @EOQYId
+		CROSS APPLY dbo.fnc_strSplit(setting.RoleId, ',') AS f
 	WHERE (
-			ISNULL(@Query, '') = ''
-			OR emp.FullName LIKE '%' + @Query + '%'
-			OR emp.NickName LIKE '%' + @Query + '%'
+			emp.FullName LIKE '%' + ISNULL(@Query, '') + '%'
+			OR emp.NickName LIKE '%' + ISNULL(@Query, '') + '%'
 			)
 		AND (
 			ISNULL(@GroupIds, '') = ''
@@ -68,10 +64,7 @@ BEGIN
 					AND dept.DepartmentId = Id
 				)
 			)
-		AND (
-			ISNULL(@RoleId, '') = ''
-			OR setting.RoleId = @RoleId
-			)
+		AND ISNULL(@RoleId, f.val) = f.val
 		AND (
 			(
 				@ShowAllEmployee = 0

@@ -1,6 +1,4 @@
-﻿
-
-CREATE PROCEDURE [dbo].[EOQY_GetToSendEmailWhenEnd]
+﻿CREATE PROCEDURE [dbo].[EOQY_GetToSendEmailWhenEnd]
 AS
 /*
 Created: 20161229@Razor.Nguyen
@@ -14,31 +12,31 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @ManagementType TINYINT
-
-	SET @ManagementType = 2
+	DECLARE @ManagementType TINYINT = 2
+		,@Today DATE = GETDATE()
 
 	SELECT EOQYId
 		,[Quarter]
 		,[Year]
-		,DATEADD(day,1,EndDate) AS StartDate
-		,DATEADD(day,9999,EndDate) AS EndDate
+		,DATEADD(day, 1, EndDate) AS StartDate
+		,EndDateForCommittee AS EndDate
 		,RemindDate
 		,[Description]
 	FROM dbo.EOQY WITH (NOLOCK)
-	WHERE DATEADD(day, 1, EndDate) = CAST(GETDATE() AS DATE)
+	WHERE DATEADD(day, 1, EndDate) = @Today
 	ORDER BY [Year]
 		,[Quarter] DESC
 
 	SELECT eoqy.EOQYId
-		,setting.RoleId
+		,f.val AS RoleId
 		,e.NickName
 		,e.Email
 	FROM dbo.EOQY AS eoqy WITH (NOLOCK)
 		INNER JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON setting.EOQYId = eoqy.EOQYId
 		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON e.EmployeeId = setting.NominatorId
-	WHERE DATEADD(day, 1, eoqy.EndDate) = CAST(GETDATE() AS DATE)
-		AND setting.RoleId = @ManagementType
+		CROSS APPLY dbo.fnc_strSplit(setting.RoleId, ',') AS f
+	WHERE DATEADD(day, 1, eoqy.EndDate) = @Today
+		AND f.val = @ManagementType
 	ORDER BY [Year]
 		,[Quarter] DESC
 END

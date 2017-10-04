@@ -1,8 +1,4 @@
-﻿
-
-
-
-CREATE PROCEDURE [dbo].[EOY_UpdateNominatorSettingById] @EOQYId INT
+﻿CREATE PROCEDURE [dbo].[EOY_UpdateNominatorSettingById] @EOQYId INT
 	,@Details NVARCHAR(MAX)
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -29,7 +25,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON
 
-	CREATE TABLE #NominatorSetting (
+	CREATE TABLE #tblNominatorSetting (
 		RoleId TINYINT
 		,NominatorId INT
 		)
@@ -40,7 +36,10 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@Details
 
-		INSERT INTO #NominatorSetting
+		INSERT INTO #tblNominatorSetting (
+			RoleId
+			,NominatorId
+			)
 		SELECT RoleId
 			,NominatorId
 		FROM OPENXML(@DocHandler, '/ROOT/NominatorSetting', 1) WITH (RoleId INT, NominatorId INT) AS Data
@@ -63,7 +62,7 @@ BEGIN
 		WHERE setting.EOQYId = @EOQYId
 			AND EXISTS (
 				SELECT 1
-				FROM #NominatorSetting
+				FROM #tblNominatorSetting WITH (NOLOCK)
 				WHERE setting.NominatorId = NominatorId
 				)
 
@@ -79,8 +78,7 @@ BEGIN
 			,NominatorId
 			,@ModifiedBy
 			,GETDATE()
-		FROM #NominatorSetting
-		WHERE RoleId > 0
+		FROM #tblNominatorSetting WITH (NOLOCK)
 
 		COMMIT TRANSACTION
 	END TRY
@@ -92,5 +90,5 @@ BEGIN
 			,@ErrMsg = N'Update unsuccessfully.'
 	END CATCH
 
-	DROP TABLE #NominatorSetting
+	DROP TABLE #tblNominatorSetting
 END
