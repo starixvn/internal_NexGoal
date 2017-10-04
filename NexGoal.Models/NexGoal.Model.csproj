@@ -86,6 +86,7 @@
     <Compile Include="Nomination\NominationEPAModel.cs" />
     <Compile Include="Nomination\NominationDetailViewModel.cs" />
     <Compile Include="Nomination\NominatorReportModel.cs" />
+    <Compile Include="PAFocus\PAFocusMailModel.cs" />
     <Compile Include="PAFocus\PAFocusProcessModel.cs" />
     <Compile Include="Nomination\NominationViewModel.cs" />
     <Compile Include="Nomination\NominationModel.cs" />

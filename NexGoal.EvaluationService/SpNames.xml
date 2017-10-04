@@ -1,72 +1,73 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Functions>
-  <Function Name="Auto">
-    <Setting Key="EpaAuto_SemiAnnual_GetPeriodStartedToday" SpName="EpaAuto_SemiAnnual_GetPeriodStartedToday" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_SemiAnnual_AddEmployeeToPeriod" SpName="EpaAuto_SemiAnnual_AddEmployeeToPeriod" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_Probation_GetEmployees" SpName="EpaAuto_Probation_GetEmployees" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_Probation_AddEmployeeToPeriod" SpName="EpaAuto_Probation_AddEmployeeToPeriod" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetPeriodHasReminderProcess" SpName="EpaAuto_GetPeriodHasReminderProcess" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaAuto_GetPeriodHasEndedProcess" SpName="EpaAuto_GetPeriodHasEndedProcess" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaAuto_GetEmployeeSettingToSendMailHR" SpName="EpaAuto_GetEmployeeSettingToSendMailHR" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EpaAuto_Promotion_GetEmployees" SpName="EpaAuto_Promotion_GetEmployees" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_CheckEndProcess" SpName="EpaAuto_CheckEndProcess" DbName="NexGoal" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-    </Setting>
-    <Setting Key="EpaAuto_UpdateIsEndProcess" SpName="EpaAuto_UpdateIsEndProcess" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_UpdateFinalScoreEndEvaluation" SpName="EpaAuto_UpdateFinalScoreEndEvaluation" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_CheckLastestEndEvaluationPeriod" SpName="EpaAuto_CheckLastestEndEvaluationPeriod" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="NexGoal" Plain="0">
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-      <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-    </Setting>
-    <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="NexGoal" Plain="0">
-    </Setting>
-    <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="NexGoal" Plain="0">
-      <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-      <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-      <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-    </Setting>
-    <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="NexGoal" Plain="0">
-    </Setting>
-  </Function>
-  <Function Name="PAFocus">
-    <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocusProcessSetting_Update" SpName="PAFocusProcessSetting_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_GetByManagement" SpName="PAFocus_GetByManagement" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="PAFocus_Generate" SpName="PAFocus_Generate" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="Period_GetToGeneratePAFocus" SpName="Period_GetToGeneratePAFocus" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="Nomination">
-    <Setting Key="EOQY_GetToSendEmailWhenBegining" SpName="EOQY_GetToSendEmailWhenBegining" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQY_GetToSendEmailWhenReminding" SpName="EOQY_GetToSendEmailWhenReminding" DbName="NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQY_GetToSendEmailWhenEnd" SpName="EOQY_GetToSendEmailWhenEnd" DbName="NexGoal" Plain="0"></Setting>
-  </Function>
+    <Function Name="Auto">
+        <Setting Key="EpaAuto_SemiAnnual_GetPeriodStartedToday" SpName="EpaAuto_SemiAnnual_GetPeriodStartedToday" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_SemiAnnual_AddEmployeeToPeriod" SpName="EpaAuto_SemiAnnual_AddEmployeeToPeriod" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_Probation_GetEmployees" SpName="EpaAuto_Probation_GetEmployees" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_Probation_AddEmployeeToPeriod" SpName="EpaAuto_Probation_AddEmployeeToPeriod" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetPeriodHasReminderProcess" SpName="EpaAuto_GetPeriodHasReminderProcess" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaPeriod_GetById" SpName="EpaPeriod_GetById" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GenerateEPA" SpName="EpaAuto_GenerateEPA" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetEmployeeSettingToSendMail" SpName="EpaAuto_GetEmployeeSettingToSendMail" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaAuto_GetPeriodHasEndedProcess" SpName="EpaAuto_GetPeriodHasEndedProcess" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaAuto_GetEmployeeSettingToSendMailHR" SpName="EpaAuto_GetEmployeeSettingToSendMailHR" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetPeriodHasStartedProcess" SpName="EpaAuto_GetPeriodHasStartedProcess" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaAuto_Promotion_GetEmployees" SpName="EpaAuto_Promotion_GetEmployees" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_CheckEndProcess" SpName="EpaAuto_CheckEndProcess" DbName="NexGoal" Plain="0">
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+        </Setting>
+        <Setting Key="EpaAuto_UpdateIsEndProcess" SpName="EpaAuto_UpdateIsEndProcess" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_UpdateFinalScoreEndEvaluation" SpName="EpaAuto_UpdateFinalScoreEndEvaluation" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_CheckLastestEndEvaluationPeriod" SpName="EpaAuto_CheckLastestEndEvaluationPeriod" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_GetEPAEndEvaluationPeriod" SpName="EpaAuto_GetEPAEndEvaluationPeriod" DbName="NexGoal" Plain="0">
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EPA_GetInfoById" SpName="EPA_GetInfoById" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
+            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
+        </Setting>
+        <Setting Key="EPA_GetStandardGrade" SpName="EPA_GetStandardGrade" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="NexGoal" Plain="0">
+        </Setting>
+        <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
+        </Setting>
+        <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="NexGoal" Plain="0">
+        </Setting>
+    </Function>
+    <Function Name="PAFocus">
+        <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocusProcessSetting_Update" SpName="PAFocusProcessSetting_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_GetByManagement" SpName="PAFocus_GetByManagement" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_Generate" SpName="PAFocus_Generate" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="Period_GetToGeneratePAFocus" SpName="Period_GetToGeneratePAFocus" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="PAFocus_GetProcessSettingToSendEmail" SpName="PAFocus_GetProcessSettingToSendEmail" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
+    <Function Name="Nomination">
+        <Setting Key="EOQY_GetToSendEmailWhenBegining" SpName="EOQY_GetToSendEmailWhenBegining" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQY_GetToSendEmailWhenReminding" SpName="EOQY_GetToSendEmailWhenReminding" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EOQY_GetToSendEmailWhenEnd" SpName="EOQY_GetToSendEmailWhenEnd" DbName="NexGoal" Plain="0"></Setting>
+    </Function>
 </Functions>

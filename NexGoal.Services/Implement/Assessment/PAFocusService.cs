@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using System.Collections.Generic;
     using Fanex.Data.Repository;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
@@ -8,7 +9,6 @@
     using NexGoal.Model.PAFocus;
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
 
     public class PAFocusService : BaseService, IPAFocusService
     {

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Configuration;
     using Model;
     using NexGoal.Core;
     using NexGoal.Core.Constants;
@@ -9,8 +11,6 @@
     using NexGoal.Model.Period;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Configuration;
 
     public class MailService : IMailService
     {
@@ -389,7 +389,7 @@
 
         public void SendEndMailToManagement(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
         {
-            MailModel email = new MailModel();
+            var email = new MailModel();
             var endDate = ChangeEndDate(nomination.EndDate);
             var startDate = ChangeEndDate(nomination.StartDate);
 

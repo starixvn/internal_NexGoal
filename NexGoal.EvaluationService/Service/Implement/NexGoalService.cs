@@ -11,9 +11,10 @@
         private readonly IPeriodEvalutionService periodEvalutionService;
         private readonly IMailEPAService mailService;
         private readonly INominationEmailService nominationService;
+        private readonly IPAFocusAutoService focusService;
 
         public NexGoalService()
-            : this(null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         {
         }
 
@@ -23,7 +24,8 @@
             IProcessService processService,
             IPeriodEvalutionService periodEvalutionService,
             IMailEPAService mailService,
-            INominationEmailService nominationService)
+            INominationEmailService nominationService,
+            IPAFocusAutoService focusService)
         {
             this.semiAnnualService = semiAnnualService ?? new SemiAnnualService();
             this.probationService = probationService ?? new ProbationService();
@@ -31,6 +33,7 @@
             this.periodEvalutionService = periodEvalutionService ?? new PeriodEvalutionService();
             this.mailService = mailService ?? new MailEPAService();
             this.nominationService = nominationService ?? new NominationEmailService();
+            this.focusService = focusService ?? new PAFocusAutoService();
         }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1031:DoNotCatchGeneralExceptionTypes", Justification = "Reviewed")]
@@ -44,6 +47,7 @@
                 periodEvalutionService.UpdatePeriodIsEnd();
                 periodEvalutionService.GeneratePAFocus();
                 nominationService.SendEmail();
+                focusService.Run();
                 CheckSendMail();
             }
             catch (Exception ex)

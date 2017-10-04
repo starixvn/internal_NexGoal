@@ -295,13 +295,6 @@
         </Setting>
         <Setting Key="Period_GetInprogressSemiPeriod" SpName="Period_GetInprogressSemiPeriod" DbName="NexGoal" Plain="0"></Setting>
     </Function>
-    <Function Name="Dashboard">
-        <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="NexGoal" Plain="0">
-            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-            <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
-        </Setting>
-    </Function>
     <Function Name="Generation Evaluation">
         <Setting Key="EpaAuto_GetPeriodHasEndedProcess" SpName="EpaAuto_GetPeriodHasEndedProcess" DbName="NexGoal" Plain="0"></Setting>
         <Setting Key="EpaAuto_GetEmployeeSettingToSendMailHR" SpName="EpaAuto_GetEmployeeSettingToSendMailHR" DbName="NexGoal" Plain="0"></Setting>
@@ -474,6 +467,11 @@
         </Setting>
     </Function>
     <Function Name="Dashboard">
+        <Setting Key="Epa_Dashboard" SpName="Epa_Dashboard" DbName="NexGoal" Plain="0">
+            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
+            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
+            <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
+        </Setting>
         <Setting Key="Dashboard_GetToDoList" SpName="Dashboard_GetToDoList" DbName="NexGoal" Plain="0"></Setting>
     </Function>
 </Functions>

@@ -1,27 +1,27 @@
 ﻿namespace NexGoal.BackgroundService
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
     using NexGoal.Core.Enumerations;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Linq;
 
     public class AutoMailService : IAutoMailService
     {
-        private string _startDateMailToHumanResources = "Views\\Emails\\StartEvaluationToHR.cshtml";
-        private string _startDateMailToSelf = "Views\\Emails\\StartEvaluationToSelf.cshtml";
-        private string _startDateMailToEvaluator = "Views\\Emails\\StartEvaluationToEvaluator.cshtml";
-        private string _startDateMailToReviewer = "Views\\Emails\\StartEvaluationToReviewer.cshtml";
+        private readonly string _startDateMailToHumanResources = "Views\\Emails\\StartEvaluationToHR.cshtml";
+        private readonly string _startDateMailToSelf = "Views\\Emails\\StartEvaluationToSelf.cshtml";
+        private readonly string _startDateMailToEvaluator = "Views\\Emails\\StartEvaluationToEvaluator.cshtml";
+        private readonly string _startDateMailToReviewer = "Views\\Emails\\StartEvaluationToReviewer.cshtml";
 
-        private string _endMailToHumanResourcesByEmployee = "Views\\Emails\\EndEvaluationToHRByEmployee.cshtml";
-        private string _endMailToHumanReouscesByPeriod = "Views\\Emails\\EndEvaluationToHRByPeriod.cshtml";
-        private string _endMailToSelf = "Views\\Emails\\EndEvaluationToSelf.cshtml";
+        private readonly string _endMailToHumanResourcesByEmployee = "Views\\Emails\\EndEvaluationToHRByEmployee.cshtml";
+        private readonly string _endMailToHumanReouscesByPeriod = "Views\\Emails\\EndEvaluationToHRByPeriod.cshtml";
+        private readonly string _endMailToSelf = "Views\\Emails\\EndEvaluationToSelf.cshtml";
 
-        private IMailService _mailService;
+        private readonly IMailService _mailService;
 
         public AutoMailService()
             : this(null)

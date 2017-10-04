@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.BackgroundService
 {
-    using NexGoal.Model.EmployeeEPA;
-    using NexGoal.Model.Period;
     using System.Collections.Generic;
+    using Model.EmployeeEPA;
+    using Model.Period;
 
     public interface IAutoMailService
     {

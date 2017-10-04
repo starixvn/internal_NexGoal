@@ -1,5 +1,8 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Constants;
     using Core.Enumerations;
     using Fanex.Data.Repository;
@@ -12,9 +15,6 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class NominationService : BaseService, INominationService
     {

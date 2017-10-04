@@ -116,11 +116,13 @@
     <Compile Include="Service\Implement\NexGoalService.cs" />
     <Compile Include="Service\Implement\MailEPAService.cs" />
     <Compile Include="Service\Implement\NominationService.cs" />
+    <Compile Include="Service\Implement\PAFocusAutoService.cs" />
     <Compile Include="Service\Implement\PeriodEvalutionService.cs" />
     <Compile Include="Service\Implement\ProcessService.cs" />
     <Compile Include="Service\Implement\ProbationService.cs" />
     <Compile Include="Service\Interfaces\IAutoMailService.cs" />
-    <Compile Include="Service\Interfaces\NexGoalService.cs" />
+    <Compile Include="Service\Interfaces\IPAFocusAutoService.cs" />
+    <Compile Include="Service\Interfaces\INexGoalService.cs" />
     <Compile Include="Service\Implement\SemiAnnualService.cs" />
     <Compile Include="Service\Interfaces\IPeriodEvalutionService.cs" />
     <Compile Include="Service\Interfaces\ISemiAnnualService.cs" />
@@ -163,6 +165,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Emails\EndNominationToManagement.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\PAFocus\StartToEvaluator.cshtml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Views\Emails\PAFocus\ReminderToEvaluator.cshtml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
   </ItemGroup>

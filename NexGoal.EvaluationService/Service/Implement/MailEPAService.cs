@@ -72,7 +72,7 @@
         {
             IEnumerable<AutoEmployeePeriodModel> reminderPeriods = new List<AutoEmployeePeriodModel>();
             var criteria = new GetPeriodHasReminderProcessCriteria();
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 reminderPeriods = GetData<AutoEmployeePeriodModel>(criteria);
             }
@@ -111,14 +111,17 @@
         private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
         {
             IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-
-            var getEmployeeSettingCriteria = new GetEmployeeSettingByPeriodIdCriteria
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
             {
                 PeriodId = periodId,
                 EmployeeIds = employeeIds,
                 ProcessId = processId
             };
-            employeeSettings = periodService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+
+            if (criteria.IsValid())
+            {
+                employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
+            }
 
             return employeeSettings;
         }
@@ -126,12 +129,15 @@
         private IEnumerable<PeriodFlowModel> GetEmployeeSettingOfHR(int periodId)
         {
             IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-
-            var getEmployeeSettingCriteria = new GetEmployeeSettingOfHRCriteria
+            var criteria = new GetEmployeeSettingOfHRCriteria
             {
                 PeriodId = periodId
             };
-            employeeSettings = periodService.GetEmployeeSettingOfHR(getEmployeeSettingCriteria);
+
+            if (criteria.IsValid())
+            {
+                employeeSettings = periodService.GetEmployeeSettingOfHR(criteria);
+            }
 
             return employeeSettings;
         }

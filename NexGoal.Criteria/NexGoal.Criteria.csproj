@@ -152,6 +152,7 @@
     <Compile Include="PAFocus\GetPAFocusProcessByPeriodIdCriteria.cs" />
     <Compile Include="PAFocus\GetPAFocusCriteria.cs" />
     <Compile Include="PAFocus\GeneratePAFocusCriteria.cs" />
+    <Compile Include="PAFocus\GetProcessSettingToSendEmailCriteria.cs" />
     <Compile Include="PAFocus\UpdatePAFocusCriteria.cs" />
     <Compile Include="PAFocus\UpdatePAFocusProcessSetingCriteria.cs" />
     <Compile Include="PAFocus\GetPAFocusProcessSetingByIdCriteria.cs" />
