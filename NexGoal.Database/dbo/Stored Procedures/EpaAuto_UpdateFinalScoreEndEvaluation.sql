@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_UpdateFinalScoreEndEvaluation    Script Date: 7/21/2016 2:45:49 PM ******/
-
-CREATE PROCEDURE [dbo].[EpaAuto_UpdateFinalScoreEndEvaluation] @EPAScores VARCHAR(MAX)
+﻿CREATE PROCEDURE [dbo].[EpaAuto_UpdateFinalScoreEndEvaluation] @EPAScores VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
 AS
@@ -13,17 +11,18 @@ Original:
 Revisions:  
 Param's Explanation:
 	@EPAScores = '<ROOT>
-					<EPA EPAId='' FinalScore='' DisciplineScore='' Grade=''></EPA>
+					<EPA EPAId='' FinalScore='' DisciplineScore='' Grade='' ToeicPolicyScore=''></EPA>
 				</ROOT>'
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	CREATE TABLE #EPAScore (
-		[EPAId] INT
-		,[FinalScore] NVARCHAR(MAX)
-		,[DisciplineScore] FLOAT
-		,[Grade] NVARCHAR(MAX)
+	CREATE TABLE #tblEPAScore (
+		EPAId INT
+		,FinalScore NVARCHAR(MAX)
+		,DisciplineScore FLOAT
+		,Grade NVARCHAR(MAX)
+		,ToeicPolicyScore SMALLINT
 		)
 
 	DECLARE @DocHandler INT
@@ -31,25 +30,30 @@ BEGIN
 	EXEC sp_xml_preparedocument @DocHandler OUTPUT
 		,@EPAScores
 
-	INSERT INTO #EPAScore (
-		[EPAId]
-		,[FinalScore]
-		,[DisciplineScore]
-		,[Grade]
+	INSERT INTO #tblEPAScore (
+		EPAId
+		,FinalScore
+		,DisciplineScore
+		,Grade
+		,ToeicPolicyScore
 		)
-	SELECT [EPAId]
-		,[FinalScore]
-		,[DisciplineScore]
-		,[Grade]
-	FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT, FinalScore NVARCHAR(MAX), DisciplineScore FLOAT, [Grade] NVARCHAR(MAX)) AS Data
+	SELECT EPAId
+		,FinalScore
+		,DisciplineScore
+		,Grade
+		,ToeicPolicyScore
+	FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT, FinalScore NVARCHAR(MAX), DisciplineScore FLOAT, Grade NVARCHAR(MAX), ToeicPolicyScore SMALLINT) AS Data
 
 	EXEC sp_xml_removedocument @DocHandler
 
-	UPDATE [dbo].[EPA]
-	SET [FinalScore] = epaS.[FinalScore]
-		,[DisciplineScore] = epaS.[DisciplineScore]
-		,[Grade] = epaS.[Grade]
+	UPDATE dbo.EPA
+	SET FinalScore = epaS.FinalScore
+		,DisciplineScore = epaS.DisciplineScore
+		,Grade = epaS.Grade
+		,ToeicPolicyScore = epaS.ToeicPolicyScore
 		,[Status] = 1 -- closed
-	FROM [dbo].[EPA] AS epa WITH (NOLOCK)
-		INNER JOIN #EPAScore AS epaS ON epa.[EPAId] = epaS.[EPAId]
+	FROM dbo.EPA AS epa WITH (NOLOCK)
+		INNER JOIN #tblEPAScore AS epaS WITH (NOLOCK) ON epa.EPAId = epaS.EPAId
+
+	DROP TABLE #tblEPAScore
 END

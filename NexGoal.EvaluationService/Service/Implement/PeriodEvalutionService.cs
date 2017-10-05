@@ -67,17 +67,17 @@
             }
         }
 
-        private void UpdateFinalScore(EPAModel epa)
+        private void UpdateFinalScore(EPAModel epaInfo)
         {
             IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
 
-            double averagePerformanceScore = GetFinalScoreOfEvalution(epa);
-            double finalScore = averagePerformanceScore + epa.DisciplineScore;
+            double averagePerformanceScore = GetFinalScoreOfEvalution(epaInfo);
+            double finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
             finalScore = finalScore >= 0 ? finalScore : 0;
 
-            epa.Grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
+            epaInfo.Grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
 
-            EncodeAndUpdateFinalScore(averagePerformanceScore, epa.DisciplineScore, epa.EPAId, epa.Grade);
+            EncodeAndUpdateFinalScore(averagePerformanceScore, epaInfo.DisciplineScore, epaInfo.EPAId, epaInfo.Grade, epaInfo.ToeicPolicyScore);
         }
 
         private double GetFinalScoreOfEvalution(EPAModel epaInfo)
@@ -96,7 +96,12 @@
             return finalScore;
         }
 
-        private void EncodeAndUpdateFinalScore(double performanceScore, double disciplineScore, int evaluationId, string grade)
+        private void EncodeAndUpdateFinalScore(
+            double performanceScore,
+            double disciplineScore,
+            int evaluationId,
+            string grade,
+            int policyToeicScore)
         {
             double finalScore = performanceScore + disciplineScore;
             string finalScoreEncode = certificateService.Encrypt(finalScore.ToString()),
@@ -104,10 +109,11 @@
 
             var criteria = new UpdateFinalScoreEndEvaluationCriteria
             {
-                EvalutionId = evaluationId,
+                EvaluationId = evaluationId,
                 FinalScore = finalScoreEncode,
                 DisciplineScore = disciplineScore,
-                Grade = gradeEncode
+                Grade = gradeEncode,
+                ToeicPolicyScore = policyToeicScore
             };
 
             UpdateFinalScore(criteria);

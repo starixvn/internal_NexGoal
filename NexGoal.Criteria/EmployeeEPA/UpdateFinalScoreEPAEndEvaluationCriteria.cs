@@ -3,15 +3,14 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Text;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Model.EmployeeEPA;
 
     public class UpdateFinalScoreEPAEndEvaluationCriteria : CriteriaBase
     {
-        private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}'></EPA>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
+        private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}' ToeicPolicyScore='{4}'></EPA>";
 
         public int ModifiedBy { get; set; }
 
@@ -23,29 +22,29 @@
             get
             {
                 var epaXmlBuilder = new StringBuilder();
-                epaXmlBuilder.Append(BeginRootTag);
+                epaXmlBuilder.Append(Constants.BeginRootTag);
 
                 if (EPAInfos != null && EPAInfos.Any())
                 {
                     foreach (EPAModel epaInfo in EPAInfos)
                     {
-                        epaXmlBuilder.AppendFormat(TemplateXml, epaInfo.EPAId, epaInfo.FinalScore, epaInfo.DisciplineScore, epaInfo.Grade);
+                        epaXmlBuilder.AppendFormat(
+                            TemplateXml,
+                            epaInfo.EPAId,
+                            epaInfo.FinalScore,
+                            epaInfo.DisciplineScore,
+                            epaInfo.Grade,
+                            epaInfo.ToeicPolicyScore);
                     }
                 }
 
-                epaXmlBuilder.Append(EndRootTag);
+                epaXmlBuilder.Append(Constants.EndRootTag);
                 return epaXmlBuilder.ToString();
             }
         }
 
-        public override bool IsValid()
-        {
-            return ModifiedBy > 0 && !string.IsNullOrWhiteSpace(EPAScores);
-        }
+        public override bool IsValid() => ModifiedBy > 0 && !string.IsNullOrWhiteSpace(EPAScores);
 
-        public override string GetSettingKey()
-        {
-            return "EPA_UpdateFinalScoreEndEvaluation";
-        }
+        public override string GetSettingKey() => "EPA_UpdateFinalScoreEndEvaluation";
     }
 }

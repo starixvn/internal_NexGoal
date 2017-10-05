@@ -1,26 +1,19 @@
 ﻿namespace NexGoal.BackgroundService
 {
-    using Fanex.Data.Repository;
     using System.Text;
+    using Core.Constants;
     using Fanex.Data;
+    using Fanex.Data.Repository;
 
     public class UpdateFinalScoreEndEvaluationCriteria : CriteriaBase
     {
-        private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}'></EPA>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
+        private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}' ToeicPolicyScore='{4}'></EPA>";
 
         [SpParam(SqlParamName = "EPAScores")]
-        public string EvaluationScores
-        {
-            get
-            {
-                return ConvertToXml(EvalutionId, FinalScore, DisciplineScore, Grade);
-            }
-        }
+        public string EvaluationScores => ConvertToXml();
 
         [SpParam(Ignored = true)]
-        public int EvalutionId { get; set; }
+        public int EvaluationId { get; set; }
 
         [SpParam(Ignored = true)]
         public string FinalScore { get; set; }
@@ -31,22 +24,19 @@
         [SpParam(Ignored = true)]
         public string Grade { get; set; }
 
-        public override bool IsValid()
-        {
-            return !string.IsNullOrWhiteSpace(EvaluationScores);
-        }
+        [SpParam(Ignored = true)]
+        public int ToeicPolicyScore { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "EpaAuto_UpdateFinalScoreEndEvaluation";
-        }
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(EvaluationScores);
 
-        public string ConvertToXml(int evaluationId, string finalScore, double disciplineScore, string grade)
-        {
-            var epaXmlBuilder = new StringBuilder(BeginRootTag);
+        public override string GetSettingKey() => "EpaAuto_UpdateFinalScoreEndEvaluation";
 
-            epaXmlBuilder.AppendFormat(TemplateXml, evaluationId, finalScore, disciplineScore, grade);
-            epaXmlBuilder.Append(EndRootTag);
+        private string ConvertToXml()
+        {
+            var epaXmlBuilder = new StringBuilder(Constants.BeginRootTag);
+
+            epaXmlBuilder.AppendFormat(TemplateXml, EvaluationId, FinalScore, DisciplineScore, Grade, ToeicPolicyScore);
+            epaXmlBuilder.Append(Constants.EndRootTag);
 
             return epaXmlBuilder.ToString();
         }

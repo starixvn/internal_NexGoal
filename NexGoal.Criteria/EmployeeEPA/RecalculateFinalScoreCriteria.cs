@@ -1,16 +1,16 @@
 ﻿namespace NexGoal.Criteria.EmployeeEPA
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Text;
     using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model.EmployeeEPA;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
 
     public class RecalculateFinalScoreCriteria : CriteriaBase
     {
-        private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}'></EPA>";
+        private const string TemplateXml = "<EPA EPAId='{0}' FinalScore='{1}' DisciplineScore='{2}' Grade='{3}' ToeicPolicyScore='{4}'></EPA>";
 
         public int ModifiedBy { get; set; }
 
@@ -28,7 +28,7 @@
                 {
                     foreach (EPAModel epaInfo in EPAInfos)
                     {
-                        epaXmlBuilder.AppendFormat(TemplateXml, epaInfo.EPAId, epaInfo.FinalScore, 0, epaInfo.Grade);
+                        epaXmlBuilder.AppendFormat(TemplateXml, epaInfo.EPAId, epaInfo.FinalScore, 0, epaInfo.Grade, epaInfo.ToeicPolicyScore);
                     }
                 }
 
@@ -37,14 +37,8 @@
             }
         }
 
-        public override bool IsValid()
-        {
-            return ModifiedBy > 0 && !string.IsNullOrWhiteSpace(EPAScores);
-        }
+        public override bool IsValid() => ModifiedBy > 0 && !string.IsNullOrWhiteSpace(EPAScores);
 
-        public override string GetSettingKey()
-        {
-            return "EPA_UpdateFinalScoreEndEvaluation";
-        }
+        public override string GetSettingKey() => "EPA_UpdateFinalScoreEndEvaluation";
     }
 }

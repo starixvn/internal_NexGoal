@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_GetEPAEndEvaluationPeriod    Script Date: 7/21/2016 2:45:48 PM ******/
-
-CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
+﻿CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
 AS
 /*
 Created: 20160329@Tim.Trinh
@@ -8,7 +6,8 @@ Task: Get EPA end evaluation period.
 DB: SMSEPA
 Original: 
 
-Revisions:  
+Revisions:
+    20171005@Tim.Trinh: get toeic policy score  
 Param's Explanation:
 */
 BEGIN
@@ -16,29 +15,29 @@ BEGIN
 
 	DECLARE @TblEPAId IntId
 		,@EPAIds NVARCHAR(MAX)
-		,@Yesterday DATETIME
+		,@Today DATE = GETDATE()
+		,@Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
+		,@SemiTarget TINYINT = 3
 
-	CREATE TABLE #DisciplineScores (
+	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,DisciplineScore FLOAT
 		)
-
-	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
 
 	INSERT INTO @TblEPAId (Id)
 	SELECT DISTINCT epa.EPAId
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.EPAProcess AS epaP WITH (NOLOCK) ON epa.EPAId = epaP.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON epa.PeriodId = pe.PeriodId
-	WHERE CAST(pe.EndDate AS DATE) = CAST(GETDATE() AS DATE)
+	WHERE CAST(pe.EndDate AS DATE) = @Today
 		AND CAST(epaP.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
 		AND ProcessId IN (
 			SELECT MAX(ProcessId)
 			FROM dbo.EPAProcess WITH (NOLOCK)
 			WHERE EPAId = epaP.EPAId
 			)
-		AND pe.TargetTypeId IN (2, 3) -- Monthly, Semi
+		AND pe.TargetTypeId IN (@SemiTarget)
 		AND epa.[Status] <> 2
 		AND pe.IsActive = 1
 	
@@ -47,14 +46,14 @@ BEGIN
 	FROM dbo.EPAProcess AS epaP WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epa.EPAId = epaP.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
-	WHERE CAST(epaP.EndDate AS DATE) = CAST(@Yesterday AS DATE)
+	WHERE CAST(epaP.EndDate AS DATE) = @Yesterday
 		AND CAST(epaP.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
 		AND ProcessId IN (
 			SELECT MAX(ProcessId)
 			FROM dbo.EPAProcess WITH (NOLOCK)
 			WHERE EPAId = epaP.EPAId
 			)
-		AND pe.TargetTypeId IN (2, 3) -- Monthly, Semi
+		AND pe.TargetTypeId IN (@SemiTarget)
 		AND epa.[Status] <> 2
 		AND pe.IsActive = 1
 	
@@ -63,13 +62,13 @@ BEGIN
 	FROM dbo.EPAProcess AS epaP WITH (NOLOCK)
 		INNER JOIN dbo.EPA AS epa WITH (NOLOCK) ON epaP.EPAId = epa.EPAId
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
-	WHERE CAST(epaP.EndDate AS DATE) = CAST(@Yesterday AS DATE)
+	WHERE CAST(epaP.EndDate AS DATE) = @Yesterday
 		AND ProcessId IN (
 			SELECT MAX(ProcessId)
 			FROM dbo.EPAProcess WITH (NOLOCK)
 			WHERE EPAId = epa.EPAId
 			)
-		AND pe.TargetTypeId NOT IN (2, 3) -- Monthly, Semi
+		AND pe.TargetTypeId NOT IN (@SemiTarget)
 		AND epa.[Status] <> 2
 		AND pe.IsActive = 1
 	
@@ -79,17 +78,26 @@ BEGIN
 		INNER JOIN dbo.Period AS pe WITH (NOLOCK) ON pe.PeriodId = epa.PeriodId
 	WHERE epa.[Status] = 1
 		AND ISNULL(epa.FinalScore, '') = ''
-		AND CAST(pe.EndDate AS DATE) < CAST(GETDATE() AS DATE)
+		AND CAST(pe.EndDate AS DATE) < @Today
 		AND pe.IsActive = 1
 
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
 	FROM @TblEPAId
 
-	INSERT INTO #DisciplineScores
+	INSERT INTO #tblDisciplineScores (
+		EPAId
+		,SystemDisciplineScore
+		,DisciplineScore
+		)
 	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
 
 	-- General Info
 	SELECT DISTINCT epa.EPAId
+		,(CASE 
+			WHEN epa.[Status] = 1 THEN epa.ToeicPolicyScore
+			WHEN tt.TargetTypeId = @SemiTarget THEN toeic.Score
+			ELSE 0 END
+			) AS ToeicPolicyScore
 		,(CASE srt.ScoreRatingTypeId
 			WHEN 1 THEN 1
 			ELSE 0 END
@@ -116,11 +124,12 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #DisciplineScores AS ds ON epa.EPAId = ds.EPAId
+		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
+		LEFT JOIN NexHRM.dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON epa.EmployeeId = toeic.EmployeeId
 	ORDER BY epa.EPAId
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @TblEPAId
 
-	DROP TABLE #DisciplineScores
+	DROP TABLE #tblDisciplineScores
 END

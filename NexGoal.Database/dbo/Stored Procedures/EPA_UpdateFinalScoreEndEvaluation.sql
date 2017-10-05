@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_UpdateFinalScoreEndEvaluation    Script Date: 7/21/2016 2:45:46 PM ******/
-
-CREATE PROCEDURE [dbo].[EPA_UpdateFinalScoreEndEvaluation] @ModifiedBy INT
+﻿CREATE PROCEDURE [dbo].[EPA_UpdateFinalScoreEndEvaluation] @ModifiedBy INT
 	,@EPAScores VARCHAR(MAX)
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT
@@ -14,17 +12,18 @@ Original:
 Revisions:  
 Param's Explanation:
 	@EPAScores = '<ROOT>
-					<EPA EPAId='' FinalScore='' DisciplineScore='' Grade=''></EPA>
+					<EPA EPAId='' FinalScore='' DisciplineScore='' Grade='' ToeicPolicyScore=''></EPA>
 				</ROOT>'
 */
 BEGIN
 	SET NOCOUNT ON;
 
-	CREATE TABLE #EPAScore (
+	CREATE TABLE #tblEPAScore (
 		EPAId INT
 		,FinalScore NVARCHAR(MAX)
 		,DisciplineScore FLOAT
 		,Grade NVARCHAR(MAX)
+		,ToeicPolicyScore SMALLINT
 		)
 
 	BEGIN TRY
@@ -33,17 +32,19 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@EPAScores
 
-		INSERT INTO #EPAScore (
+		INSERT INTO #tblEPAScore (
 			EPAId
 			,FinalScore
 			,DisciplineScore
 			,Grade
+			,ToeicPolicyScore
 			)
 		SELECT EPAId
 			,FinalScore
 			,DisciplineScore
 			,Grade
-		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT, FinalScore NVARCHAR(MAX), DisciplineScore FLOAT, Grade NVARCHAR(MAX)) AS Data
+			,ToeicPolicyScore
+		FROM OPENXML(@DocHandler, '/ROOT/EPA', 1) WITH (EPAId INT, FinalScore NVARCHAR(MAX), DisciplineScore FLOAT, Grade NVARCHAR(MAX), ToeicPolicyScore SMALLINT) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -62,11 +63,12 @@ BEGIN
 		SET FinalScore = epaS.FinalScore
 			,DisciplineScore = epaS.DisciplineScore
 			,Grade = epaS.Grade
+			,ToeicPolicyScore = epaS.ToeicPolicyScore
 			,[Status] = 1 -- closed
 			,ModifiedBy = @ModifiedBy
 			,ModifiedDate = GETDATE()
 		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN #EPAScore AS epaS ON epa.EPAId = epaS.EPAId
+			INNER JOIN #tblEPAScore AS epaS WITH (NOLOCK) ON epa.EPAId = epaS.EPAId
 
 		COMMIT TRANSACTION
 
@@ -79,5 +81,7 @@ BEGIN
 
 		SELECT @ErrCode = 1
 			,@ErrMsg = N'Update final score unsuccessfully.'
-	END CATCH;
+	END CATCH
+
+	DROP TABLE #tblEPAScore
 END
