@@ -15,8 +15,7 @@ function (EmployeeModel, utilitiesFactory, CommonModel, enumerationsFactory, loc
         groupId: '',
         isLocal: '',
         isSpecialUser: '',
-        isDisabledUser: '',
-        hasMonthlyEPA: ''
+        isDisabledUser: ''
     };
 
     vm.groupOptions = [];
@@ -32,14 +31,10 @@ function (EmployeeModel, utilitiesFactory, CommonModel, enumerationsFactory, loc
         vm.permission = EmployeeModel.permission;
     });
 
-    var getEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
-        if (!hasMonthlyEPA) {
-            hasMonthlyEPA = '';
-        }
-
+    var getEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser) {
         lockScreenService.start();
 
-        EmployeeModel.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA).then(function () {
+        EmployeeModel.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser).then(function () {
             vm.employees = EmployeeModel.employees;
             utilitiesFactory.searchOnPage(vm, vm.employees);
         })["finally"](function () {
@@ -47,12 +42,12 @@ function (EmployeeModel, utilitiesFactory, CommonModel, enumerationsFactory, loc
         });
     };
 
-    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser, vm.filter.hasMonthlyEPA);
+    getEmployee(vm.filter.query, vm.filter.groupId, vm.filter.isLocal, vm.filter.isSpecialUser, vm.filter.isDisabledUser);
 
     vm.queryEmployee = function (filter) {
         vm.searchKey = '';
         vm.currentPage = 1;
-        getEmployee(filter.query, filter.groupId, filter.isLocal, filter.isSpecialUser, filter.isDisabledUser, filter.hasMonthlyEPA);
+        getEmployee(filter.query, filter.groupId, filter.isLocal, filter.isSpecialUser, filter.isDisabledUser);
     };
 
     /*
@@ -69,10 +64,6 @@ function (EmployeeModel, utilitiesFactory, CommonModel, enumerationsFactory, loc
                 vm.queryEmployee(vm.filter);
             });
         });
-    };
-
-    vm.updateHasMonthlyEPA = function (employee) {
-        EmployeeModel.openPopupUpdateHasMonthlyEPA(vm, employee);
     };
 }]);
 
@@ -124,21 +115,4 @@ function ($scope, $modalInstance, EmployeeModel, employee, CommonModel) {
     };
 
     initialize();
-}]);
-
-employeeModule.controller("ModalConfirmSetUnsetMonthlyEvaluationController",
-['$modalInstance', 'name', 'action',
-function ($modalInstance, name, action) {
-    var vm = this;
-
-    vm.name = name;
-    vm.action = action;
-
-    vm.ok = function () {
-        $modalInstance.close();
-    };
-
-    vm.cancel = function () {
-        $modalInstance.dismiss("cancel");
-    };
 }]);

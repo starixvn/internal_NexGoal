@@ -127,34 +127,26 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             averageScore = memberEPA.Process.AverageScoreByEvaluators,
             totalScore = 0;
 
-        if (memberEPA.HasMonthlyEPA) {
-            averageScore = memberEPA.MonthlyEPA.AverageReviewerScoreConverted;
-        }
-
         if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
             averageScore = memberEPA.Process.AverageScoreByReviewers;
         }
 
-        totalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
+        totalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted + memberEPA.ToeicPolicyScore);
 
         if (totalScore > memberEPA.Process.CurrentProcess.MaxTotalScore) {
-            scoreAdjusted = memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore;
+            scoreAdjusted = memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore - memberEPA.ToeicPolicyScore;
         } else if (totalScore < 0) {
-            scoreAdjusted = -averageScore;
+            scoreAdjusted = -(averageScore + memberEPA.ToeicPolicyScore);
         }
 
-        memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted);
-        memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.DisciplineScore;
+        memberEPA.Process.CurrentProcess.TotalScore = utilitiesFactory.parseFloat(averageScore + scoreAdjusted + memberEPA.ToeicPolicyScore);
+        memberEPA.FinalScore = averageScore + scoreAdjusted + memberEPA.ToeicPolicyScore + memberEPA.DisciplineScore;
         memberEPA.FinalScore = EmployeeEPAModel.checkScore(memberEPA.FinalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
     };
 
     reviewerMngModel.calculatePerformanceScore = function (vm, isReviewer) {
         var totalScore = utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore),
             averageScore = vm.epaInfo.Process.AverageScoreByEvaluators;
-
-        if (vm.epaInfo.HasMonthlyEPA) {
-            averageScore = vm.epaInfo.MonthlyEPA.AverageReviewerScoreConverted;
-        }
 
         if (!isReviewer && vm.epaInfo.Process.Reviewers.length > 0) {
             averageScore = vm.epaInfo.Process.AverageScoreByReviewers;
@@ -313,7 +305,6 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
     reviewerMngModel.getEPAInfoByReviewer = function (epaId) {
         return employeeEPAFactory.getEPAInfoByReviewer(epaId)
         .success(function (epaInfo) {
-
             angular.forEach(epaInfo.KPIGroups, function (kpiGroup) {
                 var score = 0;
                 angular.forEach(kpiGroup.KPIs, function (kpi) {

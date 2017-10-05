@@ -20,8 +20,6 @@
 
         public int? IsEvaluated { get; set; }
 
-        public bool? HasMonthlyEPA { get; set; }
-
         public int? EPAStatus { get; set; }
 
         public override bool IsValid()

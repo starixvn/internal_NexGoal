@@ -1,11 +1,10 @@
 ﻿namespace NexGoal.Model.Period
 {
-    using NexGoal.Core.Enumerations;
+    using System;
+    using System.Collections.Generic;
     using NexGoal.Model.Department;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.TargetTemplate;
-    using System;
-    using System.Collections.Generic;
 
     [Serializable]
     public class PeriodEmployeeSettingModel
@@ -44,13 +43,5 @@
         public TargetTemplateModel TargetTemplate { get; set; }
 
         public int NumberEvaluators { get; set; }
-
-        public bool IsSemiHasMonthly
-        {
-            get
-            {
-                return Employee != null && Employee.HasMonthlyEPA && TargetTemplate != null && TargetTemplate.TargetTypeId == (int)TargetType.SemiAnnual;
-            }
-        }
     }
 }

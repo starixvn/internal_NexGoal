@@ -21,8 +21,6 @@
 
         public int? EPAId { get; set; }
 
-        public bool HasMonthlyEPA { get; set; }
-
         public void Decrypt()
         {
             ICertificateService certificateService = new CertificateService();

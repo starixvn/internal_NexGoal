@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Criteria.EmployeeEPA.RatingByKPI;
@@ -7,7 +8,6 @@
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.TargetTemplate;
-    using System.Collections.Generic;
 
     public interface IEmployeeEPAService
     {
@@ -50,18 +50,14 @@
         CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
 
         string ConvertScoreToGrade(double score, IEnumerable<StandardGradeModel> standardGrades);
-        
+
         int CheckEmployeePermission(int epaId, int actorUserId, int? processId = null);
 
         IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
 
-        IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds);
-
         CommandResult ResetScore(ResetScoreCriteria criteria);
 
         int GetNumberOfRow(GetNumberOfRowCriteria criteria);
-
-        void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs);
 
         CommandResult UpdateFinalScoreEPAEndEvaluation(UpdateFinalScoreEPAEndEvaluationCriteria criteria);
 

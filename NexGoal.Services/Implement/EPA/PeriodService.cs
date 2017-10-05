@@ -1,11 +1,14 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Configuration;
+    using System.Linq;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Core.Utilities;
-    using NexGoal.Criteria.EPAHistory;
     using NexGoal.Criteria.Period;
     using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.FlowManagement;
@@ -14,10 +17,6 @@
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Linq;
 
     public class PeriodService : BaseService, IPeriodService
     {
@@ -119,43 +118,7 @@
             return period;
         }
 
-        public IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria)
-        {
-            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                periods = GetData<PeriodModel>(criteria);
-            }
-
-            return periods;
-        }
-
-        public IEnumerable<PeriodModel> GetAllMonthlyPeriod(GetAllMonthlyPeriodCriteria criteria)
-        {
-            IEnumerable<PeriodModel> periods = new List<PeriodModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                periods = GetData<PeriodModel>(criteria);
-            }
-
-            return periods;
-        }
-
         public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
 
@@ -376,6 +339,18 @@
             }
 
             return hasStarted;
+        }
+
+        public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
+        {
+            IList<PeriodModel> periods = new List<PeriodModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                periods = GetData<PeriodModel>(criteria).ToList();
+            }
+
+            return periods;
         }
 
         public void ExportEmployeeSettingReport(

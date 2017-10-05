@@ -4,7 +4,6 @@
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
 
     public class ResetScoreCriteria : CriteriaBase
@@ -25,48 +24,18 @@
             get
             {
                 var epaXml = new StringBuilder(BeginRootTag);
-                ICertificateService certificateService = new CertificateService();
 
-                if (EPAInfo.IsSemiHasMonthly)
-                {
-                    epaXml.AppendFormat(
-                        EPAXmlTemplate,
-                        (int)ProcessType.Self,
-                        certificateService.Encrypt(EPAInfo.MonthlyEPA.AverageSelfScoreConverted.ToString()),
-                        string.Empty);
+                epaXml.AppendFormat(
+                    EPAXmlTemplate,
+                    (int)ProcessType.Reviewer,
+                    string.Empty,
+                    string.Empty);
 
-                    epaXml.AppendFormat(
-                        EPAXmlTemplate,
-                        (int)ProcessType.Evaluator,
-                        certificateService.Encrypt(EPAInfo.MonthlyEPA.AverageEvaluatorScoreConverted.ToString()),
-                        string.Empty);
-
-                    epaXml.AppendFormat(
-                        EPAXmlTemplate,
-                        (int)ProcessType.Reviewer,
-                        certificateService.Encrypt(EPAInfo.MonthlyEPA.AverageReviewerScoreConverted.ToString()),
-                        string.Empty);
-
-                    epaXml.AppendFormat(
-                        EPAXmlTemplate,
-                        (int)ProcessType.Management,
-                        string.Empty,
-                        string.Empty);
-                }
-                else
-                {
-                    epaXml.AppendFormat(
-                        EPAXmlTemplate,
-                        (int)ProcessType.Reviewer,
-                        string.Empty,
-                        string.Empty);
-
-                    epaXml.AppendFormat(
-                        EPAXmlTemplate,
-                        (int)ProcessType.Management,
-                        string.Empty,
-                        string.Empty);
-                }
+                epaXml.AppendFormat(
+                    EPAXmlTemplate,
+                    (int)ProcessType.Management,
+                    string.Empty,
+                    string.Empty);
 
                 epaXml.Append(EndRootTag);
 

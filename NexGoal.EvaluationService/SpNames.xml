@@ -47,13 +47,6 @@
         </Setting>
         <Setting Key="EpaAuto_UpdateTotalScoreWhenNull" SpName="EpaAuto_UpdateTotalScoreWhenNull" DbName="NexGoal" Plain="0">
         </Setting>
-        <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="NexGoal" Plain="0">
-            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-        </Setting>
-        <Setting Key="EpaAuto_SemiAnnual_UpdateTotalScore" SpName="EpaAuto_SemiAnnual_UpdateTotalScore" DbName="NexGoal" Plain="0">
-        </Setting>
     </Function>
     <Function Name="PAFocus">
         <Setting Key="PAFocusProcessSetting_GetByPeriodId" SpName="PAFocusProcessSetting_GetByPeriodId" DbName="NexGoal" Plain="0"></Setting>

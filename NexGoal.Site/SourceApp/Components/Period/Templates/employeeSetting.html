@@ -124,7 +124,7 @@
         </thead>
         <tbody class="table-body" dir-paginate="employee in empSettingCtrl.filteredItems | itemsPerPage: empSettingCtrl.pageSize"
                current-page="empSettingCtrl.currentPage">
-            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}" ng-if="!employee.IsSemiHasMonthly">
+            <tr ng-class="{oddRow: $index % 2 == 0, evenRow: $index % 2 != 0}">
                 <td class="text-center" rowspan="{{employee.NumberEvaluators}}">
                     <input type="checkbox" ng-model="employee.Selected" ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
                 </td>
@@ -176,8 +176,7 @@
                     </div>
                 </td>
             </tr>
-            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="evaluator in employee.Evaluators"
-                    ng-if="!employee.IsSemiHasMonthly">
+            <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="evaluator in employee.Evaluators">
                 <td data-translate="Evaluator" rowspan="{{employee.Evaluators.length}}" ng-if="$first"></td>
                 <td ng-bind="evaluator.EvaluatorInfo.NickName"></td>
                 <td class="width-100">
@@ -204,26 +203,6 @@
                     ng-if="$first" rowspan="{{employee.Evaluators.length}}"></td>
             </tr>
             <tr ng-class="{oddRow: $parent.$index % 2 == 0, evenRow: $parent.$index % 2 != 0}" ng-repeat="reviewer in employee.Reviewers">
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-if="employee.IsSemiHasMonthly && $first">
-                    <input type="checkbox" ng-model="employee.Selected"
-                           ng-click="empSettingCtrl.syncSelectedEmployee(employee.Employee.EmployeeId, employee.Selected)" />
-                </td>
-                <td class="text-center" ng-bind="empSettingCtrl.getIndex($parent.$index, empSettingCtrl.currentPage, empSettingCtrl.pageSize)"
-                    rowspan="{{employee.NumberEvaluators}}" ng-if="employee.IsSemiHasMonthly && $first"></td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-if="employee.IsSemiHasMonthly && $first">
-                    <span tooltip="{{employee.Group.GroupName}}" ng-bind="employee.Group.GroupCode"></span>
-                </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-if="employee.IsSemiHasMonthly && $first">
-                    <div ng-bind="employee.Employee.FullName"></div>
-                    <div ng-bind="employee.Employee.Code"></div>
-                    <div>({{employee.Employee.NickName}})</div>
-                    <div ng-bind="employee.JobTitle.JobTitleName"></div>
-                </td>
-                <td class="text-center" ng-bind="employee.TargetTemplate.TargetTypeName" rowspan="{{employee.NumberEvaluators}}"
-                    ng-if="employee.IsSemiHasMonthly && $first"></td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-if="employee.IsSemiHasMonthly && $first">
-                    <span class="glyphicon glyphicon-warning-sign"></span>
-                </td>
                 <td data-translate="Reviewer" rowspan="{{employee.Reviewers.length}}" ng-if="$first"></td>
                 <td ng-bind="reviewer.EvaluatorInfo.NickName"></td>
                 <td class="width-120">
@@ -248,18 +227,6 @@
                     ng-if="$first" rowspan="{{employee.Reviewers.length}}"></td>
                 <td class="width-120" ng-bind="reviewer.EndDate | date: empSettingCtrl.dateFormat"
                     ng-if="$first" rowspan="{{employee.Reviewers.length}}"></td>
-                <td class="text-center width-80" rowspan="{{employee.NumberEvaluators}}" ng-if="employee.IsSemiHasMonthly && $first">
-                    <span class="fa fa-check-square-o epa-saved" ng-if="employee.SelfEvaluators[0].HasEvaluationGenerated"></span>
-                </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-if="employee.IsSemiHasMonthly && $first">
-                    <input type="checkbox" ng-checked="employee.IsIncluded" ng-click="empSettingCtrl.includeExcludeEmployee(employee)"
-                           ng-disabled="updateCtrl.permission != updateCtrl.policyEnum.Host" />
-                </td>
-                <td class="text-center" rowspan="{{employee.NumberEvaluators}}" ng-if="employee.IsSemiHasMonthly && $first">
-                    <div class="btn-group">
-                        <a class="fa fa-pencil-square-o icon-edit" title="Edit" ng-click="empSettingCtrl.updateEmployeeSetting(employee)"></a>
-                    </div>
-                </td>
             </tr>
         </tbody>
         <tbody ng-if="empSettingCtrl.filteredItems.length == 0">

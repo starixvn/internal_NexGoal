@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Criteria.Employee;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
-    using System.Collections.Generic;
 
     public interface IEmployeeService
     {
@@ -20,14 +20,12 @@
 
         CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria);
 
-        IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);       
+        IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
 
         CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);
 
         IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(GetEmployeeByDepartmentIdCriteria criteria);
 
         IEnumerable<EmployeeModel> GetEmployeeByGroupId(GetEmployeeByGroupIdCriteria criteria);
-
-        CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria);
     }
 }

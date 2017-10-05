@@ -35,7 +35,6 @@ appModule.directive('searchAutoComplete', ['$timeout', 'errorFactory', function 
                                     employee: {
                                         EmployeeId: employee.EmployeeId,
                                         Name: employee.NickName,
-                                        HasMonthlyEPA: employee.HasMonthlyEPA,
                                         TeamName: employee.Group.GroupName,
                                         FullName: employee.FullName
                                     }
@@ -55,7 +54,6 @@ appModule.directive('searchAutoComplete', ['$timeout', 'errorFactory', function 
                             scope.employee = {
                                 EmployeeId: 0,
                                 Name: scope.searchEmployees,
-                                HasMonthlyEPA: false,
                                 TeamName: ""
                             };
                         }

@@ -20,8 +20,10 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
             },
             { HeaderText: "Full Name", Width: 160, Name: "FullName", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Nick Name", Width: 100, Name: "NickName", HeaderAlign: "center", CellAlign: "center" },
-            { HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center", 
-            CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string' },
+            {
+                HeaderText: "Section", Width: 150, Name: "Section", HeaderAlign: "center",
+                CellAlign: "left", Sort: true, SortDirection: sortSection, SortType: 'string'
+            },
             { HeaderText: "Job Title", Width: 180, Name: "JobTitle", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Target Type", Width: 120, Name: "TargetType", HeaderAlign: "center", CellAlign: "left" },
             { HeaderText: "Self Score", Width: 80, Name: "SelfScore", HeaderAlign: "center", CellAlign: "center" },
@@ -44,19 +46,11 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
         };
 
         if (epaInfo.EPAId > 0 && epaInfo.Process.Self.StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
-            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === enumerationsFactory.targetType.SemiAnnual) {
-                result.SelfScore = epaInfo.MonthlyEPA.AverageSelfScoreConverted;
-            } else {
-                result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
-            }
+            result.SelfScore = utilitiesFactory.parseFloat(epaInfo.Process.Self.TotalScore);
         }
 
         if (epaInfo.EPAId > 0 && epaInfo.Process.Evaluators[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
-            if (epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId === enumerationsFactory.targetType.SemiAnnual) {
-                result.EvaluatorScore = epaInfo.MonthlyEPA.AverageEvaluatorScoreConverted;
-            } else {
-                result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
-            }
+            result.EvaluatorScore = epaInfo.Process.AverageScoreByEvaluators;
         }
 
         if (epaInfo.EPAId > 0 && epaInfo.Process.Reviewers[0].StatusEndProcess !== enumerationsFactory.processStatusType.Open) {
@@ -89,8 +83,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                     cssSelfScore = memberEPA.EPAId > 0 && !memberEPA.Process.Self.IsEndProcess ? 'red' : '',
                     cssEvaluatorScore = memberEPA.EPAId > 0 && !memberEPA.Process.Evaluators[0].IsEndProcess ? 'red' : '',
                     cssReviewerScore = memberEPA.EPAId > 0 && !memberEPA.Process.Reviewers[0].IsEndProcess ? 'red' : '',
-                    pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId +
-                            '" data-hasmonthlyepa="' + memberEPA.HasMonthlyEPA + '"></input>';
+                    pdfIcon = '<a class="icon-pdf exportPDF" data-epaid="' + memberEPA.EPAId + '"></input>';
 
                 var currentRow = {
                     Columns: [
@@ -180,8 +173,7 @@ function ($timeout, utilitiesFactory, enumerationsFactory) {
                             event.preventDefault();
 
                             var epaId = parseInt($(this).data('epaid'), 10);
-                            var hasMonthlyEPA = $(this).data('hasmonthlyepa');
-                            $scope.exportPdf(epaId, hasMonthlyEPA);
+                            $scope.exportPdf(epaId);
                         });
                     }
                 });

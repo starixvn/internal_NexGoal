@@ -1,18 +1,16 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
-    using NexGoal.Core.Security;
     using NexGoal.Criteria.Employee;
     using NexGoal.Model.Employee;
     using NexGoal.Model.Enitites;
-    using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class EmployeeController : BaseController
     {
@@ -34,8 +32,7 @@
             int? groupId = null,
             bool? isLocal = null,
             bool? isSpecialUser = null,
-            bool? isDisabledUser = null,
-            bool? hasMonthlyEPA = null)
+            bool? isDisabledUser = null)
         {
             var criteria = new GetAllEmployeeCriteria
             {
@@ -43,8 +40,7 @@
                 GroupId = groupId,
                 IsLocal = isLocal,
                 IsSpecialUser = isSpecialUser,
-                IsDisabledUser = isDisabledUser,
-                HasMonthlyEPA = hasMonthlyEPA
+                IsDisabledUser = isDisabledUser
             };
 
             IEnumerable<EmployeeModel> employees = _employeeService.GetAllEmployee(criteria);
@@ -58,7 +54,7 @@
             IEnumerable<Group> groups = _employeeService.GetAllGroup(criteria);
 
             return groups;
-        }       
+        }
 
         [ApiAuthorize(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
         [HttpPut]
@@ -78,7 +74,7 @@
             var criteria = new GetAllJobTitleCriteria();
             IEnumerable<JobTitle> jobTitles = _employeeService.GetAllJobTitle(criteria);
             return jobTitles;
-        }       
+        }
 
         [ApiAuthorize(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
         [HttpPut]
@@ -90,20 +86,6 @@
             }
 
             CommandResult commandResult = _employeeService.AssignRoleToEmployee(criteria);
-
-            return commandResult;
-        }        
-
-        [ApiAuthorize(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
-        [HttpPut]
-        public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = SessionService.EmployeeId;
-            }
-
-            CommandResult commandResult = _employeeService.UpdateHasMonthlyEPA(criteria);
 
             return commandResult;
         }

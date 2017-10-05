@@ -1,12 +1,11 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using System.Collections.Generic;
     using NexGoal.Core.Model;
-    using NexGoal.Criteria.EPAHistory;
     using NexGoal.Criteria.Period;
     using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.FlowManagement;
     using NexGoal.Model.Period;
-    using System.Collections.Generic;
 
     public interface IPeriodService
     {
@@ -18,13 +17,7 @@
 
         PeriodModel GetPeriodById(int id);
 
-        IEnumerable<PeriodModel> GetMonthlyPeriod(GetMonthlyPeriodCriteria criteria);
-
-        IEnumerable<PeriodModel> GetAllMonthlyPeriod(GetAllMonthlyPeriodCriteria criteria);
-
         CommandResult CreatePeriod(CreatePeriodCriteria criteria);
-
-        CommandResult AutoCreateMonthlyPeriod(AutoCreateMonthlyPeriodCriteria criteria);
 
         CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria);
 
@@ -67,5 +60,7 @@
         IEnumerable<PeriodModel> GetAllPeriodByEvaluator(GetAllPeriodByEvaluatorCriteria criteria);
 
         IEnumerable<PeriodModel> GetAllPeriodByReviewer(GetAllPeriodByReviewerCriteria criteria);
+
+        IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria);
     }
 }

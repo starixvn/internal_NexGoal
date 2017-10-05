@@ -3,7 +3,7 @@
 
 employeeModule.factory('employeeFactory', ['$http', 'baseUrl', function ($http, baseUrl) {
     return {
-        getAllEmployee: function (query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
+        getAllEmployee: function (query, groupId, isLocal, isSpecialUser, isDisabledUser) {
             return $http.get(baseUrl + 'api/Employee/GetAllEmployee',
                 {
                     params: {
@@ -11,8 +11,7 @@ employeeModule.factory('employeeFactory', ['$http', 'baseUrl', function ($http, 
                         groupId: groupId,
                         isLocal: isLocal,
                         isSpecialUser: isSpecialUser,
-                        isDisabledUser: isDisabledUser,
-                        hasMonthlyEPA: hasMonthlyEPA
+                        isDisabledUser: isDisabledUser
                     }
                 });
         },
@@ -25,11 +24,8 @@ employeeModule.factory('employeeFactory', ['$http', 'baseUrl', function ($http, 
         assignRoleToEmployee: function (employeeRoles) {
             return $http.put(baseUrl + 'api/Employee/AssignRoleToEmployee', employeeRoles);
         },
-        updateHasMonthlyEPA: function (employee) {
-            return $http.put(baseUrl + 'api/Employee/UpdateHasMonthlyEPA', employee);
-        },
         getUserPermissionOnEmployee: function () {
             return $http.get(baseUrl + 'api/Employee/GetUserPermissionOnEmployee');
         }
     };
-} ]);
+}]);

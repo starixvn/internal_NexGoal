@@ -68,7 +68,7 @@
                                 <a class="icon-sorting-bg" ng-class="reviewerCtrl.selectedCls('Team')"
                                    ng-click="reviewerCtrl.changeSorting('Team')"></a>
                             </div>
-                        </th>                        
+                        </th>
                         <th data-translate="NickName"></th>
                         <th data-translate="JobTitle"></th>
                         <th class="sorting">
@@ -93,6 +93,7 @@
                             <label data-translate="Comment"></label>
                             <label class="note" data-translate="(*)"></label>
                         </th>
+                        <th data-translate="ToeicPolicy"></th>
                         <th class="sorting">
                             <div class="col-sm-9 lab" data-translate="TotalScore"></div>
                             <div class="col-sm-3 icon" ng-if="reviewerCtrl.memberEPAs.length > 1">
@@ -160,6 +161,7 @@
                                ng-if="memberEPA.Process.CurrentProcess.Comment && memberEPA.Process.CurrentProcess.Comment.length > 0
                                 && (!memberEPA.IsAllowedToEdit || reviewerCtrl.permission != reviewerCtrl.policyEnum.Host)"></a>
                         </td>
+                        <td class="text-center" ng-bind="memberEPA.ToeicPolicyScore | customScore"></td>
                         <td class="text-center">
                             {{memberEPA.Process.CurrentProcess.TotalScore | integerScore}} / {{memberEPA.Process.CurrentProcess.MaxPerformanceScore | customScore}}
                         </td>

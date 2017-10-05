@@ -460,7 +460,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
     isExcludedEmployee,
     isGeneratedEPA,
     isEvaluated,
-    hasMonthlyEPA,
     epaStatus) {
         return periodFactory.getPeriodEmployeeSettingById(
             periodId,
@@ -469,7 +468,6 @@ function ($modal, periodFactory, errorFactory, notificationFactory, utilitiesFac
             isExcludedEmployee,
             isGeneratedEPA,
             isEvaluated,
-            hasMonthlyEPA,
             epaStatus)
         .success(function (employeeSettings) {
             periodModel.employeeSettings = employeeSettings;

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Utilities;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -12,8 +14,6 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EmployeeService : BaseService, IEmployeeService
     {
@@ -108,7 +108,7 @@
             }
 
             return jobTitles;
-        }        
+        }
 
         public CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria)
         {
@@ -145,18 +145,6 @@
             }
 
             return employees;
-        }
-
-        public CommandResult UpdateHasMonthlyEPA(UpdateHasMonthlyEPACriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
         }
 
         private IEnumerable<EmployeeModel> GetRoleOfEmployee(RawEmployeeModel rawEmployee)

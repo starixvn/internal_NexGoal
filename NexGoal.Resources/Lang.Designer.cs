@@ -2032,15 +2032,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Has Monthly PA.
-        /// </summary>
-        public static string HasMonthlyEPA {
-            get {
-                return ResourceManager.GetString("HasMonthlyEPA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Hide Final Score.
         /// </summary>
         public static string HideFinalScore {
@@ -2613,114 +2604,6 @@ namespace NexGoal.Resources {
         public static string ModifiedDate {
             get {
                 return ResourceManager.GetString("ModifiedDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly Average.
-        /// </summary>
-        public static string MonthlyAverage {
-            get {
-                return ResourceManager.GetString("MonthlyAverage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly PA.
-        /// </summary>
-        public static string MonthlyEPA {
-            get {
-                return ResourceManager.GetString("MonthlyEPA", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly PA Detail Report.
-        /// </summary>
-        public static string MonthlyEPADetailReport {
-            get {
-                return ResourceManager.GetString("MonthlyEPADetailReport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly_PA_Detail_Report.
-        /// </summary>
-        public static string MonthlyEPADetailReportName {
-            get {
-                return ResourceManager.GetString("MonthlyEPADetailReportName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly PA Detail Report.
-        /// </summary>
-        public static string MonthlyEPADetailReportSheet {
-            get {
-                return ResourceManager.GetString("MonthlyEPADetailReportSheet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly PA History.
-        /// </summary>
-        public static string MonthlyEPAHistory {
-            get {
-                return ResourceManager.GetString("MonthlyEPAHistory", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly PA List.
-        /// </summary>
-        public static string monthlyEPAs {
-            get {
-                return ResourceManager.GetString("monthlyEPAs", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly PA Summary Report.
-        /// </summary>
-        public static string MonthlyEPASummaryReport {
-            get {
-                return ResourceManager.GetString("MonthlyEPASummaryReport", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly_PA_Summary_Report.
-        /// </summary>
-        public static string MonthlyEPASummaryReportName {
-            get {
-                return ResourceManager.GetString("MonthlyEPASummaryReportName", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly PA Summary Report.
-        /// </summary>
-        public static string MonthlyEPASummaryReportSheet {
-            get {
-                return ResourceManager.GetString("MonthlyEPASummaryReportSheet", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly PA Summary Report.
-        /// </summary>
-        public static string MonthlyEPASummaryReportTitle {
-            get {
-                return ResourceManager.GetString("MonthlyEPASummaryReportTitle", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Monthly Period.
-        /// </summary>
-        public static string MonthlyPeriod {
-            get {
-                return ResourceManager.GetString("MonthlyPeriod", resourceCulture);
             }
         }
         
@@ -4476,6 +4359,15 @@ namespace NexGoal.Resources {
         public static string ToDoList {
             get {
                 return ResourceManager.GetString("ToDoList", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to TOEIC Policy.
+        /// </summary>
+        public static string ToeicPolicy {
+            get {
+                return ResourceManager.GetString("ToeicPolicy", resourceCulture);
             }
         }
         

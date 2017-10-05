@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetAllMonthlyPeriodCriteria : CriteriaBase
+    public class GetAllPeriodIncludeImportCriteria : CriteriaBase
     {
         public override bool IsValid()
         {
@@ -11,7 +11,7 @@
 
         public override string GetSettingKey()
         {
-            return "EpaMonthlyPeriod_GetAll";
+            return "EpaPeriod_GetAllPeriodIncludeImport";
         }
     }
 }

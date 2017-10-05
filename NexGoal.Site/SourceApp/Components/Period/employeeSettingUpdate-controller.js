@@ -18,8 +18,6 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
     vm.period = period;
     vm.selectedEmployees = selectedEmployees;
     vm.singleMode = vm.selectedEmployees.length === 1 ? true : false;
-    vm.isEditOnEPAHasMonthly = vm.selectedEmployees[0].Employee.HasMonthlyEPA &&
-        vm.period.TargetType.TargetTypeId === enumerationsFactory.targetType.SemiAnnual;
 
     vm.permission = permission;
     vm.periodDateFormat = PeriodModel.periodDateFormat;
@@ -239,13 +237,6 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
 
     vm.save = function () {
         var employeeAssignmentSetting;
-
-        if (vm.isEditOnEPAHasMonthly) {
-            vm.employeeOptions.selfEvaluator.StartDate = vm.employeeOptions.humanResource.EndDate;
-            vm.employeeOptions.selfEvaluator.EndDate = vm.employeeOptions.humanResource.EndDate;
-            vm.employeeOptions.evaluator.StartDate = vm.employeeOptions.humanResource.EndDate;
-            vm.employeeOptions.evaluator.EndDate = vm.employeeOptions.humanResource.EndDate;
-        }
 
         if (vm.singleMode) {
             if (PeriodModel.validateEmployeeSetting(vm.employeeOptions)) {

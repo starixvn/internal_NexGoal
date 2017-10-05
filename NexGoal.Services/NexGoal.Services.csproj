@@ -152,7 +152,6 @@
     <Compile Include="Implement\Assessment\EOYService.cs" />
     <Compile Include="Implement\Assessment\EOQService.cs" />
     <Compile Include="Implement\EPA\EPAEvaluatorService.cs" />
-    <Compile Include="Implement\EPA\EPAHistoryService.cs" />
     <Compile Include="Implement\EPA\EPAReviewerService.cs" />
     <Compile Include="Implement\EPA\EPASelfService.cs" />
     <Compile Include="Interfaces\EPA\RazorRenderService.cs" />
@@ -183,7 +182,6 @@
     <Compile Include="Interfaces\IEmployeeService.cs" />
     <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
     <Compile Include="Interfaces\EPA\IEPAEvaluatorService.cs" />
-    <Compile Include="Interfaces\EPA\IEPAHistoryService.cs" />
     <Compile Include="Interfaces\EPA\IEPAReviewerService.cs" />
     <Compile Include="Interfaces\EPA\IEPASelfService.cs" />
     <Compile Include="Interfaces\EPA\IRecalculateScoreService.cs" />

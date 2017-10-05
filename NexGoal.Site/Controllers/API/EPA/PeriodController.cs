@@ -194,7 +194,6 @@
             bool? isExcludedEmployee = null,
             bool? isGeneratedEPA = null,
             int? isEvaluated = null,
-            bool? hasMonthlyEPA = null,
             int? epaStatus = null)
         {
             var criteria = new GetPeriodEmployeeSettingCriteria
@@ -205,7 +204,6 @@
                 IsExcludedEmployee = isExcludedEmployee,
                 IsGeneratedEPA = isGeneratedEPA,
                 IsEvaluated = isEvaluated,
-                HasMonthlyEPA = hasMonthlyEPA,
                 EPAStatus = epaStatus
             };
 

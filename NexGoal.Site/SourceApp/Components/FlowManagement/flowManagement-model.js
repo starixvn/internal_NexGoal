@@ -108,7 +108,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
 
     var successGetFlow = function (flows) {
         angular.forEach(flows, function (flow) {
-
             switch (flow.ProcessId) {
                 case 1:
                     flowMngModel.humanResources.duration = flow.Duration;
@@ -458,10 +457,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
     flowMngModel.validatePersonalFlow = function (vm) {
         if (!vm.employeeSelected) {
             notificationFactory.error("EmployeeNotSelectedWarning");
-            return false;
-        }
-        else if (vm.flowTemplate.TargetType.TargetTypeId === vm.targetTypeEnum.Monthly && !vm.employeeSelected.HasMonthlyEPA) {
-            notificationFactory.error("EmployeeNotSetMonthlyEvaluation");
             return false;
         }
         else if (vm.humanResources.employees.length === 0

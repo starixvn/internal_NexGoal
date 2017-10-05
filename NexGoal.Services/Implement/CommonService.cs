@@ -1,9 +1,10 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
     using NexGoal.Criteria.EmployeeEPA;
-    using NexGoal.Criteria.EPAHistory;
     using NexGoal.Criteria.KPI;
     using NexGoal.Criteria.KPIGroup;
     using NexGoal.Criteria.Period;
@@ -19,8 +20,6 @@
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Model.TargetType;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class CommonService : ICommonService
     {
@@ -31,11 +30,10 @@
         private readonly IDepartmentService departmentService;
         private readonly IPeriodService periodService;
         private readonly IEmployeeEPAService employeeEPAService;
-        private readonly IEPAHistoryService epaHistoryService;
         private readonly ITargetTemplateService targetTemplateService;
 
         public CommonService()
-            : this(null, null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null, null)
         {
         }
 
@@ -47,7 +45,6 @@
             IDepartmentService departmentService,
             IPeriodService periodService,
             IEmployeeEPAService employeeEPAService,
-            IEPAHistoryService epaHistoryService,
             ITargetTemplateService targetTemplateService)
         {
             this.targetTypeService = targetTypeService ?? new TargetTypeService();
@@ -57,7 +54,6 @@
             this.departmentService = departmentService ?? new DepartmentService();
             this.periodService = periodService ?? new PeriodService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
-            this.epaHistoryService = epaHistoryService ?? new EPAHistoryService();
             this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
         }
 
@@ -138,7 +134,7 @@
 
         public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
         {
-            return epaHistoryService.GetAllPeriodIncludeImport(criteria);
+            return periodService.GetAllPeriodIncludeImport(criteria);
         }
 
         public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria)

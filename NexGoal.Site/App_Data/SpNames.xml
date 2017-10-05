@@ -31,7 +31,6 @@
         </Setting>
         <Setting Key="EpaEmployee_GetByGroupId" SpName="EpaEmployee_GetByGroupId" DbName="NexGoal" Plain="0">
         </Setting>
-        <Setting Key="EpaEmployee_UpdateHasMonthlyEPA" SpName="EpaEmployee_UpdateHasMonthlyEPA" DbName="NexGoal" Plain="0" ></Setting>
     </Function>
     <Function Name="KPI">
         <Setting Key="KPI_Get" SpName="KPI_Get" DbName="NexGoal" Plain="0">
@@ -239,11 +238,6 @@
         </Setting>
         <Setting Key="EPA_GetOtherViolations" SpName="EPA_GetOtherViolations" DbName="NexGoal" Plain="0">
         </Setting>
-        <Setting Key="EPA_SemiAnnual_GetMonthly" SpName="EPA_SemiAnnual_GetMonthly" DbName="NexGoal" Plain="0">
-            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-            <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
-        </Setting>
         <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="NexGoal" Plain="0">
         </Setting>
         <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="NexGoal" Plain="0">
@@ -294,6 +288,8 @@
             <Mapping DataField="NoticeAtBegin" ObjectProperty="HasSendMail" />
         </Setting>
         <Setting Key="Period_GetInprogressSemiPeriod" SpName="Period_GetInprogressSemiPeriod" DbName="NexGoal" Plain="0"></Setting>
+        <Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="NexGoal" Plain="0">
+        </Setting>
     </Function>
     <Function Name="Generation Evaluation">
         <Setting Key="EpaAuto_GetPeriodHasEndedProcess" SpName="EpaAuto_GetPeriodHasEndedProcess" DbName="NexGoal" Plain="0"></Setting>
@@ -376,21 +372,6 @@
         </Setting>
         <Setting Key="Report_Master" SpName="Report_Master" DbName="NexGoal" Plain="0"></Setting>
         <Setting Key="Report_Nomination" SpName="Report_Nomination" DbName="NexGoal" Plain="0"></Setting>
-    </Function>
-    <Function Name="EPA History">
-        <Setting Key="Epa_GetEPAHistory" SpName="Epa_GetEPAHistory" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="Epa_GetMonthlyEPAHistory" SpName="Epa_GetMonthlyEPAHistory" DbName="NexGoal" Plain="0"></Setting>
-        <Setting Key="EpaPeriod_GetAllPeriodIncludeImport" SpName="EpaPeriod_GetAllPeriodIncludeImport" DbName="NexGoal" Plain="0">
-        </Setting>
-    </Function>
-    <Function Name="Monthly Period">
-        <Setting Key="EpaMonthlyPeriod_Get" SpName="EpaMonthlyPeriod_Get" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EpaMonthlyPeriod_GetAll" SpName="EpaMonthlyPeriod_GetAll" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EpaAuto_Monthly_InsertPeriod" SpName="EpaAuto_Monthly_InsertPeriod" DbName="NexGoal" Plain="0">
-        </Setting>
     </Function>
     <Function Name="Menu">
         <Setting Key="Menu_GetMenusByEmployeeId" SpName="Menu_GetMenusByEmployeeId" DbName="NexGoal" Plain="0"></Setting>

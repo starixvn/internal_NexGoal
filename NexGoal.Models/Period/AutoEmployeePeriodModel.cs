@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Model.Period
 {
-    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
 
     public class AutoEmployeePeriodModel
@@ -28,15 +27,5 @@
         }
 
         public int EmployeeId { get; set; }
-
-        public bool HasMonthlyEPA { get; set; }
-
-        public bool IsSemiHasMonthly
-        {
-            get
-            {
-                return TargetTypeId == (int)TargetType.SemiAnnual && HasMonthlyEPA;
-            }
-        }
     }
 }

@@ -109,28 +109,12 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         var tempa = epaInfo1.Process.Self.TotalScore ? parseFloat(epaInfo1.Process.Self.TotalScore) : 0,
             tempb = epaInfo2.Process.Self.TotalScore ? parseFloat(epaInfo2.Process.Self.TotalScore) : 0;
 
-        if (epaInfo1.HasMonthlyEPA && epaInfo1.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            tempa = epaInfo1.MonthlyEPA.AverageSelfScoreConverted;
-        }
-
-        if (epaInfo2.HasMonthlyEPA && epaInfo2.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            tempb = epaInfo2.MonthlyEPA.AverageSelfScoreConverted;
-        }
-
         return tempa - tempb;
     }
 
     function sortByEvaluatorScore(epaInfo1, epaInfo2) {
         var tempa = epaInfo1.Process.AverageScoreByEvaluators,
             tempb = epaInfo2.Process.AverageScoreByEvaluators;
-
-        if (epaInfo1.HasMonthlyEPA && epaInfo1.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            tempa = epaInfo1.MonthlyEPA.AverageEvaluatorScoreConverted;
-        }
-
-        if (epaInfo2.HasMonthlyEPA && epaInfo2.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            tempb = epaInfo2.MonthlyEPA.AverageEvaluatorScoreConverted;
-        }
 
         return tempa - tempb;
     }
@@ -154,9 +138,11 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     memberEPA.Process.CurrentProcess.MaxAdditionScore;
 
                 memberEPA.Process.Self.TotalScore = utilitiesFactory.parseFloat(memberEPA.Process.Self.TotalScore);
-                memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.CurrentProcess.TotalScore !== "" ?
+                memberEPA.Process.CurrentProcess.TotalScore = memberEPA.Process.CurrentProcess.TotalScore.length > 0 ?
                                                             utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore) :
                                                             utilitiesFactory.parseFloat(memberEPA.Process.AverageScoreByEvaluators);
+
+                memberEPA.Process.CurrentProcess.TotalScore += memberEPA.ToeicPolicyScore;
 
                 if (memberEPA.LastFinalScore.length > 0) {
                     memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);
@@ -314,7 +300,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     vm.inputScore = function (memberEPA) {
         var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
         maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore,
-        adjustScore = memberEPA.Process.CurrentProcess.AdjustScore === "" ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;
+        adjustScore = memberEPA.Process.CurrentProcess.AdjustScore.length === 0 ? 0 : memberEPA.Process.CurrentProcess.AdjustScore;
 
         if (adjustScore > maxAdditionScore) {
             if (maxAdditionScore < vm.minScore) {

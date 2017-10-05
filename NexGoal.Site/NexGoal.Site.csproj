@@ -204,7 +204,6 @@
     <Compile Include="Controllers\API\Assessment\EoyController.cs" />
     <Compile Include="Controllers\API\Assessment\EoqController.cs" />
     <Compile Include="Controllers\API\EPA\EPAByKPIController.cs" />
-    <Compile Include="Controllers\API\EPA\EPAHistoryController.cs" />
     <Compile Include="Controllers\API\EPA\FlowManagementController.cs" />
     <Compile Include="Controllers\API\EPA\IntergrationController.cs" />
     <Compile Include="Controllers\API\EPA\KPIController.cs" />
@@ -522,7 +521,6 @@
     <Content Include="SourceApp\Components\Employee\employee-factory.js" />
     <Content Include="SourceApp\Components\Employee\employee-model.js" />
     <Content Include="SourceApp\Components\Employee\Templates\index.html" />
-    <Content Include="SourceApp\Components\Employee\Templates\modalConfirmSetUnsetMonthlyEvaluation.html" />
     <Content Include="SourceApp\Components\EPA\avatar-employee.png" />
     <Content Include="SourceApp\Components\EPA\lastRating-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\detail-controller.js" />
@@ -588,9 +586,6 @@
     <Content Include="SourceApp\Components\EPA\EPAByKPI\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\ResetScore\resetScore-controller.js" />
     <Content Include="SourceApp\Components\EPA\ResetScore\Templates\detail.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiPerformanceResult.html" />
-    <Content Include="SourceApp\Components\EPA\Reviewer\Templates\semiDetail.html" />
-    <Content Include="SourceApp\Components\EPA\Templates\semiPerformanceResult.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\index-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-controller.js" />
     <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-factory.js" />

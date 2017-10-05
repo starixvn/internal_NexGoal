@@ -41,11 +41,7 @@ function ($location, SelfEvalutorModel, CommonModel, enumerationsFactory, utilit
     };
 
     vm.viewEPAResult = function (epa) {
-        if (epa.HasMonthlyEPA && epa.Period.TargetTypeId === vm.targetTypeEnum.SemiAnnual) {
-            $location.path(baseUrl + 'EPA/SemiDetail/' + epa.EPAId);
-        } else {
-            $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
-        }
+        $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
     };
 
     function initialize() {

@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using NexGoal.Core.Constants;
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
@@ -14,9 +15,6 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class EmployeeEPAService : BaseService, IEmployeeEPAService
     {
@@ -287,20 +285,6 @@
             return otherViolationDetails;
         }
 
-        public IList<EPAModel> GetMonthlyEPAOfSemi(string epaIds)
-        {
-            IList<EPAModel> monthlyEPAs = new List<EPAModel>();
-
-            var criteria = new GetMonthlyEPAOfSemiCriteria()
-            {
-                EPAIds = epaIds
-            };
-
-            monthlyEPAs = _employeeEPARepository.GetEPA(criteria).ToList();
-
-            return monthlyEPAs;
-        }
-
         public CommandResult ResetScore(ResetScoreCriteria criteria)
         {
             CommandResult commandResult = new CommandResult();
@@ -373,17 +357,6 @@
             return result;
         }
 
-        public void GroupMonthlyEPABySemi(EPAModel semiEPA, IList<EPAModel> monthlyEPAs)
-        {
-            if (semiEPA != null && monthlyEPAs != null && monthlyEPAs.Count > 0)
-            {
-                foreach (EPAModel monthlyEPA in monthlyEPAs.Where(x => x.EPAParentId.Equals(semiEPA.EPAId)))
-                {
-                    semiEPA.MonthlyEPA.MonthlyEPAs.Add(monthlyEPA);
-                }
-            }
-        }
-
         public IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId, int epaId)
         {
             IEnumerable<EPAKPIGroupModel> groups = new List<EPAKPIGroupModel>();
@@ -394,7 +367,7 @@
                 EpaId = epaId
             };
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 groups = _employeeEPARepository.GetLastRating(criteria);
                 foreach (var group in groups)

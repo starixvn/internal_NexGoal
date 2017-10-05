@@ -11,8 +11,8 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     employeeModel.jobTitles = [];
     employeeModel.permission = 0;
 
-    employeeModel.getAllEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA) {
-        return employeeFactory.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser, hasMonthlyEPA)
+    employeeModel.getAllEmployee = function (query, groupId, isLocal, isSpecialUser, isDisabledUser) {
+        return employeeFactory.getAllEmployee(query, groupId, isLocal, isSpecialUser, isDisabledUser)
         .success(function (employees) {
             employeeModel.employees = employees;
         })
@@ -88,57 +88,6 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
         return roles;
     };
 
-    employeeModel.openPopupUpdateHasMonthlyEPA = function (vm, employee) {
-        employee.HasMonthlyEPA = !employee.HasMonthlyEPA;
-
-        var action = employee.HasMonthlyEPA ? "set" : "unset",
-        newEmployee = {
-            EmployeeId: employee.EmployeeId,
-            HasMonthlyEPA: employee.HasMonthlyEPA
-        };
-
-        var modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/Employee/Templates/modalConfirmSetUnsetMonthlyEvaluation.html',
-            controller: "ModalConfirmSetUnsetMonthlyEvaluationController as modalConfirmCtrl",
-            backdrop: 'static',
-            resolve: {
-                name: function () {
-                    return employee.NickName;
-                },
-                action: function () {
-                    return action;
-                }
-            },
-            windowClass: "modal-confirm-center"
-        });
-
-        modalInstance.result.then(function () {
-            employeeFactory.updateHasMonthlyEPA(newEmployee)
-            .success(function (response) {
-                if (response.IsSuccessful) {
-                    notificationFactory.success("UpdatedSuccessfully");
-                }
-                else {
-                    employee.HasMonthlyEPA = !newEmployee.HasMonthlyEPA;
-                    notificationFactory.error("", response.Message);
-                }
-            })
-            .error(function (response, status) {
-                if (status === 405) {
-                    errorFactory.errorHandle(status);
-                }
-                else {
-                    employee.HasMonthlyEPA = !newEmployee.HasMonthlyEPA;
-                    notificationFactory.error("UpdatedUnsuccessfully");
-                }
-            });
-        }, function () {
-            employee.HasMonthlyEPA = !newEmployee.HasMonthlyEPA;
-        })['finally'](function () {
-            modalInstance = '';
-        });
-    };
-
     employeeModel.getUserPermissionOnEmployee = function () {
         return employeeFactory.getUserPermissionOnEmployee()
         .success(function (permission) {
@@ -150,4 +99,4 @@ function ($modal, employeeFactory, errorFactory, notificationFactory) {
     };
 
     return employeeModel;
-} ]);
+}]);

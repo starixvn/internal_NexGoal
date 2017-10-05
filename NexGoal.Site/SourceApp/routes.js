@@ -89,12 +89,8 @@ var epaModule = angular.module("epaModule", ['ngRoute'])
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/index.html', caseInsensitiveMatch: true });
     $routeProvider.when('/Reviewer/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/detail.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/Reviewer/SemiDetail/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Reviewer/Templates/semiDetail.html', caseInsensitiveMatch: true });
     $routeProvider.when('/EPA/Detail/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewDetail.html', caseInsensitiveMatch: true });
-    $routeProvider.when('/EPA/SemiDetail/:id',
-    { templateUrl: baseUrl + 'SourceApp/Components/EPA/Templates/viewSemiDetail.html', caseInsensitiveMatch: true });
     $routeProvider.when('/RatingByKPI/Index',
     { templateUrl: baseUrl + 'SourceApp/Components/EPA/RatingByKPI/Templates/index.html', caseInsensitiveMatch: true });
     $routeProvider.when('/OldEPA/Convert',

@@ -37,8 +37,7 @@
                     </div>
                 </li>
 
-                <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Self.StatusEndProcess)" class="process-item"
-                    ng-if="!(epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual)">
+                <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Self.StatusEndProcess)" class="process-item">
                     <div data-translate="Self"></div>
                     <div>
                         <span ng-bind="epaInfo.Process.Self.StartDate | customDate"></span>
@@ -55,8 +54,7 @@
                         <span data-translate="Open"></span><i class="fa fa-hourglass-start"></i>
                     </div>
                 </li>
-                <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Evaluators[0].StatusEndProcess)" class="process-item"
-                    ng-if="!(epaInfo.HasMonthlyEPA && epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual)">
+                <li ng-class="dashboardCtrl.getClassProgress(epaInfo.Process.Evaluators[0].StatusEndProcess)" class="process-item">
                     <div>
                         <span>{{"Evaluator" | translate}}: </span>
                         <span ng-if="epaInfo.Process.Evaluators.length == 1" ng-bind="epaInfo.Process.Evaluators[0].NickName"
@@ -116,6 +114,4 @@
             </ul>
         </div>
     </div>
-
 </div>
-

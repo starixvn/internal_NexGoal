@@ -35,8 +35,6 @@
 
         public string FinalScore { get; set; }
 
-        public bool HasMonthlyEPA { get; set; }
-
         public int MaxFinalScore
         {
             get
@@ -61,6 +59,8 @@
 
         public bool HasOtherViolation { get; set; }
 
+        public int ToeicPolicyScore { get; set; }
+
         public EvaluationProcessModel Process { get; set; }
 
         public IList<EPAKPIGroupModel> KPIGroups { get; set; }
@@ -76,8 +76,6 @@
         public string LastGrade { get; set; }
 
         #endregion Last score
-
-        public MonthlyEPAModel MonthlyEPA { get; set; }
 
         public int Rowspan
         {
@@ -101,14 +99,6 @@
             get
             {
                 return Period != null && Period.TargetTypeId == (int)TargetType.Monthly;
-            }
-        }
-
-        public bool IsSemiHasMonthly
-        {
-            get
-            {
-                return Period != null && Period.TargetTypeId == (int)TargetType.SemiAnnual && HasMonthlyEPA;
             }
         }
 

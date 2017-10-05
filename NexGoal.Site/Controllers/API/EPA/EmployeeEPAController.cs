@@ -328,28 +328,12 @@
                 var resetScoreCriteria = new ResetScoreCriteria()
                 {
                     EPAId = epaInfo.EPAId,
-                    ModifiedBy = SessionService.EmployeeId
+                    ModifiedBy = SessionService.EmployeeId,
+                    EPAInfo = epaInfo
                 };
 
-                CommandResult commandResult;
-                if (epaInfo.IsSemiHasMonthly)
-                {
-                    if (epaInfo.Process.Reviewers.Any()
-                        && epaInfo.Process.Reviewers.First().StartDate.Date <= DateTime.Now.Date)
-                    {
-                        resetScoreCriteria.EPAInfo = epaInfo;
-
-                        commandResult = employeeEPAService.ResetScore(resetScoreCriteria);
-                        response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
-                    }
-                }
-                else
-                {
-                    resetScoreCriteria.EPAInfo = epaInfo;
-
-                    commandResult = employeeEPAService.ResetScore(resetScoreCriteria);
-                    response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
-                }
+                CommandResult commandResult = employeeEPAService.ResetScore(resetScoreCriteria);
+                response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
             }
             else
             {

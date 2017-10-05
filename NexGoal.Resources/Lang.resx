@@ -1152,17 +1152,8 @@
   <data name="EmailWrongPatternWarning" xml:space="preserve">
     <value>The field Email has wrong format!</value>
   </data>
-  <data name="HasMonthlyEPA" xml:space="preserve">
-    <value>Has Monthly PA</value>
-  </data>
-  <data name="MonthlyEPA" xml:space="preserve">
-    <value>Monthly PA</value>
-  </data>
   <data name="CreateMonthlyPeriod" xml:space="preserve">
     <value>Create Monthly Period</value>
-  </data>
-  <data name="MonthlyPeriod" xml:space="preserve">
-    <value>Monthly Period</value>
   </data>
   <data name="UpdateMonthlyPeriod" xml:space="preserve">
     <value>Update Monthly Period</value>
@@ -1182,17 +1173,11 @@
   <data name="ViewSemiEPAResult" xml:space="preserve">
     <value>View Semi PA Result</value>
   </data>
-  <data name="monthlyEPAs" xml:space="preserve">
-    <value>Monthly PA List</value>
-  </data>
   <data name="Average" xml:space="preserve">
     <value>Average</value>
   </data>
   <data name="SemiAverage" xml:space="preserve">
     <value>Semi Average</value>
-  </data>
-  <data name="MonthlyAverage" xml:space="preserve">
-    <value>Monthly Average</value>
   </data>
   <data name="MinusScore" xml:space="preserve">
     <value>Minus Score</value>
@@ -1217,30 +1202,6 @@
   </data>
   <data name="LastMonthScore" xml:space="preserve">
     <value>Last Month Score</value>
-  </data>
-  <data name="MonthlyEPADetailReport" xml:space="preserve">
-    <value>Monthly PA Detail Report</value>
-  </data>
-  <data name="MonthlyEPADetailReportName" xml:space="preserve">
-    <value>Monthly_PA_Detail_Report</value>
-  </data>
-  <data name="MonthlyEPADetailReportSheet" xml:space="preserve">
-    <value>Monthly PA Detail Report</value>
-  </data>
-  <data name="MonthlyEPASummaryReport" xml:space="preserve">
-    <value>Monthly PA Summary Report</value>
-  </data>
-  <data name="MonthlyEPASummaryReportName" xml:space="preserve">
-    <value>Monthly_PA_Summary_Report</value>
-  </data>
-  <data name="MonthlyEPASummaryReportSheet" xml:space="preserve">
-    <value>Monthly PA Summary Report</value>
-  </data>
-  <data name="MonthlyEPASummaryReportTitle" xml:space="preserve">
-    <value>Monthly PA Summary Report</value>
-  </data>
-  <data name="MonthlyEPAHistory" xml:space="preserve">
-    <value>Monthly PA History</value>
   </data>
   <data name="ManagementScore" xml:space="preserve">
     <value>Management Score</value>
@@ -1784,5 +1745,8 @@
   </data>
   <data name="ToDoList" xml:space="preserve">
     <value>To Do List</value>
+  </data>
+  <data name="ToeicPolicy" xml:space="preserve">
+    <value>TOEIC Policy</value>
   </data>
 </root>

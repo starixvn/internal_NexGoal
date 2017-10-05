@@ -34,8 +34,8 @@
                         <th ng-if="!updatePeriodSettingCtrl.singleMode" class="text-center col-percent-5"></th>
                         <th data-translate="SymbolCount"></th>
                         <th class="text-center" data-translate="Admin"></th>
-                        <th class="text-center" data-translate="SelfEvaluator" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></th>
-                        <th class="text-center" data-translate="Evaluator" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></th>
+                        <th class="text-center" data-translate="SelfEvaluator"></th>
+                        <th class="text-center" data-translate="Evaluator"></th>
                         <th class="text-center" data-translate="Reviewer"></th>
                     </tr>
                 </thead>
@@ -53,8 +53,8 @@
                                     ng-options="opt.EmployeeId as opt.NickName for opt in updatePeriodSettingCtrl.employeeOptions.humanResourceEmployees"
                                     on-show-dropdown="updatePeriodSettingCtrl.updateTrigger()"></select>
                         </td>
-                        <td ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly"></td>
-                        <td ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td></td>
+                        <td>
                             <select class="form-control" multiple chosen
                                     options="updatePeriodSettingCtrl.employeeOptions.evaluatorEmployees"
                                     ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.ids"
@@ -84,7 +84,7 @@
                             <calendar-image class="calendar-image period-calendar"
                                             ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></calendar-image>
                         </td>
-                        <td class="calendar-box" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td class="calendar-box">
                             <input readonly class="calendar-form-control" type="text"
                                    ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.StartDate"
                                    ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
@@ -93,7 +93,7 @@
                             <calendar-image class="calendar-image period-calendar"
                                             ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></calendar-image>
                         </td>
-                        <td class="calendar-box" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td class="calendar-box">
                             <input readonly class="calendar-form-control" type="text"
                                    ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.StartDate"
                                    ng-click="updatePeriodSettingCtrl.openFlowPopupStartDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"
@@ -125,7 +125,7 @@
                             <calendar-image class="calendar-image period-calendar"
                                             ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.HumanResources)"></calendar-image>
                         </td>
-                        <td class="calendar-box" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td class="calendar-box">
                             <input readonly class="calendar-form-control" type="text"
                                    ng-model="updatePeriodSettingCtrl.employeeOptions.selfEvaluator.EndDate"
                                    ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"
@@ -134,7 +134,7 @@
                             <calendar-image class="calendar-image period-calendar"
                                             ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.SelfEvaluator)"></calendar-image>
                         </td>
-                        <td class="calendar-box" ng-if="!updatePeriodSettingCtrl.isEditOnEPAHasMonthly">
+                        <td class="calendar-box">
                             <input readonly class="calendar-form-control" type="text"
                                    ng-model="updatePeriodSettingCtrl.employeeOptions.evaluator.EndDate"
                                    ng-click="updatePeriodSettingCtrl.openFlowPopupEndDate($event, updatePeriodSettingCtrl.evaluatorType.Evaluator)"

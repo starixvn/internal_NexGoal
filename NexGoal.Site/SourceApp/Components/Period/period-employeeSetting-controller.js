@@ -25,7 +25,6 @@ function ($scope, $routeParams, PeriodModel, CommonModel, utilitiesFactory, enum
         isExcludedEmployee: null,
         isGeneratedEPA: "",
         isEvaluated: "",
-        hasMonthlyEPA: '',
         epaStatus: $routeParams.inprogress === true ? '0' : ''
     };
 
@@ -43,7 +42,6 @@ function ($scope, $routeParams, PeriodModel, CommonModel, utilitiesFactory, enum
             vm.filter.isExcludedEmployee,
             vm.filter.isGeneratedEPA,
             vm.filter.isEvaluated,
-            vm.filter.hasMonthlyEPA,
             vm.filter.epaStatus)
         .then(function () {
             vm.employeeSettings = PeriodModel.employeeSettings;
@@ -156,33 +154,11 @@ function ($scope, $routeParams, PeriodModel, CommonModel, utilitiesFactory, enum
         PeriodModel.openPopupIncludeExcludeEmployee(vm, vm.period.PeriodId, employee);
     };
 
-    var checkEditSettingOnDifferentType = function (selectedEmployees) {
-        var isValid = true;
-
-        if (!selectedEmployees || selectedEmployees.length > 0) {
-            var hasMonthlyEPA = selectedEmployees[0].Employee.HasMonthlyEPA;
-
-            for (var i = 1; i < selectedEmployees.length; i++) {
-                var employee = selectedEmployees[i].Employee;
-
-                if (employee.HasMonthlyEPA !== hasMonthlyEPA) {
-                    isValid = false;
-
-                    break;
-                }
-            }
-        }
-
-        return isValid;
-    };
-
     vm.manageSetting = function () {
         var selectedEmployees = PeriodModel.getSelectedEmployee(vm.employeeSettings);
 
         if (!selectedEmployees || selectedEmployees.length === 0) {
             notificationFactory.error("NoEmployeeSelectedWarning");
-        } else if (!checkEditSettingOnDifferentType(selectedEmployees)) {
-            notificationFactory.error("CanNotEditSettingOnDifferentTypeWarning");
         } else {
             PeriodModel.openPopupUpdateEmployeeSetting(vm, selectedEmployees);
         }

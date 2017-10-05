@@ -56,15 +56,7 @@
 
             foreach (AutoEmployeePeriodModel periodProcess in reminderProcess)
             {
-                if (periodProcess.IsSemiHasMonthly
-                    && (periodProcess.ProcessId == (int)ProcessType.Self || periodProcess.ProcessId == (int)ProcessType.Evaluator))
-                {
-                    continue;
-                }
-                else
-                {
-                    GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Reminder);
-                }
+                GetAndSendEmailToAllRelatedEmployee(periodProcess.PeriodId, string.Empty, periodProcess.ProcessId, (int)MailMode.Reminder);
             }
         }
 
