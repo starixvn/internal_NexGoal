@@ -369,7 +369,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             selfs: vm.selfs,
             evaluators: vm.evaluators,
             reviewers: vm.reviewers,
-            managements: vm.managements,
             humanResources: vm.humanResources
         };
 
@@ -475,7 +474,6 @@ function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFa
             selfs: vm.selfs,
             evaluators: vm.evaluators,
             reviewers: vm.reviewers,
-            managements: vm.managements,
             humanResources: vm.humanResources
         };
 

@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
     using System.Configuration;
     using Model;
     using NexGoal.Core;
@@ -31,8 +30,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = _baseMailService.ChangeStartDate(employeeSetting.StartDate.Value),
+                    endDate = _baseMailService.ChangeEndDate(employeeSetting.EndDate.Value);
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                 .Replace(EmailFormat.AdminNick, employeeSetting.EvaluatorInfo.NickName)
                 .Replace(EmailFormat.PeriodName, period.Name)
@@ -58,8 +57,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = _baseMailService.ChangeStartDate(employeeSetting.StartDate.Value),
+                    endDate = _baseMailService.ChangeEndDate(employeeSetting.EndDate.Value);
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                    .Replace(EmailFormat.EmployeeNick, employeeSetting.EvaluatorInfo.NickName)
                    .Replace(EmailFormat.PeriodName, period.Name)
@@ -85,8 +84,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = _baseMailService.ChangeStartDate(employeeSetting.StartDate.Value),
+                    endDate = _baseMailService.ChangeEndDate(employeeSetting.EndDate.Value);
 
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                     .Replace(EmailFormat.EvaluatorNick, employeeSetting.EvaluatorInfo.NickName)
@@ -113,8 +112,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = _baseMailService.ChangeStartDate(employeeSetting.StartDate.Value),
+                    endDate = _baseMailService.ChangeEndDate(employeeSetting.EndDate.Value);
 
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                    .Replace(EmailFormat.ReviewerNick, employeeSetting.EvaluatorInfo.NickName)
@@ -140,8 +139,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = _baseMailService.ChangeStartDate(employeeSetting.StartDate.Value),
+                    endDate = _baseMailService.ChangeEndDate(employeeSetting.EndDate.Value);
 
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                     .Replace(EmailFormat.EmployeeNick, employeeSetting.EvaluatorInfo.NickName)
@@ -167,8 +166,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = _baseMailService.ChangeStartDate(employeeSetting.StartDate.Value),
+                    endDate = _baseMailService.ChangeEndDate(employeeSetting.EndDate.Value);
 
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                     .Replace(EmailFormat.EvaluatorNick, employeeSetting.EvaluatorInfo.NickName)
@@ -194,8 +193,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = _baseMailService.ChangeStartDate(employeeSetting.StartDate.Value),
+                    endDate = _baseMailService.ChangeEndDate(employeeSetting.EndDate.Value);
 
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                    .Replace(EmailFormat.ReviewerNick, employeeSetting.EvaluatorInfo.NickName)
@@ -221,8 +220,8 @@
             if (employeeSetting != null)
             {
                 MailModel email = new MailModel();
-                string startDate = ChangeStartDate(employeeSetting.StartDate.Value),
-                    endDate = ChangeEndDate(employeeSetting.EndDate.Value);
+                string startDate = _baseMailService.ChangeStartDate(employeeSetting.StartDate.Value),
+                    endDate = _baseMailService.ChangeEndDate(employeeSetting.EndDate.Value);
 
                 var body = _baseMailService.ReadTextFile(templateEmailPath)
                    .Replace(EmailFormat.AdminNick, employeeSetting.EvaluatorInfo.NickName)
@@ -319,22 +318,10 @@
             }
         }
 
-        public string ChangeStartDate(DateTime startDate)
-        {
-            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
-            return result.ToString(Constants.FormatDateTimeEmail);
-        }
-
-        public string ChangeEndDate(DateTime endDate)
-        {
-            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
-            return result.ToString(Constants.FormatDateTimeEmail);
-        }
-
         public void SendStartMailToNominator(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
         {
             MailModel email = new MailModel();
-            var endDate = ChangeEndDate(nomination.EndDate);
+            var endDate = _baseMailService.ChangeEndDate(nomination.EndDate);
             email.Subject = Email.StartDateEmailToAllInNominationSubject
                 .Replace(EmailFormat.NominationName, nomination.Title);
 
@@ -351,7 +338,7 @@
         public void SendRemindMailToNominator(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
         {
             MailModel email = new MailModel();
-            var endDate = ChangeEndDate(nomination.EndDate);
+            var endDate = _baseMailService.ChangeEndDate(nomination.EndDate);
             email.Subject = Email.RemindDateEmailToAllInNominationSubject
                 .Replace(EmailFormat.NominationName, nomination.Title);
 
@@ -369,8 +356,8 @@
         public void SendStartMailToManagement(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
         {
             MailModel email = new MailModel();
-            var endDate = ChangeEndDate(nomination.EndDate);
-            var startDate = ChangeEndDate(nomination.StartDate);
+            var endDate = _baseMailService.ChangeEndDate(nomination.EndDate);
+            var startDate = _baseMailService.ChangeEndDate(nomination.StartDate);
 
             email.Subject = Email.StartDateEmailToAllInNominationSubject
                 .Replace(EmailFormat.NominationName, nomination.Title);
@@ -390,8 +377,8 @@
         public void SendEndMailToManagement(string templateEmailPath, EOQYModel nomination, EmailNominatorModel emailNomination)
         {
             var email = new MailModel();
-            var endDate = ChangeEndDate(nomination.EndDate);
-            var startDate = ChangeEndDate(nomination.StartDate);
+            var endDate = _baseMailService.ChangeEndDate(nomination.EndDate);
+            var startDate = _baseMailService.ChangeEndDate(nomination.StartDate);
 
             email.Subject = Email.StartDateEmailToAllInNominationSubject
                 .Replace(EmailFormat.NominationName, nomination.Title);

@@ -1,8 +1,4 @@
-﻿
-
-/****** Object:  Stored Procedure dbo.EPA_GetGeneralInfo    Script Date: 7/21/2016 2:45:43 PM ******/
-
-CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
+﻿CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -11,7 +7,7 @@ DB: SMSEPA
 Original: 
 
 Revisions:  
-    20160226@Razor.Nguyen: Monthly
+    20171005@Tim.Trinh: get toeic policy score
 Param's Explanation:
 
 */
@@ -20,15 +16,17 @@ BEGIN
 
 	DECLARE @EPAIds NVARCHAR(MAX)
 		,@RequiredCommentOnMaxScore BIT
-		,@ToDay DATE
+		,@Today DATE = GETDATE()
+		,@ProbationTarget TINYINT = 1
+		,@SemiTarget TINYINT = 3
 
-	CREATE TABLE #DisciplineScores (
+	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,ApproverSubtractScore FLOAT
 		)
 
-	CREATE TABLE #LastEPA (
+	CREATE TABLE #tblLastEPA (
 		EPAId INT
 		,EmployeeId INT
 		,Code NVARCHAR(20)
@@ -36,8 +34,6 @@ BEGIN
 		,Grade NVARCHAR(MAX)
 		,DisciplineScore FLOAT
 		)
-
-	SET @ToDay = CAST(GETDATE() AS DATE)
 
 	SELECT @RequiredCommentOnMaxScore = CAST(lkd.Value AS BIT)
 	FROM dbo.LookupData AS lkd WITH (NOLOCK)
@@ -47,10 +43,10 @@ BEGIN
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
 	FROM @TblEPAIds
 
-	INSERT INTO #DisciplineScores
+	INSERT INTO #tblDisciplineScores
 	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
 
-	INSERT INTO #LastEPA
+	INSERT INTO #tblLastEPA
 	EXECUTE dbo.EPA_GetLastScore @TblEPAIds
 
 	SELECT DISTINCT epa.EPAId
@@ -78,7 +74,6 @@ BEGIN
 			ELSE 0 END
 			) AS HasOtherViolation
 		,ls.FinalScore AS LastFinalScore
-		,epa.HasMonthlyEPA AS HasMonthlyEPA
 		,ls.Grade AS LastGrade
 		,ls.DisciplineScore AS LastDisciplineScore
 		,(CASE 
@@ -91,6 +86,11 @@ BEGIN
 			ELSE 0 END
 			) AS HasMaxScoreOnKPI
 		,@RequiredCommentOnMaxScore AS RequiredCommentOnMaxScore
+		,(CASE 
+			WHEN epa.[Status] = 1 THEN epa.ToeicPolicyScore
+			WHEN tt.TargetTypeId = @SemiTarget THEN toeic.Score
+			ELSE 0 END
+			) AS ToeicPolicyScore
 		,emp.EmployeeId
 		,emp.Code
 		,emp.NickName
@@ -112,27 +112,27 @@ BEGIN
 		,period.[Name]
 		,CAST(pc.StartDate AS DATE) AS StartDate
 		,(CASE 
-			WHEN tt.TargetTypeId IN (2, 3) THEN CASE 
+			WHEN tt.TargetTypeId IN (@SemiTarget) THEN CASE 
 					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN CAST(pc.EndDate AS DATE)
 					ELSE period.EndDate
 					END
 			ELSE CAST(pc.EndDate AS DATE) END
 			) AS EndDate
 		,(CASE 
-			WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
+			WHEN tt.TargetTypeId IN (@SemiTarget) THEN (CASE 
 					WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-							WHEN CAST(pc.EndDate AS DATE) < @ToDay
+							WHEN CAST(pc.EndDate AS DATE) < @Today
 								AND epa.[Status] = 1 THEN 1
 							ELSE 0 END
 							)
 					ELSE (CASE 
-							WHEN CAST(period.EndDate AS DATE) <= @ToDay
+							WHEN CAST(period.EndDate AS DATE) <= @Today
 								AND epa.[Status] = 1 THEN 1
 							ELSE 0 END
 							) END
 					)
 			ELSE (CASE 
-					WHEN CAST(pc.EndDate AS DATE) < @ToDay
+					WHEN CAST(pc.EndDate AS DATE) < @Today
 						AND epa.[Status] = 1 THEN 1
 					ELSE 0 END
 					) END
@@ -167,8 +167,8 @@ BEGIN
 		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
 		AND lk.Id = 8 -- rating type
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #DisciplineScores AS ds ON epa.EPAId = ds.EPAId
-		LEFT JOIN #LastEPA AS ls ON epa.EPAId = ls.EPAId
+		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
+		LEFT JOIN #tblLastEPA AS ls WITH (NOLOCK) ON epa.EPAId = ls.EPAId
 		AND emp.Code = ls.Code
 		LEFT JOIN (
 		SELECT epa1.EPAId
@@ -182,10 +182,11 @@ BEGIN
 				AND CAST(period1.AttendanceEndDate AS DATE)
 		GROUP BY epa1.EPAId
 		) AS tbl1 ON epa.EPAId = tbl1.EPAId
+		LEFT JOIN NexHRM.dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON epa.EmployeeId = toeic.EmployeeId
 	ORDER BY emp.NickName
 		,emp.Code
 
-	DROP TABLE #DisciplineScores
+	DROP TABLE #tblDisciplineScores
 
-	DROP TABLE #LastEPA
+	DROP TABLE #tblLastEPA
 END

@@ -1,5 +1,8 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -8,9 +11,6 @@
     using NexGoal.Model.EmployeeEPA.RatingByKPI;
     using NexGoal.Model.ScoreRatingType;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.Linq;
 
     public class EmployeeEPARepository : IEmployeeEPARepository
     {
@@ -346,10 +346,6 @@
 
                     case (int)ProcessType.Reviewer:
                         epaInfo.Process.Reviewers.Add(process);
-                        break;
-
-                    case (int)ProcessType.Management:
-                        epaInfo.Process.Managements.Add(process);
                         break;
                 }
             }

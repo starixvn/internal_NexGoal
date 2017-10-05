@@ -1,12 +1,12 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Core.Model;
     using Core.Services;
     using Criteria.EmployeeEPA;
     using Interfaces;
     using Model.EmployeeEPA;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class RecalculateScoreService : BaseService, IRecalculateScoreService
     {
@@ -62,11 +62,11 @@
                 double adjustScore;
                 if (double.TryParse(process.AdjustScore, out adjustScore))
                 {
-                    process.TotalScore = (epaInfo.Process.AverageScoreByEvaluators + adjustScore).ToString();
+                    process.TotalScore = (epaInfo.Process.AverageScoreByEvaluators + adjustScore + epaInfo.ToeicPolicyScore).ToString();
                 }
                 else
                 {
-                    process.TotalScore = epaInfo.Process.AverageScoreByEvaluators.ToString();
+                    process.TotalScore = (epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore).ToString();
                 }
             }
         }
@@ -75,17 +75,13 @@
         {
             double finalScore = 0;
 
-            if (epaInfo.Process.Managements.Any())
-            {
-                finalScore = epaInfo.Process.AverageScoreByManagements;
-            }
-            else if (epaInfo.Process.Reviewers.Any())
+            if (epaInfo.Process.Reviewers.Any())
             {
                 finalScore = epaInfo.Process.AverageScoreByReviewers;
             }
-            else if (epaInfo.Process.Evaluators.Any())
+            else
             {
-                finalScore = epaInfo.Process.AverageScoreByEvaluators;
+                finalScore = epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore;
             }
 
             return finalScore;

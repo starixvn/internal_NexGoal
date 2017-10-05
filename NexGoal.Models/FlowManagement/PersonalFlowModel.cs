@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.FlowManagement
 {
-    using NexGoal.Model.Enitites;
     using System.Collections.Generic;
+    using NexGoal.Model.Enitites;
 
     public class PersonalFlowModel
     {
@@ -10,7 +10,6 @@
             HumanResources = new List<ProcessFlowModel>();
             Evaluators = new List<ProcessFlowModel>();
             Reviewers = new List<ProcessFlowModel>();
-            Managements = new List<ProcessFlowModel>();
         }
 
         public int EmployeeId { get; set; }
@@ -28,7 +27,5 @@
         public IList<ProcessFlowModel> Evaluators { get; set; }
 
         public IList<ProcessFlowModel> Reviewers { get; set; }
-
-        public IList<ProcessFlowModel> Managements { get; set; }
     }
 }

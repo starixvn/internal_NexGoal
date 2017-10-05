@@ -5,7 +5,7 @@ epaModule.controller('ViewEPADetailController',
 ['$window', '$timeout', '$translate', '$routeParams', 'EmployeeEPAModel', 'CommonModel', "SelfEvalutorModel",
     'ViolationModel', 'NominationModel', 'utilitiesFactory', 'enumerationsFactory', 'historyFactory', 'baseUrl', 'lockScreenService',
 function ($window, $timeout, $translate, $routeParams, EmployeeEPAModel, CommonModel, SelfEvalutorModel,
-ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, lockScreenService) {
+    ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyFactory, baseUrl, lockScreenService) {
     var vm = this;
 
     vm.hrmSummary = {};
@@ -57,7 +57,6 @@ ViolationModel, NominationModel, utilitiesFactory, enumerationsFactory, historyF
             SelfEvalutorModel.getEmployeeProjects(vm.epaInfo.Employee.EmployeeId, vm.epaInfo.Period.PeriodId).then(function () {
                 vm.employeeProjects = SelfEvalutorModel.employeeProjects;
             });
-
         } else {
             SelfEvalutorModel.getHRMSummaryOnProbation(vm.epaInfo.Employee.EmployeeId).then(function () {
                 vm.hrmSummary = SelfEvalutorModel.hrmSummary;

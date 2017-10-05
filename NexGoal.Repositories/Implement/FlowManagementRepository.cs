@@ -120,10 +120,6 @@
                             case (int)ProcessType.Reviewer:
                                 flow.Reviewers.Add(process);
                                 break;
-
-                            case (int)ProcessType.Management:
-                                flow.Managements.Add(process);
-                                break;
                         }
                     }
                 }
@@ -148,10 +144,6 @@
 
                         case (int)ProcessType.Reviewer:
                             flow.Reviewers.Add(process);
-                            break;
-
-                        case (int)ProcessType.Management:
-                            flow.Managements.Add(process);
                             break;
                     }
                 }

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.FlowManagement;
@@ -9,8 +11,6 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class FlowManagementService : BaseService, IFlowManagementService
     {

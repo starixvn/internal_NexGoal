@@ -1,14 +1,13 @@
-﻿/****** Object:  Stored Procedure dbo.Epa_Dashboard    Script Date: 7/21/2016 2:45:42 PM ******/
-
-CREATE PROCEDURE [dbo].[Epa_Dashboard] @EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Epa_Dashboard] @EmployeeId INT
 AS
 /*
 Created: 20150904@Tim.Trinh
 Task: Get data for Dashboard.
-DB: SMSEPA
+DB: NexGoal
 Original: 
 
-Revisions:  
+Revisions:
+    20171005@Tim.Trinh: get toeic policy score
 Param's Explanation:
 
 */
@@ -17,15 +16,15 @@ BEGIN
 
 	DECLARE @TblEPAIds IntId
 		,@EPAIds NVARCHAR(MAX)
-		,@ToDay DATE
+		,@Today DATE = GETDATE()
+		,@ProbationTarget TINYINT = 1
+		,@SemiTarget TINYINT = 3
 
-	CREATE TABLE #TblDisciplineScores (
+	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,ApproverSubtractScore FLOAT
 		)
-
-	SET @ToDay = CAST(GETDATE() AS DATE)
 
 	INSERT INTO @TblEPAIds (Id)
 	SELECT DISTINCT epa.EPAId
@@ -40,14 +39,14 @@ BEGIN
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
 	WHERE (
 			epa.[Status] = 0 -- inprogress
-			AND CAST(selfpc.StartDate AS DATE) <= @ToDay
+			AND CAST(selfpc.StartDate AS DATE) <= @Today
 			)
 		OR epa.[Status] = 1 -- closed
 
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
 	FROM @TblEPAIds
 
-	INSERT INTO #TblDisciplineScores
+	INSERT INTO #tblDisciplineScores
 	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
 
 	SELECT tblData.*
@@ -55,7 +54,11 @@ BEGIN
 		SELECT DISTINCT epa.EPAId
 			,epa.FinalScore
 			,epa.Grade
-			,epa.HasMonthlyEPA
+			,(CASE 
+				WHEN epa.[Status] = 1 THEN epa.ToeicPolicyScore
+				WHEN tt.TargetTypeId = @SemiTarget THEN toeic.Score
+				ELSE 0 END
+				) AS ToeicPolicyScore
 			,(CASE srt.ScoreRatingTypeId
 				WHEN 1 THEN 1
 				ELSE 0 END
@@ -90,27 +93,27 @@ BEGIN
 			,period.[Name]
 			,CAST(pc.StartDate AS DATE) AS StartDate
 			,(CASE 
-				WHEN tt.TargetTypeId IN (2, 3) THEN CASE 
+				WHEN tt.TargetTypeId IN (@SemiTarget) THEN CASE 
 						WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN CAST(pc.EndDate AS DATE)
 						ELSE period.EndDate
 						END
 				ELSE CAST(pc.EndDate AS DATE) END
 				) AS EndDate
 			,(CASE 
-				WHEN tt.TargetTypeId IN (2, 3) THEN (CASE 
+				WHEN tt.TargetTypeId IN (@SemiTarget) THEN (CASE 
 						WHEN CAST(pc.EndDate AS DATE) >= CAST(period.EndDate AS DATE) THEN (CASE 
-								WHEN CAST(pc.EndDate AS DATE) < @ToDay
+								WHEN CAST(pc.EndDate AS DATE) < @Today
 									AND epa.[Status] = 1 THEN 1
 								ELSE 0 END
 								)
 						ELSE (CASE 
-								WHEN CAST(period.EndDate AS DATE) <= @ToDay
+								WHEN CAST(period.EndDate AS DATE) <= @Today
 									AND epa.[Status] = 1 THEN 1
 								ELSE 0 END
 								) END
 						)
 				ELSE (CASE 
-						WHEN CAST(pc.EndDate AS DATE) < @ToDay
+						WHEN CAST(pc.EndDate AS DATE) < @Today
 							AND epa.[Status] = 1 THEN 1
 						ELSE 0 END
 						) END
@@ -136,7 +139,7 @@ BEGIN
 			INNER JOIN dbo.EPAProcess AS selfpc WITH (NOLOCK) ON epa.EPAId = selfpc.EPAId
 			AND selfpc.ProcessId = 2 -- self
 			INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
-			LEFT JOIN #TblDisciplineScores AS ds ON epa.EPAId = ds.EPAId
+			LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 			LEFT JOIN (
 			SELECT epa1.EPAId
 				,COUNT(*) AS NumberOtherViolation
@@ -149,12 +152,13 @@ BEGIN
 					AND CAST(period1.AttendanceEndDate AS DATE)
 			GROUP BY epa1.EPAId
 			) AS tbl ON epa.EPAId = tbl.EPAId
+			LEFT JOIN NexHRM.dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON epa.EmployeeId = toeic.EmployeeId
 		
 		UNION ALL
 		SELECT DISTINCT - epa.Id AS EPAId
 			,epa.FinalScore
 			,epa.Grade
-			,0 AS HasMonthlyEPA
+			,0 AS ToeicPolicyScore
 			,0 AS HasDisciplineScore
 			,0 AS DisciplineScore
 			,0 AS MaxDisciplineScore
@@ -191,5 +195,5 @@ BEGIN
 
 	EXECUTE dbo.EPA_GetProcess @TblEPAIds
 
-	DROP TABLE #TblDisciplineScores
+	DROP TABLE #tblDisciplineScores
 END

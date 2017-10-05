@@ -195,12 +195,12 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
                 averageScore = memberEPA.Process.AverageScoreByReviewers;
             }
 
-            totalScore = utilitiesFactory.parseFloat(scoreAdjusted + averageScore);
+            totalScore = utilitiesFactory.parseFloat(scoreAdjusted + averageScore + memberEPA.ToeicPolicyScore);
 
             if (totalScore > memberEPA.Process.CurrentProcess.MaxTotalScore) {
-                scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore);
+                scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.MaxTotalScore - averageScore - memberEPA.ToeicPolicyScore);
             } else if (totalScore < 0) {
-                scoreAdjusted = -averageScore;
+                scoreAdjusted = -(averageScore - memberEPA.ToeicPolicyScore);
             }
 
             memberEPA.Process.CurrentProcess.AdjustScore = scoreAdjusted;
@@ -212,7 +212,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
             if (memberEPA.Selected) {
                 var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,
                     maxAdditionScore = memberEPA.Process.CurrentProcess.MaxAdditionScore,
-                    adjustScore = adjust.Score === "" ? 0 : adjust.Score;
+                    adjustScore = adjust.Score.length === 0 ? 0 : adjust.Score;
 
                 if (adjustScore > maxAdditionScore) {
                     memberEPA.Process.CurrentProcess.AdjustScore = maxAdditionScore;

@@ -9,7 +9,6 @@
             HumanResources = new List<ProcessFlowModel>();
             Evaluators = new List<ProcessFlowModel>();
             Reviewers = new List<ProcessFlowModel>();
-            Managements = new List<ProcessFlowModel>();
         }
 
         public int DepartmentId { get; set; }
@@ -23,7 +22,5 @@
         public IList<ProcessFlowModel> Evaluators { get; set; }
 
         public IList<ProcessFlowModel> Reviewers { get; set; }
-
-        public IList<ProcessFlowModel> Managements { get; set; }
     }
 }

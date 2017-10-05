@@ -1,14 +1,13 @@
 ﻿namespace NexGoal.BackgroundService
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class ProcessService : BaseService, IProcessService
     {
@@ -36,23 +35,22 @@
             CaculatorScore(processNeedToCaculateScore);
         }
 
-        private void CaculatorScore(IEnumerable<AutoEmployeePeriodModel> process)
+        private void CaculatorScore(IEnumerable<AutoEmployeePeriodModel> processes)
         {
-            foreach (AutoEmployeePeriodModel evaluationProcess in process)
+            foreach (AutoEmployeePeriodModel process in processes)
             {
-                if (string.IsNullOrEmpty(evaluationProcess.TotalScore))
+                if (string.IsNullOrEmpty(process.TotalScore))
                 {
-                    EPAModel evaluationInfo = employeeEPAService.GetEPAInfoById(evaluationProcess.EPAId);
-                    double averageScore = GetAverageScorePreProcess(evaluationInfo, evaluationProcess.ProcessId);
+                    EPAModel epaInfo = employeeEPAService.GetEPAInfoById(process.EPAId);
+                    double averageScore = epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore;
 
-                    UpdateTotalScoreOfProcess(evaluationProcess, averageScore);
+                    UpdateTotalScoreOfProcess(process, averageScore);
                 }
             }
         }
 
-        private CommandResult UpdateTotalScoreOfProcess(AutoEmployeePeriodModel process, double score)
+        private void UpdateTotalScoreOfProcess(AutoEmployeePeriodModel process, double score)
         {
-            var commandResult = new CommandResult();
             var criteria = new UpdateTotalScoreOfProcessCriteria
             {
                 EPAId = process.EPAId,
@@ -62,15 +60,12 @@
 
             if (criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                Repository.Update(criteria);
             }
-
-            return commandResult;
         }
 
-        private CommandResult CloseProcess(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
+        private void CloseProcess(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
-            var comandResult = new CommandResult();
             var criteria = new UpdateIsEndProcessCriteria()
             {
                 EvaluationProcesses = evaluationProcesses
@@ -78,10 +73,8 @@
 
             if (criteria.IsValid())
             {
-                comandResult = Repository.Update(criteria);
+                Repository.Update(criteria);
             }
-
-            return comandResult;
         }
 
         private IEnumerable<AutoEmployeePeriodModel> GetProcessNeedToClose()
@@ -95,24 +88,6 @@
             }
 
             return evaluationProcesses;
-        }
-
-        private double GetAverageScorePreProcess(EPAModel evaluationInfo, int processId)
-        {
-            double averageScore = 0;
-
-            switch (processId)
-            {
-                case (int)ProcessType.Reviewer:
-                    averageScore = evaluationInfo.Process.AverageScoreByEvaluators;
-                    break;
-
-                case (int)ProcessType.Management:
-                    averageScore = evaluationInfo.Process.Reviewers.Any() ? evaluationInfo.Process.AverageScoreByReviewers : evaluationInfo.Process.AverageScoreByEvaluators;
-                    break;
-            }
-
-            return averageScore;
         }
     }
 }

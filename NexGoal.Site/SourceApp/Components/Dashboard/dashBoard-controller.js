@@ -4,10 +4,10 @@
     dashboardModule.controller("DashboardController", dashboardController);
 
     dashboardController.$inject = ["$interval", "$location", 'DashboardModel', 'CommonModel',
-    'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl', 'EmployeeEPAModel'];
+        'utilitiesFactory', 'enumerationsFactory', 'lockScreenService', 'baseUrl', 'EmployeeEPAModel'];
 
     function dashboardController($interval, $location, DashboardModel, CommonModel,
-    utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl, EmployeeEPAModel) {
+        utilitiesFactory, enumerationsFactory, lockScreenService, baseUrl, EmployeeEPAModel) {
         var vm = this;
 
         var stopInterval;

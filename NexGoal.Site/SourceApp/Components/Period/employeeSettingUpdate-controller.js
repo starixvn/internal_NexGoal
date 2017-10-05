@@ -215,7 +215,6 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
             selfEvaluator = getEvaluators(employeeSetting.SelfEvaluators),
             evaluator = getEvaluators(employeeSetting.Evaluators),
             reviewer = getEvaluators(employeeSetting.Reviewers),
-            management = getEvaluators(employeeSetting.Managements),
             originalTargetTemplateId = employeeSetting.TargetTemplate ? employeeSetting.TargetTemplate.TargetTemplateId : null;
 
         if (vm.employeeOptions.targetTemplateId !== originalTargetTemplateId) {
@@ -227,8 +226,6 @@ function ($scope, $modalInstance, PeriodModel, FlowMngModel, CommonModel, enumer
         } else if (JSON.stringify(evaluator) !== JSON.stringify(employeeOptions.evaluator)) {
             hasEdited = true;
         } else if (JSON.stringify(reviewer) !== JSON.stringify(employeeOptions.reviewer)) {
-            hasEdited = true;
-        } else if (JSON.stringify(management) !== JSON.stringify(employeeOptions.management)) {
             hasEdited = true;
         }
 

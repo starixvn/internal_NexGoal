@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.FlowManagement
 {
-    using NexGoal.Core.Enumerations;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
+    using NexGoal.Core.Enumerations;
 
     public class InsertFlowModel
     {
@@ -18,8 +18,6 @@
         public InsertFlowItemModel Evaluators { get; set; }
 
         public InsertFlowItemModel Reviewers { get; set; }
-
-        public InsertFlowItemModel Managements { get; set; }
 
         public InsertFlowItemModel HumanResources { get; set; }
 
@@ -109,27 +107,6 @@
                         Reviewers.Duration,
                         Reviewers.HasSendMail,
                         Reviewers.RemindDay,
-                        evaluator);
-                }
-            }
-
-            if (Managements != null)
-            {
-                var evaluator = new StringBuilder();
-
-                if (Managements.Employees.Count > 0)
-                {
-                    for (int i = 0; i < Managements.Employees.Count; i++)
-                    {
-                        evaluator.AppendFormat(EvaluatorXmlTemplate, Managements.Employees[i].EmployeeId, i + 1);
-                    }
-
-                    process.AppendFormat(
-                        ProcessXmlTemplate,
-                        (int)ProcessType.Management,
-                        Managements.Duration,
-                        Managements.HasSendMail,
-                        Managements.RemindDay,
                         evaluator);
                 }
             }

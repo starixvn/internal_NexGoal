@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using NexGoal.Core.Constants;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,7 +11,6 @@
             HumanResources = new List<EPAProcessModel>();
             Evaluators = new List<EPAProcessModel>();
             Reviewers = new List<EPAProcessModel>();
-            Managements = new List<EPAProcessModel>();
         }
 
         public double AverageScoreByEvaluators
@@ -31,29 +29,17 @@
             }
         }
 
-        public double AverageScoreByManagements
-        {
-            get
-            {
-                return CalculateAverageScore(Managements);
-            }
-        }
-
         public double MaxPerformanceScore
         {
             get
             {
                 double maxPerformanceScore = 0;
 
-                if (Managements.Count > 0)
-                {
-                    maxPerformanceScore = Managements.First().MaxTotalScore;
-                }
-                else if (Reviewers.Count > 0)
+                if (Reviewers.Count > 0)
                 {
                     maxPerformanceScore = Reviewers.First().MaxTotalScore;
                 }
-                else if (Evaluators.Count > 0)
+                else
                 {
                     maxPerformanceScore = Evaluators.First().MaxTotalScore;
                 }
@@ -68,11 +54,7 @@
             {
                 double performanceScore = AverageScoreByEvaluators;
 
-                if (Managements.Count > 0)
-                {
-                    performanceScore = AverageScoreByManagements;
-                }
-                else if (Reviewers.Count > 0)
+                if (Reviewers.Count > 0)
                 {
                     performanceScore = AverageScoreByReviewers;
                 }
@@ -90,8 +72,6 @@
         public IList<EPAProcessModel> Evaluators { get; set; }
 
         public IList<EPAProcessModel> Reviewers { get; set; }
-
-        public IList<EPAProcessModel> Managements { get; set; }
 
         public double CalculateAverageScore(IList<EPAProcessModel> processes)
         {

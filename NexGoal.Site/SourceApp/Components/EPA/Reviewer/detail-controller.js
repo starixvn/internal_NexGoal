@@ -68,21 +68,14 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
 
     vm.inputScore = function (currentProcess) {
         var maxSubtractScore = currentProcess.MaxSubtractScore,
-        maxAdditionScore = currentProcess.MaxAdditionScore;
-        var adjustScore = currentProcess.AdjustScore === "" ? 0 : currentProcess.AdjustScore;
-        var defaultAdditionScore = 10, defaultSubtractScore = -10;
+            maxAdditionScore = currentProcess.MaxAdditionScore;
+        var adjustScore = currentProcess.AdjustScore.length === 0 ? 0 : currentProcess.AdjustScore;
 
         if (adjustScore > maxAdditionScore) {
-            if (maxAdditionScore < defaultAdditionScore) {
-                notificationFactory.error('AdjustScoreInvalid');
-            }
-
+            notificationFactory.error('AdjustScoreInvalid');
             currentProcess.AdjustScore = maxAdditionScore;
         } else if (adjustScore < maxSubtractScore) {
-            if (maxSubtractScore > defaultSubtractScore) {
-                notificationFactory.error('AdjustScoreInvalid');
-            }
-
+            notificationFactory.error('AdjustScoreInvalid');
             currentProcess.AdjustScore = maxSubtractScore;
         }
 
@@ -153,9 +146,10 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
                 evaluator.TotalScore = utilitiesFactory.parseFloat(evaluator.TotalScore);
             });
 
-            vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore !== "" ?
-                                                            utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore) :
-                                                            utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators);
+            vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore.length > 0
+                ? utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore)
+                : utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators + vm.epaInfo.ToeicPolicyScore);
+
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.epaInfo.Process.CurrentProcess.TotalScore, vm.standardGrades);

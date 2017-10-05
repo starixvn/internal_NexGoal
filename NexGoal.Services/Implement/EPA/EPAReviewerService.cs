@@ -105,13 +105,13 @@
 
         private void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
         {
-            double maxAdditionScore = 0;
-
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
                 case (int)ProcessType.Reviewer:
-                    epaInfo.Process.CurrentProcess.MaxSubtractScore = -epaInfo.Process.AverageScoreByEvaluators;
-                    maxAdditionScore = epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators;
+                    epaInfo.Process.CurrentProcess.MaxSubtractScore = -10;
+                    double maxAdditionScore = 
+                        epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators - epaInfo.ToeicPolicyScore;
+                    maxAdditionScore = maxAdditionScore > 10 ? 10 : maxAdditionScore;
 
                     epaInfo.Process.CurrentProcess.MaxAdditionScore = Math.Round(maxAdditionScore);
                     break;

@@ -84,8 +84,7 @@
                 List<int> numbers = new List<int>
                     {
                         Process.Evaluators.Count,
-                        Process.Reviewers.Count,
-                        Process.Managements.Count
+                        Process.Reviewers.Count
                     };
 
                 return numbers.Max();

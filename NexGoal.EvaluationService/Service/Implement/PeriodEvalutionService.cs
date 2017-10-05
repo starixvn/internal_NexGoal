@@ -1,16 +1,14 @@
 ﻿namespace NexGoal.BackgroundService
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EmployeeEPA;
-    using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.EmployeeEPA;
     using NexGoal.Model.Period;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class PeriodEvalutionService : BaseService, IPeriodEvalutionService
     {
@@ -38,12 +36,12 @@
 
         public void UpdatePeriodIsEnd()
         {
-            var getAllEndedEvaluationCriteria = new GetEPAEndEvaluationPeriodCriteria();
-            IEnumerable<EPAModel> epas = employeeEPAService.GetEPAEndEvaluationPeriod(getAllEndedEvaluationCriteria);
-            foreach (EPAModel epa in epas)
+            var criteria = new GetEPAEndEvaluationPeriodCriteria();
+            IEnumerable<EPAModel> epaInfos = employeeEPAService.GetEPAEndEvaluationPeriod(criteria);
+            foreach (EPAModel epaInfo in epaInfos)
             {
-                UpdateFinalScore(epa);
-                SendMail(epa);
+                UpdateFinalScore(epaInfo);
+                SendMail(epaInfo);
             }
         }
 
@@ -74,7 +72,6 @@
             IEnumerable<StandardGradeModel> standardGrades = employeeEPAService.GetStandardGrade();
 
             double averagePerformanceScore = GetFinalScoreOfEvalution(epa);
-
             double finalScore = averagePerformanceScore + epa.DisciplineScore;
             finalScore = finalScore >= 0 ? finalScore : 0;
 
@@ -83,21 +80,17 @@
             EncodeAndUpdateFinalScore(averagePerformanceScore, epa.DisciplineScore, epa.EPAId, epa.Grade);
         }
 
-        private double GetFinalScoreOfEvalution(EPAModel evaluationInfo)
+        private double GetFinalScoreOfEvalution(EPAModel epaInfo)
         {
             double finalScore = 0;
 
-            if (evaluationInfo.Process.Managements.Any())
+            if (epaInfo.Process.Reviewers.Any())
             {
-                finalScore = evaluationInfo.Process.AverageScoreByManagements;
+                finalScore = epaInfo.Process.AverageScoreByReviewers;
             }
-            else if (evaluationInfo.Process.Reviewers.Any())
+            else
             {
-                finalScore = evaluationInfo.Process.AverageScoreByReviewers;
-            }
-            else if (evaluationInfo.Process.Evaluators.Any())
-            {
-                finalScore = evaluationInfo.Process.AverageScoreByEvaluators;
+                finalScore = epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore;
             }
 
             return finalScore;
@@ -120,15 +113,12 @@
             UpdateFinalScore(criteria);
         }
 
-        private CommandResult UpdateFinalScore(UpdateFinalScoreEndEvaluationCriteria criteria)
+        private void UpdateFinalScore(UpdateFinalScoreEndEvaluationCriteria criteria)
         {
-            var comandResult = new CommandResult();
             if (criteria != null && criteria.IsValid())
             {
-                comandResult = Repository.Update(criteria);
+                Repository.Update(criteria);
             }
-
-            return comandResult;
         }
     }
 }

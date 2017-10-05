@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Net;
@@ -240,7 +239,7 @@
         [HttpGet]
         public HttpResponseMessage GetEPAInfoByReviewer(int epaId)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
             int permission = employeeEPAService.CheckEmployeePermission(epaId, SessionService.EmployeeId, (int)ProcessType.Reviewer);
 
             switch (permission)
@@ -272,7 +271,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return AdjustScoreByReviewerOrManagement(criteria);
+            return employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
         }
 
         public int GetUserPermissionOnReviewer()
@@ -285,7 +284,7 @@
         [HttpGet]
         public HttpResponseMessage GetEPAInfoById(int epaId)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
             int permission = employeeEPAService.CheckEmployeePermission(epaId, SessionService.EmployeeId);
 
             switch (permission)
@@ -396,7 +395,7 @@
 
             foreach (EPAModel epaInfo in selectedEPAs)
             {
-                double averagePerformanceScore = GetFinalScoreOfEPA(epaInfo),
+                double averagePerformanceScore = epaInfo.Process.AverageScoreByReviewers,
                     finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
@@ -455,27 +454,6 @@
             };
 
             return employeeEPAService.GetGroupByEvaluatorOrReviewerOrManagement(criteria);
-        }
-
-        private CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
-        {
-            return employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
-        }
-
-        private double GetFinalScoreOfEPA(EPAModel epaInfo)
-        {
-            double finalScore = 0;
-
-            if (epaInfo.Process.Managements.Any())
-            {
-                finalScore = epaInfo.Process.AverageScoreByManagements;
-            }
-            else if (epaInfo.Process.Reviewers.Any())
-            {
-                finalScore = epaInfo.Process.AverageScoreByReviewers;
-            }
-
-            return finalScore;
         }
     }
 }

@@ -72,8 +72,8 @@
         private void SendEmail(string subject, string templateEmailPath, PAFocusMailModel focusSetting)
         {
             var email = new MailModel();
-            string startDate = ChangeStartDate(focusSetting.StartDate),
-                endDate = ChangeEndDate(focusSetting.EndDate);
+            string startDate = baseMailService.ChangeStartDate(focusSetting.StartDate),
+                endDate = baseMailService.ChangeEndDate(focusSetting.EndDate);
             var body = baseMailService.ReadTextFile(templateEmailPath)
                 .Replace(EmailFormat.EvaluatorNick, focusSetting.NickName)
                 .Replace(EmailFormat.PeriodName, focusSetting.PeriodName)
@@ -87,18 +87,6 @@
             email.ReceiverEmail = focusSetting.Email;
 
             baseMailService.SendEmail(email);
-        }
-
-        private string ChangeStartDate(DateTime startDate)
-        {
-            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
-            return result.ToString(Constants.FormatDateTimeEmail);
-        }
-
-        private string ChangeEndDate(DateTime endDate)
-        {
-            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
-            return result.ToString(Constants.FormatDateTimeEmail);
         }
     }
 }

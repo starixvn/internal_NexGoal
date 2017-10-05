@@ -1,11 +1,12 @@
 ﻿namespace NexGoal.Core.Services
 {
-    using Fanex.MailDeliver.MailClient.API;
-    using Fanex.MailDeliver.Model;
     using System;
     using System.Configuration;
     using System.IO;
     using System.Text.RegularExpressions;
+    using Constants;
+    using Fanex.MailDeliver.MailClient.API;
+    using Fanex.MailDeliver.Model;
 
     public class BaseMailService : IBaseMailService
     {
@@ -49,6 +50,18 @@
             {
                 return sr.ReadToEnd();
             }
+        }
+
+        public string ChangeStartDate(DateTime startDate)
+        {
+            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
+            return result.ToString(Constants.FormatDateTimeEmail);
+        }
+
+        public string ChangeEndDate(DateTime endDate)
+        {
+            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
+            return result.ToString(Constants.FormatDateTimeEmail);
         }
     }
 }
