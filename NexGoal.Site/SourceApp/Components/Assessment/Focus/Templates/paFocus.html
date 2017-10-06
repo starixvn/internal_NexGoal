@@ -181,7 +181,7 @@
     </table>
 
     <div class="navbar navbar-default navbar-fixed-bottom action-section"
-         ng-if="groups.length > 0 && vm.permission === vm.policy.Host && member.IsAllowToEdit"
+         ng-if="groups.length > 0 && paFocusCtrl.permission === paFocusCtrl.policy.Host && paFocusCtrl.process[0].ProcessStatus === paFocusCtrl.processStatus.InProgress"
          ng-class="{'full-size': !menuVisibility}">
         <button class="button btn-cancel" data-translate="Reset" ng-click="paFocusCtrl.query()"></button>
         <button class="button" data-translate="Submit" ng-click="paFocusCtrl.save()"></button>

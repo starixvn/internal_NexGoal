@@ -357,7 +357,7 @@
         {
             MailModel email = new MailModel();
             var endDate = _baseMailService.ChangeEndDate(nomination.EndDate);
-            var startDate = _baseMailService.ChangeEndDate(nomination.StartDate);
+            var startDate = _baseMailService.ChangeStartDate(nomination.StartDate);
 
             email.Subject = Email.StartDateEmailToAllInNominationSubject
                 .Replace(EmailFormat.NominationName, nomination.Title);
@@ -378,7 +378,7 @@
         {
             var email = new MailModel();
             var endDate = _baseMailService.ChangeEndDate(nomination.EndDate);
-            var startDate = _baseMailService.ChangeEndDate(nomination.StartDate);
+            var startDate = _baseMailService.ChangeStartDate(nomination.StartDate);
 
             email.Subject = Email.StartDateEmailToAllInNominationSubject
                 .Replace(EmailFormat.NominationName, nomination.Title);
