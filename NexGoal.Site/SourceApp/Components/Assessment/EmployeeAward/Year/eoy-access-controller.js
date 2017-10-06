@@ -48,6 +48,7 @@
 
             EOYModel.getCurrentEOYByNominatorId().then(function () {
                 vm.period = EOYModel.period;
+                vm.roleId = vm.period.Roles.length > 0 ? vm.period.Roles[0] : 0;
 
                 vm.query();
             });
@@ -69,7 +70,6 @@
                     vm.filter.teamIds,
                     vm.filter.statusId).then(function () {
                         vm.eoyNominations = EOYModel.eoyNominations;
-                        vm.roleId = vm.eoyNominations.length ? vm.eoyNominations[0].RoleId : 0;
                     })['finally'](function () {
                         lockScreenService.stop();
                     });
