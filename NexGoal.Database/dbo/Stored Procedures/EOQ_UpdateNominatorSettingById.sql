@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EOQ_UpdateNominatorSettingById] @EOQYId INT
+﻿
+CREATE PROCEDURE [dbo].[EOQ_UpdateNominatorSettingById] @EOQYId INT
 	,@Details NVARCHAR(MAX)
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -26,7 +27,7 @@ BEGIN
 	SET NOCOUNT ON
 
 	CREATE TABLE #tblNominatorSetting (
-		RoleId TINYINT
+		RoleId NVARCHAR(10)
 		,NominatorId INT
 		)
 
@@ -36,10 +37,13 @@ BEGIN
 		EXEC sp_xml_preparedocument @DocHandler OUTPUT
 			,@Details
 
-		INSERT INTO #tblNominatorSetting (RoleId, NominatorId)
+		INSERT INTO #tblNominatorSetting (
+			RoleId
+			,NominatorId
+			)
 		SELECT RoleId
 			,NominatorId
-		FROM OPENXML(@DocHandler, '/ROOT/NominatorSetting', 1) WITH (RoleId INT, NominatorId INT) AS Data
+		FROM OPENXML(@DocHandler, '/ROOT/NominatorSetting', 1) WITH (RoleId NVARCHAR(10), NominatorId INT) AS Data
 
 		EXEC sp_xml_removedocument @DocHandler
 	END TRY
@@ -76,6 +80,7 @@ BEGIN
 			,@ModifiedBy
 			,GETDATE()
 		FROM #tblNominatorSetting WITH (NOLOCK)
+		WHERE ISNULL(RoleId, '') <> ''
 
 		COMMIT TRANSACTION
 	END TRY

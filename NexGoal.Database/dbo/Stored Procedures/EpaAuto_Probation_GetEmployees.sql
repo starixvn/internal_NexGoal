@@ -1,5 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EpaAuto_Probation_GetEmployees    Script Date: 7/21/2016 2:45:49 PM ******/
-
+﻿
 CREATE PROCEDURE [dbo].[EpaAuto_Probation_GetEmployees]
 AS
 /*
@@ -24,7 +23,7 @@ BEGIN
 
 	SELECT [EmployeeId]
 	FROM [dbo].[Employee] WITH (NOLOCK)
-	WHERE CAST(DATEADD(DAY, CAST(@ProbDay AS INT), [JoinedDate]) AS DATE) = CAST(GETDATE() AS DATE)
+	WHERE CAST(DATEADD(DAY, CAST(@ProbDay AS INT) , [JoinedDate]) AS DATE) = CAST(GETDATE() AS DATE)
 		AND [IsDeleted] = 0
 		AND [Enabled] = 1
 

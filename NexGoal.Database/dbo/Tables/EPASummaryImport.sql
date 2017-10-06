@@ -8,9 +8,11 @@
     [FinalScore]       NVARCHAR (MAX) NULL,
     [OriginFinalScore] FLOAT (53)     NULL,
     [PeriodId]         INT            NULL,
-    [Grade]            NVARCHAR (100) NULL,
+    [Grade]            NVARCHAR (MAX) NULL,
     CONSTRAINT [PK_EPASummaryImport] PRIMARY KEY CLUSTERED ([Id] ASC)
 );
+
+
 
 
 

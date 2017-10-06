@@ -11,8 +11,11 @@
     [HasMonthlyEPA]     BIT            NULL,
     [ModifiedBy]        INT            NULL,
     [ModifiedDate]      DATETIME       NULL,
+    [ToeicPolicyScore]  SMALLINT       NULL,
     CONSTRAINT [PK_EPA_1] PRIMARY KEY CLUSTERED ([EPAId] ASC)
 );
+
+
 
 
 

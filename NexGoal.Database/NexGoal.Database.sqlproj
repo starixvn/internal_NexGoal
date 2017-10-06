@@ -313,10 +313,7 @@
     <Build Include="dbo\Tables\DisciplineType.sql" />
     <Build Include="dbo\Views\HierarchyDepartment.sql" />
     <Build Include="dbo\Functions\fncGetDisciplineScoreById.sql" />
-    <Build Include="dbo\Views\HRMJobTitle_1.sql" />
     <Build Include="dbo\Views\HierarchyDepartment.sql" />
-    <Build Include="dbo\Views\Group_1.sql" />
-    <Build Include="dbo\Views\Employee_1.sql" />
     <Build Include="dbo\Views\Department.sql" />
     <Build Include="dbo\Views\TOEIC.sql" />
     <Build Include="dbo\Views\Redmine.sql" />
@@ -382,10 +379,8 @@
     <Build Include="dbo\Stored Procedures\LogLogin_Insert.sql" />
     <Build Include="dbo\Stored Procedures\HRMSummary_GetOnProbation.sql" />
     <Build Include="dbo\Stored Procedures\EpaPeriod_GetReadyPeriod.sql" />
-    <Build Include="dbo\Stored Procedures\EpaEmployeeIpAddress_Insert_1.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_GetPeriodHasEndedProcess.sql" />
     <Build Include="dbo\Stored Procedures\EpaAuto_GetEmployeeSettingToSendMailHR.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_AdjustScoreByReviewerOrManagement_1.sql" />
     <Build Include="dbo\Stored Procedures\EOYNomination_Insert.sql" />
     <Build Include="dbo\Stored Procedures\EOYNomination_GetById.sql" />
     <Build Include="dbo\Stored Procedures\EOY_UpdateNominatorSettingById.sql" />
@@ -421,9 +416,6 @@
     <Build Include="dbo\Views\Employee.sql" />
     <Build Include="dbo\Views\Group.sql" />
     <Build Include="dbo\Views\HRMJobTitle.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_Get_xtest.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA_xpre.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA_xtest.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployeeIpAddress_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Sync_Attendance.sql" />
     <Build Include="dbo\Stored Procedures\Sync_AttendanceViolation.sql" />
@@ -460,6 +452,8 @@
     <Build Include="dbo\Stored Procedures\Sync_TeamDisciplinePermission_GetMaxModifiedDate.sql" />
     <Build Include="dbo\Stored Procedures\Sync_TeamSupervisor.sql" />
     <Build Include="dbo\Stored Procedures\Sync_TeamSupervisor_GetMaxModifiedDate.sql" />
-    <Build Include="dbo\Stored Procedures\TargetTemplate_GetAllKPIByKPIGroups_xpre.sql" />
+    <Build Include="dbo\Stored Procedures\Report_Nomination.sql" />
+    <Build Include="dbo\Stored Procedures\Dashboard_GetToDoList.sql" />
+    <Build Include="dbo\Stored Procedures\PAFocus_GetProcessSettingToSendEmail.sql" />
   </ItemGroup>
 </Project>
