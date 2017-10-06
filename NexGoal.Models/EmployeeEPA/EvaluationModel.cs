@@ -1,7 +1,8 @@
-﻿using NexGoal.Core.Services;
-
-namespace NexGoal.Model.EmployeeEPA
+﻿namespace NexGoal.Model.EmployeeEPA
 {
+    using Newtonsoft.Json;
+    using NexGoal.Core.Services;
+
     public class EvaluationModel
     {
         public int EPAId { get; set; }
@@ -24,6 +25,7 @@ namespace NexGoal.Model.EmployeeEPA
 
         public double Score { get; set; }
 
+        [JsonIgnore]
         public string RateEncode { get; set; }
 
         public float Rate { get; set; }

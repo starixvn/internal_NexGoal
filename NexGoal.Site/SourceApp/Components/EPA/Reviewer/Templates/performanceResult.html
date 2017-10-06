@@ -11,7 +11,8 @@
                 <th colspan="{{memberEPAInfoCtrl.epaInfo.Process.Evaluators.length > 1 ? 4 : 3}}" data-translate="Evaluator">
                 </th>
                 <th colspan="3" data-translate="Reviewer"></th>
-                <th rowspan="2" data-translate="ToeicPolicy"></th>
+                <th rowspan="2" data-translate="ToeicPolicy"
+                    ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId === memberEPAInfoCtrl.targetTypeEnum.SemiAnnual"></th>
                 <th rowspan="2" data-translate="FinalScore"></th>
                 <th rowspan="2" data-translate="Grade"></th>
             </tr>
@@ -111,7 +112,7 @@
                         <i class="fa fa-pencil-square-o"></i>
                     </a>
                 </td>
-                <td class="text-center">
+                <td class="text-center" ng-if="memberEPAInfoCtrl.epaInfo.Period.TargetTypeId === memberEPAInfoCtrl.targetTypeEnum.SemiAnnual">
                     <div ng-if="memberEPAInfoCtrl.epaInfo.ToeicPolicyScore" ng-bind="memberEPAInfoCtrl.epaInfo.ToeicPolicyScore | customScore"></div>
                     <div ng-if="!memberEPAInfoCtrl.epaInfo.ToeicPolicyScore">-</div>
                 </td>
@@ -123,7 +124,7 @@
                         </strong>
                     </div>
                 </td>
-                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-if="$first && !memberEPAInfoCtrl.epaInfo.IsMonthly">
+                <td rowspan="{{memberEPAInfoCtrl.epaInfo.Rowspan}}" class="text-center" ng-if="$first">
                     <div ng-if="!memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess" data-translate="Pending"></div>
                     <div ng-if="memberEPAInfoCtrl.epaInfo.Process.Evaluators[$index].IsEndProcess">
                         <strong ng-bind="memberEPAInfoCtrl.epaInfo.Grade"></strong>

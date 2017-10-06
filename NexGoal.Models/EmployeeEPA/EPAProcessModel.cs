@@ -1,8 +1,9 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using Core;
-    using NexGoal.Core.Services;
     using System;
+    using Core;
+    using Newtonsoft.Json;
+    using NexGoal.Core.Services;
 
     [Serializable]
     public class EPAProcessModel
@@ -43,6 +44,7 @@
 
         public double MaxTotalScore { get; set; }
 
+        [JsonIgnore]
         public string TotalScoreEncode { get; set; }
 
         public string TotalScore { get; set; }
@@ -55,6 +57,7 @@
             }
         }
 
+        [JsonIgnore]
         public string AdjustScoreEncode { get; set; }
 
         public string AdjustScore { get; set; }

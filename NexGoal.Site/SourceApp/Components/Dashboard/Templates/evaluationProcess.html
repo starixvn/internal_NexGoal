@@ -105,7 +105,7 @@
                         <span data-translate="Open"></span><i class="fa fa-hourglass-start"></i>
                     </div>
                 </li>
-                <li ng-if="epaInfo.IsMonthly || epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual" class="process-item final">
+                <li ng-if="epaInfo.Period.TargetTypeId == dashboardCtrl.targetTypeEnum.SemiAnnual" class="process-item final">
                     <div><span data-translate="FinalScore"></span></div>
                     <div>
                         <span data-translate="EndPeriod"></span>: <span ng-bind="epaInfo.Period.EndDate | customDate"></span>

@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Model.Report.EPASummary
 {
+    using Newtonsoft.Json;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
 
@@ -9,6 +10,7 @@
 
         public int EmployeeId { get; set; }
 
+        [JsonIgnore]
         public string FinalScoreEncode { get; set; }
 
         public string FinalScore { get; set; }
@@ -19,6 +21,7 @@
 
         public float MaxDisciplineScore { get; set; }
 
+        [JsonIgnore]
         public string GradeEncode { get; set; }
 
         public string Grade { get; set; }

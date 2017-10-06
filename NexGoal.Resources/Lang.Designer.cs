@@ -2221,15 +2221,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Is Monthly.
-        /// </summary>
-        public static string IsMonthly {
-            get {
-                return ResourceManager.GetString("IsMonthly", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Is Special User.
         /// </summary>
         public static string IsSpecialUser {

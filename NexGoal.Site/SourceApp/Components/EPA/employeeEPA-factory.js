@@ -80,32 +80,6 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         getEPAInfoByReviewer: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByReviewer', { params: { epaId: epaId } });
         },
-        getUserPermissionOnManagement: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetUserPermissionOnManagement');
-        },
-        getGroupByManagement: function () {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetGroupByManagement');
-        },
-        getMemberByManagement: function (groupId, isLocal) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetMemberByManagement', {
-                params: {
-                    groupId: groupId,
-                    isLocal: isLocal
-                }
-            });
-        },
-        getEPAByManagement: function (groupId, isLocal, isMonthly, employeeIds) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAByManagement', {
-                params: {
-                    groupId: groupId,
-                    isLocal: isLocal,
-                    employeeIds: employeeIds
-                }
-            });
-        },
-        getEPAInfoByManagement: function (epaId) {
-            return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoByManagement', { params: { epaId: epaId } });
-        },
         getEPAInfoById: function (epaId) {
             return $http.get(baseUrl + 'api/EmployeeEPA/GetEPAInfoById', { params: { epaId: epaId } });
         },
@@ -117,9 +91,6 @@ epaModule.factory('employeeEPAFactory', ['$http', 'baseUrl', function ($http, ba
         },
         adjustScoreByReviewer: function (models) {
             return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByReviewer', models);
-        },
-        adjustScoreByManagement: function (models) {
-            return $http.put(baseUrl + 'api/EmployeeEPA/AdjustScoreByManagement', models);
         },
         convertEPA: function () {
             return $http.put(baseUrl + 'api/EmployeeEPA/ConvertEPA');

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Newtonsoft.Json;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
@@ -17,8 +18,6 @@
 
         public int EPAId { get; set; }
 
-        public int EPAParentId { get; set; }
-
         public EPAEmployeeModel Employee { get; set; }
 
         public EPAPeriodModel Period { get; set; }
@@ -31,6 +30,7 @@
 
         public bool RequiredCommentOnMaxScore { get; set; }
 
+        [JsonIgnore]
         public string FinalScoreEncode { get; set; }
 
         public string FinalScore { get; set; }
@@ -43,6 +43,7 @@
             }
         }
 
+        [JsonIgnore]
         public string GradeEncode { get; set; }
 
         public string Grade { get; set; }
@@ -50,8 +51,6 @@
         public bool HasDisciplineScore { get; set; }
 
         public float DisciplineScore { get; set; }
-
-        public float SystemDisciplineScore { get; set; }
 
         public float MaxDisciplineScore { get; set; }
 
@@ -67,10 +66,12 @@
 
         #region Last score
 
+        [JsonIgnore]
         public string LastFinalScoreEncode { get; set; }
 
         public string LastFinalScore { get; set; }
 
+        [JsonIgnore]
         public string LastGradeEncode { get; set; }
 
         public string LastGrade { get; set; }
@@ -92,14 +93,6 @@
         }
 
         public bool IsEndProcessBySelf { get; set; }
-
-        public bool IsMonthly
-        {
-            get
-            {
-                return Period != null && Period.TargetTypeId == (int)TargetType.Monthly;
-            }
-        }
 
         public bool IsAllowedToEdit
         {

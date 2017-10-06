@@ -1,8 +1,9 @@
 ﻿namespace NexGoal.Model.Report.EPADetail
 {
+    using System.Collections.Generic;
+    using Newtonsoft.Json;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
-    using System.Collections.Generic;
 
     public class EPADetailModel
     {
@@ -19,10 +20,12 @@
 
         public EPAStatusModel Status { get; set; }
 
+        [JsonIgnore]
         public string FinalScoreEncode { get; set; }
 
         public string FinalScore { get; set; }
 
+        [JsonIgnore]
         public string GradeEncode { get; set; }
 
         public string Grade { get; set; }
