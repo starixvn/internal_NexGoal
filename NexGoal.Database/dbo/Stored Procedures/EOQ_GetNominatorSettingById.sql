@@ -43,14 +43,15 @@ BEGIN
 		LEFT JOIN dbo.HRMJobTitle AS job WITH (NOLOCK) ON emp.JobTitle = job.Id
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON emp.EmployeeId = setting.NominatorId
-		AND EOQYId = @EOQYId
-		CROSS APPLY dbo.fnc_strSplit(setting.RoleId, ',') AS f
+		AND setting.EOQYId = @EOQYId
 	WHERE (
 			emp.FullName LIKE '%' + ISNULL(@Query, '') + '%'
 			OR emp.NickName LIKE '%' + ISNULL(@Query, '') + '%'
 			)
+		AND emp.IsDeleted = 0
+		AND emp.[Enabled] = 1
 		AND (
-			ISNULL(@GroupIds, '') = ''
+			@GroupIds IS NULL
 			OR EXISTS (
 				SELECT 1
 				FROM @Groups
@@ -64,21 +65,21 @@ BEGIN
 					AND dept.DepartmentId = Id
 				)
 			)
-		AND ISNULL(@RoleId, f.val) = f.val
+		AND (
+			@RoleId IS NULL
+			OR EXISTS (
+				SELECT 1
+				FROM dbo.EOQYNominatorSetting AS st WITH (NOLOCK)
+					CROSS APPLY dbo.fnc_strSplit(st.RoleId, ',') AS f
+				WHERE st.EOQYId = setting.EOQYId
+					AND f.val = @RoleId
+				)
+			)
 		AND (
 			(
 				@ShowAllEmployee = 0
-				AND EXISTS (
-					SELECT 1
-					FROM dbo.EOQYNominatorSetting
-					WHERE emp.EmployeeId = NominatorId
-						AND setting.EOQYId = EOQYId
-					)
+				AND setting.EOQYId = @EOQYId
 				)
-			OR (
-				@ShowAllEmployee = 1
-				AND emp.IsDeleted = 0
-				AND emp.[Enabled] = 1
-				)
+			OR @ShowAllEmployee = 1
 			)
 END
