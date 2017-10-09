@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetEPAToUpdateFinalScore    Script Date: 7/21/2016 2:45:43 PM ******/
-
-CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@EmployeeId INT = NULL
 AS
@@ -18,25 +16,24 @@ BEGIN
 
 	DECLARE @TblEPAId IntId
 		,@EPAIds NVARCHAR(MAX)
-		,@Yesterday DATE
+		,@Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
 		,@TargetTypeId INT
-		,@ToDay DATE
+		,@Today DATE = GETDATE()
+		,@ProbationTarget TINYINT = 1
+		,@SemiTarget TINYINT = 3
 
-	CREATE TABLE #DisciplineScores (
+	CREATE TABLE #tblDisciplineScores (
 		EPAId INT
 		,SystemDisciplineScore FLOAT
 		,DisciplineScore FLOAT
 		)
-
-	SET @ToDay = CAST(GETDATE() AS DATE)
-	SET @Yesterday = DATEADD(DAY, - 1, GETDATE())
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE PeriodId = @PeriodId
 		AND IsActive = 1
 
-	IF @TargetTypeId IN (2, 3)
+	IF @TargetTypeId IN (@SemiTarget)
 	BEGIN
 		INSERT INTO @TblEPAId (Id)
 		SELECT DISTINCT epa.EPAId
@@ -52,20 +49,14 @@ BEGIN
 			AND emp.IsDeleted = 0
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
-		WHERE CAST(pe.EndDate AS DATE) <= CAST(GETDATE() AS DATE)
+		WHERE CAST(pe.EndDate AS DATE) <= @Today
 			AND CAST(pc.EndDate AS DATE) < CAST(pe.EndDate AS DATE)
-			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annual
+			AND pe.TargetTypeId IN (@SemiTarget)
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
-			AND (
-				ISNULL(@GroupId, '') = ''
-				OR gr.GroupId = @GroupId
-				)
-			AND (
-				ISNULL(@EmployeeId, '') = ''
-				OR emp.EmployeeId = @EmployeeId
-				)
+			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
+			AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
 		
 		UNION
 		SELECT DISTINCT epa.EPAId
@@ -83,20 +74,14 @@ BEGIN
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
 			AND CAST(pc.EndDate AS DATE) >= CAST(pe.EndDate AS DATE)
-			AND pe.TargetTypeId IN (2, 3) -- monthly, semi annul
+			AND pe.TargetTypeId IN (@SemiTarget)
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
-			AND (
-				ISNULL(@GroupId, '') = ''
-				OR gr.GroupId = @GroupId
-				)
-			AND (
-				ISNULL(@EmployeeId, '') = ''
-				OR emp.EmployeeId = @EmployeeId
-				)
+			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
+			AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
 	END
-	ELSE IF @TargetTypeId IN (1, 5) -- probation/promotion
+	ELSE IF @TargetTypeId IN (@ProbationTarget)
 	BEGIN
 		INSERT INTO @TblEPAId (Id)
 		SELECT DISTINCT epa.EPAId
@@ -113,29 +98,31 @@ BEGIN
 			AND emp.[Enabled] = 1
 			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		WHERE CAST(pc.EndDate AS DATE) <= @Yesterday
-			AND pe.TargetTypeId IN (1, 5) -- probation/promotion
+			AND pe.TargetTypeId IN (@ProbationTarget)
 			AND epa.[Status] IN (0, 1) -- open/closed
 			AND pe.IsActive = 1
 			AND pe.PeriodId = @PeriodId
-			AND (
-				ISNULL(@GroupId, '') = ''
-				OR gr.GroupId = @GroupId
-				)
-			AND (
-				ISNULL(@EmployeeId, '') = ''
-				OR emp.EmployeeId = @EmployeeId
-				)
+			AND ISNULL(@GroupId, gr.GroupId) = gr.GroupId
+			AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
 	END
 
 	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
 	FROM @TblEPAId
 
-	INSERT INTO #DisciplineScores
+	INSERT INTO #tblDisciplineScores (
+		EPAId
+		,SystemDisciplineScore
+		,DisciplineScore
+		)
 	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
 
 	-- General Info
 	SELECT DISTINCT epa.EPAId
 		,epa.FinalScore
+		,(CASE 
+			WHEN tt.TargetTypeId = @SemiTarget THEN toeic.Score
+			ELSE 0 END
+			) AS ToeicPolicyScore
 		,(CASE srt.ScoreRatingTypeId
 			WHEN 1 THEN 1
 			ELSE 0 END
@@ -169,13 +156,14 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #DisciplineScores AS ds ON epa.EPAId = ds.EPAId
+		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
+		LEFT JOIN NexHRM.dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON epa.EmployeeId = toeic.EmployeeId
 	ORDER BY emp.NickName
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @TblEPAId
 
-	DROP TABLE #DisciplineScores
+	DROP TABLE #tblDisciplineScores
 END

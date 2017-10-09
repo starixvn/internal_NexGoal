@@ -15,7 +15,6 @@
                 {
                     var result = new ToDoListModel();
 
-                    result.EPAInfos = multi.Read<EPAInfoModel>();
                     result.Nominations = multi.Read<NominationModel>();
                     result.PAFocuses = multi.Read<PAFocusModel>();
 

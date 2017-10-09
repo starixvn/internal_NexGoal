@@ -10,7 +10,7 @@ namespace NexGoal.Model.Dashboard
 
         public int Quarter { get; set; }
 
-        public string RoleIds { get; set; }
+        public int RoleId { get; set; }
 
         public string Title
         {
@@ -47,12 +47,5 @@ namespace NexGoal.Model.Dashboard
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
-
-        public DateTime StartDateForCommittee
-        {
-            get { return EndDate.AddDays(1); }
-        }
-
-        public DateTime EndDateForCommittee { get; set; }
     }
 }

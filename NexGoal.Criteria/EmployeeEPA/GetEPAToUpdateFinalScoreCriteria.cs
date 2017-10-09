@@ -10,14 +10,8 @@
 
         public int? EmployeeId { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "EPA_GetEPAToUpdateFinalScore";
-        }
+        public override string GetSettingKey() => "EPA_GetEPAToUpdateFinalScore";
 
-        public override bool IsValid()
-        {
-            return PeriodId > 0;
-        }
+        public override bool IsValid() => PeriodId > 0;
     }
 }

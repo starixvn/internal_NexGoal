@@ -1,24 +1,17 @@
 ﻿<div class="panel-body">
     <!--<div ng-repeat="epaInfo in dashboardCtrl.toDoList.EPAInfos">
         <p class="green-border">
-            
         </p>
-    </div>
+    </div>-->
     <div ng-repeat="nomination in dashboardCtrl.toDoList.Nominations">
         <p class="green-border">
-            You are given until <strong ng-bind="nomination.EndDate | date : 'dd MMM, yyyy'"></strong> to complete <strong>{{nomination.Title}}</strong>
+            <strong>{{nomination.Title}}</strong>: Nominate your subordinates whom you think they deserve this award. Please complete it before <strong ng-bind="nomination.EndDate | date : 'dd MMM, yyyy'"></strong>
         </p>
     </div>
     <div ng-repeat="pafocus in dashboardCtrl.toDoList.PAFocuses">
         <p class="green-border">
-            You are given until <strong ng-bind="pafocus.EndDate | date : 'dd MMM, yyyy'"></strong> to complete PA Focus for <strong>{{pafocus.PeriodName}}</strong>
+            This assessment aims to help Supervisors, Leaders and Management highlight the differences among team members, recognize and focus on the Top Performers as well as the Low Performers.
+            Please complete it before <strong ng-bind="pafocus.EndDate | date : 'dd MMM, yyyy'"></strong>
         </p>
-    </div>-->
-
-    <div>- Nominator: Employee of 3rd Quarter, 2017</div>
-    <div>- Committee: Employee of 3rd Quarter, 2017</div>
-    <div>- Nominator: EOY 2017</div>
-    <div>- Committee: EOY 2017</div>
-    <div>- Evaluator: Period 2nd 2017</div>
-    <div>- Reviewer: Period 2nd 2017</div>
+    </div>
 </div>
