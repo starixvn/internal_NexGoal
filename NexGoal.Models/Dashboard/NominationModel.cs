@@ -1,14 +1,19 @@
-﻿using System;
-
-namespace NexGoal.Model.Dashboard
+﻿namespace NexGoal.Model.Dashboard
 {
+    using System;
+    using Newtonsoft.Json;
+
     public class NominationModel
     {
         public int EOQYId { get; set; }
 
+        [JsonIgnore]
         public int Year { get; set; }
 
+        [JsonIgnore]
         public int Quarter { get; set; }
+
+        public bool IsQuarter { get; set; }
 
         public int RoleId { get; set; }
 
@@ -43,8 +48,6 @@ namespace NexGoal.Model.Dashboard
                 return title;
             }
         }
-
-        public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
     }

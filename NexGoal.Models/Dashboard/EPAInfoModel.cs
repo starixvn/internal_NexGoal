@@ -8,12 +8,14 @@
 
         public string PeriodName { get; set; }
 
+        public int TargetTypeId { get; set; }
+
         public int ProcessId { get; set; }
+
+        public DateTime EndDate { get; set; }
 
         public int Members { get; set; }
 
-        public DateTime StartDate { get; set; }
-
-        public DateTime EndDate { get; set; }
+        public int Unfinished { get; set; }
     }
 }

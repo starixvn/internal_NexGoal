@@ -18,6 +18,11 @@
         vm.statusEndProcessEnum = enumerationsFactory.statusEndProcess;
         vm.selfEvaluatorPermission = 0;
         vm.policy = enumerationsFactory.policy;
+        vm.processType = enumerationsFactory.processType;
+        vm.nominationRole = {
+            Nominator: 1,
+            Committee: 2
+        };
 
         vm.getUserPermissionOnEmployee = function () {
             EmployeeEPAModel.getUserPermissionOnEmployee().then(function () {
@@ -58,6 +63,18 @@
 
         vm.viewOtherViolationDetail = function (epa) {
             CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
+        };
+
+        vm.redirectToNomination = function (nomination) {
+            var path = '';
+
+            if (nomination.IsQuarter) {
+                path = 'EOQ/Index';
+            } else {
+                path = 'EOY/Index';
+            }
+
+            $location.path(baseUrl + path);
         };
 
         function initialize() {
