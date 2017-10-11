@@ -9,18 +9,18 @@
                 </div>
             </div>
             <div class="col">
-                <label class="control-label" data-translate="Employee"></label>
-                <div class="control-content">
-                    <input class="form-control" placeholder="Enter full name or nick name"
-                           ng-model="eoyReportCtrl.filter.query" />
-                </div>
-            </div>
-            <div class="col">
                 <label class="control-label" data-translate="Team"></label>
                 <div class="control-content">
                     <add-class-to-role-filter class="multi-select" multi-select input-model="eoyReportCtrl.teams" button-label="Name"
                                               helper-elements="all none filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0">
                     </add-class-to-role-filter>
+                </div>
+            </div>
+            <div class="col">
+                <label class="control-label" data-translate="Employee"></label>
+                <div class="control-content">
+                    <input class="form-control" placeholder="Enter full name or nick name"
+                           ng-model="eoyReportCtrl.filter.query" />
                 </div>
             </div>
             <div class="col">

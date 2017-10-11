@@ -2,9 +2,9 @@
 /*global epaModule*/
 
 epaModule.controller('IndexEvaluatorController',
-["$location", 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', "lockScreenService",
+["$location", '$routeParams', 'EmployeeEPAModel', 'SelfEvalutorModel', 'CommonModel', 'utilitiesFactory', "lockScreenService",
     'enumerationsFactory', 'historyFactory', 'baseUrl',
-function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, lockScreenService,
+function ($location, $routeParams, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilitiesFactory, lockScreenService,
     enumerationsFactory, historyFactory, baseUrl) {
     var vm = this;
     var isFirstLoad = true;
@@ -13,7 +13,6 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     vm.members = [];
     vm.targetTypeEnum = enumerationsFactory.targetType;
     vm.filter = {};
-
 
     vm.handleOnPeriodChange = function () {
         var periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
@@ -117,7 +116,15 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         CommonModel.getAllPeriodByEvaluator().then(function () {
             vm.periods = utilitiesFactory.groupingPeriods(CommonModel.periodOptions);
 
-            if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
+            if ($routeParams.periodId && parseInt($routeParams.periodId, 10) > 0) {
+                angular.forEach(vm.periods, function (period) {
+                    if (period.PeriodId === parseInt($routeParams.periodId, 10)) {
+                        period.ticked = true;
+                    } else {
+                        period.ticked = false;
+                    }
+                });
+            } else if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
                 utilitiesFactory.checkLastestPeriods(vm.periods);
             }
 

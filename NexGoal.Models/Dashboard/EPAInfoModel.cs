@@ -4,6 +4,8 @@
 
     public class EPAInfoModel
     {
+        public int EPAId { get; set; }
+
         public int PeriodId { get; set; }
 
         public string PeriodName { get; set; }

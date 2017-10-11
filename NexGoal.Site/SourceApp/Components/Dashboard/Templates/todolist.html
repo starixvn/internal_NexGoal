@@ -1,28 +1,67 @@
-﻿<div class="panel-body">
+﻿<!--<div class="panel-body">
     <div ng-repeat="epaInfo in dashboardCtrl.toDoList.EPAInfos">
         <p class="green-border" ng-if="epaInfo.ProcessId === dashboardCtrl.processType.Self">
-            <strong class="note">{{epaInfo.PeriodName}}</strong>: Please complete the PA form by <strong class="note" ng-bind="epaInfo.EndDate | date : 'dd MMM, yyyy'"></strong>
+            <strong class="note">{{epaInfo.PeriodName}}</strong>:
+            Please complete the PA form by <strong class="note" ng-bind="epaInfo.EndDate | date : 'dd MMM, yyyy'"></strong>.
+            <a ng-click="dashboardCtrl.viewEPADetail(epaInfo)" href="">[click here]</a>
         </p>
         <p class="green-border" ng-if="epaInfo.ProcessId === dashboardCtrl.processType.Evaluator">
-            <strong class="note">{{epaInfo.PeriodName}}</strong>: Please complete your subordinate’s PA form. You still have <strong class="note" ng-bind="epaInfo.Unfinished"></strong> out of <strong class="note" ng-bind="epaInfo.Members"></strong> employee evaluations that need to be completed.
+            <strong class="note">{{epaInfo.PeriodName}}</strong>:
+            Please complete your subordinate’s PA form. You still have <strong class="note" ng-bind="epaInfo.Unfinished"></strong> out of <strong class="note" ng-bind="epaInfo.Members"></strong> employee evaluations that need to be completed.
+            <a ng-click="dashboardCtrl.redirectToPAForm(epaInfo)" href="">[click here]</a>
         </p>
         <p class="green-border" ng-if="epaInfo.ProcessId === dashboardCtrl.processType.Reviewer">
-            <strong class="note">{{epaInfo.PeriodName}}</strong>: Please complete your subordinate’s PA form. You still have <strong class="note" ng-bind="epaInfo.Unfinished"></strong> out of <strong class="note" ng-bind="epaInfo.Members"></strong> employee evaluations that need to be completed.
+            <strong class="note">{{epaInfo.PeriodName}}</strong>:
+            Please complete your subordinate’s PA form. You still have <strong class="note" ng-bind="epaInfo.Unfinished"></strong> out of <strong class="note" ng-bind="epaInfo.Members"></strong> employee evaluations that need to be completed.
+            <a ng-click="dashboardCtrl.redirectToPAForm(epaInfo)" href="">[click here]</a>
         </p>
     </div>
     <div ng-repeat="nomination in dashboardCtrl.toDoList.Nominations">
         <p class="green-border" ng-if="nomination.RoleId === dashboardCtrl.nominationRole.Nominator">
-            <strong class="note">{{nomination.Title}}</strong>: Nominate your subordinate(s) whom you think they deserve this award. Please complete it before <strong class="note" ng-bind="nomination.EndDate | date : 'dd MMM, yyyy'"></strong>
+            <strong class="note">{{nomination.Title}}</strong>:
+            Nominate your subordinate(s) whom you think they deserve this award. Please complete it before <strong class="note" ng-bind="nomination.EndDate | date : 'dd MMM, yyyy'"></strong>.
+            <a ng-click="dashboardCtrl.redirectToNomination(epaInfo)" href="">[click here]</a>
         </p>
 
         <p class="green-border" ng-if="nomination.RoleId === dashboardCtrl.nominationRole.Committee">
-            <strong class="note">{{nomination.Title}}</strong>: Please <a ng-click="dashboardCtrl.redirectToNomination(nomination)" href="">click here</a> to review and select the winner.
+            <strong class="note">{{nomination.Title}}</strong>:
+            Please <a ng-click="dashboardCtrl.redirectToNomination(nomination)" href="">click here</a> to review and select the winner.
         </p>
     </div>
     <div ng-repeat="pafocus in dashboardCtrl.toDoList.PAFocuses">
         <p class="green-border">
-            <strong>{{pafocus.PeriodName}}</strong>: This assessment aims to help Supervisors, Leaders and Management highlight the differences among team members, recognize and focus on the Top Performers as well as the Low Performers.
-            Please complete it before <strong class="note" ng-bind="pafocus.EndDate | date : 'dd MMM, yyyy'"></strong>
+            <strong class="note">{{pafocus.PeriodName}}</strong>: This assessment aims to help Supervisors, Leaders and Management highlight the differences among team members, recognize and focus on the Top Performers as well as the Low Performers.
+            Please complete it before <strong class="note" ng-bind="pafocus.EndDate | date : 'dd MMM, yyyy'"></strong>.
+            <a ng-click="dashboardCtrl.redirectToPAFocus()" href="">[click here]</a>
         </p>
     </div>
+</div>-->
+<div class="panel-body">
+    <p class="green-border">
+        <strong class="note">2017 Testing</strong>:
+        Please complete the PA form by <strong class="note">14 Sep, 2017</strong>.
+        <a ng-click="" href="">[click here]</a>
+    </p>
+    <p class="green-border">
+        <strong class="note">2017 Testing</strong>:
+        Please complete your subordinate’s PA form. You still have <strong class="note">1</strong> out of <strong class="note">10</strong> employee evaluations that need to be completed.
+        <a ng-click="" href="">[click here]</a>
+    </p>
+
+    <p class="green-border">
+        <strong class="note">EOY, 2017</strong>:
+        Nominate your subordinate(s) whom you think they deserve this award. Please complete it before <strong class="note">14 Sep, 2017</strong>.
+        <a ng-click="" href="">[click here]</a>
+    </p>
+
+    <p class="green-border">
+        <strong class="note">EOY, 2017</strong>:
+        Please <a ng-click="" href="">click here</a> to review and select the winner.
+    </p>
+
+    <p class="green-border">
+        <strong class="note">2017 Testing</strong>: This assessment aims to help Supervisors, Leaders and Management highlight the differences among team members, recognize and focus on the Top Performers as well as the Low Performers.
+        Please complete it before <strong class="note">14 Sep, 2017</strong>.
+        <a ng-click="" href="">[click here]</a>
+    </p>
 </div>

@@ -65,6 +65,18 @@
             CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
         };
 
+        vm.redirectToPAForm = function (epaInfo) {
+            var path = '';
+
+            if (epaInfo.ProcessId === vm.processType.Evaluator) {
+                path = 'Evaluator/Index';
+            } else {
+                path = 'Reviewer/Index';
+            }
+
+            $location.path(baseUrl + path).search({ periodId: epaInfo.PeriodId });
+        };
+
         vm.redirectToNomination = function (nomination) {
             var path = '';
 
@@ -75,6 +87,10 @@
             }
 
             $location.path(baseUrl + path);
+        };
+
+        vm.redirectToPAFocus = function () {
+            $location.path(baseUrl + 'PAFocus/Index');
         };
 
         function initialize() {

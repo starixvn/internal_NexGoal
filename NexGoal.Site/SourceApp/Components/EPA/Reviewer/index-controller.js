@@ -2,9 +2,9 @@
 /*global epaModule*/
 
 epaModule.controller('IndexReviewerController',
-['$translate', '$location', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'enumerationsFactory',
+['$translate', '$location', '$routeParams', 'EmployeeEPAModel', 'ReviewerManagementModel', 'CommonModel', 'enumerationsFactory',
     'utilitiesFactory', 'notificationFactory', 'historyFactory', 'baseUrl', 'lockScreenService',
-function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, CommonModel, enumerationsFactory,
+function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagementModel, CommonModel, enumerationsFactory,
     utilitiesFactory, notificationFactory, historyFactory, baseUrl, lockScreenService) {
     var vm = this;
     var isFirstLoad = true;
@@ -186,7 +186,15 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
             if (isBackToList) {
                 utilitiesFactory.setSelectedItem(vm.periods, "PeriodId", vm.filter.periodIds);
             } else {
-                if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
+                if ($routeParams.periodId && parseInt($routeParams.periodId, 10) > 0) {
+                    angular.forEach(vm.periods, function (period) {
+                        if (period.PeriodId === parseInt($routeParams.periodId, 10)) {
+                            period.ticked = true;
+                        } else {
+                            period.ticked = false;
+                        }
+                    });
+                } else if (!utilitiesFactory.checkInProcessPeriod(vm.periods)) {
                     utilitiesFactory.checkLastestPeriods(vm.periods);
                 }
 
