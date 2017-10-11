@@ -67,7 +67,8 @@ angular.module('multi-select', ['ng']).directive('multiSelect', ['$sce', '$timeo
         	onItemClick: '&',
         	onOpen: '&',
         	onReset: '&',
-        	onSelectAll: '&'
+        	onSelectAll: '&',
+        	onSelectNone: '&'
         },
 
 		template:
@@ -692,6 +693,7 @@ angular.module('multi-select', ['ng']).directive('multiSelect', ['$sce', '$timeo
 								}
 							}
 						});
+						$scope.onSelectNone();
 						break;
 					case 'RESET':
 						// Start: Larry.Tran 2015/1/22

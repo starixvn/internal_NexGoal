@@ -14,7 +14,9 @@
                         <div class="control-content">
                             <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.periods" button-label="Name"
                                                       helper-elements="all none filter" item-label="Name" tick-property="ticked" group-property="msGroup" max-labels="0"
-                                                      on-close="evaluatorCtrl.handleOnPeriodClose()">
+                                                      on-item-click="evaluatorCtrl.handleOnPeriodChange()"
+                                                      on-select-none="evaluatorCtrl.handleOnPeriodChange()"
+                                                      on-select-all="evaluatorCtrl.handleOnPeriodChange()">
                             </add-class-to-role-filter>
                         </div>
                     </div>
@@ -24,7 +26,9 @@
                         <div class="control-content">
                             <add-class-to-role-filter class="multi-select" multi-select input-model="evaluatorCtrl.groupOptions" button-label="Name"
                                                       helper-elements="all none filter" item-label="GroupName" tick-property="ticked" group-property="msGroup" max-labels="0"
-                                                      on-close="evaluatorCtrl.handleOnGroupClose()">
+                                                        on-item-click="evaluatorCtrl.handleOnGroupChange()"
+                                                        on-select-none="evaluatorCtrl.handleOnGroupChange()"
+                                                        on-select-all="evaluatorCtrl.handleOnGroupChange()">
                             </add-class-to-role-filter>
                         </div>
                     </div>

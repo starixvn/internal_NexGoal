@@ -59,10 +59,13 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
     }
 
     function getGroupsByPeriods(periodIds) {
-        ReviewerManagementModel.getGroupByReviewer(periodIds).then(function () {
-            if (periodIds === null) {
-                vm.groupOptions = [];
-            } else {
+        if (periodIds === null) {
+            vm.groupOptions = [];
+            vm.members = [];
+        }
+        else
+        {
+            ReviewerManagementModel.getGroupByReviewer(periodIds).then(function () {
                 vm.groupOptions = ReviewerManagementModel.groups;
 
                 if (isBackToList) {
@@ -73,9 +76,11 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
                     vm.filter.groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
                 }
 
-                getMemberByReviewer(vm.filter.periodIds, vm.filter.groupIds);
-            }
-        });
+                getMemberByReviewer(periodIds, vm.filter.groupIds);
+            });
+        }
+
+        
     }
 
     function resetSorting(field) {
@@ -192,7 +197,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         });
     }
 
-    vm.handleOnPeriodClose = function () {
+    vm.handleOnPeriodChange = function () {
         var periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
         isBackToList = false;
         if (periodIds !== vm.filter.periodIds) {
@@ -202,7 +207,7 @@ function ($translate, $location, EmployeeEPAModel, ReviewerManagementModel, Comm
         }
     };
 
-    vm.handleOnGroupClose = function () {
+    vm.handleOnGroupChange = function () {
         var groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
         isBackToList = false;
         if (groupIds !== vm.filter.groupIds) {

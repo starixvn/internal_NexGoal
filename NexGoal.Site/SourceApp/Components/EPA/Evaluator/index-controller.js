@@ -15,7 +15,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     vm.filter = {};
 
 
-    vm.handleOnPeriodClose = function () {
+    vm.handleOnPeriodChange = function () {
         var periodIds = utilitiesFactory.getSelectedDataByProperty(vm.periods, "PeriodId");
 
         if (periodIds !== vm.filter.periodIds) {
@@ -25,7 +25,7 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
         }
     };
 
-    vm.handleOnGroupClose = function () {
+    vm.handleOnGroupChange = function () {
         var groupIds = utilitiesFactory.getSelectedDataByProperty(vm.groupOptions, "GroupId");
 
         if (groupIds !== vm.filter.groupIds) {
@@ -94,11 +94,12 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
     }
 
     function getGroupsByPeriods(periodIds) {
-        SelfEvalutorModel.getGroupByEvaluator(periodIds).then(function () {
-            if (periodIds === null) {
-                vm.groupOptions = [];
-                vm.members = [];
-            } else {
+        if (periodIds === null) {
+            vm.groupOptions = [];
+            vm.members = [];
+        }
+        else {
+            SelfEvalutorModel.getGroupByEvaluator(periodIds).then(function () {
                 vm.groupOptions = SelfEvalutorModel.groups;
 
                 utilitiesFactory.setSelectAll(vm.groupOptions, "GroupId");
@@ -106,8 +107,8 @@ function ($location, EmployeeEPAModel, SelfEvalutorModel, CommonModel, utilities
                 vm.filter.groupIds = utilitiesFactory.getSelectedData(vm.groupOptions, "GroupId");
 
                 getMemberByEvaluator(vm.filter.periodIds, vm.filter.groupIds);
-            }
-        });
+            });
+        }
     }
 
     function initialize() {
