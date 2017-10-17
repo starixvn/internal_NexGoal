@@ -21,14 +21,14 @@
 
         <div class="todo-item" ng-if="nomination.RoleId === dashboardCtrl.nominationRole.Committee">
             <p class="todo-title">{{nomination.Title}}</p>
-            <p class="desc">Review and select the winner.</p>
+            <p class="desc">Review and select the winner. Please complete it by <strong class="highlight" ng-bind="nomination.EndDate | date : 'dd MMM, yyyy'"></strong>.</p>
             <a class="button-click" ng-click="dashboardCtrl.redirectToNomination(nomination)" href="">click here</a>
         </div>
     </div>
     <div ng-repeat="pafocus in dashboardCtrl.toDoList.PAFocuses">
         <div class="todo-item">
             <p class="todo-title">{{pafocus.PeriodName}}</p>
-            <p class="desc">This assessment aims to help Supervisors, Leaders and Management highlight the differences among team members, recognize and focus on the Top Performers as well as the Low Performers.
+            <p class="desc">This assessment aims to help Supervisors, Leaders and Management <strong>highlight</strong> the differences among team members, <strong>recognize</strong> and <strong>focus</strong> on the Top Performers as well as the Low Performers.
             Please complete it by <strong class="highlight" ng-bind="pafocus.EndDate | date : 'dd MMM, yyyy'"></strong>.</p>
             <a class="button-click" ng-click="dashboardCtrl.redirectToPAFocus()" href="">click here</a>
         </div>

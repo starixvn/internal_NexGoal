@@ -15,136 +15,87 @@ BEGIN
 
 	DECLARE @Today DATE = GETDATE()
 		,@Inprogress TINYINT = 0
+		,@ProcessBySelf TINYINT = 2
 		,@ProcessByEvaluator TINYINT = 3
 		,@ProcessByReviewer TINYINT = 4
-
-	CREATE TABLE #tblPerformanceAppraisal (
-		PeriodId INT
-		,PeriodName NVARCHAR(200)
-		,TargetTypeId TINYINT
-		,UnfinishedByEvaluator INT
-		,FinishedByEvaluator INT
-		,UnfinishedByReviewer INT
-		,FinishedByReviewer INT
-		)
-
-	INSERT INTO #tblPerformanceAppraisal (
-		PeriodId
-		,PeriodName
-		,TargetTypeId
-		)
-	SELECT DISTINCT period.PeriodId
+	
+	SELECT DISTINCT (CASE 
+			WHEN pc.ProcessId = @ProcessBySelf THEN MIN(pc.EPAId)
+			ELSE 0
+			END) AS EPAId
+		,period.PeriodId
 		,period.[Name]
 		,period.TargetTypeId
+		,pc.ProcessId
+		,MIN(pc.EndDate) AS EndDate
+		,COUNT(1) AS Members
+		,SUM(CASE 
+				WHEN ISNULL(pc.TotalScore, '') <> '' THEN 0
+				ELSE 1
+				END) AS Unfinished
 	FROM dbo.EPA AS epa WITH (NOLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON epa.PeriodId = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
 		AND pc.EvaluatorId = @EmployeeId
-		AND pc.ProcessId IN (3, 4) -- evaluator, reviewer
+		AND pc.ProcessId IN (@ProcessBySelf, @ProcessByEvaluator, @ProcessByReviewer)
 		AND @Today BETWEEN pc.StartDate
 			AND pc.EndDate
 	WHERE ISNULL(epa.[Status], 0) = @Inprogress
-	ORDER BY period.TargetTypeId
+	GROUP BY period.PeriodId
+		,period.[Name]
+		,period.TargetTypeId
+		,pc.ProcessId
 
-	-- evaluator
-	UPDATE pa
-	SET pa.UnfinishedByEvaluator = tbl.Unfinished
-		,pa.FinishedByEvaluator = tbl.Finished
-	FROM #tblPerformanceAppraisal AS pa
-		INNER JOIN (
-		SELECT epa.PeriodId
-			,SUM(CASE 
-					WHEN pc.TotalScore IS NOT NULL THEN 1
-					ELSE 0
-					END) AS Finished
-			,SUM(CASE 
-					WHEN pc.TotalScore IS NULL THEN 1
-					ELSE 0
-					END) AS Unfinished
-		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-			AND pc.EvaluatorId = @EmployeeId
-			AND pc.ProcessId = @ProcessByEvaluator
-			AND @Today BETWEEN pc.StartDate
-				AND pc.EndDate
-		WHERE ISNULL(epa.[Status], 0) = @Inprogress
-		GROUP BY epa.PeriodId
-		) AS tbl ON pa.PeriodId = tbl.PeriodId
-
-	-- reviewer
-	UPDATE pa
-	SET pa.UnfinishedByReviewer = tbl.Unfinished
-		,pa.FinishedByReviewer = tbl.Finished
-	FROM #tblPerformanceAppraisal AS pa
-		INNER JOIN (
-		SELECT epa.PeriodId
-			,SUM(CASE 
-					WHEN pc.TotalScore IS NOT NULL THEN 1
-					ELSE 0
-					END) AS Finished
-			,SUM(CASE 
-					WHEN pc.TotalScore IS NULL THEN 1
-					ELSE 0
-					END) AS Unfinished
-		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN dbo.EPAProcess AS pc WITH (NOLOCK) ON epa.EPAId = pc.EPAId
-			AND pc.EvaluatorId = @EmployeeId
-			AND pc.ProcessId = @ProcessByReviewer
-			AND @Today BETWEEN pc.StartDate
-				AND pc.EndDate
-		WHERE ISNULL(epa.[Status], 0) = @Inprogress
-		GROUP BY epa.PeriodId
-		) AS tbl ON pa.PeriodId = tbl.PeriodId
-
-	------
-	SELECT PeriodId
-		,PeriodName
-		,UnfinishedByEvaluator
-		,FinishedByEvaluator
-		,UnfinishedByReviewer
-		,FinishedByReviewer
-	FROM #tblPerformanceAppraisal WITH (NOLOCK)
-
-	SELECT eoqy.EOQYId
-		,eoqy.[Year]
-		,eoqy.[Quarter]
-		,setting.RoleId
-		,eoqy.StartDate
-		,eoqy.EndDate
-		,eoqy.EndDateForCommittee
-	FROM dbo.EOQY AS eoqy WITH (NOLOCK)
-		INNER JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON eoqy.EOQYId = setting.EOQYId
-		AND setting.NominatorId = @EmployeeId
-		CROSS APPLY dbo.fnc_strSplit(setting.RoleId, ',') AS f
-	WHERE (
-			(
-				f.val = 1
-				AND @Today BETWEEN eoqy.StartDate
-					AND eoqy.EndDate
-				)
-			OR (
-				f.val = 2
-				AND @Today > eoqy.EndDate
-				AND @Today <= eoqy.EndDateForCommittee
-				)
-			)
-	ORDER BY eoqy.IsQuarter
-		,eoqy.[Year] DESC
-		,eoqy.[Quarter] DESC
+	SELECT data.EOQYId
+		,data.[Year]
+		,data.[Quarter]
+		,data.IsQuarter
+		,data.RoleId
+		,data.EndDate
+	FROM (
+		SELECT DISTINCT eoqy.EOQYId
+			,eoqy.[Year]
+			,eoqy.[Quarter]
+			,eoqy.IsQuarter
+			,f.val AS RoleId
+			,eoqy.EndDate
+		FROM dbo.EOQY AS eoqy WITH (NOLOCK)
+			INNER JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON eoqy.EOQYId = setting.EOQYId
+			AND setting.NominatorId = @EmployeeId
+			CROSS APPLY dbo.fnc_strSplit(setting.RoleId, ',') AS f
+		WHERE f.val = 1
+			AND @Today BETWEEN eoqy.StartDate
+				AND eoqy.EndDate
+		
+		UNION
+		SELECT DISTINCT eoqy.EOQYId
+			,eoqy.[Year]
+			,eoqy.[Quarter]
+			,eoqy.IsQuarter
+			,f.val AS RoleId
+			,eoqy.EndDateForCommittee AS EndDate
+		FROM dbo.EOQY AS eoqy WITH (NOLOCK)
+			INNER JOIN dbo.EOQYNominatorSetting AS setting WITH (NOLOCK) ON eoqy.EOQYId = setting.EOQYId
+			AND setting.NominatorId = @EmployeeId
+			CROSS APPLY dbo.fnc_strSplit(setting.RoleId, ',') AS f
+		WHERE f.val = 2
+			AND @Today > eoqy.EndDate
+			AND @Today <= eoqy.EndDateForCommittee
+		) AS data
+	ORDER BY data.IsQuarter
+		,data.[Year] DESC
+		,data.[Quarter] DESC
 
 	SELECT DISTINCT p.PeriodId
 		,p.[Name] AS PeriodName
-		,fp.StartDate
 		,fp.EndDate
 	FROM dbo.PAFocus AS f WITH (NOLOCK)
 		INNER JOIN dbo.PAFocusProcess AS fp WITH (NOLOCK) ON f.PAFocusId = fp.PAFocusId
 		AND @Today BETWEEN fp.StartDate
 			AND fp.EndDate
-		AND fp.ProcessId = 3
+		AND fp.ProcessId = @ProcessByEvaluator
 		AND fp.EvaluatorId = @EmployeeId
 		INNER JOIN dbo.Period AS p WITH (NOLOCK) ON f.PeriodId = p.PeriodId
 		AND p.IsActive = 1
-
-	DROP TABLE #tblPerformanceAppraisal
 END
