@@ -15,7 +15,7 @@
     <div ng-repeat="nomination in dashboardCtrl.toDoList.Nominations">
         <div class="todo-item" ng-if="nomination.RoleId === dashboardCtrl.nominationRole.Nominator">
             <p class="todo-title">{{nomination.Title}}</p>
-            <p class="desc">Nominate your subordinate(s) whom you think they deserve this award. Please complete it before <strong class="highlight" ng-bind="nomination.EndDate | date : 'dd MMM, yyyy'"></strong>.</p>
+            <p class="desc">Nominate your subordinate(s) whom you think they deserve this award. Please complete it by <strong class="highlight" ng-bind="nomination.EndDate | date : 'dd MMM, yyyy'"></strong>.</p>
             <a class="button-click" ng-click="dashboardCtrl.redirectToNomination(nomination)" href="">click here</a>
         </div>
 
@@ -29,7 +29,7 @@
         <div class="todo-item">
             <p class="todo-title">{{pafocus.PeriodName}}</p>
             <p class="desc">This assessment aims to help Supervisors, Leaders and Management highlight the differences among team members, recognize and focus on the Top Performers as well as the Low Performers.
-            Please complete it before <strong class="highlight" ng-bind="pafocus.EndDate | date : 'dd MMM, yyyy'"></strong>.</p>
+            Please complete it by <strong class="highlight" ng-bind="pafocus.EndDate | date : 'dd MMM, yyyy'"></strong>.</p>
             <a class="button-click" ng-click="dashboardCtrl.redirectToPAFocus()" href="">click here</a>
         </div>
     </div>
