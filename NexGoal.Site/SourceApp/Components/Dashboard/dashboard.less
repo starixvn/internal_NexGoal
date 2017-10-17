@@ -1,5 +1,6 @@
 ﻿@blue-SanMarino: #536cb8;
 @orange-Jaffa: #f4783d;
+@orange-Christine: #e15411;
 @green-AquaForest: #5ba277;
 @brown-Americano: #877269;
 
@@ -7,6 +8,7 @@
 @c-in-progress: @orange-Jaffa;
 @c-open: @green-AquaForest;
 @c-final-score: #8b8f9e;
+@c-highlight: @orange-Christine;
 
 .dashboard {
     background-color: #fefefe;
@@ -52,6 +54,56 @@
         font-size: 15px;
     }
 }
+
+/* ----- TO DO LIST ----- */
+.todolist {
+    background: #eaf1f7;
+    margin-bottom: 10px;
+    padding: 0 16px;
+
+    .highlight {
+        color: @c-highlight;
+    }    
+}
+
+.todo-item {
+    padding: 8px 0;
+    border-bottom: 1px solid #ced4d9;   
+
+    > .todo-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: @c-highlight;
+        margin-bottom: 3px;
+    }
+
+    > .desc {
+        line-height: 1.5;
+        margin-bottom: 8px;
+    }
+
+    > .button-click {
+        display: inline-block;
+        padding: 3px 10px;
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid #158cd7;
+        color: #158cd7;
+        border-radius: 3px;
+        text-transform: uppercase;
+        transition: all 0.3s ease;
+
+        &:hover {
+            background: #158cd7;
+            color: #fff;
+        }
+    }
+
+    &:last-child {
+        border: none;
+    }
+}
+/* -----------------------*/
 
 .modal-view-other-violation-detail {
     max-height: 400px;
