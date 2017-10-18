@@ -94,7 +94,7 @@
                 {
                     return (int)NominationSettingStatus.NotReady;
                 }
-                else if (StartDate.Date <= DateTime.Now.Date && EndDate.Date >= DateTime.Now.Date)
+                else if (StartDate.Date <= DateTime.Now.Date && EndDateForCommittee.Date >= DateTime.Now.Date)
                 {
                     return (int)NominationSettingStatus.InProgress;
                 }
@@ -112,6 +112,23 @@
         }
 
         public string Description { get; set; }
+
+        public int StatusIdForNominator
+        {
+            get
+            {
+                if (StartDate.Date > DateTime.Now.Date)
+                {
+                    return (int)NominationSettingStatus.NotReady;
+                }
+                else if (StartDate.Date <= DateTime.Now.Date && EndDate.Date >= DateTime.Now.Date)
+                {
+                    return (int)NominationSettingStatus.InProgress;
+                }
+
+                return (int)NominationSettingStatus.Closed;
+            }
+        }
 
         public int StatusIdForCommittee
         {

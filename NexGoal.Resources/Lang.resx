@@ -1732,10 +1732,10 @@
     <value>End Date For Committee</value>
   </data>
   <data name="EndDateForCommitteeGreaterThanEndDateWarning" xml:space="preserve">
-    <value>The End Date must be less than the End Date For Committee.</value>
+    <value>End Date For Nominator must be less than End Date For Committee!</value>
   </data>
   <data name="EndDateForCommitteeRequired" xml:space="preserve">
-    <value>The End Date For Committee filed is required!</value>
+    <value>End Date For Committee filed is required!</value>
   </data>
   <data name="RemindDateRequired" xml:space="preserve">
     <value>Remind Date field is required!</value>
@@ -1745,5 +1745,23 @@
   </data>
   <data name="ToeicPolicy" xml:space="preserve">
     <value>TOEIC Policy</value>
+  </data>
+  <data name="EndDateForNominator" xml:space="preserve">
+    <value>End Date For Nominator</value>
+  </data>
+  <data name="RemindDateForNominator" xml:space="preserve">
+    <value>Remind Date For Nominator</value>
+  </data>
+  <data name="StartDateForNominator" xml:space="preserve">
+    <value>Start Date For Nominator</value>
+  </data>
+  <data name="EndDateForNominatorRequired" xml:space="preserve">
+    <value>End Date For Nominator field is required!</value>
+  </data>
+  <data name="RemindDateForNominatorRequired" xml:space="preserve">
+    <value>Remind Date For Nominator field is required!</value>
+  </data>
+  <data name="StartDateForNominatorRequired" xml:space="preserve">
+    <value>Start Date For Nominator field is required!</value>
   </data>
 </root>

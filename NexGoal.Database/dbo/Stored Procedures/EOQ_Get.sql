@@ -37,11 +37,11 @@ BEGIN
 			OR (
 				@StatusId = 1 -- in progress
 				AND @Date BETWEEN StartDate
-					AND EndDate
+					AND EndDateForCommittee
 				)
 			OR (
 				@StatusId = 2 -- closed
-				AND EndDate < @Date
+				AND EndDateForCommittee < @Date
 				)
 			)
 END

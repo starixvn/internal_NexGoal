@@ -16,45 +16,44 @@
                     <tab-heading data-translate="Settings"></tab-heading>
                     <form class="col-sm-12 col-lg-12 form-horizontal common-form info-form" novalidate>
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" data-translate="Quarter"></label>
+                            <label class="col-sm-2 control-label" data-translate="Quarter"></label>
                             <div class="col-sm-2 field">
                                 <input class="form-control" ng-model="viewEOQDetailCtrl.period.Quarter" ng-disabled="true" />
                             </div>
 
-                            <label class="col-sm-1 control-label" data-translate="Year"></label>
+                            <label class="col-sm-2 control-label" data-translate="Year"></label>
                             <div class="col-sm-2 field">
                                 <input class="form-control" ng-model="viewEOQDetailCtrl.period.Year" ng-disabled="true" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" data-translate="StartDate"></label>
+                            <label class="col-sm-2 control-label" data-translate="StartDateForNominator"></label>
                             <div class="col-sm-2 field">
-                                <input class="form-control"
-                                       ng-model="viewEOQDetailCtrl.period.RawStartDate"
-                                       ng-disabled="true" />
+                                <input class="form-control" ng-model="viewEOQDetailCtrl.period.RawStartDate" ng-disabled="true" />
                             </div>
 
-                            <label class="col-sm-1 control-label" data-translate="EndDate"></label>
+                            <label class="col-sm-2 control-label" data-translate="EndDateForNominator"></label>
                             <div class="col-sm-2 field">
-                                <input class="form-control"
-                                       ng-model="viewEOQDetailCtrl.period.RawEndDate"
-                                       ng-disabled="true" />
+                                <input class="form-control" ng-model="viewEOQDetailCtrl.period.RawEndDate" ng-disabled="true" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" data-translate="RemindDate"></label>
+                            <label class="col-sm-2 control-label" data-translate="RemindDateForNominator"></label>
                             <div class="col-sm-2 field">
-                                <input class="form-control"
-                                       ng-model="viewEOQDetailCtrl.period.RawRemindDate"
-                                       ng-disabled="true" />
+                                <input class="form-control" ng-model="viewEOQDetailCtrl.period.RawRemindDate" ng-disabled="true" />
+                            </div>
+
+                            <label class="col-sm-2 control-label" data-translate="EndDateForCommittee"></label>
+                            <div class="col-sm-2 field">
+                                <input class="form-control" ng-model="viewEOQDetailCtrl.period.RawEndDateForCommittee" ng-disabled="true" />
                             </div>
                         </div>
 
                         <div class="form-group">
-                            <label class="col-sm-1 control-label" data-translate="Description"></label>
-                            <div class="col-sm-5 field">
+                            <label class="col-sm-2 control-label" data-translate="Description"></label>
+                            <div class="col-sm-6 field">
                                 <textarea type="text" class="form-control comment" rows="3"
                                           ng-model="viewEOQDetailCtrl.period.Description"
                                           ng-disabled="true"></textarea>

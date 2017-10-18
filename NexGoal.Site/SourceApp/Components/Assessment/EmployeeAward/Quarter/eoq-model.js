@@ -350,17 +350,17 @@
                 }
 
                 if (!period.RawStartDate) {
-                    notificationFactory.error("StartDateRequired");
+                    notificationFactory.error("StartDateForNominatorRequired");
                     return false;
                 }
 
                 if (!period.RawEndDate) {
-                    notificationFactory.error("EndDateRequired");
+                    notificationFactory.error("EndDateForNominatorRequired");
                     return false;
                 }
 
                 if (!period.RawRemindDate) {
-                    notificationFactory.error("RemindDateRequired");
+                    notificationFactory.error("RemindDateForNominatorRequired");
                     return false;
                 }
 

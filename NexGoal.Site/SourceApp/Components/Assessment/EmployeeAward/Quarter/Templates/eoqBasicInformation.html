@@ -1,7 +1,7 @@
 ﻿<div ng-controller="UpdateEOQBasicInformationController as eoqBasicInfoCtrl">
     <form class="col-sm-12 col-lg-12 form-horizontal common-form info-form" novalidate>
         <div class="form-group">
-            <label class="col-sm-1 control-label" data-translate="Quarter"></label>
+            <label class="col-sm-2 control-label" data-translate="Quarter"></label>
             <div class="col-sm-2 field">
                 <input type="text" class="form-control"
                        ng-model="eoqBasicInfoCtrl.period.Quarter"
@@ -34,7 +34,7 @@
         </div>
 
         <div class="form-group">
-            <label class="col-sm-1 control-label required-label" data-translate="StartDate"></label>
+            <label class="col-sm-2 control-label required-label" data-translate="StartDateForNominator"></label>
             <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control" type="text" datepicker-popup
                        ng-model="eoqBasicInfoCtrl.period.RawStartDate"
@@ -43,7 +43,7 @@
                 <calendar-image class="calendar-image" ng-click="eoqBasicInfoCtrl.openPopupStartDate($event)"></calendar-image>
             </div>
 
-            <label class="col-sm-2 control-label required-label" data-translate="EndDate"></label>
+            <label class="col-sm-2 control-label required-label" data-translate="EndDateForNominator"></label>
             <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control" type="text" datepicker-popup
                        ng-model="eoqBasicInfoCtrl.period.RawEndDate"
@@ -53,7 +53,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label required-label" data-translate="RemindDate"></label>
+            <label class="col-sm-2 control-label required-label" data-translate="RemindDateForNominator"></label>
             <div class="col-sm-2 field">
                 <input readonly class="calendar-form-control" type="text" datepicker-popup
                        ng-model="eoqBasicInfoCtrl.period.RawRemindDate"
@@ -72,7 +72,7 @@
             </div>
         </div>
         <div class="form-group">
-            <label class="col-sm-1 control-label" data-translate="Description"></label>
+            <label class="col-sm-2 control-label" data-translate="Description"></label>
             <div class="col-sm-6 field">
                 <textarea type="text" class="form-control comment" rows="3" ng-model="eoqBasicInfoCtrl.period.Description"></textarea>
             </div>

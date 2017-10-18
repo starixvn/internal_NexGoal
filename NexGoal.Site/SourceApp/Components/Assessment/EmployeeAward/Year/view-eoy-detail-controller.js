@@ -40,6 +40,8 @@
                 if (vm.period) {
                     vm.period.RawStartDate = $filter('date')(vm.period.StartDate, vm.dateFormat);
                     vm.period.RawEndDate = $filter('date')(vm.period.EndDate, vm.dateFormat);
+                    vm.period.RawRemindDate = $filter('date')(vm.period.RemindDate, vm.dateFormat);
+                    vm.period.RawEndDateForCommittee = $filter('date')(vm.period.EndDateForCommittee, vm.dateFormat);
                 }
             })['finally'](function () {
                 lockScreenService.stop();

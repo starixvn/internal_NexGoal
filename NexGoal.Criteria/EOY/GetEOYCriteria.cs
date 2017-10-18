@@ -6,14 +6,8 @@
     {
         public int? StatusId { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "EOY_Get";
-        }
+        public override string GetSettingKey() => "EOY_Get";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

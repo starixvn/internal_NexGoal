@@ -8,14 +8,8 @@
 
         public int? StatusId { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "EOQ_Get";
-        }
+        public override string GetSettingKey() => "EOQ_Get";
 
-        public override bool IsValid()
-        {
-            return true;
-        }
+        public override bool IsValid() => true;
     }
 }

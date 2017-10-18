@@ -1276,7 +1276,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date must be less than the End Date For Committee..
+        ///   Looks up a localized string similar to End Date For Nominator must be less than End Date For Committee!.
         /// </summary>
         public static string EndDateForCommitteeGreaterThanEndDateWarning {
             get {
@@ -1285,11 +1285,29 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The End Date For Committee filed is required!.
+        ///   Looks up a localized string similar to End Date For Committee filed is required!.
         /// </summary>
         public static string EndDateForCommitteeRequired {
             get {
                 return ResourceManager.GetString("EndDateForCommitteeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Date For Nominator.
+        /// </summary>
+        public static string EndDateForNominator {
+            get {
+                return ResourceManager.GetString("EndDateForNominator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Date For Nominator field is required!.
+        /// </summary>
+        public static string EndDateForNominatorRequired {
+            get {
+                return ResourceManager.GetString("EndDateForNominatorRequired", resourceCulture);
             }
         }
         
@@ -3445,6 +3463,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remind Date For Nominator.
+        /// </summary>
+        public static string RemindDateForNominator {
+            get {
+                return ResourceManager.GetString("RemindDateForNominator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Remind Date For Nominator field is required!.
+        /// </summary>
+        public static string RemindDateForNominatorRequired {
+            get {
+                return ResourceManager.GetString("RemindDateForNominatorRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remind Date field is required!.
         /// </summary>
         public static string RemindDateRequired {
@@ -4035,6 +4071,24 @@ namespace NexGoal.Resources {
         public static string StartDate {
             get {
                 return ResourceManager.GetString("StartDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Date For Nominator.
+        /// </summary>
+        public static string StartDateForNominator {
+            get {
+                return ResourceManager.GetString("StartDateForNominator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Date For Nominator field is required!.
+        /// </summary>
+        public static string StartDateForNominatorRequired {
+            get {
+                return ResourceManager.GetString("StartDateForNominatorRequired", resourceCulture);
             }
         }
         

@@ -45,11 +45,11 @@
                         <button class="button" ng-click="eoqAccessCtrl.addNominee()" data-translate="AddNominee"
                                 ng-if="eoqAccessCtrl.roleId === eoqAccessCtrl.NOMINATOR_ROLE
                                     && eoqAccessCtrl.permission === eoqAccessCtrl.policyEnum.Host
-                                    && eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></button>
+                                    && eoqAccessCtrl.period.Period.StatusIdForNominator === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS"></button>
                         <button class="button btnExcel" export-employee-of-the-quarter
                                 ng-click="eoqAccessCtrl.exportExcel()"
                                 ng-if="eoqAccessCtrl.roleId === eoqAccessCtrl.COMMITTEE_ROLE
-                                && eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                && eoqAccessCtrl.period.Period.StatusIdForNominator !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                             Excel
                         </button>
                     </div>
@@ -66,25 +66,25 @@
                         <div class="evaluation-process-section">
                             <ul class="evaluation-process">
                                 <li class="process-item"
-                                    ng-class="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS
+                                    ng-class="eoqAccessCtrl.period.Period.StatusIdForNominator === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS
                                         ? 'in-process'
-                                        : (eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_CLOSED_STATUS ? 'end-process' : 'open')">
+                                        : (eoqAccessCtrl.period.Period.StatusIdForNominator === eoqAccessCtrl.PERIOD_CLOSED_STATUS ? 'end-process' : 'open')">
                                     <div data-translate="Nominator"></div>
                                     <div>
                                         {{eoqAccessCtrl.period.Period.StartDate | customDate}} -
                                         {{eoqAccessCtrl.period.Period.EndDate | customDate}}
                                     </div>
                                     <div>
-                                        <div ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusIdForNominator === eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS">
                                             <span data-translate="InProgress"></span><i class="fa fa-spinner" aria-hidden="true"></i>
                                         </div>
 
-                                        <div ng-if="eoqAccessCtrl.period.Period.StatusId === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusIdForNominator === eoqAccessCtrl.PERIOD_CLOSED_STATUS">
                                             <span data-translate="Closed"></span><i class="fa fa-check-square-o" aria-hidden="true"></i>
                                         </div>
 
-                                        <div ng-if="eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS
-                                             && eoqAccessCtrl.period.Period.StatusId !== eoqAccessCtrl.PERIOD_CLOSED_STATUS">
+                                        <div ng-if="eoqAccessCtrl.period.Period.StatusIdForNominator !== eoqAccessCtrl.PERIOD_IN_PROGRESS_STATUS
+                                             && eoqAccessCtrl.period.Period.StatusIdForNominator !== eoqAccessCtrl.PERIOD_CLOSED_STATUS">
                                             <span data-translate="NotReady"></span><i class="fa fa-hourglass-start" aria-hidden="true"></i>
                                         </div>
                                     </div>
