@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Configuration;
     using System.Linq;
+    using System.Text;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Model;
@@ -110,60 +111,12 @@
         {
             var period = new PeriodModel();
             var criteria = new GetPeriodByIdCriteria { PeriodId = id };
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 period = _periodRepository.GetPeriodById(criteria);
             }
 
             return period;
-        }
-
-        public CommandResult CreatePeriod(CreatePeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult DeletePeriod(DeletePeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
 
         public IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria)
@@ -178,42 +131,19 @@
             return employeeSettings;
         }
 
-        public CommandResult AddEmployeeToPeriod(AddEmployeeToPeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null && criteria.IsValid())
             {
                 commandResult = Repository.ExecuteNonQuery(criteria);
 
-                if (commandResult.IsSuccessful && ConfigurationManager.AppSettings["SendMailWhenEditEmployeeSetting"].Equals("true", StringComparison.OrdinalIgnoreCase))
+                if (commandResult.IsSuccessful
+                    && ConfigurationManager.AppSettings["SendMailWhenEditEmployeeSetting"].Equals("true", StringComparison.OrdinalIgnoreCase))
                 {
                     GetAndSendEmailToAllRelatedEmployee(MailMode.NotifyChange, criteria.PeriodId, criteria.EmployeeIds, null);
                 }
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -317,18 +247,6 @@
             return processSettings;
         }
 
-        public CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria)
         {
             bool hasStarted = false;
@@ -423,15 +341,15 @@
 
         private object GetEvaluator(IList<PeriodFlowModel> evaluators)
         {
-            string evaluatorNames = string.Empty;
+            var evaluatorNames = new StringBuilder();
 
             foreach (PeriodFlowModel evaluator in evaluators)
             {
                 string name = evaluator.EvaluatorInfo.NickName;
-                evaluatorNames += !string.IsNullOrEmpty(evaluatorNames) ? ", " + name : name;
+                evaluatorNames.Append(evaluatorNames.Length > 0 ? ", " + name : name);
             }
 
-            return evaluatorNames;
+            return evaluatorNames.ToString();
         }
 
         private void GetAndSendEmailToAllRelatedEmployee(MailMode mailMode, int periodId, string employeeIds, int? processId)
@@ -453,15 +371,13 @@
 
         private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds, int? processId)
         {
-            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-
             var getEmployeeSettingCriteria = new GetEmployeeSettingByPeriodIdCriteria
             {
                 PeriodId = periodId,
                 EmployeeIds = employeeIds,
                 ProcessId = processId
             };
-            employeeSettings = GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+            IEnumerable<PeriodFlowModel> employeeSettings = GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
 
             return employeeSettings;
         }

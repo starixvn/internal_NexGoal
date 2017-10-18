@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -12,25 +14,26 @@
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class TargetTemplateController : BaseController
     {
         private readonly ITargetTemplateService _targetTemplateService;
         private readonly IScoreRatingTypeService _scoreRatingTypeService;
+        private readonly ICommonService commonService;
 
         public TargetTemplateController()
-            : this(null, null)
+            : this(null, null, null)
         {
         }
 
         public TargetTemplateController(
             ITargetTemplateService targetTemplateService,
-            IScoreRatingTypeService scoreRatingTypeService)
+            IScoreRatingTypeService scoreRatingTypeService,
+            ICommonService commonService)
         {
             _targetTemplateService = targetTemplateService ?? new TargetTemplateService();
             _scoreRatingTypeService = scoreRatingTypeService ?? new ScoreRatingTypeService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
@@ -69,7 +72,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetTemplateService.CreateTargetTemplate(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -82,7 +85,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetTemplateService.UpdateStatusTargetTemplate(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -90,11 +93,11 @@
         [HttpPut]
         public CommandResult UpdateTargetTemplateBasicInformation(TargetTemplateModel targetTemplate)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (ModelState.IsValid && targetTemplate != null)
             {
-                var updateTargetTemplateCriteria = new UpdateTargetTemplateBasicInformationCriteria()
+                var criteria = new UpdateTargetTemplateBasicInformationCriteria()
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
                     ModifiedBy = SessionService.EmployeeId,
@@ -106,7 +109,7 @@
                     Description = targetTemplate.Description
                 };
 
-                commandResult = _targetTemplateService.UpdateTargetTemplateBasicInformation(updateTargetTemplateCriteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -116,18 +119,18 @@
         [HttpPut]
         public CommandResult UpdateTargetTemplate(TargetTemplateModel targetTemplate)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (ModelState.IsValid && targetTemplate != null)
             {
-                var updateTargetTemplateCriteria = new UpdateTargetTemplateCriteria()
+                var criteria = new UpdateTargetTemplateCriteria()
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
                     ModifiedBy = SessionService.EmployeeId,
                     KPIs = targetTemplate.ConvertKPIItemToXml(targetTemplate.KPIIds)
                 };
 
-                commandResult = _targetTemplateService.UpdateTargetTemplate(updateTargetTemplateCriteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -143,7 +146,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _targetTemplateService.DeleteTargetTemplate(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -151,7 +154,7 @@
         [HttpPost]
         public CommandResult AddKPIGroupWeight(TargetKPIGroupWeightModel model)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
             if (model != null)
             {
                 var criteria = new SetKPIGroupOfTargetTemplateCriteria
@@ -161,7 +164,7 @@
                     ModifiedBy = SessionService.EmployeeId
                 };
 
-                commandResult = _targetTemplateService.AddKPIGroupWeight(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -202,7 +205,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _targetTemplateService.DeleteKPIGroup(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 

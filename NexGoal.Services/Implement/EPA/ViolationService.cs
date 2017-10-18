@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using Core.Constants;
     using Core.Enumerations;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Violation;
     using NexGoal.Model.Violation;
@@ -13,7 +12,7 @@
     public class ViolationService : BaseService, IViolationService
     {
         private readonly IViolationRepository violationRepository;
-        private ISessionService sessionService;
+        private readonly ISessionService sessionService;
 
         public ViolationService()
             : this(null, null)
@@ -26,47 +25,11 @@
             this.sessionService = sessionService ?? new SessionService();
         }
 
-        public CommandResult Insert(CreateViolationCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult Update(UpdateViolationCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult UpdateActive(UpdateViolationActiveCriteria criteria)
-        {
-            var result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
         public ViolationViewModel GetById(int violationId)
         {
             var model = new ViolationViewModel();
             var criteria = new GetViolationByIdCriteria { ViolationId = violationId };
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 model = this.violationRepository.GetById(criteria);
             }
@@ -89,12 +52,9 @@
         {
             IEnumerable<ViolationViewModel> model = new List<ViolationViewModel>();
             var policyToView = CheckPermissionToView(criteria.EmployeeId);
-            if (policyToView != Policy.None)
+            if (policyToView != Policy.None && criteria.IsValid())
             {
-                if (criteria != null && criteria.IsValid())
-                {
-                    model = this.violationRepository.GetViolation(criteria);
-                }
+                model = violationRepository.GetViolation(criteria);
             }
 
             return model;

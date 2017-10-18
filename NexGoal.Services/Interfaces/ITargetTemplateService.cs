@@ -1,11 +1,10 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using NexGoal.Core.Model;
+    using System.Collections.Generic;
     using NexGoal.Criteria.TargetTemplate;
     using NexGoal.Model.Enitites;
     using NexGoal.Model.KPIGroup;
     using NexGoal.Model.TargetTemplate;
-    using System.Collections.Generic;
 
     public interface ITargetTemplateService
     {
@@ -13,21 +12,7 @@
 
         IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
 
-        CommandResult CreateTargetTemplate(CreateTargetTemplateCriteria criteria);
-
-        CommandResult UpdateTargetTemplate(UpdateTargetTemplateCriteria criteria);
-
-        CommandResult UpdateTargetTemplateBasicInformation(UpdateTargetTemplateBasicInformationCriteria criteria);
-
-        CommandResult DeleteTargetTemplate(DeleteTargetTemplateCriteria criteria);
-
-        CommandResult AddKPIGroupWeight(SetKPIGroupOfTargetTemplateCriteria criteria);
-
         IEnumerable<KPIGroupModel> GetKPIGroupOfTargetTemplate(GetKPIGroupOfTargetTemplateCriteria criteria);
-
-        CommandResult UpdateStatusTargetTemplate(UpdateStatusTargetTemplateCriteria criteria);
-
-        CommandResult DeleteKPIGroup(DeleteKPIGroupOfTargetTemplateCriteria criteria);
 
         IEnumerable<TargetTemplateKPIGroupModel> GetKPIOfTargetTemplate(GetKPIOfTargetTemplateCriteria criteria, bool onlyKPISelected);
 

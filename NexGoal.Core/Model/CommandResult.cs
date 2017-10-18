@@ -7,7 +7,7 @@
         public CommandResult()
         {
             Code = 1;
-            Message = Lang.InvalidInputData;
+            Message = Lang.ParameterInvalid;
         }
 
         public int Id { get; set; }

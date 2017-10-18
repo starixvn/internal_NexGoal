@@ -1,5 +1,8 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -7,22 +10,22 @@
     using NexGoal.Criteria.Violation;
     using NexGoal.Model.Violation;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Web.Http;
+    using Services.Implement;
 
     public class ViolationController : BaseController
     {
         private readonly IViolationService violationService;
+        private readonly ICommonService commonService;
 
         public ViolationController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public ViolationController(IViolationService integrationService)
+        public ViolationController(IViolationService integrationService, ICommonService commonService)
         {
             this.violationService = integrationService ?? new ViolationService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -79,7 +82,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = violationService.Insert(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -92,7 +95,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = violationService.Update(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -105,7 +108,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = violationService.UpdateActive(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
     }

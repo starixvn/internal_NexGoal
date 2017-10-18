@@ -17,21 +17,9 @@
 
         PeriodModel GetPeriodById(int id);
 
-        CommandResult CreatePeriod(CreatePeriodCriteria criteria);
-
-        CommandResult UpdateBasicInformationPeriod(UpdateBasicInformationPeriodCriteria criteria);
-
-        CommandResult UpdateStatusPeriod(UpdateStatusPeriodCriteria criteria);
-
-        CommandResult DeletePeriod(DeletePeriodCriteria criteria);
-
         IEnumerable<PeriodEmployeeSettingModel> GetPeriodEmployeeSettingById(GetPeriodEmployeeSettingCriteria criteria);
 
-        CommandResult AddEmployeeToPeriod(AddEmployeeToPeriodCriteria criteria);
-
         CommandResult UpdateEmployeeSettingOfPeriod(UpdateEmployeeSettingOfPeriodCriteria criteria);
-
-        CommandResult UpdateIncludeStatusEmployeePeriod(UpdateIncludeStatusEmployeePeriodCriteria criteria);
 
         void ExportEmployeeSettingReport(IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings, string templatePath, string periodName);
 
@@ -50,8 +38,6 @@
         IEnumerable<FlowModel> GetProcessSettingByPeriodId(GetProcessSettingPeriodCriteria criteria);
 
         IEnumerable<FlowModel> GetEvaluationGlobalSettingByTargetTypeId(GetEvaluationGlobalSettingByTargetTypeIdCriteria criteria);
-
-        CommandResult UpdateProcessSettingPeriod(UpdateProcessSettingPeriodCriteria criteria);
 
         bool CheckSelfProcessStarted(CheckSelfProcessStartedCriteria criteria);
 

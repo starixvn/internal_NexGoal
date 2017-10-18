@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -8,22 +10,23 @@
     using NexGoal.Model.TargetEmployeeSetting;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class TargetEmployeeSettingController : BaseController
     {
         private readonly ITargetEmployeeSettingService _targetEmployeeSettingService;
+        private readonly ICommonService commonService;
 
         public TargetEmployeeSettingController()
-            : this(null)
+            : this(null, null)
         {
         }
 
         public TargetEmployeeSettingController(
-            ITargetEmployeeSettingService targetEmployeeSettingService)
+            ITargetEmployeeSettingService targetEmployeeSettingService,
+            ICommonService commonService)
         {
             _targetEmployeeSettingService = targetEmployeeSettingService ?? new TargetEmployeeSettingService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
@@ -54,7 +57,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _targetEmployeeSettingService.AssignTargetTemplateToEmployee(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -69,7 +72,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetEmployeeSetting(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -106,7 +109,7 @@
                     ModifiedBy = SessionService.EmployeeId
                 };
 
-                commandResult = _targetEmployeeSettingService.AssignTargetTemplateToDepartment(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -127,7 +130,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _targetEmployeeSettingService.DeleteTargetDepartmentSetting(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 

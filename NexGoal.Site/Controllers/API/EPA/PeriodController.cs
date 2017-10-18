@@ -11,23 +11,25 @@
     using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.FlowManagement;
     using NexGoal.Model.Period;
-    using NexGoal.Resources;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
 
     public class PeriodController : BaseController
     {
         private readonly IPeriodService _periodService;
+        private readonly ICommonService commonService;
 
         public PeriodController()
-            : this(null)
+            : this(null, null)
         {
         }
 
         public PeriodController(
-            IPeriodService periodService)
+            IPeriodService periodService,
+            ICommonService commonService)
         {
             _periodService = periodService ?? new PeriodService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.Self, Policy = Policy.Read)]
@@ -113,12 +115,7 @@
             if (criteria != null)
             {
                 criteria.CreatedBy = SessionService.EmployeeId;
-                commandResult = _periodService.CreatePeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -133,12 +130,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.UpdateBasicInformationPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -161,12 +153,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.UpdateStatusPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -182,7 +169,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _periodService.DeletePeriod(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -247,12 +234,7 @@
                     ModifiedBy = SessionService.EmployeeId
                 };
 
-                commandResult = _periodService.AddEmployeeToPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -277,11 +259,6 @@
 
                 commandResult = _periodService.UpdateEmployeeSettingOfPeriod(criteria);
             }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
-            }
 
             return commandResult;
         }
@@ -295,12 +272,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.UpdateIncludeStatusEmployeePeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -346,12 +318,7 @@
             if (criteria != null)
             {
                 criteria.ModifiedBy = SessionService.EmployeeId;
-                commandResult = _periodService.UpdateProcessSettingPeriod(criteria);
-            }
-            else
-            {
-                commandResult.Code = 1;
-                commandResult.Message = Lang.ParameterInvalid;
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
