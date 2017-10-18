@@ -1,11 +1,10 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using NexGoal.Core.Model;
+    using System.Collections.Generic;
     using NexGoal.Criteria.FlowManagement;
     using NexGoal.Model.Department;
     using NexGoal.Model.Employee;
     using NexGoal.Model.FlowManagement;
-    using System.Collections.Generic;
 
     public interface IFlowManagementService
     {
@@ -15,14 +14,6 @@
 
         FlowTemplateModel GetFlowTemplateById(GetFlowTemplateByIdCriteria criteria);
 
-        CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria);
-
-        CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria);
-
-        CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria);
-
-        CommandResult DeleteFlowTemplate(DeleteFlowTemplateCriteria criteria);
-
         #endregion Flow Template
 
         #region Department Flow Setting
@@ -30,10 +21,6 @@
         IEnumerable<DepartmentFlowModel> GetDepartmentFlow(GetDepartmentFlowCriteria criteria);
 
         IEnumerable<FlowModel> GetDepartmentFlowById(GetDepartmentFlowByIdCriteria criteria);
-
-        CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria);
-
-        CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria);
 
         IList<DepartmentModel> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria);
 
@@ -44,10 +31,6 @@
         IEnumerable<PersonalFlowModel> GetPersonalFlow(GetPersonalFlowCriteria criteria);
 
         IEnumerable<FlowModel> GetPersonalFlowById(GetPersonalFlowByIdCriteria criteria);
-
-        CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria);
-
-        CommandResult DeletePersonalFlow(DeletePersonalFlowCriteria criteria);
 
         IEnumerable<EmployeeModel> GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria);
 

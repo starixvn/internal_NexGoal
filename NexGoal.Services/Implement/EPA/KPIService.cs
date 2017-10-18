@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Services.Implement
 {
     using System.Collections.Generic;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.KPI;
     using NexGoal.Model.KPI;
@@ -33,66 +32,6 @@
             }
 
             return kpis;
-        }
-
-        public CommandResult CreateKPI(CreateKPICriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateKPI(UpdateKPICriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateStatusKPI(UpdateStatusKPICriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateRequiredEvaluateKPI(UpdateRequiredEvaluateKPICriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult DeleteKPI(DeleteKPICriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
     }
 }

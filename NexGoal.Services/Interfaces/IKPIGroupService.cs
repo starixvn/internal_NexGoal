@@ -1,22 +1,13 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using NexGoal.Core.Model;
+    using System.Collections.Generic;
     using NexGoal.Criteria.KPIGroup;
     using NexGoal.Model.KPIGroup;
-    using System.Collections.Generic;
 
     public interface IKPIGroupService
     {
         IEnumerable<KPIGroupModel> GetKPIGroup(GetKPIGroupCriteria criteria);
 
         KPIGroupModel GetKPIGroupById(GetKPIGroupByIdCriteria criteria);
-
-        CommandResult CreateKPIGroup(CreateKPIGroupCriteria criteria);
-
-        CommandResult UpdateKPIGroup(UpdateKPIGroupCriteria criteria);
-
-        CommandResult UpdateStatusKPIGroup(UpdateStatusKPIGroupCriteria criteria);
-
-        CommandResult DeleteKPIGroup(DeleteKPIGroupCriteria criteria);
     }
 }

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -8,22 +10,23 @@
     using NexGoal.Model.KPI;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class KPIController : BaseController
     {
         private readonly IKPIService _kpiService;
+        private readonly ICommonService commonService;
 
         public KPIController()
-            : this(null)
+            : this(null, null)
         {
         }
 
         public KPIController(
-            IKPIService kpiService)
+            IKPIService kpiService,
+            ICommonService commonService)
         {
             _kpiService = kpiService ?? new KPIService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
@@ -52,7 +55,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.CreateKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -66,7 +69,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -80,7 +83,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateStatusKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -94,7 +97,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = _kpiService.UpdateRequiredEvaluateKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }
@@ -109,7 +112,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = _kpiService.DeleteKPI(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
 
             return commandResult;
         }

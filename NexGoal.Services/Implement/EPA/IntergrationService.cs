@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
     using Core.Constants;
     using Core.Enumerations;
     using IBCCrypt;
@@ -10,15 +12,13 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
 
     public class IntegrationService : BaseService, IIntegrationService
     {
         private const string KeyCryptography = "NexEPA08062014";
-        private IPeriodService periodService;
-        private IIntegrationRepository integrationRepository;
-        private ISessionService sessionService;
+        private readonly IPeriodService periodService;
+        private readonly IIntegrationRepository integrationRepository;
+        private readonly ISessionService sessionService;
 
         public IntegrationService()
             : this(null, null, null)
@@ -52,13 +52,11 @@
 
         public IEnumerable<HRMSummaryViewModel> GetHRMSummaryOnProbation(int employeeId)
         {
-            IEnumerable<HRMSummaryViewModel> result = new List<HRMSummaryViewModel>();
-
             var criteria = new GetHRMSummaryOnProbationCriteria
             {
                 EmployeeId = employeeId
             };
-            result = GetData<HRMSummaryViewModel>(criteria);
+            IEnumerable<HRMSummaryViewModel> result = GetData<HRMSummaryViewModel>(criteria);
 
             return result;
         }
@@ -81,7 +79,7 @@
                     result = this.integrationRepository.GetEmployeeWorking(criteria);
                     Decrypt(result);
                 }
-            }            
+            }
 
             return result;
         }

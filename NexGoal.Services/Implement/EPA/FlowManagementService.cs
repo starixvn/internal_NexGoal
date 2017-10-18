@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Linq;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.FlowManagement;
     using NexGoal.Model.Department;
@@ -52,54 +51,6 @@
             return flowTemplate;
         }
 
-        public CommandResult CreateFlowTemplate(CreateFlowTemplateCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult UpdateFlowTemplate(UpdateFlowTemplateCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult UpdateStatusFlowTemplate(UpdateStatusFlowTemplateCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult DeleteFlowTemplate(DeleteFlowTemplateCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
         #endregion Flow Template
 
         #region Department Flow Setting
@@ -127,30 +78,6 @@
             }
 
             return flow;
-        }
-
-        public CommandResult CreateDepartmentFlow(CreateDepartmentFlowCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult DeleteDepartmentFlow(DeleteDepartmentFlowCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
         }
 
         public IList<DepartmentModel> GetDepartmentHasSetting(GetDepartmentSectionHasSettingCriteria criteria)
@@ -192,30 +119,6 @@
             }
 
             return flow;
-        }
-
-        public CommandResult CreatePersonalFlow(CreatePersonalFlowCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult DeletePersonalFlow(DeletePersonalFlowCriteria criteria)
-        {
-            CommandResult result = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
         }
 
         public IEnumerable<EmployeeModel> GetEmployeeFlowSetting(GetEmployeeFlowSettingCriteria criteria)

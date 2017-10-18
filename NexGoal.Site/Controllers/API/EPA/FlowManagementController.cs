@@ -1,5 +1,9 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -10,24 +14,23 @@
     using NexGoal.Model.FlowManagement;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Web.Http;
 
     public class FlowManagementController : BaseController
     {
         private readonly IFlowManagementService _flowManagementService;
+        private readonly ICommonService commonService;
 
         public FlowManagementController()
-            : this(null)
+            : this(null, null)
         {
         }
 
         public FlowManagementController(
-            IFlowManagementService flowManagementService)
+            IFlowManagementService flowManagementService,
+            ICommonService commonService)
         {
             _flowManagementService = flowManagementService ?? new FlowManagementService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         #region Flow Template
@@ -68,7 +71,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            return _flowManagementService.CreateFlowTemplate(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
@@ -80,7 +83,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            return _flowManagementService.UpdateFlowTemplate(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
@@ -92,7 +95,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            return _flowManagementService.UpdateStatusFlowTemplate(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Host)]
@@ -105,7 +108,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return _flowManagementService.DeleteFlowTemplate(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         #endregion Flow Template
@@ -157,7 +160,7 @@
                     FlowDetails = model.FlowDetails
                 };
 
-                commandResult = _flowManagementService.CreateDepartmentFlow(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -177,7 +180,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return _flowManagementService.DeleteDepartmentFlow(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         [HttpGet]
@@ -239,7 +242,7 @@
                     ModifiedBy = SessionService.EmployeeId
                 };
 
-                commandResult = _flowManagementService.CreatePersonalFlow(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -258,7 +261,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return _flowManagementService.DeletePersonalFlow(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.EPASetting, Policy = Policy.Read)]
@@ -268,7 +271,6 @@
             int? departmentId = null,
             int? groupId = null)
         {
-            IEnumerable<EmployeeModel> employees = new List<EmployeeModel>();
             var result = new EmployeeFlowSettingModel();
 
             var criteria = new GetEmployeeFlowSettingCriteria()
@@ -278,12 +280,12 @@
                 GroupId = groupId
             };
 
-            employees = _flowManagementService.GetEmployeeFlowSetting(criteria);
+            IEnumerable<EmployeeModel> employees = _flowManagementService.GetEmployeeFlowSetting(criteria);
 
             if (employees != null)
             {
-                result.DefaultFlowSettings = employees.Where(x => x.IsExistsSetting == false);
-                result.PersonalFlowSettings = employees.Where(x => x.IsExistsSetting == true);
+                result.DefaultFlowSettings = employees.Where(x => !x.IsExistsSetting);
+                result.PersonalFlowSettings = employees.Where(x => x.IsExistsSetting);
             }
 
             return result;

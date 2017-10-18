@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using NexGoal.Model.Integration;
     using System.Collections.Generic;
+    using NexGoal.Model.Integration;
 
     public interface IIntegrationService
     {
