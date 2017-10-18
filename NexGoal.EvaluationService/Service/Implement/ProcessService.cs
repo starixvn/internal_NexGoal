@@ -60,7 +60,7 @@
 
             if (criteria.IsValid())
             {
-                Repository.Update(criteria);
+                Repository.ExecuteNonQuery(criteria);
             }
         }
 
@@ -73,7 +73,7 @@
 
             if (criteria.IsValid())
             {
-                Repository.Update(criteria);
+                Repository.ExecuteNonQuery(criteria);
             }
         }
 

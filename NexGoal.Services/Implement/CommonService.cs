@@ -2,6 +2,9 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Model;
+    using Core.Services;
+    using Fanex.Data.Repository;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
     using NexGoal.Criteria.EmployeeEPA;
@@ -21,7 +24,7 @@
     using NexGoal.Model.TargetType;
     using NexGoal.Services.Interfaces;
 
-    public class CommonService : ICommonService
+    public class CommonService : BaseService, ICommonService
     {
         private readonly ITargetTypeService targetTypeService;
         private readonly IKPIService kpiService;
@@ -55,6 +58,18 @@
             this.periodService = periodService ?? new PeriodService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
+        }
+
+        public CommandResult ExecuteNonQuery(ICriteria criteria)
+        {
+            var result = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                result = Repository.ExecuteNonQuery(criteria);
+            }
+
+            return result;
         }
 
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)

@@ -1,11 +1,9 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA;
@@ -71,7 +69,7 @@
             {
                 if (!kpiGroup.HasKPIOptional && kpiGroup.IsSpreadKPI && kpiGroup.Weight != null)
                 {
-                    double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;                    
+                    double averageWeight = kpiGroup.Weight.Value / kpiGroup.KPIs.Count;
 
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
@@ -79,7 +77,7 @@
                     }
                 }
             }
-        }      
+        }
 
         private void SetMaxPerformanceScore(EPAModel epaInfo)
         {

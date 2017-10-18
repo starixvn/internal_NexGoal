@@ -1,6 +1,8 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
     using System.Collections.Generic;
+    using Core.Model;
+    using Fanex.Data.Repository;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
     using NexGoal.Criteria.EmployeeEPA;
@@ -21,6 +23,8 @@
 
     public interface ICommonService
     {
+        CommandResult ExecuteNonQuery(ICriteria criteria);
+
         IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria);
 
         IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria);

@@ -14,15 +14,17 @@
     public class EoyController : BaseController
     {
         private readonly IEOYService eoyService;
+        private readonly ICommonService commonService;
 
         public EoyController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EoyController(IEOYService eoyService)
+        public EoyController(IEOYService eoyService, ICommonService commonService)
         {
             this.eoyService = eoyService ?? new EOYService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Read)]
@@ -76,7 +78,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = eoyService.CreateEOY(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -89,7 +91,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = eoyService.UpdateEOY(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -102,7 +104,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = eoyService.UpdateEOYNominatorSettingById(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -116,7 +118,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = eoyService.DeleteEOY(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
     }

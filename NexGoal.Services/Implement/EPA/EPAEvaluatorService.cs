@@ -1,11 +1,9 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA;
@@ -35,7 +33,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 memberEPAs = employeeEPARepository.GetEPA(criteria);
-                
+
                 foreach (EPAModel memberEPA in memberEPAs)
                 {
                     memberEPA.Process.CurrentProcess = CopyEPAProcess(memberEPA.Process.Evaluators.FirstOrDefault(x => x.EvaluatorId == criteria.EvaluatorId));
@@ -106,7 +104,7 @@
                 epaInfo.Process.Self.MaxPerformanceScore += epaInfo.MaxDisciplineScore;
                 epaInfo.Process.CurrentProcess.MaxPerformanceScore += epaInfo.MaxDisciplineScore;
             }
-        }        
+        }
 
         private EPAProcessModel CopyEPAProcess(EPAProcessModel process)
         {

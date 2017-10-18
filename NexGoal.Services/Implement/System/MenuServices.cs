@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Menu;
@@ -7,7 +8,6 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
 
     public class MenuService : BaseService, IMenuService
     {
@@ -52,7 +52,7 @@
             var result = new CommandResult();
             if (criteria.IsValid())
             {
-                result = Repository.Insert(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -74,7 +74,7 @@
             var result = new CommandResult();
             if (criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -86,7 +86,7 @@
             var result = new CommandResult();
             if (criteria.IsValid())
             {
-                result = Repository.Delete(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;

@@ -58,7 +58,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Insert(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -70,7 +70,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -82,7 +82,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -94,7 +94,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Delete(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -135,7 +135,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Insert(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -147,7 +147,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Delete(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -200,7 +200,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Insert(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -212,7 +212,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Delete(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;

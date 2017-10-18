@@ -1,14 +1,13 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using NexGoal.Core.Model;
-    using NexGoal.Core.Services;
-    using NexGoal.Criteria;
-    using NexGoal.Model;
-    using NexGoal.Repositories.Implement;
-    using NexGoal.Repositories.Interfaces;
-    using NexGoal.Services.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Repositories.Implement;
+    using Repositories.Interfaces;
 
     public class EOYService : BaseService, IEOYService
     {
@@ -59,54 +58,6 @@
             }
 
             return nominators;
-        }
-
-        public CommandResult CreateEOY(CreateEOYCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateEOY(UpdateEOYCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Update(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateEOYNominatorSettingById(UpdateEOYNominatorSettingByIdCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Update(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult DeleteEOY(DeleteEOYCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Delete(criteria);
-            }
-
-            return commandResult;
         }
     }
 }

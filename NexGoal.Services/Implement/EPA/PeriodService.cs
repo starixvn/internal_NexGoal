@@ -124,7 +124,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -136,7 +136,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -148,7 +148,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -160,7 +160,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Delete(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -184,7 +184,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -196,7 +196,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
 
                 if (commandResult.IsSuccessful && ConfigurationManager.AppSettings["SendMailWhenEditEmployeeSetting"].Equals("true", StringComparison.OrdinalIgnoreCase))
                 {
@@ -213,7 +213,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -225,7 +225,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -323,7 +323,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

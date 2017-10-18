@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using Fanex.Data.Repository;
     using NexGoal.Core.Model;
-    using NexGoal.Criteria.PAFocus;
     using NexGoal.Model;
     using NexGoal.Model.PAFocus;
 
@@ -12,8 +11,6 @@
         IEnumerable<int> GetProcessId(int periodId, int evaluatorId);
 
         IEnumerable<FocusProcessSettingModel> GetPAFocusProcessSettingByPeriodId(int periodId);
-
-        CommandResult UpdateProcessSetting(UpdatePAFocusProcessSetingCriteria criteria);
 
         CommandResult UpdatePAFocus(int modifiedBy, IEnumerable<PAFocusModel> evaluations);
 

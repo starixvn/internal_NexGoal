@@ -5,7 +5,6 @@
     using System.IO;
     using System.Linq;
     using System.Runtime.Serialization.Formatters.Binary;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Model.EmployeeEPA;
@@ -60,7 +59,7 @@
             }
 
             return epaInfo;
-        }       
+        }
 
         private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
         {
@@ -109,7 +108,7 @@
             {
                 case (int)ProcessType.Reviewer:
                     epaInfo.Process.CurrentProcess.MaxSubtractScore = -10;
-                    double maxAdditionScore = 
+                    double maxAdditionScore =
                         epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators - epaInfo.ToeicPolicyScore;
                     maxAdditionScore = maxAdditionScore > 10 ? 10 : maxAdditionScore;
 

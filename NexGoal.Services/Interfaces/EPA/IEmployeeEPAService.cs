@@ -35,10 +35,6 @@
 
         EPAModel GetEPAInfoById(int epaId);
 
-        CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria);
-
-        CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria);
-
         IEnumerable<Employee> GetMemberByEvaluatorOrReviewer(GetMemberByEvaluatorOrReviewerCriteria criteria);
 
         IEnumerable<Group> GetGroupByEvaluatorOrReviewerOrManagement(GetGroupByEvaluatorOrReviewerCriteria criteria);
@@ -47,19 +43,11 @@
 
         IEnumerable<EPASummaryImportModel> GetMemberEPASummaryImport(GetEPASummaryImportCriteria criteria);
 
-        CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria);
-
         string ConvertScoreToGrade(double score, IEnumerable<StandardGradeModel> standardGrades);
 
         int CheckEmployeePermission(int epaId, int actorUserId, int? processId = null);
 
         IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
-
-        CommandResult ResetScore(ResetScoreCriteria criteria);
-
-        int GetNumberOfRow(GetNumberOfRowCriteria criteria);
-
-        CommandResult UpdateFinalScoreEPAEndEvaluation(UpdateFinalScoreEPAEndEvaluationCriteria criteria);
 
         IList<EPAEmployeeModel> GetEmployeeToUpdateFinalScore(GetEmployeeToUpdateFinalScoreCriteria criteria);
 

@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
@@ -8,21 +10,22 @@
     using NexGoal.Model;
     using NexGoal.Model.PAFocus;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
+    using Services.Implement;
 
     public class PAFocusController : BaseController
     {
         private readonly IPAFocusService focusService;
+        private readonly ICommonService commonService;
 
         public PAFocusController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public PAFocusController(IPAFocusService focusService)
+        public PAFocusController(IPAFocusService focusService, ICommonService commonService)
         {
             this.focusService = focusService ?? new PAFocusService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [HttpGet]
@@ -47,7 +50,7 @@
         [HttpPost]
         public CommandResult UpdatePAProcessSetting(UpdatePAFocusProcessSetingCriteria criteria)
         {
-            var result = this.focusService.UpdateProcessSetting(criteria);
+            var result = commonService.ExecuteNonQuery(criteria);
 
             return result;
         }

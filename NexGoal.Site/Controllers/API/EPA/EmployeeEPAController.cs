@@ -25,9 +25,10 @@
         private readonly IEPASelfService selfService;
         private readonly IRoleService roleService;
         private readonly ICertificateService certificateService;
+        private readonly ICommonService commonService;
 
         public EmployeeEPAController()
-            : this(null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         {
         }
 
@@ -37,7 +38,8 @@
             IEPAReviewerService reviewerService,
             IEPAEvaluatorService evaluatorService,
             IEPASelfService selfService,
-            ICertificateService certificateService)
+            ICertificateService certificateService,
+            ICommonService commonService)
         {
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.roleService = roleService ?? new RoleService();
@@ -45,6 +47,7 @@
             this.evaluatorService = evaluatorService ?? new EPAEvaluatorService();
             this.selfService = selfService ?? new EPASelfService();
             this.certificateService = certificateService ?? new CertificateService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         #region Self
@@ -91,7 +94,7 @@
         [HttpPut]
         public CommandResult UpdateEPAScoreByEmployee(UpdateEPAScoreCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null)
             {
@@ -99,7 +102,7 @@
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -178,7 +181,7 @@
         [HttpPut]
         public CommandResult UpdateEPAScoreByEvaluator(UpdateEPAScoreCriteria criteria)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (criteria != null)
             {
@@ -186,7 +189,7 @@
                 criteria.EvaluatorId = SessionService.EmployeeId;
                 criteria.ModifiedBy = SessionService.EmployeeId;
 
-                commandResult = UpdateEPAScoreByEmployeeOrEvaluator(criteria);
+                commandResult = commonService.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -271,7 +274,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            return employeeEPAService.AdjustScoreByReviewerOrManagement(criteria);
+            return commonService.ExecuteNonQuery(criteria);
         }
 
         public int GetUserPermissionOnReviewer()
@@ -310,7 +313,7 @@
                 MemberEPAs = memberEPAs
             };
 
-            CommandResult result = employeeEPAService.UpdateEPASummaryImport(criteria);
+            CommandResult result = commonService.ExecuteNonQuery(criteria);
             return result;
         }
 
@@ -331,7 +334,7 @@
                     EPAInfo = epaInfo
                 };
 
-                CommandResult commandResult = employeeEPAService.ResetScore(resetScoreCriteria);
+                CommandResult commandResult = commonService.ExecuteNonQuery(resetScoreCriteria);
                 response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
             }
             else
@@ -404,13 +407,13 @@
                 epaInfo.Grade = certificateService.Encrypt(grade);
             }
 
-            var updateFinalScoreCriteria = new UpdateFinalScoreEPAEndEvaluationCriteria
+            var criteria = new UpdateFinalScoreEPAEndEvaluationCriteria
             {
                 ModifiedBy = SessionService.EmployeeId,
                 EPAInfos = selectedEPAs
             };
 
-            CommandResult commandResult = employeeEPAService.UpdateFinalScoreEPAEndEvaluation(updateFinalScoreCriteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             HttpResponseMessage response = Request.CreateResponse(HttpStatusCode.OK, commandResult);
 
             return response;
@@ -421,11 +424,6 @@
         public IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId, int epaId)
         {
             return employeeEPAService.GetLastRating(employeeId, targetTypeId, epaId);
-        }
-
-        private CommandResult UpdateEPAScoreByEmployeeOrEvaluator(UpdateEPAScoreCriteria criteria)
-        {
-            return employeeEPAService.UpdateEPAScore(criteria);
         }
 
         private IEnumerable<Employee> GetMemberByEvaluatorOrReviewer(

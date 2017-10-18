@@ -48,7 +48,7 @@
                 BrowserName = HttpContext.Current.Request.Headers["User-Agent"]
             };
 
-            Repository.Insert(criteria);
+            Repository.ExecuteNonQuery(criteria);
         }
 
         public string GetHostName(string ipAddress)

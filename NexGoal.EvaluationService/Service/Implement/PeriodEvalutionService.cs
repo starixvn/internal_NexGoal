@@ -123,7 +123,7 @@
         {
             if (criteria != null && criteria.IsValid())
             {
-                Repository.Update(criteria);
+                Repository.ExecuteNonQuery(criteria);
             }
         }
     }

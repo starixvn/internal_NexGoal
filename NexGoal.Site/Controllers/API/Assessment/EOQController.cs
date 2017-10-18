@@ -14,15 +14,17 @@
     public class EoqController : BaseController
     {
         private readonly IEOQService eoqService;
+        private readonly ICommonService commonService;
 
         public EoqController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public EoqController(IEOQService eoqService)
+        public EoqController(IEOQService eoqService, ICommonService commonService)
         {
             this.eoqService = eoqService ?? new EOQService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.ManageNomination, Policy = Policy.Read)]
@@ -83,7 +85,7 @@
                 criteria.CreatedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = eoqService.CreateEOQ(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -96,7 +98,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = eoqService.UpdateEOQ(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -109,7 +111,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = eoqService.UpdateEOQNominatorSettingById(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -123,7 +125,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = eoqService.DeleteEOQ(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
     }

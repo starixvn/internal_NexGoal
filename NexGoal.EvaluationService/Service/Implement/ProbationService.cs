@@ -66,7 +66,7 @@
 
             if (criteria.IsValid())
             {
-                comandResult = Repository.Insert(criteria);
+                comandResult = Repository.ExecuteNonQuery(criteria);
                 if (!comandResult.IsSuccessful)
                 {
                     throw new InvalidOperationException(comandResult.Message);

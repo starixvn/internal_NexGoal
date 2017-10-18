@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.TargetTemplate;
@@ -10,8 +12,6 @@
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class TargetTemplateService : BaseService, ITargetTemplateService
     {
@@ -57,7 +57,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Insert(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -69,7 +69,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -81,7 +81,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -93,7 +93,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Delete(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -105,7 +105,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Insert(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -134,7 +134,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -146,7 +146,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Delete(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -185,14 +185,14 @@
         private IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
         {
             return kpiList.GroupBy(x => x.KPIGroups.First().KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
-                                            {
-                                                KPIGroupId = x.Key,
-                                                Name = x.First().KPIGroups.First().Name,
-                                                IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
-                                                Weight = x.First().KPIGroups.First().Weight,
-                                                Selected = CheckGroupSelected(x.ToList()),
-                                                KPIs = CheckKPISelected(x.ToList())
-                                            });
+            {
+                KPIGroupId = x.Key,
+                Name = x.First().KPIGroups.First().Name,
+                IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
+                Weight = x.First().KPIGroups.First().Weight,
+                Selected = CheckGroupSelected(x.ToList()),
+                KPIs = CheckKPISelected(x.ToList())
+            });
         }
 
         private bool CheckGroupSelected(List<KPIModel> listKPI)

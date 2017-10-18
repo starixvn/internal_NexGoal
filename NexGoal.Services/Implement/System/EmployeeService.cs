@@ -80,7 +80,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -92,7 +92,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -117,7 +117,7 @@
             if (criteria != null && criteria.IsValid())
             {
                 criteria.RoleIds = string.IsNullOrEmpty(criteria.RoleIds) ? ((int)SystemRole.Employee).ToString() : criteria.RoleIds;
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

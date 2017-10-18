@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
+    using System.Collections.Generic;
     using Core.Constants;
     using Core.Enumerations;
     using NexGoal.Core.Model;
@@ -8,7 +9,6 @@
     using NexGoal.Model.Violation;
     using NexGoal.Repositories.Implement;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
 
     public class ViolationService : BaseService, IViolationService
     {
@@ -32,7 +32,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Insert(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -44,7 +44,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -56,7 +56,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;

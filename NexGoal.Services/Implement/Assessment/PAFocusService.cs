@@ -48,17 +48,6 @@
             return processSettings;
         }
 
-        public CommandResult UpdateProcessSetting(UpdatePAFocusProcessSetingCriteria criteria)
-        {
-            var result = new CommandResult();
-            if (criteria.IsValid())
-            {
-                result = Repository.Insert(criteria);
-            }
-
-            return result;
-        }
-
         public CommandResult UpdatePAFocus(int modifiedBy, IEnumerable<PAFocusModel> evaluations)
         {
             var result = new CommandResult();
@@ -69,7 +58,7 @@
             };
             if (criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;
@@ -107,7 +96,7 @@
             };
             if (criteria.IsValid())
             {
-                result = Repository.Update(criteria);
+                result = Repository.ExecuteNonQuery(criteria);
             }
 
             return result;

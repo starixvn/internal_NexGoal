@@ -1,14 +1,13 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using NexGoal.Core.Model;
-    using NexGoal.Core.Services;
-    using NexGoal.Criteria;
-    using NexGoal.Model;
-    using NexGoal.Repositories.Implement;
-    using NexGoal.Repositories.Interfaces;
-    using NexGoal.Services.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
+    using Core.Services;
+    using Criteria;
+    using Interfaces;
+    using Model;
+    using Repositories.Implement;
+    using Repositories.Interfaces;
 
     public class EOQService : BaseService, IEOQService
     {
@@ -30,7 +29,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                list = this.GetData<EOQYModel>(criteria);
+                list = GetData<EOQYModel>(criteria);
                 list = list.OrderByDescending(i => i.Year).ThenByDescending(i => i.Quarter);
             }
 
@@ -43,7 +42,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                result = this.GetDataEntity<EOQYModel>(criteria);
+                result = GetDataEntity<EOQYModel>(criteria);
             }
 
             return result;
@@ -61,59 +60,11 @@
             return nominators;
         }
 
-        public CommandResult CreateEOQ(CreateEOQCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateEOQ(UpdateEOQCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Update(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateEOQNominatorSettingById(UpdateEOQNominatorSettingByIdCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Update(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult DeleteEOQ(DeleteEOQCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Delete(criteria);
-            }
-
-            return commandResult;
-        }
-
         public IEnumerable<int> GetYearEOQ()
         {
             var criteria = new GetYearEOQCriteria();
 
-            return this.GetData<int>(criteria);
+            return GetData<int>(criteria);
         }
     }
 }

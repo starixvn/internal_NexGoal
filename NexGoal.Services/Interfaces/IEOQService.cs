@@ -1,9 +1,8 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
-    using NexGoal.Core.Model;
-    using NexGoal.Criteria;
-    using NexGoal.Model;
     using System.Collections.Generic;
+    using Criteria;
+    using Model;
 
     public interface IEOQService
     {
@@ -12,14 +11,6 @@
         EOQYModel GetEOQById(GetEOQByIdCriteria criteria);
 
         IEnumerable<NominatorSettingModel> GetEOQNominatorSettingById(GetEOQNominatorSettingByIdCriteria criteria);
-
-        CommandResult CreateEOQ(CreateEOQCriteria criteria);
-
-        CommandResult UpdateEOQ(UpdateEOQCriteria criteria);
-
-        CommandResult UpdateEOQNominatorSettingById(UpdateEOQNominatorSettingByIdCriteria criteria);
-
-        CommandResult DeleteEOQ(DeleteEOQCriteria criteria);
 
         IEnumerable<int> GetYearEOQ();
     }

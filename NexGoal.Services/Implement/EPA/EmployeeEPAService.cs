@@ -98,7 +98,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -134,7 +134,7 @@
         {
             EPAModel epaInfo = new EPAModel();
             var criteria = new GetEPAInfoByIdCriteria { EPAId = epaId };
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 epaInfo = _employeeEPARepository.GetEPAInfo(criteria);
                 SpreadKPIScore(epaInfo.KPIGroups);
@@ -153,30 +153,6 @@
             }
 
             return epaInfos;
-        }
-
-        public CommandResult UpdateEPAScore(UpdateEPAScoreCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult AdjustScoreByReviewerOrManagement(AdjustScoreByReviewerOrManagementCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
         }
 
         public IEnumerable<Employee> GetMemberByEvaluatorOrReviewer(GetMemberByEvaluatorOrReviewerCriteria criteria)
@@ -207,7 +183,7 @@
         {
             IEnumerable<StandardGradeModel> standardGrades = new List<StandardGradeModel>();
             var criteria = new GetStandardGradeCriteria();
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 standardGrades = GetData<StandardGradeModel>(criteria);
             }
@@ -225,18 +201,6 @@
             }
 
             return memberEPAs;
-        }
-
-        public CommandResult UpdateEPASummaryImport(UpdateEPASummaryImportCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
         }
 
         public string ConvertScoreToGrade(double score, IEnumerable<StandardGradeModel> standardGrades)
@@ -265,7 +229,7 @@
             };
             int result = -1;
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 result = GetDataEntity<int>(criteria);
             }
@@ -283,18 +247,6 @@
             }
 
             return otherViolationDetails;
-        }
-
-        public CommandResult ResetScore(ResetScoreCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
         }
 
         public IList<EPAPeriodModel> GetPeriodToUpdateFinalScore(GetPeriodToUpdateFinalScoreCriteria criteria)
@@ -331,30 +283,6 @@
             }
 
             return epaInfos;
-        }
-
-        public CommandResult UpdateFinalScoreEPAEndEvaluation(UpdateFinalScoreEPAEndEvaluationCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.Update(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public int GetNumberOfRow(GetNumberOfRowCriteria criteria)
-        {
-            var result = 0;
-
-            if (criteria != null && criteria.IsValid())
-            {
-                result = GetDataEntity<int>(criteria);
-            }
-
-            return result;
         }
 
         public IEnumerable<EPAKPIGroupModel> GetLastRating(int employeeId, int targetTypeId, int epaId)

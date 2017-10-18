@@ -4,26 +4,11 @@
     using System.Collections;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using NexGoal.Core.Model;
+    using Model;
 
     public class BaseRepository : IBaseRepository
     {
-        public CommandResult Insert(ICriteria criteria)
-        {
-            return ExecuteNonQuery(criteria);
-        }
-
-        public CommandResult Update(ICriteria criteria)
-        {
-            return ExecuteNonQuery(criteria);
-        }
-
-        public CommandResult Delete(ICriteria criteria)
-        {
-            return ExecuteNonQuery(criteria);
-        }
-
-        private CommandResult ExecuteNonQuery(ICriteria criteria)
+        public virtual CommandResult ExecuteNonQuery(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
             {

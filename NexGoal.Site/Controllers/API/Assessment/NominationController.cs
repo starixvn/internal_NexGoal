@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Web.Http;
     using Model.Nomination;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Constants;
@@ -9,21 +11,21 @@
     using NexGoal.Model;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Web.Http;
 
     public class NominationController : BaseController
     {
         private readonly INominationService nominationService;
+        private readonly ICommonService commonService;
 
         public NominationController()
-            : this(null)
+            : this(null, null)
         {
         }
 
-        public NominationController(INominationService nominationService)
+        public NominationController(INominationService nominationService, ICommonService commonService)
         {
             this.nominationService = nominationService ?? new NominationService();
+            this.commonService = commonService ?? new CommonService();
         }
 
         [ApiAuthorize(FunctionKey = FunctionKey.Nomination, Policy = Policy.Read)]
@@ -102,7 +104,7 @@
                 criteria.StatusId = (int)NominationStatus.Nominated;
             }
 
-            CommandResult commandResult = nominationService.CreateEOQNomination(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -117,7 +119,7 @@
                 criteria.StatusId = (int)NominationStatus.Nominated;
             }
 
-            CommandResult commandResult = nominationService.CreateEOYNomination(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -131,7 +133,7 @@
                 criteria.StatusId = (int)NominationStatus.Nominated;
             }
 
-            CommandResult commandResult = nominationService.UpdateNomination(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -145,7 +147,7 @@
                 ModifiedBy = SessionService.EmployeeId
             };
 
-            CommandResult commandResult = nominationService.DeleteNomination(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 
@@ -158,7 +160,7 @@
                 criteria.ModifiedBy = SessionService.EmployeeId;
             }
 
-            CommandResult commandResult = nominationService.UpdateStatusNomination(criteria);
+            CommandResult commandResult = commonService.ExecuteNonQuery(criteria);
             return commandResult;
         }
 

@@ -1,11 +1,11 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System.Collections.Generic;
     using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.KPIGroup;
     using NexGoal.Model.KPIGroup;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
 
     public class KPIGroupService : BaseService, IKPIGroupService
     {
@@ -39,7 +39,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -51,7 +51,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -63,7 +63,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -75,7 +75,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Delete(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;

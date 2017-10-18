@@ -7,7 +7,6 @@
     using Core.Enumerations;
     using Fanex.Data.Repository;
     using Model.Nomination;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Core.Utilities;
     using NexGoal.Criteria;
@@ -134,30 +133,6 @@
             return questions;
         }
 
-        public CommandResult CreateEOQNomination(CreateEOQNominationCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult CreateEOYNomination(CreateEOYNominationCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Insert(criteria);
-            }
-
-            return commandResult;
-        }
-
         public NominationModel GetEOQNominationById(int nominationId)
         {
             var nomination = new NominationModel();
@@ -190,40 +165,9 @@
             return nomination;
         }
 
-        public CommandResult UpdateNomination(UpdateNominationCriteria criteria)
+        public IEnumerable<EOQYEmailModel> GetToSendEmail(ICriteria criteria)
         {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Update(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult DeleteNomination(DeleteNominationCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Delete(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateStatusNomination(UpdateStatusNominationCriteria criteria)
-        {
-            var commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = this.Repository.Update(criteria);
-            }
-
-            return commandResult;
+            return nominationRepository.GetToSendEmail(criteria);
         }
 
         #region Export Excel
@@ -334,11 +278,6 @@
             }
 
             return Policy.Read;
-        }
-
-        public IEnumerable<EOQYEmailModel> GetToSendEmail(ICriteria criteria)
-        {
-            return nominationRepository.GetToSendEmail(criteria);
         }
     }
 }

@@ -61,7 +61,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Insert(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -73,7 +73,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Delete(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -113,7 +113,7 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                commandResult = Repository.Update(criteria);
+                commandResult = Repository.ExecuteNonQuery(criteria);
             }
 
             return commandResult;
@@ -244,22 +244,22 @@
                 {
                     List<AttendanceDetailModel> attendances = y.ToList();
                     var attendance = new AttendanceDetailModel
-                        {
-                            EmployeeId = y.Key.EmployeeId,
-                            WorkDate = y.Key.WorkDate,
-                            ShiftName = y.Key.ShiftName,
-                            OutOfDate = y.Key.OutOfDate,
-                            InFixed = y.Key.InFixed,
-                            OutFixed = y.Key.OutFixed,
-                            MissingCheckInOut = GetMissingCheckInOut(attendances),
-                            TotalHours = GetTotalHours(attendances),
-                            LateIn = GetLateIn(attendances),
-                            EarlyOut = GetEarlyOut(attendances),
-                            Absent = GetAbsent(attendances),
-                            UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(attendances),
-                            UnpaidLeave = GetUnpaidLeave(attendances),
-                            ChangeShift = GetChangeShift(attendances)
-                        };
+                    {
+                        EmployeeId = y.Key.EmployeeId,
+                        WorkDate = y.Key.WorkDate,
+                        ShiftName = y.Key.ShiftName,
+                        OutOfDate = y.Key.OutOfDate,
+                        InFixed = y.Key.InFixed,
+                        OutFixed = y.Key.OutFixed,
+                        MissingCheckInOut = GetMissingCheckInOut(attendances),
+                        TotalHours = GetTotalHours(attendances),
+                        LateIn = GetLateIn(attendances),
+                        EarlyOut = GetEarlyOut(attendances),
+                        Absent = GetAbsent(attendances),
+                        UnpaidLeaveAbsent = GetUnpaidLeaveAbsent(attendances),
+                        UnpaidLeave = GetUnpaidLeave(attendances),
+                        ChangeShift = GetChangeShift(attendances)
+                    };
                     return attendance;
                 }).ToList();
 
