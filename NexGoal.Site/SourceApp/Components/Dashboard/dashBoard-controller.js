@@ -65,6 +65,18 @@
             CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
         };
 
+        vm.redirectToPAFormDetail = function (epaInfo) {
+            var path = '';
+
+            if (epaInfo.ProcessId === vm.processType.Evaluator) {
+                path = 'Evaluator/Detail/';
+            } else {
+                path = 'Reviewer/Detail/';
+            }
+
+            $location.path(baseUrl + path + epaInfo.EPAId);
+        };
+
         vm.redirectToPAForm = function (epaInfo) {
             var path = '';
 
