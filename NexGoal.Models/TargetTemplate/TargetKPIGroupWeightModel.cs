@@ -26,7 +26,7 @@
 
                     foreach (KPIGroupModel item in KPIGroups)
                     {
-                        int spreadKPI = item.IsSpreadKPI == true ? 1 : 0;
+                        int spreadKPI = item.IsSpreadKPI ? 1 : 0;
                         kpiGroupXmlBuilder.AppendFormat(KPIGroupXmlTemplate, item.KPIGroupId, item.Weight, spreadKPI, item.DisplayOrder);
                     }
 

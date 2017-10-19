@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using Model;
@@ -13,8 +15,6 @@
     using NexGoal.Model.Report;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class ReportRepository : IReportRepository
     {
@@ -98,7 +98,7 @@
             }
         }
 
-        private void GroupMasterReport(
+        private static void GroupMasterReport(
             IEnumerable<MasterReportModel> reports,
             IEnumerable<EvaluatorCommentReportModel> evaluatorComments,
             IEnumerable<NominationReportModel> nominations,
@@ -119,7 +119,7 @@
             }
         }
 
-        private void GroupEPAProcessByEPA(IEnumerable<EPADetailModel> epaInfos, IEnumerable<EPAProcessModel> processes)
+        private static void GroupEPAProcessByEPA(IEnumerable<EPADetailModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPADetailModel epaInfo in epaInfos)
             {
@@ -143,7 +143,7 @@
             }
         }
 
-        private void DecryptAllScore(IEnumerable<EPADetailModel> epaInfos)
+        private static void DecryptAllScore(IEnumerable<EPADetailModel> epaInfos)
         {
             foreach (EPADetailModel epaInfo in epaInfos)
             {

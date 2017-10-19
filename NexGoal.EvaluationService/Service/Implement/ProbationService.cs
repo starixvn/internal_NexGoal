@@ -1,9 +1,7 @@
 ﻿namespace NexGoal.BackgroundService
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.Period;
@@ -55,9 +53,8 @@
             return employeePeriod;
         }
 
-        private CommandResult AddEmployeeToProbationPeriod(AutoEmployeePeriodModel employeePeriod)
+        private void AddEmployeeToProbationPeriod(AutoEmployeePeriodModel employeePeriod)
         {
-            var comandResult = new CommandResult();
             var criteria = new InsertEmployeeToProbationPeriodCriteria
             {
                 PeriodId = employeePeriod.PeriodId,
@@ -66,24 +63,18 @@
 
             if (criteria.IsValid())
             {
-                comandResult = Repository.ExecuteNonQuery(criteria);
-                if (!comandResult.IsSuccessful)
-                {
-                    throw new InvalidOperationException(comandResult.Message);
-                }
+                Repository.ExecuteNonQuery(criteria);
             }
-
-            return comandResult;
         }
 
         private void GenerateEPAProbation(AutoEmployeePeriodModel employeePeriod)
         {
-            var generateEvaluationCriteria = new AutoGenerateEvaluationCriteria
+            var criteria = new AutoGenerateEvaluationCriteria
             {
                 PeriodId = employeePeriod.PeriodId,
                 EmployeeIds = employeePeriod.EmployeeIds
             };
-            periodService.GenerateEvaluation(generateEvaluationCriteria);
+            periodService.GenerateEvaluation(criteria);
         }
 
         private void SendEmailToAllRelatedEmployee(int periodId, string employeeIds)
@@ -102,14 +93,12 @@
 
         private IEnumerable<PeriodFlowModel> GetEmployeeSettings(int periodId, string employeeIds)
         {
-            IEnumerable<PeriodFlowModel> employeeSettings = new List<PeriodFlowModel>();
-
-            var getEmployeeSettingCriteria = new GetEmployeeSettingByPeriodIdCriteria
+            var criteria = new GetEmployeeSettingByPeriodIdCriteria
             {
                 PeriodId = periodId,
                 EmployeeIds = employeeIds
             };
-            employeeSettings = periodService.GetEmployeeSettingByPeriodId(getEmployeeSettingCriteria);
+            IEnumerable<PeriodFlowModel> employeeSettings = periodService.GetEmployeeSettingByPeriodId(criteria);
 
             return employeeSettings;
         }

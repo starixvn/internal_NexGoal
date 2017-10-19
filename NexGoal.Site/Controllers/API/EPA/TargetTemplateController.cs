@@ -97,7 +97,7 @@
 
             if (ModelState.IsValid && targetTemplate != null)
             {
-                var criteria = new UpdateTargetTemplateBasicInformationCriteria()
+                var criteria = new UpdateTargetTemplateBasicInformationCriteria
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
                     ModifiedBy = SessionService.EmployeeId,
@@ -123,7 +123,7 @@
 
             if (ModelState.IsValid && targetTemplate != null)
             {
-                var criteria = new UpdateTargetTemplateCriteria()
+                var criteria = new UpdateTargetTemplateCriteria
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
                     ModifiedBy = SessionService.EmployeeId,

@@ -21,7 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>FanexRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>NexGoal.Model.Debug.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -30,6 +30,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>NexGoal.Model.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -46,16 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AttendanceSummary\AttendanceDetailModel.cs" />
-    <Compile Include="AttendanceSummary\AttendanceScoreModel.cs" />
-    <Compile Include="AttendanceSummary\AttendanceSummaryModel.cs" />
-    <Compile Include="AttendanceSummary\IgnoredViolationModel.cs" />
-    <Compile Include="AttendanceSummary\OtherViolationModel.cs" />
-    <Compile Include="AttendanceSummary\OtherViolationTypeModel.cs" />
-    <Compile Include="AttendanceSummary\RawAttendanceDetailModel.cs" />
-    <Compile Include="AttendanceSummary\ViolationModel.cs">
-      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
-    </Compile>
     <Compile Include="Authentication\LoginModel.cs" />
     <Compile Include="Dashboard\EPAInfoModel.cs" />
     <Compile Include="Dashboard\NominationModel.cs" />
@@ -126,7 +117,9 @@
     <Compile Include="Period\AssignEmployeePeriodModel.cs" />
     <Compile Include="Period\PeriodFlowSettingModel.cs" />
     <Compile Include="Period\UpdatedEmployeeSettingPeriodModel.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs">
+      <SonarQubeExclude>true</SonarQubeExclude>
+    </Compile>
     <Compile Include="Report\EPADetail\EPADetailModel.cs" />
     <Compile Include="Report\EPADetail\EvaluationPhaseModel.cs" />
     <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
@@ -161,7 +154,14 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="NexGoal.Model.Debug.ruleset" />
+    <None Include="NexGoal.Model.ruleset" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\Google.Protobuf.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\SonarAnalyzer.CSharp.dll" />
+    <Analyzer Include="..\packages\SonarAnalyzer.CSharp.6.3.0.2862\analyzers\SonarAnalyzer.dll" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

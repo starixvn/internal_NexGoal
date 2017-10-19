@@ -13,7 +13,6 @@
             .Use(new CustomConnectionStringProvider())
             .UseDefaultDbSettingProvider(
                 resourcePath: "~/",
-                ignoreRedundantParameters: false,
                 enableWatching: true)
             .Run();
 

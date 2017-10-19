@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.BackgroundService
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
@@ -55,6 +56,15 @@
             }
         }
 
+        private static double GetFinalScoreOfEvalution(EPAModel epaInfo)
+        {
+            double finalScore = epaInfo.Process.Reviewers.Any()
+                    ? epaInfo.Process.AverageScoreByReviewers
+                    : epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore;
+
+            return finalScore;
+        }
+
         private void SendMail(EPAModel epa)
         {
             if (AppSetting.SendMailEndPeriod)
@@ -80,22 +90,6 @@
             EncodeAndUpdateFinalScore(averagePerformanceScore, epaInfo.DisciplineScore, epaInfo.EPAId, epaInfo.Grade, epaInfo.ToeicPolicyScore);
         }
 
-        private double GetFinalScoreOfEvalution(EPAModel epaInfo)
-        {
-            double finalScore = 0;
-
-            if (epaInfo.Process.Reviewers.Any())
-            {
-                finalScore = epaInfo.Process.AverageScoreByReviewers;
-            }
-            else
-            {
-                finalScore = epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore;
-            }
-
-            return finalScore;
-        }
-
         private void EncodeAndUpdateFinalScore(
             double performanceScore,
             double disciplineScore,
@@ -104,8 +98,8 @@
             int policyToeicScore)
         {
             double finalScore = performanceScore + disciplineScore;
-            string finalScoreEncode = certificateService.Encrypt(finalScore.ToString()),
-                gradeEncode = certificateService.Encrypt(grade);
+            string finalScoreEncode = certificateService.Encrypt(finalScore.ToString(CultureInfo.InvariantCulture));
+            string gradeEncode = certificateService.Encrypt(grade);
 
             var criteria = new UpdateFinalScoreEndEvaluationCriteria
             {

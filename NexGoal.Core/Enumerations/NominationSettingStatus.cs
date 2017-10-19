@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum NominationSettingStatus : int
+    public enum NominationSettingStatus
     {
         [Description("Not Ready")]
         NotReady = 0,

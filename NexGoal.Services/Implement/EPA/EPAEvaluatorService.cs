@@ -64,7 +64,7 @@
             return epaInfo;
         }
 
-        private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
+        private static void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
         {
             foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
             {
@@ -80,7 +80,7 @@
             }
         }
 
-        private void SetMaxPerformanceScore(EPAModel epaInfo)
+        private static void SetMaxPerformanceScore(EPAModel epaInfo)
         {
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
@@ -106,7 +106,7 @@
             }
         }
 
-        private EPAProcessModel CopyEPAProcess(EPAProcessModel process)
+        private static EPAProcessModel CopyEPAProcess(EPAProcessModel process)
         {
             using (MemoryStream ms = new MemoryStream())
             {

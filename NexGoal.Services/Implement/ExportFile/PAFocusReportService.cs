@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
@@ -22,7 +21,6 @@
         private const int EvenColor = 53;
         private const int HeaderColor = 54;
         private const int RowStartBody = 3;
-        private const int TotalColumns = 12;
 
         private const int MinStone = 3;
         private const int MaxStone = 9;
@@ -31,7 +29,7 @@
         private IList<string> titleHeaders;
         private HSSFWorkbook workbook;
         private HSSFSheet sheet;
-        private int columnWidth = 3000;
+        private readonly int columnWidth = 3000;
 
         public PAFocusReportService()
             : this(null)
@@ -72,6 +70,17 @@
             this.sheet.CreateFreezePane(0, RowStartBody);
 
             return RenderToBytes();
+        }
+
+        private static void SetBorderColor(ICellStyle cell)
+        {
+            cell.BorderBottom = BorderStyle.Thin;
+            cell.BorderLeft = BorderStyle.Thin;
+        }
+
+        private static string ReturnDashIfContentIsNull(string content)
+        {
+            return string.IsNullOrEmpty(content) ? Lang.Dash : content;
         }
 
         private void RenderHeaderPage(int periodId)
@@ -248,8 +257,8 @@
             foreach (PAFocusModel pa in focuses)
             {
                 var row = sheet.CreateRow(rowIndex);
-                ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
-                ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
+                ICellStyle bodyStyleCenter;
+                ICellStyle bodyStyleLeft;
 
                 columnIndex = 0;
                 var condition = pa.BonusGiven + pa.Contribution;
@@ -399,12 +408,10 @@
 
         private MemoryStream RenderToBytes()
         {
-            using (var output = new MemoryStream())
-            {
-                this.workbook.Write(output);
+            var output = new MemoryStream();
+            this.workbook.Write(output);
 
-                return output;
-            }
+            return output;
         }
 
         private void SetColorIndex()
@@ -415,17 +422,6 @@
             palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
             palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
             palette.SetColorAtIndex(HeaderColor, (byte)50, (byte)67, (byte)115);
-        }
-
-        private void SetBorderColor(ICellStyle cell)
-        {
-            cell.BorderBottom = BorderStyle.Thin;
-            cell.BorderLeft = BorderStyle.Thin;
-        }
-
-        private string ReturnDashIfContentIsNull(string content)
-        {
-            return string.IsNullOrEmpty(content) ? Lang.Dash : content;
         }
     }
 }

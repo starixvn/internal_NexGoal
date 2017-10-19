@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Core.Enumerations
 {
-    public enum TargetType : int
+    public enum TargetType
     {
         None = 0,
 

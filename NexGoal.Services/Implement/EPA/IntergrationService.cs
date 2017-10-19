@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using Core.Constants;
     using Core.Enumerations;
     using IBCCrypt;
@@ -97,7 +98,7 @@
             return result;
         }
 
-        private void Decrypt(IEnumerable<EmployeeWorkingViewModel> nexPMs)
+        private static void Decrypt(IEnumerable<EmployeeWorkingViewModel> nexPMs)
         {
             foreach (var item in nexPMs)
             {
@@ -106,25 +107,25 @@
             }
         }
 
-        private string DecodeNexPM(string cipherText)
+        private static string DecodeNexPM(string cipherText)
         {
             return string.IsNullOrWhiteSpace(cipherText) ? string.Empty : IBCCrypt.Decrypt(cipherText, KeyCryptography);
         }
 
-        private string PercentToStarNumber(string percent)
+        private static string PercentToStarNumber(string percent)
         {
             decimal starNumber = Math.Round(ConvertDecimal(percent) / (2 * 10), 1);
             string result = string.Empty;
 
             if (starNumber > 0)
             {
-                result = starNumber.ToString();
+                result = starNumber.ToString(CultureInfo.InvariantCulture);
             }
 
             return result;
         }
 
-        private decimal ConvertDecimal(object value)
+        private static decimal ConvertDecimal(object value)
         {
             decimal result = 0;
 

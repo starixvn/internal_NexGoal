@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Core.Utilities.NPOIExtensions
 {
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
 
     public static class HSSFSheetExtensions
     {
@@ -287,34 +287,28 @@
                 switch (sourceCell.CellType)
                 {
                     case CellType.Boolean:
-                        {
-                            newCell.SetCellValue(sourceCell.BooleanCellValue);
-                            break;
-                        }
+                        newCell.SetCellValue(sourceCell.BooleanCellValue);
+                        break;
 
                     case CellType.Numeric:
-                        {
-                            newCell.SetCellValue(sourceCell.NumericCellValue);
-                            break;
-                        }
+                        newCell.SetCellValue(sourceCell.NumericCellValue);
+                        break;
 
                     case CellType.String:
-                        {
-                            newCell.SetCellValue(sourceCell.StringCellValue);
-                            break;
-                        }
+                        newCell.SetCellValue(sourceCell.StringCellValue);
+                        break;
 
                     case CellType.Error:
-                        {
-                            newCell.SetCellValue(sourceCell.ErrorCellValue);
-                            break;
-                        }
+                        newCell.SetCellValue(sourceCell.ErrorCellValue);
+                        break;
 
                     case CellType.Formula:
-                        {
-                            newCell.CellFormula = sourceCell.CellFormula;
-                            break;
-                        }
+                        newCell.CellFormula = sourceCell.CellFormula;
+                        break;
+
+                    default:
+                        newCell.SetCellValue(string.Empty);
+                        break;
                 }
             }
         }

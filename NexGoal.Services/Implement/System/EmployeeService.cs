@@ -54,7 +54,7 @@
         {
             var employee = new EmployeeModel();
             var criteria = new GetEmployeeByIdCriteria { EmployeeId = employeeId };
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 employee = _employeeRepository.GetEmployeeById(criteria);
             }

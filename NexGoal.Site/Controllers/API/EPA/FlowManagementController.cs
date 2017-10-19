@@ -41,7 +41,7 @@
             int? targetTypeId = null,
             bool? isActive = null)
         {
-            var criteria = new GetFlowTemplateCriteria()
+            var criteria = new GetFlowTemplateCriteria
             {
                 TargetTypeId = targetTypeId,
                 IsActive = isActive
@@ -54,7 +54,7 @@
         [HttpGet]
         public FlowTemplateModel GetFlowTemplateById(int flowTemplateId)
         {
-            var criteria = new GetFlowTemplateByIdCriteria()
+            var criteria = new GetFlowTemplateByIdCriteria
             {
                 FlowTemplateId = flowTemplateId
             };
@@ -102,7 +102,7 @@
         [HttpDelete]
         public CommandResult DeleteFlowTemplate(int flowTemplateId)
         {
-            var criteria = new DeleteFlowTemplateCriteria()
+            var criteria = new DeleteFlowTemplateCriteria
             {
                 FlowTemplateId = flowTemplateId,
                 ModifiedBy = SessionService.EmployeeId
@@ -119,7 +119,7 @@
         [HttpGet]
         public IEnumerable<DepartmentFlowModel> GetDepartmentFlow(int flowTemplateId)
         {
-            var criteria = new GetDepartmentFlowCriteria()
+            var criteria = new GetDepartmentFlowCriteria
             {
                 FlowTemplateId = flowTemplateId
             };
@@ -133,7 +133,7 @@
             int departmentId,
             int flowTemplateId)
         {
-            var criteria = new GetDepartmentFlowByIdCriteria()
+            var criteria = new GetDepartmentFlowByIdCriteria
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
@@ -151,7 +151,7 @@
 
             if (model != null)
             {
-                var criteria = new CreateDepartmentFlowCriteria()
+                var criteria = new CreateDepartmentFlowCriteria
                 {
                     DepartmentId = Math.Abs(model.DepartmentId),
                     FlowTemplateId = model.FlowTemplateId,
@@ -172,7 +172,7 @@
             int departmentId,
             int flowTemplateId)
         {
-            var criteria = new DeleteDepartmentFlowCriteria()
+            var criteria = new DeleteDepartmentFlowCriteria
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = Math.Abs(departmentId),
@@ -203,7 +203,7 @@
         [HttpGet]
         public IEnumerable<PersonalFlowModel> GetPersonalFlow(int flowTemplateId)
         {
-            var criteria = new GetPersonalFlowCriteria()
+            var criteria = new GetPersonalFlowCriteria
             {
                 FlowTemplateId = flowTemplateId
             };
@@ -217,7 +217,7 @@
             int employeeId,
             int flowTemplateId)
         {
-            var criteria = new GetPersonalFlowByIdCriteria()
+            var criteria = new GetPersonalFlowByIdCriteria
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId
@@ -230,11 +230,11 @@
         [HttpPost]
         public CommandResult CreatePersonalFlow(InsertFlowModel model)
         {
-            CommandResult commandResult = new CommandResult();
+            var commandResult = new CommandResult();
 
             if (model != null)
             {
-                var criteria = new CreatePersonalFlowCriteria()
+                var criteria = new CreatePersonalFlowCriteria
                 {
                     EmployeeId = model.Selfs.Employees[0].EmployeeId,
                     FlowTemplateId = model.FlowTemplateId,
@@ -254,7 +254,7 @@
             int employeeId,
             int flowTemplateId)
         {
-            var criteria = new DeletePersonalFlowCriteria()
+            var criteria = new DeletePersonalFlowCriteria
             {
                 EmployeeId = employeeId,
                 FlowTemplateId = flowTemplateId,
@@ -273,7 +273,7 @@
         {
             var result = new EmployeeFlowSettingModel();
 
-            var criteria = new GetEmployeeFlowSettingCriteria()
+            var criteria = new GetEmployeeFlowSettingCriteria
             {
                 FlowTemplateId = flowTemplateId,
                 DepartmentId = departmentId,

@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Core.Services
 {
-    using Resources;
     using System;
     using System.Security.Cryptography;
     using System.Security.Cryptography.X509Certificates;
@@ -29,7 +28,7 @@
             {
                 if (AppSetting.EnableEncrypt)
                 {
-                    byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);                    
+                    byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
 
                     RSACryptoServiceProvider rsa = (RSACryptoServiceProvider)cert2.PublicKey.Key;
                     byte[] encryptedBytes = rsa.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
@@ -74,6 +73,6 @@
                 X509KeyStorageFlags flags = X509KeyStorageFlags.MachineKeySet;
                 cert2 = new X509Certificate2(AppSetting.CertificateFilePath, AppSetting.PasswordToSignTheCertificateFile, flags);
             }
-        }        
+        }
     }
 }

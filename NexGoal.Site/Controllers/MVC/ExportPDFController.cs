@@ -1,17 +1,16 @@
 ﻿namespace NexGoal.Site.Controllers
 {
+    using System.Web.Hosting;
+    using System.Web.Mvc;
     using Core.Enumerations;
     using Core.Services;
     using Core.Utilities;
     using Criteria.Violation;
-    using Model.EmployeeEPA;
     using Model.Export;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
     using Services.Interfaces.EPA;
     using Services.Interfaces.ExportFile;
-    using System.Web.Hosting;
-    using System.Web.Mvc;
 
     public class ExportPDFController : Controller
     {
@@ -111,22 +110,22 @@
             return File(streamContent, @"application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml", fileName);
         }
 
+        private static string GetPhysicalFilePath(string virtualFilePath)
+        {
+            return HostingEnvironment.MapPath(virtualFilePath);
+        }
+
+        private static byte[] RenderPdfContent(string cssFilePath, string htmlString)
+        {
+            return PdfRender.ContentRender(cssFilePath, htmlString);
+        }
+
         private byte[] RenderPdfContent(EpaDetailModel epa, string filePatch)
         {
             var cssFilePath = GetPhysicalFilePath(CssFilePath);
             var htmlString = razorRenderService.RenderViewToString(this, filePatch, epa);
 
             return RenderPdfContent(cssFilePath, htmlString);
-        }
-
-        private string GetPhysicalFilePath(string virtualFilePath)
-        {
-            return HostingEnvironment.MapPath(virtualFilePath);
-        }
-
-        private byte[] RenderPdfContent(string cssFilePath, string htmlString)
-        {
-            return PdfRender.ContentRender(cssFilePath, htmlString);
         }
     }
 }

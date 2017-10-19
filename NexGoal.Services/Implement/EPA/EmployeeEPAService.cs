@@ -209,11 +209,8 @@
 
             if (standardGrades != null && standardGrades.Any())
             {
-                foreach (StandardGrade gradeEnum in standardGrades.Where(x => x.LeftScore <= score && x.RightScore >= score).Select(x => (StandardGrade)x.GradeId))
-                {
-                    grade = Enumerations.GetDescription(gradeEnum);
-                    break;
-                }
+                StandardGrade gradeEnum = standardGrades.Where(x => x.LeftScore <= score && x.RightScore >= score).Select(x => (StandardGrade)x.GradeId).FirstOrDefault();
+                grade = Enumerations.GetDescription(gradeEnum);
             }
 
             return grade;
@@ -309,7 +306,7 @@
             return groups;
         }
 
-        private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
+        private static void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
         {
             foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
             {

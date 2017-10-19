@@ -1,21 +1,21 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using NexGoal.Core.Enumerations;
-    using NexGoal.Model.Period;
-    using NexGoal.Services.Interfaces;
     using System.Collections.Generic;
     using System.Linq;
     using System.Web;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Model.Period;
+    using NexGoal.Services.Interfaces;
 
     public class ManualMailService : IManualMailService
     {
-        private string _startDateMailToHumanResources = "~/Views/Emails/StartEvaluationToHR.cshtml";
-        private string _startDateMailToSelf = "~/Views/Emails/StartEvaluationToSelf.cshtml";
-        private string _startDateMailToEvaluator = "~/Views/Emails/StartEvaluationToEvaluator.cshtml";
-        private string _startDateMailToReviewer = "~/Views/Emails/StartEvaluationToReviewer.cshtml";
-        private string _mailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
+        private readonly string _startDateMailToHumanResources = "~/Views/Emails/StartEvaluationToHR.cshtml";
+        private readonly string _startDateMailToSelf = "~/Views/Emails/StartEvaluationToSelf.cshtml";
+        private readonly string _startDateMailToEvaluator = "~/Views/Emails/StartEvaluationToEvaluator.cshtml";
+        private readonly string _startDateMailToReviewer = "~/Views/Emails/StartEvaluationToReviewer.cshtml";
+        private readonly string _mailNotifyChangeSetting = "~/Views/Emails/EmailNotifyChangeSetting.cshtml";
 
-        private IMailService _mailService;
+        private readonly IMailService _mailService;
 
         public ManualMailService()
             : this(null)

@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Web.Http;
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Services;
-    using System.Web.Http;
 
-    [DeflateCompressionAttribute]
+    [DeflateCompression]
     public class BaseController : ApiController
     {
         private ISessionService sessionService;
@@ -19,7 +19,7 @@
             this.sessionService = sessionService ?? new SessionService();
         }
 
-        public ISessionService SessionService 
+        public ISessionService SessionService
         {
             get
             {

@@ -226,22 +226,15 @@
         {
             object record = CreateRecordEOQY(nomination, rowIndex);
 
-            if (rowIndex % 2 == 1)
-            {
-                writer.WriteRow(RowStartBody, record);
-            }
-            else
-            {
-                writer.WriteRow(RowStartBody + 1, record);
-            }
+            writer.WriteRow((rowIndex % 2) != 0 ? RowStartBody : RowStartBody + 1, record);
 
             rowIndex++;
         }
 
         private object CreateRecordEOQY(NominationViewModel nomination, int rowIndex)
         {
-            string nominator = string.Empty,
-                nominee = nomination.Nominee.FullName + " (" + nomination.Nominee.NickName + ")";
+            string nominator = string.Empty;
+            string nominee = nomination.Nominee.FullName + " (" + nomination.Nominee.NickName + ")";
 
             if (nomination.NumberOfNominators > 1)
             {

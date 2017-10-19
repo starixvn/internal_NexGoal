@@ -61,7 +61,7 @@
             return epaInfo;
         }
 
-        private void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
+        private static void SpreadKPIScore(IList<EPAKPIGroupModel> kpiGroups)
         {
             foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
             {
@@ -76,7 +76,7 @@
             }
         }
 
-        private void SetMaxPerformanceScore(EPAModel epaInfo)
+        private static void SetMaxPerformanceScore(EPAModel epaInfo)
         {
             switch (epaInfo.Process.CurrentProcess.ProcessId)
             {
@@ -102,22 +102,20 @@
             }
         }
 
-        private void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
+        private static void SetMaxSubtractAndMaxAdditionScore(EPAModel epaInfo)
         {
-            switch (epaInfo.Process.CurrentProcess.ProcessId)
+            if (epaInfo.Process.CurrentProcess.ProcessId == (int)ProcessType.Reviewer)
             {
-                case (int)ProcessType.Reviewer:
-                    epaInfo.Process.CurrentProcess.MaxSubtractScore = -10;
-                    double maxAdditionScore =
-                        epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators - epaInfo.ToeicPolicyScore;
-                    maxAdditionScore = maxAdditionScore > 10 ? 10 : maxAdditionScore;
+                epaInfo.Process.CurrentProcess.MaxSubtractScore = -10;
+                double maxAdditionScore =
+                    epaInfo.Process.CurrentProcess.MaxTotalScore - epaInfo.Process.AverageScoreByEvaluators - epaInfo.ToeicPolicyScore;
+                maxAdditionScore = maxAdditionScore > 10 ? 10 : maxAdditionScore;
 
-                    epaInfo.Process.CurrentProcess.MaxAdditionScore = Math.Round(maxAdditionScore);
-                    break;
+                epaInfo.Process.CurrentProcess.MaxAdditionScore = Math.Round(maxAdditionScore);
             }
         }
 
-        private EPAProcessModel CopyEPAProcess(EPAProcessModel process)
+        private static EPAProcessModel CopyEPAProcess(EPAProcessModel process)
         {
             using (MemoryStream ms = new MemoryStream())
             {

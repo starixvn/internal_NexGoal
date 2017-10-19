@@ -1,5 +1,9 @@
 ﻿namespace NexGoal.Site.Controllers
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Web.Mvc;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Period;
     using NexGoal.Criteria.Report;
@@ -7,10 +11,6 @@
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System;
-    using System.Collections.Generic;
-    using System.IO;
-    using System.Web.Mvc;
 
     public class ExportReportController : Controller
     {
@@ -28,13 +28,13 @@
         }
 
         public ExportReportController(
-            IPeriodService checkFlowService,
+            IPeriodService periodService,
             IReportService reportService,
             IEPADetailReportService epaReportService,
             IMasterExportService masterExportService,
             ISessionService sessionService)
         {
-            this.periodService = checkFlowService ?? new PeriodService();
+            this.periodService = periodService ?? new PeriodService();
             this.reportService = reportService ?? new ReportService();
             this.epaReportService = epaReportService ?? new EPADetailReportService();
             this.sessionService = sessionService ?? new SessionService();
@@ -63,8 +63,7 @@
         {
             if (criteria != null)
             {
-                criteria.UserId = this.sessionService.EmployeeId;
-
+                criteria.UserId = sessionService.EmployeeId;
                 IEnumerable<EPADetailModel> epaDetail = reportService.GetEPADetailReport(criteria);
 
                 epaReportService.Render(epaDetail);
@@ -78,7 +77,7 @@
             string groupIds = null,
             int? employeeId = null)
         {
-            var criteria = new GetMasterReportCriteria()
+            var criteria = new GetMasterReportCriteria
             {
                 EmployeeId = employeeId,
                 PeriodId = periodId,
@@ -86,8 +85,8 @@
             };
 
             IEnumerable<MasterReportModel> employees = reportService.GetMaster(criteria);
-            var period = this.periodService.GetPeriodById(periodId);
-            MemoryStream output = this.masterExportService.Export(employees, period.Name);
+            var period = periodService.GetPeriodById(periodId);
+            MemoryStream output = masterExportService.Export(employees, period.Name);
 
             return File(output.ToArray(), "application/vnd.ms-excel", "MasterReport_" + period.Name + DateTime.Now.ToString("yyyyMMddHHmmss") + ".xls");
         }

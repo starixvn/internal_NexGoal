@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using System.Net;
     using System.Net.Http;
@@ -72,21 +73,21 @@
             EPAModel epaInfo = new EPAModel();
             int permission = employeeEPAService.CheckEmployeePermission(epaId, SessionService.EmployeeId, (int)ProcessType.Self);
 
-            switch (permission)
+            if (permission == (int)Policy.None)
             {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+            }
+            else
+            {
+                var criteria = new GetEPAInfoByEmployeeCriteria
+                {
+                    EPAId = epaId,
+                    EmployeeId = SessionService.EmployeeId
+                };
 
-                default:
-                    var criteria = new GetEPAInfoByEmployeeCriteria()
-                    {
-                        EPAId = epaId,
-                        EmployeeId = SessionService.EmployeeId
-                    };
+                epaInfo = this.selfService.GetEPAInfo(criteria);
 
-                    epaInfo = this.selfService.GetEPAInfo(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
         }
 
@@ -140,7 +141,7 @@
             string groupIds = null,
             string employeeIds = null)
         {
-            var criteria = new GetEPAByEvaluatorCriteria()
+            var criteria = new GetEPAByEvaluatorCriteria
             {
                 EvaluatorId = SessionService.EmployeeId,
                 GroupIds = groupIds,
@@ -166,7 +167,7 @@
                 return Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
             }
 
-            var criteria = new GetEPAInfoByEvaluatorCriteria()
+            var criteria = new GetEPAInfoByEvaluatorCriteria
             {
                 EPAId = epaId,
                 EvaluatorId = evaluatorId.Value
@@ -227,7 +228,7 @@
             string groupIds = null,
             string employeeIds = null)
         {
-            var criteria = new GetEPAByReviewerCriteria()
+            var criteria = new GetEPAByReviewerCriteria
             {
                 ReviewerId = SessionService.EmployeeId,
                 GroupIds = groupIds,
@@ -245,21 +246,21 @@
             var epaInfo = new EPAModel();
             int permission = employeeEPAService.CheckEmployeePermission(epaId, SessionService.EmployeeId, (int)ProcessType.Reviewer);
 
-            switch (permission)
+            if (permission == (int)Policy.None)
             {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+            }
+            else
+            {
+                var criteria = new GetEPAInfoByReviewerCriteria
+                {
+                    EPAId = epaId,
+                    ReviewerId = SessionService.EmployeeId
+                };
 
-                default:
-                    var criteria = new GetEPAInfoByReviewerCriteria()
-                    {
-                        EPAId = epaId,
-                        ReviewerId = SessionService.EmployeeId
-                    };
+                epaInfo = reviewerService.GetEPAInfo(criteria);
 
-                    epaInfo = reviewerService.GetEPAInfo(criteria);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
         }
 
@@ -267,7 +268,7 @@
         [HttpPut]
         public CommandResult AdjustScoreByReviewer(IEnumerable<EPAModel> memberEPAs)
         {
-            var criteria = new AdjustScoreByReviewerOrManagementCriteria()
+            var criteria = new AdjustScoreByReviewerOrManagementCriteria
             {
                 ProcessId = (int)ProcessType.Reviewer,
                 MemberEPAs = memberEPAs,
@@ -290,16 +291,14 @@
             var epaInfo = new EPAModel();
             int permission = employeeEPAService.CheckEmployeePermission(epaId, SessionService.EmployeeId);
 
-            switch (permission)
+            if (permission == (int)Policy.None)
             {
-                case (int)Policy.None:
-                    return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
-
-                default:
-
-                    epaInfo = employeeEPAService.GetEPAInfoById(epaId);
-
-                    return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
+                return Request.CreateResponse(HttpStatusCode.MethodNotAllowed, epaInfo);
+            }
+            else
+            {
+                epaInfo = employeeEPAService.GetEPAInfoById(epaId);
+                return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
             }
         }
 
@@ -308,7 +307,7 @@
         {
             var getEPASummaryImportCriteria = new GetEPASummaryImportCriteria();
             IEnumerable<EPASummaryImportModel> memberEPAs = employeeEPAService.GetMemberEPASummaryImport(getEPASummaryImportCriteria);
-            var criteria = new UpdateEPASummaryImportCriteria()
+            var criteria = new UpdateEPASummaryImportCriteria
             {
                 MemberEPAs = memberEPAs
             };
@@ -327,7 +326,7 @@
             {
                 EPAModel epaInfo = employeeEPAService.GetEPAInfoById(epaId);
 
-                var resetScoreCriteria = new ResetScoreCriteria()
+                var resetScoreCriteria = new ResetScoreCriteria
                 {
                     EPAId = epaInfo.EPAId,
                     ModifiedBy = SessionService.EmployeeId,
@@ -398,11 +397,11 @@
 
             foreach (EPAModel epaInfo in selectedEPAs)
             {
-                double averagePerformanceScore = epaInfo.Process.AverageScoreByReviewers,
-                    finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
+                double averagePerformanceScore = epaInfo.Process.AverageScoreByReviewers;
+                double finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
-                epaInfo.FinalScore = certificateService.Encrypt(finalScore.ToString());
+                epaInfo.FinalScore = certificateService.Encrypt(finalScore.ToString(CultureInfo.InvariantCulture));
                 string grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
                 epaInfo.Grade = certificateService.Encrypt(grade);
             }
@@ -431,7 +430,7 @@
             string groupIds = null,
             string periodIds = null)
         {
-            var criteria = new GetMemberByEvaluatorOrReviewerCriteria()
+            var criteria = new GetMemberByEvaluatorOrReviewerCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = processId,
@@ -444,7 +443,7 @@
 
         private IEnumerable<Group> GetGroupByEvaluatorOrReviewer(int processId, string periodIds = null)
         {
-            var criteria = new GetGroupByEvaluatorOrReviewerCriteria()
+            var criteria = new GetGroupByEvaluatorOrReviewerCriteria
             {
                 ActorUserId = SessionService.EmployeeId,
                 ProcessId = processId,

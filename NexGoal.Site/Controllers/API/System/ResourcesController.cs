@@ -1,26 +1,24 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
-    using NexGoal.Resources;
     using System.Collections;
     using System.Globalization;
     using System.Linq;
     using System.Resources;
     using System.Web.Http;
+    using NexGoal.Resources;
 
     public class ResourcesController : ApiController
     {
         public string Get(string lang)
         {
             ResourceManager resourceManager = null;
-            switch (lang)
+            if (lang == "en")
             {
-                case "en":
-                    resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
-                    break;
-
-                default:
-                    resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
-                    break;
+                resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
+            }
+            else
+            {
+                resourceManager = new ResourceManager(typeof(Lang)) { IgnoreCase = true };
             }
 
             ResourceSet resourceSet = resourceManager.GetResourceSet(CultureInfo.CurrentUICulture, true, true);

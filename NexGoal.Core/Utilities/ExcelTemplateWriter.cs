@@ -1,24 +1,23 @@
 ﻿namespace NexGoal.Core.Utilities
 {
-    using NexGoal.Core.Utilities.NPOIExtensions;
-    using NPOI.HSSF.UserModel;
-    using NPOI.SS.UserModel;
-    using NPOI.SS.Util;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Reflection;
+    using NPOI.HSSF.UserModel;
+    using NPOI.SS.UserModel;
+    using NPOI.SS.Util;
+    using NPOIExtensions;
 
     public class ExcelTemplateWriter
     {
         #region Attributes
 
-        private string _fileName;
-        private string _sheetName;
-        private ISheet _templateSheet;
-        private ISheet _sheet;
-        private int _rowId = 0;
+        private readonly string _fileName;
+        private readonly ISheet _templateSheet;
+        private readonly ISheet _sheet;
+        private int _rowId;
 
         #endregion Attributes
 
@@ -42,9 +41,8 @@
         public ExcelTemplateWriter(HSSFWorkbook template, string excelFileName, string sheetName)
         {
             this._fileName = excelFileName;
-            this._sheetName = sheetName;
             this._templateSheet = template.GetSheetAt(0);
-            this._sheet = template.CreateSheet(this._sheetName);
+            this._sheet = template.CreateSheet(sheetName);
         }
 
         #endregion Constructors

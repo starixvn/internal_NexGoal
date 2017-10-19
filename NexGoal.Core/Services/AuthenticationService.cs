@@ -29,7 +29,7 @@
             var criteria = new GetAuthenticationByDomainUsernameCriteria { DomainUsername = domainName };
             var employee = new UserSession();
 
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 employee = _authenticationRepository.GetEmployee(criteria);
             }
@@ -39,7 +39,7 @@
 
         public void InsertLogLogin(string username)
         {
-            var criteria = new InsertLogLoginCriteria()
+            var criteria = new InsertLogLoginCriteria
             {
                 IdentifyUser = GetShortUsername(HttpContext.Current.User.Identity.Name),
                 LoginUser = GetShortUsername(username),
@@ -74,7 +74,7 @@
             return hostName;
         }
 
-        private string GetShortUsername(string username)
+        private static string GetShortUsername(string username)
         {
             if (username.IndexOf('\\') > 0)
             {

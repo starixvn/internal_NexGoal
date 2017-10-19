@@ -1,8 +1,10 @@
 ﻿namespace NexGoal.Criteria.EmployeeEPA.RatingByKPI
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Text;
     using System.Web;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Services;
@@ -12,8 +14,6 @@
     {
         private const string EPAXmlTemplate = "<EPA EPAId='{0}' EmployeeId='{1}' KPIGroupId='{2}' TotalScore='{3}'>{4}</EPA>";
         private const string EPADetailXmlTemplate = "<EPADetail KPIId ='{0}' Rate='{1}' Score='{2}' IsMaxScore='{3}' Comment='{4}' />";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int EvaluatorId { get; set; }
 
@@ -38,7 +38,7 @@
             return EvaluatorId > 0;
         }
 
-        private string Encrypt(string plainText)
+        private static string Encrypt(string plainText)
         {
             ICertificateService certificateService = new CertificateService();
             string cipherText = certificateService.Encrypt(plainText);
@@ -46,9 +46,9 @@
             return cipherText;
         }
 
-        private string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)
+        private static string ConvertToXml(IEnumerable<RatingByKPIModel> epaInfos)
         {
-            var epaXml = new StringBuilder(BeginRootTag);
+            var epaXml = new StringBuilder(Constants.BeginRootTag);
 
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
@@ -70,16 +70,16 @@
                 }
             }
 
-            epaXml.Append(EndRootTag);
+            epaXml.Append(Constants.EndRootTag);
 
             return epaXml.ToString();
         }
 
-        private StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, float rate)
+        private static StringBuilder GenerateEpaDetailXml(TemporaryKPIModel kpi, string score, float rate)
         {
-            string kpiRate = rate > 0 ? rate.ToString() : string.Empty,
-                cipherScore = Encrypt(score),
-                cipherRate = Encrypt(kpiRate);
+            string kpiRate = rate > 0 ? rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
+            string cipherScore = Encrypt(score);
+            string cipherRate = Encrypt(kpiRate);
 
             var epaDetailXml = new StringBuilder();
             epaDetailXml.AppendFormat(EPADetailXmlTemplate, kpi.KPIId, cipherRate, cipherScore, kpi.IsMaxScore, HttpUtility.HtmlEncode(kpi.Comment));

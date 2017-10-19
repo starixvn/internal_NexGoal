@@ -326,7 +326,7 @@
 
         #endregion Rating By KPI
 
-        private void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
+        private static void GroupEPAProcessByEPA(EPAModel epaInfo, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAProcessModel process in processes.Where(x => x.EPAId.Equals(epaInfo.EPAId)))
             {
@@ -347,11 +347,14 @@
                     case (int)ProcessType.Reviewer:
                         epaInfo.Process.Reviewers.Add(process);
                         break;
+
+                    default:
+                        continue;
                 }
             }
         }
 
-        private void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
+        private static void GroupEPAProcessByEPA(IEnumerable<EPAModel> epaInfos, IEnumerable<EPAProcessModel> processes)
         {
             foreach (EPAModel epaInfo in epaInfos)
             {
@@ -362,7 +365,7 @@
             }
         }
 
-        private void GroupKPIByKPIGroup(IEnumerable<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
+        private static void GroupKPIByKPIGroup(IEnumerable<EPAKPIGroupModel> kpiGroups, IEnumerable<EPAKPIModel> kpis)
         {
             foreach (EPAKPIGroupModel kpiGroup in kpiGroups)
             {
@@ -373,7 +376,7 @@
             }
         }
 
-        private void GroupEvaluationOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
+        private static void GroupEvaluationOnEachKPI(IEnumerable<EPAKPIModel> kpis, IEnumerable<EvaluationModel> evaluations)
         {
             foreach (EPAKPIModel kpi in kpis)
             {
@@ -388,12 +391,15 @@
                         case (int)ProcessType.Evaluator:
                             kpi.EvaluationByEvaluators.Add(evaluation);
                             break;
+
+                        default:
+                            continue;
                     }
                 }
             }
         }
 
-        private void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
+        private static void GroupKPIByEPA(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
@@ -404,7 +410,7 @@
             }
         }
 
-        private void GroupKPIBySelf(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
+        private static void GroupKPIBySelf(IEnumerable<RatingByKPIModel> epaInfos, IEnumerable<TemporaryKPIModel> kpis)
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {
@@ -415,7 +421,7 @@
             }
         }
 
-        private void DecodeAllScore(IEnumerable<RatingByKPIModel> epaInfos)
+        private static void DecodeAllScore(IEnumerable<RatingByKPIModel> epaInfos)
         {
             foreach (RatingByKPIModel epaInfo in epaInfos)
             {

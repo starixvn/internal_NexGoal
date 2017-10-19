@@ -305,34 +305,6 @@
             <Mapping DataField="AdjustScore" ObjectProperty="AdjustScoreEncode" />
         </Setting>
     </Function>
-    <Function Name="Attendance Summary">
-        <Setting Key="EpaAttendanceSummary_Get" SpName="EpaAttendanceSummary_Get" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EpaAttendanceSummary_GetOtherViolations" SpName="EpaAttendanceSummary_GetOtherViolations" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EpaAttendanceSummary_AddOtherViolations" SpName="EpaAttendanceSummary_AddOtherViolations" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EpaAttendanceSummary_Delete" SpName="EpaAttendanceSummary_Delete" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EpaAttendanceSummary_GetViolations" SpName="EpaAttendanceSummary_GetViolations" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EpaAttendanceSummary_GetDetail" SpName="EpaAttendanceSummary_GetDetail" DbName="NexGoal" Plain="0">
-            <Mapping DataField="MissingCheckInOutId" ObjectProperty="ViolationId" />
-            <Mapping DataField="TotalHoursId" ObjectProperty="ViolationId" />
-            <Mapping DataField="LateInId" ObjectProperty="ViolationId" />
-            <Mapping DataField="EarlyOutId" ObjectProperty="ViolationId" />
-            <Mapping DataField="AbsentId" ObjectProperty="ViolationId" />
-            <Mapping DataField="UnpaidLeaveId" ObjectProperty="ViolationId" />
-            <Mapping DataField="ChangeShiftId" ObjectProperty="ViolationId" />
-            <Mapping DataField="UnpaidLeaveAbsentId" ObjectProperty="ViolationId" />
-        </Setting>
-        <Setting Key="EpaAttendanceSummary_IgnoredViolation" SpName="EpaAttendanceSummary_IgnoredViolation" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="OtherViolationType_Get" SpName="OtherViolationType_Get" DbName="NexGoal" Plain="0">
-        </Setting>
-    </Function>
     <Function Name="Rating By KPI">
         <Setting Key="EPA_RatingByKPI_GetPeriodByEvaluator" SpName="EPA_RatingByKPI_GetPeriodByEvaluator" DbName="NexGoal" Plain="0">
         </Setting>

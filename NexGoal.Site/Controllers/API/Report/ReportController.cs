@@ -44,7 +44,7 @@
             string groupIds = null,
             int? employeeId = null)
         {
-            var criteria = new GetPAReportCriteria()
+            var criteria = new GetPAReportCriteria
             {
                 UserId = SessionService.EmployeeId,
                 PeriodIds = periodIds,
@@ -64,7 +64,7 @@
             string groupIds = null,
             int? employeeId = null)
         {
-            var criteria = new GetMasterReportCriteria()
+            var criteria = new GetMasterReportCriteria
             {
                 EmployeeId = employeeId,
                 PeriodId = periodId,

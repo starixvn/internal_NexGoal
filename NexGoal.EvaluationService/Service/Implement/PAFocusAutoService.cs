@@ -65,6 +65,9 @@
                     case (int)MailMode.Reminder:
                         SendEmail(subjectReminderMail, templateReminderEmailPath, focusSetting);
                         break;
+
+                    default:
+                        continue;
                 }
             }
         }
@@ -72,8 +75,8 @@
         private void SendEmail(string subject, string templateEmailPath, PAFocusMailModel focusSetting)
         {
             var email = new MailModel();
-            string startDate = baseMailService.ChangeStartDate(focusSetting.StartDate),
-                endDate = baseMailService.ChangeEndDate(focusSetting.EndDate);
+            string startDate = baseMailService.ChangeStartDate(focusSetting.StartDate);
+            string endDate = baseMailService.ChangeEndDate(focusSetting.EndDate);
             var body = baseMailService.ReadTextFile(templateEmailPath)
                 .Replace(EmailFormat.EvaluatorNick, focusSetting.NickName)
                 .Replace(EmailFormat.PeriodName, focusSetting.PeriodName)

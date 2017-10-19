@@ -53,14 +53,9 @@
         {
             get
             {
-                if (RoleId == (int)NominationRole.Nominator)
-                {
-                    return Period.StatusId != (int)NominationSettingStatus.InProgress;
-                }
-                else
-                {
-                    return Period.StatusId != (int)NominationSettingStatus.Closed;
-                }
+                return RoleId == (int)NominationRole.Nominator
+                    ? Period.StatusId != (int)NominationSettingStatus.InProgress
+                    : Period.StatusId != (int)NominationSettingStatus.Closed;
             }
         }
     }

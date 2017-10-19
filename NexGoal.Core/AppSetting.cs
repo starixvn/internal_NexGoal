@@ -10,7 +10,7 @@
             {
                 string enableEnCrypt = ConfigurationManager.AppSettings["EnableEncrypt"];
 
-                return string.IsNullOrEmpty(enableEnCrypt) ? true : bool.Parse(enableEnCrypt);
+                return !string.IsNullOrEmpty(enableEnCrypt) && bool.Parse(enableEnCrypt);
             }
         }
 

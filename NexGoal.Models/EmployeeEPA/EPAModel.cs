@@ -129,7 +129,7 @@
             }
         }
 
-        private void DecodeForList(IList<EPAProcessModel> processes)
+        private static void DecodeForList(IList<EPAProcessModel> processes)
         {
             foreach (EPAProcessModel process in processes)
             {

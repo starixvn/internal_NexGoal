@@ -29,7 +29,7 @@
         [HttpGet]
         public DashboardModel GetDashboard()
         {
-            var criteria = new GetDashboardCriteria()
+            var criteria = new GetDashboardCriteria
             {
                 EmployeeId = SessionService.EmployeeId
             };

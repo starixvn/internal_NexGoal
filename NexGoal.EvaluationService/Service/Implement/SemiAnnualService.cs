@@ -1,8 +1,6 @@
 ﻿namespace NexGoal.BackgroundService
 {
-    using System;
     using System.Collections.Generic;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.Period;
@@ -60,21 +58,14 @@
             periodService.GenerateEvaluation(criteria);
         }
 
-        private CommandResult AddEmployeeToPeriod(int periodId)
+        private void AddEmployeeToPeriod(int periodId)
         {
             var criteria = new InsertEmployeeToSemiAnnualPeriodCriteria { PeriodId = periodId };
-            var commandResult = new CommandResult();
 
             if (criteria.IsValid())
             {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-                if (!commandResult.IsSuccessful)
-                {
-                    throw new InvalidOperationException(commandResult.Message);
-                }
+                Repository.ExecuteNonQuery(criteria);
             }
-
-            return commandResult;
         }
 
         private void SendEmailToAll(int periodId)

@@ -46,7 +46,7 @@
             bool? isActive = true,
             string excludeTargetTypeIds = "")
         {
-            var criteria = new GetTargetTypeCriteria()
+            var criteria = new GetTargetTypeCriteria
             {
                 IsActive = isActive,
                 ExcludeTargetTypeIds = excludeTargetTypeIds
@@ -61,7 +61,7 @@
             bool? isActive = null,
             bool? isRequiredEvaluate = null)
         {
-            var criteria = new GetKPICriteria()
+            var criteria = new GetKPICriteria
             {
                 KPIGroupId = kpiGroupId,
                 IsActive = isActive,
@@ -74,7 +74,7 @@
         [HttpGet]
         public IEnumerable<KPIGroupModel> GetKPIGroup(bool? isActive = null)
         {
-            var criteria = new GetKPIGroupCriteria()
+            var criteria = new GetKPIGroupCriteria
             {
                 IsActive = isActive
             };
@@ -115,7 +115,7 @@
             bool? getByApprover = null,
             bool? includeVerifier = null)
         {
-            var criteria = new GetAllEmployeeCriteria()
+            var criteria = new GetAllEmployeeCriteria
             {
                 Query = query,
                 GroupId = groupId,
@@ -130,7 +130,7 @@
 
         public IEnumerable<EmployeeModel> GetEmployeeByDepartmentId(int? departmentId = null)
         {
-            var criteria = new GetEmployeeByDepartmentIdCriteria()
+            var criteria = new GetEmployeeByDepartmentIdCriteria
             {
                 DepartmentId = departmentId
             };
@@ -141,7 +141,7 @@
         [HttpGet]
         public IEnumerable<EmployeeModel> GetEmployeeByGroupId(int groupId)
         {
-            var criteria = new GetEmployeeByGroupIdCriteria()
+            var criteria = new GetEmployeeByGroupIdCriteria
             {
                 GroupId = groupId
             };
@@ -174,7 +174,7 @@
             int? parentId = null,
             bool? isActive = null)
         {
-            var criteria = new GetDepartmentCriteria()
+            var criteria = new GetDepartmentCriteria
             {
                 ParentId = parentId,
                 IsActive = isActive
@@ -237,7 +237,7 @@
         [HttpGet]
         public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(int epaId)
         {
-            var criteria = new GetOtherViolationDetailByEPAIdCriteria()
+            var criteria = new GetOtherViolationDetailByEPAIdCriteria
             {
                 EPAId = epaId
             };

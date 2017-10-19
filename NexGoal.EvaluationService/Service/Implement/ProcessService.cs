@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.BackgroundService
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
@@ -55,7 +56,7 @@
             {
                 EPAId = process.EPAId,
                 ProcessId = process.ProcessId,
-                AverageScore = certificateService.Encrypt(score.ToString())
+                AverageScore = certificateService.Encrypt(score.ToString(CultureInfo.InvariantCulture))
             };
 
             if (criteria.IsValid())
@@ -66,7 +67,7 @@
 
         private void CloseProcess(IEnumerable<AutoEmployeePeriodModel> evaluationProcesses)
         {
-            var criteria = new UpdateIsEndProcessCriteria()
+            var criteria = new UpdateIsEndProcessCriteria
             {
                 EvaluationProcesses = evaluationProcesses
             };

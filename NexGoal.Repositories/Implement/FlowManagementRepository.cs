@@ -99,7 +99,7 @@
             }
         }
 
-        private void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
+        private static void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
         {
             if (flows != null && processes != null)
             {
@@ -120,13 +120,16 @@
                             case (int)ProcessType.Reviewer:
                                 flow.Reviewers.Add(process);
                                 break;
+
+                            default:
+                                continue;
                         }
                     }
                 }
             }
         }
 
-        private void GroupProcessFlowByEmployee(IEnumerable<PersonalFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
+        private static void GroupProcessFlowByEmployee(IEnumerable<PersonalFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
         {
             foreach (PersonalFlowModel flow in flows)
             {
@@ -145,6 +148,9 @@
                         case (int)ProcessType.Reviewer:
                             flow.Reviewers.Add(process);
                             break;
+
+                        default:
+                            continue;
                     }
                 }
             }

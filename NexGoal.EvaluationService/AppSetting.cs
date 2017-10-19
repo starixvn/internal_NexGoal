@@ -1,8 +1,8 @@
-﻿using System;
-using System.Configuration;
-
-namespace NexGoal.BackgroundService
+﻿namespace NexGoal.BackgroundService
 {
+    using System;
+    using System.Configuration;
+
     public static class AppSetting
     {
         public static bool SendMailEndPeriod
@@ -10,7 +10,7 @@ namespace NexGoal.BackgroundService
             get
             {
                 var value = ConfigurationManager.AppSettings["SendMailEndPeriod"];
-                return string.IsNullOrEmpty(value) ? false : Convert.ToBoolean(value);
+                return !string.IsNullOrEmpty(value) && Convert.ToBoolean(value);
             }
         }
 

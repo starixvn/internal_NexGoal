@@ -37,8 +37,8 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string templateEmailPath = string.Empty,
-                    assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+                string templateEmailPath = string.Empty;
+                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings.Where(x => x.HasSendMail))
                 {
@@ -72,8 +72,8 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string templateEmailPath = string.Empty,
-                    assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+                string templateEmailPath = string.Empty;
+                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
 
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
@@ -87,19 +87,16 @@
                         case (int)ProcessType.Evaluator:
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToEvaluator);
                             _mailService.SendMailToEvaluatorRemindDate(templateEmailPath, employeeSetting, period);
-
                             break;
 
                         case (int)ProcessType.Reviewer:
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
                             _mailService.SendMailToReviewerRemindDate(templateEmailPath, employeeSetting, period);
-
                             break;
 
                         case (int)ProcessType.HumanResource:
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
                             _mailService.SendMailToHRRemindDate(templateEmailPath, employeeSetting, period);
-
                             break;
                     }
                 }
@@ -110,8 +107,8 @@
         {
             if (evaluationInfo != null)
             {
-                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
-                    templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
+                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+                string templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanResourcesByEmployee);
 
                 foreach (EPAProcessModel humanResource in evaluationInfo.Process.HumanResources)
                 {
@@ -124,8 +121,8 @@
         {
             if (employeeSettings != null && employeeSettings.Any() && period != null)
             {
-                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
-                    templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
+                string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+                string templateEmailPath = Path.Combine(assemblyPath, _endMailToHumanReouscesByPeriod);
                 foreach (PeriodFlowModel employeeSetting in employeeSettings)
                 {
                     _mailService.SendMailEndToHRByPeriod(templateEmailPath, employeeSetting, period);
@@ -135,8 +132,8 @@
 
         public void SendEndEvaluationMailToSelf(EPAModel evaluationInfo)
         {
-            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory,
-                templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
+            string assemblyPath = AppDomain.CurrentDomain.BaseDirectory;
+            string templateEmailPath = Path.Combine(assemblyPath, _endMailToSelf);
 
             _mailService.SendMailToSelfEndEvaluation(templateEmailPath, evaluationInfo);
         }

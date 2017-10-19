@@ -45,6 +45,12 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Services.Tests", "N
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Criteria.Tests", "NexGoal.Criteria.Tests\NexGoal.Criteria.Tests.csproj", "{23016102-C895-41C8-9C30-2541E01F29F4}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{6ED4B51C-780A-4FA6-B970-C4010F1B4937}"
+	ProjectSection(SolutionItems) = preProject
+		SonarQube\NexGoalCSharp.ruleset = SonarQube\NexGoalCSharp.ruleset
+		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

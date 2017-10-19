@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services.Implement
 {
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Core.Model;
     using Core.Services;
@@ -38,7 +39,7 @@
                 double finalScore = GetFinalScoreOfEvalution(epa);
 
                 finalScore = finalScore >= 0 ? finalScore : 0;
-                epa.FinalScore = certificateService.Encrypt(finalScore.ToString());
+                epa.FinalScore = certificateService.Encrypt(finalScore.ToString(CultureInfo.InvariantCulture));
                 string grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
                 epa.Grade = certificateService.Encrypt(grade);
 
@@ -55,34 +56,22 @@
             return commandResult;
         }
 
-        private void RecalculateScoreForReviewer(EPAModel epaInfo)
+        private static void RecalculateScoreForReviewer(EPAModel epaInfo)
         {
             foreach (EPAProcessModel process in epaInfo.Process.Reviewers)
             {
                 double adjustScore;
-                if (double.TryParse(process.AdjustScore, out adjustScore))
-                {
-                    process.TotalScore = (epaInfo.Process.AverageScoreByEvaluators + adjustScore + epaInfo.ToeicPolicyScore).ToString();
-                }
-                else
-                {
-                    process.TotalScore = (epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore).ToString();
-                }
+                process.TotalScore = double.TryParse(process.AdjustScore, out adjustScore)
+                        ? (epaInfo.Process.AverageScoreByEvaluators + adjustScore + epaInfo.ToeicPolicyScore).ToString(CultureInfo.InvariantCulture)
+                        : (epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore).ToString(CultureInfo.InvariantCulture);
             }
         }
 
-        private double GetFinalScoreOfEvalution(EPAModel epaInfo)
+        private static double GetFinalScoreOfEvalution(EPAModel epaInfo)
         {
-            double finalScore = 0;
-
-            if (epaInfo.Process.Reviewers.Any())
-            {
-                finalScore = epaInfo.Process.AverageScoreByReviewers;
-            }
-            else
-            {
-                finalScore = epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore;
-            }
+            double finalScore = epaInfo.Process.Reviewers.Any()
+                    ? epaInfo.Process.AverageScoreByReviewers
+                    : epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore;
 
             return finalScore;
         }

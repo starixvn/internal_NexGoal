@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Services.Implement
 {
-    using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.IO;
+    using System.Text;
     using Core.Enumerations;
     using Core.Utilities;
     using NexGoal.Model.Report;
@@ -13,7 +13,6 @@
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
-    using System.Linq;
 
     public class MasterExportService : IMasterExportService
     {
@@ -28,10 +27,10 @@
 
         private const int MinStone = 3;
         private const int MaxStone = 9;
+        private readonly int columnWidth = 3000;
 
         private HSSFWorkbook workbook;
         private ISheet sheet;
-        private int columnWidth = 3000;
         private List<string> titleRow1Headers;
 
         public MemoryStream Export(IEnumerable<MasterReportModel> evaluations, string periodName)
@@ -47,6 +46,55 @@
             this.sheet.CreateFreezePane(0, RowStartBody);
 
             return RenderToBytes();
+        }
+
+        private static void SetBorderColor(ICellStyle cell)
+        {
+            cell.BorderTop = BorderStyle.Thin;
+            cell.BorderLeft = BorderStyle.Thin;
+        }
+
+        private static string ReturnDashIfContentIsNull(string content)
+        {
+            return string.IsNullOrEmpty(content) ? Lang.Dash : content;
+        }
+
+        private static string FormatEvaluatorComment(IEnumerable<EvaluatorCommentReportModel> comments)
+        {
+            var result = new StringBuilder();
+            foreach (var evaluator in comments)
+            {
+                result.AppendFormat("{0}: {1} ({2}) \n {3} \n \n", Lang.Evaluator, evaluator.EvaluatorFullName, evaluator.EvaluatorNickName, evaluator.Comment);
+            }
+
+            return result.ToString();
+        }
+
+        private static int GetNumberRowOfEmployee(MasterReportModel evaluation)
+        {
+            int count = evaluation.Nominations.Count;
+            if (evaluation.EmployeeWorkings.Count > count)
+            {
+                count = evaluation.EmployeeWorkings.Count;
+            }
+
+            return count;
+        }
+
+        private static string FormatReviewerAjustment(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+            {
+                return Lang.Dash;
+            }
+
+            var adjustmentScore = int.Parse(value);
+            if (adjustmentScore > 0)
+            {
+                return "+" + adjustmentScore.ToString();
+            }
+
+            return adjustmentScore.ToString();
         }
 
         private void RenderHearderPage(string periodName)
@@ -280,8 +328,8 @@
             foreach (var employee in employeeEvaluations)
             {
                 IRow row = sheet.CreateRow(rowIndex);
-                ICellStyle bodyStyleCenter = workbook.CreateCellStyle();
-                ICellStyle bodyStyleLeft = workbook.CreateCellStyle();
+                ICellStyle bodyStyleCenter;
+                ICellStyle bodyStyleLeft;
 
                 var columnIndex = 0;
                 var rowIndexBeginMerger = rowIndex;
@@ -590,53 +638,12 @@
             RenderBorderBottom(rowIndex);
         }
 
-        private string FormatEvaluatorComment(IEnumerable<EvaluatorCommentReportModel> comments)
-        {
-            var result = string.Empty;
-            foreach (var evaluator in comments)
-            {
-                var comment = string.Format("{0}: {1} ({2}) \n {3} \n \n", Lang.Evaluator, evaluator.EvaluatorFullName, evaluator.EvaluatorNickName, evaluator.Comment);
-                result += comment;
-            }
-
-            return result;
-        }
-
-        private int GetNumberRowOfEmployee(MasterReportModel evaluation)
-        {
-            int count = evaluation.Nominations.Count;
-            if (evaluation.EmployeeWorkings.Count > count)
-            {
-                count = evaluation.EmployeeWorkings.Count;
-            }
-
-            return count;
-        }
-
-        private string FormatReviewerAjustment(string value)
-        {
-            if (string.IsNullOrEmpty(value))
-            {
-                return Lang.Dash;
-            }
-
-            var adjustmentScore = int.Parse(value);
-            if (adjustmentScore > 0)
-            {
-                return "+" + adjustmentScore.ToString();
-            }
-
-            return adjustmentScore.ToString();
-        }
-
         private MemoryStream RenderToBytes()
         {
-            using (var output = new MemoryStream())
-            {
-                this.workbook.Write(output);
+            var output = new MemoryStream();
+            this.workbook.Write(output);
 
-                return output;
-            }
+            return output;
         }
 
         private void SetColorIndex()
@@ -647,17 +654,6 @@
             palette.SetColorAtIndex(RedColor, (byte)255, (byte)95, (byte)95);
             palette.SetColorAtIndex(EvenColor, (byte)249, (byte)249, (byte)249);
             palette.SetColorAtIndex(HeaderColor, (byte)50, (byte)67, (byte)115);
-        }
-
-        private void SetBorderColor(ICellStyle cell)
-        {
-            cell.BorderTop = BorderStyle.Thin;
-            cell.BorderLeft = BorderStyle.Thin;
-        }
-
-        private string ReturnDashIfContentIsNull(string content)
-        {
-            return string.IsNullOrEmpty(content) ? Lang.Dash : content;
         }
 
         private void RenderBorderBottom(int rowIndex)

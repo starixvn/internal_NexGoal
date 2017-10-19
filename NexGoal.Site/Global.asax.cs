@@ -1,9 +1,5 @@
 ﻿namespace NexGoal.Site
 {
-    using Fanex.Data;
-    using Fanex.Logging;
-    using NexGoal.Core.Utilities;
-    using Resources;
     using System;
     using System.Web;
     using System.Web.Http;
@@ -11,6 +7,10 @@
     using System.Web.Optimization;
     using System.Web.Routing;
     using System.Web.SessionState;
+    using Fanex.Data;
+    using Fanex.Logging;
+    using NexGoal.Core.Utilities;
+    using Resources;
 
     public class WebApiApplication : HttpApplication
     {
@@ -31,7 +31,6 @@
             .Use(new CustomConnectionStringProvider())
             .UseDefaultDbSettingProvider(
                 resourcePath: "~/App_Data",
-                ignoreRedundantParameters: false,
                 enableWatching: true)
             .Run();
         }
@@ -57,7 +56,8 @@
         }
 
         public void Session_Start(object sender, EventArgs e)
-        {            
+        {
+            // todo
         }
 
         private static bool IsWebApiRequest()

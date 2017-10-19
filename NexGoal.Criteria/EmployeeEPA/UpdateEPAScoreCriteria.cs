@@ -1,13 +1,14 @@
 ﻿namespace NexGoal.Criteria.EmployeeEPA
 {
+    using System.Collections.Generic;
+    using System.Globalization;
+    using System.Text;
+    using System.Web;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Services;
     using NexGoal.Model.EmployeeEPA;
-    using System.Collections.Generic;
-    using System.Text;
-    using System.Web;
 
     public class UpdateEPAScoreCriteria : CriteriaBase
     {
@@ -47,10 +48,10 @@
                 {
                     foreach (EPAKPIModel kpi in kpiGroup.KPIs)
                     {
-                        string score = kpi.CurrentEvaluation.Score > 0 ? kpi.CurrentEvaluation.Score.ToString() : string.Empty,
-                            rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString() : string.Empty,
-                            cipherScore = Encrypt(score),
-                            cipherRate = Encrypt(rate);
+                        string score = kpi.CurrentEvaluation.Score > 0 ? kpi.CurrentEvaluation.Score.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                        string rate = kpi.CurrentEvaluation.Rate > 0 ? kpi.CurrentEvaluation.Rate.ToString(CultureInfo.InvariantCulture) : string.Empty;
+                        string cipherScore = Encrypt(score);
+                        string cipherRate = Encrypt(rate);
                         bool isMaxScore = kpi.CurrentEvaluation.IsMaxScore;
 
                         kpiDetailXml.AppendFormat(
@@ -88,7 +89,7 @@
             return "EPA_UpdateScore";
         }
 
-        private string Encrypt(string plainText)
+        private static string Encrypt(string plainText)
         {
             ICertificateService certificateService = new CertificateService();
             string cipherText = certificateService.Encrypt(plainText);

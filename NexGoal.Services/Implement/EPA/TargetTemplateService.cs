@@ -97,20 +97,7 @@
             return ratingTypes;
         }
 
-        private IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
-        {
-            return kpiList.GroupBy(x => x.KPIGroups.First().KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
-            {
-                KPIGroupId = x.Key,
-                Name = x.First().KPIGroups.First().Name,
-                IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
-                Weight = x.First().KPIGroups.First().Weight,
-                Selected = CheckGroupSelected(x.ToList()),
-                KPIs = CheckKPISelected(x.ToList())
-            });
-        }
-
-        private bool CheckGroupSelected(List<KPIModel> listKPI)
+        private static bool CheckGroupSelected(List<KPIModel> listKPI)
         {
             bool allSelected = true;
             listKPI.ForEach(x =>
@@ -124,7 +111,7 @@
             return allSelected;
         }
 
-        private IEnumerable<KPIModel> CheckKPISelected(List<KPIModel> listKPI)
+        private static IEnumerable<KPIModel> CheckKPISelected(List<KPIModel> listKPI)
         {
             listKPI.ForEach(x =>
             {
@@ -137,9 +124,22 @@
             return listKPI;
         }
 
-        private IEnumerable<TargetTemplateKPIGroupModel> GetSelectedKPI(IEnumerable<TargetTemplateKPIGroupModel> kpiGroups)
+        private static IEnumerable<TargetTemplateKPIGroupModel> GetSelectedKPI(IEnumerable<TargetTemplateKPIGroupModel> kpiGroups)
         {
-            return kpiGroups.Where(x => x.KPIs.Any(p => p.Selected == true));
+            return kpiGroups.Where(x => x.KPIs.Any(p => p.Selected.HasValue && p.Selected.Value));
+        }
+
+        private IEnumerable<TargetTemplateKPIGroupModel> GroupKPI(IEnumerable<KPIModel> kpiList)
+        {
+            return kpiList.GroupBy(x => x.KPIGroups.First().KPIGroupId).Select(x => new TargetTemplateKPIGroupModel
+            {
+                KPIGroupId = x.Key,
+                Name = x.First().KPIGroups.First().Name,
+                IsSpreadKPI = x.First().KPIGroups.First().IsSpreadKPI,
+                Weight = x.First().KPIGroups.First().Weight,
+                Selected = CheckGroupSelected(x.ToList()),
+                KPIs = CheckKPISelected(x.ToList())
+            });
         }
     }
 }

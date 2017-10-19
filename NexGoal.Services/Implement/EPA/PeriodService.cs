@@ -294,6 +294,19 @@
             writer.Render();
         }
 
+        private static object GetEvaluator(IList<PeriodFlowModel> evaluators)
+        {
+            var evaluatorNames = new StringBuilder();
+
+            foreach (PeriodFlowModel evaluator in evaluators)
+            {
+                string name = evaluator.EvaluatorInfo.NickName;
+                evaluatorNames.Append(evaluatorNames.Length > 0 ? ", " + name : name);
+            }
+
+            return evaluatorNames.ToString();
+        }
+
         private void FillContentRow(
          IEnumerable<PeriodEmployeeSettingModel> employeeFlowSettings,
          ref ExcelTemplateWriter writer)
@@ -337,19 +350,6 @@
             rowIndex++;
 
             return record;
-        }
-
-        private object GetEvaluator(IList<PeriodFlowModel> evaluators)
-        {
-            var evaluatorNames = new StringBuilder();
-
-            foreach (PeriodFlowModel evaluator in evaluators)
-            {
-                string name = evaluator.EvaluatorInfo.NickName;
-                evaluatorNames.Append(evaluatorNames.Length > 0 ? ", " + name : name);
-            }
-
-            return evaluatorNames.ToString();
         }
 
         private void GetAndSendEmailToAllRelatedEmployee(MailMode mailMode, int periodId, string employeeIds, int? processId)

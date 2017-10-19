@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Core.Enumerations
 {
-    public enum MailMode : int
+    public enum MailMode
     {
         None = 0,
 

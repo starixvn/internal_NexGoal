@@ -3,15 +3,13 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using Core.Constants;
 
     [Serializable]
     public class TargetTemplateModel
     {
         private const string KPIXmlTemplate = @"<KPI KPIId='{0}' KPIGroupId='{1}' IsSpreadKPI='{2}' Weight='{3}' DisplayOrder='{4}'
                 IsRequiredEvaluate='{5}' HasComment='{6}' IsRequiredComment='{7}'></KPI>";
-
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int TargetTemplateId { get; set; }
 
@@ -57,7 +55,7 @@
 
         public string ConvertKPIItemToXml(List<TargetTemplateKPIModel> kpiItems)
         {
-            var kpiXml = new StringBuilder(BeginRootTag);
+            var kpiXml = new StringBuilder(Constants.BeginRootTag);
 
             if (kpiItems != null)
             {
@@ -76,7 +74,7 @@
                 }
             }
 
-            return kpiXml.Append(EndRootTag).ToString();
+            return kpiXml.Append(Constants.EndRootTag).ToString();
         }
     }
 }

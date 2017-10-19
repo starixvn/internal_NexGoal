@@ -1,5 +1,12 @@
 ﻿namespace NexGoal.Services.Implement
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
+    using System.Globalization;
+    using System.IO;
+    using System.Linq;
+    using System.Web;
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Resources;
     using NexGoal.Services.Interfaces;
@@ -7,21 +14,12 @@
     using NPOI.HSSF.Util;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
-    using System;
-    using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
-    using System.IO;
-    using System.Linq;
-    using System.Web;
 
     public class EPADetailReportService : IEPADetailReportService
     {
         private HSSFWorkbook workbook;
-
         private ISheet sheet;
-
-        private int _currentRow = 0;
-
+        private int _currentRow;
         private IList<string> columnsName;
 
         public IEnumerable<EPADetailModel> Details { get; set; }
@@ -39,12 +37,11 @@
             _currentRow++;
 
             WriteContentTable();
-            using (var output = new MemoryStream())
-            {
-                workbook.Write(output);
 
-                return output;
-            }
+            var output = new MemoryStream();
+            workbook.Write(output);
+
+            return output;
         }
 
         public void Render(IEnumerable<EPADetailModel> epaDetail)
@@ -61,6 +58,25 @@
             response.AddHeader("Content-Disposition", string.Format("attachment; filename={0}_{1}.xls", Lang.EPADetailReportName, DateTime.Now.ToString("yyyyMMddhhmmss")));
 
             workbook.Write(response.OutputStream);
+        }
+
+        private static IList<string> CreateColumnsName()
+        {
+            return new List<string>
+            {
+                Lang.SymbolCount,
+                Lang.NickName,
+                Lang.FullName,
+                Lang.JobTitle,
+                Lang.Team,
+                Lang.EvaluationPeriod,
+                Lang.PeriodType,
+                Lang.SelfScore,
+                Lang.EvaluationScore,
+                Lang.ReviewerScore,
+                Lang.FinalScore,
+                Lang.Grade
+            };
         }
 
         private void WriteTitleSheet()
@@ -124,8 +140,7 @@
             {
                 var currentColumn = 0;
 
-                ICellStyle bodyStyle = workbook.CreateCellStyle();
-                bodyStyle = _currentRow % 2 == 0 ? evenStyle : oddStyle;
+                ICellStyle bodyStyle = _currentRow % 2 == 0 ? evenStyle : oddStyle;
 
                 IRow row = sheet.CreateRow(_currentRow);
                 dynamic score = CalculateScore(memberEPA);
@@ -187,11 +202,11 @@
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private dynamic CalculateScore(EPADetailModel memberEPA)
         {
-            string selfScore = string.Empty,
-                evaluatorScore = string.Empty,
-                reviewerScore = string.Empty,
-                finalScore = string.Empty,
-                grade = string.Empty;
+            string selfScore = string.Empty;
+            string evaluatorScore = string.Empty;
+            string reviewerScore = string.Empty;
+            string finalScore = string.Empty;
+            string grade = string.Empty;
 
             if (!memberEPA.Process.Self.IsEndProcess)
             {
@@ -207,7 +222,7 @@
                 {
                     float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
 
-                    selfScore = Math.Round(score).ToString();
+                    selfScore = Math.Round(score).ToString(CultureInfo.InvariantCulture);
                 }
             }
 
@@ -216,14 +231,9 @@
                 && memberEPA.Process.Evaluators.Any()
                 && memberEPA.Process.Evaluators[0].IsEndProcess)
             {
-                if (memberEPA.Process.AverageScoreByEvaluators == 0)
-                {
-                    evaluatorScore = Lang.Dash;
-                }
-                else
-                {
-                    evaluatorScore = Math.Round(memberEPA.Process.AverageScoreByEvaluators).ToString();
-                }
+                evaluatorScore = memberEPA.Process.AverageScoreByEvaluators == 0 ?
+                        Lang.Dash
+                        : Math.Round(memberEPA.Process.AverageScoreByEvaluators).ToString(CultureInfo.InvariantCulture);
             }
             else
             {
@@ -235,14 +245,9 @@
                 && memberEPA.Process.Reviewers.Any()
                 && memberEPA.Process.Reviewers[0].IsEndProcess)
             {
-                if (memberEPA.Process.AverageScoreByReviewers == 0)
-                {
-                    reviewerScore = Lang.Dash;
-                }
-                else
-                {
-                    reviewerScore = Math.Round(memberEPA.Process.AverageScoreByReviewers).ToString();
-                }
+                reviewerScore = memberEPA.Process.AverageScoreByReviewers == 0
+                    ? Lang.Dash
+                    : Math.Round(memberEPA.Process.AverageScoreByReviewers).ToString(CultureInfo.InvariantCulture);
             }
             else
             {
@@ -258,7 +263,7 @@
             {
                 if (!string.IsNullOrEmpty(memberEPA.FinalScore) && memberEPA.FinalScore != "0")
                 {
-                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore)).ToString();
+                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore)).ToString(CultureInfo.InvariantCulture);
                     grade = memberEPA.Grade;
                 }
                 else
@@ -297,25 +302,6 @@
             evenStyle.FillBackgroundColor = HSSFColor.LightCornflowerBlue.Index;
 
             return evenStyle;
-        }
-
-        private IList<string> CreateColumnsName()
-        {
-            return new List<string>
-            {
-                Lang.SymbolCount,
-                Lang.NickName,
-                Lang.FullName,
-                Lang.JobTitle,
-                Lang.Team,
-                Lang.EvaluationPeriod,
-                Lang.PeriodType,
-                Lang.SelfScore,
-                Lang.EvaluationScore,
-                Lang.ReviewerScore,
-                Lang.FinalScore,
-                Lang.Grade
-            };
         }
     }
 }

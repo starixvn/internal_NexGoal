@@ -33,15 +33,19 @@
         {
             get
             {
-                double maxPerformanceScore = 0;
+                double maxPerformanceScore;
 
                 if (Reviewers.Count > 0)
                 {
                     maxPerformanceScore = Reviewers.First().MaxTotalScore;
                 }
-                else
+                else if (Evaluators.Count > 0)
                 {
                     maxPerformanceScore = Evaluators.First().MaxTotalScore;
+                }
+                else
+                {
+                    maxPerformanceScore = 0;
                 }
 
                 return maxPerformanceScore;
@@ -73,7 +77,7 @@
 
         public IList<EPAProcessModel> Reviewers { get; set; }
 
-        public double CalculateAverageScore(IList<EPAProcessModel> processes)
+        private static double CalculateAverageScore(IList<EPAProcessModel> processes)
         {
             double average = 0.0;
             int count = 0;
@@ -86,7 +90,7 @@
 
             if (count > 0)
             {
-                average = (double)Math.Round(average / count);
+                average = Math.Round(average / count);
             }
 
             return average;

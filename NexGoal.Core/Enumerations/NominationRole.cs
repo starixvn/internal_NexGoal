@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum NominationRole : int
+    public enum NominationRole
     {
         [Description("None")]
         None = 0,

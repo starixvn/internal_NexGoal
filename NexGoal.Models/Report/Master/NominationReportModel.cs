@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Model.Report
 {
+    using System.Collections.Generic;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
     using NexGoal.Model.Nomination;
-    using System.Collections.Generic;
 
     public class NominationReportModel
     {
@@ -32,15 +32,19 @@
                     case 1:
                         title = "EOQ: 1st " + Year.ToString();
                         break;
+
                     case 2:
                         title = "EOQ: 2nd " + Year.ToString();
                         break;
+
                     case 3:
                         title = "EOQ: 3rd " + Year.ToString();
                         break;
+
                     case 4:
                         title = "EOQ: 4th " + Year.ToString();
                         break;
+
                     default:
                         title = "EOY: " + Year.ToString();
                         break;
@@ -67,6 +71,10 @@
 
                     case (int)NominationStatus.Winner:
                         status = Enumerations.GetDescription(NominationStatus.Winner);
+                        break;
+
+                    default:
+                        status = string.Empty;
                         break;
                 }
 

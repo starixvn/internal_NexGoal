@@ -1,13 +1,13 @@
 ﻿namespace NexGoal.Core.Utilities
 {
-    using Fanex.Data;
-    using NexGoal.Core.Services;
-    using Resources;
     using System;
     using System.Collections.Generic;
     using System.Configuration;
     using System.Data.SqlClient;
     using System.Linq;
+    using Fanex.Data;
+    using NexGoal.Core.Services;
+    using Resources;
 
     public class CustomConnectionStringProvider : ConnectionStringProviderBase
     {
@@ -32,7 +32,7 @@
             return connectionStringBuilder.ToString();
         }
 
-        private Dictionary<string, string> ReadConnectionStrings()
+        private static Dictionary<string, string> ReadConnectionStrings()
         {
             if (ConfigurationManager.ConnectionStrings == null)
             {
