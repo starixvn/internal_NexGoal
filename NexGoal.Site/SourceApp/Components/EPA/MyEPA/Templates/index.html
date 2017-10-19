@@ -36,7 +36,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="myEPA in empEPACtrl.myEPAs | orderBy: '-IsAllowedToEdit'">
+                    <tr ng-repeat="myEPA in empEPACtrl.myEPAs">
                         <td class="text-center" ng-bind="$index + 1"></td>
                         <td ng-bind="myEPA.Period.Name"></td>
                         <td class="text-center">{{ myEPA.Process.CurrentProcess.StartDate | customDate }}</td>

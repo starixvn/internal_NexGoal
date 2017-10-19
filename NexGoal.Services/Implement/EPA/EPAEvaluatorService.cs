@@ -41,7 +41,7 @@
                 }
             }
 
-            return memberEPAs;
+            return memberEPAs.OrderByDescending(x => x.IsAllowedToEdit);
         }
 
         public EPAModel GetEPAInfo(GetEPAInfoByEvaluatorCriteria criteria)

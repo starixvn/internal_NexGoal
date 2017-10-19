@@ -40,7 +40,7 @@
                 }
             }
 
-            return epas;
+            return epas.OrderByDescending(x => x.IsAllowedToEdit);
         }
 
         public EPAModel GetEPAInfo(GetEPAInfoByEmployeeCriteria criteria)

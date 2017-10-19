@@ -64,7 +64,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr ng-repeat="memberEPA in evaluatorCtrl.memberEPAs | orderBy: '-IsAllowedToEdit'">
+                    <tr ng-repeat="memberEPA in evaluatorCtrl.memberEPAs">
                         <td class="text-center" ng-bind="$index + 1"></td>
                         <td>
                             <span ng-bind="memberEPA.Employee.NickName" popover-avatar avatar-src="{{memberEPA.Employee.Avatar}}"></span>

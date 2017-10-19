@@ -91,14 +91,15 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
     }
 
     function sortByTeam(epaInfo1, epaInfo2) {
-        var value = 0;
-        if (epaInfo1.Employee.GroupName < epaInfo2.Employee.GroupName) {
-            value = -1;
-        } else if (epaInfo1.Employee.GroupName > epaInfo2.Employee.GroupName) {
-            value = 1;
+        if (epaInfo1.Employee.GroupCode < epaInfo2.Employee.GroupCode) {
+            return -1;
         }
 
-        return value;
+        if (epaInfo1.Employee.GroupCode > epaInfo2.Employee.GroupCode) {
+            return 1;
+        }
+
+        return 0;
     }
 
     function sortByFinalScore(epaInfo1, epaInfo2) {

@@ -115,7 +115,7 @@
                 </thead>
                 <tbody ng-if="reviewerCtrl.memberEPAs.length > 0">
                     <tr ng-class="{'row-highlight': (memberEPA.HasMaxScoreOnKPI && memberEPA.Process.Self.IsEndProcess)}"
-                        ng-repeat="memberEPA in reviewerCtrl.memberEPAs  | orderBy: '-IsAllowedToEdit'">
+                        ng-repeat="memberEPA in reviewerCtrl.memberEPAs">
                         <td class="text-center" ng-if="!reviewerCtrl.isEndProcessAll && reviewerCtrl.permission == reviewerCtrl.policyEnum.Host">
                             <input ng-if="!memberEPA.Process.CurrentProcess.IsEndProcess" type="checkbox" ng-model="memberEPA.Selected" />
                         </td>
