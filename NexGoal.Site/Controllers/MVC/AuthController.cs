@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Site.Controllers
 {
-    using NexGoal.Core.Model;
-    using NexGoal.Core.Services;
     using System.Web.Mvc;
     using System.Web.Security;
+    using NexGoal.Core.Model;
+    using NexGoal.Core.Services;
 
     public class AuthController : Controller
     {
@@ -21,18 +21,14 @@
             this.authenticationService = authenticationService ?? new AuthenticationService();
         }
 
-#if(RELEASE)
         [NonAction]
-#endif
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
-#if (RELEASE)
         [NonAction]
-#endif
         [HttpGet]
         public ActionResult Logout()
         {
@@ -44,9 +40,7 @@
             return RedirectToAction("Login");
         }
 
-#if (RELEASE)
         [NonAction]
-#endif
         [HttpPost]
         public ActionResult Login(string username)
         {
