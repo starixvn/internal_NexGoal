@@ -1,19 +1,19 @@
 ﻿namespace NexGoal.Core.Attribute
 {
-    using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Services;
     using System;
     using System.Net;
     using System.Net.Http;
     using System.Web;
     using System.Web.Http;
     using System.Web.Http.Controllers;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Services;
 
     [AttributeUsage(AttributeTargets.Method, AllowMultiple = true)]
     public sealed class ApiAuthorizeAttribute : AuthorizeAttribute
     {
         private readonly ISessionService sessionService;
-        
+
         public ApiAuthorizeAttribute()
         {
             this.sessionService = new SessionService();

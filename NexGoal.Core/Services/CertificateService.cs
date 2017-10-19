@@ -8,7 +8,7 @@
     public class CertificateService : ICertificateService
     {
         private const bool OptimalAsymmetricEncryptionPadding = false;
-        private static X509Certificate2 cert2 = null;
+        private X509Certificate2 cert2;
 
         public CertificateService()
         {

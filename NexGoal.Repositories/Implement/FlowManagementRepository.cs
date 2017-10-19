@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Repositories.Implement
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -8,8 +10,6 @@
     using NexGoal.Model.FlowManagement;
     using NexGoal.Model.TargetType;
     using NexGoal.Repositories.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
 
     public class FlowManagementRepository : IFlowManagementRepository
     {

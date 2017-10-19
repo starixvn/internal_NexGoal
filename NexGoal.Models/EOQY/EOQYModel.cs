@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model
 {
+    using System;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Utilities;
-    using System;
 
     public class EOQYModel
     {
@@ -34,6 +34,10 @@
 
                     case 4:
                         quarter = "4th Quarter";
+                        break;
+
+                    default:
+                        quarter = string.Empty;
                         break;
                 }
 
@@ -98,8 +102,10 @@
                 {
                     return (int)NominationSettingStatus.InProgress;
                 }
-
-                return (int)NominationSettingStatus.Closed;
+                else
+                {
+                    return (int)NominationSettingStatus.Closed;
+                }
             }
         }
 
@@ -125,8 +131,10 @@
                 {
                     return (int)NominationSettingStatus.InProgress;
                 }
-
-                return (int)NominationSettingStatus.Closed;
+                else
+                {
+                    return (int)NominationSettingStatus.Closed;
+                }
             }
         }
 
@@ -142,8 +150,10 @@
                 {
                     return (int)NominationSettingStatus.InProgress;
                 }
-
-                return (int)NominationSettingStatus.Closed;
+                else
+                {
+                    return (int)NominationSettingStatus.Closed;
+                }
             }
         }
     }

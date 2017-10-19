@@ -1,12 +1,12 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Linq;
+    using System.Web.Http;
     using NexGoal.Core.Enumerations;
     using NexGoal.Criteria.Report;
     using NexGoal.Model.Dashboard;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Linq;
-    using System.Web.Http;
 
     public class DashboardController : BaseController
     {

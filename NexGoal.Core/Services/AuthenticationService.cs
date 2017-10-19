@@ -51,7 +51,7 @@
             Repository.ExecuteNonQuery(criteria);
         }
 
-        public string GetHostName(string ipAddress)
+        private static string GetHostName(string ipAddress)
         {
             string hostName = string.Empty;
             try
@@ -76,9 +76,9 @@
 
         private static string GetShortUsername(string username)
         {
-            if (username.IndexOf('\\') > 0)
+            if (username.IndexOf('\\') >= 1)
             {
-                username = username.Split('\\')[1];
+                return username.Split('\\')[1];
             }
 
             return username;

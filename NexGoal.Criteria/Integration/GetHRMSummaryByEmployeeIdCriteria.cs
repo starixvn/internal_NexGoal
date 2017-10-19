@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Criteria
 {
-    using Fanex.Data.Repository;
     using System;
+    using Fanex.Data.Repository;
 
     public class GetHRMSummaryByEmployeeIdCriteria : CriteriaBase
     {

@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.PAFocus
 {
-    using NexGoal.Core.Enumerations;
     using System;
+    using NexGoal.Core.Enumerations;
 
     public class PAFocusProcessModel
     {
@@ -29,8 +29,10 @@
                 {
                     return (int)ProcessStatusType.Closed;
                 }
-
-                return (int)ProcessStatusType.None;
+                else
+                {
+                    return (int)ProcessStatusType.None;
+                }
             }
         }
     }

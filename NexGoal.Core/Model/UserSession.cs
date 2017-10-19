@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Core.Model
 {
-    using NexGoal.Core.Enumerations;
     using System.Collections.Generic;
     using System.Linq;
+    using NexGoal.Core.Enumerations;
 
     public class UserSession
     {
@@ -17,7 +17,7 @@
 
         public int GetPermission(string functionKey)
         {
-            int policy = (int)Policy.None;
+            int policy;
 
             if (HasPermission(functionKey, Policy.Host))
             {
@@ -26,6 +26,10 @@
             else if (HasPermission(functionKey, Policy.Read))
             {
                 policy = (int)Policy.Read;
+            }
+            else
+            {
+                policy = (int)Policy.None;
             }
 
             return policy;
@@ -36,13 +40,7 @@
             var function = Functions.Where(i => i.FunctionKey.Equals(functionKey));
             if (function.Any())
             {
-                switch (policy)
-                {
-                    case Policy.Host:
-                        return function.First().IsHost;
-                    default:
-                        return function.First().IsRead;
-                }
+                return policy == Policy.Host ? function.First().IsHost : function.First().IsRead;
             }
 
             return false;

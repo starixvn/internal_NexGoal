@@ -43,6 +43,10 @@
                     case (int)NominationStatus.Winner:
                         status = Enumerations.GetDescription(NominationStatus.Winner);
                         break;
+
+                    default:
+                        status = string.Empty;
+                        break;
                 }
 
                 return status;

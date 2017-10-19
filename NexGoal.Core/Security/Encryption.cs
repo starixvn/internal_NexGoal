@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Core.Security
 {
-    using NexGoal.Core.Enumerations;
     using System;
     using System.Security.Cryptography;
     using System.Text;
+    using NexGoal.Core.Enumerations;
 
     public static class Encryption
     {
@@ -41,7 +41,6 @@
                     hash = new SHA512Managed();
                     break;
 
-                case HashProvider.MD5:
                 default:
                     hash = new MD5CryptoServiceProvider();
                     break;
@@ -52,9 +51,8 @@
 
         private static string ComputeHash(HashProvider hashAlgorithm, string plainText, byte[] salt)
         {
-            plainText = plainText == null ? string.Empty : plainText;
             //// Convert plain text into a byte array
-            byte[] data = Encoding.UTF8.GetBytes(plainText);
+            byte[] data = Encoding.UTF8.GetBytes(plainText ?? string.Empty);
             int dataLength = data.Length;
 
             //// Random salt

@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Model.Report.EPASummary
 {
+    using System.Collections.Generic;
     using NexGoal.Core.Constants;
     using NexGoal.Model.Period;
-    using System.Collections.Generic;
 
     public class EPASummaryModel
     {

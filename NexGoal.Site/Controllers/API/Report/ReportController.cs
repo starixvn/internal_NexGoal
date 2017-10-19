@@ -1,5 +1,10 @@
 ﻿namespace NexGoal.Site.Controllers.API
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Net;
+    using System.Net.Http;
+    using System.Web.Http;
     using Core.Model;
     using Model;
     using Model.RoleManagement;
@@ -10,11 +15,6 @@
     using NexGoal.Model.Report.EPADetail;
     using NexGoal.Services.Implement;
     using NexGoal.Services.Interfaces;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Net;
-    using System.Net.Http;
-    using System.Web.Http;
 
     public class ReportController : BaseController
     {
