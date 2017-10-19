@@ -16,13 +16,7 @@
 
         public IList<EPASummaryEmployeeModel> EPAInfos { get; set; }
 
-        public int MaxFinalScore
-        {
-            get
-            {
-                return Constants.MaxFinalScore;
-            }
-        }
+        public static int MaxFinalScore => Constants.MaxFinalScore;
 
         public int TotalItem { get; set; }
     }

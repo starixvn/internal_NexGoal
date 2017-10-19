@@ -210,22 +210,6 @@
 
         #region Rating By KPI
 
-        public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                return db.Query<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                    (kpi, gr) =>
-                    {
-                        kpi.KPIGroup = gr;
-
-                        return kpi;
-                    },
-                    "KPIGroupId",
-                    criteria.GetSpParams());
-            }
-        }
-
         public IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria)
         {
             using (var db = new ObjectDb(criteria.GetSettingKey()))
@@ -239,47 +223,6 @@
                     },
                     "KPIGroupId",
                     criteria.GetSpParams());
-            }
-        }
-
-        public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria)
-        {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
-            {
-                using (IMultiResultReader multi = db.QueryMultiple(criteria.GetSpParams()))
-                {
-                    var epaInfos = multi.Read<RatingByKPIModel, EPAEmployeeModel, RatingTypeModel, TemporaryKPIGroupModel, RatingByKPIModel>(
-                        (epaInfo, employee, type, kgr) =>
-                        {
-                            epaInfo.Employee = employee;
-                            epaInfo.RatingType = type;
-                            epaInfo.KPIGroup = kgr;
-                            return epaInfo;
-                        },
-                        "EmployeeId, RatingTypeId, KPIGroupId");
-
-                    var kpis = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                        (kpi, kgr) =>
-                        {
-                            kpi.KPIGroup = kgr;
-                            return kpi;
-                        },
-                        "KPIGroupId");
-
-                    var kpisBySelf = multi.Read<TemporaryKPIModel, TemporaryKPIGroupModel, TemporaryKPIModel>(
-                       (kpi, kgr) =>
-                       {
-                           kpi.KPIGroup = kgr;
-                           return kpi;
-                       },
-                       "KPIGroupId");
-
-                    GroupKPIByEPA(epaInfos, kpis);
-                    GroupKPIBySelf(epaInfos, kpisBySelf);
-                    DecodeAllScore(epaInfos);
-
-                    return epaInfos;
-                }
             }
         }
 

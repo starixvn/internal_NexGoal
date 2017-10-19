@@ -138,6 +138,9 @@
                         case (int)ProcessType.Reviewer:
                             epaInfo.Process.Reviewers.Add(process);
                             break;
+
+                        default:
+                            continue;
                     }
                 }
             }

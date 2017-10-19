@@ -589,14 +589,9 @@
     <Content Include="SourceApp\Components\EPA\ResetScore\resetScore-controller.js" />
     <Content Include="SourceApp\Components\EPA\ResetScore\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\index-controller.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-controller.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-factory.js" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\ratingByKPI-model.js" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\Evaluator\Templates\listKPI.html" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\Templates\modalConfirmSaveChanges.html" />
-    <Content Include="SourceApp\Components\EPA\RatingByKPI\Templates\index.html" />
     <Content Include="SourceApp\Components\EPA\MyEPA\detail-controller.js" />
     <Content Include="SourceApp\Components\EPA\MyEPA\Templates\detail.html" />
     <Content Include="SourceApp\Components\EPA\reviewerManagement-model.js" />

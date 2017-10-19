@@ -127,7 +127,7 @@
                 {
                     TargetTemplateId = targetTemplate.TargetTemplateId,
                     ModifiedBy = SessionService.EmployeeId,
-                    KPIs = targetTemplate.ConvertKPIItemToXml(targetTemplate.KPIIds)
+                    KPIIds = targetTemplate.KPIIds
                 };
 
                 commandResult = commonService.ExecuteNonQuery(criteria);

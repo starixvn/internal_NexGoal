@@ -14,11 +14,7 @@
 
         IEnumerable<EPAModel> GetEPAEndEvaluationPeriod(ICriteria criteria);
 
-        IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(ICriteria criteria);
-
         IEnumerable<TemporaryKPIModel> GetKPIToView(ICriteria criteria);
-
-        IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(ICriteria criteria);
 
         IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(ICriteria criteria);
 

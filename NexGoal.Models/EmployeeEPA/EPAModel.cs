@@ -35,13 +35,7 @@
 
         public string FinalScore { get; set; }
 
-        public int MaxFinalScore
-        {
-            get
-            {
-                return Constants.MaxFinalScore;
-            }
-        }
+        public static int MaxFinalScore => Constants.MaxFinalScore;
 
         [JsonIgnore]
         public string GradeEncode { get; set; }

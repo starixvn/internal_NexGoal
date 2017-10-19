@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Services.Interfaces
 {
     using System.Collections.Generic;
-    using NexGoal.Core.Model;
     using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Criteria.EmployeeEPA.RatingByKPI;
     using NexGoal.Model.EmployeeEPA;
@@ -15,17 +14,11 @@
 
         IEnumerable<TargetTemplateModel> GetTargetTemplateToView(GetTargetTemplateToViewCriteria criteria);
 
-        IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria);
-
         IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria);
-
-        IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria);
 
         IEnumerable<RatingByKPIModel> GetEmployeeEPAToView(GetEmployeeEPAToViewCriteria criteria);
 
         IEnumerable<Employee> GetEvaluatorsByTargetTemplate(GetEvaluatorsByTargetTemplateCriteria criteria);
-
-        CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria);
 
         #endregion Rating By KPI
 

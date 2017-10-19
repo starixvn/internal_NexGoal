@@ -227,7 +227,6 @@
             }
 
             if (memberEPA.EPAId > 0
-                && memberEPA.Process.Evaluators != null
                 && memberEPA.Process.Evaluators.Any()
                 && memberEPA.Process.Evaluators[0].IsEndProcess)
             {
@@ -241,7 +240,6 @@
             }
 
             if (memberEPA.EPAId > 0
-                && memberEPA.Process.Reviewers != null
                 && memberEPA.Process.Reviewers.Any()
                 && memberEPA.Process.Reviewers[0].IsEndProcess)
             {

@@ -306,30 +306,17 @@
         </Setting>
     </Function>
     <Function Name="Rating By KPI">
-        <Setting Key="EPA_RatingByKPI_GetPeriodByEvaluator" SpName="EPA_RatingByKPI_GetPeriodByEvaluator" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EPA_RatingByKPI_GetTargetTemplateByEvaluator" SpName="EPA_RatingByKPI_GetTargetTemplateByEvaluator" DbName="NexGoal" Plain="0">
-        </Setting>
         <Setting Key="EPA_RatingByKPI_GetTargetTemplateToView" SpName="EPA_RatingByKPI_GetTargetTemplateToView" DbName="NexGoal" Plain="0">
-        </Setting>
-        <Setting Key="EPA_RatingByKPI_GetKPIByTargetTemplate" SpName="EPA_RatingByKPI_GetKPIByTargetTemplate" DbName="NexGoal" Plain="0">
         </Setting>
         <Setting Key="EPA_RatingByKPI_GetKPIToView" SpName="EPA_RatingByKPI_GetKPIToView" DbName="NexGoal" Plain="0">
         </Setting>
         <Setting Key="EPA_RatingByKPI_GetPeriodToView" SpName="EPA_RatingByKPI_GetPeriodToView" DbName="NexGoal" Plain="0">
         </Setting>
         <Setting Key="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" SpName="EPA_RatingByKPI_GetEvaluatorByTargetTemplate" DbName="NexGoal" Plain="0"></Setting>
-        <Setting Key="EPA_RatingByKPI_Get" SpName="EPA_RatingByKPI_Get" DbName="NexGoal" Plain="0">
-            <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
-            <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
-            <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-        </Setting>
         <Setting Key="EPA_RatingByKPI_GetEmployeeToView" SpName="EPA_RatingByKPI_GetEmployeeToView" DbName="NexGoal" Plain="0">
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />
             <Mapping DataField="Score" ObjectProperty="ScoreEncode" />
             <Mapping DataField="Rate" ObjectProperty="RateEncode" />
-        </Setting>
-        <Setting Key="EPA_RatingByKPI_UpdateKPIScore" SpName="EPA_RatingByKPI_UpdateKPIScore" DbName="NexGoal" Plain="0">
         </Setting>
     </Function>
     <Function Name="Report">

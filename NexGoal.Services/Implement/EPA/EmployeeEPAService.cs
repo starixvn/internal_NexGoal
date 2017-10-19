@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Core.Utilities;
     using NexGoal.Criteria.EmployeeEPA;
@@ -44,18 +43,6 @@
             return targetTemplates;
         }
 
-        public IEnumerable<TemporaryKPIModel> GetKPIByTargetTemplate(GetKPIByTargetTemplateCriteria criteria)
-        {
-            IEnumerable<TemporaryKPIModel> kpis = new List<TemporaryKPIModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                kpis = _employeeEPARepository.GetKPIByTargetTemplate(criteria);
-            }
-
-            return kpis;
-        }
-
         public IEnumerable<TemporaryKPIModel> GetKPIToView(GetKPIToViewCriteria criteria)
         {
             IEnumerable<TemporaryKPIModel> kpis = new List<TemporaryKPIModel>();
@@ -78,30 +65,6 @@
             }
 
             return epas;
-        }
-
-        public IEnumerable<RatingByKPIModel> GetEmployeeEPAByKPI(GetEmployeeEPAByKPICriteria criteria)
-        {
-            IEnumerable<RatingByKPIModel> epas = new List<RatingByKPIModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                epas = _employeeEPARepository.GetEmployeeEPAByKPI(criteria);
-            }
-
-            return epas;
-        }
-
-        public CommandResult UpdateKPIScore(UpdateKPIScoreCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
         }
 
         public IEnumerable<Employee> GetEvaluatorsByTargetTemplate(GetEvaluatorsByTargetTemplateCriteria criteria)
@@ -132,7 +95,7 @@
 
         public EPAModel GetEPAInfoById(int epaId)
         {
-            EPAModel epaInfo = new EPAModel();
+            var epaInfo = new EPAModel();
             var criteria = new GetEPAInfoByIdCriteria { EPAId = epaId };
             if (criteria.IsValid())
             {
