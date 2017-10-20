@@ -37,10 +37,10 @@ epaModule.directive('integerOnly', [function () {
         require: 'ngModel',
         link: function (scope, element, attrs, modelCtrl) {
             modelCtrl.$parsers.push(function (inputValue) {
-                if (inputValue == undefined) return '';
+                if (inputValue === undefined) return '';
                 var transformedInput = inputValue.replace(/[^\d-]/g, '');
 
-                if (transformedInput != inputValue) {
+                if (transformedInput !== inputValue) {
                     modelCtrl.$setViewValue(transformedInput);
                     modelCtrl.$render();
                 }

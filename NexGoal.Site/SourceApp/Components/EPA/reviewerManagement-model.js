@@ -185,15 +185,11 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         return isTrue;
     };
 
-    reviewerMngModel.calculateAdjustScore = function (memberEPAs, isReviewer) {
+    reviewerMngModel.calculateAdjustScore = function (memberEPAs) {
         angular.forEach(memberEPAs, function (memberEPA) {
             var scoreAdjusted = utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.AdjustScore),
                 averageScore = memberEPA.Process.AverageScoreByEvaluators,
                 totalScore = 0;
-
-            if (!isReviewer && memberEPA.Process.Reviewers.length > 0) {
-                averageScore = memberEPA.Process.AverageScoreByReviewers;
-            }
 
             totalScore = utilitiesFactory.parseFloat(scoreAdjusted + averageScore + memberEPA.ToeicPolicyScore);
 
@@ -207,7 +203,7 @@ function ($modal, EmployeeEPAModel, employeeEPAFactory, utilitiesFactory, notifi
         });
     };
 
-    reviewerMngModel.calculateAdjustScoreMultiple = function (memberEPAs, adjust, isReviewer) {
+    reviewerMngModel.calculateAdjustScoreMultiple = function (memberEPAs, adjust) {
         angular.forEach(memberEPAs, function (memberEPA) {
             if (memberEPA.Selected) {
                 var maxSubtractScore = memberEPA.Process.CurrentProcess.MaxSubtractScore,

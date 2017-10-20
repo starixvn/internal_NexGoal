@@ -31,8 +31,9 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
                 groupIds: '',
                 employeeIds: '',
                 periodIds: ''
-            }
+            };
         }
+
         return filter;
     }
 
@@ -63,8 +64,7 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
             vm.groupOptions = [];
             vm.members = [];
         }
-        else
-        {
+        else {
             ReviewerManagementModel.getGroupByReviewer(periodIds).then(function () {
                 vm.groupOptions = ReviewerManagementModel.groups;
 
@@ -79,8 +79,6 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
                 getMemberByReviewer(periodIds, vm.filter.groupIds);
             });
         }
-
-        
     }
 
     function resetSorting(field) {
@@ -228,9 +226,9 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
 
     vm.selectedCls = function (field) {
         var cssClass = '';
-        if (vm.sortBy.name == field && vm.sortBy.ascending) {
+        if (vm.sortBy.name === field && vm.sortBy.ascending) {
             cssClass = 'sorting-asc';
-        } else if (vm.sortBy.name == field && !vm.sortBy.ascending) {
+        } else if (vm.sortBy.name === field && !vm.sortBy.ascending) {
             cssClass = 'sorting-desc';
         }
 
@@ -328,7 +326,7 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
         } else {
             ReviewerManagementModel.openPopupAdjustScore(vm, selectedEmployees, true)
             .then(function (adjust) {
-                ReviewerManagementModel.calculateAdjustScoreMultiple(selectedEmployees, adjust, true);
+                ReviewerManagementModel.calculateAdjustScoreMultiple(selectedEmployees, adjust);
                 ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees);
             })['finally'](function () {
                 vm.modalInstance = null;
@@ -346,7 +344,7 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
             if (!isValidComment) {
                 notificationFactory.error('CommentRequire');
             } else {
-                ReviewerManagementModel.calculateAdjustScore(selectedEmployees, true);
+                ReviewerManagementModel.calculateAdjustScore(selectedEmployees);
                 ReviewerManagementModel.adjustScoreByReviewer(vm, selectedEmployees)['finally'](function () {
                     getEPAByReviewer(vm.filter.periodIds, vm.filter.groupIds, vm.filter.employeeIds, selectedEmployees);
                 });

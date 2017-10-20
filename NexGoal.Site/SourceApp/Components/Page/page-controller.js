@@ -6,8 +6,8 @@
     pageController.$inject = ["$rootScope"];
 
     function pageController($rootScope) {
-        var vm = this;        
-        
+        var vm = this;
+
         vm.menuVisibility = localStorage.MenuVisibility === "true" || localStorage.MenuVisibility === undefined;
         $rootScope.menuVisibility = vm.menuVisibility;
 
@@ -23,7 +23,7 @@
             } else {
                 return "sidebar-xs";
             }
-        }
+        };
 
         vm.getMainCSS = function () {
             if (vm.menuVisibility) {
@@ -31,7 +31,7 @@
             } else {
                 return "main-xs";
             }
-        }
+        };
 
         vm.getTopNavigationCSS = function () {
             if (vm.menuVisibility) {
@@ -39,6 +39,6 @@
             } else {
                 return "left-bar-xs";
             }
-        }
+        };
     }
 })(angular.module("pageModule"));

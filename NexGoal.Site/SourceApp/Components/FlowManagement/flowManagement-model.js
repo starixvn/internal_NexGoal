@@ -2,8 +2,8 @@
 /*global flowMngModule*/
 
 flowMngModule.factory('FlowMngModel',
-['$modal', 'flowMngFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory', 'baseUrl',
-function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFactory, baseUrl) {
+['$modal', 'flowMngFactory', 'utilitiesFactory', 'notificationFactory', 'errorFactory',
+function ($modal, flowMngFactory, utilitiesFactory, notificationFactory, errorFactory) {
     var flowMngModel = {};
 
     flowMngModel.selfs = {

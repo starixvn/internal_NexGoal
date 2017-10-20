@@ -55,12 +55,12 @@
             })["finally"](function () {
                 lockScreenService.stop();
             });
-        };
+        }
 
         function viewNomination(nomination) {
             EOYModel.openPopupViewNomination(nomination.NominationId).then(function () {
                 vm.modalInstance = null;
             });
-        };
+        }
     }
 })();

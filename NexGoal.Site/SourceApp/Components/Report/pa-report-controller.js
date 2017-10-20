@@ -73,7 +73,7 @@
             var iframe = $('body iframe');
             var url = baseUrl + 'ExportPDF/ProbationDetail';
             if (targetTypeId === targetType.SemiAnnual) {
-                url = baseUrl + 'ExportPDF/SemiDetail'
+                url = baseUrl + 'ExportPDF/SemiDetail';
             }
 
             url += '?epaId=' + epaId;
@@ -113,7 +113,7 @@
                 vm,
                 vm.filter.periodIds,
                 vm.filter.groupIds,
-                utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee))
+                utilitiesFactory.getEmployeeIdFromAutoSearch(vm.searchEmployee, vm.filter.employee));
         };
 
         initialize();

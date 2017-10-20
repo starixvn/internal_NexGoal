@@ -29,14 +29,13 @@
         function checkExistPoint(x, y) {
             var isExisted = false;
             angular.forEach(points, function (point) {
-                if (point.x == x && point.y == y) {
+                if (point.x === x && point.y === y) {
                     isExisted = true;
                 }
             });
 
             return isExisted;
         }
-
 
         function findNumberExist(point) {
             var number = 0;
@@ -56,7 +55,7 @@
             return 1 / number;
         }
 
-        function FindUniquePoint(member) {
+        function findUniquePoint(member) {
             var isExisted = true;
             var number = findNumberExist(member);
             var threshold = calculateThreshold(number);
@@ -66,11 +65,11 @@
             while (isExisted) {
                 isExisted = checkExistPoint(bonus, contribution);
                 if (isExisted) {
-                    if (step == position.Left) {
+                    if (step === position.Left) {
                         bonus -= threshold;
-                    } else if (step == position.Bottom) {
+                    } else if (step === position.Bottom) {
                         contribution -= threshold;
-                    } else if (step == position.Center || step == position.Over) {
+                    } else if (step === position.Center || step === position.Over) {
                         bonus -= threshold;
                         contribution -= threshold;
                     }
@@ -165,12 +164,12 @@
                             var bonus = utilitiesFactory.getFocusEvaluationLevel(member.BonusGiven);
 
                             var description = '<span style="color:red">(*)</span>: ' + contribution.Name
-                            + '<br> <span style="color:red">(**)</span>: ' + bonus.Name
-                            + '<br> Ready for Promotion: ' + buildReadyPromotion(member.IsReadyPromotion)
-                            + '<br> Poor Performance: ' + buildPoorPeformance(member.IsPoorPerformance)
-                            + '<br> Job title: ' + member.Employee.JobTitle.JobTitleName
+                                + '<br> <span style="color:red">(**)</span>: ' + bonus.Name
+                                + '<br> Ready for Promotion: ' + buildReadyPromotion(member.IsReadyPromotion)
+                                + '<br> Poor Performance: ' + buildPoorPeformance(member.IsPoorPerformance)
+                                + '<br> Job title: ' + member.Employee.JobTitle.JobTitleName;
 
-                            var point = FindUniquePoint(member);
+                            var point = findUniquePoint(member);
 
                             var piece = {
                                 name: member.Employee.NickName,
@@ -185,7 +184,6 @@
                     });
                 }
             });
-
 
             $('#pafocus-chart').highcharts({
                 chart: {

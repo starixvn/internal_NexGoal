@@ -51,16 +51,16 @@
             vm.filter.teamIds = utilitiesFactory.getSelectedDataByProperty(vm.teams, "DepartmentId");
 
             ReportModel.getNominationReport(vm.filter.eoqyId, vm.filter.query, vm.filter.teamIds, vm.filter.statusId).then(function () {
-                    vm.nominationReports = ReportModel.nominationReports;
+                vm.nominationReports = ReportModel.nominationReports;
             })["finally"](function () {
                 lockScreenService.stop();
             });
-        };
+        }
 
         function viewNomination(nomination) {
             EOQModel.openPopupViewNomination(nomination.NominationId).then(function () {
                 vm.modalInstance = null;
             });
-        };
+        }
     }
 })();
