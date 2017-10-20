@@ -194,7 +194,7 @@
             cell.CellStyle = cellStyle;
             cell.SetCellValue(scoreTitle);
 
-            cell = row.CreateCell(columnIndex++);
+            cell = row.CreateCell(columnIndex);
             cell.CellStyle = cellStyle;
             cell.SetCellValue(Lang.Comment);
         }
@@ -203,7 +203,11 @@
         [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Justification = "Reviewed")]
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed")]
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
+#pragma warning disable S1541 // Methods and properties should not be too complex
         private void RenderBody(IEnumerable<MasterReportModel> employeeEvaluations)
+#pragma warning restore S1541 // Methods and properties should not be too complex
+#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
         {
             var rowIndex = RowStartBody;
             IFont redFont = workbook.CreateFont();
@@ -551,7 +555,7 @@
                         cellBodyLast.CellStyle.WrapText = true;
                         cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                         cellBodyLast.SetCellValue(ReturnDashIfContentIsNull(employee.EmployeeWorkings[i].Comment));
-                        sheet.SetColumnWidth(j++, columnWidth * 4);
+                        sheet.SetColumnWidth(j, columnWidth * 4);
                     }
 
                     if (i >= employee.Nominations.Count && i < employee.EmployeeWorkings.Count)
@@ -583,7 +587,7 @@
                         cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                         cellBodyLast.CellStyle.WrapText = true;
                         cellBodyLast.SetCellValue(ReturnDashIfContentIsNull(employee.EmployeeWorkings[i].Comment));
-                        sheet.SetColumnWidth(j++, columnWidth * 4);
+                        sheet.SetColumnWidth(j, columnWidth * 4);
                     }
 
                     if (i < employee.Nominations.Count && i >= employee.EmployeeWorkings.Count)
@@ -614,7 +618,7 @@
                         cellBodyLast.CellStyle = bodyStyleLeft;
                         cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                         cellBodyLast.SetCellValue(Lang.Dash);
-                        sheet.SetColumnWidth(j++, columnWidth * 4);
+                        sheet.SetColumnWidth(j, columnWidth * 4);
                     }
 
                     rowIndex++;

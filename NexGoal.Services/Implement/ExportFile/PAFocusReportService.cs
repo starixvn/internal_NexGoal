@@ -130,8 +130,12 @@
 
         [SuppressMessage("Microsoft.Maintainability", "CA1505:AvoidUnmaintainableCode", Justification = "Reviewed")]
         [SuppressMessage("Microsoft.Maintainability", "CA1502:AvoidExcessiveComplexity", Justification = "Reviewed")]
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
+        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed.")]
+#pragma warning disable S3776 // Cognitive Complexity of methods should not be too high
+#pragma warning disable S1541 // Methods and properties should not be too complex
         private void RenderBodyTable(IEnumerable<PAFocusModel> focuses)
+#pragma warning restore S1541 // Methods and properties should not be too complex
+#pragma warning restore S3776 // Cognitive Complexity of methods should not be too high
         {
             var rowIndex = RowStartBody;
             var columnIndex = 0;
@@ -400,7 +404,7 @@
                 cellBodyLast.CellStyle = string.IsNullOrEmpty(pa.NextDescriptionObjective) ? bodyStyleCenter : bodyStyleLeft;
                 cellBodyLast.CellStyle.BorderRight = BorderStyle.Thin;
                 cellBodyLast.SetCellValue(pa.NextDescriptionObjective);
-                sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
+                sheet.SetColumnWidth(columnIndex, columnWidth * 10);
 
                 rowIndex++;
             }

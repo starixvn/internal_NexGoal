@@ -2,10 +2,10 @@
 {
     using System.Text;
     using Core.Constants;
+    using Core.Enumerations;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using NexGoal.Core.Enumerations;
-    using NexGoal.Model.EmployeeEPA;
+    using Model.EmployeeEPA;
 
     public class ResetScoreCriteria : CriteriaBase
     {
@@ -18,7 +18,7 @@
         [SpParam(Ignored = true)]
         public EPAModel EPAInfo { get; set; }
 
-        public string Details
+        public static string Details
         {
             get
             {

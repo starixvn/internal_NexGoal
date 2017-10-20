@@ -79,23 +79,23 @@
             };
         }
 
-        private static dynamic CalculateSelfScore(EPADetailModel memberEPA)
+        private static string CalculateSelfScore(EPADetailModel epaInfo)
         {
-            string selfScore = string.Empty;
+            var selfScore = string.Empty;
 
-            if (!memberEPA.Process.Self.IsEndProcess)
+            if (!epaInfo.Process.Self.IsEndProcess)
             {
                 selfScore = Lang.Pending;
             }
             else
             {
-                if (string.IsNullOrEmpty(memberEPA.Process.Self.TotalScore))
+                if (string.IsNullOrEmpty(epaInfo.Process.Self.TotalScore))
                 {
                     selfScore = Lang.Dash;
                 }
                 else
                 {
-                    float score = memberEPA.Process.Self.TotalScore.Length > 0 ? float.Parse(memberEPA.Process.Self.TotalScore) : 0;
+                    float score = epaInfo.Process.Self.TotalScore.Length > 0 ? float.Parse(epaInfo.Process.Self.TotalScore) : 0;
 
                     selfScore = Math.Round(score).ToString(CultureInfo.InvariantCulture);
                 }
@@ -104,42 +104,28 @@
             return selfScore;
         }
 
-        private static dynamic CalculateEvaluatorScore(EPADetailModel memberEPA)
+        private static string CalculateEvaluatorScore(EPADetailModel epaInfo)
         {
-            string score = string.Empty;
+            var score = string.Empty;
 
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Evaluators.Any()
-                && memberEPA.Process.Evaluators[0].IsEndProcess)
-            {
-                score = memberEPA.Process.AverageScoreByEvaluators.Equals(0)
-                        ? Lang.Dash
-                        : Math.Round(memberEPA.Process.AverageScoreByEvaluators).ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                score = Lang.Pending;
-            }
+            score = epaInfo.Process.Evaluators.Any() && epaInfo.Process.Evaluators[0].IsEndProcess
+                ? epaInfo.Process.AverageScoreByEvaluators.Equals(0)
+                    ? Lang.Dash
+                    : Math.Round(epaInfo.Process.AverageScoreByEvaluators).ToString(CultureInfo.InvariantCulture)
+                : Lang.Pending;
 
             return score;
         }
 
-        private static dynamic CalculateReviewerScore(EPADetailModel memberEPA)
+        private static string CalculateReviewerScore(EPADetailModel epaInfo)
         {
-            string score = string.Empty;
+            var score = string.Empty;
 
-            if (memberEPA.EPAId > 0
-                && memberEPA.Process.Reviewers.Any()
-                && memberEPA.Process.Reviewers[0].IsEndProcess)
-            {
-                score = memberEPA.Process.AverageScoreByReviewers.Equals(0)
+            score = epaInfo.Process.Reviewers.Any() && epaInfo.Process.Reviewers[0].IsEndProcess
+                ? epaInfo.Process.AverageScoreByReviewers.Equals(0)
                     ? Lang.Dash
-                    : Math.Round(memberEPA.Process.AverageScoreByReviewers).ToString(CultureInfo.InvariantCulture);
-            }
-            else
-            {
-                score = Lang.Pending;
-            }
+                    : Math.Round(epaInfo.Process.AverageScoreByReviewers).ToString(CultureInfo.InvariantCulture)
+                : Lang.Pending;
 
             return score;
         }
@@ -256,7 +242,7 @@
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(score.FinalScore);
 
-                cell = row.CreateCell(currentColumn++);
+                cell = row.CreateCell(currentColumn);
                 cell.CellStyle = bodyStyle;
                 cell.SetCellValue(score.Grade);
 
@@ -264,22 +250,32 @@
             }
         }
 
-        private dynamic CalculateScore(EPADetailModel memberEPA)
+        private dynamic CalculateScore(EPADetailModel epaInfo)
         {
+            string selfScore = string.Empty;
+            string evaluatorScore = string.Empty;
+            string reviewerScore = string.Empty;
             string finalScore = string.Empty;
             string grade = string.Empty;
 
-            if (!memberEPA.Period.IsEndPeriod)
+            if (epaInfo.EPAId > 0)
+            {
+                selfScore = CalculateSelfScore(epaInfo);
+                evaluatorScore = CalculateEvaluatorScore(epaInfo);
+                reviewerScore = CalculateReviewerScore(epaInfo);
+            }
+
+            if (!epaInfo.Period.IsEndPeriod)
             {
                 finalScore = Lang.Pending;
                 grade = Lang.Pending;
             }
             else
             {
-                if (!string.IsNullOrEmpty(memberEPA.FinalScore) && memberEPA.FinalScore != "0")
+                if (!string.IsNullOrEmpty(epaInfo.FinalScore) && epaInfo.FinalScore != "0")
                 {
-                    finalScore = Math.Round(float.Parse(memberEPA.FinalScore)).ToString(CultureInfo.InvariantCulture);
-                    grade = memberEPA.Grade;
+                    finalScore = Math.Round(float.Parse(epaInfo.FinalScore)).ToString(CultureInfo.InvariantCulture);
+                    grade = epaInfo.Grade;
                 }
                 else
                 {
@@ -290,9 +286,9 @@
 
             return new
             {
-                SelfScore = CalculateSelfScore(memberEPA),
-                EvaluatorScore = CalculateEvaluatorScore(memberEPA),
-                ReviewerScore = CalculateReviewerScore(memberEPA),
+                SelfScore = selfScore,
+                EvaluatorScore = evaluatorScore,
+                ReviewerScore = reviewerScore,
                 FinalScore = finalScore,
                 Grade = grade
             };

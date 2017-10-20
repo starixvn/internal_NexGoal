@@ -88,8 +88,12 @@
     <Compile Include="EOQ\GetYearEOQCriteria.cs" />
     <Compile Include="Integration\GetEmployeeWorkingByPeriodIdCriteria.cs" />
     <Compile Include="Integration\GetHRMSummaryOnProbationCriteria.cs" />
-    <Compile Include="Nomination\CreateEOYNominationCriteria.cs" />
-    <Compile Include="Nomination\CreateEOQNominationCriteria.cs" />
+    <Compile Include="Nomination\CreateEOYNominationCriteria.cs">
+        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="Nomination\CreateEOQNominationCriteria.cs">
+        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />
     <Compile Include="Nomination\DeleteNominationCriteria.cs" />
     <Compile Include="EOQ\GetLatestEOQByNominatorIdCriteria.cs" />
@@ -106,8 +110,12 @@
     <Compile Include="Nomination\GetNominationByPeriodIdCriteria.cs" />
     <Compile Include="Nomination\GetNominationByNominatorIdCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQCriteria.cs" />
-    <Compile Include="Nomination\UpdateNominationCriteria.cs" />
-    <Compile Include="EOQ\UpdateEOQNominatorSettingByIdCriteria.cs" />
+    <Compile Include="Nomination\UpdateNominationCriteria.cs">
+        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
+    <Compile Include="EOQ\UpdateEOQNominatorSettingByIdCriteria.cs">
+        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Nomination\UpdateStatusNominationCriteria.cs" />
     <Compile Include="EOY\CreateEOYCriteria.cs" />
     <Compile Include="EOY\DeleteEOYCriteria.cs" />
@@ -116,7 +124,9 @@
     <Compile Include="EOY\GetEOYCriteria.cs" />
     <Compile Include="EOY\GetEOYNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOY\UpdateEOYCriteria.cs" />
-    <Compile Include="EOY\UpdateEOYNominatorSettingByIdCriteria.cs" />
+    <Compile Include="EOY\UpdateEOYNominatorSettingByIdCriteria.cs">
+        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+    </Compile>
     <Compile Include="Period\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
     </Compile>
