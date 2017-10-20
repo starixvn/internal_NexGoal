@@ -146,7 +146,6 @@
     <Compile Include="Implement\EPA\RecalculateScoreService.cs" />
     <Compile Include="Implement\EPA\ViolationService.cs" />
     <Compile Include="Implement\ExportFile\MasterExportService.cs" />
-    <Compile Include="Implement\System\DepartmentService.cs" />
     <Compile Include="Implement\System\EmployeeService.cs" />
     <Compile Include="Implement\Assessment\NominationService.cs" />
     <Compile Include="Implement\Assessment\EOYService.cs" />
@@ -172,12 +171,10 @@
     <Compile Include="Implement\EPA\ScoreRatingTypeService.cs" />
     <Compile Include="Implement\EPA\TargetEmployeeSettingService.cs" />
     <Compile Include="Implement\EPA\TargetTemplateService.cs" />
-    <Compile Include="Implement\EPA\TargetTypeService.cs" />
     <Compile Include="Implement\System\RoleService.cs" />
     <Compile Include="Interfaces\ExportFile\IRazorRenderService.cs" />
     <Compile Include="Interfaces\ICommonService.cs" />
     <Compile Include="Interfaces\IDashboardService.cs" />
-    <Compile Include="Interfaces\IDepartmentService.cs" />
     <Compile Include="Interfaces\IEmployeeService.cs" />
     <Compile Include="Interfaces\ExportFile\IEPADetailReportService.cs" />
     <Compile Include="Interfaces\EPA\IEPAEvaluatorService.cs" />
@@ -202,7 +199,6 @@
     <Compile Include="Interfaces\IScoreRatingTypeService.cs" />
     <Compile Include="Interfaces\ITargetEmployeeSettingService.cs" />
     <Compile Include="Interfaces\ITargetTemplateService.cs" />
-    <Compile Include="Interfaces\ITargetTypeService.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />
     <Compile Include="Implement\System\MailService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

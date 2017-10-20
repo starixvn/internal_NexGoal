@@ -57,7 +57,7 @@
 
         public void Session_Start(object sender, EventArgs e)
         {
-            // todo
+            // nothing to do
         }
 
         private static bool IsWebApiRequest()

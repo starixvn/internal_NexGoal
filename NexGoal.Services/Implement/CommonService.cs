@@ -23,41 +23,40 @@
     using NexGoal.Model.TargetTemplate;
     using NexGoal.Model.TargetType;
     using NexGoal.Services.Interfaces;
+    using Repositories.Implement;
+    using Repositories.Interfaces;
 
     public class CommonService : BaseService, ICommonService
     {
-        private readonly ITargetTypeService targetTypeService;
         private readonly IKPIService kpiService;
         private readonly IKPIGroupService kpiGroupService;
         private readonly IEmployeeService employeeService;
-        private readonly IDepartmentService departmentService;
         private readonly IPeriodService periodService;
         private readonly IEmployeeEPAService employeeEPAService;
         private readonly ITargetTemplateService targetTemplateService;
+        private readonly IDepartmentRepository departmentRepository;
 
         public CommonService()
-            : this(null, null, null, null, null, null, null, null)
+            : this(null, null, null, null, null, null, null)
         {
         }
 
         public CommonService(
-            ITargetTypeService targetTypeService,
             IKPIService kpiService,
             IKPIGroupService kpiGroupService,
             IEmployeeService employeeService,
-            IDepartmentService departmentService,
             IPeriodService periodService,
             IEmployeeEPAService employeeEPAService,
-            ITargetTemplateService targetTemplateService)
+            ITargetTemplateService targetTemplateService,
+            IDepartmentRepository departmentRepository)
         {
-            this.targetTypeService = targetTypeService ?? new TargetTypeService();
             this.kpiService = kpiService ?? new KPIService();
             this.kpiGroupService = kpiGroupService ?? new KPIGroupService();
             this.employeeService = employeeService ?? new EmployeeService();
-            this.departmentService = departmentService ?? new DepartmentService();
             this.periodService = periodService ?? new PeriodService();
             this.employeeEPAService = employeeEPAService ?? new EmployeeEPAService();
             this.targetTemplateService = targetTemplateService ?? new TargetTemplateService();
+            this.departmentRepository = departmentRepository ?? new DepartmentRepository();
         }
 
         public CommandResult ExecuteNonQuery(ICriteria criteria)
@@ -74,7 +73,14 @@
 
         public IEnumerable<TargetTypeModel> GetTargetType(GetTargetTypeCriteria criteria)
         {
-            return targetTypeService.GetTargetType(criteria);
+            IEnumerable<TargetTypeModel> kpis = new List<TargetTypeModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                kpis = GetData<TargetTypeModel>(criteria);
+            }
+
+            return kpis;
         }
 
         public IEnumerable<KPIModel> GetKPI(GetKPICriteria criteria)
@@ -115,8 +121,13 @@
         public DepartmentInfoModel GetDepartment(GetDepartmentCriteria criteria)
         {
             DepartmentModel treeList = null;
+            IList<DepartmentModel> departments = new List<DepartmentModel>();
 
-            IList<DepartmentModel> departments = departmentService.GetDepartment(criteria);
+            if (criteria != null && criteria.IsValid())
+            {
+                departments = departmentRepository.GetDepartment(criteria);
+            }
+
             if (departments != null && departments.Any())
             {
                 treeList = new DepartmentModel();

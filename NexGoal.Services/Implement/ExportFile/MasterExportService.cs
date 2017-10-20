@@ -397,7 +397,7 @@
                 cellBody.SetCellValue(adjustmentScore);
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 2);
 
-                var score = employee.PAFocus.FinalScore.HasValue && employee.PAFocus.FinalScore.Value != 0 ? employee.PAFocus.FinalScore.ToString() : Lang.Dash;
+                var score = employee.PAFocus.FinalScore.HasValue && !employee.PAFocus.FinalScore.Value.Equals(0) ? employee.PAFocus.FinalScore.ToString() : Lang.Dash;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(score);

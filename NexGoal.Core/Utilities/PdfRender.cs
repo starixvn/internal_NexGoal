@@ -1,15 +1,11 @@
-﻿using iTextSharp.text;
-using iTextSharp.text.pdf;
-using iTextSharp.text.xml;
-using iTextSharp.tool.xml;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-
-namespace NexGoal.Core.Utilities
+﻿namespace NexGoal.Core.Utilities
 {
+    using System.IO;
+    using System.Text;
+    using iTextSharp.text;
+    using iTextSharp.text.pdf;
+    using iTextSharp.tool.xml;
+
     public static class PdfRender
     {
         private const int A4Width = 595;
@@ -18,13 +14,10 @@ namespace NexGoal.Core.Utilities
 
         public static byte[] ContentRender(string cssFilePath, string htmlText)
         {
-            MemoryStream stream = null;
-            Document pdfDocument = null;
-            try
+            using (var stream = new MemoryStream())
             {
-                using (stream = new MemoryStream())
+                using (var pdfDocument = new Document(new Rectangle(A4Width, A4Height), 20, 20, 40, 40))
                 {
-                    pdfDocument = new Document(new Rectangle(A4Width, A4Height), 20, 20, 40, 40);
                     pdfDocument.SetPageSize(PageSize.A4);
                     var pdfWriter = PdfWriter.GetInstance(pdfDocument, stream);
                     var worker = XMLWorkerHelper.GetInstance();
@@ -41,17 +34,9 @@ namespace NexGoal.Core.Utilities
                     }
 
                     pdfDocument.Close();
-                    pdfDocument = null;
+                }
 
-                    return stream.ToArray();
-                }
-            }
-            finally
-            {
-                if (pdfDocument != null)
-                {
-                    pdfDocument.Dispose();
-                }
+                return stream.ToArray();
             }
         }
     }

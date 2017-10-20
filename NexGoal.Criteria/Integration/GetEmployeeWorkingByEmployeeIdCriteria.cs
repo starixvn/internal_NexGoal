@@ -1,8 +1,8 @@
-﻿using Fanex.Data.Repository;
-using System;
-
-namespace NexGoal.Criteria
+﻿namespace NexGoal.Criteria
 {
+    using System;
+    using Fanex.Data.Repository;
+
     public class GetEmployeeWorkingByEmployeeIdCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
@@ -11,19 +11,8 @@ namespace NexGoal.Criteria
 
         public DateTime EndDate { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "NexPM_GetEmployeeWorkingByEmployeeId";
-        }
+        public override string GetSettingKey() => "NexPM_GetEmployeeWorkingByEmployeeId";
 
-        public override bool IsValid()
-        {
-            return EmployeeId > 0 
-                && StartDate != DateTime.MaxValue 
-                && StartDate != DateTime.MinValue 
-                && EndDate != DateTime.MinValue 
-                && EndDate != DateTime.MaxValue 
-                && EndDate >= StartDate;
-        }
+        public override bool IsValid() => EmployeeId > 0 && EndDate >= StartDate;
     }
 }

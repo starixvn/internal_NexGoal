@@ -389,7 +389,7 @@
                 cellBody.SetCellValue(ReturnDashIfContentIsNull(pa.LastCompletedPercentObjective));
                 sheet.SetColumnWidth(columnIndex++, columnWidth * 10);
 
-                var score = pa.FinalScore.HasValue && pa.FinalScore.Value != 0 ? pa.FinalScore.ToString() : Lang.Dash;
+                var score = pa.FinalScore.HasValue && !pa.FinalScore.Value.Equals(0) ? pa.FinalScore.ToString() : Lang.Dash;
                 cellBody = row.CreateCell(columnIndex);
                 cellBody.CellStyle = bodyStyleCenter;
                 cellBody.SetCellValue(score);

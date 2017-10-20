@@ -151,12 +151,13 @@
         {
             foreach (EmployeeModel employee in rawEmployee.Employees)
             {
-                IList<SystemRoleModel> employeeRoles = rawEmployee.Roles.Where(role => role.EmployeeId == employee.EmployeeId).Select(role => new SystemRoleModel
-                {
-                    RoleId = role.RoleId,
-                    RoleName = role.RoleName,
-                    RoleCode = role.RoleCode
-                }).ToList();
+                IList<SystemRoleModel> employeeRoles = rawEmployee.Roles.Where(role => role.EmployeeId == employee.EmployeeId)
+                    .Select(role => new SystemRoleModel
+                    {
+                        RoleId = role.RoleId,
+                        RoleName = role.RoleName,
+                        RoleCode = role.RoleCode
+                    }).ToList();
 
                 if (!employeeRoles.Any())
                 {

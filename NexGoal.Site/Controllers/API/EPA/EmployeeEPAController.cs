@@ -159,9 +159,9 @@
         public HttpResponseMessage GetEPAInfoByEvaluator(int epaId, int? evaluatorId = null)
         {
             var processId = evaluatorId == null ? (int?)ProcessType.Evaluator : null;
-            evaluatorId = evaluatorId ?? SessionService.EmployeeId;
+            int? tempEvaluatorId = evaluatorId ?? SessionService.EmployeeId;
 
-            int permission = employeeEPAService.CheckEmployeePermission(epaId, evaluatorId.Value, processId);
+            int permission = employeeEPAService.CheckEmployeePermission(epaId, tempEvaluatorId.Value, processId);
             if (permission == (int)Policy.None)
             {
                 return Request.CreateResponse(HttpStatusCode.MethodNotAllowed);
@@ -170,10 +170,10 @@
             var criteria = new GetEPAInfoByEvaluatorCriteria
             {
                 EPAId = epaId,
-                EvaluatorId = evaluatorId.Value
+                EvaluatorId = tempEvaluatorId.Value
             };
 
-            EPAModel epaInfo = this.evaluatorService.GetEPAInfo(criteria);
+            EPAModel epaInfo = evaluatorService.GetEPAInfo(criteria);
 
             return Request.CreateResponse(HttpStatusCode.OK, epaInfo);
         }

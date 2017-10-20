@@ -1,14 +1,13 @@
 ﻿namespace NexGoal.Model.TargetEmployeeSetting
 {
-    using NexGoal.Model.Department;
     using System.Collections.Generic;
     using System.Text;
+    using Core.Constants;
+    using Department;
 
     public class TargetSettingAssignModel
     {
         private const string DepartmentXmlTemplate = "<Department DepartmentId='{0}' IsGroup='{1}'></Department>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int TargetTemplateId { get; set; }
 
@@ -16,7 +15,7 @@
 
         public string ConvertToXml()
         {
-            var departmentXml = new StringBuilder(BeginRootTag);
+            var departmentXml = new StringBuilder(Constants.BeginRootTag);
 
             if (DepartmentSettings != null)
             {
@@ -26,7 +25,7 @@
                 }
             }
 
-            departmentXml.Append(EndRootTag);
+            departmentXml.Append(Constants.EndRootTag);
             return departmentXml.ToString();
         }
     }

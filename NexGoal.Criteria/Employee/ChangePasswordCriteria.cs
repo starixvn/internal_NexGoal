@@ -20,11 +20,13 @@
 
         public override bool IsValid()
         {
+#pragma warning disable S1067 // Expressions should not be too complex
             return EmployeeId > 0
                 && !string.IsNullOrWhiteSpace(NewPassword)
                 && !string.IsNullOrWhiteSpace(OldPassword)
                 && !string.IsNullOrWhiteSpace(ConfirmPassword)
                 && NewPassword.Equals(ConfirmPassword, StringComparison.OrdinalIgnoreCase);
+#pragma warning restore S1067 // Expressions should not be too complex
         }
 
         public override string GetSettingKey()

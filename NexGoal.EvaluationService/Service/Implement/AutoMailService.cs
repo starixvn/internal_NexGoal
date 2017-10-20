@@ -63,6 +63,9 @@
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToReviewer);
                             _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period);
                             break;
+
+                        default:
+                            continue;
                     }
                 }
             }
@@ -98,6 +101,9 @@
                             templateEmailPath = Path.Combine(assemblyPath, _startDateMailToHumanResources);
                             _mailService.SendMailToHRRemindDate(templateEmailPath, employeeSetting, period);
                             break;
+
+                        default:
+                            continue;
                     }
                 }
             }

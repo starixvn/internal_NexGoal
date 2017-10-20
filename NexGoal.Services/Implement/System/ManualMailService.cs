@@ -50,14 +50,15 @@
                         case (int)ProcessType.Evaluator:
                             templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToEvaluator);
                             _mailService.SendMailToEvaluatorStartDate(templateEmailPath, employeeSetting, period);
-
                             break;
 
                         case (int)ProcessType.Reviewer:
                             templateEmailPath = HttpContext.Current.Server.MapPath(_startDateMailToReviewer);
                             _mailService.SendMailToReviewerStartDate(templateEmailPath, employeeSetting, period);
-
                             break;
+
+                        default:
+                            continue;
                     }
                 }
             }

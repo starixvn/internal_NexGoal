@@ -2,13 +2,12 @@
 {
     using System.Collections.Generic;
     using System.Text;
-    using NexGoal.Model.KPIGroup;
+    using Core.Constants;
+    using KPIGroup;
 
     public class TargetKPIGroupWeightModel
     {
         private const string KPIGroupXmlTemplate = "<KPIGroup KPIGroupId='{0}' Weight='{1}' IsSpreadKPI='{2}' DisplayOrder='{3}'></KPIGroup>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int TargetTemplateId { get; set; }
 
@@ -22,7 +21,7 @@
 
                 if (KPIGroups != null)
                 {
-                    var kpiGroupXmlBuilder = new StringBuilder(BeginRootTag);
+                    var kpiGroupXmlBuilder = new StringBuilder(Constants.BeginRootTag);
 
                     foreach (KPIGroupModel item in KPIGroups)
                     {
@@ -30,7 +29,7 @@
                         kpiGroupXmlBuilder.AppendFormat(KPIGroupXmlTemplate, item.KPIGroupId, item.Weight, spreadKPI, item.DisplayOrder);
                     }
 
-                    kpiGroupXml = kpiGroupXmlBuilder.Append(EndRootTag).ToString();
+                    kpiGroupXml = kpiGroupXmlBuilder.Append(Constants.EndRootTag).ToString();
                 }
 
                 return kpiGroupXml;

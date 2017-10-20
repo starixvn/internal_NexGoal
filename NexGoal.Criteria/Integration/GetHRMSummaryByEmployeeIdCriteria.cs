@@ -11,19 +11,8 @@
 
         public DateTime EndDate { get; set; }
 
-        public override string GetSettingKey()
-        {
-            return "HRMSummary_GetByEmployeeId";
-        }
+        public override string GetSettingKey() => "HRMSummary_GetByEmployeeId";
 
-        public override bool IsValid()
-        {
-            return EmployeeId > 0
-                && StartDate != DateTime.MaxValue
-                && StartDate != DateTime.MinValue
-                && EndDate != DateTime.MinValue
-                && EndDate != DateTime.MaxValue
-                && EndDate >= StartDate;
-        }
+        public override bool IsValid() => EmployeeId > 0 && EndDate >= StartDate;
     }
 }

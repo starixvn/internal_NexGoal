@@ -1,14 +1,13 @@
 ﻿namespace NexGoal.Model.Period
 {
-    using NexGoal.Model.Department;
     using System.Collections.Generic;
     using System.Text;
+    using Core.Constants;
+    using Department;
 
     public class AssignEmployeePeriodModel
     {
         private const string DepartmentXmlTemplate = "<Department DepartmentId='{0}' IsGroup='{1}'></Department>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int PeriodId { get; set; }
 
@@ -18,7 +17,7 @@
 
         public string ConvertToXml()
         {
-            var departmentXml = new StringBuilder(BeginRootTag);
+            var departmentXml = new StringBuilder(Constants.BeginRootTag);
 
             if (Departments != null)
             {
@@ -28,7 +27,7 @@
                 }
             }
 
-            departmentXml.Append(EndRootTag);
+            departmentXml.Append(Constants.EndRootTag);
             return departmentXml.ToString();
         }
     }

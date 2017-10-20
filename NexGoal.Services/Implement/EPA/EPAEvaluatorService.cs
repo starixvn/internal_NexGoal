@@ -95,6 +95,10 @@
                 case (int)ProcessType.Reviewer:
                     epaInfo.Process.CurrentProcess.MaxPerformanceScore = epaInfo.ScoreRatingType.Reviewer;
                     break;
+
+                default:
+                    epaInfo.Process.CurrentProcess.MaxPerformanceScore = 0;
+                    break;
             }
 
             epaInfo.Process.Self.MaxPerformanceScore = epaInfo.ScoreRatingType.SelfEvaluated;

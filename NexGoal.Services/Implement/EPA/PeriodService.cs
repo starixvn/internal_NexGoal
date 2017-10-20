@@ -366,6 +366,9 @@
                 case MailMode.NotifyChange:
                     _manualMailService.SendNotifyMail(period, employeeSettings);
                     break;
+
+                default:
+                    return;
             }
         }
 

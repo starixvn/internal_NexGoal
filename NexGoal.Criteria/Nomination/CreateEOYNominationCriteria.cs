@@ -54,7 +54,9 @@
 
         public override bool IsValid()
         {
+#pragma warning disable S1067 // Expressions should not be too complex
             return EOQYId > 0 && NomineeId > 0 && NominatorId > 0 && StatusId > 0 && ModifiedBy > 0;
+#pragma warning restore S1067 // Expressions should not be too complex
         }
     }
 }

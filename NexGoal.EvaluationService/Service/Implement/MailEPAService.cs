@@ -97,6 +97,9 @@
                     employeeSettings = GetEmployeeSettingOfHR(periodId);
                     autoMailService.SendEndEvaluationMailToHRByPeriod(period, employeeSettings);
                     break;
+
+                default:
+                    return;
             }
         }
 

@@ -102,6 +102,10 @@
                 {
                     roles.Add(role);
                 }
+                else
+                {
+                    // nothing to do
+                }
             }
 
             return roles;

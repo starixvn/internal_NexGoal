@@ -32,8 +32,8 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                TargetEmployeeSettingModel rawEmployeeSetting = _targetEmployeeSettingRepository.GetTargetEmployeeSetting(criteria);
-                targetEmployeeSettings = ConvertToTargetEmployeeModel(rawEmployeeSetting);
+                TargetEmployeeSettingModel employeeSetting = _targetEmployeeSettingRepository.GetTargetEmployeeSetting(criteria);
+                targetEmployeeSettings = ConvertToTargetEmployeeModel(employeeSetting);
             }
 
             return targetEmployeeSettings;
@@ -45,8 +45,8 @@
 
             if (criteria != null && criteria.IsValid())
             {
-                TargetDepartmentSettingModel rawDepartmentSeting = _targetEmployeeSettingRepository.GetTargetDepartmentSetting(criteria);
-                targetDepartmentSettings = ConvertToTargetDepartmentModel(rawDepartmentSeting);
+                TargetDepartmentSettingModel departmentSeting = _targetEmployeeSettingRepository.GetTargetDepartmentSetting(criteria);
+                targetDepartmentSettings = ConvertToTargetDepartmentModel(departmentSeting);
             }
 
             return targetDepartmentSettings;
@@ -56,28 +56,25 @@
         {
             var targetEmployeeSettings = new List<TargetEmployeeModel>();
 
-            if (employeeSetting != null)
+            foreach (EmployeeModel employee in employeeSetting.Employees)
             {
-                foreach (EmployeeModel employee in employeeSetting.Employees)
+                var targetEmployeeSetting = new TargetEmployeeModel
                 {
-                    var targetEmployeeSetting = new TargetEmployeeModel
-                    {
-                        Employee = employee,
-                        Group = employee.Group
-                    };
+                    Employee = employee,
+                    Group = employee.Group
+                };
 
-                    if (employeeSetting.TargetEmployees != null)
-                    {
-                        IEnumerable<TargetEmployeeModel> targetEmployees = employeeSetting.TargetEmployees.Where(x => x.EmployeeId == employee.EmployeeId);
+                if (employeeSetting.TargetEmployees != null)
+                {
+                    IEnumerable<TargetEmployeeModel> targetEmployees = employeeSetting.TargetEmployees.Where(x => x.EmployeeId == employee.EmployeeId);
 
-                        if (targetEmployees != null && targetEmployees.Any())
-                        {
-                            targetEmployeeSetting.TargetTemplates = GetTargetTemplateOfEmployee(targetEmployees);
-                        }
+                    if (targetEmployees != null && targetEmployees.Any())
+                    {
+                        targetEmployeeSetting.TargetTemplates = GetTargetTemplateOfEmployee(targetEmployees);
                     }
-
-                    targetEmployeeSettings.Add(targetEmployeeSetting);
                 }
+
+                targetEmployeeSettings.Add(targetEmployeeSetting);
             }
 
             return targetEmployeeSettings;
@@ -100,32 +97,29 @@
         {
             var targetDepartmentSettings = new List<TargetDepartmentModel>();
 
-            if (departmentSeting != null)
+            foreach (DepartmentModel department in departmentSeting.Departments)
             {
-                foreach (DepartmentModel department in departmentSeting.Departments)
+                var targetDepartmentSetting = new TargetDepartmentModel
                 {
-                    var targetDepartmentSetting = new TargetDepartmentModel
-                    {
-                        DepartmentId = department.DepartmentId,
-                        Name = department.Name,
-                        ParentId = department.ParentId,
-                        IsActive = department.IsActive,
-                        IsGroup = department.IsGroup
-                    };
+                    DepartmentId = department.DepartmentId,
+                    Name = department.Name,
+                    ParentId = department.ParentId,
+                    IsActive = department.IsActive,
+                    IsGroup = department.IsGroup
+                };
 
-                    if (departmentSeting.TargetDepartments != null)
-                    {
-                        IEnumerable<TargetDepartmentModel> rawTargetDepartments = departmentSeting.TargetDepartments
-                                                    .Where(x => x.DepartmentId == department.DepartmentId && x.IsGroup == department.IsGroup);
+                if (departmentSeting.TargetDepartments != null)
+                {
+                    IEnumerable<TargetDepartmentModel> rawTargetDepartments = departmentSeting.TargetDepartments
+                                                .Where(x => x.DepartmentId == department.DepartmentId && x.IsGroup == department.IsGroup);
 
-                        if (rawTargetDepartments != null && rawTargetDepartments.Any())
-                        {
-                            targetDepartmentSetting.TargetTemplates = GetTargetTemplateOfDepartment(rawTargetDepartments);
-                        }
+                    if (rawTargetDepartments != null && rawTargetDepartments.Any())
+                    {
+                        targetDepartmentSetting.TargetTemplates = GetTargetTemplateOfDepartment(rawTargetDepartments);
                     }
-
-                    targetDepartmentSettings.Add(targetDepartmentSetting);
                 }
+
+                targetDepartmentSettings.Add(targetDepartmentSetting);
             }
 
             return targetDepartmentSettings;

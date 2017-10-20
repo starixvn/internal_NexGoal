@@ -123,7 +123,7 @@
 
                 foreach (PeriodFlowSettingModel employeeFlowSetting in employeeFlowSettings)
                 {
-                    employeeSetting = GetEvaluators(employeeFlowSetting, employeeSetting);
+                    GetEvaluators(employeeFlowSetting, employeeSetting);
 
                     if (employeeFlowSetting.ProcessId != (int)ProcessType.HumanResource)
                     {
@@ -133,7 +133,7 @@
             }
         }
 
-        private static PeriodEmployeeSettingModel GetEvaluators(
+        private static void GetEvaluators(
             PeriodFlowSettingModel flowSetting,
             PeriodEmployeeSettingModel employeeSetting)
         {
@@ -158,26 +158,27 @@
                     PeriodFlowModel reviewer = CreateEvaluator(flowSetting);
                     employeeSetting.Reviewers.Add(reviewer);
                     break;
-            }
 
-            return employeeSetting;
+                default:
+                    return;
+            }
         }
 
-        private static PeriodFlowModel CreateEvaluator(PeriodFlowSettingModel rawFlowSetting)
+        private static PeriodFlowModel CreateEvaluator(PeriodFlowSettingModel flowSetting)
         {
             var evaluator = new PeriodFlowModel
             {
-                ProcessId = rawFlowSetting.ProcessId,
-                Priority = rawFlowSetting.Priority,
-                Duration = rawFlowSetting.Duration,
-                RemindDay = rawFlowSetting.RemindDay,
-                StartDate = rawFlowSetting.StartDate,
-                EndDate = rawFlowSetting.EndDate,
-                HasSendMail = rawFlowSetting.HasSendMail,
-                HasEvaluationGenerated = rawFlowSetting.HasEvaluationGenerated,
-                ProcessStatus = rawFlowSetting.ProcessStatus,
-                ProcessDetailStatus = rawFlowSetting.ProcessDetailStatus,
-                EvaluatorInfo = rawFlowSetting.EvaluatorInfo
+                ProcessId = flowSetting.ProcessId,
+                Priority = flowSetting.Priority,
+                Duration = flowSetting.Duration,
+                RemindDay = flowSetting.RemindDay,
+                StartDate = flowSetting.StartDate,
+                EndDate = flowSetting.EndDate,
+                HasSendMail = flowSetting.HasSendMail,
+                HasEvaluationGenerated = flowSetting.HasEvaluationGenerated,
+                ProcessStatus = flowSetting.ProcessStatus,
+                ProcessDetailStatus = flowSetting.ProcessDetailStatus,
+                EvaluatorInfo = flowSetting.EvaluatorInfo
             };
 
             return evaluator;

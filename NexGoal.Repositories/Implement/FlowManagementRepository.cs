@@ -101,29 +101,26 @@
 
         private static void GroupProcessFlowByDepartment(IEnumerable<DepartmentFlowModel> flows, IEnumerable<ProcessFlowModel> processes)
         {
-            if (flows != null && processes != null)
+            foreach (DepartmentFlowModel flow in flows)
             {
-                foreach (DepartmentFlowModel flow in flows)
+                foreach (ProcessFlowModel process in processes.Where(x => x.DepartmentId.Equals(flow.DepartmentId)))
                 {
-                    foreach (ProcessFlowModel process in processes.Where(x => x.DepartmentId.Equals(flow.DepartmentId)))
+                    switch (process.ProcessId)
                     {
-                        switch (process.ProcessId)
-                        {
-                            case (int)ProcessType.HumanResource:
-                                flow.HumanResources.Add(process);
-                                break;
+                        case (int)ProcessType.HumanResource:
+                            flow.HumanResources.Add(process);
+                            break;
 
-                            case (int)ProcessType.Evaluator:
-                                flow.Evaluators.Add(process);
-                                break;
+                        case (int)ProcessType.Evaluator:
+                            flow.Evaluators.Add(process);
+                            break;
 
-                            case (int)ProcessType.Reviewer:
-                                flow.Reviewers.Add(process);
-                                break;
+                        case (int)ProcessType.Reviewer:
+                            flow.Reviewers.Add(process);
+                            break;
 
-                            default:
-                                continue;
-                        }
+                        default:
+                            continue;
                     }
                 }
             }

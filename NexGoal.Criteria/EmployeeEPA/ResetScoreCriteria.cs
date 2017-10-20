@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Criteria.EmployeeEPA
 {
     using System.Text;
+    using Core.Constants;
     using Fanex.Data;
     using Fanex.Data.Repository;
     using NexGoal.Core.Enumerations;
@@ -9,8 +10,6 @@
     public class ResetScoreCriteria : CriteriaBase
     {
         private const string EPAXmlTemplate = "<EPA ProcessId='{0}' TotalScore='{1}' AdjustScore='{2}'></EPA>";
-        private const string BeginRootTag = "<ROOT>";
-        private const string EndRootTag = "</ROOT>";
 
         public int EPAId { get; set; }
 
@@ -23,7 +22,7 @@
         {
             get
             {
-                var epaXml = new StringBuilder(BeginRootTag);
+                var epaXml = new StringBuilder(Constants.BeginRootTag);
 
                 epaXml.AppendFormat(
                     EPAXmlTemplate,
@@ -37,7 +36,7 @@
                     string.Empty,
                     string.Empty);
 
-                epaXml.Append(EndRootTag);
+                epaXml.Append(Constants.EndRootTag);
 
                 return epaXml.ToString();
             }

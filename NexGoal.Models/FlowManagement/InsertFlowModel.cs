@@ -2,7 +2,8 @@
 {
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
-    using NexGoal.Core.Enumerations;
+    using Core.Constants;
+    using Core.Enumerations;
 
     public class InsertFlowModel
     {
@@ -21,19 +22,25 @@
 
         public InsertFlowItemModel HumanResources { get; set; }
 
-        public string FlowDetails
-        {
-            get
-            {
-                return ConvertToXml();
-            }
-        }
+        public string FlowDetails => ConvertToXml();
 
         [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Reviewed. Suppression is OK here.")]
         private string ConvertToXml()
         {
-            var process = new StringBuilder("<ROOT>");
+            var process = new StringBuilder(Constants.BeginRootTag);
 
+            AppendHumanResourcesProcess(process);
+            AppendSelfProcess(process);
+            AppendEvaluatorsProcess(process);
+            AppendReviewersProcess(process);
+
+            process.Append(Constants.EndRootTag);
+
+            return process.ToString();
+        }
+
+        private void AppendHumanResourcesProcess(StringBuilder process)
+        {
             if (HumanResources != null)
             {
                 var evaluator = new StringBuilder();
@@ -54,7 +61,10 @@
                         evaluator);
                 }
             }
+        }
 
+        private void AppendSelfProcess(StringBuilder process)
+        {
             if (Selfs != null)
             {
                 var evaluator = new StringBuilder();
@@ -68,7 +78,10 @@
                     Selfs.RemindDay,
                     evaluator);
             }
+        }
 
+        private void AppendEvaluatorsProcess(StringBuilder process)
+        {
             if (Evaluators != null)
             {
                 var evaluator = new StringBuilder();
@@ -89,7 +102,10 @@
                         evaluator);
                 }
             }
+        }
 
+        private void AppendReviewersProcess(StringBuilder process)
+        {
             if (Reviewers != null)
             {
                 var evaluator = new StringBuilder();
@@ -110,10 +126,6 @@
                         evaluator);
                 }
             }
-
-            process.Append("</ROOT>");
-
-            return process.ToString();
         }
     }
 }

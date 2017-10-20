@@ -14,14 +14,7 @@
             {
                 FieldInfo fi = enumType.GetType().GetField(enumType.ToString());
                 DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
-                if (attributes.Length > 0)
-                {
-                    desciption = attributes[0].Description;
-                }
-                else
-                {
-                    desciption = enumType.ToString();
-                }
+                desciption = attributes.Length > 0 ? attributes[0].Description : enumType.ToString();
             }
 
             return desciption;

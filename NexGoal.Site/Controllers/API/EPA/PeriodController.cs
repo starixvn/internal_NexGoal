@@ -212,6 +212,9 @@
                     case (int)TargetType.SemiAnnual:
                         periodEmployeeSettings = periodEmployeeSettings.OrderBy(x => x.Group.GroupCode).ThenBy(x => x.Employee.NickName);
                         break;
+
+                    default:
+                        return periodEmployeeSettings;
                 }
             }
 
