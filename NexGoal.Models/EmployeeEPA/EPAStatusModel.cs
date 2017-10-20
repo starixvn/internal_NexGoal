@@ -11,7 +11,7 @@
         {
             get
             {
-                return Enumerations.GetDescription((EPAStatus)StatusId);
+                return Enumerations.GetDescription((PAStatus)StatusId);
             }
         }
     }

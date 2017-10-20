@@ -189,7 +189,7 @@
 
         public List<object> GetAllStatus()
         {
-            List<object> statusList = ((EPAStatus[])System.Enum.GetValues(typeof(EPAStatus)))
+            List<object> statusList = ((PAStatus[])System.Enum.GetValues(typeof(PAStatus)))
                 .Select(x => new
                 {
                     StatusId = (int)x,

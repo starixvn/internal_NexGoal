@@ -94,7 +94,7 @@
             {
                 bool isAllowedToView = Process.CurrentProcess == null
                     || Process.CurrentProcess.IsEndProcess
-                    || Status.StatusId == (int)EPAStatus.Closed
+                    || Status.StatusId == (int)PAStatus.Closed
                     || Period.IsEndPeriod;
 
                 return !isAllowedToView;

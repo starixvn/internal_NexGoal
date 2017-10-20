@@ -17,7 +17,9 @@
         private const string WebApiPrefix = "api";
         private static readonly string WebApiExecutionPath = string.Format("~/{0}", WebApiPrefix);
 
+#pragma warning disable S2325 // Methods and properties that don't access instance data should be static
         protected void Application_Start()
+#pragma warning restore S2325 // Methods and properties that don't access instance data should be static
         {
             AreaRegistration.RegisterAllAreas();
 
@@ -35,7 +37,9 @@
             .Run();
         }
 
+#pragma warning disable S2325 // Methods and properties that don't access instance data should be static
         protected void Application_PostAuthorizeRequest()
+#pragma warning restore S2325 // Methods and properties that don't access instance data should be static
         {
             if (IsWebApiRequest())
             {

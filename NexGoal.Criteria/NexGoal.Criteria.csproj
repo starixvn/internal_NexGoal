@@ -89,10 +89,10 @@
     <Compile Include="Integration\GetEmployeeWorkingByPeriodIdCriteria.cs" />
     <Compile Include="Integration\GetHRMSummaryOnProbationCriteria.cs" />
     <Compile Include="Nomination\CreateEOYNominationCriteria.cs">
-        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+        <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="Nomination\CreateEOQNominationCriteria.cs">
-        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+        <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />
     <Compile Include="Nomination\DeleteNominationCriteria.cs" />
@@ -111,10 +111,10 @@
     <Compile Include="Nomination\GetNominationByNominatorIdCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQCriteria.cs" />
     <Compile Include="Nomination\UpdateNominationCriteria.cs">
-        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+        <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="EOQ\UpdateEOQNominatorSettingByIdCriteria.cs">
-        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+        <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="Nomination\UpdateStatusNominationCriteria.cs" />
     <Compile Include="EOY\CreateEOYCriteria.cs" />
@@ -125,7 +125,7 @@
     <Compile Include="EOY\GetEOYNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOY\UpdateEOYCriteria.cs" />
     <Compile Include="EOY\UpdateEOYNominatorSettingByIdCriteria.cs">
-        <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
+        <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="Period\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
