@@ -13,17 +13,15 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	IF OBJECT_ID('tempdb..#EmployeeSetting') IS NOT NULL
-	BEGIN
-		DROP TABLE #EmployeeSetting
-	END
-
-	CREATE TABLE #EmployeeSetting (
+	CREATE TABLE #tblEmployeeSetting (
 		PeriodId INT
 		,EmployeeId INT
 		)
 
-	INSERT INTO #EmployeeSetting
+	INSERT INTO #tblEmployeeSetting (
+		PeriodId
+		,EmployeeId
+		)
 	SELECT DISTINCT period.PeriodId
 		,peFS.EmployeeId
 	FROM dbo.Period AS period WITH (NOLOCK)
@@ -34,11 +32,7 @@ BEGIN
 			WHERE peFS.EmployeeId = peExcluded.EmployeeId
 				AND peFS.PeriodId = peExcluded.PeriodId
 			)
-		AND (
-			ISNULL(@TargetTypeId, '') = ''
-			OR period.TargetTypeId = @TargetTypeId
-			)		
-		AND period.TargetTypeId = @TargetTypeId
+		AND ISNULL(@TargetTypeId, period.TargetTypeId) = period.TargetTypeId
 	
 	UNION
 	SELECT period.PeriodId
@@ -57,10 +51,7 @@ BEGIN
 			WHERE peTS.EmployeeId = peExcluded.EmployeeId
 				AND peTS.PeriodId = peExcluded.PeriodId
 			)
-		AND (
-			ISNULL(@TargetTypeId, '') = ''
-			OR period.TargetTypeId = @TargetTypeId
-			)
+		AND ISNULL(@TargetTypeId, period.TargetTypeId) = period.TargetTypeId
 
 	SELECT DISTINCT pe.PeriodId
 		,pe.[Name]
@@ -74,13 +65,13 @@ BEGIN
 		,peF.TotalEmployees
 		,epa.TotalEmployeesUnfinished
 		,tar.TargetTypeId
-		,tar.NAME
+		,tar.[Name]
 	FROM dbo.Period AS pe WITH (NOLOCK)
 		INNER JOIN dbo.TargetType AS tar WITH (NOLOCK) ON pe.TargetTypeId = tar.TargetTypeId
 		LEFT JOIN (
 		SELECT PeriodId
 			,COUNT(EmployeeId) AS TotalEmployees
-		FROM #EmployeeSetting
+		FROM #tblEmployeeSetting WITH (NOLOCK)
 		GROUP BY PeriodId
 		) AS peF ON peF.PeriodId = pe.PeriodId
 		LEFT JOIN (
@@ -90,10 +81,13 @@ BEGIN
 		WHERE [Status] = 0
 		GROUP BY PeriodId
 		) AS epa ON pe.PeriodId = epa.PeriodId
-	WHERE (
-			ISNULL(@TargetTypeId, '') = ''
-			OR pe.TargetTypeId = @TargetTypeId
-			)		
-		AND pe.StartDate <= GETDATE()
+	WHERE ISNULL(@TargetTypeId, pe.TargetTypeId) = pe.TargetTypeId
+		AND (
+			pe.StartDate IS NULL
+			OR pe.StartDate <= GETDATE()
+			)
+		AND pe.IsActive = 1
 	ORDER BY pe.EndDate DESC
+
+	DROP TABLE #tblEmployeeSetting
 END

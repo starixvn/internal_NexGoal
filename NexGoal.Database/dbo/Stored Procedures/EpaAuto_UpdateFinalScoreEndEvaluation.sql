@@ -46,13 +46,13 @@ BEGIN
 
 	EXEC sp_xml_removedocument @DocHandler
 
-	UPDATE dbo.EPA
-	SET FinalScore = epaS.FinalScore
-		,DisciplineScore = epaS.DisciplineScore
-		,Grade = epaS.Grade
-		,ToeicPolicyScore = epaS.ToeicPolicyScore
-		,[Status] = 1 -- closed
-	FROM dbo.EPA AS epa WITH (NOLOCK)
+	UPDATE epa
+	SET epa.FinalScore = epaS.FinalScore
+		,epa.DisciplineScore = epaS.DisciplineScore
+		,epa.Grade = epaS.Grade
+		,epa.ToeicPolicyScore = epaS.ToeicPolicyScore
+		,epa.[Status] = 1 -- closed
+	FROM dbo.EPA AS epa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #tblEPAScore AS epaS WITH (NOLOCK) ON epa.EPAId = epaS.EPAId
 
 	DROP TABLE #tblEPAScore

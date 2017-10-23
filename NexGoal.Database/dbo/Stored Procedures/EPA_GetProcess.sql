@@ -14,9 +14,11 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @ToDay DATE
-
-	SET @ToDay = CAST(GETDATE() AS DATE)
+	DECLARE @ToDay DATE = GETDATE()
+		,@SelfProcess TINYINT = 2
+		,@EvaluatorProcess TINYINT = 3
+		,@ReviewerProcess TINYINT = 4
+		,@ManagementProcess TINYINT = 5
 
 	SELECT DISTINCT epa.EPAId
 		,pc.ProcessId
@@ -26,28 +28,22 @@ BEGIN
 		,pc.StartDate
 		,pc.EndDate
 		,(CASE 
-			WHEN (
-					pc.IsEndProcess = 0
-					AND @ToDay BETWEEN CAST(pc.StartDate AS DATE)
-						AND CAST(pc.EndDate AS DATE)
-					) THEN 0 -- in progress
-			WHEN pc.IsEndProcess = 1 THEN 1 -- end process
-			WHEN (
-					pc.IsEndProcess = 0
-					AND CAST(pc.StartDate AS DATE) > @ToDay
-					) THEN 2 END -- pending
-			) AS StatusEndProcess
+			WHEN CAST(pc.StartDate AS DATE) > @ToDay THEN 2
+			WHEN @ToDay BETWEEN CAST(pc.StartDate AS DATE)
+					AND CAST(pc.EndDate AS DATE) THEN 0
+			ELSE 1 END
+			) AS StatusEndProcess -- 0: in progress, 1: end process, 2: pending
 		,pc.IsEndProcess
 		,pc.EvaluateDate
 		,pc.[Priority]
 		,(CASE 
-			WHEN pc.ProcessId = 2 THEN srt.SelfEvaluated
-			WHEN pc.ProcessId = 3 THEN srt.Evaluator
-			WHEN pc.ProcessId = 4 THEN srt.Reviewer
-			WHEN pc.ProcessId = 5 THEN srt.Management END
+			WHEN pc.ProcessId = @SelfProcess THEN srt.SelfEvaluated
+			WHEN pc.ProcessId = @EvaluatorProcess THEN srt.Evaluator
+			WHEN pc.ProcessId = @ReviewerProcess THEN srt.Reviewer
+			WHEN pc.ProcessId = @ManagementProcess THEN srt.Management END
 			) AS MaxTotalScore
 		,(CASE 
-			WHEN pc.ProcessId IN (2, 3) THEN (CASE 
+			WHEN pc.ProcessId IN (@SelfProcess, 3) THEN (CASE 
 					WHEN epa.HasMonthlyEPA = 1
 						AND period.TargetTypeId = 3 THEN 1
 					ELSE (CASE 
@@ -55,7 +51,7 @@ BEGIN
 							ELSE 1 END
 							) END
 					)
-			WHEN pc.ProcessId IN (4, 5) THEN (CASE 
+			WHEN pc.ProcessId IN (@ReviewerProcess, @ManagementProcess) THEN (CASE 
 					WHEN pc.EvaluateDate IS NOT NULL THEN 1
 					ELSE 0 END
 					) END
@@ -75,7 +71,7 @@ BEGIN
 			,COUNT(*) AS NumKPINonEvaluated
 		FROM dbo.EPADetail AS dt1 WITH (NOLOCK)
 			INNER JOIN @EPAIds AS epa1 ON dt1.EPAId = epa1.Id
-		WHERE dt1.ProcessId IN (2, 3) -- self, evaluator
+		WHERE dt1.ProcessId IN (@SelfProcess, @EvaluatorProcess)
 			AND dt1.Score IS NULL
 		GROUP BY dt1.EPAId
 			,dt1.ProcessId

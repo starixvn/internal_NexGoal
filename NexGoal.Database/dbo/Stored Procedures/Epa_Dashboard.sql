@@ -75,7 +75,10 @@ BEGIN
 				WHEN tbl.NumberOtherViolation > 0 THEN 1
 				ELSE 0 END
 				) AS HasOtherViolation
-			,selfpc.IsEndProcess AS IsEndProcessBySelf
+			,(CASE 
+				WHEN selfpc.EndDate < @Today THEN 1
+				ELSE 0 END
+				) AS IsEndProcessBySelf
 			,emp.EmployeeId
 			,emp.Code
 			,emp.NickName

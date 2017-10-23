@@ -56,32 +56,16 @@ BEGIN
 		RETURN
 	END CATCH
 
-	BEGIN TRY
-		BEGIN TRANSACTION
-
-		UPDATE dbo.EPA
-		SET FinalScore = epaS.FinalScore
-			,DisciplineScore = epaS.DisciplineScore
-			,Grade = epaS.Grade
-			,ToeicPolicyScore = epaS.ToeicPolicyScore
-			,[Status] = 1 -- closed
-			,ModifiedBy = @ModifiedBy
-			,ModifiedDate = GETDATE()
-		FROM dbo.EPA AS epa WITH (NOLOCK)
-			INNER JOIN #tblEPAScore AS epaS WITH (NOLOCK) ON epa.EPAId = epaS.EPAId
-
-		COMMIT TRANSACTION
-
-		SELECT @ErrCode = 0
-			,@ErrMsg = ''
-	END TRY
-
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Update final score unsuccessfully.'
-	END CATCH
+	UPDATE epa
+	SET epa.FinalScore = epaS.FinalScore
+		,epa.DisciplineScore = epaS.DisciplineScore
+		,epa.Grade = epaS.Grade
+		,epa.ToeicPolicyScore = epaS.ToeicPolicyScore
+		,epa.[Status] = 1 -- closed
+		,epa.ModifiedBy = @ModifiedBy
+		,epa.ModifiedDate = GETDATE()
+	FROM dbo.EPA AS epa WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tblEPAScore AS epaS WITH (NOLOCK) ON epa.EPAId = epaS.EPAId
 
 	DROP TABLE #tblEPAScore
 END

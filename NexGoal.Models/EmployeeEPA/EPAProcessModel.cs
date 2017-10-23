@@ -50,26 +50,14 @@
 
         public string TotalScore { get; set; }
 
-        public string TotalScoreOriginal
-        {
-            get
-            {
-                return TotalScore;
-            }
-        }
+        public string TotalScoreOriginal => TotalScore;
 
         [JsonIgnore]
         public string AdjustScoreEncode { get; set; }
 
         public string AdjustScore { get; set; }
 
-        public string AdjustScoreOriginal
-        {
-            get
-            {
-                return AdjustScore;
-            }
-        }
+        public string AdjustScoreOriginal => AdjustScore;
 
         public bool Evaluated { get; set; }
 
