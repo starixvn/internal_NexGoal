@@ -7,7 +7,6 @@
     using NexGoal.Core.Utilities;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
-    using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Criteria.KPI;
     using NexGoal.Criteria.KPIGroup;
     using NexGoal.Criteria.Period;
@@ -236,17 +235,6 @@
             var criteria = new GetAllPeriodIncludeImportCriteria();
 
             return periodService.GetAllPeriod(criteria);
-        }
-
-        [HttpGet]
-        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(int epaId)
-        {
-            var criteria = new GetOtherViolationDetailByEPAIdCriteria
-            {
-                EPAId = epaId
-            };
-
-            return commonService.GetOtherViolationDetailByEPAId(criteria);
         }
 
         [HttpGet]

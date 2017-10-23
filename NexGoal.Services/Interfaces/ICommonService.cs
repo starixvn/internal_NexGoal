@@ -7,7 +7,6 @@
     using Model.ScoreRatingType;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
-    using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Criteria.KPI;
     using NexGoal.Criteria.KPIGroup;
     using NexGoal.Criteria.Period;
@@ -52,8 +51,6 @@
         IEnumerable<StandardGradeModel> GetStandardGrade();
 
         IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria);
-
-        IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
 
         IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
 

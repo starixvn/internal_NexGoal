@@ -50,8 +50,6 @@
 
         public bool HasMaxScoreOnKPI { get; set; }
 
-        public bool HasOtherViolation { get; set; }
-
         public int ToeicPolicyScore { get; set; }
 
         public EvaluationProcessModel Process { get; set; }

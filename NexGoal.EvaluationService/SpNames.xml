@@ -27,8 +27,6 @@
         </Setting>
         <Setting Key="EpaAuto_UpdateIsEndProcess" SpName="EpaAuto_UpdateIsEndProcess" DbName="NexGoal" Plain="0">
         </Setting>
-        <Setting Key="EpaAttendanceSummary_GetByEPA" SpName="EpaAttendanceSummary_GetByEPA" DbName="NexGoal" Plain="0">
-        </Setting>
         <Setting Key="EpaAuto_UpdateFinalScoreEndEvaluation" SpName="EpaAuto_UpdateFinalScoreEndEvaluation" DbName="NexGoal" Plain="0">
         </Setting>
         <Setting Key="EpaAuto_CheckLastestEndEvaluationPeriod" SpName="EpaAuto_CheckLastestEndEvaluationPeriod" DbName="NexGoal" Plain="0">

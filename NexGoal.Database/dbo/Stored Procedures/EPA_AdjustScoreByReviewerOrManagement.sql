@@ -1,6 +1,6 @@
 ﻿/****** Object:  Stored Procedure dbo.EPA_AdjustScoreByReviewerOrManagement    Script Date: 7/21/2016 2:45:42 PM ******/
 
-ALTER PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
+CREATE PROCEDURE [dbo].[EPA_AdjustScoreByReviewerOrManagement] @EPADetails NVARCHAR(MAX) = ''
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg VARCHAR(200) = '' OUTPUT

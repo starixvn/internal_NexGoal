@@ -85,9 +85,6 @@ commonModule.factory('commonFactory', ['$http', 'baseUrl', function ($http, base
         getAllPeriodByEvaluator: function () {
             return $http.get(baseUrl + 'api/Period/getAllPeriodByEvaluator');
         },
-        getOtherViolationDetailByEPAId: function (epaId) {
-            return $http.get(baseUrl + 'api/Common/GetOtherViolationDetailByEPAId', { params: { epaId: epaId } });
-        },
         getTargetTemplate: function (targetTypeId, isActive) {
             return $http.get(baseUrl + 'api/Common/GetAllTargetTemplate',
             {

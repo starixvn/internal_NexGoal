@@ -61,10 +61,6 @@
             $location.path(baseUrl + 'EPA/Detail/' + epa.EPAId);
         };
 
-        vm.viewOtherViolationDetail = function (epa) {
-            CommonModel.openPopupViewOtherViolationDetail(epa.EPAId);
-        };
-
         vm.redirectToPAFormDetail = function (epaInfo) {
             var path = '';
 

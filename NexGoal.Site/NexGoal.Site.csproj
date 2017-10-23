@@ -493,8 +493,6 @@
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\manageEOQ.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Quarter\Templates\modalCreateEOQ.html" />
     <Content Include="SourceApp\Components\Assessment\EmployeeAward\Year\view-eoy-nomination-controller.js" />
-    <Content Include="SourceApp\Components\Common\common-controller.js" />
-    <Content Include="SourceApp\Components\Common\Templates\modalViewOtherViolationDetail.html" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-controller.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-factory.js" />
     <Content Include="SourceApp\Components\Dashboard\dashboard-model.js" />

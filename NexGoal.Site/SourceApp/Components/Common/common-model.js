@@ -22,7 +22,6 @@ function ($modal, commonFactory, errorFactory) {
     commonModel.monthlyPeriods = [];
     commonModel.standardGrades = [];
     commonModel.periodOptions = [];
-    commonModel.otherViolationDetails = [];
     commonModel.targetTemplates = [];
     commonModel.remindDay = [0, 1, 2, 3, 4, 5, 6, 7];
     commonModel.paRemindDay = [1, 2, 3, 4, 5, 6, 7];
@@ -193,7 +192,7 @@ function ($modal, commonFactory, errorFactory) {
         });
     };
 
-	commonModel.getReadyPeriod = function (targetTypeId) {
+    commonModel.getReadyPeriod = function (targetTypeId) {
         return commonFactory.getReadyPeriod(targetTypeId)
         .success(function (periods) {
             commonModel.periods = periods;
@@ -201,7 +200,7 @@ function ($modal, commonFactory, errorFactory) {
             errorFactory.errorHandle(status);
         });
     };
-	
+
     commonModel.getStandardGrade = function () {
         return commonFactory.getStandardGrade()
         .success(function (standardGrades) {
@@ -236,31 +235,6 @@ function ($modal, commonFactory, errorFactory) {
         .error(function (response, status) {
             errorFactory.errorHandle(status);
         });
-    };
-
-    commonModel.getOtherViolationDetailByEPAId = function (epaId) {
-        return commonFactory.getOtherViolationDetailByEPAId(epaId)
-        .success(function (otherViolationDetails) {
-            commonModel.otherViolationDetails = otherViolationDetails;
-        }).error(function (response, status) {
-            errorFactory.errorHandle(status);
-        });
-    };
-
-    commonModel.openPopupViewOtherViolationDetail = function (epaId) {
-        var modalInstance = $modal.open({
-            templateUrl: 'SourceApp/Components/Common/Templates/modalViewOtherViolationDetail.html',
-            controller: "OtherViolationDetailController as otherViolationCtrl",
-            backdrop: 'static',
-            resolve: {
-                epaId: function () {
-                    return epaId;
-                }
-            },
-            windowClass: "modal-confirm-center"
-        });
-
-        return modalInstance.result;
     };
 
     commonModel.getTargetTemplate = function (targetTypeId, isActive) {

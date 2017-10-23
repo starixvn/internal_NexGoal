@@ -230,8 +230,6 @@
         </Setting>
         <Setting Key="EPASummaryImport_Update" SpName="EPASummaryImport_Update" DbName="NexGoal" Plain="0">
         </Setting>
-        <Setting Key="EPA_GetOtherViolations" SpName="EPA_GetOtherViolations" DbName="NexGoal" Plain="0">
-        </Setting>
         <Setting Key="EPA_ResetScore" SpName="EPA_ResetScore" DbName="NexGoal" Plain="0">
         </Setting>
         <Setting Key="EPA_UpdateFinalScoreEndEvaluation" SpName="EPA_UpdateFinalScoreEndEvaluation" DbName="NexGoal" Plain="0">
@@ -314,10 +312,6 @@
         </Setting>
     </Function>
     <Function Name="Report">
-        <Setting Key="Report_EPASummary" SpName="Report_EPASummary" DbName="NexGoal" Plain="0">
-            <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
-            <Mapping DataField="Grade" ObjectProperty="GradeEncode" />
-        </Setting>
         <Setting Key="Report_PAReport" SpName="Report_PAReport" DbName="NexGoal" Plain="0">
             <Mapping DataField="FinalScore" ObjectProperty="FinalScoreEncode" />
             <Mapping DataField="TotalScore" ObjectProperty="TotalScoreEncode" />

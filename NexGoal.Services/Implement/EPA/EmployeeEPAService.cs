@@ -197,18 +197,6 @@
             return result;
         }
 
-        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria)
-        {
-            IEnumerable<EmployeeOtherViolationDetailModel> otherViolationDetails = new List<EmployeeOtherViolationDetailModel>();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                otherViolationDetails = GetData<EmployeeOtherViolationDetailModel>(criteria);
-            }
-
-            return otherViolationDetails;
-        }
-
         public IList<EPAPeriodModel> GetPeriodToUpdateFinalScore(GetPeriodToUpdateFinalScoreCriteria criteria)
         {
             IList<EPAPeriodModel> periods = new List<EPAPeriodModel>();

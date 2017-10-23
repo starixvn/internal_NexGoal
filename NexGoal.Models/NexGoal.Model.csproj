@@ -53,7 +53,6 @@
     <Compile Include="Dashboard\DashboardModel.cs" />
     <Compile Include="Dashboard\PAFocusModel.cs" />
     <Compile Include="Dashboard\ToDoListModel.cs" />
-    <Compile Include="EmployeeEPA\EmployeeOtherViolationDetailModel.cs" />
     <Compile Include="EmployeeEPA\EPAEmployeeModel.cs" />
     <Compile Include="EmployeeEPA\EPAPeriodModel.cs" />
     <Compile Include="EmployeeEPA\EPASummaryImportModel.cs" />
@@ -121,10 +120,6 @@
       <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="Report\EPADetail\EPADetailModel.cs" />
-    <Compile Include="Report\EPADetail\EvaluationPhaseModel.cs" />
-    <Compile Include="Report\EPASummary\EPASummaryEmployeeModel.cs" />
-    <Compile Include="Report\EPASummary\EPASummaryModel.cs" />
-    <Compile Include="Report\EPASummary\EPASummaryPeriodModel.cs" />
     <Compile Include="Report\Master\MasterReportModel.cs" />
     <Compile Include="Report\Master\EvaluatorCommentReportModel.cs" />
     <Compile Include="Report\Master\NominationReportModel.cs" />

@@ -9,7 +9,6 @@
     using Model.ScoreRatingType;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
-    using NexGoal.Criteria.EmployeeEPA;
     using NexGoal.Criteria.KPI;
     using NexGoal.Criteria.KPIGroup;
     using NexGoal.Criteria.Period;
@@ -163,11 +162,6 @@
         public IList<PeriodModel> GetAllPeriodIncludeImport(GetAllPeriodIncludeImportCriteria criteria)
         {
             return periodService.GetAllPeriodIncludeImport(criteria);
-        }
-
-        public IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria)
-        {
-            return employeeEPAService.GetOtherViolationDetailByEPAId(criteria);
         }
 
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)

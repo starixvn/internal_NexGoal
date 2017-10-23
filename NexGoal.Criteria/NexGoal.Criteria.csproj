@@ -70,7 +70,6 @@
     <Compile Include="EmployeeEPA\GetEPAToUpdateFinalScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPAEndEvaluationPeriodCriteria.cs" />
     <Compile Include="EmployeeEPA\GetGroupByEvaluatorOrReviewerCriteria.cs" />
-    <Compile Include="EmployeeEPA\GetOtherViolationDetailByEPAIdCriteria.cs" />
     <Compile Include="EmployeeEPA\GetStandardGradeCriteria.cs" />
     <Compile Include="EmployeeEPA\GetEPASummaryImportCriteria.cs" />
     <Compile Include="EmployeeEPA\RatingByKPI\GetEmployeeEPAToViewCriteria.cs" />
@@ -220,7 +219,6 @@
     <Compile Include="Report\GetNominationReportCriteria.cs" />
     <Compile Include="Report\GetMasterReportCriteria.cs" />
     <Compile Include="Report\GetPAReportCriteria.cs" />
-    <Compile Include="Report\GetEPASummaryCriteria.cs" />
     <Compile Include="RoleManagement\GetRolesByUserIdCriteria.cs" />
     <Compile Include="ScoreRatingType\GetScoreRatingTypeCriteria.cs" />
     <Compile Include="TargetEmployeeSetting\AssignTargetDepartmentSettingCriteria.cs" />
