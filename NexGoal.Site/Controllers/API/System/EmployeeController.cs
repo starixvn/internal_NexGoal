@@ -56,19 +56,6 @@
             return groups;
         }
 
-        [ApiAuthorize(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
-        [HttpPut]
-        public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
-        {
-            if (criteria != null)
-            {
-                criteria.ModifiedBy = SessionService.EmployeeId;
-            }
-
-            CommandResult commandResult = _employeeService.UpdateSpecialEmployee(criteria);
-            return commandResult;
-        }
-
         public IEnumerable<JobTitle> GetAllJobTitle()
         {
             var criteria = new GetAllJobTitleCriteria();

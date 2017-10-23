@@ -2,8 +2,8 @@
 {
     using System.Web.Mvc;
     using System.Web.Security;
-    using NexGoal.Core.Model;
-    using NexGoal.Core.Services;
+    using Core.Model;
+    using Core.Services;
 
     public class AuthController : Controller
     {
@@ -21,14 +21,14 @@
             this.authenticationService = authenticationService ?? new AuthenticationService();
         }
 
-        [NonAction]
+        // [NonAction]
         [HttpGet]
         public ActionResult Login()
         {
             return View();
         }
 
-        [NonAction]
+        // [NonAction]
         [HttpGet]
         public ActionResult Logout()
         {
@@ -40,7 +40,7 @@
             return RedirectToAction("Login");
         }
 
-        [NonAction]
+        // [NonAction]
         [HttpPost]
         public ActionResult Login(string username)
         {

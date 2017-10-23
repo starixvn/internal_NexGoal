@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Services.Implement
 {
     using System.Collections.Generic;
-    using NexGoal.Core.Model;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Menu;
     using NexGoal.Model.Employee;
@@ -47,49 +46,16 @@
             return menus;
         }
 
-        public CommandResult Insert(InsertMenuCriteria criteria)
-        {
-            var result = new CommandResult();
-            if (criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
         public MenuModel GetMenusById(int id)
         {
+            var menu = new MenuModel();
             var criteria = new GetMenuByIdCriteria { MenuId = id };
             if (criteria.IsValid())
             {
-                return GetDataEntity<MenuModel>(criteria);
+                menu = GetDataEntity<MenuModel>(criteria);
             }
 
-            return null;
-        }
-
-        public CommandResult Update(UpdateMenuCriteria criteria)
-        {
-            var result = new CommandResult();
-            if (criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
-        }
-
-        public CommandResult Delete(int id)
-        {
-            var criteria = new DeleteMenuCriteria { MenuId = id };
-            var result = new CommandResult();
-            if (criteria.IsValid())
-            {
-                result = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return result;
+            return menu;
         }
     }
 }

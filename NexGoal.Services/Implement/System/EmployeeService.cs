@@ -74,30 +74,6 @@
             return groups;
         }
 
-        public CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
-        public CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria)
-        {
-            CommandResult commandResult = new CommandResult();
-
-            if (criteria != null && criteria.IsValid())
-            {
-                commandResult = Repository.ExecuteNonQuery(criteria);
-            }
-
-            return commandResult;
-        }
-
         public IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria)
         {
             IEnumerable<JobTitle> jobTitles = new List<JobTitle>();

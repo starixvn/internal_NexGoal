@@ -16,10 +16,6 @@
 
         IEnumerable<Group> GetAllGroup(GetAllGroupCriteria criteria);
 
-        CommandResult CreateSpecialEmployee(CreateSpecialEmployeeCriteria criteria);
-
-        CommandResult UpdateSpecialEmployee(UpdateSpecialEmployeeCriteria criteria);
-
         IEnumerable<JobTitle> GetAllJobTitle(GetAllJobTitleCriteria criteria);
 
         CommandResult AssignRoleToEmployee(AssignRoleToEmployeeCriteria criteria);

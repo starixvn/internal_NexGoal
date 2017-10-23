@@ -83,16 +83,15 @@
     <Compile Include="EmployeeEPA\ResetScoreCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPASummaryImportCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateFinalScoreEPAEndEvaluationCriteria.cs" />
-    <Compile Include="Employee\ResetPasswordCriteria.cs" />
     <Compile Include="EOQ\CreateEOQCriteria.cs" />
     <Compile Include="EOQ\GetYearEOQCriteria.cs" />
     <Compile Include="Integration\GetEmployeeWorkingByPeriodIdCriteria.cs" />
     <Compile Include="Integration\GetHRMSummaryOnProbationCriteria.cs" />
     <Compile Include="Nomination\CreateEOYNominationCriteria.cs">
-        <SonarQubeExclude>true</SonarQubeExclude>
+      <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="Nomination\CreateEOQNominationCriteria.cs">
-        <SonarQubeExclude>true</SonarQubeExclude>
+      <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="EOQ\DeleteEOQCriteria.cs" />
     <Compile Include="Nomination\DeleteNominationCriteria.cs" />
@@ -111,10 +110,10 @@
     <Compile Include="Nomination\GetNominationByNominatorIdCriteria.cs" />
     <Compile Include="EOQ\UpdateEOQCriteria.cs" />
     <Compile Include="Nomination\UpdateNominationCriteria.cs">
-        <SonarQubeExclude>true</SonarQubeExclude>
+      <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="EOQ\UpdateEOQNominatorSettingByIdCriteria.cs">
-        <SonarQubeExclude>true</SonarQubeExclude>
+      <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="Nomination\UpdateStatusNominationCriteria.cs" />
     <Compile Include="EOY\CreateEOYCriteria.cs" />
@@ -125,7 +124,7 @@
     <Compile Include="EOY\GetEOYNominatorSettingByIdCriteria.cs" />
     <Compile Include="EOY\UpdateEOYCriteria.cs" />
     <Compile Include="EOY\UpdateEOYNominatorSettingByIdCriteria.cs">
-        <SonarQubeExclude>true</SonarQubeExclude>
+      <SonarQubeExclude>true</SonarQubeExclude>
     </Compile>
     <Compile Include="Period\GetAllPeriodIncludeImportCriteria.cs">
       <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
@@ -170,17 +169,12 @@
     <Compile Include="EmployeeEPA\GetMemberByEvaluatorOrReviewerOrManagementCriteria.cs" />
     <Compile Include="EmployeeEPA\UpdateEPAScoreCriteria.cs" />
     <Compile Include="Employee\AssignRoleToEmployeeCriteria.cs" />
-    <Compile Include="Employee\ChangePasswordCriteria.cs">
-      <ExcludeFromStyleCop>False</ExcludeFromStyleCop>
-    </Compile>
     <Compile Include="Employee\GetAllEmployeeCriteria.cs" />
     <Compile Include="Employee\GetAllGroupCriteria.cs" />
     <Compile Include="Employee\GetAllJobTitleCriteria.cs" />
-    <Compile Include="Employee\CreateSpecialEmployeeCriteria.cs" />
     <Compile Include="Employee\GetEmployeeByDepartmentIdCriteria.cs" />
     <Compile Include="Employee\GetEmployeeByGroupIdCriteria.cs" />
     <Compile Include="Employee\GetEmployeeByIdCriteria.cs" />
-    <Compile Include="Employee\UpdateSpecialEmployeeCriteria.cs" />
     <Compile Include="FlowManagement\CreateDepartmentFlowCriteria.cs" />
     <Compile Include="FlowManagement\CreateFlowTemplateCriteria.cs" />
     <Compile Include="FlowManagement\CreatePersonalFlowCriteria.cs" />
