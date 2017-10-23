@@ -168,7 +168,6 @@
     <Compile Include="Implement\System\ManualMailService.cs" />
     <Compile Include="Implement\EPA\PeriodService.cs" />
     <Compile Include="Implement\ReportService.cs" />
-    <Compile Include="Implement\EPA\ScoreRatingTypeService.cs" />
     <Compile Include="Implement\EPA\TargetEmployeeSettingService.cs" />
     <Compile Include="Implement\EPA\TargetTemplateService.cs" />
     <Compile Include="Implement\System\RoleService.cs" />
@@ -196,7 +195,6 @@
     <Compile Include="Interfaces\IPAFocusService.cs" />
     <Compile Include="Interfaces\IPeriodService.cs" />
     <Compile Include="Interfaces\IReportService.cs" />
-    <Compile Include="Interfaces\IScoreRatingTypeService.cs" />
     <Compile Include="Interfaces\ITargetEmployeeSettingService.cs" />
     <Compile Include="Interfaces\ITargetTemplateService.cs" />
     <Compile Include="Interfaces\IRoleService.cs" />

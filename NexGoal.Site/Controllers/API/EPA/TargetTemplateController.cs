@@ -18,21 +18,18 @@
     public class TargetTemplateController : BaseController
     {
         private readonly ITargetTemplateService _targetTemplateService;
-        private readonly IScoreRatingTypeService _scoreRatingTypeService;
         private readonly ICommonService commonService;
 
         public TargetTemplateController()
-            : this(null, null, null)
+            : this(null, null)
         {
         }
 
         public TargetTemplateController(
             ITargetTemplateService targetTemplateService,
-            IScoreRatingTypeService scoreRatingTypeService,
             ICommonService commonService)
         {
             _targetTemplateService = targetTemplateService ?? new TargetTemplateService();
-            _scoreRatingTypeService = scoreRatingTypeService ?? new ScoreRatingTypeService();
             this.commonService = commonService ?? new CommonService();
         }
 
@@ -222,7 +219,7 @@
                 IsActive = isActive
             };
 
-            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = _scoreRatingTypeService.GetScoreRatingType(criteria);
+            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = commonService.GetScoreRatingType(criteria);
             return scoreRatingTypes;
         }
 

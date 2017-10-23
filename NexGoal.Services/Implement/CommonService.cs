@@ -4,7 +4,9 @@
     using System.Linq;
     using Core.Model;
     using Core.Services;
+    using Criteria.ScoreRatingType;
     using Fanex.Data.Repository;
+    using Model.ScoreRatingType;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
     using NexGoal.Criteria.EmployeeEPA;
@@ -171,6 +173,18 @@
         public IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria)
         {
             return targetTemplateService.GetAllTargetTemplate(criteria);
+        }
+
+        public IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria)
+        {
+            IEnumerable<ScoreRatingTypeModel> scoreRatingTypes = new List<ScoreRatingTypeModel>();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                scoreRatingTypes = GetData<ScoreRatingTypeModel>(criteria);
+            }
+
+            return scoreRatingTypes;
         }
     }
 }

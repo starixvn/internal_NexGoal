@@ -2,7 +2,9 @@
 {
     using System.Collections.Generic;
     using Core.Model;
+    using Criteria.ScoreRatingType;
     using Fanex.Data.Repository;
+    using Model.ScoreRatingType;
     using NexGoal.Criteria.Department;
     using NexGoal.Criteria.Employee;
     using NexGoal.Criteria.EmployeeEPA;
@@ -54,5 +56,7 @@
         IEnumerable<EmployeeOtherViolationDetailModel> GetOtherViolationDetailByEPAId(GetOtherViolationDetailByEPAIdCriteria criteria);
 
         IEnumerable<TargetTemplateModel> GetAllTargetTemplate(GetAllTargetTemplateCriteria criteria);
+
+        IEnumerable<ScoreRatingTypeModel> GetScoreRatingType(GetScoreRatingTypeCriteria criteria);
     }
 }
