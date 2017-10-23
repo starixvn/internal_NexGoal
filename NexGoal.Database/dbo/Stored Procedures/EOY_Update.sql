@@ -60,28 +60,15 @@ BEGIN
 		RETURN
 	END
 
-	BEGIN TRY
-		BEGIN TRANSACTION
-
-		UPDATE dbo.EOQY WITH (ROWLOCK, UPDLOCK)
-		SET StartDate = @StartDate
-			,EndDate = @EndDate
-			,RemindDate = @RemindDate
-			,EndDateForCommittee = @EndDateForCommittee
-			,[Year] = @Year
-			,[Description] = @Description
-			,ModifiedBy = @ModifiedBy
-			,ModifiedDate = GETDATE()
-		WHERE EOQYId = @EOQYId
-			AND IsQuarter = 0
-
-		COMMIT TRANSACTION
-	END TRY
-
-	BEGIN CATCH
-		ROLLBACK TRANSACTION
-
-		SELECT @ErrCode = 1
-			,@ErrMsg = N'Update unsuccessfully.'
-	END CATCH
+	UPDATE dbo.EOQY WITH (ROWLOCK, UPDLOCK)
+	SET StartDate = @StartDate
+		,EndDate = @EndDate
+		,RemindDate = @RemindDate
+		,EndDateForCommittee = @EndDateForCommittee
+		,[Year] = @Year
+		,[Description] = @Description
+		,ModifiedBy = @ModifiedBy
+		,ModifiedDate = GETDATE()
+	WHERE EOQYId = @EOQYId
+		AND IsQuarter = 0
 END
