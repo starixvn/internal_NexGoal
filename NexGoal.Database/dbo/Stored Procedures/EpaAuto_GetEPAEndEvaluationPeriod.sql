@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
+﻿
+CREATE PROCEDURE [dbo].[EpaAuto_GetEPAEndEvaluationPeriod]
 AS
 /*
 Created: 20160329@Tim.Trinh
@@ -14,16 +15,9 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @TblEPAId IntId
-		,@EPAIds NVARCHAR(MAX)
 		,@Today DATE = GETDATE()
 		,@Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
 		,@SemiTarget TINYINT = 3
-
-	CREATE TABLE #tblDisciplineScores (
-		EPAId INT
-		,SystemDisciplineScore FLOAT
-		,DisciplineScore FLOAT
-		)
 
 	INSERT INTO @TblEPAId (Id)
 	SELECT DISTINCT epa.EPAId
@@ -81,16 +75,6 @@ BEGIN
 		AND CAST(pe.EndDate AS DATE) < @Today
 		AND pe.IsActive = 1
 
-	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
-	FROM @TblEPAId
-
-	INSERT INTO #tblDisciplineScores (
-		EPAId
-		,SystemDisciplineScore
-		,DisciplineScore
-		)
-	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
-
 	-- General Info
 	SELECT DISTINCT epa.EPAId
 		,(CASE 
@@ -102,11 +86,7 @@ BEGIN
 			WHEN 1 THEN 1
 			ELSE 0 END
 			) AS HasDisciplineScore
-		,(CASE 
-			WHEN ds.DisciplineScore IS NULL
-				OR ds.DisciplineScore < 0 THEN 0
-			ELSE ds.DisciplineScore END
-			) AS DisciplineScore
+		,0 AS DisciplineScore
 		,epa.[Status] AS StatusId
 		,emp.EmployeeId
 		,emp.Code
@@ -124,12 +104,9 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		LEFT JOIN NexHRM.dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON epa.EmployeeId = toeic.EmployeeId
 	ORDER BY epa.EPAId
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @TblEPAId
-
-	DROP TABLE #tblDisciplineScores
 END

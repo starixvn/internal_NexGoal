@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetGeneralInfo] @TblEPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh
@@ -14,17 +15,10 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @EPAIds NVARCHAR(MAX)
-		,@RequiredCommentOnMaxScore BIT
+	DECLARE @RequiredCommentOnMaxScore BIT
 		,@Today DATE = GETDATE()
 		,@ProbationTarget TINYINT = 1
 		,@SemiTarget TINYINT = 3
-
-	CREATE TABLE #tblDisciplineScores (
-		EPAId INT
-		,SystemDisciplineScore FLOAT
-		,ApproverSubtractScore FLOAT
-		)
 
 	CREATE TABLE #tblLastEPA (
 		EPAId INT
@@ -40,12 +34,6 @@ BEGIN
 		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
 		AND lk.Id = 7 -- required comment on max score
 
-	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
-	FROM @TblEPAIds
-
-	INSERT INTO #tblDisciplineScores
-	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
-
 	INSERT INTO #tblLastEPA
 	EXECUTE dbo.EPA_GetLastScore @TblEPAIds
 
@@ -56,26 +44,10 @@ BEGIN
 			WHEN 1 THEN 1
 			ELSE 0 END
 			) AS HasDisciplineScore
-		,(CASE 
-			WHEN epa.[Status] = 1 THEN epa.DisciplineScore
-			ELSE (CASE 
-					WHEN ds.ApproverSubtractScore IS NULL
-						OR ds.ApproverSubtractScore < 0 THEN 0
-					ELSE ds.ApproverSubtractScore END
-					) END
-			) AS DisciplineScore
-		,(CASE 
-			WHEN ds.SystemDisciplineScore IS NULL THEN 0
-			ELSE ds.SystemDisciplineScore END
-			) AS SystemDisciplineScore
+		,0 AS DisciplineScore
 		,srt.Attendance AS MaxDisciplineScore
-		,(CASE 
-			WHEN tbl1.NumberOtherViolation > 0 THEN 1
-			ELSE 0 END
-			) AS HasOtherViolation
 		,ls.FinalScore AS LastFinalScore
 		,ls.Grade AS LastGrade
-		,ls.DisciplineScore AS LastDisciplineScore
 		,(CASE 
 			WHEN EXISTS (
 					SELECT 1
@@ -167,26 +139,11 @@ BEGIN
 		INNER JOIN dbo.[Lookup] AS lk WITH (NOLOCK) ON lkd.LookupId = lk.Id
 		AND lk.Id = 8 -- rating type
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		LEFT JOIN #tblLastEPA AS ls WITH (NOLOCK) ON epa.EPAId = ls.EPAId
 		AND emp.Code = ls.Code
-		LEFT JOIN (
-		SELECT epa1.EPAId
-			,COUNT(*) AS NumberOtherViolation
-		FROM dbo.EPA AS epa1 WITH (NOLOCK)
-			INNER JOIN @TblEPAIds AS epat1 ON epa1.EPAId = epat1.Id
-			INNER JOIN dbo.Period AS period1 WITH (NOLOCK) ON epa1.PeriodId = period1.PeriodId
-			AND period1.IsActive = 1
-			INNER JOIN dbo.EmployeeOtherViolation AS ov WITH (NOLOCK) ON epa1.EmployeeId = ov.EmpId
-			AND CAST(ov.WorkDate AS DATE) BETWEEN CAST(period1.AttendanceStartDate AS DATE)
-				AND CAST(period1.AttendanceEndDate AS DATE)
-		GROUP BY epa1.EPAId
-		) AS tbl1 ON epa.EPAId = tbl1.EPAId
 		LEFT JOIN NexHRM.dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON epa.EmployeeId = toeic.EmployeeId
 	ORDER BY emp.NickName
 		,emp.Code
-
-	DROP TABLE #tblDisciplineScores
 
 	DROP TABLE #tblLastEPA
 END

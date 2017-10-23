@@ -1,6 +1,4 @@
-﻿/****** Object:  Stored Procedure dbo.EPA_GetProcess    Script Date: 7/21/2016 2:45:45 PM ******/
-
-CREATE PROCEDURE [dbo].[EPA_GetProcess] @EPAIds IntId READONLY
+﻿CREATE PROCEDURE [dbo].[EPA_GetProcess] @EPAIds IntId READONLY
 AS
 /*
 Created: 20150827@Tim.Trinh

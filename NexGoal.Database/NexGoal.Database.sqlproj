@@ -92,7 +92,6 @@
     <Build Include="dbo\Tables\TargetTemplateKPI.sql" />
     <Build Include="dbo\Tables\TargetTemplateKPIGroup.sql" />
     <Build Include="dbo\Tables\TargetType.sql" />
-    <Build Include="dbo\Tables\EmployeeOtherViolation.sql" />
     <Build Include="dbo\Tables\EPADetail.sql" />
     <Build Include="dbo\Tables\EPAProcess.sql" />
     <Build Include="dbo\Tables\EPASummaryImport.sql" />
@@ -116,7 +115,6 @@
     <Build Include="dbo\Functions\fncGetDataForWriteLog_Discipline_IgnoredViolations.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_Employee_ChangePassWord.sql" />
-    <Build Include="dbo\Functions\fncGetDataForWriteLog_Discipline_OtherViolations.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_UpdateStatus.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_UpdateKPIRequiredEvaluate.sql" />
     <Build Include="dbo\Functions\fncGetDataForWriteLog_TargetTemplateSetting_Employee.sql" />
@@ -135,7 +133,6 @@
     <Build Include="dbo\Stored Procedures\Menu_Delete.sql" />
     <Build Include="dbo\Stored Procedures\Department_Get.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetPeriodToUpdateFinalScore.sql" />
-    <Build Include="dbo\Stored Procedures\EPA_GetOtherViolations.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetNumberOfRow.sql" />
     <Build Include="dbo\Stored Procedures\Epa_GetMonthlyEPAHistory.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetMember.sql" />
@@ -158,7 +155,6 @@
     <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetKPIToView.sql" />
     <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetEmployeeToView.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetStandardGrade.sql" />
-    <Build Include="dbo\Stored Procedures\Report_EPADetail.sql" />
     <Build Include="dbo\Stored Procedures\Epa_GetEPAHistory.sql" />
     <Build Include="dbo\Stored Procedures\EPA_CheckPermission.sql" />
     <Build Include="dbo\Stored Procedures\EPA_ResetScore.sql" />
@@ -231,7 +227,6 @@
     <Build Include="dbo\Stored Procedures\EpaEmployee_GetByCode.sql" />
     <Build Include="dbo\Stored Procedures\EPA_GetInfoByEmployee.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_Get.sql" />
-    <Build Include="dbo\Stored Procedures\Report_EPASummary.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_GetById.sql" />
     <Build Include="dbo\Stored Procedures\KPIGroup_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\EpaEmployee_GetByGroupId.sql" />
@@ -286,10 +281,7 @@
     <Build Include="dbo\Stored Procedures\Menu_Update.sql" />
     <Build Include="dbo\User Defined Types\IntId.sql" />
     <Build Include="dbo\User Defined Types\ProcessTable.sql" />
-    <Build Include="dbo\Tables\EmployeeDiscipline.sql" />
-    <Build Include="dbo\Tables\DisciplineType.sql" />
     <Build Include="dbo\Views\HierarchyDepartment.sql" />
-    <Build Include="dbo\Functions\fncGetDisciplineScoreById.sql" />
     <Build Include="dbo\Views\HierarchyDepartment.sql" />
     <Build Include="dbo\Views\Department.sql" />
     <Build Include="dbo\Views\TOEIC.sql" />
@@ -390,8 +382,6 @@
     <Build Include="dbo\Stored Procedures\Report_Nomination.sql" />
     <Build Include="dbo\Stored Procedures\Dashboard_GetToDoList.sql" />
     <Build Include="dbo\Stored Procedures\PAFocus_GetProcessSettingToSendEmail.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetViolationType.sql" />
-    <Build Include="dbo\Stored Procedures\EpaAttendanceSummary_GetByEPA.sql" />
     <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_UpdateKPIScore.sql" />
     <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetTargetTemplateByEvaluator.sql" />
     <Build Include="dbo\Stored Procedures\EPA_RatingByKPI_GetPeriodByEvaluator.sql" />

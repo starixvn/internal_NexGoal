@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[EPA_GetEPAToUpdateFinalScore] @PeriodId INT
 	,@GroupId INT = NULL
 	,@EmployeeId INT = NULL
 AS
@@ -15,18 +16,11 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @TblEPAId IntId
-		,@EPAIds NVARCHAR(MAX)
 		,@Yesterday DATE = DATEADD(DAY, - 1, GETDATE())
 		,@TargetTypeId INT
 		,@Today DATE = GETDATE()
 		,@ProbationTarget TINYINT = 1
 		,@SemiTarget TINYINT = 3
-
-	CREATE TABLE #tblDisciplineScores (
-		EPAId INT
-		,SystemDisciplineScore FLOAT
-		,DisciplineScore FLOAT
-		)
 
 	SELECT @TargetTypeId = TargetTypeId
 	FROM dbo.Period WITH (NOLOCK)
@@ -106,16 +100,6 @@ BEGIN
 			AND ISNULL(@EmployeeId, emp.EmployeeId) = emp.EmployeeId
 	END
 
-	SELECT @EPAIds = COALESCE(@EPAIds + ',', '') + CAST(Id AS NVARCHAR)
-	FROM @TblEPAId
-
-	INSERT INTO #tblDisciplineScores (
-		EPAId
-		,SystemDisciplineScore
-		,DisciplineScore
-		)
-	EXECUTE dbo.EpaAttendanceSummary_GetByEPA @EPAIds
-
 	-- General Info
 	SELECT DISTINCT epa.EPAId
 		,epa.FinalScore
@@ -127,13 +111,7 @@ BEGIN
 			WHEN 1 THEN 1
 			ELSE 0 END
 			) AS HasDisciplineScore
-		,(CASE 
-			WHEN epa.[Status] = 1 THEN epa.DisciplineScore
-			ELSE (CASE 
-					WHEN ds.DisciplineScore IS NULL THEN 0
-					ELSE ds.DisciplineScore END
-					) END
-			) AS DisciplineScore
+		,0 AS DisciplineScore
 		,epa.[Status] AS StatusId
 		,emp.EmployeeId
 		,emp.Code
@@ -156,7 +134,6 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.ScoreRatingType AS srt WITH (NOLOCK) ON epa.ScoreRatingTypeId = srt.ScoreRatingTypeId
 		INNER JOIN dbo.TargetType AS tt WITH (NOLOCK) ON period.TargetTypeId = tt.TargetTypeId
-		LEFT JOIN #tblDisciplineScores AS ds WITH (NOLOCK) ON epa.EPAId = ds.EPAId
 		LEFT JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Department AS dept WITH (NOLOCK) ON gr.DepartmentId = dept.DepartmentId
 		LEFT JOIN NexHRM.dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON epa.EmployeeId = toeic.EmployeeId
@@ -164,6 +141,4 @@ BEGIN
 
 	-- Process
 	EXECUTE dbo.EPA_GetProcess @TblEPAId
-
-	DROP TABLE #tblDisciplineScores
 END
