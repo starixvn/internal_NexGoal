@@ -4,7 +4,7 @@
     using NexGoal.Core.Attribute;
     using NexGoal.Core.Services;
 
-    [DeflateCompressionAttribute]
+    [DeflateCompression]
     public class BaseController : ApiController
     {
         public BaseController()

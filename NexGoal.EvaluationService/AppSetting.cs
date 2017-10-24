@@ -10,7 +10,7 @@
             get
             {
                 var value = ConfigurationManager.AppSettings["SendMailEndPeriod"];
-                return string.IsNullOrEmpty(value) ? false : Convert.ToBoolean(value);
+                return !string.IsNullOrEmpty(value) && Convert.ToBoolean(value);
             }
         }
 

@@ -32,7 +32,7 @@
             return connectionStringBuilder.ToString();
         }
 
-        private Dictionary<string, string> ReadConnectionStrings()
+        private static Dictionary<string, string> ReadConnectionStrings()
         {
             if (ConfigurationManager.ConnectionStrings == null)
             {
