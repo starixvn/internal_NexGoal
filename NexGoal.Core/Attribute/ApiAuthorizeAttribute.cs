@@ -43,7 +43,7 @@
         {
             var user = this.sessionService.CurrentUser;
 
-            return user != null && user.HasPermission(FunctionKey, Policy);
+            return user == null ? false : user.HasPermission(FunctionKey, Policy);
         }
     }
 }
