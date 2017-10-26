@@ -3,12 +3,12 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Services;
-    using NexGoal.Model.EmployeeEPA;
-    using NexGoal.Model.Period;
-    using NexGoal.Services.Implement;
-    using NexGoal.Services.Interfaces;
+    using Core.Enumerations;
+    using Core.Services;
+    using Model.EmployeeEPA;
+    using Model.Period;
+    using Services.Implement;
+    using Services.Interfaces;
 
     public class ProcessService : BaseService, IProcessService
     {
@@ -32,7 +32,7 @@
         {
             IEnumerable<AutoEmployeePeriodModel> proccess = GetProcessNeedToClose();
             CloseProcess(proccess);
-            var processNeedToCaculateScore = proccess.Where(evaluationProcess => evaluationProcess.ProcessId >= (int)ProcessType.Reviewer);
+            var processNeedToCaculateScore = proccess.Where(evaluationProcess => evaluationProcess.ProcessId == (int)ProcessType.Reviewer);
             CaculatorScore(processNeedToCaculateScore);
         }
 
@@ -44,6 +44,9 @@
                 {
                     EPAModel epaInfo = employeeEPAService.GetEPAInfoById(process.EPAId);
                     double averageScore = epaInfo.Process.AverageScoreByEvaluators + epaInfo.ToeicPolicyScore;
+                    averageScore = averageScore > epaInfo.Process.Reviewers.First().MaxTotalScore
+                        ? epaInfo.Process.Reviewers.First().MaxTotalScore
+                        : averageScore;
 
                     UpdateTotalScoreOfProcess(process, averageScore);
                 }

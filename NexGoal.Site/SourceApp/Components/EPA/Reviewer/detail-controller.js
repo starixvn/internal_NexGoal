@@ -149,7 +149,8 @@ function ($scope, $timeout, $translate, $routeParams, EmployeeEPAModel, Reviewer
             vm.epaInfo.Process.CurrentProcess.TotalScore = vm.epaInfo.Process.CurrentProcess.TotalScore.length > 0
                 ? utilitiesFactory.parseFloat(vm.epaInfo.Process.CurrentProcess.TotalScore)
                 : utilitiesFactory.parseFloat(vm.epaInfo.Process.AverageScoreByEvaluators + vm.epaInfo.ToeicPolicyScore);
-
+            vm.epaInfo.Process.CurrentProcess.TotalScore =
+                    EmployeeEPAModel.checkScore(vm.epaInfo.Process.CurrentProcess.TotalScore, 0, vm.epaInfo.Process.CurrentProcess.MaxPerformanceScore);
             vm.evaluatedDate = vm.epaInfo.Process.CurrentProcess.EvaluateDate ? vm.epaInfo.Process.CurrentProcess.EvaluateDate : null;
 
             vm.epaInfo.Grade = EmployeeEPAModel.convertScoreToGrade(vm.epaInfo.Process.CurrentProcess.TotalScore, vm.standardGrades);

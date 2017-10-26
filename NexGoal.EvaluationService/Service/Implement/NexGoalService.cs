@@ -52,7 +52,10 @@
             }
             catch (Exception ex)
             {
-                LogService.Error(ex.InnerException.Message, ex);
+                if (ex.InnerException != null)
+                {
+                    LogService.Error(ex.InnerException.Message, ex);
+                }
             }
         }
 

@@ -140,6 +140,8 @@ function ($translate, $location, $routeParams, EmployeeEPAModel, ReviewerManagem
                     memberEPA.Process.CurrentProcess.TotalScore !== ''
                     ? utilitiesFactory.parseFloat(memberEPA.Process.CurrentProcess.TotalScore)
                     : utilitiesFactory.parseFloat(memberEPA.Process.AverageScoreByEvaluators + memberEPA.ToeicPolicyScore);
+                memberEPA.Process.CurrentProcess.TotalScore =
+                    EmployeeEPAModel.checkScore(memberEPA.Process.CurrentProcess.TotalScore, 0, memberEPA.Process.CurrentProcess.MaxPerformanceScore);
 
                 if (memberEPA.LastFinalScore.length > 0) {
                     memberEPA.LastFinalScore = utilitiesFactory.parseFloat(memberEPA.LastFinalScore);

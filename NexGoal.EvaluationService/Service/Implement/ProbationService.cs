@@ -2,6 +2,8 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using Core.Model;
+    using Fanex.Logging;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Period.GenerationEvaluation;
     using NexGoal.Model.Period;
@@ -63,7 +65,12 @@
 
             if (criteria.IsValid())
             {
-                Repository.ExecuteNonQuery(criteria);
+                CommandResult commandResult = Repository.ExecuteNonQuery(criteria);
+
+                if (!commandResult.IsSuccessful)
+                {
+                    LogService.Error(commandResult.Message);
+                }
             }
         }
 

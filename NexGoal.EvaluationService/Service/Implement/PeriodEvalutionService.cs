@@ -3,13 +3,14 @@
     using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
-    using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Services;
-    using NexGoal.Criteria.EmployeeEPA;
-    using NexGoal.Model.EmployeeEPA;
-    using NexGoal.Model.Period;
-    using NexGoal.Services.Implement;
-    using NexGoal.Services.Interfaces;
+    using Core.Constants;
+    using Core.Enumerations;
+    using Core.Services;
+    using Criteria.EmployeeEPA;
+    using Model.EmployeeEPA;
+    using Model.Period;
+    using Services.Implement;
+    using Services.Interfaces;
 
     public class PeriodEvalutionService : BaseService, IPeriodEvalutionService
     {
@@ -83,7 +84,7 @@
 
             double averagePerformanceScore = GetFinalScoreOfEvalution(epaInfo);
             double finalScore = averagePerformanceScore + epaInfo.DisciplineScore;
-            finalScore = finalScore >= 0 ? finalScore : 0;
+            finalScore = finalScore >= 0 ? (finalScore > Constants.MaxFinalScore ? Constants.MaxFinalScore : finalScore) : 0;
 
             epaInfo.Grade = employeeEPAService.ConvertScoreToGrade(finalScore, standardGrades);
 
@@ -110,12 +111,7 @@
                 ToeicPolicyScore = policyToeicScore
             };
 
-            UpdateFinalScore(criteria);
-        }
-
-        private void UpdateFinalScore(UpdateFinalScoreEndEvaluationCriteria criteria)
-        {
-            if (criteria != null && criteria.IsValid())
+            if (criteria.IsValid())
             {
                 Repository.ExecuteNonQuery(criteria);
             }
