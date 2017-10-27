@@ -112,6 +112,7 @@
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Net.Http, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.Net.Http.2.0.20710.0\lib\net40\System.Net.Http.dll</HintPath>
       <Private>True</Private>
@@ -171,9 +172,11 @@
     <Compile Include="Repositories\IBaseRepository.cs" />
     <Compile Include="Repositories\IIAuthenticationRepository.cs" />
     <Compile Include="Security\Encryption.cs" />
+    <Compile Include="Services\AvatarService.cs" />
     <Compile Include="Services\BaseService.cs" />
     <Compile Include="Services\AuthenticationService.cs" />
     <Compile Include="Services\CertificateService.cs" />
+    <Compile Include="Services\Interfaces\IAvatarService.cs" />
     <Compile Include="Utilities\CustomConnectionStringProvider.cs" />
     <Compile Include="Services\Interfaces\IAuthenticationService.cs" />
     <Compile Include="Services\Interfaces\IBaseMailService.cs" />

@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
-    using Core;
     using System;
+    using Core.Services;
 
     public class EPAEmployeeModel
     {
@@ -21,7 +21,9 @@
         {
             get
             {
-                return AppSetting.NexAvatarDomain + Code + ".jpg";
+                IAvatarService service = new AvatarService();
+
+                return service.GetAvatar(Code);
             }
         }
 

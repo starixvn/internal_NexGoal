@@ -1,7 +1,7 @@
 ﻿namespace NexGoal.Model.Enitites
 {
     using System;
-    using Core;
+    using Core.Services;
 
     [Serializable]
     public class Employee
@@ -24,7 +24,9 @@
         {
             get
             {
-                return AppSetting.NexAvatarDomain + Code + ".jpg";
+                IAvatarService service = new AvatarService();
+
+                return service.GetAvatar(Code);
             }
         }
 

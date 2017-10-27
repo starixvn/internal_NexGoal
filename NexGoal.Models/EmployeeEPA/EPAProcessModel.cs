@@ -1,9 +1,8 @@
 ﻿namespace NexGoal.Model.EmployeeEPA
 {
     using System;
-    using Core;
+    using Core.Services;
     using Newtonsoft.Json;
-    using NexGoal.Core.Services;
 
     [Serializable]
     public class EPAProcessModel
@@ -28,7 +27,9 @@
         {
             get
             {
-                return AppSetting.NexAvatarDomain + Code + ".jpg";
+                IAvatarService service = new AvatarService();
+
+                return service.GetAvatar(Code);
             }
         }
 

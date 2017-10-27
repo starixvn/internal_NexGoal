@@ -42,11 +42,11 @@
             }
         }
 
-        public static string NexAvatarDomain
+        public static string AvatarSourcePath
         {
             get
             {
-                return ConfigurationManager.AppSettings["NexAvatarDomain"];
+                return ConfigurationManager.AppSettings["AvatarSourcePath"];
             }
         }
     }
