@@ -1326,8 +1326,8 @@
   <data name="ToeicScore" xml:space="preserve">
     <value>TOEIC Score</value>
   </data>
-  <data name="TotalSpendTime" xml:space="preserve">
-    <value>Total Spend Time</value>
+  <data name="TotalSpentTime" xml:space="preserve">
+    <value>Total Spent Time</value>
   </data>
   <data name="UnplannedAnnualLeave" xml:space="preserve">
     <value>Unplanned Annual Leave</value>

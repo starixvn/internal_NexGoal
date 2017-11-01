@@ -39,7 +39,7 @@ Param's Explanation:
                     SUM(hrm.IsEarlyOut) AS NumberEarlyOut,
                     SUM(hrm.IsUnpaidLeave) AS NumberUnpaidLeave,
                     SUM(hrm.IsUnplannedAnnualLeave) AS NumberUnplannedAnnualLeave,
-                    SUM(hrm.TotalWorkHours)/SUM(ActualWorkDays) AS AverageWorkingHours
+                    SUM(hrm.TotalWorkHours)/(CASE WHEN SUM(ActualWorkDays) = 0 THEN 1 ELSE SUM(ActualWorkDays) END) AS AverageWorkingHours
              FROM dbo.HRMSummary AS hrm WITH(NOLOCK)
              INNER JOIN dbo.Employee as e with(nolocK) ON e.EmployeeId = hrm.EmployeeId
              WHERE hrm.AttendanceDate >= e.JoinedDate AND hrm.AttendanceDate <= DATEADD(Month,1,e.JoinedDate)

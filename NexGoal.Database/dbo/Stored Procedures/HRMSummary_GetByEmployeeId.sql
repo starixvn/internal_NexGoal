@@ -1,8 +1,5 @@
 ﻿
 
-
-
-                                                   
 CREATE PROCEDURE [dbo].[HRMSummary_GetByEmployeeId] @EmployeeId INT,
                                                    @StartDate  DATETIME,
                                                    @EndDate    DATETIME
@@ -42,7 +39,7 @@ Param's Explanation:
                     SUM(IsEarlyOut) AS NumberEarlyOut,
                     SUM(IsUnpaidLeave) AS NumberUnpaidLeave,
                     SUM(IsUnplannedAnnualLeave) AS NumberUnplannedAnnualLeave,
-                    SUM(TotalWorkHours)/SUM(ActualWorkDays) AS AverageWorkingHours
+                    SUM(TotalWorkHours)/(CASE WHEN SUM(ActualWorkDays) = 0 THEN 1 ELSE SUM(ActualWorkDays) END) AS AverageWorkingHours
              FROM dbo.HRMSummary WITH(NOLOCK)
              WHERE AttendanceDate BETWEEN @StartDate AND @EndDate
                    AND EmployeeId = @EmployeeId
@@ -54,7 +51,7 @@ Param's Explanation:
          (
              SELECT MONTH(Date) AS [month],
                     YEAR(Date) AS [year],
-                    COUNT(*) AS Times
+                    COUNT(1) AS Times
              FROM dbo.Overtime AS ot WITH (NOLOCK)
              WHERE EmployeeId = @EmployeeId
                    AND Date BETWEEN @StartDate AND @EndDate

@@ -4516,11 +4516,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Total Spend Time.
+        ///   Looks up a localized string similar to Total Spent Time.
         /// </summary>
-        public static string TotalSpendTime {
+        public static string TotalSpentTime {
             get {
-                return ResourceManager.GetString("TotalSpendTime", resourceCulture);
+                return ResourceManager.GetString("TotalSpentTime", resourceCulture);
             }
         }
         

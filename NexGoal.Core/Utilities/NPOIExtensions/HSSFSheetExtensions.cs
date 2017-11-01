@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using NPOI.SS.UserModel;
     using NPOI.SS.Util;
 
@@ -16,7 +15,6 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         public static void CopyRow(this ISheet sheet, ISheet sourceSheet, int sourceRowIndex, int rowIndex, int firstColumnIndex, int lastColumnIndex)
         {
             // Expand the sheet to satisfy the number of needed rows.
@@ -114,7 +112,6 @@
             }
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         public static void RemoveColumn(this ISheet sheet, int columnIndex)
         {
             bool adjustColumn = true;
@@ -280,7 +277,6 @@
             return cell;
         }
 
-        [SuppressMessage("StyleCop.CSharp.StylecopPlus.Rules", "SP2101:MethodMustNotContainMoreLinesThan", Justification = "Need to review here.")]
         private static void CloneCell(ICell newCell, ICell sourceCell)
         {
             if (sourceCell != null)
