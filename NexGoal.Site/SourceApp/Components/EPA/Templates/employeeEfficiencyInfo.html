@@ -11,27 +11,29 @@
                 <tr>
                     <th>#</th>
                     <th data-translate="ProjectName"></th>
+                    <th data-translate="Target"></th>
                     <th data-translate="ProjectManager"></th>
                     <th data-translate="StartDate"></th>
                     <th data-translate="EndDate"></th>
                     <th data-translate="Role"></th>
-                    <th data-translate="TotalSpendTime"></th>
+                    <th data-translate="TotalSpentTime"></th>
                     <th data-translate="Score"></th>
                     <th data-translate="Comment"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-if="memberEPAInfoCtrl.employeeProjects.length === 0">
-                    <td colspan="9" data-translate="EmptyResult" class="empty-result"></td>
+                    <td colspan="10" data-translate="EmptyResult" class="empty-result"></td>
                 </tr>
                 <tr ng-repeat="project in memberEPAInfoCtrl.employeeProjects" ng-if="memberEPAInfoCtrl.employeeProjects.length > 0">
                     <td class="text-center">{{$index + 1}}</td>
-                    <td>{{project.ProjectName}}</td>
-                    <td class="text-center">{{project.ProjectManagerName}}</td>
-                    <td class="text-center">{{project.StartDate | customDate}}</td>
-                    <td class="text-center">{{project.EndDate | customDate}}</td>
-                    <td class="text-center">{{project.Roles}}</td>
-                    <td class="text-center">{{project.WorkingHour}}</td>
+                    <td ng-bind="project.ProjectName"></td>
+                    <td ng-bind="project.TargetName"></td>
+                    <td class="text-center" ng-bind="project.ProjectManagerName"></td>
+                    <td class="text-center" ng-bind="project.StartDate | customDate"></td>
+                    <td class="text-center" ng-bind="project.EndDate | customDate"></td>
+                    <td class="text-center" ng-bind="project.Roles"></td>
+                    <td class="text-center" ng-bind="project.WorkingHour"></td>
                     <td class="text-center">
                         <span ng-if="project.DecryptedScore !== null && project.DecryptedScore.length > 0">
                             {{project.DecryptedScore}} <i class="fa fa-star"></i>

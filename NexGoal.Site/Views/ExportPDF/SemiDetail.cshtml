@@ -332,6 +332,7 @@
                 <tr>
                     <td class="width-small content-table">@Lang.No</td>
                     <td class="content-table-left width-large">@Lang.ProjectName</td>
+                    <td class="content-table-left width-large">@Lang.Target</td>
                     <td class="content-table-left">@Lang.ProjectManager</td>
                     <td class="content-table-left">@Lang.StartDate</td>
                     <td class="content-table-left">@Lang.EndDate</td>
@@ -343,7 +344,7 @@
             @if (nexPMs.Count() == 0)
             {
                 <tr>
-                    <td colspan="8" class="empty-result content-table">@Lang.EmptyResult</td>
+                    <td colspan="9" class="empty-result content-table">@Lang.EmptyResult</td>
                 </tr>
             }
             else
@@ -355,6 +356,7 @@
                     <tr>
                         <td class="content-table" rowspan="@(string.IsNullOrEmpty(item.Comment)?1:2)">@count</td>
                         <td class="content-table-left" rowspan="@(string.IsNullOrEmpty(item.Comment)?1:2)">@item.ProjectName</td>
+                        <td class="content-table-left" rowspan="@(string.IsNullOrEmpty(item.Comment)?1:2)">@item.TargetName</td>
                         <td class="content-table-left">@item.ProjectManagerName</td>
                         <td class="content-table-left">@item.StartDate.ToString("dd MMM, yyyy")</td>
                         <td class="content-table-left">@(item.EndDate.HasValue ? item.EndDate.Value.ToString("dd MMM, yyyy") : Lang.Dash)</td>

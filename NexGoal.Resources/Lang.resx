@@ -1764,4 +1764,7 @@
   <data name="StartDateForNominatorRequired" xml:space="preserve">
     <value>Start Date For Nominator field is required!</value>
   </data>
+  <data name="Target" xml:space="preserve">
+    <value>Target</value>
+  </data>
 </root>

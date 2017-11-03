@@ -4237,6 +4237,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target.
+        /// </summary>
+        public static string Target {
+            get {
+                return ResourceManager.GetString("Target", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Target Employee Setting.
         /// </summary>
         public static string TargetEmployeeSetting {
