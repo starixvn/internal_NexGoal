@@ -1,11 +1,12 @@
 ﻿<div ng-controller="KPIListController as kpiListCtrl">
     <form class="form-horizontal common-form project-form" novalidate>
         <div>
-            <a class="button" 
+            <a class="button"
                ng-click="kpiListCtrl.addKPIGroup()">
                 <i class="fa fa-cog"></i> {{"ManageKPIGroupTargetTemplate" | translate}}
             </a>
-            <input class="search-inline-textbox search-textbox pull-right" placeholder="KPI Name" type="text" ng-model="KPIName" ng-keypress="kpiListCtrl.preventEnter($event)" />
+            <input class="search-inline-textbox search-textbox pull-right" placeholder="KPI Name" type="text" ng-model="KPIName"
+                   ng-keypress="kpiListCtrl.preventEnter($event)" />
         </div>
         <div class="boxcontent">
             <div class="line top-buffer">
@@ -30,7 +31,7 @@
                                 <td class="text-center row-highlight">
                                     <input type="checkbox" ng-model="group.Selected" ng-click="kpiListCtrl.checkAllGroup(group.Selected, group)" />
                                 </td>
-                                <td></td>
+                                <td class="row-highlight"></td>
                                 <td class="criteria-title row-highlight group-header">
                                     <span>{{ group.Name}} ({{group.Weight}})</span>
                                     <a class="glyphicon glyphicon-remove icon-remove left-buffer" title="Remove Group"
@@ -46,7 +47,8 @@
                             </tr>
                             <tr class="row-data" ng-repeat="item in group.KPIs | filter: KPIName">
                                 <td class="text-center" item-id="{{item.KPIId}}" group-id="{{group.KPIGroupId}}">
-                                    <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.Selected" ng-click="kpiListCtrl.check(group, item)" />
+                                    <input class="check-group" type="checkbox" value="{{item.Name}}" ng-model="item.Selected"
+                                           ng-click="kpiListCtrl.check(group, item)" />
                                 </td>
                                 <td class="text-center" ng-bind="$index + 1"></td>
                                 <td ng-bind="item.Name"></td>
@@ -60,10 +62,12 @@
                                     <input type="checkbox" ng-model="item.IsRequiredEvaluate" ng-if="item.Selected" name="IsRequiredEvaluate" />
                                 </td>
                                 <td class="width-100 text-center">
-                                    <input type="checkbox" ng-model="item.HasComment" ng-if="item.Selected" ng-click="kpiListCtrl.changeHasComment(item)" name="HasComment" />
+                                    <input type="checkbox" ng-model="item.HasComment" ng-if="item.Selected"
+                                           ng-click="kpiListCtrl.changeHasComment(item)" name="HasComment" />
                                 </td>
                                 <td class="text-center">
-                                    <input type="checkbox" ng-model="item.IsRequiredComment" ng-if="item.Selected" ng-disabled="!item.HasComment" name="IsRequiredComment" />
+                                    <input type="checkbox" ng-model="item.IsRequiredComment" ng-if="item.Selected"
+                                           ng-disabled="!item.HasComment" name="IsRequiredComment" />
                                 </td>
                                 <td class="text-center priority-limit">
                                     <a title="Top" class="glyphicon glyphicon-open kpiTop" move-kpi-row> | </a>
@@ -74,13 +78,13 @@
                             </tr>
                         </tbody>
                         <tfoot>
-                            <tr ng-if="filterKPIs.length == 0">
+                            <tr ng-if="filterKPIs.length === 0">
                                 <td class="empty-result" colspan="8" data-translate="EmptyResult"></td>
                             </tr>
                         </tfoot>
                     </table>
                     <div class="top-buffer button-block kpilist-footer">
-                        <button class="button" get-weight data-translate="Submit" type="submit"></button>                        
+                        <button class="button" get-weight data-translate="Submit" type="submit"></button>
                     </div>
                 </div>
             </div>
