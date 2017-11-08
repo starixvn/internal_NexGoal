@@ -1,21 +1,16 @@
-﻿using NUnit.Framework;
-using System;
-
-namespace NexGoal.Criteria.Tests.Integration
+﻿namespace NexGoal.Criteria.Tests.Integration
 {
+    using System;
+    using NUnit.Framework;
+
     [TestFixture]
     public class GetEmployeeWorkingByEmployeeIdCriteriaTest
     {
-        private static TestData[] testData = new[] 
+        private static TestData[] testData = new[]
             {
                 new TestData(0, DateTime.Now, DateTime.Now.AddDays(1)),
                 new TestData(-1, DateTime.Now, DateTime.Now.AddDays(1)),
-                new TestData(263, DateTime.MinValue, DateTime.Now.AddDays(1)),
-                new TestData(263, DateTime.MaxValue, DateTime.Now.AddDays(1)),
-                new TestData(263, DateTime.Now, DateTime.MinValue),
-                new TestData(263, DateTime.Now, DateTime.MaxValue),
-                new TestData(263, DateTime.Now, DateTime.Now.AddDays(-1)),
-                new TestData(0, DateTime.MinValue, DateTime.MinValue)
+                new TestData(263, DateTime.Now, DateTime.Now.AddDays(-1))
             };
 
         [Test]
@@ -38,7 +33,6 @@ namespace NexGoal.Criteria.Tests.Integration
                 StartDate = testData.StartDate,
                 EndDate = testData.EndDate
             };
-            var a = DateTime.Now;
             var actual = criteria.IsValid();
 
             Assert.IsFalse(actual);
