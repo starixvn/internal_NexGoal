@@ -59,6 +59,7 @@ var flowMngModule = angular.module("flowMngModule", ['ngRoute'])
     $routeProvider.when('/Flow/Update/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/FlowManagement/Templates/update.html', caseInsensitiveMatch: true });
 }]);
+flowMngModule.filterName = 'flowManagementFilter';
 
 var targetEmployeeSettingModule = angular.module("targetEmployeeSettingModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {
@@ -109,6 +110,7 @@ var periodModule = angular.module("periodModule", ['ngRoute'])
     $routeProvider.when('/Period/Update/:id',
     { templateUrl: baseUrl + 'SourceApp/Components/Period/Templates/edit.html', caseInsensitiveMatch: true });
 }]);
+periodModule.filterName = 'periodManagementFilter';
 
 var dashboardModule = angular.module("dashboardModule", ['ngRoute'])
 .config(['$routeProvider', function ($routeProvider) {

@@ -1,32 +1,33 @@
 ﻿'use strict';
 (function (angular) {
     function historyFactory($window) {
-        var isBack = false;
         var model = {};
 
         var service = {
-            saveState: function (filter) {
-                model = filter;
-                isBack = false;
+            saveState: function (filter, name) {
+                model[name] = filter;
             },
 
-            getState: function () {
-                if (isBack && model) {
-                    isBack = false;
+            getState: function (name) {
+                if (model[name] && model[name].isBack) {
+                    model[name].isBack = false;
 
-                    return model;
+                    return model[name];
                 }
 
                 return null;
             },
 
-            back: function () {
-                isBack = true;
+            back: function (name) {
+                model[name].isBack = true;
                 $window.history.back();
             },
 
-            setBackStatus: function (status) {
-                isBack = status;
+            setBackStatus: function (status, name) {
+                if (!model[name])
+                    model[name] = {};
+
+                model[name].isBack = status;
             }
         };
 

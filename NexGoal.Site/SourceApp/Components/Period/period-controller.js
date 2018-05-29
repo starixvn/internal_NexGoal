@@ -16,7 +16,7 @@ function ($location, PeriodModel, CommonModel, utilitiesFactory, enumerationsFac
     vm.filter = {};
 
     function initFilter() {
-        var filter = historyFactory.getState();
+        var filter = historyFactory.getState(periodModule.filterName);
 
         return filter ? filter : {
             targetTypeId: null,
@@ -44,7 +44,7 @@ function ($location, PeriodModel, CommonModel, utilitiesFactory, enumerationsFac
         })["finally"](function () {
             lockScreenService.stop();
         });
-        historyFactory.saveState(vm.filter);
+        historyFactory.saveState(vm.filter, periodModule.filterName);
     };
 
     getPeriod(vm.filter.targetTypeId, vm.filter.isActive);
@@ -168,10 +168,10 @@ function ($scope, $modalInstance, PeriodModel, CommonModel, enumerationsFactory,
 periodModule.controller('UpdatePeriodController',
 ['$routeParams', 'PeriodModel', 'enumerationsFactory', 'historyFactory', "lockScreenService",
 function ($routeParams, PeriodModel, enumerationsFactory, historyFactory, lockScreenService) {
+    historyFactory.setBackStatus(true, periodModule.filterName);
+
     var vm = this;
-
     vm.policyEnum = enumerationsFactory.policy;
-
     vm.period = null;
     vm.periodId = parseInt($routeParams.id, 10);
     vm.viewMode = $routeParams.viewSetting ? true : false;
@@ -209,7 +209,7 @@ function ($routeParams, PeriodModel, enumerationsFactory, historyFactory, lockSc
     });
 
     vm.backToList = function () {
-        historyFactory.back();
+        historyFactory.back(periodModule.filterName);
     };
 
     function initialize() {
@@ -228,8 +228,9 @@ function ($routeParams, PeriodModel, enumerationsFactory, historyFactory, lockSc
 periodModule.controller('UpdateBasicInformationPeriodController',
 ['$scope', 'PeriodModel', 'CommonModel', 'enumerationsFactory', "lockScreenService",
 function ($scope, PeriodModel, CommonModel, enumerationsFactory, lockScreenService) {
-    var vm = this;
+    historyFactory.setBackStatus(true, periodModule.filterName);
 
+    var vm = this;
     vm.targetTypes = CommonModel.targetTypes;
     vm.period = {};
     vm.isFirstLoad = true;
@@ -375,6 +376,6 @@ function ($scope, PeriodModel, CommonModel, PAFocusModel, historyFactory, lockSc
     };
 
     vm.cancel = function () {
-        historyFactory.back();
+        historyFactory.back(periodModule.filterName);
     };
 }]);

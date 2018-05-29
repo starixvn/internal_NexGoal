@@ -5,14 +5,12 @@ flowMngModule.controller("FlowMngController",
 ["$location", 'FlowMngModel', 'CommonModel', 'utilitiesFactory', 'enumerationsFactory', 'baseUrl', "lockScreenService", 'historyFactory',
 function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFactory, baseUrl, lockScreenService, historyFactory) {
     var vm = this;
-
     vm.targetTypes = CommonModel.targetTypes;
     vm.flowTemplates = FlowMngModel.flowTemplates;
     vm.permission = FlowMngModel.permission;
-
     vm.policyEnum = enumerationsFactory.policy;
 
-    var filter = historyFactory.getState();
+    var filter = historyFactory.getState(flowMngModule.filterName);
     vm.filter = filter ? filter : {
         targetTypeId: '',
         isActive: 'true'
@@ -31,7 +29,7 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
             lockScreenService.stop();
         });
 
-        historyFactory.saveState(vm.filter);
+        historyFactory.saveState(vm.filter, flowMngModule.filterName);
     };
 
     vm.createFlowTemplate = function () {
@@ -41,7 +39,7 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
     };
 
     vm.updateFlowTemplate = function (flowTemplate) {
-        historyFactory.setBackStatus(true);
+        historyFactory.setBackStatus(true, flowMngModule.filterName);
         $location.path(baseUrl + 'Flow/Update/' + flowTemplate.FlowTemplateId);
     };
 
@@ -91,8 +89,8 @@ function ($location, FlowMngModel, CommonModel, utilitiesFactory, enumerationsFa
 }]);
 
 flowMngModule.controller("UpdateFlowTemplateController",
-['$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService', 'historyFactory',
-function ($routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService, historyFactory) {
+['$routeParams', 'FlowMngModel', 'CommonModel', 'enumerationsFactory', 'cacheService', 'historyFactory', '$location', 'baseUrl',
+function ($routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheService, historyFactory, $location, baseUrl) {
     var vm = this;
 
     vm.flowTemplateId = parseInt($routeParams.id, 10);
@@ -133,7 +131,7 @@ function ($routeParams, FlowMngModel, CommonModel, enumerationsFactory, cacheSer
     };
 
     vm.backToList = function () {
-        historyFactory.back();
+        $location.path(baseUrl + 'Flow/Index/');
     };
 
     vm.initialize();
@@ -170,6 +168,6 @@ function ($scope, $routeParams, FlowMngModel, CommonModel, historyFactory) {
     };
 
     vm.cancel = function () {
-        historyFactory.back();
+        historyFactory.back(flowMngModule.filterName);
     };
 }]);
