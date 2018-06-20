@@ -35,5 +35,5 @@ packages/
 *.orig
 SMS.EPA.Site/ExportPDFFolder/*
 *.dbmdl
-.vs/config/applicationhost.config
+.vs
 /NexGoal.Database/NexGoal.Database.jfm
