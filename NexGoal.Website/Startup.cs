@@ -9,8 +9,11 @@
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
+    using Microsoft.AspNetCore.Server.IISIntegration;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using NexGoal.Core.Middlewares;
+    using NexGoal.Core.Services;
 
     public class Startup
     {
@@ -36,18 +39,21 @@
                 .UseDefaultDbSettingProvider("~/App_Data")
                 .Run();
 
-            services.Configure<CookiePolicyOptions>(options =>
+            services.Configure<IISOptions>(options =>
             {
-                // This lambda determines whether user consent for non-essential cookies is needed for a given request.
-                options.CheckConsentNeeded = context => true;
-                options.MinimumSameSitePolicy = SameSiteMode.None;
+                options.AutomaticAuthentication = true;
             });
+            services.AddAuthentication(IISDefaults.AuthenticationScheme);
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
+            services.AddSession();
+
             // DI
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
-            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
+            services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
+            services.AddTransient<IBaseService, BaseService>();
+            services.AddTransient<ISessionService, SessionService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -61,11 +67,14 @@
             {
                 app.UseExceptionHandler("/Error/InternalError");
                 app.UseHsts();
+
+                app.UseMiddleware<ErrorHandlingMiddleware>();
             }
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            app.UseSession();
+            app.UseMiddleware<AuthenticationMiddleware>();
 
             app.UseMvc(routes =>
             {

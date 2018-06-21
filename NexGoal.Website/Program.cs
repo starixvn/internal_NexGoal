@@ -13,7 +13,8 @@
         public static IWebHostBuilder CreateWebHostBuilder(string[] args)
         {
             return WebHost.CreateDefaultBuilder(args)
-            .UseStartup<Startup>();
+                .UseIISIntegration()
+                .UseStartup<Startup>();
         }
     }
 }

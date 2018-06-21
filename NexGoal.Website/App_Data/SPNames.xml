@@ -3,4 +3,13 @@
   <Function Name="Reference Resource">
     <Setting Key="RefResource_GetByNames" SpName="RefResource_GetByNames" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="Menu">
+    <Setting Key="Menu_GetByEmployeeId" SpName="Menu_GetByEmployeeId" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Function">
+    <Setting Key="Function_GetByEmployeeId" SpName="Function_GetByEmployeeId" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Employee">
+    <Setting Key="Employee_GetByDomainUsername" SpName="Employee_GetByDomainUsername" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>
