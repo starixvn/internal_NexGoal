@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Reference Resource">
+    <Setting Key="RefResource_GetByNames" SpName="RefResource_GetByNames" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+</Functions>

@@ -1,35 +1,65 @@
-﻿namespace NexGoal.Core.Services
+namespace NexGoal.Core.Services
 {
-    using System;
-    using System.Configuration;
     using System.IO;
+    using System.Net;
+    using System.Net.Mail;
     using System.Text.RegularExpressions;
-    using Constants;
-    using Fanex.MailDeliver.MailClient.API;
-    using Fanex.MailDeliver.Model;
+    using Microsoft.Extensions.Options;
+    using Models;
 
     public class BaseMailService : IBaseMailService
     {
+        private readonly IOptionsSnapshot<MailConfigs> configuration;
+
+        public BaseMailService(IOptionsSnapshot<MailConfigs> configuration)
+        {
+            this.configuration = configuration;
+        }
+
         public void SendEmail(MailModel email)
         {
-            if (email == null
-                || !IsValidEmail(email.ReceiverEmail)
-                || ConfigurationManager.AppSettings["AllowSendMail"].Equals("false", StringComparison.OrdinalIgnoreCase))
+            if (email == null || !IsValidEmail(email.ReceiverEmail))
             {
                 return;
             }
 
-            var mailItem = new MailRecord
+            using (var message = new MailMessage())
             {
-                MailTo = email.ReceiverEmail,
-                MailCc = email.MailCc,
-                Subject = email.Subject,
-                Title = ConfigurationManager.AppSettings["Email.SenderName"],
-                Body = email.Body
-            };
-            using (var client = new MailDeliver())
+                message.From = new MailAddress(configuration.Value.Username);
+                message.To.Add(new MailAddress(email.ReceiverEmail));
+                message.Subject = email.Subject;
+                message.Body = email.Body;
+                message.IsBodyHtml = true;
+                message.Priority = configuration.Value.MailPriority;
+
+                foreach (Attachment attachment in email.Attachments)
+                {
+                    message.Attachments.Add(attachment);
+                }
+
+                using (var mailclient = new SmtpClient())
+                {
+                    var credential = new NetworkCredential
+                    {
+                        UserName = configuration.Value.Username,
+                        Password = configuration.Value.Password
+                    };
+                    mailclient.UseDefaultCredentials = true;
+                    mailclient.Credentials = credential;
+                    mailclient.Host = configuration.Value.SmtpServer;
+                    mailclient.Port = configuration.Value.SmtpPortNumber;
+                    mailclient.EnableSsl = configuration.Value.EnableSsl;
+
+                    mailclient.Send(message);
+                }
+            }
+        }
+
+        public string ReadTextFile(string filePath)
+        {
+            using (var sr = new StreamReader(filePath))
             {
-                client.SendMail(mailItem);
+                return sr.ReadToEnd();
             }
         }
 
@@ -42,26 +72,6 @@
 
             var regex = new Regex(@"\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*");
             return regex.IsMatch(email);
-        }
-
-        public string ReadTextFile(string filePath)
-        {
-            using (var sr = new StreamReader(filePath))
-            {
-                return sr.ReadToEnd();
-            }
-        }
-
-        public string ChangeStartDate(DateTime startDate)
-        {
-            var result = new DateTime(startDate.Year, startDate.Month, startDate.Day, 0, 0, 0, 0, startDate.Kind);
-            return result.ToString(Constants.FormatDateTimeEmail);
-        }
-
-        public string ChangeEndDate(DateTime endDate)
-        {
-            var result = new DateTime(endDate.Year, endDate.Month, endDate.Day, 23, 59, 0, 0, endDate.Kind);
-            return result.ToString(Constants.FormatDateTimeEmail);
         }
     }
 }

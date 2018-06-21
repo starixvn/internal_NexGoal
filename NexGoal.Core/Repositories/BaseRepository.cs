@@ -1,23 +1,20 @@
-﻿namespace NexGoal.Core.Repositories
+namespace NexGoal.Core.Repositories
 {
     using System;
     using System.Collections;
+    using System.Threading.Tasks;
     using Fanex.Data;
     using Fanex.Data.Repository;
-    using Model;
+    using Models;
 
     public class BaseRepository : IBaseRepository
     {
-        public virtual CommandResult ExecuteNonQuery(ICriteria criteria)
+        public async Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria)
         {
-            using (var db = new ObjectDb(criteria.GetSettingKey()))
+            using (var db = ObjectDbFactory.CreateInstance(criteria.GetSettingKey()))
             {
-                Hashtable hash = criteria.GetSpParams();
-                hash.Add("ErrCode", 0);
-                hash.Add("ErrMsg", string.Empty);
-
-                db.ExecuteNonQuery(hash);
-                CommandResult commandResult = GetCommandResult(hash);
+                await db.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                CommandResult commandResult = GetCommandResult(criteria.GetSpParams());
 
                 return commandResult;
             }

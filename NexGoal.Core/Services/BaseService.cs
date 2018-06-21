@@ -1,36 +1,54 @@
-﻿namespace NexGoal.Core.Services
+namespace NexGoal.Core.Services
 {
     using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Fanex.Data.Repository;
-    using NexGoal.Core.Repositories;
+    using Models;
+    using Repositories;
 
-    public class BaseService
+    public class BaseService : IBaseService
     {
-        private readonly IBaseRepository _repository;
-        private readonly IDynamicRepository _dynamicRepository;
+        private readonly IDynamicRepository dynamicRepository;
+        private readonly IBaseRepository baseRepository;
 
-        public BaseService(IDynamicRepository dynamicRepository = null, IBaseRepository repository = null)
+        public BaseService(
+            IDynamicRepository dynamicRepository = null,
+            IBaseRepository baseRepository = null)
         {
-            _dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            _repository = repository ?? new BaseRepository();
+            this.dynamicRepository = dynamicRepository ?? new DynamicRepository();
+            this.baseRepository = baseRepository ?? new BaseRepository();
         }
 
-        public IBaseRepository Repository
+        public async Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria)
         {
-            get
+            if (criteria != null && criteria.IsValid())
             {
-                return _repository;
+                return await dynamicRepository.FetchAsync<T>(criteria).ConfigureAwait(false);
             }
+
+            return new List<T>();
         }
 
-        public virtual IEnumerable<T> GetData<T>(ICriteria criteria)
+        public async Task<T> GetDataEntityAsync<T>(ICriteria criteria)
         {
-            return _dynamicRepository.Fetch<T>(criteria);
+            if (criteria != null && criteria.IsValid())
+            {
+                return await dynamicRepository.GetAsync<T>(criteria).ConfigureAwait(false);
+            }
+
+            return default(T);
         }
 
-        public virtual T GetDataEntity<T>(ICriteria criteria)
+        public async Task<CommandResult> ExecuteNonQueryAsync(ICriteria criteria)
         {
-            return _dynamicRepository.Get<T>(criteria);
+            var commandResult = new CommandResult();
+
+            if (criteria != null && criteria.IsValid())
+            {
+                commandResult = await baseRepository.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            }
+
+            return commandResult;
         }
     }
 }

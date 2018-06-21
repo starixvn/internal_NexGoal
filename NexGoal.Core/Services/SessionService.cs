@@ -1,69 +1,72 @@
-﻿namespace NexGoal.Core.Services
+namespace NexGoal.Core.Services
 {
-    using NexGoal.Core.Model;
     using System.Collections.Generic;
-    using System.Web;
+    using System.Linq;
+    using Constants;
+    using Enumerations;
+    using Microsoft.AspNetCore.Http;
+    using Models;
 
     public class SessionService : ISessionService
     {
-        private readonly IAuthenticationService authenticationService;
+        private readonly ISession _session;
 
-        public SessionService()
-            : this(null)
+        public SessionService(ISession session)
         {
+            _session = session;
         }
 
-        public SessionService(IAuthenticationService authenticationService)
+        public SessionService(IHttpContextAccessor accessor)
         {
-            this.authenticationService = authenticationService ?? new AuthenticationService();
+            _session = accessor.HttpContext.Session;
         }
 
         public int EmployeeId
         {
-            get
-            {
-                return CurrentUser.EmployeeId;
-            }
+            get => _session?.GetInt32(SessionKey.InternalEmployeeId) ?? 0;
+            set => _session?.SetInt32(SessionKey.InternalEmployeeId, value);
+        }
 
-            set
-            {
-                CurrentUser.EmployeeId = value;
-            }
+        public IEnumerable<MenuItem> MenuItems
+        {
+            get => _session.Get<List<MenuItem>>(SessionKey.InternalMenuItemList);
+            set => _session.Set(SessionKey.InternalMenuItemList, value);
         }
 
         public IEnumerable<FunctionModel> Functions
         {
-            get
-            {
-                return CurrentUser.Functions;
-            }
-
-            set
-            {
-                CurrentUser.Functions = value;
-            }
+            get => _session.Get<List<FunctionModel>>(SessionKey.InternalFunctionList);
+            set => _session.Set(SessionKey.InternalFunctionList, value);
         }
 
-        public UserSession CurrentUser
+        public bool HasPermissionOnFunction(string functionKey, Policy policy)
         {
-            get
+            var result = false;
+
+            if (Functions != null && Functions.Any())
             {
-                var session = HttpContext.Current.Session;
-                if (session[Constants.Constants.CurrentSessionKey] == null)
+                switch (policy)
                 {
-                    var domainUsername = HttpContext.Current.User.Identity.Name;
-                    UserSession currentUser = authenticationService.GetEmployeeByUsername(domainUsername);
-                    CurrentUser = currentUser;
-                    authenticationService.InsertLogLogin(domainUsername);
+                    case Policy.Read:
+                        result = Functions.Any(x => x.Policy == Policy.Read || x.Policy == Policy.Host);
+                        break;
+
+                    case Policy.Host:
+                        result = Functions.Any(x => x.Policy == Policy.Host);
+                        break;
+
+                    default:
+                        result = false;
+                        break;
                 }
-
-                return session[Constants.Constants.CurrentSessionKey] as UserSession;
             }
 
-            set
-            {
-                HttpContext.Current.Session[Constants.Constants.CurrentSessionKey] = value;
-            }
+            return result;
+        }
+
+        public void ClearAll()
+        {
+            _session.Clear();
         }
     }
 }
