@@ -42,6 +42,25 @@
   <ItemGroup>
     <Folder Include="Controllers\" />
     <Folder Include="Models\" />
+    <Folder Include="wwwroot\assets\styles\fonts\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\assets\styles\abstracts\_mixins.scss" />
+    <None Include="wwwroot\assets\styles\abstracts\_variables.scss" />
+    <None Include="wwwroot\assets\styles\images\404\404.svg" />
+    <None Include="wwwroot\assets\styles\images\404\balloon.svg" />
+    <None Include="wwwroot\assets\styles\images\404\cloud-big.svg" />
+    <None Include="wwwroot\assets\styles\images\404\cloud-small.svg" />
+    <None Include="wwwroot\assets\styles\images\404\wind.svg" />
+    <None Include="wwwroot\assets\styles\images\405\door.svg" />
+    <None Include="wwwroot\assets\styles\images\405\seal.svg" />
+    <None Include="wwwroot\assets\styles\images\405\short-seal.svg" />
+    <None Include="wwwroot\assets\styles\images\405\signage.svg" />
+    <None Include="wwwroot\assets\styles\images\500\bluscreen.svg" />
+    <None Include="wwwroot\assets\styles\images\500\desktop.svg" />
+    <None Include="wwwroot\assets\styles\images\500\Error.svg" />
+    <None Include="wwwroot\assets\styles\images\500\leave.svg" />
   </ItemGroup>
 
   <ItemGroup>

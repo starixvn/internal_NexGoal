@@ -33,7 +33,7 @@ $tf*/
 packages/
 *.html.orig
 *.orig
-SMS.EPA.Site/ExportPDFFolder/*
 *.dbmdl
 .vs
 /NexGoal.Database/NexGoal.Database.jfm
+/NexGoal.Website/Properties/PublishProfiles
