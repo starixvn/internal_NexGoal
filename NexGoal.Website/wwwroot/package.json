@@ -1,0 +1,44 @@
+{
+  "name": "main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build:vendor:dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js",
+    "build:vendor:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env=production",
+    "build:app:dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --watch",
+    "build:app:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production",
+    "build:all:dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js && node node_modules/webpack/bin/webpack.js --config webpack.config.js",
+    "build:all:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env=production && node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production",
+    "start:dev": "node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --hot --inline --progress --watch-content-base --open"
+  },
+  "author": "",
+  "dependencies": {
+    "bootstrap": "^4.1.1",
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-plugin-transform-object-rest-spread": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "clean-webpack-plugin": "^0.1.19",
+    "css-loader": "^0.28.11",
+    "file-loader": "^1.1.11",
+    "mini-css-extract-plugin": "^0.4.0",
+    "node-noop": "^1.0.0",
+    "node-sass": "^4.9.0",
+    "optimize-css-assets-webpack-plugin": "^4.0.2",
+    "sass-loader": "^7.0.1",
+    "style-loader": "^0.21.0",
+    "url-loader": "^1.0.1",
+    "webpack": "^4.12.1",
+    "webpack-cli": "^2.1.5",
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.2"
+  },
+  "license": "ISC"
+}

@@ -40,27 +40,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
-    <Folder Include="Models\" />
-    <Folder Include="wwwroot\assets\styles\fonts\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <None Include="wwwroot\assets\styles\abstracts\_mixins.scss" />
-    <None Include="wwwroot\assets\styles\abstracts\_variables.scss" />
-    <None Include="wwwroot\assets\styles\images\404\404.svg" />
-    <None Include="wwwroot\assets\styles\images\404\balloon.svg" />
-    <None Include="wwwroot\assets\styles\images\404\cloud-big.svg" />
-    <None Include="wwwroot\assets\styles\images\404\cloud-small.svg" />
-    <None Include="wwwroot\assets\styles\images\404\wind.svg" />
-    <None Include="wwwroot\assets\styles\images\405\door.svg" />
-    <None Include="wwwroot\assets\styles\images\405\seal.svg" />
-    <None Include="wwwroot\assets\styles\images\405\short-seal.svg" />
-    <None Include="wwwroot\assets\styles\images\405\signage.svg" />
-    <None Include="wwwroot\assets\styles\images\500\bluscreen.svg" />
-    <None Include="wwwroot\assets\styles\images\500\desktop.svg" />
-    <None Include="wwwroot\assets\styles\images\500\Error.svg" />
-    <None Include="wwwroot\assets\styles\images\500\leave.svg" />
+    <None Include="wwwroot\sources\styles\abstracts\_mixins.scss" />
+    <None Include="wwwroot\sources\styles\abstracts\_variables.scss" />
+    <None Include="wwwroot\sources\styles\images\404\404.svg" />
+    <None Include="wwwroot\sources\styles\images\404\balloon.svg" />
+    <None Include="wwwroot\sources\styles\images\404\cloud-big.svg" />
+    <None Include="wwwroot\sources\styles\images\404\cloud-small.svg" />
+    <None Include="wwwroot\sources\styles\images\404\wind.svg" />
+    <None Include="wwwroot\sources\styles\images\405\door.svg" />
+    <None Include="wwwroot\sources\styles\images\405\seal.svg" />
+    <None Include="wwwroot\sources\styles\images\405\short-seal.svg" />
+    <None Include="wwwroot\sources\styles\images\405\signage.svg" />
+    <None Include="wwwroot\sources\styles\images\500\bluscreen.svg" />
+    <None Include="wwwroot\sources\styles\images\500\desktop.svg" />
+    <None Include="wwwroot\sources\styles\images\500\Error.svg" />
+    <None Include="wwwroot\sources\styles\images\500\leave.svg" />
+    <None Include="wwwroot\parts\constant.js" />
+    <None Include="wwwroot\parts\entry.js" />
   </ItemGroup>
 
   <ItemGroup>
@@ -68,6 +64,10 @@
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
     <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
     <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\sources\styles\pages\" />
   </ItemGroup>
 
   <Target Name="CreateLogsFolder" AfterTargets="AfterPublish">

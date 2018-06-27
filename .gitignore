@@ -37,3 +37,4 @@ packages/
 .vs
 /NexGoal.Database/NexGoal.Database.jfm
 /NexGoal.Website/Properties/PublishProfiles
+node_modules
