@@ -29,7 +29,18 @@ module.exports = env => {
                     exclude: /(node_modules|bower_components)/
                 },
                 {
-                    test: /\.(png|jpg|jpeg|gif|svg|woff|woff2|eot|ttf)$/,
+                    test: /.(ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
+                    use: [{
+                        loader: 'file-loader',
+                        options: {
+                            name: '[name].[ext]',
+                            outputPath: 'fonts/',
+                            publicPath: 'fonts/'
+                        }
+                    }]
+                },
+                {
+                    test: /\.(png|jpg|jpeg|gif)$/,
                     use: [
                         {
                             loader: "url-loader",
@@ -73,6 +84,11 @@ module.exports = env => {
             new webpack.DllReferencePlugin({
                 context: __dirname,
                 manifest: require(`${clientBundleOutputDir}/${vendorFileName}`)
+            }),
+            new webpack.ProvidePlugin({
+                jQuery: 'jquery',
+                $: 'jquery',
+                jquery: 'jquery'
             })
         ].concat(
             isDevBuild

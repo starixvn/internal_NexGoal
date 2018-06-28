@@ -1,0 +1,371 @@
+﻿/***** Colors *****/
+
+$c-sidebar-bg: #fff;
+$c-sidebar-border: #eee;
+$c-sidebar-menu-item-text: #484550;
+$c-sidebar-menu-item-sub-bg: #324373;
+$c-sidebar-menu-item-sub-text: #545454;
+$c-sidebar-menu-item-sub-link-active-text: #324373;
+$c-sidebar-menu-item-link-active-text: #324373;
+
+/***** Styles *****/
+
+.sidebar {
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,.16);
+    position: fixed;
+    top: 51px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    padding: 20px;
+    margin-top: 50px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    top: 0;
+    padding: 10px 0 0 0;
+    background-color: $c-sidebar-bg;
+    width: 279px;
+    transition: width 0.25s;
+
+    .list-group {
+        margin: 0;
+        box-shadow: none;
+
+        .fa {
+            font-size: 16px;
+            width: 28px;
+        }
+
+        .fa-chevron-down {
+            position: relative;
+            left: 5px;
+            font-size: 10px;
+            height: 18px;
+            line-height: 18px;
+            text-align: center;
+            transform: rotate(0);
+            transition: 0.3s ease all;
+        }
+
+        .fa-mydashboard:before {
+            content: "\f015";
+        }
+
+        .fa-admin:before {
+            content: "\f0c0";
+        }
+
+        .fa-epasetting:before {
+            content: "\f013";
+        }
+
+        .fa-report:before {
+            content: "\f0ce";
+        }
+
+        .fa-discipline:before {
+            content: "\f29a";
+        }
+
+        .fa-epaassessment:before {
+            content: "\f19c";
+        }
+
+        .fa-paform:before {
+            content: "\f022";
+        }
+
+        .list-group-item {
+            border: none;
+            border-radius: 0;
+            padding: 6px 0;
+            line-height: 1.8rem;
+
+            &.sub-menu {
+                padding: 0;
+            }
+
+            &:hover {
+                cursor: pointer;
+            }
+
+            a {
+                padding: 6px 10px;
+                color: $c-sidebar-menu-item-text;
+                width: 100%;
+                display: inline-block;
+
+                &:hover, &:active, &:focus {
+                    text-decoration: none;
+                }
+            }
+
+            &.active {
+                background-color: transparent;
+                background-image: none;
+                text-shadow: none;
+            }
+
+            &.no-sub {
+                a {
+                    font-weight: 600;
+                }
+
+                &.active {
+                    a {
+                        color: $c-sidebar-menu-item-sub-link-active-text;
+                    }
+                }
+            }
+
+            &.has-sub {
+                .sub-menu-title {
+                    color: $c-sidebar-menu-item-sub-text;
+                    display: block;
+                    font-weight: 600;
+
+                    &.collapsed {
+                        .fa-chevron-down {
+                            transform: rotate(-90deg);
+                        }
+                    }
+                }
+
+                .sub-menu {
+                    a {
+                        padding-left: 48px;
+                        transition: 0.3s all ease;
+
+                        &:hover {
+                            color: #485e9c;
+                        }
+                    }
+
+                    &.active {
+                        background: $c-sidebar-menu-item-sub-link-active-text;
+
+                        a {
+                            color: #fff;
+                            font-weight: 500;
+                        }
+
+                        &:hover {
+                            a {
+                                color: #fff;
+                            }
+                        }
+                    }
+                }
+
+                &.active {
+                    > a {
+                        color: $c-sidebar-menu-item-sub-link-active-text;
+                    }
+                }
+            }
+        }
+    }
+
+    .panel-body {
+        padding: 0;
+    }
+}
+
+.left-bar {
+    width: 279px;
+    padding-right: 15px;
+    background: #2C3B66;
+    transition: width 0.25s;
+}
+
+.main {
+    padding-left: 280px;
+
+    &.full-size {
+        padding-left: 0;
+    }
+}
+
+.left-bar-xs {
+    a {
+        width: 50px;
+        background: #2C3B66;
+        padding-left: 0;
+        padding-right: 0;
+        background: url('images/nexgoal-xs.svg') center center no-repeat;
+        background-size: auto 25px;
+        float: none;
+        display: block;
+        transition: width 0.25s;
+    }
+
+    img {
+        display: none;
+    }
+}
+
+.main-xs {
+    padding-top: 5px;
+    padding-left: 50px;
+    transition: width 0.25s;
+
+    .page-header {
+        margin-top: 0;
+    }
+}
+
+.sidebar-xs {
+    box-shadow: 0 2px 8px 0 rgba(0,0,0,.16);
+    position: fixed;
+    top: 50px;
+    bottom: 0;
+    left: 0;
+    z-index: 1000;
+    display: block;
+    margin-top: 0px;
+    width: 50px;
+    transition: width 0.25s;
+    background-color: $c-sidebar-bg;
+
+    .list-group {
+        margin: 0;
+        box-shadow: none;
+
+        .fa {
+            font-size: 16px;
+            width: 28px;
+        }
+
+        .fa-chevron-down {
+            display: none;
+        }
+
+        .fa-mydashboard:before {
+            content: "\f015";
+        }
+
+        .fa-admin:before {
+            content: "\f0c0";
+        }
+
+        .fa-epasetting:before {
+            content: "\f013";
+        }
+
+        .fa-report:before {
+            content: "\f0ce";
+        }
+
+        .fa-discipline:before {
+            content: "\f29a";
+        }
+
+        .fa-epaassessment:before {
+            content: "\f19c";
+        }
+
+        .fa-paform:before {
+            content: "\f022";
+        }
+
+        .list-group-item {
+            padding: 0px 15px;
+            border: 0px;
+            color: white;
+            cursor: pointer;
+
+            &.active {
+                background-color: $c-sidebar-border;
+                background-image: none;
+                text-shadow: none;
+            }
+
+            &:hover {
+                background-color: rgba(0,0,0,.1);
+            }
+
+            &.no-sub {
+                a {
+                    display: block;
+                    color: $c-sidebar-menu-item-sub-text;
+                    font-weight: 600;
+                    line-height: 5rem;
+
+                    span {
+                        display: none;
+                    }
+                }
+            }
+
+            &.has-sub {
+                position: relative;
+
+                .sub-menu-title {
+                    display: block;
+                    color: $c-sidebar-menu-item-sub-text;
+                    font-weight: 600;
+                    line-height: 5rem;
+
+                    &:hover, &:active, &:focus {
+                        text-decoration: none;
+                    }
+
+                    span {
+                        display: none;
+                        position: absolute;
+                        top: 0px;
+                        right: -260px;
+                        background-color: $c-sidebar-menu-item-sub-bg;
+                        padding: 0px 20px;
+                        width: 260px;
+                        text-align: left;
+                        color: white;
+                        cursor: default;
+                    }
+                }
+
+                &:hover {
+                    .sub-menu-title span, .list-group {
+                        display: block !important;
+                    }
+                }
+
+                .list-group {
+                    position: absolute;
+                    right: -260px;
+                    top: 50px;
+                    width: 260px;
+                    display: none;
+                    background-color: $c-sidebar-border;
+                    border-width: 1px;
+                    border-style: solid;
+                    border-color: $c-sidebar-border;
+                    border-radius: 0px;
+
+                    .list-group-item {
+                        padding: 0px;
+
+                        a {
+                            color: $c-sidebar-menu-item-text;
+                            display: block;
+                            padding: 0px 30px;
+                        }
+
+                        &:hover {
+                            cursor: pointer;
+                        }
+
+                        &:first-child {
+                            border-radius: 0px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .panel-body {
+        padding: 0;
+    }
+}

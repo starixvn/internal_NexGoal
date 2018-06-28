@@ -1,0 +1,50 @@
+﻿.navbar {
+    min-height: 5rem;
+    line-height: 5rem;
+    color: #fff;
+    margin-bottom: 0;
+}
+
+.navbar-brand {
+    height: 50px;
+    padding: 15px 10px;
+
+    img {
+        height: 25px;
+    }
+}
+
+.navbar-inverse {
+    background: #324373;
+    border-bottom: none;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16);
+
+    .navbar-nav {
+        > li {
+            > a {
+                height: 3.5rem;
+                line-height: 3.5rem;
+                padding: 0 0.5rem;
+            }
+        }
+    }
+
+    .user-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #fff;
+        display: inline-block;
+        vertical-align: middle;
+        position: relative;
+
+        img {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            position: absolute;
+            top: 1px;
+            left: 1px;
+        }
+    }
+}

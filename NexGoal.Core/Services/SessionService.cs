@@ -27,6 +27,18 @@ namespace NexGoal.Core.Services
             set => _session?.SetInt32(SessionKey.InternalEmployeeId, value);
         }
 
+        public string NickName
+        {
+            get => _session.GetString(SessionKey.InternalNickName) ?? string.Empty;
+            set => _session.SetString(SessionKey.InternalNickName, value);
+        }
+
+        public string FullName
+        {
+            get => _session.GetString(SessionKey.InternalFullName) ?? string.Empty;
+            set => _session.SetString(SessionKey.InternalFullName, value);
+        }
+
         public IEnumerable<MenuItem> MenuItems
         {
             get => _session.Get<List<MenuItem>>(SessionKey.InternalMenuItemList);

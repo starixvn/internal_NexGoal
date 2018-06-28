@@ -32,6 +32,8 @@
                 if (employee != null)
                 {
                     currentSession.EmployeeId = employee.EmployeeId;
+                    currentSession.NickName = employee.NickName;
+                    currentSession.FullName = employee.FullName;
                     currentSession.Functions = GetFunctionByEmployeeId(employee.EmployeeId);
                     currentSession.MenuItems = GetMenuByEmployeeId(employee.EmployeeId);
                 }

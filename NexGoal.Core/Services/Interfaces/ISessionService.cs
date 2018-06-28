@@ -7,6 +7,8 @@ namespace NexGoal.Core.Services
     public interface ISessionService
     {
         int EmployeeId { get; set; }
+        string NickName { get; set; }
+        string FullName { get; set; }
         IEnumerable<MenuItem> MenuItems { get; set; }
         IEnumerable<FunctionModel> Functions { get; set; }
 

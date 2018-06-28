@@ -11,7 +11,7 @@ export default class App extends Component {
     render() {
         return (
             <AppLayout>
-                <h1>Hello</h1>
+                Hello
             </AppLayout>
         );
     }

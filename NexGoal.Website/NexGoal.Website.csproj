@@ -40,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Shared\Components\Menu\Menu.cshtml" />
     <None Include="wwwroot\sources\styles\abstracts\_mixins.scss" />
     <None Include="wwwroot\sources\styles\abstracts\_variables.scss" />
     <None Include="wwwroot\sources\styles\images\404\404.svg" />

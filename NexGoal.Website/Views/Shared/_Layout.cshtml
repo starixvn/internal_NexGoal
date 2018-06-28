@@ -6,17 +6,24 @@
     <title>@ViewData["Title"]</title>
     <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
 
-    <link href="~/dist/bootstrap.css" rel="stylesheet" />
+    <link href="~/dist/cssmain.css" rel="stylesheet" />
 
     @RenderSection("Styles", false)
 </head>
 <body>
-
-    <div id="main-container">
-        @RenderBody()
+    @await Component.InvokeAsync("Menu")
+    <div class="container-fluid page">
+        <div class="row" id="main">
+            <div class="section-wrap">
+                <div id="main-container" class="section-body">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="~/dist/vendor.js"></script>
+    <script src="~/dist/main.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

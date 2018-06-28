@@ -11,7 +11,7 @@ let pathsToClean = ["dist/*.*"];
 
 let cleanOptions = {
     root: path.resolve(__dirname, "."),
-    exclude: ["bootstrap.css"],
+    //exclude: ["bootstrap.css"],
     verbose: true,
     dry: false
 };
@@ -40,8 +40,7 @@ module.exports = env => {
             ]
         },
         entry: {
-            vendor: ["react", "react-dom"],
-            bootstrap: ["bootstrap/dist/css/bootstrap.css"]
+            vendor: ["react", "react-dom"]
         },
         output: {
             publicPath: `dist/`,
