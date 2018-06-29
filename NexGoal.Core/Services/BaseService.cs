@@ -12,11 +12,11 @@ namespace NexGoal.Core.Services
         private readonly IBaseRepository baseRepository;
 
         public BaseService(
-            IDynamicRepository dynamicRepository = null,
-            IBaseRepository baseRepository = null)
+            IDynamicRepository dynamicRepository,
+            IBaseRepository baseRepository)
         {
-            this.dynamicRepository = dynamicRepository ?? new DynamicRepository();
-            this.baseRepository = baseRepository ?? new BaseRepository();
+            this.dynamicRepository = dynamicRepository;
+            this.baseRepository = baseRepository;
         }
 
         public async Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria)

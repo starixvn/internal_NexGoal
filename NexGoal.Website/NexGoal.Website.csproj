@@ -43,6 +43,7 @@
     <None Include="Views\Shared\Components\Menu\Menu.cshtml" />
     <None Include="wwwroot\sources\styles\abstracts\_mixins.scss" />
     <None Include="wwwroot\sources\styles\abstracts\_variables.scss" />
+    <None Include="wwwroot\sources\styles\fonts\nexgoal\nexgoal.svg" />
     <None Include="wwwroot\sources\styles\images\404\404.svg" />
     <None Include="wwwroot\sources\styles\images\404\balloon.svg" />
     <None Include="wwwroot\sources\styles\images\404\cloud-big.svg" />
@@ -63,12 +64,19 @@
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Controllers\NexGoal.Controllers.csproj" />
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
+    <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
     <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
     <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj" />
+    <ProjectReference Include="..\NexGoal.ViewModels\NexGoal.ViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\sources\styles\pages\" />
+    <Content Update="Views\Role\_TreeFunction.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\Role\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
   </ItemGroup>
 
   <Target Name="CreateLogsFolder" AfterTargets="AfterPublish">

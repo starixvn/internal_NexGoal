@@ -59,5 +59,14 @@ namespace NexGoal.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Permission has been successfully updated!.
+        /// </summary>
+        public static string UpdatePermissionSuccessfully {
+            get {
+                return ResourceManager.GetString("UpdatePermissionSuccessfully", resourceCulture);
+            }
+        }
     }
 }

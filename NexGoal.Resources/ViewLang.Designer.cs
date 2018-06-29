@@ -59,5 +59,86 @@ namespace NexGoal.Resources {
                 resourceCulture = value;
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Dashboard.
+        /// </summary>
+        public static string Dashboard {
+            get {
+                return ResourceManager.GetString("Dashboard", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Function.
+        /// </summary>
+        public static string Function {
+            get {
+                return ResourceManager.GetString("Function", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Host.
+        /// </summary>
+        public static string Host {
+            get {
+                return ResourceManager.GetString("Host", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Read.
+        /// </summary>
+        public static string Read {
+            get {
+                return ResourceManager.GetString("Read", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role.
+        /// </summary>
+        public static string Role {
+            get {
+                return ResourceManager.GetString("Role", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role Management.
+        /// </summary>
+        public static string RoleManagement {
+            get {
+                return ResourceManager.GetString("RoleManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role Permission.
+        /// </summary>
+        public static string RolePermission {
+            get {
+                return ResourceManager.GetString("RolePermission", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Save.
+        /// </summary>
+        public static string Save {
+            get {
+                return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Submit.
+        /// </summary>
+        public static string Submit {
+            get {
+                return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
     }
 }

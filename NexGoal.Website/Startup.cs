@@ -7,12 +7,14 @@
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
+    using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Infrastructure;
     using Microsoft.AspNetCore.Server.IISIntegration;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using NexGoal.Core.Extensions;
     using NexGoal.Core.Middlewares;
-    using NexGoal.Core.Services;
+    using NexGoal.Services.Extensions;
 
     public class Startup
     {
@@ -44,15 +46,18 @@
             });
             services.AddAuthentication(IISDefaults.AuthenticationScheme);
 
-            services.AddMvc();
+            services.AddMvc(options =>
+            {
+                options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+            });
 
             services.AddSession();
 
             // DI
             services.AddTransient<IHttpContextAccessor, HttpContextAccessor>();
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
-            services.AddTransient<IBaseService, BaseService>();
-            services.AddTransient<ISessionService, SessionService>();
+            services.ResolveCoreDI();
+            services.ResolveServiceDI();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

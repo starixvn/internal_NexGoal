@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -13,7 +13,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.1.4347" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.2.0.5463" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
+    <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
+    <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
   </ItemGroup>
 
 </Project>

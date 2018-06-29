@@ -1,0 +1,17 @@
+.btn {
+    @include border-radius(3px);
+    font-size: $font-size;
+    height: 30px;
+    line-height: 30px;
+    padding: 0 15px 4px;
+
+    &.btn-primary {
+        background: #526cb7;
+        border-color: unset;
+
+        &:hover, &:focus, &:active {
+            background: #6381db;
+            border-color: unset;
+        }
+    }
+}

@@ -13,7 +13,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.1.4347" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.2.0.5463" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
+    <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
   </ItemGroup>
 
 </Project>

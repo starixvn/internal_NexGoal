@@ -1,0 +1,32 @@
+﻿@import "../../abstracts/mixins";
+@import "../../abstracts/variables";
+@import "../../components/buttons";
+@import "../../components/form-filter";
+@import "../../components/messages";
+@import "../../components/tables";
+
+table.assign-permission {
+    width: 614px;
+
+    tbody {
+        .row-special {
+            background-color: #eee;
+        }
+
+        .level-first {
+            color: #1973b2;
+        }
+
+        .icon-level-first {
+            font-size: 8px;
+            margin-right: 3px;
+        }
+
+        .icon-level-second {
+            font-size: 24px;
+            line-height: 0;
+            position: relative;
+            top: 2px;
+        }
+    }
+}

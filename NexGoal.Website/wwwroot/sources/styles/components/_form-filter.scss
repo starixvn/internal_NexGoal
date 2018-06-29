@@ -1,0 +1,77 @@
+.form-filter {
+    min-width: 600px;
+    padding: 4px 0 0;
+
+    .form-group {
+        margin-right: 10px;
+        line-height: 22px;
+
+        &:last-child {
+            margin-bottom: 10px;
+        }
+    }
+
+    label {
+        font-weight: normal;
+        color: $font-color;
+        margin: 1px 5px 0 0;
+        padding: 0;
+    }
+
+    .col {
+        float: left;
+        padding-right: 40px;
+        margin-bottom: 10px;
+
+        &:last-child {
+            padding-right: 0;
+        }
+    }
+
+    .form-control {
+        font-size: $font-size;
+        height: 30px;
+        padding: 3px 4px;
+        @include border-radius(0);
+        border-color: #dfdfdf;
+        box-shadow: none;
+        width: inherit;
+    }
+
+    .control-label {
+        float: left;
+        width: 70px;
+        text-align: left;
+        margin-right: 0;
+
+        &.size-m {
+            width: 90px;
+        }
+
+        &.size-l {
+            width: 130px;
+        }
+
+        &.size-xl {
+            width: 150px;
+        }
+    }
+
+    .control-content {
+        float: left;
+        width: 200px;
+        position: relative;
+    }
+
+    .checkbox {
+        padding: 0 0 0 10px;
+
+        label {
+            padding-left: 25px;
+        }
+
+        input[type=checkbox] {
+            margin-left: -15px;
+        }
+    }
+}

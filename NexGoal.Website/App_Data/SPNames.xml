@@ -7,7 +7,10 @@
     <Setting Key="Menu_GetByEmployeeId" SpName="Menu_GetByEmployeeId" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Function">
+    <Setting Key="Function_GetAll" SpName="Function_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Function_GetByRoleId" SpName="Function_GetByRoleId" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Function_GetByEmployeeId" SpName="Function_GetByEmployeeId" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Role_AssignFunction" SpName="Role_AssignFunction" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Employee">
     <Setting Key="Employee_GetByDomainUsername" SpName="Employee_GetByDomainUsername" DbName="bodb_NexGoal" Plain="0"></Setting>

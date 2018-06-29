@@ -1,0 +1,63 @@
+﻿@using NexGoal.Resources
+@using NexGoal.ViewModels.Function
+
+@model AssignPermissionViewModel
+
+@{
+    ViewData["Title"] = ViewLang.RoleManagement;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/cssassign_permission.css" />
+}
+
+<div class="row">
+    <div class="col-sm-12 sub-header">
+        <ul class="row breadcrumb">
+            <li class="current">@ViewLang.RoleManagement</li>
+        </ul>
+    </div>
+    <div class="col-sm-12">
+        <div class="msg-success -has-border hidden">
+            @Message.UpdatePermissionSuccessfully
+        </div>
+        <div class="-has-border msg-error hidden"></div>
+
+        <form asp-controller="role" asp-action="index" method="get" id="formFilter" class="form-inline form-filter">
+            <div class="form-group">
+                <div class="col">
+                    <label class="control-label">@ViewLang.Role</label>
+                    <div class="control-content">
+                        <select class="form-control" asp-for="RoleId" asp-items="Model.Roles"></select>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <table class="table table-bordered assign-permission" id="permissionTable">
+            <thead>
+                <tr>
+                    <th rowspan="2">@ViewLang.Function</th>
+                    <th colspan="2">@ViewLang.RolePermission</th>
+                </tr>
+                <tr>
+                    <th>@ViewLang.Read</th>
+                    <th>@ViewLang.Host</th>
+                </tr>
+            </thead>
+            <tbody>
+                @Html.Partial("_TreeFunction", Model)
+            </tbody>
+        </table>
+
+        <form asp-action="AssignPermission" id="submitForm" class="form-inline form-filter">
+            <div class="form-group">
+                <button type="button" id="btnSubmit" class="btn btn-primary">@ViewLang.Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/dist/assign_permission.js"></script>
+}

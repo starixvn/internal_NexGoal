@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
@@ -15,7 +15,15 @@
   <ItemGroup>
     <PackageReference Include="Fanex.Data" Version="3.0.0-rc1" />
     <PackageReference Include="Fanex.Data.Repository" Version="3.0.0-rc1" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.1.4347" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="2.1.1" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.2.0.5463" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
+    <ProjectReference Include="..\NexGoal.Criteria\NexGoal.Criteria.csproj" />
+    <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
   </ItemGroup>
 
 </Project>

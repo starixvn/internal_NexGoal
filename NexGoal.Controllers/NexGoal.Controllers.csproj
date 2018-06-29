@@ -25,7 +25,15 @@
     <PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.1.1" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="2.1.1" />
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-    <PackageReference Include="SonarAnalyzer.CSharp" Version="6.7.1.4347" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="7.2.0.5463" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
+    <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
+    <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
+    <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj" />
+    <ProjectReference Include="..\NexGoal.ViewModels\NexGoal.ViewModels.csproj" />
   </ItemGroup>
 
 </Project>
