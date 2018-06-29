@@ -49,12 +49,14 @@
                 @Html.Partial("_TreeFunction", Model)
             </tbody>
         </table>
-
-        <form asp-action="AssignPermission" id="submitForm" class="form-inline form-filter">
-            <div class="form-group">
-                <button type="button" id="btnSubmit" class="btn btn-primary">@ViewLang.Submit</button>
-            </div>
-        </form>
+        @if (Model.IsHost)
+        {
+            <form asp-action="AssignPermission" id="submitForm" class="form-inline form-filter">
+                <div class="form-group">
+                    <button type="button" id="btnSubmit" class="btn btn-primary">@ViewLang.Submit</button>
+                </div>
+            </form>
+        }
     </div>
 </div>
 

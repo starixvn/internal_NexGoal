@@ -6,7 +6,9 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
+    using NexGoal.Core.Services;
     using NexGoal.Models;
     using NexGoal.Models.Function;
     using NexGoal.Services;
@@ -14,17 +16,21 @@
 
     public class RoleController : Controller
     {
+        private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IFunctionService functionService;
 
         public RoleController(
+            ISessionService sessionService,
             ICommonService commonService,
             IFunctionService functionService)
         {
+            this.sessionService = sessionService;
             this.commonService = commonService;
             this.functionService = functionService;
         }
 
+        [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Read)]
         public async Task<IActionResult> Index(int? roleId = null)
         {
             string[] refNames = { ReferenceResource.SystemRole };
@@ -35,7 +41,6 @@
                 RoleId = roleId ?? (int)SystemRole.SystemAdmin,
                 Functions = functions,
                 Roles = commonService.GetSelectList(roles.OrderBy(x => x.ResourceId), nameof(ReferenceResourceModel.ResourceId), nameof(ReferenceResourceModel.Value)),
-                IsHost = true
             };
 
             IEnumerable<FunctionModel> roleFunctions = await functionService.GetFunctionByRoleIdAsync(viewModel.RoleId).ConfigureAwait(false);
@@ -45,11 +50,13 @@
                 FunctionId = x.FunctionId,
                 Policy = x.Policy
             });
+            viewModel.IsHost = sessionService.HasPermissionOnFunction(FunctionKey.RoleManagement, Policy.Host) && viewModel.RoleId != (int)SystemRole.SystemAdmin;
 
             return View(viewModel);
         }
 
         [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Host)]
         public async Task<IActionResult> AssignPermission(int roleId, IEnumerable<RolePermissionModel> permissions)
         {
             CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(roleId, permissions).ConfigureAwait(false);
