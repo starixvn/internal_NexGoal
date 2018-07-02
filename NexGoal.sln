@@ -27,11 +27,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Controllers", "NexG
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NexGoal.Database", "NexGoal.Database\NexGoal.Database.sqlproj", "{61FFF5B1-BB10-4AC9-9023-15C442E79796}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Controllers.UnitTests", "NexGoal.Controllers.UnitTests\NexGoal.Controllers.UnitTests.csproj", "{BBC2C972-8C7D-485B-8700-9E520847E53A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Controllers.UnitTests", "NexGoal.Controllers.UnitTests\NexGoal.Controllers.UnitTests.csproj", "{BBC2C972-8C7D-485B-8700-9E520847E53A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Services.UnitTests", "NexGoal.Services.UnitTests\NexGoal.Services.UnitTests.csproj", "{B33EEB84-6A9D-4EB1-9882-A497DACDD061}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Services.UnitTests", "NexGoal.Services.UnitTests\NexGoal.Services.UnitTests.csproj", "{B33EEB84-6A9D-4EB1-9882-A497DACDD061}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Core.UnitTests", "NexGoal.Core.UnitTests\NexGoal.Core.UnitTests.csproj", "{28909D61-CA73-46B5-A7D4-02A1844961E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -85,6 +87,10 @@ Global
 		{B33EEB84-6A9D-4EB1-9882-A497DACDD061}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B33EEB84-6A9D-4EB1-9882-A497DACDD061}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B33EEB84-6A9D-4EB1-9882-A497DACDD061}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28909D61-CA73-46B5-A7D4-02A1844961E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28909D61-CA73-46B5-A7D4-02A1844961E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28909D61-CA73-46B5-A7D4-02A1844961E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28909D61-CA73-46B5-A7D4-02A1844961E2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -92,6 +98,7 @@ Global
 	GlobalSection(NestedProjects) = preSolution
 		{BBC2C972-8C7D-485B-8700-9E520847E53A} = {64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}
 		{B33EEB84-6A9D-4EB1-9882-A497DACDD061} = {64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}
+		{28909D61-CA73-46B5-A7D4-02A1844961E2} = {64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7747DB7-1991-4026-8BFF-407698672992}

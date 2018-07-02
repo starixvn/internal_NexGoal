@@ -41,7 +41,7 @@
                     exception.StackTrace);
             logger.LogError(message);
 
-            context.Response.Redirect("/error/500");
+            context.Response.Redirect("/error/InternalError");
         }
     }
 }
