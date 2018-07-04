@@ -6,3 +6,33 @@
 @import "../../components/tables";
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import '~react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+
+.react-bootstrap-table-pagination {
+    margin-top: 15px;
+}
+
+.pagination {
+    > .active > a {
+        &, &:hover {
+            background: #314172;
+        }
+    }
+}
+
+.search-wrap {
+    margin-bottom: 10px;
+    position: relative;
+
+    .search-textbox {
+        border: 1px solid #cccccc;
+        height: 24px;
+        padding: 0 20px 0 3px;
+    }
+
+    .icon {
+        color: #cccccc;
+        position: absolute;
+        right: 5px;
+        top: 5px;
+    }
+}

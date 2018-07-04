@@ -2,7 +2,11 @@
 {
     public class UserModel
     {
-        public int UserId { get; set; }
+        public int RowNum { get; set; }
+
+        public int EmployeeId { get; set; }
+
+        public string Code { get; set; }
 
         public string NickName { get; set; }
 

@@ -1,31 +1,43 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.UserManagement;
     using NexGoal.Models.UserManagement;
 
     public class UserManagementController : Controller
     {
+        private readonly IBaseService baseService;
+
+        public UserManagementController(IBaseService baseService)
+        {
+            this.baseService = baseService;
+        }
+
         public IActionResult Index()
         {
             return View();
         }
 
-        public IActionResult GetUsers(string keyword, int? groupId, int? categoryId, bool isDisabledUser)
+        public async Task<IActionResult> GetUsers(string keyword, int? groupId, bool? isLocal, bool isDisabledUser)
         {
-            var list = new List<UserModel>();
-
-            for (var i = 0; i < 100; i++)
+            var results = await baseService.GetDataAsync<UserModel>(new GetUsersCriteria
             {
-                list.Add(new UserModel
-                {
-                    UserId = i,
-                    Group = "123",
-                    JobTitle = "456"
-                });
-            }
+                Keyword = keyword,
+                GroupId = groupId,
+                IsLocal = isLocal,
+                IsDisabledUser = isDisabledUser
+            }).ConfigureAwait(false);
 
-            return Ok(list);
+            return Ok(results);
+        }
+
+        public async Task<IActionResult> GetGroups()
+        {
+            var results = await baseService.GetDataAsync<UserGroupModel>(new GetGroupsCriteria()).ConfigureAwait(false);
+
+            return Ok(results);
         }
     }
 }

@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import { debug } from 'util';
 
 export default class UserManagement extends Component {
     constructor(props) {
@@ -11,44 +12,82 @@ export default class UserManagement extends Component {
             filter: {
                 keyword: '',
                 groupId: '',
-                categoryId: '',
+                isLocal: '',
                 isDisabledUser: false
             },
-            data: []
+            groups: [],
+            data: [],
+            tableData: []
         };
 
         this.getUsers();
+        this.getGroups();
     }
 
     onFilterChange = (e) => {
-        this.setState({ filter: { [e.target.name]: e.target.value } });
+        var filter = { [e.target.name]: e.target.value };
+        this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
-    handleSubmit(event) {
+    onTableFilterChange = (e) => {
+        if (e.target.value && e.target.value.length > 1) {
+            var value = e.target.value.trim().toLowerCase();
+            var filterDatas = this.state.data.filter((employee) =>
+                employee.nickName.toLowerCase().indexOf(value) >= 0
+                || employee.fullName.toLowerCase().indexOf(value) >= 0
+                || employee.code.toString().indexOf(value) >= 0
+                || employee.group.toLowerCase().indexOf(value) >= 0
+                || employee.jobTitle.toLowerCase().indexOf(value) >= 0
+                || (employee.roles && employee.roles.toLowerCase().indexOf(value) >= 0)
+            );
+            this.setState({ tableData: filterDatas });
+        } else {
+            this.setState({ tableData: this.state.data });
+        }
+    }
+
+    handleSubmit = (event) => {
         event.preventDefault();
         this.getUsers();
     }
 
-    getUsers() {
-        fetch(`/UserManagement/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&categoryId=${this.state.filter.categoryId}&isDisabledUser=${this.state.filter.isDisabledUser}`,
+    getGroups = () => {
+        fetch('/UserManagement/GetGroups',
             {
                 credentials: "same-origin"
             })
             .then((response) => response.json())
             .then(data => {
-                this.setState({ data: data });
+                this.setState({ groups: data });
             });
+    }
+
+    getUsers = () => {
+        fetch(`/UserManagement/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`,
+            {
+                credentials: "same-origin"
+            })
+            .then((response) => response.json())
+            .then(data => {
+                this.setState({ data: data, tableData: data });
+            });
+    }
+
+    editUser = (userId) => {
+        alert(userId);
     }
 
     render() {
         const columns = [
             {
-                dataField: 'userId',
-                text: '#'
+                dataField: 'rowNum',
+                text: '#',
+                classes: 'text-center'
             },
             {
                 dataField: 'code',
-                text: 'Code'
+                text: 'Code',
+                classes: 'text-center'
             },
             {
                 dataField: 'nickName',
@@ -60,7 +99,8 @@ export default class UserManagement extends Component {
             },
             {
                 dataField: 'group',
-                text: 'Team'
+                text: 'Team',
+                classes: 'text-center'
             },
             {
                 dataField: 'jobTitle',
@@ -69,9 +109,20 @@ export default class UserManagement extends Component {
             {
                 dataField: 'roles',
                 text: 'Roles'
+            },
+            {
+                dataField: '',
+                text: 'Action',
+                classes: 'text-center',
+                formatter: (cell, row, rowIndex, colIndex) => {
+                    return (
+                        <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={() => this.editUser(row.employeeId)}></a>
+                    );
+                }
             }];
 
         const paginationOptions = paginationFactory({
+            sizePerPage: 20,
             showTotal: false,
             sizePerPageList: [
                 {
@@ -118,43 +169,15 @@ export default class UserManagement extends Component {
                                 <label className="control-label ng-scope" data-translate="Team">Team</label>
                                 <div className="control-content">
                                     <select name="groupId" className="form-control" onChange={this.onFilterChange}>
-                                        <option value="" className="ng-binding">-- All --</option>
-                                        <option value="0" label="Finance &amp; Accounting">Finance &amp; Accounting</option>
-                                        <option value="1" label="IT Network">IT Network</option>
-                                        <option value="2" label="Rome">Rome</option>
-                                        <option value="3" label="Olympus">Olympus</option>
-                                        <option value="4" label="DeepBlue">DeepBlue</option>
-                                        <option value="5" label="Design">Design</option>
-                                        <option value="6" label="Terra">Terra</option>
-                                        <option value="7" label="Nexus">Nexus</option>
-                                        <option value="8" label="Management">Management</option>
-                                        <option value="9" label="Project Management">Project Management</option>
-                                        <option value="10" label="HR-Admin">HR-Admin</option>
-                                        <option value="11" label="Expat">Expat</option>
-                                        <option value="12" label="Sun">Sun</option>
-                                        <option value="13" label="Web Team Leader">Web Team Leader</option>
-                                        <option value="14" label="Business Analysis">Business Analysis</option>
-                                        <option value="15" label="Pontus">Pontus</option>
-                                        <option value="16" label="Training and Documentation">Training and Documentation</option>
-                                        <option value="17" label="Research and Development">Research and Development</option>
-                                        <option value="18" label="DEV Pool">DEV Pool</option>
-                                        <option value="19" label="Iris">Iris</option>
-                                        <option value="20" label="QC Team Leader">QC Team Leader</option>
-                                        <option value="21" label="Special Project Unit 1">Special Project Unit 1</option>
-                                        <option value="22" label="Sparta">Sparta</option>
-                                        <option value="23" label="Everest">Everest</option><option value="24" label="Starix Application Support">Starix Application Support</option>
-                                        <option value="25" label="Database Administration">Database Administration</option>
-                                        <option value="26" label="Standby">Standby</option>
-                                        <option value="27" label="Special Project Unit 2">Special Project Unit 2</option>
-                                        <option value="28" label="NexOps">NexOps</option>
-                                        <option value="29" label="Project Support">Project Support</option>
+                                        <option value="">-- All --</option>
+                                        {this.state.groups.map((group) => <option key={group.groupId} value={group.groupId}>{group.name}</option>)}
                                     </select>
                                 </div>
                             </div>
                             <div className="col">
                                 <label className="control-label" data-translate="Category">Category</label>
                                 <div className="control-content">
-                                    <select className="form-control" name="categoryId" onChange={this.onFilterChange}>
+                                    <select className="form-control" name="isLocal" onChange={this.onFilterChange}>
                                         <option value="">-- All --</option>
                                         <option value="false">Expat</option>
                                         <option value="true">Local</option>
@@ -171,7 +194,13 @@ export default class UserManagement extends Component {
                             </div>
                         </div>
                     </form>
-                    <BootstrapTable keyField='userId' data={this.state.data} columns={columns} pagination={paginationOptions} />
+                    <div className="search-wrap pull-right" >
+                        <input className="search-textbox" onChange={this.onTableFilterChange} />
+                        <span class="fa fa-search icon"></span>
+                    </div>
+                    {this.state.data.length > 0 &&
+                        <BootstrapTable keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
+                    }
                 </div>
             </div>
         );
