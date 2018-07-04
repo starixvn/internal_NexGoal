@@ -2,10 +2,14 @@
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Filters;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.UserManagement;
     using NexGoal.Models.UserManagement;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Read)]
     public class UserManagementController : Controller
     {
         private readonly IBaseService baseService;
