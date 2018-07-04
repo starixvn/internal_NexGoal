@@ -116,7 +116,7 @@ export default class UserManagement extends Component {
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     return (
-                        <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={() => this.editUser(row.employeeId)}></a>
+                        <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row.employeeId)}></a>
                     );
                 }
             }];
