@@ -38,7 +38,7 @@
             var baseService = GetBaseService();
 
             // Act
-            var actual = await baseService.GetDataAsync<FunctionModel>(criteria);
+            var actual = await baseService.GetDataAsync<FunctionSession>(criteria);
 
             // Assert
             Assert.Empty(actual);
@@ -48,16 +48,16 @@
         public async Task GetDataAsync_CriteriaIsValid_ReturnExpectedData()
         {
             // Arrange
-            var expected = new List<FunctionModel> {
-                new FunctionModel { FunctionId = 1, FunctionKey = "Configuration", Name = "Configuration" }
+            var expected = new List<FunctionSession> {
+                new FunctionSession { FunctionId = 1, FunctionKey = "Configuration", Name = "Configuration" }
             };
             var criteria = Substitute.For<ICriteria>();
             criteria.IsValid().Returns(true);
             var baseService = GetBaseService();
-            dynamicRepository.FetchAsync<FunctionModel>(criteria).Returns(expected);
+            dynamicRepository.FetchAsync<FunctionSession>(criteria).Returns(expected);
 
             // Act
-            var actual = await baseService.GetDataAsync<FunctionModel>(criteria);
+            var actual = await baseService.GetDataAsync<FunctionSession>(criteria);
 
             // Assert
             Assert.NotEmpty(actual);

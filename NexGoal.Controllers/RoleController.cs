@@ -31,10 +31,16 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> Index(int? roleId = null)
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+        [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Read)]
+        public async Task<IActionResult> AssignPermission(int? roleId = null)
         {
             string[] refNames = { ReferenceResource.SystemRole };
-            IEnumerable<FunctionModel> functions = await functionService.GetTreeFunctionsAsync().ConfigureAwait(false);
+            IEnumerable<FunctionModel> functions = await functionService.GetFunctionsAsync().ConfigureAwait(false);
             IEnumerable<ReferenceResourceModel> roles = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
             var viewModel = new AssignPermissionViewModel
             {
@@ -44,15 +50,10 @@
             };
 
             IEnumerable<FunctionModel> roleFunctions = await functionService.GetFunctionByRoleIdAsync(viewModel.RoleId).ConfigureAwait(false);
-            viewModel.RolePermissions = roleFunctions.Select(x => new RolePermissionModel
-            {
-                RoleId = viewModel.RoleId,
-                FunctionId = x.FunctionId,
-                Policy = x.Policy
-            });
+            MappingPermissionToFunctions(viewModel.Functions, roleFunctions);
             viewModel.IsHost = sessionService.HasPermissionOnFunction(FunctionKey.RoleManagement, Policy.Host) && viewModel.RoleId != (int)SystemRole.SystemAdmin;
 
-            return View(viewModel);
+            return Json(viewModel);
         }
 
         [HttpPost]
@@ -62,6 +63,15 @@
             CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(roleId, permissions).ConfigureAwait(false);
 
             return Json(commandResult);
+        }
+
+        private static void MappingPermissionToFunctions(IEnumerable<FunctionModel> functions, IEnumerable<FunctionModel> roleFunctions)
+        {
+            foreach (FunctionModel function in functions)
+            {
+                var roleFunction = roleFunctions.FirstOrDefault(x => x.FunctionId == function.FunctionId);
+                function.Policy = roleFunction != null ? roleFunction.Policy : Policy.None;
+            }
         }
     }
 }

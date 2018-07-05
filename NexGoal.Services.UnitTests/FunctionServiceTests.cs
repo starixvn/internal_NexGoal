@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
@@ -32,7 +31,7 @@
         }
 
         [Fact]
-        public async Task GetTreeFunctions_WhenCalled_ReturnAsExpectedTreeFunctions()
+        public async Task GetFunctionsAsync_WhenCalled_ReturnAsExpectedFunctions()
         {
             // Arrange
             var expected = GetFunctionForTest();
@@ -40,13 +39,10 @@
             baseService.GetDataAsync<FunctionModel>(Arg.Any<GetAllFunctionCriteria>()).Returns(expected);
 
             // Act
-            var actual = await functionService.GetTreeFunctionsAsync(true);
+            var actual = await functionService.GetFunctionsAsync(true);
 
             // Assert
-            Assert.Single(actual);
-            Assert.Single(actual.First().Childs);
-            Assert.Equal(expected.First(), actual.First());
-            Assert.Equal(expected[1], actual.First().Childs.First());
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

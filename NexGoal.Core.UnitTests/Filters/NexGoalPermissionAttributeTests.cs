@@ -56,9 +56,9 @@
             var functionKey = "UserManagement";
             var session = new MockSession();
             session.SetInt32(SessionKey.InternalEmployeeId, 1);
-            session.Set<IEnumerable<FunctionModel>>(SessionKey.InternalFunctionList, new List<FunctionModel>
+            session.Set<IEnumerable<FunctionSession>>(SessionKey.InternalFunctionList, new List<FunctionSession>
             {
-                new FunctionModel { FunctionId = 1, FunctionKey = functionKey, Policy = Policy.Read }
+                new FunctionSession { FunctionId = 1, FunctionKey = functionKey, Policy = Policy.Read }
             });
             var httpContext = new DefaultHttpContext
             {

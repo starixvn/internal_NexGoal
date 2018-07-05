@@ -21,7 +21,7 @@
         private IFunctionService functionService;
 
         [Fact]
-        public async Task Index_WhenCalled_ReturnAsExpectedViewResult()
+        public void Index_WhenCalled_ReturnAsExpectedViewResult()
         {
             // Arrange
             var roleId = 2;
@@ -36,14 +36,14 @@
             var selectList = new SelectList(refResources, nameof(ReferenceResourceModel.ResourceId), nameof(ReferenceResourceModel.Value));
             var controller = GetRoleController();
 
-            functionService.GetTreeFunctionsAsync().Returns(functions);
+            functionService.GetFunctionsAsync().Returns(functions);
             functionService.GetFunctionByRoleIdAsync(roleId).Returns(functions);
             commonService.GetSelectList(Arg.Any<IEnumerable<ReferenceResourceModel>>(), nameof(ReferenceResourceModel.ResourceId), nameof(ReferenceResourceModel.Value))
                 .Returns(selectList);
             sessionService.HasPermissionOnFunction(Arg.Any<string>(), Arg.Any<Policy>()).Returns(true);
 
             // Act
-            var actual = await controller.Index(roleId);
+            var actual = controller.Index();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);

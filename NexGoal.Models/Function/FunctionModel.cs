@@ -1,7 +1,6 @@
-namespace NexGoal.Core.Models
+namespace NexGoal.Models.Function
 {
-    using System.Collections.Generic;
-    using Enumerations;
+    using NexGoal.Core.Enumerations;
 
     public class FunctionModel
     {
@@ -9,10 +8,8 @@ namespace NexGoal.Core.Models
         public string FunctionKey { get; set; }
         public string Name { get; set; }
         public int? ParentId { get; set; }
-        public int Level { get; set; }
+        public int DisplayOrder { get; set; }
         public Policy Policy { get; set; }
         public bool IsActive { get; set; }
-
-        public IList<FunctionModel> Childs { get; set; } = new List<FunctionModel>();
     }
 }

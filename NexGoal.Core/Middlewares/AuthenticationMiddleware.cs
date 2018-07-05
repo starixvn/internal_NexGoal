@@ -52,24 +52,24 @@
             return baseService.GetDataEntityAsync<EmployeeSession>(criteria).Result;
         }
 
-        private IEnumerable<FunctionModel> GetFunctionByEmployeeId(int employeeId)
+        private IEnumerable<FunctionSession> GetFunctionByEmployeeId(int employeeId)
         {
             var criteria = new GetFunctionByEmployeeIdCriteria
             {
                 EmployeeId = employeeId
             };
 
-            return baseService.GetDataAsync<FunctionModel>(criteria).Result;
+            return baseService.GetDataAsync<FunctionSession>(criteria).Result;
         }
 
-        private IEnumerable<MenuItem> GetMenuByEmployeeId(int employeeId)
+        private IEnumerable<MenuItemSession> GetMenuByEmployeeId(int employeeId)
         {
             var criteria = new GetMenuByEmployeeIdCriteria
             {
                 EmployeeId = employeeId
             };
 
-            return baseService.GetDataAsync<MenuItem>(criteria).Result;
+            return baseService.GetDataAsync<MenuItemSession>(criteria).Result;
         }
     }
 }

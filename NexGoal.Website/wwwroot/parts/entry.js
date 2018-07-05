@@ -11,8 +11,8 @@ module.exports = {
         cssusermanagement: "./sources/styles/pages/usermanagement/usermanagement.scss",
         //
         main: "./sources/js/main.js",
-        home: "./sources/js/home/index.jsx",
-        assign_permission: './sources/js/role/index.js',
+        home: "./sources/js/pages/home/index.jsx",
+        assign_permission: './sources/js/pages/role/index.jsx'
         usermanagement: './sources/js/usermanagement/index.js'
     }
 };

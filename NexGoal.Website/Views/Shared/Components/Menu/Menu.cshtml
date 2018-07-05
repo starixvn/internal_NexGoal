@@ -1,5 +1,5 @@
 ﻿@using NexGoal.Core.Models
-@model IEnumerable<MenuItem>
+@model IEnumerable<MenuItemSession>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="pull-left" id="topNavigation">
@@ -26,11 +26,11 @@
     <ul class="list-group">
         @if (Model != null && Model.Any())
         {
-            IEnumerable<MenuItem> menuGroups = Model.Where(x => !x.ParentId.HasValue).OrderBy(x => x.DisplayOrder);
+            IEnumerable<MenuItemSession> menuGroups = Model.Where(x => !x.ParentId.HasValue).OrderBy(x => x.DisplayOrder);
 
-            foreach (MenuItem parent in menuGroups)
+            foreach (MenuItemSession parent in menuGroups)
             {
-                IEnumerable<MenuItem> childMenus = Model.Where(x => x.ParentId == parent.MenuId).OrderBy(x => x.DisplayOrder);
+                IEnumerable<MenuItemSession> childMenus = Model.Where(x => x.ParentId == parent.MenuId).OrderBy(x => x.DisplayOrder);
 
                 <li class="list-group-item @(childMenus.Any() ? "has-sub" : "no-sub")">
                     @if (childMenus.Any())
@@ -42,7 +42,7 @@
                         </a>
 
                         <ul class="list-group menu-@parent.MenuId">
-                            @foreach (MenuItem child in childMenus)
+                            @foreach (MenuItemSession child in childMenus)
                             {
                                 <li class="list-group-item sub-menu">
                                     <a href="@child.Link">

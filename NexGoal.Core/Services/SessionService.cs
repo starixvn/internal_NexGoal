@@ -2,10 +2,10 @@ namespace NexGoal.Core.Services
 {
     using System.Collections.Generic;
     using System.Linq;
-    using Constants;
-    using Enumerations;
     using Microsoft.AspNetCore.Http;
-    using Models;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Models;
 
     public class SessionService : ISessionService
     {
@@ -39,15 +39,15 @@ namespace NexGoal.Core.Services
             set => _session.SetString(SessionKey.InternalFullName, value);
         }
 
-        public IEnumerable<MenuItem> MenuItems
+        public IEnumerable<MenuItemSession> MenuItems
         {
-            get => _session.Get<List<MenuItem>>(SessionKey.InternalMenuItemList);
+            get => _session.Get<List<MenuItemSession>>(SessionKey.InternalMenuItemList);
             set => _session.Set(SessionKey.InternalMenuItemList, value);
         }
 
-        public IEnumerable<FunctionModel> Functions
+        public IEnumerable<FunctionSession> Functions
         {
-            get => _session.Get<List<FunctionModel>>(SessionKey.InternalFunctionList);
+            get => _session.Get<List<FunctionSession>>(SessionKey.InternalFunctionList);
             set => _session.Set(SessionKey.InternalFunctionList, value);
         }
 

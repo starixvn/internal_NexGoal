@@ -90,9 +90,9 @@
         public void MenuItems_WhenCalled_GetAndSetCorrectly()
         {
             // Arrange
-            IEnumerable<MenuItem> menuItems = new List<MenuItem>
+            IEnumerable<MenuItemSession> menuItems = new List<MenuItemSession>
             {
-                new MenuItem { MenuId = 1, Name = "User Management" }
+                new MenuItemSession { MenuId = 1, Name = "User Management" }
             };
             _session = new MockSession();
             sessionService = GetSessionService(_session);
@@ -108,18 +108,16 @@
             Assert.Equal(menuItems.First().Description, actual.First().Description);
             Assert.Equal(menuItems.First().Link, actual.First().Link);
             Assert.Equal(menuItems.First().ParentId, actual.First().ParentId);
-            Assert.Equal(menuItems.First().FunctionId, actual.First().FunctionId);
             Assert.Equal(menuItems.First().DisplayOrder, actual.First().DisplayOrder);
-            Assert.Equal(menuItems.First().IsActive, actual.First().IsActive);
         }
 
         [Fact]
         public void Functions_WhenCalled_GetAndSetCorrectly()
         {
             // Arrange
-            IEnumerable<FunctionModel> functions = new List<FunctionModel>
+            IEnumerable<FunctionSession> functions = new List<FunctionSession>
             {
-                new FunctionModel { FunctionId = 1, FunctionKey = "UserManagement" }
+                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement" }
             };
             _session = new MockSession();
             sessionService = GetSessionService(_session);
@@ -133,7 +131,6 @@
             Assert.Equal(functions.First().FunctionId, actual.First().FunctionId);
             Assert.Equal(functions.First().Name, actual.First().Name);
             Assert.Equal(functions.First().FunctionKey, actual.First().FunctionKey);
-            Assert.Equal(functions.First().ParentId, actual.First().ParentId);
         }
 
         #region HasPermissionOnFunction
@@ -144,9 +141,9 @@
             // Arrange
             _session = new MockSession();
             sessionService = GetSessionService(_session);
-            sessionService.Functions = new List<FunctionModel>
+            sessionService.Functions = new List<FunctionSession>
             {
-                new FunctionModel { FunctionId = 1, FunctionKey = "UserManagement" }
+                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement" }
             };
 
             // Act
@@ -164,9 +161,9 @@
             // Arrange
             _session = new MockSession();
             sessionService = GetSessionService(_session);
-            sessionService.Functions = new List<FunctionModel>
+            sessionService.Functions = new List<FunctionSession>
             {
-                new FunctionModel { FunctionId = 1, FunctionKey = "UserManagement" }
+                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement" }
             };
 
             // Act
@@ -182,9 +179,9 @@
             // Arrange
             _session = new MockSession();
             sessionService = GetSessionService(_session);
-            sessionService.Functions = new List<FunctionModel>
+            sessionService.Functions = new List<FunctionSession>
             {
-                new FunctionModel { FunctionId = 1, FunctionKey = "UserManagement", Policy = Policy.Read }
+                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement", Policy = Policy.Read }
             };
 
             // Act
@@ -202,9 +199,9 @@
             // Arrange
             _session = new MockSession();
             sessionService = GetSessionService(_session);
-            sessionService.Functions = new List<FunctionModel>
+            sessionService.Functions = new List<FunctionSession>
             {
-                new FunctionModel { FunctionId = 1, FunctionKey = "UserManagement", Policy = Policy.Host }
+                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement", Policy = Policy.Host }
             };
 
             // Act

@@ -71,9 +71,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\Role\_TreeFunction.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
     <Content Update="Views\Role\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

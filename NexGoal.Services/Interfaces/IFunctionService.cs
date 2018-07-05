@@ -9,7 +9,7 @@
     {
         Task<IEnumerable<FunctionModel>> GetFunctionByRoleIdAsync(int roleId);
 
-        Task<IEnumerable<FunctionModel>> GetTreeFunctionsAsync(bool? isActive = true);
+        Task<IEnumerable<FunctionModel>> GetFunctionsAsync(bool? isActive = true);
 
         Task<CommandResult> AssignFunctionToRoleAsync(int roleId, IEnumerable<RolePermissionModel> permissions);
     }
