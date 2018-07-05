@@ -13,10 +13,12 @@
     public class UserManagementController : Controller
     {
         private readonly IBaseService baseService;
+        private readonly ISessionService sessionService;
 
-        public UserManagementController(IBaseService baseService)
+        public UserManagementController(IBaseService baseService, ISessionService sessionService)
         {
             this.baseService = baseService;
+            this.sessionService = sessionService;
         }
 
         public IActionResult Index()
@@ -43,5 +45,31 @@
 
             return Ok(results);
         }
+
+        public async Task<IActionResult> GetRolesForUser(int employeeId)
+        {
+            var results = await baseService.GetDataAsync<UserRoleModel>(new GetRolesForUserCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+
+            return Ok(results);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditUserRoles([FromBody] EditUserRolesModel model)
+        {
+            var results = await baseService.ExecuteNonQueryAsync(new EditUserRolesCriteria
+            {
+                EmployeeId = model.EmployeeId,
+                SelectedRoleIds = model.SelectedRoleIds,
+                ModifiedBy = sessionService.EmployeeId
+            }).ConfigureAwait(false);
+
+            return Ok(results);
+        }
     }
+}
+
+public class EditUserRolesModel
+{
+    public int EmployeeId { get; set; }
+    public string SelectedRoleIds { get; set; }
 }

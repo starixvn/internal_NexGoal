@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { debug } from 'util';
+import { Modal, Button, Form, FormGroup, ControlLabel, Checkbox, Col, FormControl } from 'react-bootstrap';
 
 export default class UserManagement extends Component {
     constructor(props) {
@@ -17,7 +17,8 @@ export default class UserManagement extends Component {
             },
             groups: [],
             data: [],
-            tableData: []
+            tableData: [],
+            showModal: false
         };
 
         this.getUsers();
@@ -73,8 +74,56 @@ export default class UserManagement extends Component {
             });
     }
 
-    editUser = (userId) => {
-        alert(userId);
+    userRoles = [];
+    currentEditUser = [];
+
+    editUser = (user) => {
+        this.currentEditUser = user;
+        fetch(`/UserManagement/GetRolesForUser?employeeId=${user.employeeId}`,
+            {
+                credentials: "same-origin"
+            })
+            .then((response) => response.json())
+            .then(data => {
+                this.userRoles = data;
+                this.showModal();
+                this.getUsers();
+            });
+    }
+
+    closeModal = () => {
+        this.setState({ showModal: false });
+    }
+
+    showModal = () => {
+        this.setState({ showModal: true });
+    }
+
+    handleEditUserRoles = (e) => {
+        e.preventDefault();
+        var selectedIds = [];
+        Array.from(e.target.querySelectorAll('input')).map(e => {
+            if (e.checked)
+                selectedIds.push(e.value);
+        });
+        var employeeId = this.currentEditUser.employeeId;
+        fetch('/UserManagement/EditUserRoles',
+            {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                credentials: "same-origin",
+                body: JSON.stringify({
+                    employeeId: employeeId,
+                    selectedRoleIds: selectedIds.toString(),
+                    __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value
+                })
+            })
+            .then((response) => {
+                this.closeModal();
+                this.getUsers();
+            });
     }
 
     render() {
@@ -116,7 +165,7 @@ export default class UserManagement extends Component {
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     return (
-                        <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row.employeeId)}></a>
+                        <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row)}></a>
                     );
                 }
             }];
@@ -196,15 +245,48 @@ export default class UserManagement extends Component {
                     </form>
                     <div className="search-wrap pull-right" >
                         <input className="search-textbox" onChange={this.onTableFilterChange} />
-                        <span class="fa fa-search icon"></span>
+                        <span className="fa fa-search icon"></span>
                     </div>
-                    {this.state.data.length > 0 &&
+                    {this.state.tableData.length > 0 &&
                         <BootstrapTable keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
                     }
+                </div>
+                <div>
+                    <Modal show={this.state.showModal} onHide={this.closeModal}>
+                        <Modal.Header closeButton>
+                            <Modal.Title>Assign Roles To User </Modal.Title>
+                        </Modal.Header>
+                        <Form id="edit-user-role-form" horizontal onSubmit={this.handleEditUserRoles}>
+                            <Modal.Body>
+                                <FormGroup>
+                                    <Col componentClass={ControlLabel} sm={2}>
+                                        {this.currentEditUser.nickName}
+                                    </Col>
+                                    <div className="col-sm-10">
+                                        <ControlLabel>Elton</ControlLabel>
+                                    </div>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Col componentClass={ControlLabel} sm={2}>
+                                        Roles
+                                    </Col>
+                                    <Col sm={10}>
+                                        {this.userRoles.map(role =>
+                                            <Checkbox key={role.roleId} defaultChecked={role.hasRole} value={role.roleId}>{role.role}</Checkbox>
+                                        )}
+                                    </Col>
+                                </FormGroup>
+                            </Modal.Body>
+                            <Modal.Footer>
+                                <Button onClick={this.closeModal}>Cancel</Button>
+                                <Button type="submit" className="btn btn-primary">Submit</Button>
+                            </Modal.Footer>
+                        </Form>
+                    </Modal>
                 </div>
             </div>
         );
     }
 }
 
-ReactDOM.render(<UserManagement />, document.getElementById("main-container"));
+ReactDOM.render(<UserManagement />, document.getElementById("user-management-wrapper"));

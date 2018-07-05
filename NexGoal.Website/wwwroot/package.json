@@ -19,6 +19,7 @@
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
     "react": "^16.4.0",
+    "react-bootstrap": "^0.32.1",
     "react-bootstrap-table-next": "^0.1.14",
     "react-bootstrap-table2-paginator": "^0.1.5",
     "react-dom": "^16.4.0"
