@@ -18,9 +18,20 @@ export default class UserManagement extends Component {
             groups: [],
             data: [],
             tableData: [],
-            showModal: false
+            showModal: false,
+            currentPage: 1,
+            sizePerPage: 20
         };
 
+        this.tableRef = React.createRef();
+        this.searchRef = React.createRef();
+    }
+
+    userRoles = [];
+    currentEditUser = [];
+    resetPage = false;
+
+    componentDidMount = function () {
         this.getUsers();
         this.getGroups();
     }
@@ -31,9 +42,15 @@ export default class UserManagement extends Component {
     }
 
     onTableFilterChange = (e) => {
-        if (e.target.value && e.target.value.length > 1) {
-            var value = e.target.value.trim().toLowerCase();
-            var filterDatas = this.state.data.filter((employee) =>
+        this.resetPage = true;
+        var filterData = this.getFilteredTableData(e.target.value, this.state.data);
+        this.setState({ tableData: filterData });
+    }
+
+    getFilteredTableData = (searchValue, data) => {
+        if (searchValue && searchValue.length > 1) {
+            var value = searchValue.trim().toLowerCase();
+            var filterDatas = data.filter((employee) =>
                 employee.nickName.toLowerCase().indexOf(value) >= 0
                 || employee.fullName.toLowerCase().indexOf(value) >= 0
                 || employee.code.toString().indexOf(value) >= 0
@@ -41,9 +58,9 @@ export default class UserManagement extends Component {
                 || employee.jobTitle.toLowerCase().indexOf(value) >= 0
                 || (employee.roles && employee.roles.toLowerCase().indexOf(value) >= 0)
             );
-            this.setState({ tableData: filterDatas });
+            return filterDatas;
         } else {
-            this.setState({ tableData: this.state.data });
+            return data;
         }
     }
 
@@ -70,12 +87,10 @@ export default class UserManagement extends Component {
             })
             .then((response) => response.json())
             .then(data => {
-                this.setState({ data: data, tableData: data });
+                var filterData = this.getFilteredTableData(this.searchRef.current.value, data);
+                this.setState({ data: data, tableData: filterData });
             });
     }
-
-    userRoles = [];
-    currentEditUser = [];
 
     editUser = (user) => {
         this.currentEditUser = user;
@@ -87,7 +102,6 @@ export default class UserManagement extends Component {
             .then(data => {
                 this.userRoles = data;
                 this.showModal();
-                this.getUsers();
             });
     }
 
@@ -111,14 +125,10 @@ export default class UserManagement extends Component {
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
                 },
                 credentials: "same-origin",
-                body: JSON.stringify({
-                    employeeId: employeeId,
-                    selectedRoleIds: selectedIds.toString(),
-                    __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value
-                })
+                body: `employeeId=${employeeId}&selectedRoleIds=${selectedIds.toString()}&__RequestVerificationToken=${document.getElementsByName('__RequestVerificationToken')[0].value}`
             })
             .then((response) => {
                 this.closeModal();
@@ -171,7 +181,8 @@ export default class UserManagement extends Component {
             }];
 
         const paginationOptions = paginationFactory({
-            sizePerPage: 20,
+            page: this.tableRef.current && !this.resetPage ? this.tableRef.current.store._page : 1,
+            sizePerPage: this.tableRef.current ? this.tableRef.current.store._sizePerPage : 20,
             showTotal: false,
             sizePerPageList: [
                 {
@@ -197,6 +208,7 @@ export default class UserManagement extends Component {
                 }
             ]
         });
+        this.resetPage = false;
 
         return (
             <div className="row">
@@ -244,11 +256,11 @@ export default class UserManagement extends Component {
                         </div>
                     </form>
                     <div className="search-wrap pull-right" >
-                        <input className="search-textbox" onChange={this.onTableFilterChange} />
+                        <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
                         <span className="fa fa-search icon"></span>
                     </div>
                     {this.state.tableData.length > 0 &&
-                        <BootstrapTable keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
+                        <BootstrapTable ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
                     }
                 </div>
                 <div>
@@ -259,11 +271,9 @@ export default class UserManagement extends Component {
                         <Form id="edit-user-role-form" horizontal onSubmit={this.handleEditUserRoles}>
                             <Modal.Body>
                                 <FormGroup>
-                                    <Col componentClass={ControlLabel} sm={2}>
-                                        {this.currentEditUser.nickName}
-                                    </Col>
+                                    <Col componentClass={ControlLabel} sm={2}>Nick Name</Col>
                                     <div className="col-sm-10">
-                                        <ControlLabel>Elton</ControlLabel>
+                                        <ControlLabel>{this.currentEditUser.nickName}</ControlLabel>
                                     </div>
                                 </FormGroup>
                                 <FormGroup>

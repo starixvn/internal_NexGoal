@@ -54,7 +54,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditUserRoles([FromBody] EditUserRolesModel model)
+        public async Task<IActionResult> EditUserRoles(EditUserRolesModel model)
         {
             var results = await baseService.ExecuteNonQueryAsync(new EditUserRolesCriteria
             {
