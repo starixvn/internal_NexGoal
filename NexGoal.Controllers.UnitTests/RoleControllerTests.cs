@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using Newtonsoft.Json;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -82,10 +83,10 @@
                 new RolePermissionModel { FunctionId = 1, Policy = Policy.Host }
             };
             var controller = GetRoleController();
-            functionService.AssignFunctionToRoleAsync(roleId, permissions).Returns(expected);
+            functionService.AssignFunctionToRoleAsync(roleId, Arg.Any<IEnumerable<RolePermissionModel>>()).Returns(expected);
 
             // Act
-            var actual = await controller.AssignPermission(roleId, permissions);
+            var actual = await controller.AssignPermission(roleId, JsonConvert.SerializeObject(permissions));
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
