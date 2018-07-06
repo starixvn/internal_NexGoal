@@ -8,7 +8,9 @@
     <link rel="stylesheet" href="~/dist/cssassign_permission.css" />
 }
 
-<form asp-action="AssignPermission" hidden></form>
+@Html.AntiForgeryToken()
+<input id="UpdatePermissionSuccessfully" type="hidden" value="@Message.UpdatePermissionSuccessfully" />
+
 <div id="rolePage"></div>
 
 @section Scripts {

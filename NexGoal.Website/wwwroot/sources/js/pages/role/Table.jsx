@@ -28,7 +28,7 @@ class Table extends Component {
                 <Header />
                 <tbody>
                     {
-                        this.props.functions.map((func) => {
+                        this.props.functions.map(func => {
                             return (
                                 <Row key={func.functionId}
                                     function={func}

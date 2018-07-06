@@ -24,6 +24,20 @@
         public void Index_WhenCalled_ReturnAsExpectedViewResult()
         {
             // Arrange
+            var controller = GetRoleController();
+
+            // Act
+            var actual = controller.Index();
+
+            // Assert
+            var viewResult = Assert.IsType<ViewResult>(actual);
+            Assert.Null(viewResult.ViewName);
+        }
+
+        [Fact]
+        public async Task AssignPermission_WhenCalled_ReturnAsExpectedViewResult()
+        {
+            // Arrange
             var roleId = 2;
             var functions = new List<FunctionModel>
             {
@@ -43,12 +57,11 @@
             sessionService.HasPermissionOnFunction(Arg.Any<string>(), Arg.Any<Policy>()).Returns(true);
 
             // Act
-            var actual = controller.Index();
+            var actual = await controller.AssignPermission(roleId);
 
             // Assert
-            var viewResult = Assert.IsType<ViewResult>(actual);
-            var viewModel = Assert.IsAssignableFrom<AssignPermissionViewModel>(viewResult.Model);
-            Assert.Null(viewResult.ViewName);
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var viewModel = Assert.IsAssignableFrom<AssignPermissionViewModel>(jsonResult.Value);
             Assert.Equal(roleId, viewModel.RoleId);
             Assert.Equal(functions, viewModel.Functions);
             Assert.Equal(selectList, viewModel.Roles);
@@ -56,7 +69,7 @@
         }
 
         [Fact]
-        public async Task AssignPermission_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task AssignPermissionPost_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var roleId = 1;

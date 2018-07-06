@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
 
 import commonFunctions from '../../common-functions';
 import AppLayout from '../../AppLayout';
@@ -35,17 +34,22 @@ export default class App extends Component {
     }
 
     getAssignPermissions(roleId) {
-        axios.get(commonFunctions.getRootUrl() + `Role/AssignPermission?roleId=${roleId}`)
-            .then(response => {
-                let data = response.data;
-
+        $.ajax({
+            type: 'GET',
+            url: commonFunctions.getRootUrl() + 'Role/AssignPermission',
+            data: {
+                roleId: roleId
+            },
+            success: function (response) {
                 this.setState({
-                    optionsState: data.roleId,
-                    options: data.roles,
-                    functions: data.functions,
-                    isHost: data.isHost
+                    optionsState: response.roleId,
+                    options: response.roles,
+                    functions: response.functions,
+                    isHost: response.isHost
                 });
-            });
+            }.bind(this),
+            error: commonFunctions.handleAjaxError
+        });
     }
 
     handleRoleChange(roleId) {
@@ -84,27 +88,35 @@ export default class App extends Component {
         event.preventDefault();
 
         let roleId = this.state.optionsState;
-        let permissions = this.state.functions.slice();
-        let token = document.getElementsByName('__RequestVerificationToken')[0].value;
+        let permissions = this.state.functions.slice().map(func => {
+            return { roleId: roleId, functionId: func.functionId, policy: func.policy };
+        });
 
-        let postData = {
-            '__RequestVerificationToken': token,
-            'roleId': roleId,
-            'permissions': permissions
-        };
+        $.ajax({
+            type: 'POST',
+            url: commonFunctions.getRootUrl() + 'Role/AssignPermission',
+            data: {
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                roleId: roleId,
+                permissions: permissions
+            },
+            success: function (response) {
+                if (response.isSuccessful) {
+                    $('.msg-success').removeClass('hidden');
 
-        let axiosConfig = {
-            headers: {
-                'X-Requested-With': 'XMLHttpRequest'
-            }
-        };
+                    setTimeout(function () {
+                        $('.msg-success').addClass('hidden');
+                    }, 3000);
+                } else {
+                    $('.msg-error').text(response.Message).removeClass('hidden');
 
-        axios.post(commonFunctions.getRootUrl() + 'Role/AssignPermission', postData, axiosConfig)
-            .then(response => {
-                console.log(response);
-            }).catch(error => {
-                console.log(error);
-            });
+                    setTimeout(function () {
+                        $('.msg-error').text('').addClass('hidden');
+                    }, 3000);
+                }
+            }.bind(this),
+            error: commonFunctions.handleAjaxError
+        });
     }
 
     render() {
@@ -113,6 +125,11 @@ export default class App extends Component {
                 <div className="row">
                     <Breadcrumb />
                     <div className="col-sm-12">
+                        <div className="msg-success -has-border hidden">
+                            {document.getElementById('UpdatePermissionSuccessfully').value}
+                        </div>
+                        <div className="-has-border msg-error hidden"></div>
+
                         <Filter
                             options={this.state.options}
                             optionsState={this.state.optionsState}
