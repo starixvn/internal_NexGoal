@@ -23,7 +23,7 @@ class Filter extends Component {
                                 {
                                     this.props.options.map((option) => {
                                         return (
-                                            <option key={option.value} value={option.value}>{option.text}</option>
+                                            <option key={'option-' + option.value} value={option.value}>{option.text}</option>
                                         )
                                     })
                                 }

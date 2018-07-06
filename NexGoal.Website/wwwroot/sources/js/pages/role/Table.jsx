@@ -17,6 +17,12 @@ function Header() {
     );
 }
 
+function TBody(props) {
+    return (
+        <tbody>{props.children}</tbody>
+    );
+}
+
 class Table extends Component {
     constructor(props) {
         super(props);
@@ -26,17 +32,17 @@ class Table extends Component {
         return (
             <table className="table table-bordered assign-permission">
                 <Header />
-                <tbody>
+                <TBody>
                     {
                         this.props.functions.map(func => {
                             return (
-                                <Row key={func.functionId}
+                                <Row key={'function-' + func.functionId}
                                     function={func}
                                     isHost={this.props.isHost}
                                     handleCheckboxChange={this.props.handleCheckboxChange} />)
                         })
                     }
-                </tbody>
+                </TBody>
             </table>
         );
     }

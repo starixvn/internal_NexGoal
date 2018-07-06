@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
@@ -14,6 +14,17 @@ function Breadcrumb() {
                 <li className="current">Role Management</li>
             </ul>
         </div>
+    );
+}
+
+function Notification() {
+    return (
+        <Fragment>
+            <div className="msg-success -has-border hidden">
+                {document.getElementById('UpdatePermissionSuccessfully').value}
+            </div>
+            <div className="-has-border msg-error hidden"></div>
+        </Fragment>
     );
 }
 
@@ -127,10 +138,7 @@ export default class App extends Component {
             <div className="row">
                 <Breadcrumb />
                 <div className="col-sm-12">
-                    <div className="msg-success -has-border hidden">
-                        {document.getElementById('UpdatePermissionSuccessfully').value}
-                    </div>
-                    <div className="-has-border msg-error hidden"></div>
+                    <Notification />
 
                     <Filter
                         options={this.state.options}
