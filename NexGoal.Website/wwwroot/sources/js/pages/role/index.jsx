@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import commonFunctions from '../../common-functions';
-import AppLayout from '../../AppLayout';
 import Filter from './Filter';
 import Table from './Table';
 import SubmitForm from './SubmitForm';
@@ -44,9 +43,7 @@ export default class App extends Component {
                     functions: data.functions,
                     isHost: data.isHost
                 });
-            }).catch(error => {
-                commonFunctions.axiosError(error);
-            });;
+            }).catch(commonFunctions.axiosError);
     }
 
     handleRoleChange(roleId) {
@@ -122,37 +119,33 @@ export default class App extends Component {
                     element.innerHTML = '';
                 }, 3000);
             }
-        }).catch(error => {
-            commonFunctions.axiosError(error);
-        });
+        }).catch(commonFunctions.axiosError);
     }
 
     render() {
         return (
-            <AppLayout>
-                <div className="row">
-                    <Breadcrumb />
-                    <div className="col-sm-12">
-                        <div className="msg-success -has-border hidden">
-                            {document.getElementById('UpdatePermissionSuccessfully').value}
-                        </div>
-                        <div className="-has-border msg-error hidden"></div>
-
-                        <Filter
-                            options={this.state.options}
-                            optionsState={this.state.optionsState}
-                            handleRoleChange={this.handleRoleChange.bind(this)} />
-
-                        <Table
-                            functions={this.state.functions}
-                            isHost={this.state.isHost}
-                            handleCheckboxChange={this.handleCheckboxChange.bind(this)} />
-
-                        <SubmitForm isHost={this.state.isHost}
-                            handleSubmit={this.handleSubmit.bind(this)} />
+            <div className="row">
+                <Breadcrumb />
+                <div className="col-sm-12">
+                    <div className="msg-success -has-border hidden">
+                        {document.getElementById('UpdatePermissionSuccessfully').value}
                     </div>
+                    <div className="-has-border msg-error hidden"></div>
+
+                    <Filter
+                        options={this.state.options}
+                        optionsState={this.state.optionsState}
+                        handleRoleChange={this.handleRoleChange.bind(this)} />
+
+                    <Table
+                        functions={this.state.functions}
+                        isHost={this.state.isHost}
+                        handleCheckboxChange={this.handleCheckboxChange.bind(this)} />
+
+                    <SubmitForm isHost={this.state.isHost}
+                        handleSubmit={this.handleSubmit.bind(this)} />
                 </div>
-            </AppLayout>
+            </div>
         );
     }
 }
