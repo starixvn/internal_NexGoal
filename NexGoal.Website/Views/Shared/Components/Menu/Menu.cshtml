@@ -1,6 +1,12 @@
 ﻿@using NexGoal.Core.Models
 @model IEnumerable<MenuItemSession>
 
+@{ 
+    var currentController = ViewContext.RouteData.Values["Controller"].ToString();
+    var currentAction = ViewContext.RouteData.Values["Action"].ToString();
+    var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);
+}
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="pull-left" id="topNavigation">
         <a class="navbar-brand" asp-controller="home" asp-action="index">
@@ -44,7 +50,7 @@
                         <ul class="list-group menu-@parent.MenuId">
                             @foreach (MenuItemSession child in childMenus)
                             {
-                                <li class="list-group-item sub-menu">
+                                <li class="list-group-item sub-menu @(currentUrl.Equals(child.Link,  StringComparison.CurrentCultureIgnoreCase) ? "active" : string.Empty)">
                                     <a href="@child.Link">
                                         <span>@child.Name</span>
                                     </a>
