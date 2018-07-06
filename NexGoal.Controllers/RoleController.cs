@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using Newtonsoft.Json;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
@@ -58,9 +59,13 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> AssignPermission(int roleId, IEnumerable<RolePermissionModel> permissions)
+        public async Task<IActionResult> AssignPermission(int roleId, string permissions)
         {
-            CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(roleId, permissions).ConfigureAwait(false);
+            IEnumerable<RolePermissionModel> rolePermissions = !string.IsNullOrEmpty(permissions)
+                ? JsonConvert.DeserializeObject<IEnumerable<RolePermissionModel>>(permissions)
+                : new List<RolePermissionModel>();
+
+            CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(roleId, rolePermissions).ConfigureAwait(false);
 
             return Json(commandResult);
         }

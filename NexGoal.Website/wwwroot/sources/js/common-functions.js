@@ -1,24 +1,26 @@
 ﻿module.exports = {
-    handleAjaxError: function (xhr, textStatus, errorThrown) {
-        var url;
+    axiosError: function (error) {
+        if (error.response) {
+            var url;
 
-        switch (xhr.status) {
-            case 401:
-                url = 'auth/login';
-                break;
+            switch (error.response.status) {
+                case 401:
+                    url = 'auth/login';
+                    break;
 
-            case 405:
-                url = 'error/405';
-                break;
+                case 405:
+                    url = 'error/405';
+                    break;
 
-            case 500:
-                url = 'error/500';
-                break;
+                case 500:
+                    url = 'error/500';
+                    break;
+            }
+
+            window.location = document.getElementById('RootURL').value + url;
         }
-
-        window.location = $('#RootURL').val() + url;
     },
     getRootUrl: function () {
-        return $('#RootURL').val();
+        return document.getElementById('RootURL').value;
     }
 };

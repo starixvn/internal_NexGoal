@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import axios from 'axios';
 
 import commonFunctions from '../../common-functions';
 import AppLayout from '../../AppLayout';
@@ -34,22 +35,18 @@ export default class App extends Component {
     }
 
     getAssignPermissions(roleId) {
-        $.ajax({
-            type: 'GET',
-            url: commonFunctions.getRootUrl() + 'Role/AssignPermission',
-            data: {
-                roleId: roleId
-            },
-            success: function (response) {
+        axios.get(commonFunctions.getRootUrl() + `Role/AssignPermission?roleId=${roleId}`)
+            .then(response => {
+                let data = response.data;
                 this.setState({
-                    optionsState: response.roleId,
-                    options: response.roles,
-                    functions: response.functions,
-                    isHost: response.isHost
+                    optionsState: data.roleId,
+                    options: data.roles,
+                    functions: data.functions,
+                    isHost: data.isHost
                 });
-            }.bind(this),
-            error: commonFunctions.handleAjaxError
-        });
+            }).catch(error => {
+                commonFunctions.axiosError(error);
+            });;
     }
 
     handleRoleChange(roleId) {
@@ -91,31 +88,42 @@ export default class App extends Component {
         let permissions = this.state.functions.slice().map(func => {
             return { roleId: roleId, functionId: func.functionId, policy: func.policy };
         });
+        let formData = new FormData();
+        formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
+        formData.append('roleId', roleId);
+        formData.append('permissions', JSON.stringify(permissions));
 
-        $.ajax({
-            type: 'POST',
+        axios({
             url: commonFunctions.getRootUrl() + 'Role/AssignPermission',
-            data: {
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                roleId: roleId,
-                permissions: permissions
-            },
-            success: function (response) {
-                if (response.isSuccessful) {
-                    $('.msg-success').removeClass('hidden');
+            method: 'POST',
+            data: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            let data = response.data,
+                element;
 
-                    setTimeout(function () {
-                        $('.msg-success').addClass('hidden');
-                    }, 3000);
-                } else {
-                    $('.msg-error').text(response.Message).removeClass('hidden');
+            if (data.isSuccessful) {
+                element = document.getElementsByClassName('msg-success')[0];
+                element.classList.remove('hidden');
 
-                    setTimeout(function () {
-                        $('.msg-error').text('').addClass('hidden');
-                    }, 3000);
-                }
-            }.bind(this),
-            error: commonFunctions.handleAjaxError
+                setTimeout(function () {
+                    element.classList.add('hidden');
+                }, 3000);
+            } else {
+                element = document.getElementsByClassName('msg-error')[0];
+                element.classList.remove('hidden');
+                element.innerHTML = data.message;
+
+                setTimeout(function () {
+                    element.classList.add('hidden');
+                    element.innerHTML = '';
+                }, 3000);
+            }
+        }).catch(error => {
+            commonFunctions.axiosError(error);
         });
     }
 
