@@ -8,14 +8,15 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.UserManagement;
     using NexGoal.Models.UserManagement;
+    using NexGoal.ViewModels.UserManagement;
 
     [NexGoalPermission(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Read)]
-    public class UserManagementController : Controller
+    public class UserController : Controller
     {
         private readonly IBaseService baseService;
         private readonly ISessionService sessionService;
 
-        public UserManagementController(IBaseService baseService, ISessionService sessionService)
+        public UserController(IBaseService baseService, ISessionService sessionService)
         {
             this.baseService = baseService;
             this.sessionService = sessionService;
@@ -37,6 +38,16 @@
             }).ConfigureAwait(false);
 
             return Ok(results);
+        }
+
+        public async Task<IActionResult> GetUser(int employeeId)
+        {
+            var result = await baseService.GetDataEntityAsync<UserModel>(new GetUserCriteria
+            {
+                EmployeeId = employeeId
+            }).ConfigureAwait(false);
+
+            return Ok(result);
         }
 
         public async Task<IActionResult> GetGroups()
@@ -66,10 +77,4 @@
             return Ok(results);
         }
     }
-}
-
-public class EditUserRolesModel
-{
-    public int EmployeeId { get; set; }
-    public string SelectedRoleIds { get; set; }
 }

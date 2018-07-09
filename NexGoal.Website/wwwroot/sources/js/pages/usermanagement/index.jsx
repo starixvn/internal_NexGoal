@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-import { Modal, Button, Form, FormGroup, ControlLabel, Checkbox, Col, FormControl } from 'react-bootstrap';
+import EditUserRole from './edit-user-role';
 
 export default class UserManagement extends Component {
     constructor(props) {
@@ -43,11 +43,11 @@ export default class UserManagement extends Component {
 
     onTableFilterChange = (e) => {
         this.resetPage = true;
-        var filterData = this.getFilteredTableData(e.target.value, this.state.data);
+        var filterData = this.getTableFilteredData(e.target.value, this.state.data);
         this.setState({ tableData: filterData });
     }
 
-    getFilteredTableData = (searchValue, data) => {
+    getTableFilteredData = (searchValue, data) => {
         if (searchValue && searchValue.length > 1) {
             var value = searchValue.trim().toLowerCase();
             var filterDatas = data.filter((employee) =>
@@ -70,7 +70,7 @@ export default class UserManagement extends Component {
     }
 
     getGroups = () => {
-        fetch('/UserManagement/GetGroups',
+        fetch('/User/GetGroups',
             {
                 credentials: "same-origin"
             })
@@ -81,28 +81,35 @@ export default class UserManagement extends Component {
     }
 
     getUsers = () => {
-        fetch(`/UserManagement/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`,
+        var searchValue = this.searchRef.current.value;
+
+        fetch(`/User/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`,
             {
                 credentials: "same-origin"
             })
             .then((response) => response.json())
             .then(data => {
-                var filterData = this.getFilteredTableData(this.searchRef.current.value, data);
+                data.map((e, index) => e.rowNum = index + 1);
+                var filterData = this.getTableFilteredData(searchValue, data);
                 this.setState({ data: data, tableData: filterData });
+            });
+    }
+
+    getUser = (id, callback) => {
+        fetch(`/User/GetUser?employeeId=${id}`,
+            {
+                credentials: "same-origin"
+            })
+            .then((response) => response.json())
+            .then(data => {
+                if (typeof (callback) === 'function')
+                    callback(data);
             });
     }
 
     editUser = (user) => {
         this.currentEditUser = user;
-        fetch(`/UserManagement/GetRolesForUser?employeeId=${user.employeeId}`,
-            {
-                credentials: "same-origin"
-            })
-            .then((response) => response.json())
-            .then(data => {
-                this.userRoles = data;
-                this.showModal();
-            });
+        this.showModal();
     }
 
     closeModal = () => {
@@ -113,27 +120,18 @@ export default class UserManagement extends Component {
         this.setState({ showModal: true });
     }
 
-    handleEditUserRoles = (e) => {
-        e.preventDefault();
-        var selectedIds = [];
-        Array.from(e.target.querySelectorAll('input')).map(e => {
-            if (e.checked)
-                selectedIds.push(e.value);
+    handleEditUserRolesSuccess = () => {
+        this.getUser(this.currentEditUser.employeeId, (updatedUser) => {
+            var data = this.state.data.slice();
+            var index = data.findIndex((e) => e.employeeId === this.currentEditUser.employeeId);
+            data[index] = { ...data[index], ...updatedUser };
+
+            var tableData = this.state.tableData.slice();
+            index = tableData.findIndex((e) => e.employeeId == this.currentEditUser.employeeId);
+            tableData[index] = { ...tableData[index], ...updatedUser };
+
+            this.setState({ data: data, tableData: tableData, showModal: false });
         });
-        var employeeId = this.currentEditUser.employeeId;
-        fetch('/UserManagement/EditUserRoles',
-            {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
-                },
-                credentials: "same-origin",
-                body: `employeeId=${employeeId}&selectedRoleIds=${selectedIds.toString()}&__RequestVerificationToken=${document.getElementsByName('__RequestVerificationToken')[0].value}`
-            })
-            .then((response) => {
-                this.closeModal();
-                this.getUsers();
-            });
     }
 
     render() {
@@ -264,35 +262,9 @@ export default class UserManagement extends Component {
                     }
                 </div>
                 <div>
-                    <Modal show={this.state.showModal} onHide={this.closeModal}>
-                        <Modal.Header closeButton>
-                            <Modal.Title>Assign Roles To User </Modal.Title>
-                        </Modal.Header>
-                        <Form id="edit-user-role-form" horizontal onSubmit={this.handleEditUserRoles}>
-                            <Modal.Body>
-                                <FormGroup>
-                                    <Col componentClass={ControlLabel} sm={2}>Nick Name</Col>
-                                    <div className="col-sm-10">
-                                        <ControlLabel>{this.currentEditUser.nickName}</ControlLabel>
-                                    </div>
-                                </FormGroup>
-                                <FormGroup>
-                                    <Col componentClass={ControlLabel} sm={2}>
-                                        Roles
-                                    </Col>
-                                    <Col sm={10}>
-                                        {this.userRoles.map(role =>
-                                            <Checkbox key={role.roleId} defaultChecked={role.hasRole} value={role.roleId}>{role.role}</Checkbox>
-                                        )}
-                                    </Col>
-                                </FormGroup>
-                            </Modal.Body>
-                            <Modal.Footer>
-                                <Button onClick={this.closeModal}>Cancel</Button>
-                                <Button type="submit" className="btn btn-primary">Submit</Button>
-                            </Modal.Footer>
-                        </Form>
-                    </Modal>
+                    {this.state.showModal &&
+                        <EditUserRole showModal={this.state.showModal} closeModal={this.closeModal} user={this.currentEditUser} callback={this.handleEditUserRolesSuccess} />
+                    }
                 </div>
             </div>
         );

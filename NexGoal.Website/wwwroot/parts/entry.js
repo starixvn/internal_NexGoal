@@ -13,6 +13,6 @@ module.exports = {
         main: "./sources/js/main.js",
         home: "./sources/js/pages/home/index.jsx",
         assign_permission: './sources/js/pages/role/index.jsx',
-        usermanagement: './sources/js/usermanagement/index.js'
+        usermanagement: './sources/js/pages/usermanagement/index.jsx'
     }
 };

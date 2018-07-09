@@ -20,5 +20,6 @@
     <Setting Key="User_GetGroups" SpName="User_GetGroups" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="User_GetRolesForUser" SpName="User_GetRolesForUser" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="User_EditRoles" SpName="User_EditRoles" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="User_GetById" SpName="User_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>
