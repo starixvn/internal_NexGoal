@@ -68,6 +68,9 @@ export default class App extends Component {
         let functions = this.state.functions.slice();
 
         if (parentId) {
+            let childs = functions.filter(f => f.parentId === parentId);
+            policy = Math.max.apply(Math, childs.map(f => { return f.policy; }));
+
             for (let i = 0; i < functions.length; i++) {
                 if (functions[i].functionId === parentId) {
                     functions[i].policy = policy;
