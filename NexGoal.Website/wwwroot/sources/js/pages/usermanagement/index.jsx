@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import EditUserRole from './edit-user-role';
+import Notification from '../notification';
 
 export default class UserManagement extends Component {
     constructor(props) {
@@ -20,11 +21,13 @@ export default class UserManagement extends Component {
             tableData: [],
             showModal: false,
             currentPage: 1,
-            sizePerPage: 20
+            sizePerPage: 20,
+            canEditRole: document.getElementById('CanEditUserRoles').value === 'True'
         };
 
         this.tableRef = React.createRef();
         this.searchRef = React.createRef();
+        this.notificationRef = React.createRef();
     }
 
     userRoles = [];
@@ -120,21 +123,27 @@ export default class UserManagement extends Component {
         this.setState({ showModal: true });
     }
 
-    handleEditUserRolesSuccess = () => {
-        this.getUser(this.currentEditUser.employeeId, (updatedUser) => {
-            var data = this.state.data.slice();
-            var index = data.findIndex((e) => e.employeeId === this.currentEditUser.employeeId);
-            data[index] = { ...data[index], ...updatedUser };
+    handleEditUserRolesSuccess = (data) => {
+        if (data.isSuccessful) {
+            this.notificationRef.current.showSuccess("Update Successfully");
 
-            var tableData = this.state.tableData.slice();
-            index = tableData.findIndex((e) => e.employeeId == this.currentEditUser.employeeId);
-            tableData[index] = { ...tableData[index], ...updatedUser };
+            this.getUser(this.currentEditUser.employeeId, (updatedUser) => {
+                var data = this.state.data.slice();
+                var index = data.findIndex((e) => e.employeeId === this.currentEditUser.employeeId);
+                data[index] = { ...data[index], ...updatedUser };
 
-            this.setState({ data: data, tableData: tableData, showModal: false });
-        });
+                var tableData = this.state.tableData.slice();
+                index = tableData.findIndex((e) => e.employeeId == this.currentEditUser.employeeId);
+                tableData[index] = { ...tableData[index], ...updatedUser };
+
+                this.setState({ data: data, tableData: tableData, showModal: false });
+            });
+        } else {
+            this.notificationRef.current.showError(message);
+        }
     }
 
-    noDataIndication = () => <span className="text-danger">No information available!</span>
+    noDataDisplay = () => <span className="text-danger">No information available!</span>
 
     render() {
         const columns = [
@@ -174,9 +183,13 @@ export default class UserManagement extends Component {
                 text: 'Action',
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
-                    return (
-                        <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row)}></a>
-                    );
+                    if (this.state.canEditRole) {
+                        return (
+                            <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row)}></a>
+                        );
+                    }
+
+                    return '';
                 }
             }];
 
@@ -219,6 +232,7 @@ export default class UserManagement extends Component {
                     </ul>
                 </div>
                 <div className="col-sm-12">
+                    <Notification ref={this.notificationRef} />
                     <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
                         <div className="form-group" >
                             <div className="col" >
@@ -260,7 +274,7 @@ export default class UserManagement extends Component {
                         <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
                         <span className="fa fa-search icon"></span>
                     </div>
-                    <BootstrapTable noDataIndication={this.noDataIndication} ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
+                    <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
                 </div>
                 <div>
                     {this.state.showModal &&

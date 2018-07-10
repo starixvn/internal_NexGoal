@@ -24,7 +24,12 @@
 
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new UserManagementViewModel
+            {
+                CanEditUserRoles = sessionService.HasPermissionOnFunction(FunctionKey.UserManagement, Policy.Host)
+            };
+
+            return View(viewModel);
         }
 
         public async Task<IActionResult> GetUsers(string keyword, int? groupId, bool? isLocal, bool isDisabledUser)
@@ -65,16 +70,17 @@
         }
 
         [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
         public async Task<IActionResult> EditUserRoles(EditUserRolesModel model)
         {
-            var results = await baseService.ExecuteNonQueryAsync(new EditUserRolesCriteria
+            var result = await baseService.ExecuteNonQueryAsync(new EditUserRolesCriteria
             {
                 EmployeeId = model.EmployeeId,
                 SelectedRoleIds = model.SelectedRoleIds,
                 ModifiedBy = sessionService.EmployeeId
             }).ConfigureAwait(false);
 
-            return Ok(results);
+            return Ok(result);
         }
     }
 }

@@ -56,10 +56,13 @@ export default class EditUserRole extends Component {
             })
             .then((response) => {
                 if (response.ok) {
-                    this.props.callback();
+                    return response.json();
                 }
 
                 throw new Error(response);
+            })
+            .then(data => {
+                this.props.callback(data);
             })
             .catch(error => commonFunctions.axiosError(error));
     }
