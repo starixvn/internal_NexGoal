@@ -7,6 +7,7 @@ const pagePath = path.join(clientInputPath, "pages");
 module.exports = {
     client: {
         cssmain: "./sources/styles/main.scss",
+        csserror: "./sources/styles/pages/error.scss",
         cssassign_permission: "./sources/styles/pages/role/index.scss",
         cssusermanagement: "./sources/styles/pages/usermanagement/usermanagement.scss",
         //

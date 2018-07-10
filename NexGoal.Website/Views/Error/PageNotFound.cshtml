@@ -1,1 +1,22 @@
-﻿
+﻿@section Styles {
+    <link rel="stylesheet" href="~/dist/csserror.css" />
+}
+
+<div class="page-error page-error-404">
+    <div class="page-content vertical-align-middle">
+        <header>
+            <div class="img-block">
+                <img class="img-main" src="~/sources/styles/images/404/404.svg" />
+                <img class="balloon" src="~/sources/styles/images/404/balloon.svg" />
+                <img class="small-cloud" src="~/sources/styles/images/404/cloud-small.svg" />
+                <img class="big-cloud" src="~/sources/styles/images/404/cloud-big.svg" />
+                <img class="wind-bottom" src="~/sources/styles/images/404/wind.svg" />
+                <img class="wind-top" src="~/sources/styles/images/404/wind.svg" />
+            </div>
+        </header>
+        <p class="error-advise">Oops. The page you are looking for doesn't exist.</p>
+        <a class="cta" asp-controller="home" asp-action="index">
+            <i class="icon fa fa-long-arrow-left" aria-hidden="true"></i>Take me back to the dashboard
+        </a>
+    </div>
+</div>

@@ -8,12 +8,16 @@
                     url = 'auth/login';
                     break;
 
+                case 404:
+                    url = 'error/PageNotFound';
+                    break;
+
                 case 405:
-                    url = 'error/405';
+                    url = 'error/AccessDenied';
                     break;
 
                 case 500:
-                    url = 'error/500';
+                    url = 'error/InternalError';
                     break;
             }
 
