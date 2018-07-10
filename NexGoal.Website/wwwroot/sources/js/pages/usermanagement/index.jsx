@@ -134,6 +134,8 @@ export default class UserManagement extends Component {
         });
     }
 
+    noDataIndication = () => <span className="text-danger">No information available!</span>
+
     render() {
         const columns = [
             {
@@ -206,6 +208,7 @@ export default class UserManagement extends Component {
                 }
             ]
         });
+
         this.resetPage = false;
 
         return (
@@ -257,9 +260,7 @@ export default class UserManagement extends Component {
                         <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
                         <span className="fa fa-search icon"></span>
                     </div>
-                    {this.state.tableData.length > 0 &&
-                        <BootstrapTable ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
-                    }
+                    <BootstrapTable noDataIndication={this.noDataIndication} ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
                 </div>
                 <div>
                     {this.state.showModal &&
