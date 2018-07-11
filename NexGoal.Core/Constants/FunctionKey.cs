@@ -4,5 +4,6 @@
     {
         public const string UserManagement = "UserManagement";
         public const string RoleManagement = "RoleManagement";
+        public const string DisciplineManagement = "DisciplineManagement";
     }
 }

@@ -1,0 +1,15 @@
+﻿@model NexGoal.ViewModels.UserManagement.UserManagementViewModel
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/cssusermanagement.css" />
+}
+
+@Html.AntiForgeryToken()
+<div>
+    <input type="hidden" asp-for="CanEditUserRoles" />
+</div>
+<div id="user-management-wrapper"></div>
+
+@section Scripts{
+    <script src="~/dist/usermanagement.js"></script>
+}
