@@ -3,19 +3,10 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import commonFunctions from '../../common-functions';
+import Breadcrumb from '../../shared/components/Breadcrumb';
 import Filter from './Filter';
 import Table from './Table';
 import SubmitForm from './SubmitForm';
-
-function Breadcrumb() {
-    return (
-        <div className="col-sm-12 sub-header">
-            <ul className="row breadcrumb">
-                <li className="current">Role Management</li>
-            </ul>
-        </div>
-    );
-}
 
 function Notification() {
     return (
@@ -139,7 +130,9 @@ export default class App extends Component {
     render() {
         return (
             <div className="row">
-                <Breadcrumb />
+                <Breadcrumb>
+                    <li className="current">Role Management</li>
+                </Breadcrumb>
                 <div className="col-sm-12">
                     <Notification />
 

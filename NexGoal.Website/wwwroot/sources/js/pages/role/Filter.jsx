@@ -1,4 +1,5 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
+import { ControlLabel, FormGroup } from 'react-bootstrap';
 
 class Filter extends Component {
     constructor(props) {
@@ -14,9 +15,9 @@ class Filter extends Component {
 
         return (
             <form className="form-inline form-filter">
-                <div className="form-group">
+                <FormGroup>
                     <div className="col">
-                        <label className="control-label">Role</label>
+                        <ControlLabel>Role</ControlLabel>
                         <div className="control-content">
                             <select className="form-control" name="RoleId" value={optionState}
                                 onChange={this.handleChange.bind(this)}>
@@ -30,7 +31,7 @@ class Filter extends Component {
                             </select>
                         </div>
                     </div>
-                </div>
+                </FormGroup>
             </form>
         );
     }

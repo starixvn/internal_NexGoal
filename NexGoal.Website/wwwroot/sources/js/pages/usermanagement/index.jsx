@@ -2,6 +2,8 @@
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+
+import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditUserRole from './edit-user-role';
 import Notification from '../notification';
 
@@ -226,11 +228,9 @@ export default class UserManagement extends Component {
 
         return (
             <div className="row">
-                <div className="col-sm-12 sub-header">
-                    <ul className="row breadcrumb">
-                        <li className="current">User Management</li>
-                    </ul>
-                </div>
+                <Breadcrumb>
+                    <li className="current">User Management</li>
+                </Breadcrumb>
                 <div className="col-sm-12">
                     <Notification ref={this.notificationRef} />
                     <form className="form-inline form-filter" onSubmit={this.handleSubmit}>

@@ -1,4 +1,5 @@
 ﻿import React, { Component, Fragment } from 'react';
+import { Button, FormGroup } from 'react-bootstrap';
 
 class SubmitForm extends Component {
     constructor(props) {
@@ -9,9 +10,9 @@ class SubmitForm extends Component {
         if (this.props.isHost) {
             return (
                 <form className="form-inline form-filter">
-                    <div className="form-group">
-                        <button type="button" className="btn btn-primary" onClick={this.props.handleSubmit}>Submit</button>
-                    </div>
+                    <FormGroup>
+                        <Button type="button" bsStyle="primary" onClick={this.props.handleSubmit}>Submit</Button>
+                    </FormGroup>
                 </form>
             );
         }
