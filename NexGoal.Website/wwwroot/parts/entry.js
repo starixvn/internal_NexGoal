@@ -15,6 +15,6 @@ module.exports = {
         home: "./sources/js/pages/home/index.jsx",
         assign_permission: './sources/js/pages/role/index.jsx',
         usermanagement: './sources/js/pages/usermanagement/index.jsx',
-        nomination: './sources/js/pages/nomination/index.jsx'
+        discipline: './sources/js/pages/discipline/index.jsx'
     }
 };
