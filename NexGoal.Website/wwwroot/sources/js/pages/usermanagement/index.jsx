@@ -2,10 +2,9 @@
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
-
 import Breadcrumb from '../../shared/components/Breadcrumb';
+import Notification from '../../shared/components/notification';
 import EditUserRole from './edit-user-role';
-import Notification from '../notification';
 
 export default class UserManagement extends Component {
     constructor(props) {
@@ -236,13 +235,13 @@ export default class UserManagement extends Component {
                     <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
                         <div className="form-group" >
                             <div className="col" >
-                                <label className="control-label" data-translate="Keyword">Keyword</label>
+                                <label className="control-label">Keyword</label>
                                 <div className="control-content">
                                     <input name="keyword" className="form-control" type="text" placeholder="Full name or Nick name" onChange={this.onFilterChange} />
                                 </div>
                             </div>
                             <div className="col">
-                                <label className="control-label ng-scope" data-translate="Team">Team</label>
+                                <label className="control-label">Team</label>
                                 <div className="control-content">
                                     <select name="groupId" className="form-control" onChange={this.onFilterChange}>
                                         <option value="">-- All --</option>
@@ -251,7 +250,7 @@ export default class UserManagement extends Component {
                                 </div>
                             </div>
                             <div className="col">
-                                <label className="control-label" data-translate="Category">Category</label>
+                                <label className="control-label">Category</label>
                                 <div className="control-content">
                                     <select className="form-control" name="isLocal" onChange={this.onFilterChange}>
                                         <option value="">-- All --</option>
@@ -288,4 +287,4 @@ export default class UserManagement extends Component {
     }
 }
 
-ReactDOM.render(<UserManagement />, document.getElementById("user-management-wrapper"));
+ReactDOM.render(<UserManagement />, document.getElementById("discipline-wrapper"));
