@@ -270,9 +270,11 @@ export default class UserManagement extends Component {
                             </div>
                         </div>
                     </form>
-                    <div className="search-wrap pull-right" >
-                        <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
-                        <span className="fa fa-search icon"></span>
+                    <div className="search-wrapper clearfix" >
+                        <div className="search pull-right">
+                            <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
+                            <span className="fa fa-search icon"></span>
+                        </div>
                     </div>
                     <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
                 </div>
