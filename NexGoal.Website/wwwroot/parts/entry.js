@@ -11,6 +11,7 @@ module.exports = {
         cssassignpermission: "./sources/styles/pages/rolemanagement.scss",
         cssusermanagement: "./sources/styles/pages/usermanagement.scss",
         cssnominationmanagement: "./sources/styles/pages/nominationmanagement.scss",
+        cssdiscipline: "./sources/styles/pages/discipline/discipline.scss",
         //
         main: "./sources/js/main.js",
         home: "./sources/js/pages/home/index.jsx",

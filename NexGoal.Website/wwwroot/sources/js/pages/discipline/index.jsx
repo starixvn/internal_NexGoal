@@ -1,6 +1,8 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Notification from '../../shared/components/notification';
 
@@ -8,9 +10,39 @@ export default class DisciplineManagement extends Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            filter: {
+                from: moment().startOf('year'),
+                to: moment(),
+                statusId: '',
+                groupIds: '',
+                employeeId: ''
+            },
+        };
+
         this.tableRef = React.createRef();
         this.searchRef = React.createRef();
         this.notificationRef = React.createRef();
+    }
+
+    handleFromDateChange = (date) => {
+        this.updateFilterValue('from', date);
+    }
+
+    handleToDateChange = (date) => {
+        this.updateFilterValue('to', date);
+    }
+
+    onChangeRaw = (e) => {
+        let date = moment(e.target.value);
+        if (date.isValid()) {
+            this.updateFilterValue(e.target.name, date);
+        }
+    }
+
+    updateFilterValue = (name, value) => {
+        var filter = { [name]: value };
+        this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
     render() {
@@ -26,13 +58,15 @@ export default class DisciplineManagement extends Component {
                             <div className="col" >
                                 <label className="control-label">From</label>
                                 <div className="control-content">
-                                    <input name="from" className="form-control" type="text" onChange={this.onFilterChange} />
+                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.from} onChange={this.handleFromDateChange} onChangeRaw={this.onChangeRaw}
+                                        name="from" className="form-control" showMonthDropdown showYearDropdown />
                                 </div>
                             </div>
                             <div className="col" >
-                                <label className="control-label">From</label>
+                                <label className="control-label">To</label>
                                 <div className="control-content">
-                                    <input name="to" className="form-control" type="text" onChange={this.onFilterChange} />
+                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.to} onChange={this.handleToDateChange} onChangeRaw={this.onChangeRaw}
+                                        showMonthDropdown showYearDropdown name="to" className="form-control" />
                                 </div>
                             </div>
                             <div className="col">
