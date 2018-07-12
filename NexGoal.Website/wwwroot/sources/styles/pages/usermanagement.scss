@@ -1,10 +1,10 @@
-﻿@import "../../abstracts/mixins";
-@import "../../abstracts/variables";
-@import "../../components/buttons";
-@import "../../components/form-filter";
-@import "../../components/messages";
-@import "../../components/tables";
-@import "../../components/_table-search.scss";
+﻿@import "../abstracts/variables";
+@import "../abstracts/mixins";
+@import "../components/buttons";
+@import "../components/form-filter";
+@import "../components/messages";
+@import "../components/tables";
+@import "../components/table-search";
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import '~react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
 

@@ -287,4 +287,4 @@ export default class UserManagement extends Component {
     }
 }
 
-ReactDOM.render(<UserManagement />, document.getElementById("discipline-wrapper"));
+ReactDOM.render(<UserManagement />, document.getElementById("user-wrapper"));

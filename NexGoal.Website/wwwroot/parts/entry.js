@@ -8,12 +8,13 @@ module.exports = {
     client: {
         cssmain: "./sources/styles/main.scss",
         csserror: "./sources/styles/pages/error.scss",
-        cssassign_permission: "./sources/styles/pages/role/index.scss",
-        cssusermanagement: "./sources/styles/pages/usermanagement/usermanagement.scss",
+        cssassignpermission: "./sources/styles/pages/rolemanagement.scss",
+        cssusermanagement: "./sources/styles/pages/usermanagement.scss",
+        cssnominationmanagement: "./sources/styles/pages/nominationmanagement.scss",
         //
         main: "./sources/js/main.js",
         home: "./sources/js/pages/home/index.jsx",
-        assign_permission: './sources/js/pages/role/index.jsx',
+        assignpermission: './sources/js/pages/role/index.jsx',
         usermanagement: './sources/js/pages/usermanagement/index.jsx',
         discipline: './sources/js/pages/discipline/index.jsx',
         nominationmanagement: './sources/js/pages/nominationmanagement/index.jsx'

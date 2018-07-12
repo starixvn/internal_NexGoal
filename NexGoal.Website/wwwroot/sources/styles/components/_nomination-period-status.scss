@@ -1,0 +1,13 @@
+﻿.nomination-period-status {
+    &.closed {
+        color: #aaa;
+    }
+
+    &.in-progress {
+        color: #3da52a;
+    }
+
+    &.not-started {
+        color: red;
+    }
+}

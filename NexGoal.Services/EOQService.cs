@@ -36,9 +36,9 @@
             return await baseService.GetDataEntityAsync<EOQYModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<int>> GetYearEOQAsync()
+        public async Task<IEnumerable<int>> GetYearsAsync()
         {
-            var criteria = new GetYearEOQCriteria();
+            var criteria = new GetYearsCriteria();
 
             return await baseService.GetDataAsync<int>(criteria).ConfigureAwait(false);
         }

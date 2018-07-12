@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetYearEOQCriteria : CriteriaBase
+    public class GetYearsCriteria : CriteriaBase
     {
         public override string GetSettingKey() => "EOQ_GetYear";
 

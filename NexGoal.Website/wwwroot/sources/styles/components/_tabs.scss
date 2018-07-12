@@ -1,0 +1,29 @@
+.nav-tabs {
+    cursor: pointer;
+    border-color: #c8c8c8;
+
+    li {
+        > a {
+            @include border-radius(3px 3px 0 0);
+            padding: 7px 15px;
+            text-transform: uppercase;
+            color: #737373;
+
+            &:hover {
+                background-color: #fff;
+                border-color: #fff;
+                border-bottom-color: #c8c8c8;
+            }
+        }
+
+        &.active {
+            border-bottom: 2px solid #f4783c;
+
+            > a, > a:hover, > a:focus {
+                color: #334478;
+                font-weight: bold;
+                border: 0;
+            }
+        }
+    }
+}

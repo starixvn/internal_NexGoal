@@ -1,8 +1,16 @@
 ﻿@using NexGoal.Resources
+@model bool
 
 @{
     ViewData["Title"] = ViewLang.NominationManagement;
 }
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/cssnominationmanagement.css" />
+}
+
+@Html.AntiForgeryToken()
+<input type="checkbox" id="IsHost" @(Model ? "checked" : string.Empty) />
 
 <div id="nomination-wrapper"></div>
 

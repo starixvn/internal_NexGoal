@@ -10,6 +10,6 @@
 
         Task<EOQYModel> GetEOQByIdAsync(int eoqId);
 
-        Task<IEnumerable<int>> GetYearEOQAsync();
+        Task<IEnumerable<int>> GetYearsAsync();
     }
 }
