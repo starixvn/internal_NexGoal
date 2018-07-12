@@ -88,6 +88,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nomination Management.
+        /// </summary>
+        public static string NominationManagement {
+            get {
+                return ResourceManager.GetString("NominationManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Read.
         /// </summary>
         public static string Read {

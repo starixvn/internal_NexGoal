@@ -126,6 +126,9 @@
   <data name="Host" xml:space="preserve">
     <value>Host</value>
   </data>
+  <data name="NominationManagement" xml:space="preserve">
+    <value>Nomination Management</value>
+  </data>
   <data name="Read" xml:space="preserve">
     <value>Read</value>
   </data>

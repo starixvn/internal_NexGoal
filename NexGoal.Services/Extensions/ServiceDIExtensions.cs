@@ -8,6 +8,7 @@
         {
             services.AddTransient<ICommonService, CommonService>();
             services.AddTransient<IFunctionService, FunctionService>();
+            services.AddTransient<IEOQService, EOQService>();
         }
     }
 }

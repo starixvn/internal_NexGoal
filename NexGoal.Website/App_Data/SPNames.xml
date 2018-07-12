@@ -15,11 +15,18 @@
   <Function Name="Employee">
     <Setting Key="Employee_GetByDomainUsername" SpName="Employee_GetByDomainUsername" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
-  <Function Name="UserManagement">
+  <Function Name="User Management">
     <Setting Key="User_Get" SpName="User_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="User_GetGroups" SpName="User_GetGroups" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="User_GetRolesForUser" SpName="User_GetRolesForUser" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="User_EditRoles" SpName="User_EditRoles" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="User_GetById" SpName="User_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="EOY">
+    <Setting Key="EOY_Get" SpName="EOY_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_GetById" SpName="EOY_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Insert" SpName="EOY_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Update" SpName="EOY_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Delete" SpName="EOY_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>
