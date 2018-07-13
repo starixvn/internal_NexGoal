@@ -1,27 +1,10 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 
-function Header(props) {
+import CreateEOQ from './Create';
+
+function THead(props) {
     return (
-        <thead>
-            {props.isHost &&
-                <tr className="header-control">
-                    <th colSpan="9">
-                        <a className="pull-left btn btn-primary"><i className="fa fa-plus"></i>Create Nomination Period</a>
-                    </th>
-                </tr>
-            }
-            <tr>
-                <th>#</th>
-                <th>Quarter</th>
-                <th>Year</th>
-                <th>Start Date For Nominator</th>
-                <th>End Date For Nominator</th>
-                <th>Remind Date For Nominator</th>
-                <th>End Date For Committee</th>
-                <th>Status</th>
-                <th>Action</th>
-            </tr>
-        </thead>
+        <thead>{props.children}</thead>
     );
 }
 
@@ -34,20 +17,60 @@ function TBody(props) {
 class Table extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showModal: false
+        };
+    }
+
+    closeModal() {
+        this.setState({ showModal: false });
+    }
+
+    showModal() {
+        this.setState({ showModal: true });
     }
 
     render() {
         return (
-            <table className="table table-bordered">
-                <Header isHost={this.props.isHost} />
-                <TBody>
-                    {this.props.eoqs.length === 0 &&
+            <Fragment>
+                <table className="table table-bordered">
+                    <THead>
+                        {this.props.isHost &&
+                            <tr className="header-control">
+                                <th colSpan="9">
+                                    <a className="pull-left btn btn-primary" onClick={this.showModal.bind(this)}>
+                                        <i className="fa fa-plus"></i>Create Nomination Period
+                                </a>
+                                </th>
+                            </tr>
+                        }
                         <tr>
-                            <td className="empty-result" colSpan="9">No information available!</td>
+                            <th>#</th>
+                            <th>Quarter</th>
+                            <th>Year</th>
+                            <th>Start Date For Nominator</th>
+                            <th>End Date For Nominator</th>
+                            <th>Remind Date For Nominator</th>
+                            <th>End Date For Committee</th>
+                            <th>Status</th>
+                            <th>Action</th>
                         </tr>
+                    </THead>
+                    <TBody>
+                        {this.props.eoqs.length === 0 &&
+                            <tr>
+                                <td className="empty-result" colSpan="9">No information available!</td>
+                            </tr>
+                        }
+                    </TBody>
+                </table>
+                <div>
+                    {this.state.showModal &&
+                        <CreateEOQ showModal={this.state.showModal} closeModal={this.closeModal.bind(this)} />
                     }
-                </TBody>
-            </table>
+                </div>
+            </Fragment>
         );
     }
 }

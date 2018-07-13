@@ -3,6 +3,7 @@
 @import "../components/buttons";
 @import "../components/form-filter";
 @import "../components/messages";
+@import "../components/modal";
 @import "../components/nomination-period-status";
 @import "../components/tabs";
 @import "../components/tables";
@@ -33,5 +34,26 @@
     .empty-result {
         text-align: center;
         color: red;
+    }
+}
+
+.required-label:after {
+    color: #ff0000;
+    content: "*";
+    padding-left: 5px;
+}
+
+.form-control {
+    font-size: 13px;
+    padding: 3px 4px;
+    height: 30px;
+    @include border-radius(2px);
+    border-color: #dfdfdf;
+    box-shadow: none;
+}
+
+textarea {
+    &.none-resize {
+        resize: none;
     }
 }

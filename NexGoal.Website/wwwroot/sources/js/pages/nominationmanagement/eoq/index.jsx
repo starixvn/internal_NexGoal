@@ -14,7 +14,7 @@ export default class EOQ extends Component {
             statusId: 1,
             years: [],
             eoqs: [],
-            isHost: false
+            isHost: document.getElementById('IsHost').checked
         };
     }
 
@@ -30,10 +30,7 @@ export default class EOQ extends Component {
 
                 this.setState({
                     years: data,
-                    eoqs: [],
-                    year: data[0],
-                    statusId: this.state.statusId,
-                    isHost: document.getElementById('IsHost').checked
+                    year: data[0]
                 });
             }).catch(commonFunctions.axiosError);
     }
@@ -43,34 +40,16 @@ export default class EOQ extends Component {
             .then(response => {
                 let data = response.data;
 
-                this.setState({
-                    years: this.state.years,
-                    eoqs: data,
-                    year: this.state.year,
-                    statusId: this.state.statusId,
-                    isHost: this.state.isHost
-                });
+                this.setState({ eoqs: data });
             }).catch(commonFunctions.axiosError);
     }
 
     handleYearChange(year) {
-        this.setState({
-            years: this.state.years.slice(),
-            eoqs: this.state.eoqs.slice(),
-            statusId: this.state.statusId,
-            isHost: this.state.isHost,
-            year
-        });
+        this.setState({ year });
     }
 
     handleStatusChange(statusId) {
-        this.setState({
-            years: this.state.years.slice(),
-            eoqs: this.state.eoqs.slice(),
-            year: this.state.year,
-            isHost: this.state.isHost,
-            statusId
-        });
+        this.setState({ statusId });
     }
 
     handleSubmit(event) {

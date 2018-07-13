@@ -1,10 +1,16 @@
 .btn {
     @include border-radius(3px);
     font-size: $font-size;
+    color: #fff;
     height: 30px;
     line-height: 30px;
     padding: 0 15px 4px;
     border: none;
+
+    &:hover, &:focus, &:active {
+        border-color: unset;
+        outline: none;
+    }
 
     &.btn-primary {
         background: #526cb7;
@@ -12,7 +18,15 @@
 
         &:hover, &:focus, &:active {
             background: #6381db;
-            border-color: unset;
+        }
+    }
+
+    &.btn-cancel {
+        background: #767885;
+
+        &:hover, &:focus, &:active {
+            background: #8a8d9c;
+            color: #fff;
         }
     }
 }
