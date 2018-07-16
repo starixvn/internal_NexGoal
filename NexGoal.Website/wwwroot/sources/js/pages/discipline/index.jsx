@@ -5,6 +5,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Notification from '../../shared/components/notification';
+import { Async } from 'react-select';
 
 export default class DisciplineManagement extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ export default class DisciplineManagement extends Component {
                 to: moment(),
                 statusId: '',
                 groupIds: '',
-                employeeId: ''
+                employee: ''
             },
         };
 
@@ -40,9 +41,37 @@ export default class DisciplineManagement extends Component {
         }
     }
 
+    handleEmployeeChange = (selectedOption) => {
+        this.updateFilterValue('employee', selectedOption);
+    }
+
     updateFilterValue = (name, value) => {
         var filter = { [name]: value };
         this.setState({ filter: { ...this.state.filter, ...filter } });
+    }
+
+    searchEmployees = (input, callback) => {
+        if (input.length > 2) {
+            return fetch(`/common/SearchEmployees?keyword=${input}`,
+                {
+                    credentials: "same-origin"
+                })
+                .then((response) => {
+                    return response.json();
+                }).then(data => {
+                    let options = [];
+
+                    data.map(item => {
+                        options.push({
+                            value: item.employeeId,
+                            label: `${item.fullName} (${item.nickName})`
+                        });
+                    });
+                    return { options };
+                });
+        }
+
+        callback(null, { options: [] });
     }
 
     render() {
@@ -94,7 +123,7 @@ export default class DisciplineManagement extends Component {
                             <div className="col">
                                 <label className="control-label">Employee</label>
                                 <div className="control-content">
-                                    <input className="form-control" type="text" name="employeeId" placeholder="-- Search an employee --" />
+                                    <Async autoload={false} value={this.state.filter.employee} name="employee" onChange={this.handleEmployeeChange} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
                                 </div>
                             </div>
                             <div className="col">

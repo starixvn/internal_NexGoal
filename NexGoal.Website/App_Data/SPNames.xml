@@ -21,6 +21,7 @@
     <Setting Key="User_GetRolesForUser" SpName="User_GetRolesForUser" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="User_EditRoles" SpName="User_EditRoles" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="User_GetById" SpName="User_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="User_Search" SpName="User_Search" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="EOQ">
     <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

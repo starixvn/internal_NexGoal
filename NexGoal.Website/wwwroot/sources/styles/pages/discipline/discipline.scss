@@ -8,3 +8,22 @@
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import '~react-datepicker/dist/react-datepicker.css';
 @import "../../components/_react-datepicker-custom.scss";
+@import '~react-select/dist/react-select.css';
+
+.Select-control {
+    @include border-radius(0);
+    border-color: #dfdfdf;
+    height: 30px;
+
+    .Select-input {
+        height: 28px;
+    }
+
+    .Select-value {
+        line-height: 30px;
+    }
+
+    .Select-placeholder {
+        line-height: 30px;
+    }
+}
