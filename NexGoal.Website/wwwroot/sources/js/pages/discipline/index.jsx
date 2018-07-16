@@ -15,10 +15,12 @@ export default class DisciplineManagement extends Component {
             filter: {
                 from: moment().startOf('year'),
                 to: moment(),
-                statusId: '',
+                isActive: '',
                 groupIds: '',
                 employee: ''
             },
+            data: [],
+            tableData: []
         };
 
         this.tableRef = React.createRef();
@@ -32,6 +34,10 @@ export default class DisciplineManagement extends Component {
 
     handleToDateChange = (date) => {
         this.updateFilterValue('to', date);
+    }
+
+    onFilterChange = (e) => {
+        this.updateFilterValue(e.target.name, e.target.value)
     }
 
     onChangeRaw = (e) => {
