@@ -32,22 +32,22 @@ a {
             text-decoration: none;
         }
 
-        &.icon-add {
+        &.add {
             color: #8CBF26;
         }
 
-        &.icon-remove {
+        &.remove {
             color: #DE5144;
             margin-right: 5px;
         }
 
-        &.icon-edit,
-        &.icon-save {
+        &.edit,
+        &.save {
             color: #1BA0E1;
             margin-right: 5px;
         }
 
-        &.icon-delete {
+        &.delete {
             color: #6f6e6e;
             margin-right: 5px;
         }
@@ -57,11 +57,11 @@ a {
         margin-left: 5px;
         font-size: 15px;
 
-        &.icon-remove {
+        &.remove {
             color: #DE5144;
         }
 
-        &.icon-add {
+        &.add {
             color: #8CBF26;
         }
     }
