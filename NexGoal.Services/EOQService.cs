@@ -69,7 +69,7 @@
         {
             var criteria = new EditEOQCriteria
             {
-                EOQYId = eoq.EOQYId,
+                EOQId = eoq.EOQYId,
                 Quarter = eoq.Quarter,
                 Year = eoq.Year,
                 StartDateForNominator = eoq.StartDateForNominator,
@@ -77,6 +77,17 @@
                 RemindDateForNominator = eoq.RemindDateForNominator,
                 EndDateForCommittee = eoq.EndDateForCommittee,
                 Description = eoq.Description,
+                ModifiedBy = sessionService.EmployeeId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> DeleteEOQAsync(int eoqId)
+        {
+            var criteria = new DeleteEOQCriteria
+            {
+                EOQId = eoqId,
                 ModifiedBy = sessionService.EmployeeId
             };
 

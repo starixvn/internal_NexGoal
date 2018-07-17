@@ -1,23 +1,14 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
+import ToastLayout from '../../shared/layouts/ToastLayout';
 import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Filter from './Filter';
 import Table from './Table';
 import SubmitForm from './SubmitForm';
-
-function Notification() {
-    return (
-        <Fragment>
-            <div className="msg-success -has-border hidden">
-                {document.getElementById('UpdatePermissionSuccessfully').value}
-            </div>
-            <div className="-has-border msg-error hidden"></div>
-        </Fragment>
-    );
-}
 
 export default class App extends Component {
     constructor(props) {
@@ -99,52 +90,39 @@ export default class App extends Component {
                 'Content-Type': 'multipart/form-data'
             }
         }).then(response => {
-            let data = response.data,
-                element;
+            let data = response.data;
 
             if (data.isSuccessful) {
-                element = document.getElementsByClassName('msg-success')[0];
-                element.classList.remove('hidden');
-
-                setTimeout(function () {
-                    element.classList.add('hidden');
-                }, 3000);
+                toast.success(document.getElementById('UpdatePermissionSuccessfully').value);
             } else {
-                element = document.getElementsByClassName('msg-error')[0];
-                element.classList.remove('hidden');
-                element.innerHTML = data.message;
-
-                setTimeout(function () {
-                    element.classList.add('hidden');
-                    element.innerHTML = '';
-                }, 3000);
+                toast.error(data.message);
             }
         }).catch(commonFunctions.axiosError);
     }
 
     render() {
         return (
-            <div className="row">
-                <Breadcrumb>
-                    <li className="current">Role Management</li>
-                </Breadcrumb>
-                <div className="col-sm-12">
-                    <Notification />
+            <ToastLayout>
+                <div className="row">
+                    <Breadcrumb>
+                        <li className="current">Role Management</li>
+                    </Breadcrumb>
+                    <div className="col-sm-12">
+                        <Filter
+                            options={this.state.options}
+                            optionsState={this.state.optionsState}
+                            handleRoleChange={this.handleRoleChange.bind(this)} />
 
-                    <Filter
-                        options={this.state.options}
-                        optionsState={this.state.optionsState}
-                        handleRoleChange={this.handleRoleChange.bind(this)} />
+                        <Table
+                            functions={this.state.functions}
+                            isHost={this.state.isHost}
+                            handleCheckboxChange={this.handleCheckboxChange.bind(this)} />
 
-                    <Table
-                        functions={this.state.functions}
-                        isHost={this.state.isHost}
-                        handleCheckboxChange={this.handleCheckboxChange.bind(this)} />
-
-                    <SubmitForm isHost={this.state.isHost}
-                        handleSubmit={this.handleSubmit.bind(this)} />
+                        <SubmitForm isHost={this.state.isHost}
+                            handleSubmit={this.handleSubmit.bind(this)} />
+                    </div>
                 </div>
-            </div>
+            </ToastLayout>
         );
     }
 }

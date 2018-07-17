@@ -3,10 +3,11 @@ import { Button, Form, FormGroup, Modal } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 import commonFunctions from '../../../common-functions';
 
-export default class CreateEOQ extends Component {
+class CreateEOQ extends Component {
     constructor(props) {
         super(props);
 
@@ -94,7 +95,9 @@ export default class CreateEOQ extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
+                toast.success('Created successfully!');
             } else {
+                toast.error(data.message);
             }
         }).catch(commonFunctions.axiosError);
     }
@@ -187,3 +190,5 @@ export default class CreateEOQ extends Component {
         );
     }
 }
+
+export default CreateEOQ;

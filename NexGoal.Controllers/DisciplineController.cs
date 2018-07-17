@@ -40,7 +40,7 @@
 
             var result = await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
 
-            return Ok(result)
+            return Ok(result);
         }
     }
 }

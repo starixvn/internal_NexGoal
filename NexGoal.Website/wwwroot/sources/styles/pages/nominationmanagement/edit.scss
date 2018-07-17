@@ -3,9 +3,10 @@
 @import '~react-datepicker/dist/react-datepicker.css';
 @import "../../components/buttons";
 @import "../../components/messages";
+@import "../../components/react-datepicker-custom";
 @import "../../components/tabs";
 @import "../../components/tables";
-@import "../../components/react-datepicker-custom";
+@import "../../components/toast";
 
 .form-horizontal {
     margin-top: 10px;

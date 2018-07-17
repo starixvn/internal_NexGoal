@@ -32,6 +32,10 @@ class Row extends Component {
         return 'nomination-period-status ' + className;
     }
 
+    handleDeleteClick() {
+        this.props.showDeleteModel(this.props.eoq);
+    }
+
     renderCellAction() {
         let currentYear = new Date().getFullYear();
 
@@ -41,7 +45,7 @@ class Row extends Component {
                     <a className="fa fa-pencil-square-o" title="Edit"
                         href={commonFunctions.getRootUrl() + 'EOQ/Edit/' + this.props.eoq.eoqyId}></a>
                     {this.props.eoq.statusId === 0 &&
-                        <a className="fa fa-trash-o remove" title="Delete"></a>
+                        <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick.bind(this)}></a>
                     }
                 </Fragment>
             );

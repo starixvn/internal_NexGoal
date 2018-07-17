@@ -4,7 +4,7 @@
 
     public class EditEOQCriteria : CommandBaseCriteria
     {
-        public int EOQYId { get; set; }
+        public int EOQId { get; set; }
         public int Quarter { get; set; }
         public int Year { get; set; }
         public string Description { get; set; }
@@ -16,6 +16,6 @@
 
         public override string GetSettingKey() => "EOQ_Update";
 
-        public override bool IsValid() => Quarter > 0 && Year > 0 && ModifiedBy > 0;
+        public override bool IsValid() => EOQId > 0 && Quarter > 0 && Year > 0 && ModifiedBy > 0;
     }
 }

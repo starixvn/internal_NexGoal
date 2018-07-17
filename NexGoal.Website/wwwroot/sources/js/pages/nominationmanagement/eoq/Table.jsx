@@ -2,6 +2,7 @@
 
 import Row from './Row';
 import CreateEOQ from './Create';
+import DeleteEOQ from './Delete';
 
 function THead(props) {
     return (
@@ -20,16 +21,32 @@ class Table extends Component {
         super(props);
 
         this.state = {
-            showModal: false
+            showCreateModal: false,
+            showDeleteModal: false,
+            eoqSelected: null
         };
     }
 
-    closeModal() {
-        this.setState({ showModal: false });
+    showCreateModal() {
+        this.setState({ showCreateModal: true });
     }
 
-    showModal() {
-        this.setState({ showModal: true });
+    closeCreateModal() {
+        this.setState({ showCreateModal: false });
+    }
+
+    showDeleteModal(eoqSelected) {
+        this.setState({
+            showDeleteModal: true,
+            eoqSelected: eoqSelected
+        });
+    }
+
+    closeDeleteModal() {
+        this.setState({
+            showDeleteModal: false,
+            eoqSelected: null
+        });
     }
 
     render() {
@@ -40,7 +57,7 @@ class Table extends Component {
                         {this.props.isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
-                                    <a className="pull-left btn btn-primary" onClick={this.showModal.bind(this)}>
+                                    <a className="pull-left btn btn-primary" onClick={this.showCreateModal.bind(this)}>
                                         <i className="fa fa-plus"></i>Create Nomination Period
                                 </a>
                                 </th>
@@ -70,16 +87,26 @@ class Table extends Component {
                                     <Row key={'eoq-' + eoq.eoqyId}
                                         rowIndex={index + 1}
                                         eoq={eoq}
-                                        isHost={this.props.isHost} />)
+                                        isHost={this.props.isHost}
+                                        showDeleteModel={this.showDeleteModal.bind(this)} />)
                             })
                         }
                     </TBody>
                 </table>
-                <div>
-                    {this.state.showModal &&
-                        <CreateEOQ showModal={this.state.showModal} closeModal={this.closeModal.bind(this)} />
-                    }
-                </div>
+
+                {
+                    this.state.showCreateModal &&
+                    <CreateEOQ
+                        showModal={this.state.showCreateModal}
+                        closeModal={this.closeCreateModal.bind(this)} />
+                }
+                {
+                    this.state.showDeleteModal &&
+                    <DeleteEOQ
+                        eoqSelected={this.state.eoqSelected}
+                        showModal={this.state.showDeleteModal}
+                        closeModal={this.closeDeleteModal.bind(this)} />
+                }
             </Fragment>
         );
     }

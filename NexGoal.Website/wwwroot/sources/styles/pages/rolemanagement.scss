@@ -2,8 +2,8 @@
 @import "../abstracts/mixins";
 @import "../components/buttons";
 @import "../components/form-filter";
-@import "../components/messages";
 @import "../components/tables";
+@import "../components/toast";
 
 table.assign-permission {
     width: 614px;

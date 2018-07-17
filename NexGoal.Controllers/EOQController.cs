@@ -106,5 +106,14 @@
 
             return Json(eoq);
         }
+
+        [HttpDelete]
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
+        public async Task<IActionResult> Delete(int id)
+        {
+            CommandResult commandResult = await eoqService.DeleteEOQAsync(id).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
     }
 }
