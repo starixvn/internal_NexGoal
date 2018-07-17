@@ -140,7 +140,7 @@ export default class UserManagement extends Component {
                 this.setState({ data: data, tableData: tableData, showModal: false });
             });
         } else {
-            this.notificationRef.current.showError(message);
+            this.notificationRef.current.showError(data.message);
         }
     }
 

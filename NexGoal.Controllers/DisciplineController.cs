@@ -42,5 +42,11 @@
 
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> EditStatus(int disciplineId, bool isActive)
+        {
+            return Json(new { });
+        }
     }
 }

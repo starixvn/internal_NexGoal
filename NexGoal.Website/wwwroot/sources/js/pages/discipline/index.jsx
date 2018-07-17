@@ -1,11 +1,12 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import BootstrapTable from 'react-bootstrap-table-next';
+import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Notification from '../../shared/components/notification';
 import { Async } from 'react-select';
+import Table from './Table';
 
 export default class DisciplineManagement extends Component {
     constructor(props) {
@@ -16,23 +17,35 @@ export default class DisciplineManagement extends Component {
                 from: moment().startOf('year'),
                 to: moment(),
                 isActive: '',
-                groupIds: '',
-                employee: ''
+                groupIds: [],
+                employee: '',
             },
             data: [],
-            tableData: []
+            tableData: [],
+            canEdit: true
         };
 
         this.tableRef = React.createRef();
         this.searchRef = React.createRef();
+
         this.notificationRef = React.createRef();
     }
 
-    handleFromDateChange = (date) => {
+    componentDidMount = function () {
+        this.getDisciplines();
+    }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.searchRef.current.value = '';
+        this.getDisciplines();
+    }
+
+    onFromDateChange = (date) => {
         this.updateFilterValue('from', date);
     }
 
-    handleToDateChange = (date) => {
+    onToDateChange = (date) => {
         this.updateFilterValue('to', date);
     }
 
@@ -47,7 +60,7 @@ export default class DisciplineManagement extends Component {
         }
     }
 
-    handleEmployeeChange = (selectedOption) => {
+    onEmployeeChange = (selectedOption) => {
         this.updateFilterValue('employee', selectedOption);
     }
 
@@ -56,28 +69,65 @@ export default class DisciplineManagement extends Component {
         this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
+    getDisciplines = () => {
+        var employeeId = this.state.filter.employee ? this.state.filter.employee.value : '';
+
+        axios(`/Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}&to=${this.state.filter.to.format('YYYY-MM-DD')}&isActive=${this.state.filter.isActive}&groupIds=${this.state.filter.groupIds.toString()}&employeeId=${employeeId}`)
+            .then(response => {
+                response.data.map((e, index) => e.rowNum = index + 1);
+                this.setState({ data: response.data, tableData: response.data });
+            });
+    }
+
+    onTableFilterChange = (e) => {
+        var filterData = this.getTableFilteredData(e.target.value, this.state.data);
+        this.setState({ tableData: filterData });
+    }
+
+    getTableFilteredData = (searchValue, data) => {
+        if (searchValue && searchValue.length > 1) {
+            var value = searchValue.trim().toLowerCase();
+            var filterData = data.filter((discipline) =>
+                discipline.nickName.toLowerCase().indexOf(value) >= 0
+                || discipline.fullName.toLowerCase().indexOf(value) >= 0
+                || discipline.group.toLowerCase().indexOf(value) >= 0
+                || discipline.description.toLowerCase().indexOf(value) >= 0
+                || discipline.creatorFullName.toLowerCase().indexOf(value) >= 0
+                || discipline.creatorNickName.toLowerCase().indexOf(value) >= 0
+            );
+            return filterData;
+        } else {
+            return data.slice(0);
+        }
+    }
+
     searchEmployees = (input, callback) => {
         if (input.length > 2) {
-            return fetch(`/common/SearchEmployees?keyword=${input}`,
-                {
-                    credentials: "same-origin"
-                })
-                .then((response) => {
-                    return response.json();
-                }).then(data => {
+            return axios(`/common/SearchEmployees?keyword=${input}`)
+                .then(response => {
                     let options = [];
 
-                    data.map(item => {
+                    response.data.map(item => {
                         options.push({
                             value: item.employeeId,
                             label: `${item.fullName} (${item.nickName})`
                         });
                     });
+
                     return { options };
                 });
         }
 
         callback(null, { options: [] });
+    }
+
+    onUpdateStatusSuccess = (disciplineId, isActive) => {
+        this.notificationRef.current.showSuccess();
+        var data = this.state.data.slice();
+        var discipline = data.find(e => e.disciplineId === disciplineId);
+        discipline.isActive = isActive;
+
+        this.setState({ data: data })
     }
 
     render() {
@@ -93,14 +143,14 @@ export default class DisciplineManagement extends Component {
                             <div className="col" >
                                 <label className="control-label">From</label>
                                 <div className="control-content">
-                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.from} onChange={this.handleFromDateChange} onChangeRaw={this.onChangeRaw}
+                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.from} onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
                                         name="from" className="form-control" showMonthDropdown showYearDropdown />
                                 </div>
                             </div>
                             <div className="col" >
                                 <label className="control-label">To</label>
                                 <div className="control-content">
-                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.to} onChange={this.handleToDateChange} onChangeRaw={this.onChangeRaw}
+                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.to} onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
                                         showMonthDropdown showYearDropdown name="to" className="form-control" />
                                 </div>
                             </div>
@@ -129,7 +179,7 @@ export default class DisciplineManagement extends Component {
                             <div className="col">
                                 <label className="control-label">Employee</label>
                                 <div className="control-content">
-                                    <Async autoload={false} value={this.state.filter.employee} name="employee" onChange={this.handleEmployeeChange} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
+                                    <Async autoload={false} value={this.state.filter.employee} name="employee" onChange={this.onEmployeeChange} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
                                 </div>
                             </div>
                             <div className="col">
@@ -146,6 +196,7 @@ export default class DisciplineManagement extends Component {
                             <span className="fa fa-search icon"></span>
                         </div>
                     </div>
+                    <Table data={this.state.tableData} onUpdateStatusSuccess={this.onUpdateStatusSuccess} />
                 </div>
             </div>
         );

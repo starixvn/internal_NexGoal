@@ -70,7 +70,7 @@ export default class EditUserRole extends Component {
     render() {
         return (
             this.state.userRoles.length > 0 &&
-            <Modal show={this.props.showModal} onHide={this.props.closeModal}>
+            <Modal show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Assign Roles To User </Modal.Title>
                 </Modal.Header>
