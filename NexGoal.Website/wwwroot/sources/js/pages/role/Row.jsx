@@ -7,6 +7,8 @@ class Row extends Component {
         this.state = {
             policy: 0
         };
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentWillMount() {
@@ -57,19 +59,19 @@ class Row extends Component {
 
     render() {
         return (
-            <tr className={this.props.function.level === 0 ? "row-special" : ""}>
+            <tr className={!this.props.function.parentId ? "row-special" : ""}>
                 {this.renderCellFunctionName(this.props.function)}
 
                 <td className="text-center">
                     <label>
                         <input type="checkbox" name="funcRead" disabled={!this.props.isHost} checked={this.state.policy > 0}
-                            onChange={this.handleChange.bind(this)} />
+                            onChange={this.handleChange} />
                     </label>
                 </td>
                 <td className="text-center">
                     <label>
                         <input type="checkbox" name="funcHost" disabled={!this.props.isHost} checked={this.state.policy === 2}
-                            onChange={this.handleChange.bind(this)} />
+                            onChange={this.handleChange} />
                     </label>
                 </td>
             </tr>

@@ -4,7 +4,6 @@
 
     public class CreateEOQCriteria : CommandBaseCriteria
     {
-        public int EOQYId { get; set; }
         public int Quarter { get; set; }
         public int Year { get; set; }
         public string Description { get; set; }

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Models.EOQY;
 
     public interface IEOQService
@@ -11,5 +12,9 @@
         Task<EOQYModel> GetEOQByIdAsync(int eoqId);
 
         Task<IEnumerable<int>> GetYearsAsync();
+
+        Task<CommandResult> CreateEOQAsync(CreateEOQModel eoq);
+
+        Task<CommandResult> EditEOQAsync(EOQYModel eoq);
     }
 }

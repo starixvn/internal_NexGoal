@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class UpdateEOQCriteria : CommandBaseCriteria
+    public class EditEOQCriteria : CommandBaseCriteria
     {
         public int EOQYId { get; set; }
         public int Quarter { get; set; }

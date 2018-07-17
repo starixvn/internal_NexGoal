@@ -6,17 +6,11 @@
     public class EOQYModel
     {
         public int EOQYId { get; set; }
-
         public int Year { get; set; }
-
         public int Quarter { get; set; }
-
         public string Description { get; set; }
-
         public DateTime StartDateForNominator { get; set; }
-
         public DateTime EndDateForNominator { get; set; }
-
         public DateTime RemindDateForNominator { get; set; }
 
         public DateTime StartDateForCommittee
@@ -32,11 +26,11 @@
             {
                 var today = DateTime.Now.Date;
 
-                if (StartDateForCommittee.Date > today)
+                if (StartDateForNominator.Date > today)
                 {
                     return (int)NominationSettingStatus.NotReady;
                 }
-                else if (StartDateForCommittee.Date <= today && EndDateForCommittee.Date >= today)
+                else if (StartDateForNominator.Date <= today && EndDateForCommittee.Date >= today)
                 {
                     return (int)NominationSettingStatus.InProgress;
                 }

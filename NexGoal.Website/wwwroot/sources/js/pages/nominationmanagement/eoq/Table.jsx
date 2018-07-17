@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 
+import Row from './Row';
 import CreateEOQ from './Create';
 
 function THead(props) {
@@ -62,6 +63,15 @@ class Table extends Component {
                             <tr>
                                 <td className="empty-result" colSpan="9">No information available!</td>
                             </tr>
+                        }
+                        {this.props.eoqs.length > 0 &&
+                            this.props.eoqs.map((eoq, index) => {
+                                return (
+                                    <Row key={'eoq-' + eoq.eoqyId}
+                                        rowIndex={index + 1}
+                                        eoq={eoq}
+                                        isHost={this.props.isHost} />)
+                            })
                         }
                     </TBody>
                 </table>

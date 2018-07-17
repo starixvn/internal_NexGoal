@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.ViewModels.EOQY
 {
-    using System;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Extensions;
     using NexGoal.Models.EOQY;
@@ -77,48 +76,6 @@
             get
             {
                 return EnumHelper.GetDescription((NominationSettingStatus)StatusId);
-            }
-        }
-
-        public int StatusIdForNominator
-        {
-            get
-            {
-                var today = DateTime.Now.Date;
-
-                if (StartDateForNominator.Date > today)
-                {
-                    return (int)NominationSettingStatus.NotReady;
-                }
-                else if (StartDateForNominator.Date <= today && EndDateForNominator.Date >= today)
-                {
-                    return (int)NominationSettingStatus.InProgress;
-                }
-                else
-                {
-                    return (int)NominationSettingStatus.Closed;
-                }
-            }
-        }
-
-        public int StatusIdForCommittee
-        {
-            get
-            {
-                var today = DateTime.Now.Date;
-
-                if (StartDateForCommittee.Date > today)
-                {
-                    return (int)NominationSettingStatus.NotReady;
-                }
-                else if (StartDateForCommittee.Date <= today && EndDateForCommittee.Date >= today)
-                {
-                    return (int)NominationSettingStatus.InProgress;
-                }
-                else
-                {
-                    return (int)NominationSettingStatus.Closed;
-                }
             }
         }
     }

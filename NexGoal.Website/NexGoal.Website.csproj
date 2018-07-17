@@ -74,6 +74,12 @@
     <Content Update="Views\Discipline\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\EOQ\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Views\EOQ\Details.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\NominationManagement\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

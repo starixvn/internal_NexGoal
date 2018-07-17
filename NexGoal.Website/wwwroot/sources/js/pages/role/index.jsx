@@ -75,12 +75,7 @@ export default class App extends Component {
             }
         }
 
-        this.setState({
-            optionsState: this.state.optionsState,
-            options: this.state.options.slice(),
-            functions: functions,
-            isHost: this.state.isHost
-        });
+        this.setState({ functions: functions });
     }
 
     handleSubmit(event) {

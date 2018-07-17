@@ -36,7 +36,7 @@ export default class EOQ extends Component {
     }
 
     getAllEOQ() {
-        axios.get(commonFunctions.getRootUrl() + `EOQ/GetAllEOQ?year=${this.state.year}&statusId=${this.state.statusId}`)
+        axios.get(commonFunctions.getRootUrl() + `EOQ/GetAll?year=${this.state.year}&statusId=${this.state.statusId}`)
             .then(response => {
                 let data = response.data;
 

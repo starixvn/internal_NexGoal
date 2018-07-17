@@ -10,7 +10,8 @@ module.exports = {
         csserror: "./sources/styles/pages/error.scss",
         cssassignpermission: "./sources/styles/pages/rolemanagement.scss",
         cssusermanagement: "./sources/styles/pages/usermanagement.scss",
-        cssnominationmanagement: "./sources/styles/pages/nominationmanagement.scss",
+        cssnominationmanagement: "./sources/styles/pages/nominationmanagement/index.scss",
+        cssediteoqy: "./sources/styles/pages/nominationmanagement/edit.scss",
         cssdiscipline: "./sources/styles/pages/discipline/discipline.scss",
         //
         main: "./sources/js/main.js",
@@ -18,6 +19,7 @@ module.exports = {
         assignpermission: './sources/js/pages/role/index.jsx',
         usermanagement: './sources/js/pages/usermanagement/index.jsx',
         discipline: './sources/js/pages/discipline/index.jsx',
-        nominationmanagement: './sources/js/pages/nominationmanagement/index.jsx'
+        nominationmanagement: './sources/js/pages/nominationmanagement/index.jsx',
+        editeoq: './sources/js/pages/nominationmanagement/eoq/edit.jsx'
     }
 };

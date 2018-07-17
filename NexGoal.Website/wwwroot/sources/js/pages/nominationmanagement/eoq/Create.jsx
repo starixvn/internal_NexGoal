@@ -1,5 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { Button, Form, FormGroup, Modal } from 'react-bootstrap';
+import DatePicker from 'react-datepicker';
+import moment from 'moment';
+import axios from 'axios';
 
 import commonFunctions from '../../../common-functions';
 
@@ -11,12 +14,21 @@ export default class CreateEOQ extends Component {
             eoq: {
                 quarter: 1,
                 year: new Date().getFullYear(),
-                description: ''
+                startDateForNominator: null,
+                endDateForNominator: null,
+                remindDateForNominator: null,
+                endDateForCommittee: null,
+                description: null
             }
         };
 
         this.handleQuarterChange = this.handleQuarterChange.bind(this);
         this.handleYearChange = this.handleYearChange.bind(this);
+        this.handleStartDateForNominatorChange = this.handleStartDateForNominatorChange.bind(this);
+        this.handleEndDateForNominatorChange = this.handleEndDateForNominatorChange.bind(this);
+        this.handleRemindDateForNominatorChange = this.handleRemindDateForNominatorChange.bind(this);
+        this.handleEndDateForCommitteeChange = this.handleEndDateForCommitteeChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleQuarterChange(event) {
@@ -27,13 +39,71 @@ export default class CreateEOQ extends Component {
         this.setState({ eoq: Object.assign({}, this.state.eoq, { year: event.target.value }) });
     }
 
-    handleSubmit() {
+    handleStartDateForNominatorChange(date) {
+        this.updateEOQValue('startDateForNominator', date);
+    }
+
+    handleEndDateForNominatorChange(date) {
+        this.updateEOQValue('endDateForNominator', date);
+    }
+
+    handleRemindDateForNominatorChange(date) {
+        this.updateEOQValue('remindDateForNominator', date);
+    }
+
+    handleEndDateForCommitteeChange(date) {
+        this.updateEOQValue('endDateForCommittee', date);
+    }
+
+    onChangeRaw(event) {
+        let date = moment(event.target.value);
+        if (date.isValid()) {
+            this.updateEOQValue(event.target.name, date);
+        }
+    }
+
+    updateEOQValue(name, value) {
+        this.setState({ eoq: Object.assign({}, this.state.eoq, { [name]: value }) });
+    }
+
+    handleSubmit(event) {
+        event.preventDefault();
+
+        let eoq = {
+            quarter: this.state.eoq.quarter,
+            year: this.state.eoq.year,
+            startDateForNominator: this.state.eoq.startDateForNominator !== null ? this.state.eoq.startDateForNominator.toDate() : null,
+            endDateForNominator: this.state.eoq.endDateForNominator !== null ? this.state.eoq.endDateForNominator.toDate() : null,
+            remindDateForNominator: this.state.eoq.remindDateForNominator !== null ? this.state.eoq.remindDateForNominator.toDate() : null,
+            endDateForCommittee: this.state.eoq.endDateForCommittee !== null ? this.state.eoq.endDateForCommittee.toDate() : null,
+            description: this.state.eoq.description
+        };
+
+        let formData = commonFunctions.objectToFormData(eoq);
+        formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
+
+        axios({
+            url: commonFunctions.getRootUrl() + 'EOQ/Create',
+            method: 'POST',
+            data: formData,
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+            } else {
+            }
+        }).catch(commonFunctions.axiosError);
     }
 
     render() {
         const currentYear = new Date().getFullYear();
         return (
-            <Modal show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal modal-md">
+            <Modal show={this.props.showModal} keyboard={false}
+                onHide={this.props.closeModal} dialogClassName="custom-modal modal-md">
                 <Modal.Header closeButton>
                     <Modal.Title>Create Nomination Period</Modal.Title>
                 </Modal.Header>
@@ -60,17 +130,45 @@ export default class CreateEOQ extends Component {
                         <FormGroup>
                             <label className="col-sm-3 control-label required-label">Start Date For Nominator</label>
                             <div className="col-sm-3 field">
+                                <DatePicker
+                                    dateFormat="DD MMM, YYYY"
+                                    selected={this.state.eoq.startDateForNominator}
+                                    onChange={this.handleStartDateForNominatorChange}
+                                    onChangeRaw={this.onChangeRaw}
+                                    name="startDateForNominator"
+                                    className="form-control" />
                             </div>
                             <label className="col-sm-3 control-label required-label">End Date For Nominator</label>
                             <div className="col-sm-3 field">
+                                <DatePicker
+                                    dateFormat="DD MMM, YYYY"
+                                    selected={this.state.eoq.endDateForNominator}
+                                    onChange={this.handleEndDateForNominatorChange}
+                                    onChangeRaw={this.onChangeRaw}
+                                    name="endDateForNominator"
+                                    className="form-control" />
                             </div>
                         </FormGroup>
                         <FormGroup>
                             <label className="col-sm-3 control-label required-label">Remind Date For Nominator</label>
                             <div className="col-sm-3 field">
+                                <DatePicker
+                                    dateFormat="DD MMM, YYYY"
+                                    selected={this.state.eoq.remindDateForNominator}
+                                    onChange={this.handleRemindDateForNominatorChange}
+                                    onChangeRaw={this.onChangeRaw}
+                                    name="remindDateForNominator"
+                                    className="form-control" />
                             </div>
                             <label className="col-sm-3 control-label required-label">End Date For Committee</label>
                             <div className="col-sm-3 field">
+                                <DatePicker
+                                    dateFormat="DD MMM, YYYY"
+                                    selected={this.state.eoq.endDateForCommittee}
+                                    onChange={this.handleEndDateForCommitteeChange}
+                                    onChangeRaw={this.onChangeRaw}
+                                    name="endDateForCommittee"
+                                    className="form-control" />
                             </div>
                         </FormGroup>
                         <FormGroup>

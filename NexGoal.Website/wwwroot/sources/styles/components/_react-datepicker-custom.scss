@@ -1,6 +1,46 @@
 ﻿.react-datepicker {
-    font-size: 1.28rem;
-    @include border-radius(0.48rem);
+    font-size: 14px;
+    @include border-radius(0);
+
+    .react-datepicker__triangle {
+        border-bottom-color: #324373 !important;
+
+        &:before {
+            border-bottom-color: #324373 !important;
+        }
+    }
+
+    .react-datepicker__navigation--previous {
+        border-right-color: #fff;
+    }
+
+    .react-datepicker__navigation--next {
+        border-left-color: #fff;
+    }
+
+    .react-datepicker__header {
+        background-color: #324373;
+        color: #fff;
+        @include border-radius(0);
+    }
+
+    .react-datepicker__month {
+        margin: 0.64rem;
+    }
+
+    .react-datepicker__current-month {
+        color: #fff;
+        font-weight: normal;
+    }
+
+    .react-datepicker__day-name {
+        color: #fff;
+        font-size: 85%;
+    }
+
+    .react-datepicker__day--today {
+        font-weight: normal;
+    }
 }
 
 .react-datepicker--time-only .react-datepicker__time {
@@ -11,11 +51,6 @@
     @include border-radius(0.48rem);
 }
 
-.react-datepicker__header {
-    @include css3-prefix(border-top-left-radius,0.48rem);
-    @include css3-prefix(border-top-right-radius,0.48rem);
-}
-
 .react-datepicker__current-month,
 .react-datepicker-time__header {
     font-size: 1.5104rem;
@@ -24,10 +59,6 @@
 .react-datepicker__navigation {
     line-height: 2.72rem;
     border-width: 0.72rem;
-}
-
-.react-datepicker__month {
-    margin: 0.64rem;
 }
 
 .react-datepicker__time-container--with-today-button {
