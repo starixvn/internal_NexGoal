@@ -1,6 +1,10 @@
 ﻿@import '~react-toastify/dist/ReactToastify.css';
 
 .Toastify__toast-container {
+    .Toastify__toast {
+        min-height: 50px;
+    }
+
     &.Toastify__toast-container--top-center {
         top: 5rem;
     }

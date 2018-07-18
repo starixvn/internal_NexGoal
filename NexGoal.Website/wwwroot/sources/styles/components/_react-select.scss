@@ -1,0 +1,28 @@
+@import '~react-select/dist/react-select.css';
+
+.Select {
+    &.is-focused:not(.is-opened) {
+        .Select-control {
+            box-shadow: none;
+            border-color: #66afe9;
+        }
+    }
+
+    .Select-control {
+        @include border-radius(2px);
+        border-color: #dfdfdf;
+        height: 30px;
+
+        .Select-input {
+            height: 28px;
+        }
+
+        .Select-value {
+            line-height: 30px !important;
+        }
+
+        .Select-placeholder {
+            line-height: 30px;
+        }
+    }
+}

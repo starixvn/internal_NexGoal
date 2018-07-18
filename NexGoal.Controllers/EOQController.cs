@@ -89,9 +89,16 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
-        public IActionResult Details(int id)
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            EOQYModel eoq = await eoqService.GetEOQByIdAsync(id).ConfigureAwait(false);
+
+            if (eoq == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+
+            return View(id);
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]

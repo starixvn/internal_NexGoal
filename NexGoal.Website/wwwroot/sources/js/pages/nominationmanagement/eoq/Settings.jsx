@@ -37,8 +37,8 @@ class Settings extends Component {
     }
 
     getEOQById() {
-        let eoqyId = document.getElementById('EOQYId').value;
-        axios.get(commonFunctions.getRootUrl() + `EOQ/GetById/${eoqyId}`)
+        let eoqId = document.getElementById('EOQId').value;
+        axios.get(commonFunctions.getRootUrl() + `EOQ/GetById/${eoqId}`)
             .then(response => {
                 let data = response.data;
 
@@ -121,6 +121,7 @@ class Settings extends Component {
     }
 
     render() {
+        const isHost = this.state.isHost;
         return (
             <Form id="edit-eoq-form" horizontal onSubmit={this.handleSubmit}>
                 <FormGroup>
@@ -148,8 +149,7 @@ class Settings extends Component {
                             selected={this.state.eoq.startDateForNominator}
                             onChange={this.handleStartDateForNominatorChange}
                             onChangeRaw={this.onChangeRaw}
-                            name="startDateForNominator"
-                            className="form-control" />
+                            name="startDateForNominator" className="form-control" disabled={!isHost} />
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Nominator</label>
                     <div className="col-sm-2 field">
@@ -158,8 +158,7 @@ class Settings extends Component {
                             selected={this.state.eoq.endDateForNominator}
                             onChange={this.handleEndDateForNominatorChange}
                             onChangeRaw={this.onChangeRaw}
-                            name="endDateForNominator"
-                            className="form-control" />
+                            name="endDateForNominator" className="form-control" disabled={!isHost} />
                     </div>
                 </FormGroup>
                 <FormGroup>
@@ -170,8 +169,7 @@ class Settings extends Component {
                             selected={this.state.eoq.remindDateForNominator}
                             onChange={this.handleRemindDateForNominatorChange}
                             onChangeRaw={this.onChangeRaw}
-                            name="remindDateForNominator"
-                            className="form-control" />
+                            name="remindDateForNominator" className="form-control" disabled={!isHost} />
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Committee</label>
                     <div className="col-sm-2 field">
@@ -180,21 +178,20 @@ class Settings extends Component {
                             selected={this.state.eoq.endDateForCommittee}
                             onChange={this.handleEndDateForCommitteeChange}
                             onChangeRaw={this.onChangeRaw}
-                            name="endDateForCommittee"
-                            className="form-control" />
+                            name="endDateForCommittee" className="form-control" disabled={!isHost} />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <label className="col-sm-2 control-label">Description</label>
                     <div className="col-sm-6 field">
-                        <textarea className="form-control comment none-resize" rows="3"></textarea>
+                        <textarea className="form-control comment none-resize" rows="3" disabled={isHost ? false : true}></textarea>
                     </div>
                 </FormGroup>
-                {this.state.isHost &&
+                {isHost &&
                     <FormGroup>
                         <label className="col-sm-2 control-label"></label>
                         <div className="col-sm-6 field">
-                        <Button type="submit" className="btn btn-primary">Submit</Button>
+                            <Button type="submit" className="btn btn-primary">Submit</Button>
                         </div>
                     </FormGroup>
                 }

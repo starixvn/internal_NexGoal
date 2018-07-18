@@ -1,19 +1,19 @@
 ﻿@using NexGoal.Resources
-@model bool
+@model int
 
 @{
     ViewData["Title"] = ViewLang.NominationManagement;
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/dist/cssnominationmanagement.css" />
+    <link rel="stylesheet" href="~/dist/cssediteoqy.css" />
 }
 
-@Html.AntiForgeryToken()
-<input type="checkbox" hidden id="IsHost" @(Model ? "checked" : string.Empty) />
+<input type="hidden" id="EOQId" value="@Model" />
+<input type="checkbox" hidden id="IsHost" />
 
 <div id="nomination-wrapper"></div>
 
 @section Scripts{
-    <script src="~/dist/nominationmanagement.js"></script>
+    <script src="~/dist/editeoq.js"></script>
 }

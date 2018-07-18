@@ -1,17 +1,22 @@
 ﻿import React, { Component } from 'react';
 import { ControlLabel, FormGroup } from 'react-bootstrap';
+import Select from 'react-select';
 
 class Filter extends Component {
     constructor(props) {
         super(props);
     }
 
-    handleChange(event) {
-        this.props.handleRoleChange(event.target.value);
+    handleChange(selectedOption) {
+        this.props.handleRoleChange(selectedOption.value);
     }
 
     render() {
-        const optionState = this.props.optionState;
+        const selectedOpt = this.props.selectedOption;
+        const options = this.props.options.map((option) => {
+            return { value: option.value, label: option.text };
+        });
+        const selectedOption = options.find((option) => { return option.value === selectedOpt.toString(); });
 
         return (
             <form className="form-inline form-filter">
@@ -19,16 +24,13 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Role</ControlLabel>
                         <div className="control-content">
-                            <select className="form-control" name="RoleId" value={optionState}
-                                onChange={this.handleChange.bind(this)}>
-                                {
-                                    this.props.options.map((option) => {
-                                        return (
-                                            <option key={'option-' + option.value} value={option.value}>{option.text}</option>
-                                        )
-                                    })
-                                }
-                            </select>
+                            <Select
+                                name="RoleId"
+                                value={selectedOption}
+                                options={options}
+                                clearable={false}
+                                searchable={false}
+                                onChange={this.handleChange.bind(this)} />
                         </div>
                     </div>
                 </FormGroup>

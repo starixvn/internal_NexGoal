@@ -11,7 +11,7 @@
 }
 
 @Html.AntiForgeryToken()
-<input type="hidden" id="EOQYId" value="@Model" />
+<input type="hidden" id="EOQId" value="@Model" />
 <input type="checkbox" hidden id="IsHost" @(isHost ? "checked" : string.Empty) />
 
 <div id="nomination-wrapper"></div>

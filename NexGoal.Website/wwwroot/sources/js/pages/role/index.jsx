@@ -15,7 +15,7 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            optionsState: null,
+            selectedOption: null,
             options: [],
             functions: [],
             isHost: false
@@ -31,7 +31,7 @@ export default class App extends Component {
             .then(response => {
                 let data = response.data;
                 this.setState({
-                    optionsState: data.roleId,
+                    selectedOption: data.roleId,
                     options: data.roles,
                     functions: data.functions,
                     isHost: data.isHost
@@ -72,7 +72,7 @@ export default class App extends Component {
     handleSubmit(event) {
         event.preventDefault();
 
-        let roleId = this.state.optionsState;
+        let roleId = this.state.selectedOption;
         let permissions = this.state.functions.slice().map(func => {
             return { roleId: roleId, functionId: func.functionId, policy: func.policy };
         });
@@ -110,7 +110,7 @@ export default class App extends Component {
                     <div className="col-sm-12">
                         <Filter
                             options={this.state.options}
-                            optionsState={this.state.optionsState}
+                            selectedOption={this.state.selectedOption}
                             handleRoleChange={this.handleRoleChange.bind(this)} />
 
                         <Table
