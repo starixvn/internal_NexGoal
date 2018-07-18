@@ -1,0 +1,19 @@
+﻿@using NexGoal.Resources
+@model int
+
+@{
+    ViewData["Title"] = ViewLang.NominationManagement;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/cssediteoqy.css" />
+}
+
+<input type="hidden" id="EOYId" value="@Model" />
+<input type="checkbox" hidden id="IsHost" />
+
+<div id="nomination-wrapper"></div>
+
+@section Scripts{
+    <script src="~/dist/editeoy.js"></script>
+}

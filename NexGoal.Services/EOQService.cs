@@ -35,7 +35,7 @@
         {
             var criteria = new GetEOQByIdCriteria
             {
-                EOQYId = eoqId
+                EOQId = eoqId
             };
 
             return await baseService.GetDataEntityAsync<EOQYModel>(criteria).ConfigureAwait(false);

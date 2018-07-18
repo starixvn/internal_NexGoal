@@ -50,11 +50,13 @@ class Table extends Component {
     }
 
     render() {
+        const isHost = this.props.isHost;
+
         return (
             <Fragment>
                 <table className="table table-bordered">
                     <THead>
-                        {this.props.isHost &&
+                        {isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
                                     <a className="pull-left btn btn-primary" onClick={this.showCreateModal.bind(this)}>
@@ -87,8 +89,8 @@ class Table extends Component {
                                     <Row key={'eoq-' + eoq.eoqyId}
                                         rowIndex={index + 1}
                                         eoq={eoq}
-                                        isHost={this.props.isHost}
-                                        showDeleteModel={this.showDeleteModal.bind(this)} />)
+                                        isHost={isHost}
+                                        showDeleteModal={this.showDeleteModal.bind(this)} />)
                             })
                         }
                     </TBody>

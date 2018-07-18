@@ -33,18 +33,19 @@ class Row extends Component {
     }
 
     handleDeleteClick() {
-        this.props.showDeleteModel(this.props.eoq);
+        this.props.showDeleteModal(this.props.eoq);
     }
 
     renderCellAction() {
-        let currentYear = new Date().getFullYear();
+        const currentYear = new Date().getFullYear();
+        const eoq = this.props.eoq;
 
-        if (this.props.eoq.year >= currentYear && this.props.isHost) {
+        if (eoq.year >= currentYear && this.props.isHost) {
             return (
                 <Fragment>
                     <a className="fa fa-pencil-square-o" title="Edit"
-                        href={commonFunctions.getRootUrl() + 'EOQ/Edit/' + this.props.eoq.eoqyId}></a>
-                    {this.props.eoq.statusId === 0 &&
+                        href={commonFunctions.getRootUrl() + 'EOQ/Edit/' + eoq.eoqyId}></a>
+                    {eoq.statusId === 0 &&
                         <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick.bind(this)}></a>
                     }
                 </Fragment>
@@ -53,21 +54,23 @@ class Row extends Component {
 
         return (
             <a className="fa fa-search" title="Details"
-                href={commonFunctions.getRootUrl() + 'EOQ/Details/' + this.props.eoq.eoqyId}></a>
+                href={commonFunctions.getRootUrl() + 'EOQ/Details/' + eoq.eoqyId}></a>
         );
     }
 
     render() {
+        const eoq = this.props.eoq;
+
         return (
             <tr>
                 <td className="text-center">{this.props.rowIndex}</td>
-                <td>{this.props.eoq.quarterToString}</td>
-                <td className="text-center">{this.props.eoq.year}</td>
-                <td className="text-center">{this.formatDate(this.props.eoq.startDateForNominator)}</td>
-                <td className="text-center">{this.formatDate(this.props.eoq.endDateForNominator)}</td>
-                <td className="text-center">{this.formatDate(this.props.eoq.remindDateForNominator)}</td>
-                <td className="text-center">{this.formatDate(this.props.eoq.endDateForCommittee)}</td>
-                <td className={"text-center " + this.getCssClassNominationStatus(this.props.eoq.statusId)}>{this.props.eoq.statusToString}</td>
+                <td>{eoq.quarterToString}</td>
+                <td className="text-center">{eoq.year}</td>
+                <td className="text-center">{this.formatDate(eoq.startDateForNominator)}</td>
+                <td className="text-center">{this.formatDate(eoq.endDateForNominator)}</td>
+                <td className="text-center">{this.formatDate(eoq.remindDateForNominator)}</td>
+                <td className="text-center">{this.formatDate(eoq.endDateForCommittee)}</td>
+                <td className={"text-center " + this.getCssClassNominationStatus(eoq.statusId)}>{eoq.statusToString}</td>
                 <td className="text-center">{this.renderCellAction()}</td>
             </tr>
         );

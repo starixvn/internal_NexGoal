@@ -6,6 +6,7 @@ import { ToastContainer } from 'react-toastify';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EOQ from './eoq/index';
+import EOY from './eoy/index';
 
 export default class App extends Component {
     constructor(props) {
@@ -30,7 +31,7 @@ export default class App extends Component {
                         <li className="current">Nomination Management</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <Tabs id="tabs-nomination"
+                        <Tabs id="tabs-nomination" animation={false}
                             activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}>
 
@@ -38,8 +39,8 @@ export default class App extends Component {
                                 <EOQ />
                             </Tab>
                             <Tab eventKey={2} title="Employee Of The Year">
-                                Tab 2 content
-                        </Tab>
+                                <EOY />
+                            </Tab>
                         </Tabs>
                     </div>
                 </div>

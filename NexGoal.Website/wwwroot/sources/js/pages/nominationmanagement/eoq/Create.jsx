@@ -96,6 +96,8 @@ class CreateEOQ extends Component {
 
             if (data.isSuccessful) {
                 toast.success('Created successfully!');
+
+                this.props.closeModal();
             } else {
                 toast.error(data.message);
             }
@@ -104,6 +106,8 @@ class CreateEOQ extends Component {
 
     render() {
         const currentYear = new Date().getFullYear();
+        const eoq = this.state.eoq;
+
         return (
             <Modal show={this.props.showModal} keyboard={false}
                 onHide={this.props.closeModal} dialogClassName="custom-modal modal-md">
@@ -135,7 +139,7 @@ class CreateEOQ extends Component {
                             <div className="col-sm-3 field">
                                 <DatePicker
                                     dateFormat="DD MMM, YYYY"
-                                    selected={this.state.eoq.startDateForNominator}
+                                    selected={eoq.startDateForNominator}
                                     onChange={this.handleStartDateForNominatorChange}
                                     onChangeRaw={this.onChangeRaw}
                                     name="startDateForNominator"
@@ -145,7 +149,7 @@ class CreateEOQ extends Component {
                             <div className="col-sm-3 field">
                                 <DatePicker
                                     dateFormat="DD MMM, YYYY"
-                                    selected={this.state.eoq.endDateForNominator}
+                                    selected={eoq.endDateForNominator}
                                     onChange={this.handleEndDateForNominatorChange}
                                     onChangeRaw={this.onChangeRaw}
                                     name="endDateForNominator"
@@ -157,7 +161,7 @@ class CreateEOQ extends Component {
                             <div className="col-sm-3 field">
                                 <DatePicker
                                     dateFormat="DD MMM, YYYY"
-                                    selected={this.state.eoq.remindDateForNominator}
+                                    selected={eoq.remindDateForNominator}
                                     onChange={this.handleRemindDateForNominatorChange}
                                     onChangeRaw={this.onChangeRaw}
                                     name="remindDateForNominator"
@@ -167,7 +171,7 @@ class CreateEOQ extends Component {
                             <div className="col-sm-3 field">
                                 <DatePicker
                                     dateFormat="DD MMM, YYYY"
-                                    selected={this.state.eoq.endDateForCommittee}
+                                    selected={eoq.endDateForCommittee}
                                     onChange={this.handleEndDateForCommitteeChange}
                                     onChangeRaw={this.onChangeRaw}
                                     name="endDateForCommittee"

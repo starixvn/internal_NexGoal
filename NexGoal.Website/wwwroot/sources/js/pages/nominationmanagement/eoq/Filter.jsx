@@ -20,6 +20,7 @@ class Filter extends Component {
     }
 
     render() {
+        const years = this.props.years;
         const year = this.props.year;
         const statusId = this.props.statusId;
 
@@ -33,7 +34,7 @@ class Filter extends Component {
                                 onChange={this.handleYearChange.bind(this)}>
                                 <option key="option-0" value="">-- All --</option>
                                 {
-                                    this.props.years.map((option) => {
+                                    years.map((option) => {
                                         return (
                                             <option key={'option-' + option} value={option}>{option}</option>
                                         )

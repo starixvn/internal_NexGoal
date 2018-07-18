@@ -4,10 +4,10 @@
 
     public class GetEOQByIdCriteria : CriteriaBase
     {
-        public int EOQYId { get; set; }
+        public int EOQId { get; set; }
 
         public override string GetSettingKey() => "EOQ_GetById";
 
-        public override bool IsValid() => EOQYId > 0;
+        public override bool IsValid() => EOQId > 0;
     }
 }

@@ -29,9 +29,9 @@ class DeleteEOQ extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                this.props.closeModal();
-
                 toast.success('Deleted successfully!');
+
+                this.props.closeModal();
             } else {
                 toast.error(data.message);
             }

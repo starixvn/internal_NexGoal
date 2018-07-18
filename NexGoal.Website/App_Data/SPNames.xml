@@ -31,6 +31,13 @@
     <Setting Key="EOQ_Update" SpName="EOQ_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="EOY">
+    <Setting Key="EOY_Get" SpName="EOY_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_GetById" SpName="EOY_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Insert" SpName="EOY_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Update" SpName="EOY_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_Delete" SpName="EOY_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
   <Function Name="Discipline">
     <Setting Key="Discipline_Get" SpName="Discipline_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>

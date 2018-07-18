@@ -122,12 +122,14 @@ class Settings extends Component {
 
     render() {
         const isHost = this.state.isHost;
+        const eoq = this.state.eoq;
+
         return (
             <Form id="edit-eoq-form" horizontal onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <label className="col-sm-2 control-label">Quarter</label>
                     <div className="col-sm-2 field">
-                        <select className="form-control" value={this.state.eoq.quarter} disabled>
+                        <select className="form-control" value={eoq.quarter} disabled>
                             <option value="1">1st</option>
                             <option value="2">2nd</option>
                             <option value="3">3rd</option>
@@ -136,8 +138,8 @@ class Settings extends Component {
                     </div>
                     <label className="col-sm-2 control-label">Year</label>
                     <div className="col-sm-2 field">
-                        <select className="form-control" value={this.state.eoq.year} disabled>
-                            <option value={this.state.eoq.year}>{this.state.eoq.year}</option>
+                        <select className="form-control" value={eoq.year} disabled>
+                            <option value={eoq.year}>{eoq.year}</option>
                         </select>
                     </div>
                 </FormGroup>
@@ -146,7 +148,7 @@ class Settings extends Component {
                     <div className="col-sm-2 field">
                         <DatePicker
                             dateFormat="DD MMM, YYYY"
-                            selected={this.state.eoq.startDateForNominator}
+                            selected={eoq.startDateForNominator}
                             onChange={this.handleStartDateForNominatorChange}
                             onChangeRaw={this.onChangeRaw}
                             name="startDateForNominator" className="form-control" disabled={!isHost} />
@@ -155,7 +157,7 @@ class Settings extends Component {
                     <div className="col-sm-2 field">
                         <DatePicker
                             dateFormat="DD MMM, YYYY"
-                            selected={this.state.eoq.endDateForNominator}
+                            selected={eoq.endDateForNominator}
                             onChange={this.handleEndDateForNominatorChange}
                             onChangeRaw={this.onChangeRaw}
                             name="endDateForNominator" className="form-control" disabled={!isHost} />
@@ -166,7 +168,7 @@ class Settings extends Component {
                     <div className="col-sm-2 field">
                         <DatePicker
                             dateFormat="DD MMM, YYYY"
-                            selected={this.state.eoq.remindDateForNominator}
+                            selected={eoq.remindDateForNominator}
                             onChange={this.handleRemindDateForNominatorChange}
                             onChangeRaw={this.onChangeRaw}
                             name="remindDateForNominator" className="form-control" disabled={!isHost} />
@@ -175,7 +177,7 @@ class Settings extends Component {
                     <div className="col-sm-2 field">
                         <DatePicker
                             dateFormat="DD MMM, YYYY"
-                            selected={this.state.eoq.endDateForCommittee}
+                            selected={eoq.endDateForCommittee}
                             onChange={this.handleEndDateForCommitteeChange}
                             onChangeRaw={this.onChangeRaw}
                             name="endDateForCommittee" className="form-control" disabled={!isHost} />

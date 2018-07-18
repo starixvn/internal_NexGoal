@@ -20,6 +20,7 @@ module.exports = {
         usermanagement: './sources/js/pages/usermanagement/index.jsx',
         discipline: './sources/js/pages/discipline/index.jsx',
         nominationmanagement: './sources/js/pages/nominationmanagement/index.jsx',
-        editeoq: './sources/js/pages/nominationmanagement/eoq/edit.jsx'
+        editeoq: './sources/js/pages/nominationmanagement/eoq/edit.jsx',
+        editeoy: './sources/js/pages/nominationmanagement/eoy/edit.jsx'
     }
 };
