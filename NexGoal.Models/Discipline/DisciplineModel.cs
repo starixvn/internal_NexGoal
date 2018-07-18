@@ -10,7 +10,7 @@
 
         public bool IsActive { get; set; }
 
-        public DateTime EffectedDate { get; set; }
+        public DateTime EffectiveDate { get; set; }
 
         public string Group { get; set; }
 

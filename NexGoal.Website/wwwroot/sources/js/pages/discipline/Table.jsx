@@ -5,6 +5,7 @@ import moment from 'moment';
 import axios from 'axios';
 import qs from 'qs';
 import commonFunctions from '../../common-functions';
+import { Form } from 'formik';
 
 export default class Table extends Component {
     constructor(props) {
@@ -61,10 +62,10 @@ export default class Table extends Component {
                 text: 'Content'
             },
             {
-                dataField: 'effectedDate',
+                dataField: 'effectiveDate',
                 text: 'Issue Date',
                 formatter: (cell, row, rowIndex, colIndex) => {
-                    return `${moment(row.effectedDate).format('DD MMM, YYYY')}`;
+                    return `${moment(row.effectiveDate).format('DD MMM, YYYY')}`;
                 }
             },
             {

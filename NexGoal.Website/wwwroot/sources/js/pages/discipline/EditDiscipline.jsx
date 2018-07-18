@@ -12,7 +12,21 @@ import { Formik } from 'formik';
 export default class EditDiscipline extends Component {
     constructor(props) {
         super(props);
+
+        if (props.discipline) {
+            this.discipline = {
+                disciplineId: props.discipline.disciplineId,
+                employee: {
+                    employeeId: props.discipline.employeeId,
+                    name: `${props.discipline.fullName} (${props.discipline.nickName})`
+                },
+                effectiveDate: props.discipline.effectiveDate,
+                content: props.discipline.description
+            };
+        }
     }
+
+    discipline = { disciplineId: 0, employee: null, effectiveDate: moment(), content: '' }
 
     validateForm = values => {
         let errors = {};
@@ -65,7 +79,6 @@ export default class EditDiscipline extends Component {
         errors,
         touched,
         handleChange,
-        handleBlur,
         handleSubmit,
         setFieldValue,
         isSubmitting }) => {
@@ -73,19 +86,17 @@ export default class EditDiscipline extends Component {
             <Form id="edit-user-role-form" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     <FormGroup>
-                        <Col componentClass={ControlLabel} sm={2}>Employee</Col>
+                        <Col componentClass={ControlLabel} className="required-label" sm={2}>Employee</Col>
                         <Col sm={10}>
-                            <Async valueKey="employeeId" labelKey="name" autoload={false} value={values.employee} name="employee" onBlur={handleBlur}
+                            <Async valueKey="employeeId" labelKey="name" autoload={false} value={values.employee} name="employee"
                                 onChange={value => setFieldValue('employee', value)} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
-
                             {touched.employee && errors.employee && <span className="text-danger">{errors.employee}</span>}
                         </Col>
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} sm={2}>Issue Date</Col>
                         <Col sm={10}>
-
-                            <DatePicker dateFormat="DD MMM, YYYY" selected={values.effectiveDate} onChange={value => setFieldValue('effectiveDate', value)} onBlur={handleBlur} onChangeRaw={this.onChangeRaw}
+                            <DatePicker dateFormat="DD MMM, YYYY" selected={values.effectiveDate} onChange={value => setFieldValue('effectiveDate', value)} onChangeRaw={this.onChangeRaw}
                                 name="effectiveDate" className="form-control" showMonthDropdown showYearDropdown />
                             {touched.effectiveDate && errors.effectiveDate && <span className="text-danger">{errors.effectiveDate}</span>}
                         </Col>
@@ -93,7 +104,7 @@ export default class EditDiscipline extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel} sm={2}>Content</Col>
                         <Col sm={10}>
-                            <textarea className="form-control" name="content" onChange={handleChange} onBlur={handleBlur} value={values.content} />
+                            <textarea className="form-control" name="content" onChange={handleChange} value={values.content} />
                             {touched.content && errors.content && <span className="text-danger">{errors.content}</span>}
                         </Col>
                     </FormGroup>
@@ -112,9 +123,7 @@ export default class EditDiscipline extends Component {
                 <Modal.Header closeButton>
                     <Modal.Title>Assign Roles To User </Modal.Title>
                 </Modal.Header>
-                <Formik initialValues={{
-                    employee: null, effectiveDate: moment(), content: ''
-                }} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
+                <Formik initialValues={this.discipline} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
             </Modal>
         );
     }
