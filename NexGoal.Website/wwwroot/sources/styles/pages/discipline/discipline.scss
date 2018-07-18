@@ -2,6 +2,7 @@
 @import "../../abstracts/variables";
 @import "../../components/buttons";
 @import "../../components/form-filter";
+@import "../../components/modal";
 @import "../../components/messages";
 @import "../../components/tables";
 @import "../../components/_table-search.scss";
@@ -10,20 +11,22 @@
 @import "../../components/_react-datepicker-custom.scss";
 @import '~react-select/dist/react-select.css';
 
-.Select-control {
-    @include border-radius(0);
-    border-color: #dfdfdf;
-    height: 30px;
+.form-filter {
+    .Select-control {
+        @include border-radius(0);
+        border-color: #dfdfdf;
+        height: 30px;
 
-    .Select-input {
-        height: 28px;
-    }
+        .Select-input {
+            height: 28px;
+        }
 
-    .Select-value {
-        line-height: 30px;
-    }
+        .Select-value {
+            line-height: 30px;
+        }
 
-    .Select-placeholder {
-        line-height: 30px;
+        .Select-placeholder {
+            line-height: 30px;
+        }
     }
 }

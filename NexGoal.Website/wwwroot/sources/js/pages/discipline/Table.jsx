@@ -10,10 +10,6 @@ export default class Table extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            canEdit: true
-        };
-
         this.tableRef = React.createRef();
     }
 
@@ -21,6 +17,7 @@ export default class Table extends Component {
 
     editDisciplineStatus = (e, discipline) => {
         var isActive = e.target.checked;
+        var that = this;
         axios({
             url: '/discipline/editstatus',
             method: 'post',
@@ -33,7 +30,7 @@ export default class Table extends Component {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(function (response) {
-            this.props.onUpdateStatusSuccess(discipline.disciplineId, isActive);
+            that.props.onUpdateStatus(discipline.disciplineId, isActive, response.data);
         }).catch(commonFunctions.axiosError);;
     }
 
@@ -83,7 +80,11 @@ export default class Table extends Component {
                 text: 'Active',
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
-                    return (<input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editDisciplineStatus(e, row)} />);
+                    if (this.props.canEdit) {
+                        return (<input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editDisciplineStatus(e, row)} />);
+                    }
+
+                    return (<input type='checkbox' checked={row.isActive} readOnly />);
                 }
             },
             {
@@ -91,7 +92,7 @@ export default class Table extends Component {
                 text: 'Action',
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
-                    if (this.state.canEdit) {
+                    if (this.props.canEdit) {
                         return (
                             <a className="fa fa-pencil-square-o" title="Edit" onClick={this.editDiscipline.bind(this, row)}></a>
                         );

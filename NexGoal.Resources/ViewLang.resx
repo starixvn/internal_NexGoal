@@ -120,6 +120,9 @@
   <data name="Dashboard" xml:space="preserve">
     <value>Dashboard</value>
   </data>
+  <data name="DisciplineManagement" xml:space="preserve">
+    <value>Discipline Management</value>
+  </data>
   <data name="Function" xml:space="preserve">
     <value>Function</value>
   </data>
@@ -146,5 +149,8 @@
   </data>
   <data name="Submit" xml:space="preserve">
     <value>Submit</value>
+  </data>
+  <data name="UserManagement" xml:space="preserve">
+    <value>User Management</value>
   </data>
 </root>

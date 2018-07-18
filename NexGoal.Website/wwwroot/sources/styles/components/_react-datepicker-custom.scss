@@ -41,6 +41,10 @@
     .react-datepicker__day--today {
         font-weight: normal;
     }
+
+    .react-datepicker__year-dropdown, .react-datepicker__month-dropdown, .react-datepicker__month-year-dropdown {
+        background-color: #324373;
+    }
 }
 
 .react-datepicker--time-only .react-datepicker__time {

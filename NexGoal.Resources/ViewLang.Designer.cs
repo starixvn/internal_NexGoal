@@ -70,6 +70,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discipline Management.
+        /// </summary>
+        public static string DisciplineManagement {
+            get {
+                return ResourceManager.GetString("DisciplineManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Function.
         /// </summary>
         public static string Function {
@@ -147,6 +156,15 @@ namespace NexGoal.Resources {
         public static string Submit {
             get {
                 return ResourceManager.GetString("Submit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to User Management.
+        /// </summary>
+        public static string UserManagement {
+            get {
+                return ResourceManager.GetString("UserManagement", resourceCulture);
             }
         }
     }

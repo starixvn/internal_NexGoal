@@ -14,16 +14,18 @@
     public class DisciplineController : Controller
     {
         private readonly IBaseService baseService;
+        private readonly ISessionService sessionService;
 
-        public DisciplineController(IBaseService baseService)
+        public DisciplineController(IBaseService baseService, ISessionService sessionService)
         {
             this.baseService = baseService;
+            this.sessionService = sessionService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            return View();
+            return View(sessionService.HasPermissionOnFunction(FunctionKey.DisciplineManagement, Policy.Host));
         }
 
         [HttpGet]
@@ -44,9 +46,19 @@
         }
 
         [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
         public async Task<IActionResult> EditStatus(int disciplineId, bool isActive)
         {
-            return Json(new { });
+            var criteria = new UpdateDisciplineStatusCriteria
+            {
+                DisciplineId = disciplineId,
+                IsActive = isActive,
+                ModifiedBy = sessionService.EmployeeId
+            };
+
+            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return Json(result);
         }
     }
 }

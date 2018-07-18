@@ -7,6 +7,7 @@ import Breadcrumb from '../../shared/components/Breadcrumb';
 import Notification from '../../shared/components/notification';
 import { Async } from 'react-select';
 import Table from './Table';
+import EditDiscipline from './EditDiscipline';
 
 export default class DisciplineManagement extends Component {
     constructor(props) {
@@ -22,7 +23,8 @@ export default class DisciplineManagement extends Component {
             },
             data: [],
             tableData: [],
-            canEdit: true
+            canEdit: document.getElementById('CanEdit').value === 'True',
+            showModal: false
         };
 
         this.tableRef = React.createRef();
@@ -70,7 +72,7 @@ export default class DisciplineManagement extends Component {
     }
 
     getDisciplines = () => {
-        var employeeId = this.state.filter.employee ? this.state.filter.employee.value : '';
+        var employeeId = this.state.filter.employee ? this.state.filter.employee.employeeId : '';
 
         axios(`/Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}&to=${this.state.filter.to.format('YYYY-MM-DD')}&isActive=${this.state.filter.isActive}&groupIds=${this.state.filter.groupIds.toString()}&employeeId=${employeeId}`)
             .then(response => {
@@ -109,8 +111,8 @@ export default class DisciplineManagement extends Component {
 
                     response.data.map(item => {
                         options.push({
-                            value: item.employeeId,
-                            label: `${item.fullName} (${item.nickName})`
+                            employeeId: item.employeeId,
+                            name: `${item.fullName} (${item.nickName})`
                         });
                     });
 
@@ -121,13 +123,25 @@ export default class DisciplineManagement extends Component {
         callback(null, { options: [] });
     }
 
-    onUpdateStatusSuccess = (disciplineId, isActive) => {
-        this.notificationRef.current.showSuccess();
-        var data = this.state.data.slice();
-        var discipline = data.find(e => e.disciplineId === disciplineId);
-        discipline.isActive = isActive;
+    onUpdateStatus = (disciplineId, isActive, response) => {
+        if (response.isSuccessful) {
+            this.notificationRef.current.showSuccess('Update Successfully');
+            var data = this.state.data.slice();
+            var discipline = data.find(e => e.disciplineId === disciplineId);
+            discipline.isActive = isActive;
 
-        this.setState({ data: data })
+            this.setState({ data: data })
+        } else {
+            this.notificationRef.current.showError(response.message);
+        }
+    }
+
+    closeModal = () => {
+        this.setState({ showModal: false });
+    }
+
+    showModal = () => {
+        this.setState({ showModal: true });
     }
 
     render() {
@@ -179,7 +193,7 @@ export default class DisciplineManagement extends Component {
                             <div className="col">
                                 <label className="control-label">Employee</label>
                                 <div className="control-content">
-                                    <Async autoload={false} value={this.state.filter.employee} name="employee" onChange={this.onEmployeeChange} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
+                                    <Async valueKey="employeeId" labelKey="name" autoload={false} value={this.state.filter.employee} name="employee" onChange={this.onEmployeeChange} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
                                 </div>
                             </div>
                             <div className="col">
@@ -189,15 +203,20 @@ export default class DisciplineManagement extends Component {
                     </form>
                     <div className="search-wrapper clearfix" >
                         <div className="pull-left">
-                            <button className="btn btn-primary"><i className="fa fa-plus"></i> Add Incident Record</button>
+                            {this.state.canEdit &&
+                                <button className="btn btn-primary" onClick={this.showModal}><i className="fa fa-plus"></i> Add Incident Record</button>
+                            }
                         </div>
                         <div className="search pull-right">
                             <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
                             <span className="fa fa-search icon"></span>
                         </div>
                     </div>
-                    <Table data={this.state.tableData} onUpdateStatusSuccess={this.onUpdateStatusSuccess} />
+                    <Table data={this.state.tableData} onUpdateStatus={this.onUpdateStatus} canEdit={this.state.canEdit} />
                 </div>
+                {this.state.showModal &&
+                    <EditDiscipline showModal={this.state.showModal} closeModal={this.closeModal} />
+                }
             </div>
         );
     }

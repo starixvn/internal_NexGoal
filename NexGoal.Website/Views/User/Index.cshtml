@@ -1,7 +1,12 @@
-﻿@model NexGoal.ViewModels.UserManagement.UserManagementViewModel
+﻿@using NexGoal.Resources
+@model NexGoal.ViewModels.UserManagement.UserManagementViewModel
 
 @section Styles {
     <link rel="stylesheet" href="~/dist/cssusermanagement.css" />
+}
+
+@{
+    ViewData["Title"] = ViewLang.UserManagement;
 }
 
 @Html.AntiForgeryToken()

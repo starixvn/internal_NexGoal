@@ -1,6 +1,15 @@
-﻿@section Styles {
+﻿@using NexGoal.Resources
+@model bool
+
+@section Styles {
     <link rel="stylesheet" href="~/dist/cssdiscipline.css" />
 }
+
+@{
+    ViewData["Title"] = ViewLang.DisciplineManagement;
+}
+
+<input type="hidden" value="@Model.ToString()" id="CanEdit" />
 
 @Html.AntiForgeryToken()
 
