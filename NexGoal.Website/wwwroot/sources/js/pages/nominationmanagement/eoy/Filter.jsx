@@ -12,7 +12,7 @@ class Filter extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.handleSubmit();
+        this.props.handleFilterSubmit();
     }
 
     render() {

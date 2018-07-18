@@ -15,12 +15,17 @@ export default class App extends Component {
         this.handleSelect = this.handleSelect.bind(this);
 
         this.state = {
-            activeKey: 1
+            activeKey: 1,
+            isFirstLoad: false
         };
     }
 
     handleSelect(key) {
         this.setState({ activeKey: key });
+
+        if (key === 2 && !this.state.isFirstLoad) {
+            this.setState({ isFirstLoad: true });
+        }
     }
 
     render() {
@@ -39,7 +44,7 @@ export default class App extends Component {
                                 <EOQ />
                             </Tab>
                             <Tab eventKey={2} title="Employee Of The Year">
-                                <EOY />
+                                {this.state.isFirstLoad && < EOY />}
                             </Tab>
                         </Tabs>
                     </div>

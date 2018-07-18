@@ -100,14 +100,16 @@ class Table extends Component {
                     this.state.showCreateModal &&
                     <CreateEOY
                         showModal={this.state.showCreateModal}
-                        closeModal={this.closeCreateModal.bind(this)} />
+                        closeModal={this.closeCreateModal.bind(this)}
+                        handleFilterSubmit={this.props.handleFilterSubmit} />
                 }
                 {
                     this.state.showDeleteModal &&
                     <DeleteEOY
                         eoySelected={this.state.eoySelected}
                         showModal={this.state.showDeleteModal}
-                        closeModal={this.closeDeleteModal.bind(this)} />
+                        closeModal={this.closeDeleteModal.bind(this)}
+                        handleFilterSubmit={this.props.handleFilterSubmit} />
                 }
             </Fragment>
         );

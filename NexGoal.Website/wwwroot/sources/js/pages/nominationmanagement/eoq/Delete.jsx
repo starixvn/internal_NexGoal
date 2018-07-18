@@ -32,6 +32,7 @@ class DeleteEOQ extends Component {
                 toast.success('Deleted successfully!');
 
                 this.props.closeModal();
+                this.props.handleFilterSubmit();
             } else {
                 toast.error(data.message);
             }

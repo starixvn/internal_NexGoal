@@ -64,11 +64,12 @@ export default class EOQ extends Component {
                     statusId={this.state.statusId}
                     handleYearChange={this.handleYearChange.bind(this)}
                     handleStatusChange={this.handleStatusChange.bind(this)}
-                    handleSubmit={this.handleSubmit.bind(this)} />
+                    handleFilterSubmit={this.handleSubmit.bind(this)} />
 
                 <Table
                     eoqs={this.state.eoqs}
-                    isHost={this.state.isHost} />
+                    isHost={this.state.isHost}
+                    handleFilterSubmit={this.handleSubmit.bind(this)} />
             </Fragment>
         );
     }

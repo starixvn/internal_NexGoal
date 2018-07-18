@@ -51,6 +51,7 @@ class Table extends Component {
 
     render() {
         const isHost = this.props.isHost;
+        const eoqs = this.props.eoqs;
 
         return (
             <Fragment>
@@ -78,13 +79,13 @@ class Table extends Component {
                         </tr>
                     </THead>
                     <TBody>
-                        {this.props.eoqs.length === 0 &&
+                        {eoqs.length === 0 &&
                             <tr>
                                 <td className="empty-result" colSpan="9">No information available!</td>
                             </tr>
                         }
-                        {this.props.eoqs.length > 0 &&
-                            this.props.eoqs.map((eoq, index) => {
+                        {eoqs.length > 0 &&
+                            eoqs.map((eoq, index) => {
                                 return (
                                     <Row key={'eoq-' + eoq.eoqyId}
                                         rowIndex={index + 1}
@@ -100,14 +101,16 @@ class Table extends Component {
                     this.state.showCreateModal &&
                     <CreateEOQ
                         showModal={this.state.showCreateModal}
-                        closeModal={this.closeCreateModal.bind(this)} />
+                        closeModal={this.closeCreateModal.bind(this)}
+                        handleFilterSubmit={this.props.handleFilterSubmit} />
                 }
                 {
                     this.state.showDeleteModal &&
                     <DeleteEOQ
                         eoqSelected={this.state.eoqSelected}
                         showModal={this.state.showDeleteModal}
-                        closeModal={this.closeDeleteModal.bind(this)} />
+                        closeModal={this.closeDeleteModal.bind(this)}
+                        handleFilterSubmit={this.props.handleFilterSubmit} />
                 }
             </Fragment>
         );

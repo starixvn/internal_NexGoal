@@ -98,6 +98,7 @@ class CreateEOQ extends Component {
                 toast.success('Created successfully!');
 
                 this.props.closeModal();
+                this.props.handleFilterSubmit();
             } else {
                 toast.error(data.message);
             }

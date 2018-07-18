@@ -32,7 +32,7 @@
         font-size: $font-size;
         height: 30px;
         padding: 3px 4px;
-        @include border-radius(0);
+        @include border-radius(2px);
         border-color: #dfdfdf;
         box-shadow: none;
         width: inherit;
