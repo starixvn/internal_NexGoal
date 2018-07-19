@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Controllers
 {
     using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
@@ -9,6 +10,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Discipline;
     using NexGoal.Models.Discipline;
+    using NexGoal.ViewModels.Discipline;
 
     [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Read)]
     public class DisciplineController : Controller
@@ -59,6 +61,56 @@
             var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
 
             return Json(result);
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
+        public async Task<IActionResult> Add(AddDisciplineViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var criteria = new AddDisciplineCriteria
+                {
+                    EmployeeId = model.EmployeeId,
+                    EffectiveDate = model.EffectiveDate,
+                    Description = model.Content,
+                    CreatedBy = sessionService.EmployeeId
+                };
+
+                var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+                return Json(result);
+            }
+
+            var errors = from item in ModelState
+                         where item.Value.Errors.Any()
+                         select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
+        public async Task<IActionResult> Edit(EditDisciplineViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var criteria = new UpdateDisciplineCriteria
+                {
+                    DisciplineId = model.DisciplineId,
+                    EffectiveDate = model.EffectiveDate,
+                    Description = model.Content,
+                    ModifiedBy = sessionService.EmployeeId
+                };
+
+                var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+                return Json(result);
+            }
+
+            var errors = from item in ModelState
+                         where item.Value.Errors.Any()
+                         select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
+            return Json(new { isSuccessful = false, errors });
         }
     }
 }

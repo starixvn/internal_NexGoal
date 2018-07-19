@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Common;
+    using NexGoal.Criteria.UserManagement;
     using NexGoal.Models.UserManagement;
 
     public class CommonController : Controller
@@ -19,6 +20,14 @@
         public async Task<IActionResult> SearchEmployees(string keyword)
         {
             var results = await baseService.GetDataAsync<UserModel>(new SearchUserCriteria { Keyword = keyword }).ConfigureAwait(false);
+
+            return Ok(results);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetGroups()
+        {
+            var results = await baseService.GetDataAsync<UserGroupModel>(new GetGroupsCriteria()).ConfigureAwait(false);
 
             return Ok(results);
         }

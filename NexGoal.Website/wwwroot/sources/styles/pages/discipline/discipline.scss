@@ -10,3 +10,9 @@
 @import '~react-datepicker/dist/react-datepicker.css';
 @import "../../components/_react-datepicker-custom.scss";
 @import "../../components/react-select";
+@import "../../components/toast";
+
+.Select-value:first-child .Select-value-icon,
+.Select-value:nth-child(n+2) {
+    display: none;
+}

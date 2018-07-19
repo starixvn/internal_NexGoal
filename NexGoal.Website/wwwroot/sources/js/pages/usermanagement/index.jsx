@@ -74,7 +74,7 @@ export default class UserManagement extends Component {
     }
 
     getGroups = () => {
-        fetch('/User/GetGroups',
+        fetch('/Common/GetGroups',
             {
                 credentials: "same-origin"
             })

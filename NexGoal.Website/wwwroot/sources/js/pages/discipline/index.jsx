@@ -5,9 +5,10 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Notification from '../../shared/components/notification';
-import { Async } from 'react-select';
+import Select, { Async } from 'react-select';
 import Table from './Table';
-import EditDiscipline from './EditDiscipline';
+import AddEditDiscipline from './EditDiscipline';
+import ToastLayout from '../../shared/layouts/ToastLayout';
 
 export default class DisciplineManagement extends Component {
     constructor(props) {
@@ -18,19 +19,18 @@ export default class DisciplineManagement extends Component {
                 from: moment().startOf('year'),
                 to: moment(),
                 isActive: '',
-                groupIds: [],
+                groupIds: '',
                 employee: '',
             },
             data: [],
             tableData: [],
+            groups: [],
             canEdit: document.getElementById('CanEdit').value === 'True',
             showModal: false
         };
-
+        this.getGroups();
         this.tableRef = React.createRef();
         this.searchRef = React.createRef();
-
-        this.notificationRef = React.createRef();
     }
 
     componentDidMount = function () {
@@ -62,8 +62,12 @@ export default class DisciplineManagement extends Component {
         }
     }
 
-    onEmployeeChange = (selectedOption) => {
+    onFilterEmployeeChange = (selectedOption) => {
         this.updateFilterValue('employee', selectedOption);
+    }
+
+    onFilterGroupChange = (selectedOptions) => {
+        this.updateFilterValue('groupIds', selectedOptions);
     }
 
     updateFilterValue = (name, value) => {
@@ -74,11 +78,31 @@ export default class DisciplineManagement extends Component {
     getDisciplines = () => {
         var employeeId = this.state.filter.employee ? this.state.filter.employee.employeeId : '';
 
-        axios(`/Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}&to=${this.state.filter.to.format('YYYY-MM-DD')}&isActive=${this.state.filter.isActive}&groupIds=${this.state.filter.groupIds.toString()}&employeeId=${employeeId}`)
+        axios(`/Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}&to=${this.state.filter.to.format('YYYY-MM-DD')}&isActive=${this.state.filter.isActive}&employeeId=${employeeId}`)
             .then(response => {
                 response.data.map((e, index) => e.rowNum = index + 1);
                 this.setState({ data: response.data, tableData: response.data });
             });
+    }
+
+    getGroups = () => {
+        axios('/Common/GetGroups')
+            .then(response => {
+                this.setState({
+                    groups: response.data
+                });
+            });
+    }
+
+    renderValue = (option) => {
+        //// The first three values are rendered normally
+        //console.log([this.state.filter.groupIds].length);
+        //if (this.state.filter.groupIds.split(',').length <= 3) {
+        //    return option.name;
+        //}
+
+        //debugger;
+        return (< span > + {this.state.filter.groupIds.split(',').length} more</span >);
     }
 
     onTableFilterChange = (e) => {
@@ -123,17 +147,37 @@ export default class DisciplineManagement extends Component {
         callback(null, { options: [] });
     }
 
-    onUpdateStatus = (disciplineId, isActive, response) => {
-        if (response.isSuccessful) {
-            this.notificationRef.current.showSuccess('Update Successfully');
-            var data = this.state.data.slice();
-            var discipline = data.find(e => e.disciplineId === disciplineId);
-            discipline.isActive = isActive;
+    onUpdateStatus = (disciplineId, isActive) => {
+        var data = this.state.data.slice();
+        var discipline = data.find(e => e.disciplineId === disciplineId);
+        discipline.isActive = isActive;
+        this.setState({ data: data })
+    }
 
-            this.setState({ data: data })
-        } else {
-            this.notificationRef.current.showError(response.message);
-        }
+    onEditDiscipline = (disciplineId, response) => {
+        this.getDisciplines();
+    }
+
+    editDiscipline = (discipline) => {
+        this.setState({
+            showModal: true,
+            selectedDiscipline: {
+                disciplineId: discipline.disciplineId,
+                employee: {
+                    employeeId: discipline.employeeId,
+                    name: `${discipline.fullName} (${discipline.nickName})`
+                },
+                effectiveDate: moment(discipline.effectiveDate),
+                content: discipline.description
+            }
+        });
+    }
+
+    addDiscipline = () => {
+        this.setState({
+            showModal: true,
+            selectedDiscipline: { disciplineId: 0, employee: null, effectiveDate: moment(), content: '' }
+        });
     }
 
     closeModal = () => {
@@ -148,10 +192,9 @@ export default class DisciplineManagement extends Component {
         return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">Incident Management</li>
+                    <li className="current">Discipline Management</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <Notification ref={this.notificationRef} />
                     <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
                         <div className="form-group" >
                             <div className="col" >
@@ -183,17 +226,16 @@ export default class DisciplineManagement extends Component {
                             <div className="col">
                                 <label className="control-label">Team</label>
                                 <div className="control-content">
-                                    <select className="form-control" name="groupIds" onChange={this.onFilterChange}>
-                                        <option value="">-- All --</option>
-                                        <option value="false">Expat</option>
-                                        <option value="true">Local</option>
-                                    </select>
+                                    {this.state.groups.length > 0 &&
+                                        <Select value={this.state.filter.groupIds} simpleValue={true} multi={true} valueKey="groupId" labelKey="name" options={this.state.groups} onChange={this.onFilterGroupChange}
+                                            valueRenderer={this.renderValue} removeSelected={false} closeOnSelect={false} />
+                                    }
                                 </div>
                             </div>
                             <div className="col">
                                 <label className="control-label">Employee</label>
                                 <div className="control-content">
-                                    <Async valueKey="employeeId" labelKey="name" autoload={false} value={this.state.filter.employee} name="employee" onChange={this.onEmployeeChange} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
+                                    <Async valueKey="employeeId" labelKey="name" autoload={false} value={this.state.filter.employee} name="employee" onChange={this.onFilterEmployeeChange} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
                                 </div>
                             </div>
                             <div className="col">
@@ -204,7 +246,7 @@ export default class DisciplineManagement extends Component {
                     <div className="search-wrapper clearfix" >
                         <div className="pull-left">
                             {this.state.canEdit &&
-                                <button className="btn btn-primary" onClick={this.showModal}><i className="fa fa-plus"></i> Add Incident Record</button>
+                                <button className="btn btn-primary" onClick={this.addDiscipline}><i className="fa fa-plus"></i> Add Discipline</button>
                             }
                         </div>
                         <div className="search pull-right">
@@ -212,11 +254,10 @@ export default class DisciplineManagement extends Component {
                             <span className="fa fa-search icon"></span>
                         </div>
                     </div>
-                    <Table data={this.state.tableData} onUpdateStatus={this.onUpdateStatus} canEdit={this.state.canEdit} />
+                    <Table data={this.state.tableData} onUpdateStatus={this.onUpdateStatus} canEdit={this.state.canEdit} editDiscipline={this.editDiscipline} />
                 </div>
-                {this.state.showModal &&
-                    <EditDiscipline showModal={this.state.showModal} closeModal={this.closeModal} />
-                }
+                <AddEditDiscipline ref={this.modalRef} showModal={this.state.showModal} closeModal={this.closeModal} discipline={this.state.selectedDiscipline} onEditDiscipline={this.onEditDiscipline} />
+                <ToastLayout />
             </div>
         );
     }

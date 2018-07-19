@@ -3,9 +3,10 @@ import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import moment from 'moment';
 import axios from 'axios';
-import qs from 'qs';
+import { stringify } from 'qs';
 import commonFunctions from '../../common-functions';
 import { Form } from 'formik';
+import { toast } from 'react-toastify';
 
 export default class Table extends Component {
     constructor(props) {
@@ -18,11 +19,11 @@ export default class Table extends Component {
 
     editDisciplineStatus = (e, discipline) => {
         var isActive = e.target.checked;
-        var that = this;
+
         axios({
             url: '/discipline/editstatus',
             method: 'post',
-            data: qs.stringify({
+            data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 disciplineId: discipline.disciplineId,
                 isActive: isActive
@@ -30,8 +31,15 @@ export default class Table extends Component {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
-        }).then(function (response) {
-            that.props.onUpdateStatus(discipline.disciplineId, isActive, response.data);
+        }).then(response => {
+            var data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success('Update Successfully');
+                this.props.onUpdateStatus(discipline.disciplineId, isActive);
+            } else {
+                toast.error(data.message);
+            }
         }).catch(commonFunctions.axiosError);;
     }
 
@@ -95,7 +103,7 @@ export default class Table extends Component {
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.props.canEdit) {
                         return (
-                            <a className="fa fa-pencil-square-o" title="Edit" onClick={this.editDiscipline.bind(this, row)}></a>
+                            <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)}></a>
                         );
                     }
 

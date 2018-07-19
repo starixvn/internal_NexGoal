@@ -41,5 +41,7 @@
   <Function Name="Discipline">
     <Setting Key="Discipline_Get" SpName="Discipline_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Discipline_UpdateStatus" SpName="Discipline_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Discipline_Insert" SpName="Discipline_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Discipline_Update" SpName="Discipline_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

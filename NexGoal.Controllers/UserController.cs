@@ -55,13 +55,6 @@
             return Ok(result);
         }
 
-        public async Task<IActionResult> GetGroups()
-        {
-            var results = await baseService.GetDataAsync<UserGroupModel>(new GetGroupsCriteria()).ConfigureAwait(false);
-
-            return Ok(results);
-        }
-
         public async Task<IActionResult> GetRolesForUser(int employeeId)
         {
             var results = await baseService.GetDataAsync<UserRoleModel>(new GetRolesForUserCriteria { EmployeeId = employeeId }).ConfigureAwait(false);

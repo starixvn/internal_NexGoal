@@ -61,6 +61,33 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Content is required.
+        /// </summary>
+        public static string ContentRequired {
+            get {
+                return ResourceManager.GetString("ContentRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Effective date is requried.
+        /// </summary>
+        public static string EffectiveDateRequired {
+            get {
+                return ResourceManager.GetString("EffectiveDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee is required.
+        /// </summary>
+        public static string EmployeeRequired {
+            get {
+                return ResourceManager.GetString("EmployeeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Permission has been successfully updated!.
         /// </summary>
         public static string UpdatePermissionSuccessfully {
