@@ -4,19 +4,6 @@
 @import "../components/form-filter";
 @import "../components/messages";
 @import "../components/modal";
+@import "../components/react-bootstrap-table";
 @import "../components/tables";
 @import "../components/table-search";
-@import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-@import '~react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
-
-.react-bootstrap-table-pagination {
-    margin-top: 15px;
-}
-
-.pagination {
-    > .active > a {
-        &, &:hover {
-            background: #314172;
-        }
-    }
-}

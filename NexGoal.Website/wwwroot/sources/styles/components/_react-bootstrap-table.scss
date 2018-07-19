@@ -1,0 +1,35 @@
+﻿@import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+@import '~react-bootstrap-table2-paginator/dist/react-bootstrap-table2-paginator.min.css';
+
+.react-bootstrap-table-pagination {
+    margin-top: 15px;
+
+    .react-bs-table-sizePerPage-dropdown {
+        .dropdown-toggle {
+            color: #333;
+            border: 1px solid #ccc;
+
+            &:hover {
+                background: #fff;
+                color: #333;
+                border: 1px solid #ccc;
+            }
+
+            .caret {
+                margin-left: 5px;
+            }
+        }
+
+        .dropdown-menu {
+            min-width: 60px;
+        }
+    }
+
+    .pagination {
+        > .active > a {
+            &, &:hover {
+                background: #314172;
+            }
+        }
+    }
+}

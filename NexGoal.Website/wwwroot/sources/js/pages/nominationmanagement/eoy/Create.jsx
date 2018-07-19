@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 
 import commonFunctions from '../../../common-functions';
 
@@ -30,8 +31,8 @@ class CreateEOY extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleYearChange(event) {
-        this.setState({ eoy: Object.assign({}, this.state.eoy, { year: event.target.value }) });
+    handleYearChange(selectedOption) {
+        this.setState({ eoy: Object.assign({}, this.state.eoy, { year: selectedOption.value }) });
     }
 
     handleStartDateForNominatorChange(date) {
@@ -102,6 +103,10 @@ class CreateEOY extends Component {
     render() {
         const currentYear = new Date().getFullYear();
         const eoy = this.state.eoy;
+        const yearOptions = [
+            { value: currentYear, label: currentYear },
+            { value: currentYear + 1, label: currentYear + 1 }
+        ];
 
         return (
             <Modal show={this.props.showModal} keyboard={false}
@@ -114,10 +119,12 @@ class CreateEOY extends Component {
                         <FormGroup>
                             <label className="col-sm-3 control-label required-label">Year</label>
                             <div className="col-sm-3 field">
-                                <select className="form-control" onChange={this.handleYearChange}>
-                                    <option value={currentYear}>{currentYear}</option>
-                                    <option value={currentYear + 1}>{currentYear + 1}</option>
-                                </select>
+                                <Select name="Year"
+                                    value={yearOptions[0]}
+                                    options={yearOptions}
+                                    clearable={false}
+                                    searchable={false}
+                                    onChange={this.handleYearChange} />
                             </div>
                         </FormGroup>
                         <FormGroup>
