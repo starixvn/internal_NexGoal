@@ -1,5 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { ControlLabel, FormGroup } from 'react-bootstrap';
+import Select from 'react-select';
+
+import { nominationRoleOptions } from '../../common';
 
 class Filter extends Component {
     constructor(props) {
@@ -22,8 +25,8 @@ class Filter extends Component {
         this.props.handleFilterChange(this.props.filter);
     }
 
-    handleRoleChange(event) {
-        this.props.filter.roleId = event.target.value;
+    handleRoleChange(selectedOption) {
+        this.props.filter.roleId = selectedOption.value;
         this.props.handleFilterChange(this.props.filter);
     }
 
@@ -64,12 +67,12 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Roles</ControlLabel>
                         <div className="control-content">
-                            <select className="form-control" name="RoleId" value={filter.roleId}
-                                onChange={this.handleRoleChange}>
-                                <option value="">-- All --</option>
-                                <option value="1">Nominator</option>
-                                <option value="2">Committee</option>
-                            </select>
+                            <Select name="RoleId"
+                                value={nominationRoleOptions[0]}
+                                options={nominationRoleOptions}
+                                clearable={false}
+                                searchable={false}
+                                onChange={this.handleRoleChange} />
                         </div>
                     </div>
                     <div className="col">

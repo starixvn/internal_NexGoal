@@ -4,6 +4,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 
 import commonFunctions from '../../../common-functions';
 
@@ -29,6 +30,8 @@ class Settings extends Component {
         this.handleRemindDateForNominatorChange = this.handleRemindDateForNominatorChange.bind(this);
         this.handleEndDateForCommitteeChange = this.handleEndDateForCommitteeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.updateEOYValue = this.updateEOYValue.bind(this);
+        this.onChangeRaw = this.onChangeRaw.bind(this);
     }
 
     componentWillMount() {
@@ -57,29 +60,29 @@ class Settings extends Component {
     }
 
     handleStartDateForNominatorChange(date) {
-        this.updateEOQValue('startDateForNominator', date);
+        this.updateEOYValue('startDateForNominator', date);
     }
 
     handleEndDateForNominatorChange(date) {
-        this.updateEOQValue('endDateForNominator', date);
+        this.updateEOYValue('endDateForNominator', date);
     }
 
     handleRemindDateForNominatorChange(date) {
-        this.updateEOQValue('remindDateForNominator', date);
+        this.updateEOYValue('remindDateForNominator', date);
     }
 
     handleEndDateForCommitteeChange(date) {
-        this.updateEOQValue('endDateForCommittee', date);
+        this.updateEOYValue('endDateForCommittee', date);
     }
 
     onChangeRaw(event) {
         let date = moment(event.target.value);
         if (date.isValid()) {
-            this.updateEOQValue(event.target.name, date);
+            this.updateEOYValue(event.target.name, date);
         }
     }
 
-    updateEOQValue(name, value) {
+    updateEOYValue(name, value) {
         this.setState({ eoy: Object.assign({}, this.state.eoy, { [name]: value }) });
     }
 
@@ -123,14 +126,18 @@ class Settings extends Component {
         const isHost = this.state.isHost;
         const eoy = this.state.eoy;
 
+        const yearOptions = [
+            { value: eoy.year, label: eoy.year }
+        ];
+
         return (
             <Form id="edit-eoq-form" horizontal onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <label className="col-sm-2 control-label">Year</label>
                     <div className="col-sm-2 field">
-                        <select className="form-control" value={this.state.eoy.year} disabled>
-                            <option value={eoy.year}>{this.state.eoy.year}</option>
-                        </select>
+                        <Select value={yearOptions[0]}
+                            options={yearOptions}
+                            disabled />
                     </div>
                 </FormGroup>
                 <FormGroup>

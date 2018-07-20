@@ -1,13 +1,19 @@
 ﻿import React, { Component } from 'react';
 import { ControlLabel, FormGroup } from 'react-bootstrap';
+import Select from 'react-select';
+
+import { statusOptions, renderStatusOption } from '../common';
 
 class Filter extends Component {
     constructor(props) {
         super(props);
+
+        this.handleStatusChange = this.handleStatusChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleStatusChange(event) {
-        this.props.handleStatusChange(event.target.value);
+    handleStatusChange(selectedOption) {
+        this.props.handleStatusChange(selectedOption.value);
     }
 
     handleSubmit(event) {
@@ -16,21 +22,22 @@ class Filter extends Component {
     }
 
     render() {
-        const statusId = this.props.statusId;
+        const statusSelected = statusOptions.find((option) => { return option.value === this.props.statusId.toString(); });
 
         return (
-            <form className="from-inline form-filter" onSubmit={this.handleSubmit.bind(this)}>
+            <form className="from-inline form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <div className="col">
                         <ControlLabel>Status</ControlLabel>
                         <div className="control-content">
-                            <select className="form-control" name="StatusId" value={statusId}
-                                onChange={this.handleStatusChange.bind(this)}>
-                                <option value="">-- All --</option>
-                                <option className="nomination-period-status not-started" value="0">Not Ready</option>
-                                <option className="nomination-period-status in-progress" value="1">In Progress</option>
-                                <option className="nomination-period-status closed" value="2">Closed</option>
-                            </select>
+                            <Select name="StatusId"
+                                value={statusSelected}
+                                options={statusOptions}
+                                optionRenderer={renderStatusOption}
+                                valueRenderer={renderStatusOption}
+                                clearable={false}
+                                searchable={false}
+                                onChange={this.handleStatusChange} />
                         </div>
                     </div>
                     <div className="col">

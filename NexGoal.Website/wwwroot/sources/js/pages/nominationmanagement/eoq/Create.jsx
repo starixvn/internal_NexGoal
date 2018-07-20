@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Select from 'react-select';
 
 import commonFunctions from '../../../common-functions';
+import { quarterOptions } from '../common';
 
 class CreateEOQ extends Component {
     constructor(props) {
@@ -109,12 +110,6 @@ class CreateEOQ extends Component {
     render() {
         const currentYear = new Date().getFullYear();
         const eoq = this.state.eoq;
-        const quarterOptions = [
-            { value: 1, label: '1st' },
-            { value: 2, label: '2nd' },
-            { value: 3, label: '3rd' },
-            { value: 4, label: '4th' }
-        ];
         const yearOptions = [
             { value: currentYear, label: currentYear },
             { value: currentYear + 1, label: currentYear + 1 }

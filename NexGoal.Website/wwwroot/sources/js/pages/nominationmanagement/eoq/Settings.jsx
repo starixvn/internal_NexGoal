@@ -4,8 +4,10 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import Select from 'react-select';
 
 import commonFunctions from '../../../common-functions';
+import { quarterOptions } from '../common';
 
 class Settings extends Component {
     constructor(props) {
@@ -30,6 +32,8 @@ class Settings extends Component {
         this.handleRemindDateForNominatorChange = this.handleRemindDateForNominatorChange.bind(this);
         this.handleEndDateForCommitteeChange = this.handleEndDateForCommitteeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.updateEOQValue = this.updateEOQValue.bind(this);
+        this.onChangeRaw = this.onChangeRaw.bind(this);
     }
 
     componentWillMount() {
@@ -123,24 +127,26 @@ class Settings extends Component {
     render() {
         const isHost = this.state.isHost;
         const eoq = this.state.eoq;
+        const quarterSelected = quarterOptions.find((option) => { return option.value === eoq.quarter; });
+
+        const yearOptions = [
+            { value: eoq.year, label: eoq.year }
+        ];
 
         return (
             <Form id="edit-eoq-form" horizontal onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <label className="col-sm-2 control-label">Quarter</label>
                     <div className="col-sm-2 field">
-                        <select className="form-control" value={eoq.quarter} disabled>
-                            <option value="1">1st</option>
-                            <option value="2">2nd</option>
-                            <option value="3">3rd</option>
-                            <option value="4">4th</option>
-                        </select>
+                        <Select value={quarterSelected}
+                            options={quarterOptions}
+                            disabled />
                     </div>
                     <label className="col-sm-2 control-label">Year</label>
                     <div className="col-sm-2 field">
-                        <select className="form-control" value={eoq.year} disabled>
-                            <option value={eoq.year}>{eoq.year}</option>
-                        </select>
+                        <Select value={yearOptions[0]}
+                            options={yearOptions}
+                            disabled />
                     </div>
                 </FormGroup>
                 <FormGroup>
