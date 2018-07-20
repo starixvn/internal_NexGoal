@@ -117,7 +117,7 @@
         {
             var criteria = new EditNominatorSettingCriteria
             {
-                EOQId = setting.EOQId,
+                EOQId = setting.EOQYId,
                 EmployeeId = setting.EmployeeId,
                 RoleIds = setting.RoleIds,
                 ModifiedBy = sessionService.EmployeeId

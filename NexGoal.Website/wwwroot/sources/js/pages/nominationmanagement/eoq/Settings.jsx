@@ -146,7 +146,7 @@ class Settings extends Component {
                 <FormGroup>
                     <label className="col-sm-2 control-label required-label">Start Date For Nominator</label>
                     <div className="col-sm-2 field">
-                        <DatePicker
+                        <DatePicker autoComplete="off"
                             dateFormat="DD MMM, YYYY"
                             selected={eoq.startDateForNominator}
                             onChange={this.handleStartDateForNominatorChange}
@@ -155,7 +155,7 @@ class Settings extends Component {
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Nominator</label>
                     <div className="col-sm-2 field">
-                        <DatePicker
+                        <DatePicker autoComplete="off"
                             dateFormat="DD MMM, YYYY"
                             selected={eoq.endDateForNominator}
                             onChange={this.handleEndDateForNominatorChange}
@@ -166,7 +166,7 @@ class Settings extends Component {
                 <FormGroup>
                     <label className="col-sm-2 control-label required-label">Remind Date For Nominator</label>
                     <div className="col-sm-2 field">
-                        <DatePicker
+                        <DatePicker autoComplete="off"
                             dateFormat="DD MMM, YYYY"
                             selected={eoq.remindDateForNominator}
                             onChange={this.handleRemindDateForNominatorChange}
@@ -175,7 +175,7 @@ class Settings extends Component {
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Committee</label>
                     <div className="col-sm-2 field">
-                        <DatePicker
+                        <DatePicker autoComplete="off"
                             dateFormat="DD MMM, YYYY"
                             selected={eoq.endDateForCommittee}
                             onChange={this.handleEndDateForCommitteeChange}

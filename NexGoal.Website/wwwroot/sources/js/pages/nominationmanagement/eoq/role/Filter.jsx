@@ -46,7 +46,9 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Employee</ControlLabel>
                         <div className="control-content">
-                            <input name="Keyword" className="form-control" type="text" placeholder="Full name or Nick name"
+                            <input name="Keyword" className="form-control" type="text"
+                                autoComplete="off"
+                                placeholder="Full name or Nick name"
                                 onChange={this.onKeywordChange} />
                         </div>
                     </div>

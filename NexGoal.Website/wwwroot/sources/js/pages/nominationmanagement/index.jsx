@@ -49,7 +49,10 @@ export default class App extends Component {
                                 <EOQ />
                             </Tab>
                             <Tab eventKey={2} title="Employee Of The Year">
-                                {this.state.isFirstLoad && < EOY />}
+                                {
+                                    this.state.isFirstLoad &&
+                                    <EOY />
+                                }
                             </Tab>
                         </Tabs>
                     </div>

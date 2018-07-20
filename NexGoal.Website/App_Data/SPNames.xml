@@ -39,6 +39,8 @@
     <Setting Key="EOY_Insert" SpName="EOY_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_Update" SpName="EOY_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_Delete" SpName="EOY_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_GetNominatorSetting" SpName="EOY_GetNominatorSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOY_UpdateNominatorSetting" SpName="EOY_UpdateNominatorSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Discipline">
     <Setting Key="Discipline_Get" SpName="Discipline_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

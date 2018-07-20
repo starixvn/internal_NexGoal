@@ -49,7 +49,7 @@ export default class RoleManagement extends Component {
 
     editNominatorSetting(nominator) {
         const setting = {
-            eoqId: this.state.eoqId,
+            eoqyId: this.state.eoqId,
             employeeId: nominator.employeeId,
             roleIds: nominator.roles.join(',')
         };

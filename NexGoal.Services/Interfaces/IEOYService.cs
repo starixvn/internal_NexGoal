@@ -16,5 +16,14 @@
         Task<CommandResult> EditAsync(EOQYModel eoy);
 
         Task<CommandResult> DeleteAsync(int eoyId);
+
+        Task<IEnumerable<NominatorSettingModel>> GetNominatorSettingAsync(
+            int eoyId,
+            string keyword = null,
+            string groupIds = null,
+            int? roleId = null,
+            bool isShowAll = false);
+
+        Task<CommandResult> EditNominatorSettingAsync(EditNominatorSettingModel setting);
     }
 }

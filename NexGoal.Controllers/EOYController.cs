@@ -113,5 +113,36 @@
 
             return Json(commandResult);
         }
+
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
+        public async Task<IActionResult> GetNominatorSetting(
+            int eoqId,
+            string keyword = null,
+            string groupIds = null,
+            int? roleId = null,
+            bool isShowAll = false)
+        {
+            IEnumerable<NominatorSettingModel> nominators = await eoyService.GetNominatorSettingAsync(eoqId, keyword, groupIds, roleId, isShowAll).ConfigureAwait(false);
+            IEnumerable<NominatorSettingViewModel> viewModels = nominators.Select(x => new NominatorSettingViewModel
+            {
+                EmployeeId = x.EmployeeId,
+                NickName = x.NickName,
+                FullName = x.FullName,
+                GroupName = x.GroupName,
+                JobTitle = x.JobTitle,
+                RoleIds = x.RoleIds
+            });
+
+            return Json(viewModels);
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
+        public async Task<IActionResult> EditNominatorSetting(EditNominatorSettingModel setting)
+        {
+            CommandResult commandResult = await eoyService.EditNominatorSettingAsync(setting).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
     }
 }

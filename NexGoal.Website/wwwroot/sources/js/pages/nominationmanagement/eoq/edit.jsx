@@ -13,7 +13,8 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            activeKey: 2
+            activeKey: 1,
+            isFirstLoad: false
         };
 
         this.handleSelect = this.handleSelect.bind(this);
@@ -21,6 +22,10 @@ export default class App extends Component {
 
     handleSelect(key) {
         this.setState({ activeKey: key });
+
+        if (key === 2 && !this.state.isFirstLoad) {
+            this.setState({ isFirstLoad: true });
+        }
     }
 
     handleBackClick() {
@@ -48,7 +53,10 @@ export default class App extends Component {
                                 <Settings />
                             </Tab>
                             <Tab eventKey={2} title="Role Management">
-                                <RoleManagement />
+                                {
+                                    this.state.isFirstLoad &&
+                                    <RoleManagement />
+                                }
                             </Tab>
                         </Tabs>
                     </div>

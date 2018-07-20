@@ -130,7 +130,7 @@ class CreateEOY extends Component {
                         <FormGroup>
                             <label className="col-sm-3 control-label required-label">Start Date For Nominator</label>
                             <div className="col-sm-3 field">
-                                <DatePicker
+                                <DatePicker autoComplete="off"
                                     dateFormat="DD MMM, YYYY"
                                     selected={eoy.startDateForNominator}
                                     onChange={this.handleStartDateForNominatorChange}
@@ -140,7 +140,7 @@ class CreateEOY extends Component {
                             </div>
                             <label className="col-sm-3 control-label required-label">End Date For Nominator</label>
                             <div className="col-sm-3 field">
-                                <DatePicker
+                                <DatePicker autoComplete="off"
                                     dateFormat="DD MMM, YYYY"
                                     selected={eoy.endDateForNominator}
                                     onChange={this.handleEndDateForNominatorChange}
@@ -152,7 +152,7 @@ class CreateEOY extends Component {
                         <FormGroup>
                             <label className="col-sm-3 control-label required-label">Remind Date For Nominator</label>
                             <div className="col-sm-3 field">
-                                <DatePicker
+                                <DatePicker autoComplete="off"
                                     dateFormat="DD MMM, YYYY"
                                     selected={eoy.remindDateForNominator}
                                     onChange={this.handleRemindDateForNominatorChange}
@@ -162,7 +162,7 @@ class CreateEOY extends Component {
                             </div>
                             <label className="col-sm-3 control-label required-label">End Date For Committee</label>
                             <div className="col-sm-3 field">
-                                <DatePicker
+                                <DatePicker autoComplete="off"
                                     dateFormat="DD MMM, YYYY"
                                     selected={eoy.endDateForCommittee}
                                     onChange={this.handleEndDateForCommitteeChange}

@@ -140,7 +140,7 @@ class CreateEOQ extends Component {
                             </div>
                             <label className="col-sm-3 control-label required-label">Year</label>
                             <div className="col-sm-3 field">
-                                <Select name="Year"
+                                <Select name="Year" autoComplete="off"
                                     value={yearOptions[0]}
                                     options={yearOptions}
                                     clearable={false}
@@ -151,7 +151,7 @@ class CreateEOQ extends Component {
                         <FormGroup>
                             <label className="col-sm-3 control-label required-label">Start Date For Nominator</label>
                             <div className="col-sm-3 field">
-                                <DatePicker
+                                <DatePicker autoComplete="off"
                                     dateFormat="DD MMM, YYYY"
                                     selected={eoq.startDateForNominator}
                                     onChange={this.handleStartDateForNominatorChange}
@@ -161,7 +161,7 @@ class CreateEOQ extends Component {
                             </div>
                             <label className="col-sm-3 control-label required-label">End Date For Nominator</label>
                             <div className="col-sm-3 field">
-                                <DatePicker
+                                <DatePicker autoComplete="off"
                                     dateFormat="DD MMM, YYYY"
                                     selected={eoq.endDateForNominator}
                                     onChange={this.handleEndDateForNominatorChange}
@@ -173,7 +173,7 @@ class CreateEOQ extends Component {
                         <FormGroup>
                             <label className="col-sm-3 control-label required-label">Remind Date For Nominator</label>
                             <div className="col-sm-3 field">
-                                <DatePicker
+                                <DatePicker autoComplete="off"
                                     dateFormat="DD MMM, YYYY"
                                     selected={eoq.remindDateForNominator}
                                     onChange={this.handleRemindDateForNominatorChange}
@@ -183,7 +183,7 @@ class CreateEOQ extends Component {
                             </div>
                             <label className="col-sm-3 control-label required-label">End Date For Committee</label>
                             <div className="col-sm-3 field">
-                                <DatePicker
+                                <DatePicker autoComplete="off"
                                     dateFormat="DD MMM, YYYY"
                                     selected={eoq.endDateForCommittee}
                                     onChange={this.handleEndDateForCommitteeChange}
