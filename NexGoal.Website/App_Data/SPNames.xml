@@ -30,6 +30,8 @@
     <Setting Key="EOQ_Insert" SpName="EOQ_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Update" SpName="EOQ_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_GetNominatorSetting" SpName="EOQ_GetNominatorSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EOQ_UpdateNominatorSetting" SpName="EOQ_UpdateNominatorSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="EOY">
     <Setting Key="EOY_Get" SpName="EOY_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

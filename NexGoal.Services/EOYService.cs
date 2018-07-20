@@ -20,7 +20,7 @@
             this.sessionService = sessionService;
         }
 
-        public async Task<IEnumerable<EOQYModel>> GetAllEOYAsync(int? statusId = null)
+        public async Task<IEnumerable<EOQYModel>> GetAllAsync(int? statusId = null)
         {
             var criteria = new GetEOYCriteria
             {
@@ -30,7 +30,7 @@
             return await baseService.GetDataAsync<EOQYModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<EOQYModel> GetEOYByIdAsync(int eoyId)
+        public async Task<EOQYModel> GetByIdAsync(int eoyId)
         {
             var criteria = new GetEOYByIdCriteria
             {
@@ -40,7 +40,7 @@
             return await baseService.GetDataEntityAsync<EOQYModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> CreateEOYAsync(CreateEOYModel eoy)
+        public async Task<CommandResult> CreateAsync(CreateEOYModel eoy)
         {
             var criteria = new CreateEOYCriteria
             {
@@ -56,7 +56,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEOYAsync(EOQYModel eoy)
+        public async Task<CommandResult> EditAsync(EOQYModel eoy)
         {
             var criteria = new EditEOYCriteria
             {
@@ -73,7 +73,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> DeleteEOYAsync(int eoyId)
+        public async Task<CommandResult> DeleteAsync(int eoyId)
         {
             var criteria = new DeleteEOYCriteria
             {

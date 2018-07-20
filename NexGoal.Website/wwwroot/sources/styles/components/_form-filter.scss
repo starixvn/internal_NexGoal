@@ -70,14 +70,10 @@
     }
 
     .checkbox {
-        padding: 0 0 0 10px;
+        margin: 0;
 
         label {
             padding-left: 25px;
-        }
-
-        input[type=checkbox] {
-            margin-left: -15px;
         }
     }
 }

@@ -7,16 +7,25 @@
 
     public interface IEOQService
     {
-        Task<IEnumerable<EOQYModel>> GetAllEOQAsync(int? year = null, int? statusId = null);
+        Task<IEnumerable<EOQYModel>> GetAllAsync(int? year = null, int? statusId = null);
 
-        Task<EOQYModel> GetEOQByIdAsync(int eoqId);
+        Task<EOQYModel> GetByIdAsync(int eoqId);
 
         Task<IEnumerable<int>> GetYearsAsync();
 
-        Task<CommandResult> CreateEOQAsync(CreateEOQModel eoq);
+        Task<CommandResult> CreateAsync(CreateEOQModel eoq);
 
-        Task<CommandResult> EditEOQAsync(EOQYModel eoq);
+        Task<CommandResult> EditAsync(EOQYModel eoq);
 
-        Task<CommandResult> DeleteEOQAsync(int eoqId);
+        Task<CommandResult> DeleteAsync(int eoqId);
+
+        Task<IEnumerable<NominatorSettingModel>> GetNominatorSettingAsync(
+            int eoqId,
+            string keyword = null,
+            string groupIds = null,
+            int? roleId = null,
+            bool isShowAll = false);
+
+        Task<CommandResult> EditNominatorSettingAsync(EditNominatorSettingModel setting);
     }
 }

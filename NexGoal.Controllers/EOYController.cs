@@ -30,7 +30,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<IActionResult> GetAll(int? statusId = null)
         {
-            IEnumerable<EOQYModel> eoys = await eoyService.GetAllEOYAsync(statusId).ConfigureAwait(false);
+            IEnumerable<EOQYModel> eoys = await eoyService.GetAllAsync(statusId).ConfigureAwait(false);
             IEnumerable<EOQYViewModel> viewModels = eoys != null ? eoys.Select(x => new EOQYViewModel
             {
                 EOQYId = x.EOQYId,
@@ -49,7 +49,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
         public async Task<IActionResult> Create(CreateEOYModel eoy)
         {
-            CommandResult commandResult = await eoyService.CreateEOYAsync(eoy).ConfigureAwait(false);
+            CommandResult commandResult = await eoyService.CreateAsync(eoy).ConfigureAwait(false);
 
             return Json(commandResult);
         }
@@ -57,7 +57,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
         public async Task<IActionResult> Edit(int id)
         {
-            EOQYModel eoy = await eoyService.GetEOYByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoy = await eoyService.GetByIdAsync(id).ConfigureAwait(false);
 
             if (eoy == null)
             {
@@ -74,7 +74,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
         public async Task<IActionResult> Edit(EOQYModel eoy)
         {
-            CommandResult commandResult = await eoyService.EditEOYAsync(eoy).ConfigureAwait(false);
+            CommandResult commandResult = await eoyService.EditAsync(eoy).ConfigureAwait(false);
 
             return Json(commandResult);
         }
@@ -82,7 +82,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<IActionResult> Details(int id)
         {
-            EOQYModel eoy = await eoyService.GetEOYByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoy = await eoyService.GetByIdAsync(id).ConfigureAwait(false);
 
             if (eoy == null)
             {
@@ -95,7 +95,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<IActionResult> GetById(int id)
         {
-            EOQYModel eoy = await eoyService.GetEOYByIdAsync(id).ConfigureAwait(false);
+            EOQYModel eoy = await eoyService.GetByIdAsync(id).ConfigureAwait(false);
 
             if (eoy == null)
             {
@@ -109,7 +109,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
         public async Task<IActionResult> Delete(int id)
         {
-            CommandResult commandResult = await eoyService.DeleteEOYAsync(id).ConfigureAwait(false);
+            CommandResult commandResult = await eoyService.DeleteAsync(id).ConfigureAwait(false);
 
             return Json(commandResult);
         }

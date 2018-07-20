@@ -5,13 +5,14 @@ import { Tabs, Tab } from 'react-bootstrap';
 import ToastLayout from '../../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import Settings from './Settings';
+import RoleManagement from './role/index';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            activeKey: 1
+            activeKey: 2
         };
 
         this.handleSelect = this.handleSelect.bind(this);
@@ -42,6 +43,7 @@ export default class App extends Component {
                                 <Settings />
                             </Tab>
                             <Tab eventKey={2} title="Role Management">
+                                <RoleManagement />
                             </Tab>
                         </Tabs>
                     </div>

@@ -1,14 +1,15 @@
 ﻿@import "../../abstracts/variables";
 @import "../../abstracts/mixins";
-@import '~react-datepicker/dist/react-datepicker.css';
 @import "../../components/buttons";
+@import "../../components/form-filter";
 @import "../../components/messages";
+@import "../../components/react-bootstrap-table";
 @import "../../components/react-datepicker-custom";
 @import "../../components/tabs";
 @import "../../components/tables";
 @import "../../components/toast";
 
-.form-horizontal {
+.form-horizontal, .form-filter {
     margin-top: 10px;
 }
 

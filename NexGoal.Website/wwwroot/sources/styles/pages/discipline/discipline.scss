@@ -7,10 +7,8 @@
 @import "../../components/tables";
 @import "../../components/_table-search.scss";
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
-@import '~react-datepicker/dist/react-datepicker.css';
-@import "../../components/_react-datepicker-custom.scss";
-@import "../../components/react-select";
-@import "../../components/toast";
+@import "../../components/react-datepicker-custom";
+@import "../../components/react-select";@import "../../components/toast";
 
 .Select-value:first-child .Select-value-icon,
 .Select-value:nth-child(n+2) {

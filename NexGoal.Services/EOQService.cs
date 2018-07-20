@@ -20,7 +20,7 @@
             this.sessionService = sessionService;
         }
 
-        public async Task<IEnumerable<EOQYModel>> GetAllEOQAsync(int? year = null, int? statusId = null)
+        public async Task<IEnumerable<EOQYModel>> GetAllAsync(int? year = null, int? statusId = null)
         {
             var criteria = new GetEOQCriteria
             {
@@ -31,7 +31,7 @@
             return await baseService.GetDataAsync<EOQYModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<EOQYModel> GetEOQByIdAsync(int eoqId)
+        public async Task<EOQYModel> GetByIdAsync(int eoqId)
         {
             var criteria = new GetEOQByIdCriteria
             {
@@ -48,7 +48,7 @@
             return await baseService.GetDataAsync<int>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> CreateEOQAsync(CreateEOQModel eoq)
+        public async Task<CommandResult> CreateAsync(CreateEOQModel eoq)
         {
             var criteria = new CreateEOQCriteria
             {
@@ -65,7 +65,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEOQAsync(EOQYModel eoq)
+        public async Task<CommandResult> EditAsync(EOQYModel eoq)
         {
             var criteria = new EditEOQCriteria
             {
@@ -83,11 +83,43 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> DeleteEOQAsync(int eoqId)
+        public async Task<CommandResult> DeleteAsync(int eoqId)
         {
             var criteria = new DeleteEOQCriteria
             {
                 EOQId = eoqId,
+                ModifiedBy = sessionService.EmployeeId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<NominatorSettingModel>> GetNominatorSettingAsync(
+            int eoqId,
+            string keyword = null,
+            string groupIds = null,
+            int? roleId = null,
+            bool isShowAll = false)
+        {
+            var criteria = new GetNominatorSettingCriteria
+            {
+                EOQId = eoqId,
+                Keyword = keyword,
+                GroupIds = groupIds,
+                RoleId = roleId,
+                IsShowAll = isShowAll
+            };
+
+            return await baseService.GetDataAsync<NominatorSettingModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> EditNominatorSettingAsync(EditNominatorSettingModel setting)
+        {
+            var criteria = new EditNominatorSettingCriteria
+            {
+                EOQId = setting.EOQId,
+                EmployeeId = setting.EmployeeId,
+                RoleIds = setting.RoleIds,
                 ModifiedBy = sessionService.EmployeeId
             };
 

@@ -7,14 +7,14 @@
 
     public interface IEOYService
     {
-        Task<IEnumerable<EOQYModel>> GetAllEOYAsync(int? statusId = null);
+        Task<IEnumerable<EOQYModel>> GetAllAsync(int? statusId = null);
 
-        Task<EOQYModel> GetEOYByIdAsync(int eoyId);
+        Task<EOQYModel> GetByIdAsync(int eoyId);
 
-        Task<CommandResult> CreateEOYAsync(CreateEOYModel eoy);
+        Task<CommandResult> CreateAsync(CreateEOYModel eoy);
 
-        Task<CommandResult> EditEOYAsync(EOQYModel eoy);
+        Task<CommandResult> EditAsync(EOQYModel eoy);
 
-        Task<CommandResult> DeleteEOYAsync(int eoyId);
+        Task<CommandResult> DeleteAsync(int eoyId);
     }
 }

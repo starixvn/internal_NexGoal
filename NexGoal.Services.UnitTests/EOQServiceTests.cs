@@ -15,7 +15,7 @@
         private IBaseService baseService;
 
         [Fact]
-        public async Task GetAllEOQAsync_WhenCalled_ReturnAsExpectedEOQs()
+        public async Task GetAllAsync_WhenCalled_ReturnAsExpectedEOQs()
         {
             // Arrange
             var expected = new List<EOQYModel>
@@ -26,14 +26,14 @@
             baseService.GetDataAsync<EOQYModel>(Arg.Any<GetEOQCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.GetAllEOQAsync(2018, 1);
+            var actual = await service.GetAllAsync(2018, 1);
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task GetEOQByIdAsync_WhenCalled_ReturnAsExpectedEOQ()
+        public async Task GetByIdAsync_WhenCalled_ReturnAsExpectedEOQ()
         {
             // Arrange
             var expected = new EOQYModel { EOQYId = 1, Year = 2018, Quarter = 1 };
@@ -41,7 +41,7 @@
             baseService.GetDataEntityAsync<EOQYModel>(Arg.Any<GetEOQByIdCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.GetEOQByIdAsync(1);
+            var actual = await service.GetByIdAsync(1);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -63,7 +63,7 @@
         }
 
         [Fact]
-        public async Task CreateEOQAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task CreateAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -79,14 +79,14 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<CreateEOQCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.CreateEOQAsync(eoq);
+            var actual = await service.CreateAsync(eoq);
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task EditEOQAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task EditAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -102,14 +102,14 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEOQCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditEOQAsync(eoq);
+            var actual = await service.EditAsync(eoq);
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task DeleteEOQAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task DeleteAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -120,7 +120,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<DeleteEOQCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.DeleteEOQAsync(1);
+            var actual = await service.DeleteAsync(1);
 
             // Assert
             Assert.Equal(expected, actual);

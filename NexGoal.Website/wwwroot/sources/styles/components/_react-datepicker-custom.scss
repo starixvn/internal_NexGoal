@@ -1,4 +1,6 @@
-﻿.react-datepicker {
+﻿@import '~react-datepicker/dist/react-datepicker.css';
+
+.react-datepicker {
     font-size: 14px;
     @include border-radius(0);
 
