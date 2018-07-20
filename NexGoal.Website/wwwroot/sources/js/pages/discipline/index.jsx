@@ -4,8 +4,8 @@ import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Breadcrumb from '../../shared/components/Breadcrumb';
-import Notification from '../../shared/components/notification';
-import Select, { Async } from 'react-select';
+import Multiselect from '../../shared/components/MultiSelect';
+import { Async } from 'react-select';
 import Table from './Table';
 import AddEditDiscipline from './EditDiscipline';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -78,7 +78,7 @@ export default class DisciplineManagement extends Component {
     getDisciplines = () => {
         var employeeId = this.state.filter.employee ? this.state.filter.employee.employeeId : '';
 
-        axios(`/Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}&to=${this.state.filter.to.format('YYYY-MM-DD')}&isActive=${this.state.filter.isActive}&employeeId=${employeeId}`)
+        axios(`/Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}&to=${this.state.filter.to.format('YYYY-MM-DD')}&isActive=${this.state.filter.isActive}&employeeId=${employeeId}&groupIds=${this.state.filter.groupIds}`)
             .then(response => {
                 response.data.map((e, index) => e.rowNum = index + 1);
                 this.setState({ data: response.data, tableData: response.data });
@@ -89,20 +89,17 @@ export default class DisciplineManagement extends Component {
         axios('/Common/GetGroups')
             .then(response => {
                 this.setState({
-                    groups: response.data
+                    groups: response.data,
+                    filter: {
+                        ...this.state.filter,
+                        ...{ groupIds: response.data.map(g => g.groupId).toString() }
+                    }
                 });
             });
     }
 
     renderValue = (option) => {
-        //// The first three values are rendered normally
-        //console.log([this.state.filter.groupIds].length);
-        //if (this.state.filter.groupIds.split(',').length <= 3) {
-        //    return option.name;
-        //}
-
-        //debugger;
-        return (< span > + {this.state.filter.groupIds.split(',').length} more</span >);
+        return (<span>{this.state.filter.groupIds.split(',').length} selected</span >);
     }
 
     onTableFilterChange = (e) => {
@@ -227,8 +224,8 @@ export default class DisciplineManagement extends Component {
                                 <label className="control-label">Team</label>
                                 <div className="control-content">
                                     {this.state.groups.length > 0 &&
-                                        <Select value={this.state.filter.groupIds} simpleValue={true} multi={true} valueKey="groupId" labelKey="name" options={this.state.groups} onChange={this.onFilterGroupChange}
-                                            valueRenderer={this.renderValue} removeSelected={false} closeOnSelect={false} />
+                                        <Multiselect value={this.state.filter.groupIds} simpleValue={true} valueKey="groupId" labelKey="name" options={this.state.groups} onChange={this.onFilterGroupChange}
+                                            removeSelected={false} closeOnSelect={false} />
                                     }
                                 </div>
                             </div>
