@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 
 import ToastLayout from '../../../shared/layouts/ToastLayout';
+import commonFunctions from '../../../common-functions';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import Settings from './Settings';
 import RoleManagement from './role/index';
@@ -22,6 +23,10 @@ export default class App extends Component {
         this.setState({ activeKey: key });
     }
 
+    handleBackClick() {
+        window.location = commonFunctions.getRootUrl() + 'NominationManagement/index?tab=eoq';
+    }
+
     render() {
         return (
             <ToastLayout>
@@ -30,9 +35,9 @@ export default class App extends Component {
                         <li className="current">Nomination Management</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <a className="btn btn-cancel">
+                        <a className="btn btn-cancel" onClick={this.handleBackClick}>
                             <i className="fa fa-angle-left"></i>Back to list
-                    </a>
+                        </a>
                     </div>
                     <div className="col-sm-12">
                         <Tabs id="tabs-nomination" animation={false}

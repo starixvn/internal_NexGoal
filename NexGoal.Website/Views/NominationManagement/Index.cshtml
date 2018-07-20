@@ -1,5 +1,6 @@
 ﻿@using NexGoal.Resources
-@model bool
+@using NexGoal.ViewModels.EOQY
+@model NominationManagementViewModel
 
 @{
     ViewData["Title"] = ViewLang.NominationManagement;
@@ -10,7 +11,8 @@
 }
 
 @Html.AntiForgeryToken()
-<input type="checkbox" hidden id="IsHost" @(Model ? "checked" : string.Empty) />
+<input type="checkbox" hidden id="IsHost" @(Model.IsHost ? "checked" : string.Empty) />
+<input type="hidden" id="ActiveTab" value="@Model.ActiveTab" />
 
 <div id="nomination-wrapper"></div>
 

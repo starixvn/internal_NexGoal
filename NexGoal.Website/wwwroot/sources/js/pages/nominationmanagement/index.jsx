@@ -20,6 +20,11 @@ export default class App extends Component {
         };
     }
 
+    componentWillMount() {
+        const activeKey = parseInt(document.getElementById('ActiveTab').value);
+        this.setState({ activeKey: activeKey, isFirstLoad: activeKey === 2 });
+    }
+
     handleSelect(key) {
         this.setState({ activeKey: key });
 
