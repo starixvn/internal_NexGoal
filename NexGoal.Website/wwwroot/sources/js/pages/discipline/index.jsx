@@ -39,7 +39,6 @@ export default class DisciplineManagement extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.searchRef.current.value = '';
         this.getDisciplines();
     }
 
@@ -80,7 +79,7 @@ export default class DisciplineManagement extends Component {
 
         axios(`/Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}&to=${this.state.filter.to.format('YYYY-MM-DD')}&isActive=${this.state.filter.isActive}&employeeId=${employeeId}&groupIds=${this.state.filter.groupIds}`)
             .then(response => {
-                response.data.map((e, index) => e.rowNum = index + 1);
+                response.data.forEach((e, index) => e.rowNum = index + 1);
                 this.setState({ data: response.data, tableData: response.data });
             });
     }

@@ -123,6 +123,9 @@
   <data name="DisciplineManagement" xml:space="preserve">
     <value>Discipline Management</value>
   </data>
+  <data name="EvaluationPeriod" xml:space="preserve">
+    <value>Evaluation Period</value>
+  </data>
   <data name="Function" xml:space="preserve">
     <value>Function</value>
   </data>

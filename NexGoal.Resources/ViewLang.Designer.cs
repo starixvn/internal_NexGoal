@@ -79,6 +79,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Evaluation Period.
+        /// </summary>
+        public static string EvaluationPeriod {
+            get {
+                return ResourceManager.GetString("EvaluationPeriod", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Function.
         /// </summary>
         public static string Function {

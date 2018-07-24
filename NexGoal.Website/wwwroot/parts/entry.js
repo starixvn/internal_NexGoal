@@ -13,6 +13,7 @@ module.exports = {
         cssnominationmanagement: "./sources/styles/pages/nominationmanagement/index.scss",
         cssediteoqy: "./sources/styles/pages/nominationmanagement/edit.scss",
         cssdiscipline: "./sources/styles/pages/discipline/discipline.scss",
+        cssperiod: "./sources/styles/pages/period/period.scss",
         //
         main: "./sources/js/main.js",
         home: "./sources/js/pages/home/index.jsx",
@@ -21,6 +22,7 @@ module.exports = {
         discipline: './sources/js/pages/discipline/index.jsx',
         nominationmanagement: './sources/js/pages/nominationmanagement/index.jsx',
         editeoq: './sources/js/pages/nominationmanagement/eoq/edit.jsx',
-        editeoy: './sources/js/pages/nominationmanagement/eoy/edit.jsx'
+        editeoy: './sources/js/pages/nominationmanagement/eoy/edit.jsx',
+        period: './sources/js/pages/period/index.jsx'
     }
 };
