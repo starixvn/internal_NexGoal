@@ -20,7 +20,7 @@
             // Arrange
             var expected = new List<EOQYModel>
             {
-                new EOQYModel { EOQYId = 1, Year=2018, Quarter=1 }
+                new EOQYModel { EOQYId = 1, Year = 2018, Quarter = 1 }
             };
             var service = GetEOQService();
             baseService.GetDataAsync<EOQYModel>(Arg.Any<GetEOQCriteria>()).Returns(expected);
@@ -95,6 +95,7 @@
             };
             var eoq = new EOQYModel
             {
+                EOQYId = 1,
                 Year = 2018,
                 Quarter = 1
             };
@@ -121,6 +122,48 @@
 
             // Act
             var actual = await service.DeleteAsync(1);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetNominatorSettingAsync_WhenCalled_ReturnAsExpectedEOQs()
+        {
+            // Arrange
+            var expected = new List<NominatorSettingModel>
+            {
+                new NominatorSettingModel { EmployeeId = 1, NickName = "tim.trinh", RoleIds = "1,2" }
+            };
+            var service = GetEOQService();
+            baseService.GetDataAsync<NominatorSettingModel>(Arg.Any<GetNominatorSettingCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetNominatorSettingAsync(1);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task EditNominatorSettingAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var setting = new EditNominatorSettingModel
+            {
+                EOQYId = 1,
+                EmployeeId = 1,
+                RoleIds = "1,2"
+            };
+            var service = GetEOQService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditNominatorSettingCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.EditNominatorSettingAsync(setting);
 
             // Assert
             Assert.Equal(expected, actual);
