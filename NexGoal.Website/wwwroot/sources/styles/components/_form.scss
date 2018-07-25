@@ -4,7 +4,8 @@ form {
     input[type="email"],
     input[type="number"],
     input[type="password"],
-    textarea {
+    textarea,
+    .Select {
         &.input-validation-error {
             border-color: #ff4545;
             @include box-shadow-multiple('0 0 2px 2px rgba(255,0,0, .2)');

@@ -9,7 +9,7 @@ import commonFunctions from '../../common-functions';
 import { Async } from 'react-select';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
-import { camelCase } from 'lodash';
+import { camelCase, isEmpty } from 'lodash';
 
 export default class AddEditDiscipline extends Component {
     constructor(props) {
@@ -102,27 +102,33 @@ export default class AddEditDiscipline extends Component {
         return (
             <Form id="edit-user-role-form" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
+                    {!isEmpty(errors) &&
+                        <ul className="list-message-error">
+                            {touched.employee && errors.employee && <li>{errors.employee}</li>}
+                            {touched.effectiveDate && errors.effectiveDate && <li>{errors.effectiveDate}</li>}
+                            {touched.content && errors.content && <li>{errors.content}</li>}
+                        </ul>
+                    }
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={2}>Employee</Col>
                         <Col sm={10}>
-                            <Async disabled={values.disciplineId > 0} valueKey="employeeId" labelKey="name" autoload={false} value={values.employee} name="employee"
+                            <Async className={touched.employee && errors.employee && 'input-validation-error'} disabled={values.disciplineId > 0} valueKey="employeeId" labelKey="name" autoload={false} value={values.employee} name="employee"
                                 onChange={value => setFieldValue('employee', value)} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
-                            {touched.employee && errors.employee && <span className="text-danger">{errors.employee}</span>}
                         </Col>
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={2}>Issue Date</Col>
                         <Col sm={10}>
-                            <DatePicker dateFormat="DD MMM, YYYY" selected={values.effectiveDate} onChange={value => setFieldValue('effectiveDate', value)} onChangeRaw={this.onChangeRaw}
-                                name="effectiveDate" className="form-control" showMonthDropdown showYearDropdown />
-                            {touched.effectiveDate && errors.effectiveDate && <span className="text-danger">{errors.effectiveDate}</span>}
+                            <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
+                                dateFormat="DD MMM, YYYY" selected={values.effectiveDate} onChange={value => setFieldValue('effectiveDate', value)} onChangeRaw={this.onChangeRaw}
+                                name="effectiveDate" showMonthDropdown showYearDropdown />
                         </Col>
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={2}>Content</Col>
                         <Col sm={10}>
-                            <textarea className="form-control" name="content" onChange={handleChange} value={values.content} />
-                            {touched.content && errors.content && <span className="text-danger">{errors.content}</span>}
+                            <textarea className={`form-control  ${touched.content && errors.content && 'input-validation-error'}`}
+                                name="content" onChange={handleChange} value={values.content} />
                         </Col>
                     </FormGroup>
                 </Modal.Body>
