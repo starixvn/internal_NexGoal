@@ -77,9 +77,9 @@
             {
                 Code = 0
             };
-            var eoq = new EOQYModel
+            var eoq = new EditEOYModel
             {
-                EOQYId = 1,
+                EOYId = 1,
                 Year = 2018
             };
             var service = GetEOYService();

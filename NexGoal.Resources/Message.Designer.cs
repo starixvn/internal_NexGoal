@@ -88,6 +88,60 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} must be greater than {1}..
+        /// </summary>
+        public static string GreaterThanCompare {
+            get {
+                return ResourceManager.GetString("GreaterThanCompare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} must be greater than or equal to {1}..
+        /// </summary>
+        public static string GreaterThanOrEqualCompare {
+            get {
+                return ResourceManager.GetString("GreaterThanOrEqualCompare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} must be less than {1}..
+        /// </summary>
+        public static string LessThanCompare {
+            get {
+                return ResourceManager.GetString("LessThanCompare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} must be less than or equal to {1}..
+        /// </summary>
+        public static string LessThanOrEqualCompare {
+            get {
+                return ResourceManager.GetString("LessThanOrEqualCompare", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is required..
+        /// </summary>
+        public static string RequiredErrorMessage {
+            get {
+                return ResourceManager.GetString("RequiredErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} must not over {1} character long..
+        /// </summary>
+        public static string StringMaxLengthErrorMessage {
+            get {
+                return ResourceManager.GetString("StringMaxLengthErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Permission has been successfully updated!.
         /// </summary>
         public static string UpdatePermissionSuccessfully {

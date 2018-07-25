@@ -65,11 +65,11 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditAsync(EOQYModel eoq)
+        public async Task<CommandResult> EditAsync(EditEOQModel eoq)
         {
             var criteria = new EditEOQCriteria
             {
-                EOQId = eoq.EOQYId,
+                EOQId = eoq.EOQId,
                 Quarter = eoq.Quarter,
                 Year = eoq.Year,
                 StartDateForNominator = eoq.StartDateForNominator,

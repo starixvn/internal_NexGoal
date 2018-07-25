@@ -90,7 +90,7 @@ class Settings extends Component {
         event.preventDefault();
 
         let eoy = {
-            eoqyId: this.state.eoy.eoqyId,
+            eoyId: this.state.eoy.eoqyId,
             quarter: this.state.eoy.quarter,
             year: this.state.eoy.year,
             startDateForNominator: this.state.eoy.startDateForNominator !== null ? this.state.eoy.startDateForNominator.toDate() : null,

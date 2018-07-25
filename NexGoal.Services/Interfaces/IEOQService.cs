@@ -15,7 +15,7 @@
 
         Task<CommandResult> CreateAsync(CreateEOQModel eoq);
 
-        Task<CommandResult> EditAsync(EOQYModel eoq);
+        Task<CommandResult> EditAsync(EditEOQModel eoq);
 
         Task<CommandResult> DeleteAsync(int eoqId);
 

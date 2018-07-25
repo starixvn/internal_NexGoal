@@ -93,9 +93,9 @@
             {
                 Code = 0
             };
-            var eoq = new EOQYModel
+            var eoq = new EditEOQModel
             {
-                EOQYId = 1,
+                EOQId = 1,
                 Year = 2018,
                 Quarter = 1
             };

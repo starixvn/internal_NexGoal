@@ -87,6 +87,24 @@ namespace NexGoal.Resources {
             }
         }
         
+         /// <summary>
+        ///   Looks up a localized string similar to End Date For Committee.
+        /// </summary>
+        public static string EndDateForCommittee {
+            get {
+                return ResourceManager.GetString("EndDateForCommittee", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Date For Nominator.
+        /// </summary>
+        public static string EndDateForNominator {
+            get {
+                return ResourceManager.GetString("EndDateForNominator", resourceCulture);
+            }
+        }
+        
         /// <summary>
         ///   Looks up a localized string similar to Function.
         /// </summary>
@@ -124,6 +142,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Remind Date For Nominator.
+        /// </summary>
+        public static string RemindDateForNominator {
+            get {
+                return ResourceManager.GetString("RemindDateForNominator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Role.
         /// </summary>
         public static string Role {
@@ -156,6 +183,15 @@ namespace NexGoal.Resources {
         public static string Save {
             get {
                 return ResourceManager.GetString("Save", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Start Date For Nominator.
+        /// </summary>
+        public static string StartDateForNominator {
+            get {
+                return ResourceManager.GetString("StartDateForNominator", resourceCulture);
             }
         }
         

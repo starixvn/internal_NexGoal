@@ -13,7 +13,7 @@
 
         Task<CommandResult> CreateAsync(CreateEOYModel eoy);
 
-        Task<CommandResult> EditAsync(EOQYModel eoy);
+        Task<CommandResult> EditAsync(EditEOYModel eoy);
 
         Task<CommandResult> DeleteAsync(int eoyId);
 

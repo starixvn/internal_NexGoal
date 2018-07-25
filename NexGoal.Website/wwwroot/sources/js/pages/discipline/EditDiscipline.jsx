@@ -9,7 +9,7 @@ import commonFunctions from '../../common-functions';
 import { Async } from 'react-select';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
-import { camelCase } from 'lodash'
+import { camelCase } from 'lodash';
 
 export default class AddEditDiscipline extends Component {
     constructor(props) {

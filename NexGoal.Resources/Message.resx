@@ -126,6 +126,24 @@
   <data name="EmployeeRequired" xml:space="preserve">
     <value>Employee is required</value>
   </data>
+  <data name="GreaterThanCompare" xml:space="preserve">
+    <value>{0} must be greater than {1}.</value>
+  </data>
+  <data name="GreaterThanOrEqualCompare" xml:space="preserve">
+    <value>{0} must be greater than or equal to {1}.</value>
+  </data>
+  <data name="LessThanCompare" xml:space="preserve">
+    <value>{0} must be less than {1}.</value>
+  </data>
+  <data name="LessThanOrEqualCompare" xml:space="preserve">
+    <value>{0} must be less than or equal to {1}.</value>
+  </data>
+  <data name="RequiredErrorMessage" xml:space="preserve">
+    <value>{0} is required.</value>
+  </data>
+  <data name="StringMaxLengthErrorMessage" xml:space="preserve">
+    <value>{0} must not over {1} character long.</value>
+  </data>
   <data name="UpdatePermissionSuccessfully" xml:space="preserve">
     <value>Permission has been successfully updated!</value>
   </data>

@@ -49,9 +49,15 @@
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
         public async Task<IActionResult> Create(CreateEOYModel eoy)
         {
-            CommandResult commandResult = await eoyService.CreateAsync(eoy).ConfigureAwait(false);
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await eoyService.CreateAsync(eoy).ConfigureAwait(false);
 
-            return Json(commandResult);
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
@@ -72,11 +78,17 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(EOQYModel eoy)
+        public async Task<IActionResult> Edit(EditEOYModel eoy)
         {
-            CommandResult commandResult = await eoyService.EditAsync(eoy).ConfigureAwait(false);
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await eoyService.EditAsync(eoy).ConfigureAwait(false);
 
-            return Json(commandResult);
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]

@@ -5,81 +5,26 @@ import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
+import { Formik } from 'formik';
+import { camelCase } from 'lodash';
 
 import commonFunctions from '../../../common-functions';
-import { quarterOptions } from '../common';
+import { quarterOptions, validateEOQForm } from '../common';
 
 class CreateEOQ extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            eoq: {
-                quarter: 1,
-                year: new Date().getFullYear(),
-                startDateForNominator: null,
-                endDateForNominator: null,
-                remindDateForNominator: null,
-                endDateForCommittee: null,
-                description: null
-            }
-        };
-
-        this.handleQuarterChange = this.handleQuarterChange.bind(this);
-        this.handleYearChange = this.handleYearChange.bind(this);
-        this.handleStartDateForNominatorChange = this.handleStartDateForNominatorChange.bind(this);
-        this.handleEndDateForNominatorChange = this.handleEndDateForNominatorChange.bind(this);
-        this.handleRemindDateForNominatorChange = this.handleRemindDateForNominatorChange.bind(this);
-        this.handleEndDateForCommitteeChange = this.handleEndDateForCommitteeChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleQuarterChange(selectedOption) {
-        this.setState({ eoq: Object.assign({}, this.state.eoq, { quarter: selectedOption.value }) });
-    }
-
-    handleYearChange(selectedOption) {
-        this.setState({ eoq: Object.assign({}, this.state.eoq, { year: selectedOption.value }) });
-    }
-
-    handleStartDateForNominatorChange(date) {
-        this.updateEOQValue('startDateForNominator', date);
-    }
-
-    handleEndDateForNominatorChange(date) {
-        this.updateEOQValue('endDateForNominator', date);
-    }
-
-    handleRemindDateForNominatorChange(date) {
-        this.updateEOQValue('remindDateForNominator', date);
-    }
-
-    handleEndDateForCommitteeChange(date) {
-        this.updateEOQValue('endDateForCommittee', date);
-    }
-
-    onChangeRaw(event) {
-        let date = moment(event.target.value);
-        if (date.isValid()) {
-            this.updateEOQValue(event.target.name, date);
-        }
-    }
-
-    updateEOQValue(name, value) {
-        this.setState({ eoq: Object.assign({}, this.state.eoq, { [name]: value }) });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-
+    handleSubmit = (values, { setSubmitting, setErrors }) => {
         let eoq = {
-            quarter: this.state.eoq.quarter,
-            year: this.state.eoq.year,
-            startDateForNominator: this.state.eoq.startDateForNominator !== null ? this.state.eoq.startDateForNominator.toDate() : null,
-            endDateForNominator: this.state.eoq.endDateForNominator !== null ? this.state.eoq.endDateForNominator.toDate() : null,
-            remindDateForNominator: this.state.eoq.remindDateForNominator !== null ? this.state.eoq.remindDateForNominator.toDate() : null,
-            endDateForCommittee: this.state.eoq.endDateForCommittee !== null ? this.state.eoq.endDateForCommittee.toDate() : null,
-            description: this.state.eoq.description
+            quarter: values.quarter,
+            year: values.year,
+            startDateForNominator: values.startDateForNominator.toDate(),
+            endDateForNominator: values.endDateForNominator.toDate(),
+            remindDateForNominator: values.remindDateForNominator.toDate(),
+            endDateForCommittee: values.endDateForCommittee.toDate(),
+            description: values.description
         };
 
         let formData = commonFunctions.objectToFormData(eoq);
@@ -102,18 +47,146 @@ class CreateEOQ extends Component {
                 this.props.closeModal();
                 this.props.handleFilterSubmit();
             } else {
-                toast.error(data.message);
+                if (data.errors) {
+                    let errors = {};
+                    data.errors.map(error => {
+                        errors[camelCase(error.key)] = error.errorMessage;
+                    });
+
+                    setErrors(errors);
+                } else {
+                    toast.error(data.message);
+                }
+
+                setSubmitting(false);
             }
         }).catch(commonFunctions.axiosError);
     }
 
-    render() {
+    renderForm = ({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleSubmit,
+        setFieldValue,
+        isSubmitting }) => {
         const currentYear = new Date().getFullYear();
-        const eoq = this.state.eoq;
         const yearOptions = [
             { value: currentYear, label: currentYear },
             { value: currentYear + 1, label: currentYear + 1 }
         ];
+
+        return (
+            <Form id="create-eoq-form" horizontal onSubmit={handleSubmit}>
+                <Modal.Body>
+                    {
+                        ((touched.quarter && errors.quarter) || (touched.year && errors.year)
+                            || (touched.startDateForNominator && errors.startDateForNominator)
+                            || (touched.endDateForNominator && errors.endDateForNominator)
+                            || (touched.remindDateForNominator && errors.remindDateForNominator)
+                            || (touched.endDateForCommittee && errors.endDateForCommittee)
+                            || (touched.description && errors.description)) &&
+                        <ul className="list-message-error">
+                            {touched.quarter && errors.quarter && <li>{errors.quarter}</li>}
+                            {touched.year && errors.year && <li>{errors.year}</li>}
+                            {touched.startDateForNominator && errors.startDateForNominator && <li>{errors.startDateForNominator}</li>}
+                            {touched.endDateForNominator && errors.endDateForNominator && <li>{errors.endDateForNominator}</li>}
+                            {touched.remindDateForNominator && errors.remindDateForNominator && <li>{errors.remindDateForNominator}</li>}
+                            {touched.endDateForCommittee && errors.endDateForCommittee && <li>{errors.endDateForCommittee}</li>}
+                            {touched.description && errors.description && <li>{errors.description}</li>}
+                        </ul>
+                    }
+
+                    <FormGroup>
+                        <label className="col-sm-3 control-label required-label">Quarter</label>
+                        <div className="col-sm-3 field">
+                            <Select name="quarter"
+                                value={values.quarter}
+                                options={quarterOptions}
+                                clearable={false}
+                                searchable={false}
+                                onChange={selectedOption => setFieldValue('quarter', selectedOption)} />
+                        </div>
+                        <label className="col-sm-3 control-label required-label">Year</label>
+                        <div className="col-sm-3 field">
+                            <Select name="year"
+                                value={values.year}
+                                options={yearOptions}
+                                clearable={false}
+                                searchable={false}
+                                onChange={selectedOption => setFieldValue('year', selectedOption)} />
+                        </div>
+                    </FormGroup>
+                    <FormGroup>
+                        <label className="col-sm-3 control-label required-label">Start Date For Nominator</label>
+                        <div className="col-sm-3 field">
+                            <DatePicker autoComplete="off"
+                                dateFormat="DD MMM, YYYY"
+                                selected={values.startDateForNominator}
+                                onChange={value => setFieldValue('startDateForNominator', value)}
+                                name="startDateForNominator"
+                                className={touched.startDateForNominator && errors.startDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
+                        </div>
+                        <label className="col-sm-3 control-label required-label">End Date For Nominator</label>
+                        <div className="col-sm-3 field">
+                            <DatePicker autoComplete="off"
+                                dateFormat="DD MMM, YYYY"
+                                selected={values.endDateForNominator}
+                                onChange={value => setFieldValue('endDateForNominator', value)}
+                                name="endDateForNominator"
+                                className={touched.endDateForNominator && errors.endDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
+                        </div>
+                    </FormGroup>
+                    <FormGroup>
+                        <label className="col-sm-3 control-label required-label">Remind Date For Nominator</label>
+                        <div className="col-sm-3 field">
+                            <DatePicker autoComplete="off"
+                                dateFormat="DD MMM, YYYY"
+                                selected={values.remindDateForNominator}
+                                onChange={value => setFieldValue('remindDateForNominator', value)}
+                                name="remindDateForNominator"
+                                className={touched.remindDateForNominator && errors.remindDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
+                        </div>
+                        <label className="col-sm-3 control-label required-label">End Date For Committee</label>
+                        <div className="col-sm-3 field">
+                            <DatePicker autoComplete="off"
+                                dateFormat="DD MMM, YYYY"
+                                selected={values.endDateForCommittee}
+                                onChange={value => setFieldValue('endDateForCommittee', value)}
+                                name="endDateForCommittee"
+                                className={touched.endDateForCommittee && errors.endDateForCommittee ? 'form-control input-validation-error' : 'form-control'} />
+                        </div>
+                    </FormGroup>
+                    <FormGroup>
+                        <label className="col-sm-3 control-label">Description</label>
+                        <div className="col-sm-9 field">
+                            <textarea className={touched.description && errors.description ? 'form-control none-resize input-validation-error' : 'form-control none-resize'}
+                                rows="5" maxLength="200"
+                                name="description" value={values.description}
+                                onChange={value => setFieldValue('description', value)} />
+                        </div>
+                    </FormGroup>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button className="btn-cancel" onClick={this.props.closeModal}>Cancel</Button>
+                    <Button type="submit" className="btn btn-primary">Submit</Button>
+                </Modal.Footer>
+            </Form>
+        );
+    }
+
+    render() {
+        const currentYear = new Date().getFullYear();
+        const eoq = {
+            quarter: { value: 1, label: '1st' },
+            year: { value: currentYear, label: currentYear },
+            startDateForNominator: null,
+            endDateForNominator: null,
+            remindDateForNominator: null,
+            endDateForCommittee: null,
+            description: ''
+        };
 
         return (
             <Modal show={this.props.showModal} keyboard={false}
@@ -121,84 +194,11 @@ class CreateEOQ extends Component {
                 <Modal.Header closeButton>
                     <Modal.Title>Create Nomination Period</Modal.Title>
                 </Modal.Header>
-                <Form id="create-eoq-form" horizontal onSubmit={this.handleSubmit}>
-                    <Modal.Body>
-                        <FormGroup>
-                            <label className="col-sm-3 control-label required-label">Quarter</label>
-                            <div className="col-sm-3 field">
-                                <Select name="Quarter"
-                                    value={quarterOptions[0]}
-                                    options={quarterOptions}
-                                    clearable={false}
-                                    searchable={false}
-                                    onChange={this.handleQuarterChange} />
-                            </div>
-                            <label className="col-sm-3 control-label required-label">Year</label>
-                            <div className="col-sm-3 field">
-                                <Select name="Year" autoComplete="off"
-                                    value={yearOptions[0]}
-                                    options={yearOptions}
-                                    clearable={false}
-                                    searchable={false}
-                                    onChange={this.handleYearChange} />
-                            </div>
-                        </FormGroup>
-                        <FormGroup>
-                            <label className="col-sm-3 control-label required-label">Start Date For Nominator</label>
-                            <div className="col-sm-3 field">
-                                <DatePicker autoComplete="off"
-                                    dateFormat="DD MMM, YYYY"
-                                    selected={eoq.startDateForNominator}
-                                    onChange={this.handleStartDateForNominatorChange}
-                                    onChangeRaw={this.onChangeRaw}
-                                    name="startDateForNominator"
-                                    className="form-control" />
-                            </div>
-                            <label className="col-sm-3 control-label required-label">End Date For Nominator</label>
-                            <div className="col-sm-3 field">
-                                <DatePicker autoComplete="off"
-                                    dateFormat="DD MMM, YYYY"
-                                    selected={eoq.endDateForNominator}
-                                    onChange={this.handleEndDateForNominatorChange}
-                                    onChangeRaw={this.onChangeRaw}
-                                    name="endDateForNominator"
-                                    className="form-control" />
-                            </div>
-                        </FormGroup>
-                        <FormGroup>
-                            <label className="col-sm-3 control-label required-label">Remind Date For Nominator</label>
-                            <div className="col-sm-3 field">
-                                <DatePicker autoComplete="off"
-                                    dateFormat="DD MMM, YYYY"
-                                    selected={eoq.remindDateForNominator}
-                                    onChange={this.handleRemindDateForNominatorChange}
-                                    onChangeRaw={this.onChangeRaw}
-                                    name="remindDateForNominator"
-                                    className="form-control" />
-                            </div>
-                            <label className="col-sm-3 control-label required-label">End Date For Committee</label>
-                            <div className="col-sm-3 field">
-                                <DatePicker autoComplete="off"
-                                    dateFormat="DD MMM, YYYY"
-                                    selected={eoq.endDateForCommittee}
-                                    onChange={this.handleEndDateForCommitteeChange}
-                                    onChangeRaw={this.onChangeRaw}
-                                    name="endDateForCommittee"
-                                    className="form-control" />
-                            </div>
-                        </FormGroup>
-                        <FormGroup>
-                            <label className="col-sm-3 control-label">Description</label>
-                            <div className="col-sm-9 field">
-                                <textarea className="form-control comment none-resize" rows="5"></textarea>
-                            </div>
-                        </FormGroup>
-                    </Modal.Body>
-                    <Modal.Footer>
-                        <Button onClick={this.props.closeModal} className="btn-cancel">Cancel</Button>
-                        <Button type="submit" className="btn btn-primary">Submit</Button>
-                    </Modal.Footer>
-                </Form>
+                <Formik
+                    initialValues={eoq}
+                    validate={validateEOQForm}
+                    onSubmit={this.handleSubmit}
+                    render={this.renderForm} />
             </Modal>
         );
     }
