@@ -5,8 +5,11 @@ import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
+import { Formik } from 'formik';
+import { camelCase } from 'lodash';
 
 import commonFunctions from '../../../common-functions';
+import { validateEOYForm } from '../common';
 
 class Settings extends Component {
     constructor(props) {
@@ -20,18 +23,10 @@ class Settings extends Component {
                 endDateForNominator: null,
                 remindDateForNominator: null,
                 endDateForCommittee: null,
-                description: null
+                description: ''
             },
             isHost: document.getElementById('IsHost').checked
         };
-
-        this.handleStartDateForNominatorChange = this.handleStartDateForNominatorChange.bind(this);
-        this.handleEndDateForNominatorChange = this.handleEndDateForNominatorChange.bind(this);
-        this.handleRemindDateForNominatorChange = this.handleRemindDateForNominatorChange.bind(this);
-        this.handleEndDateForCommitteeChange = this.handleEndDateForCommitteeChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.updateEOYValue = this.updateEOYValue.bind(this);
-        this.onChangeRaw = this.onChangeRaw.bind(this);
     }
 
     componentWillMount() {
@@ -59,45 +54,15 @@ class Settings extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
-    handleStartDateForNominatorChange(date) {
-        this.updateEOYValue('startDateForNominator', date);
-    }
-
-    handleEndDateForNominatorChange(date) {
-        this.updateEOYValue('endDateForNominator', date);
-    }
-
-    handleRemindDateForNominatorChange(date) {
-        this.updateEOYValue('remindDateForNominator', date);
-    }
-
-    handleEndDateForCommitteeChange(date) {
-        this.updateEOYValue('endDateForCommittee', date);
-    }
-
-    onChangeRaw(event) {
-        let date = moment(event.target.value);
-        if (date.isValid()) {
-            this.updateEOYValue(event.target.name, date);
-        }
-    }
-
-    updateEOYValue(name, value) {
-        this.setState({ eoy: Object.assign({}, this.state.eoy, { [name]: value }) });
-    }
-
-    handleSubmit(event) {
-        event.preventDefault();
-
+    handleSubmit = (values, { setErrors }) => {
         let eoy = {
             eoyId: this.state.eoy.eoqyId,
-            quarter: this.state.eoy.quarter,
-            year: this.state.eoy.year,
-            startDateForNominator: this.state.eoy.startDateForNominator !== null ? this.state.eoy.startDateForNominator.toDate() : null,
-            endDateForNominator: this.state.eoy.endDateForNominator !== null ? this.state.eoy.endDateForNominator.toDate() : null,
-            remindDateForNominator: this.state.eoy.remindDateForNominator !== null ? this.state.eoy.remindDateForNominator.toDate() : null,
-            endDateForCommittee: this.state.eoy.endDateForCommittee !== null ? this.state.eoy.endDateForCommittee.toDate() : null,
-            description: this.state.eoy.description
+            year: values.year,
+            startDateForNominator: values.startDateForNominator.toDate(),
+            endDateForNominator: values.endDateForNominator.toDate(),
+            remindDateForNominator: values.remindDateForNominator.toDate(),
+            endDateForCommittee: values.endDateForCommittee.toDate(),
+            description: values.description
         };
 
         let formData = commonFunctions.objectToFormData(eoy);
@@ -117,21 +82,51 @@ class Settings extends Component {
             if (data.isSuccessful) {
                 toast.success('Updated successfully!');
             } else {
-                toast.error(data.message);
+                if (data.errors) {
+                    let errors = {};
+                    data.errors.map(error => {
+                        errors[camelCase(error.key)] = error.errorMessage;
+                    });
+
+                    setErrors(errors);
+                } else {
+                    toast.error(data.message);
+                }
             }
         }).catch(commonFunctions.axiosError);
     }
 
-    render() {
+    renderForm = ({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleSubmit,
+        setFieldValue }) => {
         const isHost = this.state.isHost;
-        const eoy = this.state.eoy;
-
         const yearOptions = [
-            { value: eoy.year, label: eoy.year }
+            { value: values.year, label: values.year }
         ];
 
         return (
-            <Form id="edit-eoq-form" horizontal onSubmit={this.handleSubmit}>
+            <Form id="edit-eoy-form" horizontal onSubmit={handleSubmit}>
+                {
+                    ((touched.year && errors.year)
+                        || (touched.startDateForNominator && errors.startDateForNominator)
+                        || (touched.endDateForNominator && errors.endDateForNominator)
+                        || (touched.remindDateForNominator && errors.remindDateForNominator)
+                        || (touched.endDateForCommittee && errors.endDateForCommittee)
+                        || (touched.description && errors.description)) &&
+                    <ul className="list-message-error">
+                        {touched.year && errors.year && <li>{errors.year}</li>}
+                        {touched.startDateForNominator && errors.startDateForNominator && <li>{errors.startDateForNominator}</li>}
+                        {touched.endDateForNominator && errors.endDateForNominator && <li>{errors.endDateForNominator}</li>}
+                        {touched.remindDateForNominator && errors.remindDateForNominator && <li>{errors.remindDateForNominator}</li>}
+                        {touched.endDateForCommittee && errors.endDateForCommittee && <li>{errors.endDateForCommittee}</li>}
+                        {touched.description && errors.description && <li>{errors.description}</li>}
+                    </ul>
+                }
+
                 <FormGroup>
                     <label className="col-sm-2 control-label">Year</label>
                     <div className="col-sm-2 field">
@@ -143,47 +138,50 @@ class Settings extends Component {
                 <FormGroup>
                     <label className="col-sm-2 control-label required-label">Start Date For Nominator</label>
                     <div className="col-sm-2 field">
-                        <DatePicker autoComplete="off"
+                        <DatePicker autoComplete="off" disabled={!isHost}
                             dateFormat="DD MMM, YYYY"
-                            selected={eoy.startDateForNominator}
-                            onChange={this.handleStartDateForNominatorChange}
-                            onChangeRaw={this.onChangeRaw}
-                            name="startDateForNominator" className="form-control" disabled={!isHost} />
+                            selected={values.startDateForNominator}
+                            onChange={value => setFieldValue('startDateForNominator', value)}
+                            name="startDateForNominator"
+                            className={touched.startDateForNominator && errors.startDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Nominator</label>
                     <div className="col-sm-2 field">
-                        <DatePicker autoComplete="off"
+                        <DatePicker autoComplete="off" disabled={!isHost}
                             dateFormat="DD MMM, YYYY"
-                            selected={eoy.endDateForNominator}
-                            onChange={this.handleEndDateForNominatorChange}
-                            onChangeRaw={this.onChangeRaw}
-                            name="endDateForNominator" className="form-control" disabled={!isHost} />
+                            selected={values.endDateForNominator}
+                            onChange={value => setFieldValue('endDateForNominator', value)}
+                            name="endDateForNominator"
+                            className={touched.endDateForNominator && errors.endDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <label className="col-sm-2 control-label required-label">Remind Date For Nominator</label>
                     <div className="col-sm-2 field">
-                        <DatePicker autoComplete="off"
+                        <DatePicker autoComplete="off" disabled={!isHost}
                             dateFormat="DD MMM, YYYY"
-                            selected={eoy.remindDateForNominator}
-                            onChange={this.handleRemindDateForNominatorChange}
-                            onChangeRaw={this.onChangeRaw}
-                            name="remindDateForNominator" className="form-control" disabled={!isHost} />
+                            selected={values.remindDateForNominator}
+                            onChange={value => setFieldValue('remindDateForNominator', value)}
+                            name="remindDateForNominator"
+                            className={touched.remindDateForNominator && errors.remindDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Committee</label>
                     <div className="col-sm-2 field">
-                        <DatePicker autoComplete="off"
+                        <DatePicker autoComplete="off" disabled={!isHost}
                             dateFormat="DD MMM, YYYY"
-                            selected={eoy.endDateForCommittee}
-                            onChange={this.handleEndDateForCommitteeChange}
-                            onChangeRaw={this.onChangeRaw}
-                            name="endDateForCommittee" className="form-control" disabled={!isHost} />
+                            selected={values.endDateForCommittee}
+                            onChange={value => setFieldValue('endDateForCommittee', value)}
+                            name="endDateForCommittee"
+                            className={touched.endDateForCommittee && errors.endDateForCommittee ? 'form-control input-validation-error' : 'form-control'} />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <label className="col-sm-2 control-label">Description</label>
                     <div className="col-sm-6 field">
-                        <textarea className="form-control comment none-resize" rows="3" disabled={isHost ? false : true}></textarea>
+                        <textarea className={touched.description && errors.description ? 'form-control none-resize input-validation-error' : 'form-control none-resize'}
+                            rows="3" maxLength="200"
+                            name="description" value={values.description || ''}
+                            onChange={handleChange} disabled={isHost ? false : true} />
                     </div>
                 </FormGroup>
                 {isHost &&
@@ -195,6 +193,15 @@ class Settings extends Component {
                     </FormGroup>
                 }
             </Form>
+        );
+    }
+
+    render() {
+        return (
+            <Formik enableReinitialize initialValues={this.state.eoy}
+                validate={validateEOYForm}
+                onSubmit={this.handleSubmit}
+                render={this.renderForm} />
         );
     }
 }

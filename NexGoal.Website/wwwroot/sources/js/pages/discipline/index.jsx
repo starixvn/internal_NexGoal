@@ -223,7 +223,9 @@ export default class DisciplineManagement extends Component {
                                 <label className="control-label">Team</label>
                                 <div className="control-content">
                                     {this.state.groups.length > 0 &&
-                                        <Multiselect value={this.state.filter.groupIds} simpleValue={true} valueKey="groupId" labelKey="name" options={this.state.groups} onChange={this.onFilterGroupChange}
+                                        <Multiselect value={this.state.filter.groupIds} simpleValue={true} valueKey="groupId" labelKey="name"
+                                            options={this.state.groups}
+                                            onChange={this.onFilterGroupChange}
                                             removeSelected={false} closeOnSelect={false} />
                                     }
                                 </div>
@@ -231,7 +233,10 @@ export default class DisciplineManagement extends Component {
                             <div className="col">
                                 <label className="control-label">Employee</label>
                                 <div className="control-content">
-                                    <Async valueKey="employeeId" labelKey="name" autoload={false} value={this.state.filter.employee} name="employee" onChange={this.onFilterEmployeeChange} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
+                                    <Async valueKey="employeeId" labelKey="name" autoload={false} value={this.state.filter.employee}
+                                        name="employee" onChange={this.onFilterEmployeeChange}
+                                        loadOptions={this.searchEmployees}
+                                        placeholder="-- Search an employee --" />
                                 </div>
                             </div>
                             <div className="col">

@@ -28,9 +28,6 @@ class Settings extends Component {
             },
             isHost: document.getElementById('IsHost').checked
         };
-
-        this.handleSubmit = this.handleSubmit.bind(this);
-        this.renderForm = this.renderForm.bind(this);
     }
 
     componentWillMount() {
@@ -58,7 +55,7 @@ class Settings extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
-    handleSubmit = (values, { setSubmitting, setErrors }) => {
+    handleSubmit = (values, { setErrors }) => {
         let eoq = {
             eoqId: this.state.eoq.eoqyId,
             quarter: values.quarter,
@@ -97,8 +94,6 @@ class Settings extends Component {
                 } else {
                     toast.error(data.message);
                 }
-
-                setSubmitting(false);
             }
         }).catch(commonFunctions.axiosError);
     }
@@ -109,8 +104,7 @@ class Settings extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        isSubmitting }) => {
+        setFieldValue }) => {
         const isHost = this.state.isHost;
         const quarterSelected = quarterOptions.find((option) => { return option.value === values.quarter; });
         const yearOptions = [
@@ -196,15 +190,15 @@ class Settings extends Component {
                     <div className="col-sm-6 field">
                         <textarea className={touched.description && errors.description ? 'form-control none-resize input-validation-error' : 'form-control none-resize'}
                             rows="3" maxLength="200"
-                            name="description" value={values.description}
-                            onChange={value => setFieldValue('description', value)} disabled={isHost ? false : true} />
+                            name="description" value={values.description || ''}
+                            onChange={handleChange} disabled={isHost ? false : true} />
                     </div>
                 </FormGroup>
                 {isHost &&
                     <FormGroup>
                         <label className="col-sm-2 control-label"></label>
                         <div className="col-sm-6 field">
-                            <Button type="submit" className="btn btn-primary" disabled={isSubmitting}>Submit</Button>
+                            <Button type="submit" className="btn btn-primary">Submit</Button>
                         </div>
                     </FormGroup>
                 }
@@ -214,7 +208,7 @@ class Settings extends Component {
 
     render() {
         return (
-            <Formik initialValues={this.state.eoq}
+            <Formik enableReinitialize initialValues={this.state.eoq}
                 validate={validateEOQForm}
                 onSubmit={this.handleSubmit}
                 render={this.renderForm} />

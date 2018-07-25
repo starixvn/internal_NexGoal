@@ -26,10 +26,21 @@
         }
     }
 
-    .Select-multi-value-wrapper {
-        span {
-            &:not(:first-child) {
-                display: none;
+    &.Select--multi {
+        .Select-multi-value-wrapper {
+            span {
+                padding-left: 5px;
+                vertical-align: middle;
+
+                &:not(:first-child) {
+                    display: none;
+                }
+            }
+        }
+
+        .Select-clear-zone {
+            span {
+                vertical-align: middle;
             }
         }
     }

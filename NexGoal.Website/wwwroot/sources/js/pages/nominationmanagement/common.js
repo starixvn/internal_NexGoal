@@ -38,6 +38,32 @@ export function renderStatusOption(option) {
     return (<span className={cssClass}>{option.label}</span>);
 }
 
+export function validateEOYForm(values) {
+    let errors = {};
+
+    if (!values.year) {
+        errors.year = 'Year is required!';
+    }
+
+    if (!values.startDateForNominator) {
+        errors.startDateForNominator = 'Start Date For Nominator is required!';
+    }
+
+    if (!values.endDateForNominator) {
+        errors.endDateForNominator = 'End Date For Nominator is required!';
+    }
+
+    if (!values.remindDateForNominator) {
+        errors.remindDateForNominator = 'Remind Date For Nominator is required!';
+    }
+
+    if (!values.endDateForCommittee) {
+        errors.endDateForCommittee = 'End Date For Committee is required!';
+    }
+
+    return errors;
+}
+
 export function validateEOQForm(values) {
     let errors = {};
 

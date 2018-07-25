@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
+import MultiSelect from '../../../../shared/components/MultiSelect';
 
 import { nominationRoleOptions } from '../../common';
 
@@ -20,8 +21,8 @@ class Filter extends Component {
         this.props.handleFilterChange(this.props.filter);
     }
 
-    handleGroupChange(event) {
-        this.props.filter.groupIds = event.target.value;
+    handleGroupChange(selectedOptions) {
+        this.props.filter.groupIds = selectedOptions;
         this.props.handleFilterChange(this.props.filter);
     }
 
@@ -58,10 +59,10 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Team</ControlLabel>
                         <div className="control-content">
-                            <select className="form-control" name="GroupIds" value={filter.groupId}
-                                onChange={this.handleGroupChange}>
-                                <option value="">-- All --</option>
-                            </select>
+                            <MultiSelect value={filter.groupIds} simpleValue={true} valueKey="groupId" labelKey="name"
+                                options={this.props.groups}
+                                onChange={this.handleGroupChange}
+                                removeSelected={false} closeOnSelect={false} />
                         </div>
                     </div>
                     <div className="col">

@@ -16,7 +16,7 @@ class CreateEOQ extends Component {
         super(props);
     }
 
-    handleSubmit = (values, { setSubmitting, setErrors }) => {
+    handleSubmit = (values, { setErrors }) => {
         let eoq = {
             quarter: values.quarter,
             year: values.year,
@@ -57,8 +57,6 @@ class CreateEOQ extends Component {
                 } else {
                     toast.error(data.message);
                 }
-
-                setSubmitting(false);
             }
         }).catch(commonFunctions.axiosError);
     }
@@ -69,8 +67,7 @@ class CreateEOQ extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        isSubmitting }) => {
+        setFieldValue }) => {
         const currentYear = new Date().getFullYear();
         const yearOptions = [
             { value: currentYear, label: currentYear },
@@ -164,7 +161,7 @@ class CreateEOQ extends Component {
                             <textarea className={touched.description && errors.description ? 'form-control none-resize input-validation-error' : 'form-control none-resize'}
                                 rows="5" maxLength="200"
                                 name="description" value={values.description}
-                                onChange={value => setFieldValue('description', value)} />
+                                onChange={handleChange} />
                         </div>
                     </FormGroup>
                 </Modal.Body>

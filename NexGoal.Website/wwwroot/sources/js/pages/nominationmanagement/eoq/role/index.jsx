@@ -14,10 +14,11 @@ export default class RoleManagement extends Component {
             eoqId: document.getElementById('EOQId').value,
             filter: {
                 keyword: '',
-                groupId: '',
+                groupIds: '',
                 roleId: '',
                 isShowAll: false
             },
+            groups: [],
             nominators: [],
             resetDataTable: false,
             isHost: document.getElementById('IsHost').checked
@@ -29,18 +30,31 @@ export default class RoleManagement extends Component {
     }
 
     componentWillMount() {
+        this.getGroups();
         this.getNominatorSetting();
+    }
+
+    getGroups() {
+        axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
+            .then(response => {
+                const data = response.data;
+
+                this.setState({
+                    groups: data,
+                    filter: Object.assign({}, this.state.filter, { groupIds: data.map(g => g.groupId).toString() })
+                });
+            }).catch(commonFunctions.axiosError);
     }
 
     getNominatorSetting() {
         axios.get(commonFunctions.getRootUrl()
             + `EOQ/GetNominatorSetting?eoqId=${this.state.eoqId}`
             + `&keyword=${this.state.filter.keyword}`
-            + `&groupIds=${this.state.filter.groupId}`
+            + `&groupIds=${this.state.filter.groupIds}`
             + `&roleId=${this.state.filter.roleId}`
             + `&isShowAll=${this.state.filter.isShowAll}`)
             .then(response => {
-                let data = response.data;
+                const data = response.data;
                 data.map((e, index) => e.rowNum = index + 1);
 
                 this.setState({ nominators: data });
@@ -91,6 +105,7 @@ export default class RoleManagement extends Component {
         return (
             <Fragment>
                 <Filter filter={this.state.filter}
+                    groups={this.state.groups}
                     handleFilterChange={this.handleFilterChange}
                     handleFilterSubmit={this.handleSubmit} />
 

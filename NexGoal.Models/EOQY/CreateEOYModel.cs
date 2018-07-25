@@ -13,19 +13,19 @@
         [StringLength(200, ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.StringMaxLengthErrorMessage))]
         public string Description { get; set; }
 
-        [Display(ResourceType = typeof(ViewLang), Name = nameof(ViewLang.StartDateForNominator))]
+        [Display(Name = "Start Date For Nominator")]
         public DateTime StartDateForNominator { get; set; }
 
-        [Display(ResourceType = typeof(ViewLang), Name = nameof(ViewLang.EndDateForNominator))]
+        [Display(Name = "End Date For Nominator")]
         [GenericCompare(CompareToPropertyName = "StartDateForNominator", Operator = GenericCompareOperator.GreaterThan)]
         public DateTime EndDateForNominator { get; set; }
 
-        [Display(ResourceType = typeof(ViewLang), Name = nameof(ViewLang.RemindDateForNominator))]
+        [Display(Name = "Remind Date For Nominator")]
         [GenericCompare(CompareToPropertyName = "StartDateForNominator", Operator = GenericCompareOperator.GreaterThanOrEqual)]
         [GenericCompare(CompareToPropertyName = "EndDateForNominator", Operator = GenericCompareOperator.LessThanOrEqual)]
         public DateTime RemindDateForNominator { get; set; }
 
-        [Display(ResourceType = typeof(ViewLang), Name = nameof(ViewLang.EndDateForCommittee))]
+        [Display(Name = "End Date For Committee")]
         [GenericCompare(CompareToPropertyName = "EndDateForNominator", Operator = GenericCompareOperator.GreaterThan)]
         public DateTime EndDateForCommittee { get; set; }
     }
