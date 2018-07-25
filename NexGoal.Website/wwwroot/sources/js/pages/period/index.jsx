@@ -5,6 +5,7 @@ import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import SearchForm from './SearchForm'
+import Table from './Table'
 
 export default class EvaluationPeriod extends Component {
     constructor(props) {
@@ -12,28 +13,41 @@ export default class EvaluationPeriod extends Component {
 
         this.state = {
             filter: {
-                typeId: '',
+                targetTypeId: '',
                 isActive: ''
             },
-            data: []
+            data: [],
+            targetTypes: []
         };
     }
 
-    canEdit = document.getElementById('CanEdit').value === 'True'
+    componentDidMount() {
+        this.getPeriods();
+        this.getTargetTypes();
+    }
+
+    hasHostPermission = document.getElementById('has-host-permission').value === 'True'
 
     updateFilterValue = (name, value) => {
         var filter = { [name]: value };
         this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
-    handleTypeIdChange = value => this.updateFilterValue('typeId', value)
+    handleTypeIdChange = value => this.updateFilterValue('targetTypeId', value)
 
     handleStatusChange = value => this.updateFilterValue('isActive', value)
+
+    getTargetTypes = () => {
+        axios.get('/Period/GetTargetTypes')
+            .then(response => {
+                this.setState({ targetTypes: response.data });
+            }).catch(commonFunctions.axiosError);
+    }
 
     getPeriods = () => {
         axios.get('/Period/GetPeriods', {
             params: {
-                typeId: this.state.filter.typeId,
+                targetTypeId: this.state.filter.targetTypeId,
                 isActive: this.state.filter.isActive
             }
         }).then(response => {
@@ -49,7 +63,8 @@ export default class EvaluationPeriod extends Component {
                     <li className="current">Evaluation Period Management</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <SearchForm typeId={this.state.typeId} isActive={this.state.isActive} onTypeIdChange={this.handleTypeIdChange} onStatusChange={this.handleStatusChange} />
+                    <SearchForm targetTypeId={this.state.targetTypeId} isActive={this.state.isActive} targetTypes={this.state.targetTypes} onTypeIdChange={this.handleTypeIdChange} onStatusChange={this.handleStatusChange} />
+                    <Table data={this.state.data} hasHostPermission={this.hasHostPermission} />
                 </div>
                 <ToastLayout />
             </div>
