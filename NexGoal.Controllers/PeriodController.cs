@@ -1,15 +1,15 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.Periods;
+    using NexGoal.Criteria;
+    using NexGoal.Models;
     using NexGoal.Models.Period;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Read)]
@@ -37,9 +37,9 @@
 
         public async Task<IActionResult> GetTargetTypes()
         {
-            var types = await baseService.GetDataAsync<TargetTypeModel>(new GetTargetTypesCriteria()).ConfigureAwait(false);
+            var types = await baseService.GetDataAsync<ReferenceResourceModel>(new GetRefResourceByNamesCriteria { RefNames = ReferenceResource.PeriodTarget, IsActive = true }).ConfigureAwait(false);
 
-            return Json(types);
+            return Json(types.Select(x => new TargetTypeModel { TargetTypeId = x.ResourceId, Name = x.Value }));
         }
     }
 }
