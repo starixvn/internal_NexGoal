@@ -6,7 +6,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { Formik } from 'formik';
-import { camelCase } from 'lodash';
+import { camelCase, isEmpty } from 'lodash';
 
 import commonFunctions from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
@@ -114,12 +114,7 @@ class Settings extends Component {
         return (
             <Form id="edit-eoq-form" horizontal onSubmit={handleSubmit}>
                 {
-                    ((touched.quarter && errors.quarter) || (touched.year && errors.year)
-                        || (touched.startDateForNominator && errors.startDateForNominator)
-                        || (touched.endDateForNominator && errors.endDateForNominator)
-                        || (touched.remindDateForNominator && errors.remindDateForNominator)
-                        || (touched.endDateForCommittee && errors.endDateForCommittee)
-                        || (touched.description && errors.description)) &&
+                    !isEmpty(errors) &&
                     <ul className="list-message-error">
                         {touched.quarter && errors.quarter && <li>{errors.quarter}</li>}
                         {touched.year && errors.year && <li>{errors.year}</li>}
@@ -153,7 +148,7 @@ class Settings extends Component {
                             selected={values.startDateForNominator}
                             onChange={value => setFieldValue('startDateForNominator', value)}
                             name="startDateForNominator"
-                            className={touched.startDateForNominator && errors.startDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
+                            className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`} />
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Nominator</label>
                     <div className="col-sm-2 field">
@@ -162,7 +157,7 @@ class Settings extends Component {
                             selected={values.endDateForNominator}
                             onChange={value => setFieldValue('endDateForNominator', value)}
                             name="endDateForNominator"
-                            className={touched.endDateForNominator && errors.endDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
+                            className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`} />
                     </div>
                 </FormGroup>
                 <FormGroup>
@@ -173,7 +168,7 @@ class Settings extends Component {
                             selected={values.remindDateForNominator}
                             onChange={value => setFieldValue('remindDateForNominator', value)}
                             name="remindDateForNominator"
-                            className={touched.remindDateForNominator && errors.remindDateForNominator ? 'form-control input-validation-error' : 'form-control'} />
+                            className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`} />
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Committee</label>
                     <div className="col-sm-2 field">
@@ -182,13 +177,13 @@ class Settings extends Component {
                             selected={values.endDateForCommittee}
                             onChange={value => setFieldValue('endDateForCommittee', value)}
                             name="endDateForCommittee"
-                            className={touched.endDateForCommittee && errors.endDateForCommittee ? 'form-control input-validation-error' : 'form-control'} />
+                            className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`} />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <label className="col-sm-2 control-label">Description</label>
                     <div className="col-sm-6 field">
-                        <textarea className={touched.description && errors.description ? 'form-control none-resize input-validation-error' : 'form-control none-resize'}
+                        <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                             rows="3" maxLength="200"
                             name="description" value={values.description || ''}
                             onChange={handleChange} disabled={isHost ? false : true} />
