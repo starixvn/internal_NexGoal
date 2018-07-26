@@ -77,7 +77,7 @@ class CreateEOY extends Component {
             <Form id="create-eoy-form" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     {
-                        !isEmpty(errors) &&
+                        !isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
                             {touched.year && errors.year && <li>{errors.year}</li>}
                             {touched.startDateForNominator && errors.startDateForNominator && <li>{errors.startDateForNominator}</li>}

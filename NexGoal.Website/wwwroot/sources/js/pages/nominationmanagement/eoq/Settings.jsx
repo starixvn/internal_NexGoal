@@ -114,7 +114,7 @@ class Settings extends Component {
         return (
             <Form id="edit-eoq-form" horizontal onSubmit={handleSubmit}>
                 {
-                    !isEmpty(errors) &&
+                    !isEmpty(errors) && !isEmpty(touched) &&
                     <ul className="list-message-error">
                         {touched.quarter && errors.quarter && <li>{errors.quarter}</li>}
                         {touched.year && errors.year && <li>{errors.year}</li>}

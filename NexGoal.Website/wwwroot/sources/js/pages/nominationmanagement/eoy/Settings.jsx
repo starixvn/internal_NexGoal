@@ -111,7 +111,7 @@ class Settings extends Component {
         return (
             <Form id="edit-eoy-form" horizontal onSubmit={handleSubmit}>
                 {
-                    !isEmpty(errors) &&
+                    !isEmpty(errors) && !isEmpty(touched) &&
                     <ul className="list-message-error">
                         {touched.year && errors.year && <li>{errors.year}</li>}
                         {touched.startDateForNominator && errors.startDateForNominator && <li>{errors.startDateForNominator}</li>}

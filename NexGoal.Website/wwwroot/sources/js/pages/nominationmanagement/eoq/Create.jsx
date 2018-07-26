@@ -78,7 +78,7 @@ class CreateEOQ extends Component {
             <Form id="create-eoq-form" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     {
-                        !isEmpty(errors) &&
+                        !isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
                             {touched.quarter && errors.quarter && <li>{errors.quarter}</li>}
                             {touched.year && errors.year && <li>{errors.year}</li>}
