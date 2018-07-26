@@ -4,10 +4,15 @@ import axios from 'axios';
 import commonFunctions from '../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
+import CreatePeriod from './CreatePeriod';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showModal: false
+        }
 
         this.tableRef = React.createRef();
     }
@@ -78,13 +83,17 @@ export default class Table extends Component {
             }
         }];
 
+    showModal = () => this.setState({ showModal: true })
+
+    closeModal = () => this.setState({ showModal: false })
+
     render() {
         return (
             <Fragment>
                 <div className="search-wrapper clearfix" >
                     <div className="pull-left">
                         {this.props.hasHostPermission &&
-                            <button className="btn btn-primary" onClick={this.addPeriod}><i className="fa fa-plus"></i> Add Evaluation Period</button>
+                            <button className="btn btn-primary" onClick={this.showModal}><i className="fa fa-plus"></i> Create Evaluation Period</button>
                         }
                     </div>
                     <div className="search pull-right">
@@ -93,6 +102,7 @@ export default class Table extends Component {
                     </div>
                 </div>
                 <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='periodId' data={this.props.data} columns={this.columns} />
+                <CreatePeriod showModal={this.state.showModal} closeModal={this.closeModal} targetTypes={this.props.targetTypes} />
             </Fragment>
         );
     }
