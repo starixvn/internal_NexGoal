@@ -64,7 +64,7 @@ export default class EvaluationPeriod extends Component {
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <SearchForm targetTypeId={this.state.targetTypeId} isActive={this.state.isActive} targetTypes={this.state.targetTypes} onTypeIdChange={this.handleTypeIdChange} onStatusChange={this.handleStatusChange} />
-                    <Table data={this.state.data} hasHostPermission={this.hasHostPermission} targetTypes={this.state.targetTypes} />
+                    <Table data={this.state.data} hasHostPermission={this.hasHostPermission} targetTypes={this.state.targetTypes} updateData={this.getPeriods} />
                 </div>
                 <ToastLayout />
             </div>

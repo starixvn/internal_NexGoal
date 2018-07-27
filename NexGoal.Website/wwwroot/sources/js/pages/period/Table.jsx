@@ -1,6 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import moment from 'moment';
 import commonFunctions from '../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -30,16 +31,24 @@ export default class Table extends Component {
             text: 'Name'
         },
         {
-            dataField: 'type',
+            dataField: 'targetType',
             text: 'Type'
         },
         {
             dataField: 'startDate',
             text: 'Start Date',
+            classes: 'text-center',
+            formatter: (cell, row, rowIndex, colIndex) => {
+                return row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : '';
+            }
         },
         {
             dataField: 'endDate',
-            text: 'End Date'
+            text: 'End Date',
+            classes: 'text-center',
+            formatter: (cell, row, rowIndex, colIndex) => {
+                return row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : '';
+            }
         },
         {
             dataField: '123',
@@ -49,9 +58,6 @@ export default class Table extends Component {
             dataField: '456',
             text: 'Unfinished PA',
             classes: 'text-center',
-            formatter: (cell, row, rowIndex, colIndex) => {
-                return `${row.creatorFullName} (${row.creatorNickName})`;
-            }
         },
         {
             dataField: 'isActive',
@@ -74,7 +80,7 @@ export default class Table extends Component {
                     return (
                         <Fragment>
                             <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)}></a>
-                            <a className="fa fa-trash" title="Delete" onClick={() => this.props.editDiscipline(row)}></a>
+                            <a className="fa fa-trash-o text-danger" title="Delete" onClick={() => this.props.editDiscipline(row)}></a>
                         </Fragment>
                     );
                 }
@@ -102,7 +108,7 @@ export default class Table extends Component {
                     </div>
                 </div>
                 <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='periodId' data={this.props.data} columns={this.columns} />
-                <CreatePeriod showModal={this.state.showModal} closeModal={this.closeModal} targetTypes={this.props.targetTypes} />
+                <CreatePeriod showModal={this.state.showModal} closeModal={this.closeModal} targetTypes={this.props.targetTypes} onCreateSuccess={this.props.updateData} />
             </Fragment>
         );
     }

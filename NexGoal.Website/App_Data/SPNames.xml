@@ -49,6 +49,7 @@
     <Setting Key="Discipline_Update" SpName="Discipline_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Period">
-    <Setting Key="TargetType_Get" SpName="TargetType_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_Get" SpName="Period_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_Insert" SpName="Period_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

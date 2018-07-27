@@ -36,7 +36,7 @@ export default class AddEditDiscipline extends Component {
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
         axios({
-            url: `/discipline/${values.disciplineId === 0 ? 'add' : 'edit'}`,
+            url: `/discipline/${values.disciplineId === 0 ? 'create' : 'edit'}`,
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,

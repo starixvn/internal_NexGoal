@@ -65,7 +65,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Add(AddDisciplineViewModel model)
+        public async Task<IActionResult> Create(AddDisciplineViewModel model)
         {
             if (ModelState.IsValid)
             {

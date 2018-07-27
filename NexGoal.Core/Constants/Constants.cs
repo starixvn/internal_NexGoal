@@ -3,4 +3,11 @@
     public static class Constants
     {
     }
+
+    public static class PeriodTarget
+    {
+        public const int Probation = 1;
+
+        public const int SemiAnual = 2;
+    }
 }
