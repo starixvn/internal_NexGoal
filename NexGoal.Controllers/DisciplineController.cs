@@ -8,19 +8,19 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.Discipline;
     using NexGoal.Models.Discipline;
+    using NexGoal.Services;
     using NexGoal.ViewModels.Discipline;
 
     [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Read)]
     public class DisciplineController : Controller
     {
-        private readonly IBaseService baseService;
+        private readonly IDisciplineService disciplineService;
         private readonly ISessionService sessionService;
 
-        public DisciplineController(IBaseService baseService, ISessionService sessionService)
+        public DisciplineController(IDisciplineService disciplineService, ISessionService sessionService)
         {
-            this.baseService = baseService;
+            this.disciplineService = disciplineService;
             this.sessionService = sessionService;
         }
 
@@ -33,32 +33,16 @@
         [HttpGet]
         public async Task<IActionResult> GetDisciplines(DateTime from, DateTime to, bool? isActive, string groupIds, int? employeeId)
         {
-            var criteria = new GetDisciplinesCriteria
-            {
-                FromDate = from,
-                ToDate = to,
-                IsActive = isActive,
-                GroupIds = groupIds,
-                EmployeeId = employeeId
-            };
+            var disciplines = await disciplineService.GetDisciplines(from, to, isActive, groupIds, employeeId).ConfigureAwait(false);
 
-            var result = await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
-
-            return Ok(result);
+            return Ok(disciplines);
         }
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
         public async Task<IActionResult> EditStatus(int disciplineId, bool isActive)
         {
-            var criteria = new UpdateDisciplineStatusCriteria
-            {
-                DisciplineId = disciplineId,
-                IsActive = isActive,
-                ModifiedBy = sessionService.EmployeeId
-            };
-
-            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            var result = await disciplineService.EditStatus(disciplineId, isActive, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }
@@ -69,15 +53,13 @@
         {
             if (ModelState.IsValid)
             {
-                var criteria = new AddDisciplineCriteria
+                var result = await disciplineService.Create(new AddDisciplineModel
                 {
                     EmployeeId = model.EmployeeId,
+                    Content = model.Content,
                     EffectiveDate = model.EffectiveDate,
-                    Description = model.Content,
                     CreatedBy = sessionService.EmployeeId
-                };
-
-                var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                }).ConfigureAwait(false);
 
                 return Json(result);
             }
@@ -94,15 +76,13 @@
         {
             if (ModelState.IsValid)
             {
-                var criteria = new UpdateDisciplineCriteria
+                var result = await disciplineService.Edit(new EditDisciplineModel
                 {
                     DisciplineId = model.DisciplineId,
                     EffectiveDate = model.EffectiveDate,
-                    Description = model.Content,
+                    Content = model.Content,
                     ModifiedBy = sessionService.EmployeeId
-                };
-
-                var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                }).ConfigureAwait(false);
 
                 return Json(result);
             }

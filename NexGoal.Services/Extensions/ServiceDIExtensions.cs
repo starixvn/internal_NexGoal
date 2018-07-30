@@ -10,6 +10,8 @@
             services.AddTransient<IFunctionService, FunctionService>();
             services.AddTransient<IEOQService, EOQService>();
             services.AddTransient<IEOYService, EOYService>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IDisciplineService, DisciplineService>();
         }
     }
 }

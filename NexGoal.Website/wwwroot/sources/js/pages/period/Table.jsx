@@ -80,7 +80,7 @@ export default class Table extends Component {
                     return (
                         <Fragment>
                             <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)}></a>
-                            <a className="fa fa-trash-o text-danger" title="Delete" onClick={() => this.props.editDiscipline(row)}></a>
+                            <a className="fa fa-trash-o remove" title="Delete" onClick={() => this.props.editDiscipline(row)}></a>
                         </Fragment>
                     );
                 }

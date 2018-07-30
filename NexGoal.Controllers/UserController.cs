@@ -6,19 +6,19 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.UserManagement;
     using NexGoal.Models.UserManagement;
+    using NexGoal.Services;
     using NexGoal.ViewModels.UserManagement;
 
     [NexGoalPermission(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Read)]
     public class UserController : Controller
     {
-        private readonly IBaseService baseService;
+        private readonly IUserService userService;
         private readonly ISessionService sessionService;
 
-        public UserController(IBaseService baseService, ISessionService sessionService)
+        public UserController(IUserService userService, ISessionService sessionService)
         {
-            this.baseService = baseService;
+            this.userService = userService;
             this.sessionService = sessionService;
         }
 
@@ -34,39 +34,30 @@
 
         public async Task<IActionResult> GetUsers(string keyword, int? groupId, bool? isLocal, bool isDisabledUser)
         {
-            var results = await baseService.GetDataAsync<UserModel>(new GetUsersCriteria
-            {
-                Keyword = keyword,
-                GroupId = groupId,
-                IsLocal = isLocal,
-                IsDisabledUser = isDisabledUser
-            }).ConfigureAwait(false);
+            var users = await userService.GetUsers(keyword, groupId, isLocal, isDisabledUser).ConfigureAwait(false);
 
-            return Ok(results);
+            return Ok(users);
         }
 
         public async Task<IActionResult> GetUser(int employeeId)
         {
-            var result = await baseService.GetDataEntityAsync<UserModel>(new GetUserCriteria
-            {
-                EmployeeId = employeeId
-            }).ConfigureAwait(false);
+            var user = await userService.GetUser(employeeId).ConfigureAwait(false);
 
-            return Ok(result);
+            return Ok(user);
         }
 
         public async Task<IActionResult> GetRolesForUser(int employeeId)
         {
-            var results = await baseService.GetDataAsync<UserRoleModel>(new GetRolesForUserCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+            var userRoles = await userService.GetRolesForUser(employeeId).ConfigureAwait(false);
 
-            return Ok(results);
+            return Ok(userRoles);
         }
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.UserManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> EditUserRoles(EditUserRolesModel model)
+        public async Task<IActionResult> EditUserRoles(EditUserRolesViewModel model)
         {
-            var result = await baseService.ExecuteNonQueryAsync(new EditUserRolesCriteria
+            var result = await userService.EditUserRoles(new EditUserRolesModel
             {
                 EmployeeId = model.EmployeeId,
                 SelectedRoleIds = model.SelectedRoleIds,

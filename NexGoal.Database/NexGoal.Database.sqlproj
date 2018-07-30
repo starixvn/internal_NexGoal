@@ -57,5 +57,65 @@
   <Import Condition="'$(SQLDBExtensionsRefPath)' == ''" Project="$(MSBuildExtensionsPath)\Microsoft\VisualStudio\v$(VisualStudioVersion)\SSDT\Microsoft.Data.Tools.Schema.SqlTasks.targets" />
   <ItemGroup>
     <Folder Include="Properties" />
+    <Folder Include="dbo\" />
+    <Folder Include="dbo\Tables\" />
+    <Folder Include="dbo\Views\" />
+    <Folder Include="Storage\" />
+    <Folder Include="dbo\Functions\" />
+    <Folder Include="dbo\Stored Procedures\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\RoleFunction.sql" />
+    <Build Include="dbo\Tables\RefResource.sql" />
+    <Build Include="dbo\Tables\Period.sql" />
+    <Build Include="dbo\Tables\Menu.sql" />
+    <Build Include="dbo\Tables\LogDetail.sql" />
+    <Build Include="dbo\Tables\LogActionType.sql" />
+    <Build Include="dbo\Tables\LogAction.sql" />
+    <Build Include="dbo\Tables\Function.sql" />
+    <Build Include="dbo\Tables\EOQYNominatorSetting.sql" />
+    <Build Include="dbo\Tables\EOQY.sql" />
+    <Build Include="dbo\Tables\EmployeeRole.sql" />
+    <Build Include="dbo\Tables\Discipline.sql" />
+    <Build Include="dbo\Views\JobTitle.sql" />
+    <Build Include="dbo\Views\Group.sql" />
+    <Build Include="dbo\Views\Employee.sql" />
+    <Build Include="Storage\NexGoal_Data.sql" />
+    <Build Include="dbo\Functions\func_SplitString.sql" />
+    <Build Include="dbo\Stored Procedures\User_Search.sql" />
+    <Build Include="dbo\Stored Procedures\User_GetRolesForUser.sql" />
+    <Build Include="dbo\Stored Procedures\User_GetGroups.sql" />
+    <Build Include="dbo\Stored Procedures\User_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\User_Get.sql" />
+    <Build Include="dbo\Stored Procedures\User_EditRoles.sql" />
+    <Build Include="dbo\Stored Procedures\Role_AssignFunction.sql" />
+    <Build Include="dbo\Stored Procedures\RefResource_GetByNames.sql" />
+    <Build Include="dbo\Stored Procedures\Period_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Period_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Menu_GetByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\LogDetail_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Function_GetByRoleId.sql" />
+    <Build Include="dbo\Stored Procedures\Function_GetByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\Function_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_UpdateNominatorSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_GetNominatorSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_UpdateNominatorSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_GetYear.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_GetNominatorSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetByDomainUsername.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_Update.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_Get.sql" />
   </ItemGroup>
 </Project>
