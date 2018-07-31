@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+
 import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -38,14 +39,14 @@ export default class EvaluationPeriod extends Component {
     handleStatusChange = value => this.updateFilterValue('isActive', value)
 
     getTargetTypes = () => {
-        axios.get('/Period/GetTargetTypes')
+        axios.get(commonFunctions.getRootUrl() + 'Common/GetTargetTypes')
             .then(response => {
                 this.setState({ targetTypes: response.data });
             }).catch(commonFunctions.axiosError);
     }
 
     getPeriods = () => {
-        axios.get('/Period/GetPeriods', {
+        axios.get(commonFunctions.getRootUrl() + 'Period/GetPeriods', {
             params: {
                 targetTypeId: this.state.filter.targetTypeId,
                 isActive: this.state.filter.isActive

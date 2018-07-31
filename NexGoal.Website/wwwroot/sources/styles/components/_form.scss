@@ -18,3 +18,9 @@ form {
     content: "*";
     padding-left: 5px;
 }
+
+textarea {
+    &.none-resize {
+        resize: none;
+    }
+}

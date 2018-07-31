@@ -168,4 +168,7 @@
   <data name="UserManagement" xml:space="preserve">
     <value>User Management</value>
   </data>
+  <data name="EvaluationFlow" xml:space="preserve">
+    <value>Evaluation Flow</value>
+  </data>
 </root>

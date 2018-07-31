@@ -86,6 +86,9 @@
     <Content Update="Views\EOY\Edit.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Flow\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\NominationManagement\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

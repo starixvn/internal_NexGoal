@@ -42,4 +42,26 @@
             }
         }
     }
+
+    .empty-result {
+        text-align: center;
+        color: red;
+    }
+
+    tr.header-control {
+        th {
+            background: #eaeaea;
+            color: #333;
+        }
+
+        .btn {
+            height: 26px;
+            line-height: 26px;
+
+            .fa {
+                font-size: 14px;
+                margin-right: 5px;
+            }
+        }
+    }
 }

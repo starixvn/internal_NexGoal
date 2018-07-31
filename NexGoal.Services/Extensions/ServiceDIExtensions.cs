@@ -12,6 +12,7 @@
             services.AddTransient<IEOYService, EOYService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDisciplineService, DisciplineService>();
+            services.AddScoped<IFlowTemplateService, FlowTemplateService>();
         }
     }
 }

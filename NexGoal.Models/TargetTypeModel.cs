@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Models.Period
+﻿namespace NexGoal.Models
 {
     public class TargetTypeModel
     {

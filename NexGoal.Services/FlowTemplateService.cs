@@ -6,7 +6,7 @@
     using NexGoal.Criteria.FlowTemplate;
     using NexGoal.Models.FlowTemplate;
 
-    public class FlowTemplateService
+    public class FlowTemplateService : IFlowTemplateService
     {
         private readonly IBaseService baseService;
 
