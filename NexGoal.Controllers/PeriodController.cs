@@ -82,5 +82,14 @@
 
             return Json(result);
         }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> Delete(int periodId)
+        {
+            var result = await periodService.Delete(periodId, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

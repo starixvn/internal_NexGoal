@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
+    using NexGoal.Models;
     using NexGoal.Models.Period;
 
     public interface IPeriodService
@@ -14,5 +15,7 @@
         Task<CommandResult> Create(CreatePeriodModel model);
 
         Task<CommandResult> EditStatus(int periodId, bool isActive, int modifiedBy);
+
+        Task<CommandResult> Delete(int periodId, int modifiedBy);
     }
 }

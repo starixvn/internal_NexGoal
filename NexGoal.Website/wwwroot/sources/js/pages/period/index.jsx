@@ -43,7 +43,13 @@ export default class EvaluationPeriod extends Component {
         this.getPeriods();
     }
 
-    onUpdateStatus = (periodId, isActive) => {
+    handleDeletePeriod = (periodId) => {
+        var data = this.state.data.slice();
+        data = data.filter(e => e.periodId !== periodId);
+        this.setState({ data: data });
+    }
+
+    handleUpdateStatus = (periodId, isActive) => {
         var data = this.state.data.slice();
         var period = data.find(e => e.periodId === periodId);
         period.isActive = isActive;
@@ -79,7 +85,7 @@ export default class EvaluationPeriod extends Component {
                     <SearchForm targetTypeId={this.state.targetTypeId} isActive={this.state.isActive} targetTypes={this.state.targetTypes}
                         onTypeIdChange={this.handleTypeIdChange} onStatusChange={this.handleStatusChange} onSubmit={this.handleSubmit} />
                     <Table data={this.state.data} hasHostPermission={this.hasHostPermission} targetTypes={this.state.targetTypes} updateData={this.getPeriods}
-                        onUpdateStatus={this.onUpdateStatus} />
+                        onUpdateStatus={this.handleUpdateStatus} onDeletePeriod={this.handleDeletePeriod} />
                 </div>
                 <ToastLayout />
             </div>

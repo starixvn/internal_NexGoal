@@ -86,7 +86,8 @@ export default class CreatePeriod extends Component {
                 disciplineStartDate: values.disciplineStartDate.format('YYYY-MM-DD'),
                 disciplineEndDate: values.disciplineEndDate.format('YYYY-MM-DD'),
                 focusStartDate: values.targetTypeId == this.semiAnualTarget ? values.focusStartDate.format('YYYY-MM-DD') : null,
-                description: values.description
+                description: values.description,
+                isActive: values.isActive
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -131,7 +132,7 @@ export default class CreatePeriod extends Component {
         };
 
         return (
-            <Form id="edit-user-role-form" horizontal onSubmit={handleSubmit}>
+            <Form horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">

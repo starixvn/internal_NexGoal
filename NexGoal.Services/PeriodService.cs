@@ -66,5 +66,16 @@
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
+
+        public async Task<CommandResult> Delete(int periodId, int modifiedBy)
+        {
+            var criteria = new DeletePeriodCriteria
+            {
+                PeriodId = periodId,
+                ModifiedBy = modifiedBy
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
     }
 }

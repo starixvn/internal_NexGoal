@@ -7,13 +7,15 @@ import commonFunctions from '../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
 import CreatePeriod from './CreatePeriod';
+import DeletePeriod from './DeletePeriod';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            showModal: false
+            showCreateModal: false,
+            showDeleteModal: false,
         }
 
         this.tableRef = React.createRef();
@@ -81,7 +83,7 @@ export default class Table extends Component {
                     return (
                         <Fragment>
                             <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)}></a>
-                            <a className="fa fa-trash-o remove" title="Delete" onClick={() => this.props.editDiscipline(row)}></a>
+                            <a className="fa fa-trash-o remove" title="Delete" onClick={() => this.showDeleteModal(row)}></a>
                         </Fragment>
                     );
                 }
@@ -116,9 +118,13 @@ export default class Table extends Component {
         }).catch(commonFunctions.axiosError);;
     }
 
-    showModal = () => this.setState({ showModal: true })
+    showCreateModal = () => this.setState({ showCreateModal: true })
 
-    closeModal = () => this.setState({ showModal: false })
+    closeCreateModal = () => this.setState({ showCreateModal: false })
+
+    showDeleteModal = period => this.setState({ showDeleteModal: true, deletedPeriod: period })
+
+    closeDeleteModal = () => this.setState({ showDeleteModal: false })
 
     render() {
         return (
@@ -126,7 +132,7 @@ export default class Table extends Component {
                 <div className="search-wrapper clearfix" >
                     <div className="pull-left">
                         {this.props.hasHostPermission &&
-                            <button className="btn btn-primary" onClick={this.showModal}><i className="fa fa-plus"></i> Create Evaluation Period</button>
+                            <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-plus"></i> Create Evaluation Period</button>
                         }
                     </div>
                     <div className="search pull-right">
@@ -135,7 +141,8 @@ export default class Table extends Component {
                     </div>
                 </div>
                 <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='periodId' data={this.props.data} columns={this.columns} />
-                <CreatePeriod showModal={this.state.showModal} closeModal={this.closeModal} targetTypes={this.props.targetTypes} onCreateSuccess={this.props.updateData} />
+                <CreatePeriod showModal={this.state.showCreateModal} closeModal={this.closeCreateModal} targetTypes={this.props.targetTypes} onCreateSuccess={this.props.updateData} />
+                <DeletePeriod showModal={this.state.showDeleteModal} closeModal={this.closeDeleteModal} period={this.state.deletedPeriod} onDeleteSuccess={this.props.onDeletePeriod} />
             </Fragment>
         );
     }
