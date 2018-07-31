@@ -43,7 +43,7 @@
         [HttpGet]
         public async Task<IActionResult> GetTargetTypes()
         {
-            var types = await baseService.GetDataAsync<ReferenceResourceModel>(new GetRefResourceByNamesCriteria { RefNames = ReferenceResource.PeriodTarget, IsActive = true }).ConfigureAwait(false);
+            var types = await baseService.GetDataAsync<ReferenceResourceModel>(new GetRefResourceByNamesCriteria { RefNames = ReferenceResource.TargetType, IsActive = true }).ConfigureAwait(false);
 
             return Json(types.Select(x => new TargetTypeModel { TargetTypeId = x.ResourceId, Name = x.Value }));
         }

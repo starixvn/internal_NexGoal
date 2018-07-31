@@ -61,6 +61,22 @@ export function validateEOYForm(values) {
         errors.endDateForCommittee = 'End Date For Committee is required!';
     }
 
+    if (values.endDateForNominator < values.startDateForNominator) {
+        errors.endDateForNominator = 'End Date For Nominator must be greater than Start Date For Nominator.';
+    }
+
+    if (values.remindDateForNominator < values.startDateForNominator) {
+        errors.remindDateForNominator = 'Remind Date For Nominator must be greater than or equal to Start Date For Nominator.';
+    }
+
+    if (values.endDateForNominator < values.remindDateForNominator) {
+        errors.remindDateForNominator = 'Remind Date For Nominator must be less than or equal to End Date For Nominator.';
+    }
+
+    if (values.endDateForCommittee < values.endDateForNominator) {
+        errors.endDateForCommittee = 'End Date For Committee must be greater than End Date For Nominator.';
+    }
+
     return errors;
 }
 
@@ -89,6 +105,22 @@ export function validateEOQForm(values) {
 
     if (!values.endDateForCommittee) {
         errors.endDateForCommittee = 'End Date For Committee is required!';
+    }
+
+    if (values.endDateForNominator < values.startDateForNominator) {
+        errors.endDateForNominator = 'End Date For Nominator must be greater than Start Date For Nominator.';
+    }
+
+    if (values.remindDateForNominator < values.startDateForNominator) {
+        errors.remindDateForNominator = 'Remind Date For Nominator must be greater than or equal to Start Date For Nominator.';
+    }
+
+    if (values.endDateForNominator < values.remindDateForNominator) {
+        errors.remindDateForNominator = 'Remind Date For Nominator must be less than or equal to End Date For Nominator.';
+    }
+
+    if (values.endDateForCommittee < values.endDateForNominator) {
+        errors.endDateForCommittee = 'End Date For Committee must be greater than End Date For Nominator.';
     }
 
     return errors;

@@ -7,5 +7,6 @@
         public const string DisciplineManagement = "DisciplineManagement";
         public const string NominationManagement = "NominationManagement";
         public const string EvaluationPeriod = "EvaluationPeriod";
+        public const string EvaluationFlow = "EvaluationFlow";
     }
 }
