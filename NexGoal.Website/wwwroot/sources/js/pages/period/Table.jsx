@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
+import { stringify } from 'qs';
 import commonFunctions from '../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
@@ -65,7 +66,7 @@ export default class Table extends Component {
             classes: 'text-center',
             formatter: (cell, row, rowIndex, colIndex) => {
                 if (this.props.hasHostPermission) {
-                    return (<input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editDisciplineStatus(e, row)} />);
+                    return (<input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editPeriodStatus(e, row)} />);
                 }
 
                 return (<input type='checkbox' checked={row.isActive} readOnly />);
@@ -88,6 +89,32 @@ export default class Table extends Component {
                 return '';
             }
         }];
+
+    editPeriodStatus = (event, period) => {
+        var isActive = event.target.checked;
+
+        axios({
+            url: '/period/editstatus',
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                periodId: period.periodId,
+                isActive: isActive
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            var data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success('Update Successfully');
+                this.props.onUpdateStatus(period.periodId, isActive);
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(commonFunctions.axiosError);;
+    }
 
     showModal = () => this.setState({ showModal: true })
 

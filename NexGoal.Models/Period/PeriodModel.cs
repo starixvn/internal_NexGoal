@@ -22,7 +22,7 @@
 
         public DateTime? FocusStartDate { get; set; }
 
-        public string IsActive { get; set; }
+        public bool IsActive { get; set; }
 
         public string Description { get; set; }
     }

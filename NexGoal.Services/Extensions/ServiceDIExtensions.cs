@@ -13,6 +13,7 @@
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IDisciplineService, DisciplineService>();
             services.AddScoped<IFlowTemplateService, FlowTemplateService>();
+            services.AddScoped<IPeriodService, PeriodService>();
         }
     }
 }

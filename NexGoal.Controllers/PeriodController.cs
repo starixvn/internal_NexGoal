@@ -7,19 +7,19 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.Periods;
     using NexGoal.Models.Period;
+    using NexGoal.Services;
     using NexGoal.ViewModels.Period;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Read)]
     public class PeriodController : Controller
     {
-        private readonly IBaseService baseService;
+        private readonly IPeriodService periodService;
         private readonly ISessionService sessionService;
 
-        public PeriodController(IBaseService baseService, ISessionService sessionService)
+        public PeriodController(IPeriodService periodService, ISessionService sessionService)
         {
-            this.baseService = baseService;
+            this.periodService = periodService;
             this.sessionService = sessionService;
         }
 
@@ -32,9 +32,17 @@
         [HttpGet]
         public async Task<IActionResult> GetPeriods(int? targetTypeId, bool? isActive)
         {
-            var periods = await baseService.GetDataAsync<PeriodModel>(new GetPeriodsCriteria { TargetTypeId = targetTypeId, IsActive = isActive }).ConfigureAwait(false);
+            var periods = await periodService.GetPeriods(targetTypeId, isActive).ConfigureAwait(false);
 
             return Json(periods);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetTargetTypes()
+        {
+            var types = await periodService.GetTargetTypes().ConfigureAwait(false);
+
+            return Json(types);
         }
 
         [HttpPost]
@@ -43,7 +51,7 @@
         {
             if (ModelState.IsValid)
             {
-                var criteria = new CreatePeriodCriteria
+                var result = await periodService.Create(new CreatePeriodModel
                 {
                     Name = model.Name,
                     TargetTypeId = model.TargetTypeId,
@@ -55,9 +63,7 @@
                     Description = model.Description,
                     IsActive = model.IsActive,
                     CreatedBy = sessionService.EmployeeId
-                };
-
-                var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+                }).ConfigureAwait(false);
 
                 return Json(result);
             }
@@ -66,6 +72,15 @@
                          where item.Value.Errors.Any()
                          select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
             return Json(new { isSuccessful = false, errors });
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> EditStatus(int periodId, bool isActive)
+        {
+            var result = await periodService.EditStatus(periodId, isActive, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
         }
     }
 }

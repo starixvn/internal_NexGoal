@@ -38,6 +38,18 @@ export default class EvaluationPeriod extends Component {
 
     handleStatusChange = value => this.updateFilterValue('isActive', value)
 
+    handleSubmit = event => {
+        event.preventDefault();
+        this.getPeriods();
+    }
+
+    onUpdateStatus = (periodId, isActive) => {
+        var data = this.state.data.slice();
+        var period = data.find(e => e.periodId === periodId);
+        period.isActive = isActive;
+        this.setState({ data: data })
+    }
+
     getTargetTypes = () => {
         axios.get(commonFunctions.getRootUrl() + 'Common/GetTargetTypes')
             .then(response => {
@@ -64,8 +76,10 @@ export default class EvaluationPeriod extends Component {
                     <li className="current">Evaluation Period Management</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <SearchForm targetTypeId={this.state.targetTypeId} isActive={this.state.isActive} targetTypes={this.state.targetTypes} onTypeIdChange={this.handleTypeIdChange} onStatusChange={this.handleStatusChange} />
-                    <Table data={this.state.data} hasHostPermission={this.hasHostPermission} targetTypes={this.state.targetTypes} updateData={this.getPeriods} />
+                    <SearchForm targetTypeId={this.state.targetTypeId} isActive={this.state.isActive} targetTypes={this.state.targetTypes}
+                        onTypeIdChange={this.handleTypeIdChange} onStatusChange={this.handleStatusChange} onSubmit={this.handleSubmit} />
+                    <Table data={this.state.data} hasHostPermission={this.hasHostPermission} targetTypes={this.state.targetTypes} updateData={this.getPeriods}
+                        onUpdateStatus={this.onUpdateStatus} />
                 </div>
                 <ToastLayout />
             </div>

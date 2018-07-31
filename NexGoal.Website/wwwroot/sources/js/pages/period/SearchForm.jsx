@@ -12,7 +12,7 @@ export default class SearchForm extends Component {
 
     render() {
         return (
-            <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
+            <form className="form-inline form-filter" onSubmit={this.props.onSubmit}>
                 <div className="form-group" >
                     <div className="col">
                         <label className="control-label">Type</label>
