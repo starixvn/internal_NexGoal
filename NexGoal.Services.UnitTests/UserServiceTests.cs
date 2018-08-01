@@ -1,9 +1,7 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
