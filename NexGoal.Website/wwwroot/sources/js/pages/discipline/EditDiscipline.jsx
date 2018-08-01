@@ -127,8 +127,9 @@ export default class AddEditDiscipline extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={2}>Content</Col>
                         <Col sm={10}>
-                            <textarea className={`form-control  ${touched.content && errors.content && 'input-validation-error'}`}
-                                name="content" onChange={handleChange} value={values.content} />
+                            <textarea className={`form-control none-resize ${touched.content && errors.content && 'input-validation-error'}`}
+                                name="content" rows="10"
+                                onChange={handleChange} value={values.content} />
                         </Col>
                     </FormGroup>
                 </Modal.Body>

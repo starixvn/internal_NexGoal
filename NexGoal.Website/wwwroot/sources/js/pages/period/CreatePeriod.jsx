@@ -149,7 +149,8 @@ export default class CreatePeriod extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={3}>Name</Col>
                         <Col sm={9}>
-                            <input type="text" name="name" value={values.name} className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`} onChange={handleChange} />
+                            <input type="text" name="name" value={values.name} autoComplete="off"
+                                className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`} onChange={handleChange} />
                         </Col>
                     </FormGroup>
                     <FormGroup>
@@ -211,8 +212,9 @@ export default class CreatePeriod extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={3}>Description</Col>
                         <Col sm={9}>
-                            <textarea className={`form-control  ${touched.description && errors.description && 'input-validation-error'}`}
-                                name="description" onChange={handleChange} value={values.description} />
+                            <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                name="description" rows="4"
+                                onChange={handleChange} value={values.description} />
                         </Col>
                     </FormGroup>
                 </Modal.Body>

@@ -100,7 +100,7 @@ class Create extends Component {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-sm-3 control-label required-label">Type</label>
+                        <label className="col-sm-3 control-label required-label">Target Type</label>
                         <div className="col-sm-9">
                             <Select name="targetType" className={`${touched.targetType && errors.targetType && 'input-validation-error'}`}
                                 value={values.targetType}
