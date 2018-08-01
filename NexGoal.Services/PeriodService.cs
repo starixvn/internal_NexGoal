@@ -1,14 +1,10 @@
 ﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
-    using NexGoal.Core.Constants;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria;
     using NexGoal.Criteria.Periods;
-    using NexGoal.Models;
     using NexGoal.Models.Period;
 
     public class PeriodService : IPeriodService
@@ -23,17 +19,6 @@
         public async Task<IEnumerable<PeriodModel>> GetPeriods(int? targetTypeId, bool? isActive)
         {
             return await baseService.GetDataAsync<PeriodModel>(new GetPeriodsCriteria { TargetTypeId = targetTypeId, IsActive = isActive }).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<TargetTypeModel>> GetTargetTypes()
-        {
-            var types = await baseService.GetDataAsync<ReferenceResourceModel>(new GetRefResourceByNamesCriteria
-            {
-                RefNames = ReferenceResource.TargetType,
-                IsActive = true
-            }).ConfigureAwait(false);
-
-            return types.Select(x => new TargetTypeModel { TargetTypeId = x.ResourceId, Name = x.Value });
         }
 
         public async Task<CommandResult> Create(CreatePeriodModel model)

@@ -37,14 +37,6 @@
             return Json(periods);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> GetTargetTypes()
-        {
-            var types = await periodService.GetTargetTypes().ConfigureAwait(false);
-
-            return Json(types);
-        }
-
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
         public async Task<IActionResult> Create(CreatePeriodViewModel model)
