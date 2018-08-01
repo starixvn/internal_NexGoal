@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
+import { stringify } from 'qs';
 
 import commonFunctions from '../../../common-functions';
 import { validateEOYForm } from '../common';
@@ -55,7 +56,8 @@ class Settings extends Component {
     }
 
     handleSubmit = (values, { setErrors }) => {
-        let eoy = {
+        let eoy = stringify({
+            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             eoyId: this.state.eoy.eoqyId,
             year: values.year,
             startDateForNominator: values.startDateForNominator.toDate(),
@@ -63,18 +65,14 @@ class Settings extends Component {
             remindDateForNominator: values.remindDateForNominator.toDate(),
             endDateForCommittee: values.endDateForCommittee.toDate(),
             description: values.description
-        };
-
-        let formData = commonFunctions.objectToFormData(eoy);
-        formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
+        });
 
         axios({
             url: commonFunctions.getRootUrl() + 'EOY/Edit',
             method: 'POST',
-            data: formData,
+            data: eoy,
             headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
             let data = response.data;

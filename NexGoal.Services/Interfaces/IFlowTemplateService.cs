@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Models.FlowTemplate;
 
     public interface IFlowTemplateService
@@ -9,5 +10,7 @@
         Task<IEnumerable<FlowTemplateModel>> GetAllAsync(int? targetTypeId = null, bool? isActive = null);
 
         Task<FlowTemplateModel> GetByIdAsync(int flowTempalteId);
+
+        Task<CommandResult> CreateAsync(CreateFlowTemplateModel flowTemplate);
     }
 }

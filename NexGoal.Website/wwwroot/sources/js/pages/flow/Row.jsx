@@ -5,6 +5,8 @@ import commonFunctions from '../../common-functions';
 class Row extends Component {
     constructor(props) {
         super(props);
+
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
     }
 
     renderCellAction() {
@@ -26,15 +28,21 @@ class Row extends Component {
         );
     }
 
+    handleCheckboxChange(event) {
+    }
+
     render() {
         const flowTemplate = this.props.flowTemplate;
+        const isHost = this.props.isHost;
 
         return (
             <tr>
                 <td className="text-center">{this.props.rowIndex}</td>
                 <td>{flowTemplate.name}</td>
                 <td>{flowTemplate.targetTypeName}</td>
-                <td className="text-center"></td>
+                <td className="text-center">
+                    <input type='checkbox' checked={flowTemplate.isActive} disabled={!isHost} onChange={this.handleCheckboxChange} />
+                </td>
                 <td>{flowTemplate.description}</td>
                 <td className="text-center">{this.renderCellAction()}</td>
             </tr>

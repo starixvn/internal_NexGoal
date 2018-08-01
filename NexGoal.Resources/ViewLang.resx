@@ -171,4 +171,7 @@
   <data name="EvaluationFlow" xml:space="preserve">
     <value>Evaluation Flow</value>
   </data>
+  <data name="TargetType" xml:space="preserve">
+    <value>Target Type</value>
+  </data>
 </root>

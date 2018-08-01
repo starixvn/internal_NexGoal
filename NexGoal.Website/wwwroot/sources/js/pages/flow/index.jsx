@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import commonFunctions from '../../common-functions';
+import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Filter from './Filter';
 import Table from './Table';
@@ -35,6 +36,7 @@ export default class App extends Component {
         });
 
         this.getTargetTypes();
+        this.getFlowTemplates();
     }
 
     getTargetTypes() {
@@ -66,20 +68,24 @@ export default class App extends Component {
 
     render() {
         return (
-            <div className="row">
-                <Breadcrumb>
-                    <li className="current">Evaluation Flow Management</li>
-                </Breadcrumb>
-                <div className="col-sm-12">
-                    <Filter filter={this.state.filter}
-                        targetTypes={this.state.targetTypes}
-                        handleFilterChange={this.handleFilterChange}
-                        handleFilterSubmit={this.handleSubmit} />
+            <ToastLayout>
+                <div className="row">
+                    <Breadcrumb>
+                        <li className="current">Evaluation Flow Management</li>
+                    </Breadcrumb>
+                    <div className="col-sm-12">
+                        <Filter filter={this.state.filter}
+                            targetTypes={this.state.targetTypes}
+                            handleFilterChange={this.handleFilterChange}
+                            handleFilterSubmit={this.handleSubmit} />
 
-                    <Table isHost={this.state.isHost}
-                        flowTemplates={this.state.flowTemplates} />
+                        <Table isHost={this.state.isHost}
+                            targetTypes={this.state.targetTypes}
+                            flowTemplates={this.state.flowTemplates}
+                            handleFilterSubmit={this.handleSubmit} />
+                    </div>
                 </div>
-            </div>
+            </ToastLayout>
         );
     }
 }

@@ -214,6 +214,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Target Type.
+        /// </summary>
+        public static string TargetType {
+            get {
+                return ResourceManager.GetString("TargetType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to User Management.
         /// </summary>
         public static string UserManagement {

@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
+import { stringify } from 'qs';
 
 import commonFunctions from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
@@ -17,26 +18,23 @@ class CreateEOQ extends Component {
     }
 
     handleSubmit = (values, { setErrors }) => {
-        let eoq = {
-            quarter: values.quarter,
-            year: values.year,
+        let eoq = stringify({
+            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+            quarter: values.quarter.value,
+            year: values.year.value,
             startDateForNominator: values.startDateForNominator.toDate(),
             endDateForNominator: values.endDateForNominator.toDate(),
             remindDateForNominator: values.remindDateForNominator.toDate(),
             endDateForCommittee: values.endDateForCommittee.toDate(),
             description: values.description
-        };
-
-        let formData = commonFunctions.objectToFormData(eoq);
-        formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
+        });
 
         axios({
             url: commonFunctions.getRootUrl() + 'EOQ/Create',
             method: 'POST',
-            data: formData,
+            data: eoq,
             headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
             let data = response.data;

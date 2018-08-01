@@ -51,6 +51,7 @@
   <Function Name="Flow Template">
     <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="FlowTemplate_GetById" SpName="FlowTemplate_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="FlowTemplate_Insert" SpName="FlowTemplate_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Period">
     <Setting Key="Period_Get" SpName="Period_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

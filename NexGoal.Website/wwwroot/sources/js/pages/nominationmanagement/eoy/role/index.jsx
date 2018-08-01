@@ -1,6 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { stringify } from 'qs';
 
 import commonFunctions from '../../../../common-functions';
 import Filter from './Filter';
@@ -62,22 +63,19 @@ export default class RoleManagement extends Component {
     }
 
     editNominatorSetting(nominator) {
-        const setting = {
+        const setting = stringify({
+            __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             eoqyId: this.state.eoyId,
             employeeId: nominator.employeeId,
             roleIds: nominator.roles.join(',')
-        };
-
-        let formData = commonFunctions.objectToFormData(setting);
-        formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
+        });
 
         axios({
             url: commonFunctions.getRootUrl() + 'EOY/EditNominatorSetting',
             method: 'POST',
-            data: formData,
+            data: setting,
             headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
             let data = response.data;

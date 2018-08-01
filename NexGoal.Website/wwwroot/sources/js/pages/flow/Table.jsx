@@ -1,6 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 
 import Row from './Row';
+import Create from './Create';
 
 function THead(props) {
     return (
@@ -17,6 +18,18 @@ function TBody(props) {
 class Table extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            showCreateModal: false,
+        };
+    }
+
+    showCreateModal() {
+        this.setState({ showCreateModal: true });
+    }
+
+    closeCreateModal() {
+        this.setState({ showCreateModal: false });
     }
 
     render() {
@@ -30,7 +43,7 @@ class Table extends Component {
                         {isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
-                                    <a className="pull-left btn btn-primary">
+                                    <a className="pull-left btn btn-primary" onClick={this.showCreateModal.bind(this)}>
                                         <i className="fa fa-plus"></i>Create Evaluation Flow
                                     </a>
                                 </th>
@@ -62,6 +75,15 @@ class Table extends Component {
                         }
                     </TBody>
                 </table>
+
+                {
+                    this.state.showCreateModal &&
+                    <Create
+                        showModal={this.state.showCreateModal}
+                        closeModal={this.closeCreateModal.bind(this)}
+                        targetTypes={this.props.targetTypes}
+                        handleFilterSubmit={this.props.handleFilterSubmit} />
+                }
             </Fragment>
         );
     }
