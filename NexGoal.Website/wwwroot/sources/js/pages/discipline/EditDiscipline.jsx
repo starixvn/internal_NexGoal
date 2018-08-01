@@ -145,7 +145,9 @@ export default class AddEditDiscipline extends Component {
         var title = this.props.discipline && this.props.discipline.disciplineId === 0 ? 'Add Discipline' : 'Edit Discipline';
 
         return (
-            <Modal show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal">
+            <Modal keyboard={false} backdrop="static"
+                show={this.props.showModal} onHide={this.props.closeModal}
+                dialogClassName="custom-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>

@@ -41,8 +41,9 @@ class DeleteEOQ extends Component {
 
     render() {
         return (
-            <Modal show={this.props.showModal} keyboard={false}
-                onHide={this.props.closeModal} dialogClassName="custom-modal">
+            <Modal keyboard={false} backdrop="static"
+                show={this.props.showModal} onHide={this.props.closeModal}
+                dialogClassName="custom-modal">
                 <Modal.Header closeButton>
                     <Modal.Title>Confirmation</Modal.Title>
                 </Modal.Header>

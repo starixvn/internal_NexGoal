@@ -228,7 +228,9 @@ export default class CreatePeriod extends Component {
 
     render() {
         return (
-            <Modal show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal modal-md">
+            <Modal keyboard={false} backdrop="static"
+                show={this.props.showModal} onHide={this.props.closeModal}
+                dialogClassName="custom-modal modal-md">
                 <Modal.Header closeButton>
                     <Modal.Title>Create Evaluation Period</Modal.Title>
                 </Modal.Header>

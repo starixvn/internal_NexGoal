@@ -179,8 +179,9 @@ class CreateEOQ extends Component {
         };
 
         return (
-            <Modal show={this.props.showModal} keyboard={false}
-                onHide={this.props.closeModal} dialogClassName="custom-modal modal-md">
+            <Modal keyboard={false} backdrop="static"
+                show={this.props.showModal} onHide={this.props.closeModal}
+                dialogClassName="custom-modal modal-md">
                 <Modal.Header closeButton>
                     <Modal.Title>Create Nomination Period</Modal.Title>
                 </Modal.Header>
