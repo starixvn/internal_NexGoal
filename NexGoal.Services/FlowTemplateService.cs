@@ -54,5 +54,28 @@
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
+
+        public async Task<CommandResult> EditStatusAsync(int flowTemplateId, bool isActive)
+        {
+            var criteria = new EditStatusFlowTemplateCriteria
+            {
+                FlowTemplateId = flowTemplateId,
+                IsActive = isActive,
+                ModifiedBy = sessionService.EmployeeId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> DeleteAsync(int flowTemplateId)
+        {
+            var criteria = new DeleteFlowTemplateCriteria
+            {
+                FlowTemplateId = flowTemplateId,
+                ModifiedBy = sessionService.EmployeeId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
     }
 }

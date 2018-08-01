@@ -1,7 +1,12 @@
 ﻿import React, { Component, Fragment } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { stringify } from 'qs';
 
+import commonFunctions from '../../common-functions';
 import Row from './Row';
 import Create from './Create';
+import Delete from './Delete';
 
 function THead(props) {
     return (
@@ -21,15 +26,56 @@ class Table extends Component {
 
         this.state = {
             showCreateModal: false,
+            showDeleteModal: false,
+            flowTemplateSelected: null
         };
     }
 
-    showCreateModal() {
+    handleCreateClick() {
         this.setState({ showCreateModal: true });
     }
 
     closeCreateModal() {
         this.setState({ showCreateModal: false });
+    }
+
+    handleDeleteClick(flowTemplateSelected) {
+        this.setState({
+            showDeleteModal: true,
+            flowTemplateSelected: flowTemplateSelected
+        });
+    }
+
+    closeDeleteModal() {
+        this.setState({
+            showDeleteModal: false,
+            flowTemplateSelected: null
+        });
+    }
+
+    handleDeleteFlowTemplate(flowTemplate) {
+        axios({
+            url: commonFunctions.getRootUrl() + 'Flow/DeleteFlowTemplate',
+            method: 'DELETE',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                flowTemplateId: flowTemplate.flowTemplateId
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success('Deleted successfully!');
+
+                this.closeDeleteModal();
+                this.props.handleFilterSubmit();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(commonFunctions.axiosError);
     }
 
     render() {
@@ -43,7 +89,7 @@ class Table extends Component {
                         {isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
-                                    <a className="pull-left btn btn-primary" onClick={this.showCreateModal.bind(this)}>
+                                    <a className="pull-left btn btn-primary" onClick={this.handleCreateClick.bind(this)}>
                                         <i className="fa fa-plus"></i>Create Evaluation Flow
                                     </a>
                                 </th>
@@ -70,7 +116,8 @@ class Table extends Component {
                                     <Row key={'flowTemplate-' + flowTemplate.flowTemplateId}
                                         rowIndex={index + 1}
                                         flowTemplate={flowTemplate}
-                                        isHost={isHost} />)
+                                        isHost={isHost}
+                                        handleDeleteClick={this.handleDeleteClick.bind(this)}/>)
                             })
                         }
                     </TBody>
@@ -83,6 +130,14 @@ class Table extends Component {
                         closeModal={this.closeCreateModal.bind(this)}
                         targetTypes={this.props.targetTypes}
                         handleFilterSubmit={this.props.handleFilterSubmit} />
+                }
+                {
+                    this.state.showDeleteModal &&
+                    <Delete
+                        flowTemplateSelected={this.state.flowTemplateSelected}
+                        showModal={this.state.showDeleteModal}
+                        closeModal={this.closeDeleteModal.bind(this)}
+                        handleDeleteFlowTemplate={this.handleDeleteFlowTemplate.bind(this)} />
                 }
             </Fragment>
         );

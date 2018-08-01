@@ -12,5 +12,9 @@
         Task<FlowTemplateModel> GetByIdAsync(int flowTempalteId);
 
         Task<CommandResult> CreateAsync(CreateFlowTemplateModel flowTemplate);
+
+        Task<CommandResult> EditStatusAsync(int flowTemplateId, bool isActive);
+
+        Task<CommandResult> DeleteAsync(int flowTemplateId);
     }
 }

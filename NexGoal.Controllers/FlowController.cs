@@ -62,5 +62,23 @@
             var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
+        public async Task<IActionResult> EditStatusFlowTemplate(int flowTemplateId, bool isActive)
+        {
+            CommandResult result = await flowTemplateService.EditStatusAsync(flowTemplateId, isActive).ConfigureAwait(false);
+
+            return Json(result);
+        }
+
+        [HttpDelete]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
+        public async Task<IActionResult> DeleteFlowTemplate(int flowTemplateId)
+        {
+            CommandResult commandResult = await flowTemplateService.DeleteAsync(flowTemplateId).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
     }
 }

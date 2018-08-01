@@ -7,6 +7,11 @@ class Row extends Component {
         super(props);
 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    }
+
+    handleDeleteClick() {
+        this.props.handleDeleteClick(this.props.flowTemplate);
     }
 
     renderCellAction() {
@@ -17,7 +22,7 @@ class Row extends Component {
                 <Fragment>
                     <a className="fa fa-pencil-square-o" title="Edit"
                         href={commonFunctions.getRootUrl() + 'Flow/Edit/' + flowTemplate.flowTemplateId}></a>
-                    <a className="fa fa-trash-o remove" title="Delete"></a>
+                    <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick}></a>
                 </Fragment>
             );
         }
