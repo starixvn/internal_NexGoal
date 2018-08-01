@@ -30,6 +30,13 @@
         }
 
         [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public IActionResult Edit(int id)
+        {
+            return View(id);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> GetPeriods(int? targetTypeId, bool? isActive)
         {
             var periods = await periodService.GetPeriods(targetTypeId, isActive).ConfigureAwait(false);

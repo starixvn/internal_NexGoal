@@ -82,7 +82,7 @@ export default class Table extends Component {
                 if (this.props.hasHostPermission) {
                     return (
                         <Fragment>
-                            <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)}></a>
+                            <a className="fa fa-pencil-square-o" title="Edit" href={`/period/edit/${row.periodId}`}></a>
                             <a className="fa fa-trash-o remove" title="Delete" onClick={() => this.showDeleteModal(row)}></a>
                         </Fragment>
                     );

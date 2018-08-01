@@ -1,0 +1,21 @@
+﻿@using NexGoal.Resources
+@model int
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/csseditperiod.css" asp-append-version="true" />
+}
+
+@{
+    ViewData["Title"] = ViewLang.EvaluationPeriod;
+}
+
+<input type="hidden" value="@Model.ToString()" id="periodId" />
+
+@Html.AntiForgeryToken()
+
+<div id="edit-period-wrapper">
+</div>
+
+@section Scripts{
+    <script src="~/dist/editperiod.js" asp-append-version="true"></script>
+}

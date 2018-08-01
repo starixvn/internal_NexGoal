@@ -92,6 +92,9 @@
     <Content Update="Views\NominationManagement\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
+    <Content Update="Views\Period\Edit.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
     <Content Update="Views\Period\Index.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>

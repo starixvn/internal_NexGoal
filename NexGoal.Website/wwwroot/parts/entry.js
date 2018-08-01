@@ -15,6 +15,7 @@ module.exports = {
         cssdiscipline: "./sources/styles/pages/discipline/discipline.scss",
         cssperiod: "./sources/styles/pages/period/period.scss",
         cssflowtemplate: "./sources/styles/pages/flow/index.scss",
+        csseditperiod: "./sources/styles/pages/period/edit.scss",
         //
         main: "./sources/js/main.js",
         home: "./sources/js/pages/home/index.jsx",
@@ -25,6 +26,7 @@ module.exports = {
         editeoq: './sources/js/pages/nominationmanagement/eoq/edit.jsx',
         editeoy: './sources/js/pages/nominationmanagement/eoy/edit.jsx',
         period: './sources/js/pages/period/index.jsx',
-        flowtemplate: './sources/js/pages/flow/index.jsx'
+        flowtemplate: './sources/js/pages/flow/index.jsx',
+        editperiod: './sources/js/pages/period/edit.jsx'
     }
 };
