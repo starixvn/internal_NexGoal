@@ -2,8 +2,10 @@
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import { toast } from 'react-toastify';
+
+import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
-import Notification from '../../shared/components/notification';
 import EditUserRole from './edit-user-role';
 
 export default class UserManagement extends Component {
@@ -28,7 +30,6 @@ export default class UserManagement extends Component {
 
         this.tableRef = React.createRef();
         this.searchRef = React.createRef();
-        this.notificationRef = React.createRef();
     }
 
     userRoles = [];
@@ -126,7 +127,7 @@ export default class UserManagement extends Component {
 
     handleEditUserRolesSuccess = (data) => {
         if (data.isSuccessful) {
-            this.notificationRef.current.showSuccess("Update Successfully");
+            toast.success('Update successfully!');
 
             this.getUser(this.currentEditUser.employeeId, (updatedUser) => {
                 var data = this.state.data.slice();
@@ -140,7 +141,7 @@ export default class UserManagement extends Component {
                 this.setState({ data: data, tableData: tableData, showModal: false });
             });
         } else {
-            this.notificationRef.current.showError(data.message);
+            toast.error(data.message);
         }
     }
 
@@ -217,63 +218,64 @@ export default class UserManagement extends Component {
         this.resetPage = false;
 
         return (
-            <div className="row">
-                <Breadcrumb>
-                    <li className="current">User Management</li>
-                </Breadcrumb>
-                <div className="col-sm-12">
-                    <Notification ref={this.notificationRef} />
-                    <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
-                        <div className="form-group" >
-                            <div className="col" >
-                                <label className="control-label">Keyword</label>
-                                <div className="control-content">
-                                    <input name="keyword" className="form-control" type="text" placeholder="Full name or Nick name" onChange={this.onFilterChange} />
+            <ToastLayout>
+                <div className="row">
+                    <Breadcrumb>
+                        <li className="current">User Management</li>
+                    </Breadcrumb>
+                    <div className="col-sm-12">
+                        <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
+                            <div className="form-group" >
+                                <div className="col" >
+                                    <label className="control-label">Keyword</label>
+                                    <div className="control-content">
+                                        <input name="keyword" className="form-control" type="text" placeholder="Full name or Nick name" onChange={this.onFilterChange} />
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col">
-                                <label className="control-label">Team</label>
-                                <div className="control-content">
-                                    <select name="groupId" className="form-control" onChange={this.onFilterChange}>
-                                        <option value="">-- All --</option>
-                                        {this.state.groups.map((group) => <option key={group.groupId} value={group.groupId}>{group.name}</option>)}
-                                    </select>
+                                <div className="col">
+                                    <label className="control-label">Team</label>
+                                    <div className="control-content">
+                                        <select name="groupId" className="form-control" onChange={this.onFilterChange}>
+                                            <option value="">-- All --</option>
+                                            {this.state.groups.map((group) => <option key={group.groupId} value={group.groupId}>{group.name}</option>)}
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col">
-                                <label className="control-label">Category</label>
-                                <div className="control-content">
-                                    <select className="form-control" name="isLocal" onChange={this.onFilterChange}>
-                                        <option value="">-- All --</option>
-                                        <option value="false">Expat</option>
-                                        <option value="true">Local</option>
-                                    </select>
+                                <div className="col">
+                                    <label className="control-label">Category</label>
+                                    <div className="control-content">
+                                        <select className="form-control" name="isLocal" onChange={this.onFilterChange}>
+                                            <option value="">-- All --</option>
+                                            <option value="false">Expat</option>
+                                            <option value="true">Local</option>
+                                        </select>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="col">
-                                <label>
-                                    <input type="checkbox" name="isDisabledUser" onChange={this.onFilterChange} /> Is Disabled User
+                                <div className="col">
+                                    <label>
+                                        <input type="checkbox" name="isDisabledUser" onChange={this.onFilterChange} /> Is Disabled User
                                 </label>
+                                </div>
+                                <div className="col">
+                                    <button className="btn btn-primary">Search</button>
+                                </div>
                             </div>
-                            <div className="col">
-                                <button className="btn btn-primary">Search</button>
+                        </form>
+                        <div className="search-wrapper clearfix" >
+                            <div className="search pull-right">
+                                <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
+                                <span className="fa fa-search icon"></span>
                             </div>
                         </div>
-                    </form>
-                    <div className="search-wrapper clearfix" >
-                        <div className="search pull-right">
-                            <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
-                            <span className="fa fa-search icon"></span>
-                        </div>
+                        <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
                     </div>
-                    <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
+                    <div>
+                        {this.state.showModal &&
+                            <EditUserRole showModal={this.state.showModal} closeModal={this.closeModal} user={this.currentEditUser} callback={this.handleEditUserRolesSuccess} />
+                        }
+                    </div>
                 </div>
-                <div>
-                    {this.state.showModal &&
-                        <EditUserRole showModal={this.state.showModal} closeModal={this.closeModal} user={this.currentEditUser} callback={this.handleEditUserRolesSuccess} />
-                    }
-                </div>
-            </div>
+            </ToastLayout>
         );
     }
 }

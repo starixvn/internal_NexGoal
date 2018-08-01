@@ -2,6 +2,7 @@
 import { Button, Form, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { stringify } from 'qs';
 
 import commonFunctions from '../../../common-functions';
 
@@ -10,20 +11,16 @@ class DeleteEOY extends Component {
         super(props);
     }
 
-    handleSubmit(event) {
-        event.preventDefault();
-
-        let formData = new FormData();
-        formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
-        formData.append('id', this.props.eoySelected.eoqyId);
-
+    handleSubmit() {
         axios({
             url: commonFunctions.getRootUrl() + 'EOY/Delete',
             method: 'DELETE',
-            data: formData,
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                id: this.props.eoySelected.eoqyId
+            }),
             headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
             let data = response.data;

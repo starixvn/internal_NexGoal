@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { stringify } from 'qs';
 
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import commonFunctions from '../../common-functions';
@@ -76,18 +77,17 @@ export default class App extends Component {
         let permissions = this.state.functions.slice().map(func => {
             return { roleId: roleId, functionId: func.functionId, policy: func.policy };
         });
-        let formData = new FormData();
-        formData.append('__RequestVerificationToken', document.getElementsByName('__RequestVerificationToken')[0].value);
-        formData.append('roleId', roleId);
-        formData.append('permissions', JSON.stringify(permissions));
 
         axios({
             url: commonFunctions.getRootUrl() + 'Role/AssignPermission',
             method: 'POST',
-            data: formData,
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                roleId: roleId,
+                permissions: permissions
+            }),
             headers: {
-                'X-Requested-With': 'XMLHttpRequest',
-                'Content-Type': 'multipart/form-data'
+                'Content-Type': 'application/x-www-form-urlencoded'
             }
         }).then(response => {
             let data = response.data;
