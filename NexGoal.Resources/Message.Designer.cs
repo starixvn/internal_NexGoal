@@ -61,15 +61,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Content is required.
-        /// </summary>
-        public static string ContentRequired {
-            get {
-                return ResourceManager.GetString("ContentRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Discipline End Date is required.
         /// </summary>
         public static string DisciplineEndDateRequired {
@@ -84,15 +75,6 @@ namespace NexGoal.Resources {
         public static string DisciplineStartDateRequired {
             get {
                 return ResourceManager.GetString("DisciplineStartDateRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Effective date is requried.
-        /// </summary>
-        public static string EffectiveDateRequired {
-            get {
-                return ResourceManager.GetString("EffectiveDateRequired", resourceCulture);
             }
         }
         
@@ -169,15 +151,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Name is required.
-        /// </summary>
-        public static string NameRequired {
-            get {
-                return ResourceManager.GetString("NameRequired", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to {0} is required..
         /// </summary>
         public static string RequiredErrorMessage {
@@ -201,15 +174,6 @@ namespace NexGoal.Resources {
         public static string StringMaxLengthErrorMessage {
             get {
                 return ResourceManager.GetString("StringMaxLengthErrorMessage", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Target Type is requried.
-        /// </summary>
-        public static string TargetTypeRequired {
-            get {
-                return ResourceManager.GetString("TargetTypeRequired", resourceCulture);
             }
         }
         

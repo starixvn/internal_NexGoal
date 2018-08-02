@@ -132,38 +132,17 @@
   <data name="EndDateForNominator" xml:space="preserve">
     <value>End Date For Nominator</value>
   </data>
-  <data name="Function" xml:space="preserve">
-    <value>Function</value>
-  </data>
-  <data name="Host" xml:space="preserve">
-    <value>Host</value>
-  </data>
   <data name="NominationManagement" xml:space="preserve">
     <value>Nomination Management</value>
-  </data>
-  <data name="Read" xml:space="preserve">
-    <value>Read</value>
   </data>
   <data name="RemindDateForNominator" xml:space="preserve">
     <value>Remind Date For Nominator</value>
   </data>
-  <data name="Role" xml:space="preserve">
-    <value>Role</value>
-  </data>
   <data name="RoleManagement" xml:space="preserve">
     <value>Role Management</value>
   </data>
-  <data name="RolePermission" xml:space="preserve">
-    <value>Role Permission</value>
-  </data>
-  <data name="Save" xml:space="preserve">
-    <value>Save</value>
-  </data>
   <data name="StartDateForNominator" xml:space="preserve">
     <value>Start Date For Nominator</value>
-  </data>
-  <data name="Submit" xml:space="preserve">
-    <value>Submit</value>
   </data>
   <data name="UserManagement" xml:space="preserve">
     <value>User Management</value>
@@ -173,5 +152,8 @@
   </data>
   <data name="TargetType" xml:space="preserve">
     <value>Target Type</value>
+  </data>
+  <data name="EffectiveDate" xml:space="preserve">
+    <value>Effective Date</value>
   </data>
 </root>

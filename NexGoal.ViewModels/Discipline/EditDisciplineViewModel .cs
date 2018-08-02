@@ -8,10 +8,11 @@
     {
         public int DisciplineId { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.EffectiveDateRequired))]
+        [Display(ResourceType = typeof(ViewLang), Name = nameof(ViewLang.EffectiveDate))]
+        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.RequiredErrorMessage))]
         public DateTime EffectiveDate { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.ContentRequired))]
+        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.RequiredErrorMessage))]
         public string Content { get; set; }
     }
 }

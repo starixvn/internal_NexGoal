@@ -10,10 +10,11 @@
     {
         public int PeriodId { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.NameRequired))]
+        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.RequiredErrorMessage))]
         public string Name { get; set; }
 
-        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.TargetTypeRequired))]
+        [Display(ResourceType = typeof(ViewLang), Name = nameof(ViewLang.TargetType))]
+        [Required(ErrorMessageResourceType = typeof(Message), ErrorMessageResourceName = nameof(Message.RequiredErrorMessage))]
         public int TargetTypeId { get; set; }
 
         public DateTime? StartDate { get; set; }

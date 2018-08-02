@@ -117,17 +117,11 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ContentRequired" xml:space="preserve">
-    <value>Content is required</value>
-  </data>
   <data name="DisciplineEndDateRequired" xml:space="preserve">
     <value>Discipline End Date is required</value>
   </data>
   <data name="DisciplineStartDateRequired" xml:space="preserve">
     <value>Discipline Start Date is required</value>
-  </data>
-  <data name="EffectiveDateRequired" xml:space="preserve">
-    <value>Effective date is requried</value>
   </data>
   <data name="EmployeeRequired" xml:space="preserve">
     <value>Employee is required</value>
@@ -153,9 +147,6 @@
   <data name="LessThanOrEqualCompare" xml:space="preserve">
     <value>{0} must be less than or equal to {1}.</value>
   </data>
-  <data name="NameRequired" xml:space="preserve">
-    <value>Name is required</value>
-  </data>
   <data name="RequiredErrorMessage" xml:space="preserve">
     <value>{0} is required.</value>
   </data>
@@ -164,9 +155,6 @@
   </data>
   <data name="StringMaxLengthErrorMessage" xml:space="preserve">
     <value>{0} must not over {1} character long.</value>
-  </data>
-  <data name="TargetTypeRequired" xml:space="preserve">
-    <value>Target Type is requried</value>
   </data>
   <data name="UpdatePermissionSuccessfully" xml:space="preserve">
     <value>Permission has been successfully updated!</value>

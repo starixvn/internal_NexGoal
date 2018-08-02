@@ -79,6 +79,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Effective Date.
+        /// </summary>
+        public static string EffectiveDate {
+            get {
+                return ResourceManager.GetString("EffectiveDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End Date For Committee.
         /// </summary>
         public static string EndDateForCommittee {
@@ -115,38 +124,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Function.
-        /// </summary>
-        public static string Function {
-            get {
-                return ResourceManager.GetString("Function", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Host.
-        /// </summary>
-        public static string Host {
-            get {
-                return ResourceManager.GetString("Host", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Nomination Management.
         /// </summary>
         public static string NominationManagement {
             get {
                 return ResourceManager.GetString("NominationManagement", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Read.
-        /// </summary>
-        public static string Read {
-            get {
-                return ResourceManager.GetString("Read", resourceCulture);
             }
         }
         
@@ -160,15 +142,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role.
-        /// </summary>
-        public static string Role {
-            get {
-                return ResourceManager.GetString("Role", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Role Management.
         /// </summary>
         public static string RoleManagement {
@@ -178,38 +151,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role Permission.
-        /// </summary>
-        public static string RolePermission {
-            get {
-                return ResourceManager.GetString("RolePermission", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Save.
-        /// </summary>
-        public static string Save {
-            get {
-                return ResourceManager.GetString("Save", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Start Date For Nominator.
         /// </summary>
         public static string StartDateForNominator {
             get {
                 return ResourceManager.GetString("StartDateForNominator", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Submit.
-        /// </summary>
-        public static string Submit {
-            get {
-                return ResourceManager.GetString("Submit", resourceCulture);
             }
         }
         
