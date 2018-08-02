@@ -4,7 +4,7 @@
     {
     }
 
-    public static class PeriodTarget
+    public static class TargetType
     {
         public const int Probation = 1;
 

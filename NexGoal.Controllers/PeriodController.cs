@@ -44,6 +44,14 @@
             return Json(periods);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> Get(int id)
+        {
+            var period = await periodService.GetPeriod(id).ConfigureAwait(false);
+
+            return Json(period);
+        }
+
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
         public async Task<IActionResult> Create(CreatePeriodViewModel model)
@@ -89,6 +97,35 @@
             var result = await periodService.Delete(periodId, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> Edit(EditPeriodViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await periodService.Edit(new EditPeriodModel
+                {
+                    PeriodId = model.PeriodId,
+                    Name = model.Name,
+                    StartDate = model.StartDate,
+                    EndDate = model.EndDate,
+                    DisciplineStartDate = model.DisciplineStartDate,
+                    DisciplineEndDate = model.DisciplineEndDate,
+                    FocusStartDate = model.FocusStartDate,
+                    Description = model.Description,
+                    IsActive = model.IsActive,
+                    ModifiedBy = sessionService.EmployeeId
+                }).ConfigureAwait(false);
+
+                return Json(result);
+            }
+
+            var errors = from item in ModelState
+                         where item.Value.Errors.Any()
+                         select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
+            return Json(new { isSuccessful = false, errors });
         }
     }
 }

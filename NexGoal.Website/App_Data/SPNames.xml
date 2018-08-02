@@ -61,5 +61,7 @@
     <Setting Key="Period_Insert" SpName="Period_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_UpdateStatus" SpName="Period_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_Delete" SpName="Period_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_GetById" SpName="Period_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_Update" SpName="Period_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

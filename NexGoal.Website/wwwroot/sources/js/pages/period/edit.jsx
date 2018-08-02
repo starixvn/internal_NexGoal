@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
+import EditBasicInformation from './EditBasicInformation';
 
 export default class EditPeriod extends Component {
     constructor(props) {
@@ -56,7 +57,7 @@ export default class EditPeriod extends Component {
                         onSelect={this.handleSelect}>
 
                         <Tab eventKey={1} title="Basic Information">
-
+                            <EditBasicInformation periodId={this.state.periodId} />
                         </Tab>
                         <Tab eventKey={2} title="Process Setting">
 

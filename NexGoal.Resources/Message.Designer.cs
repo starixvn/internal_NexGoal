@@ -70,6 +70,24 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Discipline End Date is required.
+        /// </summary>
+        public static string DisciplineEndDateRequired {
+            get {
+                return ResourceManager.GetString("DisciplineEndDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Discipline Start Date is required.
+        /// </summary>
+        public static string DisciplineStartDateRequired {
+            get {
+                return ResourceManager.GetString("DisciplineStartDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Effective date is requried.
         /// </summary>
         public static string EffectiveDateRequired {
@@ -84,6 +102,33 @@ namespace NexGoal.Resources {
         public static string EmployeeRequired {
             get {
                 return ResourceManager.GetString("EmployeeRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to End Date is required.
+        /// </summary>
+        public static string EndDateRequired {
+            get {
+                return ResourceManager.GetString("EndDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Start Date must be after Period End Date.
+        /// </summary>
+        public static string FocusStartDateAfterEndDate {
+            get {
+                return ResourceManager.GetString("FocusStartDateAfterEndDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Focus Start Date is required.
+        /// </summary>
+        public static string FocusStartDateRequired {
+            get {
+                return ResourceManager.GetString("FocusStartDateRequired", resourceCulture);
             }
         }
         
@@ -124,6 +169,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Name is required.
+        /// </summary>
+        public static string NameRequired {
+            get {
+                return ResourceManager.GetString("NameRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} is required..
         /// </summary>
         public static string RequiredErrorMessage {
@@ -133,11 +187,29 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Start Date is required.
+        /// </summary>
+        public static string StartDateRequired {
+            get {
+                return ResourceManager.GetString("StartDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to {0} must not over {1} character long..
         /// </summary>
         public static string StringMaxLengthErrorMessage {
             get {
                 return ResourceManager.GetString("StringMaxLengthErrorMessage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Target Type is requried.
+        /// </summary>
+        public static string TargetTypeRequired {
+            get {
+                return ResourceManager.GetString("TargetTypeRequired", resourceCulture);
             }
         }
         

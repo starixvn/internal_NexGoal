@@ -2,7 +2,7 @@
 {
     using System;
 
-    public class UpdateDisciplineCriteria : CommandBaseCriteria
+    public class EditDisciplineCriteria : CommandBaseCriteria
     {
         public int DisciplineId { get; set; }
 

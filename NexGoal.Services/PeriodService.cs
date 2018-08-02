@@ -21,6 +21,11 @@
             return await baseService.GetDataAsync<PeriodModel>(new GetPeriodsCriteria { TargetTypeId = targetTypeId, IsActive = isActive }).ConfigureAwait(false);
         }
 
+        public async Task<PeriodModel> GetPeriod(int periodId)
+        {
+            return await baseService.GetDataEntityAsync<PeriodModel>(new GetPeriodCriteria { PeriodId = periodId }).ConfigureAwait(false);
+        }
+
         public async Task<CommandResult> Create(CreatePeriodModel model)
         {
             var criteria = new CreatePeriodCriteria
@@ -58,6 +63,25 @@
             {
                 PeriodId = periodId,
                 ModifiedBy = modifiedBy
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> Edit(EditPeriodModel model)
+        {
+            var criteria = new EditPeriodCriteria
+            {
+                PeriodId = model.PeriodId,
+                Name = model.Name,
+                StartDate = model.StartDate,
+                EndDate = model.EndDate,
+                DisciplineStartDate = model.DisciplineStartDate,
+                DisciplineEndDate = model.DisciplineEndDate,
+                FocusStartDate = model.FocusStartDate,
+                Description = model.Description,
+                IsActive = model.IsActive,
+                ModifiedBy = model.ModifiedBy
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

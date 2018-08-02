@@ -58,7 +58,7 @@
 
         public async Task<CommandResult> Edit(EditDisciplineModel model)
         {
-            var criteria = new UpdateDisciplineCriteria
+            var criteria = new EditDisciplineCriteria
             {
                 DisciplineId = model.DisciplineId,
                 EffectiveDate = model.EffectiveDate,

@@ -9,10 +9,14 @@
     {
         Task<IEnumerable<PeriodModel>> GetPeriods(int? targetTypeId, bool? isActive);
 
+        Task<PeriodModel> GetPeriod(int periodId);
+
         Task<CommandResult> Create(CreatePeriodModel model);
 
         Task<CommandResult> EditStatus(int periodId, bool isActive, int modifiedBy);
 
         Task<CommandResult> Delete(int periodId, int modifiedBy);
+
+        Task<CommandResult> Edit(EditPeriodModel model);
     }
 }
