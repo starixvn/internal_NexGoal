@@ -7,6 +7,7 @@ import commonFunctions from '../../common-functions';
 import Row from './Row';
 import Create from './Create';
 import Delete from './Delete';
+import EditStatus from './EditStatus';
 
 function THead(props) {
     return (
@@ -27,6 +28,7 @@ class Table extends Component {
         this.state = {
             showCreateModal: false,
             showDeleteModal: false,
+            showEditStatusModal: false,
             flowTemplateSelected: null
         };
     }
@@ -53,13 +55,13 @@ class Table extends Component {
         });
     }
 
-    handleDeleteFlowTemplate(flowTemplate) {
+    handleDeleteFlowTemplate() {
         axios({
             url: commonFunctions.getRootUrl() + 'Flow/DeleteFlowTemplate',
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                flowTemplateId: flowTemplate.flowTemplateId
+                flowTemplateId: this.state.flowTemplateSelected.flowTemplateId
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -76,6 +78,46 @@ class Table extends Component {
                 toast.error(data.message);
             }
         }).catch(commonFunctions.axiosError);
+    }
+
+    handleCheckboxChange(flowTemplateSelected) {
+        this.setState({
+            showEditStatusModal: true,
+            flowTemplateSelected: flowTemplateSelected
+        });
+    }
+
+    handleEditStatusFlowTemplate() {
+        axios({
+            url: commonFunctions.getRootUrl() + 'Flow/EditStatusFlowTemplate',
+            method: 'POST',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                flowTemplateId: this.state.flowTemplateSelected.flowTemplateId,
+                isActive: this.state.flowTemplateSelected.isActive
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success('Updated successfully!');
+
+                this.closeEditStatusModal();
+                this.props.handleFilterSubmit();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(commonFunctions.axiosError);
+    }
+
+    closeEditStatusModal() {
+        this.setState({
+            showEditStatusModal: false,
+            flowTemplateSelected: null
+        });
     }
 
     render() {
@@ -117,7 +159,8 @@ class Table extends Component {
                                         rowIndex={index + 1}
                                         flowTemplate={flowTemplate}
                                         isHost={isHost}
-                                        handleDeleteClick={this.handleDeleteClick.bind(this)}/>)
+                                        handleDeleteClick={this.handleDeleteClick.bind(this)}
+                                        handleCheckboxChange={this.handleCheckboxChange.bind(this)} />)
                             })
                         }
                     </TBody>
@@ -134,10 +177,19 @@ class Table extends Component {
                 {
                     this.state.showDeleteModal &&
                     <Delete
-                        flowTemplateSelected={this.state.flowTemplateSelected}
+                        name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showDeleteModal}
                         closeModal={this.closeDeleteModal.bind(this)}
                         handleDeleteFlowTemplate={this.handleDeleteFlowTemplate.bind(this)} />
+                }
+                {
+                    this.state.showEditStatusModal &&
+                    <EditStatus
+                        action={this.state.flowTemplateSelected.isActive ? 'activate' : 'deactivate'}
+                        name={this.state.flowTemplateSelected.name}
+                        showModal={this.state.showEditStatusModal}
+                        closeModal={this.closeEditStatusModal.bind(this)}
+                        handleEditStatusFlowTemplate={this.handleEditStatusFlowTemplate.bind(this)} />
                 }
             </Fragment>
         );

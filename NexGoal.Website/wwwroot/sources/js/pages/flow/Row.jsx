@@ -34,6 +34,9 @@ class Row extends Component {
     }
 
     handleCheckboxChange(event) {
+        let flowTemplate = JSON.parse(JSON.stringify(this.props.flowTemplate));
+        flowTemplate.isActive = event.target.checked;
+        this.props.handleCheckboxChange(flowTemplate);
     }
 
     render() {

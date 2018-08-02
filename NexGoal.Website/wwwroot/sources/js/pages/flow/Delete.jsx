@@ -8,7 +8,7 @@ class Delete extends Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.handleDeleteFlowTemplate(this.props.flowTemplateSelected);
+        this.props.handleDeleteFlowTemplate();
     }
 
     render() {
@@ -21,7 +21,7 @@ class Delete extends Component {
                 </Modal.Header>
                 <Form id="delete-eoq-form" horizontal onSubmit={this.handleSubmit.bind(this)}>
                     <Modal.Body>
-                        Do you want to delete <strong>{this.props.flowTemplateSelected.name}</strong>?
+                        Do you want to delete <strong>{this.props.name}</strong>?
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.props.closeModal} className="btn-cancel">Cancel</Button>
