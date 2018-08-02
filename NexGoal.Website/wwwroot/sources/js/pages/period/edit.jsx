@@ -52,10 +52,8 @@ export default class EditPeriod extends Component {
                     <li className="current">Edit Evaluation Period</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <Tabs id="tabs"
-                        activeKey={this.state.activeKey}
-                        onSelect={this.handleSelect}>
-
+                    <button class="btn btn-cancel"><i class="fa fa-arrow-left"></i>Back to list</button>
+                    <Tabs id="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
                         <Tab eventKey={1} title="Basic Information">
                             <EditBasicInformation periodId={this.state.periodId} />
                         </Tab>
