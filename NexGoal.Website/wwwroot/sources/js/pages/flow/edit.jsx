@@ -5,6 +5,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
+import EditInfo from './EditInfo';
 
 export default class App extends Component {
     constructor(props) {
@@ -42,6 +43,7 @@ export default class App extends Component {
                             activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}>
                             <Tab eventKey={1} title="General Information">
+                                <EditInfo />
                             </Tab>
                             <Tab eventKey={2} title="Team">
                             </Tab>

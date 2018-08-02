@@ -81,6 +81,21 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
+        public async Task<IActionResult> Edit(EditFlowTemplateModel flowTemplate)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await flowTemplateService.EditAsync(flowTemplate).ConfigureAwait(false);
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
         public async Task<IActionResult> EditStatusFlowTemplate(int flowTemplateId, bool isActive)
         {
             CommandResult result = await flowTemplateService.EditStatusAsync(flowTemplateId, isActive).ConfigureAwait(false);
@@ -95,6 +110,19 @@
             CommandResult commandResult = await flowTemplateService.DeleteAsync(flowTemplateId).ConfigureAwait(false);
 
             return Json(commandResult);
+        }
+
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
+        public async Task<IActionResult> GetById(int id)
+        {
+            FlowTemplateModel flowTemplate = await flowTemplateService.GetByIdAsync(id).ConfigureAwait(false);
+
+            if (flowTemplate == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+
+            return Json(flowTemplate);
         }
     }
 }
