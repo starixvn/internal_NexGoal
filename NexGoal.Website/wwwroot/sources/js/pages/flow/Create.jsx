@@ -24,7 +24,7 @@ class Create extends Component {
         });
 
         axios({
-            url: commonFunctions.getRootUrl() + 'Flow/CreateFlowTemplate',
+            url: commonFunctions.getRootUrl() + 'Flow/Create',
             method: 'POST',
             data: flowTemplate,
             headers: {

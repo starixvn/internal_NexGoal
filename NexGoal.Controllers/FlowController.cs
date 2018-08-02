@@ -41,7 +41,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetFlowTemplates(int? targetTypeId = null, bool? isActive = null)
+        public async Task<IActionResult> GetAll(int? targetTypeId = null, bool? isActive = null)
         {
             IEnumerable<FlowTemplateModel> flowTemplates = await flowTemplateService.GetAllAsync(targetTypeId, isActive).ConfigureAwait(false);
 
@@ -50,7 +50,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> CreateFlowTemplate(CreateFlowTemplateModel flowTemplate)
+        public async Task<IActionResult> Create(CreateFlowTemplateModel flowTemplate)
         {
             if (ModelState.IsValid)
             {
@@ -96,7 +96,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> EditStatusFlowTemplate(int flowTemplateId, bool isActive)
+        public async Task<IActionResult> EditStatus(int flowTemplateId, bool isActive)
         {
             CommandResult result = await flowTemplateService.EditStatusAsync(flowTemplateId, isActive).ConfigureAwait(false);
 
@@ -105,7 +105,7 @@
 
         [HttpDelete]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> DeleteFlowTemplate(int flowTemplateId)
+        public async Task<IActionResult> Delete(int flowTemplateId)
         {
             CommandResult commandResult = await flowTemplateService.DeleteAsync(flowTemplateId).ConfigureAwait(false);
 

@@ -56,7 +56,7 @@ class Table extends Component {
 
     handleDeleteFlowTemplate() {
         axios({
-            url: commonFunctions.getRootUrl() + 'Flow/DeleteFlowTemplate',
+            url: commonFunctions.getRootUrl() + 'Flow/Delete',
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -88,7 +88,7 @@ class Table extends Component {
 
     handleEditStatusFlowTemplate() {
         axios({
-            url: commonFunctions.getRootUrl() + 'Flow/EditStatusFlowTemplate',
+            url: commonFunctions.getRootUrl() + 'Flow/EditStatus',
             method: 'POST',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,

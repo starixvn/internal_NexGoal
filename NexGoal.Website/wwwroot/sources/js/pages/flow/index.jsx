@@ -48,7 +48,7 @@ export default class App extends Component {
 
     getFlowTemplates() {
         axios.get(commonFunctions.getRootUrl()
-            + `Flow/GetFlowTemplates?targetTypeId=${this.state.filter.targetTypeId}`
+            + `Flow/GetAll?targetTypeId=${this.state.filter.targetTypeId}`
             + `&isActive=${this.state.filter.isActive}`)
             .then(response => {
                 const data = response.data;
