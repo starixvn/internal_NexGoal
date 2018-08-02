@@ -113,6 +113,19 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
+        public async Task<IActionResult> Details(int id)
+        {
+            FlowTemplateModel flowTemplate = await flowTemplateService.GetByIdAsync(id).ConfigureAwait(false);
+
+            if (flowTemplate == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+
+            return View(id);
+        }
+
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<IActionResult> GetById(int id)
         {
             FlowTemplateModel flowTemplate = await flowTemplateService.GetByIdAsync(id).ConfigureAwait(false);
