@@ -1,14 +1,14 @@
 ﻿import React, { Component } from 'react';
 import { Button, Form, Modal } from 'react-bootstrap';
 
-class Delete extends Component {
+class ConfirmationModal extends Component {
     constructor(props) {
         super(props);
     }
 
     handleSubmit(event) {
         event.preventDefault();
-        this.props.handleDeleteFlowTemplate();
+        this.props.handleSubmit();
     }
 
     render() {
@@ -19,9 +19,9 @@ class Delete extends Component {
                 <Modal.Header closeButton>
                     <Modal.Title>Confirmation</Modal.Title>
                 </Modal.Header>
-                <Form id="delete-eoq-form" horizontal onSubmit={this.handleSubmit.bind(this)}>
+                <Form id="confirmation-form" horizontal onSubmit={this.handleSubmit.bind(this)}>
                     <Modal.Body>
-                        Do you want to delete <strong>{this.props.name}</strong>?
+                        Do you want to {this.props.action} <strong>{this.props.name}</strong>?
                     </Modal.Body>
                     <Modal.Footer>
                         <Button onClick={this.props.closeModal} className="btn-cancel">Cancel</Button>
@@ -33,4 +33,4 @@ class Delete extends Component {
     }
 }
 
-export default Delete;
+export default ConfirmationModal;

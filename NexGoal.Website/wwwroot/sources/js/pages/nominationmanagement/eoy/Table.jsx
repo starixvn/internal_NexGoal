@@ -1,8 +1,13 @@
 ﻿import React, { Component, Fragment } from 'react';
+import axios from 'axios';
+import { toast } from 'react-toastify';
+import { stringify } from 'qs';
+
+import commonFunctions from '../../../common-functions';
+import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 
 import Row from './Row';
 import CreateEOY from './Create';
-import DeleteEOY from './Delete';
 
 function THead(props) {
     return (
@@ -47,6 +52,31 @@ class Table extends Component {
             showDeleteModal: false,
             eoySelected: null
         });
+    }
+
+    handleDeleteEOY() {
+        axios({
+            url: commonFunctions.getRootUrl() + 'EOY/Delete',
+            method: 'DELETE',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                id: this.state.eoySelected.eoqyId
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success('Deleted successfully!');
+
+                this.closeDeleteModal();
+                this.props.handleFilterSubmit();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(commonFunctions.axiosError);
     }
 
     render() {
@@ -105,11 +135,12 @@ class Table extends Component {
                 }
                 {
                     this.state.showDeleteModal &&
-                    <DeleteEOY
-                        eoySelected={this.state.eoySelected}
+                    <ConfirmationModal
+                        action="delete"
+                        name={this.state.eoySelected.name}
                         showModal={this.state.showDeleteModal}
                         closeModal={this.closeDeleteModal.bind(this)}
-                        handleFilterSubmit={this.props.handleFilterSubmit} />
+                        handleSubmit={this.handleDeleteEOY.bind(this)} />
                 }
             </Fragment>
         );

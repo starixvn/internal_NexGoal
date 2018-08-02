@@ -4,10 +4,9 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import commonFunctions from '../../common-functions';
+import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import Row from './Row';
 import Create from './Create';
-import Delete from './Delete';
-import EditStatus from './EditStatus';
 
 function THead(props) {
     return (
@@ -176,20 +175,21 @@ class Table extends Component {
                 }
                 {
                     this.state.showDeleteModal &&
-                    <Delete
+                    <ConfirmationModal
+                        action="delete"
                         name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showDeleteModal}
                         closeModal={this.closeDeleteModal.bind(this)}
-                        handleDeleteFlowTemplate={this.handleDeleteFlowTemplate.bind(this)} />
+                        handleSubmit={this.handleDeleteFlowTemplate.bind(this)} />
                 }
                 {
                     this.state.showEditStatusModal &&
-                    <EditStatus
+                    <ConfirmationModal
                         action={this.state.flowTemplateSelected.isActive ? 'activate' : 'deactivate'}
                         name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showEditStatusModal}
                         closeModal={this.closeEditStatusModal.bind(this)}
-                        handleEditStatusFlowTemplate={this.handleEditStatusFlowTemplate.bind(this)} />
+                        handleSubmit={this.handleEditStatusFlowTemplate.bind(this)} />
                 }
             </Fragment>
         );
