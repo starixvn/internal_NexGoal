@@ -63,6 +63,22 @@
             return Json(new { isSuccessful = false, errors });
         }
 
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
+        public async Task<IActionResult> Edit(int id)
+        {
+            FlowTemplateModel flowTemplate = await flowTemplateService.GetByIdAsync(id).ConfigureAwait(false);
+
+            if (flowTemplate == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+
+            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.EvaluationFlow, Policy.Host);
+            ViewData["IsHost"] = isHost;
+
+            return View(id);
+        }
+
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
         public async Task<IActionResult> EditStatusFlowTemplate(int flowTemplateId, bool isActive)

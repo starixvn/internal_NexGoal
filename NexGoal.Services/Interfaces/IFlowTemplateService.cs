@@ -13,6 +13,8 @@
 
         Task<CommandResult> CreateAsync(CreateFlowTemplateModel flowTemplate);
 
+        Task<CommandResult> EditAsync(EditFlowTemplateModel flowTemplate);
+
         Task<CommandResult> EditStatusAsync(int flowTemplateId, bool isActive);
 
         Task<CommandResult> DeleteAsync(int flowTemplateId);

@@ -86,7 +86,7 @@
             functionService.AssignFunctionToRoleAsync(roleId, Arg.Any<IEnumerable<RolePermissionModel>>()).Returns(expected);
 
             // Act
-            var actual = await controller.AssignPermission(roleId, JsonConvert.SerializeObject(permissions));
+            var actual = await controller.AssignPermission(roleId, permissions);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);

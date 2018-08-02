@@ -55,6 +55,21 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
+        public async Task<CommandResult> EditAsync(EditFlowTemplateModel flowTemplate)
+        {
+            var criteria = new EditFlowTemplateCriteria
+            {
+                FlowTemplateId = flowTemplate.FlowTemplateId,
+                Name = flowTemplate.Name,
+                TargetTypeId = flowTemplate.TargetTypeId,
+                Description = flowTemplate.Description,
+                IsActive = flowTemplate.IsActive,
+                ModifiedBy = sessionService.EmployeeId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
         public async Task<CommandResult> EditStatusAsync(int flowTemplateId, bool isActive)
         {
             var criteria = new EditStatusFlowTemplateCriteria

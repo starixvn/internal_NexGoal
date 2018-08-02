@@ -90,4 +90,4 @@ export default class App extends Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('flowtemplate-wrapper'));
+ReactDOM.render(<App />, document.getElementById('evaluationflow-wrapper'));

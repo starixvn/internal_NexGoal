@@ -40,28 +40,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="Views\Shared\Components\Menu\Menu.cshtml" />
-    <None Include="wwwroot\sources\styles\abstracts\_mixins.scss" />
-    <None Include="wwwroot\sources\styles\abstracts\_variables.scss" />
-    <None Include="wwwroot\sources\styles\fonts\nexgoal\nexgoal.svg" />
-    <None Include="wwwroot\sources\styles\images\404\404.svg" />
-    <None Include="wwwroot\sources\styles\images\404\balloon.svg" />
-    <None Include="wwwroot\sources\styles\images\404\cloud-big.svg" />
-    <None Include="wwwroot\sources\styles\images\404\cloud-small.svg" />
-    <None Include="wwwroot\sources\styles\images\404\wind.svg" />
-    <None Include="wwwroot\sources\styles\images\405\door.svg" />
-    <None Include="wwwroot\sources\styles\images\405\seal.svg" />
-    <None Include="wwwroot\sources\styles\images\405\short-seal.svg" />
-    <None Include="wwwroot\sources\styles\images\405\signage.svg" />
-    <None Include="wwwroot\sources\styles\images\500\bluscreen.svg" />
-    <None Include="wwwroot\sources\styles\images\500\desktop.svg" />
-    <None Include="wwwroot\sources\styles\images\500\Error.svg" />
-    <None Include="wwwroot\sources\styles\images\500\leave.svg" />
-    <None Include="wwwroot\parts\constant.js" />
-    <None Include="wwwroot\parts\entry.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\NexGoal.Controllers\NexGoal.Controllers.csproj" />
     <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
     <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
@@ -70,45 +48,8 @@
     <ProjectReference Include="..\NexGoal.ViewModels\NexGoal.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Content Update="Views\Discipline\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\EOQ\Edit.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\EOQ\Details.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\EOY\Details.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\EOY\Edit.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Flow\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\NominationManagement\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Period\Edit.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Period\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\Role\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-    <Content Update="Views\User\Index.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
-  </ItemGroup>
-
   <Target Name="CreateLogsFolder" AfterTargets="AfterPublish">
     <MakeDir Directories="$(PublishDir)logs" Condition="!Exists('$(PublishDir)logs')" />
     <MakeDir Directories="$(PublishUrl)logs" Condition="!Exists('$(PublishUrl)logs')" />
   </Target>
-
 </Project>

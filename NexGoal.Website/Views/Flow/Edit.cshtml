@@ -1,0 +1,18 @@
+﻿@using NexGoal.Resources
+@model int
+
+@{
+    ViewData["Title"] = ViewLang.EvaluationFlow;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/csseditevaluationflow.css" />
+}
+
+@Html.AntiForgeryToken()
+
+<div id="evaluationflow-wrapper"></div>
+
+@section Scripts{
+    <script src="~/dist/editevaluationflow.js"></script>
+}

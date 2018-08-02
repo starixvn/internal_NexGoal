@@ -13,8 +13,9 @@ module.exports = {
         cssnominationmanagement: "./sources/styles/pages/nominationmanagement/index.scss",
         cssediteoqy: "./sources/styles/pages/nominationmanagement/edit.scss",
         cssdiscipline: "./sources/styles/pages/discipline/discipline.scss",
+        cssevaluationflow: "./sources/styles/pages/flow/index.scss",
+        csseditevaluationflow: "./sources/styles/pages/flow/edit.scss",
         cssperiod: "./sources/styles/pages/period/period.scss",
-        cssflowtemplate: "./sources/styles/pages/flow/index.scss",
         csseditperiod: "./sources/styles/pages/period/edit.scss",
         //
         main: "./sources/js/main.js",
@@ -25,8 +26,9 @@ module.exports = {
         nominationmanagement: './sources/js/pages/nominationmanagement/index.jsx',
         editeoq: './sources/js/pages/nominationmanagement/eoq/edit.jsx',
         editeoy: './sources/js/pages/nominationmanagement/eoy/edit.jsx',
+        evaluationflow: './sources/js/pages/flow/index.jsx',
+        editevaluationflow: './sources/js/pages/flow/edit.jsx',
         period: './sources/js/pages/period/index.jsx',
-        flowtemplate: './sources/js/pages/flow/index.jsx',
         editperiod: './sources/js/pages/period/edit.jsx'
     }
 };
