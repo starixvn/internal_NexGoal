@@ -6,3 +6,51 @@
 @import "../../components/react-select";
 @import "../../components/tabs";
 @import "../../components/toast";
+
+.employee-list {
+    border: 1px solid #c8c8c8;
+    @include border-radius(2px);
+
+    .header {
+        background-color: #acacac;
+        font-size: 16px;
+        text-transform: uppercase;
+        text-align: center;
+        color: #fff;
+        padding: 7px 10px;
+    }
+
+    .content {
+        padding: 10px;
+
+        .search {
+            position: relative;
+
+            input {
+                margin: 10px 0;
+            }
+
+            span {
+                color: #ccc;
+                position: absolute;
+                right: 8px;
+                top: 8px;
+            }
+        }
+
+        ul {
+            max-height: 500px;
+            overflow: auto;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+
+            li {
+                background: #e1e1e1;
+                margin-bottom: 1px;
+                padding: 3px 5px;
+                cursor: pointer;
+            }
+        }
+    }
+}

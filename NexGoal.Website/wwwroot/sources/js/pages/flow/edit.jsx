@@ -6,6 +6,7 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditInfo from './EditInfo';
+import GroupFlowSetting from './GroupFlowSetting';
 
 export default class App extends Component {
     constructor(props) {
@@ -46,6 +47,7 @@ export default class App extends Component {
                                 <EditInfo />
                             </Tab>
                             <Tab eventKey={2} title="Team">
+                                <GroupFlowSetting />
                             </Tab>
                             <Tab eventKey={3} title="Personal">
                             </Tab>

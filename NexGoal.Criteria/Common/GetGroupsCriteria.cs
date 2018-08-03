@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Criteria.UserManagement
+﻿namespace NexGoal.Criteria.Common
 {
     using Fanex.Data.Repository;
 

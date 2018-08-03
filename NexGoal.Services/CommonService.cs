@@ -5,7 +5,9 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
+    using NexGoal.Criteria.Common;
     using NexGoal.Models;
+    using NexGoal.Models.UserManagement;
 
     public class CommonService : ICommonService
     {
@@ -37,6 +39,28 @@
         public SelectList GetSelectList<T>(IEnumerable<T> items, string dataValueField, string dataTextField)
         {
             return new SelectList(items, dataValueField, dataTextField);
+        }
+
+        public async Task<IEnumerable<UserModel>> GetEmployeesAsync(
+            string keyword = null,
+            int? groupId = null,
+            bool? isEnabled = true)
+        {
+            var criteria = new SearchUserCriteria
+            {
+                Keyword = keyword,
+                GroupId = groupId,
+                IsEnabled = isEnabled
+            };
+
+            return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UserGroupModel>> GetGroupsAsync()
+        {
+            var criteria = new GetGroupsCriteria();
+
+            return await baseService.GetDataAsync<UserGroupModel>(criteria).ConfigureAwait(false);
         }
     }
 }

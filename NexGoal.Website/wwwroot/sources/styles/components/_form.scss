@@ -1,30 +1,28 @@
-form {
-    .form-control {
-        font-size: 13px;
-        padding: 3px 4px;
-        height: 30px;
-        @include border-radius(2px);
-        border-color: #dfdfdf;
-        box-shadow: none;
-    }
+.form-control {
+    font-size: 13px;
+    padding: 3px 4px;
+    height: 30px;
+    @include border-radius(2px);
+    border-color: #dfdfdf;
+    box-shadow: none;
+}
 
-    textarea {
-        &.form-control {
-            height: auto;
-        }
+textarea {
+    &.form-control {
+        height: auto;
     }
+}
 
-    input[type="text"],
-    input[type="search"],
-    input[type="email"],
-    input[type="number"],
-    input[type="password"],
-    textarea,
-    select {
-        &.input-validation-error {
-            border-color: #ff4545;
-            @include box-shadow-multiple('0 0 2px 2px rgba(255,0,0, .2)');
-        }
+input[type="text"],
+input[type="search"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+textarea,
+select {
+    &.input-validation-error {
+        border-color: #ff4545;
+        @include box-shadow-multiple('0 0 2px 2px rgba(255,0,0, .2)');
     }
 }
 

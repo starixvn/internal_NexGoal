@@ -5,40 +5,36 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
-    using NexGoal.Core.Services;
-    using NexGoal.Criteria.Common;
-    using NexGoal.Criteria.UserManagement;
     using NexGoal.Models;
     using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
     public class CommonController : Controller
     {
-        private readonly IBaseService baseService;
         private readonly ICommonService commonService;
 
-        public CommonController(
-            IBaseService baseService,
-            ICommonService commonService)
+        public CommonController(ICommonService commonService)
         {
-            this.baseService = baseService;
             this.commonService = commonService;
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchEmployees(string keyword)
+        public async Task<IActionResult> SearchEmployees(
+            string keyword = null,
+            int? groupId = null,
+            bool? isEnabled = true)
         {
-            var results = await baseService.GetDataAsync<UserModel>(new SearchUserCriteria { Keyword = keyword }).ConfigureAwait(false);
+            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(keyword, groupId, isEnabled).ConfigureAwait(false);
 
-            return Ok(results);
+            return Json(employees);
         }
 
         [HttpGet]
         public async Task<IActionResult> GetGroups()
         {
-            var results = await baseService.GetDataAsync<UserGroupModel>(new GetGroupsCriteria()).ConfigureAwait(false);
+            IEnumerable<UserGroupModel> groups = await commonService.GetGroupsAsync().ConfigureAwait(false);
 
-            return Ok(results);
+            return Json(groups);
         }
 
         [HttpGet]

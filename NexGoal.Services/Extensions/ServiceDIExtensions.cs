@@ -14,6 +14,7 @@
             services.AddScoped<IDisciplineService, DisciplineService>();
             services.AddScoped<IFlowTemplateService, FlowTemplateService>();
             services.AddScoped<IPeriodService, PeriodService>();
+            services.AddScoped<IGroupFlowSettingService, GroupFlowSettingService>();
         }
     }
 }
