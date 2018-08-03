@@ -26,6 +26,11 @@
             return await baseService.GetDataEntityAsync<PeriodModel>(new GetPeriodCriteria { PeriodId = periodId }).ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSetting(int periodId)
+        {
+            return await baseService.GetDataAsync<PeriodProcessSettingModel>(new GetPeriodProcessSettingCriteria { PeriodId = periodId }).ConfigureAwait(false);
+        }
+
         public async Task<CommandResult> Create(CreatePeriodModel model)
         {
             var criteria = new CreatePeriodCriteria

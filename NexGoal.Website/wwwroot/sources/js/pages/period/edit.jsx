@@ -4,6 +4,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import EditBasicInformation from './EditBasicInformation';
+import EditProcessSetting from './EditProcessSetting';
 
 export default class EditPeriod extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ export default class EditPeriod extends Component {
         this.state = {
             periodId: document.getElementById('periodId').value,
             activeKey: 1,
-            loadProcessTab: false,
+            loadProcessSettingTab: false,
             loadEmployeeTab: false,
         };
     }
@@ -37,7 +38,7 @@ export default class EditPeriod extends Component {
                 this.setState({ activeKey: key });
                 break;
             case 2:
-                this.setState({ activeKey: key, loadProcessTab: true });
+                this.setState({ activeKey: key, loadProcessSettingTab: true });
                 break;
             case 3:
                 this.setState({ activeKey: key, loadEmployeeTab: true });
@@ -52,13 +53,15 @@ export default class EditPeriod extends Component {
                     <li className="current">Edit Evaluation Period</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <button class="btn btn-cancel"><i class="fa fa-arrow-left"></i>Back to list</button>
+                    <button className="btn btn-cancel"><i className="fa fa-arrow-left"></i>Back to list</button>
                     <Tabs id="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
                         <Tab eventKey={1} title="Basic Information">
                             <EditBasicInformation periodId={this.state.periodId} />
                         </Tab>
                         <Tab eventKey={2} title="Process Setting">
-
+                            {this.state.loadProcessSettingTab &&
+                                <EditProcessSetting periodId={this.state.periodId} />
+                            }
                         </Tab>
                         <Tab eventKey={3} title="Employee Setting">
                         </Tab>

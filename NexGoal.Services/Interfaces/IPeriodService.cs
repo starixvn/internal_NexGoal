@@ -18,5 +18,7 @@
         Task<CommandResult> Delete(int periodId, int modifiedBy);
 
         Task<CommandResult> Edit(EditPeriodModel model);
+
+        Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSetting(int periodId);
     }
 }

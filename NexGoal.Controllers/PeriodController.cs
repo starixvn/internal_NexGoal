@@ -45,6 +45,14 @@
         }
 
         [HttpGet]
+        public async Task<IActionResult> GetPeriodProcessSetting(int id)
+        {
+            var processSettings = await periodService.GetPeriodProcessSetting(id).ConfigureAwait(false);
+
+            return Json(processSettings);
+        }
+
+        [HttpGet]
         public async Task<IActionResult> Get(int id)
         {
             var period = await periodService.GetPeriod(id).ConfigureAwait(false);
