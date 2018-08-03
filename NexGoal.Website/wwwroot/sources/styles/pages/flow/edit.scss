@@ -4,8 +4,17 @@
 @import "../../components/form";
 @import "../../components/messages";
 @import "../../components/react-select";
+@import "../../components/tables";
 @import "../../components/tabs";
 @import "../../components/toast";
+
+.employee-list, .flow-settings {
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+}
 
 .employee-list {
     border: 1px solid #c8c8c8;
@@ -41,9 +50,6 @@
         ul {
             max-height: 500px;
             overflow: auto;
-            margin: 0;
-            padding: 0;
-            list-style: none;
 
             li {
                 background: #e1e1e1;
@@ -52,5 +58,11 @@
                 cursor: pointer;
             }
         }
+    }
+}
+
+.flow-settings {
+    .sortable {
+        min-height: 300px;
     }
 }

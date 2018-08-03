@@ -1,12 +1,9 @@
 ﻿import React, { Component } from 'react';
-import { Button, Form, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
-import { toast } from 'react-toastify';
 import Select from 'react-select';
-import { camelCase, isEmpty } from 'lodash';
-import { stringify } from 'qs';
 
-import commonFunctions from '../../common-functions';
+import commonFunctions from '../../../common-functions';
+import Draggable from './Draggable';
 
 class EmployeeList extends Component {
     constructor(props) {
@@ -61,7 +58,10 @@ class EmployeeList extends Component {
             employees = this.state.employees.slice();
         }
 
-        this.setState({ filteredEmployees: employees });
+        this.setState({
+            keyword: event.target.value,
+            filteredEmployees: employees
+        });
     }
 
     render() {
@@ -76,7 +76,7 @@ class EmployeeList extends Component {
             <div className="employee-list">
                 <div className="header">Employee</div>
                 <div className="content">
-                    <Select name="" value={this.state.groupSelected} options={groupOptions}
+                    <Select value={this.state.groupSelected} options={groupOptions}
                         clearable={false} onChange={this.handleGroupChange} />
                     <div className="search">
                         <input type="text" className="form-control" placeholder="full name or nick name"
@@ -84,11 +84,14 @@ class EmployeeList extends Component {
                         <span className="fa fa-search"></span>
                     </div>
                     <ul>
-                        {employees.map((employee) => {
-                            return (
-                                <li key={'employee-' + employee.employeeId}>{`${employee.nickName} (${employee.fullName})`}</li>
-                            )
-                        })}
+                        {
+                            employees.map((employee) => {
+                                return (
+                                    <Draggable key={'employee-' + employee.employeeId}
+                                        label={`${employee.nickName} (${employee.fullName})`}
+                                        connectToSortable=".sortable" />)
+                            })
+                        }
                     </ul>
                 </div>
             </div>

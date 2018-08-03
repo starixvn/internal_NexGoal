@@ -6,14 +6,14 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditInfo from './EditInfo';
-import GroupFlowSetting from './GroupFlowSetting';
+import GroupFlowSetting from './flowsetting/GroupFlowSetting';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            activeKey: 1
+            activeKey: 2
         };
 
         this.handleSelect = this.handleSelect.bind(this);
