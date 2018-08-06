@@ -5,6 +5,7 @@
     public class SearchUserCriteria : CriteriaBase
     {
         public string Keyword { get; set; }
+        public int? EmployeeId { get; set; }
         public int? GroupId { get; set; }
         public bool? IsEnabled { get; set; }
 

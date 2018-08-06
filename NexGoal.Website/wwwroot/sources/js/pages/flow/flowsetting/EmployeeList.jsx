@@ -87,7 +87,8 @@ class EmployeeList extends Component {
                         {
                             employees.map((employee) => {
                                 return (
-                                    <Draggable key={'employee-' + employee.employeeId}
+                                    <Draggable key={'employee-' + employee.employeeId} enable={this.props.isHost}
+                                        id={employee.employeeId}
                                         label={`${employee.nickName} (${employee.fullName})`}
                                         connectToSortable=".sortable" />)
                             })

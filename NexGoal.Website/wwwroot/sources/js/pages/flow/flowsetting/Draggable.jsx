@@ -16,9 +16,15 @@ class Draggable extends Component {
         this.$node.draggable('destroy');
     }
 
+    componentWillReceiveProps(nextProps) {
+        if (nextProps.enable !== this.props.enable) {
+            this.$node.sortable(nextProps.enable ? 'enable' : 'disable');
+        }
+    }
+
     render() {
         return (
-            <li ref="draggable">
+            <li ref="draggable" id={this.props.id}>
                 {this.props.label}
             </li>
         );

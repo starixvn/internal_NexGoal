@@ -1,12 +1,16 @@
 ﻿namespace NexGoal.Services
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Criteria.Common;
     using NexGoal.Criteria.FlowSetting;
     using NexGoal.Models.FlowSetting;
+    using NexGoal.Models.UserManagement;
 
     public class GroupFlowSettingService : IGroupFlowSettingService
     {
@@ -31,7 +35,7 @@
 
             var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
 
-            if (flowSettings == null || flowSettings.Any())
+            if (flowSettings == null || !flowSettings.Any())
             {
                 return null;
             }
@@ -47,10 +51,6 @@
                 {
                     case (int)PAProcess.HumanResource:
                         groupFlowSetting.HumanResources.Add(flowSetting);
-                        break;
-
-                    case (int)PAProcess.ProjectManager:
-                        groupFlowSetting.ProjectManagers.Add(flowSetting);
                         break;
 
                     case (int)PAProcess.Evaluator:
@@ -70,6 +70,19 @@
             return groupFlowSetting;
         }
 
+        public async Task<CommandResult> EditAsync(int groupId, int flowTemplateId, IEnumerable<FlowSettingModel> settings)
+        {
+            var criteria = new EditGroupFlowSettingCriteria
+            {
+                GroupId = groupId,
+                FlowTemplateId = flowTemplateId,
+                FlowDetails = settings.ToXML().ToString(),
+                ModifiedBy = sessionService.EmployeeId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
         public async Task<CommandResult> DeleteAsync(int groupId, int flowTemplateId)
         {
             var criteria = new DeleteGroupFlowSettingCriteria
@@ -80,6 +93,16 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<UserModel> GetEmployeeByIdAsync(int employeeId)
+        {
+            var criteria = new SearchUserCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataEntityAsync<UserModel>(criteria).ConfigureAwait(false);
         }
     }
 }
