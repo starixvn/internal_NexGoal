@@ -20,5 +20,7 @@
         Task<CommandResult> Edit(EditPeriodModel model);
 
         Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSetting(int periodId);
+
+        Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings, int modifiedBy);
     }
 }

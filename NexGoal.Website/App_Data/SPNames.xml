@@ -69,5 +69,6 @@
     <Setting Key="Period_GetById" SpName="Period_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_Update" SpName="Period_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetProcessSetting" SpName="Period_GetProcessSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_UpdateProcessSetting" SpName="Period_UpdateProcessSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

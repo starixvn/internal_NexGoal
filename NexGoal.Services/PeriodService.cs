@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Periods;
@@ -87,6 +88,18 @@
                 Description = model.Description,
                 IsActive = model.IsActive,
                 ModifiedBy = model.ModifiedBy
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings, int modifiedBy)
+        {
+            var criteria = new EditProcessSettingCriteria
+            {
+                PeriodId = periodId,
+                Settings = settings.ToXML().ToString(),
+                ModifiedBy = modifiedBy
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

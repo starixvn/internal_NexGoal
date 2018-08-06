@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
@@ -134,6 +135,25 @@
                          where item.Value.Errors.Any()
                          select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
             return Json(new { isSuccessful = false, errors });
+        }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> EditProcessSetting(int periodId, IEnumerable<PeriodProcessSettingModel> settings)
+        {
+            var result = await periodService.EditProcessSetting(periodId,
+            settings.Select(x => new EditProcessSettingModel
+            {
+                PeriodId = x.PeriodId,
+                ProcessId = x.ProcessId,
+                Duration = x.Duration,
+                FocusDay = x.FocusDay,
+                NoticeAtBegin = x.NoticeAtBegin,
+                RemindDay = x.RemindDay
+            }), sessionService.EmployeeId)
+            .ConfigureAwait(false);
+
+            return Json(result);
         }
     }
 }
