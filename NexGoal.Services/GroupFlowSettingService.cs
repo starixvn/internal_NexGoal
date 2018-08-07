@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Extensions;
@@ -25,6 +24,16 @@
             this.baseService = baseService;
         }
 
+        public async Task<IEnumerable<UserGroupModel>> GetGroupHasSettingAsync(int flowTempalteId)
+        {
+            var criteria = new GetGroupHasSettingCriteria
+            {
+                FlowTemplateId = flowTempalteId
+            };
+
+            return await baseService.GetDataAsync<UserGroupModel>(criteria).ConfigureAwait(false);
+        }
+
         public async Task<GroupFlowSettingModel> GetByIdAsync(int groupId, int flowTempalteId)
         {
             var criteria = new GetGroupFlowSettingByIdCriteria
@@ -34,11 +43,6 @@
             };
 
             var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
-
-            if (flowSettings == null || !flowSettings.Any())
-            {
-                return null;
-            }
 
             var groupFlowSetting = new GroupFlowSettingModel
             {

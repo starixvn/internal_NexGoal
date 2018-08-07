@@ -62,8 +62,12 @@
 }
 
 .flow-settings {
-    .sortable {
+    ul {
         min-height: 300px;
+    }
+
+    .group-has-setting {
+        padding-top: 7px;
     }
 
     table {

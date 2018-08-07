@@ -15,8 +15,9 @@ class GroupFlowSetting extends Component {
         super(props);
 
         this.state = {
-            groups: [],
+            groupOptions: [],
             groupSelected: { value: '', label: '-- All --' },
+            groupSettings: [],
             humanResources: [],
             evaluators: [],
             reviewers: [],
@@ -35,6 +36,7 @@ class GroupFlowSetting extends Component {
 
     componentWillMount() {
         this.getGroups();
+        this.getGroupHasSetting();
     }
 
     getGroups() {
@@ -43,7 +45,18 @@ class GroupFlowSetting extends Component {
                 const data = response.data;
 
                 this.setState({
-                    groups: data
+                    groupOptions: data
+                });
+            }).catch(commonFunctions.axiosError);
+    }
+
+    getGroupHasSetting() {
+        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupHasSetting?flowTemplateId=${this.state.flowTemplateId}`)
+            .then(response => {
+                const data = response.data;
+
+                this.setState({
+                    groupSettings: data
                 });
             }).catch(commonFunctions.axiosError);
     }
@@ -223,6 +236,17 @@ class GroupFlowSetting extends Component {
 
                 if (data.isSuccessful) {
                     toast.success('Updated successfully!');
+
+                    let groupSettings = this.state.groupSettings.slice();
+                    let groupIds = groupSettings.map((group) => {
+                        return group.groupId;
+                    });
+
+                    if (groupIds.indexOf(this.state.groupSelected.value) === -1) {
+                        groupSettings.push({ groupId: this.state.groupSelected.value, name: this.state.groupSelected.label });
+
+                        this.setState({ groupSettings });
+                    }
                 } else {
                     toast.error(data.message);
                 }
@@ -234,23 +258,25 @@ class GroupFlowSetting extends Component {
     }
 
     render() {
-        const groupOptions = this.state.groups.map((group) => {
+        let groupOptions = this.state.groupOptions.map((group) => {
             return { value: group.groupId, label: group.name };
         });
         groupOptions.unshift({ value: '', label: '-- All --' });
 
+        const groupSetting = this.state.groupSettings.map((group) => {
+            return group.name;
+        }).join(', ');
+
         return (
             <div className="row">
                 <div className="col-sm-3">
-                    <EmployeeList groupOptions={this.state.groups} isHost={this.state.isHost} />
+                    <EmployeeList groupOptions={this.state.groupOptions} isHost={this.state.isHost} />
                 </div>
                 <div className="col-sm-9 flow-settings">
                     <Form horizontal>
                         <FormGroup>
                             <label className="col-sm-3 control-label">Team have setting</label>
-                            <div className="col-sm-9">
-
-                            </div>
+                            <div className="col-sm-9 group-has-setting">{groupSetting}</div>
                         </FormGroup>
                         <FormGroup>
                             <label className="col-sm-3 control-label">Apply to Team</label>
@@ -278,7 +304,14 @@ class GroupFlowSetting extends Component {
                                         onDeactivate={this.handleOnDeactivate} />
                                 </td>
                                 <td>
-
+                                    {this.state.groupSelected.value &&
+                                        <ul>
+                                            <li className="alert alert-info">
+                                                <img />
+                                                <p>Self</p>
+                                            </li>
+                                        </ul>
+                                    }
                                 </td>
                                 <td>
                                     <Sortable id="evaluators" data={this.state.evaluators}

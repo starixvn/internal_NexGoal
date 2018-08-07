@@ -8,6 +8,8 @@
 
     public interface IGroupFlowSettingService
     {
+        Task<IEnumerable<UserGroupModel>> GetGroupHasSettingAsync(int flowTempalteId);
+
         Task<GroupFlowSettingModel> GetByIdAsync(int groupId, int flowTempalteId);
 
         Task<CommandResult> EditAsync(int groupId, int flowTemplateId, IEnumerable<FlowSettingModel> settings);

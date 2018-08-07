@@ -28,7 +28,7 @@ class Filter extends Component {
 
     render() {
         const filter = this.props.filter;
-        const targetTypeOptions = this.props.targetTypes.map((targetType) => {
+        let targetTypeOptions = this.props.targetTypes.map((targetType) => {
             return { value: targetType.targetTypeId.toString(), label: targetType.name };
         });
         targetTypeOptions.unshift({ value: '', label: '-- All --' });

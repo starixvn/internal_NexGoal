@@ -21,14 +21,17 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
+        public async Task<IActionResult> GetGroupHasSetting(int flowTemplateId)
+        {
+            IEnumerable<UserGroupModel> groups = await flowSettingService.GetGroupHasSettingAsync(flowTemplateId).ConfigureAwait(false);
+
+            return Json(groups);
+        }
+
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<IActionResult> GetById(int groupId, int flowTemplateId)
         {
             GroupFlowSettingModel groupFlowSetting = await flowSettingService.GetByIdAsync(groupId, flowTemplateId).ConfigureAwait(false);
-
-            if (groupFlowSetting == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
 
             return Json(groupFlowSetting);
         }

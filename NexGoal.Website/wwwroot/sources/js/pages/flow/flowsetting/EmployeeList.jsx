@@ -65,7 +65,7 @@ class EmployeeList extends Component {
     }
 
     render() {
-        const groupOptions = this.props.groupOptions.map((group) => {
+        let groupOptions = this.props.groupOptions.map((group) => {
             return { value: group.groupId, label: group.name };
         });
         groupOptions.unshift({ value: '', label: '-- All --' });

@@ -57,6 +57,7 @@
     <Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Group Flow Setting">
+    <Setting Key="FlowTemplate_GetGroupHasSetting" SpName="FlowTemplate_GetGroupHasSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GroupFlowSetting_GetById" SpName="GroupFlowSetting_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GroupFlowSetting_Update" SpName="GroupFlowSetting_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GroupFlowSetting_Delete" SpName="GroupFlowSetting_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>

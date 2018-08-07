@@ -74,7 +74,7 @@ class Create extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const targetTypeOptions = this.props.targetTypes.map((targetType) => {
+        let targetTypeOptions = this.props.targetTypes.map((targetType) => {
             return { value: targetType.targetTypeId, label: targetType.name };
         });
         targetTypeOptions.unshift({ value: '', label: '-- All --' });
