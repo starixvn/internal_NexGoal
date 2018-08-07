@@ -1,0 +1,17 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Welcome to NexGoal</title>
+</head>
+<body>
+    <form asp-controller="auth" asp-action="login" method="post">
+        <input type="text" name="username" />
+        <input type="submit" value="Login" />
+    </form>
+</body>
+</html>
