@@ -70,15 +70,27 @@
         padding-top: 7px;
     }
 
-    table {
+    table.table {
         tbody {
             tr {
                 td {
                     width: 25%;
-                }
 
-                &:hover td {
-                    background: none;
+                    &.col-hr {
+                        background: #fcd5b4;
+                    }
+
+                    &.col-self {
+                        background: #d8e4bc;
+                    }
+
+                    &.col-evaluator {
+                        background: #e8b8b7;
+                    }
+
+                    &.col-reviewer {
+                        background: #b1a0c7;
+                    }
                 }
             }
         }

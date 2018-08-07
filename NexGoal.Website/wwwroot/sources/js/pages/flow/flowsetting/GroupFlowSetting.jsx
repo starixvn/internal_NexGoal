@@ -351,13 +351,13 @@ class GroupFlowSetting extends Component {
                         </thead>
                         <tbody>
                             <tr>
-                                <td>
+                                <td className="col-hr">
                                     <Sortable id="humanResources" data={this.state.humanResources}
                                         enable={this.state.isHost}
                                         onReceive={this.handleOnReceive}
                                         onDeactivate={this.handleOnDeactivate} />
                                 </td>
-                                <td>
+                                <td className="col-self">
                                     {this.state.groupSelected.value &&
                                         <ul>
                                             <li className="alert alert-info">
@@ -367,13 +367,13 @@ class GroupFlowSetting extends Component {
                                         </ul>
                                     }
                                 </td>
-                                <td>
+                                <td className="col-evaluator">
                                     <Sortable id="evaluators" data={this.state.evaluators}
                                         enable={this.state.isHost}
                                         onReceive={this.handleOnReceive}
                                         onDeactivate={this.handleOnDeactivate} />
                                 </td>
-                                <td>
+                                <td className="col-reviewer">
                                     <Sortable id="reviewers" data={this.state.reviewers}
                                         enable={this.state.isHost}
                                         onReceive={this.handleOnReceive}
