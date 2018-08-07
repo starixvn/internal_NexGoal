@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { stringify } from 'qs';
 
 import commonFunctions from '../../../common-functions';
+import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PAProcess } from '../../../constants';
 import EmployeeList from './EmployeeList';
 import Sortable from './Sortable';
@@ -15,22 +16,24 @@ class GroupFlowSetting extends Component {
         super(props);
 
         this.state = {
-            groupOptions: [],
-            groupSelected: { value: '', label: '-- All --' },
             groupSettings: [],
             humanResources: [],
             evaluators: [],
             reviewers: [],
-            employeeIdSelected: null,
+            evaluatorSelected: null,
+            groupOptions: [],
+            groupSelected: { value: '', label: '-- All --' },
             flowTemplateId: document.getElementById('FlowTemplateId').value,
             isHost: document.getElementById('IsHost').checked,
-            showDeleteButton: false
+            showDeleteButton: false,
+            showDeleteModal: false
         };
 
         this.handleGroupChange = this.handleGroupChange.bind(this);
         this.handleOnReceive = this.handleOnReceive.bind(this);
         this.handleOnDeactivate = this.handleOnDeactivate.bind(this);
         this.handleSaveFlowSetting = this.handleSaveFlowSetting.bind(this);
+        this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleDeleteFlowSetting = this.handleDeleteFlowSetting.bind(this);
     }
 
@@ -160,20 +163,20 @@ class GroupFlowSetting extends Component {
     }
 
     handleOnReceive(event, ui) {
-        this.setState({ employeeIdSelected: parseInt(ui.sender.attr('id'), 10) });
+        this.setState({ evaluatorSelected: parseInt(ui.sender.attr('id'), 10) });
     }
 
     handleOnDeactivate(event, ui) {
-        let fromIndex = this.state.employeeIdSelected ? -1 : ui.item.startPos;
+        let fromIndex = this.state.evaluatorSelected ? -1 : ui.item.startPos;
         let toIndex = ui.item.parent('ul.sortable').children().index(ui.item);
 
         if (toIndex >= 0) {
             if (fromIndex >= 0) {
                 this.handleSortItems(fromIndex, toIndex, ui.sender.attr('id'));
             } else {
-                this.handleAddItem(toIndex, this.state.employeeIdSelected, ui.sender.attr('id'));
+                this.handleAddItem(toIndex, this.state.evaluatorSelected, ui.sender.attr('id'));
                 ui.item.remove();
-                this.setState({ employeeIdSelected: null });
+                this.setState({ evaluatorSelected: null });
             }
         }
     }
@@ -247,6 +250,8 @@ class GroupFlowSetting extends Component {
 
                         this.setState({ groupSettings });
                     }
+
+                    this.setState({ showDeleteButton: true });
                 } else {
                     toast.error(data.message);
                 }
@@ -254,7 +259,56 @@ class GroupFlowSetting extends Component {
         }
     }
 
+    handleDeleteClick() {
+        this.setState({
+            showDeleteModal: true
+        });
+    }
+
+    closeDeleteModal() {
+        this.setState({
+            showDeleteModal: false
+        });
+    }
+
     handleDeleteFlowSetting() {
+        axios({
+            url: commonFunctions.getRootUrl() + 'GroupFlowSetting/Delete',
+            method: 'DELETE',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                flowTemplateId: this.state.flowTemplateId,
+                groupId: this.state.groupSelected.value
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success('Deleted successfully!');
+
+                this.closeDeleteModal();
+
+                let groupSettings = this.state.groupSettings.slice();
+                let groupIds = groupSettings.map((group) => {
+                    return group.groupId;
+                });
+                let index = groupIds.indexOf(this.state.groupSelected.value);
+                groupSettings.splice(index, 1);
+
+                this.setState({
+                    groupSettings: groupSettings,
+                    humanResources: [],
+                    evaluators: [],
+                    reviewers: [],
+                    showDeleteButton: false
+                });
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(commonFunctions.axiosError);
     }
 
     render() {
@@ -332,10 +386,19 @@ class GroupFlowSetting extends Component {
                         <Form inline>
                             <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>Submit</Button>
                             {this.state.showDeleteButton &&
-                                <Button type="button" bsStyle="primary" onClick={this.handleDeleteFlowSetting}>Delete</Button>}
+                                <Button type="button" bsStyle="primary" onClick={this.handleDeleteClick}>Delete</Button>}
                         </Form>
                     }
                 </div>
+                {
+                    this.state.showDeleteModal &&
+                    <ConfirmationModal
+                        action="delete"
+                        name="this group's setting"
+                        showModal={this.state.showDeleteModal}
+                        closeModal={this.closeDeleteModal.bind(this)}
+                        handleSubmit={this.handleDeleteFlowSetting} />
+                }
             </div>
         );
     }
