@@ -56,6 +56,16 @@
             return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
         }
 
+        public async Task<UserModel> GetEmployeeByIdAsync(int employeeId)
+        {
+            var criteria = new SearchUserCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataEntityAsync<UserModel>(criteria).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<UserGroupModel>> GetGroupsAsync()
         {
             var criteria = new GetGroupsCriteria();

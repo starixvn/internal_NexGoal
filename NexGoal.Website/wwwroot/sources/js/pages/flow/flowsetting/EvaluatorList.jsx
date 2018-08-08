@@ -5,7 +5,7 @@ import Select from 'react-select';
 import commonFunctions from '../../../common-functions';
 import Draggable from './Draggable';
 
-class EmployeeList extends Component {
+class EvaluatorList extends Component {
     constructor(props) {
         super(props);
 
@@ -100,4 +100,4 @@ class EmployeeList extends Component {
     }
 }
 
-export default EmployeeList;
+export default EvaluatorList;

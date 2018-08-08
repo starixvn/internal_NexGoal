@@ -6,7 +6,6 @@
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.Common;
     using NexGoal.Criteria.FlowSetting;
     using NexGoal.Models.FlowSetting;
     using NexGoal.Models.UserManagement;
@@ -24,9 +23,9 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<UserGroupModel>> GetGroupHasSettingAsync(int flowTempalteId)
+        public async Task<IEnumerable<UserGroupModel>> GetGroupHaveSettingAsync(int flowTempalteId)
         {
-            var criteria = new GetGroupHasSettingCriteria
+            var criteria = new GetGroupHaveSettingCriteria
             {
                 FlowTemplateId = flowTempalteId
             };
@@ -97,16 +96,6 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-        }
-
-        public async Task<UserModel> GetEmployeeByIdAsync(int employeeId)
-        {
-            var criteria = new SearchUserCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return await baseService.GetDataEntityAsync<UserModel>(criteria).ConfigureAwait(false);
         }
     }
 }

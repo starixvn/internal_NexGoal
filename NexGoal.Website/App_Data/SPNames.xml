@@ -57,10 +57,17 @@
     <Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Group Flow Setting">
-    <Setting Key="FlowTemplate_GetGroupHasSetting" SpName="FlowTemplate_GetGroupHasSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="GroupFlowSetting_GetGroupHaveSetting" SpName="GroupFlowSetting_GetGroupHaveSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GroupFlowSetting_GetById" SpName="GroupFlowSetting_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GroupFlowSetting_Update" SpName="GroupFlowSetting_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GroupFlowSetting_Delete" SpName="GroupFlowSetting_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Employee Flow Setting">
+    <Setting Key="EmployeeFlowSetting_GetEmployeeHaveSetting" SpName="EmployeeFlowSetting_GetEmployeeHaveSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EmployeeFlowSetting_GetEmployeeDoNotHaveSetting" SpName="EmployeeFlowSetting_GetEmployeeDoNotHaveSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EmployeeFlowSetting_GetById" SpName="EmployeeFlowSetting_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EmployeeFlowSetting_Update" SpName="EmployeeFlowSetting_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EmployeeFlowSetting_Delete" SpName="EmployeeFlowSetting_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Period">
     <Setting Key="Period_Get" SpName="Period_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

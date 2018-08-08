@@ -7,13 +7,16 @@ import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditInfo from './EditInfo';
 import GroupFlowSetting from './flowsetting/GroupFlowSetting';
+import EmployeeFlowSetting from './flowsetting/EmployeeFlowSetting';
 
 export default class App extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            activeKey: 2
+            activeKey: 3,
+            isFirstLoadGroupTab: false,
+            isFirstLoadPersonalTab: false
         };
 
         this.handleSelect = this.handleSelect.bind(this);
@@ -21,6 +24,14 @@ export default class App extends Component {
 
     handleSelect(key) {
         this.setState({ activeKey: key });
+
+        if (key === 2 && !this.state.isFirstLoadGroupTab) {
+            this.setState({ isFirstLoadGroupTab: true });
+        }
+
+        if (key === 3 && !this.state.isFirstLoadPersonalTab) {
+            this.setState({ isFirstLoadPersonalTab: true });
+        }
     }
 
     handleBackClick() {
@@ -47,9 +58,10 @@ export default class App extends Component {
                                 <EditInfo />
                             </Tab>
                             <Tab eventKey={2} title="Team">
-                                <GroupFlowSetting />
+                                {this.state.isFirstLoadGroupTab && <GroupFlowSetting />}
                             </Tab>
                             <Tab eventKey={3} title="Personal">
+                                <EmployeeFlowSetting />
                             </Tab>
                             <Tab eventKey={4} title="Flow List">
                             </Tab>

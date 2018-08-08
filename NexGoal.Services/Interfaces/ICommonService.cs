@@ -17,6 +17,8 @@
             int? groupId = null,
             bool? isEnabled = true);
 
+        Task<UserModel> GetEmployeeByIdAsync(int employeeId);
+
         Task<IEnumerable<UserGroupModel>> GetGroupsAsync();
     }
 }

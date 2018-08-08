@@ -8,7 +8,7 @@ import { stringify } from 'qs';
 import commonFunctions from '../../../common-functions';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PAProcess } from '../../../constants';
-import EmployeeList from './EmployeeList';
+import EvaluatorList from './EvaluatorList';
 import Sortable from './Sortable';
 
 class GroupFlowSetting extends Component {
@@ -39,7 +39,7 @@ class GroupFlowSetting extends Component {
 
     componentWillMount() {
         this.getGroups();
-        this.getGroupHasSetting();
+        this.getGroupHaveSetting();
     }
 
     getGroups() {
@@ -53,8 +53,8 @@ class GroupFlowSetting extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
-    getGroupHasSetting() {
-        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupHasSetting?flowTemplateId=${this.state.flowTemplateId}`)
+    getGroupHaveSetting() {
+        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupHaveSetting?flowTemplateId=${this.state.flowTemplateId}`)
             .then(response => {
                 const data = response.data;
 
@@ -324,7 +324,7 @@ class GroupFlowSetting extends Component {
         return (
             <div className="row">
                 <div className="col-sm-3">
-                    <EmployeeList groupOptions={this.state.groupOptions} isHost={this.state.isHost} />
+                    <EvaluatorList groupOptions={this.state.groupOptions} isHost={this.state.isHost} />
                 </div>
                 <div className="col-sm-9 flow-settings">
                     <Form horizontal>

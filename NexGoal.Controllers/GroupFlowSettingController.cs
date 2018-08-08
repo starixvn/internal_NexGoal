@@ -13,17 +13,21 @@
 
     public class GroupFlowSettingController : Controller
     {
+        private readonly ICommonService commonService;
         private readonly IGroupFlowSettingService flowSettingService;
 
-        public GroupFlowSettingController(IGroupFlowSettingService flowSettingService)
+        public GroupFlowSettingController(
+            ICommonService commonService,
+            IGroupFlowSettingService flowSettingService)
         {
+            this.commonService = commonService;
             this.flowSettingService = flowSettingService;
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetGroupHasSetting(int flowTemplateId)
+        public async Task<IActionResult> GetGroupHaveSetting(int flowTemplateId)
         {
-            IEnumerable<UserGroupModel> groups = await flowSettingService.GetGroupHasSettingAsync(flowTemplateId).ConfigureAwait(false);
+            IEnumerable<UserGroupModel> groups = await flowSettingService.GetGroupHaveSettingAsync(flowTemplateId).ConfigureAwait(false);
 
             return Json(groups);
         }
@@ -57,7 +61,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
         public async Task<IActionResult> GetEmployeeById(int employeeId)
         {
-            UserModel user = await flowSettingService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+            UserModel user = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
 
             return Json(user);
         }
