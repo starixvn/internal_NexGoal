@@ -45,6 +45,40 @@
             Assert.True(result.IsSuccessful);
         }
 
+        [Fact]
+        public async Task Create_ValidData_ReturnExpectedResult()
+        {
+            var service = GetDisciplineService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<AddDisciplineCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.Create(new AddDisciplineModel
+            {
+                EmployeeId = 1,
+                EffectiveDate = DateTime.Today,
+                Content = "content",
+                CreatedBy = 1
+            });
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task Edit_ValidData_ReturnExpectedResult()
+        {
+            var service = GetDisciplineService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditDisciplineCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.Edit(new EditDisciplineModel
+            {
+                DisciplineId = 1,
+                EffectiveDate = DateTime.Today,
+                Content = "content",
+                ModifiedBy = 1
+            });
+
+            Assert.True(result.IsSuccessful);
+        }
+
         private static IBaseService FakeBaseService()
         {
             var service = Substitute.For<IBaseService>();
