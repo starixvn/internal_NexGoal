@@ -322,7 +322,7 @@ class GroupFlowSetting extends Component {
         }).join(', ');
 
         return (
-            <div className="row">
+            <div className="row group-flow">
                 <div className="col-sm-3">
                     <EvaluatorList groupOptions={this.state.groupOptions} isHost={this.state.isHost} />
                 </div>

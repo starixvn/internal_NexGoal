@@ -8,7 +8,66 @@
 @import "../../components/tabs";
 @import "../../components/toast";
 
-.employee-list, .flow-settings {
+.boxtitle {
+    height: 30px;
+    background: #324273;
+    font-size: 13px;
+    color: #fff;
+    padding: 5px 12px;
+    margin-bottom: 10px;
+}
+
+.group-flow, .employee-flow {
+    .text-search {
+        position: relative;
+
+        input {
+            margin: 10px 0;
+        }
+
+        span {
+            color: #ccc;
+            position: absolute;
+            right: 8px;
+            top: 8px;
+        }
+    }
+}
+
+.employee-flow {
+    .filter {
+        .Select, .text-search {
+            width: 300px;
+        }
+
+        .employee-setting {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            select {
+                flex-basis: 300px;
+                height: 238px;
+
+                option {
+                    padding: 4px 10px;
+                }
+            }
+
+            .control {
+                flex-basis: 60px;
+                text-align: center;
+
+                button {
+                    width: 40px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+
+.evaluator-list, .flow-settings {
     ul {
         margin: 0;
         padding: 0;
@@ -16,7 +75,7 @@
     }
 }
 
-.employee-list {
+.evaluator-list {
     border: 1px solid #c8c8c8;
     @include border-radius(2px);
 
@@ -32,23 +91,8 @@
     .content {
         padding: 10px;
 
-        .search {
-            position: relative;
-
-            input {
-                margin: 10px 0;
-            }
-
-            span {
-                color: #ccc;
-                position: absolute;
-                right: 8px;
-                top: 8px;
-            }
-        }
-
         ul {
-            max-height: 500px;
+            max-height: 300px;
             overflow: auto;
 
             li {

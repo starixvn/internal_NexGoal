@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import { Button, Form, FormGroup } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -8,6 +8,7 @@ import { stringify } from 'qs';
 import commonFunctions from '../../../common-functions';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PAProcess } from '../../../constants';
+import EmployeeFlowFilter from './EmployeeFlowFilter';
 import EvaluatorList from './EvaluatorList';
 import Sortable from './Sortable';
 
@@ -277,70 +278,75 @@ class EmployeeFlowSetting extends Component {
         groupOptions.unshift({ value: '', label: '-- All --' });
 
         return (
-            <div className="row">
-                <div className="col-sm-3">
-                    <EvaluatorList groupOptions={this.state.groupOptions} isHost={this.state.isHost} />
-                </div>
-                <div className="col-sm-9 flow-settings">
-                    <table className="table table-bordered">
-                        <thead>
-                            <tr>
-                                <th>Admin</th>
-                                <th>Self</th>
-                                <th>Evaluator</th>
-                                <th>Reviewer</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td className="col-hr">
-                                    <Sortable id="humanResources" data={this.state.humanResources}
-                                        enable={this.state.isHost}
-                                        onReceive={this.handleOnReceive}
-                                        onDeactivate={this.handleOnDeactivate} />
-                                </td>
-                                <td className="col-self">
-                                    {this.state.employeeSelected &&
-                                        <ul>
-                                            <li className="alert alert-info">
-                                                <img />
-                                                <p>Self</p>
-                                            </li>
-                                        </ul>
-                                    }
-                                </td>
-                                <td className="col-evaluator">
-                                    <Sortable id="evaluators" data={this.state.evaluators}
-                                        enable={this.state.isHost}
-                                        onReceive={this.handleOnReceive}
-                                        onDeactivate={this.handleOnDeactivate} />
-                                </td>
-                                <td className="col-reviewer">
-                                    <Sortable id="reviewers" data={this.state.reviewers}
-                                        enable={this.state.isHost}
-                                        onReceive={this.handleOnReceive}
-                                        onDeactivate={this.handleOnDeactivate} />
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    {this.state.isHost && this.state.employeeSelected &&
-                        <Form inline>
-                            <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>Submit</Button>
-                            {this.state.showDeleteButton &&
-                                <Button type="button" bsStyle="primary" onClick={this.handleDeleteClick}>Delete</Button>}
-                        </Form>
+            <div className="employee-flow">
+                <EmployeeFlowFilter flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost}
+                    groupOptions={this.state.groupOptions} />
+                <div className="boxtitle">PA Processing</div>
+                <div className="row">
+                    <div className="col-sm-3">
+                        <EvaluatorList groupOptions={this.state.groupOptions} isHost={this.state.isHost} />
+                    </div>
+                    <div className="col-sm-9 flow-settings">
+                        <table className="table table-bordered">
+                            <thead>
+                                <tr>
+                                    <th>Admin</th>
+                                    <th>Self</th>
+                                    <th>Evaluator</th>
+                                    <th>Reviewer</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td className="col-hr">
+                                        <Sortable id="humanResources" data={this.state.humanResources}
+                                            enable={this.state.isHost}
+                                            onReceive={this.handleOnReceive}
+                                            onDeactivate={this.handleOnDeactivate} />
+                                    </td>
+                                    <td className="col-self">
+                                        {this.state.employeeSelected &&
+                                            <ul>
+                                                <li className="alert alert-info">
+                                                    <img />
+                                                    <p>Self</p>
+                                                </li>
+                                            </ul>
+                                        }
+                                    </td>
+                                    <td className="col-evaluator">
+                                        <Sortable id="evaluators" data={this.state.evaluators}
+                                            enable={this.state.isHost}
+                                            onReceive={this.handleOnReceive}
+                                            onDeactivate={this.handleOnDeactivate} />
+                                    </td>
+                                    <td className="col-reviewer">
+                                        <Sortable id="reviewers" data={this.state.reviewers}
+                                            enable={this.state.isHost}
+                                            onReceive={this.handleOnReceive}
+                                            onDeactivate={this.handleOnDeactivate} />
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        {this.state.isHost && this.state.employeeSelected &&
+                            <Form inline>
+                                <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>Submit</Button>
+                                {this.state.showDeleteButton &&
+                                    <Button type="button" bsStyle="primary" onClick={this.handleDeleteClick}>Delete</Button>}
+                            </Form>
+                        }
+                    </div>
+                    {
+                        this.state.showDeleteModal &&
+                        <ConfirmationModal
+                            action="delete"
+                            name="this employee's setting"
+                            showModal={this.state.showDeleteModal}
+                            closeModal={this.closeDeleteModal.bind(this)}
+                            handleSubmit={this.handleDeleteFlowSetting} />
                     }
                 </div>
-                {
-                    this.state.showDeleteModal &&
-                    <ConfirmationModal
-                        action="delete"
-                        name="this employee's setting"
-                        showModal={this.state.showDeleteModal}
-                        closeModal={this.closeDeleteModal.bind(this)}
-                        handleSubmit={this.handleDeleteFlowSetting} />
-                }
             </div>
         );
     }

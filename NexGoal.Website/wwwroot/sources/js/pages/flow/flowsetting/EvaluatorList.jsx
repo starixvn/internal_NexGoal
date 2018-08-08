@@ -73,12 +73,12 @@ class EvaluatorList extends Component {
         const employees = this.state.filteredEmployees;
 
         return (
-            <div className="employee-list">
+            <div className="evaluator-list">
                 <div className="header">Employee</div>
                 <div className="content">
                     <Select value={this.state.groupSelected} options={groupOptions}
                         clearable={false} onChange={this.handleGroupChange} />
-                    <div className="search">
+                    <div className="text-search">
                         <input type="text" className="form-control" placeholder="full name or nick name"
                             value={this.state.keyword} onChange={this.handleKeywordChange} />
                         <span className="fa fa-search"></span>
