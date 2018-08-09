@@ -36,21 +36,21 @@
         {
             var users = await userService.GetUsers(keyword, groupId, isLocal, isDisabledUser).ConfigureAwait(false);
 
-            return Ok(users);
+            return Json(users);
         }
 
         public async Task<IActionResult> GetUser(int employeeId)
         {
             var user = await userService.GetUser(employeeId).ConfigureAwait(false);
 
-            return Ok(user);
+            return Json(user);
         }
 
         public async Task<IActionResult> GetRolesForUser(int employeeId)
         {
             var userRoles = await userService.GetRolesForUser(employeeId).ConfigureAwait(false);
 
-            return Ok(userRoles);
+            return Json(userRoles);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@
                 ModifiedBy = sessionService.EmployeeId
             }).ConfigureAwait(false);
 
-            return Ok(result);
+            return Json(result);
         }
     }
 }
