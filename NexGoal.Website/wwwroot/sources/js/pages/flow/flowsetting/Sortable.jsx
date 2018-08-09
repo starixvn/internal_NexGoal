@@ -20,7 +20,7 @@ class Sortable extends Component {
         this.$node.sortable('destroy');
     }
 
-    componentWillReceiveProps(nextProps) {
+    componentDidUpdate(nextProps) {
         if (nextProps.enable !== this.props.enable) {
             this.$node.sortable(nextProps.enable ? 'enable' : 'disable');
         }

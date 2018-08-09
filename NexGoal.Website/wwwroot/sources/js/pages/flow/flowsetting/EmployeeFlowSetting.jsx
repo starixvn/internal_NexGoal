@@ -29,6 +29,7 @@ class EmployeeFlowSetting extends Component {
             showDeleteModal: false
         };
 
+        this.handleOnEmployeeSelected = this.handleOnEmployeeSelected.bind(this);
         this.handleOnReceive = this.handleOnReceive.bind(this);
         this.handleOnDeactivate = this.handleOnDeactivate.bind(this);
         this.handleSaveFlowSetting = this.handleSaveFlowSetting.bind(this);
@@ -63,6 +64,11 @@ class EmployeeFlowSetting extends Component {
                     showDeleteButton: data.humanResources.length > 0 || data.evaluators.length > 0 || data.reviewers.length > 0
                 });
             }).catch(commonFunctions.axiosError);
+    }
+
+    handleOnEmployeeSelected(employeeId) {
+        this.setState({ employeeSelected: employeeId });
+        this.getFlowSetting(employeeId);
     }
 
     handleAddItem(toIndex, employeeId, sender) {
@@ -207,7 +213,7 @@ class EmployeeFlowSetting extends Component {
                 data: stringify({
                     __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                     flowTemplateId: this.state.flowTemplateId,
-                    groupId: this.state.employeeSelected,
+                    employeeId: this.state.employeeSelected,
                     settings: settings
                 }),
                 headers: {
@@ -280,7 +286,9 @@ class EmployeeFlowSetting extends Component {
         return (
             <div className="employee-flow">
                 <EmployeeFlowFilter flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost}
-                    groupOptions={this.state.groupOptions} />
+                    hasSetting={this.state.showDeleteButton}
+                    groupOptions={this.state.groupOptions}
+                    onEmployeeSelected={this.handleOnEmployeeSelected} />
                 <div className="boxtitle">PA Processing</div>
                 <div className="row">
                     <div className="col-sm-3">

@@ -9,8 +9,6 @@ class EmployeeFlowFilter extends Component {
         super(props);
 
         this.state = {
-            flowTemplateId: this.props.flowTemplateId,
-            isHost: this.props.isHost,
             groupSelected: { value: '', label: '-- All --' },
             keyword: '',
             employeeUnsettings: [],
@@ -35,7 +33,7 @@ class EmployeeFlowFilter extends Component {
     }
 
     getEmployeeUnsetting(groupId) {
-        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeDoNotHaveSetting?flowTemplateId=${this.state.flowTemplateId}&groupId=${groupId}`)
+        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeDoNotHaveSetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`)
             .then(response => {
                 const data = response.data;
 
@@ -47,7 +45,7 @@ class EmployeeFlowFilter extends Component {
     }
 
     getEmployeeSetting(groupId) {
-        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeHaveSetting?flowTemplateId=${this.state.flowTemplateId}&groupId=${groupId}`)
+        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeHaveSetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`)
             .then(response => {
                 const data = response.data;
 
@@ -92,6 +90,8 @@ class EmployeeFlowFilter extends Component {
 
     handleEmployeeSettingChange(event) {
         this.setState({ employeeSettingSelected: event.target.value });
+
+        this.props.onEmployeeSelected(event.target.value);
     }
 
     handleMoveRightClick() {
@@ -132,6 +132,8 @@ class EmployeeFlowFilter extends Component {
     }
 
     render() {
+        const isHost = this.props.isHost;
+        const hasSetting = this.props.hasSetting;
         let groupOptions = this.props.groupOptions.map((group) => {
             return { value: group.groupId, label: group.name };
         });
@@ -161,10 +163,10 @@ class EmployeeFlowFilter extends Component {
                     </select>
                     <div className="control">
                         <button className="btn btn-primary fa fa-step-forward" title="Move Right"
-                            disabled={!(this.state.isHost && this.state.employeeUnsettingSelected)}
+                            disabled={!(isHost && this.state.employeeUnsettingSelected)}
                             onClick={this.handleMoveRightClick} />
                         <button className="btn btn-primary fa fa-step-backward" title="Move Left"
-                            disabled={!(this.state.isHost && this.state.employeeSettingSelected)}
+                            disabled={!(isHost && this.state.employeeSettingSelected && !hasSetting)}
                             onClick={this.handleMoveLeftClick} />
                     </div>
                     <select className="form-control" size="10" onChange={this.handleEmployeeSettingChange}>
