@@ -14,6 +14,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Middlewares;
+    using NexGoal.Core.Models;
     using NexGoal.Services.Extensions;
 
     public class Startup
@@ -28,6 +29,7 @@
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
             //// string encryptedPassword = Cryptography.EncryptPassword("@357$abc^FFZ%");
             Dictionary<string, string> connections = Configuration
                 .GetSection("ConnectionStrings")

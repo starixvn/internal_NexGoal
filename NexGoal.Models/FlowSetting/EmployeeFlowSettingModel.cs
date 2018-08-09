@@ -8,6 +8,7 @@
         public string Code { get; set; }
         public string NickName { get; set; }
         public string FullName { get; set; }
+        public string Base64Image { get; set; }
 
         public IList<FlowSettingModel> HumanResources { get; set; } = new List<FlowSettingModel>();
         public IList<FlowSettingModel> Evaluators { get; set; } = new List<FlowSettingModel>();

@@ -20,5 +20,7 @@
 
         [XmlIgnore]
         public string FullName { get; set; }
+
+        public string Base64Image { get; set; }
     }
 }

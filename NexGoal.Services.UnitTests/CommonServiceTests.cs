@@ -93,7 +93,8 @@ namespace NexGoal.Services.UnitTests
         private CommonService GetCommonService()
         {
             baseService = FakeBaseService();
-            var service = new CommonService(baseService);
+            var avatarService = Substitute.For<IAvatarService>();
+            var service = new CommonService(baseService, avatarService);
 
             return service;
         }

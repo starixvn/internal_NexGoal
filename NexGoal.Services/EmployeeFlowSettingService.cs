@@ -14,13 +14,19 @@
     {
         private readonly ISessionService sessionService;
         private readonly IBaseService baseService;
+        private readonly ICommonService commonService;
+        private readonly IAvatarService avatarService;
 
         public EmployeeFlowSettingService(
             ISessionService sessionService,
-            IBaseService baseService)
+            IBaseService baseService,
+            ICommonService commonService,
+            IAvatarService avatarService)
         {
             this.sessionService = sessionService;
             this.baseService = baseService;
+            this.commonService = commonService;
+            this.avatarService = avatarService;
         }
 
         public async Task<IEnumerable<UserModel>> GetEmployeeHaveSettingAsync(int flowTempalteId, int? groupId = null)
@@ -54,14 +60,20 @@
             };
 
             var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
+            UserModel employee = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
 
             var employeeFlowSetting = new EmployeeFlowSettingModel
             {
-                EmployeeId = employeeId
+                EmployeeId = employeeId,
+                NickName = employee.NickName,
+                FullName = employee.FullName,
+                Code = employee.Code,
+                Base64Image = employee.Base64Image
             };
 
             foreach (FlowSettingModel flowSetting in flowSettings)
             {
+                flowSetting.Base64Image = avatarService.GetBase64Image(flowSetting.Code);
                 switch (flowSetting.ProcessId)
                 {
                     case (int)PAProcess.HumanResource:

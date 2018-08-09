@@ -10,19 +10,23 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.FlowTemplate;
+    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
     using NexGoal.ViewModels.FlowTemplate;
 
     public class FlowController : Controller
     {
         private readonly ISessionService sessionService;
+        private readonly ICommonService commonService;
         private readonly IFlowTemplateService flowTemplateService;
 
         public FlowController(
             ISessionService sessionService,
+            ICommonService commonService,
             IFlowTemplateService flowTemplateService)
         {
             this.sessionService = sessionService;
+            this.commonService = commonService;
             this.flowTemplateService = flowTemplateService;
         }
 
@@ -136,6 +140,14 @@
             }
 
             return Json(flowTemplate);
+        }
+
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
+        public async Task<IActionResult> GetEmployeeById(int employeeId)
+        {
+            UserModel user = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+
+            return Json(user);
         }
     }
 }

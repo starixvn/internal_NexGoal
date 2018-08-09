@@ -61,13 +61,19 @@ class EmployeeFlowSetting extends Component {
                     humanResources: data.humanResources,
                     evaluators: data.evaluators,
                     reviewers: data.reviewers,
+                    employeeSelected: {
+                        employeeId: data.employeeId,
+                        code: data.code,
+                        nickName: data.nickName,
+                        fullName: data.fullName,
+                        base64Image: data.base64Image
+                    },
                     showDeleteButton: data.humanResources.length > 0 || data.evaluators.length > 0 || data.reviewers.length > 0
                 });
             }).catch(commonFunctions.axiosError);
     }
 
     handleOnEmployeeSelected(employeeId) {
-        this.setState({ employeeSelected: employeeId });
         this.getFlowSetting(employeeId);
     }
 
@@ -93,14 +99,16 @@ class EmployeeFlowSetting extends Component {
         }
 
         if (items.map((item) => { return item.evaluatorId; }).indexOf(employeeId) < 0) {
-            axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeById?employeeId=${employeeId}`)
+            axios(commonFunctions.getRootUrl() + `Flow/GetEmployeeById?employeeId=${employeeId}`)
                 .then(response => {
                     const data = response.data;
                     let item = {
                         processId: processId,
                         evaluatorId: data.employeeId,
                         nickName: data.nickName,
-                        fullName: data.fullName
+                        fullName: data.fullName,
+                        code: data.code,
+                        base64Image: data.base64Image
                     };
 
                     items.splice(toIndex, 0, item);
@@ -213,7 +221,7 @@ class EmployeeFlowSetting extends Component {
                 data: stringify({
                     __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                     flowTemplateId: this.state.flowTemplateId,
-                    employeeId: this.state.employeeSelected,
+                    employeeId: this.state.employeeSelected.employeeId,
                     settings: settings
                 }),
                 headers: {
@@ -252,7 +260,7 @@ class EmployeeFlowSetting extends Component {
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 flowTemplateId: this.state.flowTemplateId,
-                employeeId: this.state.employeeSelected
+                employeeId: this.state.employeeSelected.employeeId
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -278,6 +286,8 @@ class EmployeeFlowSetting extends Component {
     }
 
     render() {
+        const employeeSelected = this.state.employeeSelected;
+
         let groupOptions = this.state.groupOptions.map((group) => {
             return { value: group.groupId, label: group.name };
         });
@@ -313,11 +323,11 @@ class EmployeeFlowSetting extends Component {
                                             onDeactivate={this.handleOnDeactivate} />
                                     </td>
                                     <td className="col-self">
-                                        {this.state.employeeSelected &&
+                                        {employeeSelected &&
                                             <ul>
                                                 <li className="alert alert-info">
-                                                    <img />
-                                                    <p>Self</p>
+                                                    <img src={employeeSelected.base64Image} />
+                                                    <p>{`${employeeSelected.nickName} (${employeeSelected.fullName})`}</p>
                                                 </li>
                                             </ul>
                                         }
@@ -337,7 +347,7 @@ class EmployeeFlowSetting extends Component {
                                 </tr>
                             </tbody>
                         </table>
-                        {this.state.isHost && this.state.employeeSelected &&
+                        {this.state.isHost && employeeSelected &&
                             <Form inline>
                                 <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>Submit</Button>
                                 {this.state.showDeleteButton &&

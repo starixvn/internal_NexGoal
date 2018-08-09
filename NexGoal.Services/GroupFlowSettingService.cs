@@ -14,13 +14,16 @@
     {
         private readonly ISessionService sessionService;
         private readonly IBaseService baseService;
+        private readonly IAvatarService avatarService;
 
         public GroupFlowSettingService(
             ISessionService sessionService,
-            IBaseService baseService)
+            IBaseService baseService,
+            IAvatarService avatarService)
         {
             this.sessionService = sessionService;
             this.baseService = baseService;
+            this.avatarService = avatarService;
         }
 
         public async Task<IEnumerable<UserGroupModel>> GetGroupHaveSettingAsync(int flowTempalteId)
@@ -50,6 +53,7 @@
 
             foreach (FlowSettingModel flowSetting in flowSettings)
             {
+                flowSetting.Base64Image = avatarService.GetBase64Image(flowSetting.Code);
                 switch (flowSetting.ProcessId)
                 {
                     case (int)PAProcess.HumanResource:

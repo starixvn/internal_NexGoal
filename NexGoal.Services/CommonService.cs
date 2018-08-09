@@ -12,10 +12,14 @@
     public class CommonService : ICommonService
     {
         private readonly IBaseService baseService;
+        private readonly IAvatarService avatarService;
 
-        public CommonService(IBaseService baseService)
+        public CommonService(
+            IBaseService baseService,
+            IAvatarService avatarService)
         {
             this.baseService = baseService;
+            this.avatarService = avatarService;
         }
 
         public async Task<IEnumerable<ReferenceResourceModel>> GetReferenceResourcesByNamesAsync(string[] refNames, bool? isActive = true)
@@ -62,8 +66,10 @@
             {
                 EmployeeId = employeeId
             };
+            var employee = await baseService.GetDataEntityAsync<UserModel>(criteria).ConfigureAwait(false) ?? new UserModel();
+            employee.Base64Image = avatarService.GetBase64Image(employee.Code);
 
-            return await baseService.GetDataEntityAsync<UserModel>(criteria).ConfigureAwait(false);
+            return employee;
         }
 
         public async Task<IEnumerable<UserGroupModel>> GetGroupsAsync()

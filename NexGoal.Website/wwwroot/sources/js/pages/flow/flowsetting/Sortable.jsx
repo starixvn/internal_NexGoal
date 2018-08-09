@@ -32,7 +32,7 @@ class Sortable extends Component {
                 {this.props.enable &&
                     <a className="fa fa-times" />
                 }
-                <img />
+                <img src={item.base64Image} />
                 <p>{`${item.nickName} (${item.fullName})`}</p>
             </li>
         );

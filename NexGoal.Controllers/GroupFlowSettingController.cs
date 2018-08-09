@@ -13,14 +13,10 @@
 
     public class GroupFlowSettingController : Controller
     {
-        private readonly ICommonService commonService;
         private readonly IGroupFlowSettingService flowSettingService;
 
-        public GroupFlowSettingController(
-            ICommonService commonService,
-            IGroupFlowSettingService flowSettingService)
+        public GroupFlowSettingController(IGroupFlowSettingService flowSettingService)
         {
-            this.commonService = commonService;
             this.flowSettingService = flowSettingService;
         }
 
@@ -56,14 +52,6 @@
             CommandResult commandResult = await flowSettingService.DeleteAsync(groupId, flowTemplateId).ConfigureAwait(false);
 
             return Json(commandResult);
-        }
-
-        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> GetEmployeeById(int employeeId)
-        {
-            UserModel user = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
-
-            return Json(user);
         }
     }
 }

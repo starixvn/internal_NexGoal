@@ -108,14 +108,16 @@ class GroupFlowSetting extends Component {
         }
 
         if (items.map((item) => { return item.evaluatorId; }).indexOf(employeeId) < 0) {
-            axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetEmployeeById?employeeId=${employeeId}`)
+            axios(commonFunctions.getRootUrl() + `Flow/GetEmployeeById?employeeId=${employeeId}`)
                 .then(response => {
                     const data = response.data;
                     let item = {
                         processId: processId,
                         evaluatorId: data.employeeId,
                         nickName: data.nickName,
-                        fullName: data.fullName
+                        fullName: data.fullName,
+                        code: data.code,
+                        base64Image: data.base64Image
                     };
 
                     items.splice(toIndex, 0, item);
