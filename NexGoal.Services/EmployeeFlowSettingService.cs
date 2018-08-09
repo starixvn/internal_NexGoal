@@ -40,9 +40,9 @@
             return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<UserModel>> GetEmployeeDoNotHaveSettingAsync(int flowTempalteId, int? groupId = null)
+        public async Task<IEnumerable<UserModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null)
         {
-            var criteria = new GetEmployeeDoNotHaveSettingCriteria
+            var criteria = new GetEmployeeUnsettingCriteria
             {
                 GroupId = groupId,
                 FlowTemplateId = flowTempalteId

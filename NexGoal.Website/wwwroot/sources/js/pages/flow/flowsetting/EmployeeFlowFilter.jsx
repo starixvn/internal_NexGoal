@@ -33,7 +33,7 @@ class EmployeeFlowFilter extends Component {
     }
 
     getEmployeeUnsetting(groupId) {
-        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeDoNotHaveSetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`)
+        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeUnsetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`)
             .then(response => {
                 const data = response.data;
 

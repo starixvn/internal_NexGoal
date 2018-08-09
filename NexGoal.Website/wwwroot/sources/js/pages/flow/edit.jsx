@@ -14,7 +14,7 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            activeKey: 3,
+            activeKey: 1,
             isFirstLoadGroupTab: false,
             isFirstLoadPersonalTab: false
         };
@@ -61,7 +61,7 @@ export default class App extends Component {
                                 {this.state.isFirstLoadGroupTab && <GroupFlowSetting />}
                             </Tab>
                             <Tab eventKey={3} title="Personal">
-                                <EmployeeFlowSetting />
+                                {this.state.isFirstLoadPersonalTab && <EmployeeFlowSetting />}
                             </Tab>
                             <Tab eventKey={4} title="Flow List">
                             </Tab>

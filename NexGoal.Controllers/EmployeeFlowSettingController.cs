@@ -31,11 +31,11 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetEmployeeDoNotHaveSetting(
+        public async Task<IActionResult> GetEmployeeUnsetting(
             int flowTemplateId,
             int? groupId = null)
         {
-            IEnumerable<UserModel> employees = await flowSettingService.GetEmployeeDoNotHaveSettingAsync(flowTemplateId, groupId).ConfigureAwait(false);
+            IEnumerable<UserModel> employees = await flowSettingService.GetEmployeeUnsettingAsync(flowTemplateId, groupId).ConfigureAwait(false);
 
             return Json(employees);
         }

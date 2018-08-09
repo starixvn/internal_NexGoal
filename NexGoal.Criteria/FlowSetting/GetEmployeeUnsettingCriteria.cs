@@ -2,13 +2,13 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetEmployeeDoNotHaveSettingCriteria : CriteriaBase
+    public class GetEmployeeUnsettingCriteria : CriteriaBase
     {
         public int FlowTemplateId { get; set; }
         public int? GroupId { get; set; }
 
         public override bool IsValid() => FlowTemplateId > 0;
 
-        public override string GetSettingKey() => "EmployeeFlowSetting_GetEmployeeDoNotHaveSetting";
+        public override string GetSettingKey() => "EmployeeFlowSetting_GetEmployeeUnsetting";
     }
 }

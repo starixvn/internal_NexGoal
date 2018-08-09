@@ -32,6 +32,7 @@ class EmployeeFlowSetting extends Component {
         this.handleOnEmployeeSelected = this.handleOnEmployeeSelected.bind(this);
         this.handleOnReceive = this.handleOnReceive.bind(this);
         this.handleOnDeactivate = this.handleOnDeactivate.bind(this);
+        this.handleOnRemoveItem = this.handleOnRemoveItem.bind(this);
         this.handleSaveFlowSetting = this.handleSaveFlowSetting.bind(this);
         this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleDeleteFlowSetting = this.handleDeleteFlowSetting.bind(this);
@@ -171,6 +172,33 @@ class EmployeeFlowSetting extends Component {
                 ui.item.remove();
                 this.setState({ evaluatorSelected: null });
             }
+        }
+    }
+
+    handleOnRemoveItem(sender, evaluatorId) {
+        let items = [];
+        let index;
+        switch (sender) {
+            case 'humanResources':
+                items = this.state.humanResources.slice();
+                index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
+                items.splice(index, 1);
+                this.setState({ humanResources: items });
+                break;
+
+            case 'evaluators':
+                items = this.state.evaluators.slice();
+                index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
+                items.splice(index, 1);
+                this.setState({ evaluators: items });
+                break;
+
+            case 'reviewers':
+                items = this.state.reviewers.slice();
+                index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
+                items.splice(index, 1);
+                this.setState({ reviewers: items });
+                break;
         }
     }
 
@@ -320,7 +348,8 @@ class EmployeeFlowSetting extends Component {
                                         <Sortable id="humanResources" data={this.state.humanResources}
                                             enable={this.state.isHost}
                                             onReceive={this.handleOnReceive}
-                                            onDeactivate={this.handleOnDeactivate} />
+                                            onDeactivate={this.handleOnDeactivate}
+                                            onRemove={this.handleOnRemoveItem} />
                                     </td>
                                     <td className="col-self">
                                         {employeeSelected &&
@@ -336,13 +365,15 @@ class EmployeeFlowSetting extends Component {
                                         <Sortable id="evaluators" data={this.state.evaluators}
                                             enable={this.state.isHost}
                                             onReceive={this.handleOnReceive}
-                                            onDeactivate={this.handleOnDeactivate} />
+                                            onDeactivate={this.handleOnDeactivate}
+                                            onRemove={this.handleOnRemoveItem} />
                                     </td>
                                     <td className="col-reviewer">
                                         <Sortable id="reviewers" data={this.state.reviewers}
                                             enable={this.state.isHost}
                                             onReceive={this.handleOnReceive}
-                                            onDeactivate={this.handleOnDeactivate} />
+                                            onDeactivate={this.handleOnDeactivate}
+                                            onRemove={this.handleOnRemoveItem} />
                                     </td>
                                 </tr>
                             </tbody>

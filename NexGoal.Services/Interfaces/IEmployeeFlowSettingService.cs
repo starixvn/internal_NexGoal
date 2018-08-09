@@ -10,7 +10,7 @@
     {
         Task<IEnumerable<UserModel>> GetEmployeeHaveSettingAsync(int flowTempalteId, int? groupId = null);
 
-        Task<IEnumerable<UserModel>> GetEmployeeDoNotHaveSettingAsync(int flowTempalteId, int? groupId = null);
+        Task<IEnumerable<UserModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null);
 
         Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId, int flowTempalteId);
 
