@@ -23,8 +23,6 @@ class GroupFlowSetting extends Component {
             evaluatorSelected: null,
             groupOptions: [],
             groupSelected: { value: '', label: '-- All --' },
-            flowTemplateId: document.getElementById('FlowTemplateId').value,
-            isHost: document.getElementById('IsHost').checked,
             showDeleteButton: false,
             showDeleteModal: false
         };
@@ -55,7 +53,7 @@ class GroupFlowSetting extends Component {
     }
 
     getGroupHaveSetting() {
-        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupHaveSetting?flowTemplateId=${this.state.flowTemplateId}`)
+        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupHaveSetting?flowTemplateId=${this.props.flowTemplateId}`)
             .then(response => {
                 const data = response.data;
 
@@ -66,7 +64,7 @@ class GroupFlowSetting extends Component {
     }
 
     getFlowSetting(groupId) {
-        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetById?groupId=${groupId}&flowTemplateId=${this.state.flowTemplateId}`)
+        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetById?groupId=${groupId}&flowTemplateId=${this.props.flowTemplateId}`)
             .then(response => {
                 const data = response.data;
 
@@ -257,7 +255,7 @@ class GroupFlowSetting extends Component {
                 method: 'POST',
                 data: stringify({
                     __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                    flowTemplateId: this.state.flowTemplateId,
+                    flowTemplateId: this.props.flowTemplateId,
                     groupId: this.state.groupSelected.value,
                     settings: settings
                 }),
@@ -307,7 +305,7 @@ class GroupFlowSetting extends Component {
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                flowTemplateId: this.state.flowTemplateId,
+                flowTemplateId: this.props.flowTemplateId,
                 groupId: this.state.groupSelected.value
             }),
             headers: {
@@ -342,6 +340,8 @@ class GroupFlowSetting extends Component {
     }
 
     render() {
+        let isHost = this.props.isHost;
+
         let groupOptions = this.state.groupOptions.map((group) => {
             return { value: group.groupId, label: group.name };
         });
@@ -354,7 +354,7 @@ class GroupFlowSetting extends Component {
         return (
             <div className="row group-flow">
                 <div className="col-sm-3">
-                    <EvaluatorList groupOptions={this.state.groupOptions} isHost={this.state.isHost} />
+                    <EvaluatorList groupOptions={this.state.groupOptions} isHost={isHost} />
                 </div>
                 <div className="col-sm-9 flow-settings">
                     <Form horizontal>
@@ -383,7 +383,7 @@ class GroupFlowSetting extends Component {
                             <tr>
                                 <td className="col-hr">
                                     <Sortable id="humanResources" data={this.state.humanResources}
-                                        enable={this.state.isHost}
+                                        enable={isHost}
                                         onReceive={this.handleOnReceive}
                                         onDeactivate={this.handleOnDeactivate}
                                         onRemove={this.handleOnRemoveItem} />
@@ -400,14 +400,14 @@ class GroupFlowSetting extends Component {
                                 </td>
                                 <td className="col-evaluator">
                                     <Sortable id="evaluators" data={this.state.evaluators}
-                                        enable={this.state.isHost}
+                                        enable={isHost}
                                         onReceive={this.handleOnReceive}
                                         onDeactivate={this.handleOnDeactivate}
                                         onRemove={this.handleOnRemoveItem} />
                                 </td>
                                 <td className="col-reviewer">
                                     <Sortable id="reviewers" data={this.state.reviewers}
-                                        enable={this.state.isHost}
+                                        enable={isHost}
                                         onReceive={this.handleOnReceive}
                                         onDeactivate={this.handleOnDeactivate}
                                         onRemove={this.handleOnRemoveItem} />
@@ -415,7 +415,7 @@ class GroupFlowSetting extends Component {
                             </tr>
                         </tbody>
                     </table>
-                    {this.state.isHost && this.state.groupSelected.value &&
+                    {isHost && this.state.groupSelected.value &&
                         <Form inline>
                             <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>Submit</Button>
                             {this.state.showDeleteButton &&

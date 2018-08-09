@@ -14,6 +14,8 @@ export default class App extends Component {
         super(props);
 
         this.state = {
+            flowTemplateId: document.getElementById('FlowTemplateId').value,
+            isHost: document.getElementById('IsHost').checked,
             activeKey: 1,
             isFirstLoadGroupTab: false,
             isFirstLoadPersonalTab: false
@@ -55,13 +57,15 @@ export default class App extends Component {
                             activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}>
                             <Tab eventKey={1} title="General Information">
-                                <EditInfo />
+                                <EditInfo flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />
                             </Tab>
                             <Tab eventKey={2} title="Team">
-                                {this.state.isFirstLoadGroupTab && <GroupFlowSetting />}
+                                {this.state.isFirstLoadGroupTab &&
+                                    <GroupFlowSetting flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />}
                             </Tab>
                             <Tab eventKey={3} title="Personal">
-                                {this.state.isFirstLoadPersonalTab && <EmployeeFlowSetting />}
+                                {this.state.isFirstLoadPersonalTab &&
+                                    <EmployeeFlowSetting flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />}
                             </Tab>
                             <Tab eventKey={4} title="Flow List">
                             </Tab>

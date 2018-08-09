@@ -21,8 +21,7 @@ class EditInfo extends Component {
                 targetTypeId: 0,
                 isActive: false,
                 description: ''
-            },
-            isHost: document.getElementById('IsHost').checked
+            }
         };
     }
 
@@ -39,8 +38,7 @@ class EditInfo extends Component {
     }
 
     getFlowTemplateById() {
-        let flowTemplateId = document.getElementById('FlowTemplateId').value;
-        axios.get(commonFunctions.getRootUrl() + `Flow/GetById/${flowTemplateId}`)
+        axios.get(commonFunctions.getRootUrl() + `Flow/GetById/${this.props.flowTemplateId}`)
             .then(response => {
                 let data = response.data;
 
@@ -114,7 +112,7 @@ class EditInfo extends Component {
         handleChange,
         handleSubmit,
         setFieldValue }) => {
-        const isHost = this.state.isHost;
+        const isHost = this.props.isHost;
         const targetTypeOptions = this.state.targetTypes.map((targetType) => {
             return { value: targetType.targetTypeId.toString(), label: targetType.name };
         });
