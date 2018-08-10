@@ -2,10 +2,6 @@
 import { Button, Form, Modal } from 'react-bootstrap';
 
 class ConfirmationModal extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleSubmit(event) {
         event.preventDefault();
         this.props.handleSubmit();

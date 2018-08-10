@@ -11,7 +11,7 @@ class SubmitForm extends Component {
             return (
                 <form className="form-inline form-filter">
                     <FormGroup>
-                        <Button type="button" bsStyle="primary" onClick={this.props.handleSubmit}>Submit</Button>
+                        <Button type="button" bsStyle="primary" onClick={this.props.onSubmit}>Submit</Button>
                     </FormGroup>
                 </form>
             );

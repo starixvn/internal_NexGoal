@@ -21,6 +21,10 @@ export default class App extends Component {
             functions: [],
             isHost: false
         };
+
+        this.handleOnRoleChange = this.handleOnRoleChange.bind(this);
+        this.handleOnCheckboxChange = this.handleOnCheckboxChange.bind(this);
+        this.handleOnSubmit = this.handleOnSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -40,11 +44,11 @@ export default class App extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
-    handleRoleChange(roleId) {
+    handleOnRoleChange(roleId) {
         this.getAssignPermissions(roleId);
     }
 
-    handleCheckboxChange(func) {
+    handleOnCheckboxChange(func) {
         let functionId = func.functionId;
         let parentId = func.parentId;
         let policy = func.policy;
@@ -70,7 +74,7 @@ export default class App extends Component {
         this.setState({ functions: functions });
     }
 
-    handleSubmit(event) {
+    handleOnSubmit(event) {
         event.preventDefault();
 
         let roleId = this.state.selectedOption;
@@ -111,15 +115,15 @@ export default class App extends Component {
                         <Filter
                             options={this.state.options}
                             selectedOption={this.state.selectedOption}
-                            handleRoleChange={this.handleRoleChange.bind(this)} />
+                            onRoleChange={this.handleOnRoleChange} />
 
                         <Table
                             functions={this.state.functions}
                             isHost={this.state.isHost}
-                            handleCheckboxChange={this.handleCheckboxChange.bind(this)} />
+                            onCheckboxChange={this.handleOnCheckboxChange} />
 
                         <SubmitForm isHost={this.state.isHost}
-                            handleSubmit={this.handleSubmit.bind(this)} />
+                            onSubmit={this.handleOnSubmit} />
                     </div>
                 </div>
             </ToastLayout>

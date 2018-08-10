@@ -4,25 +4,7 @@ class Row extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            policy: 0
-        };
-
-        this.handleChange = this.handleChange.bind(this);
-    }
-
-    componentWillMount() {
-        let policy = this.props.function.policy;
-
-        this.setState({ policy });
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        let policy = this.props.function.policy;
-
-        if (policy !== prevState.policy) {
-            this.setState({ policy });
-        }
+        this.handleOnChange = this.handleOnChange.bind(this);
     }
 
     renderCellFunctionName(func) {
@@ -43,35 +25,40 @@ class Row extends Component {
         );
     }
 
-    handleChange(event) {
+    handleOnChange(event) {
         let name = event.target.name;
         let policy = 0;
         if (event.target.checked) {
             policy = name === 'funcRead' ? 1 : 2;
         } else {
-            policy = name === 'funcRead' ? 0 : this.state.policy === 2 ? 1 : 0;
+            policy = name === 'funcRead' ? 0 : this.props.function.policy === 2 ? 1 : 0;
         }
 
-        this.setState({ policy });
         this.props.function.policy = policy;
-        this.props.handleCheckboxChange(this.props.function);
+        this.props.onCheckboxChange(this.props.function);
     }
 
     render() {
+        const functionObj = this.props.function;
+
         return (
-            <tr className={!this.props.function.parentId ? "row-special" : ""}>
-                {this.renderCellFunctionName(this.props.function)}
+            <tr className={!functionObj.parentId ? "row-special" : ""}>
+                {this.renderCellFunctionName(functionObj)}
 
                 <td className="text-center">
                     <label>
-                        <input type="checkbox" name="funcRead" disabled={!this.props.isHost} checked={this.state.policy > 0}
-                            onChange={this.handleChange} />
+                        <input type="checkbox" name="funcRead"
+                            disabled={!this.props.isHost}
+                            checked={functionObj.policy > 0}
+                            onChange={this.handleOnChange} />
                     </label>
                 </td>
                 <td className="text-center">
                     <label>
-                        <input type="checkbox" name="funcHost" disabled={!this.props.isHost} checked={this.state.policy === 2}
-                            onChange={this.handleChange} />
+                        <input type="checkbox" name="funcHost"
+                            disabled={!this.props.isHost}
+                            checked={functionObj.policy === 2}
+                            onChange={this.handleOnChange} />
                     </label>
                 </td>
             </tr>

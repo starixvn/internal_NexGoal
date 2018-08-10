@@ -24,10 +24,6 @@ function TBody(props) {
 }
 
 class Table extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             <table className="table table-bordered assign-permission">
@@ -39,7 +35,7 @@ class Table extends Component {
                                 <Row key={'function-' + func.functionId}
                                     function={func}
                                     isHost={this.props.isHost}
-                                    handleCheckboxChange={this.props.handleCheckboxChange} />)
+                                    onCheckboxChange={this.props.onCheckboxChange} />)
                         })
                     }
                 </TBody>

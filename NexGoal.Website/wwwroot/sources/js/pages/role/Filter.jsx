@@ -5,10 +5,12 @@ import Select from 'react-select';
 class Filter extends Component {
     constructor(props) {
         super(props);
+
+        this.handleOnChange = this.handleOnChange.bind(this);
     }
 
-    handleChange(selectedOption) {
-        this.props.handleRoleChange(selectedOption.value);
+    handleOnChange(selectedOption) {
+        this.props.onRoleChange(selectedOption.value);
     }
 
     render() {
@@ -30,7 +32,7 @@ class Filter extends Component {
                                 options={options}
                                 clearable={false}
                                 searchable={false}
-                                onChange={this.handleChange.bind(this)} />
+                                onChange={this.handleOnChange} />
                         </div>
                     </div>
                 </FormGroup>
