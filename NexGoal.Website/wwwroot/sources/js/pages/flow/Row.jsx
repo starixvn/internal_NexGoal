@@ -6,12 +6,12 @@ class Row extends Component {
     constructor(props) {
         super(props);
 
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.handleDeleteClick = this.handleDeleteClick.bind(this);
+        this.handleOnCheckboxChange = this.handleOnCheckboxChange.bind(this);
+        this.handleOnDeleteClick = this.handleOnDeleteClick.bind(this);
     }
 
-    handleDeleteClick() {
-        this.props.handleDeleteClick(this.props.flowTemplate);
+    handleOnDeleteClick() {
+        this.props.onDelete(this.props.flowTemplate);
     }
 
     renderCellAction() {
@@ -22,7 +22,7 @@ class Row extends Component {
                 <Fragment>
                     <a className="fa fa-pencil-square-o" title="Edit"
                         href={commonFunctions.getRootUrl() + 'Flow/Edit/' + flowTemplate.flowTemplateId}></a>
-                    <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick}></a>
+                    <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleOnDeleteClick}></a>
                 </Fragment>
             );
         }
@@ -33,10 +33,10 @@ class Row extends Component {
         );
     }
 
-    handleCheckboxChange(event) {
+    handleOnCheckboxChange(event) {
         let flowTemplate = JSON.parse(JSON.stringify(this.props.flowTemplate));
         flowTemplate.isActive = event.target.checked;
-        this.props.handleCheckboxChange(flowTemplate);
+        this.props.onCheckboxChange(flowTemplate);
     }
 
     render() {
@@ -49,7 +49,7 @@ class Row extends Component {
                 <td>{flowTemplate.name}</td>
                 <td>{flowTemplate.targetTypeName}</td>
                 <td className="text-center">
-                    <input type='checkbox' checked={flowTemplate.isActive} disabled={!isHost} onChange={this.handleCheckboxChange} />
+                    <input type='checkbox' checked={flowTemplate.isActive} disabled={!isHost} onChange={this.handleOnCheckboxChange} />
                 </td>
                 <td>{flowTemplate.description}</td>
                 <td className="text-center">{this.renderCellAction()}</td>

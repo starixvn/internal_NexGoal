@@ -26,7 +26,7 @@ class Sortable extends Component {
         }
     }
 
-    handleRemoveItem(event, evaluatorId) {
+    handleOnRemoveClick(event, evaluatorId) {
         this.props.onRemove(this.$node[0].id, evaluatorId);
     }
 
@@ -34,7 +34,7 @@ class Sortable extends Component {
         return this.props.data.map((item, i) =>
             <li key={`evaluator${item.evaluatorId}`} className="alert alert-info">
                 {this.props.enable &&
-                    <a className="fa fa-times" onClick={(e) => this.handleRemoveItem(e, item.evaluatorId)} />
+                    <a className="fa fa-times" onClick={(e) => this.handleOnRemoveClick(e, item.evaluatorId)} />
                 }
                 <img src={item.base64Image} />
                 <p>{`${item.nickName} (${item.fullName})`}</p>

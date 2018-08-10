@@ -18,12 +18,12 @@ class EmployeeFlowFilter extends Component {
             employeeSettingSelected: null
         };
 
-        this.handleGroupChange = this.handleGroupChange.bind(this);
-        this.handleKeywordChange = this.handleKeywordChange.bind(this);
-        this.handleEmployeeUnsettingChange = this.handleEmployeeUnsettingChange.bind(this);
-        this.handleEmployeeSettingChange = this.handleEmployeeSettingChange.bind(this);
-        this.handleMoveRightClick = this.handleMoveRightClick.bind(this);
-        this.handleMoveLeftClick = this.handleMoveLeftClick.bind(this);
+        this.handleOnGroupChange = this.handleOnGroupChange.bind(this);
+        this.handleOnKeywordChange = this.handleOnKeywordChange.bind(this);
+        this.handleOnEmployeeUnsettingChange = this.handleOnEmployeeUnsettingChange.bind(this);
+        this.handleOnEmployeeSettingChange = this.handleOnEmployeeSettingChange.bind(this);
+        this.handleOnMoveRightClick = this.handleOnMoveRightClick.bind(this);
+        this.handleOnMoveLeftClick = this.handleOnMoveLeftClick.bind(this);
     }
 
     componentWillMount() {
@@ -55,7 +55,7 @@ class EmployeeFlowFilter extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
-    handleGroupChange(selectedOption) {
+    handleOnGroupChange(selectedOption) {
         this.setState({
             groupSelected: selectedOption,
             keyword: ''
@@ -65,7 +65,7 @@ class EmployeeFlowFilter extends Component {
         this.getEmployeeSetting(selectedOption.value);
     }
 
-    handleKeywordChange(event) {
+    handleOnKeywordChange(event) {
         let employees;
         if (event.target.value && event.target.value.trim().length > 1) {
             const value = event.target.value.trim().toLowerCase();
@@ -84,17 +84,17 @@ class EmployeeFlowFilter extends Component {
         });
     }
 
-    handleEmployeeUnsettingChange(event) {
+    handleOnEmployeeUnsettingChange(event) {
         this.setState({ employeeUnsettingSelected: event.target.value });
     }
 
-    handleEmployeeSettingChange(event) {
+    handleOnEmployeeSettingChange(event) {
         this.setState({ employeeSettingSelected: event.target.value });
 
         this.props.onEmployeeSelected(event.target.value);
     }
 
-    handleMoveRightClick() {
+    handleOnMoveRightClick() {
         let employeeUnsettings = this.state.employeeUnsettings.slice();
         let employeeSettings = this.state.employeeSettings.slice();
         let filteredEmployees = this.state.filteredEmployees.slice();
@@ -114,7 +114,7 @@ class EmployeeFlowFilter extends Component {
         });
     }
 
-    handleMoveLeftClick() {
+    handleOnMoveLeftClick() {
         let employeeUnsettings = this.state.employeeUnsettings.slice();
         let employeeSettings = this.state.employeeSettings.slice();
 
@@ -145,14 +145,14 @@ class EmployeeFlowFilter extends Component {
         return (
             <div className="filter">
                 <Select value={this.state.groupSelected} options={groupOptions}
-                    clearable={false} onChange={this.handleGroupChange} />
+                    clearable={false} onChange={this.handleOnGroupChange} />
                 <div className="text-search">
                     <input type="text" className="form-control" placeholder="full name or nick name"
-                        value={this.state.keyword} onChange={this.handleKeywordChange} />
+                        value={this.state.keyword} onChange={this.handleOnKeywordChange} />
                     <span className="fa fa-search"></span>
                 </div>
                 <div className="employee-setting">
-                    <select className="form-control" size="10" onChange={this.handleEmployeeUnsettingChange}>
+                    <select className="form-control" size="10" onChange={this.handleOnEmployeeUnsettingChange}>
                         {
                             employees.map((employee) =>
                                 <option key={employee.employeeId} value={employee.employeeId}>
@@ -164,12 +164,12 @@ class EmployeeFlowFilter extends Component {
                     <div className="control">
                         <button className="btn btn-primary fa fa-step-forward" title="Move Right"
                             disabled={!(isHost && this.state.employeeUnsettingSelected)}
-                            onClick={this.handleMoveRightClick} />
+                            onClick={this.handleOnMoveRightClick} />
                         <button className="btn btn-primary fa fa-step-backward" title="Move Left"
                             disabled={!(isHost && this.state.employeeSettingSelected && !hasSetting)}
-                            onClick={this.handleMoveLeftClick} />
+                            onClick={this.handleOnMoveLeftClick} />
                     </div>
-                    <select className="form-control" size="10" onChange={this.handleEmployeeSettingChange}>
+                    <select className="form-control" size="10" onChange={this.handleOnEmployeeSettingChange}>
                         {
                             employeeSettings.map((employee) =>
                                 <option key={employee.employeeId} value={employee.employeeId}>

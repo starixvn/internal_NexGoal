@@ -22,8 +22,8 @@ export default class App extends Component {
             flowTemplates: []
         };
 
-        this.handleFilterChange = this.handleFilterChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOnFilterChange = this.handleOnFilterChange.bind(this);
+        this.handleOnSubmit = this.handleOnSubmit.bind(this);
     }
 
     componentWillMount() {
@@ -58,11 +58,11 @@ export default class App extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
-    handleFilterChange(filter) {
+    handleOnFilterChange(filter) {
         this.setState({ filter: filter });
     }
 
-    handleSubmit() {
+    handleOnSubmit() {
         this.getFlowTemplates();
     }
 
@@ -76,13 +76,13 @@ export default class App extends Component {
                     <div className="col-sm-12">
                         <Filter filter={this.state.filter}
                             targetTypes={this.state.targetTypes}
-                            handleFilterChange={this.handleFilterChange}
-                            handleFilterSubmit={this.handleSubmit} />
+                            onFilterChange={this.handleOnFilterChange}
+                            onSubmit={this.handleOnSubmit} />
 
                         <Table isHost={this.state.isHost}
                             targetTypes={this.state.targetTypes}
                             flowTemplates={this.state.flowTemplates}
-                            handleFilterSubmit={this.handleSubmit} />
+                            onFilterSubmit={this.handleOnSubmit} />
                     </div>
                 </div>
             </ToastLayout>

@@ -14,7 +14,7 @@ class Create extends Component {
         super(props);
     }
 
-    handleSubmit = (values, { setErrors }) => {
+    handleOnSubmit = (values, { setErrors }) => {
         let flowTemplate = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             name: values.name,
@@ -37,7 +37,7 @@ class Create extends Component {
                 toast.success('Created successfully!');
 
                 this.props.closeModal();
-                this.props.handleFilterSubmit();
+                this.props.onFilterSubmit();
             } else {
                 if (data.errors) {
                     let errors = {};
@@ -152,7 +152,7 @@ class Create extends Component {
                 <Formik
                     initialValues={flowTemplate}
                     validate={this.validateForm}
-                    onSubmit={this.handleSubmit}
+                    onSubmit={this.handleOnSubmit}
                     render={this.renderForm} />
             </Modal>
         );

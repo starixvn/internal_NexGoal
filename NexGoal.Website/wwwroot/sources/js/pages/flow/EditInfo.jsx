@@ -54,7 +54,7 @@ class EditInfo extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
-    handleSubmit = (values, { setErrors }) => {
+    handleOnSubmit = (values, { setErrors }) => {
         const flowTemplate = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             flowTemplateId: this.state.flowTemplate.flowTemplateId,
@@ -188,7 +188,7 @@ class EditInfo extends Component {
         return (
             <Formik enableReinitialize initialValues={flowTemplate}
                 validate={this.validateForm}
-                onSubmit={this.handleSubmit}
+                onSubmit={this.handleOnSubmit}
                 render={this.renderForm} />
         );
     }

@@ -21,10 +21,10 @@ export default class App extends Component {
             isFirstLoadPersonalTab: false
         };
 
-        this.handleSelect = this.handleSelect.bind(this);
+        this.handleOnSelect = this.handleOnSelect.bind(this);
     }
 
-    handleSelect(key) {
+    handleOnSelect(key) {
         this.setState({ activeKey: key });
 
         if (key === 2 && !this.state.isFirstLoadGroupTab) {
@@ -36,7 +36,7 @@ export default class App extends Component {
         }
     }
 
-    handleBackClick() {
+    handleOnBackClick() {
         window.location = commonFunctions.getRootUrl() + 'flow/index';
     }
 
@@ -48,14 +48,14 @@ export default class App extends Component {
                         <li className="current">Edit Evaluation Flow</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <a className="btn btn-cancel" onClick={this.handleBackClick}>
+                        <a className="btn btn-cancel" onClick={this.handleOnBackClick}>
                             <i className="fa fa-angle-left"></i>Back to list
                         </a>
                     </div>
                     <div className="col-sm-12">
                         <Tabs id="tabs-nomination" animation={false}
                             activeKey={this.state.activeKey}
-                            onSelect={this.handleSelect}>
+                            onSelect={this.handleOnSelect}>
                             <Tab eventKey={1} title="General Information">
                                 <EditInfo flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />
                             </Tab>
@@ -66,8 +66,6 @@ export default class App extends Component {
                             <Tab eventKey={3} title="Personal">
                                 {this.state.isFirstLoadPersonalTab &&
                                     <EmployeeFlowSetting flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />}
-                            </Tab>
-                            <Tab eventKey={4} title="Flow List">
                             </Tab>
                         </Tabs>
                     </div>

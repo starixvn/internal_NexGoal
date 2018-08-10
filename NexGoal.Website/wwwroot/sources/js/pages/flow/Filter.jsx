@@ -6,24 +6,24 @@ class Filter extends Component {
     constructor(props) {
         super(props);
 
-        this.handleTargetTypeChange = this.handleTargetTypeChange.bind(this);
-        this.handleStatusChange = this.handleStatusChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleOnTargetTypeChange = this.handleOnTargetTypeChange.bind(this);
+        this.handleOnStatusChange = this.handleOnStatusChange.bind(this);
+        this.handleOnSubmit = this.handleOnSubmit.bind(this);
     }
 
-    handleTargetTypeChange(selectedOption) {
+    handleOnTargetTypeChange(selectedOption) {
         this.props.filter.targetTypeId = selectedOption.value.toString();
-        this.props.handleFilterChange(this.props.filter);
+        this.props.onFilterChange(this.props.filter);
     }
 
-    handleStatusChange(selectedOption) {
+    handleOnStatusChange(selectedOption) {
         this.props.filter.isActive = selectedOption.value;
-        this.props.handleFilterChange(this.props.filter);
+        this.props.onFilterChange(this.props.filter);
     }
 
-    handleSubmit(event) {
+    handleOnSubmit(event) {
         event.preventDefault();
-        this.props.handleFilterSubmit();
+        this.props.onSubmit();
     }
 
     render() {
@@ -42,7 +42,7 @@ class Filter extends Component {
         const statusSelected = statusOptions.find((option) => { return option.value === filter.isActive.toString() });
 
         return (
-            <form className="from-inline form-filter" onSubmit={this.handleSubmit}>
+            <form className="from-inline form-filter" onSubmit={this.handleOnSubmit}>
                 <FormGroup>
                     <div className="col">
                         <ControlLabel>Type</ControlLabel>
@@ -50,7 +50,7 @@ class Filter extends Component {
                             <Select name="TargetTypeId"
                                 value={targetTypeSelected} options={targetTypeOptions}
                                 clearable={false} searchable={false}
-                                onChange={this.handleTargetTypeChange} />
+                                onChange={this.handleOnTargetTypeChange} />
                         </div>
                     </div>
                     <div className="col">
@@ -59,7 +59,7 @@ class Filter extends Component {
                             <Select name="IsActive"
                                 value={statusSelected} options={statusOptions}
                                 clearable={false} searchable={false}
-                                onChange={this.handleStatusChange} />
+                                onChange={this.handleOnStatusChange} />
                         </div>
                     </div>
                     <div className="col">

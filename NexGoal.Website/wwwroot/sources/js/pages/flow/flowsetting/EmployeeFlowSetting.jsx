@@ -31,8 +31,8 @@ class EmployeeFlowSetting extends Component {
         this.handleOnReceive = this.handleOnReceive.bind(this);
         this.handleOnDeactivate = this.handleOnDeactivate.bind(this);
         this.handleOnRemoveItem = this.handleOnRemoveItem.bind(this);
+        this.handleOnDeleteClick = this.handleOnDeleteClick.bind(this);
         this.handleSaveFlowSetting = this.handleSaveFlowSetting.bind(this);
-        this.handleDeleteClick = this.handleDeleteClick.bind(this);
         this.handleDeleteFlowSetting = this.handleDeleteFlowSetting.bind(this);
     }
 
@@ -111,20 +111,7 @@ class EmployeeFlowSetting extends Component {
                     };
 
                     items.splice(toIndex, 0, item);
-
-                    switch (sender) {
-                        case 'humanResources':
-                            this.setState({ humanResources: items });
-                            break;
-
-                        case 'evaluators':
-                            this.setState({ evaluators: items });
-                            break;
-
-                        case 'reviewers':
-                            this.setState({ reviewers: items });
-                            break;
-                    }
+                    this.setState({ [sender]: items });
                 }).catch(commonFunctions.axiosError);
         } else {
             toast.error('This employee has already existed!');
@@ -137,21 +124,20 @@ class EmployeeFlowSetting extends Component {
             case 'humanResources':
                 items = this.state.humanResources.slice();
                 items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
-                this.setState({ humanResources: items });
                 break;
 
             case 'evaluators':
                 items = this.state.evaluators.slice();
                 items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
-                this.setState({ evaluators: items });
                 break;
 
             case 'reviewers':
                 items = this.state.reviewers.slice();
                 items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
-                this.setState({ reviewers: items });
                 break;
         }
+
+        this.setState({ [sender]: items });
     }
 
     handleOnReceive(event, ui) {
@@ -181,23 +167,22 @@ class EmployeeFlowSetting extends Component {
                 items = this.state.humanResources.slice();
                 index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
                 items.splice(index, 1);
-                this.setState({ humanResources: items });
                 break;
 
             case 'evaluators':
                 items = this.state.evaluators.slice();
                 index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
                 items.splice(index, 1);
-                this.setState({ evaluators: items });
                 break;
 
             case 'reviewers':
                 items = this.state.reviewers.slice();
                 index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
                 items.splice(index, 1);
-                this.setState({ reviewers: items });
                 break;
         }
+
+        this.setState({ [sender]: items });
     }
 
     handleSaveFlowSetting() {
@@ -267,13 +252,13 @@ class EmployeeFlowSetting extends Component {
         }
     }
 
-    handleDeleteClick() {
+    handleOnDeleteClick() {
         this.setState({
             showDeleteModal: true
         });
     }
 
-    closeDeleteModal() {
+    handleOnCloseModal() {
         this.setState({
             showDeleteModal: false
         });
@@ -297,7 +282,7 @@ class EmployeeFlowSetting extends Component {
             if (data.isSuccessful) {
                 toast.success('Deleted successfully!');
 
-                this.closeDeleteModal();
+                this.handleOnCloseModal();
 
                 this.setState({
                     humanResources: [],
@@ -381,7 +366,7 @@ class EmployeeFlowSetting extends Component {
                             <Form inline>
                                 <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>Submit</Button>
                                 {this.state.showDeleteButton &&
-                                    <Button type="button" bsStyle="primary" onClick={this.handleDeleteClick}>Delete</Button>}
+                                    <Button type="button" bsStyle="primary" onClick={this.handleOnDeleteClick}>Delete</Button>}
                             </Form>
                         }
                     </div>
@@ -391,7 +376,7 @@ class EmployeeFlowSetting extends Component {
                             action="delete"
                             name="this employee's setting"
                             showModal={this.state.showDeleteModal}
-                            closeModal={this.closeDeleteModal.bind(this)}
+                            closeModal={this.handleOnCloseModal.bind(this)}
                             handleSubmit={this.handleDeleteFlowSetting} />
                     }
                 </div>

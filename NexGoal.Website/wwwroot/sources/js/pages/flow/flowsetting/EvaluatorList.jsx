@@ -16,8 +16,8 @@ class EvaluatorList extends Component {
             filteredEmployees: []
         };
 
-        this.handleGroupChange = this.handleGroupChange.bind(this);
-        this.handleKeywordChange = this.handleKeywordChange.bind(this);
+        this.handleOnGroupChange = this.handleOnGroupChange.bind(this);
+        this.handleOnKeywordChange = this.handleOnKeywordChange.bind(this);
     }
 
     componentWillMount() {
@@ -36,7 +36,7 @@ class EvaluatorList extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
-    handleGroupChange(selectedOption) {
+    handleOnGroupChange(selectedOption) {
         this.setState({
             groupSelected: selectedOption,
             keyword: ''
@@ -45,7 +45,7 @@ class EvaluatorList extends Component {
         this.getEmployees(selectedOption.value);
     }
 
-    handleKeywordChange(event) {
+    handleOnKeywordChange(event) {
         let employees;
         if (event.target.value && event.target.value.trim().length > 1) {
             const value = event.target.value.trim().toLowerCase();
@@ -77,10 +77,10 @@ class EvaluatorList extends Component {
                 <div className="header">Employee</div>
                 <div className="content">
                     <Select value={this.state.groupSelected} options={groupOptions}
-                        clearable={false} onChange={this.handleGroupChange} />
+                        clearable={false} onChange={this.handleOnGroupChange} />
                     <div className="text-search">
                         <input type="text" className="form-control" placeholder="full name or nick name"
-                            value={this.state.keyword} onChange={this.handleKeywordChange} />
+                            value={this.state.keyword} onChange={this.handleOnKeywordChange} />
                         <span className="fa fa-search"></span>
                     </div>
                     <ul>
