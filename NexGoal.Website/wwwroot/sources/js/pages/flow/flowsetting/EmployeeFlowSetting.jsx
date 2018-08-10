@@ -77,22 +77,19 @@ class EmployeeFlowSetting extends Component {
     }
 
     handleAddItem(toIndex, employeeId, sender) {
-        let items = [];
+        let items = this.state[sender].slice();
         let processId;
 
         switch (sender) {
             case 'humanResources':
-                items = this.state.humanResources.slice();
                 processId = PAProcess.HumanResource;
                 break;
 
             case 'evaluators':
-                items = this.state.evaluators.slice();
                 processId = PAProcess.Evaluator;
                 break;
 
             case 'reviewers':
-                items = this.state.reviewers.slice();
                 processId = PAProcess.Reviewer;
                 break;
         }
@@ -119,24 +116,8 @@ class EmployeeFlowSetting extends Component {
     }
 
     handleSortItems(fromIndex, toIndex, sender) {
-        let items = [];
-        switch (sender) {
-            case 'humanResources':
-                items = this.state.humanResources.slice();
-                items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
-                break;
-
-            case 'evaluators':
-                items = this.state.evaluators.slice();
-                items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
-                break;
-
-            case 'reviewers':
-                items = this.state.reviewers.slice();
-                items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
-                break;
-        }
-
+        let items = this.state[sender].slice();
+        items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
         this.setState({ [sender]: items });
     }
 
@@ -160,28 +141,9 @@ class EmployeeFlowSetting extends Component {
     }
 
     handleOnRemoveItem(sender, evaluatorId) {
-        let items = [];
-        let index;
-        switch (sender) {
-            case 'humanResources':
-                items = this.state.humanResources.slice();
-                index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
-                items.splice(index, 1);
-                break;
-
-            case 'evaluators':
-                items = this.state.evaluators.slice();
-                index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
-                items.splice(index, 1);
-                break;
-
-            case 'reviewers':
-                items = this.state.reviewers.slice();
-                index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
-                items.splice(index, 1);
-                break;
-        }
-
+        let items = this.state[sender].slice();
+        let index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
+        items.splice(index, 1);
         this.setState({ [sender]: items });
     }
 
