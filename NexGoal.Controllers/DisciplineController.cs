@@ -35,7 +35,7 @@
         {
             var disciplines = await disciplineService.GetDisciplines(from, to, isActive, groupIds, employeeId).ConfigureAwait(false);
 
-            return Ok(disciplines);
+            return Json(disciplines);
         }
 
         [HttpPost]

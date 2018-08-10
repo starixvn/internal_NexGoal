@@ -1,20 +1,18 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
-    using NSubstitute;
-    using NexGoal.Core.Services;
-    using NexGoal.Services;
+    using System.Linq;
     using System.Threading.Tasks;
-    using Xunit;
+    using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using Microsoft.AspNetCore.Mvc;
-    using NexGoal.ViewModels.UserManagement;
-    using NexGoal.Models.UserManagement;
-    using System.Linq;
     using NexGoal.Core.Models;
+    using NexGoal.Core.Services;
+    using NexGoal.Models.UserManagement;
+    using NexGoal.Services;
+    using NexGoal.ViewModels.UserManagement;
+    using NSubstitute;
+    using Xunit;
 
     public class UserControllerTests
     {
