@@ -5,13 +5,16 @@ namespace NexGoal.Services.UnitTests
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
+    using NexGoal.Criteria.Common;
     using NexGoal.Models;
+    using NexGoal.Models.UserManagement;
     using NSubstitute;
     using Xunit;
 
     public class CommonServiceTests
     {
         private IBaseService baseService;
+        private IAvatarService avatarService;
 
         #region GetReferenceResourcesByNames
 
@@ -67,6 +70,61 @@ namespace NexGoal.Services.UnitTests
             Assert.Equal(refResources.Count, actual.Count());
         }
 
+        [Fact]
+        public async Task GetEmployeesAsync_WhenCalled_ReturnAsExpectedEmployees()
+        {
+            // Arrange
+            var expected = new List<UserModel>
+            {
+                new UserModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" }
+            };
+            var service = GetCommonService();
+            baseService.GetDataAsync<UserModel>(Arg.Any<SearchUserCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetEmployeesAsync();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetEmployeeByIdAsync_WhenCalled_ReturnAsExpectedEmployee()
+        {
+            // Arrange
+            var employee = new UserModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" };
+            var service = GetCommonService();
+            baseService.GetDataEntityAsync<UserModel>(Arg.Any<SearchUserCriteria>()).Returns(employee);
+            avatarService.GetBase64Image(Arg.Any<string>()).Returns("base64string");
+
+            // Act
+            var actual = await service.GetEmployeeByIdAsync(1);
+
+            // Assert
+            Assert.Equal(employee.EmployeeId, actual.EmployeeId);
+            Assert.Equal(employee.Code, actual.Code);
+            Assert.Equal(employee.NickName, actual.NickName);
+            Assert.Equal("base64string", actual.Base64Image);
+        }
+
+        [Fact]
+        public async Task GetGroupsAsync_WhenCalled_ReturnAsExpectedGroups()
+        {
+            // Arrange
+            var expected = new List<UserGroupModel>
+            {
+                new UserGroupModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
+            };
+            var service = GetCommonService();
+            baseService.GetDataAsync<UserGroupModel>(Arg.Any<GetGroupsCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetGroupsAsync();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
         #region Helpers
 
         private List<ReferenceResourceModel> GetRefResourcesForTest()
@@ -83,17 +141,10 @@ namespace NexGoal.Services.UnitTests
             };
         }
 
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
         private CommonService GetCommonService()
         {
-            baseService = FakeBaseService();
-            var avatarService = Substitute.For<IAvatarService>();
+            baseService = Substitute.For<IBaseService>();
+            avatarService = Substitute.For<IAvatarService>();
             var service = new CommonService(baseService, avatarService);
 
             return service;
