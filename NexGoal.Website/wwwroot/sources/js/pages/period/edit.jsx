@@ -21,28 +21,14 @@ export default class EditPeriod extends Component {
     }
 
     handleSelect(key) {
-        if (key === 1) {
-            this.setState({ activeKey: key });
-        }
+        this.setState({ activeKey: key });
 
-        if (key === 2 && !this.state.loadProcessTab) {
-            this.setState({ loadProcessTab: true });
+        if (key === 2 && !this.state.loadProcessSettingTab) {
+            this.setState({ loadProcessSettingTab: true });
         }
 
         if (key === 3 && !this.state.loadEmployeeTab) {
             this.setState({ loadEmployeeTab: true });
-        }
-
-        switch (key) {
-            case 1:
-                this.setState({ activeKey: key });
-                break;
-            case 2:
-                this.setState({ activeKey: key, loadProcessSettingTab: true });
-                break;
-            case 3:
-                this.setState({ activeKey: key, loadEmployeeTab: true });
-                break;
         }
     }
 
@@ -53,7 +39,7 @@ export default class EditPeriod extends Component {
                     <li className="current">Edit Evaluation Period</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <a href='/period' className="btn btn-cancel"><i className="fa fa-arrow-left"></i>Back to list</a>
+                    <a href='/period' className="btn btn-cancel"><i className="fa fa-angle-left"></i>Back to list</a>
                     <Tabs id="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
                         <Tab eventKey={1} title="Basic Information">
                             <EditBasicInformation periodId={this.state.periodId} />

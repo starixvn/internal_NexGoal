@@ -2,7 +2,7 @@
 {
     using System.ComponentModel;
 
-    public enum PAProcess
+    public enum PerformanceProcess
     {
         [Description("Human Resource")]
         HumanResource = 1,

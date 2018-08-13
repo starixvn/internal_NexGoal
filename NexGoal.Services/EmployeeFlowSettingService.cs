@@ -76,15 +76,15 @@
                 flowSetting.Base64Image = avatarService.GetBase64Image(flowSetting.Code);
                 switch (flowSetting.ProcessId)
                 {
-                    case (int)PAProcess.HumanResource:
+                    case (int)PerformanceProcess.HumanResource:
                         employeeFlowSetting.HumanResources.Add(flowSetting);
                         break;
 
-                    case (int)PAProcess.Evaluator:
+                    case (int)PerformanceProcess.Evaluator:
                         employeeFlowSetting.Evaluators.Add(flowSetting);
                         break;
 
-                    case (int)PAProcess.Reviewer:
+                    case (int)PerformanceProcess.Reviewer:
                         employeeFlowSetting.Reviewers.Add(flowSetting);
                         break;
 

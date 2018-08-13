@@ -1,13 +1,11 @@
-﻿import React, { Component } from 'react';
+﻿import React from 'react';
 
-export default class Breadcrumb extends Component {
-    render() {
-        return (
-            <div className="col-sm-12 sub-header">
-                <ul className="row breadcrumb">
-                    {this.props.children}
-                </ul>
-            </div>
-        );
-    }
-}
+const Breadcrumb = props => (
+    <div className="col-sm-12 sub-header">
+        <ul className="row breadcrumb">
+            {props.children}
+        </ul>
+    </div>
+);
+
+export default Breadcrumb;

@@ -1,4 +1,4 @@
-﻿export const PAProcess = {
+﻿export const PerformanceProcess = {
     HumanResource: 1,
     Self: 2,
     ProjectManager: 3,

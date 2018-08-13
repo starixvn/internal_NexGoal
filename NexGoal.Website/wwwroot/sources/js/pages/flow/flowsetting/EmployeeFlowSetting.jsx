@@ -7,7 +7,7 @@ import { stringify } from 'qs';
 
 import commonFunctions from '../../../common-functions';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PAProcess } from '../../../constants';
+import { PerformanceProcess } from '../../../constants';
 import EmployeeFlowFilter from './EmployeeFlowFilter';
 import EvaluatorList from './EvaluatorList';
 import Sortable from './Sortable';
@@ -82,15 +82,15 @@ class EmployeeFlowSetting extends Component {
 
         switch (sender) {
             case 'humanResources':
-                processId = PAProcess.HumanResource;
+                processId = PerformanceProcess.HumanResource;
                 break;
 
             case 'evaluators':
-                processId = PAProcess.Evaluator;
+                processId = PerformanceProcess.Evaluator;
                 break;
 
             case 'reviewers':
-                processId = PAProcess.Reviewer;
+                processId = PerformanceProcess.Reviewer;
                 break;
         }
 

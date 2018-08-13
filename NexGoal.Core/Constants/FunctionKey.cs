@@ -8,5 +8,8 @@
         public const string NominationManagement = "NominationManagement";
         public const string EvaluationPeriod = "EvaluationPeriod";
         public const string EvaluationFlow = "EvaluationFlow";
+        public const string SelfEvaluation = "SelfEvaluation";
+        public const string Evaluation = "Evaluation";
+        public const string Review = "Review";
     }
 }
