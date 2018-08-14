@@ -5,6 +5,7 @@ import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import EditBasicInformation from './EditBasicInformation';
 import EditProcessSetting from './EditProcessSetting';
+import EditEmployeeSetting from './EditEmployeeSetting/EditEmployeeSetting';
 
 export default class EditPeriod extends Component {
     constructor(props) {
@@ -50,6 +51,9 @@ export default class EditPeriod extends Component {
                             }
                         </Tab>
                         <Tab eventKey={3} title="Employee Setting">
+                            {this.state.loadEmployeeTab &&
+                                <EditEmployeeSetting periodId={this.state.periodId} />
+                            }
                         </Tab>
                     </Tabs>
                 </div>

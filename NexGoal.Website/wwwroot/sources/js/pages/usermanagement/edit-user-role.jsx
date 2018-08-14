@@ -96,7 +96,7 @@ export default class EditUserRole extends Component {
                         </FormGroup>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.props.closeModal}>Cancel</Button>
+                        <Button className="btn-cancel" onClick={this.props.closeModal}>Cancel</Button>
                         <Button type="submit" className="btn btn-primary">Submit</Button>
                     </Modal.Footer>
                 </Form>

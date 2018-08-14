@@ -1,12 +1,34 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import { toast } from 'react-toastify';
-
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditUserRole from './edit-user-role';
+
+const { SearchBar } = Search;
+
+const paginationOptions = paginationFactory({
+    page: 1,
+    sizePerPage: 20,
+    showTotal: false,
+    sizePerPageList: [
+        {
+            text: '20', value: 20
+        },
+        {
+            text: '50', value: 50
+        },
+        {
+            text: '100', value: 100
+        },
+        {
+            text: '200', value: 200
+        }
+    ]
+});
 
 export default class UserManagement extends Component {
     constructor(props) {
@@ -21,22 +43,22 @@ export default class UserManagement extends Component {
             },
             groups: [],
             data: [],
-            tableData: [],
             showModal: false,
             currentPage: 1,
             sizePerPage: 20,
+
             canEditRole: document.getElementById('CanEditUserRoles').value === 'True'
         };
 
-        this.tableRef = React.createRef();
         this.searchRef = React.createRef();
+        this.tableRef = React.createRef();
     }
 
     userRoles = [];
     currentEditUser = [];
-    resetPage = false;
+    resetPage = false
 
-    componentDidMount = function () {
+    componentDidMount = () => {
         this.getUsers();
         this.getGroups();
     }
@@ -44,29 +66,6 @@ export default class UserManagement extends Component {
     onFilterChange = (e) => {
         var filter = { [e.target.name]: e.target.value };
         this.setState({ filter: { ...this.state.filter, ...filter } });
-    }
-
-    onTableFilterChange = (e) => {
-        this.resetPage = true;
-        var filterData = this.getTableFilteredData(e.target.value, this.state.data);
-        this.setState({ tableData: filterData });
-    }
-
-    getTableFilteredData = (searchValue, data) => {
-        if (searchValue && searchValue.length > 1) {
-            var value = searchValue.trim().toLowerCase();
-            var filterDatas = data.filter((employee) =>
-                employee.nickName.toLowerCase().indexOf(value) >= 0
-                || employee.fullName.toLowerCase().indexOf(value) >= 0
-                || employee.code.toString().indexOf(value) >= 0
-                || employee.group.toLowerCase().indexOf(value) >= 0
-                || employee.jobTitle.toLowerCase().indexOf(value) >= 0
-                || (employee.roles && employee.roles.toLowerCase().indexOf(value) >= 0)
-            );
-            return filterDatas;
-        } else {
-            return data;
-        }
     }
 
     handleSubmit = (event) => {
@@ -86,8 +85,6 @@ export default class UserManagement extends Component {
     }
 
     getUsers = () => {
-        var searchValue = this.searchRef.current.value;
-
         fetch(`/User/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`,
             {
                 credentials: "same-origin"
@@ -95,8 +92,7 @@ export default class UserManagement extends Component {
             .then((response) => response.json())
             .then(data => {
                 data.map((e, index) => e.rowNum = index + 1);
-                var filterData = this.getTableFilteredData(searchValue, data);
-                this.setState({ data: data, tableData: filterData });
+                this.setState({ data: data });
             });
     }
 
@@ -134,11 +130,7 @@ export default class UserManagement extends Component {
                 var index = data.findIndex((e) => e.employeeId === this.currentEditUser.employeeId);
                 data[index] = { ...data[index], ...updatedUser };
 
-                var tableData = this.state.tableData.slice();
-                index = tableData.findIndex((e) => e.employeeId == this.currentEditUser.employeeId);
-                tableData[index] = { ...tableData[index], ...updatedUser };
-
-                this.setState({ data: data, tableData: tableData, showModal: false });
+                this.setState({ data: data, showModal: false });
             });
         } else {
             toast.error(data.message);
@@ -195,28 +187,6 @@ export default class UserManagement extends Component {
                 }
             }];
 
-        const paginationOptions = paginationFactory({
-            page: this.tableRef.current && !this.resetPage ? this.tableRef.current.store._page : 1,
-            sizePerPage: this.tableRef.current ? this.tableRef.current.store._sizePerPage : 20,
-            showTotal: false,
-            sizePerPageList: [
-                {
-                    text: '20', value: 20
-                },
-                {
-                    text: '50', value: 50
-                },
-                {
-                    text: '100', value: 100
-                },
-                {
-                    text: '200', value: 200
-                }
-            ]
-        });
-
-        this.resetPage = false;
-
         return (
             <ToastLayout>
                 <div className="row">
@@ -261,13 +231,26 @@ export default class UserManagement extends Component {
                                 </div>
                             </div>
                         </form>
-                        <div className="search-wrapper clearfix" >
-                            <div className="search pull-right">
-                                <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
-                                <span className="fa fa-search icon"></span>
-                            </div>
-                        </div>
-                        <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='employeeId' data={this.state.tableData} columns={columns} pagination={paginationOptions} />
+
+                        <ToolkitProvider keyField="employeeId" data={this.state.data} noDataIndication={this.noDataDisplay} columns={columns} search >
+                            {
+                                props => {
+                                    debugger;
+
+                                    return (
+                                        <Fragment>
+                                            <div className="search-wrapper clearfix" >
+                                                <div className="search pull-right">
+                                                    <SearchBar {...props.searchProps} placeholder="" delay={500} className="search-textbox" />
+                                                    <span className="fa fa-search icon"></span>
+                                                </div>
+                                            </div>
+                                            <BootstrapTable ref={this.tableRef} {...props.baseProps} pagination={paginationOptions} />
+                                        </Fragment>
+                                    );
+                                }
+                            }
+                        </ToolkitProvider>
                     </div>
                     <div>
                         {this.state.showModal &&
