@@ -64,7 +64,7 @@
 
             var employeeFlowSetting = new EmployeeFlowSettingModel
             {
-                EmployeeId = employeeId,
+                EmployeeId = employee.EmployeeId,
                 NickName = employee.NickName,
                 FullName = employee.FullName,
                 Code = employee.Code,
