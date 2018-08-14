@@ -17,6 +17,7 @@ module.exports = {
         csseditevaluationflow: "./sources/styles/pages/flow/edit.scss",
         cssperiod: "./sources/styles/pages/period/period.scss",
         csseditperiod: "./sources/styles/pages/period/edit.scss",
+        cssselfevaluation: "./sources/styles/pages/selfevaluation/view.scss"
         //
         main: "./sources/js/main.js",
         home: "./sources/js/pages/home/index.jsx",
