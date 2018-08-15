@@ -20,21 +20,8 @@ class EvaluatorList extends Component {
         this.handleOnKeywordChange = this.handleOnKeywordChange.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getEmployees(this.state.groupSelected.value);
-    }
-
-    shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.groupOptions !== nextProps.groupOptions
-            || this.props.isHost !== nextProps.isHost
-            || this.state.groupSelected !== nextState.groupSelected
-            || this.state.keyword !== nextState.keyword
-            || this.state.employees !== nextState.employees
-            || this.state.filteredEmployees !== nextState.filteredEmployees) {
-            return true;
-        }
-
-        return false;
     }
 
     getEmployees(groupId) {

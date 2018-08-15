@@ -4,7 +4,7 @@ import 'jquery-ui/ui/widgets/draggable';
 
 class Draggable extends Component {
     componentDidMount() {
-        this.$node = $(this.refs.draggable);
+        this.$node = $(this.el);
         this.$node.draggable({
             connectToSortable: this.props.connectToSortable,
             helper: 'clone',
@@ -24,7 +24,7 @@ class Draggable extends Component {
 
     render() {
         return (
-            <li ref="draggable" id={this.props.id}>
+            <li ref={el => this.el = el} id={this.props.id}>
                 {this.props.label}
             </li>
         );

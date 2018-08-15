@@ -11,3 +11,15 @@ export const Policy = {
     Read: 1,
     Host: 2
 };
+
+export const PaginationOptions = {
+    page: 1,
+    sizePerPage: 20,
+    showTotal: false,
+    sizePerPageList: [
+        { text: '20', value: 20 },
+        { text: '50', value: 50 },
+        { text: '100', value: 100 },
+        { text: '200', value: 200 }
+    ]
+};

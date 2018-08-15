@@ -30,7 +30,7 @@ class Settings extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getEOQById();
     }
 

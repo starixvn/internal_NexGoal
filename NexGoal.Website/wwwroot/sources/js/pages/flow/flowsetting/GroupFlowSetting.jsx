@@ -36,7 +36,7 @@ class GroupFlowSetting extends Component {
         this.handleDeleteFlowSetting = this.handleDeleteFlowSetting.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getGroups();
         this.getGroupHaveSetting();
     }

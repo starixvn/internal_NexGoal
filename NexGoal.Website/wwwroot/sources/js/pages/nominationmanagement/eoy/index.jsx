@@ -16,7 +16,7 @@ export default class EOY extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getAllEOY();
     }
 

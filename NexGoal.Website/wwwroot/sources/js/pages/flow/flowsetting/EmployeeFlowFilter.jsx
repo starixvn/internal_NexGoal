@@ -26,7 +26,7 @@ class EmployeeFlowFilter extends Component {
         this.handleOnMoveLeftClick = this.handleOnMoveLeftClick.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const groupId = this.state.groupSelected.value;
         this.getEmployeeUnsetting(groupId);
         this.getEmployeeSetting(groupId);

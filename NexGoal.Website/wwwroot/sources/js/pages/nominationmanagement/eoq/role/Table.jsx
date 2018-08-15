@@ -2,13 +2,22 @@
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 
+import { PaginationOptions } from '../../../../constants';
+
 class Table extends Component {
     constructor(props) {
         super(props);
 
-        this.tableRef = React.createRef();
-
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.nominators !== nextProps.nominators
+            || this.props.isHost !== nextProps.isHost) {
+            return true;
+        }
+
+        return false;
     }
 
     handleCheckboxChange(event, nominator) {
@@ -39,7 +48,6 @@ class Table extends Component {
 
     render() {
         const isHost = this.props.isHost;
-        const resetDataTable = this.props.resetDataTable;
         const nominators = this.props.nominators;
         const columns = [
             { dataField: 'rowNum', text: '#', classes: 'text-center' },
@@ -79,26 +87,13 @@ class Table extends Component {
             }
         ];
 
-        const paginationOptions = paginationFactory({
-            page: this.tableRef.current && !resetDataTable ? this.tableRef.current.store._page : 1,
-            sizePerPage: this.tableRef.current && !resetDataTable ? this.tableRef.current.store._sizePerPage : 20,
-            showTotal: false,
-            sizePerPageList: [
-                { text: '20', value: 20 },
-                { text: '50', value: 50 },
-                { text: '100', value: 100 },
-                { text: '200', value: 200 }
-            ]
-        });
-
         return (
             <BootstrapTable
-                noDataIndication={this.noDataDisplay}
-                ref={this.tableRef}
                 keyField='employeeId'
+                noDataIndication={this.noDataDisplay}
                 data={nominators}
                 columns={columns}
-                pagination={paginationOptions}
+                pagination={paginationFactory(PaginationOptions)}
                 striped />
         );
     }

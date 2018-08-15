@@ -21,7 +21,6 @@ export default class RoleManagement extends Component {
             },
             groups: [],
             nominators: [],
-            resetDataTable: false,
             isHost: document.getElementById('IsHost').checked
         };
 
@@ -30,7 +29,7 @@ export default class RoleManagement extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getGroups();
         this.getNominatorSetting();
     }
@@ -91,11 +90,10 @@ export default class RoleManagement extends Component {
     }
 
     handleFilterChange(filter) {
-        this.setState({ filter: filter, resetDataTable: false });
+        this.setState({ filter: filter });
     }
 
     handleSubmit() {
-        this.setState({ resetDataTable: true });
         this.getNominatorSetting();
     }
 
@@ -108,7 +106,6 @@ export default class RoleManagement extends Component {
                     handleFilterSubmit={this.handleSubmit} />
 
                 <Table isHost={this.state.isHost}
-                    resetDataTable={this.state.resetDataTable}
                     nominators={this.state.nominators}
                     editNominatorSetting={this.editNominatorSetting} />
             </Fragment>

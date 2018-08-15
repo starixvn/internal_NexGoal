@@ -26,7 +26,7 @@ export default class App extends Component {
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.setState({
             isHost: document.getElementById('IsHost').checked,
             filter: {

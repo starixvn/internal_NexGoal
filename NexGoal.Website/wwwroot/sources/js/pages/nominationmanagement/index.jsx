@@ -20,7 +20,7 @@ export default class App extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const activeKey = parseInt(document.getElementById('ActiveTab').value);
         this.setState({ activeKey: activeKey, isFirstLoad: activeKey === 2 });
     }

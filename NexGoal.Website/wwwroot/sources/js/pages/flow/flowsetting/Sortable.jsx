@@ -4,7 +4,7 @@ import 'jquery-ui/ui/widgets/sortable';
 
 class Sortable extends Component {
     componentDidMount() {
-        this.$node = $(this.refs.sortable);
+        this.$node = $(this.el);
         this.$node.sortable({
             revert: true,
             start: function (event, ui) {
@@ -44,7 +44,7 @@ class Sortable extends Component {
 
     render() {
         return (
-            <ul id={this.props.id} className="sortable" ref="sortable">
+            <ul id={this.props.id} className="sortable" ref={el => this.el = el}>
                 {this.renderItems()}
             </ul>
         );

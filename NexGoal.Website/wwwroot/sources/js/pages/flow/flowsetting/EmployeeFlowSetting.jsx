@@ -36,7 +36,7 @@ class EmployeeFlowSetting extends Component {
         this.handleDeleteFlowSetting = this.handleDeleteFlowSetting.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getGroups();
     }
 

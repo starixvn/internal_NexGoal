@@ -25,7 +25,7 @@ class EditInfo extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getTargetTypes();
         this.getFlowTemplateById();
     }

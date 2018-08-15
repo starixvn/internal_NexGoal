@@ -18,7 +18,7 @@ export default class EOQ extends Component {
         };
     }
 
-    componentWillMount() {
+    componentDidMount() {
         this.getYears();
         this.getAllEOQ();
     }
