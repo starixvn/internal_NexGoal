@@ -81,11 +81,11 @@
                         break;
 
                     case (int)PerformanceProcess.Evaluator:
-                        employeeFlowSetting.Evaluators.Add(flowSetting);
+                        employeeFlowSetting.Evaluator = flowSetting;
                         break;
 
                     case (int)PerformanceProcess.Reviewer:
-                        employeeFlowSetting.Reviewers.Add(flowSetting);
+                        employeeFlowSetting.Reviewer = flowSetting;
                         break;
 
                     default:

@@ -53,8 +53,8 @@
             // Assert
             Assert.Equal(1, actual.GroupId);
             Assert.Single(actual.HumanResources);
-            Assert.Single(actual.Evaluators);
-            Assert.Single(actual.Reviewers);
+            Assert.NotNull(actual.Evaluator);
+            Assert.NotNull(actual.Reviewer);
         }
 
         [Fact]

@@ -9,7 +9,7 @@
         public string Name { get; set; }
 
         public IList<FlowSettingModel> HumanResources { get; set; } = new List<FlowSettingModel>();
-        public IList<FlowSettingModel> Evaluators { get; set; } = new List<FlowSettingModel>();
-        public IList<FlowSettingModel> Reviewers { get; set; } = new List<FlowSettingModel>();
+        public FlowSettingModel Evaluator { get; set; }
+        public FlowSettingModel Reviewer { get; set; }
     }
 }

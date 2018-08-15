@@ -70,9 +70,9 @@ class GroupFlowSetting extends Component {
 
                 this.setState({
                     humanResources: data.humanResources,
-                    evaluators: data.evaluators,
-                    reviewers: data.reviewers,
-                    showDeleteButton: data.humanResources.length > 0 || data.evaluators.length > 0 || data.reviewers.length > 0
+                    evaluators: data.evaluator != null ? [data.evaluator] : [],
+                    reviewers: data.reviewer != null ? [data.reviewer] : [],
+                    showDeleteButton: data.humanResources.length > 0 || data.evaluator !== null || data.reviewer !== null
                 });
             }).catch(commonFunctions.axiosError);
     }
@@ -103,22 +103,27 @@ class GroupFlowSetting extends Component {
                 break;
         }
 
-        if (items.map((item) => { return item.evaluatorId; }).indexOf(employeeId) < 0) {
-            axios(commonFunctions.getRootUrl() + `Flow/GetEmployeeById?employeeId=${employeeId}`)
-                .then(response => {
-                    const data = response.data;
-                    let item = {
-                        processId: processId,
-                        evaluatorId: data.employeeId,
-                        nickName: data.nickName,
-                        fullName: data.fullName,
-                        code: data.code,
-                        base64Image: data.base64Image
-                    };
+        let index = items.map((item) => { return item.evaluatorId; }).indexOf(employeeId);
+        if (index < 0) {
+            if ((sender === 'evaluators' || sender === 'reviewers') && items.length > 0) {
+                toast.error('Evaluator or Reviewer is single setting!');
+            } else {
+                axios(commonFunctions.getRootUrl() + `Flow/GetEmployeeById?employeeId=${employeeId}`)
+                    .then(response => {
+                        const data = response.data;
+                        let item = {
+                            processId: processId,
+                            evaluatorId: data.employeeId,
+                            nickName: data.nickName,
+                            fullName: data.fullName,
+                            code: data.code,
+                            base64Image: data.base64Image
+                        };
 
-                    items.splice(toIndex, 0, item);
-                    this.setState({ [sender]: items });
-                }).catch(commonFunctions.axiosError);
+                        items.splice(toIndex, 0, item);
+                        this.setState({ [sender]: items });
+                    }).catch(commonFunctions.axiosError);
+            }
         } else {
             toast.error('This employee has already existed!');
         }
@@ -162,10 +167,10 @@ class GroupFlowSetting extends Component {
             || this.state.reviewers.length === 0) {
             toast.error('Please setting flow for Human Resource, Evaluator and Reviewer.');
         } else {
-            let settings = [], items, i;
+            let settings = [];
 
-            items = this.state.humanResources;
-            for (i = 0; i < items.length; i++) {
+            let items = this.state.humanResources;
+            for (let i = 0; i < items.length; i++) {
                 let item = {
                     processId: items[i].processId,
                     evaluatorId: items[i].evaluatorId,
@@ -175,27 +180,17 @@ class GroupFlowSetting extends Component {
                 settings.push(item);
             }
 
-            items = this.state.evaluators;
-            for (i = 0; i < items.length; i++) {
-                let item = {
-                    processId: items[i].processId,
-                    evaluatorId: items[i].evaluatorId,
-                    priority: i
-                }
+            settings.push({
+                processId: this.state.evaluators[0].processId,
+                evaluatorId: this.state.evaluators[0].evaluatorId,
+                priority: 0
+            });
 
-                settings.push(item);
-            }
-
-            items = this.state.reviewers;
-            for (i = 0; i < items.length; i++) {
-                let item = {
-                    processId: items[i].processId,
-                    evaluatorId: items[i].evaluatorId,
-                    priority: i
-                }
-
-                settings.push(item);
-            }
+            settings.push({
+                processId: this.state.reviewers[0].processId,
+                evaluatorId: this.state.reviewers[0].evaluatorId,
+                priority: 0
+            });
 
             axios({
                 url: commonFunctions.getRootUrl() + 'GroupFlowSetting/Edit',
