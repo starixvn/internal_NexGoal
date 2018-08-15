@@ -7,6 +7,7 @@ import { stringify } from 'qs';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
+import { Policy } from '../../constants';
 import Filter from './Filter';
 import Table from './Table';
 import SubmitForm from './SubmitForm';
@@ -35,6 +36,7 @@ export default class App extends Component {
         axios.get(commonFunctions.getRootUrl() + `Role/AssignPermission?roleId=${roleId}`)
             .then(response => {
                 let data = response.data;
+
                 this.setState({
                     selectedOption: data.roleId,
                     options: data.roles,
@@ -48,25 +50,37 @@ export default class App extends Component {
         this.getAssignPermissions(roleId);
     }
 
-    handleOnCheckboxChange(func) {
-        let functionId = func.functionId;
-        let parentId = func.parentId;
-        let policy = func.policy;
+    handleOnCheckboxChange(functionObj, target, isChecked) {
+        let functionId = functionObj.functionId;
+        let parentId = functionObj.parentId;
         let functions = this.state.functions.slice();
+
+        let index = functions.indexOf(functionObj);
+        if (isChecked) {
+            functions[index].policy = target === 'funcRead' ? Policy.Read : Policy.Host;
+        } else {
+            functions[index].policy = target === 'funcRead' ? Policy.None : functions[index].policy === Policy.Host ? Policy.Read : Policy.None;
+        }
 
         if (parentId) {
             let childs = functions.filter(f => f.parentId === parentId);
-            policy = Math.max.apply(Math, childs.map(f => { return f.policy; }));
+            let policy = Math.max.apply(Math, childs.map(f => { return f.policy; }));
 
-            for (let i = 0; i < functions.length; i++) {
-                if (functions[i].functionId === parentId) {
-                    functions[i].policy = policy;
+            for (index = 0; index < functions.length; index++) {
+                if (functions[index].functionId === parentId) {
+                    functions[index].policy = policy;
+                    break;
                 }
             }
         } else {
-            for (let i = 0; i < functions.length; i++) {
-                if (functions[i].parentId === functionId) {
-                    functions[i].policy = policy;
+            for (index = 0; index < functions.length; index++) {
+                if (functions[index].parentId === functionId) {
+                    if (isChecked) {
+                        functions[index].policy = target === 'funcRead' ? Policy.Read : Policy.Host;
+                    } else {
+                        functions[index].policy = target === 'funcRead' ?
+                            Policy.None : functions[index].policy === Policy.Host ? Policy.Read : Policy.None;
+                    }
                 }
             }
         }

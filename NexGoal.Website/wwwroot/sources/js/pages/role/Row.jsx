@@ -26,16 +26,7 @@ class Row extends Component {
     }
 
     handleOnChange(event) {
-        let name = event.target.name;
-        let policy = 0;
-        if (event.target.checked) {
-            policy = name === 'funcRead' ? 1 : 2;
-        } else {
-            policy = name === 'funcRead' ? 0 : this.props.function.policy === 2 ? 1 : 0;
-        }
-
-        this.props.function.policy = policy;
-        this.props.onCheckboxChange(this.props.function);
+        this.props.onCheckboxChange(this.props.function, event.target.name, event.target.checked);
     }
 
     render() {
