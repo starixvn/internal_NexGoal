@@ -4,7 +4,6 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Newtonsoft.Json;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -104,25 +103,11 @@
             return service;
         }
 
-        private ICommonService FakeCommonService()
-        {
-            var service = Substitute.For<ICommonService>();
-
-            return service;
-        }
-
-        private IFunctionService FakeFunctionService()
-        {
-            var service = Substitute.For<IFunctionService>();
-
-            return service;
-        }
-
         private RoleController GetRoleController()
         {
-            commonService = FakeCommonService();
+            commonService = Substitute.For<ICommonService>();
             sessionService = FakeSessionService();
-            functionService = FakeFunctionService();
+            functionService = Substitute.For<IFunctionService>();
             var controller = new RoleController(sessionService, commonService, functionService);
 
             return controller;
