@@ -6,9 +6,17 @@ export default class SearchForm extends Component {
         super(props);
     }
 
-    handleTypeIdChange = e => this.props.onTypeIdChange(e.target.value)
+    handleGroupIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
 
-    handleStatusChange = e => this.props.onStatusChange(e.target.value)
+    handleIsLocalChange = e => this.props.onFilterChange(e.target.name, e.target.value)
+
+    handleIsGeneratedChange = e => this.props.onFilterChange(e.target.name, e.target.value)
+
+    handleEvaluatedStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
+
+    handlePAStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
+
+    handleExcludedEmployeeChange = e => this.props.onFilterChange(e.target.name, e.target.checked)
 
     render() {
         return (
@@ -17,7 +25,7 @@ export default class SearchForm extends Component {
                     <div className="col">
                         <label className="control-label size-l">Department/Team</label>
                         <div className="control-content">
-                            <select value={this.props.groupId} name="targetTypeId" className="form-control" onChange={this.handleTypeIdChange}>
+                            <select value={this.props.filter.groupId} name="groupId" className="form-control" onChange={this.handleGroupIdChange}>
                                 <option value="">-- All --</option>
                             </select>
                         </div>
@@ -25,7 +33,7 @@ export default class SearchForm extends Component {
                     <div className="col">
                         <label className="control-label">Category</label>
                         <div className="control-content">
-                            <select value={this.props.isLocal} name="isActive" className="form-control" onChange={this.handleStatusChange}>
+                            <select value={this.props.filter.isLocal} name="isLocal" className="form-control" onChange={this.handleIsLocalChange}>
                                 <option value="">-- All --</option>
                                 <option value="true">Local</option>
                                 <option value="false">Expat</option>
@@ -35,7 +43,7 @@ export default class SearchForm extends Component {
                     <div className="col">
                         <label className="control-label size-l">PA Generated Status</label>
                         <div className="control-content">
-                            <select value={this.props.isGenerated} name="isActive" className="form-control" onChange={this.handleStatusChange}>
+                            <select value={this.props.filter.isGenerated} name="isGenerated" className="form-control" onChange={this.handleIsGeneratedChange}>
                                 <option value="">-- All --</option>
                                 <option value="true">Generated</option>
                                 <option value="false">Not Generated</option>
@@ -47,23 +55,25 @@ export default class SearchForm extends Component {
                     <div className="col">
                         <label className="control-label size-l">Evaluated/Status</label>
                         <div className="control-content">
-                            <select value={this.props.evaluatedStatusId} name="targetTypeId" className="form-control" onChange={this.handleTypeIdChange}>
+                            <select value={this.props.filter.evaluatedStatusId} name="evaluatedStatusId" className="form-control" onChange={this.handleEvaluatedStatusIdChange}>
                                 <option value="">-- All --</option>
+                                {this.props.evaluateStatuses.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
                             </select>
                         </div>
                     </div>
                     <div className="col">
                         <label className="control-label">PA Status</label>
                         <div className="control-content">
-                            <select value={this.props.paStatusId} name="targetTypeId" className="form-control" onChange={this.handleTypeIdChange}>
-                                <option value="">-- All --</option>
+                            <select value={this.props.filter.paStatusId} name="paStatusId" className="form-control" onChange={this.handlePAStatusIdChange}>
+                                <option value="">-- All --</option>performanceStatuses
+                                {this.props.performanceStatuses.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
                             </select>
                         </div>
                     </div>
                     <div className="col">
                         <div className="control-content">
                             <label>
-                                <input type="checkbox" /> Show Excluded Employee
+                                <input type="checkbox" name="excludedEmployee" onChange={this.handleExcludedEmployeeChange} /> Show Excluded Employee
                             </label>
                         </div>
                     </div>

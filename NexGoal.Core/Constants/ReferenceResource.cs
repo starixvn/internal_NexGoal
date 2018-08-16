@@ -5,5 +5,7 @@
         public const string SystemRole = "SystemRole";
         public const string TargetType = "TargetType";
         public const string PerformanceProcess = "PerformanceProcess";
+        public const string EvaluateStatus = "EvaluateStatus";
+        public const string PerformanceStatus = "PerformanceStatus";
     }
 }

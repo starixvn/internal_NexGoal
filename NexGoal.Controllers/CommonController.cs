@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Models;
+    using NexGoal.Models.Period;
     using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
@@ -45,6 +46,26 @@
             IEnumerable<TargetTypeModel> targetTypes = referenceResources.Select(x => new TargetTypeModel { TargetTypeId = x.ResourceId, Name = x.Value });
 
             return Json(targetTypes);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetEvaluateStatuses()
+        {
+            string[] refNames = { ReferenceResource.EvaluateStatus };
+            var referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+            var statuses = referenceResources.Select(x => new EvaluateStatusModel { Id = x.ResourceId, Name = x.Value });
+
+            return Json(statuses);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPerformanceStatuses()
+        {
+            string[] refNames = { ReferenceResource.PerformanceStatus };
+            var referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+            var statuses = referenceResources.Select(x => new PerformanceStatusModel { Id = x.ResourceId, Name = x.Value });
+
+            return Json(statuses);
         }
     }
 }
