@@ -7,7 +7,7 @@
     using NexGoal.Core.Services;
     using NexGoal.ViewModels.EOQY;
 
-    public class NominationManagementController : Controller
+    public class NominationController : Controller
     {
         private readonly ISessionService sessionService;
 
@@ -17,7 +17,7 @@
             EOY
         };
 
-        public NominationManagementController(ISessionService sessionService)
+        public NominationController(ISessionService sessionService)
         {
             this.sessionService = sessionService;
         }

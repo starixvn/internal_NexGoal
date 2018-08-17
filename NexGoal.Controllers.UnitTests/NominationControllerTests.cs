@@ -7,7 +7,7 @@
     using NSubstitute;
     using Xunit;
 
-    public class NominationManagementControllerTests
+    public class NominationControllerTests
     {
         private ISessionService sessionService;
 
@@ -15,8 +15,8 @@
         public void Index_WhenCalled_ReturnsAsExpectedViewResult()
         {
             // Arrange
-            var activeTab = NominationManagementController.NavTabs.EOQ;
-            var controller = GetNominationManagementController();
+            var activeTab = NominationController.NavTabs.EOQ;
+            var controller = GetNominationController();
             sessionService.HasPermissionOnFunction(Arg.Any<string>(), Arg.Any<Policy>()).Returns(true);
 
             // Act
@@ -40,10 +40,10 @@
             return service;
         }
 
-        private NominationManagementController GetNominationManagementController()
+        private NominationController GetNominationController()
         {
             sessionService = FakeSessionService();
-            var controller = new NominationManagementController(sessionService);
+            var controller = new NominationController(sessionService);
 
             return controller;
         }

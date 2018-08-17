@@ -29,7 +29,7 @@ export default class App extends Component {
     }
 
     handleBackClick() {
-        window.location = commonFunctions.getRootUrl() + 'NominationManagement/index?tab=eoq';
+        window.location = commonFunctions.getRootUrl() + 'Nomination/index?tab=eoq';
     }
 
     render() {
