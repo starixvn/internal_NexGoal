@@ -1,6 +1,6 @@
 ﻿.search-wrapper {
     padding: 7px 10px;
-    border: 1px solid #cccccc;
+    border: 1px solid #ccc;
     border-bottom: none;
     background: #eaeaea;
 
@@ -8,13 +8,14 @@
         position: relative;
 
         .search-textbox {
-            border: 1px solid #cccccc;
             height: 24px;
             padding: 0 20px 0 3px;
+            @include border-radius(0);
+            box-shadow: unset;
         }
 
         .icon {
-            color: #cccccc;
+            color: #ccc;
             position: absolute;
             right: 5px;
             top: 5px;

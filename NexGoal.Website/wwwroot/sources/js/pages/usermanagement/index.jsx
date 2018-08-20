@@ -199,7 +199,9 @@ export default class UserManagement extends Component {
                                 <div className="col" >
                                     <label className="control-label">Keyword</label>
                                     <div className="control-content">
-                                        <input name="keyword" className="form-control" type="text" placeholder="Full name or Nick name" onChange={this.onFilterChange} />
+                                        <input name="keyword" className="form-control" type="text" placeholder="Full name or Nick name"
+                                            autoComplete="off"
+                                            onChange={this.onFilterChange} />
                                     </div>
                                 </div>
                                 <div className="col">
@@ -235,8 +237,6 @@ export default class UserManagement extends Component {
                         <ToolkitProvider keyField="employeeId" data={this.state.data} noDataIndication={this.noDataDisplay} columns={columns} search >
                             {
                                 props => {
-                                    debugger;
-
                                     return (
                                         <Fragment>
                                             <div className="search-wrapper clearfix" >

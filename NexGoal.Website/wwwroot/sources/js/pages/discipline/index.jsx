@@ -196,15 +196,17 @@ export default class DisciplineManagement extends Component {
                             <div className="col" >
                                 <label className="control-label">From</label>
                                 <div className="control-content">
-                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.from} onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
-                                        name="from" className="form-control" showMonthDropdown showYearDropdown />
+                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.from}
+                                        onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
+                                        name="from" className="form-control" autoComplete="off" />
                                 </div>
                             </div>
                             <div className="col" >
                                 <label className="control-label">To</label>
                                 <div className="control-content">
-                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.to} onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
-                                        showMonthDropdown showYearDropdown name="to" className="form-control" />
+                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.to}
+                                        onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
+                                        name="to" className="form-control" autoComplete="off" />
                                 </div>
                             </div>
                             <div className="col">

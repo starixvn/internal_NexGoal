@@ -112,7 +112,8 @@ export default class AddEditDiscipline extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={2}>Employee</Col>
                         <Col sm={10}>
-                            <Async className={touched.employee && errors.employee && 'input-validation-error'} disabled={values.disciplineId > 0} valueKey="employeeId" labelKey="name" autoload={false} value={values.employee} name="employee"
+                            <Async className={touched.employee && errors.employee && 'input-validation-error'} disabled={values.disciplineId > 0}
+                                valueKey="employeeId" labelKey="name" autoload={false} value={values.employee} name="employee"
                                 onChange={value => setFieldValue('employee', value)} loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
                         </Col>
                     </FormGroup>
@@ -120,8 +121,9 @@ export default class AddEditDiscipline extends Component {
                         <Col componentClass={ControlLabel} className="required-label" sm={2}>Issue Date</Col>
                         <Col sm={10}>
                             <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
-                                dateFormat="DD MMM, YYYY" selected={values.effectiveDate} onChange={value => setFieldValue('effectiveDate', value)} onChangeRaw={this.onChangeRaw}
-                                name="effectiveDate" showMonthDropdown showYearDropdown />
+                                dateFormat="DD MMM, YYYY" selected={values.effectiveDate}
+                                onChange={value => setFieldValue('effectiveDate', value)} onChangeRaw={this.onChangeRaw}
+                                name="effectiveDate" autoComplete="off" />
                         </Col>
                     </FormGroup>
                     <FormGroup>
