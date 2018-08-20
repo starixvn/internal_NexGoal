@@ -16,10 +16,8 @@ export default class EditEmployeeSetting extends Component {
             filter: {
                 groupId: '',
                 isLocal: '',
-                isGenerated: '',
                 evaluatedStatusId: '',
                 paStatusId: '',
-                excludedEmployee: false,
             },
             evaluateStatuses: [],
             performanceStatuses: []

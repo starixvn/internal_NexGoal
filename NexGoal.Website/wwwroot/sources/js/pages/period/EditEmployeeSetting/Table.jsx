@@ -28,28 +28,22 @@ export default class Table extends Component {
             classes: 'text-center'
         },
         {
-            dataField: 'name',
-            text: 'Name'
+            dataField: 'group',
+            text: 'Department/Team'
+        },
+        {
+            dataField: '',
+            text: 'Employee'
         },
         {
             dataField: 'targetType',
-            text: 'Type'
+            text: 'Target Type',
+            classes: 'text-center',
         },
         {
-            dataField: 'startDate',
-            text: 'Start Date',
-            classes: 'text-center',
-            formatter: (cell, row, rowIndex, colIndex) => {
-                return row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : '';
-            }
-        },
-        {
-            dataField: 'endDate',
-            text: 'End Date',
-            classes: 'text-center',
-            formatter: (cell, row, rowIndex, colIndex) => {
-                return row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : '';
-            }
+            dataField: 'step',
+            text: 'Step',
+            classes: 'text-center'
         },
         {
             dataField: '123',
@@ -138,7 +132,7 @@ export default class Table extends Component {
                         <span className="fa fa-search icon"></span>
                     </div>
                 </div>
-                <BootstrapTable selectRow={{ mode: 'checkbox', selected: [2] }} noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='periodId' data={[{ periodId: 1, name: '123' }, { periodId: 2, name: '123' }]} columns={this.columns} />
+                <BootstrapTable selectRow={{ mode: 'checkbox' }} noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='periodId' data={[{ periodId: 1, name: '123' }, { periodId: 2, name: '123' }]} columns={this.columns} ex />
             </Fragment>
         );
     }

@@ -7,11 +7,11 @@ import { toast } from 'react-toastify';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditUserRole from './edit-user-role';
+import { version } from 'moment';
 
 const { SearchBar } = Search;
 
 const paginationOptions = paginationFactory({
-    page: 1,
     sizePerPage: 20,
     showTotal: false,
     sizePerPageList: [
@@ -65,6 +65,11 @@ export default class UserManagement extends Component {
 
     onFilterChange = (e) => {
         var filter = { [e.target.name]: e.target.value };
+        this.setState({ filter: { ...this.state.filter, ...filter } });
+    }
+
+    onIsDisabledUserChange = (e) => {
+        var filter = { [e.target.name]: e.target.checked };
         this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
@@ -225,7 +230,7 @@ export default class UserManagement extends Component {
                                 </div>
                                 <div className="col">
                                     <label>
-                                        <input type="checkbox" name="isDisabledUser" onChange={this.onFilterChange} /> Is Disabled User
+                                        <input type="checkbox" name="isDisabledUser" onChange={this.onIsDisabledUserChange} /> Is Disabled User
                                 </label>
                                 </div>
                                 <div className="col">

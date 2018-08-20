@@ -10,13 +10,9 @@ export default class SearchForm extends Component {
 
     handleIsLocalChange = e => this.props.onFilterChange(e.target.name, e.target.value)
 
-    handleIsGeneratedChange = e => this.props.onFilterChange(e.target.name, e.target.value)
-
     handleEvaluatedStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
 
     handlePAStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
-
-    handleExcludedEmployeeChange = e => this.props.onFilterChange(e.target.name, e.target.checked)
 
     render() {
         return (
@@ -40,16 +36,6 @@ export default class SearchForm extends Component {
                             </select>
                         </div>
                     </div>
-                    <div className="col">
-                        <label className="control-label size-l">PA Generated Status</label>
-                        <div className="control-content">
-                            <select value={this.props.filter.isGenerated} name="isGenerated" className="form-control" onChange={this.handleIsGeneratedChange}>
-                                <option value="">-- All --</option>
-                                <option value="true">Generated</option>
-                                <option value="false">Not Generated</option>
-                            </select>
-                        </div>
-                    </div>
                 </div>
                 <div className="form-group">
                     <div className="col">
@@ -68,13 +54,6 @@ export default class SearchForm extends Component {
                                 <option value="">-- All --</option>performanceStatuses
                                 {this.props.performanceStatuses.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
                             </select>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <div className="control-content">
-                            <label>
-                                <input type="checkbox" name="excludedEmployee" onChange={this.handleExcludedEmployeeChange} /> Show Excluded Employee
-                            </label>
                         </div>
                     </div>
                     <button type="submit" className="btn btn-primary">Search</button>

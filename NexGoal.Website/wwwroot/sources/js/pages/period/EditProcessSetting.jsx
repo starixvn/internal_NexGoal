@@ -127,52 +127,41 @@ export default class EditProcessSetting extends Component {
                     <thead>
                         <tr>
                             <th></th>
-                            {this.state.settings.map(e => <th key={e.processId} >{e.processName}</th>)}
+                            <th>Duration</th>
+                            <th>Notice At Begin</th>
+                            <th>Remind Day</th>
+                            {this.state.period.targetTypeId === TargetType.semiAnual && <th>Focus Day</th>}
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Duration</td>
-                            {this.state.settings.map(e =>
-                                <td key={e.processId} className="text-center">
+                        {this.state.settings.map(e =>
+                            <tr key={e.processId} >
+                                <td>{e.processName}</td>
+                                <td className="text-center">
                                     <select data-processid={e.processId} value={e.duration} onChange={this.handleDurationChange} >
                                         {this.durationList.map(dl => <option key={dl} value={dl}>{dl}</option>)}
                                     </select>
-                                </td>)
-                            }
-                        </tr>
-                        <tr>
-                            <td>Notice At Begin</td>
-                            {this.state.settings.map(e =>
-                                <td key={e.processId} className="text-center">
+                                </td>
+                                <td className="text-center">
                                     <input type="checkbox" data-processid={e.processId} checked={e.noticeAtBegin} onChange={this.handleNoticeAtBeginChange} />
-                                </td>)
-                            }
-                        </tr>
-                        <tr>
-                            <td>Remind Day</td>
-                            {this.state.settings.map(e =>
+                                </td>
                                 <td key={e.processId} className="text-center">
                                     <select data-processid={e.processId} value={e.remindDay} onChange={this.handleRemindDayChange}>
                                         {this.remindDayList.map(rl => <option key={rl} value={rl} >{rl}</option>)}
                                     </select>
-                                </td>)
-                            }
-                        </tr>
-                        {this.state.period.targetTypeId === TargetType.semiAnual &&
-                            <tr>
-                                <td>Focus Day</td>
-                                {this.state.settings.map(e =>
-                                    <td key={e.processId} className="text-center">
+                                </td>
+                                {this.state.period.targetTypeId === TargetType.semiAnual &&
+                                    <td className="text-center">
                                         {e.processId === 4 &&
                                             <select data-processid={e.processId} value={e.focusDay} onChange={this.handleFocusDayChange}>
                                                 {this.focusDayList.map(fd => <option key={fd} value={fd} >{fd}</option>)}
                                             </select>
                                         }
-                                    </td>)
+                                    </td>
                                 }
-                            </tr>
+                            </tr>)
                         }
+
                     </tbody>
                 </table>
                 <br />
