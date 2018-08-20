@@ -11,10 +11,37 @@
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import "../../components/react-datepicker-custom";
 @import "../../components/toast";
+@import "../../components/react-bootstrap-table";
+@import "../../components/react-select";
 
 table select {
     @include border-radius(3px);
     border: 1px solid #dfdfdf;
     height: 28px;
     padding: 0 0 0 7px;
+}
+
+.pagination {
+    > .active {
+        > a, span {
+            &, &:hover {
+                background: #314172;
+            }
+        }
+    }
+}
+
+.page-size {
+    margin: 20px 0;
+
+    button {
+        color: #333;
+        border: 1px solid #ccc;
+    }
+}
+
+.btn-block {
+    .btn + .btn {
+        margin-left: 10px;
+    }
 }

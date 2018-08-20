@@ -54,7 +54,6 @@ export default class EditEmployeeSetting extends Component {
                 <SearchForm filter={this.state.filter} evaluateStatuses={this.state.evaluateStatuses} performanceStatuses={this.state.performanceStatuses} onFilterChange={this.updateFilterValue} />
                 <Table />
             </Fragment>
-
         );
     }
 }

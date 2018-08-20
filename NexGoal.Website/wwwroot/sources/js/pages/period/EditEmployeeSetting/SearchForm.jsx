@@ -36,8 +36,6 @@ export default class SearchForm extends Component {
                             </select>
                         </div>
                     </div>
-                </div>
-                <div className="form-group">
                     <div className="col">
                         <label className="control-label size-l">Evaluated/Status</label>
                         <div className="control-content">

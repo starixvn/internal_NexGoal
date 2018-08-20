@@ -26,7 +26,7 @@
     }
 
     .pagination {
-        > .active > a {
+        > .active > a, span {
             &, &:hover {
                 background: #314172;
             }
