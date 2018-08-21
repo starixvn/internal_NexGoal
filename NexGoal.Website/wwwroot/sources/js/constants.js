@@ -1,4 +1,10 @@
-﻿export const PerformanceProcess = {
+﻿export const StatusOptions = [
+    { value: '', label: '-- All --' },
+    { value: 'true', label: 'Active' },
+    { value: 'false', label: 'Inactive' }
+];
+
+export const PerformanceProcess = {
     HumanResource: 1,
     Self: 2,
     ProjectManager: 3,

@@ -2,7 +2,7 @@
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
-import { statusOptions, renderStatusOption } from '../common';
+import { statusOptions } from '../common';
 
 class Filter extends Component {
     constructor(props) {

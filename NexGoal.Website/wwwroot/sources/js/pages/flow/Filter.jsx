@@ -2,6 +2,8 @@
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
+import { StatusOptions } from '../../constants';
+
 class Filter extends Component {
     constructor(props) {
         super(props);
@@ -34,12 +36,7 @@ class Filter extends Component {
         targetTypeOptions.unshift({ value: '', label: '-- All --' });
         const targetTypeSelected = targetTypeOptions.find((option) => { return option.value === filter.targetTypeId.toString(); });
 
-        const statusOptions = [
-            { value: '', label: '-- All --' },
-            { value: 'true', label: 'Active' },
-            { value: 'false', label: 'Inactive' }
-        ];
-        const statusSelected = statusOptions.find((option) => { return option.value === filter.isActive.toString() });
+        const statusSelected = StatusOptions.find((option) => { return option.value === filter.isActive.toString() });
 
         return (
             <form className="from-inline form-filter" onSubmit={this.handleOnSubmit}>
@@ -57,7 +54,7 @@ class Filter extends Component {
                         <ControlLabel>Status</ControlLabel>
                         <div className="control-content">
                             <Select name="IsActive" className="react-select-container" classNamePrefix="react-select"
-                                value={statusSelected} options={statusOptions}
+                                value={statusSelected} options={StatusOptions}
                                 isSearchable={false} isClearable={false}
                                 onChange={this.handleOnStatusChange} />
                         </div>
