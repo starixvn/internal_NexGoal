@@ -1,8 +1,10 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
 import { PaginationOptions } from '../../../../constants';
+const { SearchBar } = Search;
 
 class Table extends Component {
     constructor(props) {
@@ -88,13 +90,23 @@ class Table extends Component {
         ];
 
         return (
-            <BootstrapTable
-                noDataIndication={this.noDataDisplay}
-                keyField='employeeId'
-                data={nominators}
-                columns={columns}
-                pagination={paginationFactory(PaginationOptions)}
-                striped />
+            <ToolkitProvider keyField="employeeId" data={nominators} noDataIndication={this.noDataDisplay} columns={columns} search >
+                {
+                    props => {
+                        return (
+                            <Fragment>
+                                <div className="search-wrapper clearfix">
+                                    <div className="search pull-right">
+                                        <SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
+                                        <span className="fa fa-search icon"></span>
+                                    </div>
+                                </div>
+                                <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} striped />
+                            </Fragment>
+                        );
+                    }
+                }
+            </ToolkitProvider>
         );
     }
 }

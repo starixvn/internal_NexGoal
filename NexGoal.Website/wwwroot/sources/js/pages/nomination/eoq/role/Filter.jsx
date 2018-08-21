@@ -44,7 +44,7 @@ class Filter extends Component {
         const filter = this.props.filter;
 
         return (
-            <form className="from-inline form-filter" onSubmit={this.handleSubmit}>
+            <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <div className="col">
                         <ControlLabel>Employee</ControlLabel>

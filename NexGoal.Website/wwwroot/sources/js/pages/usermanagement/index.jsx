@@ -4,31 +4,14 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import { toast } from 'react-toastify';
+
+import { PaginationOptions } from '../../constants';
+import commonFunctions from '../../common-functions';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditUserRole from './edit-user-role';
-import { version } from 'moment';
 
 const { SearchBar } = Search;
-
-const paginationOptions = paginationFactory({
-    sizePerPage: 20,
-    showTotal: false,
-    sizePerPageList: [
-        {
-            text: '20', value: 20
-        },
-        {
-            text: '50', value: 50
-        },
-        {
-            text: '100', value: 100
-        },
-        {
-            text: '200', value: 200
-        }
-    ]
-});
 
 export default class UserManagement extends Component {
     constructor(props) {
@@ -44,19 +27,12 @@ export default class UserManagement extends Component {
             groups: [],
             data: [],
             showModal: false,
-            currentPage: 1,
-            sizePerPage: 20,
-
             canEditRole: document.getElementById('CanEditUserRoles').value === 'True'
         };
-
-        this.searchRef = React.createRef();
-        this.tableRef = React.createRef();
     }
 
     userRoles = [];
     currentEditUser = [];
-    resetPage = false
 
     componentDidMount = () => {
         this.getUsers();
@@ -79,7 +55,7 @@ export default class UserManagement extends Component {
     }
 
     getGroups = () => {
-        fetch('/Common/GetGroups',
+        fetch(commonFunctions.getRootUrl() + 'Common/GetGroups',
             {
                 credentials: "same-origin"
             })
@@ -90,7 +66,8 @@ export default class UserManagement extends Component {
     }
 
     getUsers = () => {
-        fetch(`/User/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`,
+        fetch(commonFunctions.getRootUrl() +
+            `User/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`,
             {
                 credentials: "same-origin"
             })
@@ -102,7 +79,7 @@ export default class UserManagement extends Component {
     }
 
     getUser = (id, callback) => {
-        fetch(`/User/GetUser?employeeId=${id}`,
+        fetch(commonFunctions.getRootUrl() + `User/GetUser?employeeId=${id}`,
             {
                 credentials: "same-origin"
             })
@@ -246,11 +223,11 @@ export default class UserManagement extends Component {
                                         <Fragment>
                                             <div className="search-wrapper clearfix" >
                                                 <div className="search pull-right">
-                                                    <SearchBar {...props.searchProps} placeholder="" delay={500} className="search-textbox" />
+                                                    <SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
                                                     <span className="fa fa-search icon"></span>
                                                 </div>
                                             </div>
-                                            <BootstrapTable ref={this.tableRef} {...props.baseProps} pagination={paginationOptions} />
+                                            <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} />
                                         </Fragment>
                                     );
                                 }

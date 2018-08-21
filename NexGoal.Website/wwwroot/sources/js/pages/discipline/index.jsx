@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
@@ -22,20 +22,17 @@ export default class DisciplineManagement extends Component {
                 to: moment(),
                 isActive: '',
                 groups: [],
-                employee: '',
+                employee: null,
             },
             data: [],
-            tableData: [],
             groupOptions: [],
-            canEdit: document.getElementById('CanEdit').value === 'True',
+            isHost: document.getElementById('CanEdit').value === 'True',
             showModal: false
         };
-        this.getGroups();
-        this.tableRef = React.createRef();
-        this.searchRef = React.createRef();
     }
 
     componentDidMount = function () {
+        this.getGroups();
         this.getDisciplines();
     }
 
@@ -88,7 +85,7 @@ export default class DisciplineManagement extends Component {
             + `&groupIds=${groupIds}`)
             .then(response => {
                 response.data.forEach((e, index) => e.rowNum = index + 1);
-                this.setState({ data: response.data, tableData: response.data });
+                this.setState({ data: response.data });
             });
     }
 
@@ -104,28 +101,6 @@ export default class DisciplineManagement extends Component {
                     filter: Object.assign({}, this.state.filter, { groups: groupOptions })
                 });
             });
-    }
-
-    onTableFilterChange = (e) => {
-        var filterData = this.getTableFilteredData(e.target.value, this.state.data);
-        this.setState({ tableData: filterData });
-    }
-
-    getTableFilteredData = (searchValue, data) => {
-        if (searchValue && searchValue.length > 1) {
-            var value = searchValue.trim().toLowerCase();
-            var filterData = data.filter((discipline) =>
-                discipline.nickName.toLowerCase().indexOf(value) >= 0
-                || discipline.fullName.toLowerCase().indexOf(value) >= 0
-                || discipline.group.toLowerCase().indexOf(value) >= 0
-                || discipline.description.toLowerCase().indexOf(value) >= 0
-                || discipline.creatorFullName.toLowerCase().indexOf(value) >= 0
-                || discipline.creatorNickName.toLowerCase().indexOf(value) >= 0
-            );
-            return filterData;
-        } else {
-            return data.slice(0);
-        }
     }
 
     searchEmployees = (input, callback) => {
@@ -145,6 +120,7 @@ export default class DisciplineManagement extends Component {
                 });
         }
 
+        this.setState({ filter: Object.assign({}, this.state.filter, { employee: null }) });
         return [];
     }
 
@@ -252,20 +228,14 @@ export default class DisciplineManagement extends Component {
                             </div>
                         </div>
                     </form>
-                    <div className="search-wrapper clearfix" >
-                        <div className="pull-left">
-                            {this.state.canEdit &&
-                                <button className="btn btn-primary" onClick={this.addDiscipline}><i className="fa fa-plus"></i> Add Discipline</button>
-                            }
-                        </div>
-                        <div className="search pull-right">
-                            <input className="search-textbox" ref={this.searchRef} onChange={this.onTableFilterChange} />
-                            <span className="fa fa-search icon"></span>
-                        </div>
-                    </div>
-                    <Table data={this.state.tableData} onUpdateStatus={this.onUpdateStatus} canEdit={this.state.canEdit} editDiscipline={this.editDiscipline} />
+                    <Table data={this.state.data} onUpdateStatus={this.onUpdateStatus}
+                        isHost={this.state.isHost}
+                        addDiscipline={this.addDiscipline}
+                        editDiscipline={this.editDiscipline} />
                 </div>
-                <AddEditDiscipline ref={this.modalRef} showModal={this.state.showModal} closeModal={this.closeModal} discipline={this.state.selectedDiscipline} onEditDiscipline={this.onEditDiscipline} />
+                <AddEditDiscipline ref={this.modalRef} showModal={this.state.showModal} closeModal={this.closeModal}
+                    discipline={this.state.selectedDiscipline}
+                    onEditDiscipline={this.onEditDiscipline} />
                 <ToastLayout />
             </div>
         );

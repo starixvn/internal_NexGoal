@@ -1,18 +1,22 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import moment from 'moment';
 import axios from 'axios';
 import { stringify } from 'qs';
-import commonFunctions from '../../common-functions';
 import { Form } from 'formik';
 import { toast } from 'react-toastify';
+
+import { PaginationOptions } from '../../constants';
+import commonFunctions from '../../common-functions';
+
+const { SearchBar } = Search;
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
-
-        this.tableRef = React.createRef();
     }
 
     noDataDisplay = () => <span className="text-danger">No information available!</span>
@@ -21,7 +25,7 @@ export default class Table extends Component {
         var isActive = e.target.checked;
 
         axios({
-            url: '/discipline/editstatus',
+            url: commonFunctions.getRootUrl() + 'discipline/editstatus',
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -89,7 +93,7 @@ export default class Table extends Component {
                 text: 'Active',
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
-                    if (this.props.canEdit) {
+                    if (this.props.isHost) {
                         return (<input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editDisciplineStatus(e, row)} />);
                     }
 
@@ -101,7 +105,7 @@ export default class Table extends Component {
                 text: 'Action',
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
-                    if (this.props.canEdit) {
+                    if (this.props.isHost) {
                         return (
                             <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)}></a>
                         );
@@ -112,7 +116,30 @@ export default class Table extends Component {
             }];
 
         return (
-            <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='disciplineId' data={this.props.data} columns={columns} />
+            <ToolkitProvider keyField="disciplineId" data={this.props.data} noDataIndication={this.noDataDisplay} columns={columns} search >
+                {
+                    props => {
+                        return (
+                            <Fragment>
+                                <div className="search-wrapper clearfix">
+                                    <div className="pull-left">
+                                        {this.props.isHost &&
+                                            <button className="btn btn-primary" onClick={this.props.addDiscipline}>
+                                                <i className="fa fa-plus"></i> Add Discipline
+                                            </button>
+                                        }
+                                    </div>
+                                    <div className="search pull-right">
+                                        <SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
+                                        <span className="fa fa-search icon"></span>
+                                    </div>
+                                </div>
+                                <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} striped />
+                            </Fragment>
+                        );
+                    }
+                }
+            </ToolkitProvider>
         );
     }
 }
