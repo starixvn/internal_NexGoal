@@ -4,6 +4,7 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import commonFunctions from '../../../../common-functions';
+import { nominationRoleOptions } from '../../common';
 import Filter from './Filter';
 import Table from './Table';
 
@@ -15,11 +16,11 @@ export default class RoleManagement extends Component {
             eoyId: document.getElementById('EOYId').value,
             filter: {
                 keyword: '',
-                groupIds: '',
-                roleId: '',
+                groups: [],
+                role: nominationRoleOptions[0],
                 isShowAll: false
             },
-            groups: [],
+            groupOptions: [],
             nominators: [],
             isHost: document.getElementById('IsHost').checked
         };
@@ -37,21 +38,25 @@ export default class RoleManagement extends Component {
     getGroups() {
         axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
             .then(response => {
-                const data = response.data;
+                const groupOptions = response.data.map((group) => {
+                    return { value: group.groupId, label: group.name };
+                });
 
                 this.setState({
-                    groups: data,
-                    filter: Object.assign({}, this.state.filter, { groupIds: data.map(g => g.groupId).toString() })
+                    groupOptions: groupOptions,
+                    filter: Object.assign({}, this.state.filter, { groups: groupOptions })
                 });
             }).catch(commonFunctions.axiosError);
     }
 
     getNominatorSetting() {
+        const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
+
         axios.get(commonFunctions.getRootUrl()
             + `EOY/GetNominatorSetting?eoyId=${this.state.eoyId}`
             + `&keyword=${this.state.filter.keyword}`
-            + `&groupIds=${this.state.filter.groupIds}`
-            + `&roleId=${this.state.filter.roleId}`
+            + `&groupIds=${groupIds}`
+            + `&roleId=${this.state.filter.role.value}`
             + `&isShowAll=${this.state.filter.isShowAll}`)
             .then(response => {
                 let data = response.data;
@@ -101,7 +106,8 @@ export default class RoleManagement extends Component {
         return (
             <Fragment>
                 <Filter filter={this.state.filter}
-                    groups={this.state.groups}
+                    groupOptions={this.state.groupOptions}
+                    nominationRoleOptions={nominationRoleOptions}
                     handleFilterChange={this.handleFilterChange}
                     handleFilterSubmit={this.handleSubmit} />
 

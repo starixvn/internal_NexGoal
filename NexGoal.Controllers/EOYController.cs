@@ -128,13 +128,13 @@
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<IActionResult> GetNominatorSetting(
-            int eoqId,
+            int eoyId,
             string keyword = null,
             string groupIds = null,
             int? roleId = null,
             bool isShowAll = false)
         {
-            IEnumerable<NominatorSettingModel> nominators = await eoyService.GetNominatorSettingAsync(eoqId, keyword, groupIds, roleId, isShowAll).ConfigureAwait(false);
+            IEnumerable<NominatorSettingModel> nominators = await eoyService.GetNominatorSettingAsync(eoyId, keyword, groupIds, roleId, isShowAll).ConfigureAwait(false);
             IEnumerable<NominatorSettingViewModel> viewModels = nominators.Select(x => new NominatorSettingViewModel
             {
                 EmployeeId = x.EmployeeId,

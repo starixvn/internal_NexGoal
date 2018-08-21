@@ -307,8 +307,10 @@ class GroupFlowSetting extends Component {
                         <FormGroup>
                             <label className="col-sm-3 control-label">Apply to Team</label>
                             <div className="col-sm-5">
-                                <Select value={this.state.groupSelected} options={groupOptions}
-                                    clearable={false} onChange={this.handleGroupChange} />
+                                <Select className="react-select-container" classNamePrefix="react-select"
+                                    value={this.state.groupSelected} options={groupOptions}
+                                    isClearable={false}
+                                    onChange={this.handleGroupChange} />
                             </div>
                         </FormGroup>
                     </Form>

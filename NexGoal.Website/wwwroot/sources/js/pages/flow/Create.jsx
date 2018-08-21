@@ -102,11 +102,12 @@ class Create extends Component {
                     <FormGroup>
                         <label className="col-sm-3 control-label required-label">Target Type</label>
                         <div className="col-sm-9">
-                            <Select name="targetType" className={`${touched.targetType && errors.targetType && 'input-validation-error'}`}
+                            <Select name="targetType"
+                                className={`react-select-container ${touched.targetType && errors.targetType && 'input-validation-error'}`}
+                                classNamePrefix="react-select"
                                 value={values.targetType}
                                 options={targetTypeOptions}
-                                clearable={false}
-                                searchable={false}
+                                isSearchable={false} isClearable={false}
                                 onChange={selectedOption => setFieldValue('targetType', selectedOption)} />
                         </div>
                     </FormGroup>

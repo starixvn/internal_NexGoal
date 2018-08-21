@@ -47,18 +47,18 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Type</ControlLabel>
                         <div className="control-content">
-                            <Select name="TargetTypeId"
+                            <Select name="TargetTypeId" className="react-select-container" classNamePrefix="react-select"
                                 value={targetTypeSelected} options={targetTypeOptions}
-                                clearable={false} searchable={false}
+                                isSearchable={false} isClearable={false}
                                 onChange={this.handleOnTargetTypeChange} />
                         </div>
                     </div>
                     <div className="col">
                         <ControlLabel>Status</ControlLabel>
                         <div className="control-content">
-                            <Select name="IsActive"
+                            <Select name="IsActive" className="react-select-container" classNamePrefix="react-select"
                                 value={statusSelected} options={statusOptions}
-                                clearable={false} searchable={false}
+                                isSearchable={false} isClearable={false}
                                 onChange={this.handleOnStatusChange} />
                         </div>
                     </div>

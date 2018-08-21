@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import { Async } from 'react-select';
+
+import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Multiselect from '../../shared/components/MultiSelect';
-import { Async } from 'react-select';
 import Table from './Table';
 import AddEditDiscipline from './EditDiscipline';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -19,12 +21,12 @@ export default class DisciplineManagement extends Component {
                 from: moment().startOf('year'),
                 to: moment(),
                 isActive: '',
-                groupIds: '',
+                groups: [],
                 employee: '',
             },
             data: [],
             tableData: [],
-            groups: [],
+            groupOptions: [],
             canEdit: document.getElementById('CanEdit').value === 'True',
             showModal: false
         };
@@ -66,7 +68,7 @@ export default class DisciplineManagement extends Component {
     }
 
     onFilterGroupChange = (selectedOptions) => {
-        this.updateFilterValue('groupIds', selectedOptions);
+        this.updateFilterValue('groups', selectedOptions);
     }
 
     updateFilterValue = (name, value) => {
@@ -75,9 +77,15 @@ export default class DisciplineManagement extends Component {
     }
 
     getDisciplines = () => {
-        var employeeId = this.state.filter.employee ? this.state.filter.employee.employeeId : '';
+        const employeeId = this.state.filter.employee ? this.state.filter.employee.value : '';
+        const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
 
-        axios(`/Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}&to=${this.state.filter.to.format('YYYY-MM-DD')}&isActive=${this.state.filter.isActive}&employeeId=${employeeId}&groupIds=${this.state.filter.groupIds}`)
+        axios(commonFunctions.getRootUrl()
+            + `Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}`
+            + `&to=${this.state.filter.to.format('YYYY-MM-DD')}`
+            + `&isActive=${this.state.filter.isActive}`
+            + `&employeeId=${employeeId}`
+            + `&groupIds=${groupIds}`)
             .then(response => {
                 response.data.forEach((e, index) => e.rowNum = index + 1);
                 this.setState({ data: response.data, tableData: response.data });
@@ -85,20 +93,17 @@ export default class DisciplineManagement extends Component {
     }
 
     getGroups = () => {
-        axios('/Common/GetGroups')
+        axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
             .then(response => {
+                const groupOptions = response.data.map((group) => {
+                    return { value: group.groupId, label: group.name };
+                });
+
                 this.setState({
-                    groups: response.data,
-                    filter: {
-                        ...this.state.filter,
-                        ...{ groupIds: response.data.map(g => g.groupId).toString() }
-                    }
+                    groupOptions: groupOptions,
+                    filter: Object.assign({}, this.state.filter, { groups: groupOptions })
                 });
             });
-    }
-
-    renderValue = (option) => {
-        return (<span>{this.state.filter.groupIds.split(',').length} selected</span >);
     }
 
     onTableFilterChange = (e) => {
@@ -124,23 +129,23 @@ export default class DisciplineManagement extends Component {
     }
 
     searchEmployees = (input, callback) => {
-        if (input.length > 2) {
-            return axios(`/common/SearchEmployees?keyword=${input}`)
+        if (input.length > 1) {
+            return axios(commonFunctions.getRootUrl() + `common/SearchEmployees?keyword=${input}`)
                 .then(response => {
                     let options = [];
 
                     response.data.map(item => {
                         options.push({
-                            employeeId: item.employeeId,
-                            name: `${item.fullName} (${item.nickName})`
+                            value: item.employeeId,
+                            label: `${item.fullName} (${item.nickName})`
                         });
                     });
 
-                    return { options };
+                    return options;
                 });
         }
 
-        callback(null, { options: [] });
+        return [];
     }
 
     onUpdateStatus = (disciplineId, isActive) => {
@@ -160,8 +165,8 @@ export default class DisciplineManagement extends Component {
             selectedDiscipline: {
                 disciplineId: discipline.disciplineId,
                 employee: {
-                    employeeId: discipline.employeeId,
-                    name: `${discipline.fullName} (${discipline.nickName})`
+                    value: discipline.employeeId,
+                    label: `${discipline.fullName} (${discipline.nickName})`
                 },
                 effectiveDate: moment(discipline.effectiveDate),
                 content: discipline.description
@@ -224,18 +229,19 @@ export default class DisciplineManagement extends Component {
                             <div className="col">
                                 <label className="control-label">Team</label>
                                 <div className="control-content">
-                                    {this.state.groups.length > 0 &&
-                                        <Multiselect value={this.state.filter.groupIds} simpleValue={true} valueKey="groupId" labelKey="name"
-                                            options={this.state.groups}
-                                            onChange={this.onFilterGroupChange}
-                                            removeSelected={false} closeOnSelect={false} />
+                                    {this.state.groupOptions.length > 0 &&
+                                        <Multiselect value={this.state.filter.groups}
+                                            options={this.state.groupOptions}
+                                            onChange={this.onFilterGroupChange} />
                                     }
                                 </div>
                             </div>
                             <div className="col">
                                 <label className="control-label">Employee</label>
                                 <div className="control-content">
-                                    <Async valueKey="employeeId" labelKey="name" autoload={false} value={this.state.filter.employee}
+                                    <Async
+                                        className="react-select-container" classNamePrefix="react-select"
+                                        cacheOptions value={this.state.filter.employee}
                                         name="employee" onChange={this.onFilterEmployeeChange}
                                         loadOptions={this.searchEmployees}
                                         placeholder="-- Search an employee --" />

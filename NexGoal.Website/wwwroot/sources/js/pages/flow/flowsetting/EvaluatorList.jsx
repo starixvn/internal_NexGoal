@@ -76,8 +76,10 @@ class EvaluatorList extends Component {
             <div className="evaluator-list">
                 <div className="header">Employee</div>
                 <div className="content">
-                    <Select value={this.state.groupSelected} options={groupOptions}
-                        clearable={false} onChange={this.handleOnGroupChange} />
+                    <Select className="react-select-container" classNamePrefix="react-select"
+                        value={this.state.groupSelected} options={groupOptions}
+                        isClearable={false}
+                        onChange={this.handleOnGroupChange} />
                     <div className="text-search">
                         <input type="text" className="form-control" placeholder="full name or nick name"
                             value={this.state.keyword} onChange={this.handleOnKeywordChange} />

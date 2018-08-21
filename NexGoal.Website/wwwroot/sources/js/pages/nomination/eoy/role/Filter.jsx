@@ -1,9 +1,8 @@
 ﻿import React, { Component } from 'react';
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
-import MultiSelect from '../../../../shared/components/MultiSelect';
 
-import { nominationRoleOptions } from '../../common';
+import MultiSelect from '../../../../shared/components/MultiSelect';
 
 class Filter extends Component {
     constructor(props) {
@@ -22,12 +21,12 @@ class Filter extends Component {
     }
 
     handleGroupChange(selectedOptions) {
-        this.props.filter.groupIds = selectedOptions;
+        this.props.filter.groups = selectedOptions;
         this.props.handleFilterChange(this.props.filter);
     }
 
     handleRoleChange(selectedOption) {
-        this.props.filter.roleId = selectedOption.value;
+        this.props.filter.role = selectedOption;
         this.props.handleFilterChange(this.props.filter);
     }
 
@@ -59,20 +58,19 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Team</ControlLabel>
                         <div className="control-content">
-                            <MultiSelect value={filter.groupIds} simpleValue={true} valueKey="groupId" labelKey="name"
-                                options={this.props.groups}
-                                onChange={this.handleGroupChange}
-                                removeSelected={false} closeOnSelect={false} />
+                            <MultiSelect
+                                value={filter.groups}
+                                options={this.props.groupOptions}
+                                onChange={this.handleGroupChange} />
                         </div>
                     </div>
                     <div className="col">
                         <ControlLabel>Roles</ControlLabel>
                         <div className="control-content">
-                            <Select name="RoleId"
-                                value={nominationRoleOptions[0]}
-                                options={nominationRoleOptions}
-                                clearable={false}
-                                searchable={false}
+                            <Select name="RoleId" className="react-select-container" classNamePrefix="react-select"
+                                value={filter.role}
+                                options={this.props.nominationRoleOptions}
+                                isSearchable={false} isClearable={false}
                                 onChange={this.handleRoleChange} />
                         </div>
                     </div>

@@ -41,24 +41,20 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Year</ControlLabel>
                         <div className="control-content">
-                            <Select name="Year"
+                            <Select name="Year" isSearchable={false} isClearable={false}
+                                className="react-select-container" classNamePrefix="react-select"
                                 value={yearSelected}
                                 options={yearOptions}
-                                clearable={false}
-                                searchable={false}
                                 onChange={this.handleYearChange} />
                         </div>
                     </div>
                     <div className="col">
                         <ControlLabel>Status</ControlLabel>
                         <div className="control-content">
-                            <Select name="StatusId"
+                            <Select name="StatusId" isSearchable={false} isClearable={false}
+                                className="react-select-container" classNamePrefix="react-select"
                                 value={statusSelected}
                                 options={statusOptions}
-                                optionRenderer={renderStatusOption}
-                                valueRenderer={renderStatusOption}
-                                clearable={false}
-                                searchable={false}
                                 onChange={this.handleStatusChange} />
                         </div>
                     </div>

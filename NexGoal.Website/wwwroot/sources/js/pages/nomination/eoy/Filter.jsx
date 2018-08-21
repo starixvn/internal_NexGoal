@@ -30,13 +30,10 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Status</ControlLabel>
                         <div className="control-content">
-                            <Select name="StatusId"
+                            <Select name="StatusId" isSearchable={false} isClearable={false}
+                                className="react-select-container" classNamePrefix="react-select"
                                 value={statusSelected}
                                 options={statusOptions}
-                                optionRenderer={renderStatusOption}
-                                valueRenderer={renderStatusOption}
-                                clearable={false}
-                                searchable={false}
                                 onChange={this.handleStatusChange} />
                         </div>
                     </div>

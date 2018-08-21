@@ -144,8 +144,10 @@ class EmployeeFlowFilter extends Component {
 
         return (
             <div className="filter">
-                <Select value={this.state.groupSelected} options={groupOptions}
-                    clearable={false} onChange={this.handleOnGroupChange} />
+                <Select className="react-select-container" classNamePrefix="react-select"
+                    value={this.state.groupSelected} options={groupOptions}
+                    isClearable={false}
+                    onChange={this.handleOnGroupChange} />
                 <div className="text-search">
                     <input type="text" className="form-control" placeholder="full name or nick name"
                         value={this.state.keyword} onChange={this.handleOnKeywordChange} />

@@ -1,21 +1,74 @@
 ﻿import React from 'react';
-import { default as ReactSelect } from "react-select";
+import PropTypes from 'prop-types';
+import { default as ReactSelect, components } from 'react-select';
 
-const MultiSelect = props => {
-    let valueComponent = (option) => {
-        let length = 0;
+const Option = (props) => (
+    <components.Option {...props}>
+        <input type="checkbox" checked={props.isSelected} onChange={(event) => { }} /> {props.data.label}
+    </components.Option>
+);
 
-        if (props.simpleValue) {
-            length = props.value.split(',').length;
-        } else {
-            length = props.value.length;
-        }
-        return (<span>{length} selected</span >);
+const ValueContainer = ({ children, ...props }) => {
+    if (children[0] && children[0].length) {
+        return (
+            <components.ValueContainer {...props}>
+                {children[0].length} item(s) selected
+            </components.ValueContainer>
+        );
     }
 
-    let options = { ...{ valueComponent, multi: true }, ...props };
+    return (
+        <components.ValueContainer {...props}>
+            {children}
+        </components.ValueContainer>
+    );
+};
 
-    return <ReactSelect {...options} />;
+const MultiSelect = props => {
+    if (props.value.length === props.options.length) {
+        return (
+            <ReactSelect className="react-select-container" classNamePrefix="react-select"
+                {...props}
+                isMulti hideSelectedOptions={false} isSearchable={false}
+                components={{ Option, ValueContainer }}
+                value={props.options}
+                onChange={selected => props.onChange(selected)}
+            />
+        );
+    }
+
+    return (
+        <ReactSelect className="react-select-container" classNamePrefix="react-select"
+            {...props}
+            isMulti hideSelectedOptions={false} isSearchable={false}
+            components={{ Option, ValueContainer }}
+            options={[props.allOption, ...props.options]}
+            onChange={(selected) => {
+                if (selected.length > 0 && selected[selected.length - 1].value === props.allOption.value) {
+                    return props.onChange(props.options);
+                }
+
+                return props.onChange(selected);
+            }}
+        />
+    );
+};
+
+MultiSelect.propTypes = {
+    options: PropTypes.array,
+    value: PropTypes.array,
+    onChange: PropTypes.func,
+    allOption: PropTypes.shape({
+        label: PropTypes.string,
+        value: PropTypes.string
+    })
+};
+
+MultiSelect.defaultProps = {
+    allOption: {
+        value: '',
+        label: 'Select all'
+    }
 };
 
 export default MultiSelect;

@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
+import { fail } from 'assert';
 
 class Filter extends Component {
     constructor(props) {
@@ -26,12 +27,10 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Role</ControlLabel>
                         <div className="control-content">
-                            <Select
-                                name="RoleId"
+                            <Select className="react-select-container" classNamePrefix="react-select"
+                                name="RoleId" isSearchable={false} isClearable={false}
                                 value={selectedOption}
                                 options={options}
-                                clearable={false}
-                                searchable={false}
                                 onChange={this.handleOnChange} />
                         </div>
                     </div>

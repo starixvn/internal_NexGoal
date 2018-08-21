@@ -1,54 +1,31 @@
-@import '~react-select/dist/react-select.css';
-
-.Select {
-    &.is-focused:not(.is-opened) {
-        .Select-control {
-            @include box-shadow-multiple('inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)');
-            border-color: #66afe9;
-        }
-    }
-
-    .Select-control {
-        @include border-radius(2px);
-        border-color: #dfdfdf;
-        height: 30px;
-
-        .Select-input {
-            height: 28px;
-        }
-
-        .Select-value {
-            line-height: 30px !important;
-        }
-
-        .Select-placeholder {
-            line-height: 30px;
-        }
-    }
-
-    &.Select--multi {
-        .Select-multi-value-wrapper {
-            span {
-                padding-left: 5px;
-                vertical-align: middle;
-
-                &:not(:first-child) {
-                    display: none;
-                }
-            }
-        }
-
-        .Select-clear-zone {
-            span {
-                vertical-align: middle;
-            }
-        }
-    }
-
+.react-select-container {
     &.input-validation-error {
-        .Select-control {
+        .react-select__control {
             border-color: #ff4545;
             @include box-shadow-multiple('0 0 2px 2px rgba(255,0,0, .2)');
         }
+    }
+
+    .react-select__control {
+        background-color: #fff;
+        @include border-radius(2px);
+        border-color: #dfdfdf;
+        height: 30px;
+        min-height: unset;
+
+        &.react-select__control--is-focused {
+            @include box-shadow-multiple('inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)');
+            border-color: #66afe9;
+        }
+
+        .react-select__indicators {
+            .react-select__indicator {
+                padding: 4px;
+            }
+        }
+    }
+
+    .react-select__menu {
+        @include border-radius(2px);
     }
 }

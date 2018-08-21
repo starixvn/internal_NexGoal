@@ -139,10 +139,12 @@ class EditInfo extends Component {
                 <FormGroup>
                     <label className="col-sm-2 control-label required-label">Target Type</label>
                     <div className="col-sm-6">
-                        <Select name="targetType" className={`${touched.targetType && errors.targetType && 'input-validation-error'}`}
+                        <Select name="targetType"
+                            className={`react-select-container ${touched.targetType && errors.targetType && 'input-validation-error'}`}
+                            classNamePrefix="react-select"
                             value={values.targetType}
                             options={targetTypeOptions}
-                            clearable={false} searchable={false} disabled={!isHost}
+                            isSearchable={false} isClearable={false}
                             onChange={selectedOption => setFieldValue('targetType', selectedOption)} />
                     </div>
                 </FormGroup>

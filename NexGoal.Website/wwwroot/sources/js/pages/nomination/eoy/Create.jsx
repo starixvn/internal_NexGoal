@@ -89,11 +89,10 @@ class CreateEOY extends Component {
                     <FormGroup>
                         <label className="col-sm-3 control-label required-label">Year</label>
                         <div className="col-sm-3 field">
-                            <Select name="year"
+                            <Select name="year" isSearchable={false} isClearable={false}
+                                className="react-select-container" classNamePrefix="react-select"
                                 value={values.year}
                                 options={yearOptions}
-                                clearable={false}
-                                searchable={false}
                                 onChange={selectedOption => setFieldValue('year', selectedOption)} />
                         </div>
                     </FormGroup>

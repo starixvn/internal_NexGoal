@@ -127,15 +127,15 @@ class Settings extends Component {
                 <FormGroup>
                     <label className="col-sm-2 control-label">Quarter</label>
                     <div className="col-sm-2 field">
-                        <Select value={quarterSelected}
+                        <Select value={quarterSelected} className="react-select-container" classNamePrefix="react-select"
                             options={quarterOptions}
-                            disabled />
+                            isDisabled={true} />
                     </div>
                     <label className="col-sm-2 control-label">Year</label>
                     <div className="col-sm-2 field">
-                        <Select value={yearOptions[0]}
+                        <Select value={yearOptions[0]} className="react-select-container" classNamePrefix="react-select"
                             options={yearOptions}
-                            disabled />
+                            isDisabled={true} />
                     </div>
                 </FormGroup>
                 <FormGroup>
