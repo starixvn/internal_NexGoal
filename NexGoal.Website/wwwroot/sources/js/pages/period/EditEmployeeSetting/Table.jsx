@@ -8,7 +8,7 @@ import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
 import { range } from 'lodash';
 import { Pagination, DropdownButton, MenuItem } from 'react-bootstrap';
-import { Async } from 'react-select';
+import Async from 'react-select/lib/Async';
 
 export default class Table extends Component {
     constructor(props) {
@@ -90,16 +90,16 @@ export default class Table extends Component {
 
                     response.data.map(item => {
                         options.push({
-                            employeeId: item.employeeId,
-                            name: `${item.fullName} (${item.nickName})`
+                            value: item.employeeId,
+                            label: `${item.fullName} (${item.nickName})`
                         });
                     });
 
-                    return { options };
+                    return callback(options);
                 });
         }
 
-        callback(null, { options: [] });
+        return callback([]);
     }
 
     render() {
@@ -163,8 +163,9 @@ export default class Table extends Component {
                     <div className="pull-left field-group">
                         <label>Employee</label>
                         <div className="control-content">
-                            <Async valueKey="employeeId" labelKey="name" autoload={false} value={null}
-                                name="employee" onChange={this.onFilterEmployeeChange}
+                            <Async className="react-select-container" classNamePrefix="react-select"
+                                cacheOptions value={{ value: 1, label: '123' }}
+                                name="employee"
                                 loadOptions={this.searchEmployees}
                                 placeholder="-- Search an employee --" />
                         </div>

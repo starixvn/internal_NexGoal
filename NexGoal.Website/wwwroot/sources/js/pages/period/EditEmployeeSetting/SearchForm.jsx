@@ -23,6 +23,7 @@ export default class SearchForm extends Component {
                         <div className="control-content">
                             <select value={this.props.filter.groupId} name="groupId" className="form-control" onChange={this.handleGroupIdChange}>
                                 <option value="">-- All --</option>
+                                {this.props.groups.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
                             </select>
                         </div>
                     </div>

@@ -24,32 +24,31 @@ const ValueContainer = ({ children, ...props }) => {
     );
 };
 
-const MultiSelect = props => {
-    if (props.value.length === props.options.length) {
-        return (
-            <ReactSelect className="react-select-container" classNamePrefix="react-select"
-                {...props}
-                isMulti hideSelectedOptions={false} isSearchable={false}
-                components={{ Option, ValueContainer }}
-                value={props.options}
-                onChange={selected => props.onChange(selected)}
-            />
-        );
-    }
+const MenuList = (props) => {
+    var selected = props.getValue();
 
+    return (
+        <components.MenuList {...props}>
+            <div style={{ padding: '8px 12px' }}>
+                <input type="checkbox" checked={selected.length === props.options.length} onChange={(event) => {
+                    if (event.target.checked) {
+                        props.setValue(props.options);
+                    } else {
+                        props.setValue([]);
+                    }
+                }} /> Select All
+            </div>
+            {props.children}
+        </components.MenuList >
+    );
+};
+
+const MultiSelect = props => {
     return (
         <ReactSelect className="react-select-container" classNamePrefix="react-select"
             {...props}
             isMulti hideSelectedOptions={false} isSearchable={false}
-            components={{ Option, ValueContainer }}
-            options={[props.allOption, ...props.options]}
-            onChange={(selected) => {
-                if (selected.length > 0 && selected[selected.length - 1].value === props.allOption.value) {
-                    return props.onChange(props.options);
-                }
-
-                return props.onChange(selected);
-            }}
+            components={{ Option, ValueContainer, MenuList }}
         />
     );
 };

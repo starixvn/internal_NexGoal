@@ -207,6 +207,7 @@ export default class DisciplineManagement extends Component {
                                 <div className="control-content">
                                     {this.state.groupOptions.length > 0 &&
                                         <Multiselect value={this.state.filter.groups}
+                                            closeMenuOnSelect={false}
                                             options={this.state.groupOptions}
                                             onChange={this.onFilterGroupChange} />
                                     }

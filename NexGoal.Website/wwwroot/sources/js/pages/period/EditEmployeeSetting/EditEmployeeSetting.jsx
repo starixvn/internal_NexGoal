@@ -20,7 +20,8 @@ export default class EditEmployeeSetting extends Component {
                 paStatusId: '',
             },
             evaluateStatuses: [],
-            performanceStatuses: []
+            performanceStatuses: [],
+            groups: []
         }
     }
 
@@ -30,6 +31,7 @@ export default class EditEmployeeSetting extends Component {
     }
 
     componentDidMount = () => {
+        this.getGroups();
         this.getEvaluateStatuses();
         this.getPerformanceStatuses();
     }
@@ -48,11 +50,24 @@ export default class EditEmployeeSetting extends Component {
             }).catch(commonFunctions.axiosError);
     }
 
+    getGroups = () => {
+        axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
+            .then(response => {
+                const groupOptions = response.data.map((group) => {
+                    return { value: group.groupId, label: group.name };
+                });
+
+                this.setState({
+                    groups: groupOptions,
+                });
+            });
+    }
+
     render() {
         return (
             <Fragment>
-                <SearchForm filter={this.state.filter} evaluateStatuses={this.state.evaluateStatuses} performanceStatuses={this.state.performanceStatuses} onFilterChange={this.updateFilterValue} />
-                <Table />
+                <SearchForm filter={this.state.filter} groups={this.state.groups} evaluateStatuses={this.state.evaluateStatuses} performanceStatuses={this.state.performanceStatuses} onFilterChange={this.updateFilterValue} />
+                <Table groups={this.state.groups} />
             </Fragment>
         );
     }
