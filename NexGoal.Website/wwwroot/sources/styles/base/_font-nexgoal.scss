@@ -24,6 +24,12 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
+  .icon-menu-down:before {
+    content: "\e91b";
+  }
+  .icon-treedot:before {
+    content: "\e91c";
+  }
   .icon-account-settings-variant:before {
     content: "\e900";
   }

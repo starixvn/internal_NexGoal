@@ -11,7 +11,7 @@ class Row extends Component {
         if (func.parentId) {
             return (
                 <td>
-                    <span className="icon-root_tree icon-level-second"></span>
+                    <span className="icon-treedot"></span>
                     <span className="func-name">{func.name}</span>
                 </td>
             );
@@ -19,7 +19,7 @@ class Row extends Component {
 
         return (
             <td className="level-first">
-                <span className="icon-ui icon-level-first"></span>
+                <span className="icon-menu-down"></span>
                 <span className="func-name">{func.name}</span>
             </td>
         );

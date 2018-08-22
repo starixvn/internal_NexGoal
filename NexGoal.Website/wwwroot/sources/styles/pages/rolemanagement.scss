@@ -18,16 +18,27 @@ table.assign-permission {
             color: #1973b2;
         }
 
-        .icon-level-first {
+        .icon-treedot{
             font-size: 8px;
             margin-right: 3px;
+            padding: 0 4px 0 8px;
+            position: relative;
+            top: -6px;
         }
 
-        .icon-level-second {
-            font-size: 24px;
+        .icon-menu-down {
+            font-size: 22px;
             line-height: 0;
+            cursor: pointer;
             position: relative;
-            top: 2px;
+            top: 4px;
+        }
+
+        label {
+            margin-bottom: 0px;
+            input[type="checkbox"] {
+                margin: 0;
+            }
         }
     }
 }
