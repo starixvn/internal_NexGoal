@@ -1,0 +1,111 @@
+@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../components/buttons";
+@import "../../components/tables";
+@import "../../components/tooltip";
+
+.control-label {
+    display: block;
+}
+.form-group button {
+    margin-right: 12px;
+}
+.performance-record {
+    
+}
+.record {
+    border: 1px solid #d7e7f7;
+    display: grid; 
+    grid-template-columns: 100px 195px 1fr 56px;
+    grid-template-rows: 40px minmax(100px, auto) minmax(34px, auto);
+    margin-bottom: 16px;
+    .avatar-user{
+        grid-column: 1;
+        grid-row: span 3;
+        border-right: 1px solid #d7e7f7;
+        text-align: center;
+        .avatar {
+            @include border-radius(50%);
+            width: 80px;
+            height: 80px;
+            border: 1px solid #9ba3b6;
+            background-color: #8a9197;
+            margin: 30px 0 10px;
+            object-fit: cover;
+        }
+        .name {
+            color: #2a9243;
+            font-weight: 700;
+        }
+        .role {
+            @include border-radius(20px);
+            background-color: #3b66c5;
+            color: #fff;
+            display: inline-block;
+            padding: 0 8px;
+            margin-top: 4px;
+        }
+    }
+    .head {
+        grid-row: 1;
+        grid-column: 2 / 5; 
+        padding: 6px 8px;
+        .nominated {
+            float: left;
+            line-height: 40px;
+        }
+        .date {
+            float: right;
+            direction: rtl;
+            .final-date {
+                color: #212121;
+            }
+            .edit-date {
+                color: #818181;
+            }
+        }
+    }
+    .comment {    
+        grid-row: 2;
+        grid-column: 2 / 5; 
+        background-color: #f2f5fa;    
+        border: 1px solid #d7e7f7;
+        padding: 10px;
+        margin: 10px;    
+        color: #333;
+    }
+    .grade, .project, .edit {
+        border-top: 1px solid #d7e7f7;
+        padding: 8px 10px;
+    }
+    .grade {
+        border-right: 1px solid #d7e7f7;
+        .grade-detail {
+            color: #a50cb4;
+            font-weight: 700;
+        }
+    }
+    .project-detail {
+        color: #212121;
+        font-weight: 700;
+    }
+    .edit {
+        padding: 4px 10px 4px 0;
+        cursor: pointer;
+    }
+    .fa {
+        @include border-radius(2px);
+        background-color: #0360ec;
+        color: #fff;
+        width: 100%;
+        height: 26px;
+        &:before {
+            font-size: 16px;
+            position: relative;
+            top: 5px;
+            left: 17px;
+        }
+    }        
+    
+}
+

@@ -1,0 +1,18 @@
+
+@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../components/tabs";
+@import "pci";
+@import "pa";
+
+.employee-field {
+    width: 350px;
+}
+
+.grade-field {
+    width: 280px;
+}
+
+.project-field {
+    width: 500px;
+}

@@ -1,0 +1,18 @@
+@using NexGoal.Resources
+
+@{
+    ViewData["Title"] = "Self-Evaluation";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/cssselfevaluation.css" />
+}
+
+@Html.AntiForgeryToken()
+<input id="UpdatePermissionSuccessfully" type="hidden" value="@Message.UpdatePermissionSuccessfully" />
+
+<div id="self-evaluation-wrapper"></div>
+
+@section Scripts {
+    <script src="~/dist/selfevaluation.js"></script>
+}

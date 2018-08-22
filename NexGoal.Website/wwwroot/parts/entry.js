@@ -17,7 +17,8 @@ module.exports = {
         csseditevaluationflow: "./sources/styles/pages/flow/edit.scss",
         cssperiod: "./sources/styles/pages/period/period.scss",
         csseditperiod: "./sources/styles/pages/period/edit.scss",
-        cssselfevaluation: "./sources/styles/pages/selfevaluation/view.scss"
+        cssselfevaluation: "./sources/styles/pages/SelfEvaluation/self-evaluation.scss",
+        cssevaluation: "./sources/styles/pages/evaluation.scss",
         //
         main: "./sources/js/main.js",
         home: "./sources/js/pages/home/index.jsx",
@@ -30,6 +31,8 @@ module.exports = {
         evaluationflow: './sources/js/pages/flow/index.jsx',
         editevaluationflow: './sources/js/pages/flow/edit.jsx',
         period: './sources/js/pages/period/index.jsx',
-        editperiod: './sources/js/pages/period/edit.jsx'
+        editperiod: './sources/js/pages/period/edit.jsx', 
+        selfevaluation: './sources/js/pages/selfevaluation/index.jsx',
+        evaluation: './sources/js/pages/evaluation/index.jsx'
     }
 };
