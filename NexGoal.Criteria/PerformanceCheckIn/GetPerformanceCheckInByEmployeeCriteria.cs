@@ -3,7 +3,7 @@
     using System;
     using Fanex.Data.Repository;
 
-    public class GetPerformanceCheckInByEmployeeIdCriteria : CriteriaBase
+    public class GetPerformanceCheckInByEmployeeCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
         public DateTime? FromDate { get; set; }

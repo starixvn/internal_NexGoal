@@ -6,6 +6,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceCheckIn;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.UserManagement;
 
     public class PerformanceCheckInService : IPerformanceCheckInService
     {
@@ -20,7 +21,17 @@
             this.avatarService = avatarService;
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetPerformanceCheckInByEmployeeIdAsync(
+        public async Task<IEnumerable<UserModel>> GetCreatorsByEmployeeAsync(int employeeId)
+        {
+            var criteria = new GetCreatorByEmployeeCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PerformanceRecordModel>> GetPerformanceCheckInByEmployeeAsync(
             int employeeId,
             DateTime? fromDate = null,
             DateTime? toDate = null,
@@ -29,7 +40,7 @@
             int? pageSize = null,
             int? pageIndex = null)
         {
-            var criteria = new GetPerformanceCheckInByEmployeeIdCriteria
+            var criteria = new GetPerformanceCheckInByEmployeeCriteria
             {
                 EmployeeId = employeeId,
                 FromDate = fromDate,

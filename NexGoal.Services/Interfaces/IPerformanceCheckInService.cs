@@ -4,10 +4,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.UserManagement;
 
     public interface IPerformanceCheckInService
     {
-        Task<IEnumerable<PerformanceRecordModel>> GetPerformanceCheckInByEmployeeIdAsync(
+        Task<IEnumerable<UserModel>> GetCreatorsByEmployeeAsync(int employeeId);
+
+        Task<IEnumerable<PerformanceRecordModel>> GetPerformanceCheckInByEmployeeAsync(
             int employeeId,
             DateTime? fromDate = null,
             DateTime? toDate = null,

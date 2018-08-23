@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Services;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
     public class MyCheckInController : Controller
@@ -21,6 +22,14 @@
             this.performanceCheckInService = performanceCheckInService;
         }
 
+        [Route("Self/PerformanceCheckIn/GetCreators")]
+        public async Task<IActionResult> GetCreators()
+        {
+            IEnumerable<UserModel> creators = await performanceCheckInService.GetCreatorsByEmployeeAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(creators);
+        }
+
         [Route("Self/PerformanceCheckIn/Index")]
         public async Task<IActionResult> Index(
             DateTime fromDate,
@@ -28,7 +37,7 @@
             int? creatorId = null,
             string projectIds = null)
         {
-            IEnumerable<PerformanceRecordModel> performanceRecords = await performanceCheckInService.GetPerformanceCheckInByEmployeeIdAsync(
+            IEnumerable<PerformanceRecordModel> performanceRecords = await performanceCheckInService.GetPerformanceCheckInByEmployeeAsync(
                 sessionService.EmployeeId,
                 fromDate,
                 toDate,
