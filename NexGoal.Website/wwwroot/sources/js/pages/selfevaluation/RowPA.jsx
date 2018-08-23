@@ -15,7 +15,6 @@ export default class RowPA extends Component {
     }
     
     renderCellComment(comment) {
-        console.log({comment});
         const tooltip = (
             <Tooltip id="tooltip">
                 {comment}

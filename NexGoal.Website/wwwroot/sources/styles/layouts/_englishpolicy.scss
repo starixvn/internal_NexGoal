@@ -1,0 +1,28 @@
+
+[class^="safety"] {
+    font-family: 'NexGoalIcon' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+  
+    /* Better Font Rendering =========== */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-size: 18px;
+}
+
+.safety:after {
+    color: #4f960a;
+    content: '\e909';
+}
+.safety-below:after {
+    content: '\e911';
+    color: #e71d1b;
+}
+.safety-above:after {
+    content: '\e916';
+    color: #0c64ea;
+}

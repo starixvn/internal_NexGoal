@@ -34,10 +34,14 @@
             border-color: $table-border !important;
             vertical-align: middle !important;
             word-break: break-word;
+            &.title {
+                background-color: #525e86;
+                color: #fff;
+            }
         }
 
         tr {
-            &:hover td {
+            &:hover td:not(.title) {
                 background: $table-td-bg-hover;
             }
         }

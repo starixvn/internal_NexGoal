@@ -1,0 +1,13 @@
+[class^="icon"] {
+    @include border-radius(15px);
+    cursor: pointer;
+    padding: 2px;
+    display: inline-block;  
+    &:before {
+        font-size: 18px;
+    }  
+    &:hover {
+        background-color: #0161eb;
+        color: #fff;
+    }
+}

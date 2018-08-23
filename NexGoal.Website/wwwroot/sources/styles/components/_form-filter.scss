@@ -1,21 +1,11 @@
 .form-filter {
     min-width: 600px;
-    padding: 4px 0 0;
+    padding: 12px 0;
 
-    .form-group {
-        margin-right: 10px;
-        line-height: 22px;
-
-        &:last-child {
-            margin-bottom: 10px;
-        }
-    }
-
-    label {
+    .control-label {
         font-weight: normal;
         color: $font-color;
-        margin: 1px 5px 0 0;
-        padding: 0;
+        margin-bottom: 4px;
     }
 
     .col {
@@ -41,25 +31,6 @@
             border-color: #66afe9;
             outline: 0;
             @include box-shadow-multiple('inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, .6)');
-        }
-    }
-
-    .control-label {
-        float: left;
-        width: 70px;
-        text-align: left;
-        margin-right: 0;
-
-        &.size-m {
-            width: 90px;
-        }
-
-        &.size-l {
-            width: 130px;
-        }
-
-        &.size-xl {
-            width: 150px;
         }
     }
 

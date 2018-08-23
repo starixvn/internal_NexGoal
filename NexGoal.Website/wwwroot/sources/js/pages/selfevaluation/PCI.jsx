@@ -73,11 +73,12 @@ export default class PerformanceCheckIn extends Component {
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span class="icon-chevron-down"></span>
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                                <div className="english-policy">English Policy <span className="grade-detail"></span></div>
+                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety-below"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         
                         </div>
@@ -92,31 +93,12 @@ export default class PerformanceCheckIn extends Component {
                             
                             <div className="comment">                                   
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span class="icon-chevron-down"></span>
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                                <div className="english-policy">English Policy <span className="grade-detail"></span></div>
-                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            </div>                                                                                         
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar"/>
-                                <div className="name">Raymond</div>
-                                <span className="role">Developer</span>
-                            </div>
-                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-                            
-                            <div className="comment">                                   
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                            </div>
-                            <div className="footer">
-                                <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                                <div className="english-policy">English Policy <span className="grade-detail"></span></div>
+                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety-above"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         
                         </div>
@@ -132,12 +114,12 @@ export default class PerformanceCheckIn extends Component {
                             <div className="comment">                                   
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span class="icon-chevron-down"></span>
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                                <div className="english-policy">English Policy <span className="grade-detail"></span></div>
+                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety-below"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         
                         </div>
@@ -152,11 +134,34 @@ export default class PerformanceCheckIn extends Component {
                             
                             <div className="comment">                                   
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span class="icon-chevron-down"></span>
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                                <div className="english-policy">English Policy <span className="grade-detail"></span></div>
+                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety"></span></div>
+                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
+                            </div>                                                                                         
+                        </div>
+                        <div className="record">
+                            <div className="avatar-user">
+                                <img src={avataruser} className="avatar"/>
+                                <div className="name">Raymond</div>
+                                <span className="role">Developer</span>
+                            </div>
+                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
+                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
+                            
+                            <div className="comment">                                   
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span className="icon-chevron-down"></span>
+                            </div>
+                            <div className="footer">
+                                <div className="edit"><span className="icon-square-edit-outline"></span></div> 
+                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         
                         </div>                 
