@@ -16,12 +16,12 @@ export default class EditEmployeeSetting extends Component {
             filter: {
                 groupId: '',
                 isLocal: '',
-                evaluatedStatusId: '',
+                isEvaluated: '',
                 paStatusId: '',
             },
-            evaluateStatuses: [],
             performanceStatuses: [],
-            groups: []
+            groups: [],
+            settings: []
         }
     }
 
@@ -32,21 +32,14 @@ export default class EditEmployeeSetting extends Component {
 
     componentDidMount = () => {
         this.getGroups();
-        this.getEvaluateStatuses();
         this.getPerformanceStatuses();
+        this.getEmployeeSettings();
     }
 
     getPerformanceStatuses = () => {
         axios.get(commonFunctions.getRootUrl() + 'Common/GetPerformanceStatuses')
             .then(response => {
                 this.setState({ performanceStatuses: response.data });
-            }).catch(commonFunctions.axiosError);
-    }
-
-    getEvaluateStatuses = () => {
-        axios.get(commonFunctions.getRootUrl() + 'Common/GetEvaluateStatuses')
-            .then(response => {
-                this.setState({ evaluateStatuses: response.data });
             }).catch(commonFunctions.axiosError);
     }
 
@@ -60,14 +53,30 @@ export default class EditEmployeeSetting extends Component {
                 this.setState({
                     groups: groupOptions,
                 });
+            }).catch(commonFunctions.axiosError);
+    }
+
+    getEmployeeSettings = () => {
+        debugger;
+        axios(commonFunctions.getRootUrl() + 'Period/GetEmployeeSettings', {
+            params: {
+                periodId: this.props.periodId,
+            }
+        }).then(response => {
+            var data = response.data;
+            data.map((e, i) => e.rowNum = i + 1);
+
+            this.setState({
+                settings: data,
             });
+        }).catch(commonFunctions.axiosError);
     }
 
     render() {
         return (
             <Fragment>
                 <SearchForm filter={this.state.filter} groups={this.state.groups} evaluateStatuses={this.state.evaluateStatuses} performanceStatuses={this.state.performanceStatuses} onFilterChange={this.updateFilterValue} />
-                <Table groups={this.state.groups} />
+                <Table groups={this.state.groups} data={this.state.settings} />
             </Fragment>
         );
     }

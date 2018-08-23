@@ -155,5 +155,14 @@
 
             return Json(result);
         }
+
+        [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> GetEmployeeSettings(int periodId, int? groupId, bool? isLocal, bool? isEvaluated, int? statusId)
+        {
+            var result = await periodService.GetEmployeeSettings(periodId).ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

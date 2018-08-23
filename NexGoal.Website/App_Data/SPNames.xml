@@ -78,6 +78,7 @@
     <Setting Key="Period_Update" SpName="Period_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetProcessSetting" SpName="Period_GetProcessSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_UpdateProcessSetting" SpName="Period_UpdateProcessSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_GetEmployeeSettings" SpName="Period_GetEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Project">
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>

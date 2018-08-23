@@ -1,7 +1,9 @@
 ﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
+    using Fanex.Data.Repository;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -11,10 +13,12 @@
     public class PeriodService : IPeriodService
     {
         private readonly IBaseService baseService;
+        private readonly DynamicRepository dynamicRepository;
 
         public PeriodService(IBaseService baseService)
         {
             this.baseService = baseService;
+            this.dynamicRepository = new DynamicRepository();
         }
 
         public async Task<IEnumerable<PeriodModel>> GetPeriods(int? targetTypeId, bool? isActive)
@@ -103,6 +107,32 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PeriodEmployeeSettingModel>> GetEmployeeSettings(int periodId)
+        {
+            var criteria = new GetEmployeeSettingsCriteria
+            {
+                PeriodId = periodId
+            };
+
+            var result = await dynamicRepository.FetchMultipleAsync<PeriodEmployeeSettingModel, PeriodFlowSettingModel, PeriodFlowEvaluatorSettingModel>(criteria).ConfigureAwait(false);
+
+            var employeeSettings = result.Item1;
+            var flowSettings = result.Item2;
+            var evaluatorSettings = result.Item3;
+
+            foreach (var flowSetting in flowSettings)
+            {
+                flowSetting.Evaluators = evaluatorSettings.Where(x => x.FlowSettingId == flowSetting.FlowSettingId);
+            }
+
+            foreach (var employeeSetting in employeeSettings)
+            {
+                employeeSetting.FlowSettings = flowSettings.Where(x => x.SettingId == employeeSetting.SettingId);
+            }
+
+            return employeeSettings;
         }
     }
 }

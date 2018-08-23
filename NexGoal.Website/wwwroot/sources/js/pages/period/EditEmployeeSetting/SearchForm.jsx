@@ -42,7 +42,8 @@ export default class SearchForm extends Component {
                         <div className="control-content">
                             <select value={this.props.filter.evaluatedStatusId} name="evaluatedStatusId" className="form-control" onChange={this.handleEvaluatedStatusIdChange}>
                                 <option value="">-- All --</option>
-                                {this.props.evaluateStatuses.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
+                                <option value="true">Evaluated</option>
+                                <option value="false">Not Evaluated</option>
                             </select>
                         </div>
                     </div>

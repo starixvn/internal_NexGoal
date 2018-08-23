@@ -14,16 +14,13 @@ export default class Table extends Component {
     constructor(props) {
         super(props);
 
-        let data = range(1, 100).map(e => { return { rowNum: e, group: 'BA' } });
-
         this.state = {
             showCreateModal: false,
             showDeleteModal: false,
-            data: data,
-            tableData: data,
+            tableData: props.data,
             page: 1,
             pageSize: 20,
-            totalPage: Math.ceil(data.length / 20)
+            totalPage: Math.ceil(this.props.data.length / 20)
         }
         this.tableRef = React.createRef();
     }
@@ -105,56 +102,55 @@ export default class Table extends Component {
     render() {
         var from = (this.state.page - 1) * this.state.pageSize;
 
-        var tableBody = this.state.tableData.length > 0 ? this.state.tableData.slice(from, from + this.state.pageSize).map(e =>
-            <Fragment key={e.rowNum}>
-                <tr>
-                    <td className="text-center" rowSpan="4"><input type="checkbox" /></td>
-                    <td className="text-center" rowSpan="4">{e.rowNum}</td>
-                    <td className="text-center" rowSpan="4">{e.group}</td>
-                    <td rowSpan="4"><div>12313</div><div>12313</div></td>
-                    <td className="text-center" rowSpan="4">{e.targetType}</td>
-                    <td>Self-Evaluator</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Project Manager</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Evaluator</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>Reviewer</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                </tr>
-            </Fragment>) :
+        var tableBody = this.props.data.length > 0 ? this.props.data.slice(from, from + this.state.pageSize).map(setting => {
+            var rowSpan = 0;
+            for (let i = 0; i < setting.flowSettings.length; i++) {
+                rowSpan += setting.flowSettings[i].evaluators.length;
+            }
+            debugger;
+
+            return (
+                <Fragment key={setting.rowNum}>
+                    <tr>
+                        <td className="text-center" rowSpan={rowSpan}><input type="checkbox" /></td>
+                        <td className="text-center" rowSpan={rowSpan}>{setting.rowNum}</td>
+                        <td className="text-center" rowSpan={rowSpan}>{setting.group}</td>
+                        <td rowSpan={rowSpan}>
+                            <div>{setting.fullName}</div>
+                            <div>{setting.code}</div>
+                            <div>({setting.nickName})</div>
+                            <div>{setting.jobTitle}</div>
+                        </td>
+                        <td>{setting.flowSettings[0].process}</td>
+                        <td>{setting.flowSettings[0].evaluators[0].evaluator}</td>
+                        <td></td>
+                        <td>{setting.flowSettings[0].startDate}</td>
+                        <td>{setting.flowSettings[0].endDate}</td>
+                        <td rowSpan={rowSpan}>{setting.isIncluded}</td>
+                        <td rowSpan={rowSpan}></td>
+                        <td rowSpan={rowSpan}></td>
+                    </tr>
+                    {setting.flowSettings.slice(1).map(flowSetting =>
+                        <Fragment key={flowSetting.flowSettingId}>
+                            <tr>
+                                <td rowSpan={flowSetting.evaluators.length}>{flowSetting.process}</td>
+                                <td>{flowSetting.evaluators[0].evaluator}</td>
+                                <td></td>
+                                <td rowSpan={flowSetting.evaluators.length}>{flowSetting.startDate}</td>
+                                <td rowSpan={flowSetting.evaluators.length}>{flowSetting.endDate}</td>
+                            </tr>
+                            {flowSetting.evaluators.slice(1).map((evaluator, i) =>
+                                <tr key={i}>
+                                    <td>{evaluator.evaluator}</td>
+                                    <td></td>
+                                </tr>)
+                            }
+                        </Fragment>
+                    )}
+                </Fragment>);
+        }) :
             <tr>
-                <td className="text-center text-danger" colspan="13">No information available!</td>
+                <td className="text-center text-danger" colSpan="13">No information available!</td>
             </tr>
 
         return (
@@ -191,7 +187,6 @@ export default class Table extends Component {
                             <th>#</th>
                             <th>Department / Team</th>
                             <th>Employee</th>
-                            <th>Target Type</th>
                             <th>Step</th>
                             <th>Name</th>
                             <th>Status</th>
