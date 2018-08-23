@@ -18,6 +18,7 @@
             services.AddScoped<IPeriodService, PeriodService>();
             services.AddScoped<IGroupFlowSettingService, GroupFlowSettingService>();
             services.AddScoped<IEmployeeFlowSettingService, EmployeeFlowSettingService>();
+            services.AddScoped<IPerformanceCheckInService, PerformanceCheckInService>();
         }
     }
 }

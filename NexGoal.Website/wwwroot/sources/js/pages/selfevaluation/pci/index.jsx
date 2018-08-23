@@ -19,7 +19,7 @@ export default class PerformanceCheckIn extends Component {
         return (
             <Fragment>
                 <Filter />
-                <a href={`${commonFunctions.getRootUrl()}Self/CheckIn/Create`} className="btn btn-primary">
+                <a href={`${commonFunctions.getRootUrl()}Self/PerformanceCheckIn/Create`} className="btn btn-primary">
                     <i className="fa fa-plus" />Performance Check-in
                 </a>
             </Fragment>

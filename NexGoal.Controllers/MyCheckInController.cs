@@ -1,21 +1,44 @@
 ﻿namespace NexGoal.Controllers
 {
     using System;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Services;
+    using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Services;
 
     public class MyCheckInController : Controller
     {
-        [Route("Self/CheckIn/Index")]
-        public IActionResult Index(
+        private readonly ISessionService sessionService;
+        private readonly IPerformanceCheckInService performanceCheckInService;
+
+        public MyCheckInController(
+            ISessionService sessionService,
+            IPerformanceCheckInService performanceCheckInService)
+        {
+            this.sessionService = sessionService;
+            this.performanceCheckInService = performanceCheckInService;
+        }
+
+        [Route("Self/PerformanceCheckIn/Index")]
+        public async Task<IActionResult> Index(
             DateTime fromDate,
             DateTime toDate,
             int? creatorId = null,
             string projectIds = null)
         {
-            return View();
+            IEnumerable<PerformanceRecordModel> performanceRecords = await performanceCheckInService.GetPerformanceCheckInByEmployeeIdAsync(
+                sessionService.EmployeeId,
+                fromDate,
+                toDate,
+                creatorId,
+                projectIds).ConfigureAwait(false);
+
+            return Json(performanceRecords);
         }
 
-        [Route("Self/CheckIn/Create")]
+        [Route("Self/PerformanceCheckIn/Create")]
         public IActionResult Create()
         {
             return View();
