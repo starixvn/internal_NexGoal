@@ -156,4 +156,10 @@
   <data name="EffectiveDate" xml:space="preserve">
     <value>Effective Date</value>
   </data>
+  <data name="SelfEvaluation" xml:space="preserve">
+    <value>Self-Evaluation</value>
+  </data>
+  <data name="NewPerformanceCheckIn" xml:space="preserve">
+    <value>New Performance Check-in</value>
+  </data>
 </root>

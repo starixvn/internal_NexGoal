@@ -5,25 +5,23 @@ import Select from 'react-select';
 import { Form, FormGroup, ControlLabel, FormControl, Button, Row, Col} from 'react-bootstrap';
 import avatar from '../../../styles/images/avatar1.jpg';
 
-
-
 const options = [
-    {value: "All", label: "all"},
-    {value: "Raymond", label: "Raymond"},
-    {value: "Tim", label: "Tim"}, 
-    {value: "Hunter", label: "Hunter"}, 
-    {value: "Oliver", label: "Oliver"},
-    {value: "Troy", label: "Troy"}, 
-    {value: "Larry", label: "Larry"}
+    { value: "All", label: "all" },
+    { value: "Raymond", label: "Raymond" },
+    { value: "Tim", label: "Tim" },
+    { value: "Hunter", label: "Hunter" },
+    { value: "Oliver", label: "Oliver" },
+    { value: "Troy", label: "Troy" },
+    { value: "Larry", label: "Larry" }
 ];
 
 export default class PerformanceCheckIn extends Component {
     constructor(props) {
         super(props);
-    }    
+    }
     render() {
         const avataruser = `/dist/${avatar}`;
-        return(
+        return (
                 <div className="col-sm-12">
                     <Form inline className="form-filter">
                         <div className="row-filter">
@@ -162,7 +160,7 @@ export default class PerformanceCheckIn extends Component {
                             <div className="comment">                                   
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
                                 <span className="icon-chevron-down"></span>
-                            </div>
+            </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
                                 <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
@@ -175,5 +173,3 @@ export default class PerformanceCheckIn extends Component {
         );
     }
 }
-
-

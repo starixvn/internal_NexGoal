@@ -78,5 +78,12 @@
 
             return await baseService.GetDataAsync<UserGroupModel>(criteria).ConfigureAwait(false);
         }
+
+        public async Task<IEnumerable<ProjectModel>> GetProjectsAsync()
+        {
+            var criteria = new GetProjectsCriteria();
+
+            return await baseService.GetDataAsync<ProjectModel>(criteria).ConfigureAwait(false);
+        }
     }
 }

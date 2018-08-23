@@ -67,5 +67,13 @@
 
             return Json(statuses);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetProjects()
+        {
+            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
+
+            return Json(projects);
+        }
     }
 }

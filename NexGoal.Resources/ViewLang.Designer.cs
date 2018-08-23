@@ -124,6 +124,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to New Performance Check-in.
+        /// </summary>
+        public static string NewPerformanceCheckIn {
+            get {
+                return ResourceManager.GetString("NewPerformanceCheckIn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Nomination Management.
         /// </summary>
         public static string NominationManagement {
@@ -147,6 +156,15 @@ namespace NexGoal.Resources {
         public static string RoleManagement {
             get {
                 return ResourceManager.GetString("RoleManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Self-Evaluation.
+        /// </summary>
+        public static string SelfEvaluation {
+            get {
+                return ResourceManager.GetString("SelfEvaluation", resourceCulture);
             }
         }
         

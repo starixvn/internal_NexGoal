@@ -1,0 +1,15 @@
+@using NexGoal.Resources
+
+@{
+    ViewData["Title"] = ViewLang.NewPerformanceCheckIn;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/cssselfevaluation.css" />
+}
+@Html.AntiForgeryToken()
+<div id="self-evaluation-wrapper"></div>
+
+@section Scripts {
+    <script src="~/dist/createperformancecheckin.js"></script>
+}

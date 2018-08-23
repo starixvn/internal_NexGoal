@@ -33,6 +33,7 @@ module.exports = {
         period: './sources/js/pages/period/index.jsx',
         editperiod: './sources/js/pages/period/edit.jsx', 
         selfevaluation: './sources/js/pages/selfevaluation/index.jsx',
+        createperformancecheckin: './sources/js/pages/selfevaluation/pci/create.jsx',
         evaluation: './sources/js/pages/evaluation/index.jsx'
     }
 };

@@ -1,15 +1,12 @@
 @using NexGoal.Resources
 
 @{
-    ViewData["Title"] = "Self-Evaluation";
+    ViewData["Title"] = ViewLang.SelfEvaluation;
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/dist/cssselfevaluation.css" />
 }
-
-@Html.AntiForgeryToken()
-<input id="UpdatePermissionSuccessfully" type="hidden" value="@Message.UpdatePermissionSuccessfully" />
 
 <div id="self-evaluation-wrapper"></div>
 

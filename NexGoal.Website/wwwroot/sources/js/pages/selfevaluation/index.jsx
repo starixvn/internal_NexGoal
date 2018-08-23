@@ -1,49 +1,54 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
+import { Tabs, Tab } from 'react-bootstrap';
+
 import Breadcrumb from '../../shared/components/Breadcrumb';
-import Select from 'react-select';
-import { Tabs, Tab} from 'react-bootstrap';
-import PerformanceCheckIn  from './PCI';
-import PerformaceAppraisal  from './PA';
-
-
-
-
-const options = [
-    {value: "All", label: "all"},
-    {value: "Raymond", label: "Raymond"},
-    {value: "Tim", label: "Tim"}, 
-    {value: "Hunter", label: "Hunter"}, 
-    {value: "Oliver", label: "Oliver"},
-    {value: "Troy", label: "Troy"}, 
-    {value: "Larry", label: "Larry"}
-];
+import PerformanceCheckIn from './pci/index';
+import PerformaceAppraisal from './PA';
 
 export default class SelfEvaluation extends Component {
     constructor(props) {
         super(props);
-    }    
+
+        this.state = {
+            activeKey: 1,
+            isFirstLoad: false
+        };
+
+        this.handleSelect = this.handleSelect.bind(this);
+    }
+
+    handleSelect(key) {
+        this.setState({ activeKey: key });
+
+        if (key === 2 && !this.state.isFirstLoad) {
+            this.setState({ isFirstLoad: true });
+        }
+    }
+
     render() {
-        return(
+        return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">Self Evaluation</li>
-                </Breadcrumb> 
+                    <li className="current">Self-Evaluation</li>
+                </Breadcrumb>
                 <div className="col-sm-12">
-                    <Tabs id="tab-self">
-                        <Tab title="Performance Checked In" eventKey={1}>
+                    <Tabs id="tab-self" animation={false}
+                        activeKey={this.state.activeKey}
+                        onSelect={this.handleSelect}>
+                        <Tab title="My Performance Check-in" eventKey={1}>
                             <PerformanceCheckIn />
                         </Tab>
-                        <Tab title="Performace Appraisal" eventKey={2}>
-                            <PerformaceAppraisal />
+                        <Tab title="My Performace Appraisal" eventKey={2}>
+                            {
+                                this.state.isFirstLoad && <PerformaceAppraisal />
+                            }
                         </Tab>
-                    </Tabs>  
-                </div>              
+                    </Tabs>
+                </div>
             </div>
-        ) ;
-                 
+        );
     }
 }
 
 ReactDOM.render(<SelfEvaluation />, document.getElementById("self-evaluation-wrapper"));
-
