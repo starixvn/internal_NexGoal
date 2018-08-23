@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Select from 'react-select';
-import { FormGroup, ControlLabel, FormControl, Button, Checkbox, Row, Col} from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel, FormControl, Button, Row, Col} from 'react-bootstrap';
 import avatar from '../../../styles/images/avatar1.jpg';
 
 
@@ -25,40 +25,45 @@ export default class PerformanceCheckIn extends Component {
         const avataruser = `/dist/${avatar}`;
         return(
                 <div className="col-sm-12">
-                    <form horizontal="true" className="form-filter">
-                        <FormGroup>
-                            <ControlLabel>Employee <span>*</span></ControlLabel>       
-                            <FormControl componentClass="select" className="employee-field">
-                                <option>All</option>
-                                <option>Tim</option>
-                                <option>Elton</option>
-                                <option>Quinn</option>
-                            </FormControl>     
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>Grade</ControlLabel>
-                            <FormControl componentClass="select" placeholder="Select Grade" className="grade-field">
-                                <option>Failed (F)</option>
-                                <option>Poor (P)</option>
-                                <option>Unsatisfactory (U)</option>
-                                <option>Unsatisfactory +(U+)</option>
-                            </FormControl>
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>Comment</ControlLabel>
-                            <FormControl componentClass="textarea" className="comment-field"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>Project Tag</ControlLabel>
-                            <FormControl type="text" className="project-field"/>
-                        </FormGroup>
-                        <FormGroup>
-                            <Button bsStyle="primary" className="btn-primary">Save as draft</Button>
-                            <Button bsStyle="primary" className="btn-primary">Submit</Button>
-                            <Button className="btn-cancel">Cancel</Button>
-                        </FormGroup>
-                    </form>
-                    <Checkbox>Show Performance Record</Checkbox>
+                    <Form inline className="form-filter">
+                        <div className="row-filter">
+                            <FormGroup>
+                                <ControlLabel>From Date</ControlLabel>       
+                                <FormControl componentClass="select" className="employee-field">
+                                    <option>All</option>
+                                    <option>Tim</option>
+                                    <option>Elton</option>
+                                    <option>Quinn</option>
+                                </FormControl>     
+                            </FormGroup>
+                            <FormGroup>
+                                <ControlLabel>To Date</ControlLabel>
+                                <FormControl componentClass="select" placeholder="Select Grade" className="grade-field">
+                                    <option>Failed (F)</option>
+                                    <option>Poor (P)</option>
+                                    <option>Unsatisfactory (U)</option>
+                                    <option>Unsatisfactory +(U+)</option>
+                                </FormControl>
+                            </FormGroup>
+                            <FormGroup>
+                                <ControlLabel>Creator</ControlLabel>
+                                <FormControl componentClass="select" placeholder="All">
+                                    <option>Failed (F)</option>
+                                    <option>Poor (P)</option>
+                                </FormControl>
+                            </FormGroup>
+                        </div>
+                        <div className="row-filter">
+                            <FormGroup className ="project-tag">
+                                <ControlLabel>Project Tag</ControlLabel>
+                                <FormControl type="text" className="project-field"/>
+                            </FormGroup>
+                            <FormGroup>
+                                <Button bsStyle="primary" className="btn-primary">Search</Button>
+                            </FormGroup>
+                        </div>
+                    </Form>
+                    <Button bsStyle="primary" className="btn btn-add"><span class="icon-playlist-plus"></span>Performance check-in</Button>
                    <div className="performance-record">
                         <div className="record">
                             <div className="avatar-user">
@@ -77,7 +82,7 @@ export default class PerformanceCheckIn extends Component {
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
                                 <div className="english-policy"><span>English Policy</span><span className="safety-below"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         
@@ -97,7 +102,7 @@ export default class PerformanceCheckIn extends Component {
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
                                 <div className="english-policy"><span>English Policy</span><span className="safety-above"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         
@@ -118,7 +123,7 @@ export default class PerformanceCheckIn extends Component {
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
                                 <div className="english-policy"><span>English Policy</span><span className="safety-below"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         
@@ -140,7 +145,7 @@ export default class PerformanceCheckIn extends Component {
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
                                 <div className="english-policy"><span>English Policy</span><span className="safety"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         
@@ -160,7 +165,7 @@ export default class PerformanceCheckIn extends Component {
                             </div>
                             <div className="footer">
                                 <div className="edit"><span className="icon-square-edit-outline"></span></div> 
-                                <div className="grade">Grade <span className="exceptional">Exceeds Expectations</span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
                                 <div className="english-policy"><span>English Policy</span><span className="safety"></span></div>
                                 <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
                             </div>                                                                                         

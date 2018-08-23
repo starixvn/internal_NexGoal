@@ -36,7 +36,7 @@ const TablePA = () => (
                 </td>
             </tr>
             <tr>
-                <td className="text-center enough-safety">ME</td>
+                <td className="text-center grade-enough-safety">ME</td>
                 <td className="text-center"><span className="icon-square-edit-outline"></span></td>
                 <td></td>
                 <td></td>

@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
+import { Form, FormGroup, ControlLabel, FormControl, Button, Row, Col} from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
@@ -176,45 +177,37 @@ export default class UserManagement extends Component {
                         <li className="current">User Management</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
-                            <div className="form-group" >
-                                <div className="col" >
-                                    <label className="control-label">Keyword</label>
-                                    <div className="control-content">
-                                        <input name="keyword" className="form-control" type="text" placeholder="Full name or Nick name"
-                                            autoComplete="off"
-                                            onChange={this.onFilterChange} />
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <label className="control-label">Team</label>
-                                    <div className="control-content">
-                                        <select name="groupId" className="form-control" onChange={this.onFilterChange}>
-                                            <option value="">-- All --</option>
-                                            {this.state.groups.map((group) => <option key={group.groupId} value={group.groupId}>{group.name}</option>)}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <label className="control-label">Category</label>
-                                    <div className="control-content">
-                                        <select className="form-control" name="isLocal" onChange={this.onFilterChange}>
-                                            <option value="">-- All --</option>
-                                            <option value="false">Expat</option>
-                                            <option value="true">Local</option>
-                                        </select>
-                                    </div>
-                                </div>
-                                <div className="col">
-                                    <label>
-                                        <input type="checkbox" name="isDisabledUser" onChange={this.onIsDisabledUserChange} /> Is Disabled User
+                        <Form inline className="form-filter" onSubmit={this.handleSubmit}>
+                            <FormGroup>
+                                <ControlLabel>Keyword</ControlLabel>
+                                <FormControl name="keyword" type="text" placeholder="Full name or Nick name" autoComplete="off"
+                                        onChange={this.onFilterChange} >
+                                 </FormControl>
+                            </FormGroup>
+                            <FormGroup>
+                                <ControlLabel>Team</ControlLabel>
+                                <FormControl componentClass="select" onChange={this.onFilterChange} name="groupId">
+                                    <option value="">-- All --</option>
+                                    {this.state.groups.map((group) => <option key={group.groupId} value={group.groupId}>{group.name}</option>)}
+                                </FormControl>                                
+                            </FormGroup>
+                            <FormGroup>
+                                <ControlLabel>Category</ControlLabel>
+                                <FormControl componentClass="select" name="isLocal" onChange={this.onFilterChange}>
+                                    <option value="">-- All --</option>
+                                    <option value="false">Expat</option>
+                                    <option value="true">Local</option>
+                                </FormControl>
+                            </FormGroup>
+                            <FormGroup>
+                                <label>
+                                    <input type="checkbox" name="isDisabledUser" onChange={this.onIsDisabledUserChange} /> Is Disabled User
                                 </label>
-                                </div>
-                                <div className="col">
-                                    <button className="btn btn-primary">Search</button>
-                                </div>
-                            </div>
-                        </form>
+                            </FormGroup>
+                            <FormGroup>
+                                <Button type="submit" className="btn btn-primary">Search</Button>
+                            </FormGroup>
+                        </Form>
 
                         <ToolkitProvider keyField="employeeId" data={this.state.data} noDataIndication={this.noDataDisplay} columns={columns} search >
                             {

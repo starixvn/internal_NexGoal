@@ -31,6 +31,14 @@
         }
     }
 
+    &.btn-add {
+        background-color: #14862e;
+        color: #fff;
+        &:hover, &:focus, &:active {
+            background-color: rgba(#14862e, 0.7);
+        }
+    }
+
     .fa {
         margin-right: 5px;
     }

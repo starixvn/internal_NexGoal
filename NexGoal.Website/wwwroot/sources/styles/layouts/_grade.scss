@@ -1,16 +1,19 @@
 
-.super-dangerous {
+[class^='grade'] {
+    font-weight: 700;
+}
+.grade-super-dangerous {
     color: #ff0000 !important;
 }
-.dangerous {
+.grade-dangerous {
     color: #ff6c00 !important;
 }
-.enough-safety {
-    color: #5d8117 !important;
+.grade-enough-safety {
+    color: #669900 !important;
 }
-.super-safety {
+.grade-super-safety {
     color: #2748a5 !important;
 }
-.exceptional {
+.grade-exceptional {
     color: #af0198 !important;
 }
