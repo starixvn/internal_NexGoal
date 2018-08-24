@@ -58,7 +58,7 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Team</ControlLabel>
                         <div className="control-content">
-                            <MultiSelect
+                            <MultiSelect closeMenuOnSelect={false}
                                 value={filter.groups}
                                 options={this.props.groupOptions}
                                 onChange={this.handleGroupChange} />

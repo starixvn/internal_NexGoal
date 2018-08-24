@@ -75,5 +75,13 @@
 
             return Json(projects);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetPerformanceGrades()
+        {
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+
+            return Json(performanceGrades);
+        }
     }
 }

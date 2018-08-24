@@ -6,7 +6,7 @@
     public class PerformanceRecordModel
     {
         public int PerformanceRecordId { get; set; }
-        public string Grade { get; set; }
+        public string GradeId { get; set; }
         public string Comment { get; set; }
         public PerformanceRecordStatus StatusId { get; set; }
         public DateTime CreatedDate { get; set; }

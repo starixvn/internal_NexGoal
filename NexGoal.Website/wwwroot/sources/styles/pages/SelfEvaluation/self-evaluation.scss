@@ -33,3 +33,14 @@
 .nav-tabs {
     margin-bottom: 0;
 }
+
+.react-select-container {
+    &.project-field {
+        width: 500px;
+    }
+
+    .react-select__control {
+        min-height: 30px;
+        height: auto;
+    }
+}

@@ -7,5 +7,6 @@
         public const string PerformanceProcess = "PerformanceProcess";
         public const string EvaluateStatus = "EvaluateStatus";
         public const string PerformanceStatus = "PerformanceStatus";
+        public const string PerformanceGrade = "PerformanceGrade";
     }
 }

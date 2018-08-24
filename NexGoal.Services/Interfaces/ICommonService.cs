@@ -22,5 +22,7 @@
         Task<IEnumerable<UserGroupModel>> GetGroupsAsync();
 
         Task<IEnumerable<ProjectModel>> GetProjectsAsync();
+
+        Task<IEnumerable<PerformanceGradeModel>> GetPerformanceGradeAsync();
     }
 }

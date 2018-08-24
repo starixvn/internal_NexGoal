@@ -2,6 +2,7 @@
 import { Form, FormGroup, ControlLabel, FormControl, Button, Row, Col } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
+import Select from 'react-select';
 
 import commonFunctions from '../../../common-functions';
 import MultiSelect from '../../../shared/components/MultiSelect';
@@ -51,7 +52,7 @@ class Filter extends Component {
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>Creator</ControlLabel>
-                            <MultiSelect value={filter.creators}
+                            <MultiSelect name="creators" value={filter.creators}
                                 closeMenuOnSelect={false}
                                 options={creatorOptions} />
                         </FormGroup>
@@ -59,10 +60,14 @@ class Filter extends Component {
                     <div className="row-filter">
                         <FormGroup className="project-tag">
                             <ControlLabel>Project Tag</ControlLabel>
-                            <FormControl type="text" className="project-field" />
+                            <Select name="projectIds" isMulti
+                                className="react-select-container project-field" classNamePrefix="react-select"
+                                value={filter.projects}
+                                options={projectOptions}
+                                closeMenuOnSelect={false} />
                         </FormGroup>
                         <FormGroup>
-                            <Button bsStyle="primary" className="btn-primary">Search</Button>
+                            <Button type="submit" bsStyle="primary" className="btn-primary">Search</Button>
                         </FormGroup>
                     </div>
                 </Form>

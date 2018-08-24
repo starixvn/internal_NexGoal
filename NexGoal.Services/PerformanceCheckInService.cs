@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceCheckIn;
     using NexGoal.Models.PerformanceRecord;
@@ -58,6 +59,22 @@
             }
 
             return performanceRecords;
+        }
+
+        public async Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel model)
+        {
+            var criteria = new CreatePerformanceCheckInCriteria
+            {
+                EmployeeId = model.EmployeeId,
+                CreatorId = model.CreatorId,
+                GradeId = model.GradeId,
+                Comment = model.Comment,
+                ProjectIds = model.ProjectIds,
+                StatusId = model.StatusId,
+                RoleId = model.RoleId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
     }
 }

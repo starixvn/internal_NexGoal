@@ -1,8 +1,10 @@
 ﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc.Rendering;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
@@ -84,6 +86,20 @@
             var criteria = new GetProjectsCriteria();
 
             return await baseService.GetDataAsync<ProjectModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PerformanceGradeModel>> GetPerformanceGradeAsync()
+        {
+            string[] refNames = { ReferenceResource.PerformanceGrade };
+            IEnumerable<ReferenceResourceModel> referenceResources = await GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = referenceResources.Select(x => new PerformanceGradeModel
+            {
+                GradeId = x.ResourceId,
+                Name = x.Value,
+                Description = x.Description
+            });
+
+            return performanceGrades;
         }
     }
 }
