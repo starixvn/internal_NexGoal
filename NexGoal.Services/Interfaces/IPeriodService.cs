@@ -23,6 +23,6 @@
 
         Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings, int modifiedBy);
 
-        Task<IEnumerable<PeriodEmployeeSettingModel>> GetEmployeeSettings(int periodId);
+        Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isLocal, bool? isEvaluated, int? statusId);
     }
 }

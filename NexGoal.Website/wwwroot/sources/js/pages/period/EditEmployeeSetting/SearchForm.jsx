@@ -14,9 +14,14 @@ export default class SearchForm extends Component {
 
     handlePAStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
 
+    handleSubmit = e => {
+        e.preventDefault();
+        this.props.onSubmit();
+    }
+
     render() {
         return (
-            <form className="form-inline form-filter" onSubmit={this.props.onSubmit}>
+            <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
                 <div className="form-group" >
                     <div className="col">
                         <label className="control-label size-l">Department/Team</label>

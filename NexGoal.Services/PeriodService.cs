@@ -109,30 +109,28 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PeriodEmployeeSettingModel>> GetEmployeeSettings(int periodId)
+        public async Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isLocal, bool? isEvaluated, int? statusId)
         {
             var criteria = new GetEmployeeSettingsCriteria
             {
-                PeriodId = periodId
+                PeriodId = periodId,
+                GroupId = groupId,
+                IsLocal = isLocal,
+                IsEvaluated = isEvaluated,
+                StatusId = statusId
             };
 
-            var result = await dynamicRepository.FetchMultipleAsync<PeriodEmployeeSettingModel, PeriodFlowSettingModel, PeriodFlowEvaluatorSettingModel>(criteria).ConfigureAwait(false);
+            var result = await dynamicRepository.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
 
-            var employeeSettings = result.Item1;
-            var flowSettings = result.Item2;
-            var evaluatorSettings = result.Item3;
+            var paRecords = result.Item1;
+            var paProcesses = result.Item2;
 
-            foreach (var flowSetting in flowSettings)
+            foreach (var paRecord in paRecords)
             {
-                flowSetting.Evaluators = evaluatorSettings.Where(x => x.FlowSettingId == flowSetting.FlowSettingId);
+                paRecord.Processes = paProcesses.Where(x => x.PARecordId == paRecord.PARecordId);
             }
 
-            foreach (var employeeSetting in employeeSettings)
-            {
-                employeeSetting.FlowSettings = flowSettings.Where(x => x.SettingId == employeeSetting.SettingId);
-            }
-
-            return employeeSettings;
+            return paRecords;
         }
     }
 }

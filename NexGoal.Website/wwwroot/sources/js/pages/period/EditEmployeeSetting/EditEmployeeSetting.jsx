@@ -31,51 +31,54 @@ export default class EditEmployeeSetting extends Component {
     }
 
     componentDidMount = () => {
-        this.getGroups();
-        this.getPerformanceStatuses();
-        this.getEmployeeSettings();
-    }
-
-    getPerformanceStatuses = () => {
-        axios.get(commonFunctions.getRootUrl() + 'Common/GetPerformanceStatuses')
-            .then(response => {
-                this.setState({ performanceStatuses: response.data });
-            }).catch(commonFunctions.axiosError);
-    }
-
-    getGroups = () => {
-        axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
-            .then(response => {
-                const groupOptions = response.data.map((group) => {
-                    return { value: group.groupId, label: group.name };
-                });
+        axios.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeeSettingsAxios()])
+            .then(axios.spread((perfRes, groupRes, settingRes) => {
+                var settings = settingRes.data;
+                settings.map((e, i) => e.rowNum = i + 1);
 
                 this.setState({
-                    groups: groupOptions,
+                    performanceStatuses: perfRes.data,
+                    groups: groupRes.data.map((group) => {
+                        return { value: group.groupId, label: group.name };
+                    }),
+                    settings: settings
                 });
-            }).catch(commonFunctions.axiosError);
+            })).catch(commonFunctions.axiosError);
     }
 
-    getEmployeeSettings = () => {
-        debugger;
+    getPerformanceStatusesAxios = () => axios.get(commonFunctions.getRootUrl() + 'Common/GetPerformanceStatuses');
+
+    getGroupsAxios = () => axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
+
+    getEmployeeSettingsAxios = () =>
         axios(commonFunctions.getRootUrl() + 'Period/GetEmployeeSettings', {
             params: {
                 periodId: this.props.periodId,
+                groupId: this.state.filter.groupId,
+                isLocal: this.state.filter.isLocal,
+                isEvaluated: this.state.filter.isEvaluated,
+                statusId: this.state.filter.paStatusId
             }
-        }).then(response => {
-            var data = response.data;
-            data.map((e, i) => e.rowNum = i + 1);
+        })
 
-            this.setState({
-                settings: data,
-            });
-        }).catch(commonFunctions.axiosError);
+    getEmployeeSettings = () => {
+        this.getEmployeeSettingsAxios()
+            .then(response => {
+                var settings = response.data;
+                settings.map((e, i) => e.rowNum = i + 1);
+
+                this.setState({
+                    settings: settings
+                });
+            })
+            .catch(commonFunctions.axiosError);
     }
 
     render() {
         return (
             <Fragment>
-                <SearchForm filter={this.state.filter} groups={this.state.groups} evaluateStatuses={this.state.evaluateStatuses} performanceStatuses={this.state.performanceStatuses} onFilterChange={this.updateFilterValue} />
+                <SearchForm filter={this.state.filter} groups={this.state.groups} evaluateStatuses={this.state.evaluateStatuses} performanceStatuses={this.state.performanceStatuses}
+                    onFilterChange={this.updateFilterValue} onSubmit={this.getEmployeeSettings} />
                 <Table groups={this.state.groups} data={this.state.settings} />
             </Fragment>
         );

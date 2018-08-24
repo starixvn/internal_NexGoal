@@ -160,7 +160,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
         public async Task<IActionResult> GetEmployeeSettings(int periodId, int? groupId, bool? isLocal, bool? isEvaluated, int? statusId)
         {
-            var result = await periodService.GetEmployeeSettings(periodId).ConfigureAwait(false);
+            var result = await periodService.GetEmployeeSettings(periodId, groupId, isLocal, isEvaluated, statusId).ConfigureAwait(false);
 
             return Json(result);
         }

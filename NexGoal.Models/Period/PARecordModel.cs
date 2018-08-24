@@ -2,9 +2,9 @@
 {
     using System.Collections.Generic;
 
-    public class PeriodEmployeeSettingModel
+    public class PARecordModel
     {
-        public int SettingId { get; set; }
+        public int PARecordId { get; set; }
 
         public int PeriodId { get; set; }
 
@@ -22,6 +22,10 @@
 
         public string JobTitle { get; set; }
 
-        public IEnumerable<PeriodFlowSettingModel> FlowSettings { get; set; }
+        public int StatusId { get; set; }
+
+        public string Status { get; set; }
+
+        public IEnumerable<PAProcessModel> Processes { get; set; }
     }
 }
