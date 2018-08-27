@@ -1,7 +1,13 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { FormGroup, ControlLabel, FormControl, Button, Checkbox, Row, Col } from 'react-bootstrap';
+import Select from 'react-select';
+import axios from 'axios';
+import { Formik } from 'formik';
+import { camelCase, isEmpty } from 'lodash';
+import { stringify } from 'qs';
 
+import commonFunctions from '../../../common-functions';
 import avatar from '../../../../styles/images/avatar1.jpg';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 
@@ -10,19 +16,116 @@ export default class CreateCheckIn extends Component {
         super(props);
 
         this.state = {
+            performanceRecord: {
+                grade: null,
+                comment: '',
+                projects: [],
+                statusId: null
+            },
+            performanceGradeOptions: [],
+            projectOptions: []
         };
+
+        this.handleGradeChange = this.handleGradeChange.bind(this);
+        this.handleProjectChange = this.handleProjectChange.bind(this);
+    }
+
+    componentDidMount() {
+        this.getPerformanceGrades();
+        this.getProjects();
+    }
+
+    getPerformanceGrades() {
+        axios(commonFunctions.getRootUrl() + 'Common/GetPerformanceGrades')
+            .then(response => {
+                let performanceGradeOptions = response.data.map((performanceGrade) => {
+                    return {
+                        value: performanceGrade.gradeId,
+                        label: performanceGrade.description ? `${performanceGrade.description} (${performanceGrade.name})` : performanceGrade.name
+                    };
+                });
+
+                this.setState({
+                    performanceGradeOptions: performanceGradeOptions
+                });
+            });
+    }
+
+    getProjects() {
+        axios(commonFunctions.getRootUrl() + 'Common/GetProjects')
+            .then(response => {
+                const projectOptions = response.data.map((project) => {
+                    return { value: project.projectId, label: project.name };
+                });
+
+                this.setState({
+                    projectOptions: projectOptions
+                });
+            });
+    }
+
+    handleGradeChange(selectedOption) {
+        this.setState({
+            performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
+        });
+    }
+
+    handleProjectChange(selectedOptions) {
+        this.setState({
+            performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
+        });;
+    }
+
+    renderForm = ({
+        values,
+        errors,
+        touched,
+        handleChange,
+        handleSubmit,
+        setFieldValue }) => {
+        return (
+            <form horizontal="true" className="form-filter" onSubmit={handleSubmit}>
+                {
+                    !isEmpty(errors) && !isEmpty(touched) &&
+                    <ul className="list-message-error">
+                        {touched.comment && errors.comment && <li>{errors.comment}</li>}
+                    </ul>
+                }
+
+                <FormGroup>
+                    <ControlLabel>Grade</ControlLabel>
+                    <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
+                        placeholder="Select Grade"
+                        value={values.grade}
+                        options={this.state.performanceGradeOptions}
+                        isSearchable={false}
+                        isClearable
+                        onChange={this.handleGradeChange} />
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel className="required-label">Comment</ControlLabel>
+                    <FormControl componentClass="textarea" className="comment-field"
+                        value={}
+                        className={`comment-field ${touched.comment && errors.comment && 'input-validation-error'}`} />
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>Project Tag</ControlLabel>
+                    <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
+                        className="react-select-container project-field" classNamePrefix="react-select"
+                        value={this.state.performanceRecord.projects}
+                        options={this.state.projectOptions}
+                        onChange={this.handleProjectChange} />
+                </FormGroup>
+                <FormGroup>
+                    <Button type="submit" bsStyle="primary" className="btn-primary">Save as draft</Button>
+                    <Button type="submit" bsStyle="primary" className="btn-primary">Submit</Button>
+                    <Button className="btn-cancel">Cancel</Button>
+                </FormGroup>
+            </form>
+        );
     }
 
     render() {
-        const options = [
-            { value: "All", label: "all" },
-            { value: "Raymond", label: "Raymond" },
-            { value: "Tim", label: "Tim" },
-            { value: "Hunter", label: "Hunter" },
-            { value: "Oliver", label: "Oliver" },
-            { value: "Troy", label: "Troy" },
-            { value: "Larry", label: "Larry" }
-        ];
         const avataruser = `/dist/${avatar}`;
 
         return (
@@ -31,39 +134,11 @@ export default class CreateCheckIn extends Component {
                     <li className="current">New Performance Check-in</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <form horizontal="true" className="form-filter">
-                        <FormGroup>
-                            <ControlLabel>Employee <span>*</span></ControlLabel>
-                            <FormControl componentClass="select" className="employee-field">
-                                <option>All</option>
-                                <option>Tim</option>
-                                <option>Elton</option>
-                                <option>Quinn</option>
-                            </FormControl>
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>Grade</ControlLabel>
-                            <FormControl componentClass="select" placeholder="Select Grade" className="grade-field">
-                                <option>Failed (F)</option>
-                                <option>Poor (P)</option>
-                                <option>Unsatisfactory (U)</option>
-                                <option>Unsatisfactory +(U+)</option>
-                            </FormControl>
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>Comment</ControlLabel>
-                            <FormControl componentClass="textarea" className="comment-field" />
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>Project Tag</ControlLabel>
-                            <FormControl type="text" className="project-field" />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button bsStyle="primary" className="btn-primary">Save as draft</Button>
-                            <Button bsStyle="primary" className="btn-primary">Submit</Button>
-                            <Button className="btn-cancel">Cancel</Button>
-                        </FormGroup>
-                    </form>
+                    <Formik enableReinitialize initialValues={this.state.performanceRecord}
+                        validate={validateEOQForm}
+                        onSubmit={this.handleSubmit}
+                        render={this.renderForm} />
+
                     <Checkbox>Show Performance Record</Checkbox>
                     <div className="performance-record">
                         <div className="record">
@@ -72,79 +147,104 @@ export default class CreateCheckIn extends Component {
                                 <div className="name">Raymond</div>
                                 <span className="role">Developer</span>
                             </div>
-                            <div className="head">
-                                <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                                <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-                            </div>
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                            </div>
-                            <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                            <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            <div className="edit"><span className="fa fa-pencil-square-o"></span></div>
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                            </div>
-                            <div className="head">
-                                <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                                <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-                            </div>
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                            </div>
-                            <div className="grade">Grade: <span className="grade-detail">Exceeds Expectations</span></div>
-                            <div className="project">Project: <span className="project-detail">Nexgoal, Alpha</span></div>
-                            <div className="edit"><span className="fa fa-pencil-square-o"></span></div>
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                            </div>
-                            <div className="head">
-                                <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                                <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-                            </div>
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                            </div>
-                            <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                            <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            <div className="edit"><span className="fa fa-pencil-square-o"></span></div>
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                            </div>
-                            <div className="head">
-                                <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                                <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-                            </div>
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                </div>
-                            <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                            <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            <div className="edit"><span className="fa fa-pencil-square-o"></span></div>
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                            </div>
-                            <div className="head">
-                                <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                                <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-                            </div>
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
+                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
 
+                            <div className="comment">
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span className="icon-chevron-down"></span>
                             </div>
-                            <div className="grade">Grade <span className="grade-detail">Exceeds Expectations</span></div>
-                            <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            <div className="edit"><span className="fa fa-pencil-square-o"></span></div>
+                            <div className="footer">
+                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety-below"></span></div>
+                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
+                            </div>
+                        </div>
+                        <div className="record">
+                            <div className="avatar-user">
+                                <img src={avataruser} className="avatar" />
+                                <div className="name">Raymond</div>
+                                <span className="role">Developer</span>
+                            </div>
+                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
+                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
+
+                            <div className="comment">
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span className="icon-chevron-down"></span>
+                            </div>
+                            <div className="footer">
+                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety-above"></span></div>
+                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
+                            </div>
+                        </div>
+                        <div className="record">
+                            <div className="avatar-user">
+                                <img src={avataruser} className="avatar" />
+                                <div className="name">Raymond</div>
+                                <span className="role">Developer</span>
+                            </div>
+                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
+                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
+
+                            <div className="comment">
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span className="icon-chevron-down"></span>
+                            </div>
+                            <div className="footer">
+                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety-below"></span></div>
+                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
+                            </div>
+                        </div>
+                        <div className="record">
+                            <div className="avatar-user">
+                                <img src={avataruser} className="avatar" />
+                                <div className="name">Raymond</div>
+                                <span className="role">Developer</span>
+                            </div>
+                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
+                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
+
+                            <div className="comment">
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span className="icon-chevron-down"></span>
+                            </div>
+                            <div className="footer">
+                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety"></span></div>
+                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
+                            </div>
+                        </div>
+                        <div className="record">
+                            <div className="avatar-user">
+                                <img src={avataruser} className="avatar" />
+                                <div className="name">Raymond</div>
+                                <span className="role">Developer</span>
+                            </div>
+                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
+                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
+
+                            <div className="comment">
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                <span className="icon-chevron-down"></span>
+                            </div>
+                            <div className="footer">
+                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
+                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
+                                <div className="english-policy"><span>English Policy</span><span className="safety"></span></div>
+                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>

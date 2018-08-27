@@ -60,7 +60,7 @@ class Filter extends Component {
                     <div className="row-filter">
                         <FormGroup className="project-tag">
                             <ControlLabel>Project Tag</ControlLabel>
-                            <Select name="projectIds" isMulti
+                            <Select name="projects" isMulti
                                 className="react-select-container project-field" classNamePrefix="react-select"
                                 value={filter.projects}
                                 options={projectOptions}
