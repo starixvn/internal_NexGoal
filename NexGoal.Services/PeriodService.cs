@@ -132,5 +132,19 @@
 
             return paRecords;
         }
+
+        public async Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId)
+        {
+            var criteria = new CreateEmployeeSettingsCriteria
+            {
+                PeriodId = periodId,
+                GroupIds = groupIds,
+                EmployeeId = employeeId
+            };
+
+            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return result;
+        }
     }
 }

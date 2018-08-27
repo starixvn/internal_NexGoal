@@ -35,8 +35,8 @@ function TableHead(props) {
 function TableBody(props) {
     var body = props.data.length > 0 ? props.data.map(setting => {
         var rowSpan = 0;
-        for (let i = 0; i < setting.flowSettings.length; i++) {
-            rowSpan += setting.flowSettings[i].evaluators.length;
+        for (let i = 0; i < setting.processes.length; i++) {
+            rowSpan += setting.processes[i].evaluators.length;
         }
 
         return (
@@ -124,32 +124,6 @@ export default class Table extends Component {
         });
     }
 
-    editPeriodStatus = (event, period) => {
-        var isActive = event.target.checked;
-
-        axios({
-            url: '/period/editstatus',
-            method: 'post',
-            data: stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                periodId: period.periodId,
-                isActive: isActive
-            }),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(response => {
-            var data = response.data;
-
-            if (data.isSuccessful) {
-                toast.success('Update Successfully');
-                this.props.onUpdateStatus(period.periodId, isActive);
-            } else {
-                toast.error(data.message);
-            }
-        }).catch(commonFunctions.axiosError);;
-    }
-
     showCreateModal = () => this.setState({ showCreateModal: true })
 
     closeCreateModal = () => this.setState({ showCreateModal: false })
@@ -193,6 +167,30 @@ export default class Table extends Component {
         this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
     }
 
+    addEmployeeSettings = e => {
+        axios({
+            url: '/Period/CreateEmployeeSettings',
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                periodId: this.props.periodId,
+                groupIds: this.state.addFilter.groups ? this.state.addFilter.groups.map(e => e.value).toString() : null,
+                employeeId: this.state.addFilter.employee ? this.state.addFilter.employee.value : null
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            var data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success('Update Successfully');
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(commonFunctions.axiosError);
+    }
+
     render() {
         return (
             <Fragment>
@@ -218,7 +216,7 @@ export default class Table extends Component {
                         </div>
                     </div>
                     <div className="pull-left field-group">
-                        <button className="btn btn-primary">Add</button>
+                        <button className="btn btn-primary" onClick={this.addEmployeeSettings}>Add</button>
                     </div>
                     <div className="search pull-right">
                         <input className="search-textbox" ref={this.searchRef} onChange={this.handleTableFilterChange} />
@@ -233,7 +231,7 @@ export default class Table extends Component {
                 </div>
                 <table className="table table-bordered table-striped">
                     <TableHead />
-                    <TableBody data={this.filterData(this.props.data)} />
+                    <TableBody data={[]} />
                 </table>
 
                 <div className="clearfix">
