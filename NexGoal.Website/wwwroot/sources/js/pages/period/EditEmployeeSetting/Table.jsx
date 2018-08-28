@@ -13,10 +13,11 @@ import memoize from "memoize-one";
 import Multiselect from '../../../shared/components/MultiSelect';
 
 function TableHead(props) {
+    debugger;
     return (
         <thead>
             <tr>
-                <th><input type="checkbox" /></th>
+                <th><input type="checkbox" onChange={props.selectAll} checked={props.checked} /></th>
                 <th>#</th>
                 <th>Department / Team</th>
                 <th>Employee</th>
@@ -34,15 +35,12 @@ function TableHead(props) {
 
 function TableBody(props) {
     var body = props.data.length > 0 ? props.data.map(setting => {
-        var rowSpan = 0;
-        for (let i = 0; i < setting.processes.length; i++) {
-            rowSpan += setting.processes[i].evaluators.length;
-        }
+        var rowSpan = setting.processes.length;
 
         return (
             <Fragment key={setting.rowNum}>
                 <tr>
-                    <td className="text-center" rowSpan={rowSpan}><input type="checkbox" /></td>
+                    <td className="text-center" rowSpan={rowSpan}><input type="checkbox" checked={props.selectedIds.some(e => e === setting.paRecordId)} onChange={props.onSelect} data-id={setting.paRecordId} /></td>
                     <td className="text-center" rowSpan={rowSpan}>{setting.rowNum}</td>
                     <td className="text-center" rowSpan={rowSpan}>{setting.group}</td>
                     <td rowSpan={rowSpan}>
@@ -51,31 +49,23 @@ function TableBody(props) {
                         <div>({setting.nickName})</div>
                         <div>{setting.jobTitle}</div>
                     </td>
-                    <td>{setting.flowSettings[0].process}</td>
-                    <td>{setting.flowSettings[0].evaluators[0].evaluator}</td>
+                    <td>{setting.processes[0].process}</td>
+                    <td>{setting.processes[0].evaluator}</td>
+                    <td>{setting.processes[0].status}</td>
                     <td></td>
-                    <td>{moment(setting.flowSettings[0].startDate).format('DD MMM, YYYY')}</td>
-                    <td>{moment(setting.flowSettings[0].endDate).format('DD MMM, YYYY')}</td>
-                    <td rowSpan={rowSpan}>{setting.status}</td>
-                    <td rowSpan={rowSpan}>{setting.isIncluded}</td>
+                    <td></td>
+                    <td rowSpan={rowSpan} className="text-center">{setting.status}</td>
+                    <td rowSpan={rowSpan} className="text-center"><input type="checkbox" checked={setting.isIncluded} /></td>
                     <td rowSpan={rowSpan}></td>
                 </tr>
-                {setting.flowSettings.slice(1).map(flowSetting =>
-                    <Fragment key={flowSetting.flowSettingId}>
-                        <tr>
-                            <td rowSpan={flowSetting.evaluators.length}>{flowSetting.process}</td>
-                            <td>{flowSetting.evaluators[0].evaluator}</td>
-                            <td></td>
-                            <td rowSpan={flowSetting.evaluators.length}>{moment(flowSetting.startDate).format('DD MMM, YYYY')}</td>
-                            <td rowSpan={flowSetting.evaluators.length}>{moment(flowSetting.endDate).format('DD MMM, YYYY')}</td>
-                        </tr>
-                        {flowSetting.evaluators.slice(1).map((evaluator, i) =>
-                            <tr key={i}>
-                                <td>{evaluator.evaluator}</td>
-                                <td></td>
-                            </tr>)
-                        }
-                    </Fragment>
+                {setting.processes.slice(1).map((process, i) =>
+                    <tr key={i}>
+                        <td>{process.process}</td>
+                        <td>{process.evaluator}</td>
+                        <td>{process.status}</td>
+                        <td></td>
+                        <td></td>
+                    </tr>
                 )}
             </Fragment>);
     }) :
@@ -93,32 +83,29 @@ export default class Table extends Component {
         this.state = {
             showCreateModal: false,
             showDeleteModal: false,
+            filterText: '',
             page: 1,
             pageSize: 20,
-            totalPage: Math.ceil(this.props.data.length / 20),
             addFilter: {
                 groups: [],
                 employee: null
-            }
+            },
+            selectedIds: []
         }
-        this.tableRef = React.createRef();
     }
 
-    handlePageSizeChange = e => {
+    onPageSizeChange = e => {
         e.preventDefault();
 
         var pageSize = Number.parseInt(e.target.dataset.page);
-        var totalPage = Math.ceil(this.state.data.length / pageSize);
-        var page = this.state.page <= totalPage ? this.state.page : totalPage;
 
         this.setState({
             pageSize: pageSize,
-            totalPage: totalPage,
-            page: page,
+            page: 1,
         });
     }
 
-    handlePageChange = page => {
+    onPageChange = page => {
         this.setState({
             page: page,
         });
@@ -152,20 +139,27 @@ export default class Table extends Component {
         return callback([]);
     }
 
-    filterData = memoize((data) => {
-        var from = (this.state.page - 1) * this.state.pageSize;
-        return data.slice(from, from + this.state.pageSize);
+    filterData = memoize((data, filterText) => {
+        return data.filter(e => e.nickName.includes(filterText) || e.fullName.includes(filterText));
     })
 
-    handleEmployeeChange = employee => {
+    getTableData = memoize((data, page, pageSize) => {
+        var from = (page - 1) * pageSize;
+
+        return data.slice(from, from + pageSize);
+    })
+
+    onEmployeeChange = employee => {
         var addFilter = { employee: employee };
         this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
     }
 
-    handleGroupsChange = groups => {
+    onGroupsChange = groups => {
         var addFilter = { groups: groups };
         this.setState({ addFilter: { ...this.state.addFilter, ...addFilter } });
     }
+
+    onFilterChange = e => this.setState({ filterText: e.target.value })
 
     addEmployeeSettings = e => {
         axios({
@@ -185,13 +179,38 @@ export default class Table extends Component {
 
             if (data.isSuccessful) {
                 toast.success('Update Successfully');
+                this.props.refreshData();
             } else {
                 toast.error(data.message);
             }
         }).catch(commonFunctions.axiosError);
     }
 
+    onPASelect = e => {
+        var id = parseInt(e.target.dataset.id);
+        var selectedIds = this.state.selectedIds.slice(0);
+
+        if (e.target.checked) {
+            selectedIds.push(id)
+        } else {
+            selectedIds = selectedIds.filter(e => e !== id);
+        }
+
+        this.setState({ selectedIds: selectedIds });
+    }
+
+    onSelectAll = e => {
+        if (e.target.checked) {
+            this.setState({ selectedIds: this.props.data.map(e => e.paRecordId) })
+        } else {
+            this.setState({ selectedIds: [] })
+        }
+    }
+
     render() {
+        var data = this.filterData(this.props.data, this.state.filterText);
+        var totalPage = Math.ceil(data.length / this.state.pageSize);
+
         return (
             <Fragment>
                 <div className="search-wrapper clearfix" >
@@ -201,7 +220,7 @@ export default class Table extends Component {
                             <Multiselect value={this.state.addFilter.groups}
                                 name="employee"
                                 options={this.props.groups}
-                                onChange={this.handleGroupsChange} />
+                                onChange={this.onGroupsChange} />
                         </div>
                     </div>
                     <div className="pull-left field-group">
@@ -212,14 +231,14 @@ export default class Table extends Component {
                                 name="employee"
                                 loadOptions={this.searchEmployees}
                                 placeholder="-- Search an employee --"
-                                onChange={this.handleEmployeeChange} />
+                                onChange={this.onEmployeeChange} />
                         </div>
                     </div>
                     <div className="pull-left field-group">
                         <button className="btn btn-primary" onClick={this.addEmployeeSettings}>Add</button>
                     </div>
                     <div className="search pull-right">
-                        <input className="search-textbox" ref={this.searchRef} onChange={this.handleTableFilterChange} />
+                        <input className="search-textbox" onChange={this.onFilterChange} />
                         <span className="fa fa-search icon"></span>
                     </div>
                 </div>
@@ -230,8 +249,8 @@ export default class Table extends Component {
                     </div>
                 </div>
                 <table className="table table-bordered table-striped">
-                    <TableHead />
-                    <TableBody data={[]} />
+                    <TableHead checked={this.state.selectedIds.length === this.props.data.length} selectAll={this.onSelectAll} />
+                    <TableBody data={this.getTableData(data, this.state.page, this.state.pageSize)} selectedIds={this.state.selectedIds} onSelect={this.onPASelect} />
                 </table>
 
                 <div className="clearfix">
@@ -241,21 +260,21 @@ export default class Table extends Component {
                             title={this.state.pageSize}
                             id="page-size-select"
                         >
-                            <MenuItem onClick={this.handlePageSizeChange} data-page="20">20</MenuItem>
-                            <MenuItem onClick={this.handlePageSizeChange} data-page="50">50</MenuItem>
-                            <MenuItem onClick={this.handlePageSizeChange} data-page="100">100</MenuItem>
-                            <MenuItem onClick={this.handlePageSizeChange} data-page="200">200</MenuItem>
+                            <MenuItem onClick={this.onPageSizeChange} data-page="20">20</MenuItem>
+                            <MenuItem onClick={this.onPageSizeChange} data-page="50">50</MenuItem>
+                            <MenuItem onClick={this.onPageSizeChange} data-page="100">100</MenuItem>
+                            <MenuItem onClick={this.onPageSizeChange} data-page="200">200</MenuItem>
                         </DropdownButton>
                     </div>
                     <div className="pull-right">
                         <Pagination>
-                            {this.state.page > 1 && <Pagination.First onClick={e => this.handlePageChange(1)} />}
-                            {this.state.page > 1 && <Pagination.Prev onClick={e => this.handlePageChange(this.state.page - 1)} />}
-                            {range(1, this.state.totalPage + 1).map(page =>
-                                <Pagination.Item key={page} active={this.state.page === page} onClick={e => this.handlePageChange(page)} >{page}</Pagination.Item>
+                            {this.state.page > 1 && <Pagination.First onClick={e => this.onPageChange(1)} />}
+                            {this.state.page > 1 && <Pagination.Prev onClick={e => this.onPageChange(this.state.page - 1)} />}
+                            {range(1, totalPage + 1).map(page =>
+                                <Pagination.Item key={page} active={this.state.page === page} onClick={e => this.onPageChange(page)} >{page}</Pagination.Item>
                             )}
-                            {this.state.page < this.state.totalPage && <Pagination.Next onClick={e => this.handlePageChange(this.state.page + 1)} />}
-                            {this.state.page < this.state.totalPage && <Pagination.Last onClick={e => this.handlePageChange(this.state.totalPage)} />}
+                            {this.state.page < totalPage && <Pagination.Next onClick={e => this.onPageChange(this.state.page + 1)} />}
+                            {this.state.page < totalPage && <Pagination.Last onClick={e => this.onPageChange(totalPage)} />}
                         </Pagination>
                     </div>
                 </div>

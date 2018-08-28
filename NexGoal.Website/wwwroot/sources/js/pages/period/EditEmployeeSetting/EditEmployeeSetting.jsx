@@ -65,7 +65,7 @@ export default class EditEmployeeSetting extends Component {
         this.getEmployeeSettingsAxios()
             .then(response => {
                 var settings = response.data;
-                settings.map((e, i) => e.rowNum = i + 1);
+                settings.map((e, i) => { e.rowNum = i + 1; });
 
                 this.setState({
                     settings: settings
@@ -79,7 +79,7 @@ export default class EditEmployeeSetting extends Component {
             <Fragment>
                 <SearchForm filter={this.state.filter} groups={this.state.groups} evaluateStatuses={this.state.evaluateStatuses} performanceStatuses={this.state.performanceStatuses}
                     onFilterChange={this.updateFilterValue} onSubmit={this.getEmployeeSettings} />
-                <Table periodId={this.props.periodId} groups={this.state.groups} data={this.state.settings} />
+                <Table periodId={this.props.periodId} groups={this.state.groups} data={this.state.settings} refreshData={this.getEmployeeSettings} />
             </Fragment>
         );
     }

@@ -14,7 +14,7 @@
 
         public int EmployeeId { get; set; }
 
-        public int Code { get; set; }
+        public string Code { get; set; }
 
         public string FullName { get; set; }
 
