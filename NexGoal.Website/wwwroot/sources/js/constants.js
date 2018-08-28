@@ -18,6 +18,13 @@ export const Policy = {
     Host: 2
 };
 
+export const PerformanceRecordStatus = {
+    New: 1,
+    Draft: 2,
+    Submitted: 3,
+    Closed: 4
+};
+
 export const PaginationOptions = {
     page: 1,
     sizePerPage: 20,

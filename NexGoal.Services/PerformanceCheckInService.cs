@@ -13,13 +13,16 @@
     {
         private readonly IBaseService baseService;
         private readonly IAvatarService avatarService;
+        private readonly ICryptoService cryptoService;
 
         public PerformanceCheckInService(
             IBaseService baseService,
-            IAvatarService avatarService)
+            IAvatarService avatarService,
+            ICryptoService cryptoService)
         {
             this.baseService = baseService;
             this.avatarService = avatarService;
+            this.cryptoService = cryptoService;
         }
 
         public async Task<IEnumerable<UserModel>> GetCreatorsByEmployeeAsync(int employeeId)
@@ -54,6 +57,8 @@
             var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
+                performanceRecord.GradeId = cryptoService.Encrypt(performanceRecord.GradeId);
+
                 performanceRecord.Base64Image = avatarService.GetBase64Image(performanceRecord.Code);
                 performanceRecord.Base64ImageOfCreator = avatarService.GetBase64Image(performanceRecord.CodeOfCreator);
             }
@@ -61,17 +66,17 @@
             return performanceRecords;
         }
 
-        public async Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel model)
+        public async Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel performanceRecord)
         {
             var criteria = new CreatePerformanceCheckInCriteria
             {
-                EmployeeId = model.EmployeeId,
-                CreatorId = model.CreatorId,
-                GradeId = model.GradeId,
-                Comment = model.Comment,
-                ProjectIds = model.ProjectIds,
-                StatusId = model.StatusId,
-                RoleId = model.RoleId
+                EmployeeId = performanceRecord.EmployeeId,
+                CreatorId = performanceRecord.CreatorId,
+                GradeId = cryptoService.Encrypt(performanceRecord.GradeId),
+                Comment = performanceRecord.Comment,
+                ProjectIds = performanceRecord.ProjectIds,
+                StatusId = performanceRecord.StatusId,
+                RoleId = performanceRecord.RoleId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

@@ -20,6 +20,6 @@
             int? pageSize = null,
             int? pageIndex = null);
 
-        Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel model);
+        Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel performanceRecord);
     }
 }

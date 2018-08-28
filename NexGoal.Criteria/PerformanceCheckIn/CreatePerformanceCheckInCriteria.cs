@@ -10,8 +10,8 @@
         public int StatusId { get; set; }
         public int RoleId { get; set; }
 
-        public override string GetSettingKey() => "PerformanceCheckIn_GetByEmployee";
+        public override string GetSettingKey() => "PerformanceCheckIn_Insert";
 
-        public override bool IsValid() => EmployeeId > 0 && CreatorId > 0;
+        public override bool IsValid() => EmployeeId > 0 && CreatorId > 0 && !string.IsNullOrWhiteSpace(Comment);
     }
 }

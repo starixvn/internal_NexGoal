@@ -32,7 +32,7 @@ namespace NexGoal.Services
                 {
                     byte[] bytesToEncrypt = ASCIIEncoding.ASCII.GetBytes(plainText);
 
-                    RSACryptoServiceProvider rsa = (RSACryptoServiceProvider)cert2.PublicKey.Key;
+                    RSACryptoServiceProvider rsa = GetPublicKeyRsaCryptoServiceProvider(cert2);
                     byte[] encryptedBytes = rsa.Encrypt(bytesToEncrypt, OptimalAsymmetricEncryptionPadding);
                     cipherText = Convert.ToBase64String(encryptedBytes);
                 }
@@ -53,7 +53,7 @@ namespace NexGoal.Services
             {
                 if (configuration.Value.EnableEncrypt)
                 {
-                    RSACryptoServiceProvider rsa = (RSACryptoServiceProvider)cert2.PrivateKey;
+                    RSACryptoServiceProvider rsa = GetPrivateKeyRsaCryptoServiceProvider(cert2);
                     byte[] bytesToDecrypt = Convert.FromBase64String(cipherText);
                     byte[] plainbytes = rsa.Decrypt(bytesToDecrypt, OptimalAsymmetricEncryptionPadding);
                     ASCIIEncoding enc = new ASCIIEncoding();
@@ -70,9 +70,39 @@ namespace NexGoal.Services
 
         private X509Certificate2 InitCertificate()
         {
-            var flags = X509KeyStorageFlags.MachineKeySet;
+            var flags = X509KeyStorageFlags.Exportable;
 
             return new X509Certificate2(configuration.Value.CertFilePath, configuration.Value.PasswordToSignCertFile, flags);
+        }
+
+        private RSACryptoServiceProvider GetPublicKeyRsaCryptoServiceProvider(X509Certificate2 certificate)
+        {
+            RSA rsa = certificate.GetRSAPublicKey();
+            RSAParameters rsaParameters = rsa.ExportParameters(false);
+
+            var rsacsp = new RSACryptoServiceProvider(rsa.KeySize, new CspParameters
+            {
+                ProviderType = 24,
+                ProviderName = "Microsoft Enhanced RSA and AES Cryptographic Provider",
+            });
+            rsacsp.ImportParameters(rsaParameters);
+
+            return rsacsp;
+        }
+
+        private RSACryptoServiceProvider GetPrivateKeyRsaCryptoServiceProvider(X509Certificate2 certificate)
+        {
+            RSA rsa = certificate.GetRSAPrivateKey();
+            RSAParameters rsaParameters = rsa.ExportParameters(true);
+
+            var rsacsp = new RSACryptoServiceProvider(rsa.KeySize, new CspParameters
+            {
+                ProviderType = 24,
+                ProviderName = "Microsoft Enhanced RSA and AES Cryptographic Provider",
+            });
+            rsacsp.ImportParameters(rsaParameters);
+
+            return rsacsp;
         }
     }
 }
