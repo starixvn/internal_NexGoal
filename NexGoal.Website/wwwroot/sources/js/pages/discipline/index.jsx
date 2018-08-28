@@ -50,7 +50,7 @@ export default class DisciplineManagement extends Component {
     }
 
     onFilterChange = (e) => {
-        this.updateFilterValue(e.target.name, e.target.value)
+        this.updateFilterValue(e.target.name, e.target.value);
     }
 
     onChangeRaw = (e) => {

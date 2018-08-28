@@ -15,18 +15,31 @@ class Filter extends Component {
     }
 
     onFromDateChange(date) {
+        this.props.onFilterChange('fromDate', date);
     }
 
     onToDateChange(date) {
+        this.props.onFilterChange('toDate', date);
     }
 
-    onChangeRaw(e) {
-        let date = moment(e.target.value);
+    onChangeRaw(event) {
+        let date = moment(event.target.value);
         if (date.isValid()) {
+            this.props.onFilterChange(event.target.name, date);
         }
     }
 
+    handleCreatorChange(selectedOptions) {
+        this.props.onFilterChange('creators', selectedOptions);
+    }
+
+    handleProjectChange(selectedOptions) {
+        this.props.onFilterChange('projects', selectedOptions);
+    }
+
     handleSubmit(event) {
+        event.preventDefault();
+        this.props.onFilterSubmit();
     }
 
     render() {
@@ -36,25 +49,29 @@ class Filter extends Component {
 
         return (
             <Fragment>
-                <Form inline className="form-filter">
+                <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                     <div className="row-filter">
                         <FormGroup>
                             <ControlLabel>From Date</ControlLabel>
                             <DatePicker dateFormat="DD MMM, YYYY" selected={filter.fromDate}
                                 onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
-                                name="fromDate" className="form-control" autoComplete="off" />
+                                name="fromDate" className="form-control" autoComplete="off"
+                            />
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>To Date</ControlLabel>
                             <DatePicker dateFormat="DD MMM, YYYY" selected={filter.toDate}
                                 onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
-                                name="toDate" className="form-control" autoComplete="off" />
+                                name="toDate" className="form-control" autoComplete="off"
+                            />
                         </FormGroup>
                         <FormGroup>
                             <ControlLabel>Creator</ControlLabel>
                             <MultiSelect name="creators" value={filter.creators}
                                 closeMenuOnSelect={false}
-                                options={creatorOptions} />
+                                options={creatorOptions}
+                                onChange={this.handleCreatorChange}
+                            />
                         </FormGroup>
                     </div>
                     <div className="row-filter">
@@ -64,7 +81,9 @@ class Filter extends Component {
                                 className="react-select-container project-field" classNamePrefix="react-select"
                                 value={filter.projects}
                                 options={projectOptions}
-                                closeMenuOnSelect={false} />
+                                closeMenuOnSelect={false}
+                                onChange={this.handleProjectChange}
+                            />
                         </FormGroup>
                         <FormGroup>
                             <Button type="submit" bsStyle="primary" className="btn-primary">Search</Button>

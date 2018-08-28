@@ -97,7 +97,7 @@
                 GradeId = x.ResourceId,
                 Name = x.Value,
                 Description = x.Description
-            });
+            }).OrderBy(x => x.GradeId);
 
             return performanceGrades;
         }

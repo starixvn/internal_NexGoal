@@ -58,8 +58,8 @@ class EmployeeFlowSetting extends Component {
 
                 this.setState({
                     humanResources: data.humanResources,
-                    evaluators: data.evaluator != null ? [data.evaluator] : [],
-                    reviewers: data.reviewer != null ? [data.reviewer] : [],
+                    evaluators: data.evaluator !== null ? [data.evaluator] : [],
+                    reviewers: data.reviewer !== null ? [data.reviewer] : [],
                     employeeSelected: {
                         employeeId: data.employeeId,
                         code: data.code,
@@ -166,7 +166,7 @@ class EmployeeFlowSetting extends Component {
                     processId: items[i].processId,
                     evaluatorId: items[i].evaluatorId,
                     priority: i
-                }
+                };
 
                 settings.push(item);
             }

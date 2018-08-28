@@ -70,8 +70,8 @@ class GroupFlowSetting extends Component {
 
                 this.setState({
                     humanResources: data.humanResources,
-                    evaluators: data.evaluator != null ? [data.evaluator] : [],
-                    reviewers: data.reviewer != null ? [data.reviewer] : [],
+                    evaluators: data.evaluator !== null ? [data.evaluator] : [],
+                    reviewers: data.reviewer !== null ? [data.reviewer] : [],
                     showDeleteButton: data.humanResources.length > 0 || data.evaluator !== null || data.reviewer !== null
                 });
             }).catch(commonFunctions.axiosError);
@@ -175,7 +175,7 @@ class GroupFlowSetting extends Component {
                     processId: items[i].processId,
                     evaluatorId: items[i].evaluatorId,
                     priority: i
-                }
+                };
 
                 settings.push(item);
             }

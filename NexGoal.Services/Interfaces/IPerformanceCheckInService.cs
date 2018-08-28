@@ -15,7 +15,7 @@
             int employeeId,
             DateTime? fromDate = null,
             DateTime? toDate = null,
-            int? creatorId = null,
+            string creatorIds = null,
             string projectIds = null,
             int? pageSize = null,
             int? pageIndex = null);

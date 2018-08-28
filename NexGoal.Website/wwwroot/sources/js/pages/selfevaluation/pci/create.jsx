@@ -92,7 +92,7 @@ export default class CreateCheckIn extends Component {
     handleProjectChange(selectedOptions) {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { projects: selectedOptions })
-        });;
+        });
     }
 
     validateForm() {
@@ -126,7 +126,8 @@ export default class CreateCheckIn extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
                 comment: this.state.performanceRecord.comment,
-                projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(',')
+                projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(','),
+                statusId: statusId
             });
 
             axios({
@@ -184,13 +185,15 @@ export default class CreateCheckIn extends Component {
                                     options={this.state.performanceGradeOptions}
                                     isSearchable={false}
                                     isClearable
-                                    onChange={this.handleGradeChange} />
+                                    onChange={this.handleGradeChange}
+                                />
                             </FormGroup>
                             <FormGroup>
                                 <ControlLabel className="required-label">Comment</ControlLabel>
-                                <FormControl componentClass="textarea" className="comment-field" name="comment"
+                                <FormControl componentClass="textarea" name="comment"
                                     className={`comment-field ${!isEmpty(errors) && errors.comment && 'input-validation-error'}`}
-                                    value={this.state.performanceRecord.comment} onChange={this.handleCommentChange} />
+                                    value={this.state.performanceRecord.comment} onChange={this.handleCommentChange}
+                                />
                             </FormGroup>
                             <FormGroup>
                                 <ControlLabel>Project Tag</ControlLabel>
@@ -198,7 +201,8 @@ export default class CreateCheckIn extends Component {
                                     className="react-select-container project-field" classNamePrefix="react-select"
                                     value={this.state.performanceRecord.projects}
                                     options={this.state.projectOptions}
-                                    onChange={this.handleProjectChange} />
+                                    onChange={this.handleProjectChange}
+                                />
                             </FormGroup>
                             <FormGroup>
                                 <Button type="submit" bsStyle="primary" name="saveAsDraft" onClick={this.handleSubmit}>Save as draft</Button>
@@ -209,32 +213,32 @@ export default class CreateCheckIn extends Component {
 
                         <Checkbox>Show Performance Record</Checkbox>
                         <div className="performance-record">
-                        <PerformanceRecord
-                            avatar={avataruser}
-                            nickName="Oliver"
-                            jobTitle="SE"
-                            action="Nominated"
-                            period="Employee Of The Quarter 2018"
-                            finalDate="21 Jul 2018"
-                            editDate="23 Jul 2018"
-                            comment="Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                    Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five."
-                            grade="Exceeds Expectations"
-                            projects="Nexgoal, Alpha"
-                        />
-                        <PerformanceRecord
-                            avatar={avataruser}
-                            nickName="Oliver"
-                            jobTitle="SE"
-                            action="Nominated"
-                            period="Employee Of The Year 2018"
-                            finalDate="21 Dec 2018"
-                            editDate="23 Dec 2018"
-                            comment="Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five."
-                            grade="Exceeds Expectations Plus"
-                            projects="Nexgoal, Alpha, Nexbot"
-                        />
+                            <PerformanceRecord
+                                avatar={avataruser}
+                                nickName="Oliver"
+                                jobTitle="SE"
+                                action="Nominated"
+                                period="Employee Of The Quarter 2018"
+                                finalDate="21 Jul 2018"
+                                editDate="23 Jul 2018"
+                                comment="Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                        Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
+                                    Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five."
+                                grade="Exceeds Expectations"
+                                projects="Nexgoal, Alpha"
+                            />
+                            <PerformanceRecord
+                                avatar={avataruser}
+                                nickName="Oliver"
+                                jobTitle="SE"
+                                action="Nominated"
+                                period="Employee Of The Year 2018"
+                                finalDate="21 Dec 2018"
+                                editDate="23 Dec 2018"
+                                comment="Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five."
+                                grade="Exceeds Expectations Plus"
+                                projects="Nexgoal, Alpha, Nexbot"
+                            />
                         </div>
                     </div>
                 </div>

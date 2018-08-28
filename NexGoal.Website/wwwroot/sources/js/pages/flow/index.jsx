@@ -13,10 +13,10 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            isHost: false,
+            isHost: document.getElementById('IsHost').checked,
             filter: {
-                targetTypeId: '',
-                isActive: 'true'
+                targetTypeId: document.getElementById('TargetTypeId').value,
+                isActive: document.getElementById('IsActive').value.toLowerCase()
             },
             targetTypes: [],
             flowTemplates: []
@@ -27,14 +27,6 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        this.setState({
-            isHost: document.getElementById('IsHost').checked,
-            filter: {
-                targetTypeId: document.getElementById('TargetTypeId').value,
-                isActive: document.getElementById('IsActive').value.toLowerCase()
-            }
-        });
-
         this.getTargetTypes();
         this.getFlowTemplates();
     }
@@ -77,12 +69,14 @@ export default class App extends Component {
                         <Filter filter={this.state.filter}
                             targetTypes={this.state.targetTypes}
                             onFilterChange={this.handleOnFilterChange}
-                            onSubmit={this.handleOnSubmit} />
+                            onSubmit={this.handleOnSubmit}
+                        />
 
                         <Table isHost={this.state.isHost}
                             targetTypes={this.state.targetTypes}
                             flowTemplates={this.state.flowTemplates}
-                            onFilterSubmit={this.handleOnSubmit} />
+                            onFilterSubmit={this.handleOnSubmit}
+                        />
                     </div>
                 </div>
             </ToastLayout>

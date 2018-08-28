@@ -36,14 +36,14 @@
         public async Task<IActionResult> Index(
             DateTime fromDate,
             DateTime toDate,
-            int? creatorId = null,
+            string creatorIds = null,
             string projectIds = null)
         {
             IEnumerable<PerformanceRecordModel> performanceRecords = await performanceCheckInService.GetPerformanceCheckInByEmployeeAsync(
                 sessionService.EmployeeId,
                 fromDate,
                 toDate,
-                creatorId,
+                creatorIds,
                 projectIds).ConfigureAwait(false);
 
             return Json(performanceRecords);

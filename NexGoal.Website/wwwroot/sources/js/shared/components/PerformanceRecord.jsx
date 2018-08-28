@@ -11,17 +11,21 @@ export default class PerformanceRecord extends Component {
         this.collapseExpandComment = this.collapseExpandComment.bind(this);
     }
 
+    componentDidMount() {
+        this.detectCollapseExpandComment();
+    }
+
     collapseExpandComment() {
-        if (this.state.height == 'auto') {
+        if (this.state.height === 'auto') {
             this.setState({
                 height: '55px',
                 arrow: 'down'
-            })
+            });
         } else {
             this.setState({
                 height: 'auto',
                 arrow: 'up'
-            })
+            });
         }
     }
 
@@ -33,10 +37,6 @@ export default class PerformanceRecord extends Component {
                 height: '55px'
             });
         }
-    }
-
-    componentDidMount() {
-        this.detectCollapseExpandComment();
     }
 
     render() {
@@ -54,17 +54,19 @@ export default class PerformanceRecord extends Component {
 
                 <div className="comment" >
                     <p className="content" ref={(element) => this.element = element} style={{ height: this.state.height }}>{this.props.comment}</p>
-                    {this.state.showCollapseExpandButton ?
-                        <span className={"icon-chevron-" + this.state.arrow} onClick={this.collapseExpandComment}></span>
-                        : null}
+                    {
+                        this.state.showCollapseExpandButton ?
+                            <span className={"icon-chevron-" + this.state.arrow} onClick={this.collapseExpandComment} />
+                            : null
+                    }
                 </div>
 
                 <div className="footer">
-                    <div className="edit"><span className="icon-square-edit-outline"></span></div>
+                    <div className="edit"><span className="icon-square-edit-outline" /></div>
                     <div className="grade">Grade <span className="grade-exceptional">{this.props.grade}</span></div>
                     <div className="project">Project <span className="project-detail">{this.props.projects}</span></div>
                 </div>
             </div>
-        )
+        );
     }
 }

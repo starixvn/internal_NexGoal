@@ -2,10 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceCheckIn;
+    using NexGoal.Models;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.UserManagement;
 
@@ -14,15 +16,18 @@
         private readonly IBaseService baseService;
         private readonly IAvatarService avatarService;
         private readonly ICryptoService cryptoService;
+        private readonly ICommonService commonService;
 
         public PerformanceCheckInService(
             IBaseService baseService,
             IAvatarService avatarService,
-            ICryptoService cryptoService)
+            ICryptoService cryptoService,
+            ICommonService commonService)
         {
             this.baseService = baseService;
             this.avatarService = avatarService;
             this.cryptoService = cryptoService;
+            this.commonService = commonService;
         }
 
         public async Task<IEnumerable<UserModel>> GetCreatorsByEmployeeAsync(int employeeId)
@@ -39,7 +44,7 @@
             int employeeId,
             DateTime? fromDate = null,
             DateTime? toDate = null,
-            int? creatorId = null,
+            string creatorIds = null,
             string projectIds = null,
             int? pageSize = null,
             int? pageIndex = null)
@@ -49,18 +54,33 @@
                 EmployeeId = employeeId,
                 FromDate = fromDate,
                 ToDate = toDate,
-                CreatorId = creatorId,
+                CreatorIds = creatorIds,
                 ProjectIds = projectIds,
                 PageSize = pageSize,
                 PageIndex = pageIndex
             };
             var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
-                performanceRecord.GradeId = cryptoService.Encrypt(performanceRecord.GradeId);
+                performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
+                int.TryParse(performanceRecord.GradeId, out int gradeId);
+                performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
-                performanceRecord.Base64Image = avatarService.GetBase64Image(performanceRecord.Code);
-                performanceRecord.Base64ImageOfCreator = avatarService.GetBase64Image(performanceRecord.CodeOfCreator);
+                performanceRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.EmployeeId);
+                performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+
+                if (performanceRecord.Employee != null)
+                {
+                    performanceRecord.Employee.Base64Image = avatarService.GetBase64Image(performanceRecord.Employee.Code);
+                }
+
+                if (performanceRecord.Creator != null)
+                {
+                    performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
+                }
             }
 
             return performanceRecords;
