@@ -1,15 +1,12 @@
 @font-face {
     font-family: 'NexGoalIcon';
-    src:  url('./fonts/nexgoal/NexGoalIcon.eot?rbhxz9');
-    src:  url('./fonts/nexgoal/NexGoalIcon.eot?rbhxz9#iefix') format('embedded-opentype'),
-      url('./fonts/nexgoal/NexGoalIcon.ttf?rbhxz9') format('truetype'),
-      url('./fonts/nexgoal/NexGoalIcon.woff?rbhxz9') format('woff'),
-      url('./fonts/nexgoal/NexGoalIcon.svg?rbhxz9#NexGoalIcon') format('svg');
+    src: url('./fonts/nexgoal/NexGoalIcon.eot?rbhxz9');
+    src: url('./fonts/nexgoal/NexGoalIcon.eot?rbhxz9#iefix') format('embedded-opentype'), url('./fonts/nexgoal/NexGoalIcon.ttf?rbhxz9') format('truetype'), url('./fonts/nexgoal/NexGoalIcon.woff?rbhxz9') format('woff'), url('./fonts/nexgoal/NexGoalIcon.svg?rbhxz9#NexGoalIcon') format('svg');
     font-weight: normal;
     font-style: normal;
-  }
-  
-  [class^="icon-"], [class*=" icon-"] {
+}
+
+[class^="icon-"], [class*=" icon-"] {
     /* use !important to prevent issues with browser extensions that change fonts */
     font-family: 'NexGoalIcon' !important;
     speak: none;
@@ -18,97 +15,127 @@
     font-variant: normal;
     text-transform: none;
     line-height: 1;
-  
     /* Better Font Rendering =========== */
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-  }
-  
-  .icon-menu-down:before {
+}
+
+.icon-menu-down:before {
     content: "\e91b";
-  }
-  .icon-treedot:before {
+}
+
+.icon-treedot:before {
     content: "\e91c";
-  }
-  .icon-account-settings-variant:before {
+}
+
+.icon-account-settings-variant:before {
     content: "\e900";
-  }
-  .icon-arrow-down-thick:before {
+}
+
+.icon-arrow-down-thick:before {
     content: "\e901";
-  }
-  .icon-arrow-expand-all:before {
+}
+
+.icon-arrow-expand-all:before {
     content: "\e902";
-  }
-  .icon-arrow-up-thick:before {
+}
+
+.icon-arrow-up-thick:before {
     content: "\e903";
-  }
-  .icon-calendar-text:before {
+}
+
+.icon-calendar-text:before {
     content: "\e904";
-  }
-  .icon-check:before {
+}
+
+.icon-check:before {
     content: "\e905";
-  }
-  .icon-checkbox-blank-outline:before {
+}
+
+.icon-checkbox-blank-outline:before {
     content: "\e906";
-  }
-  .icon-checkbox-marked:before {
+}
+
+.icon-checkbox-marked:before {
     content: "\e907";
-  }
-  .icon-checkbox-marked-circle:before {
+}
+
+.icon-checkbox-marked-circle:before {
     content: "\e908";
-  }
-  .icon-check-circle-outline:before {
+}
+
+.icon-check-circle-outline:before {
     content: "\e909";
-  }
-  .icon-chevron-down:before {
+}
+
+.icon-chevron-down:before, .icon-chevron-up:before {
     content: "\e90a";
-  }
-  .icon-comment-text:before {
+}
+
+.icon-chevron-up {
+    transform: rotate(180deg);
+}
+
+.icon-comment-text:before {
     content: "\e90b";
-  }
-  .icon-comment-text-outline:before {
+}
+
+.icon-comment-text-outline:before {
     content: "\e90c";
-  }
-  .icon-dots-horizontal:before {
+}
+
+.icon-dots-horizontal:before {
     content: "\e90d";
-  }
-  .icon-home:before {
+}
+
+.icon-home:before {
     content: "\e90e";
-  }
-  .icon-menu:before {
+}
+
+.icon-menu:before {
     content: "\e90f";
-  }
-  .icon-minus-circle:before {
+}
+
+.icon-minus-circle:before {
     content: "\e910";
-  }
-  .icon-minus-circle-outline:before {
+}
+
+.icon-minus-circle-outline:before {
     content: "\e911";
-  }
-  .icon-playlist-edit:before {
+}
+
+.icon-playlist-edit:before {
     content: "\e912";
-  }
-  .icon-playlist-plus:before {
+}
+
+.icon-playlist-plus:before {
     content: "\e913";
-  }
-  .icon-plus:before {
+}
+
+.icon-plus:before {
     content: "\e914";
-  }
-  .icon-plus-circle:before {
+}
+
+.icon-plus-circle:before {
     content: "\e915";
-  }
-  .icon-plus-circle-outline:before {
+}
+
+.icon-plus-circle-outline:before {
     content: "\e916";
-  }
-  .icon-settings:before {
+}
+
+.icon-settings:before {
     content: "\e917";
-  }
-  .icon-square-edit-outline:before {
+}
+
+.icon-square-edit-outline:before {
     content: "\e918";
-  }
-  .icon-table-large:before {
+}
+
+.icon-table-large:before {
     content: "\e919";
-  }
-  .icon-window-close:before {
+}
+
+.icon-window-close:before {
     content: "\e91a";
-  }
-  
+}

@@ -10,6 +10,7 @@ import { stringify } from 'qs';
 import commonFunctions from '../../../common-functions';
 import avatar from '../../../../styles/images/avatar1.jpg';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
+import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 
 export default class CreateCheckIn extends Component {
     constructor(props) {
@@ -105,7 +106,6 @@ export default class CreateCheckIn extends Component {
                 <FormGroup>
                     <ControlLabel className="required-label">Comment</ControlLabel>
                     <FormControl componentClass="textarea" className="comment-field"
-                        value={}
                         className={`comment-field ${touched.comment && errors.comment && 'input-validation-error'}`} />
                 </FormGroup>
                 <FormGroup>
@@ -134,118 +134,35 @@ export default class CreateCheckIn extends Component {
                     <li className="current">New Performance Check-in</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <Formik enableReinitialize initialValues={this.state.performanceRecord}
-                        validate={validateEOQForm}
-                        onSubmit={this.handleSubmit}
-                        render={this.renderForm} />
 
                     <Checkbox>Show Performance Record</Checkbox>
                     <div className="performance-record">
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                                <div className="name">Raymond</div>
-                                <span className="role">Developer</span>
-                            </div>
-                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-
-                            <div className="comment">
+                        <PerformanceRecord
+                            avatar={avataruser}
+                            nickName="Oliver"
+                            jobTitle="SE"
+                            action="Nominated"
+                            period="Employee Of The Quarter 2018"
+                            finalDate="21 Jul 2018"
+                            editDate="23 Jul 2018"
+                            comment="Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
                                 Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                <span className="icon-chevron-down"></span>
-                            </div>
-                            <div className="footer">
-                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
-                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
-                                <div className="english-policy"><span>English Policy</span><span className="safety-below"></span></div>
-                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            </div>
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                                <div className="name">Raymond</div>
-                                <span className="role">Developer</span>
-                            </div>
-                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                <span className="icon-chevron-down"></span>
-                            </div>
-                            <div className="footer">
-                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
-                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
-                                <div className="english-policy"><span>English Policy</span><span className="safety-above"></span></div>
-                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            </div>
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                                <div className="name">Raymond</div>
-                                <span className="role">Developer</span>
-                            </div>
-                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                <span className="icon-chevron-down"></span>
-                            </div>
-                            <div className="footer">
-                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
-                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
-                                <div className="english-policy"><span>English Policy</span><span className="safety-below"></span></div>
-                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            </div>
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                                <div className="name">Raymond</div>
-                                <span className="role">Developer</span>
-                            </div>
-                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                <span className="icon-chevron-down"></span>
-                            </div>
-                            <div className="footer">
-                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
-                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
-                                <div className="english-policy"><span>English Policy</span><span className="safety"></span></div>
-                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            </div>
-                        </div>
-                        <div className="record">
-                            <div className="avatar-user">
-                                <img src={avataruser} className="avatar" />
-                                <div className="name">Raymond</div>
-                                <span className="role">Developer</span>
-                            </div>
-                            <div className="nominated">Nominated <span className="employee">Raymond</span>for Employee Of The Quarter 2018</div>
-                            <div className="date"><div className="final-date">21 Jul 2018</div><div className="edit-date">Edited on 23 Jul 2018</div></div>
-
-                            <div className="comment">
-                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                <span className="icon-chevron-down"></span>
-                            </div>
-                            <div className="footer">
-                                <div className="edit"><span className="icon-square-edit-outline"></span></div>
-                                <div className="grade">Grade <span className="grade-exceptional">Exceeds Expectations</span></div>
-                                <div className="english-policy"><span>English Policy</span><span className="safety"></span></div>
-                                <div className="project">Project <span className="project-detail">Nexgoal, Alpha</span></div>
-                            </div>
-                        </div>
+                                Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five."
+                            grade="Exceeds Expectations"
+                            projects="Nexgoal, Alpha"
+                        />
+                        <PerformanceRecord
+                            avatar={avataruser}
+                            nickName="Oliver"
+                            jobTitle="SE"
+                            action="Nominated"
+                            period="Employee Of The Year 2018"
+                            finalDate="21 Dec 2018"
+                            editDate="23 Dec 2018"
+                            comment="Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five."
+                            grade="Exceeds Expectations Plus"
+                            projects="Nexgoal, Alpha, Nexbot"
+                        />
                     </div>
                 </div>
             </div>
