@@ -1,10 +1,8 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Modal, Button, FormGroup, ControlLabel, Checkbox, Col, FormControl, Form } from 'react-bootstrap';
+import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import commonFunctions from '../../common-functions';
 import { Async } from 'react-select';
 import { toast } from 'react-toastify';
@@ -43,7 +41,7 @@ export default class AddEditDiscipline extends Component {
                 disciplineId: values.disciplineId,
                 employeeId: values.employee.employeeId,
                 effectiveDate: values.effectiveDate.format('YYYY-MM-DD'),
-                content: values.content,
+                content: values.content
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -71,7 +69,7 @@ export default class AddEditDiscipline extends Component {
         }).catch(commonFunctions.axiosError);
     }
 
-    searchEmployees = (input, callback) => {
+    searchEmployees = (input) => {
         if (input.length > 2) {
             return axios(commonFunctions.getRootUrl() + `common/SearchEmployees?keyword=${input}`)
                 .then(response => {
@@ -116,8 +114,10 @@ export default class AddEditDiscipline extends Component {
                                 isDisabled={values.disciplineId > 0}
                                 classNamePrefix="react-select"
                                 value={values.employee} name="employee"
-                                onChange={value => setFieldValue('employee', value)} loadOptions={this.searchEmployees}
-                                placeholder="-- Search an employee --" />
+                                onChange={value => setFieldValue('employee', value)}
+                                loadOptions={this.searchEmployees}
+                                placeholder="-- Search an employee --"
+                            />
                         </Col>
                     </FormGroup>
                     <FormGroup>
@@ -125,8 +125,10 @@ export default class AddEditDiscipline extends Component {
                         <Col sm={10}>
                             <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
                                 dateFormat="DD MMM, YYYY" selected={values.effectiveDate}
-                                onChange={value => setFieldValue('effectiveDate', value)} onChangeRaw={this.onChangeRaw}
-                                name="effectiveDate" autoComplete="off" />
+                                onChange={value => setFieldValue('effectiveDate', value)}
+                                onChangeRaw={this.onChangeRaw}
+                                name="effectiveDate" autoComplete="off"
+                            />
                         </Col>
                     </FormGroup>
                     <FormGroup>
@@ -134,7 +136,9 @@ export default class AddEditDiscipline extends Component {
                         <Col sm={10}>
                             <textarea className={`form-control none-resize ${touched.content && errors.content && 'input-validation-error'}`}
                                 name="content" rows="10"
-                                onChange={handleChange} value={values.content} />
+                                onChange={handleChange}
+                                value={values.content}
+                            />
                         </Col>
                     </FormGroup>
                 </Modal.Body>
@@ -151,8 +155,10 @@ export default class AddEditDiscipline extends Component {
 
         return (
             <Modal keyboard={false} backdrop="static"
-                show={this.props.showModal} onHide={this.props.closeModal}
-                dialogClassName="custom-modal">
+                show={this.props.showModal}
+                onHide={this.props.closeModal}
+                dialogClassName="custom-modal"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>

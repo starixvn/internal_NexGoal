@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react';
-import {Tooltip, OverlayTrigger} from 'react-bootstrap';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 export default class RowPA extends Component {
     constructor(props) {
@@ -9,13 +9,13 @@ export default class RowPA extends Component {
     }
 
     renderCellEnglishPolicy() {
-        return(
-            <td className="text-center"><span className="fa fa-arrow-down"></span></td>
+        return (
+            <td className="text-center"><span className="fa fa-arrow-down" /></td>
         );
     }
-    
+
     renderCellComment(comment) {
-        console.log({comment});
+        console.log({ comment });
         const tooltip = (
             <Tooltip id="tooltip">
                 {comment}
@@ -23,8 +23,8 @@ export default class RowPA extends Component {
         );
         return (
             <td className="text-center">
-               <OverlayTrigger placement="top" overlay={tooltip}>
-                    <span className="icon icon-comment-text-outline"></span>
+                <OverlayTrigger placement="top" overlay={tooltip}>
+                    <span className="icon icon-comment-text-outline" />
                 </OverlayTrigger>
             </td>
         );
@@ -32,49 +32,47 @@ export default class RowPA extends Component {
 
     render() {
         const periodData = [
-            { 
-                periodName: "Second Half 2018", 
+            {
+                periodName: "Second Half 2018",
                 start: "29 Oct 2018",
-                end: "29 Oct 2018", 
-                englishPolicy: "", 
-                employeeGrade: "ME", 
-                employeeComment: "N/A", 
-                PMGrade: "ME", 
-                PMComment: "N/A", 
-                evaluatorGrade: "ME", 
-                evaluatorComment: "N/A", 
-                reviewerGrade: "ME+", 
+                end: "29 Oct 2018",
+                englishPolicy: "",
+                employeeGrade: "ME",
+                employeeComment: "N/A",
+                PMGrade: "ME",
+                PMComment: "N/A",
+                evaluatorGrade: "ME",
+                evaluatorComment: "N/A",
+                reviewerGrade: "ME+",
                 reviewerComment: "Faisal test </br> Test 2"
-            }, 
-            { 
-                periodName: "Second Half 2018", 
+            },
+            {
+                periodName: "Second Half 2018",
                 start: "29 Oct 2018",
-                end: "29 Oct 2018", 
-                englishPolicy: "", 
-                employeeGrade: "ME", 
-                employeeComment: "N/A", 
-                PMGrade: "ME", 
-                PMComment: "N/A", 
-                evaluatorGrade: "ME", 
-                evaluatorComment: "test 2", 
-                reviewerGrade: "ME+", 
+                end: "29 Oct 2018",
+                englishPolicy: "",
+                employeeGrade: "ME",
+                employeeComment: "N/A",
+                PMGrade: "ME",
+                PMComment: "N/A",
+                evaluatorGrade: "ME",
+                evaluatorComment: "test 2",
+                reviewerGrade: "ME+",
                 reviewerComment: "N/A"
-
-            }, 
-            { 
-                periodName: "Second Half 2018", 
+            },
+            {
+                periodName: "Second Half 2018",
                 start: "29 Oct 2018",
-                end: "29 Oct 2018", 
-                englishPolicy: "", 
-                employeeGrade: "ME", 
-                employeeComment: "test 3", 
-                PMGrade: "ME", 
-                PMComment: "N/A", 
-                evaluatorGrade: "ME", 
-                evaluatorComment: "N/A", 
-                reviewerGrade: "ME+", 
+                end: "29 Oct 2018",
+                englishPolicy: "",
+                employeeGrade: "ME",
+                employeeComment: "test 3",
+                PMGrade: "ME",
+                PMComment: "N/A",
+                evaluatorGrade: "ME",
+                evaluatorComment: "N/A",
+                reviewerGrade: "ME+",
                 reviewerComment: "N/A"
-
             }
         ];
         const periodItems = periodData.map((periodItem, index) =>
@@ -94,11 +92,10 @@ export default class RowPA extends Component {
                 {this.renderCellComment(periodItem.reviewerComment)}
             </tr>
         );
-        return(
+        return (
             <Fragment>
-            {periodItems}
+                {periodItems}
             </Fragment>
         );
-
     }
 }

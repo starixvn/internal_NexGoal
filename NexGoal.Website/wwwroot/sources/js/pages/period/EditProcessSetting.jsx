@@ -1,5 +1,4 @@
 ﻿import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { stringify } from 'qs';
 import commonFunctions from '../../common-functions';
@@ -47,7 +46,7 @@ export default class EditProcessSetting extends Component {
         var processId = element.dataset.processid;
 
         var settings = this.state.settings.slice(0);
-        var process = settings.find(e => e.processId == processId);
+        var process = settings.find(e => e.processId === processId);
         process.duration = element.value;
 
         this.setState({ settings: settings });
@@ -58,7 +57,7 @@ export default class EditProcessSetting extends Component {
         var processId = element.dataset.processid;
 
         var settings = this.state.settings.slice(0);
-        var process = settings.find(e => e.processId == processId);
+        var process = settings.find(e => e.processId === processId);
         process.noticeAtBegin = element.checked;
 
         this.setState({ settings: settings });
@@ -69,7 +68,7 @@ export default class EditProcessSetting extends Component {
         var processId = element.dataset.processid;
 
         var settings = this.state.settings.slice(0);
-        var process = settings.find(e => e.processId == processId);
+        var process = settings.find(e => e.processId === processId);
         process.remindDay = element.value;
 
         this.setState({ settings: settings });
@@ -80,7 +79,7 @@ export default class EditProcessSetting extends Component {
         var processId = element.dataset.processid;
 
         var settings = this.state.settings.slice(0);
-        var process = settings.find(e => e.processId == processId);
+        var process = settings.find(e => e.processId === processId);
         process.focusDay = element.value;
 
         this.setState({ settings: settings });

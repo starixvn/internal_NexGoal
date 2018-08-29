@@ -156,7 +156,7 @@ class GroupFlowSetting extends Component {
 
     handleOnRemoveItem(sender, evaluatorId) {
         let items = this.state[sender].slice();
-        let index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
+        let index = items.map((item) => { return item.evaluatorId; }).indexOf(evaluatorId);
         items.splice(index, 1);
         this.setState({ [sender]: items });
     }
@@ -310,7 +310,8 @@ class GroupFlowSetting extends Component {
                                 <Select className="react-select-container" classNamePrefix="react-select"
                                     value={this.state.groupSelected} options={groupOptions}
                                     isClearable={false}
-                                    onChange={this.handleGroupChange} />
+                                    onChange={this.handleGroupChange}
+                                />
                             </div>
                         </FormGroup>
                     </Form>
@@ -330,7 +331,8 @@ class GroupFlowSetting extends Component {
                                         enable={isHost}
                                         onReceive={this.handleOnReceive}
                                         onDeactivate={this.handleOnDeactivate}
-                                        onRemove={this.handleOnRemoveItem} />
+                                        onRemove={this.handleOnRemoveItem}
+                                    />
                                 </td>
                                 <td className="col-self">
                                     {this.state.groupSelected.value &&
@@ -347,14 +349,16 @@ class GroupFlowSetting extends Component {
                                         enable={isHost}
                                         onReceive={this.handleOnReceive}
                                         onDeactivate={this.handleOnDeactivate}
-                                        onRemove={this.handleOnRemoveItem} />
+                                        onRemove={this.handleOnRemoveItem}
+                                    />
                                 </td>
                                 <td className="col-reviewer">
                                     <Sortable id="reviewers" data={this.state.reviewers}
                                         enable={isHost}
                                         onReceive={this.handleOnReceive}
                                         onDeactivate={this.handleOnDeactivate}
-                                        onRemove={this.handleOnRemoveItem} />
+                                        onRemove={this.handleOnRemoveItem}
+                                    />
                                 </td>
                             </tr>
                         </tbody>
@@ -374,7 +378,8 @@ class GroupFlowSetting extends Component {
                         name="this group's setting"
                         showModal={this.state.showDeleteModal}
                         closeModal={this.handleOnCloseModal.bind(this)}
-                        handleSubmit={this.handleDeleteFlowSetting} />
+                        handleSubmit={this.handleDeleteFlowSetting}
+                    />
                 }
             </div>
         );

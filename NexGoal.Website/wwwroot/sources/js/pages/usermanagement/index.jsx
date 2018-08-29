@@ -1,6 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import { Form, FormGroup, ControlLabel, FormControl, Button, Row, Col} from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
@@ -162,7 +162,7 @@ export default class UserManagement extends Component {
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.state.canEditRole) {
                         return (
-                            <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row)}></a>
+                            <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row)} />
                         );
                     }
 
@@ -180,16 +180,17 @@ export default class UserManagement extends Component {
                         <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                             <FormGroup>
                                 <ControlLabel>Keyword</ControlLabel>
-                                <FormControl name="keyword" type="text" placeholder="Full name or Nick name" autoComplete="off"
-                                        onChange={this.onFilterChange} >
-                                 </FormControl>
+                                <FormControl name="keyword" type="text"
+                                    placeholder="Full name or Nick name" autoComplete="off"
+                                    onChange={this.onFilterChange}
+                                />
                             </FormGroup>
                             <FormGroup>
                                 <ControlLabel>Team</ControlLabel>
                                 <FormControl componentClass="select" onChange={this.onFilterChange} name="groupId">
                                     <option value="">-- All --</option>
                                     {this.state.groups.map((group) => <option key={group.groupId} value={group.groupId}>{group.name}</option>)}
-                                </FormControl>                                
+                                </FormControl>
                             </FormGroup>
                             <FormGroup>
                                 <ControlLabel>Category</ControlLabel>
@@ -217,7 +218,7 @@ export default class UserManagement extends Component {
                                             <div className="search-wrapper clearfix" >
                                                 <div className="search pull-right">
                                                     <SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
-                                                    <span className="fa fa-search icon"></span>
+                                                    <span className="fa fa-search icon" />
                                                 </div>
                                             </div>
                                             <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} />

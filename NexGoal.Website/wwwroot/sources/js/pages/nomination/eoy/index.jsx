@@ -42,12 +42,14 @@ export default class EOY extends Component {
             <Fragment>
                 <Filter statusId={this.state.statusId}
                     handleStatusChange={this.handleStatusChange.bind(this)}
-                    handleFilterSubmit={this.handleSubmit.bind(this)} />
+                    handleFilterSubmit={this.handleSubmit.bind(this)}
+                />
 
                 <Table
                     eoys={this.state.eoys}
                     isHost={this.state.isHost}
-                    handleFilterSubmit={this.handleSubmit.bind(this)} />
+                    handleFilterSubmit={this.handleSubmit.bind(this)}
+                />
             </Fragment>
         );
     }

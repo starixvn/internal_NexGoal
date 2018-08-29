@@ -36,7 +36,7 @@ class Filter extends Component {
         targetTypeOptions.unshift({ value: '', label: '-- All --' });
         const targetTypeSelected = targetTypeOptions.find((option) => { return option.value === filter.targetTypeId.toString(); });
 
-        const statusSelected = StatusOptions.find((option) => { return option.value === filter.isActive.toString() });
+        const statusSelected = StatusOptions.find((option) => { return option.value === filter.isActive.toString(); });
 
         return (
             <form className="from-inline form-filter" onSubmit={this.handleOnSubmit}>
@@ -47,7 +47,8 @@ class Filter extends Component {
                             <Select name="TargetTypeId" className="react-select-container" classNamePrefix="react-select"
                                 value={targetTypeSelected} options={targetTypeOptions}
                                 isSearchable={false} isClearable={false}
-                                onChange={this.handleOnTargetTypeChange} />
+                                onChange={this.handleOnTargetTypeChange}
+                            />
                         </div>
                     </div>
                     <div className="col">
@@ -56,7 +57,8 @@ class Filter extends Component {
                             <Select name="IsActive" className="react-select-container" classNamePrefix="react-select"
                                 value={statusSelected} options={StatusOptions}
                                 isSearchable={false} isClearable={false}
-                                onChange={this.handleOnStatusChange} />
+                                onChange={this.handleOnStatusChange}
+                            />
                         </div>
                     </div>
                     <div className="col">

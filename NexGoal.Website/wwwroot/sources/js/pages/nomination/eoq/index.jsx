@@ -52,7 +52,7 @@ export default class EOQ extends Component {
         this.setState({ statusId });
     }
 
-    handleSubmit(event) {
+    handleSubmit() {
         this.getAllEOQ();
     }
 
@@ -64,12 +64,14 @@ export default class EOQ extends Component {
                     statusId={this.state.statusId}
                     handleYearChange={this.handleYearChange.bind(this)}
                     handleStatusChange={this.handleStatusChange.bind(this)}
-                    handleFilterSubmit={this.handleSubmit.bind(this)} />
+                    handleFilterSubmit={this.handleSubmit.bind(this)}
+                />
 
                 <Table
                     eoqs={this.state.eoqs}
                     isHost={this.state.isHost}
-                    handleFilterSubmit={this.handleSubmit.bind(this)} />
+                    handleFilterSubmit={this.handleSubmit.bind(this)}
+                />
             </Fragment>
         );
     }

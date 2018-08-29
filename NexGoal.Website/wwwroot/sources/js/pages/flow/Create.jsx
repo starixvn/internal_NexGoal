@@ -96,7 +96,8 @@ class Create extends Component {
                         <div className="col-sm-9">
                             <input type="text" name="name" autoComplete="off"
                                 className={`form-control ${touched.name && errors.name && 'input-validation-error'}`}
-                                value={values.name} onChange={handleChange} />
+                                value={values.name} onChange={handleChange}
+                            />
                         </div>
                     </FormGroup>
                     <FormGroup>
@@ -108,7 +109,8 @@ class Create extends Component {
                                 value={values.targetType}
                                 options={targetTypeOptions}
                                 isSearchable={false} isClearable={false}
-                                onChange={selectedOption => setFieldValue('targetType', selectedOption)} />
+                                onChange={selectedOption => setFieldValue('targetType', selectedOption)}
+                            />
                         </div>
                     </FormGroup>
                     <FormGroup>
@@ -123,7 +125,8 @@ class Create extends Component {
                             <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                                 rows="5" maxLength="500"
                                 name="description" value={values.description}
-                                onChange={handleChange} />
+                                onChange={handleChange}
+                            />
                         </div>
                     </FormGroup>
                 </Modal.Body>
@@ -146,7 +149,8 @@ class Create extends Component {
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.closeModal}
-                dialogClassName="custom-modal modal-md">
+                dialogClassName="custom-modal modal-md"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Create Nomination Period</Modal.Title>
                 </Modal.Header>
@@ -154,7 +158,8 @@ class Create extends Component {
                     initialValues={flowTemplate}
                     validate={this.validateForm}
                     onSubmit={this.handleOnSubmit}
-                    render={this.renderForm} />
+                    render={this.renderForm}
+                />
             </Modal>
         );
     }

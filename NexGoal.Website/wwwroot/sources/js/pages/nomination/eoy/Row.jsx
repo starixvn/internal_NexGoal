@@ -44,9 +44,10 @@ class Row extends Component {
             return (
                 <Fragment>
                     <a className="fa fa-pencil-square-o" title="Edit"
-                        href={commonFunctions.getRootUrl() + 'EOY/Edit/' + eoy.eoqyId}></a>
+                        href={commonFunctions.getRootUrl() + 'EOY/Edit/' + eoy.eoqyId}
+                    />
                     {eoy.statusId === 0 &&
-                        <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick.bind(this)}></a>
+                        <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick.bind(this)} />
                     }
                 </Fragment>
             );
@@ -54,7 +55,8 @@ class Row extends Component {
 
         return (
             <a className="fa fa-search" title="Details"
-                href={commonFunctions.getRootUrl() + 'EOY/Details/' + eoy.eoqyId}></a>
+                href={commonFunctions.getRootUrl() + 'EOY/Details/' + eoy.eoqyId}
+            />
         );
     }
 

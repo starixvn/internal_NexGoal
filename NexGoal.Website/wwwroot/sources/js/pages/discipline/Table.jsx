@@ -1,12 +1,10 @@
 ﻿import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import moment from 'moment';
 import axios from 'axios';
 import { stringify } from 'qs';
-import { Form } from 'formik';
 import { toast } from 'react-toastify';
 
 import { PaginationOptions } from '../../constants';
@@ -44,10 +42,7 @@ export default class Table extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);;
-    }
-
-    editDiscipline = (discipline) => {
+        }).catch(commonFunctions.axiosError);
     }
 
     render() {
@@ -67,7 +62,7 @@ export default class Table extends Component {
             },
             {
                 dataField: 'group',
-                text: 'Team',
+                text: 'Team'
             },
             {
                 dataField: 'description',
@@ -94,10 +89,10 @@ export default class Table extends Component {
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.props.isHost) {
-                        return (<input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editDisciplineStatus(e, row)} />);
+                        return <input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editDisciplineStatus(e, row)} />;
                     }
 
-                    return (<input type='checkbox' checked={row.isActive} readOnly />);
+                    return <input type='checkbox' checked={row.isActive} readOnly />;
                 }
             },
             {
@@ -106,9 +101,7 @@ export default class Table extends Component {
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.props.isHost) {
-                        return (
-                            <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)}></a>
-                        );
+                        return <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)} />;
                     }
 
                     return '';
@@ -125,13 +118,13 @@ export default class Table extends Component {
                                     <div className="pull-left">
                                         {this.props.isHost &&
                                             <button className="btn btn-primary" onClick={this.props.addDiscipline}>
-                                                <i className="fa fa-plus"></i> Add Discipline
+                                                <i className="fa fa-plus" /> Add Discipline
                                             </button>
                                         }
                                     </div>
                                     <div className="search pull-right">
                                         <SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
-                                        <span className="fa fa-search icon"></span>
+                                        <span className="fa fa-search icon" />
                                     </div>
                                 </div>
                                 <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} striped />

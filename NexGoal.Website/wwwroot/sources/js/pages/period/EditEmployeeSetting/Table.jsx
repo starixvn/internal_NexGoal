@@ -1,11 +1,9 @@
 ﻿import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
 import commonFunctions from '../../../common-functions';
 import { toast } from 'react-toastify';
-import BootstrapTable from 'react-bootstrap-table-next';
 import { range } from 'lodash';
 import { Pagination, DropdownButton, MenuItem } from 'react-bootstrap';
 import Async from 'react-select/lib/Async';
@@ -19,7 +17,7 @@ function TableHead(props) {
             <tr>
                 <th><input type="checkbox" onChange={props.selectAll} checked={props.checked} /></th>
                 <th>#</th>
-                <th>Department / Team</th>
+                <th>Team</th>
                 <th>Employee</th>
                 <th>Step</th>
                 <th>Name</th>

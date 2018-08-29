@@ -91,7 +91,7 @@ class Table extends Component {
                             <tr className="header-control">
                                 <th colSpan="9">
                                     <a className="pull-left btn btn-primary" onClick={this.showCreateModal.bind(this)}>
-                                        <i className="fa fa-plus"></i>Create Nomination Period
+                                        <i className="fa fa-plus" />Create Nomination Period
                                 </a>
                                 </th>
                             </tr>
@@ -120,7 +120,7 @@ class Table extends Component {
                                         rowIndex={index + 1}
                                         eoy={eoy}
                                         isHost={isHost}
-                                        showDeleteModal={this.showDeleteModal.bind(this)} />)
+                                        showDeleteModal={this.showDeleteModal.bind(this)} />);
                             })
                         }
                     </TBody>
@@ -131,7 +131,8 @@ class Table extends Component {
                     <CreateEOY
                         showModal={this.state.showCreateModal}
                         closeModal={this.closeCreateModal.bind(this)}
-                        handleFilterSubmit={this.props.handleFilterSubmit} />
+                        handleFilterSubmit={this.props.handleFilterSubmit}
+                    />
                 }
                 {
                     this.state.showDeleteModal &&
@@ -140,7 +141,8 @@ class Table extends Component {
                         name={this.state.eoySelected.name}
                         showModal={this.state.showDeleteModal}
                         closeModal={this.closeDeleteModal.bind(this)}
-                        handleSubmit={this.handleDeleteEOY.bind(this)} />
+                        handleSubmit={this.handleDeleteEOY.bind(this)}
+                    />
                 }
             </Fragment>
         );

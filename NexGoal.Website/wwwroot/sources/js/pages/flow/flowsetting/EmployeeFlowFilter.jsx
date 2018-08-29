@@ -99,10 +99,10 @@ class EmployeeFlowFilter extends Component {
         let employeeSettings = this.state.employeeSettings.slice();
         let filteredEmployees = this.state.filteredEmployees.slice();
 
-        let index = filteredEmployees.map((employee) => { return employee.employeeId.toString() }).indexOf(this.state.employeeUnsettingSelected);
+        let index = filteredEmployees.map((employee) => { return employee.employeeId.toString(); }).indexOf(this.state.employeeUnsettingSelected);
         filteredEmployees.splice(index, 1);
 
-        index = employeeUnsettings.map((employee) => { return employee.employeeId.toString() }).indexOf(this.state.employeeUnsettingSelected);
+        index = employeeUnsettings.map((employee) => { return employee.employeeId.toString(); }).indexOf(this.state.employeeUnsettingSelected);
         employeeSettings.push(employeeUnsettings[index]);
         employeeUnsettings.splice(index, 1);
 
@@ -118,7 +118,7 @@ class EmployeeFlowFilter extends Component {
         let employeeUnsettings = this.state.employeeUnsettings.slice();
         let employeeSettings = this.state.employeeSettings.slice();
 
-        let index = employeeSettings.map((employee) => { return employee.employeeId.toString() }).indexOf(this.state.employeeSettingSelected);
+        let index = employeeSettings.map((employee) => { return employee.employeeId.toString(); }).indexOf(this.state.employeeSettingSelected);
         employeeUnsettings.push(employeeSettings[index]);
         employeeSettings.splice(index, 1);
 
@@ -147,11 +147,13 @@ class EmployeeFlowFilter extends Component {
                 <Select className="react-select-container" classNamePrefix="react-select"
                     value={this.state.groupSelected} options={groupOptions}
                     isClearable={false}
-                    onChange={this.handleOnGroupChange} />
+                    onChange={this.handleOnGroupChange}
+                />
                 <div className="text-search">
                     <input type="text" className="form-control" placeholder="full name or nick name"
-                        value={this.state.keyword} onChange={this.handleOnKeywordChange} />
-                    <span className="fa fa-search"></span>
+                        value={this.state.keyword} onChange={this.handleOnKeywordChange}
+                    />
+                    <span className="fa fa-search" />
                 </div>
                 <div className="employee-setting">
                     <select className="form-control" size="10" onChange={this.handleOnEmployeeUnsettingChange}>
@@ -166,10 +168,12 @@ class EmployeeFlowFilter extends Component {
                     <div className="control">
                         <button className="btn btn-primary fa fa-step-forward" title="Move Right"
                             disabled={!(isHost && this.state.employeeUnsettingSelected)}
-                            onClick={this.handleOnMoveRightClick} />
+                            onClick={this.handleOnMoveRightClick}
+                        />
                         <button className="btn btn-primary fa fa-step-backward" title="Move Left"
                             disabled={!(isHost && this.state.employeeSettingSelected && !hasSetting)}
-                            onClick={this.handleOnMoveLeftClick} />
+                            onClick={this.handleOnMoveLeftClick}
+                        />
                     </div>
                     <select className="form-control" size="10" onChange={this.handleOnEmployeeSettingChange}>
                         {

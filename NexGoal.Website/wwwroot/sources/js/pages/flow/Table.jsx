@@ -159,7 +159,7 @@ class Table extends Component {
                                         flowTemplate={flowTemplate}
                                         isHost={isHost}
                                         onDelete={this.handleOnDeleteClick.bind(this)}
-                                        onCheckboxChange={this.handleOnCheckboxChange.bind(this)} />)
+                                        onCheckboxChange={this.handleOnCheckboxChange.bind(this)} />);
                             })
                         }
                     </TBody>

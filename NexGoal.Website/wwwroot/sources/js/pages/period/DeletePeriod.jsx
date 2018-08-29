@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
@@ -15,11 +14,11 @@ export default class DeletePeriod extends Component {
         event.preventDefault();
 
         axios({
-            url: `/period/delete`,
+            url: commonFunctions.getRootUrl() + `period/delete`,
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                periodId: this.props.period.periodId,
+                periodId: this.props.period.periodId
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

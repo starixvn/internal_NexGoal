@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 export default class SearchForm extends Component {
     constructor(props) {

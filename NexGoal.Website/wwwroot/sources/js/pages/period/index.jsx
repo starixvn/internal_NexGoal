@@ -5,8 +5,8 @@ import axios from 'axios';
 import commonFunctions from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
-import SearchForm from './SearchForm'
-import Table from './Table'
+import SearchForm from './SearchForm';
+import Table from './Table';
 
 export default class EvaluationPeriod extends Component {
     constructor(props) {
@@ -53,7 +53,7 @@ export default class EvaluationPeriod extends Component {
         var data = this.state.data.slice();
         var period = data.find(e => e.periodId === periodId);
         period.isActive = isActive;
-        this.setState({ data: data })
+        this.setState({ data: data });
     }
 
     getTargetTypes = () => {
@@ -82,10 +82,20 @@ export default class EvaluationPeriod extends Component {
                     <li className="current">Evaluation Period Management</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <SearchForm targetTypeId={this.state.targetTypeId} isActive={this.state.isActive} targetTypes={this.state.targetTypes}
-                        onTypeIdChange={this.handleTypeIdChange} onStatusChange={this.handleStatusChange} onSubmit={this.handleSubmit} />
-                    <Table data={this.state.data} hasHostPermission={this.hasHostPermission} targetTypes={this.state.targetTypes} updateData={this.getPeriods}
-                        onUpdateStatus={this.handleUpdateStatus} onDeletePeriod={this.handleDeletePeriod} />
+                    <SearchForm targetTypeId={this.state.targetTypeId}
+                        isActive={this.state.isActive}
+                        targetTypes={this.state.targetTypes}
+                        onTypeIdChange={this.handleTypeIdChange}
+                        onStatusChange={this.handleStatusChange}
+                        onSubmit={this.handleSubmit}
+                    />
+                    <Table data={this.state.data}
+                        hasHostPermission={this.hasHostPermission}
+                        targetTypes={this.state.targetTypes}
+                        updateData={this.getPeriods}
+                        onUpdateStatus={this.handleUpdateStatus}
+                        onDeletePeriod={this.handleDeletePeriod}
+                    />
                 </div>
                 <ToastLayout />
             </div>

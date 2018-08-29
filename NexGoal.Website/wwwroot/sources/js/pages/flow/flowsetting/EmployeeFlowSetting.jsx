@@ -1,8 +1,7 @@
-﻿import React, { Component, Fragment } from 'react';
-import { Button, Form, FormGroup } from 'react-bootstrap';
+﻿import React, { Component } from 'react';
+import { Button, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import Select from 'react-select';
 import { stringify } from 'qs';
 
 import commonFunctions from '../../../common-functions';
@@ -147,7 +146,7 @@ class EmployeeFlowSetting extends Component {
 
     handleOnRemoveItem(sender, evaluatorId) {
         let items = this.state[sender].slice();
-        let index = items.map((item) => { return item.evaluatorId }).indexOf(evaluatorId);
+        let index = items.map((item) => { return item.evaluatorId; }).indexOf(evaluatorId);
         items.splice(index, 1);
         this.setState({ [sender]: items });
     }
@@ -267,7 +266,8 @@ class EmployeeFlowSetting extends Component {
                 <EmployeeFlowFilter flowTemplateId={this.props.flowTemplateId} isHost={isHost}
                     hasSetting={this.state.showDeleteButton}
                     groupOptions={this.state.groupOptions}
-                    onEmployeeSelected={this.handleOnEmployeeSelected} />
+                    onEmployeeSelected={this.handleOnEmployeeSelected}
+                />
                 <div className="boxtitle">PA Processing</div>
                 <div className="row">
                     <div className="col-sm-3">
@@ -290,7 +290,8 @@ class EmployeeFlowSetting extends Component {
                                             enable={isHost}
                                             onReceive={this.handleOnReceive}
                                             onDeactivate={this.handleOnDeactivate}
-                                            onRemove={this.handleOnRemoveItem} />
+                                            onRemove={this.handleOnRemoveItem}
+                                        />
                                     </td>
                                     <td className="col-self">
                                         {employeeSelected &&
@@ -307,14 +308,16 @@ class EmployeeFlowSetting extends Component {
                                             enable={isHost}
                                             onReceive={this.handleOnReceive}
                                             onDeactivate={this.handleOnDeactivate}
-                                            onRemove={this.handleOnRemoveItem} />
+                                            onRemove={this.handleOnRemoveItem}
+                                        />
                                     </td>
                                     <td className="col-reviewer">
                                         <Sortable id="reviewers" data={this.state.reviewers}
                                             enable={isHost}
                                             onReceive={this.handleOnReceive}
                                             onDeactivate={this.handleOnDeactivate}
-                                            onRemove={this.handleOnRemoveItem} />
+                                            onRemove={this.handleOnRemoveItem}
+                                        />
                                     </td>
                                 </tr>
                             </tbody>
@@ -334,7 +337,8 @@ class EmployeeFlowSetting extends Component {
                             name="this employee's setting"
                             showModal={this.state.showDeleteModal}
                             closeModal={this.handleOnCloseModal.bind(this)}
-                            handleSubmit={this.handleDeleteFlowSetting} />
+                            handleSubmit={this.handleDeleteFlowSetting}
+                        />
                     }
                 </div>
             </div>

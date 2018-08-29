@@ -1,5 +1,7 @@
 ﻿import React, { Component } from 'react';
 
+import { Policy } from '../../constants';
+
 class Row extends Component {
     constructor(props) {
         super(props);
@@ -11,7 +13,7 @@ class Row extends Component {
         if (func.parentId) {
             return (
                 <td>
-                    <span className="icon-treedot"></span>
+                    <span className="icon-treedot" />
                     <span className="func-name">{func.name}</span>
                 </td>
             );
@@ -19,7 +21,7 @@ class Row extends Component {
 
         return (
             <td className="level-first">
-                <span className="icon-menu-down"></span>
+                <span className="icon-menu-down" />
                 <span className="func-name">{func.name}</span>
             </td>
         );
@@ -40,16 +42,18 @@ class Row extends Component {
                     <label>
                         <input type="checkbox" name="funcRead"
                             disabled={!this.props.isHost}
-                            checked={functionObj.policy > 0}
-                            onChange={this.handleOnChange} />
+                            checked={functionObj.policy > Policy.None}
+                            onChange={this.handleOnChange}
+                        />
                     </label>
                 </td>
                 <td className="text-center">
                     <label>
                         <input type="checkbox" name="funcHost"
                             disabled={!this.props.isHost}
-                            checked={functionObj.policy === 2}
-                            onChange={this.handleOnChange} />
+                            checked={functionObj.policy === Policy.Host}
+                            onChange={this.handleOnChange}
+                        />
                     </label>
                 </td>
             </tr>

@@ -16,14 +16,14 @@ class Sortable extends Component {
         });
     }
 
-    componentWillUnmount() {
-        this.$node.sortable('destroy');
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.enable !== this.props.enable) {
             this.$node.sortable(nextProps.enable ? 'enable' : 'disable');
         }
+    }
+
+    componentWillUnmount() {
+        this.$node.sortable('destroy');
     }
 
     handleOnRemoveClick(event, evaluatorId) {

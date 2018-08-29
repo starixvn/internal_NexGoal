@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Modal, Button, FormGroup, ControlLabel, Checkbox, Col, FormControl, Form } from 'react-bootstrap';
+import { Modal, Button, FormGroup, ControlLabel, Checkbox, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
@@ -39,27 +38,27 @@ export default class CreatePeriod extends Component {
             errors.targetTypeId = 'Target type is required';
         }
 
-        if (!values.startDate && values.targetTypeId == TargetType.semiAnual) {
+        if (!values.startDate && values.targetTypeId === TargetType.semiAnual) {
             errors.startDate = 'Start Date is required';
         }
 
-        if (!values.endDate && values.targetTypeId == TargetType.semiAnual) {
+        if (!values.endDate && values.targetTypeId === TargetType.semiAnual) {
             errors.endDate = 'End Date is required';
         }
 
-        if (!values.disciplineStartDate && values.targetTypeId == TargetType.semiAnual) {
+        if (!values.disciplineStartDate && values.targetTypeId === TargetType.semiAnual) {
             errors.disciplineStartDate = 'Discipline Start Date is required';
         }
 
-        if (!values.disciplineEndDate && values.targetTypeId == TargetType.semiAnual) {
+        if (!values.disciplineEndDate && values.targetTypeId === TargetType.semiAnual) {
             errors.disciplineEndDate = 'Discipline End Date is required';
         }
 
-        if (!values.focusStartDate && values.targetTypeId == TargetType.semiAnual) {
+        if (!values.focusStartDate && values.targetTypeId === TargetType.semiAnual) {
             errors.focusStartDate = 'Focus Start Date is required';
         }
 
-        if (values.targetTypeId == TargetType.semiAnual && values.focusStartDate && values.endDate && values.focusStartDate <= values.endDate) {
+        if (values.targetTypeId === TargetType.semiAnual && values.focusStartDate && values.endDate && values.focusStartDate <= values.endDate) {
             errors.focusStartDate = 'Focus Start Date must be after Period End Date';
         }
 
@@ -72,7 +71,7 @@ export default class CreatePeriod extends Component {
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
         axios({
-            url: `/period/Create`,
+            url: commonFunctions.getRootUrl() + `period/Create`,
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -82,7 +81,7 @@ export default class CreatePeriod extends Component {
                 endDate: values.endDate ? values.endDate.format('YYYY-MM-DD') : null,
                 disciplineStartDate: values.disciplineStartDate ? values.disciplineStartDate.format('YYYY-MM-DD') : null,
                 disciplineEndDate: values.disciplineEndDate ? values.disciplineEndDate.format('YYYY-MM-DD') : null,
-                focusStartDate: values.targetTypeId == TargetType.semiAnual ? values.focusStartDate.format('YYYY-MM-DD') : null,
+                focusStartDate: values.targetTypeId === TargetType.semiAnual ? values.focusStartDate.format('YYYY-MM-DD') : null,
                 description: values.description,
                 isActive: values.isActive
             }),
@@ -139,7 +138,7 @@ export default class CreatePeriod extends Component {
                             {touched.endDate && errors.endDate && <li>{errors.endDate}</li>}
                             {touched.disciplineStartDate && errors.disciplineStartDate && <li>{errors.disciplineStartDate}</li>}
                             {touched.disciplineEndDate && errors.disciplineEndDate && <li>{errors.disciplineEndDate}</li>}
-                            {values.targetTypeId == TargetType.semiAnual && touched.focusStartDate && errors.focusStartDate && <li>{errors.focusStartDate}</li>}
+                            {values.targetTypeId === TargetType.semiAnual && touched.focusStartDate && errors.focusStartDate && <li>{errors.focusStartDate}</li>}
                             {touched.description && errors.description && <li>{errors.description}</li>}
                         </ul>
                     }
@@ -154,7 +153,7 @@ export default class CreatePeriod extends Component {
                         <Col componentClass={ControlLabel} className="required-label" sm={3}>Target Type</Col>
                         <Col sm={9}>
                             <select name="targetTypeId" className={`form-control  ${touched.targetTypeId && errors.targetTypeId && 'input-validation-error'}`} onChange={handleChange}>
-                                <option value=""></option>
+                                <option value="" />
                                 {
                                     this.props.targetTypes.map(e => <option key={e.targetTypeId} value={e.targetTypeId} >{e.name}</option>)
                                 }
@@ -162,13 +161,13 @@ export default class CreatePeriod extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className={values.targetTypeId == TargetType.semiAnual && 'required-label'} sm={3}>Start Date</Col>
+                        <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.semiAnual && 'required-label'} sm={3}>Start Date</Col>
                         <Col sm={3}>
                             <DatePicker autoComplete="off" className={`form-control  ${touched.startDate && errors.startDate && 'input-validation-error'}`} maxDate={values.endDate}
                                 dateFormat="DD MMM, YYYY" selected={values.startDate} onChange={value => setFieldValue('startDate', value)} onChangeRaw={onChangeRaw}
                                 name="startDate" showMonthDropdown showYearDropdown />
                         </Col>
-                        <Col componentClass={ControlLabel} className={values.targetTypeId == TargetType.semiAnual && 'required-label'} sm={3}>End Date</Col>
+                        <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.semiAnual && 'required-label'} sm={3}>End Date</Col>
                         <Col sm={3}>
                             <DatePicker autoComplete="off" className={`form-control  ${touched.endDate && errors.endDate && 'input-validation-error'}`} minDate={values.startDate}
                                 dateFormat="DD MMM, YYYY" selected={values.endDate} onChange={value => setFieldValue('endDate', value)} onChangeRaw={this.onChangeRaw}
@@ -176,20 +175,20 @@ export default class CreatePeriod extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className={values.targetTypeId == TargetType.semiAnual && 'required-label'} sm={3}>Discipline Start Date</Col>
+                        <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.semiAnual && 'required-label'} sm={3}>Discipline Start Date</Col>
                         <Col sm={3}>
                             <DatePicker autoComplete="off" className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`}
                                 dateFormat="DD MMM, YYYY" selected={values.disciplineStartDate} onChange={value => setFieldValue('disciplineStartDate', value)} onChangeRaw={onChangeRaw}
                                 name="disciplineStartDate" showMonthDropdown showYearDropdown />
                         </Col>
-                        <Col componentClass={ControlLabel} className={values.targetTypeId == TargetType.semiAnual && 'required-label'} sm={3}>Discipline End Date</Col>
+                        <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.semiAnual && 'required-label'} sm={3}>Discipline End Date</Col>
                         <Col sm={3}>
                             <DatePicker autoComplete="off" className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && 'input-validation-error'}`}
                                 dateFormat="DD MMM, YYYY" selected={values.disciplineEndDate} onChange={value => setFieldValue('disciplineEndDate', value)} onChangeRaw={onChangeRaw}
                                 name="disciplineEndDate" showMonthDropdown showYearDropdown />
                         </Col>
                     </FormGroup>
-                    {values.targetTypeId == TargetType.semiAnual &&
+                    {values.targetTypeId === TargetType.semiAnual &&
                         <FormGroup>
                             <Col componentClass={ControlLabel} className="required-label" sm={3}>Focus Start Date</Col>
                             <Col sm={3}>

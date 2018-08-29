@@ -17,7 +17,7 @@ export default class EditPeriod extends Component {
             periodId: document.getElementById('periodId').value,
             activeKey: 1,
             loadProcessSettingTab: false,
-            loadEmployeeTab: false,
+            loadEmployeeTab: false
         };
     }
 
@@ -40,7 +40,7 @@ export default class EditPeriod extends Component {
                     <li className="current">Edit Evaluation Period</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <a href='/period' className="btn btn-cancel"><i className="fa fa-angle-left"></i>Back to list</a>
+                    <a href='/period' className="btn btn-cancel"><i className="fa fa-angle-left" />Back to list</a>
                     <Tabs id="tabs" activeKey={this.state.activeKey} onSelect={this.handleSelect}>
                         <Tab eventKey={1} title="Basic Information">
                             <EditBasicInformation periodId={this.state.periodId} />

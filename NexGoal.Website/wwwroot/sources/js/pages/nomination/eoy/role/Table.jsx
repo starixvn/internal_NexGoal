@@ -66,11 +66,12 @@ class Table extends Component {
                         return (
                             <input type='checkbox' name="Committee"
                                 defaultChecked={row.isCommittee}
-                                onChange={(e) => this.handleCheckboxChange(e, row)} />
+                                onChange={(e) => this.handleCheckboxChange(e, row)}
+                            />
                         );
                     }
 
-                    return (<input type='checkbox' name="Committee" checked={row.isCommittee} readOnly />);
+                    return <input type='checkbox' name="Committee" checked={row.isCommittee} readOnly />;
                 }
             },
             {
@@ -79,12 +80,15 @@ class Table extends Component {
                 classes: 'text-center',
                 formatter: (cell, row) => {
                     if (isHost) {
-                        return (<input type='checkbox' name="Nominator"
-                            defaultChecked={row.isNominator}
-                            onChange={(e) => this.handleCheckboxChange(e, row)} />);
+                        return (
+                            <input type='checkbox' name="Nominator"
+                                defaultChecked={row.isNominator}
+                                onChange={(e) => this.handleCheckboxChange(e, row)}
+                            />
+                        );
                     }
 
-                    return (<input type='checkbox' name="Nominator" checked={row.isCommittee} readOnly />);
+                    return <input type='checkbox' name="Nominator" checked={row.isCommittee} readOnly />;
                 }
             }
         ];
@@ -98,7 +102,7 @@ class Table extends Component {
                                 <div className="search-wrapper clearfix">
                                     <div className="search pull-right">
                                         <SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
-                                        <span className="fa fa-search icon"></span>
+                                        <span className="fa fa-search icon" />
                                     </div>
                                 </div>
                                 <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} striped />

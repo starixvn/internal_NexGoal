@@ -129,15 +129,18 @@ export default class App extends Component {
                         <Filter
                             options={this.state.options}
                             selectedOption={this.state.selectedOption}
-                            onRoleChange={this.handleOnRoleChange} />
+                            onRoleChange={this.handleOnRoleChange}
+                        />
 
                         <Table
                             functions={this.state.functions}
                             isHost={this.state.isHost}
-                            onCheckboxChange={this.handleOnCheckboxChange} />
+                            onCheckboxChange={this.handleOnCheckboxChange}
+                        />
 
                         <SubmitForm isHost={this.state.isHost}
-                            onSubmit={this.handleOnSubmit} />
+                            onSubmit={this.handleOnSubmit}
+                        />
                     </div>
                 </div>
             </ToastLayout>

@@ -41,13 +41,14 @@ export default class App extends Component {
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <a className="btn btn-cancel" onClick={this.handleBackClick}>
-                            <i className="fa fa-angle-left"></i>Back to list
+                            <i className="fa fa-angle-left" />Back to list
                         </a>
                     </div>
                     <div className="col-sm-12">
                         <Tabs id="tabs-nomination" animation={false}
                             activeKey={this.state.activeKey}
-                            onSelect={this.handleSelect}>
+                            onSelect={this.handleSelect}
+                        >
 
                             <Tab eventKey={1} title="Settings">
                                 <Settings />

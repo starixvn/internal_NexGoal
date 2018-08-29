@@ -133,7 +133,8 @@ class EditInfo extends Component {
                     <div className="col-sm-6">
                         <input type="text" name="name" autoComplete="off" disabled={!isHost}
                             className={`form-control ${touched.name && errors.name && 'input-validation-error'}`}
-                            value={values.name} onChange={handleChange} />
+                            value={values.name} onChange={handleChange}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>
@@ -145,7 +146,8 @@ class EditInfo extends Component {
                             value={values.targetType}
                             options={targetTypeOptions}
                             isSearchable={false} isClearable={false}
-                            onChange={selectedOption => setFieldValue('targetType', selectedOption)} />
+                            onChange={selectedOption => setFieldValue('targetType', selectedOption)}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>
@@ -160,12 +162,13 @@ class EditInfo extends Component {
                         <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                             rows="3" maxLength="200"
                             name="description" value={values.description || ''}
-                            onChange={handleChange} disabled={isHost ? false : true} />
+                            onChange={handleChange} disabled={isHost ? false : true}
+                        />
                     </div>
                 </FormGroup>
                 {isHost &&
                     <FormGroup>
-                        <label className="col-sm-2 control-label"></label>
+                        <label className="col-sm-2 control-label" />
                         <div className="col-sm-6">
                             <Button type="submit" className="btn btn-primary">Submit</Button>
                         </div>
@@ -191,7 +194,8 @@ class EditInfo extends Component {
             <Formik enableReinitialize initialValues={flowTemplate}
                 validate={this.validateForm}
                 onSubmit={this.handleOnSubmit}
-                render={this.renderForm} />
+                render={this.renderForm}
+            />
         );
     }
 }

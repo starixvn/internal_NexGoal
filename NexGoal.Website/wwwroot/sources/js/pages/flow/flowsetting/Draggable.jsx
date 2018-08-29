@@ -12,14 +12,14 @@ class Draggable extends Component {
         });
     }
 
-    componentWillUnmount() {
-        this.$node.draggable('destroy');
-    }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.enable !== this.props.enable) {
             this.$node.sortable(nextProps.enable ? 'enable' : 'disable');
         }
+    }
+
+    componentWillUnmount() {
+        this.$node.draggable('destroy');
     }
 
     render() {

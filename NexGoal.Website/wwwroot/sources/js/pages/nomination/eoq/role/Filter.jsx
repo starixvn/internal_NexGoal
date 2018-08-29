@@ -52,7 +52,8 @@ class Filter extends Component {
                             <input name="Keyword" className="form-control" type="text"
                                 autoComplete="off"
                                 placeholder="Full name or Nick name"
-                                onChange={this.onKeywordChange} />
+                                onChange={this.onKeywordChange}
+                            />
                         </div>
                     </div>
                     <div className="col">
@@ -61,7 +62,8 @@ class Filter extends Component {
                             <MultiSelect closeMenuOnSelect={false}
                                 value={filter.groups}
                                 options={this.props.groupOptions}
-                                onChange={this.handleGroupChange} />
+                                onChange={this.handleGroupChange}
+                            />
                         </div>
                     </div>
                     <div className="col">
@@ -71,14 +73,16 @@ class Filter extends Component {
                                 value={filter.role}
                                 options={this.props.nominationRoleOptions}
                                 isSearchable={false} isClearable={false}
-                                onChange={this.handleRoleChange} />
+                                onChange={this.handleRoleChange}
+                            />
                         </div>
                     </div>
                     <div className="col">
                         <div className="checkbox">
                             <label>
                                 <input type="checkbox" checked={filter.isShowAll}
-                                    onChange={this.handleCheckboxChange} /> Show All Employee
+                                    onChange={this.handleCheckboxChange}
+                                /> Show All Employee
                             </label>
                         </div>
                     </div>

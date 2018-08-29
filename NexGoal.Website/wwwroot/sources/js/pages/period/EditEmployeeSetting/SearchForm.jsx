@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 
 export default class SearchForm extends Component {
     constructor(props) {
@@ -24,7 +23,7 @@ export default class SearchForm extends Component {
             <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
                 <div className="form-group" >
                     <div className="col">
-                        <label className="control-label size-l">Department/Team</label>
+                        <label className="control-label size-l">Team</label>
                         <div className="control-content">
                             <select value={this.props.filter.groupId} name="groupId" className="form-control" onChange={this.handleGroupIdChange}>
                                 <option value="">-- All --</option>
@@ -43,7 +42,7 @@ export default class SearchForm extends Component {
                         </div>
                     </div>
                     <div className="col">
-                        <label className="control-label size-l">Evaluated/Status</label>
+                        <label className="control-label size-l">Evaluated Status</label>
                         <div className="control-content">
                             <select value={this.props.filter.evaluatedStatusId} name="evaluatedStatusId" className="form-control" onChange={this.handleEvaluatedStatusIdChange}>
                                 <option value="">-- All --</option>

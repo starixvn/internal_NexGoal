@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Button, Form, FormGroup, Modal } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
-import moment from 'moment';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import Select from 'react-select';
@@ -93,7 +92,8 @@ class CreateEOY extends Component {
                                 className="react-select-container" classNamePrefix="react-select"
                                 value={values.year}
                                 options={yearOptions}
-                                onChange={selectedOption => setFieldValue('year', selectedOption)} />
+                                onChange={selectedOption => setFieldValue('year', selectedOption)}
+                            />
                         </div>
                     </FormGroup>
                     <FormGroup>
@@ -104,7 +104,8 @@ class CreateEOY extends Component {
                                 selected={values.startDateForNominator}
                                 onChange={value => setFieldValue('startDateForNominator', value)}
                                 name="startDateForNominator"
-                                className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`} />
+                                className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
+                            />
                         </div>
                         <label className="col-sm-3 control-label required-label">End Date For Nominator</label>
                         <div className="col-sm-3 field">
@@ -113,7 +114,8 @@ class CreateEOY extends Component {
                                 selected={values.endDateForNominator}
                                 onChange={value => setFieldValue('endDateForNominator', value)}
                                 name="endDateForNominator"
-                                className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`} />
+                                className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
+                            />
                         </div>
                     </FormGroup>
                     <FormGroup>
@@ -124,7 +126,8 @@ class CreateEOY extends Component {
                                 selected={values.remindDateForNominator}
                                 onChange={value => setFieldValue('remindDateForNominator', value)}
                                 name="remindDateForNominator"
-                                className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`} />
+                                className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
+                            />
                         </div>
                         <label className="col-sm-3 control-label required-label">End Date For Committee</label>
                         <div className="col-sm-3 field">
@@ -133,7 +136,8 @@ class CreateEOY extends Component {
                                 selected={values.endDateForCommittee}
                                 onChange={value => setFieldValue('endDateForCommittee', value)}
                                 name="endDateForCommittee"
-                                className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`} />
+                                className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
+                            />
                         </div>
                     </FormGroup>
                     <FormGroup>
@@ -142,7 +146,8 @@ class CreateEOY extends Component {
                             <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                                 rows="5" maxLength="200"
                                 name="description" value={values.description}
-                                onChange={handleChange} />
+                                onChange={handleChange}
+                            />
                         </div>
                     </FormGroup>
                 </Modal.Body>
@@ -168,7 +173,8 @@ class CreateEOY extends Component {
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.closeModal}
-                dialogClassName="custom-modal modal-md">
+                dialogClassName="custom-modal modal-md"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Create Nomination Period</Modal.Title>
                 </Modal.Header>
@@ -176,7 +182,8 @@ class CreateEOY extends Component {
                     initialValues={eoy}
                     validate={validateEOYForm}
                     onSubmit={this.handleSubmit}
-                    render={this.renderForm} />
+                    render={this.renderForm}
+                />
             </Modal>
         );
     }

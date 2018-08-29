@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
-import { fail } from 'assert';
 
 class Filter extends Component {
     constructor(props) {
@@ -31,7 +30,8 @@ class Filter extends Component {
                                 name="RoleId" isSearchable={false} isClearable={false}
                                 value={selectedOption}
                                 options={options}
-                                onChange={this.handleOnChange} />
+                                onChange={this.handleOnChange}
+                            />
                         </div>
                     </div>
                 </FormGroup>

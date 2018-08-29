@@ -1,5 +1,4 @@
 ﻿import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
@@ -15,8 +14,8 @@ export default class Table extends Component {
 
         this.state = {
             showCreateModal: false,
-            showDeleteModal: false,
-        }
+            showDeleteModal: false
+        };
 
         this.tableRef = React.createRef();
     }
@@ -82,8 +81,8 @@ export default class Table extends Component {
                 if (this.props.hasHostPermission) {
                     return (
                         <Fragment>
-                            <a className="fa fa-pencil-square-o" title="Edit" href={`/period/edit/${row.periodId}`}></a>
-                            <a className="fa fa-trash-o remove" title="Delete" onClick={() => this.showDeleteModal(row)}></a>
+                            <a className="fa fa-pencil-square-o" title="Edit" href={`/period/edit/${row.periodId}`} />
+                            <a className="fa fa-trash-o remove" title="Delete" onClick={() => this.showDeleteModal(row)} />
                         </Fragment>
                     );
                 }
@@ -96,7 +95,7 @@ export default class Table extends Component {
         var isActive = event.target.checked;
 
         axios({
-            url: '/period/editstatus',
+            url: commonFunctions.getRootUrl() + 'period/editstatus',
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -115,7 +114,7 @@ export default class Table extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);;
+        }).catch(commonFunctions.axiosError);
     }
 
     showCreateModal = () => this.setState({ showCreateModal: true })
@@ -132,12 +131,12 @@ export default class Table extends Component {
                 <div className="search-wrapper clearfix" >
                     <div className="pull-left">
                         {this.props.hasHostPermission &&
-                            <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-plus"></i> Create Evaluation Period</button>
+                            <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-plus" /> Create Evaluation Period</button>
                         }
                     </div>
                     <div className="search pull-right">
                         <input className="search-textbox" ref={this.searchRef} onChange={this.handleTableFilterChange} />
-                        <span className="fa fa-search icon"></span>
+                        <span className="fa fa-search icon" />
                     </div>
                 </div>
                 <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='periodId' data={this.props.data} columns={this.columns} />

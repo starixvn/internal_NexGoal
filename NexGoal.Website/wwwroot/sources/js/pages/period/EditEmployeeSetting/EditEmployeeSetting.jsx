@@ -1,11 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { stringify } from 'qs';
 import commonFunctions from '../../../common-functions';
-import { toast } from 'react-toastify';
-import { camelCase, range } from 'lodash';
-import SearchForm from './SearchForm'
+import SearchForm from './SearchForm';
 import Table from './Table';
 
 export default class EditEmployeeSetting extends Component {
@@ -22,12 +18,7 @@ export default class EditEmployeeSetting extends Component {
             performanceStatuses: [],
             groups: [],
             settings: []
-        }
-    }
-
-    updateFilterValue = (name, value) => {
-        var filter = { [name]: value };
-        this.setState({ filter: { ...this.state.filter, ...filter } });
+        };
     }
 
     componentDidMount = () => {
@@ -44,6 +35,11 @@ export default class EditEmployeeSetting extends Component {
                     settings: settings
                 });
             })).catch(commonFunctions.axiosError);
+    }
+
+    updateFilterValue = (name, value) => {
+        var filter = { [name]: value };
+        this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
     getPerformanceStatusesAxios = () => axios.get(commonFunctions.getRootUrl() + 'Common/GetPerformanceStatuses');
@@ -77,8 +73,13 @@ export default class EditEmployeeSetting extends Component {
     render() {
         return (
             <Fragment>
-                <SearchForm filter={this.state.filter} groups={this.state.groups} evaluateStatuses={this.state.evaluateStatuses} performanceStatuses={this.state.performanceStatuses}
-                    onFilterChange={this.updateFilterValue} onSubmit={this.getEmployeeSettings} />
+                <SearchForm filter={this.state.filter}
+                    groups={this.state.groups}
+                    evaluateStatuses={this.state.evaluateStatuses}
+                    performanceStatuses={this.state.performanceStatuses}
+                    onFilterChange={this.updateFilterValue}
+                    onSubmit={this.getEmployeeSettings}
+                />
                 <Table periodId={this.props.periodId} groups={this.state.groups} data={this.state.settings} refreshData={this.getEmployeeSettings} />
             </Fragment>
         );

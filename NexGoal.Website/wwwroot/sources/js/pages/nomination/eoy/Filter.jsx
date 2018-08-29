@@ -34,7 +34,8 @@ class Filter extends Component {
                                 className="react-select-container" classNamePrefix="react-select"
                                 value={statusSelected}
                                 options={statusOptions}
-                                onChange={this.handleStatusChange} />
+                                onChange={this.handleStatusChange}
+                            />
                         </div>
                     </div>
                     <div className="col">

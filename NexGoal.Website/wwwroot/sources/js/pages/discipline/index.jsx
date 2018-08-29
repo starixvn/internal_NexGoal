@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import DatePicker from 'react-datepicker';
@@ -22,7 +22,7 @@ export default class DisciplineManagement extends Component {
                 to: moment(),
                 isActive: '',
                 groups: [],
-                employee: null,
+                employee: null
             },
             data: [],
             groupOptions: [],
@@ -128,7 +128,7 @@ export default class DisciplineManagement extends Component {
         var data = this.state.data.slice();
         var discipline = data.find(e => e.disciplineId === disciplineId);
         discipline.isActive = isActive;
-        this.setState({ data: data })
+        this.setState({ data: data });
     }
 
     onEditDiscipline = (disciplineId, response) => {

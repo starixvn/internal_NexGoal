@@ -29,7 +29,7 @@ const Table = (props) => (
                         <Row key={'function-' + func.functionId}
                             function={func}
                             isHost={props.isHost}
-                            onCheckboxChange={props.onCheckboxChange} />)
+                            onCheckboxChange={props.onCheckboxChange} />);
                 })
             }
         </TBody>

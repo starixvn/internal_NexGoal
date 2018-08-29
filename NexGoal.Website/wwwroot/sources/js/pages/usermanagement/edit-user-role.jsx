@@ -1,6 +1,5 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Modal, Button, Form, FormGroup, ControlLabel, Checkbox, Col, FormControl } from 'react-bootstrap';
+import { Modal, Button, Form, FormGroup, ControlLabel, Checkbox, Col } from 'react-bootstrap';
 import commonFunctions from '../../common-functions';
 
 export default class EditUserRole extends Component {
@@ -17,7 +16,7 @@ export default class EditUserRole extends Component {
     }
 
     getUserRoles = () => {
-        fetch(`/User/GetRolesForUser?employeeId=${this.props.user.employeeId}`,
+        fetch(commonFunctions.getRootUrl() + `User/GetRolesForUser?employeeId=${this.props.user.employeeId}`,
             {
                 credentials: "same-origin"
             })
@@ -45,11 +44,11 @@ export default class EditUserRole extends Component {
 
         var employeeId = this.props.user.employeeId;
 
-        fetch('/User/EditUserRoles',
+        fetch(commonFunctions.getRootUrl() + 'User/EditUserRoles',
             {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8',
+                    'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
                 },
                 credentials: 'same-origin',
                 body: `employeeId=${employeeId}&selectedRoleIds=${selectedIds.toString()}&__RequestVerificationToken=${document.getElementsByName('__RequestVerificationToken')[0].value}`
@@ -72,7 +71,8 @@ export default class EditUserRole extends Component {
             this.state.userRoles.length > 0 &&
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.closeModal}
-                dialogClassName="custom-modal">
+                dialogClassName="custom-modal"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Assign Roles To User </Modal.Title>
                 </Modal.Header>
@@ -85,9 +85,7 @@ export default class EditUserRole extends Component {
                             </div>
                         </FormGroup>
                         <FormGroup>
-                            <Col componentClass={ControlLabel} sm={2}>
-                                Roles
-                                    </Col>
+                            <Col componentClass={ControlLabel} sm={2}>Roles</Col>
                             <Col sm={10}>
                                 {this.state.userRoles.map(role =>
                                     <Checkbox key={role.roleId} defaultChecked={role.hasRole} value={role.roleId}>{role.role}</Checkbox>

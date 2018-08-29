@@ -21,15 +21,17 @@ class Row extends Component {
             return (
                 <Fragment>
                     <a className="fa fa-pencil-square-o" title="Edit"
-                        href={commonFunctions.getRootUrl() + 'Flow/Edit/' + flowTemplate.flowTemplateId}></a>
-                    <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleOnDeleteClick}></a>
+                        href={commonFunctions.getRootUrl() + 'Flow/Edit/' + flowTemplate.flowTemplateId}
+                    />
+                    <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleOnDeleteClick} />
                 </Fragment>
             );
         }
 
         return (
             <a className="fa fa-search" title="Details"
-                href={commonFunctions.getRootUrl() + 'Flow/Details/' + flowTemplate.flowTemplateId}></a>
+                href={commonFunctions.getRootUrl() + 'Flow/Details/' + flowTemplate.flowTemplateId}
+            />
         );
     }
 

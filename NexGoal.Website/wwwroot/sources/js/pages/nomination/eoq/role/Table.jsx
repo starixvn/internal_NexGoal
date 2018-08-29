@@ -99,7 +99,7 @@ class Table extends Component {
                                 <div className="search-wrapper clearfix">
                                     <div className="search pull-right">
                                         <SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
-                                        <span className="fa fa-search icon"></span>
+                                        <span className="fa fa-search icon" />
                                     </div>
                                 </div>
                                 <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} striped />

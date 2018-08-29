@@ -125,7 +125,8 @@ class Settings extends Component {
                     <div className="col-sm-2 field">
                         <Select value={yearOptions[0]} className="react-select-container" classNamePrefix="react-select"
                             options={yearOptions}
-                            isDisabled={true} />
+                            isDisabled={true}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>
@@ -136,7 +137,8 @@ class Settings extends Component {
                             selected={values.startDateForNominator}
                             onChange={value => setFieldValue('startDateForNominator', value)}
                             name="startDateForNominator"
-                            className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`} />
+                            className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
+                        />
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Nominator</label>
                     <div className="col-sm-2 field">
@@ -145,7 +147,8 @@ class Settings extends Component {
                             selected={values.endDateForNominator}
                             onChange={value => setFieldValue('endDateForNominator', value)}
                             name="endDateForNominator"
-                            className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`} />
+                            className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>
@@ -156,7 +159,8 @@ class Settings extends Component {
                             selected={values.remindDateForNominator}
                             onChange={value => setFieldValue('remindDateForNominator', value)}
                             name="remindDateForNominator"
-                            className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`} />
+                            className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
+                        />
                     </div>
                     <label className="col-sm-2 control-label required-label">End Date For Committee</label>
                     <div className="col-sm-2 field">
@@ -165,7 +169,8 @@ class Settings extends Component {
                             selected={values.endDateForCommittee}
                             onChange={value => setFieldValue('endDateForCommittee', value)}
                             name="endDateForCommittee"
-                            className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`} />
+                            className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
+                        />
                     </div>
                 </FormGroup>
                 <FormGroup>
@@ -174,12 +179,13 @@ class Settings extends Component {
                         <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                             rows="3" maxLength="200"
                             name="description" value={values.description || ''}
-                            onChange={handleChange} disabled={isHost ? false : true} />
+                            onChange={handleChange} disabled={isHost ? false : true}
+                        />
                     </div>
                 </FormGroup>
                 {isHost &&
                     <FormGroup>
-                        <label className="col-sm-2 control-label"></label>
+                        <label className="col-sm-2 control-label" />
                         <div className="col-sm-6 field">
                             <Button type="submit" className="btn btn-primary">Submit</Button>
                         </div>

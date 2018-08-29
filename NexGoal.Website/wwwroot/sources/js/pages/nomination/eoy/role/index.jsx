@@ -109,11 +109,13 @@ export default class RoleManagement extends Component {
                     groupOptions={this.state.groupOptions}
                     nominationRoleOptions={nominationRoleOptions}
                     handleFilterChange={this.handleFilterChange}
-                    handleFilterSubmit={this.handleSubmit} />
+                    handleFilterSubmit={this.handleSubmit}
+                />
 
                 <Table isHost={this.state.isHost}
                     nominators={this.state.nominators}
-                    editNominatorSetting={this.editNominatorSetting} />
+                    editNominatorSetting={this.editNominatorSetting}
+                />
             </Fragment>
         );
     }

@@ -79,11 +79,13 @@ class EvaluatorList extends Component {
                     <Select className="react-select-container" classNamePrefix="react-select"
                         value={this.state.groupSelected} options={groupOptions}
                         isClearable={false}
-                        onChange={this.handleOnGroupChange} />
+                        onChange={this.handleOnGroupChange}
+                    />
                     <div className="text-search">
                         <input type="text" className="form-control" placeholder="full name or nick name"
-                            value={this.state.keyword} onChange={this.handleOnKeywordChange} />
-                        <span className="fa fa-search"></span>
+                            value={this.state.keyword} onChange={this.handleOnKeywordChange}
+                        />
+                        <span className="fa fa-search" />
                     </div>
                     <ul>
                         {
@@ -92,7 +94,8 @@ class EvaluatorList extends Component {
                                     <Draggable key={'employee-' + employee.employeeId} enable={this.props.isHost}
                                         id={employee.employeeId}
                                         label={`${employee.nickName} (${employee.fullName})`}
-                                        connectToSortable=".sortable" />)
+                                        connectToSortable=".sortable"
+                                    />);
                             })
                         }
                     </ul>

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import RowPA from './RowPA';
 
-
 const Header = () => (
     <thead>
         <tr>
@@ -27,7 +26,6 @@ const Header = () => (
         </tr>
     </thead>
 );
-
 
 const TablePA = () => (
     <table className="table table-bordered assign-permission">
