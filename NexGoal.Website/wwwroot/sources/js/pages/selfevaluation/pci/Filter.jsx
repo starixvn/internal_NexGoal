@@ -1,16 +1,20 @@
-﻿import React, { Component, Fragment } from 'react';
-import { Form, FormGroup, ControlLabel, FormControl, Button, Row, Col } from 'react-bootstrap';
+﻿import React, { Component } from 'react';
+import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Select from 'react-select';
 
-import commonFunctions from '../../../common-functions';
 import MultiSelect from '../../../shared/components/MultiSelect';
 
 class Filter extends Component {
     constructor(props) {
         super(props);
 
+        this.onFromDateChange = this.onFromDateChange.bind(this);
+        this.onToDateChange = this.onToDateChange.bind(this);
+        this.onChangeRaw = this.onChangeRaw.bind(this);
+        this.handleCreatorChange = this.handleCreatorChange.bind(this);
+        this.handleProjectChange = this.handleProjectChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -48,52 +52,49 @@ class Filter extends Component {
         let projectOptions = this.props.projectOptions;
 
         return (
-            <Fragment>
-                <Form inline className="form-filter" onSubmit={this.handleSubmit}>
-                    <div className="row-filter">
-                        <FormGroup>
-                            <ControlLabel>From Date</ControlLabel>
-                            <DatePicker dateFormat="DD MMM, YYYY" selected={filter.fromDate}
-                                onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
-                                name="fromDate" className="form-control" autoComplete="off"
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>To Date</ControlLabel>
-                            <DatePicker dateFormat="DD MMM, YYYY" selected={filter.toDate}
-                                onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
-                                name="toDate" className="form-control" autoComplete="off"
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel>Creator</ControlLabel>
-                            <MultiSelect name="creators" value={filter.creators}
-                                closeMenuOnSelect={false}
-                                options={creatorOptions}
-                                onChange={this.handleCreatorChange}
-                            />
-                        </FormGroup>
-                    </div>
-                    <div className="row-filter">
-                        <FormGroup className="project-tag">
-                            <ControlLabel>Project Tag</ControlLabel>
-                            <Select name="projects" isMulti
-                                className="react-select-container project-field" classNamePrefix="react-select"
-                                value={filter.projects}
-                                options={projectOptions}
-                                closeMenuOnSelect={false}
-                                onChange={this.handleProjectChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
-                            <Button type="submit" bsStyle="primary" className="btn-primary">Search</Button>
-                        </FormGroup>
-                    </div>
-                </Form>
-                <a href={`${commonFunctions.getRootUrl()}Self/PerformanceCheckIn/Create`} className="btn btn-primary btn-add">
-                    <span className="icon-playlist-plus" />Performance Check-in
-                </a>
-            </Fragment>
+            <Form inline className="form-filter" onSubmit={this.handleSubmit}>
+                <div className="row-filter">
+                    <FormGroup>
+                        <ControlLabel>From Date</ControlLabel>
+                        <DatePicker dateFormat="DD MMM, YYYY" selected={filter.fromDate}
+                            onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
+                            name="fromDate" className="form-control" autoComplete="off"
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <ControlLabel>To Date</ControlLabel>
+                        <DatePicker dateFormat="DD MMM, YYYY" selected={filter.toDate}
+                            onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
+                            name="toDate" className="form-control" autoComplete="off"
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <ControlLabel>Creator</ControlLabel>
+                        <MultiSelect className="react-select-container creator-field" classNamePrefix="react-select"
+                            name="creators"
+                            value={filter.creators}
+                            closeMenuOnSelect={false}
+                            options={creatorOptions}
+                            onChange={this.handleCreatorChange}
+                        />
+                    </FormGroup>
+                </div>
+                <div className="row-filter">
+                    <FormGroup className="project-tag">
+                        <ControlLabel>Project Tag</ControlLabel>
+                        <Select name="projects" isMulti
+                            className="react-select-container project-field" classNamePrefix="react-select"
+                            value={filter.projects}
+                            options={projectOptions}
+                            closeMenuOnSelect={false}
+                            onChange={this.handleProjectChange}
+                        />
+                    </FormGroup>
+                    <FormGroup>
+                        <Button type="submit" bsStyle="primary" className="btn-primary">Search</Button>
+                    </FormGroup>
+                </div>
+            </Form>
         );
     }
 }

@@ -215,7 +215,8 @@ export default class Table extends Component {
                     <div className="pull-left field-group">
                         <label>Department/Team</label>
                         <div className="control-content">
-                            <Multiselect value={this.state.addFilter.groups}
+                            <Multiselect className="react-select-container" classNamePrefix="react-select"
+                                value={this.state.addFilter.groups}
                                 name="employee"
                                 options={this.props.groups}
                                 onChange={this.onGroupsChange} />

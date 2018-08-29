@@ -40,24 +40,17 @@
             return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetPerformanceCheckInByEmployeeAsync(
-            int employeeId,
-            DateTime? fromDate = null,
-            DateTime? toDate = null,
-            string creatorIds = null,
-            string projectIds = null,
-            int? pageSize = null,
-            int? pageIndex = null)
+        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceCheckInByEmployeeAsync(GetPerformanceCheckInByEmployeeParam param)
         {
             var criteria = new GetPerformanceCheckInByEmployeeCriteria
             {
-                EmployeeId = employeeId,
-                FromDate = fromDate,
-                ToDate = toDate,
-                CreatorIds = creatorIds,
-                ProjectIds = projectIds,
-                PageSize = pageSize,
-                PageIndex = pageIndex
+                EmployeeId = param.EmployeeId,
+                FromDate = param.FromDate,
+                ToDate = param.ToDate,
+                CreatorIds = param.CreatorIds,
+                ProjectIds = param.ProjectIds,
+                PageSize = param.PageSize,
+                PageIndex = param.PageIndex
             };
             var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
@@ -83,7 +76,7 @@
                 }
             }
 
-            return performanceRecords;
+            return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
         }
 
         public async Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel performanceRecord)

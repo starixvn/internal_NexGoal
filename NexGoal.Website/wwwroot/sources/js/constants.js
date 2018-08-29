@@ -36,3 +36,10 @@ export const PaginationOptions = {
         { text: '200', value: 200 }
     ]
 };
+
+export const PerformanceRecordSizePerPages = [
+    { text: '5', value: 5 },
+    { text: '10', value: 10 },
+    { text: '20', value: 20 },
+    { text: '50', value: 50 }
+];

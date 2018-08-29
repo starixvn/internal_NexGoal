@@ -13,7 +13,7 @@ export default class EditEmployeeSetting extends Component {
                 groupId: '',
                 isLocal: '',
                 isEvaluated: '',
-                paStatusId: '',
+                paStatusId: ''
             },
             performanceStatuses: [],
             groups: [],

@@ -37,37 +37,28 @@ export default class CreateCheckIn extends Component {
     }
 
     componentDidMount() {
-        this.getPerformanceGrades();
-        this.getProjects();
-    }
+        const promises = [
+            axios(commonFunctions.getRootUrl() + 'Common/GetPerformanceGrades'),
+            axios(commonFunctions.getRootUrl() + 'Common/GetProjects')
+        ];
 
-    getPerformanceGrades() {
-        axios(commonFunctions.getRootUrl() + 'Common/GetPerformanceGrades')
-            .then(response => {
-                let performanceGradeOptions = response.data.map((performanceGrade) => {
+        Promise.all(promises)
+            .then(([gradeResponse, projectResponse]) => {
+                const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
                         label: performanceGrade.description ? `${performanceGrade.description} (${performanceGrade.name})` : performanceGrade.name
                     };
                 });
-
-                this.setState({
-                    performanceGradeOptions: performanceGradeOptions
-                });
-            });
-    }
-
-    getProjects() {
-        axios(commonFunctions.getRootUrl() + 'Common/GetProjects')
-            .then(response => {
-                const projectOptions = response.data.map((project) => {
+                const projectOptions = projectResponse.data.map((project) => {
                     return { value: project.projectId, label: project.name };
                 });
 
                 this.setState({
+                    performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions
                 });
-            });
+            }).catch(commonFunctions.axiosError);
     }
 
     handleGradeChange(selectedOption) {

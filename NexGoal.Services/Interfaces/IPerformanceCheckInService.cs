@@ -11,14 +11,7 @@
     {
         Task<IEnumerable<UserModel>> GetCreatorsByEmployeeAsync(int employeeId);
 
-        Task<IEnumerable<PerformanceRecordModel>> GetPerformanceCheckInByEmployeeAsync(
-            int employeeId,
-            DateTime? fromDate = null,
-            DateTime? toDate = null,
-            string creatorIds = null,
-            string projectIds = null,
-            int? pageSize = null,
-            int? pageIndex = null);
+        Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceCheckInByEmployeeAsync(GetPerformanceCheckInByEmployeeParam param);
 
         Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel performanceRecord);
     }

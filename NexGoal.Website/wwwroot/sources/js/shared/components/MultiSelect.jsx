@@ -45,7 +45,7 @@ const MenuList = (props) => {
 
 const MultiSelect = props => {
     return (
-        <ReactSelect className="react-select-container" classNamePrefix="react-select"
+        <ReactSelect
             {...props}
             isMulti hideSelectedOptions={false} isSearchable={false}
             components={{ Option, ValueContainer, MenuList }}

@@ -16,6 +16,8 @@
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
+        public string Projects { get; set; }
+
         public int EmployeeId { get; set; }
         public UserModel Employee { get; set; }
 

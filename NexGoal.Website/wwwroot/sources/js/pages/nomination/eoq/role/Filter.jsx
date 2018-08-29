@@ -59,7 +59,8 @@ class Filter extends Component {
                     <div className="col">
                         <ControlLabel>Team</ControlLabel>
                         <div className="control-content">
-                            <MultiSelect closeMenuOnSelect={false}
+                            <MultiSelect className="react-select-container" classNamePrefix="react-select"
+                                closeMenuOnSelect={false}
                                 value={filter.groups}
                                 options={this.props.groupOptions}
                                 onChange={this.handleGroupChange}

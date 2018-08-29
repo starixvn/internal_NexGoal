@@ -33,20 +33,13 @@
         }
 
         [Route("Self/PerformanceCheckIn/Index")]
-        public async Task<IActionResult> Index(
-            DateTime fromDate,
-            DateTime toDate,
-            string creatorIds = null,
-            string projectIds = null)
+        public async Task<IActionResult> Index(GetPerformanceCheckInByEmployeeParam param)
         {
-            IEnumerable<PerformanceRecordModel> performanceRecords = await performanceCheckInService.GetPerformanceCheckInByEmployeeAsync(
-                sessionService.EmployeeId,
-                fromDate,
-                toDate,
-                creatorIds,
-                projectIds).ConfigureAwait(false);
+            param.EmployeeId = sessionService.EmployeeId;
+            Tuple<IEnumerable<PerformanceRecordModel>, int> tuple =
+                await performanceCheckInService.GetPerformanceCheckInByEmployeeAsync(param).ConfigureAwait(false);
 
-            return Json(performanceRecords);
+            return Json(new { performanceRecords = tuple.Item1, totalItems = tuple.Item2 });
         }
 
         [Route("Self/PerformanceCheckIn/Create")]

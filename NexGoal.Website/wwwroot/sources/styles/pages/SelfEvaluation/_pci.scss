@@ -8,15 +8,54 @@
     margin-right: 12px;
 }
 
-.performance-record {
-}
-
 .btn-add {
     margin-bottom: 12px;
 }
 
-.project-tag {
-    display: block;
+.react-select-container {
+    &.creator-field {
+        width: 200px;
+    }
+
+    &.project-field {
+        width: 500px;
+
+        .react-select__control {
+            min-height: 30px;
+            height: auto;
+        }
+    }
+
+    &.grade-field {
+        width: 280px;
+    }
+}
+
+.page-size {
+    .dropdown {
+        &.open {
+            .dropdown-toggle {
+                border-color: #ccc;
+                @include box-shadow-multiple('none');
+            }
+        }
+
+        .dropdown-toggle {
+            width: 60px;
+            color: #333;
+            border: 1px solid #ccc;
+            @include border-radius(2px);
+        }
+
+        .dropdown-menu {
+            min-width: unset;
+            @include border-radius(2px);
+        }
+    }
+}
+
+.pagination {
+    margin: 0;
 }
 
 .record {

@@ -206,7 +206,8 @@ export default class DisciplineManagement extends Component {
                                 <label className="control-label">Team</label>
                                 <div className="control-content">
                                     {this.state.groupOptions.length > 0 &&
-                                        <Multiselect value={this.state.filter.groups}
+                                        <Multiselect className="react-select-container" classNamePrefix="react-select"
+                                            value={this.state.filter.groups}
                                             closeMenuOnSelect={false}
                                             options={this.state.groupOptions}
                                             onChange={this.onFilterGroupChange} />
