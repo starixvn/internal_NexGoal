@@ -22,7 +22,7 @@ export default class EditEmployeeSetting extends Component {
     }
 
     componentDidMount = () => {
-        axios.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeeSettingsAxios()])
+        Promise.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeeSettingsAxios()])
             .then(axios.spread((perfRes, groupRes, settingRes) => {
                 var settings = settingRes.data;
                 settings.map((e, i) => e.rowNum = i + 1);

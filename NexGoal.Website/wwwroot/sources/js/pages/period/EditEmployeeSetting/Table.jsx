@@ -88,7 +88,8 @@ export default class Table extends Component {
                 groups: [],
                 employee: null
             },
-            selectedIds: []
+            selectedIds: [],
+            showEditModal: false
         }
     }
 
@@ -160,14 +161,22 @@ export default class Table extends Component {
     onFilterChange = e => this.setState({ filterText: e.target.value })
 
     addEmployeeSettings = e => {
+        var groupIds = this.state.addFilter.groups.length > 0 ? this.state.addFilter.groups.map(e => e.value).toString() : null;
+        var employeeId = this.state.addFilter.employee ? this.state.addFilter.employee.value : null
+
+        if (groupIds === null && employeeId === null) {
+            toast.error('No team/employee selected');
+            return;
+        }
+
         axios({
             url: '/Period/CreateEmployeeSettings',
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 periodId: this.props.periodId,
-                groupIds: this.state.addFilter.groups ? this.state.addFilter.groups.map(e => e.value).toString() : null,
-                employeeId: this.state.addFilter.employee ? this.state.addFilter.employee.value : null
+                groupIds: groupIds,
+                employeeId: employeeId
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
