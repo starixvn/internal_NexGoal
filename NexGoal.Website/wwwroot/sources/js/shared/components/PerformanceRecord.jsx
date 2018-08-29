@@ -1,11 +1,12 @@
 ﻿import React, { Component } from 'react';
+import { Flip } from 'react-toastify';
 
 export default class PerformanceRecord extends Component {
     constructor(props) {
         super(props);
         this.state = {
             showCollapseExpandButton: false,
-            arrow: 'down'
+            isExpanded: false,
         };
 
         this.collapseExpandComment = this.collapseExpandComment.bind(this);
@@ -16,17 +17,9 @@ export default class PerformanceRecord extends Component {
     }
 
     collapseExpandComment() {
-        if (this.state.height === 'auto') {
-            this.setState({
-                height: '55px',
-                arrow: 'down'
-            });
-        } else {
-            this.setState({
-                height: 'auto',
-                arrow: 'up'
-            });
-        }
+        this.setState({
+            isExpanded: !this.state.isExpanded
+        });
     }
 
     detectCollapseExpandComment() {
@@ -34,7 +27,7 @@ export default class PerformanceRecord extends Component {
         if (height >= 55) {
             this.setState({
                 showCollapseExpandButton: true,
-                height: '55px'
+                isExpanded: true
             });
         }
     }
@@ -53,10 +46,10 @@ export default class PerformanceRecord extends Component {
                 </div>
 
                 <div className="comment" >
-                    <p className="content" ref={(element) => this.element = element} style={{ height: this.state.height }}>{this.props.comment}</p>
+                    <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{this.props.comment}</p>
                     {
                         this.state.showCollapseExpandButton ?
-                            <span className={"icon-chevron-" + this.state.arrow} onClick={this.collapseExpandComment} />
+                            <span className={this.state.isExpanded ? "icon-chevron-down" : "icon-chevron-up"} onClick={this.collapseExpandComment} />
                             : null
                     }
                 </div>
@@ -66,7 +59,7 @@ export default class PerformanceRecord extends Component {
                     <div className="grade">Grade <span className="grade-exceptional">{this.props.grade}</span></div>
                     <div className="project">Project <span className="project-detail">{this.props.projects}</span></div>
                 </div>
-            </div>
+            </div >
         );
     }
 }

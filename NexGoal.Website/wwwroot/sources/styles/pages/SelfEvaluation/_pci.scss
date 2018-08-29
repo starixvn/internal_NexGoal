@@ -89,12 +89,17 @@
         color: #333;
         position: relative;
 
-        p.content {
+        p {
             overflow: hidden;
         }
 
-        .rotate {
-            transform: rotate(180deg);
+        p.collapsed {
+            max-height: 55px;
+        }
+
+        p.expanded {
+            max-height: 1000px;
+            transition: max-height 1.5s ease-in-out;
         }
 
         .icon-chevron-down, .icon-chevron-up {
