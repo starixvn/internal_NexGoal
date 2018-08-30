@@ -37,28 +37,16 @@ class GroupFlowSetting extends Component {
     }
 
     componentDidMount() {
-        this.getGroups();
-        this.getGroupHaveSetting();
-    }
+        const promises = [
+            axios(commonFunctions.getRootUrl() + 'Common/GetGroups'),
+            axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupHaveSetting?flowTemplateId=${this.props.flowTemplateId}`)
+        ];
 
-    getGroups() {
-        axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
-            .then(response => {
-                const data = response.data;
-
+        Promise.all(promises)
+            .then(([groupResponse, groupSettingResponse]) => {
                 this.setState({
-                    groupOptions: data
-                });
-            }).catch(commonFunctions.axiosError);
-    }
-
-    getGroupHaveSetting() {
-        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupHaveSetting?flowTemplateId=${this.props.flowTemplateId}`)
-            .then(response => {
-                const data = response.data;
-
-                this.setState({
-                    groupSettings: data
+                    groupOptions: groupResponse.data,
+                    groupSettings: groupSettingResponse.data
                 });
             }).catch(commonFunctions.axiosError);
     }

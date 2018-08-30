@@ -1,5 +1,6 @@
 namespace NexGoal.Core.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
@@ -8,6 +9,8 @@ namespace NexGoal.Core.Services
     public interface IBaseService
     {
         Task<IEnumerable<T>> GetDataAsync<T>(ICriteria criteria);
+
+        Task<Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>>> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria);
 
         Task<T> GetDataEntityAsync<T>(ICriteria criteria);
 

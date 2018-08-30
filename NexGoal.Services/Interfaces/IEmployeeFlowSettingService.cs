@@ -12,6 +12,8 @@
 
         Task<IEnumerable<UserModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null);
 
+        Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync(int flowTempalteId);
+
         Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId, int flowTempalteId);
 
         Task<CommandResult> EditAsync(int employeeId, int flowTemplateId, IEnumerable<FlowSettingModel> settings);

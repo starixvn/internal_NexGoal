@@ -29,11 +29,19 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
+        public async Task<IActionResult> GetGroupFlowSetting(int flowTemplateId)
+        {
+            IEnumerable<GroupFlowSettingModel> flowSettings = await flowSettingService.GetGroupFlowSettingAsync(flowTemplateId).ConfigureAwait(false);
+
+            return Json(flowSettings);
+        }
+
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<IActionResult> GetById(int groupId, int flowTemplateId)
         {
-            GroupFlowSettingModel groupFlowSetting = await flowSettingService.GetByIdAsync(groupId, flowTemplateId).ConfigureAwait(false);
+            GroupFlowSettingModel flowSetting = await flowSettingService.GetByIdAsync(groupId, flowTemplateId).ConfigureAwait(false);
 
-            return Json(groupFlowSetting);
+            return Json(flowSetting);
         }
 
         [HttpPost]

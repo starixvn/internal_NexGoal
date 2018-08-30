@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Extensions;
@@ -49,6 +50,43 @@
             };
 
             return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync(int flowTempalteId)
+        {
+            var criteria = new GetEmployeeFlowSettingCriteria
+            {
+                FlowTemplateId = flowTempalteId
+            };
+            var tuple = await baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(criteria).ConfigureAwait(false);
+
+            foreach (EmployeeFlowSettingModel employeeFlowSetting in tuple.Item1)
+            {
+                IEnumerable<FlowSettingModel> flowSettings = tuple.Item2.Where(x => x.EmployeeId == employeeFlowSetting.EmployeeId);
+                foreach (FlowSettingModel flowSetting in flowSettings)
+                {
+                    switch (flowSetting.ProcessId)
+                    {
+                        case (int)PerformanceProcess.HumanResource:
+                            employeeFlowSetting.HumanResources.Add(flowSetting);
+                            break;
+
+                        case (int)PerformanceProcess.Evaluator:
+                            employeeFlowSetting.Evaluator = flowSetting;
+                            break;
+
+                        case (int)PerformanceProcess.Reviewer:
+                            employeeFlowSetting.Reviewer = flowSetting;
+                            break;
+
+                        default:
+                            // nothing
+                            break;
+                    }
+                }
+            }
+
+            return tuple.Item1;
         }
 
         public async Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId, int flowTempalteId)

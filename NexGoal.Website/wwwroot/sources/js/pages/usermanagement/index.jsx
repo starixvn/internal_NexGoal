@@ -143,7 +143,7 @@ export default class UserManagement extends Component {
                 text: 'Full Name'
             },
             {
-                dataField: 'group',
+                dataField: 'groupCode',
                 text: 'Team',
                 classes: 'text-center'
             },

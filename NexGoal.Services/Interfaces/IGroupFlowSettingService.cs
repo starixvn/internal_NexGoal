@@ -10,6 +10,8 @@
     {
         Task<IEnumerable<UserGroupModel>> GetGroupHaveSettingAsync(int flowTempalteId);
 
+        Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync(int flowTempalteId);
+
         Task<GroupFlowSettingModel> GetByIdAsync(int groupId, int flowTempalteId);
 
         Task<CommandResult> EditAsync(int groupId, int flowTemplateId, IEnumerable<FlowSettingModel> settings);

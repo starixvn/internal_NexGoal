@@ -8,6 +8,7 @@ import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditInfo from './EditInfo';
 import GroupFlowSetting from './flowsetting/GroupFlowSetting';
 import EmployeeFlowSetting from './flowsetting/EmployeeFlowSetting';
+import FlowList from './flowlist/index';
 
 export default class App extends Component {
     constructor(props) {
@@ -18,7 +19,8 @@ export default class App extends Component {
             isHost: document.getElementById('IsHost').checked,
             activeKey: 1,
             isFirstLoadGroupTab: false,
-            isFirstLoadPersonalTab: false
+            isFirstLoadPersonalTab: false,
+            isFirstLoadFlowListTab: false
         };
 
         this.handleOnSelect = this.handleOnSelect.bind(this);
@@ -27,12 +29,25 @@ export default class App extends Component {
     handleOnSelect(key) {
         this.setState({ activeKey: key });
 
-        if (key === 2 && !this.state.isFirstLoadGroupTab) {
-            this.setState({ isFirstLoadGroupTab: true });
-        }
+        switch (key) {
+            case 2:
+                if (!this.state.isFirstLoadGroupTab) {
+                    this.setState({ isFirstLoadGroupTab: true });
+                }
 
-        if (key === 3 && !this.state.isFirstLoadPersonalTab) {
-            this.setState({ isFirstLoadPersonalTab: true });
+                break;
+            case 3:
+                if (!this.state.isFirstLoadPersonalTab) {
+                    this.setState({ isFirstLoadPersonalTab: true });
+                }
+
+                break;
+            case 4:
+                if (!this.state.isFirstLoadFlowListTab) {
+                    this.setState({ isFirstLoadFlowListTab: true });
+                }
+
+                break;
         }
     }
 
@@ -53,7 +68,7 @@ export default class App extends Component {
                         </a>
                     </div>
                     <div className="col-sm-12">
-                        <Tabs id="tabs-nomination" animation={false}
+                        <Tabs id="tabs-flow" animation={false}
                             activeKey={this.state.activeKey}
                             onSelect={this.handleOnSelect}
                         >
@@ -67,6 +82,10 @@ export default class App extends Component {
                             <Tab eventKey={3} title="Personal">
                                 {this.state.isFirstLoadPersonalTab &&
                                     <EmployeeFlowSetting flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />}
+                            </Tab>
+                            <Tab eventKey={4} title="Flow List">
+                                {this.state.isFirstLoadFlowListTab &&
+                                    <FlowList flowTemplateId={this.state.flowTemplateId} />}
                             </Tab>
                         </Tabs>
                     </div>

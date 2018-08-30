@@ -1,5 +1,6 @@
 namespace NexGoal.Core.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Fanex.Data.Repository;
@@ -27,6 +28,16 @@ namespace NexGoal.Core.Services
             }
 
             return new List<T>();
+        }
+
+        public async Task<Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>>> FetchMultipleAsync<TFirst, TSecond>(ICriteria criteria)
+        {
+            if (criteria != null && criteria.IsValid())
+            {
+                return await dynamicRepository.FetchMultipleAsync<TFirst, TSecond>(criteria).ConfigureAwait(false);
+            }
+
+            return new Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>>(new List<TFirst>(), new List<TSecond>());
         }
 
         public async Task<T> GetDataEntityAsync<T>(ICriteria criteria)

@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Extensions;
@@ -34,6 +35,43 @@
             };
 
             return await baseService.GetDataAsync<UserGroupModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync(int flowTempalteId)
+        {
+            var criteria = new GetGroupFlowSettingCriteria
+            {
+                FlowTemplateId = flowTempalteId
+            };
+            var tuple = await baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(criteria).ConfigureAwait(false);
+
+            foreach (GroupFlowSettingModel groupFlowSetting in tuple.Item1)
+            {
+                IEnumerable<FlowSettingModel> flowSettings = tuple.Item2.Where(x => x.GroupId == groupFlowSetting.GroupId);
+                foreach (FlowSettingModel flowSetting in flowSettings)
+                {
+                    switch (flowSetting.ProcessId)
+                    {
+                        case (int)PerformanceProcess.HumanResource:
+                            groupFlowSetting.HumanResources.Add(flowSetting);
+                            break;
+
+                        case (int)PerformanceProcess.Evaluator:
+                            groupFlowSetting.Evaluator = flowSetting;
+                            break;
+
+                        case (int)PerformanceProcess.Reviewer:
+                            groupFlowSetting.Reviewer = flowSetting;
+                            break;
+
+                        default:
+                            // nothing
+                            break;
+                    }
+                }
+            }
+
+            return tuple.Item1;
         }
 
         public async Task<GroupFlowSettingModel> GetByIdAsync(int groupId, int flowTempalteId)
