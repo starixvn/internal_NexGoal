@@ -9,9 +9,9 @@ import { Pagination, DropdownButton, MenuItem } from 'react-bootstrap';
 import Async from 'react-select/lib/Async';
 import memoize from "memoize-one";
 import Multiselect from '../../../shared/components/MultiSelect';
+import Edit from './Edit';
 
 function TableHead(props) {
-    debugger;
     return (
         <thead>
             <tr>
@@ -33,7 +33,8 @@ function TableHead(props) {
 
 function TableBody(props) {
     var body = props.data.length > 0 ? props.data.map(setting => {
-        var rowSpan = setting.processes.length;
+        var processes = setting.processes.filter(e => e.processId !== 1)
+        var rowSpan = processes.length;
 
         return (
             <Fragment key={setting.rowNum}>
@@ -47,16 +48,16 @@ function TableBody(props) {
                         <div>({setting.nickName})</div>
                         <div>{setting.jobTitle}</div>
                     </td>
-                    <td>{setting.processes[0].process}</td>
-                    <td>{setting.processes[0].evaluator}</td>
-                    <td>{setting.processes[0].status}</td>
+                    <td>{processes[0].process}</td>
+                    <td>{processes[0].evaluator}</td>
+                    <td>{processes[0].status}</td>
                     <td></td>
                     <td></td>
                     <td rowSpan={rowSpan} className="text-center">{setting.status}</td>
                     <td rowSpan={rowSpan} className="text-center"><input type="checkbox" checked={setting.isIncluded} /></td>
                     <td rowSpan={rowSpan}></td>
                 </tr>
-                {setting.processes.slice(1).map((process, i) =>
+                {processes.slice(1).map((process, i) =>
                     <tr key={i}>
                         <td>{process.process}</td>
                         <td>{process.evaluator}</td>
@@ -214,6 +215,14 @@ export default class Table extends Component {
         }
     }
 
+    editSettings = () => {
+        var selectedIds = this.state.selectedIds;
+
+        this.setState({ showEditModal: true });
+    }
+
+    closeEditModal = () => this.setState({ showEditModal: false })
+
     render() {
         var data = this.filterData(this.props.data, this.state.filterText);
         var totalPage = Math.ceil(data.length / this.state.pageSize);
@@ -252,7 +261,7 @@ export default class Table extends Component {
                 </div>
                 <div className="search-wrapper clearfix" >
                     <div className="pull-left btn-block">
-                        <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-pencil-square-o"></i> Edit Employee Setting</button>
+                        <button className="btn btn-primary" onClick={this.editSettings}><i className="fa fa-pencil-square-o"></i> Edit Employee Setting</button>
                         <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-pencil-square-o"></i> Generate PA</button>
                     </div>
                 </div>
@@ -286,6 +295,7 @@ export default class Table extends Component {
                         </Pagination>
                     </div>
                 </div>
+                {this.state.showEditModal && <Edit showModal={this.state.showEditModal} closeModal={this.closeEditModal} settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))} />}
             </Fragment>
         );
     }

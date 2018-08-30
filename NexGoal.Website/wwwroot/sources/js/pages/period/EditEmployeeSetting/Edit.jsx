@@ -1,29 +1,53 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { Modal, Button, FormGroup, ControlLabel, Checkbox, Col, FormControl, Form } from 'react-bootstrap';
+import { Modal, Button, FormGroup, ControlLabel, Col, FormControl, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import commonFunctions from '../../common-functions';
 import { toast } from 'react-toastify';
-import { Formik } from 'formik';
+import { Formik, FieldArray, Field } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
-import TargetType from './TargetType';
+import Async from 'react-select/lib/Async';
+import commonFunctions from '../../../common-functions';
 
-export default class EditEmployeeSetting extends Component {
+export default class Edit extends Component {
     constructor(props) {
         super(props);
+
+        var paRecordIds = props.settings.map(e => e.paRecordId);
+        var employees = props.settings.map(e => e.nickName).join(', ');
+
+        this.processes = props.settings[0].processes;
+
         this.state = {
-            setting: {
-                employees: []
-            }
+            paRecordIds: paRecordIds,
+            employees: employees,
         };
+    }
+
+    searchEmployees = (input, callback) => {
+        if (input.length > 2) {
+            return axios(`/common/SearchEmployees?keyword=${input}`)
+                .then(response => {
+                    let options = [];
+
+                    response.data.map(item => {
+                        options.push({
+                            value: item.employeeId,
+                            label: item.nickName
+                        });
+                    });
+
+                    return callback(options);
+                });
+        }
+
+        return callback([]);
     }
 
     validateForm = values => {
         let errors = {};
-
         return errors;
     }
 
@@ -85,6 +109,8 @@ export default class EditEmployeeSetting extends Component {
             }
         };
 
+        debugger;
+
         return (
             <Form horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
@@ -93,25 +119,37 @@ export default class EditEmployeeSetting extends Component {
                         </ul>
                     }
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={3}>Name</Col>
-                        <Col sm={9}>
-                            <input type="text" name="name" value={values.name} autoComplete="off"
-                                className={`form-control  ${touched.name && errors.name && 'input-validation-error'}`} onChange={handleChange} />
-                        </Col>
+                        <Col componentClass={ControlLabel} sm={3}>Employee</Col>
+                        <Col sm={9} style={{ paddingTop: '7px' }}  >{this.state.employees}</Col>
                     </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} sm={3}>employee</Col>
-                        <Col componentClass={ControlLabel} sm={3}>{values.employees.map(e => e.nickName).toString()}</Col>
 
-                    </FormGroup>
-                    <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={3}>Focus Start Date</Col>
-                        <Col sm={3}>
-                            <DatePicker autoComplete="off" className="form-control"
-                                dateFormat="DD MMM, YYYY" selected={values.focusStartDate} onChange={value => setFieldValue('focusStartDate', value)} onChangeRaw={onChangeRaw}
-                                name="focusStartDate" showMonthDropdown showYearDropdown />
-                        </Col>
-                    </FormGroup>
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Evaluator</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {values.processes.map((p, i) =>
+                                <tr key={i}>
+                                    <td>{p.process}</td>
+                                    <td>
+                                        <Async
+                                            className={`react-select-container`} classNamePrefix="react-select"
+                                            value={{ label: p.evaluator, value: p.evaluatorId }}
+                                            onChange={value => setFieldValue(`processes.${i}.evaluator`, value.label)}
+                                            loadOptions={this.searchEmployees}
+                                            placeholder="-- Search an employee --" />
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                            )}
+                        </tbody>
+                    </table>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn btn-cancel" onClick={this.props.closeModal}>Cancel</Button>
@@ -127,7 +165,7 @@ export default class EditEmployeeSetting extends Component {
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Employee Setting</Modal.Title>
                 </Modal.Header>
-                <Formik initialValues={this.state.setting} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
+                <Formik initialValues={{ processes: this.processes }} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
             </Modal>
         );
     }
