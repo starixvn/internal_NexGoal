@@ -57,7 +57,7 @@ class FlowList extends Component {
 
     render() {
         return (
-            <Tabs id="tabs-nomination" animation={false}
+            <Tabs id="tabs-flowlist" animation={false}
                 activeKey={this.state.activeKey}
                 onSelect={this.handleOnSelect}
             >
