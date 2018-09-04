@@ -6,6 +6,8 @@ import commonFunctions from '../../../common-functions';
 import { toast } from 'react-toastify';
 import { range } from 'lodash';
 import { Pagination, DropdownButton, MenuItem } from 'react-bootstrap';
+import BootstrapTable from 'react-bootstrap-table-next';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import Async from 'react-select/lib/Async';
 import memoize from "memoize-one";
 import Multiselect from '../../../shared/components/MultiSelect';
@@ -93,6 +95,8 @@ export default class Table extends Component {
             showEditModal: false
         }
     }
+
+    noDataDisplay = () => <span className="text-danger">No information available!</span>
 
     onPageSizeChange = e => {
         e.preventDefault();
@@ -295,7 +299,7 @@ export default class Table extends Component {
                         </Pagination>
                     </div>
                 </div>
-                {this.state.showEditModal && <Edit showModal={this.state.showEditModal} closeModal={this.closeEditModal} settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))} />}
+                {this.state.showEditModal && <Edit showModal={this.state.showEditModal} closeModal={this.closeEditModal} paRecordIds={this.state.selectedIds} settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))} />}
             </Fragment>
         );
     }

@@ -5,6 +5,7 @@ import { stringify } from 'qs';
 import commonFunctions from '../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
+import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import CreatePeriod from './CreatePeriod';
 import DeletePeriod from './DeletePeriod';
 
@@ -128,18 +129,28 @@ export default class Table extends Component {
     render() {
         return (
             <Fragment>
-                <div className="search-wrapper clearfix" >
-                    <div className="pull-left">
-                        {this.props.hasHostPermission &&
-                            <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-plus" /> Create Evaluation Period</button>
+                <ToolkitProvider keyField="periodId" data={this.props.data} noDataIndication={this.noDataDisplay} columns={this.columns} search >
+                    {
+                        props => {
+                            return (
+                                <Fragment>
+                                    <div className="search-wrapper clearfix">
+                                        <div className="pull-left">
+                                            {this.props.hasHostPermission &&
+                                                <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-plus" /> Create Evaluation Period</button>
+                                            }
+                                        </div>
+                                        <div className="search pull-right">
+                                            <Search.SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
+                                            <span className="fa fa-search icon" />
+                                        </div>
+                                    </div>
+                                    <BootstrapTable {...props.baseProps} striped />
+                                </Fragment>
+                            );
                         }
-                    </div>
-                    <div className="search pull-right">
-                        <input className="search-textbox" ref={this.searchRef} onChange={this.handleTableFilterChange} />
-                        <span className="fa fa-search icon" />
-                    </div>
-                </div>
-                <BootstrapTable noDataIndication={this.noDataDisplay} ref={this.tableRef} keyField='periodId' data={this.props.data} columns={this.columns} />
+                    }
+                </ToolkitProvider>
                 <CreatePeriod showModal={this.state.showCreateModal} closeModal={this.closeCreateModal} targetTypes={this.props.targetTypes} onCreateSuccess={this.props.updateData} />
                 <DeletePeriod showModal={this.state.showDeleteModal} closeModal={this.closeDeleteModal} period={this.state.deletedPeriod} onDeleteSuccess={this.props.onDeletePeriod} />
             </Fragment>

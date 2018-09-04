@@ -7,7 +7,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Formik, FieldArray, Field } from 'formik';
-import { camelCase, isEmpty } from 'lodash';
+import { camelCase, isEmpty, uniqBy } from 'lodash';
 import Async from 'react-select/lib/Async';
 import commonFunctions from '../../../common-functions';
 
@@ -18,10 +18,41 @@ export default class Edit extends Component {
         var paRecordIds = props.settings.map(e => e.paRecordId);
         var employees = props.settings.map(e => e.nickName).join(', ');
 
-        this.processes = props.settings[0].processes;
+        if (paRecordIds.length === 1) {
+            let adminProcesses = props.settings[0].processes.filter(p => p.processId === 1);
+
+            this.processes = [{
+                processId: 1,
+                process: adminProcesses[0].process,
+                evaluator: adminProcesses.map(e => { return { label: e.evaluator, value: e.evaluatorId }; }),
+                startDate: adminProcesses[0].startDate ? moment(adminProcesses[0].startDate) : null,
+                endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null,
+            }];
+
+            this.processes = this.processes.concat(props.settings[0].processes.filter(p => p.processId !== 1).map(p => {
+                return {
+                    processId: p.processId,
+                    process: p.process,
+                    evaluator: { label: p.evaluator, value: p.evaluatorId },
+                    startDate: p.startDate ? moment(p.startDate) : null,
+                    endDate: p.endDate ? moment(p.endDate) : null,
+                }
+            }));
+        } else {
+            let processes = uniqBy(props.settings[0].processes, p => p.processId)
+            this.processes = processes.map(p => {
+                return {
+                    paRecordId: p.paRecordId,
+                    processId: p.processId,
+                    process: p.process,
+                    evaluator: null,
+                    startDate: null,
+                    endDate: null,
+                }
+            });
+        }
 
         this.state = {
-            paRecordIds: paRecordIds,
             employees: employees,
         };
     }
@@ -52,20 +83,24 @@ export default class Edit extends Component {
     }
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
+        var processes = [];
+        var adminProcessEvaluators = values.processes.find(p => p.processId === 1).evaluator;
+        if (adminProcessEvaluators) {
+            processes = adminProcessEvaluators.map(e => { return { processId: 1, evaluatorId: e.value }; });
+        }
+
         axios({
-            url: `/period/Create`,
+            url: `/period/EditEmployeeSetting`,
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                name: values.name,
-                targetTypeId: values.targetTypeId,
-                startDate: values.startDate ? values.startDate.format('YYYY-MM-DD') : null,
-                endDate: values.endDate ? values.endDate.format('YYYY-MM-DD') : null,
-                disciplineStartDate: values.disciplineStartDate ? values.disciplineStartDate.format('YYYY-MM-DD') : null,
-                disciplineEndDate: values.disciplineEndDate ? values.disciplineEndDate.format('YYYY-MM-DD') : null,
-                focusStartDate: values.targetTypeId == TargetType.semiAnual ? values.focusStartDate.format('YYYY-MM-DD') : null,
-                description: values.description,
-                isActive: values.isActive
+                paRecordIds: this.props.paRecordIds,
+                processes: processes.concat(values.processes.filter(p => p.processId > 1 && p.evaluator !== null).map(p => {
+                    return {
+                        processId: p.processId,
+                        evaluatorId: p.evaluator.value
+                    };
+                }))
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -75,8 +110,6 @@ export default class Edit extends Component {
 
             if (data.isSuccessful) {
                 toast.success("Create Successfully");
-                this.props.onCreateSuccess();
-                this.props.closeModal();
             } else {
                 if (data.errors) {
                     let errors = {};
@@ -109,8 +142,6 @@ export default class Edit extends Component {
             }
         };
 
-        debugger;
-
         return (
             <Form horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
@@ -128,8 +159,6 @@ export default class Edit extends Component {
                             <tr>
                                 <th></th>
                                 <th>Evaluator</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -137,15 +166,13 @@ export default class Edit extends Component {
                                 <tr key={i}>
                                     <td>{p.process}</td>
                                     <td>
-                                        <Async
-                                            className={`react-select-container`} classNamePrefix="react-select"
-                                            value={{ label: p.evaluator, value: p.evaluatorId }}
-                                            onChange={value => setFieldValue(`processes.${i}.evaluator`, value.label)}
-                                            loadOptions={this.searchEmployees}
-                                            placeholder="-- Search an employee --" />
+                                        {p.processId !== 2 &&
+                                            <Async className={`react-select-container`} classNamePrefix="react-select"
+                                                value={p.evaluator} isMulti={p.processId === 1}
+                                                onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
+                                                loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
+                                        }
                                     </td>
-                                    <td></td>
-                                    <td></td>
                                 </tr>
                             )}
                         </tbody>

@@ -173,5 +173,25 @@
 
             return Json(result);
         }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> EditEmployeeSetting(int[] paRecordIds, IEnumerable<EditEmployeeSettingViewModel> processes)
+        {
+            var serviceModels = new List<EditEmployeeSettingModel>();
+            foreach (var paRecordId in paRecordIds)
+            {
+                serviceModels.AddRange(processes.Select(x => new EditEmployeeSettingModel
+                {
+                    PARecordId = paRecordId,
+                    ProcessId = x.ProcessId,
+                    EvaluatorId = x.EvaluatorId
+                }));
+            }
+
+            var result = await periodService.EditEmployeeSettings(paRecordIds, serviceModels, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

@@ -90,5 +90,6 @@
     <Setting Key="PerformanceCheckIn_GetCreatorByEmployee" SpName="PerformanceCheckIn_GetCreatorByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceCheckIn_GetByEmployee" SpName="PerformanceCheckIn_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceCheckIn_Insert" SpName="PerformanceCheckIn_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_UpdateEmployeeSettings" SpName="Period_UpdateEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

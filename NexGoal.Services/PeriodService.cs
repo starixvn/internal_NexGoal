@@ -146,5 +146,19 @@
 
             return result;
         }
+
+        public async Task<CommandResult> EditEmployeeSettings(int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes, int modifiedBy)
+        {
+            var criteria = new EditEmployeeSettingsCriteria
+            {
+                PARecordIds = string.Join(',', paRecordIds),
+                Settings = processes.ToXML().ToString(),
+                ModifiedBy = modifiedBy
+            };
+
+            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return result;
+        }
     }
 }
