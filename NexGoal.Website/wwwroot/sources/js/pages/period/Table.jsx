@@ -129,7 +129,7 @@ export default class Table extends Component {
     render() {
         return (
             <Fragment>
-                <ToolkitProvider keyField="periodId" data={this.props.data} noDataIndication={this.noDataDisplay} columns={this.columns} search >
+                <ToolkitProvider keyField="periodId" data={this.props.data} columns={this.columns} search >
                     {
                         props => {
                             return (
@@ -145,7 +145,7 @@ export default class Table extends Component {
                                             <span className="fa fa-search icon" />
                                         </div>
                                     </div>
-                                    <BootstrapTable {...props.baseProps} striped />
+                                    <BootstrapTable {...props.baseProps} noDataIndication={this.noDataDisplay} striped />
                                 </Fragment>
                             );
                         }

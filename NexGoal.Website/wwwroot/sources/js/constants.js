@@ -26,7 +26,6 @@ export const PerformanceRecordStatus = {
 };
 
 export const PaginationOptions = {
-    page: 1,
     sizePerPage: 20,
     showTotal: false,
     sizePerPageList: [

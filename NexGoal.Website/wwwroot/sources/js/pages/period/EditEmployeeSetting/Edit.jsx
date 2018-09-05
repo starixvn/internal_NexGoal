@@ -28,7 +28,7 @@ export default class Edit extends Component {
                 endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null,
             }];
 
-            this.processes = this.processes.concat(props.settings[0].processes.filter(p => p.processId !== 1).map(p => {
+            this.processes = this.processes.concat(props.settings[0].processes.filter(p => p.processId > 3).map(p => {
                 return {
                     processId: p.processId,
                     process: p.process,
@@ -38,7 +38,7 @@ export default class Edit extends Component {
                 }
             }));
         } else {
-            let processes = uniqBy(props.settings[0].processes, p => p.processId)
+            let processes = uniqBy(props.settings[0].processes.filter(p => p.processId !== 2 && p.processId !== 3), p => p.processId)
             this.processes = processes.map(p => {
                 return {
                     paRecordId: p.paRecordId,
@@ -156,7 +156,9 @@ export default class Edit extends Component {
                         <thead>
                             <tr>
                                 <th></th>
-                                <th>Evaluator</th>
+                                <th className="col-sm-4">Evaluator</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -169,6 +171,20 @@ export default class Edit extends Component {
                                                 value={p.evaluator} isMulti={p.processId === 1}
                                                 onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
                                                 loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
+                                        }
+                                    </td>
+                                    <td>
+                                        {(p.processId === 1 || p.processId === 5) &&
+                                            <DatePicker autoComplete="off" className="form-control" dateFormat="DD MMM, YYYY" selected={p.startDate}
+                                                onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw}
+                                                showMonthDropdown showYearDropdown />
+                                        }
+                                    </td>
+                                    <td>
+                                        {(p.processId === 1 || p.processId === 5) &&
+                                            <DatePicker autoComplete="off" className="form-control" dateFormat="DD MMM, YYYY" selected={p.endDate}
+                                                onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw}
+                                                showMonthDropdown showYearDropdown />
                                         }
                                     </td>
                                 </tr>
