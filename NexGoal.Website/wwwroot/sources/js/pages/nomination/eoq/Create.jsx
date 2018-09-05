@@ -10,6 +10,7 @@ import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
+import getResource from '../../../resourceHelper';
 
 class CreateEOQ extends Component {
     constructor(props) {
@@ -39,7 +40,7 @@ class CreateEOQ extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Created successfully!');
+                toast.success(getResource('CreatedSuccessfully'));
 
                 this.props.closeModal();
                 this.props.handleFilterSubmit();
@@ -88,7 +89,7 @@ class CreateEOQ extends Component {
                     }
 
                     <FormGroup>
-                        <label className="col-sm-3 control-label required-label">Quarter</label>
+                        <label className="col-sm-3 control-label required-label">{getResource('Quarter')}</label>
                         <div className="col-sm-3 field">
                             <Select name="quarter" isSearchable={false} isClearable={false}
                                 className="react-select-container" classNamePrefix="react-select"
@@ -97,7 +98,7 @@ class CreateEOQ extends Component {
                                 onChange={selectedOption => setFieldValue('quarter', selectedOption)}
                             />
                         </div>
-                        <label className="col-sm-3 control-label required-label">Year</label>
+                        <label className="col-sm-3 control-label required-label">{getResource('Year')}</label>
                         <div className="col-sm-3 field">
                             <Select name="year" isSearchable={false} isClearable={false}
                                 className="react-select-container" classNamePrefix="react-select"
@@ -108,7 +109,7 @@ class CreateEOQ extends Component {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-sm-3 control-label required-label">Start Date For Nominator</label>
+                        <label className="col-sm-3 control-label required-label">{getResource('StartDateForNominator')}</label>
                         <div className="col-sm-3 field">
                             <DatePicker autoComplete="off"
                                 dateFormat="DD MMM, YYYY"
@@ -118,7 +119,7 @@ class CreateEOQ extends Component {
                                 className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
                             />
                         </div>
-                        <label className="col-sm-3 control-label required-label">End Date For Nominator</label>
+                        <label className="col-sm-3 control-label required-label">{getResource('EndDateForNominator')}</label>
                         <div className="col-sm-3 field">
                             <DatePicker autoComplete="off"
                                 dateFormat="DD MMM, YYYY"
@@ -130,7 +131,7 @@ class CreateEOQ extends Component {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-sm-3 control-label required-label">Remind Date For Nominator</label>
+                        <label className="col-sm-3 control-label required-label">{getResource('RemindDateForNominator')}</label>
                         <div className="col-sm-3 field">
                             <DatePicker autoComplete="off"
                                 dateFormat="DD MMM, YYYY"
@@ -139,7 +140,7 @@ class CreateEOQ extends Component {
                                 name="remindDateForNominator"
                                 className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`} />
                         </div>
-                        <label className="col-sm-3 control-label required-label">End Date For Committee</label>
+                        <label className="col-sm-3 control-label required-label">{getResource('EndDateForCommittee')}</label>
                         <div className="col-sm-3 field">
                             <DatePicker autoComplete="off"
                                 dateFormat="DD MMM, YYYY"
@@ -151,7 +152,7 @@ class CreateEOQ extends Component {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-sm-3 control-label">Description</label>
+                        <label className="col-sm-3 control-label">{getResource('Description')}</label>
                         <div className="col-sm-9 field">
                             <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                                 rows="5" maxLength="200"
@@ -162,8 +163,8 @@ class CreateEOQ extends Component {
                     </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn-cancel" onClick={this.props.closeModal}>Cancel</Button>
-                    <Button type="submit" className="btn btn-primary">Submit</Button>
+                    <Button className="btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
+                    <Button type="submit" bsStyle="primary">{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Form>
         );
@@ -187,7 +188,7 @@ class CreateEOQ extends Component {
                 dialogClassName="custom-modal modal-md"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Nomination Period</Modal.Title>
+                    <Modal.Title>{getResource('CreateNominationPeriod')}</Modal.Title>
                 </Modal.Header>
                 <Formik
                     initialValues={eoq}

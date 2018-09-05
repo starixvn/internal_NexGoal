@@ -3,6 +3,7 @@ import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 import MultiSelect from '../../../../shared/components/MultiSelect';
+import getResource from '../../../../resourceHelper';
 
 class Filter extends Component {
     constructor(props) {
@@ -47,7 +48,7 @@ class Filter extends Component {
             <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <div className="col">
-                        <ControlLabel>Employee</ControlLabel>
+                        <ControlLabel>{getResource('Employee')}</ControlLabel>
                         <div className="control-content">
                             <input name="Keyword" className="form-control" type="text"
                                 autoComplete="off"
@@ -57,7 +58,7 @@ class Filter extends Component {
                         </div>
                     </div>
                     <div className="col">
-                        <ControlLabel>Team</ControlLabel>
+                        <ControlLabel>{getResource('Team')}</ControlLabel>
                         <div className="control-content">
                             <MultiSelect className="react-select-container" classNamePrefix="react-select"
                                 closeMenuOnSelect={false}
@@ -68,7 +69,7 @@ class Filter extends Component {
                         </div>
                     </div>
                     <div className="col">
-                        <ControlLabel>Roles</ControlLabel>
+                        <ControlLabel>{getResource('Roles')}</ControlLabel>
                         <div className="control-content">
                             <Select name="RoleId" className="react-select-container" classNamePrefix="react-select"
                                 value={filter.role}
@@ -83,12 +84,12 @@ class Filter extends Component {
                             <label>
                                 <input type="checkbox" checked={filter.isShowAll}
                                     onChange={this.handleCheckboxChange}
-                                /> Show All Employee
+                                /> {getResource('ShowAllEmployee')}
                             </label>
                         </div>
                     </div>
                     <div className="col">
-                        <button className="btn btn-primary">Search</button>
+                        <button className="btn btn-primary">{getResource('Search')}</button>
                     </div>
                 </FormGroup>
             </form>

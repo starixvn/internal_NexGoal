@@ -3,7 +3,9 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
+import { noDataIndication } from '../../../../common-functions';
 import { PaginationOptions } from '../../../../constants';
+import getResource from '../../../../resourceHelper';
 
 const { SearchBar } = Search;
 
@@ -47,51 +49,53 @@ class Table extends Component {
         this.props.editNominatorSetting(nominator);
     }
 
-    noDataDisplay = () => <span className="text-danger">No information available!</span>
-
     render() {
         const isHost = this.props.isHost;
         const nominators = this.props.nominators;
         const columns = [
             { dataField: 'rowNum', text: '#', classes: 'text-center' },
-            { dataField: 'nickName', text: 'Nick Name' },
-            { dataField: 'fullName', text: 'Full Name' },
-            { dataField: 'jobTitle', text: 'Job Title' },
-            { dataField: 'groupName', text: 'Team' },
+            { dataField: 'nickName', text: `${getResource('NickName')}` },
+            { dataField: 'fullName', text: `${getResource('FullName')}` },
+            { dataField: 'jobTitle', text: `${getResource('JobTitle')}` },
+            { dataField: 'groupName', text: `${getResource('Team')}` },
             {
                 dataField: 'isCommittee',
-                text: 'Committee',
+                text: `${getResource('Committee')}`,
                 classes: 'text-center',
                 formatter: (cell, row) => {
                     if (isHost) {
                         return (
                             <input type='checkbox' name="Committee"
                                 defaultChecked={row.isCommittee}
-                                onChange={(e) => this.handleCheckboxChange(e, row)} />
+                                onChange={(e) => this.handleCheckboxChange(e, row)}
+                            />
                         );
                     }
 
-                    return (<input type='checkbox' name="Committee" checked={row.isCommittee} readOnly />);
+                    return <input type='checkbox' name="Committee" checked={row.isCommittee} readOnly />;
                 }
             },
             {
                 dataField: 'isNominator',
-                text: 'Nominator',
+                text: `${getResource('Nominator')}`,
                 classes: 'text-center',
                 formatter: (cell, row) => {
                     if (isHost) {
-                        return (<input type='checkbox' name="Nominator"
-                            defaultChecked={row.isNominator}
-                            onChange={(e) => this.handleCheckboxChange(e, row)} />);
+                        return (
+                            <input type='checkbox' name="Nominator"
+                                defaultChecked={row.isNominator}
+                                onChange={(e) => this.handleCheckboxChange(e, row)}
+                            />
+                        );
                     }
 
-                    return (<input type='checkbox' name="Nominator" checked={row.isCommittee} readOnly />);
+                    return <input type='checkbox' name="Nominator" checked={row.isCommittee} readOnly />;
                 }
             }
         ];
 
         return (
-            <ToolkitProvider keyField="employeeId" data={nominators} noDataIndication={this.noDataDisplay} columns={columns} search >
+            <ToolkitProvider keyField="employeeId" data={nominators} columns={columns} search >
                 {
                     props => {
                         return (
@@ -102,7 +106,11 @@ class Table extends Component {
                                         <span className="fa fa-search icon" />
                                     </div>
                                 </div>
-                                <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} striped />
+                                <BootstrapTable {...props.baseProps}
+                                    pagination={paginationFactory(PaginationOptions)}
+                                    noDataIndication={noDataIndication}
+                                    striped
+                                />
                             </Fragment>
                         );
                     }

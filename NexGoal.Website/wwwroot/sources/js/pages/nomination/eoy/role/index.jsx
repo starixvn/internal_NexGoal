@@ -5,6 +5,7 @@ import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../../common-functions';
 import { nominationRoleOptions } from '../../common';
+import getResource from '../../../../resourceHelper';
 import Filter from './Filter';
 import Table from './Table';
 
@@ -50,13 +51,18 @@ export default class RoleManagement extends Component {
     }
 
     getNominatorSetting() {
+        const filter = this.state.filter;
         const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
 
-        axios.get(resolveClientUrl(`EOY/GetNominatorSetting?eoyId=${this.state.eoyId}`
-            + `&keyword=${this.state.filter.keyword}`
-            + `&groupIds=${groupIds}`
-            + `&roleId=${this.state.filter.role.value}`
-            + `&isShowAll=${this.state.filter.isShowAll}`)
+        axios.get(resolveClientUrl('EOY/GetNominatorSetting'), {
+            params: {
+                eoyId: this.state.eoyId,
+                keyword: filter.keyword,
+                groupIds: groupIds,
+                roleId: filter.role.roleId,
+                isShowAll: filter.isShowAll
+            }
+        }
         ).then(response => {
             let data = response.data;
             data.map((e, index) => e.rowNum = index + 1);
@@ -84,7 +90,7 @@ export default class RoleManagement extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Updated successfully!');
+                toast.success(getResource('UpdateSuccessfully'));
 
                 this.props.handleFilterSubmit();
             } else {

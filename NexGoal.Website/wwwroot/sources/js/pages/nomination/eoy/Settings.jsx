@@ -10,6 +10,7 @@ import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 import { validateEOYForm } from '../common';
 
 class Settings extends Component {
@@ -78,7 +79,7 @@ class Settings extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Updated successfully!');
+                toast.success(getResource('UpdateSuccessfully'));
             } else {
                 if (data.errors) {
                     let errors = {};
@@ -121,7 +122,7 @@ class Settings extends Component {
                 }
 
                 <FormGroup>
-                    <label className="col-sm-2 control-label">Year</label>
+                    <label className="col-sm-2 control-label">{getResource('Year')}</label>
                     <div className="col-sm-2 field">
                         <Select value={yearOptions[0]} className="react-select-container" classNamePrefix="react-select"
                             options={yearOptions}
@@ -130,7 +131,7 @@ class Settings extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <label className="col-sm-2 control-label required-label">Start Date For Nominator</label>
+                    <label className="col-sm-2 control-label required-label">{getResource('StartDateForNominator')}</label>
                     <div className="col-sm-2 field">
                         <DatePicker autoComplete="off" disabled={!isHost}
                             dateFormat="DD MMM, YYYY"
@@ -140,7 +141,7 @@ class Settings extends Component {
                             className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
                         />
                     </div>
-                    <label className="col-sm-2 control-label required-label">End Date For Nominator</label>
+                    <label className="col-sm-2 control-label required-label">{getResource('EndDateForNominator')}</label>
                     <div className="col-sm-2 field">
                         <DatePicker autoComplete="off" disabled={!isHost}
                             dateFormat="DD MMM, YYYY"
@@ -152,7 +153,7 @@ class Settings extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <label className="col-sm-2 control-label required-label">Remind Date For Nominator</label>
+                    <label className="col-sm-2 control-label required-label">{getResource('RemindDateForNominator')}</label>
                     <div className="col-sm-2 field">
                         <DatePicker autoComplete="off" disabled={!isHost}
                             dateFormat="DD MMM, YYYY"
@@ -162,7 +163,7 @@ class Settings extends Component {
                             className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
                         />
                     </div>
-                    <label className="col-sm-2 control-label required-label">End Date For Committee</label>
+                    <label className="col-sm-2 control-label required-label">{getResource('EndDateForCommittee')}</label>
                     <div className="col-sm-2 field">
                         <DatePicker autoComplete="off" disabled={!isHost}
                             dateFormat="DD MMM, YYYY"
@@ -174,7 +175,7 @@ class Settings extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <label className="col-sm-2 control-label">Description</label>
+                    <label className="col-sm-2 control-label">{getResource('Description')}</label>
                     <div className="col-sm-6 field">
                         <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                             rows="3" maxLength="200"
@@ -187,7 +188,7 @@ class Settings extends Component {
                     <FormGroup>
                         <label className="col-sm-2 control-label" />
                         <div className="col-sm-6 field">
-                            <Button type="submit" className="btn btn-primary">Submit</Button>
+                            <Button type="submit" bsStyle="primary">{getResource('Submit')}</Button>
                         </div>
                     </FormGroup>
                 }
@@ -200,7 +201,8 @@ class Settings extends Component {
             <Formik enableReinitialize initialValues={this.state.eoy}
                 validate={validateEOYForm}
                 onSubmit={this.handleSubmit}
-                render={this.renderForm} />
+                render={this.renderForm}
+            />
         );
     }
 }

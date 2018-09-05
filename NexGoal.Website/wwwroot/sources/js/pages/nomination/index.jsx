@@ -1,8 +1,8 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
-import { ToastContainer } from 'react-toastify';
 
+import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EOQ from './eoq/index';
@@ -15,14 +15,9 @@ export default class App extends Component {
         this.handleSelect = this.handleSelect.bind(this);
 
         this.state = {
-            activeKey: 1,
-            isFirstLoad: false
+            activeKey: parseInt(document.getElementById('ActiveTab').value),
+            isFirstLoad: parseInt(document.getElementById('ActiveTab').value) === 2
         };
-    }
-
-    componentDidMount() {
-        const activeKey = parseInt(document.getElementById('ActiveTab').value);
-        this.setState({ activeKey: activeKey, isFirstLoad: activeKey === 2 });
     }
 
     handleSelect(key) {
@@ -38,17 +33,18 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">Nomination Management</li>
+                        <li className="current">{getResource('NominationManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <Tabs id="tabs-nomination" animation={false}
                             activeKey={this.state.activeKey}
-                            onSelect={this.handleSelect}>
+                            onSelect={this.handleSelect}
+                        >
 
-                            <Tab eventKey={1} title="Employee Of The Quarter">
+                            <Tab eventKey={1} title={getResource('EmployeeOfTheQuarter')}>
                                 <EOQ />
                             </Tab>
-                            <Tab eventKey={2} title="Employee Of The Year">
+                            <Tab eventKey={2} title={getResource('EmployeeOfTheYear')}>
                                 {
                                     this.state.isFirstLoad &&
                                     <EOY />

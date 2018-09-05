@@ -3,6 +3,7 @@ import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 import { statusOptions } from '../common';
+import getResource from '../../../resourceHelper';
 
 class Filter extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ class Filter extends Component {
             <form className="from-inline form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <div className="col">
-                        <ControlLabel>Status</ControlLabel>
+                        <ControlLabel>{getResource('Status')}</ControlLabel>
                         <div className="control-content">
                             <Select name="StatusId" isSearchable={false} isClearable={false}
                                 className="react-select-container" classNamePrefix="react-select"
@@ -39,7 +40,7 @@ class Filter extends Component {
                         </div>
                     </div>
                     <div className="col">
-                        <button className="btn btn-primary">Search</button>
+                        <button className="btn btn-primary">{getResource('Search')}</button>
                     </div>
                 </FormGroup>
             </form>

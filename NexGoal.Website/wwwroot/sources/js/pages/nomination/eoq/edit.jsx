@@ -4,6 +4,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 
 import ToastLayout from '../../../shared/layouts/ToastLayout';
 import { resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import Settings from './Settings';
 import RoleManagement from './role/index';
@@ -37,11 +38,11 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">Nomination Management</li>
+                        <li className="current">{getResource('NominationManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <a className="btn btn-cancel" onClick={this.handleBackClick}>
-                            <i className="fa fa-angle-left" />Back to list
+                            <i className="fa fa-angle-left" />{getResource('BackToList')}
                         </a>
                     </div>
                     <div className="col-sm-12">
@@ -50,10 +51,10 @@ export default class App extends Component {
                             onSelect={this.handleSelect}
                         >
 
-                            <Tab eventKey={1} title="Settings">
+                            <Tab eventKey={1} title={getResource('Settings')}>
                                 <Settings />
                             </Tab>
-                            <Tab eventKey={2} title="Role Management">
+                            <Tab eventKey={2} title={getResource('RoleManagement')}>
                                 {
                                     this.state.isFirstLoad &&
                                     <RoleManagement />

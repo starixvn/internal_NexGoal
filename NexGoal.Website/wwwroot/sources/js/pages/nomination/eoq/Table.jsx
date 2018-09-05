@@ -4,21 +4,10 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import Row from './Row';
 import CreateEOQ from './Create';
-
-function THead(props) {
-    return (
-        <thead>{props.children}</thead>
-    );
-}
-
-function TBody(props) {
-    return (
-        <tbody>{props.children}</tbody>
-    );
-}
 
 class Table extends Component {
     constructor(props) {
@@ -68,7 +57,7 @@ class Table extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Deleted successfully!');
+                toast.success(getResource('DeletedSuccessfully'));
 
                 this.closeDeleteModal();
                 this.props.handleFilterSubmit();
@@ -85,32 +74,32 @@ class Table extends Component {
         return (
             <Fragment>
                 <table className="table table-bordered">
-                    <THead>
+                    <thead>
                         {isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
                                     <a className="pull-left btn btn-primary" onClick={this.showCreateModal.bind(this)}>
-                                        <i className="fa fa-plus" />Create Nomination Period
+                                        <i className="fa fa-plus" />{getResource('CreateNominationPeriod')}
                                     </a>
                                 </th>
                             </tr>
                         }
                         <tr>
                             <th>#</th>
-                            <th>Quarter</th>
-                            <th>Year</th>
-                            <th>Start Date For Nominator</th>
-                            <th>End Date For Nominator</th>
-                            <th>Remind Date For Nominator</th>
-                            <th>End Date For Committee</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>{getResource('Quarter')}</th>
+                            <th>{getResource('Year')}</th>
+                            <th>{getResource('StartDateForNominator')}</th>
+                            <th>{getResource('EndDateForNominator')}</th>
+                            <th>{getResource('RemindDateForNominator')}</th>
+                            <th>{getResource('EndDateForCommittee')}</th>
+                            <th>{getResource('Status')}</th>
+                            <th>{getResource('Action')}</th>
                         </tr>
-                    </THead>
-                    <TBody>
+                    </thead>
+                    <tbody>
                         {eoqs.length === 0 &&
                             <tr>
-                                <td className="empty-result" colSpan="9">No information available!</td>
+                                <td className="empty-result" colSpan="9">{getResource('NoInformationAvailable')}</td>
                             </tr>
                         }
                         {eoqs.length > 0 &&
@@ -120,10 +109,12 @@ class Table extends Component {
                                         rowIndex={index + 1}
                                         eoq={eoq}
                                         isHost={isHost}
-                                        showDeleteModal={this.showDeleteModal.bind(this)} />);
+                                        showDeleteModal={this.showDeleteModal.bind(this)}
+                                    />
+                                );
                             })
                         }
-                    </TBody>
+                    </tbody>
                 </table>
 
                 {
