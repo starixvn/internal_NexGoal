@@ -2,6 +2,8 @@
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
+import getResource from '../../resourceHelper';
+
 class Filter extends Component {
     constructor(props) {
         super(props);
@@ -24,7 +26,7 @@ class Filter extends Component {
             <form className="form-inline form-filter">
                 <FormGroup>
                     <div className="col">
-                        <ControlLabel>Role</ControlLabel>
+                        <ControlLabel>{getResource('Role')}</ControlLabel>
                         <div className="control-content">
                             <Select className="react-select-container" classNamePrefix="react-select"
                                 name="RoleId" isSearchable={false} isClearable={false}

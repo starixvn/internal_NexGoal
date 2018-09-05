@@ -6,10 +6,11 @@ import { stringify } from 'qs';
 
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import { Policy } from '../../constants';
 import Filter from './Filter';
-import Table from './Table';
+import Table from './table/Table';
 import SubmitForm from './SubmitForm';
 
 export default class App extends Component {
@@ -111,7 +112,7 @@ export default class App extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success(document.getElementById('UpdatePermissionSuccessfully').value);
+                toast.success(getResource('UpdatePermissionSuccessfully'));
             } else {
                 toast.error(data.message);
             }
@@ -123,7 +124,7 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">Role Management</li>
+                        <li className="current">{getResource('RoleManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <Filter

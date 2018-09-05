@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 
-import { Policy } from '../../constants';
+import { Policy } from '../../../constants';
 
 class Row extends Component {
     constructor(props) {

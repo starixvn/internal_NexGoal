@@ -1,4 +1,6 @@
-﻿const _rootUrl = document.getElementById('RootURL').value ? document.getElementById('RootURL').value : '/';
+﻿import React from 'react';
+
+const _rootUrl = document.getElementById('RootURL').value ? document.getElementById('RootURL').value : '/';
 
 export const resolveClientUrl = (relativePath) => {
     return _rootUrl + relativePath;
@@ -30,4 +32,4 @@ export const axiosError = (error) => {
     }
 };
 
-export const noDataIndication = () => '<span class="text-danger">No information available!</span>';
+export const noDataIndication = () => <span className="text-danger">No information available!</span>;

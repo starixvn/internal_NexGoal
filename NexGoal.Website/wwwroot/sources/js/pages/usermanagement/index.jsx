@@ -189,7 +189,7 @@ export default class UserManagement extends Component {
                             </FormGroup>
                         </Form>
 
-                        <ToolkitProvider keyField="employeeId" data={this.state.data} noDataIndication={noDataIndication} columns={columns} search >
+                        <ToolkitProvider keyField="employeeId" data={this.state.data} columns={columns} search >
                             {
                                 props => {
                                     return (
@@ -200,7 +200,10 @@ export default class UserManagement extends Component {
                                                     <span className="fa fa-search icon" />
                                                 </div>
                                             </div>
-                                            <BootstrapTable striped {...props.baseProps} pagination={paginationFactory(PaginationOptions)} />
+                                            <BootstrapTable striped {...props.baseProps}
+                                                pagination={paginationFactory(PaginationOptions)}
+                                                noDataIndication={noDataIndication}
+                                            />
                                         </Fragment>
                                     );
                                 }
