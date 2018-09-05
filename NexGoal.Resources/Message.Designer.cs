@@ -61,7 +61,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discipline End Date is required.
+        ///   Looks up a localized string similar to Discipline End Date is required..
         /// </summary>
         public static string DisciplineEndDateRequired {
             get {
@@ -70,7 +70,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Discipline Start Date is required.
+        ///   Looks up a localized string similar to Discipline Start Date is required..
         /// </summary>
         public static string DisciplineStartDateRequired {
             get {
@@ -79,7 +79,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Employee is required.
+        ///   Looks up a localized string similar to Employee is required..
         /// </summary>
         public static string EmployeeRequired {
             get {
@@ -88,7 +88,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to End Date is required.
+        ///   Looks up a localized string similar to End Date is required..
         /// </summary>
         public static string EndDateRequired {
             get {
@@ -97,7 +97,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Focus Start Date must be after Period End Date.
+        ///   Looks up a localized string similar to Focus Start Date must be after Period End Date..
         /// </summary>
         public static string FocusStartDateAfterEndDate {
             get {
@@ -106,7 +106,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Focus Start Date is required.
+        ///   Looks up a localized string similar to Focus Start Date is required..
         /// </summary>
         public static string FocusStartDateRequired {
             get {
@@ -160,7 +160,7 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Start Date is required.
+        ///   Looks up a localized string similar to Start Date is required..
         /// </summary>
         public static string StartDateRequired {
             get {

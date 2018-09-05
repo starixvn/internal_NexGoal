@@ -9,12 +9,11 @@
     ViewData["Title"] = ViewLang.DisciplineManagement;
 }
 
-<input type="hidden" value="@Model.ToString()" id="CanEdit" />
+<input type="checkbox" hidden @(Model ? "checked" : string.Empty) id="IsHost" />
 
 @Html.AntiForgeryToken()
 
-<div id="discipline-wrapper">
-</div>
+<div id="discipline-wrapper"></div>
 
 @section Scripts{
     <script src="~/dist/js/discipline.js"></script>

@@ -3,11 +3,13 @@ import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstr
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
-import { axiosError, resolveClientUrl } from '../../common-functions';
 import { Async } from 'react-select';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
+
+import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 
 export default class AddEditDiscipline extends Component {
     constructor(props) {
@@ -18,15 +20,15 @@ export default class AddEditDiscipline extends Component {
         let errors = {};
 
         if (!values.employee) {
-            errors.employee = 'Employee is required';
+            errors.employee = getResource('EmployeeRequired');
         }
 
         if (!values.effectiveDate) {
-            errors.effectiveDate = 'Issue Date is required';
+            errors.effectiveDate = getResource('IssueDateRequired');
         }
 
         if (!values.content) {
-            errors.content = 'Content is required';
+            errors.content = getResource('ContentRequired');
         }
 
         return errors;
@@ -50,8 +52,8 @@ export default class AddEditDiscipline extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success("Update Successfully");
-                this.props.onEditDiscipline(values.disciplineId, response.data);
+                toast.success(getResource('UpdateSuccessfully'));
+                this.props.onEditDiscipline();
                 this.props.closeModal();
             } else {
                 if (data.errors) {
@@ -108,7 +110,7 @@ export default class AddEditDiscipline extends Component {
                         </ul>
                     }
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={2}>Employee</Col>
+                        <Col componentClass={ControlLabel} className="required-label" sm={2}>{getResource('Employee')}</Col>
                         <Col sm={10}>
                             <Async className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
                                 isDisabled={values.disciplineId > 0}
@@ -121,7 +123,7 @@ export default class AddEditDiscipline extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={2}>Issue Date</Col>
+                        <Col componentClass={ControlLabel} className="required-label" sm={2}>{getResource('IssueDate')}</Col>
                         <Col sm={10}>
                             <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
                                 dateFormat="DD MMM, YYYY" selected={values.effectiveDate}
@@ -132,7 +134,7 @@ export default class AddEditDiscipline extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={2}>Content</Col>
+                        <Col componentClass={ControlLabel} className="required-label" sm={2}>{getResource('Content')}</Col>
                         <Col sm={10}>
                             <textarea className={`form-control none-resize ${touched.content && errors.content && 'input-validation-error'}`}
                                 name="content" rows="10"
@@ -143,15 +145,15 @@ export default class AddEditDiscipline extends Component {
                     </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn btn-cancel" onClick={this.props.closeModal}>Cancel</Button>
-                    <Button type="submit" disabled={isSubmitting} className="btn btn-primary">Submit</Button>
+                    <Button className="btn btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
+                    <Button type="submit" disabled={isSubmitting} className="btn btn-primary">{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Form>
         );
     }
 
     render() {
-        var title = this.props.discipline && this.props.discipline.disciplineId === 0 ? 'Add Discipline' : 'Edit Discipline';
+        var title = this.props.discipline && this.props.discipline.disciplineId === 0 ? getResource('AddDiscipline') : getResource('EditDiscipline');
 
         return (
             <Modal keyboard={false} backdrop="static"

@@ -8,7 +8,8 @@ import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 
 import { PaginationOptions } from '../../constants';
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 
 const { SearchBar } = Search;
 
@@ -16,8 +17,6 @@ export default class Table extends Component {
     constructor(props) {
         super(props);
     }
-
-    noDataDisplay = () => <span className="text-danger">No information available!</span>
 
     editDisciplineStatus = (e, discipline) => {
         var isActive = e.target.checked;
@@ -37,7 +36,7 @@ export default class Table extends Component {
             var data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Update Successfully');
+                toast.success(getResource('UpdateSuccessfully'));
                 this.props.onUpdateStatus(discipline.disciplineId, isActive);
             } else {
                 toast.error(data.message);
@@ -54,38 +53,38 @@ export default class Table extends Component {
             },
             {
                 dataField: 'nickName',
-                text: 'Nick Name'
+                text: `${getResource('NickName')}`
             },
             {
                 dataField: 'fullName',
-                text: 'Full Name'
+                text: `${getResource('FullName')}`
             },
             {
                 dataField: 'group',
-                text: 'Team'
+                text: `${getResource('Team')}`
             },
             {
                 dataField: 'description',
-                text: 'Content'
+                text: `${getResource('Content')}`
             },
             {
                 dataField: 'effectiveDate',
-                text: 'Issue Date',
+                text: `${getResource('IssueDate')}`,
+                classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     return `${moment(row.effectiveDate).format('DD MMM, YYYY')}`;
                 }
             },
             {
                 dataField: 'creatorFullName',
-                text: 'Creator',
-                classes: 'text-center',
+                text: `${getResource('Creator')}`,
                 formatter: (cell, row, rowIndex, colIndex) => {
                     return `${row.creatorFullName} (${row.creatorNickName})`;
                 }
             },
             {
                 dataField: 'isActive',
-                text: 'Active',
+                text: `${getResource('Active')}`,
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.props.isHost) {
@@ -97,7 +96,7 @@ export default class Table extends Component {
             },
             {
                 dataField: '',
-                text: 'Action',
+                text: `${getResource('Action')}`,
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.props.isHost) {
@@ -109,7 +108,7 @@ export default class Table extends Component {
             }];
 
         return (
-            <ToolkitProvider keyField="disciplineId" data={this.props.data} noDataIndication={this.noDataDisplay} columns={columns} search >
+            <ToolkitProvider keyField="disciplineId" data={this.props.data} columns={columns} search >
                 {
                     props => {
                         return (
@@ -118,7 +117,7 @@ export default class Table extends Component {
                                     <div className="pull-left">
                                         {this.props.isHost &&
                                             <button className="btn btn-primary" onClick={this.props.addDiscipline}>
-                                                <i className="fa fa-plus" /> Add Discipline
+                                                <i className="fa fa-plus" /> {getResource('AddDiscipline')}
                                             </button>
                                         }
                                     </div>
@@ -127,7 +126,11 @@ export default class Table extends Component {
                                         <span className="fa fa-search icon" />
                                     </div>
                                 </div>
-                                <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} striped />
+                                <BootstrapTable {...props.baseProps}
+                                    pagination={paginationFactory(PaginationOptions)}
+                                    noDataIndication={noDataIndication}
+                                    striped
+                                />
                             </Fragment>
                         );
                     }

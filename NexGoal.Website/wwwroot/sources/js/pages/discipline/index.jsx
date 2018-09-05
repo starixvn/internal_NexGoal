@@ -6,6 +6,7 @@ import moment from 'moment';
 import { Async } from 'react-select';
 
 import { resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Multiselect from '../../shared/components/MultiSelect';
 import Table from './Table';
@@ -26,7 +27,7 @@ export default class DisciplineManagement extends Component {
             },
             data: [],
             groupOptions: [],
-            isHost: document.getElementById('CanEdit').value === 'True',
+            isHost: document.getElementById('IsHost').checked,
             showModal: false
         };
     }
@@ -76,12 +77,17 @@ export default class DisciplineManagement extends Component {
     getDisciplines = () => {
         const employeeId = this.state.filter.employee ? this.state.filter.employee.value : '';
         const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
+        const filter = this.state.filter;
 
-        axios(resolveClientUrl(`Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}`
-            + `&to=${this.state.filter.to.format('YYYY-MM-DD')}`
-            + `&isActive=${this.state.filter.isActive}`
-            + `&employeeId=${employeeId}`
-            + `&groupIds=${groupIds}`)
+        axios(resolveClientUrl('Discipline/GetDisciplines'), {
+            params: {
+                from: filter.from.format('YYYY-MM-DD'),
+                to: filter.to.format('YYYY-MM-DD'),
+                isActive: filter.isActive,
+                employeeId: employeeId,
+                groupIds: groupIds
+            }
+        }
         ).then(response => {
             response.data.forEach((e, index) => e.rowNum = index + 1);
             this.setState({ data: response.data });
@@ -130,7 +136,7 @@ export default class DisciplineManagement extends Component {
         this.setState({ data: data });
     }
 
-    onEditDiscipline = (disciplineId, response) => {
+    onEditDiscipline = () => {
         this.getDisciplines();
     }
 
@@ -168,75 +174,83 @@ export default class DisciplineManagement extends Component {
         return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">Discipline Management</li>
+                    <li className="current">{getResource('DisciplineManagement')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
                         <div className="form-group" >
                             <div className="col" >
-                                <label className="control-label">From</label>
+                                <label className="control-label">{getResource('From')}</label>
                                 <div className="control-content">
                                     <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.from}
                                         onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
-                                        name="from" className="form-control" autoComplete="off" />
+                                        name="from" className="form-control" autoComplete="off"
+                                    />
                                 </div>
                             </div>
                             <div className="col" >
-                                <label className="control-label">To</label>
+                                <label className="control-label">{getResource('To')}</label>
                                 <div className="control-content">
                                     <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.to}
                                         onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
-                                        name="to" className="form-control" autoComplete="off" />
+                                        name="to" className="form-control" autoComplete="off"
+                                    />
                                 </div>
                             </div>
                             <div className="col">
-                                <label className="control-label">Status</label>
+                                <label className="control-label">{getResource('Status')}</label>
                                 <div className="control-content">
                                     <select name="isActive" className="form-control" onChange={this.onFilterChange}>
                                         <option value="">-- All --</option>
-                                        <option value="true">Active</option>
-                                        <option value="false">Inactive</option>
+                                        <option value="true">{getResource('Active')}</option>
+                                        <option value="false">{getResource('Inactive')}</option>
                                     </select>
                                 </div>
                             </div>
                         </div>
                         <div className="form-group">
                             <div className="col">
-                                <label className="control-label">Team</label>
+                                <label className="control-label">{getResource('Team')}</label>
                                 <div className="control-content">
                                     {this.state.groupOptions.length > 0 &&
                                         <Multiselect className="react-select-container" classNamePrefix="react-select"
                                             value={this.state.filter.groups}
                                             closeMenuOnSelect={false}
                                             options={this.state.groupOptions}
-                                            onChange={this.onFilterGroupChange} />
+                                            onChange={this.onFilterGroupChange}
+                                        />
                                     }
                                 </div>
                             </div>
                             <div className="col">
-                                <label className="control-label">Employee</label>
+                                <label className="control-label">{getResource('Employee')}</label>
                                 <div className="control-content">
                                     <Async
                                         className="react-select-container" classNamePrefix="react-select"
                                         cacheOptions value={this.state.filter.employee}
                                         name="employee" onChange={this.onFilterEmployeeChange}
                                         loadOptions={this.searchEmployees}
-                                        placeholder="-- Search an employee --" />
+                                        placeholder="-- Search an employee --"
+                                    />
                                 </div>
                             </div>
                             <div className="col">
-                                <button className="btn btn-primary">Search</button>
+                                <button className="btn btn-primary">{getResource('Search')}</button>
                             </div>
                         </div>
                     </form>
                     <Table data={this.state.data} onUpdateStatus={this.onUpdateStatus}
                         isHost={this.state.isHost}
                         addDiscipline={this.addDiscipline}
-                        editDiscipline={this.editDiscipline} />
+                        editDiscipline={this.editDiscipline}
+                    />
                 </div>
-                <AddEditDiscipline ref={this.modalRef} showModal={this.state.showModal} closeModal={this.closeModal}
+                <AddEditDiscipline
+                    showModal={this.state.showModal}
+                    closeModal={this.closeModal}
                     discipline={this.state.selectedDiscipline}
-                    onEditDiscipline={this.onEditDiscipline} />
+                    onEditDiscipline={this.onEditDiscipline}
+                />
                 <ToastLayout />
             </div>
         );
