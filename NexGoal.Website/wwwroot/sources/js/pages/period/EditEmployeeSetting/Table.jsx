@@ -2,7 +2,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
-import { resolveClientUrl } from '../../../common-functions';
+import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
@@ -10,7 +10,6 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import Async from 'react-select/lib/Async';
 import Multiselect from '../../../shared/components/MultiSelect';
 import { PaginationOptions } from '../../../constants';
-import commonFunctions from '../../../common-functions';
 
 import Edit from './Edit';
 
@@ -94,8 +93,6 @@ export default class Table extends Component {
     }
 
     selectedIds = []
-
-    noDataDisplay = () => <span className="text-danger">No information available!</span>
 
     columns = [
         {
@@ -322,7 +319,7 @@ export default class Table extends Component {
                                             <span className="fa fa-search icon"></span>
                                         </div>
                                     </div>
-                                    <BootstrapTable {...props.baseProps} noDataIndication={this.noDataDisplay} pagination={paginationFactory(PaginationOptions)} striped
+                                    <BootstrapTable {...props.baseProps} noDataIndication={noDataIndication} pagination={paginationFactory(PaginationOptions)} striped
                                         selectRow={{ mode: 'checkbox', onSelect: this.onSelectRow, onSelectAll: this.onSelectAllRows }}
                                     />
                                 </Fragment>

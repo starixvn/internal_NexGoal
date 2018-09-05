@@ -2,7 +2,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
@@ -20,8 +20,6 @@ export default class Table extends Component {
 
         this.tableRef = React.createRef();
     }
-
-    noDataDisplay = () => <span className="text-danger">No information available!</span>
 
     columns = [
         {
@@ -145,7 +143,7 @@ export default class Table extends Component {
                                             <span className="fa fa-search icon" />
                                         </div>
                                     </div>
-                                    <BootstrapTable {...props.baseProps} noDataIndication={this.noDataDisplay} striped />
+                                    <BootstrapTable {...props.baseProps} noDataIndication={noDataIndication} striped />
                                 </Fragment>
                             );
                         }
