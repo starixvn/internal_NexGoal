@@ -28,8 +28,8 @@
             var result = controller.Index();
 
             var viewResult = Assert.IsType<ViewResult>(result);
-            var viewModel = Assert.IsType<UserManagementViewModel>(viewResult.Model);
-            Assert.True(viewModel.CanEditUserRoles);
+            var viewModel = Assert.IsType<bool>(viewResult.Model);
+            Assert.True(viewModel);
         }
 
         [Fact]

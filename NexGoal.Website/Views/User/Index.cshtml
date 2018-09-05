@@ -1,5 +1,5 @@
 ﻿@using NexGoal.Resources
-@model NexGoal.ViewModels.UserManagement.UserManagementViewModel
+@model bool
 
 @section Styles {
     <link rel="stylesheet" href="~/dist/styles/usermanagement.css" />
@@ -11,7 +11,7 @@
 
 @Html.AntiForgeryToken()
 <div>
-    <input type="hidden" asp-for="CanEditUserRoles" />
+    <input type="checkbox" hidden id="IsHost" @(Model ? "checked" : string.Empty) />
 </div>
 <div id="user-wrapper"></div>
 

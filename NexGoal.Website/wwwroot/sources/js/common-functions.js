@@ -29,3 +29,5 @@ export const axiosError = (error) => {
         window.location = _rootUrl + url;
     }
 };
+
+export const noDataIndication = () => '<span class="text-danger">No information available!</span>';

@@ -5,9 +5,10 @@ import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import { toast } from 'react-toastify';
+import axios from 'axios';
 
 import { PaginationOptions } from '../../constants';
-import { resolveClientUrl  } from '../../common-functions';
+import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
@@ -23,13 +24,12 @@ export default class UserManagement extends Component {
             filter: {
                 keyword: '',
                 groupId: '',
-                isLocal: '',
                 isDisabledUser: false
             },
             groups: [],
             data: [],
             showModal: false,
-            canEditRole: document.getElementById('CanEditUserRoles').value === 'True'
+            isHost: document.getElementById('IsHost').checked
         };
     }
 
@@ -57,38 +57,27 @@ export default class UserManagement extends Component {
     }
 
     getGroups = () => {
-        fetch(resolveClientUrl('Common/GetGroups'),
-            {
-                credentials: "same-origin"
-            })
-            .then((response) => response.json())
-            .then(data => {
-                this.setState({ groups: data });
-            });
+        axios.get(resolveClientUrl('Common/GetGroups'))
+            .then(response => {
+                this.setState({ groups: response.data });
+            }).catch(axiosError);
     }
 
     getUsers = () => {
-        fetch(resolveClientUrl(`User/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`),
-            {
-                credentials: "same-origin"
-            })
-            .then((response) => response.json())
-            .then(data => {
-                data.map((e, index) => e.rowNum = index + 1);
-                this.setState({ data: data });
-            });
+        const filter = this.state.filter;
+        axios.get(resolveClientUrl(`User/GetUsers?keyword=${filter.keyword}&groupId=${filter.groupId}&isDisabledUser=${filter.isDisabledUser}`))
+            .then(response => {
+                response.data.map((e, index) => e.rowNum = index + 1);
+                this.setState({ data: response.data });
+            }).catch(axiosError);
     }
 
     getUser = (id, callback) => {
-        fetch(resolveClientUrl(`User/GetUser?employeeId=${id}`),
-            {
-                credentials: "same-origin"
-            })
-            .then((response) => response.json())
-            .then(data => {
+        axios.get(resolveClientUrl(`User/GetUser?employeeId=${id}`))
+            .then(response => {
                 if (typeof (callback) === 'function')
-                    callback(data);
-            });
+                    callback(response.data);
+            }).catch(axiosError);
     }
 
     editUser = (user) => {
@@ -106,7 +95,7 @@ export default class UserManagement extends Component {
 
     handleEditUserRolesSuccess = (data) => {
         if (data.isSuccessful) {
-            toast.success('Update successfully!');
+            toast.success(getResource('UpdateSuccessfully'));
 
             this.getUser(this.currentEditUser.employeeId, (updatedUser) => {
                 var data = this.state.data.slice();
@@ -120,8 +109,6 @@ export default class UserManagement extends Component {
         }
     }
 
-    noDataDisplay = () => <span className="text-danger">No information available!</span>
-
     render() {
         const columns = [
             {
@@ -131,7 +118,7 @@ export default class UserManagement extends Component {
             },
             {
                 dataField: 'code',
-                text: `${ getResource('Code') }`,
+                text: `${getResource('Code')}`,
                 classes: 'text-center'
             },
             {
@@ -160,7 +147,7 @@ export default class UserManagement extends Component {
                 text: `${getResource('Action')}`,
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
-                    if (this.state.canEditRole) {
+                    if (this.state.isHost) {
                         return (
                             <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row)} />
                         );
@@ -193,14 +180,6 @@ export default class UserManagement extends Component {
                                 </FormControl>
                             </FormGroup>
                             <FormGroup>
-                                <ControlLabel>Category</ControlLabel>
-                                <FormControl componentClass="select" name="isLocal" onChange={this.onFilterChange}>
-                                    <option value="">-- All --</option>
-                                    <option value="false">Expat</option>
-                                    <option value="true">Local</option>
-                                </FormControl>
-                            </FormGroup>
-                            <FormGroup>
                                 <label>
                                     <input type="checkbox" name="isDisabledUser" onChange={this.onIsDisabledUserChange} /> Is Disabled User
                                 </label>
@@ -210,7 +189,7 @@ export default class UserManagement extends Component {
                             </FormGroup>
                         </Form>
 
-                        <ToolkitProvider keyField="employeeId" data={this.state.data} noDataIndication={this.noDataDisplay} columns={columns} search >
+                        <ToolkitProvider keyField="employeeId" data={this.state.data} noDataIndication={noDataIndication} columns={columns} search >
                             {
                                 props => {
                                     return (
@@ -221,7 +200,7 @@ export default class UserManagement extends Component {
                                                     <span className="fa fa-search icon" />
                                                 </div>
                                             </div>
-                                            <BootstrapTable {...props.baseProps} pagination={paginationFactory(PaginationOptions)} />
+                                            <BootstrapTable striped {...props.baseProps} pagination={paginationFactory(PaginationOptions)} />
                                         </Fragment>
                                     );
                                 }
@@ -230,7 +209,11 @@ export default class UserManagement extends Component {
                     </div>
                     <div>
                         {this.state.showModal &&
-                            <EditUserRole showModal={this.state.showModal} closeModal={this.closeModal} user={this.currentEditUser} callback={this.handleEditUserRolesSuccess} />
+                            <EditUserRole showModal={this.state.showModal}
+                                closeModal={this.closeModal}
+                                user={this.currentEditUser}
+                                callback={this.handleEditUserRolesSuccess}
+                            />
                         }
                     </div>
                 </div>

@@ -24,12 +24,9 @@
 
         public IActionResult Index()
         {
-            var viewModel = new UserManagementViewModel
-            {
-                CanEditUserRoles = sessionService.HasPermissionOnFunction(FunctionKey.UserManagement, Policy.Host)
-            };
+            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.UserManagement, Policy.Host);
 
-            return View(viewModel);
+            return View(isHost);
         }
 
         public async Task<IActionResult> GetUsers(string keyword, int? groupId, bool? isLocal, bool isDisabledUser)
