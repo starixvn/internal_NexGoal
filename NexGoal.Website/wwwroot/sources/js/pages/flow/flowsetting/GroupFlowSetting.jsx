@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import Select from 'react-select';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PerformanceProcess } from '../../../constants';
 import EvaluatorList from './EvaluatorList';
@@ -38,8 +38,8 @@ class GroupFlowSetting extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(commonFunctions.getRootUrl() + 'Common/GetGroups'),
-            axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupHaveSetting?flowTemplateId=${this.props.flowTemplateId}`)
+            axios(resolveClientUrl('Common/GetGroups')),
+            axios(resolveClientUrl(`GroupFlowSetting/GetGroupHaveSetting?flowTemplateId=${this.props.flowTemplateId}`))
         ];
 
         Promise.all(promises)
@@ -48,11 +48,11 @@ class GroupFlowSetting extends Component {
                     groupOptions: groupResponse.data,
                     groupSettings: groupSettingResponse.data
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getFlowSetting(groupId) {
-        axios(commonFunctions.getRootUrl() + `GroupFlowSetting/GetById?groupId=${groupId}&flowTemplateId=${this.props.flowTemplateId}`)
+        axios(resolveClientUrl(`GroupFlowSetting/GetById?groupId=${groupId}&flowTemplateId=${this.props.flowTemplateId}`))
             .then(response => {
                 const data = response.data;
 
@@ -62,7 +62,7 @@ class GroupFlowSetting extends Component {
                     reviewers: data.reviewer !== null ? [data.reviewer] : [],
                     showDeleteButton: data.humanResources.length > 0 || data.evaluator !== null || data.reviewer !== null
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleGroupChange(selectedOption) {
@@ -96,7 +96,7 @@ class GroupFlowSetting extends Component {
             if ((sender === 'evaluators' || sender === 'reviewers') && items.length > 0) {
                 toast.error('Evaluator or Reviewer is single setting!');
             } else {
-                axios(commonFunctions.getRootUrl() + `Flow/GetEmployeeById?employeeId=${employeeId}`)
+                axios(resolveClientUrl(`Flow/GetEmployeeById?employeeId=${employeeId}`))
                     .then(response => {
                         const data = response.data;
                         let item = {
@@ -110,7 +110,7 @@ class GroupFlowSetting extends Component {
 
                         items.splice(toIndex, 0, item);
                         this.setState({ [sender]: items });
-                    }).catch(commonFunctions.axiosError);
+                    }).catch(axiosError);
             }
         } else {
             toast.error('This employee has already existed!');
@@ -181,7 +181,7 @@ class GroupFlowSetting extends Component {
             });
 
             axios({
-                url: commonFunctions.getRootUrl() + 'GroupFlowSetting/Edit',
+                url: resolveClientUrl('GroupFlowSetting/Edit'),
                 method: 'POST',
                 data: stringify({
                     __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -213,7 +213,7 @@ class GroupFlowSetting extends Component {
                 } else {
                     toast.error(data.message);
                 }
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
         }
     }
 
@@ -231,7 +231,7 @@ class GroupFlowSetting extends Component {
 
     handleDeleteFlowSetting() {
         axios({
-            url: commonFunctions.getRootUrl() + 'GroupFlowSetting/Delete',
+            url: resolveClientUrl('GroupFlowSetting/Delete'),
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -266,7 +266,7 @@ class GroupFlowSetting extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     render() {

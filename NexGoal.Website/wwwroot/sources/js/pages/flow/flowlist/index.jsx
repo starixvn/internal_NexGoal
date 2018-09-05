@@ -2,7 +2,7 @@
 import { Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import GroupFlowSetting from './GroupFlowSetting';
 import EmployeeFlowSetting from './EmployeeFlowSetting';
 
@@ -42,17 +42,17 @@ class FlowList extends Component {
     }
 
     getGroupFlowSetting() {
-        axios.get(commonFunctions.getRootUrl() + `GroupFlowSetting/GetGroupFlowSetting?flowTemplateId=${this.props.flowTemplateId}`)
+        axios.get(resolveClientUrl(`GroupFlowSetting/GetGroupFlowSetting?flowTemplateId=${this.props.flowTemplateId}`))
             .then(response => {
                 this.setState({ groupFlowSettings: response.data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getEmployeeFlowSetting() {
-        axios.get(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeFlowSetting?flowTemplateId=${this.props.flowTemplateId}`)
+        axios.get(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeFlowSetting?flowTemplateId=${this.props.flowTemplateId}`))
             .then(response => {
                 this.setState({ employeeFlowSettings: response.data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     render() {

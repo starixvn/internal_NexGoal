@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 
 class Create extends Component {
     constructor(props) {
@@ -24,7 +24,7 @@ class Create extends Component {
         });
 
         axios({
-            url: commonFunctions.getRootUrl() + 'Flow/Create',
+            url: resolveClientUrl('Flow/Create'),
             method: 'POST',
             data: flowTemplate,
             headers: {
@@ -50,7 +50,7 @@ class Create extends Component {
                     toast.error(data.message);
                 }
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     validateForm(values) {

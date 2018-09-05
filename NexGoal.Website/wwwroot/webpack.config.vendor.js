@@ -7,11 +7,10 @@ const CleanWebpackPlugin = require("clean-webpack-plugin");
 
 const { environment, projectPath } = require("./parts/constant");
 
-let pathsToClean = ["dist/*.*"];
+let pathsToClean = ["dist/vendors/*.*"];
 
 let cleanOptions = {
     root: path.resolve(__dirname, "."),
-    //exclude: ["bootstrap.css"],
     verbose: true,
     dry: false
 };
@@ -32,7 +31,7 @@ module.exports = env => {
                         {
                             loader: "url-loader",
                             options: {
-                                limit: 100000
+                                limit: 4096
                             }
                         }
                     ]
@@ -40,27 +39,22 @@ module.exports = env => {
             ]
         },
         entry: {
-            vendor: ["react", "react-dom"]
+            react: ["react", "react-dom"]
         },
         output: {
-            publicPath: `dist/`,
             filename: "[name].js",
             library: "[name]_[hash]"
         },
         plugins: [
-            new webpack.NormalModuleReplacementPlugin(
-                /\/iconv-loader$/,
-                require.resolve("node-noop")
-            ), // Workaround for https://github.com/andris9/encoding/issues/16
             new webpack.DefinePlugin({
                 "process.env.NODE_ENV": isDevBuild ? '"development"' : '"production"'
             }),
             new OptimizeCssAssetsPlugin()
-        ].concat(isDevBuild ? [] : [new CleanWebpackPlugin(pathsToClean, cleanOptions)])
+        ]
     };
 
     const clientBundleConfig = merge(sharedConfig, {
-        output: { path: relativeOutputRootPath },
+        output: { publicPath: "dist/vendors", path: path.join(relativeOutputRootPath, "vendors") },
         module: {
             rules: [
                 {
@@ -71,15 +65,13 @@ module.exports = env => {
         },
         plugins: [
             new MiniCssExtractPlugin({
-                // Options similar to the same options in webpackOptions.output
-                // both options are optional
                 filename: "[name].css"
             }),
             new webpack.DllPlugin({
-                path: path.join(relativeOutputRootPath, "[name]-manifest.json"),
+                path: path.join(relativeOutputRootPath, "vendors", "[name]-manifest.json"),
                 name: "[name]_[hash]"
             })
-        ]
+        ].concat(isDevBuild ? [] : [new CleanWebpackPlugin(pathsToClean, cleanOptions)])
     });
 
     return [clientBundleConfig];

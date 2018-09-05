@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import SearchForm from './SearchForm';
@@ -57,14 +57,14 @@ export default class EvaluationPeriod extends Component {
     }
 
     getTargetTypes = () => {
-        axios.get(commonFunctions.getRootUrl() + 'Common/GetTargetTypes')
+        axios.get(resolveClientUrl('Common/GetTargetTypes'))
             .then(response => {
                 this.setState({ targetTypes: response.data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getPeriods = () => {
-        axios.get(commonFunctions.getRootUrl() + 'Period/GetPeriods', {
+        axios.get(resolveClientUrl('Period/GetPeriods'), {
             params: {
                 targetTypeId: this.state.filter.targetTypeId,
                 isActive: this.state.filter.isActive
@@ -72,7 +72,7 @@ export default class EvaluationPeriod extends Component {
         }).then(response => {
             response.data.forEach((e, index) => e.rowNum = index + 1);
             this.setState({ data: response.data });
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     render() {

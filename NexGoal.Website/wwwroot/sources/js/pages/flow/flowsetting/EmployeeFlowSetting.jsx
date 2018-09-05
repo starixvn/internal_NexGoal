@@ -4,7 +4,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PerformanceProcess } from '../../../constants';
 import EmployeeFlowFilter from './EmployeeFlowFilter';
@@ -40,18 +40,18 @@ class EmployeeFlowSetting extends Component {
     }
 
     getGroups() {
-        axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
+        axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
                 const data = response.data;
 
                 this.setState({
                     groupOptions: data
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getFlowSetting(employeeId) {
-        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetById?employeeId=${employeeId}&flowTemplateId=${this.props.flowTemplateId}`)
+        axios(resolveClientUrl(`EmployeeFlowSetting/GetById?employeeId=${employeeId}&flowTemplateId=${this.props.flowTemplateId}`))
             .then(response => {
                 const data = response.data;
 
@@ -68,7 +68,7 @@ class EmployeeFlowSetting extends Component {
                     },
                     showDeleteButton: data.humanResources.length > 0 || data.evaluator !== null || data.reviewer !== null
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleOnEmployeeSelected(employeeId) {
@@ -98,7 +98,7 @@ class EmployeeFlowSetting extends Component {
             if ((sender === 'evaluators' || sender === 'reviewers') && items.length > 0) {
                 toast.error('Evaluator or Reviewer is single setting!');
             } else {
-                axios(commonFunctions.getRootUrl() + `Flow/GetEmployeeById?employeeId=${employeeId}`)
+                axios(resolveClientUrl(`Flow/GetEmployeeById?employeeId=${employeeId}`))
                     .then(response => {
                         const data = response.data;
                         let item = {
@@ -112,7 +112,7 @@ class EmployeeFlowSetting extends Component {
 
                         items.splice(toIndex, 0, item);
                         this.setState({ [sender]: items });
-                    }).catch(commonFunctions.axiosError);
+                    }).catch(axiosError);
             }
         } else {
             toast.error('This employee has already existed!');
@@ -183,7 +183,7 @@ class EmployeeFlowSetting extends Component {
             });
 
             axios({
-                url: commonFunctions.getRootUrl() + 'EmployeeFlowSetting/Edit',
+                url: resolveClientUrl('EmployeeFlowSetting/Edit'),
                 method: 'POST',
                 data: stringify({
                     __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -204,7 +204,7 @@ class EmployeeFlowSetting extends Component {
                 } else {
                     toast.error(data.message);
                 }
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
         }
     }
 
@@ -222,7 +222,7 @@ class EmployeeFlowSetting extends Component {
 
     handleDeleteFlowSetting() {
         axios({
-            url: commonFunctions.getRootUrl() + 'EmployeeFlowSetting/Delete',
+            url: resolveClientUrl('EmployeeFlowSetting/Delete'),
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -249,7 +249,7 @@ class EmployeeFlowSetting extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     render() {

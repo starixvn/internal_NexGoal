@@ -3,11 +3,18 @@ const webpack = require("webpack");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin");
 const merge = require("webpack-merge");
+const CleanWebpackPlugin = require("clean-webpack-plugin");
+
+let pathsToClean = ["dist/js/*.*", "dist/styles/*.*"];
+
+let cleanOptions = {
+    root: path.resolve(__dirname, "."),
+    verbose: true,
+    dry: false
+};
 
 const { environment, projectPath } = require("./parts/constant");
 const entry = require("./parts/entry");
-
-const vendorFileName = "vendor-manifest.json";
 
 module.exports = env => {
     env = environment[env] || environment.development;
@@ -19,7 +26,8 @@ module.exports = env => {
         resolve: { extensions: [".js", ".jsx"] },
         output: {
             filename: "[name].js",
-            publicPath: `dist/` // Webpack dev middleware, if enabled, handles requests for this URL prefix
+            chunkFilename: 'js/[name].[chunkhash].js',
+            publicPath: `/dist/`
         },
         module: {
             rules: [
@@ -34,7 +42,7 @@ module.exports = env => {
                         loader: 'file-loader',
                         options: {
                             name: '[name].[ext]',
-                            outputPath: 'fonts/',
+                            outputPath: 'styles/fonts/',
                             publicPath: 'fonts/'
                         }
                     }]
@@ -47,7 +55,7 @@ module.exports = env => {
                             options: {
                                 limit: 8192,
                                 name: "[name].[ext]",
-                                outputPath: "images/",
+                                outputPath: "styles/images/",
                                 publicPath: "images/"
                             }
                         }
@@ -76,14 +84,15 @@ module.exports = env => {
         },
         output: { path: clientBundleOutputDir },
         plugins: [
+            new webpack.DefinePlugin({
+                "process.env.NODE_ENV": isDevBuild ? '"development"' : '"production"'
+            }),
             new MiniCssExtractPlugin({
-                // Options similar to the same options in webpackOptions.output
-                // both options are optional
                 filename: "[name].css"
             }),
             new webpack.DllReferencePlugin({
                 context: __dirname,
-                manifest: require(`${clientBundleOutputDir}/${vendorFileName}`)
+                manifest: require(`${clientBundleOutputDir}/vendors/react-manifest.json`)
             }),
             new webpack.ProvidePlugin({
                 jQuery: 'jquery',
@@ -91,19 +100,9 @@ module.exports = env => {
                 jquery: 'jquery'
             })
         ].concat(
-            isDevBuild
-                ? [
-                    // Plugins that apply in development builds only
-                    new webpack.SourceMapDevToolPlugin({
-                        filename: "[file].map", // Remove this line if you prefer inline source maps
-                        moduleFilenameTemplate: path.relative(
-                            clientBundleOutputDir,
-                            "[resourcePath]"
-                        ) // Point sourcemap entries to the original file locations on disk
-                    })
-                ]
-                : [new OptimizeCSSAssetsPlugin()]
-        )
+            isDevBuild ? [] : [new CleanWebpackPlugin(pathsToClean, cleanOptions), new OptimizeCSSAssetsPlugin()]
+        ),
+        devtool: "source-map"
     });
 
     return [clientBundleConfig];

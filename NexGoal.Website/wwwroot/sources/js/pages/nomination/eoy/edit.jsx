@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 
 import ToastLayout from '../../../shared/layouts/ToastLayout';
-import commonFunctions from '../../../common-functions';
+import { resolveClientUrl } from '../../../common-functions';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import Settings from './Settings';
 import RoleManagement from './role/index';
@@ -29,7 +29,7 @@ export default class App extends Component {
     }
 
     handleBackClick() {
-        window.location = commonFunctions.getRootUrl() + 'Nomination/index?tab=eoy';
+        window.location = resolveClientUrl('Nomination/index?tab=eoy');
     }
 
     render() {

@@ -8,7 +8,7 @@ import { stringify } from 'qs';
 import { toast } from 'react-toastify';
 
 import { PaginationOptions } from '../../constants';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 
 const { SearchBar } = Search;
 
@@ -23,7 +23,7 @@ export default class Table extends Component {
         var isActive = e.target.checked;
 
         axios({
-            url: commonFunctions.getRootUrl() + 'discipline/editstatus',
+            url: resolveClientUrl('discipline/editstatus'),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -42,7 +42,7 @@ export default class Table extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     render() {

@@ -1,6 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import SearchForm from './SearchForm';
 import Table from './Table';
 
@@ -34,7 +34,7 @@ export default class EditEmployeeSetting extends Component {
                     }),
                     settings: settings
                 });
-            })).catch(commonFunctions.axiosError);
+            })).catch(axiosError);
     }
 
     updateFilterValue = (name, value) => {
@@ -42,12 +42,12 @@ export default class EditEmployeeSetting extends Component {
         this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
-    getPerformanceStatusesAxios = () => axios.get(commonFunctions.getRootUrl() + 'Common/GetPerformanceStatuses');
+    getPerformanceStatusesAxios = () => axios.get(resolveClientUrl('Common/GetPerformanceStatuses'));
 
-    getGroupsAxios = () => axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
+    getGroupsAxios = () => axios(resolveClientUrl('Common/GetGroups'));
 
     getEmployeeSettingsAxios = () =>
-        axios(commonFunctions.getRootUrl() + 'Period/GetEmployeeSettings', {
+        axios(resolveClientUrl('Period/GetEmployeeSettings'), {
             params: {
                 periodId: this.props.periodId,
                 groupId: this.state.filter.groupId,
@@ -55,7 +55,7 @@ export default class EditEmployeeSetting extends Component {
                 isEvaluated: this.state.filter.isEvaluated,
                 statusId: this.state.filter.paStatusId
             }
-        })
+        });
 
     getEmployeeSettings = () => {
         this.getEmployeeSettingsAxios()
@@ -67,7 +67,7 @@ export default class EditEmployeeSetting extends Component {
                     settings: settings
                 });
             })
-            .catch(commonFunctions.axiosError);
+            .catch(axiosError);
     }
 
     render() {

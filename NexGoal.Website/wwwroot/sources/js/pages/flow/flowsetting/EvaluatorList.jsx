@@ -2,7 +2,7 @@
 import axios from 'axios';
 import Select from 'react-select';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Draggable from './Draggable';
 
 class EvaluatorList extends Component {
@@ -25,7 +25,7 @@ class EvaluatorList extends Component {
     }
 
     getEmployees(groupId) {
-        axios(commonFunctions.getRootUrl() + `Common/SearchEmployees?groupId=${groupId}`)
+        axios(resolveClientUrl(`Common/SearchEmployees?groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
 
@@ -33,7 +33,7 @@ class EvaluatorList extends Component {
                     employees: data,
                     filteredEmployees: data
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleOnGroupChange(selectedOption) {

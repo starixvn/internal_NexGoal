@@ -1,30 +1,31 @@
-﻿module.exports = {
-    axiosError: function (error) {
-        if (error.response) {
-            var url;
+﻿const _rootUrl = document.getElementById('RootURL').value ? document.getElementById('RootURL').value : '/';
 
-            switch (error.response.status) {
-                case 401:
-                    url = 'auth/login';
-                    break;
+export const resolveClientUrl = (relativePath) => {
+    return _rootUrl + relativePath;
+};
 
-                case 404:
-                    url = 'error/PageNotFound';
-                    break;
+export const axiosError = (error) => {
+    if (error.response) {
+        var url;
 
-                case 405:
-                    url = 'error/AccessDenied';
-                    break;
+        switch (error.response.status) {
+            case 401:
+                url = 'auth/login';
+                break;
 
-                case 500:
-                    url = 'error/InternalError';
-                    break;
-            }
+            case 404:
+                url = 'error/PageNotFound';
+                break;
 
-            window.location = document.getElementById('RootURL').value + url;
+            case 405:
+                url = 'error/AccessDenied';
+                break;
+
+            case 500:
+                url = 'error/InternalError';
+                break;
         }
-    },
-    getRootUrl: function () {
-        return document.getElementById('RootURL').value;
+
+        window.location = _rootUrl + url;
     }
 };

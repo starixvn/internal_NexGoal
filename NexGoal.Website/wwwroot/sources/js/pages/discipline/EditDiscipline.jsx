@@ -3,7 +3,7 @@ import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstr
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { Async } from 'react-select';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
@@ -34,7 +34,7 @@ export default class AddEditDiscipline extends Component {
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
         axios({
-            url: commonFunctions.getRootUrl() + `discipline/${values.disciplineId === 0 ? 'create' : 'edit'}`,
+            url: resolveClientUrl(`discipline/${values.disciplineId === 0 ? 'create' : 'edit'}`),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -66,12 +66,12 @@ export default class AddEditDiscipline extends Component {
                 }
                 setSubmitting(false);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     searchEmployees = (input) => {
         if (input.length > 2) {
-            return axios(commonFunctions.getRootUrl() + `common/SearchEmployees?keyword=${input}`)
+            return axios(resolveClientUrl(`common/SearchEmployees?keyword=${input}`))
                 .then(response => {
                     let options = [];
 

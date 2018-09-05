@@ -7,7 +7,8 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import { toast } from 'react-toastify';
 
 import { PaginationOptions } from '../../constants';
-import commonFunctions from '../../common-functions';
+import { resolveClientUrl  } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditUserRole from './edit-user-role';
@@ -32,13 +33,13 @@ export default class UserManagement extends Component {
         };
     }
 
-    userRoles = [];
-    currentEditUser = [];
-
     componentDidMount = () => {
         this.getUsers();
         this.getGroups();
     }
+
+    userRoles = [];
+    currentEditUser = [];
 
     onFilterChange = (e) => {
         var filter = { [e.target.name]: e.target.value };
@@ -56,7 +57,7 @@ export default class UserManagement extends Component {
     }
 
     getGroups = () => {
-        fetch(commonFunctions.getRootUrl() + 'Common/GetGroups',
+        fetch(resolveClientUrl('Common/GetGroups'),
             {
                 credentials: "same-origin"
             })
@@ -67,8 +68,7 @@ export default class UserManagement extends Component {
     }
 
     getUsers = () => {
-        fetch(commonFunctions.getRootUrl() +
-            `User/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`,
+        fetch(resolveClientUrl(`User/GetUsers?keyword=${this.state.filter.keyword}&groupId=${this.state.filter.groupId}&isLocal=${this.state.filter.isLocal}&isDisabledUser=${this.state.filter.isDisabledUser}`),
             {
                 credentials: "same-origin"
             })
@@ -80,7 +80,7 @@ export default class UserManagement extends Component {
     }
 
     getUser = (id, callback) => {
-        fetch(commonFunctions.getRootUrl() + `User/GetUser?employeeId=${id}`,
+        fetch(resolveClientUrl(`User/GetUser?employeeId=${id}`),
             {
                 credentials: "same-origin"
             })
@@ -131,33 +131,33 @@ export default class UserManagement extends Component {
             },
             {
                 dataField: 'code',
-                text: 'Code',
+                text: `${ getResource('Code') }`,
                 classes: 'text-center'
             },
             {
                 dataField: 'nickName',
-                text: 'Nick Name'
+                text: `${getResource('NickName')}`
             },
             {
                 dataField: 'fullName',
-                text: 'Full Name'
+                text: `${getResource('FullName')}`
             },
             {
                 dataField: 'groupCode',
-                text: 'Team',
+                text: `${getResource('Team')}`,
                 classes: 'text-center'
             },
             {
                 dataField: 'jobTitle',
-                text: 'Job Title'
+                text: `${getResource('JobTitle')}`
             },
             {
                 dataField: 'roles',
-                text: 'Roles'
+                text: `${getResource('Roles')}`
             },
             {
                 dataField: '',
-                text: 'Action',
+                text: `${getResource('Action')}`,
                 classes: 'text-center',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.state.canEditRole) {
@@ -174,19 +174,19 @@ export default class UserManagement extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">User Management</li>
+                        <li className="current">{getResource('UserManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                             <FormGroup>
-                                <ControlLabel>Keyword</ControlLabel>
+                                <ControlLabel>{getResource('Keyword')}</ControlLabel>
                                 <FormControl name="keyword" type="text"
                                     placeholder="Full name or Nick name" autoComplete="off"
                                     onChange={this.onFilterChange}
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <ControlLabel>Team</ControlLabel>
+                                <ControlLabel>{getResource('Team')}</ControlLabel>
                                 <FormControl componentClass="select" onChange={this.onFilterChange} name="groupId">
                                     <option value="">-- All --</option>
                                     {this.state.groups.map((group) => <option key={group.groupId} value={group.groupId}>{group.name}</option>)}
@@ -206,7 +206,7 @@ export default class UserManagement extends Component {
                                 </label>
                             </FormGroup>
                             <FormGroup>
-                                <Button type="submit" className="btn btn-primary">Search</Button>
+                                <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                             </FormGroup>
                         </Form>
 

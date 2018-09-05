@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../../common-functions';
 import { nominationRoleOptions } from '../../common';
 import Filter from './Filter';
 import Table from './Table';
@@ -36,7 +36,7 @@ export default class RoleManagement extends Component {
     }
 
     getGroups() {
-        axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
+        axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
                 const groupOptions = response.data.map((group) => {
                     return { value: group.groupId, label: group.name };
@@ -46,24 +46,23 @@ export default class RoleManagement extends Component {
                     groupOptions: groupOptions,
                     filter: Object.assign({}, this.state.filter, { groups: groupOptions })
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getNominatorSetting() {
         const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
 
-        axios.get(commonFunctions.getRootUrl()
-            + `EOQ/GetNominatorSetting?eoqId=${this.state.eoqId}`
+        axios.get(resolveClientUrl(`EOQ/GetNominatorSetting?eoqId=${this.state.eoqId}`
             + `&keyword=${this.state.filter.keyword}`
             + `&groupIds=${groupIds}`
             + `&roleId=${this.state.filter.role.value}`
             + `&isShowAll=${this.state.filter.isShowAll}`)
-            .then(response => {
-                const data = response.data;
-                data.map((e, index) => e.rowNum = index + 1);
+        ).then(response => {
+            const data = response.data;
+            data.map((e, index) => e.rowNum = index + 1);
 
-                this.setState({ nominators: data });
-            }).catch(commonFunctions.axiosError);
+            this.setState({ nominators: data });
+        }).catch(axiosError);
     }
 
     editNominatorSetting(nominator) {
@@ -75,7 +74,7 @@ export default class RoleManagement extends Component {
         });
 
         axios({
-            url: commonFunctions.getRootUrl() + 'EOQ/EditNominatorSetting',
+            url: resolveClientUrl('EOQ/EditNominatorSetting'),
             method: 'POST',
             data: setting,
             headers: {
@@ -91,7 +90,7 @@ export default class RoleManagement extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     handleFilterChange(filter) {

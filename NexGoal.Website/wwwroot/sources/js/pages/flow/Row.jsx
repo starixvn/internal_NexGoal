@@ -1,6 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 
-import commonFunctions from '../../common-functions';
+import { resolveClientUrl } from '../../common-functions';
 
 class Row extends Component {
     constructor(props) {
@@ -21,7 +21,7 @@ class Row extends Component {
             return (
                 <Fragment>
                     <a className="fa fa-pencil-square-o" title="Edit"
-                        href={commonFunctions.getRootUrl() + 'Flow/Edit/' + flowTemplate.flowTemplateId}
+                        href={resolveClientUrl('Flow/Edit/' + flowTemplate.flowTemplateId)}
                     />
                     <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleOnDeleteClick} />
                 </Fragment>
@@ -30,7 +30,7 @@ class Row extends Component {
 
         return (
             <a className="fa fa-search" title="Details"
-                href={commonFunctions.getRootUrl() + 'Flow/Details/' + flowTemplate.flowTemplateId}
+                href={resolveClientUrl('Flow/Details/' + flowTemplate.flowTemplateId)}
             />
         );
     }

@@ -8,7 +8,7 @@ import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { validateEOYForm } from '../common';
 
 class CreateEOY extends Component {
@@ -28,7 +28,7 @@ class CreateEOY extends Component {
         });
 
         axios({
-            url: commonFunctions.getRootUrl() + 'EOY/Create',
+            url: resolveClientUrl('EOY/Create'),
             method: 'POST',
             data: eoy,
             headers: {
@@ -54,7 +54,7 @@ class CreateEOY extends Component {
                     toast.error(data.message);
                 }
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     renderForm = ({

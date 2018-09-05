@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import ToastLayout from '../../shared/layouts/ToastLayout';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import { Policy } from '../../constants';
 import Filter from './Filter';
@@ -33,7 +33,7 @@ export default class App extends Component {
     }
 
     getAssignPermissions(roleId) {
-        axios.get(commonFunctions.getRootUrl() + `Role/AssignPermission?roleId=${roleId}`)
+        axios.get(resolveClientUrl(`Role/AssignPermission?roleId=${roleId}`))
             .then(response => {
                 let data = response.data;
 
@@ -43,7 +43,7 @@ export default class App extends Component {
                     functions: data.functions,
                     isHost: data.isHost
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleOnRoleChange(roleId) {
@@ -97,7 +97,7 @@ export default class App extends Component {
         });
 
         axios({
-            url: commonFunctions.getRootUrl() + 'Role/AssignPermission',
+            url: resolveClientUrl('Role/AssignPermission'),
             method: 'POST',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -115,7 +115,7 @@ export default class App extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     render() {

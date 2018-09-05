@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Filter from './Filter';
 import Table from './Table';
 
@@ -21,12 +21,12 @@ export default class EOY extends Component {
     }
 
     getAllEOY() {
-        axios.get(commonFunctions.getRootUrl() + `EOY/GetAll?statusId=${this.state.statusId}`)
+        axios.get(resolveClientUrl(`EOY/GetAll?statusId=${this.state.statusId}`))
             .then(response => {
                 let data = response.data;
 
                 this.setState({ eoys: data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleStatusChange(statusId) {

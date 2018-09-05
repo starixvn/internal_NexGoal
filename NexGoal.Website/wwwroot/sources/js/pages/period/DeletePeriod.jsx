@@ -2,7 +2,7 @@
 import { Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { toast } from 'react-toastify';
 
 export default class DeletePeriod extends Component {
@@ -14,7 +14,7 @@ export default class DeletePeriod extends Component {
         event.preventDefault();
 
         axios({
-            url: commonFunctions.getRootUrl() + `period/delete`,
+            url: resolveClientUrl(`period/delete`),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -33,7 +33,7 @@ export default class DeletePeriod extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     render() {

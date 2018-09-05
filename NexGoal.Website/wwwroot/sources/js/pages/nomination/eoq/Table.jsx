@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import Row from './Row';
 import CreateEOQ from './Create';
@@ -55,7 +55,7 @@ class Table extends Component {
 
     handleDeleteEOQ() {
         axios({
-            url: commonFunctions.getRootUrl() + 'EOQ/Delete',
+            url: resolveClientUrl('EOQ/Delete'),
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -75,7 +75,7 @@ class Table extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     render() {

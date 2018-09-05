@@ -4,7 +4,7 @@ import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
@@ -71,7 +71,7 @@ export default class CreatePeriod extends Component {
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
         axios({
-            url: commonFunctions.getRootUrl() + `period/Create`,
+            url: resolveClientUrl(`period/Create`),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -109,7 +109,7 @@ export default class CreatePeriod extends Component {
 
                 setSubmitting(false);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     renderForm = ({

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import Row from './Row';
 import Create from './Create';
@@ -56,7 +56,7 @@ class Table extends Component {
 
     handleDeleteFlowTemplate() {
         axios({
-            url: commonFunctions.getRootUrl() + 'Flow/Delete',
+            url: resolveClientUrl('Flow/Delete'),
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -76,7 +76,7 @@ class Table extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     handleOnCheckboxChange(flowTemplateSelected) {
@@ -88,7 +88,7 @@ class Table extends Component {
 
     handleEditStatusFlowTemplate() {
         axios({
-            url: commonFunctions.getRootUrl() + 'Flow/EditStatus',
+            url: resolveClientUrl('Flow/EditStatus'),
             method: 'POST',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -109,7 +109,7 @@ class Table extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     handleOnCloseEditStatusModal() {

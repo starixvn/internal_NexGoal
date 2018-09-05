@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { PerformanceRecordStatus } from '../../../constants';
 import avatar from '../../../../styles/images/avatar1.jpg';
 import ToastLayout from '../../../shared/layouts/ToastLayout';
@@ -38,8 +38,8 @@ export default class CreateCheckIn extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(commonFunctions.getRootUrl() + 'Common/GetPerformanceGrades'),
-            axios(commonFunctions.getRootUrl() + 'Common/GetProjects')
+            axios(resolveClientUrl('Common/GetPerformanceGrades')),
+            axios(resolveClientUrl('Common/GetProjects'))
         ];
 
         Promise.all(promises)
@@ -58,7 +58,7 @@ export default class CreateCheckIn extends Component {
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleGradeChange(selectedOption) {
@@ -122,7 +122,7 @@ export default class CreateCheckIn extends Component {
             });
 
             axios({
-                url: commonFunctions.getRootUrl() + 'Self/PerformanceCheckIn/Create',
+                url: resolveClientUrl('Self/PerformanceCheckIn/Create'),
                 method: 'POST',
                 data: performanceRecord,
                 headers: {
@@ -145,12 +145,12 @@ export default class CreateCheckIn extends Component {
                         toast.error(data.message);
                     }
                 }
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
         }
     }
 
     render() {
-        const avataruser = `/dist/${avatar}`;
+        const avataruser = `/dist/styles/images/${avatar}`;
         let errors = this.state.errors;
 
         return (

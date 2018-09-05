@@ -1,12 +1,19 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Localization
+@inject Microsoft.AspNetCore.Http.IHttpContextAccessor context
+
+@{
+    var requestCulture = context.HttpContext.Features.Get<IRequestCultureFeature>();
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"]</title>
     <link rel="shortcut icon" type="image/ico" href="~/favicon.ico" />
-    
-    <link href="~/dist/cssmain.css" rel="stylesheet" />
+
+    <link href="~/dist/styles/main.css" rel="stylesheet" />
 
     @RenderSection("Styles", false)
 </head>
@@ -24,8 +31,13 @@
 
     @Html.Hidden("RootURL", Url.Content("~/"))
 
-    <script src="~/dist/vendor.js"></script>
-    <script src="~/dist/main.js"></script>
+    <script>
+        window.PageLanguage = '@requestCulture?.RequestCulture?.UICulture?.Name';
+    </script>
+
+    <script src="~/dist/resources/resource_en_US.js" asp-append-version="true"></script>
+    <script src="~/dist/vendors/react.js" asp-append-version="false"></script>
+    <script src="~/dist/js/main.js"></script>
 
     @RenderSection("Scripts", required: false)
 </body>

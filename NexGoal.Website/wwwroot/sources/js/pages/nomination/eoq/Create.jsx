@@ -8,7 +8,7 @@ import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { quarterOptions, validateEOQForm } from '../common';
 
 class CreateEOQ extends Component {
@@ -29,7 +29,7 @@ class CreateEOQ extends Component {
         });
 
         axios({
-            url: commonFunctions.getRootUrl() + 'EOQ/Create',
+            url: resolveClientUrl('EOQ/Create'),
             method: 'POST',
             data: eoq,
             headers: {
@@ -55,7 +55,7 @@ class CreateEOQ extends Component {
                     toast.error(data.message);
                 }
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     renderForm = ({

@@ -4,7 +4,7 @@ import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
@@ -24,7 +24,7 @@ export default class EditBasicInformation extends Component {
     }
 
     getPeriod = () => {
-        axios.get(commonFunctions.getRootUrl() + 'Period/Get/' + this.props.periodId)
+        axios.get(resolveClientUrl('Period/Get/' + this.props.periodId))
             .then(response => {
                 var data = response.data;
                 data.startDate = data.startDate ? moment(data.startDate) : null;
@@ -33,7 +33,7 @@ export default class EditBasicInformation extends Component {
                 data.disciplineEndDate = data.disciplineEndDate ? moment(data.disciplineEndDate) : null;
                 data.focusStartDate = data.focusStartDate ? moment(data.focusStartDate) : null;
                 this.setState({ basicInformation: data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     validateForm = values => {
@@ -76,7 +76,7 @@ export default class EditBasicInformation extends Component {
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
         axios({
-            url: '/period/edit',
+            url: resolveClientUrl('period/edit'),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -113,7 +113,7 @@ export default class EditBasicInformation extends Component {
             }
 
             setSubmitting(false);
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     renderForm = ({

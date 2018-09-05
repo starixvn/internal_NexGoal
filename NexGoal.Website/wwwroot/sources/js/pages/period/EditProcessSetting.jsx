@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import { stringify } from 'qs';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { toast } from 'react-toastify';
 import { camelCase, range } from 'lodash';
 import TargetType from './TargetType';
@@ -26,19 +26,19 @@ export default class EditProcessSetting extends Component {
     }
 
     getPeriod = () => {
-        axios.get(commonFunctions.getRootUrl() + 'Period/Get/' + this.props.periodId)
+        axios.get(resolveClientUrl('Period/Get/' + this.props.periodId))
             .then(response => {
                 var data = response.data;
                 this.setState({ period: data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getSettings = () => {
-        axios.get(commonFunctions.getRootUrl() + 'Period/GetPeriodProcessSetting/' + this.props.periodId)
+        axios.get(resolveClientUrl('Period/GetPeriodProcessSetting/' + this.props.periodId))
             .then(response => {
                 let data = response.data;
                 this.setState({ settings: data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleDurationChange = e => {
@@ -87,7 +87,7 @@ export default class EditProcessSetting extends Component {
 
     save = () => {
         axios({
-            url: '/period/editprocesssetting',
+            url: resolveClientUrl('period/editprocesssetting'),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -116,7 +116,7 @@ export default class EditProcessSetting extends Component {
             }
 
             setSubmitting(false);
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     render() {

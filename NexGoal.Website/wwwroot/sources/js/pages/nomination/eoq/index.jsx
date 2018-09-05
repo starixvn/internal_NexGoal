@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Filter from './Filter';
 import Table from './Table';
 
@@ -24,7 +24,7 @@ export default class EOQ extends Component {
     }
 
     getYears() {
-        axios.get(commonFunctions.getRootUrl() + 'EOQ/GetYears')
+        axios.get(resolveClientUrl('EOQ/GetYears'))
             .then(response => {
                 let data = response.data;
 
@@ -32,16 +32,16 @@ export default class EOQ extends Component {
                     years: data,
                     year: data[0]
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getAllEOQ() {
-        axios.get(commonFunctions.getRootUrl() + `EOQ/GetAll?year=${this.state.year}&statusId=${this.state.statusId}`)
+        axios.get(resolveClientUrl(`EOQ/GetAll?year=${this.state.year}&statusId=${this.state.statusId}`))
             .then(response => {
                 let data = response.data;
 
                 this.setState({ eoqs: data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleYearChange(year) {

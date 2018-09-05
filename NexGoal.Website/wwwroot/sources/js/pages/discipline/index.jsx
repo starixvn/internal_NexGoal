@@ -5,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { Async } from 'react-select';
 
-import commonFunctions from '../../common-functions';
+import { resolveClientUrl } from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Multiselect from '../../shared/components/MultiSelect';
 import Table from './Table';
@@ -77,20 +77,19 @@ export default class DisciplineManagement extends Component {
         const employeeId = this.state.filter.employee ? this.state.filter.employee.value : '';
         const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
 
-        axios(commonFunctions.getRootUrl()
-            + `Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}`
+        axios(resolveClientUrl(`Discipline/GetDisciplines?from=${this.state.filter.from.format('YYYY-MM-DD')}`
             + `&to=${this.state.filter.to.format('YYYY-MM-DD')}`
             + `&isActive=${this.state.filter.isActive}`
             + `&employeeId=${employeeId}`
             + `&groupIds=${groupIds}`)
-            .then(response => {
-                response.data.forEach((e, index) => e.rowNum = index + 1);
-                this.setState({ data: response.data });
-            });
+        ).then(response => {
+            response.data.forEach((e, index) => e.rowNum = index + 1);
+            this.setState({ data: response.data });
+        });
     }
 
     getGroups = () => {
-        axios(commonFunctions.getRootUrl() + 'Common/GetGroups')
+        axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
                 const groupOptions = response.data.map((group) => {
                     return { value: group.groupId, label: group.name };
@@ -105,7 +104,7 @@ export default class DisciplineManagement extends Component {
 
     searchEmployees = (input, callback) => {
         if (input.length > 1) {
-            return axios(commonFunctions.getRootUrl() + `common/SearchEmployees?keyword=${input}`)
+            return axios(resolveClientUrl(`common/SearchEmployees?keyword=${input}`))
                 .then(response => {
                     let options = [];
 

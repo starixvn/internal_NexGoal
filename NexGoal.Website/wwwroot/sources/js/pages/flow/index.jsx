@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Filter from './Filter';
@@ -32,22 +32,20 @@ export default class App extends Component {
     }
 
     getTargetTypes() {
-        axios.get(commonFunctions.getRootUrl() + 'Common/GetTargetTypes')
+        axios.get(resolveClientUrl('Common/GetTargetTypes'))
             .then(response => {
                 this.setState({ targetTypes: response.data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getFlowTemplates() {
-        axios.get(commonFunctions.getRootUrl()
-            + `Flow/GetAll?targetTypeId=${this.state.filter.targetTypeId}`
-            + `&isActive=${this.state.filter.isActive}`)
+        axios.get(resolveClientUrl(`Flow/GetAll?targetTypeId=${this.state.filter.targetTypeId}&isActive=${this.state.filter.isActive}`))
             .then(response => {
                 const data = response.data;
                 data.map((e, index) => e.rowNum = index + 1);
 
                 this.setState({ flowTemplates: data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleOnFilterChange(filter) {

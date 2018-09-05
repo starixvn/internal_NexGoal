@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import moment from 'moment';
 
-import commonFunctions from '../../../common-functions';
+import { resolveClientUrl } from '../../../common-functions';
 
 class Row extends Component {
     constructor(props) {
@@ -44,7 +44,7 @@ class Row extends Component {
             return (
                 <Fragment>
                     <a className="fa fa-pencil-square-o" title="Edit"
-                        href={commonFunctions.getRootUrl() + 'EOQ/Edit/' + eoq.eoqyId}
+                        href={resolveClientUrl('EOQ/Edit/' + eoq.eoqyId)}
                     />
                     {eoq.statusId === 0 &&
                         <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick.bind(this)} />
@@ -55,7 +55,7 @@ class Row extends Component {
 
         return (
             <a className="fa fa-search" title="Details"
-                href={commonFunctions.getRootUrl() + 'EOQ/Details/' + eoq.eoqyId}
+                href={resolveClientUrl('EOQ/Details/' + eoq.eoqyId)}
             />
         );
     }

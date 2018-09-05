@@ -2,7 +2,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
-import commonFunctions from '../../../common-functions';
+import { resolveClientUrl } from '../../../common-functions';
 import { toast } from 'react-toastify';
 import { range } from 'lodash';
 import { Pagination, DropdownButton, MenuItem } from 'react-bootstrap';
@@ -175,7 +175,7 @@ export default class Table extends Component {
         }
 
         axios({
-            url: '/Period/CreateEmployeeSettings',
+            url: resolveClientUrl('Period/CreateEmployeeSettings'),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -195,7 +195,7 @@ export default class Table extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     onPASelect = e => {

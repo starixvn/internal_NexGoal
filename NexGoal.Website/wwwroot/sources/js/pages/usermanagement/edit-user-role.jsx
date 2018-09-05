@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Modal, Button, Form, FormGroup, ControlLabel, Checkbox, Col } from 'react-bootstrap';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 
 export default class EditUserRole extends Component {
     constructor(props) {
@@ -16,7 +16,7 @@ export default class EditUserRole extends Component {
     }
 
     getUserRoles = () => {
-        fetch(commonFunctions.getRootUrl() + `User/GetRolesForUser?employeeId=${this.props.user.employeeId}`,
+        fetch(resolveClientUrl(`User/GetRolesForUser?employeeId=${this.props.user.employeeId}`),
             {
                 credentials: "same-origin"
             })
@@ -30,7 +30,7 @@ export default class EditUserRole extends Component {
             .then(data => {
                 this.setState({ userRoles: data });
             })
-            .catch(error => commonFunctions.axiosError(error));
+            .catch(error => axiosError(error));
     }
 
     handleEditUserRoles = (e) => {
@@ -44,7 +44,7 @@ export default class EditUserRole extends Component {
 
         var employeeId = this.props.user.employeeId;
 
-        fetch(commonFunctions.getRootUrl() + 'User/EditUserRoles',
+        fetch(resolveClientUrl('User/EditUserRoles'),
             {
                 method: 'POST',
                 headers: {
@@ -63,7 +63,7 @@ export default class EditUserRole extends Component {
             .then(data => {
                 this.props.callback(data);
             })
-            .catch(error => commonFunctions.axiosError(error));
+            .catch(error => axiosError(error));
     }
 
     render() {

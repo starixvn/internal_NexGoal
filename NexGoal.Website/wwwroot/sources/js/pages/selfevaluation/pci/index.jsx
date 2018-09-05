@@ -4,7 +4,7 @@ import { range } from 'lodash';
 import moment from 'moment';
 import axios from 'axios';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import { PerformanceRecordSizePerPages } from '../../../constants';
 import Filter from './Filter';
@@ -36,8 +36,8 @@ export default class PerformanceCheckIn extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(commonFunctions.getRootUrl() + 'Self/PerformanceCheckIn/GetCreators'),
-            axios(commonFunctions.getRootUrl() + 'Common/GetProjects')
+            axios(resolveClientUrl('Self/PerformanceCheckIn/GetCreators')),
+            axios(resolveClientUrl('Common/GetProjects'))
         ];
 
         Promise.all(promises)
@@ -57,11 +57,11 @@ export default class PerformanceCheckIn extends Component {
                 });
 
                 this.getPerformanceRecords(nextState);
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getPerformanceRecords(filter) {
-        axios(commonFunctions.getRootUrl() + 'Self/PerformanceCheckIn/Index', {
+        axios(resolveClientUrl('Self/PerformanceCheckIn/Index'), {
             params: {
                 fromDate: filter.fromDate.format('YYYY-MM-DD'),
                 toDate: filter.toDate.format('YYYY-MM-DD'),
@@ -75,7 +75,7 @@ export default class PerformanceCheckIn extends Component {
                 performanceRecords: response.data.performanceRecords,
                 totalItems: response.data.totalItems
             });
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     handleFilterChange(name, value) {
@@ -129,7 +129,7 @@ export default class PerformanceCheckIn extends Component {
                     onFilterChange={this.handleFilterChange}
                     onFilterSubmit={this.handleFilterSubmit}
                 />
-                <a href={`${commonFunctions.getRootUrl()}Self/PerformanceCheckIn/Create`} className="btn btn-primary btn-add">
+                <a href={resolveClientUrl('Self/PerformanceCheckIn/Create')} className="btn btn-primary btn-add">
                     <span className="icon-playlist-plus" />Performance Check-in
                 </a>
                 {

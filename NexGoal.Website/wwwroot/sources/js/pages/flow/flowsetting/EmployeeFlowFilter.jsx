@@ -2,7 +2,7 @@
 import axios from 'axios';
 import Select from 'react-select';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 
 class EmployeeFlowFilter extends Component {
     constructor(props) {
@@ -33,7 +33,7 @@ class EmployeeFlowFilter extends Component {
     }
 
     getEmployeeUnsetting(groupId) {
-        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeUnsetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`)
+        axios(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeUnsetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
 
@@ -41,18 +41,18 @@ class EmployeeFlowFilter extends Component {
                     employeeUnsettings: data,
                     filteredEmployees: data
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getEmployeeSetting(groupId) {
-        axios(commonFunctions.getRootUrl() + `EmployeeFlowSetting/GetEmployeeHaveSetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`)
+        axios(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeHaveSetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
 
                 this.setState({
                     employeeSettings: data
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleOnGroupChange(selectedOption) {

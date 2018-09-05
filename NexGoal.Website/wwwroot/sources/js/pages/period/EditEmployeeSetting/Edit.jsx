@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import { Modal, Button, FormGroup, ControlLabel, Col, FormControl, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
@@ -9,7 +8,7 @@ import { toast } from 'react-toastify';
 import { Formik, FieldArray, Field } from 'formik';
 import { camelCase, isEmpty, uniqBy } from 'lodash';
 import Async from 'react-select/lib/Async';
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 
 export default class Edit extends Component {
     constructor(props) {
@@ -59,7 +58,7 @@ export default class Edit extends Component {
 
     searchEmployees = (input, callback) => {
         if (input.length > 2) {
-            return axios(`/common/SearchEmployees?keyword=${input}`)
+            return axios(resolveClientUrl(`common/SearchEmployees?keyword=${input}`))
                 .then(response => {
                     let options = [];
 
@@ -90,7 +89,7 @@ export default class Edit extends Component {
         }
 
         axios({
-            url: `/period/EditEmployeeSetting`,
+            url: resolveClientUrl(`period/EditEmployeeSetting`),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -124,7 +123,7 @@ export default class Edit extends Component {
 
                 setSubmitting(false);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     renderForm = ({
@@ -146,8 +145,7 @@ export default class Edit extends Component {
             <Form horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
-                        <ul className="list-message-error">
-                        </ul>
+                        <ul className="list-message-error" />
                     }
                     <FormGroup>
                         <Col componentClass={ControlLabel} sm={3}>Employee</Col>

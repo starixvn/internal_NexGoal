@@ -2,7 +2,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
@@ -96,7 +96,7 @@ export default class Table extends Component {
         var isActive = event.target.checked;
 
         axios({
-            url: commonFunctions.getRootUrl() + 'period/editstatus',
+            url: resolveClientUrl('period/editstatus'),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
@@ -115,7 +115,7 @@ export default class Table extends Component {
             } else {
                 toast.error(data.message);
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     showCreateModal = () => this.setState({ showCreateModal: true })

@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../../common-functions';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { validateEOYForm } from '../common';
 
 class Settings extends Component {
@@ -37,7 +37,7 @@ class Settings extends Component {
     getEOQById() {
         const eoyId = document.getElementById('EOYId').value;
 
-        axios.get(commonFunctions.getRootUrl() + `EOY/GetById/${eoyId}`)
+        axios.get(resolveClientUrl(`EOY/GetById/${eoyId}`))
             .then(response => {
                 let data = response.data;
 
@@ -52,7 +52,7 @@ class Settings extends Component {
                         description: data.description
                     }
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleSubmit = (values, { setErrors }) => {
@@ -68,7 +68,7 @@ class Settings extends Component {
         });
 
         axios({
-            url: commonFunctions.getRootUrl() + 'EOY/Edit',
+            url: resolveClientUrl('EOY/Edit'),
             method: 'POST',
             data: eoy,
             headers: {
@@ -91,7 +91,7 @@ class Settings extends Component {
                     toast.error(data.message);
                 }
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     renderForm = ({

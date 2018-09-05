@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Tabs, Tab } from 'react-bootstrap';
 
 import ToastLayout from '../../shared/layouts/ToastLayout';
-import commonFunctions from '../../common-functions';
+import { resolveClientUrl } from '../../common-functions';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditInfo from './EditInfo';
 import GroupFlowSetting from './flowsetting/GroupFlowSetting';
@@ -52,7 +52,7 @@ export default class App extends Component {
     }
 
     handleOnBackClick() {
-        window.location = commonFunctions.getRootUrl() + 'flow/index';
+        window.location = resolveClientUrl('flow/index');
     }
 
     render() {

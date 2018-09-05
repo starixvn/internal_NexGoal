@@ -7,7 +7,7 @@ import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
-import commonFunctions from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 
 class EditInfo extends Component {
     constructor(props) {
@@ -31,14 +31,14 @@ class EditInfo extends Component {
     }
 
     getTargetTypes() {
-        axios.get(commonFunctions.getRootUrl() + 'Common/GetTargetTypes')
+        axios.get(resolveClientUrl('Common/GetTargetTypes'))
             .then(response => {
                 this.setState({ targetTypes: response.data });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     getFlowTemplateById() {
-        axios.get(commonFunctions.getRootUrl() + `Flow/GetById/${this.props.flowTemplateId}`)
+        axios.get(resolveClientUrl(`Flow/GetById/${this.props.flowTemplateId}`))
             .then(response => {
                 let data = response.data;
 
@@ -51,7 +51,7 @@ class EditInfo extends Component {
                         description: data.description
                     }
                 });
-            }).catch(commonFunctions.axiosError);
+            }).catch(axiosError);
     }
 
     handleOnSubmit = (values, { setErrors }) => {
@@ -65,7 +65,7 @@ class EditInfo extends Component {
         });
 
         axios({
-            url: commonFunctions.getRootUrl() + 'Flow/Edit',
+            url: resolveClientUrl('Flow/Edit'),
             method: 'POST',
             data: flowTemplate,
             headers: {
@@ -88,7 +88,7 @@ class EditInfo extends Component {
                     toast.error(data.message);
                 }
             }
-        }).catch(commonFunctions.axiosError);
+        }).catch(axiosError);
     }
 
     validateForm(values) {
