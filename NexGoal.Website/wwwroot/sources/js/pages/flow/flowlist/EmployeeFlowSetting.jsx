@@ -1,5 +1,7 @@
 ﻿import React, { Component } from 'react';
 
+import getResource from '../../../resourceHelper';
+
 class EmployeeFlowSetting extends Component {
     render() {
         let employeeFlowSettings = this.props.employeeFlowSettings;
@@ -8,21 +10,21 @@ class EmployeeFlowSetting extends Component {
             <table className="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Code</th>
-                        <th>Nick Name</th>
-                        <th>Full Name</th>
-                        <th>Team</th>
-                        <th>Admin</th>
-                        <th>Evaluator</th>
-                        <th>Reviewer</th>
+                        <th>{getResource('SymbolCount')}</th>
+                        <th>{getResource('Code')}</th>
+                        <th>{getResource('NickName')}</th>
+                        <th>{getResource('FullName')}</th>
+                        <th>{getResource('Team')}</th>
+                        <th>{getResource('Admin')}</th>
+                        <th>{getResource('Evaluator')}</th>
+                        <th>{getResource('Reviewer')}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         employeeFlowSettings.length === 0 &&
                         <tr>
-                            <td className="empty-result" colSpan="8">No information available!</td>
+                            <td className="empty-result" colSpan="8">{getResource('NoInformationAvailable')}</td>
                         </tr>
                     }
                     {

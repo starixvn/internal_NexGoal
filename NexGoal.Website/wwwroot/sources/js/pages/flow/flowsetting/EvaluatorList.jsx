@@ -95,7 +95,8 @@ class EvaluatorList extends Component {
                                         id={employee.employeeId}
                                         label={`${employee.nickName} (${employee.fullName})`}
                                         connectToSortable=".sortable"
-                                    />);
+                                    />
+                                );
                             })
                         }
                     </ul>

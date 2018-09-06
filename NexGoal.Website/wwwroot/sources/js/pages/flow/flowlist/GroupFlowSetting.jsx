@@ -1,5 +1,7 @@
 ﻿import React, { Component } from 'react';
 
+import getResource from '../../../resourceHelper';
+
 class GroupFlowSetting extends Component {
     render() {
         let groupFlowSettings = this.props.groupFlowSettings;
@@ -8,18 +10,18 @@ class GroupFlowSetting extends Component {
             <table className="table table-bordered table-striped">
                 <thead>
                     <tr>
-                        <th>#</th>
-                        <th>Team</th>
-                        <th>Admin</th>
-                        <th>Evaluator</th>
-                        <th>Reviewer</th>
+                        <th>{getResource('SymbolCount')}</th>
+                        <th>{getResource('Team')}</th>
+                        <th>{getResource('Admin')}</th>
+                        <th>{getResource('Evaluator')}</th>
+                        <th>{getResource('Reviewer')}</th>
                     </tr>
                 </thead>
                 <tbody>
                     {
                         groupFlowSettings.length === 0 &&
                         <tr>
-                            <td className="empty-result" colSpan="5">No information available!</td>
+                            <td className="empty-result" colSpan="5">{getResource('NoInformationAvailable')}</td>
                         </tr>
                     }
                     {

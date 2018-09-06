@@ -4,21 +4,10 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import Row from './Row';
 import Create from './Create';
-
-function THead(props) {
-    return (
-        <thead>{props.children}</thead>
-    );
-}
-
-function TBody(props) {
-    return (
-        <tbody>{props.children}</tbody>
-    );
-}
 
 class Table extends Component {
     constructor(props) {
@@ -69,7 +58,7 @@ class Table extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Deleted successfully!');
+                toast.success(getResource('DeletedSuccessfully'));
 
                 this.handleOnCloseDeleteModal();
                 this.props.handleFilterSubmit();
@@ -102,7 +91,7 @@ class Table extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Updated successfully!');
+                toast.success(getResource('UpdatedSuccessfully'));
 
                 this.handleOnCloseEditStatusModal();
                 this.props.onFilterSubmit();
@@ -126,29 +115,29 @@ class Table extends Component {
         return (
             <Fragment>
                 <table className="table table-bordered">
-                    <THead>
+                    <thead>
                         {isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
                                     <a className="pull-left btn btn-primary" onClick={this.handleOnCreateClick.bind(this)}>
-                                        <i className="fa fa-plus"></i>Create Evaluation Flow
+                                        <i className="fa fa-plus" />{getResource('CreateEvaluationFlow')}
                                     </a>
                                 </th>
                             </tr>
                         }
                         <tr>
-                            <th>#</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Active</th>
-                            <th>Description</th>
-                            <th>Action</th>
+                            <th>{getResource('SymbolCount')}</th>
+                            <th>{getResource('Name')}</th>
+                            <th>{getResource('TargetType')}</th>
+                            <th>{getResource('Active')}</th>
+                            <th>{getResource('Description')}</th>
+                            <th>{getResource('Action')}</th>
                         </tr>
-                    </THead>
-                    <TBody>
+                    </thead>
+                    <tbody>
                         {flowTemplates.length === 0 &&
                             <tr>
-                                <td className="empty-result" colSpan="6">No information available!</td>
+                                <td className="empty-result" colSpan="6">{getResource('NoInformationAvailable')}</td>
                             </tr>
                         }
                         {flowTemplates.length > 0 &&
@@ -159,10 +148,12 @@ class Table extends Component {
                                         flowTemplate={flowTemplate}
                                         isHost={isHost}
                                         onDelete={this.handleOnDeleteClick.bind(this)}
-                                        onCheckboxChange={this.handleOnCheckboxChange.bind(this)} />);
+                                        onCheckboxChange={this.handleOnCheckboxChange.bind(this)}
+                                    />
+                                );
                             })
                         }
-                    </TBody>
+                    </tbody>
                 </table>
 
                 {
@@ -171,7 +162,8 @@ class Table extends Component {
                         showModal={this.state.showCreateModal}
                         closeModal={this.handleOnCloseCreateModal.bind(this)}
                         targetTypes={this.props.targetTypes}
-                        onFilterSubmit={this.props.onFilterSubmit} />
+                        onFilterSubmit={this.props.onFilterSubmit}
+                    />
                 }
                 {
                     this.state.showDeleteModal &&
@@ -180,7 +172,8 @@ class Table extends Component {
                         name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showDeleteModal}
                         closeModal={this.handleOnCloseDeleteModal.bind(this)}
-                        handleSubmit={this.handleDeleteFlowTemplate.bind(this)} />
+                        handleSubmit={this.handleDeleteFlowTemplate.bind(this)}
+                    />
                 }
                 {
                     this.state.showEditStatusModal &&
@@ -189,7 +182,8 @@ class Table extends Component {
                         name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showEditStatusModal}
                         closeModal={this.handleOnCloseEditStatusModal.bind(this)}
-                        handleSubmit={this.handleEditStatusFlowTemplate.bind(this)} />
+                        handleSubmit={this.handleEditStatusFlowTemplate.bind(this)}
+                    />
                 }
             </Fragment>
         );

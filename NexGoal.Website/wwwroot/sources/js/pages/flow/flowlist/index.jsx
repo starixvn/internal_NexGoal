@@ -3,6 +3,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 import GroupFlowSetting from './GroupFlowSetting';
 import EmployeeFlowSetting from './EmployeeFlowSetting';
 
@@ -61,10 +62,10 @@ class FlowList extends Component {
                 activeKey={this.state.activeKey}
                 onSelect={this.handleOnSelect}
             >
-                <Tab eventKey={1} title="Team">
+                <Tab eventKey={1} title={getResource('Team')}>
                     <GroupFlowSetting groupFlowSettings={this.state.groupFlowSettings} />
                 </Tab>
-                <Tab eventKey={2} title="Personal">
+                <Tab eventKey={2} title={getResource('Personal')}>
                     {
                         this.state.isFirstLoadPersonalTab &&
                         <EmployeeFlowSetting employeeFlowSettings={this.state.employeeFlowSettings} />

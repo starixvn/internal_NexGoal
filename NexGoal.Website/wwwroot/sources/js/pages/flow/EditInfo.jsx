@@ -8,6 +8,7 @@ import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 
 class EditInfo extends Component {
     constructor(props) {
@@ -75,7 +76,7 @@ class EditInfo extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Updated successfully!');
+                toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
                     let errors = {};
@@ -95,11 +96,11 @@ class EditInfo extends Component {
         let errors = {};
 
         if (!values.name) {
-            errors.name = 'Name is required!';
+            errors.name = getResource('NameRequired');
         }
 
         if (!values.targetType || !values.targetType.value) {
-            errors.targetType = 'Target Type is required!';
+            errors.targetType = getResource('TargetTypeRequired');
         }
 
         return errors;
@@ -129,7 +130,7 @@ class EditInfo extends Component {
                 }
 
                 <FormGroup>
-                    <label className="col-sm-2 control-label required-label">Name</label>
+                    <label className="col-sm-2 control-label required-label">{getResource('Name')}</label>
                     <div className="col-sm-6">
                         <input type="text" name="name" autoComplete="off" disabled={!isHost}
                             className={`form-control ${touched.name && errors.name && 'input-validation-error'}`}
@@ -138,7 +139,7 @@ class EditInfo extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <label className="col-sm-2 control-label required-label">Target Type</label>
+                    <label className="col-sm-2 control-label required-label">{getResource('TargetType')}</label>
                     <div className="col-sm-6">
                         <Select name="targetType"
                             className={`react-select-container ${touched.targetType && errors.targetType && 'input-validation-error'}`}
@@ -151,13 +152,13 @@ class EditInfo extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <label className="col-sm-2 control-label">Active</label>
+                    <label className="col-sm-2 control-label">{getResource('Active')}</label>
                     <div className="col-sm-6">
                         <Checkbox name="isActive" onChange={handleChange} checked={values.isActive} disabled={!isHost} />
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <label className="col-sm-2 control-label">Description</label>
+                    <label className="col-sm-2 control-label">{getResource('Description')}</label>
                     <div className="col-sm-6">
                         <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                             rows="3" maxLength="200"
@@ -170,7 +171,7 @@ class EditInfo extends Component {
                     <FormGroup>
                         <label className="col-sm-2 control-label" />
                         <div className="col-sm-6">
-                            <Button type="submit" className="btn btn-primary">Submit</Button>
+                            <Button type="submit" bsStyle="primary">{getResource('Submit')}</Button>
                         </div>
                     </FormGroup>
                 }

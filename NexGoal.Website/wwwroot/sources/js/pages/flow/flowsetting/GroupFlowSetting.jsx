@@ -6,6 +6,7 @@ import Select from 'react-select';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PerformanceProcess } from '../../../constants';
 import EvaluatorList from './EvaluatorList';
@@ -196,7 +197,7 @@ class GroupFlowSetting extends Component {
                 let data = response.data;
 
                 if (data.isSuccessful) {
-                    toast.success('Updated successfully!');
+                    toast.success(getResource('UpdatedSuccessfully'));
 
                     let groupSettings = this.state.groupSettings.slice();
                     let groupIds = groupSettings.map((group) => {
@@ -245,7 +246,7 @@ class GroupFlowSetting extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Deleted successfully!');
+                toast.success(getResource('DeletedSuccessfully'));
 
                 this.handleOnCloseModal();
 
@@ -306,10 +307,10 @@ class GroupFlowSetting extends Component {
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                <th>Admin</th>
-                                <th>Self</th>
-                                <th>Evaluator</th>
-                                <th>Reviewer</th>
+                                <th>{getResource('Admin')}</th>
+                                <th>{getResource('Self')}</th>
+                                <th>{getResource('Evaluator')}</th>
+                                <th>{getResource('Reviewer')}</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -353,9 +354,9 @@ class GroupFlowSetting extends Component {
                     </table>
                     {isHost && this.state.groupSelected.value &&
                         <Form inline>
-                            <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>Submit</Button>
+                            <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
                             {this.state.showDeleteButton &&
-                                <Button type="button" bsStyle="primary" onClick={this.handleOnDeleteClick}>Delete</Button>}
+                                <Button type="button" bsStyle="primary" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>}
                         </Form>
                     }
                 </div>

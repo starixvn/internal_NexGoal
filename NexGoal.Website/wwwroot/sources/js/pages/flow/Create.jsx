@@ -8,6 +8,7 @@ import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 
 class Create extends Component {
     constructor(props) {
@@ -34,7 +35,7 @@ class Create extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Created successfully!');
+                toast.success(getResource('CreatedSuccessfully'));
 
                 this.props.closeModal();
                 this.props.onFilterSubmit();
@@ -57,11 +58,11 @@ class Create extends Component {
         let errors = {};
 
         if (!values.name) {
-            errors.name = 'Name is required!';
+            errors.name = getResource('NameRequired');
         }
 
         if (!values.targetType || !values.targetType.value) {
-            errors.targetType = 'Target Type is required!';
+            errors.targetType = getResource('TargetTypeRequired');
         }
 
         return errors;
@@ -92,7 +93,7 @@ class Create extends Component {
                     }
 
                     <FormGroup>
-                        <label className="col-sm-3 control-label required-label">Name</label>
+                        <label className="col-sm-3 control-label required-label">{getResource('Name')}</label>
                         <div className="col-sm-9">
                             <input type="text" name="name" autoComplete="off"
                                 className={`form-control ${touched.name && errors.name && 'input-validation-error'}`}
@@ -101,7 +102,7 @@ class Create extends Component {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-sm-3 control-label required-label">Target Type</label>
+                        <label className="col-sm-3 control-label required-label">{getResource('TargetType')}</label>
                         <div className="col-sm-9">
                             <Select name="targetType"
                                 className={`react-select-container ${touched.targetType && errors.targetType && 'input-validation-error'}`}
@@ -114,13 +115,13 @@ class Create extends Component {
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-sm-3 control-label">Active</label>
+                        <label className="col-sm-3 control-label">{getResource('Active')}</label>
                         <div className="col-sm-9">
                             <Checkbox name="isActive" onChange={handleChange} checked={values.isActive} />
                         </div>
                     </FormGroup>
                     <FormGroup>
-                        <label className="col-sm-3 control-label">Description</label>
+                        <label className="col-sm-3 control-label">{getResource('Description')}</label>
                         <div className="col-sm-9 field">
                             <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
                                 rows="5" maxLength="500"
@@ -131,8 +132,8 @@ class Create extends Component {
                     </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn-cancel" onClick={this.props.closeModal}>Cancel</Button>
-                    <Button type="submit" className="btn btn-primary">Submit</Button>
+                    <Button className="btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
+                    <Button type="submit" bsStyle="primary">{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Form>
         );
@@ -152,7 +153,7 @@ class Create extends Component {
                 dialogClassName="custom-modal modal-md"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>Create Nomination Period</Modal.Title>
+                    <Modal.Title>{getResource('CreateNominationPeriod')}</Modal.Title>
                 </Modal.Header>
                 <Formik
                     initialValues={flowTemplate}

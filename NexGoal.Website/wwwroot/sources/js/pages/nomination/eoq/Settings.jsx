@@ -81,7 +81,7 @@ class Settings extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success(getResource('UpdateSuccessfully'));
+                toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
                     let errors = {};

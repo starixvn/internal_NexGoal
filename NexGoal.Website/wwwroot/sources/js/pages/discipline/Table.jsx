@@ -36,7 +36,7 @@ export default class Table extends Component {
             var data = response.data;
 
             if (data.isSuccessful) {
-                toast.success(getResource('UpdateSuccessfully'));
+                toast.success(getResource('UpdatedSuccessfully'));
                 this.props.onUpdateStatus(discipline.disciplineId, isActive);
             } else {
                 toast.error(data.message);

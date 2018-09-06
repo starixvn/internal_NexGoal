@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import Filter from './Filter';
@@ -39,13 +40,18 @@ export default class App extends Component {
     }
 
     getFlowTemplates() {
-        axios.get(resolveClientUrl(`Flow/GetAll?targetTypeId=${this.state.filter.targetTypeId}&isActive=${this.state.filter.isActive}`))
-            .then(response => {
-                const data = response.data;
-                data.map((e, index) => e.rowNum = index + 1);
+        const filter = this.state.filter;
+        axios.get(resolveClientUrl('Flow/GetAll'), {
+            params: {
+                targetTypeId: filter.targetTypeId,
+                isActive: filter.isActive
+            }
+        }).then(response => {
+            const data = response.data;
+            data.map((e, index) => e.rowNum = index + 1);
 
-                this.setState({ flowTemplates: data });
-            }).catch(axiosError);
+            this.setState({ flowTemplates: data });
+        }).catch(axiosError);
     }
 
     handleOnFilterChange(filter) {
@@ -61,7 +67,7 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">Evaluation Flow Management</li>
+                        <li className="current">{getResource('EvaluationFlowManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <Filter filter={this.state.filter}

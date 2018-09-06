@@ -86,7 +86,7 @@ class Table extends Component {
                             </tr>
                         }
                         <tr>
-                            <th>#</th>
+                            <th>{getResource('SymbolCount')}</th>
                             <th>{getResource('Year')}</th>
                             <th>{getResource('StartDateForNominator')}</th>
                             <th>{getResource('EndDateForNominator')}</th>

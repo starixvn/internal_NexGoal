@@ -95,7 +95,7 @@ export default class UserManagement extends Component {
 
     handleEditUserRolesSuccess = (data) => {
         if (data.isSuccessful) {
-            toast.success(getResource('UpdateSuccessfully'));
+            toast.success(getResource('UpdatedSuccessfully'));
 
             this.getUser(this.currentEditUser.employeeId, (updatedUser) => {
                 var data = this.state.data.slice();

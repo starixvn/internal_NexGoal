@@ -52,7 +52,7 @@ export default class AddEditDiscipline extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success(getResource('UpdateSuccessfully'));
+                toast.success(getResource('UpdatedSuccessfully'));
                 this.props.onEditDiscipline();
                 this.props.closeModal();
             } else {

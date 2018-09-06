@@ -4,6 +4,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import { resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import EditInfo from './EditInfo';
 import GroupFlowSetting from './flowsetting/GroupFlowSetting';
@@ -60,11 +61,11 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">Edit Evaluation Flow</li>
+                        <li className="current">{getResource('EditEvaluationFlow')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <a className="btn btn-cancel" onClick={this.handleOnBackClick}>
-                            <i className="fa fa-angle-left" />Back to list
+                            <i className="fa fa-angle-left" />{getResource('BackToList')}
                         </a>
                     </div>
                     <div className="col-sm-12">
@@ -72,18 +73,18 @@ export default class App extends Component {
                             activeKey={this.state.activeKey}
                             onSelect={this.handleOnSelect}
                         >
-                            <Tab eventKey={1} title="General Information">
+                            <Tab eventKey={1} title={getResource('GeneralInformation')}>
                                 <EditInfo flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />
                             </Tab>
-                            <Tab eventKey={2} title="Team">
+                            <Tab eventKey={2} title={getResource('Team')}>
                                 {this.state.isFirstLoadGroupTab &&
                                     <GroupFlowSetting flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />}
                             </Tab>
-                            <Tab eventKey={3} title="Personal">
+                            <Tab eventKey={3} title={getResource('Personal')}>
                                 {this.state.isFirstLoadPersonalTab &&
                                     <EmployeeFlowSetting flowTemplateId={this.state.flowTemplateId} isHost={this.state.isHost} />}
                             </Tab>
-                            <Tab eventKey={4} title="Flow List">
+                            <Tab eventKey={4} title={getResource('FlowList')}>
                                 {this.state.isFirstLoadFlowListTab &&
                                     <FlowList flowTemplateId={this.state.flowTemplateId} />}
                             </Tab>

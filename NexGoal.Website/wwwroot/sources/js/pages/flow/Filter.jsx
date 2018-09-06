@@ -2,6 +2,7 @@
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
+import getResource from '../../resourceHelper';
 import { StatusOptions } from '../../constants';
 
 class Filter extends Component {
@@ -42,7 +43,7 @@ class Filter extends Component {
             <form className="from-inline form-filter" onSubmit={this.handleOnSubmit}>
                 <FormGroup>
                     <div className="col">
-                        <ControlLabel>Type</ControlLabel>
+                        <ControlLabel>{getResource('TargetType')}</ControlLabel>
                         <div className="control-content">
                             <Select name="TargetTypeId" className="react-select-container" classNamePrefix="react-select"
                                 value={targetTypeSelected} options={targetTypeOptions}
@@ -52,7 +53,7 @@ class Filter extends Component {
                         </div>
                     </div>
                     <div className="col">
-                        <ControlLabel>Status</ControlLabel>
+                        <ControlLabel>{getResource('Status')}</ControlLabel>
                         <div className="control-content">
                             <Select name="IsActive" className="react-select-container" classNamePrefix="react-select"
                                 value={statusSelected} options={StatusOptions}
@@ -62,7 +63,7 @@ class Filter extends Component {
                         </div>
                     </div>
                     <div className="col">
-                        <button className="btn btn-primary">Search</button>
+                        <button className="btn btn-primary">{getResource('Search')}</button>
                     </div>
                 </FormGroup>
             </form>

@@ -89,7 +89,7 @@ export default class RoleManagement extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success(getResource('UpdateSuccessfully'));
+                toast.success(getResource('UpdatedSuccessfully'));
 
                 this.props.handleFilterSubmit();
             } else {
