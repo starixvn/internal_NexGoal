@@ -10,72 +10,7 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import Async from 'react-select/lib/Async';
 import Multiselect from '../../../shared/components/MultiSelect';
 import { PaginationOptions } from '../../../constants';
-
 import Edit from './Edit';
-
-function TableHead(props) {
-    return (
-        <thead>
-            <tr>
-                <th><input type="checkbox" onChange={props.selectAll} checked={props.checked} /></th>
-                <th>#</th>
-                <th>Team</th>
-                <th>Employee</th>
-                <th>Step</th>
-                <th>Name</th>
-                <th>Status</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>PA Status</th>
-                <th>Include</th>
-                <th>Action</th>
-            </tr>
-        </thead>);
-}
-
-function TableBody(props) {
-    var body = props.data.length > 0 ? props.data.map(setting => {
-        var processes = setting.processes.filter(e => e.processId !== 1)
-        var rowSpan = processes.length;
-
-        return (
-            <Fragment key={setting.rowNum}>
-                <tr>
-                    <td className="text-center" rowSpan={rowSpan}><input type="checkbox" checked={props.selectedIds.some(e => e === setting.paRecordId)} onChange={props.onSelect} data-id={setting.paRecordId} /></td>
-                    <td className="text-center" rowSpan={rowSpan}>{setting.rowNum}</td>
-                    <td className="text-center" rowSpan={rowSpan}>{setting.group}</td>
-                    <td rowSpan={rowSpan}>
-                        <div>{setting.fullName}</div>
-                        <div>{setting.code}</div>
-                        <div>({setting.nickName})</div>
-                        <div>{setting.jobTitle}</div>
-                    </td>
-                    <td>{processes[0].process}</td>
-                    <td>{processes[0].evaluator}</td>
-                    <td>{processes[0].status}</td>
-                    <td></td>
-                    <td></td>
-                    <td rowSpan={rowSpan} className="text-center">{setting.status}</td>
-                    <td rowSpan={rowSpan} className="text-center"><input type="checkbox" checked={setting.isIncluded} /></td>
-                    <td rowSpan={rowSpan}></td>
-                </tr>
-                {processes.slice(1).map((process, i) =>
-                    <tr key={i}>
-                        <td>{process.process}</td>
-                        <td>{process.evaluator}</td>
-                        <td>{process.status}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                )}
-            </Fragment>);
-    }) :
-        (<tr>
-            <td className="text-center text-danger" colSpan="13">No information available!</td>
-        </tr>);
-
-    return (<tbody>{body}</tbody>);
-}
 
 export default class Table extends Component {
     constructor(props) {
@@ -131,6 +66,7 @@ export default class Table extends Component {
         {
             dataField: 'evaluator',
             text: 'Evaluator',
+            isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
                 var evaluatorProcess = row.processes.find(p => p.processId === 4);
 
@@ -145,12 +81,17 @@ export default class Table extends Component {
         {
             dataField: 'reviewer',
             text: 'Reviewer',
+            isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
                 var reviewerProcess = row.processes.find(p => p.processId === 5);
 
                 return (
                     <Fragment>
                         <div>{reviewerProcess.evaluator}</div>
+                        <div>
+                            {reviewerProcess.startDate && moment(reviewerProcess.startDate).format('DD MMM, YYYY')}
+                            {reviewerProcess.endDate && ` - ${moment(reviewerProcess.endDate).format('DD MMM, YYYY')}`}
+                        </div>
                         <div>{reviewerProcess.status}</div>
                     </Fragment>
                 );
@@ -173,27 +114,13 @@ export default class Table extends Component {
             dataField: '',
             text: 'Action',
             classes: 'text-center',
+            isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
-                //if (this.props.hasHostPermission) {
-                //    return (
-                //        <Fragment>
-                //            <a className="fa fa-pencil-square-o" title="Edit" href={`/period/edit/${row.periodId}`} />
-                //            <a className="fa fa-trash-o remove" title="Delete" onClick={() => this.showDeleteModal(row)} />
-                //        </Fragment>
-                //    );
-                //}
-
-                return '';
+                return (
+                    <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.editSetting(row.paRecordId)} />
+                );
             }
         }]
-
-    showCreateModal = () => this.setState({ showCreateModal: true })
-
-    closeCreateModal = () => this.setState({ showCreateModal: false })
-
-    showDeleteModal = period => this.setState({ showDeleteModal: true, deletedPeriod: period })
-
-    closeDeleteModal = () => this.setState({ showDeleteModal: false })
 
     searchEmployees = (input, callback) => {
         if (input.length > 2) {
@@ -274,11 +201,24 @@ export default class Table extends Component {
         }
     }
 
+    editSetting = paRecordId => {
+        this.setState({ showEditModal: true, selectedIds: [paRecordId] });
+    }
+
     editSettings = () => {
-        this.setState({ showEditModal: true });
+        if (this.selectedIds && this.selectedIds.length > 0) {
+            this.setState({ showEditModal: true, selectedIds: this.selectedIds });
+        } else {
+            toast.error('No employee selected');
+        }
     }
 
     closeEditModal = () => this.setState({ showEditModal: false })
+
+    onEditSuccess = () => {
+        this.setState({ showEditModal: false });
+        this.props.refreshData();
+    }
 
     render() {
         return (
@@ -290,7 +230,7 @@ export default class Table extends Component {
                         <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-pencil-square-o"></i> Generate PA</button>
                     </div>
                 </div>
-                <ToolkitProvider keyField="paRecordId" data={this.props.data} columns={this.columns} search >
+                <ToolkitProvider keyField="paRecordId" columns={this.columns} data={this.props.data} search >
                     {
                         props => {
                             return (
@@ -327,7 +267,12 @@ export default class Table extends Component {
                         }
                     }
                 </ToolkitProvider>
-                {this.state.showEditModal && <Edit showModal={this.state.showEditModal} closeModal={this.closeEditModal} paRecordIds={this.selectedIds} settings={this.props.data.filter(e => this.selectedIds.some(s => s === e.paRecordId))} />}
+                {this.state.showEditModal &&
+                    <Edit showModal={this.state.showEditModal} closeModal={this.closeEditModal} paRecordIds={this.state.selectedIds} periodId={this.props.periodId}
+                        settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))}
+                        onEditSuccess={this.onEditSuccess}
+                    />
+                }
             </Fragment>
         );
     }

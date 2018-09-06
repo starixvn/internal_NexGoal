@@ -176,20 +176,17 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> EditEmployeeSetting(int[] paRecordIds, IEnumerable<EditEmployeeSettingViewModel> processes)
+        public async Task<IActionResult> EditEmployeeSetting(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingViewModel> processes)
         {
-            var serviceModels = new List<EditEmployeeSettingModel>();
-            foreach (var paRecordId in paRecordIds)
+            var serviceModels = processes.Select(x => new EditEmployeeSettingModel
             {
-                serviceModels.AddRange(processes.Select(x => new EditEmployeeSettingModel
-                {
-                    PARecordId = paRecordId,
-                    ProcessId = x.ProcessId,
-                    EvaluatorId = x.EvaluatorId
-                }));
-            }
+                ProcessId = x.ProcessId,
+                EvaluatorId = x.EvaluatorId,
+                StartDate = x.StartDate,
+                EndDate = x.EndDate
+            });
 
-            var result = await periodService.EditEmployeeSettings(paRecordIds, serviceModels, sessionService.EmployeeId).ConfigureAwait(false);
+            var result = await periodService.EditEmployeeSettings(periodId, paRecordIds, serviceModels, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }

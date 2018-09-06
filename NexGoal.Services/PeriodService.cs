@@ -147,10 +147,11 @@
             return result;
         }
 
-        public async Task<CommandResult> EditEmployeeSettings(int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes, int modifiedBy)
+        public async Task<CommandResult> EditEmployeeSettings(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes, int modifiedBy)
         {
             var criteria = new EditEmployeeSettingsCriteria
             {
+                PeriodId = periodId,
                 PARecordIds = string.Join(',', paRecordIds),
                 Settings = processes.ToXML().ToString(),
                 ModifiedBy = modifiedBy

@@ -5,7 +5,7 @@ import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { Formik, FieldArray, Field } from 'formik';
+import { Formik, FieldArray, Field, getIn } from 'formik';
 import { camelCase, isEmpty, uniqBy } from 'lodash';
 import Async from 'react-select/lib/Async';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
@@ -21,6 +21,7 @@ export default class Edit extends Component {
             let adminProcesses = props.settings[0].processes.filter(p => p.processId === 1);
 
             this.processes = [{
+                isSelected: true,
                 processId: 1,
                 process: adminProcesses[0].process,
                 evaluator: adminProcesses.map(e => { return { label: e.evaluator, value: e.evaluatorId }; }),
@@ -30,6 +31,7 @@ export default class Edit extends Component {
 
             this.processes = this.processes.concat(props.settings[0].processes.filter(p => p.processId > 3).map(p => {
                 return {
+                    isSelected: true,
                     processId: p.processId,
                     process: p.process,
                     evaluator: { label: p.evaluator, value: p.evaluatorId },
@@ -41,7 +43,7 @@ export default class Edit extends Component {
             let processes = uniqBy(props.settings[0].processes.filter(p => p.processId !== 2 && p.processId !== 3), p => p.processId)
             this.processes = processes.map(p => {
                 return {
-                    paRecordId: p.paRecordId,
+                    isSelected: false,
                     processId: p.processId,
                     process: p.process,
                     evaluator: null,
@@ -77,15 +79,39 @@ export default class Edit extends Component {
     }
 
     validateForm = values => {
+        debugger;
+
         let errors = {};
+        if (!values.processes.some(p => p.isSelected)) {
+            errors.noSelect = "Please select at least a process";
+        }
+
         return errors;
     }
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
         var processes = [];
-        var adminProcessEvaluators = values.processes.find(p => p.processId === 1).evaluator;
-        if (adminProcessEvaluators) {
-            processes = adminProcessEvaluators.map(e => { return { processId: 1, evaluatorId: e.value }; });
+        var adminProcess = values.processes.find(p => p.processId === 1 && p.isSelected);
+
+        if (adminProcess) {
+            var adminProcessEvaluators = adminProcess.evaluator;
+            if (adminProcessEvaluators && adminProcessEvaluators.length > 0) {
+                processes = adminProcessEvaluators.map(e => {
+                    return {
+                        processId: 1,
+                        evaluatorId: e.value,
+                        startDate: adminProcess.startDate ? adminProcess.startDate.format('YYYY-MM-DD') : null,
+                        endDate: adminProcess.endDate ? adminProcess.endDate.format('YYYY-MM-DD') : null
+                    };
+                });
+            } else {
+                processes.push({
+                    processId: 1,
+                    evaluatorId: null,
+                    startDate: adminProcess.startDate ? adminProcess.startDate.format('YYYY-MM-DD') : null,
+                    endDate: adminProcess.endDate ? adminProcess.endDate.format('YYYY-MM-DD') : null
+                })
+            }
         }
 
         axios({
@@ -93,11 +119,14 @@ export default class Edit extends Component {
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                periodId: this.props.periodId,
                 paRecordIds: this.props.paRecordIds,
-                processes: processes.concat(values.processes.filter(p => p.processId > 1 && p.evaluator !== null).map(p => {
+                processes: processes.concat(values.processes.filter(p => p.processId > 1 && p.isSelected).map(p => {
                     return {
                         processId: p.processId,
-                        evaluatorId: p.evaluator.value
+                        evaluatorId: p.evaluator ? p.evaluator.value : null,
+                        startDate: p.startDate ? p.startDate.format('YYYY-MM-DD') : null,
+                        endDate: p.endDate ? p.endDate.format('YYYY-MM-DD') : null,
                     };
                 }))
             }),
@@ -108,6 +137,7 @@ export default class Edit extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
+                this.props.onEditSuccess();
                 toast.success("Create Successfully");
             } else {
                 if (data.errors) {
@@ -140,12 +170,15 @@ export default class Edit extends Component {
                 setFieldValue(e.target.name, date);
             }
         };
+        var numberOfPARecord = this.props.paRecordIds.length;
 
         return (
             <Form horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
-                        <ul className="list-message-error" />
+                        <ul className="list-message-error">
+                            {errors.noSelect && <li>{errors.noSelect}</li>}
+                        </ul>
                     }
                     <FormGroup>
                         <Col componentClass={ControlLabel} sm={3}>Employee</Col>
@@ -155,6 +188,7 @@ export default class Edit extends Component {
                     <table className="table table-bordered">
                         <thead>
                             <tr>
+                                {numberOfPARecord > 1 && <th></th>}
                                 <th></th>
                                 <th className="col-sm-4">Evaluator</th>
                                 <th>Start Date</th>
@@ -164,11 +198,12 @@ export default class Edit extends Component {
                         <tbody>
                             {values.processes.map((p, i) =>
                                 <tr key={i}>
+                                    {numberOfPARecord > 1 && <td><input type="checkbox" checked={p.isSelected} onChange={handleChange} name={`processes.${i}.isSelected`} /></td>}
                                     <td>{p.process}</td>
                                     <td>
                                         {p.processId !== 2 &&
                                             <Async className={`react-select-container`} classNamePrefix="react-select"
-                                                value={p.evaluator} isMulti={p.processId === 1}
+                                                value={p.evaluator} isMulti={p.processId === 1} name={`processes.${i}.evaluator`}
                                                 onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
                                                 loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
                                         }
@@ -176,14 +211,14 @@ export default class Edit extends Component {
                                     <td>
                                         {(p.processId === 1 || p.processId === 5) &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat="DD MMM, YYYY" selected={p.startDate}
-                                                onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw}
+                                                onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw} name={`processes.${i}.startDate`}
                                                 showMonthDropdown showYearDropdown />
                                         }
                                     </td>
                                     <td>
                                         {(p.processId === 1 || p.processId === 5) &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat="DD MMM, YYYY" selected={p.endDate}
-                                                onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw}
+                                                onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw} name={`processes.${i}.endDate`}
                                                 showMonthDropdown showYearDropdown />
                                         }
                                     </td>
