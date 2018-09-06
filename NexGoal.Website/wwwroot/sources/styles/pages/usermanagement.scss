@@ -6,6 +6,25 @@
 @import "../components/messages";
 @import "../components/modal";
 @import "../components/react-bootstrap-table";
+@import "../components/react-select";
 @import "../components/tables";
 @import "../components/table-search";
 @import "../components/toast";
+
+.react-select-container {
+    width: 200px;
+}
+
+.table {
+    .col-index {
+        width: 60px;
+    }
+
+    .col-nickname {
+        width: 120px;
+    }
+
+    .col-code, .col-action {
+        width: 80px;
+    }
+}

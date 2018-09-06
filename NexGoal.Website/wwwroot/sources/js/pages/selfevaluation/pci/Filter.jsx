@@ -91,7 +91,7 @@ class Filter extends Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Button type="submit" bsStyle="primary" className="btn-primary">Search</Button>
+                        <Button type="submit" bsStyle="primary">Search</Button>
                     </FormGroup>
                 </div>
             </Form>

@@ -4,6 +4,11 @@
     { value: 'false', label: 'Inactive' }
 ];
 
+export const TargetType = {
+    Probation: 1,
+    SemiAnnual: 2
+};
+
 export const PerformanceProcess = {
     HumanResource: 1,
     Self: 2,

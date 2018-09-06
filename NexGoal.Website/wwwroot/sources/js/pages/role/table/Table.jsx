@@ -1,14 +1,22 @@
 ﻿import React from 'react';
 
-import THead from './THead';
-import TBody from './TBody';
+import getResource from '../../../resourceHelper';
 import Row from './Row';
 
 const Table = (props) => {
     return (
         <table className="table table-bordered assign-permission">
-            <THead />
-            <TBody>
+            <thead>
+                <tr>
+                    <th rowSpan="2">{getResource('Function')}</th>
+                    <th colSpan="2">{getResource('RolePermission')}</th>
+                </tr>
+                <tr>
+                    <th>{getResource('Read')}</th>
+                    <th>{getResource('Host')}</th>
+                </tr>
+            </thead>
+            <tbody>
                 {
                     props.functions.map(func => {
                         return (
@@ -20,7 +28,7 @@ const Table = (props) => {
                         );
                     })
                 }
-            </TBody>
+            </tbody>
         </table>
     );
 };

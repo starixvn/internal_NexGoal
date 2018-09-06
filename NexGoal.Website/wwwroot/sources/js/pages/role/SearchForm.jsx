@@ -4,7 +4,7 @@ import Select from 'react-select';
 
 import getResource from '../../resourceHelper';
 
-class Filter extends Component {
+class SearchForm extends Component {
     constructor(props) {
         super(props);
 
@@ -17,24 +17,22 @@ class Filter extends Component {
 
     render() {
         const selectedOpt = this.props.selectedOption;
-        const options = this.props.options.map((option) => {
+        const roleOptions = this.props.roleOptions.map((option) => {
             return { value: option.value, label: option.text };
         });
-        const selectedOption = options.find((option) => { return option.value === selectedOpt.toString(); });
+        const selectedOption = roleOptions.find((option) => { return option.value === selectedOpt.toString(); });
 
         return (
             <form className="form-inline form-filter">
                 <FormGroup>
                     <div className="col">
                         <ControlLabel>{getResource('Role')}</ControlLabel>
-                        <div className="control-content">
-                            <Select className="react-select-container" classNamePrefix="react-select"
-                                name="RoleId" isSearchable={false} isClearable={false}
-                                value={selectedOption}
-                                options={options}
-                                onChange={this.handleOnChange}
-                            />
-                        </div>
+                        <Select className="react-select-container" classNamePrefix="react-select"
+                            name="RoleId" isSearchable={false} isClearable={false}
+                            value={selectedOption}
+                            options={roleOptions}
+                            onChange={this.handleOnChange}
+                        />
                     </div>
                 </FormGroup>
             </form>
@@ -42,4 +40,4 @@ class Filter extends Component {
     }
 }
 
-export default Filter;
+export default SearchForm;

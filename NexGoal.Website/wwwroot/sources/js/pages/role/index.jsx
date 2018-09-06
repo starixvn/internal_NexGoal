@@ -9,7 +9,7 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import { Policy } from '../../constants';
-import Filter from './Filter';
+import SearchForm from './SearchForm';
 import Table from './table/Table';
 import SubmitForm from './SubmitForm';
 
@@ -127,14 +127,12 @@ export default class App extends Component {
                         <li className="current">{getResource('RoleManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <Filter
-                            options={this.state.options}
+                        <SearchForm roleOptions={this.state.options}
                             selectedOption={this.state.selectedOption}
                             onRoleChange={this.handleOnRoleChange}
                         />
 
-                        <Table
-                            functions={this.state.functions}
+                        <Table functions={this.state.functions}
                             isHost={this.state.isHost}
                             onCheckboxChange={this.handleOnCheckboxChange}
                         />

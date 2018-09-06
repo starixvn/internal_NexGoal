@@ -1,6 +1,5 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
@@ -12,6 +11,7 @@ import { axiosError, noDataIndication, resolveClientUrl } from '../../common-fun
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
+import SearchForm from './SearchForm';
 import EditUserRole from './edit-user-role';
 
 const { SearchBar } = Search;
@@ -23,14 +23,17 @@ export default class UserManagement extends Component {
         this.state = {
             filter: {
                 keyword: '',
-                groupId: '',
+                group: { value: '', label: '-- All --' },
                 isDisabledUser: false
             },
-            groups: [],
+            groupOptions: [],
             data: [],
             showModal: false,
             isHost: document.getElementById('IsHost').checked
         };
+
+        this.handleFilterChange = this.handleFilterChange.bind(this);
+        this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     }
 
     componentDidMount = () => {
@@ -41,35 +44,40 @@ export default class UserManagement extends Component {
     userRoles = [];
     currentEditUser = [];
 
-    onFilterChange = (e) => {
-        var filter = { [e.target.name]: e.target.value };
-        this.setState({ filter: { ...this.state.filter, ...filter } });
+    handleFilterChange(name, value) {
+        this.setState({
+            filter: Object.assign({}, this.state.filter, { [name]: value })
+        });
     }
 
-    onIsDisabledUserChange = (e) => {
-        var filter = { [e.target.name]: e.target.checked };
-        this.setState({ filter: { ...this.state.filter, ...filter } });
-    }
-
-    handleSubmit = (event) => {
-        event.preventDefault();
+    handleFilterSubmit = () => {
         this.getUsers();
     }
 
     getGroups = () => {
         axios.get(resolveClientUrl('Common/GetGroups'))
             .then(response => {
-                this.setState({ groups: response.data });
+                let groupOptions = response.data.map((group) => {
+                    return { value: group.groupId, label: group.name };
+                });
+                groupOptions.unshift({ value: '', label: '-- All --' });
+
+                this.setState({ groupOptions: groupOptions });
             }).catch(axiosError);
     }
 
     getUsers = () => {
         const filter = this.state.filter;
-        axios.get(resolveClientUrl(`User/GetUsers?keyword=${filter.keyword}&groupId=${filter.groupId}&isDisabledUser=${filter.isDisabledUser}`))
-            .then(response => {
-                response.data.map((e, index) => e.rowNum = index + 1);
-                this.setState({ data: response.data });
-            }).catch(axiosError);
+        axios.get(resolveClientUrl('User/GetUsers'), {
+            params: {
+                keyword: filter.keyword,
+                groupId: filter.group.value,
+                isDisabledUser: filter.isDisabledUser
+            }
+        }).then(response => {
+            response.data.map((e, index) => e.rowNum = index + 1);
+            this.setState({ data: response.data });
+        }).catch(axiosError);
     }
 
     getUser = (id, callback) => {
@@ -113,17 +121,20 @@ export default class UserManagement extends Component {
         const columns = [
             {
                 dataField: 'rowNum',
-                text: '#',
-                classes: 'text-center'
+                text: `${getResource('SymbolCount')}`,
+                classes: 'text-center',
+                headerClasses: 'col-index'
             },
             {
                 dataField: 'code',
                 text: `${getResource('Code')}`,
-                classes: 'text-center'
+                classes: 'text-center',
+                headerClasses: 'col-code'
             },
             {
                 dataField: 'nickName',
-                text: `${getResource('NickName')}`
+                text: `${getResource('NickName')}`,
+                headerClasses: 'col-nickname'
             },
             {
                 dataField: 'fullName',
@@ -146,6 +157,7 @@ export default class UserManagement extends Component {
                 dataField: '',
                 text: `${getResource('Action')}`,
                 classes: 'text-center',
+                headerClasses: 'col-action',
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.state.isHost) {
                         return (
@@ -164,30 +176,11 @@ export default class UserManagement extends Component {
                         <li className="current">{getResource('UserManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <Form inline className="form-filter" onSubmit={this.handleSubmit}>
-                            <FormGroup>
-                                <ControlLabel>{getResource('Keyword')}</ControlLabel>
-                                <FormControl name="keyword" type="text"
-                                    placeholder="Full name or Nick name" autoComplete="off"
-                                    onChange={this.onFilterChange}
-                                />
-                            </FormGroup>
-                            <FormGroup>
-                                <ControlLabel>{getResource('Team')}</ControlLabel>
-                                <FormControl componentClass="select" onChange={this.onFilterChange} name="groupId">
-                                    <option value="">-- All --</option>
-                                    {this.state.groups.map((group) => <option key={group.groupId} value={group.groupId}>{group.name}</option>)}
-                                </FormControl>
-                            </FormGroup>
-                            <FormGroup>
-                                <label>
-                                    <input type="checkbox" name="isDisabledUser" onChange={this.onIsDisabledUserChange} /> Is Disabled User
-                                </label>
-                            </FormGroup>
-                            <FormGroup>
-                                <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
-                            </FormGroup>
-                        </Form>
+                        <SearchForm filter={this.state.filter}
+                            groupOptions={this.state.groupOptions}
+                            onFilterChange={this.handleFilterChange}
+                            onFilterSubmit={this.handleFilterSubmit}
+                        />
 
                         <ToolkitProvider keyField="employeeId" data={this.state.data} columns={columns} search >
                             {
