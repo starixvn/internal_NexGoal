@@ -9,7 +9,7 @@
     ViewData["Title"] = ViewLang.EvaluationPeriod;
 }
 
-<input type="hidden" value="@Model.ToString()" id="has-host-permission" />
+<input type="checkbox" hidden @(Model ? "checked" : string.Empty) id="IsHost" />
 
 @Html.AntiForgeryToken()
 

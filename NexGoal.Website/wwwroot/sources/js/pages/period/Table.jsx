@@ -2,10 +2,12 @@
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
-import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
+
+import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import CreatePeriod from './CreatePeriod';
 import DeletePeriod from './DeletePeriod';
 
@@ -17,71 +19,74 @@ export default class Table extends Component {
             showCreateModal: false,
             showDeleteModal: false
         };
-
-        this.tableRef = React.createRef();
     }
 
     columns = [
         {
             dataField: 'rowNum',
-            text: '#',
-            classes: 'text-center'
+            text: `${getResource('SymbolCount')}`,
+            classes: 'text-center',
+            headerStyle: { width: '50px' }
         },
         {
             dataField: 'name',
-            text: 'Name'
+            text: `${getResource('Name')}`
         },
         {
             dataField: 'targetType',
-            text: 'Type'
+            text: `${getResource('TargetType')}`
         },
         {
             dataField: 'startDate',
-            text: 'Start Date',
+            text: `${getResource('StartDate')}`,
             classes: 'text-center',
+            headerStyle: { width: '120px' },
             formatter: (cell, row, rowIndex, colIndex) => {
                 return row.startDate ? moment(row.startDate).format('DD MMM, YYYY') : '';
             }
         },
         {
             dataField: 'endDate',
-            text: 'End Date',
+            text: `${getResource('EndDate')}`,
             classes: 'text-center',
+            headerStyle: { width: '120px' },
             formatter: (cell, row, rowIndex, colIndex) => {
                 return row.endDate ? moment(row.endDate).format('DD MMM, YYYY') : '';
             }
         },
         {
             dataField: '123',
-            text: 'Total Employees',
+            text: 'Total Employees'
         },
         {
             dataField: '456',
             text: 'Unfinished PA',
-            classes: 'text-center',
+            classes: 'text-center'
         },
         {
             dataField: 'isActive',
-            text: 'Active',
+            text: `${getResource('Active')}`,
             classes: 'text-center',
+            headerStyle: { width: '80px' },
             formatter: (cell, row, rowIndex, colIndex) => {
-                if (this.props.hasHostPermission) {
-                    return (<input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editPeriodStatus(e, row)} />);
+                if (this.props.isHost) {
+                    return <input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editPeriodStatus(e, row)} />;
                 }
 
-                return (<input type='checkbox' checked={row.isActive} readOnly />);
+                return <input type='checkbox' checked={row.isActive} readOnly />;
             }
         },
         {
             dataField: '',
-            text: 'Action',
+            text: `${getResource('Action')}`,
             classes: 'text-center',
+            headerStyle: { width: '120px' },
             formatter: (cell, row, rowIndex, colIndex) => {
-                if (this.props.hasHostPermission) {
+                if (this.props.isHost) {
                     return (
                         <Fragment>
-                            <a className="fa fa-pencil-square-o" title="Edit" href={`/period/edit/${row.periodId}`} />
-                            <a className="fa fa-trash-o remove" title="Delete" onClick={() => this.showDeleteModal(row)} />
+                            <a className="fa fa-pencil-square-o" title={getResource('Edit')} href={resolveClientUrl(`period/edit/${row.periodId}`)} />
+                            <a className="fa fa-trash-o remove" title={getResource('Delete')} onClick={() => this.showDeleteModal(row)} />
                         </Fragment>
                     );
                 }
@@ -108,7 +113,7 @@ export default class Table extends Component {
             var data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Update Successfully');
+                toast.success(getResource('UpdatedSuccessfully'));
                 this.props.onUpdateStatus(period.periodId, isActive);
             } else {
                 toast.error(data.message);
@@ -134,8 +139,10 @@ export default class Table extends Component {
                                 <Fragment>
                                     <div className="search-wrapper clearfix">
                                         <div className="pull-left">
-                                            {this.props.hasHostPermission &&
-                                                <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-plus" /> Create Evaluation Period</button>
+                                            {this.props.isHost &&
+                                                <button className="btn btn-primary" onClick={this.showCreateModal}>
+                                                    <i className="fa fa-plus" />{getResource('CreateEvaluationPeriod')}
+                                                </button>
                                             }
                                         </div>
                                         <div className="search pull-right">
@@ -149,8 +156,16 @@ export default class Table extends Component {
                         }
                     }
                 </ToolkitProvider>
-                <CreatePeriod showModal={this.state.showCreateModal} closeModal={this.closeCreateModal} targetTypes={this.props.targetTypes} onCreateSuccess={this.props.updateData} />
-                <DeletePeriod showModal={this.state.showDeleteModal} closeModal={this.closeDeleteModal} period={this.state.deletedPeriod} onDeleteSuccess={this.props.onDeletePeriod} />
+                <CreatePeriod showModal={this.state.showCreateModal}
+                    closeModal={this.closeCreateModal}
+                    targetTypes={this.props.targetTypes}
+                    onCreateSuccess={this.props.updateData}
+                />
+                <DeletePeriod showModal={this.state.showDeleteModal}
+                    closeModal={this.closeDeleteModal}
+                    period={this.state.deletedPeriod}
+                    onDeleteSuccess={this.props.onDeletePeriod}
+                />
             </Fragment>
         );
     }

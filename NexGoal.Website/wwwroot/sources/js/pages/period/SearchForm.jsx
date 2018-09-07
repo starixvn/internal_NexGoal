@@ -1,20 +1,23 @@
 ﻿import React, { Component } from 'react';
+import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+
+import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
     constructor(props) {
         super(props);
     }
 
-    handleTypeIdChange = e => this.props.onTypeIdChange(e.target.value)
+    handleTypeIdChange = event => this.props.onTypeIdChange(event.target.value)
 
-    handleStatusChange = e => this.props.onStatusChange(e.target.value)
+    handleStatusChange = event => this.props.onStatusChange(event.target.value)
 
     render() {
         return (
-            <form className="form-inline form-filter" onSubmit={this.props.onSubmit}>
-                <div className="form-group" >
+            <Form inline className="form-filter" onSubmit={this.props.onSubmit}>
+                <FormGroup>
                     <div className="col">
-                        <label className="control-label">Type</label>
+                        <ControlLabel>{getResource('TargetType')}</ControlLabel>
                         <div className="control-content">
                             <select value={this.props.targetTypeId} name="targetTypeId" className="form-control" onChange={this.handleTypeIdChange}>
                                 <option value="">-- All --</option>
@@ -25,7 +28,7 @@ export default class SearchForm extends Component {
                         </div>
                     </div>
                     <div className="col">
-                        <label className="control-label">Status</label>
+                        <ControlLabel>{getResource('Status')}</ControlLabel>
                         <div className="control-content">
                             <select value={this.props.isActive} name="isActive" className="form-control" onChange={this.handleStatusChange}>
                                 <option value="">-- All --</option>
@@ -35,10 +38,10 @@ export default class SearchForm extends Component {
                         </div>
                     </div>
                     <div className="col">
-                        <button type="submit" className="btn btn-primary">Search</button>
+                        <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                     </div>
-                </div>
-            </form>
+                </FormGroup>
+            </Form>
         );
     }
 }

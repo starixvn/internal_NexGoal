@@ -46,7 +46,7 @@ export default class App extends Component {
                         </a>
                     </div>
                     <div className="col-sm-12">
-                        <Tabs id="tabs-nomination" animation={false}
+                        <Tabs id="tabs-nomination"
                             activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
                         >

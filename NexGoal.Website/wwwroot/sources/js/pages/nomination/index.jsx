@@ -36,7 +36,7 @@ export default class App extends Component {
                         <li className="current">{getResource('NominationManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <Tabs id="tabs-nomination" animation={false}
+                        <Tabs id="tabs-nomination"
                             activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
                         >

@@ -18,7 +18,8 @@ export default class EvaluationPeriod extends Component {
                 isActive: ''
             },
             data: [],
-            targetTypes: []
+            targetTypes: [],
+            isHost: document.getElementById('IsHost').checked
         };
     }
 
@@ -26,8 +27,6 @@ export default class EvaluationPeriod extends Component {
         this.getPeriods();
         this.getTargetTypes();
     }
-
-    hasHostPermission = document.getElementById('has-host-permission').value === 'True'
 
     updateFilterValue = (name, value) => {
         var filter = { [name]: value };
@@ -90,7 +89,7 @@ export default class EvaluationPeriod extends Component {
                         onSubmit={this.handleSubmit}
                     />
                     <Table data={this.state.data}
-                        hasHostPermission={this.hasHostPermission}
+                        isHost={this.state.isHost}
                         targetTypes={this.state.targetTypes}
                         updateData={this.getPeriods}
                         onUpdateStatus={this.handleUpdateStatus}

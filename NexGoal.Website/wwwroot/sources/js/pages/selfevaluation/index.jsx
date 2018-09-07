@@ -33,7 +33,7 @@ export default class SelfEvaluation extends Component {
                     <li className="current">Self-Evaluation</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <Tabs id="tab-self" animation={false}
+                    <Tabs id="tab-self"
                         activeKey={this.state.activeKey}
                         onSelect={this.handleSelect}>
                         <Tab title="My Performance Check-in" eventKey={1}>
