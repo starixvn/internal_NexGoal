@@ -50,7 +50,7 @@ export default class UserManagement extends Component {
         });
     }
 
-    handleFilterSubmit = () => {
+    handleFilterSubmit() {
         this.getUsers();
     }
 
@@ -123,7 +123,7 @@ export default class UserManagement extends Component {
                 dataField: 'rowNum',
                 text: `${getResource('SymbolCount')}`,
                 classes: 'text-center',
-                headerStyle: { width: '60px' }
+                headerStyle: { width: '50px' }
             },
             {
                 dataField: 'code',

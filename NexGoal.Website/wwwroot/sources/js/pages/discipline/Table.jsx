@@ -50,7 +50,7 @@ export default class Table extends Component {
                 dataField: 'rowNum',
                 text: `${getResource('SymbolCount')}`,
                 classes: 'text-center',
-                headerStyle: { width: '60px' }
+                headerStyle: { width: '50px' }
             },
             {
                 dataField: 'nickName',

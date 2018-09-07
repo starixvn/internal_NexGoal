@@ -1,17 +1,16 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import { Async } from 'react-select';
 
 import { resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
-import Multiselect from '../../shared/components/MultiSelect';
+import ToastLayout from '../../shared/layouts/ToastLayout';
+
+import SearchForm from './SearchForm';
 import Table from './Table';
 import AddEditDiscipline from './EditDiscipline';
-import ToastLayout from '../../shared/layouts/ToastLayout';
 
 export default class DisciplineManagement extends Component {
     constructor(props) {
@@ -30,6 +29,9 @@ export default class DisciplineManagement extends Component {
             isHost: document.getElementById('IsHost').checked,
             showModal: false
         };
+
+        this.handleFilterChange = this.handleFilterChange.bind(this);
+        this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     }
 
     componentDidMount = function () {
@@ -37,41 +39,14 @@ export default class DisciplineManagement extends Component {
         this.getDisciplines();
     }
 
-    handleSubmit = (event) => {
-        event.preventDefault();
+    handleFilterChange(name, value) {
+        this.setState({
+            filter: Object.assign({}, this.state.filter, { [name]: value })
+        });
+    }
+
+    handleFilterSubmit() {
         this.getDisciplines();
-    }
-
-    onFromDateChange = (date) => {
-        this.updateFilterValue('from', date);
-    }
-
-    onToDateChange = (date) => {
-        this.updateFilterValue('to', date);
-    }
-
-    onFilterChange = (e) => {
-        this.updateFilterValue(e.target.name, e.target.value);
-    }
-
-    onChangeRaw = (e) => {
-        let date = moment(e.target.value);
-        if (date.isValid()) {
-            this.updateFilterValue(e.target.name, date);
-        }
-    }
-
-    onFilterEmployeeChange = (selectedOption) => {
-        this.updateFilterValue('employee', selectedOption);
-    }
-
-    onFilterGroupChange = (selectedOptions) => {
-        this.updateFilterValue('groups', selectedOptions);
-    }
-
-    updateFilterValue = (name, value) => {
-        var filter = { [name]: value };
-        this.setState({ filter: { ...this.state.filter, ...filter } });
     }
 
     getDisciplines = () => {
@@ -177,68 +152,13 @@ export default class DisciplineManagement extends Component {
                     <li className="current">{getResource('DisciplineManagement')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
-                        <div className="form-group" >
-                            <div className="col" >
-                                <label className="control-label">{getResource('From')}</label>
-                                <div className="control-content">
-                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.from}
-                                        onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
-                                        name="from" className="form-control" autoComplete="off"
-                                    />
-                                </div>
-                            </div>
-                            <div className="col" >
-                                <label className="control-label">{getResource('To')}</label>
-                                <div className="control-content">
-                                    <DatePicker dateFormat="DD MMM, YYYY" selected={this.state.filter.to}
-                                        onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
-                                        name="to" className="form-control" autoComplete="off"
-                                    />
-                                </div>
-                            </div>
-                            <div className="col">
-                                <label className="control-label">{getResource('Status')}</label>
-                                <div className="control-content">
-                                    <select name="isActive" className="form-control" onChange={this.onFilterChange}>
-                                        <option value="">-- All --</option>
-                                        <option value="true">{getResource('Active')}</option>
-                                        <option value="false">{getResource('Inactive')}</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="form-group">
-                            <div className="col">
-                                <label className="control-label">{getResource('Team')}</label>
-                                <div className="control-content">
-                                    {this.state.groupOptions.length > 0 &&
-                                        <Multiselect className="react-select-container" classNamePrefix="react-select"
-                                            value={this.state.filter.groups}
-                                            closeMenuOnSelect={false}
-                                            options={this.state.groupOptions}
-                                            onChange={this.onFilterGroupChange}
-                                        />
-                                    }
-                                </div>
-                            </div>
-                            <div className="col">
-                                <label className="control-label">{getResource('Employee')}</label>
-                                <div className="control-content">
-                                    <Async
-                                        className="react-select-container" classNamePrefix="react-select"
-                                        cacheOptions value={this.state.filter.employee}
-                                        name="employee" onChange={this.onFilterEmployeeChange}
-                                        loadOptions={this.searchEmployees}
-                                        placeholder="-- Search an employee --"
-                                    />
-                                </div>
-                            </div>
-                            <div className="col">
-                                <button className="btn btn-primary">{getResource('Search')}</button>
-                            </div>
-                        </div>
-                    </form>
+                    <SearchForm filter={this.state.filter}
+                        groupOptions={this.state.groupOptions}
+                        searchEmployees={this.searchEmployees}
+                        onFilterChange={this.handleFilterChange}
+                        onFilterSubmit={this.handleFilterSubmit}
+                    />
+
                     <Table data={this.state.data} onUpdateStatus={this.onUpdateStatus}
                         isHost={this.state.isHost}
                         addDiscipline={this.addDiscipline}

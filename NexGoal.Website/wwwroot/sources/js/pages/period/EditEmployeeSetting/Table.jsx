@@ -2,12 +2,14 @@
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
-import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
 import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 import Async from 'react-select/lib/Async';
+
+import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/MultiSelect';
 import { PaginationOptions } from '../../../constants';
 import Edit from './Edit';
@@ -24,7 +26,7 @@ export default class Table extends Component {
                 employee: null
             },
             showEditModal: false
-        }
+        };
     }
 
     selectedIds = []
@@ -32,8 +34,9 @@ export default class Table extends Component {
     columns = [
         {
             dataField: 'rowNum',
-            text: '#',
-            classes: 'text-center'
+            text: `${getResource('SymbolCount')}`,
+            classes: 'text-center',
+            headerStyle: { width: '50px' }
         },
         {
             dataField: 'group',
@@ -100,12 +103,13 @@ export default class Table extends Component {
         {
             dataField: 'status',
             text: 'PA Status',
-            classes: 'text-center',
+            classes: 'text-center'
         },
         {
             dataField: 'include',
             text: 'Include',
             classes: 'text-center',
+            headerStyle: { width: '80px' },
             formatter: (cell, row, rowIndex, colIndex) => {
                 return '';
             }
@@ -114,6 +118,7 @@ export default class Table extends Component {
             dataField: '',
             text: 'Action',
             classes: 'text-center',
+            headerStyle: { width: '80px' },
             isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
                 return (

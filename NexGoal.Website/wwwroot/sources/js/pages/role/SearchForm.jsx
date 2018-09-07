@@ -27,12 +27,14 @@ class SearchForm extends Component {
                 <FormGroup>
                     <div className="col">
                         <ControlLabel>{getResource('Role')}</ControlLabel>
-                        <Select className="react-select-container" classNamePrefix="react-select"
-                            name="RoleId" isSearchable={false} isClearable={false}
-                            value={selectedOption}
-                            options={roleOptions}
-                            onChange={this.handleOnChange}
-                        />
+                        <div className="control-content">
+                            <Select className="react-select-container" classNamePrefix="react-select"
+                                name="RoleId" isSearchable={false} isClearable={false}
+                                value={selectedOption}
+                                options={roleOptions}
+                                onChange={this.handleOnChange}
+                            />
+                        </div>
                     </div>
                 </FormGroup>
             </form>

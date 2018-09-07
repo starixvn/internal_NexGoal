@@ -9,17 +9,17 @@ class Filter extends Component {
     constructor(props) {
         super(props);
 
-        this.handleOnTargetTypeChange = this.handleOnTargetTypeChange.bind(this);
-        this.handleOnStatusChange = this.handleOnStatusChange.bind(this);
+        this.handleTargetTypeChange = this.handleTargetTypeChange.bind(this);
+        this.handleStatusChange = this.handleStatusChange.bind(this);
         this.handleOnSubmit = this.handleOnSubmit.bind(this);
     }
 
-    handleOnTargetTypeChange(selectedOption) {
+    handleTargetTypeChange(selectedOption) {
         this.props.filter.targetTypeId = selectedOption.value.toString();
         this.props.onFilterChange(this.props.filter);
     }
 
-    handleOnStatusChange(selectedOption) {
+    handleStatusChange(selectedOption) {
         this.props.filter.isActive = selectedOption.value;
         this.props.onFilterChange(this.props.filter);
     }
@@ -48,7 +48,7 @@ class Filter extends Component {
                             <Select name="TargetTypeId" className="react-select-container" classNamePrefix="react-select"
                                 value={targetTypeSelected} options={targetTypeOptions}
                                 isSearchable={false} isClearable={false}
-                                onChange={this.handleOnTargetTypeChange}
+                                onChange={this.handleTargetTypeChange}
                             />
                         </div>
                     </div>
@@ -58,7 +58,7 @@ class Filter extends Component {
                             <Select name="IsActive" className="react-select-container" classNamePrefix="react-select"
                                 value={statusSelected} options={StatusOptions}
                                 isSearchable={false} isClearable={false}
-                                onChange={this.handleOnStatusChange}
+                                onChange={this.handleStatusChange}
                             />
                         </div>
                     </div>

@@ -46,11 +46,13 @@ class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <Select name="groupId" className="react-select-container" classNamePrefix="react-select"
-                        value={filter.group} options={this.props.groupOptions}
-                        isClearable={false}
-                        onChange={this.handleOnGroupChange}
-                    />
+                    <div className="control-content">
+                        <Select name="groupId" className="react-select-container" classNamePrefix="react-select"
+                            value={filter.group} options={this.props.groupOptions}
+                            isClearable={false}
+                            onChange={this.handleOnGroupChange}
+                        />
+                    </div>
                 </FormGroup>
                 <FormGroup>
                     <label>
