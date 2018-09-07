@@ -18,6 +18,8 @@
 
         public DateTime? FocusStartDate { get; set; }
 
+        public DateTime? FocusEndDate { get; set; }
+
         public bool IsActive { get; set; }
 
         public string Description { get; set; }

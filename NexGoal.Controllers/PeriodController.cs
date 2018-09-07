@@ -76,6 +76,7 @@
                     DisciplineStartDate = model.DisciplineStartDate,
                     DisciplineEndDate = model.DisciplineEndDate,
                     FocusStartDate = model.FocusStartDate,
+                    FocusEndDate = model.FocusEndDate,
                     Description = model.Description,
                     IsActive = model.IsActive,
                     CreatedBy = sessionService.EmployeeId
@@ -123,6 +124,7 @@
                     DisciplineStartDate = model.DisciplineStartDate,
                     DisciplineEndDate = model.DisciplineEndDate,
                     FocusStartDate = model.FocusStartDate,
+                    FocusEndDate = model.FocusEndDate,
                     Description = model.Description,
                     IsActive = model.IsActive,
                     ModifiedBy = sessionService.EmployeeId
@@ -169,7 +171,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
         public async Task<IActionResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId)
         {
-            var result = await periodService.CreateEmployeeSettings(periodId, groupIds, employeeId).ConfigureAwait(false);
+            var result = await periodService.CreateEmployeeSettings(periodId, groupIds, employeeId, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }

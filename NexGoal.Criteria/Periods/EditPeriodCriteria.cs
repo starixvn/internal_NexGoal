@@ -18,6 +18,8 @@
 
         public DateTime? FocusStartDate { get; set; }
 
+        public DateTime? FocusEndDate { get; set; }
+
         public bool IsActive { get; set; }
 
         public string Description { get; set; }
@@ -26,6 +28,6 @@
 
         public override string GetSettingKey() => "Period_Update";
 
-        public override bool IsValid() => !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Description) && PeriodId > 0 && ModifiedBy > 0;
+        public override bool IsValid() => !string.IsNullOrEmpty(Name) && PeriodId > 0 && ModifiedBy > 0;
     }
 }

@@ -25,7 +25,7 @@
 
         Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isLocal, bool? isEvaluated, int? statusId);
 
-        Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId);
+        Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId, int createdBy);
 
         Task<CommandResult> EditEmployeeSettings(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes, int modifiedBy);
     }

@@ -43,7 +43,7 @@ export default class EditProcessSetting extends Component {
 
     handleDurationChange = e => {
         var element = e.target;
-        var processId = element.dataset.processid;
+        var processId = parseInt(element.dataset.processid);
 
         var settings = this.state.settings.slice(0);
         var process = settings.find(e => e.processId === processId);
@@ -54,7 +54,7 @@ export default class EditProcessSetting extends Component {
 
     handleNoticeAtBeginChange = e => {
         var element = e.target;
-        var processId = element.dataset.processid;
+        var processId = parseInt(element.dataset.processid);
 
         var settings = this.state.settings.slice(0);
         var process = settings.find(e => e.processId === processId);
@@ -65,22 +65,11 @@ export default class EditProcessSetting extends Component {
 
     handleRemindDayChange = e => {
         var element = e.target;
-        var processId = element.dataset.processid;
+        var processId = parseInt(element.dataset.processid);
 
         var settings = this.state.settings.slice(0);
         var process = settings.find(e => e.processId === processId);
         process.remindDay = element.value;
-
-        this.setState({ settings: settings });
-    }
-
-    handleFocusDayChange = e => {
-        var element = e.target;
-        var processId = element.dataset.processid;
-
-        var settings = this.state.settings.slice(0);
-        var process = settings.find(e => e.processId === processId);
-        process.focusDay = element.value;
 
         this.setState({ settings: settings });
     }
@@ -129,7 +118,6 @@ export default class EditProcessSetting extends Component {
                             <th>Duration</th>
                             <th>Notice At Begin</th>
                             <th>Remind Day</th>
-                            {this.state.period.targetTypeId === TargetType.semiAnual && <th>Focus Day</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -149,15 +137,6 @@ export default class EditProcessSetting extends Component {
                                         {this.remindDayList.map(rl => <option key={rl} value={rl} >{rl}</option>)}
                                     </select>
                                 </td>
-                                {this.state.period.targetTypeId === TargetType.semiAnual &&
-                                    <td className="text-center">
-                                        {e.processId === 4 &&
-                                            <select data-processid={e.processId} value={e.focusDay} onChange={this.handleFocusDayChange}>
-                                                {this.focusDayList.map(fd => <option key={fd} value={fd} >{fd}</option>)}
-                                            </select>
-                                        }
-                                    </td>
-                                }
                             </tr>)
                         }
 

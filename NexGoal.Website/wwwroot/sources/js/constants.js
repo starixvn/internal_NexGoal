@@ -17,6 +17,13 @@ export const PerformanceProcess = {
     Reviewer: 5
 };
 
+export const PAStatus = {
+    NotGenerated: 1,
+    Opened: 2,
+    Closed: 3,
+    Rejected: 4
+};
+
 export const Policy = {
     None: 0,
     Read: 1,

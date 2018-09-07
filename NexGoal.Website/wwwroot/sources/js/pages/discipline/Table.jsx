@@ -48,14 +48,12 @@ export default class Table extends Component {
         const columns = [
             {
                 dataField: 'rowNum',
-                text: `${getResource('SymbolCount')}`,
-                classes: 'text-center',
-                headerStyle: { width: '50px' }
+                text: '#',
+                classes: 'text-center'
             },
             {
                 dataField: 'nickName',
-                text: `${getResource('NickName')}`,
-                headerStyle: { width: '120px' }
+                text: `${getResource('NickName')}`
             },
             {
                 dataField: 'fullName',
@@ -73,7 +71,6 @@ export default class Table extends Component {
                 dataField: 'effectiveDate',
                 text: `${getResource('IssueDate')}`,
                 classes: 'text-center',
-                headerStyle: { width: '120px' },
                 formatter: (cell, row, rowIndex, colIndex) => {
                     return `${moment(row.effectiveDate).format('DD MMM, YYYY')}`;
                 }
@@ -89,7 +86,6 @@ export default class Table extends Component {
                 dataField: 'isActive',
                 text: `${getResource('Active')}`,
                 classes: 'text-center',
-                headerStyle: { width: '80px' },
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.props.isHost) {
                         return <input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editDisciplineStatus(e, row)} />;
@@ -102,7 +98,6 @@ export default class Table extends Component {
                 dataField: '',
                 text: `${getResource('Action')}`,
                 classes: 'text-center',
-                headerStyle: { width: '80px' },
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.props.isHost) {
                         return <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)} />;

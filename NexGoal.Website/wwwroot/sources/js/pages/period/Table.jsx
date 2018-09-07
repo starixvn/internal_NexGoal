@@ -33,10 +33,6 @@ export default class Table extends Component {
             text: `${getResource('Name')}`
         },
         {
-            dataField: 'targetType',
-            text: `${getResource('TargetType')}`
-        },
-        {
             dataField: 'startDate',
             text: `${getResource('StartDate')}`,
             classes: 'text-center',

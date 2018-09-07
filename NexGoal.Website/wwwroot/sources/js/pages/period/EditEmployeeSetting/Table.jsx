@@ -13,6 +13,7 @@ import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/MultiSelect';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PaginationOptions } from '../../../constants';
+import { PAStatus, PerformanceProcess } from '../../../constants';
 import Edit from './Edit';
 
 export default class Table extends Component {
@@ -27,7 +28,8 @@ export default class Table extends Component {
                 employee: null
             },
             showEditModal: false,
-            showConfirmationModal: false
+            showConfirmationModal: false,
+            selectedSettingToUpdateStatus: null
         };
     }
 
@@ -42,6 +44,7 @@ export default class Table extends Component {
         },
         {
             dataField: 'group',
+            classes: 'text-center',
             text: 'Team'
         },
         {
@@ -50,22 +53,10 @@ export default class Table extends Component {
             hidden: true
         },
         {
-            dataField: 'jobTitle',
-            text: '',
-            hidden: true
-        },
-        {
             dataField: 'nickName',
             text: 'Employee',
             formatter: (cell, row, rowIndex, colIndex) => {
-                return (
-                    <Fragment>
-                        <div>{row.fullName}</div>
-                        <div>{row.code}</div>
-                        <div>({row.nickName})</div>
-                        <div>{row.jobTitle}</div>
-                    </Fragment>
-                );
+                return `${row.fullName} (${row.nickName})`;
             }
         },
         {
@@ -73,7 +64,7 @@ export default class Table extends Component {
             text: 'Evaluator',
             isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
-                var evaluatorProcess = row.processes.find(p => p.processId === 4);
+                var evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Evaluator);
 
                 return (
                     <Fragment>
@@ -88,7 +79,7 @@ export default class Table extends Component {
             text: 'Reviewer',
             isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
-                var reviewerProcess = row.processes.find(p => p.processId === 5);
+                var reviewerProcess = row.processes.find(p => p.processId === PerformanceProcess.Reviewer);
 
                 return (
                     <Fragment>
@@ -114,7 +105,7 @@ export default class Table extends Component {
             headerStyle: { width: '80px' },
             formatter: (cell, row, rowIndex, colIndex) => {
                 return (
-                    <input type="checkbox" checked={row.statusId !== 4} />
+                    <input type="checkbox" checked={row.statusId !== PAStatus.Rejected} onChange={() => this.editSettingStatus(row)} />
                 );
             }
         },
@@ -224,6 +215,8 @@ export default class Table extends Component {
 
     closeEditModal = () => this.setState({ showEditModal: false })
 
+    editSettingStatus = (setting) => this.setState({ showConfirmationModal: true, selectedSettingToUpdateStatus: setting })
+
     onEditSuccess = () => {
         this.setState({ showEditModal: false });
         this.props.refreshData();
@@ -284,7 +277,10 @@ export default class Table extends Component {
                     />
                 }
                 {this.state.showConfirmationModal &&
-                    <ConfirmationModal showModal={this.state.showConfirmationModal} closeModal={this.closeConfirmationModal} action="include" name="name" />
+                    <ConfirmationModal showModal={this.state.showConfirmationModal} closeModal={this.closeConfirmationModal}
+                        action={this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected ? 'include' : 'exclude'}
+                        name={this.state.selectedSettingToUpdateStatus.nickName}
+                        handleSubmit={this.onEditSettingStatus} />
                 }
             </Fragment>
         );

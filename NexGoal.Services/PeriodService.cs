@@ -47,6 +47,7 @@
                 DisciplineStartDate = model.DisciplineStartDate,
                 DisciplineEndDate = model.DisciplineEndDate,
                 FocusStartDate = model.FocusStartDate,
+                FocusEndDate = model.FocusEndDate,
                 Description = model.Description,
                 IsActive = model.IsActive,
                 CreatedBy = model.CreatedBy
@@ -89,6 +90,7 @@
                 DisciplineStartDate = model.DisciplineStartDate,
                 DisciplineEndDate = model.DisciplineEndDate,
                 FocusStartDate = model.FocusStartDate,
+                FocusEndDate = model.FocusEndDate,
                 Description = model.Description,
                 IsActive = model.IsActive,
                 ModifiedBy = model.ModifiedBy
@@ -133,13 +135,14 @@
             return paRecords;
         }
 
-        public async Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId)
+        public async Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId, int createdBy)
         {
             var criteria = new CreateEmployeeSettingsCriteria
             {
                 PeriodId = periodId,
                 GroupIds = groupIds,
-                EmployeeId = employeeId
+                EmployeeId = employeeId,
+                CreatedBy = createdBy
             };
 
             var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

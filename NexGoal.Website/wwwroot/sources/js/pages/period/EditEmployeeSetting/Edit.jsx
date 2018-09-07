@@ -137,7 +137,7 @@ export default class Edit extends Component {
 
             if (data.isSuccessful) {
                 this.props.onEditSuccess();
-                toast.success("Create Successfully");
+                toast.success("Update Successfully");
             } else {
                 if (data.errors) {
                     let errors = {};
