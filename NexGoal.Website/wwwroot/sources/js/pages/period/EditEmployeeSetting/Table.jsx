@@ -284,9 +284,7 @@ export default class Table extends Component {
                     />
                 }
                 {this.state.showConfirmationModal &&
-                    <ConfirmationModal showModal={this.state.showConfirmationModal} closeModal={this.closeConfirmationModal} action={}
-                        settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))}
-                        onEditSuccess={this.onEditSuccess} />
+                    <ConfirmationModal showModal={this.state.showConfirmationModal} closeModal={this.closeConfirmationModal} action="include" name="name" />
                 }
             </Fragment>
         );

@@ -9,6 +9,7 @@ import { Formik, FieldArray, Field, getIn } from 'formik';
 import { camelCase, isEmpty, uniqBy } from 'lodash';
 import Async from 'react-select/lib/Async';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { PerformanceProcess } from '../../../constants';
 
 export default class Edit extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ export default class Edit extends Component {
         var employees = props.settings.map(e => e.nickName).join(', ');
 
         if (paRecordIds.length === 1) {
-            let adminProcesses = props.settings[0].processes.filter(p => p.processId === 1);
+            let adminProcesses = props.settings[0].processes.filter(p => p.processId === PerformanceProcess.HumanResource);
 
             this.processes = [{
                 isSelected: true,
@@ -29,7 +30,7 @@ export default class Edit extends Component {
                 endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null,
             }];
 
-            this.processes = this.processes.concat(props.settings[0].processes.filter(p => p.processId > 3).map(p => {
+            this.processes = this.processes.concat(props.settings[0].processes.filter(p => p.processId > PerformanceProcess.ProjectManager).map(p => {
                 return {
                     isSelected: true,
                     processId: p.processId,
@@ -40,7 +41,7 @@ export default class Edit extends Component {
                 }
             }));
         } else {
-            let processes = uniqBy(props.settings[0].processes.filter(p => p.processId !== 2 && p.processId !== 3), p => p.processId)
+            let processes = uniqBy(props.settings[0].processes.filter(p => p.processId !== PerformanceProcess.Self && p.processId !== PerformanceProcess.ProjectManager), p => p.processId)
             this.processes = processes.map(p => {
                 return {
                     isSelected: false,
@@ -79,8 +80,6 @@ export default class Edit extends Component {
     }
 
     validateForm = values => {
-        debugger;
-
         let errors = {};
         if (!values.processes.some(p => p.isSelected)) {
             errors.noSelect = "Please select at least a process";
@@ -91,14 +90,14 @@ export default class Edit extends Component {
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
         var processes = [];
-        var adminProcess = values.processes.find(p => p.processId === 1 && p.isSelected);
+        var adminProcess = values.processes.find(p => p.processId === PerformanceProcess.HumanResource && p.isSelected);
 
         if (adminProcess) {
             var adminProcessEvaluators = adminProcess.evaluator;
             if (adminProcessEvaluators && adminProcessEvaluators.length > 0) {
                 processes = adminProcessEvaluators.map(e => {
                     return {
-                        processId: 1,
+                        processId: PerformanceProcess.HumanResource,
                         evaluatorId: e.value,
                         startDate: adminProcess.startDate ? adminProcess.startDate.format('YYYY-MM-DD') : null,
                         endDate: adminProcess.endDate ? adminProcess.endDate.format('YYYY-MM-DD') : null
@@ -106,7 +105,7 @@ export default class Edit extends Component {
                 });
             } else {
                 processes.push({
-                    processId: 1,
+                    processId: PerformanceProcess.HumanResource,
                     evaluatorId: null,
                     startDate: adminProcess.startDate ? adminProcess.startDate.format('YYYY-MM-DD') : null,
                     endDate: adminProcess.endDate ? adminProcess.endDate.format('YYYY-MM-DD') : null
@@ -121,7 +120,7 @@ export default class Edit extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 periodId: this.props.periodId,
                 paRecordIds: this.props.paRecordIds,
-                processes: processes.concat(values.processes.filter(p => p.processId > 1 && p.isSelected).map(p => {
+                processes: processes.concat(values.processes.filter(p => p.processId > PerformanceProcess.HumanResource && p.isSelected).map(p => {
                     return {
                         processId: p.processId,
                         evaluatorId: p.evaluator ? p.evaluator.value : null,
@@ -201,7 +200,7 @@ export default class Edit extends Component {
                                     {numberOfPARecord > 1 && <td><input type="checkbox" checked={p.isSelected} onChange={handleChange} name={`processes.${i}.isSelected`} /></td>}
                                     <td>{p.process}</td>
                                     <td>
-                                        {p.processId !== 2 &&
+                                        {p.processId !== PerformanceProcess.Self &&
                                             <Async className={`react-select-container`} classNamePrefix="react-select"
                                                 value={p.evaluator} isMulti={p.processId === 1} name={`processes.${i}.evaluator`}
                                                 onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
@@ -209,14 +208,14 @@ export default class Edit extends Component {
                                         }
                                     </td>
                                     <td>
-                                        {(p.processId === 1 || p.processId === 5) &&
+                                        {(p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat="DD MMM, YYYY" selected={p.startDate}
                                                 onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw} name={`processes.${i}.startDate`}
                                                 showMonthDropdown showYearDropdown />
                                         }
                                     </td>
                                     <td>
-                                        {(p.processId === 1 || p.processId === 5) &&
+                                        {(p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat="DD MMM, YYYY" selected={p.endDate}
                                                 onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw} name={`processes.${i}.endDate`}
                                                 showMonthDropdown showYearDropdown />
