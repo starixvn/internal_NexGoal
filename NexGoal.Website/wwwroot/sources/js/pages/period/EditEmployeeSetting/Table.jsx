@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { stringify } from 'qs';
@@ -11,6 +11,7 @@ import Async from 'react-select/lib/Async';
 import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/MultiSelect';
+import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PaginationOptions } from '../../../constants';
 import Edit from './Edit';
 
@@ -25,7 +26,8 @@ export default class Table extends Component {
                 groups: [],
                 employee: null
             },
-            showEditModal: false
+            showEditModal: false,
+            showConfirmationModal: false
         };
     }
 
@@ -106,12 +108,14 @@ export default class Table extends Component {
             classes: 'text-center'
         },
         {
-            dataField: 'include',
+            dataField: 'statusId',
             text: 'Include',
             classes: 'text-center',
             headerStyle: { width: '80px' },
             formatter: (cell, row, rowIndex, colIndex) => {
-                return '';
+                return (
+                    <input type="checkbox" checked={row.statusId !== 4} />
+                );
             }
         },
         {
@@ -225,16 +229,11 @@ export default class Table extends Component {
         this.props.refreshData();
     }
 
+    closeConfirmationModal = () => this.setState({ showConfirmationModal: false })
+
     render() {
         return (
             <Fragment>
-
-                <div className="search-wrapper clearfix" >
-                    <div className="pull-left btn-block">
-                        <button className="btn btn-primary" onClick={this.editSettings}><i className="fa fa-pencil-square-o"></i> Edit Employee Setting</button>
-                        <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-pencil-square-o"></i> Generate PA</button>
-                    </div>
-                </div>
                 <ToolkitProvider keyField="paRecordId" columns={this.columns} data={this.props.data} search >
                     {
                         props => {
@@ -264,6 +263,12 @@ export default class Table extends Component {
                                             <span className="fa fa-search icon"></span>
                                         </div>
                                     </div>
+                                    <div className="search-wrapper clearfix" >
+                                        <div className="pull-left btn-block">
+                                            <button className="btn btn-primary" onClick={this.editSettings}><i className="fa fa-pencil-square-o"></i> Edit Employee Setting</button>
+                                            <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-pencil-square-o"></i> Generate PA</button>
+                                        </div>
+                                    </div>
                                     <BootstrapTable {...props.baseProps} noDataIndication={noDataIndication} pagination={paginationFactory(PaginationOptions)} striped
                                         selectRow={{ mode: 'checkbox', onSelect: this.onSelectRow, onSelectAll: this.onSelectAllRows }}
                                     />
@@ -277,6 +282,11 @@ export default class Table extends Component {
                         settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))}
                         onEditSuccess={this.onEditSuccess}
                     />
+                }
+                {this.state.showConfirmationModal &&
+                    <ConfirmationModal showModal={this.state.showConfirmationModal} closeModal={this.closeConfirmationModal} action={}
+                        settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))}
+                        onEditSuccess={this.onEditSuccess} />
                 }
             </Fragment>
         );
