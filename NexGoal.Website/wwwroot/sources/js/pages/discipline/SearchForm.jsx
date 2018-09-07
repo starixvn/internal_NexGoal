@@ -6,7 +6,7 @@ import { Async } from 'react-select';
 import Select from 'react-select';
 
 import { StatusOptions } from '../../constants';
-import Multiselect from '../../shared/components/MultiSelect';
+import Multiselect from '../../shared/components/multi-select/MultiSelect';
 import getResource from '../../resourceHelper';
 
 class SearchForm extends Component {
@@ -98,7 +98,6 @@ class SearchForm extends Component {
                         <div className="control-content">
                             <Multiselect className="react-select-container" classNamePrefix="react-select"
                                 value={filter.groups}
-                                closeMenuOnSelect={false}
                                 options={this.props.groupOptions}
                                 onChange={this.handleGroupChange}
                             />

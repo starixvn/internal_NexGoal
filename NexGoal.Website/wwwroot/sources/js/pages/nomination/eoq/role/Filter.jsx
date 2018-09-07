@@ -2,7 +2,7 @@
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
-import MultiSelect from '../../../../shared/components/MultiSelect';
+import MultiSelect from '../../../../shared/components/multi-select/MultiSelect';
 import getResource from '../../../../resourceHelper';
 
 class Filter extends Component {
@@ -61,7 +61,6 @@ class Filter extends Component {
                         <ControlLabel>{getResource('Team')}</ControlLabel>
                         <div className="control-content">
                             <MultiSelect className="react-select-container" classNamePrefix="react-select"
-                                closeMenuOnSelect={false}
                                 value={filter.groups}
                                 options={this.props.groupOptions}
                                 onChange={this.handleGroupChange}

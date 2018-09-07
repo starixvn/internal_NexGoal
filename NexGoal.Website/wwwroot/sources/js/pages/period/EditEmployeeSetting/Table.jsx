@@ -10,7 +10,7 @@ import Async from 'react-select/lib/Async';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/MultiSelect';
+import Multiselect from '../../../shared/components/multi-select/MultiSelect';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PaginationOptions } from '../../../constants';
 import { PAStatus, PerformanceProcess } from '../../../constants';
@@ -237,7 +237,10 @@ export default class Table extends Component {
                                             <label>Department/Team</label>
                                             <div className="control-content">
                                                 <Multiselect className="react-select-container" classNamePrefix="react-select"
-                                                    value={this.state.addFilter.groups} name="employee" options={this.props.groups} onChange={this.onGroupsChange} />
+                                                    value={this.state.addFilter.groups} name="employee"
+                                                    options={this.props.groups}
+                                                    onChange={this.onGroupsChange}
+                                                />
                                             </div>
                                         </div>
                                         <div className="pull-left field-group">

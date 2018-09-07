@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Select from 'react-select';
 
-import MultiSelect from '../../../shared/components/MultiSelect';
+import MultiSelect from '../../../shared/components/multi-select/MultiSelect';
 
 class Filter extends Component {
     constructor(props) {
@@ -73,7 +73,6 @@ class Filter extends Component {
                         <MultiSelect className="react-select-container creator-field" classNamePrefix="react-select"
                             name="creators"
                             value={filter.creators}
-                            closeMenuOnSelect={false}
                             options={creatorOptions}
                             onChange={this.handleCreatorChange}
                         />
