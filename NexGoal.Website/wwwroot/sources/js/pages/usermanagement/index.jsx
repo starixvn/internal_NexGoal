@@ -123,18 +123,18 @@ export default class UserManagement extends Component {
                 dataField: 'rowNum',
                 text: `${getResource('SymbolCount')}`,
                 classes: 'text-center',
-                headerClasses: 'col-index'
+                headerStyle: { width: '60px' }
             },
             {
                 dataField: 'code',
                 text: `${getResource('Code')}`,
                 classes: 'text-center',
-                headerClasses: 'col-code'
+                headerStyle: { width: '80px' }
             },
             {
                 dataField: 'nickName',
                 text: `${getResource('NickName')}`,
-                headerClasses: 'col-nickname'
+                headerStyle: { width: '120px' }
             },
             {
                 dataField: 'fullName',
@@ -143,7 +143,8 @@ export default class UserManagement extends Component {
             {
                 dataField: 'groupCode',
                 text: `${getResource('Team')}`,
-                classes: 'text-center'
+                classes: 'text-center',
+                headerStyle: { width: '120px' }
             },
             {
                 dataField: 'jobTitle',
@@ -157,7 +158,7 @@ export default class UserManagement extends Component {
                 dataField: '',
                 text: `${getResource('Action')}`,
                 classes: 'text-center',
-                headerClasses: 'col-action',
+                headerStyle: { width: '80px' },
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.state.isHost) {
                         return (

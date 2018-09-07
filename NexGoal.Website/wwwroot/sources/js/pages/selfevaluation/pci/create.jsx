@@ -150,7 +150,7 @@ export default class CreateCheckIn extends Component {
     }
 
     render() {
-        const avataruser = `/dist/styles/images/${avatar}`;
+        const avataruser = `/dist/styles/${avatar}`;
         let errors = this.state.errors;
 
         return (

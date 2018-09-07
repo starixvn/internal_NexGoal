@@ -53,8 +53,8 @@ class Table extends Component {
         const isHost = this.props.isHost;
         const nominators = this.props.nominators;
         const columns = [
-            { dataField: 'rowNum', text: '#', classes: 'text-center' },
-            { dataField: 'nickName', text: `${getResource('NickName')}` },
+            { dataField: 'rowNum', text: `${getResource('SymbolCount')}`, classes: 'text-center', headerStyle: { width: '60px' } },
+            { dataField: 'nickName', text: `${getResource('NickName')}`, headerStyle: { width: '120px' } },
             { dataField: 'fullName', text: `${getResource('FullName')}` },
             { dataField: 'jobTitle', text: `${getResource('JobTitle')}` },
             { dataField: 'groupName', text: `${getResource('Team')}` },
@@ -62,6 +62,7 @@ class Table extends Component {
                 dataField: 'isCommittee',
                 text: `${getResource('Committee')}`,
                 classes: 'text-center',
+                headerStyle: { width: '120px' },
                 formatter: (cell, row) => {
                     if (isHost) {
                         return (
@@ -79,6 +80,7 @@ class Table extends Component {
                 dataField: 'isNominator',
                 text: `${getResource('Nominator')}`,
                 classes: 'text-center',
+                headerStyle: { width: '120px' },
                 formatter: (cell, row) => {
                     if (isHost) {
                         return (
