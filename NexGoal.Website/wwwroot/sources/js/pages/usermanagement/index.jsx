@@ -159,6 +159,7 @@ export default class UserManagement extends Component {
                 text: `${getResource('Action')}`,
                 classes: 'text-center',
                 headerStyle: { width: '80px' },
+                isDummyField: true,
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.state.isHost) {
                         return (

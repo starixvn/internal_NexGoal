@@ -105,7 +105,7 @@ export default class Table extends Component {
             headerStyle: { width: '80px' },
             formatter: (cell, row, rowIndex, colIndex) => {
                 return (
-                    <input type="checkbox" checked={row.statusId !== PAStatus.Rejected} onChange={() => this.editSettingStatus(row)} />
+                    <input type="checkbox" checked={row.statusId !== PAStatus.Rejected} onChange={() => this.editSettingStatusConfirmation(row)} />
                 );
             }
         },
@@ -213,9 +213,34 @@ export default class Table extends Component {
         }
     }
 
+    onEditSettingStatus = () => {
+        axios({
+            url: resolveClientUrl('Period/EditEmployeeSettingStatus'),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                paRecordId: this.state.selectedSettingToUpdateStatus.paRecordId,
+                statusId: this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected ? PAStatus.NotGenerated : PAStatus.Rejected,
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            var data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success('Update Successfully');
+                this.setState({ showConfirmationModal: false });
+                this.props.refreshData();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
+
     closeEditModal = () => this.setState({ showEditModal: false })
 
-    editSettingStatus = (setting) => this.setState({ showConfirmationModal: true, selectedSettingToUpdateStatus: setting })
+    editSettingStatusConfirmation = (setting) => this.setState({ showConfirmationModal: true, selectedSettingToUpdateStatus: setting })
 
     onEditSuccess = () => {
         this.setState({ showEditModal: false });

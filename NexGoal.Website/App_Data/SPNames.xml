@@ -82,6 +82,9 @@
     <Setting Key="Period_UpdateProcessSetting" SpName="Period_UpdateProcessSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetEmployeeSettings" SpName="Period_GetEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_InsertEmployeeSettings" SpName="Period_InsertEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_UpdateEmployeeSettings" SpName="Period_UpdateEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_UpdateEmployeeSettingStatus" SpName="Period_UpdateEmployeeSettingStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_GetEmployeeSetting" SpName="Period_GetEmployeeSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Project">
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -90,6 +93,5 @@
     <Setting Key="PerformanceCheckIn_GetCreatorByEmployee" SpName="PerformanceCheckIn_GetCreatorByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceCheckIn_GetByEmployee" SpName="PerformanceCheckIn_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceCheckIn_Insert" SpName="PerformanceCheckIn_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Period_UpdateEmployeeSettings" SpName="Period_UpdateEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

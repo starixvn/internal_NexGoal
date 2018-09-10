@@ -103,6 +103,7 @@ export default class Table extends Component {
                 text: `${getResource('Action')}`,
                 classes: 'text-center',
                 headerStyle: { width: '80px' },
+                isDummyField: true,
                 formatter: (cell, row, rowIndex, colIndex) => {
                     if (this.props.isHost) {
                         return <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.props.editDiscipline(row)} />;

@@ -164,5 +164,34 @@
 
             return result;
         }
+
+        public async Task<CommandResult> EditEmployeeSettingStatus(int paRecordId, int statusId, int modifiedBy)
+        {
+            var criteria = new EditEmployeeSettingStatusCriteria
+            {
+                PARecordId = paRecordId,
+                StatusId = statusId,
+                ModifiedBy = modifiedBy
+            };
+
+            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return result;
+        }
+
+        public async Task<PARecordModel> GetEmployeeSetting(int paRecordId)
+        {
+            var criteria = new GetEmployeeSettingCriteria
+            {
+                PARecordId = paRecordId
+            };
+
+            var result = await dynamicRepository.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
+
+            var paRecord = result.Item1.FirstOrDefault();
+            paRecord.Processes = result.Item2;
+
+            return paRecord;
+        }
     }
 }

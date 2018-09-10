@@ -192,5 +192,23 @@
 
             return Json(result);
         }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> EditEmployeeSettingStatus(int paRecordId, int statusId)
+        {
+            var result = await periodService.EditEmployeeSettingStatus(paRecordId, statusId, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
+        }
+
+        [HttpGet]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> GetEmployeeSetting(int paRecordId)
+        {
+            var result = await periodService.GetEmployeeSetting(paRecordId).ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

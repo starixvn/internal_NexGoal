@@ -24,6 +24,10 @@
 
         public DateTime? FocusEndDate { get; set; }
 
+        public int? TotalEmployees { get; set; }
+
+        public int? TotalUnFinished { get; set; }
+
         public bool IsActive { get; set; }
 
         public string Description { get; set; }

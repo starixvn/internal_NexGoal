@@ -90,8 +90,8 @@ export default class AddEditDiscipline extends Component {
                         </ul>
                     }
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={2}>{getResource('Employee')}</Col>
-                        <Col sm={10}>
+                        <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('Employee')}</Col>
+                        <Col sm={9}>
                             <Select name="employee"
                                 className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
                                 classNamePrefix="react-select"
@@ -103,8 +103,8 @@ export default class AddEditDiscipline extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={2}>{getResource('IssueDate')}</Col>
-                        <Col sm={10}>
+                        <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('IssueDate')}</Col>
+                        <Col sm={9}>
                             <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
                                 dateFormat="DD MMM, YYYY" selected={values.effectiveDate}
                                 onChange={value => setFieldValue('effectiveDate', value)}
@@ -114,8 +114,8 @@ export default class AddEditDiscipline extends Component {
                         </Col>
                     </FormGroup>
                     <FormGroup>
-                        <Col componentClass={ControlLabel} className="required-label" sm={2}>{getResource('Content')}</Col>
-                        <Col sm={10}>
+                        <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('Content')}</Col>
+                        <Col sm={9}>
                             <textarea className={`form-control none-resize ${touched.content && errors.content && 'input-validation-error'}`}
                                 name="content" rows="10"
                                 onChange={handleChange}
@@ -144,7 +144,7 @@ export default class AddEditDiscipline extends Component {
                 <Modal.Header closeButton>
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
-                <Formik initialValues={this.props.discipline} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
+                <Formik initialValues={{ ...this.props.discipline }} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
             </Modal>
         );
     }

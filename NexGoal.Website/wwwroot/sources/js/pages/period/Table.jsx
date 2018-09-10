@@ -51,11 +51,12 @@ export default class Table extends Component {
             }
         },
         {
-            dataField: '123',
-            text: 'Total Employees'
+            dataField: 'totalEmployees',
+            text: 'Total Employees',
+            classes: 'text-center'
         },
         {
-            dataField: '456',
+            dataField: 'totalUnFinished',
             text: 'Unfinished PA',
             classes: 'text-center'
         },
@@ -64,6 +65,7 @@ export default class Table extends Component {
             text: `${getResource('Active')}`,
             classes: 'text-center',
             headerStyle: { width: '80px' },
+            isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
                 if (this.props.isHost) {
                     return <input type='checkbox' defaultChecked={row.isActive} onChange={(e) => this.editPeriodStatus(e, row)} />;
@@ -77,6 +79,7 @@ export default class Table extends Component {
             text: `${getResource('Action')}`,
             classes: 'text-center',
             headerStyle: { width: '120px' },
+            isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
                 if (this.props.isHost) {
                     return (

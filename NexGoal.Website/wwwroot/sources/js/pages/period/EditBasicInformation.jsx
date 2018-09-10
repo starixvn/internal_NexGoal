@@ -68,10 +68,6 @@ export default class EditBasicInformation extends Component {
             errors.focusEndDate = 'Focus End Date is required';
         }
 
-        if (values.targetTypeId === TargetType.semiAnual && values.focusStartDate && values.endDate && values.focusStartDate <= values.endDate) {
-            errors.focusStartDate = 'Focus Start Date must be after Period End Date';
-        }
-
         return errors;
     }
 
@@ -126,8 +122,8 @@ export default class EditBasicInformation extends Component {
         handleSubmit,
         setFieldValue,
         isSubmitting }) => {
-        var onChangeRaw = (e) => {
-            let date = moment(e.target.value);
+        var onChangeRaw = e => {
+            let date = moment(Date(e.target.value));
             if (date.isValid()) {
                 setFieldValue(e.target.name, date);
             }
@@ -163,20 +159,20 @@ export default class EditBasicInformation extends Component {
                     <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.semiAnual && 'required-label'} sm={2}>Evaluation End Date</Col>
                     <Col sm={2}>
                         <DatePicker autoComplete="off" className={`form-control  ${touched.endDate && errors.endDate && 'input-validation-error'}`} minDate={values.startDate}
-                            dateFormat="DD MMM, YYYY" selected={values.endDate} onChange={value => setFieldValue('endDate', value)} onChangeRaw={this.onChangeRaw}
+                            dateFormat="DD MMM, YYYY" selected={values.endDate} onChange={value => setFieldValue('endDate', value)} onChangeRaw={onChangeRaw}
                             name="endDate" showMonthDropdown showYearDropdown />
                     </Col>
                 </FormGroup>
                 <FormGroup>
                     <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.semiAnual && 'required-label'} sm={2}>Discipline Start Date</Col>
                     <Col sm={2}>
-                        <DatePicker autoComplete="off" className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`}
+                        <DatePicker autoComplete="off" className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`} maxDate={values.disciplineEndDate}
                             dateFormat="DD MMM, YYYY" selected={values.disciplineStartDate} onChange={value => setFieldValue('disciplineStartDate', value)} onChangeRaw={onChangeRaw}
                             name="disciplineStartDate" showMonthDropdown showYearDropdown />
                     </Col>
                     <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.semiAnual && 'required-label'} sm={2}>Discipline End Date</Col>
                     <Col sm={2}>
-                        <DatePicker autoComplete="off" className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && 'input-validation-error'}`}
+                        <DatePicker autoComplete="off" className={`form-control  ${touched.disciplineEndDate && errors.disciplineEndDate && 'input-validation-error'}`} minDate={values.disciplineStartDate}
                             dateFormat="DD MMM, YYYY" selected={values.disciplineEndDate} onChange={value => setFieldValue('disciplineEndDate', value)} onChangeRaw={onChangeRaw}
                             name="disciplineEndDate" showMonthDropdown showYearDropdown />
                     </Col>
@@ -185,15 +181,13 @@ export default class EditBasicInformation extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={2}>Focus Start Date</Col>
                         <Col sm={2}>
-                            <DatePicker autoComplete="off" className={`form-control  ${touched.focusStartDate && errors.focusStartDate && 'input-validation-error'}`}
-                                minDate={values.endDate && moment(values.endDate).add(1, 'day')}
+                            <DatePicker autoComplete="off" className={`form-control  ${touched.focusStartDate && errors.focusStartDate && 'input-validation-error'}`} maxDate={values.focusEndDate}
                                 dateFormat="DD MMM, YYYY" selected={values.focusStartDate} onChange={value => setFieldValue('focusStartDate', value)} onChangeRaw={onChangeRaw}
                                 name="focusStartDate" showMonthDropdown showYearDropdown />
                         </Col>
                         <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.semiAnual && 'required-label'} sm={2}>Focus End Date</Col>
                         <Col sm={2}>
-                            <DatePicker autoComplete="off" className={`form-control  ${touched.focusEndDate && errors.focusEndDate && 'input-validation-error'}`}
-                                minDate={values.endDate && moment(values.endDate).add(1, 'day')}
+                            <DatePicker autoComplete="off" className={`form-control  ${touched.focusEndDate && errors.focusEndDate && 'input-validation-error'}`} minDate={values.focusStartDate}
                                 dateFormat="DD MMM, YYYY" selected={values.focusEndDate} onChange={value => setFieldValue('focusEndDate', value)} onChangeRaw={onChangeRaw}
                                 name="disciplineEndDate" showMonthDropdown showYearDropdown />
                         </Col>
