@@ -1,12 +1,11 @@
 ﻿import React, { Component } from 'react';
-import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
+import { Form, FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
-import { Async } from 'react-select';
 import Select from 'react-select';
 
 import { StatusOptions } from '../../constants';
-import Multiselect from '../../shared/components/multi-select/MultiSelect';
+import Multiselect from '../../shared/components/multi-select/index';
 import getResource from '../../resourceHelper';
 
 class SearchForm extends Component {
@@ -106,11 +105,9 @@ class SearchForm extends Component {
                     <div className="col">
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
                         <div className="control-content">
-                            <Async className="react-select-container" classNamePrefix="react-select"
-                                cacheOptions value={filter.employee}
-                                name="employee" onChange={this.handleEmployeeChange}
-                                loadOptions={this.props.searchEmployees}
-                                placeholder="-- Search an employee --"
+                            <Select className="react-select-container" classNamePrefix="react-select"
+                                value={filter.employee} options={this.props.employeeOptions}
+                                name="employee" onChange={this.handleEmployeeChange} isClearable
                             />
                         </div>
                     </div>

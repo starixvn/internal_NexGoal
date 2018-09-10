@@ -10,7 +10,7 @@ import Async from 'react-select/lib/Async';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
-import Multiselect from '../../../shared/components/multi-select/MultiSelect';
+import Multiselect from '../../../shared/components/multi-select/index';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import { PaginationOptions } from '../../../constants';
 import { PAStatus, PerformanceProcess } from '../../../constants';
@@ -154,7 +154,7 @@ export default class Table extends Component {
 
     addEmployeeSettings = e => {
         var groupIds = this.state.addFilter.groups.length > 0 ? this.state.addFilter.groups.map(e => e.value).toString() : null;
-        var employeeId = this.state.addFilter.employee ? this.state.addFilter.employee.value : null
+        var employeeId = this.state.addFilter.employee ? this.state.addFilter.employee.value : null;
 
         if (groupIds === null && employeeId === null) {
             toast.error('No team/employee selected');
@@ -187,7 +187,7 @@ export default class Table extends Component {
 
     onSelectRow = (row, isSelect, rowIndex, e) => {
         if (isSelect) {
-            this.selectedIds.push(row.paRecordId)
+            this.selectedIds.push(row.paRecordId);
         } else {
             this.selectedIds = this.selectedIds.filter(e => e !== row.paRecordId);
         }
@@ -195,7 +195,7 @@ export default class Table extends Component {
 
     onSelectAllRows = (isSelect, rows, e) => {
         if (isSelect) {
-            this.selectedIds = this.props.data.map(e => e.paRecordId)
+            this.selectedIds = this.props.data.map(e => e.paRecordId);
         } else {
             this.selectedIds = [];
         }
@@ -234,7 +234,7 @@ export default class Table extends Component {
                                 <Fragment>
                                     <div className="search-wrapper clearfix" >
                                         <div className="pull-left field-group">
-                                            <label>Department/Team</label>
+                                            <label>Team</label>
                                             <div className="control-content">
                                                 <Multiselect className="react-select-container" classNamePrefix="react-select"
                                                     value={this.state.addFilter.groups} name="employee"
@@ -256,13 +256,17 @@ export default class Table extends Component {
                                         </div>
                                         <div className="search pull-right">
                                             <Search.SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
-                                            <span className="fa fa-search icon"></span>
+                                            <span className="fa fa-search icon" />
                                         </div>
                                     </div>
                                     <div className="search-wrapper clearfix" >
                                         <div className="pull-left btn-block">
-                                            <button className="btn btn-primary" onClick={this.editSettings}><i className="fa fa-pencil-square-o"></i> Edit Employee Setting</button>
-                                            <button className="btn btn-primary" onClick={this.showCreateModal}><i className="fa fa-pencil-square-o"></i> Generate PA</button>
+                                            <button className="btn btn-primary" onClick={this.editSettings}>
+                                                <i className="fa fa-pencil-square-o" /> Edit Employee Setting
+                                                </button>
+                                            <button className="btn btn-primary" onClick={this.showCreateModal}>
+                                                <i className="fa fa-pencil-square-o" /> Generate PA
+                                                </button>
                                         </div>
                                     </div>
                                     <BootstrapTable {...props.baseProps} noDataIndication={noDataIndication} pagination={paginationFactory(PaginationOptions)} striped
@@ -273,17 +277,20 @@ export default class Table extends Component {
                         }
                     }
                 </ToolkitProvider>
-                {this.state.showEditModal &&
+                {
+                    this.state.showEditModal &&
                     <Edit showModal={this.state.showEditModal} closeModal={this.closeEditModal} paRecordIds={this.state.selectedIds} periodId={this.props.periodId}
                         settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))}
                         onEditSuccess={this.onEditSuccess}
                     />
                 }
-                {this.state.showConfirmationModal &&
+                {
+                    this.state.showConfirmationModal &&
                     <ConfirmationModal showModal={this.state.showConfirmationModal} closeModal={this.closeConfirmationModal}
                         action={this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected ? 'include' : 'exclude'}
                         name={this.state.selectedSettingToUpdateStatus.nickName}
-                        handleSubmit={this.onEditSettingStatus} />
+                        handleSubmit={this.onEditSettingStatus}
+                    />
                 }
             </Fragment>
         );

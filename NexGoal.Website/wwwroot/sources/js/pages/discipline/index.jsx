@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 
-import { resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -26,6 +26,7 @@ export default class DisciplineManagement extends Component {
             },
             data: [],
             groupOptions: [],
+            employeeOptions: [],
             isHost: document.getElementById('IsHost').checked,
             showModal: false
         };
@@ -35,8 +36,35 @@ export default class DisciplineManagement extends Component {
     }
 
     componentDidMount = function () {
-        this.getGroups();
-        this.getDisciplines();
+        const promises = [
+            axios(resolveClientUrl('Common/GetGroups')),
+            axios(resolveClientUrl('common/SearchEmployees?keyword'))
+        ];
+
+        Promise.all(promises)
+            .then(([groupResponse, employeeResponse]) => {
+                let employeeOptions = [];
+                const groupOptions = groupResponse.data.map((group) => {
+                    return { value: group.groupId, label: group.name };
+                });
+
+                employeeResponse.data.map(item => {
+                    employeeOptions.push({
+                        value: item.employeeId,
+                        label: `${item.fullName} (${item.nickName})`
+                    });
+                });
+
+                const nextState = Object.assign({}, this.state.filter, { groups: groupOptions });
+
+                this.setState({
+                    groupOptions: groupOptions,
+                    employeeOptions: employeeOptions,
+                    filter: nextState
+                });
+
+                this.getDisciplines(nextState);
+            }).catch(axiosError);
     }
 
     handleFilterChange(name, value) {
@@ -46,13 +74,12 @@ export default class DisciplineManagement extends Component {
     }
 
     handleFilterSubmit() {
-        this.getDisciplines();
+        this.getDisciplines(this.state.filter);
     }
 
-    getDisciplines = () => {
-        const employeeId = this.state.filter.employee ? this.state.filter.employee.value : '';
-        const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
-        const filter = this.state.filter;
+    getDisciplines = (filter) => {
+        const employeeId = filter.employee ? filter.employee.value : '';
+        const groupIds = filter.groups.map((group) => { return group.value; }).join(',');
 
         axios(resolveClientUrl('Discipline/GetDisciplines'), {
             params: {
@@ -67,41 +94,6 @@ export default class DisciplineManagement extends Component {
             response.data.forEach((e, index) => e.rowNum = index + 1);
             this.setState({ data: response.data });
         });
-    }
-
-    getGroups = () => {
-        axios(resolveClientUrl('Common/GetGroups'))
-            .then(response => {
-                const groupOptions = response.data.map((group) => {
-                    return { value: group.groupId, label: group.name };
-                });
-
-                this.setState({
-                    groupOptions: groupOptions,
-                    filter: Object.assign({}, this.state.filter, { groups: groupOptions })
-                });
-            });
-    }
-
-    searchEmployees = (input, callback) => {
-        if (input.length > 1) {
-            return axios(resolveClientUrl(`common/SearchEmployees?keyword=${input}`))
-                .then(response => {
-                    let options = [];
-
-                    response.data.map(item => {
-                        options.push({
-                            value: item.employeeId,
-                            label: `${item.fullName} (${item.nickName})`
-                        });
-                    });
-
-                    return options;
-                });
-        }
-
-        this.setState({ filter: Object.assign({}, this.state.filter, { employee: null }) });
-        return [];
     }
 
     onUpdateStatus = (disciplineId, isActive) => {
@@ -154,7 +146,7 @@ export default class DisciplineManagement extends Component {
                 <div className="col-sm-12">
                     <SearchForm filter={this.state.filter}
                         groupOptions={this.state.groupOptions}
-                        searchEmployees={this.searchEmployees}
+                        employeeOptions={this.state.employeeOptions}
                         onFilterChange={this.handleFilterChange}
                         onFilterSubmit={this.handleFilterSubmit}
                     />
@@ -166,6 +158,7 @@ export default class DisciplineManagement extends Component {
                     />
                 </div>
                 <AddEditDiscipline
+                    employeeOptions={this.state.employeeOptions}
                     showModal={this.state.showModal}
                     closeModal={this.closeModal}
                     discipline={this.state.selectedDiscipline}

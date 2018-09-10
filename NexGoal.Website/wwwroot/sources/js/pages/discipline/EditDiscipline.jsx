@@ -3,7 +3,7 @@ import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstr
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
-import { Async } from 'react-select';
+import Select from 'react-select';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty } from 'lodash';
@@ -71,26 +71,6 @@ export default class AddEditDiscipline extends Component {
         }).catch(axiosError);
     }
 
-    searchEmployees = (input) => {
-        if (input.length > 2) {
-            return axios(resolveClientUrl(`common/SearchEmployees?keyword=${input}`))
-                .then(response => {
-                    let options = [];
-
-                    response.data.map(item => {
-                        options.push({
-                            value: item.employeeId,
-                            label: `${item.fullName} (${item.nickName})`
-                        });
-                    });
-
-                    return options;
-                });
-        }
-
-        return [];
-    }
-
     renderForm = ({
         values,
         errors,
@@ -112,13 +92,13 @@ export default class AddEditDiscipline extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={2}>{getResource('Employee')}</Col>
                         <Col sm={10}>
-                            <Async className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
-                                isDisabled={values.disciplineId > 0}
+                            <Select name="employee"
+                                className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`}
                                 classNamePrefix="react-select"
-                                value={values.employee} name="employee"
+                                isDisabled={values.disciplineId > 0} isClearable
+                                options={this.props.employeeOptions}
+                                value={values.employee}
                                 onChange={value => setFieldValue('employee', value)}
-                                loadOptions={this.searchEmployees}
-                                placeholder="-- Search an employee --"
                             />
                         </Col>
                     </FormGroup>

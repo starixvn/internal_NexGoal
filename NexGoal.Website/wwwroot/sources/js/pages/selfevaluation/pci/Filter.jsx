@@ -4,7 +4,7 @@ import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import Select from 'react-select';
 
-import MultiSelect from '../../../shared/components/multi-select/MultiSelect';
+import MultiSelect from '../../../shared/components/multi-select/index';
 
 class Filter extends Component {
     constructor(props) {

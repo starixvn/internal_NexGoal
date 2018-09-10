@@ -2,7 +2,7 @@
 import { ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
-import MultiSelect from '../../../../shared/components/multi-select/MultiSelect';
+import MultiSelect from '../../../../shared/components/multi-select/index';
 import getResource from '../../../../resourceHelper';
 
 class Filter extends Component {
