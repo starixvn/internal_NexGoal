@@ -8,25 +8,12 @@ export default class SearchForm extends Component {
         super(props);
     }
 
-    handleTypeIdChange = event => this.props.onTypeIdChange(event.target.value)
-
     handleStatusChange = event => this.props.onStatusChange(event.target.value)
 
     render() {
         return (
             <Form inline className="form-filter" onSubmit={this.props.onSubmit}>
                 <FormGroup>
-                    <div className="col">
-                        <ControlLabel>{getResource('TargetType')}</ControlLabel>
-                        <div className="control-content">
-                            <select value={this.props.targetTypeId} name="targetTypeId" className="form-control" onChange={this.handleTypeIdChange}>
-                                <option value="">-- All --</option>
-                                {this.props.targetTypes.map(e =>
-                                    <option key={e.targetTypeId} value={e.targetTypeId} >{e.name}</option>)
-                                }
-                            </select>
-                        </div>
-                    </div>
                     <div className="col">
                         <ControlLabel>{getResource('Status')}</ControlLabel>
                         <div className="control-content">

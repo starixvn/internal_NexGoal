@@ -38,9 +38,9 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPeriods(int? targetTypeId, bool? isActive)
+        public async Task<IActionResult> GetPeriods(bool? isActive)
         {
-            var periods = await periodService.GetPeriods(targetTypeId, isActive).ConfigureAwait(false);
+            var periods = await periodService.GetPeriods(isActive).ConfigureAwait(false);
 
             return Json(periods);
         }
@@ -160,9 +160,9 @@
 
         [HttpGet]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> GetEmployeeSettings(int periodId, int? groupId, bool? isLocal, bool? isEvaluated, int? statusId)
+        public async Task<IActionResult> GetEmployeeSettings(int periodId, int? groupId, bool? isEvaluated, int? statusId)
         {
-            var result = await periodService.GetEmployeeSettings(periodId, groupId, isLocal, isEvaluated, statusId).ConfigureAwait(false);
+            var result = await periodService.GetEmployeeSettings(periodId, groupId, isEvaluated, statusId).ConfigureAwait(false);
 
             return Json(result);
         }

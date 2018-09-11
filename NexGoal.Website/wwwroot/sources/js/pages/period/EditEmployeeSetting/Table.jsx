@@ -6,7 +6,7 @@ import { toast } from 'react-toastify';
 import BootstrapTable from 'react-bootstrap-table-next';
 import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
-import Async from 'react-select/lib/Async';
+import Select from 'react-select';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
@@ -44,7 +44,6 @@ export default class Table extends Component {
         },
         {
             dataField: 'group',
-            classes: 'text-center',
             text: 'Team'
         },
         {
@@ -231,7 +230,7 @@ export default class Table extends Component {
             if (data.isSuccessful) {
                 toast.success('Update Successfully');
                 this.setState({ showConfirmationModal: false });
-                this.props.refreshData();
+                this.props.getSetting(this.state.selectedSettingToUpdateStatus.paRecordId);
             } else {
                 toast.error(data.message);
             }
@@ -271,9 +270,9 @@ export default class Table extends Component {
                                         <div className="pull-left field-group">
                                             <label>Employee</label>
                                             <div className="control-content">
-                                                <Async className="react-select-container" classNamePrefix="react-select"
-                                                    cacheOptions value={this.state.addFilter.employee} name="employee"
-                                                    loadOptions={this.searchEmployees} placeholder="-- Search an employee --" onChange={this.onEmployeeChange} />
+                                                <Select className="react-select-container" classNamePrefix="react-select"
+                                                    value={this.state.addFilter.employee} name="employee" isClearable
+                                                    options={this.props.employeeOptions} onChange={this.onEmployeeChange} />
                                             </div>
                                         </div>
                                         <div className="pull-left field-group">

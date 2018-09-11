@@ -7,8 +7,6 @@ export default class SearchForm extends Component {
 
     handleGroupIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
 
-    handleIsLocalChange = e => this.props.onFilterChange(e.target.name, e.target.value)
-
     handleEvaluatedStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
 
     handlePAStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
@@ -28,16 +26,6 @@ export default class SearchForm extends Component {
                             <select value={this.props.filter.groupId} name="groupId" className="form-control" onChange={this.handleGroupIdChange}>
                                 <option value="">-- All --</option>
                                 {this.props.groups.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
-                            </select>
-                        </div>
-                    </div>
-                    <div className="col">
-                        <label className="control-label">Category</label>
-                        <div className="control-content">
-                            <select value={this.props.filter.isLocal} name="isLocal" className="form-control" onChange={this.handleIsLocalChange}>
-                                <option value="">-- All --</option>
-                                <option value="true">Local</option>
-                                <option value="false">Expat</option>
                             </select>
                         </div>
                     </div>

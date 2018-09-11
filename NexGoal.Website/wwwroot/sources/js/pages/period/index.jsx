@@ -15,26 +15,21 @@ export default class EvaluationPeriod extends Component {
 
         this.state = {
             filter: {
-                targetTypeId: '',
                 isActive: ''
             },
             data: [],
-            targetTypes: [],
             isHost: document.getElementById('IsHost').checked
         };
     }
 
     componentDidMount() {
         this.getPeriods();
-        this.getTargetTypes();
     }
 
     updateFilterValue = (name, value) => {
         var filter = { [name]: value };
         this.setState({ filter: { ...this.state.filter, ...filter } });
     }
-
-    handleTypeIdChange = value => this.updateFilterValue('targetTypeId', value)
 
     handleStatusChange = value => this.updateFilterValue('isActive', value)
 
@@ -56,17 +51,9 @@ export default class EvaluationPeriod extends Component {
         this.setState({ data: data });
     }
 
-    getTargetTypes = () => {
-        axios.get(resolveClientUrl('Common/GetTargetTypes'))
-            .then(response => {
-                this.setState({ targetTypes: response.data });
-            }).catch(axiosError);
-    }
-
     getPeriods = () => {
         axios.get(resolveClientUrl('Period/GetPeriods'), {
             params: {
-                targetTypeId: this.state.filter.targetTypeId,
                 isActive: this.state.filter.isActive
             }
         }).then(response => {
@@ -84,14 +71,12 @@ export default class EvaluationPeriod extends Component {
                 <div className="col-sm-12">
                     <SearchForm targetTypeId={this.state.targetTypeId}
                         isActive={this.state.isActive}
-                        targetTypes={this.state.targetTypes}
                         onTypeIdChange={this.handleTypeIdChange}
                         onStatusChange={this.handleStatusChange}
                         onSubmit={this.handleSubmit}
                     />
                     <Table data={this.state.data}
                         isHost={this.state.isHost}
-                        targetTypes={this.state.targetTypes}
                         updateData={this.getPeriods}
                         onUpdateStatus={this.handleUpdateStatus}
                         onDeletePeriod={this.handleDeletePeriod}

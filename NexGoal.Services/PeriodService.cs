@@ -21,9 +21,9 @@
             this.dynamicRepository = new DynamicRepository();
         }
 
-        public async Task<IEnumerable<PeriodModel>> GetPeriods(int? targetTypeId, bool? isActive)
+        public async Task<IEnumerable<PeriodModel>> GetPeriods(bool? isActive)
         {
-            return await baseService.GetDataAsync<PeriodModel>(new GetPeriodsCriteria { TargetTypeId = targetTypeId, IsActive = isActive }).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodModel>(new GetPeriodsCriteria { IsActive = isActive }).ConfigureAwait(false);
         }
 
         public async Task<PeriodModel> GetPeriod(int periodId)
@@ -111,13 +111,12 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isLocal, bool? isEvaluated, int? statusId)
+        public async Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isEvaluated, int? statusId)
         {
             var criteria = new GetEmployeeSettingsCriteria
             {
                 PeriodId = periodId,
                 GroupId = groupId,
-                IsLocal = isLocal,
                 IsEvaluated = isEvaluated,
                 StatusId = statusId
             };

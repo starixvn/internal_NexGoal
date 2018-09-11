@@ -11,19 +11,19 @@ export default class EditEmployeeSetting extends Component {
         this.state = {
             filter: {
                 groupId: '',
-                isLocal: '',
                 isEvaluated: '',
                 paStatusId: ''
             },
             performanceStatuses: [],
             groups: [],
+            employees: [],
             settings: []
         };
     }
 
     componentDidMount = () => {
-        Promise.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeeSettingsAxios()])
-            .then(axios.spread((perfRes, groupRes, settingRes) => {
+        Promise.all([this.getPerformanceStatusesAxios(), this.getGroupsAxios(), this.getEmployeesAxios(), this.getEmployeeSettingsAxios()])
+            .then(axios.spread((perfRes, groupRes, employeeRes, settingRes) => {
                 var settings = settingRes.data;
                 settings.map((e, i) => e.rowNum = i + 1);
 
@@ -31,6 +31,9 @@ export default class EditEmployeeSetting extends Component {
                     performanceStatuses: perfRes.data,
                     groups: groupRes.data.map((group) => {
                         return { value: group.groupId, label: group.name };
+                    }),
+                    employees: employeeRes.data.map(employee => {
+                        return { value: employee.employeeId, label: `${employee.fullName} (${employee.nickName})` }
                     }),
                     settings: settings
                 });
@@ -46,22 +49,40 @@ export default class EditEmployeeSetting extends Component {
 
     getGroupsAxios = () => axios(resolveClientUrl('Common/GetGroups'));
 
+    getEmployeesAxios = () => axios(resolveClientUrl('common/SearchEmployees'))
+
     getEmployeeSettingsAxios = () =>
         axios(resolveClientUrl('Period/GetEmployeeSettings'), {
             params: {
                 periodId: this.props.periodId,
                 groupId: this.state.filter.groupId,
-                isLocal: this.state.filter.isLocal,
                 isEvaluated: this.state.filter.isEvaluated,
                 statusId: this.state.filter.paStatusId
             }
         });
 
+    getEmployeeSetting = (paRecordId) => {
+        axios(resolveClientUrl('Period/GetEmployeeSetting'), {
+            params: {
+                paRecordId: paRecordId
+            }
+        }).then(response => {
+            var settings = this.state.settings.slice(0);
+            var index = settings.findIndex(e => e.paRecordId === paRecordId);
+
+            settings[index] = { ...settings[index], ...response.data };
+
+            this.setState({
+                settings: settings
+            });
+        }).catch(axiosError);
+    }
+
     getEmployeeSettings = () => {
         this.getEmployeeSettingsAxios()
             .then(response => {
                 var settings = response.data;
-                settings.map((e, i) => { e.rowNum = i + 1; });
+                settings.forEach((e, i) => { e.rowNum = i + 1; });
 
                 this.setState({
                     settings: settings
@@ -80,7 +101,7 @@ export default class EditEmployeeSetting extends Component {
                     onFilterChange={this.updateFilterValue}
                     onSubmit={this.getEmployeeSettings}
                 />
-                <Table periodId={this.props.periodId} groups={this.state.groups} data={this.state.settings} refreshData={this.getEmployeeSettings} />
+                <Table periodId={this.props.periodId} groups={this.state.groups} employeeOptions={this.state.employees} data={this.state.settings} refreshData={this.getEmployeeSettings} getSetting={this.getEmployeeSetting} />
             </Fragment>
         );
     }

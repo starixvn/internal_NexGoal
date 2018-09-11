@@ -7,7 +7,7 @@
 
     public interface IPeriodService
     {
-        Task<IEnumerable<PeriodModel>> GetPeriods(int? targetTypeId, bool? isActive);
+        Task<IEnumerable<PeriodModel>> GetPeriods(bool? isActive);
 
         Task<PeriodModel> GetPeriod(int periodId);
 
@@ -23,7 +23,7 @@
 
         Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings, int modifiedBy);
 
-        Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isLocal, bool? isEvaluated, int? statusId);
+        Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isEvaluated, int? statusId);
 
         Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId, int createdBy);
 

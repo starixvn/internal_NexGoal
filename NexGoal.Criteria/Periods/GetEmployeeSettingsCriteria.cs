@@ -8,8 +8,6 @@
 
         public int? GroupId { get; set; }
 
-        public bool? IsLocal { get; set; }
-
         public bool? IsEvaluated { get; set; }
 
         public int? StatusId { get; set; }

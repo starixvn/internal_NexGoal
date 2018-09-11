@@ -157,7 +157,6 @@ export default class Table extends Component {
                 </ToolkitProvider>
                 <CreatePeriod showModal={this.state.showCreateModal}
                     closeModal={this.closeCreateModal}
-                    targetTypes={this.props.targetTypes}
                     onCreateSuccess={this.props.updateData}
                 />
                 <DeletePeriod showModal={this.state.showDeleteModal}
