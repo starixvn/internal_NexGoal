@@ -12,6 +12,7 @@ import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import { validateEOYForm } from '../common';
+import { DateFormat } from '../../../constants';
 
 class Settings extends Component {
     constructor(props) {
@@ -125,52 +126,47 @@ class Settings extends Component {
                     <label className="col-sm-2 control-label">{getResource('Year')}</label>
                     <div className="col-sm-2 field">
                         <Select value={yearOptions[0]} className="react-select-container" classNamePrefix="react-select"
-                            options={yearOptions}
-                            isDisabled={true}
+                            options={yearOptions} isDisabled
                         />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <label className="col-sm-2 control-label required-label">{getResource('StartDateForNominator')}</label>
                     <div className="col-sm-2 field">
-                        <DatePicker autoComplete="off" disabled={!isHost}
-                            dateFormat="DD MMM, YYYY"
+                        <DatePicker name="startDateForNominator" autoComplete="off" disabled={!isHost}
+                            className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
+                            dateFormat={DateFormat}
                             selected={values.startDateForNominator}
                             onChange={value => setFieldValue('startDateForNominator', value)}
-                            name="startDateForNominator"
-                            className={`form-control ${touched.startDateForNominator && errors.startDateForNominator && 'input-validation-error'}`}
                         />
                     </div>
                     <label className="col-sm-2 control-label required-label">{getResource('EndDateForNominator')}</label>
                     <div className="col-sm-2 field">
-                        <DatePicker autoComplete="off" disabled={!isHost}
-                            dateFormat="DD MMM, YYYY"
+                        <DatePicker name="endDateForNominator" autoComplete="off" disabled={!isHost}
+                            className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
+                            dateFormat={DateFormat}
                             selected={values.endDateForNominator}
                             onChange={value => setFieldValue('endDateForNominator', value)}
-                            name="endDateForNominator"
-                            className={`form-control ${touched.endDateForNominator && errors.endDateForNominator && 'input-validation-error'}`}
                         />
                     </div>
                 </FormGroup>
                 <FormGroup>
                     <label className="col-sm-2 control-label required-label">{getResource('RemindDateForNominator')}</label>
                     <div className="col-sm-2 field">
-                        <DatePicker autoComplete="off" disabled={!isHost}
-                            dateFormat="DD MMM, YYYY"
+                        <DatePicker name="remindDateForNominator" autoComplete="off" disabled={!isHost}
+                            className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
+                            dateFormat={DateFormat}
                             selected={values.remindDateForNominator}
                             onChange={value => setFieldValue('remindDateForNominator', value)}
-                            name="remindDateForNominator"
-                            className={`form-control ${touched.remindDateForNominator && errors.remindDateForNominator && 'input-validation-error'}`}
                         />
                     </div>
                     <label className="col-sm-2 control-label required-label">{getResource('EndDateForCommittee')}</label>
                     <div className="col-sm-2 field">
-                        <DatePicker autoComplete="off" disabled={!isHost}
-                            dateFormat="DD MMM, YYYY"
+                        <DatePicker name="endDateForCommittee" autoComplete="off" disabled={!isHost}
+                            className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
+                            dateFormat={DateFormat}
                             selected={values.endDateForCommittee}
                             onChange={value => setFieldValue('endDateForCommittee', value)}
-                            name="endDateForCommittee"
-                            className={`form-control ${touched.endDateForCommittee && errors.endDateForCommittee && 'input-validation-error'}`}
                         />
                     </div>
                 </FormGroup>

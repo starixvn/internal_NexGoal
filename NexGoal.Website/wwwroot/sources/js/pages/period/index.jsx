@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import SearchForm from './SearchForm';
@@ -78,7 +79,7 @@ export default class EvaluationPeriod extends Component {
         return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">Evaluation Period Management</li>
+                    <li className="current">{getResource('EvaluationPeriodManagement')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <SearchForm targetTypeId={this.state.targetTypeId}

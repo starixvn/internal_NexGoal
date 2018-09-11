@@ -108,7 +108,6 @@ export default class DisciplineManagement extends Component {
     }
 
     editDiscipline = (discipline) => {
-        debugger;
         this.setState({
             showModal: true,
             selectedDiscipline: {

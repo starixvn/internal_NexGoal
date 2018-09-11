@@ -1,15 +1,17 @@
 ﻿import React, { Component } from 'react';
-import { Modal, Button, FormGroup, ControlLabel, Col, FormControl, Form } from 'react-bootstrap';
+import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
 import moment from 'moment';
 import { toast } from 'react-toastify';
-import { Formik, FieldArray, Field, getIn } from 'formik';
+import { Formik } from 'formik';
 import { camelCase, isEmpty, uniqBy } from 'lodash';
 import Async from 'react-select/lib/Async';
+
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { PerformanceProcess } from '../../../constants';
+import { DateFormat } from '../../../constants';
 
 export default class Edit extends Component {
     constructor(props) {
@@ -27,7 +29,7 @@ export default class Edit extends Component {
                 process: adminProcesses[0].process,
                 evaluator: adminProcesses.map(e => { return { label: e.evaluator, value: e.evaluatorId }; }),
                 startDate: adminProcesses[0].startDate ? moment(adminProcesses[0].startDate) : null,
-                endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null,
+                endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null
             }];
 
             this.processes = this.processes.concat(props.settings[0].processes.filter(p => p.processId > PerformanceProcess.ProjectManager).map(p => {
@@ -37,11 +39,11 @@ export default class Edit extends Component {
                     process: p.process,
                     evaluator: { label: p.evaluator, value: p.evaluatorId },
                     startDate: p.startDate ? moment(p.startDate) : null,
-                    endDate: p.endDate ? moment(p.endDate) : null,
-                }
+                    endDate: p.endDate ? moment(p.endDate) : null
+                };
             }));
         } else {
-            let processes = uniqBy(props.settings[0].processes.filter(p => p.processId !== PerformanceProcess.Self && p.processId !== PerformanceProcess.ProjectManager), p => p.processId)
+            let processes = uniqBy(props.settings[0].processes.filter(p => p.processId !== PerformanceProcess.Self && p.processId !== PerformanceProcess.ProjectManager), p => p.processId);
             this.processes = processes.map(p => {
                 return {
                     isSelected: false,
@@ -49,13 +51,13 @@ export default class Edit extends Component {
                     process: p.process,
                     evaluator: null,
                     startDate: null,
-                    endDate: null,
-                }
+                    endDate: null
+                };
             });
         }
 
         this.state = {
-            employees: employees,
+            employees: employees
         };
     }
 
@@ -109,7 +111,7 @@ export default class Edit extends Component {
                     evaluatorId: null,
                     startDate: adminProcess.startDate ? adminProcess.startDate.format('YYYY-MM-DD') : null,
                     endDate: adminProcess.endDate ? adminProcess.endDate.format('YYYY-MM-DD') : null
-                })
+                });
             }
         }
 
@@ -125,7 +127,7 @@ export default class Edit extends Component {
                         processId: p.processId,
                         evaluatorId: p.evaluator ? p.evaluator.value : null,
                         startDate: p.startDate ? p.startDate.format('YYYY-MM-DD') : null,
-                        endDate: p.endDate ? p.endDate.format('YYYY-MM-DD') : null,
+                        endDate: p.endDate ? p.endDate.format('YYYY-MM-DD') : null
                     };
                 }))
             }),
@@ -187,8 +189,8 @@ export default class Edit extends Component {
                     <table className="table table-bordered">
                         <thead>
                             <tr>
-                                {numberOfPARecord > 1 && <th></th>}
-                                <th></th>
+                                {numberOfPARecord > 1 && <th />}
+                                <th />
                                 <th className="col-sm-4">Evaluator</th>
                                 <th>Start Date</th>
                                 <th>End Date</th>
@@ -204,21 +206,24 @@ export default class Edit extends Component {
                                             <Async className={`react-select-container`} classNamePrefix="react-select"
                                                 value={p.evaluator} isMulti={p.processId === 1} name={`processes.${i}.evaluator`}
                                                 onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
-                                                loadOptions={this.searchEmployees} placeholder="-- Search an employee --" />
+                                                loadOptions={this.searchEmployees} placeholder="-- Search an employee --"
+                                            />
                                         }
                                     </td>
                                     <td>
                                         {(p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
-                                            <DatePicker autoComplete="off" className="form-control" dateFormat="DD MMM, YYYY" selected={p.startDate}
-                                                onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw} name={`processes.${i}.startDate`}
-                                                showMonthDropdown showYearDropdown />
+                                            <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.startDate}
+                                                onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw}
+                                                name={`processes.${i}.startDate`}
+                                            />
                                         }
                                     </td>
                                     <td>
                                         {(p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
-                                            <DatePicker autoComplete="off" className="form-control" dateFormat="DD MMM, YYYY" selected={p.endDate}
-                                                onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw} name={`processes.${i}.endDate`}
-                                                showMonthDropdown showYearDropdown />
+                                            <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.endDate}
+                                                onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw}
+                                                name={`processes.${i}.endDate`}
+                                            />
                                         }
                                     </td>
                                 </tr>

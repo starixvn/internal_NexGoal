@@ -7,6 +7,7 @@ import Select from 'react-select';
 import { StatusOptions } from '../../constants';
 import Multiselect from '../../shared/components/multi-select/index';
 import getResource from '../../resourceHelper';
+import { DateFormat } from '../../constants';
 
 class SearchForm extends Component {
     constructor(props) {
@@ -63,7 +64,7 @@ class SearchForm extends Component {
                     <div className="col" >
                         <ControlLabel>{getResource('From')}</ControlLabel>
                         <div className="control-content">
-                            <DatePicker dateFormat="DD MMM, YYYY" selected={filter.from}
+                            <DatePicker dateFormat={DateFormat} selected={filter.from}
                                 onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
                                 name="from" className="form-control" autoComplete="off"
                             />
@@ -72,7 +73,7 @@ class SearchForm extends Component {
                     <div className="col" >
                         <ControlLabel>{getResource('To')}</ControlLabel>
                         <div className="control-content">
-                            <DatePicker dateFormat="DD MMM, YYYY" selected={filter.to}
+                            <DatePicker dateFormat={DateFormat} selected={filter.to}
                                 onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
                                 name="to" className="form-control" autoComplete="off"
                             />

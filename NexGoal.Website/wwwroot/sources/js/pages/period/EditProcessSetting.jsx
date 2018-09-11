@@ -1,10 +1,11 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import { stringify } from 'qs';
-import { axiosError, resolveClientUrl } from '../../common-functions';
 import { toast } from 'react-toastify';
 import { camelCase, range } from 'lodash';
-import TargetType from './TargetType';
+
+import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 
 export default class EditProcessSetting extends Component {
     constructor(props) {
@@ -90,7 +91,7 @@ export default class EditProcessSetting extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success("Update Successfully");
+                toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
                     let errors = {};
@@ -114,10 +115,10 @@ export default class EditProcessSetting extends Component {
                 <table className="table table-bordered">
                     <thead>
                         <tr>
-                            <th></th>
-                            <th>Duration</th>
-                            <th>Notice At Begin</th>
-                            <th>Remind Day</th>
+                            <th />
+                            <th>{getResource('Duration')}</th>
+                            <th>{getResource('NoticeAtBegin')}</th>
+                            <th>{getResource('RemindDay')}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -130,7 +131,9 @@ export default class EditProcessSetting extends Component {
                                     </select>
                                 </td>
                                 <td className="text-center">
-                                    <input type="checkbox" data-processid={e.processId} checked={e.noticeAtBegin} onChange={this.handleNoticeAtBeginChange} />
+                                    <input type="checkbox" data-processid={e.processId} checked={e.noticeAtBegin}
+                                        onChange={this.handleNoticeAtBeginChange}
+                                    />
                                 </td>
                                 <td key={e.processId} className="text-center">
                                     <select data-processid={e.processId} value={e.remindDay} onChange={this.handleRemindDayChange}>
@@ -143,7 +146,7 @@ export default class EditProcessSetting extends Component {
                     </tbody>
                 </table>
                 <br />
-                <button type="button" className="btn btn-primary" onClick={this.save}>Save</button>
+                <button type="button" className="btn btn-primary" onClick={this.save}>{getResource('Submit')}</button>
             </Fragment>
         );
     }

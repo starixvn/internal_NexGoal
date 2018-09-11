@@ -10,6 +10,7 @@ import { camelCase, isEmpty } from 'lodash';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
+import { DateFormat } from '../../constants';
 
 export default class AddEditDiscipline extends Component {
     constructor(props) {
@@ -106,7 +107,7 @@ export default class AddEditDiscipline extends Component {
                         <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('IssueDate')}</Col>
                         <Col sm={9}>
                             <DatePicker className={`form-control  ${touched.effectiveDate && errors.effectiveDate && 'input-validation-error'}`}
-                                dateFormat="DD MMM, YYYY" selected={values.effectiveDate}
+                                dateFormat={DateFormat} selected={values.effectiveDate}
                                 onChange={value => setFieldValue('effectiveDate', value)}
                                 onChangeRaw={this.onChangeRaw}
                                 name="effectiveDate" autoComplete="off"
