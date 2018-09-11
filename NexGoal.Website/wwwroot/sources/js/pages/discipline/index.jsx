@@ -38,7 +38,7 @@ export default class DisciplineManagement extends Component {
     componentDidMount = function () {
         const promises = [
             axios(resolveClientUrl('Common/GetGroups')),
-            axios(resolveClientUrl('common/SearchEmployees?keyword'))
+            axios(resolveClientUrl('common/SearchEmployees'))
         ];
 
         Promise.all(promises)

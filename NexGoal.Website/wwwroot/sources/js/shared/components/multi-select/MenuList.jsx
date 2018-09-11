@@ -6,17 +6,20 @@ const MenuList = (props) => {
 
     return (
         <components.MenuList {...props}>
-            <div style={{ padding: '8px 12px' }}>
-                <input type="checkbox" checked={selected.length === props.options.length}
-                    onChange={(event) => {
-                        if (event.target.checked) {
-                            props.setValue(props.options);
-                        } else {
-                            props.setValue([]);
-                        }
-                    }}
-                /> Select All
+            {
+                props.options.length > 0 &&
+                <div style={{ padding: '8px 12px' }}>
+                    <input type="checkbox" checked={selected.length === props.options.length}
+                        onChange={(event) => {
+                            if (event.target.checked) {
+                                props.setValue(props.options);
+                            } else {
+                                props.setValue([]);
+                            }
+                        }}
+                    /> Select All
             </div>
+            }
             {props.children}
         </components.MenuList >
     );

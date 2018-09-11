@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { FormGroup, ControlLabel, FormControl, Button, Checkbox, Row, Col } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button, Checkbox } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -9,10 +9,8 @@ import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { PerformanceRecordStatus } from '../../../constants';
-import avatar from '../../../../styles/images/avatar1.jpg';
 import ToastLayout from '../../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
-import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 
 export default class CreateCheckIn extends Component {
     constructor(props) {
@@ -150,7 +148,6 @@ export default class CreateCheckIn extends Component {
     }
 
     render() {
-        const avataruser = `/dist/styles/${avatar}`;
         let errors = this.state.errors;
 
         return (
@@ -201,36 +198,6 @@ export default class CreateCheckIn extends Component {
                                 <Button className="btn-cancel">Cancel</Button>
                             </FormGroup>
                         </form>
-
-                        <Checkbox>Show Performance Record</Checkbox>
-                        <div className="performance-record">
-                            <PerformanceRecord
-                                avatar={avataruser}
-                                nickName="Oliver"
-                                jobTitle="SE"
-                                action="Nominated"
-                                period="Employee Of The Quarter 2018"
-                                finalDate="21 Jul 2018"
-                                editDate="23 Jul 2018"
-                                comment="Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                        Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five.
-                                    Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five."
-                                grade="Exceeds Expectations"
-                                projects="Nexgoal, Alpha"
-                            />
-                            <PerformanceRecord
-                                avatar={avataruser}
-                                nickName="Oliver"
-                                jobTitle="SE"
-                                action="Nominated"
-                                period="Employee Of The Year 2018"
-                                finalDate="21 Dec 2018"
-                                editDate="23 Dec 2018"
-                                comment="Lorem ipsum is simply dummy text of the printing and typesetting industry. Lorem ipsum has been the industry's standard dummy text ever since the 1500s. when an unknown printer took a galley of the type specialmen book. It has survived not only five."
-                                grade="Exceeds Expectations Plus"
-                                projects="Nexgoal, Alpha, Nexbot"
-                            />
-                        </div>
                     </div>
                 </div>
             </ToastLayout>

@@ -13,6 +13,10 @@
 }
 
 .react-select-container {
+    &.employee-field, &.grade-field {
+        width: 350px;
+    }
+
     &.creator-field {
         width: 200px;
     }
@@ -24,10 +28,6 @@
             min-height: 30px;
             height: auto;
         }
-    }
-
-    &.grade-field {
-        width: 280px;
     }
 }
 
