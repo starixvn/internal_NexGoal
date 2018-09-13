@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { FormGroup, ControlLabel, FormControl, Button, Checkbox } from 'react-bootstrap';
+import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';

@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Models.PerformanceRecord
 {
     using System;
+    using System.Collections.Generic;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.UserManagement;
 
@@ -16,7 +17,8 @@
         public DateTime CreatedDate { get; set; }
         public DateTime? ModifiedDate { get; set; }
 
-        public string Projects { get; set; }
+        public string ProjectIds { get; set; }
+        public IEnumerable<ProjectModel> Projects { get; set; } = new List<ProjectModel>();
 
         public int EmployeeId { get; set; }
         public UserModel Employee { get; set; }

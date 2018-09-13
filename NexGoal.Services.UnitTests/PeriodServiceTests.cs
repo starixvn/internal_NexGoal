@@ -29,7 +29,7 @@
             var service = GetPeriodService();
             baseService.GetDataAsync<PeriodModel>(Arg.Any<GetPeriodsCriteria>()).Returns(expectedPeriods);
 
-            var result = await service.GetPeriods(null, null);
+            var result = await service.GetPeriods(null);
 
             Assert.Equal(expectedPeriods.Count, result.Count());
         }

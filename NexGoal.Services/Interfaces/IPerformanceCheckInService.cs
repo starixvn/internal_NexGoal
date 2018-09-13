@@ -9,10 +9,18 @@
 
     public interface IPerformanceCheckInService
     {
-        Task<IEnumerable<UserModel>> GetCreatorsByEmployeeAsync(int employeeId);
+        Task<IEnumerable<UserModel>> GetCreatorsAsync(int employeeId);
+
+        Task<IEnumerable<UserModel>> GetMembersAsync(int actorId);
 
         Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceCheckInByEmployeeAsync(GetPerformanceCheckInByEmployeeParam param);
 
+        Task<PerformanceRecordModel> GetPerformanceCheckInByIdAsync(
+            int performanceRecordId,
+            int creatorId);
+
         Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel performanceRecord);
+
+        Task<CommandResult> EditPerformanceCheckInAsync(EditPerformanceRecordModel performanceRecord);
     }
 }

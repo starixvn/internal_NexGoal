@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Criteria;
     using NexGoal.Core.Models;
@@ -77,7 +78,14 @@
                 EmployeeId = employeeId
             };
 
-            return baseService.GetDataAsync<MenuItemSession>(criteria).Result;
+            IEnumerable<MenuItemSession> menuItems = baseService.GetDataAsync<MenuItemSession>(criteria).Result;
+            IEnumerable<MenuItemSession> menuGroups = menuItems.Where(x => x.ParentId == null);
+            foreach (MenuItemSession menuGroup in menuGroups)
+            {
+                menuGroup.Childs = menuItems.Where(x => x.ParentId == menuGroup.MenuId);
+            }
+
+            return menuGroups;
         }
     }
 }

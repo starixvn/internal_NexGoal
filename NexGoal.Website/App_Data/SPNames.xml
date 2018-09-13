@@ -90,8 +90,11 @@
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Performanace Check-in">
-    <Setting Key="PerformanceCheckIn_GetCreatorByEmployee" SpName="PerformanceCheckIn_GetCreatorByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceCheckIn_GetCreator" SpName="PerformanceCheckIn_GetCreator" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceCheckIn_GetMember" SpName="PerformanceCheckIn_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceCheckIn_GetByEmployee" SpName="PerformanceCheckIn_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceCheckIn_GetById" SpName="PerformanceCheckIn_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceCheckIn_Insert" SpName="PerformanceCheckIn_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceCheckIn_Update" SpName="PerformanceCheckIn_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

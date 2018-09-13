@@ -33,6 +33,7 @@ module.exports = {
         [`${jsDistPath}/editperiod`]: `${jsSourcePath}/period/edit.jsx`,
         [`${jsDistPath}/selfevaluation`]: `${jsSourcePath}/selfevaluation/index.jsx`,
         [`${jsDistPath}/createperformancecheckin`]: `${jsSourcePath}/selfevaluation/pci/create.jsx`,
+        [`${jsDistPath}/editperformancecheckin`]: `${jsSourcePath}/selfevaluation/pci/edit.jsx`,
         [`${jsDistPath}/createmembercheckin`]: `${jsSourcePath}/evaluation/index.jsx`
     }
 };

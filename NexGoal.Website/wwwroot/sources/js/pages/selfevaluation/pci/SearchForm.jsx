@@ -6,7 +6,7 @@ import Select from 'react-select';
 
 import MultiSelect from '../../../shared/components/multi-select/index';
 
-class Filter extends Component {
+class SearchForm extends Component {
     constructor(props) {
         super(props);
 
@@ -98,4 +98,4 @@ class Filter extends Component {
     }
 }
 
-export default Filter;
+export default SearchForm;

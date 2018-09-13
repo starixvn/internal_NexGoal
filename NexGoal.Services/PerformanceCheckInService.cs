@@ -30,11 +30,21 @@
             this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<UserModel>> GetCreatorsByEmployeeAsync(int employeeId)
+        public async Task<IEnumerable<UserModel>> GetCreatorsAsync(int employeeId)
         {
-            var criteria = new GetCreatorByEmployeeCriteria
+            var criteria = new GetCreatorCriteria
             {
                 EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UserModel>> GetMembersAsync(int actorId)
+        {
+            var criteria = new GetMemberCriteria
+            {
+                ActorId = actorId
             };
 
             return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
@@ -53,11 +63,15 @@
                 PageIndex = param.PageIndex
             };
             var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
+                string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
+                performanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
+
                 performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
                 int.TryParse(performanceRecord.GradeId, out int gradeId);
                 performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
@@ -79,10 +93,67 @@
             return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
         }
 
+        public async Task<PerformanceRecordModel> GetPerformanceCheckInByIdAsync(
+            int performanceRecordId,
+            int creatorId)
+        {
+            var criteria = new GetPerformanceCheckInByIdCriteria
+            {
+                PerformanceRecordId = performanceRecordId,
+                CreatorId = creatorId
+            };
+            var performanceRecord = await baseService.GetDataEntityAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
+            if (performanceRecord != null)
+            {
+                string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
+                performanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
+
+                performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
+                int.TryParse(performanceRecord.GradeId, out int gradeId);
+                performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+                performanceRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.EmployeeId);
+                performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+
+                if (performanceRecord.Employee != null)
+                {
+                    performanceRecord.Employee.Base64Image = avatarService.GetBase64Image(performanceRecord.Employee.Code);
+                }
+
+                if (performanceRecord.Creator != null)
+                {
+                    performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
+                }
+            }
+
+            return performanceRecord;
+        }
+
         public async Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel performanceRecord)
         {
             var criteria = new CreatePerformanceCheckInCriteria
             {
+                EmployeeId = performanceRecord.EmployeeId,
+                CreatorId = performanceRecord.CreatorId,
+                GradeId = cryptoService.Encrypt(performanceRecord.GradeId),
+                Comment = performanceRecord.Comment,
+                ProjectIds = performanceRecord.ProjectIds,
+                StatusId = performanceRecord.StatusId,
+                RoleId = performanceRecord.RoleId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> EditPerformanceCheckInAsync(EditPerformanceRecordModel performanceRecord)
+        {
+            var criteria = new EditPerformanceCheckInCriteria
+            {
+                PerformanceRecordId = performanceRecord.PerformanceRecordId,
                 EmployeeId = performanceRecord.EmployeeId,
                 CreatorId = performanceRecord.CreatorId,
                 GradeId = cryptoService.Encrypt(performanceRecord.GradeId),

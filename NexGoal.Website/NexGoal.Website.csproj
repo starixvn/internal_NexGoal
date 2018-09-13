@@ -23,10 +23,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\dist\resources\resource_en_US.js" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Fanex.Data" Version="3.0.0-rc1" />
     <PackageReference Include="Microsoft.AspNetCore" Version="2.1.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.1.1" />
@@ -51,12 +47,6 @@
     <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
     <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj" />
     <ProjectReference Include="..\NexGoal.ViewModels\NexGoal.ViewModels.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Update="Views\MyCheckIn\Create.cshtml">
-      <Pack>$(IncludeRazorContentInPack)</Pack>
-    </Content>
   </ItemGroup>
 
   <Target Name="CreateLogsFolder" AfterTargets="AfterPublish">

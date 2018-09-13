@@ -7,7 +7,7 @@ import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import { PerformanceRecordSizePerPages } from '../../../constants';
-import Filter from './Filter';
+import SearchForm from './SearchForm';
 
 export default class PerformanceCheckIn extends Component {
     constructor(props) {
@@ -123,7 +123,7 @@ export default class PerformanceCheckIn extends Component {
 
         return (
             <Fragment>
-                <Filter filter={filter}
+                <SearchForm filter={filter}
                     creatorOptions={this.state.creatorOptions}
                     projectOptions={this.state.projectOptions}
                     onFilterChange={this.handleFilterChange}
@@ -142,7 +142,7 @@ export default class PerformanceCheckIn extends Component {
                                         <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                                             grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
                                             comment={performanceRecord.comment}
-                                            projects={performanceRecord.projects}
+                                            projects={performanceRecord.projects.map(project => { return project.name; }).join(',')}
                                         />
                                     );
                                 })

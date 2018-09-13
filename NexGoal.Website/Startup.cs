@@ -73,10 +73,7 @@
             }
             else
             {
-                app.UseExceptionHandler("/Error/InternalError");
                 app.UseHsts();
-
-                app.UseMiddleware<ErrorHandlingMiddleware>();
             }
 
             var supportedCultures = new[]

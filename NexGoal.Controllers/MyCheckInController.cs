@@ -27,7 +27,7 @@
         [Route("Self/PerformanceCheckIn/GetCreators")]
         public async Task<IActionResult> GetCreators()
         {
-            IEnumerable<UserModel> creators = await performanceCheckInService.GetCreatorsByEmployeeAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<UserModel> creators = await performanceCheckInService.GetCreatorsAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(creators);
         }
@@ -63,6 +63,36 @@
 
             var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
             return Json(new { isSuccessful = false, errors });
+        }
+
+        [Route("Self/PerformanceCheckIn/Edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            return View(id);
+        }
+
+        [Route("Self/PerformanceCheckIn/Edit")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditPerformanceRecordModel performanceRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                performanceRecord.EmployeeId = sessionService.EmployeeId;
+                performanceRecord.CreatorId = sessionService.EmployeeId;
+                CommandResult commandResult = await performanceCheckInService.EditPerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [Route("Self/PerformanceCheckIn/GetById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            return Json(record);
         }
     }
 }

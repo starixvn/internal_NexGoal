@@ -40,7 +40,7 @@ export default class CreateMemberCheckIn extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('common/SearchEmployees')),
+            axios(resolveClientUrl('Member/PerformanceCheckIn/GetMembers')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects'))
         ];

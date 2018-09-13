@@ -1,11 +1,13 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
     public class MemberCheckInController : Controller
@@ -19,6 +21,14 @@
         {
             this.sessionService = sessionService;
             this.performanceCheckInService = performanceCheckInService;
+        }
+
+        [Route("Member/PerformanceCheckIn/GetMembers")]
+        public async Task<IActionResult> GetMembers()
+        {
+            IEnumerable<UserModel> members = await performanceCheckInService.GetMembersAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(members);
         }
 
         [Route("Member/PerformanceCheckIn/Create")]

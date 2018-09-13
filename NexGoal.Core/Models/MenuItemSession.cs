@@ -1,5 +1,7 @@
 namespace NexGoal.Core.Models
 {
+    using System.Collections.Generic;
+
     public class MenuItemSession
     {
         public int MenuId { get; set; }
@@ -8,5 +10,7 @@ namespace NexGoal.Core.Models
         public string Link { get; set; }
         public int? ParentId { get; set; }
         public int DisplayOrder { get; set; }
+
+        public IEnumerable<MenuItemSession> Childs { get; set; } = new List<MenuItemSession>();
     }
 }
