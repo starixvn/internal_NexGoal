@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.PerformanceRecord;
@@ -45,6 +46,46 @@
 
             var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
             return Json(new { isSuccessful = false, errors });
+        }
+
+        [Route("Member/PerformanceCheckIn/Edit/{id}")]
+        public IActionResult Edit(int id)
+        {
+            return View(id);
+        }
+
+        [Route("Member/PerformanceCheckIn/Edit")]
+        [HttpPost]
+        public async Task<IActionResult> Edit(EditPerformanceRecordModel performanceRecord)
+        {
+            if (ModelState.IsValid)
+            {
+                performanceRecord.EmployeeId = sessionService.EmployeeId;
+                performanceRecord.CreatorId = sessionService.EmployeeId;
+                CommandResult commandResult = await performanceCheckInService.EditPerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+            return Json(new { isSuccessful = false, errors });
+        }
+
+        [Route("Member/PerformanceCheckIn/GetById/{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            if (record == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+
+            if (record.StatusId == PerformanceRecordStatus.Closed)
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
+
+            return Json(record);
         }
     }
 }

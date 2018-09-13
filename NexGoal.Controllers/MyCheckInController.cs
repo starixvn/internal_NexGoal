@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.PerformanceRecord;
@@ -92,6 +93,16 @@
         public async Task<IActionResult> GetById(int id)
         {
             PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            if (record == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+
+            if (record.StatusId == PerformanceRecordStatus.Closed)
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
+
             return Json(record);
         }
     }

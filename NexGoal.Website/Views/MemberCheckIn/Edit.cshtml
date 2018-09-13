@@ -1,0 +1,17 @@
+@using NexGoal.Resources
+@model int
+
+@{
+    ViewData["Title"] = ViewLang.NewPerformanceCheckIn;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/styles/selfevaluation.css" />
+}
+@Html.AntiForgeryToken()
+<input type="hidden" id="PerformanceRecordId" value="@Model" />
+<div id="evaluation-wrapper"></div>
+
+@section Scripts {
+    <script src="~/dist/js/editmembercheckin.js"></script>
+}
