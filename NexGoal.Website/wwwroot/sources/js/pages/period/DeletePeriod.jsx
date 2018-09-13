@@ -38,7 +38,7 @@ export default class DeletePeriod extends Component {
 
     render() {
         return (
-            <Modal show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal">
+            <Modal show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal" backdrop="static" keyboard={false}>
                 <Modal.Header closeButton>
                     <Modal.Title>Delete Evaluation Period</Modal.Title>
                 </Modal.Header>

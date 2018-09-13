@@ -7,7 +7,7 @@ import moment from 'moment';
 import { toast } from 'react-toastify';
 import { Formik } from 'formik';
 import { camelCase, isEmpty, uniqBy } from 'lodash';
-import Async from 'react-select/lib/Async';
+import Select from 'react-select';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { PerformanceProcess } from '../../../constants';
@@ -57,28 +57,27 @@ export default class Edit extends Component {
         }
 
         this.state = {
-            employees: employees
+            employees: employees,
+            employeeOptions: []
         };
     }
 
-    searchEmployees = (input, callback) => {
-        if (input.length > 2) {
-            return axios(resolveClientUrl(`common/SearchEmployees?keyword=${input}`))
-                .then(response => {
-                    let options = [];
+    componentDidMount = () => {
+        this.getEmployees();
+    }
 
-                    response.data.map(item => {
-                        options.push({
+    getEmployees = () => {
+        axios(resolveClientUrl('common/SearchEmployees'))
+            .then(response => {
+                this.setState({
+                    employeeOptions: response.data.map(item => {
+                        return {
                             value: item.employeeId,
                             label: item.nickName
-                        });
-                    });
-
-                    return callback(options);
-                });
-        }
-
-        return callback([]);
+                        };
+                    })
+                })
+            });
     }
 
     validateForm = values => {
@@ -203,10 +202,10 @@ export default class Edit extends Component {
                                     <td>{p.process}</td>
                                     <td>
                                         {p.processId !== PerformanceProcess.Self &&
-                                            <Async className={`react-select-container`} classNamePrefix="react-select"
+                                            <Select className={`react-select-container`} classNamePrefix="react-select"
                                                 value={p.evaluator} isMulti={p.processId === 1} name={`processes.${i}.evaluator`}
                                                 onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
-                                                loadOptions={this.searchEmployees} placeholder="-- Search an employee --"
+                                                options={this.state.employeeOptions} placeholder="-- Search an employee --"
                                             />
                                         }
                                     </td>
@@ -241,7 +240,7 @@ export default class Edit extends Component {
 
     render() {
         return (
-            <Modal backdrop="static" show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal modal-md">
+            <Modal keyboard={false} backdrop="static" show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal modal-md">
                 <Modal.Header closeButton>
                     <Modal.Title>Edit Employee Setting</Modal.Title>
                 </Modal.Header>
