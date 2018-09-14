@@ -13,6 +13,7 @@
     public class PeriodServiceTests
     {
         private IBaseService baseService;
+        private ISessionService sessionService;
 
         [Fact]
         public async Task GetPeriods_WhenCalled_ReturnExpectedResult()
@@ -58,8 +59,7 @@
             var model = new CreatePeriodModel
             {
                 Name = "",
-                TargetTypeId = 1,
-                CreatedBy = 1
+                TargetTypeId = 1
             };
 
             var service = GetPeriodService();
@@ -76,7 +76,7 @@
             var service = GetPeriodService();
             baseService.ExecuteNonQueryAsync(Arg.Any<UpdatePeriodStatusCriteria>()).Returns(new CommandResult { Code = 0 });
 
-            var result = await service.EditStatus(1, true, 1);
+            var result = await service.EditStatus(1, true);
 
             Assert.True(result.IsSuccessful);
         }
@@ -87,8 +87,7 @@
             var model = new EditPeriodModel
             {
                 PeriodId = 1,
-                Name = "",
-                ModifiedBy = 1
+                Name = ""
             };
 
             var service = GetPeriodService();
@@ -116,9 +115,19 @@
             var service = GetPeriodService();
             baseService.ExecuteNonQueryAsync(Arg.Any<EditProcessSettingCriteria>()).Returns(new CommandResult { Code = 0 });
 
-            var result = await service.EditProcessSetting(1, settings, 1);
+            var result = await service.EditProcessSetting(1, settings);
 
             Assert.True(result.IsSuccessful);
+        }
+
+        #region Helpers
+
+        private ISessionService FakeSessionService()
+        {
+            var service = Substitute.For<ISessionService>();
+            service.EmployeeId = 1;
+
+            return service;
         }
 
         private static IBaseService FakeBaseService()
@@ -131,9 +140,12 @@
         private PeriodService GetPeriodService()
         {
             baseService = FakeBaseService();
-            var service = new PeriodService(baseService);
+            sessionService = FakeSessionService();
+            var service = new PeriodService(baseService, sessionService);
 
             return service;
         }
+
+        #endregion Helpers
     }
 }

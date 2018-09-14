@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Fanex.Data.Repository;
     using NexGoal.Core.Extensions;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -13,27 +12,35 @@
     public class PeriodService : IPeriodService
     {
         private readonly IBaseService baseService;
-        private readonly DynamicRepository dynamicRepository;
+        private readonly ISessionService sessionService;
 
-        public PeriodService(IBaseService baseService)
+        public PeriodService(
+            IBaseService baseService,
+            ISessionService sessionService)
         {
             this.baseService = baseService;
-            this.dynamicRepository = new DynamicRepository();
+            this.sessionService = sessionService;
         }
 
         public async Task<IEnumerable<PeriodModel>> GetPeriods(bool? isActive)
         {
-            return await baseService.GetDataAsync<PeriodModel>(new GetPeriodsCriteria { IsActive = isActive }).ConfigureAwait(false);
+            var criteria = new GetPeriodsCriteria { IsActive = isActive };
+
+            return await baseService.GetDataAsync<PeriodModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<PeriodModel> GetPeriod(int periodId)
         {
-            return await baseService.GetDataEntityAsync<PeriodModel>(new GetPeriodCriteria { PeriodId = periodId }).ConfigureAwait(false);
+            var criteria = new GetPeriodCriteria { PeriodId = periodId };
+
+            return await baseService.GetDataEntityAsync<PeriodModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSetting(int periodId)
         {
-            return await baseService.GetDataAsync<PeriodProcessSettingModel>(new GetPeriodProcessSettingCriteria { PeriodId = periodId }).ConfigureAwait(false);
+            var criteria = new GetPeriodProcessSettingCriteria { PeriodId = periodId };
+
+            return await baseService.GetDataAsync<PeriodProcessSettingModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<CommandResult> Create(CreatePeriodModel model)
@@ -50,30 +57,30 @@
                 FocusEndDate = model.FocusEndDate,
                 Description = model.Description,
                 IsActive = model.IsActive,
-                CreatedBy = model.CreatedBy
+                CreatedBy = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditStatus(int periodId, bool isActive, int modifiedBy)
+        public async Task<CommandResult> EditStatus(int periodId, bool isActive)
         {
             var criteria = new UpdatePeriodStatusCriteria
             {
                 PeriodId = periodId,
                 IsActive = isActive,
-                ModifiedBy = modifiedBy
+                ModifiedBy = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> Delete(int periodId, int modifiedBy)
+        public async Task<CommandResult> Delete(int periodId)
         {
             var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
-                ModifiedBy = modifiedBy
+                ModifiedBy = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
@@ -93,19 +100,19 @@
                 FocusEndDate = model.FocusEndDate,
                 Description = model.Description,
                 IsActive = model.IsActive,
-                ModifiedBy = model.ModifiedBy
+                ModifiedBy = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings, int modifiedBy)
+        public async Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings)
         {
             var criteria = new EditProcessSettingCriteria
             {
                 PeriodId = periodId,
                 Settings = settings.ToXML().ToString(),
-                ModifiedBy = modifiedBy
+                ModifiedBy = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
@@ -121,12 +128,12 @@
                 StatusId = statusId
             };
 
-            var result = await dynamicRepository.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
+            var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
 
-            var paRecords = result.Item1;
-            var paProcesses = result.Item2;
+            IEnumerable<PARecordModel> paRecords = result.Item1;
+            IEnumerable<PAProcessModel> paProcesses = result.Item2;
 
-            foreach (var paRecord in paRecords)
+            foreach (PARecordModel paRecord in paRecords)
             {
                 paRecord.Processes = paProcesses.Where(x => x.PARecordId == paRecord.PARecordId);
             }
@@ -134,48 +141,42 @@
             return paRecords;
         }
 
-        public async Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId, int createdBy)
+        public async Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId)
         {
             var criteria = new CreateEmployeeSettingsCriteria
             {
                 PeriodId = periodId,
                 GroupIds = groupIds,
                 EmployeeId = employeeId,
-                CreatedBy = createdBy
+                CreatedBy = sessionService.EmployeeId
             };
 
-            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-
-            return result;
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEmployeeSettings(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes, int modifiedBy)
+        public async Task<CommandResult> EditEmployeeSettings(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes)
         {
             var criteria = new EditEmployeeSettingsCriteria
             {
                 PeriodId = periodId,
                 PARecordIds = string.Join(',', paRecordIds),
                 Settings = processes.ToXML().ToString(),
-                ModifiedBy = modifiedBy
+                ModifiedBy = sessionService.EmployeeId
             };
 
-            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-
-            return result;
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEmployeeSettingStatus(int paRecordId, int statusId, int modifiedBy)
+        public async Task<CommandResult> EditEmployeeSettingStatus(int paRecordId, int statusId)
         {
             var criteria = new EditEmployeeSettingStatusCriteria
             {
                 PARecordId = paRecordId,
                 StatusId = statusId,
-                ModifiedBy = modifiedBy
+                ModifiedBy = sessionService.EmployeeId
             };
 
-            var result = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-
-            return result;
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
         public async Task<PARecordModel> GetEmployeeSetting(int paRecordId)
@@ -185,10 +186,13 @@
                 PARecordId = paRecordId
             };
 
-            var result = await dynamicRepository.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
+            var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
 
-            var paRecord = result.Item1.FirstOrDefault();
-            paRecord.Processes = result.Item2;
+            PARecordModel paRecord = result.Item1.FirstOrDefault();
+            if (paRecord != null)
+            {
+                paRecord.Processes = result.Item2;
+            }
 
             return paRecord;
         }

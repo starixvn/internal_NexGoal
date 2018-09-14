@@ -13,23 +13,23 @@
 
         Task<CommandResult> Create(CreatePeriodModel model);
 
-        Task<CommandResult> EditStatus(int periodId, bool isActive, int modifiedBy);
+        Task<CommandResult> EditStatus(int periodId, bool isActive);
 
-        Task<CommandResult> Delete(int periodId, int modifiedBy);
+        Task<CommandResult> Delete(int periodId);
 
         Task<CommandResult> Edit(EditPeriodModel model);
 
         Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSetting(int periodId);
 
-        Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings, int modifiedBy);
+        Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings);
 
         Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isEvaluated, int? statusId);
 
-        Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId, int createdBy);
+        Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId);
 
-        Task<CommandResult> EditEmployeeSettings(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes, int modifiedBy);
+        Task<CommandResult> EditEmployeeSettings(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes);
 
-        Task<CommandResult> EditEmployeeSettingStatus(int paRecordId, int statusId, int modifiedBy);
+        Task<CommandResult> EditEmployeeSettingStatus(int paRecordId, int statusId);
 
         Task<PARecordModel> GetEmployeeSetting(int paRecordId);
     }
