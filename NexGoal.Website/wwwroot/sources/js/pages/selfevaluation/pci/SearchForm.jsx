@@ -5,6 +5,7 @@ import moment from 'moment';
 import Select from 'react-select';
 
 import MultiSelect from '../../../shared/components/multi-select/index';
+import getResource from '../../../resourceHelper';
 
 class SearchForm extends Component {
     constructor(props) {
@@ -55,21 +56,21 @@ class SearchForm extends Component {
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <div className="row-filter">
                     <FormGroup>
-                        <ControlLabel>From Date</ControlLabel>
+                        <ControlLabel>{getResource('FromDate')}</ControlLabel>
                         <DatePicker dateFormat="DD MMM, YYYY" selected={filter.fromDate}
                             onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
                             name="fromDate" className="form-control" autoComplete="off"
                         />
                     </FormGroup>
                     <FormGroup>
-                        <ControlLabel>To Date</ControlLabel>
+                        <ControlLabel>{getResource('ToDate')}</ControlLabel>
                         <DatePicker dateFormat="DD MMM, YYYY" selected={filter.toDate}
                             onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
                             name="toDate" className="form-control" autoComplete="off"
                         />
                     </FormGroup>
                     <FormGroup>
-                        <ControlLabel>Creator</ControlLabel>
+                        <ControlLabel>{getResource('Creator')}</ControlLabel>
                         <MultiSelect className="react-select-container creator-field" classNamePrefix="react-select"
                             name="creators"
                             value={filter.creators}
@@ -80,7 +81,7 @@ class SearchForm extends Component {
                 </div>
                 <div className="row-filter">
                     <FormGroup className="project-tag">
-                        <ControlLabel>Project Tag</ControlLabel>
+                        <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
                         <Select name="projects" isMulti
                             className="react-select-container project-field" classNamePrefix="react-select"
                             value={filter.projects}
@@ -90,7 +91,7 @@ class SearchForm extends Component {
                         />
                     </FormGroup>
                     <FormGroup>
-                        <Button type="submit" bsStyle="primary">Search</Button>
+                        <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                     </FormGroup>
                 </div>
             </Form>

@@ -219,4 +219,4 @@ export default class EditCheckIn extends Component {
     }
 }
 
-ReactDOM.render(<EditCheckIn />, document.getElementById("self-evaluation-wrapper"));
+ReactDOM.render(<EditCheckIn />, document.getElementById('self-evaluation-wrapper'));

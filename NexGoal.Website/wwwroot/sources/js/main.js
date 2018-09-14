@@ -6,7 +6,7 @@ WebFont.load({
     google: {
         families: ['Open Sans:400,600', 'sans-serif']
     }
-}); 
+});
 
 $(document).ready(function () {
     var $topNavigation = $('#topNavigation'),

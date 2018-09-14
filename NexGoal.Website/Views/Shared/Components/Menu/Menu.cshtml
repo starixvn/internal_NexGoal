@@ -8,7 +8,7 @@
 }
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="pull-left left-bar" id="topNavigation">
+    <div class="pull-left left-bar-xs" id="topNavigation">
         <a class="navbar-brand" asp-controller="home" asp-action="index">
             <img src="~/sources/styles/images/nexgoal.svg" />
         </a>
@@ -28,7 +28,7 @@
     </div>
 </nav>
 
-<div id="sidebar">
+<div id="sidebar" class="sidebar-xs">
     <ul class="list-group">
         @if (Model != null && Model.Any())
         {

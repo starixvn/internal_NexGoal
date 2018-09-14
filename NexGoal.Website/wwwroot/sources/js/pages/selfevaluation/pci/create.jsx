@@ -9,6 +9,7 @@ import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { PerformanceRecordStatus } from '../../../constants';
+import getResource from '../../../resourceHelper';
 import ToastLayout from '../../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 
@@ -88,7 +89,7 @@ export default class CreateCheckIn extends Component {
         let errors = {}, isValid = true;
 
         if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
-            errors.comment = 'Comment is required!';
+            errors.comment = getResource('CommentRequired');
             isValid = false;
         }
 
@@ -130,7 +131,7 @@ export default class CreateCheckIn extends Component {
                 let data = response.data;
 
                 if (data.isSuccessful) {
-                    toast.success('Created successfully!');
+                    toast.success(getResource('CreatedSuccessfully'));
                 } else {
                     if (data.errors) {
                         let errors = {};
@@ -166,7 +167,7 @@ export default class CreateCheckIn extends Component {
                             }
 
                             <FormGroup>
-                                <ControlLabel>Grade</ControlLabel>
+                                <ControlLabel>{getResource('Grade')}</ControlLabel>
                                 <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
                                     placeholder="Select Grade"
                                     value={this.state.performanceRecord.grade}
@@ -177,14 +178,14 @@ export default class CreateCheckIn extends Component {
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <ControlLabel className="required-label">Comment</ControlLabel>
+                                <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                                 <FormControl componentClass="textarea" name="comment"
                                     className={`comment-field ${!isEmpty(errors) && errors.comment && 'input-validation-error'}`}
                                     value={this.state.performanceRecord.comment} onChange={this.handleCommentChange}
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <ControlLabel>Project Tag</ControlLabel>
+                                <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
                                 <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
                                     className="react-select-container project-field" classNamePrefix="react-select"
                                     value={this.state.performanceRecord.projects}
@@ -193,9 +194,9 @@ export default class CreateCheckIn extends Component {
                                 />
                             </FormGroup>
                             <FormGroup>
-                                <Button type="submit" bsStyle="primary" name="saveAsDraft" onClick={this.handleSubmit}>Save as draft</Button>
-                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>Submit</Button>
-                                <Button className="btn-cancel">Cancel</Button>
+                                <Button type="submit" bsStyle="primary" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
+                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</Button>
+                                <Button className="btn-cancel">{getResource('Cancel')}</Button>
                             </FormGroup>
                         </form>
                     </div>
@@ -205,4 +206,4 @@ export default class CreateCheckIn extends Component {
     }
 }
 
-ReactDOM.render(<CreateCheckIn />, document.getElementById("self-evaluation-wrapper"));
+ReactDOM.render(<CreateCheckIn />, document.getElementById('self-evaluation-wrapper'));

@@ -248,4 +248,4 @@ export default class CreateMemberCheckIn extends Component {
     }
 }
 
-ReactDOM.render(<CreateMemberCheckIn />, document.getElementById("evaluation-wrapper"));
+ReactDOM.render(<CreateMemberCheckIn />, document.getElementById('evaluation-wrapper'));

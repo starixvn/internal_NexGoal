@@ -5,8 +5,8 @@ import moment from 'moment';
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import { PerformanceRecordSizePerPages } from '../../../constants';
+import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import SearchForm from './SearchForm';
 
 export default class PerformanceCheckIn extends Component {

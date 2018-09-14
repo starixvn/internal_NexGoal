@@ -26,7 +26,6 @@ export default class EditMemberCheckIn extends Component {
                 projects: [],
                 statusId: null
             },
-            employeeOptions: [],
             performanceGradeOptions: [],
             projectOptions: [],
             errors: {}
@@ -41,21 +40,13 @@ export default class EditMemberCheckIn extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('Member/PerformanceCheckIn/GetMembers')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl(`Member/PerformanceCheckIn/GetById/${this.state.performanceRecord.performanceRecordId}`))
         ];
 
         Promise.all(promises)
-            .then(([employeeResponse, gradeResponse, projectResponse, performanceRecordResponse]) => {
-                let employeeOptions = [];
-                employeeResponse.data.map(item => {
-                    employeeOptions.push({
-                        value: item.employeeId,
-                        label: `${item.fullName} (${item.nickName})`
-                    });
-                });
+            .then(([gradeResponse, projectResponse, performanceRecordResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -83,7 +74,6 @@ export default class EditMemberCheckIn extends Component {
 
                 this.setState({
                     performanceRecord: performanceRecord,
-                    employeeOptions: employeeOptions,
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions
                 });
@@ -200,7 +190,8 @@ export default class EditMemberCheckIn extends Component {
     }
 
     render() {
-        let errors = this.state.errors;
+        const errors = this.state.errors;
+        const performanceRecord = this.state.performanceRecord;
 
         return (
             <ToastLayout>
@@ -223,8 +214,9 @@ export default class EditMemberCheckIn extends Component {
                                 <Select name="employee" classNamePrefix="react-select"
                                     className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee && 'input-validation-error'}`}
                                     placeholder="Select Employee"
-                                    value={this.state.performanceRecord.employee} options={this.state.employeeOptions}
-                                    onChange={this.handleEmployeeChange} isClearable
+                                    value={performanceRecord.employee}
+                                    options={performanceRecord.employee}
+                                    onChange={this.handleEmployeeChange} isClearable isDisabled
                                 />
                             </FormGroup>
 
@@ -232,7 +224,7 @@ export default class EditMemberCheckIn extends Component {
                                 <ControlLabel>{getResource('Grade')}</ControlLabel>
                                 <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
                                     placeholder="Select Grade"
-                                    value={this.state.performanceRecord.grade}
+                                    value={performanceRecord.grade}
                                     options={this.state.performanceGradeOptions}
                                     isSearchable={false} isClearable
                                     onChange={this.handleGradeChange}
@@ -242,14 +234,14 @@ export default class EditMemberCheckIn extends Component {
                                 <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                                 <FormControl componentClass="textarea" name="comment"
                                     className={`comment-field ${!isEmpty(errors) && errors.comment && 'input-validation-error'}`}
-                                    value={this.state.performanceRecord.comment} onChange={this.handleCommentChange}
+                                    value={performanceRecord.comment} onChange={this.handleCommentChange}
                                 />
                             </FormGroup>
                             <FormGroup>
                                 <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
                                 <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
                                     className="react-select-container project-field" classNamePrefix="react-select"
-                                    value={this.state.performanceRecord.projects}
+                                    value={performanceRecord.projects}
                                     options={this.state.projectOptions}
                                     onChange={this.handleProjectChange}
                                 />
@@ -267,4 +259,4 @@ export default class EditMemberCheckIn extends Component {
     }
 }
 
-ReactDOM.render(<EditMemberCheckIn />, document.getElementById("evaluation-wrapper"));
+ReactDOM.render(<EditMemberCheckIn />, document.getElementById('evaluation-wrapper'));
