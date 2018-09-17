@@ -61,60 +61,56 @@ class SearchForm extends Component {
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <div className="col" >
-                        <ControlLabel>{getResource('From')}</ControlLabel>
-                        <div className="control-content">
-                            <DatePicker dateFormat={DateFormat} selected={filter.from}
-                                onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
-                                name="from" className="form-control" autoComplete="off"
-                            />
-                        </div>
+                    <ControlLabel>{getResource('From')}</ControlLabel>
+                    <div className="control-content">
+                        <DatePicker dateFormat={DateFormat} selected={filter.from}
+                            onChange={this.onFromDateChange} onChangeRaw={this.onChangeRaw}
+                            name="from" className="form-control" autoComplete="off"
+                        />
                     </div>
-                    <div className="col" >
-                        <ControlLabel>{getResource('To')}</ControlLabel>
-                        <div className="control-content">
-                            <DatePicker dateFormat={DateFormat} selected={filter.to}
-                                onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
-                                name="to" className="form-control" autoComplete="off"
-                            />
-                        </div>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{getResource('To')}</ControlLabel>
+                    <div className="control-content">
+                        <DatePicker dateFormat={DateFormat} selected={filter.to}
+                            onChange={this.onToDateChange} onChangeRaw={this.onChangeRaw}
+                            name="to" className="form-control" autoComplete="off"
+                        />
                     </div>
-                    <div className="col">
-                        <ControlLabel>{getResource('Status')}</ControlLabel>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{getResource('Status')}</ControlLabel>
+                    <div className="control-content">
                         <div className="control-content">
-                            <div className="control-content">
-                                <Select name="isActive" className="react-select-container" classNamePrefix="react-select"
-                                    value={statusSelected} options={StatusOptions}
-                                    isSearchable={false} isClearable={false}
-                                    onChange={this.handleStatusChange}
-                                />
-                            </div>
+                            <Select name="isActive" className="react-select-container" classNamePrefix="react-select"
+                                value={statusSelected} options={StatusOptions}
+                                isSearchable={false} isClearable={false}
+                                onChange={this.handleStatusChange}
+                            />
                         </div>
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <div className="col">
-                        <ControlLabel>{getResource('Team')}</ControlLabel>
-                        <div className="control-content">
-                            <Multiselect className="react-select-container" classNamePrefix="react-select"
-                                value={filter.groups}
-                                options={this.props.groupOptions}
-                                onChange={this.handleGroupChange}
-                            />
-                        </div>
+                    <ControlLabel>{getResource('Team')}</ControlLabel>
+                    <div className="control-content">
+                        <Multiselect className="react-select-container" classNamePrefix="react-select"
+                            value={filter.groups}
+                            options={this.props.groupOptions}
+                            onChange={this.handleGroupChange}
+                        />
                     </div>
-                    <div className="col">
-                        <ControlLabel>{getResource('Employee')}</ControlLabel>
-                        <div className="control-content">
-                            <Select className="react-select-container" classNamePrefix="react-select"
-                                value={filter.employee} options={this.props.employeeOptions}
-                                name="employee" onChange={this.handleEmployeeChange} isClearable
-                            />
-                        </div>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{getResource('Employee')}</ControlLabel>
+                    <div className="control-content">
+                        <Select className="react-select-container" classNamePrefix="react-select"
+                            value={filter.employee} options={this.props.employeeOptions}
+                            name="employee" onChange={this.handleEmployeeChange} isClearable
+                        />
                     </div>
-                    <div className="col">
-                        <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
-                    </div>
+                </FormGroup>
+                <FormGroup>
+                    <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                 </FormGroup>
             </Form>
         );

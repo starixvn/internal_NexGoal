@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { ControlLabel, FormGroup } from 'react-bootstrap';
+import { Form, ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 import { statusOptions } from '../common';
@@ -26,24 +26,22 @@ class Filter extends Component {
         const statusSelected = statusOptions.find((option) => { return option.value === this.props.statusId.toString(); });
 
         return (
-            <form className="from-inline form-filter" onSubmit={this.handleSubmit}>
+            <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <div className="col">
-                        <ControlLabel>{getResource('Status')}</ControlLabel>
-                        <div className="control-content">
-                            <Select name="StatusId" isSearchable={false} isClearable={false}
-                                className="react-select-container" classNamePrefix="react-select"
-                                value={statusSelected}
-                                options={statusOptions}
-                                onChange={this.handleStatusChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="col">
-                        <button className="btn btn-primary">{getResource('Search')}</button>
+                    <ControlLabel>{getResource('Status')}</ControlLabel>
+                    <div className="control-content">
+                        <Select name="StatusId" isSearchable={false} isClearable={false}
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={statusSelected}
+                            options={statusOptions}
+                            onChange={this.handleStatusChange}
+                        />
                     </div>
                 </FormGroup>
-            </form>
+                <FormGroup>
+                    <button className="btn btn-primary">{getResource('Search')}</button>
+                </FormGroup>
+            </Form>
         );
     }
 }
