@@ -7,8 +7,7 @@
 @import "../../components/tabs";
 @import "../../components/messages";
 @import "../../components/tables";
-@import "../../components/_table-search.scss";
-@import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
+@import "../../components/table-search";
 @import "../../components/react-datepicker-custom";
 @import "../../components/toast";
 @import "../../components/react-bootstrap-table";
@@ -19,6 +18,14 @@ table select {
     border: 1px solid #dfdfdf;
     height: 28px;
     padding: 0 0 0 7px;
+}
+
+.react-select-container {
+    &.human-resource {
+        .react-select__control {
+            height: auto;
+        }
+    }
 }
 
 .pagination {

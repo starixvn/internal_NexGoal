@@ -8,17 +8,24 @@ import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
+import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import CreatePeriod from './CreatePeriod';
-import DeletePeriod from './DeletePeriod';
 
 export default class Table extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
+            periodSelected: null,
             showCreateModal: false,
             showDeleteModal: false
         };
+
+        this.handleShowCreateModal = this.handleShowCreateModal.bind(this);
+        this.handleCloseCreateModal = this.handleCloseCreateModal.bind(this);
+        this.handleShowDeleteModal = this.handleShowDeleteModal.bind(this);
+        this.handleCloseDeleteModal = this.handleCloseDeleteModal.bind(this);
+        this.handleDeletePeriod = this.handleDeletePeriod.bind(this);
     }
 
     columns = [
@@ -85,7 +92,7 @@ export default class Table extends Component {
                     return (
                         <Fragment>
                             <a className="fa fa-pencil-square-o" title={getResource('Edit')} href={resolveClientUrl(`period/edit/${row.periodId}`)} />
-                            <a className="fa fa-trash-o remove" title={getResource('Delete')} onClick={() => this.showDeleteModal(row)} />
+                            <a className="fa fa-trash-o remove" title={getResource('Delete')} onClick={() => this.handleShowDeleteModal(row)} />
                         </Fragment>
                     );
                 }
@@ -120,18 +127,43 @@ export default class Table extends Component {
         }).catch(axiosError);
     }
 
-    showCreateModal = () => this.setState({ showCreateModal: true })
+    handleShowCreateModal = () => this.setState({ showCreateModal: true })
 
-    closeCreateModal = () => this.setState({ showCreateModal: false })
+    handleCloseCreateModal = () => this.setState({ showCreateModal: false })
 
-    showDeleteModal = period => this.setState({ showDeleteModal: true, deletedPeriod: period })
+    handleShowDeleteModal = period => this.setState({ showDeleteModal: true, periodSelected: period })
 
-    closeDeleteModal = () => this.setState({ showDeleteModal: false })
+    handleCloseDeleteModal = () => this.setState({ showDeleteModal: false, periodSelected: null })
+
+    handleDeletePeriod() {
+        axios({
+            url: resolveClientUrl(`period/delete`),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                periodId: this.state.periodSelected.periodId
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success(getResource('DeletedSuccessfully'));
+
+                this.props.onDeletePeriod(this.state.periodSelected.periodId);
+                this.closeModal();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
 
     render() {
         return (
             <Fragment>
-                <ToolkitProvider keyField="periodId" data={this.props.data} columns={this.columns} search >
+                <ToolkitProvider keyField="periodId" data={this.props.periods} columns={this.columns} search >
                     {
                         props => {
                             return (
@@ -139,7 +171,7 @@ export default class Table extends Component {
                                     <div className="search-wrapper clearfix">
                                         <div className="pull-left">
                                             {this.props.isHost &&
-                                                <button className="btn btn-primary" onClick={this.showCreateModal}>
+                                                <button className="btn btn-primary" onClick={this.handleShowCreateModal}>
                                                     <i className="fa fa-plus" />{getResource('CreateEvaluationPeriod')}
                                                 </button>
                                             }
@@ -155,15 +187,23 @@ export default class Table extends Component {
                         }
                     }
                 </ToolkitProvider>
-                <CreatePeriod showModal={this.state.showCreateModal}
-                    closeModal={this.closeCreateModal}
-                    onCreateSuccess={this.props.updateData}
-                />
-                <DeletePeriod showModal={this.state.showDeleteModal}
-                    closeModal={this.closeDeleteModal}
-                    period={this.state.deletedPeriod}
-                    onDeleteSuccess={this.props.onDeletePeriod}
-                />
+                {
+                    this.state.showCreateModal &&
+                    <CreatePeriod showModal={this.state.showCreateModal}
+                        closeModal={this.handleCloseCreateModal}
+                        onCreateSuccess={this.props.refreshData}
+                    />
+                }
+                {
+                    this.state.showDeleteModal &&
+                    <ConfirmationModal
+                        action="delete"
+                        name={this.state.periodSelected.name}
+                        showModal={this.state.showDeleteModal}
+                        closeModal={this.handleCloseDeleteModal}
+                        handleSubmit={this.handleDeletePeriod}
+                    />
+                }
             </Fragment>
         );
     }

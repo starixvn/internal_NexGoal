@@ -28,6 +28,6 @@
 
         public override string GetSettingKey() => "Period_Insert";
 
-        public override bool IsValid() => !string.IsNullOrEmpty(Name) && !string.IsNullOrEmpty(Description) && CreatedBy > 0 && TargetTypeId > 0;
+        public override bool IsValid() => !string.IsNullOrEmpty(Name) && CreatedBy > 0 && TargetTypeId > 0;
     }
 }

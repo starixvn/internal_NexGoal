@@ -17,7 +17,7 @@ export default class EvaluationPeriod extends Component {
             filter: {
                 isActive: ''
             },
-            data: [],
+            periods: [],
             isHost: document.getElementById('IsHost').checked
         };
     }
@@ -39,16 +39,16 @@ export default class EvaluationPeriod extends Component {
     }
 
     handleDeletePeriod = (periodId) => {
-        var data = this.state.data.slice();
-        data = data.filter(e => e.periodId !== periodId);
-        this.setState({ data: data });
+        let periods = this.state.periods.slice();
+        periods = periods.filter(e => e.periodId !== periodId);
+        this.setState({ periods: periods });
     }
 
     handleUpdateStatus = (periodId, isActive) => {
-        var data = this.state.data.slice();
-        var period = data.find(e => e.periodId === periodId);
+        let periods = this.state.periods.slice();
+        let period = periods.find(e => e.periodId === periodId);
         period.isActive = isActive;
-        this.setState({ data: data });
+        this.setState({ periods: periods });
     }
 
     getPeriods = () => {
@@ -58,7 +58,7 @@ export default class EvaluationPeriod extends Component {
             }
         }).then(response => {
             response.data.forEach((e, index) => e.rowNum = index + 1);
-            this.setState({ data: response.data });
+            this.setState({ periods: response.data });
         }).catch(axiosError);
     }
 
@@ -69,15 +69,13 @@ export default class EvaluationPeriod extends Component {
                     <li className="current">{getResource('EvaluationPeriodManagement')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <SearchForm targetTypeId={this.state.targetTypeId}
-                        isActive={this.state.isActive}
-                        onTypeIdChange={this.handleTypeIdChange}
+                    <SearchForm isActive={this.state.isActive}
                         onStatusChange={this.handleStatusChange}
                         onSubmit={this.handleSubmit}
                     />
-                    <Table data={this.state.data}
+                    <Table periods={this.state.periods}
                         isHost={this.state.isHost}
-                        updateData={this.getPeriods}
+                        refreshData={this.getPeriods}
                         onUpdateStatus={this.handleUpdateStatus}
                         onDeletePeriod={this.handleDeletePeriod}
                     />

@@ -139,16 +139,20 @@ export default class Edit extends Component {
                                         </td>}
                                     <td>{p.process}</td>
                                     <td>
-                                        {p.processId !== PerformanceProcess.Self &&
-                                            <Select className={`react-select-container`} classNamePrefix="react-select"
-                                                value={p.evaluator} isMulti={p.processId === 1} name={`processes.${i}.evaluator`}
+                                        {
+                                            p.processId !== PerformanceProcess.Self &&
+                                            <Select name={`processes.${i}.evaluator`}
+                                                classNamePrefix="react-select"
+                                                className={`react-select-container ${p.processId === PerformanceProcess.HumanResource ? 'human-resource' : ''}`}
+                                                value={p.evaluator} isMulti={p.processId === PerformanceProcess.HumanResource}
                                                 onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
                                                 options={this.props.employeeOptions} placeholder="-- Search an employee --"
                                             />
                                         }
                                     </td>
                                     <td>
-                                        {(p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
+                                        {
+                                            (p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.startDate}
                                                 onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw}
                                                 name={`processes.${i}.startDate`}
@@ -156,7 +160,8 @@ export default class Edit extends Component {
                                         }
                                     </td>
                                     <td>
-                                        {(p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
+                                        {
+                                            (p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.endDate}
                                                 onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw}
                                                 name={`processes.${i}.endDate`}
@@ -187,7 +192,12 @@ export default class Edit extends Component {
                 isSelected: true,
                 processId: 1,
                 process: adminProcesses[0].process,
-                evaluator: adminProcesses.map(e => { return { label: e.evaluator.nickName, value: e.evaluator.employeeId }; }),
+                evaluator: adminProcesses.map(e => {
+                    return {
+                        value: e.evaluator.employeeId,
+                        label: `${e.evaluator.fullName} (${e.evaluator.nickName})`
+                    };
+                }),
                 startDate: adminProcesses[0].startDate ? moment(adminProcesses[0].startDate) : null,
                 endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null
             }];
@@ -198,7 +208,10 @@ export default class Edit extends Component {
                         isSelected: true,
                         processId: p.processId,
                         process: p.process,
-                        evaluator: { label: p.evaluator.nickName, value: p.evaluator.employeeId },
+                        evaluator: {
+                            value: p.evaluator.employeeId,
+                            label: `${p.evaluator.fullName} (${p.evaluator.nickName})`
+                        },
                         startDate: p.startDate ? moment(p.startDate) : null,
                         endDate: p.endDate ? moment(p.endDate) : null
                     };
