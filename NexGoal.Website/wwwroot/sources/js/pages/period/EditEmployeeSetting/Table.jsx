@@ -189,6 +189,35 @@ export default class Table extends Component {
         }
     }
 
+    generatePA = () => {
+        if (this.selectedIds && this.selectedIds.length > 0) {
+            axios({
+                url: resolveClientUrl('Period/GeneratePA'),
+                method: 'post',
+                data: stringify({
+                    __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                    periodId: this.props.periodId,
+                    paRecordIds: this.selectedIds.toString(),
+                }),
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            }).then(response => {
+                var data = response.data;
+
+                if (data.isSuccessful) {
+                    toast.success('Generate Successfully');
+                    this.setState({ showConfirmationModal: false });
+                    this.props.refreshData();
+                } else {
+                    toast.error(data.message);
+                }
+            }).catch(axiosError);
+        } else {
+            toast.error('No employee selected');
+        }
+    }
+
     onEditSettingStatus = () => {
         axios({
             url: resolveClientUrl('Period/EditEmployeeSettingStatus'),
@@ -266,7 +295,7 @@ export default class Table extends Component {
                                             <button className="btn btn-primary" onClick={this.editSettings}>
                                                 <i className="fa fa-pencil-square-o" /> {getResource('EditEmployeeSetting')}
                                             </button>
-                                            <button className="btn btn-primary" onClick={this.showCreateModal}>
+                                            <button className="btn btn-primary" onClick={this.generatePA}>
                                                 <i className="fa fa-pencil-square-o" /> {getResource('GeneratePA')}
                                             </button>
                                         </div>

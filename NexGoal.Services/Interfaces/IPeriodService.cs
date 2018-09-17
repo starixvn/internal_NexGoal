@@ -32,5 +32,7 @@
         Task<CommandResult> EditEmployeeSettingStatus(int paRecordId, int statusId);
 
         Task<PARecordModel> GetEmployeeSetting(int paRecordId);
+
+        Task<CommandResult> GeneratePA(int periodId, string paRecordIds, int createdBy);
     }
 }

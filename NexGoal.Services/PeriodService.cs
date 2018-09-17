@@ -215,5 +215,19 @@
 
             return paRecord;
         }
+
+        public async Task<CommandResult> GeneratePA(int periodId, string paRecordIds, int createdBy)
+        {
+            var criteria = new GeneratePACriteria
+            {
+                PeriodId = periodId,
+                PARecordIds = paRecordIds,
+                CreatedBy = createdBy
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return commandResult;
+        }
     }
 }

@@ -212,5 +212,14 @@
 
             return Json(result);
         }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
+        public async Task<IActionResult> GeneratePA(int periodId, string paRecordIds)
+        {
+            CommandResult commandResult = await periodService.GeneratePA(periodId, paRecordIds, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
     }
 }

@@ -15,7 +15,7 @@ export default class EditUserRole extends Component {
         };
     }
 
-    componentDidMount = function () {
+    componentDidMount() {
         this.getUserRoles();
     }
 
