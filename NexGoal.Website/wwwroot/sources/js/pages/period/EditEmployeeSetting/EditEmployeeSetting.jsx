@@ -101,7 +101,12 @@ export default class EditEmployeeSetting extends Component {
                     onFilterChange={this.updateFilterValue}
                     onSubmit={this.getEmployeeSettings}
                 />
-                <Table periodId={this.props.periodId} groups={this.state.groups} employeeOptions={this.state.employees} data={this.state.settings} refreshData={this.getEmployeeSettings} getSetting={this.getEmployeeSetting} />
+                <Table periodId={this.props.periodId} groups={this.state.groups}
+                    employeeOptions={this.state.employees}
+                    data={this.state.settings}
+                    refreshData={this.getEmployeeSettings}
+                    getSetting={this.getEmployeeSetting}
+                />
             </Fragment>
         );
     }

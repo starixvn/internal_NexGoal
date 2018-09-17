@@ -10,76 +10,10 @@ import { camelCase, isEmpty, uniqBy } from 'lodash';
 import Select from 'react-select';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { PerformanceProcess } from '../../../constants';
-import { DateFormat } from '../../../constants';
+import { DateFormat, PerformanceProcess } from '../../../constants';
+import getResource from '../../../resourceHelper';
 
 export default class Edit extends Component {
-    constructor(props) {
-        super(props);
-
-        var paRecordIds = props.settings.map(e => e.paRecordId);
-        var employees = props.settings.map(e => e.nickName).join(', ');
-
-        if (paRecordIds.length === 1) {
-            let adminProcesses = props.settings[0].processes.filter(p => p.processId === PerformanceProcess.HumanResource);
-
-            this.processes = [{
-                isSelected: true,
-                processId: 1,
-                process: adminProcesses[0].process,
-                evaluator: adminProcesses.map(e => { return { label: e.evaluator, value: e.evaluatorId }; }),
-                startDate: adminProcesses[0].startDate ? moment(adminProcesses[0].startDate) : null,
-                endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null
-            }];
-
-            this.processes = this.processes.concat(props.settings[0].processes.filter(p => p.processId > PerformanceProcess.ProjectManager).map(p => {
-                return {
-                    isSelected: true,
-                    processId: p.processId,
-                    process: p.process,
-                    evaluator: { label: p.evaluator, value: p.evaluatorId },
-                    startDate: p.startDate ? moment(p.startDate) : null,
-                    endDate: p.endDate ? moment(p.endDate) : null
-                };
-            }));
-        } else {
-            let processes = uniqBy(props.settings[0].processes.filter(p => p.processId !== PerformanceProcess.Self && p.processId !== PerformanceProcess.ProjectManager), p => p.processId);
-            this.processes = processes.map(p => {
-                return {
-                    isSelected: false,
-                    processId: p.processId,
-                    process: p.process,
-                    evaluator: null,
-                    startDate: null,
-                    endDate: null
-                };
-            });
-        }
-
-        this.state = {
-            employees: employees,
-            employeeOptions: []
-        };
-    }
-
-    componentDidMount = () => {
-        this.getEmployees();
-    }
-
-    getEmployees = () => {
-        axios(resolveClientUrl('common/SearchEmployees'))
-            .then(response => {
-                this.setState({
-                    employeeOptions: response.data.map(item => {
-                        return {
-                            value: item.employeeId,
-                            label: item.nickName
-                        };
-                    })
-                })
-            });
-    }
-
     validateForm = values => {
         let errors = {};
         if (!values.processes.some(p => p.isSelected)) {
@@ -90,11 +24,11 @@ export default class Edit extends Component {
     }
 
     onSubmit = (values, { setSubmitting, setErrors }) => {
-        var processes = [];
-        var adminProcess = values.processes.find(p => p.processId === PerformanceProcess.HumanResource && p.isSelected);
+        let processes = [];
+        let adminProcess = values.processes.find(p => p.processId === PerformanceProcess.HumanResource && p.isSelected);
 
         if (adminProcess) {
-            var adminProcessEvaluators = adminProcess.evaluator;
+            let adminProcessEvaluators = adminProcess.evaluator;
             if (adminProcessEvaluators && adminProcessEvaluators.length > 0) {
                 processes = adminProcessEvaluators.map(e => {
                     return {
@@ -138,7 +72,7 @@ export default class Edit extends Component {
 
             if (data.isSuccessful) {
                 this.props.onEditSuccess();
-                toast.success("Update Successfully");
+                toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 if (data.errors) {
                     let errors = {};
@@ -170,10 +104,11 @@ export default class Edit extends Component {
                 setFieldValue(e.target.name, date);
             }
         };
-        var numberOfPARecord = this.props.paRecordIds.length;
+        const employees = this.props.settings.map(e => e.employee.nickName).join(', ');
+        let numberOfPARecord = this.props.paRecordIds.length;
 
         return (
-            <Form horizontal onSubmit={handleSubmit}>
+            <Form id="edit-employee-settings" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
@@ -181,8 +116,8 @@ export default class Edit extends Component {
                         </ul>
                     }
                     <FormGroup>
-                        <Col componentClass={ControlLabel} sm={3}>Employee</Col>
-                        <Col sm={9} style={{ paddingTop: '7px' }}  >{this.state.employees}</Col>
+                        <Col componentClass={ControlLabel} sm={3}>{getResource('Employee')}</Col>
+                        <Col sm={9} style={{ paddingTop: '7px' }}  >{employees}</Col>
                     </FormGroup>
 
                     <table className="table table-bordered">
@@ -190,22 +125,25 @@ export default class Edit extends Component {
                             <tr>
                                 {numberOfPARecord > 1 && <th />}
                                 <th />
-                                <th className="col-sm-4">Evaluator</th>
-                                <th>Start Date</th>
-                                <th>End Date</th>
+                                <th className="col-sm-4">{getResource('Evaluator')}</th>
+                                <th>{getResource('StartDate')}</th>
+                                <th>{getResource('EndDate')}</th>
                             </tr>
                         </thead>
                         <tbody>
                             {values.processes.map((p, i) =>
                                 <tr key={i}>
-                                    {numberOfPARecord > 1 && <td><input type="checkbox" checked={p.isSelected} onChange={handleChange} name={`processes.${i}.isSelected`} /></td>}
+                                    {numberOfPARecord > 1 &&
+                                        <td>
+                                            <input type="checkbox" checked={p.isSelected} onChange={handleChange} name={`processes.${i}.isSelected`} />
+                                        </td>}
                                     <td>{p.process}</td>
                                     <td>
                                         {p.processId !== PerformanceProcess.Self &&
                                             <Select className={`react-select-container`} classNamePrefix="react-select"
                                                 value={p.evaluator} isMulti={p.processId === 1} name={`processes.${i}.evaluator`}
                                                 onChange={value => setFieldValue(`processes.${i}.evaluator`, value)}
-                                                options={this.state.employeeOptions} placeholder="-- Search an employee --"
+                                                options={this.props.employeeOptions} placeholder="-- Search an employee --"
                                             />
                                         }
                                     </td>
@@ -231,20 +169,71 @@ export default class Edit extends Component {
                     </table>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn btn-cancel" onClick={this.props.closeModal}>Cancel</Button>
-                    <Button type="submit" disabled={isSubmitting} className="btn btn-primary">Submit</Button>
+                    <Button className="btn btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
+                    <Button type="submit" disabled={isSubmitting} className="btn btn-primary">{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Form>
         );
     }
 
     render() {
+        const paRecordIds = this.props.settings.map(e => e.paRecordId);
+        let processes = [];
+
+        if (paRecordIds.length === 1) {
+            let adminProcesses = this.props.settings[0].processes.filter(p => p.processId === PerformanceProcess.HumanResource);
+
+            processes = [{
+                isSelected: true,
+                processId: 1,
+                process: adminProcesses[0].process,
+                evaluator: adminProcesses.map(e => { return { label: e.evaluator.nickName, value: e.evaluator.employeeId }; }),
+                startDate: adminProcesses[0].startDate ? moment(adminProcesses[0].startDate) : null,
+                endDate: adminProcesses[0].endDate ? moment(adminProcesses[0].endDate) : null
+            }];
+
+            processes = processes.concat(this.props.settings[0].processes.filter(p => p.processId > PerformanceProcess.ProjectManager)
+                .map(p => {
+                    return {
+                        isSelected: true,
+                        processId: p.processId,
+                        process: p.process,
+                        evaluator: { label: p.evaluator.nickName, value: p.evaluator.employeeId },
+                        startDate: p.startDate ? moment(p.startDate) : null,
+                        endDate: p.endDate ? moment(p.endDate) : null
+                    };
+                }));
+        } else {
+            processes = uniqBy(
+                this.props.settings[0].processes.filter(p => p.processId !== PerformanceProcess.Self && p.processId !== PerformanceProcess.ProjectManager),
+                p => p.processId);
+            processes = processes.map(p => {
+                return {
+                    isSelected: false,
+                    processId: p.processId,
+                    process: p.process,
+                    evaluator: null,
+                    startDate: null,
+                    endDate: null
+                };
+            });
+        }
+
         return (
-            <Modal keyboard={false} backdrop="static" show={this.props.showModal} onHide={this.props.closeModal} dialogClassName="custom-modal modal-md">
+            <Modal keyboard={false} backdrop="static"
+                show={this.props.showModal}
+                onHide={this.props.closeModal}
+                dialogClassName="custom-modal modal-md"
+            >
                 <Modal.Header closeButton>
-                    <Modal.Title>Edit Employee Setting</Modal.Title>
+                    <Modal.Title>{getResource('EditEmployeeSetting')}</Modal.Title>
                 </Modal.Header>
-                <Formik initialValues={{ processes: this.processes }} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
+                <Formik enableReinitialize
+                    initialValues={{ processes: processes }}
+                    validate={this.validateForm}
+                    onSubmit={this.onSubmit}
+                    render={this.renderForm}
+                />
             </Modal>
         );
     }

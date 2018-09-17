@@ -8,18 +8,22 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Periods;
     using NexGoal.Models.Period;
+    using NexGoal.Models.UserManagement;
 
     public class PeriodService : IPeriodService
     {
         private readonly IBaseService baseService;
         private readonly ISessionService sessionService;
+        private readonly ICommonService commonService;
 
         public PeriodService(
             IBaseService baseService,
-            ISessionService sessionService)
+            ISessionService sessionService,
+            ICommonService commonService)
         {
             this.baseService = baseService;
             this.sessionService = sessionService;
+            this.commonService = commonService;
         }
 
         public async Task<IEnumerable<PeriodModel>> GetPeriods(bool? isActive)
@@ -129,12 +133,19 @@
             };
 
             var result = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(criteria).ConfigureAwait(false);
+            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             IEnumerable<PARecordModel> paRecords = result.Item1;
             IEnumerable<PAProcessModel> paProcesses = result.Item2;
 
+            foreach (PAProcessModel process in paProcesses)
+            {
+                process.Evaluator = employees.FirstOrDefault(x => x.EmployeeId == process.EvaluatorId);
+            }
+
             foreach (PARecordModel paRecord in paRecords)
             {
+                paRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == paRecord.EmployeeId);
                 paRecord.Processes = paProcesses.Where(x => x.PARecordId == paRecord.PARecordId);
             }
 
@@ -191,6 +202,14 @@
             PARecordModel paRecord = result.Item1.FirstOrDefault();
             if (paRecord != null)
             {
+                IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+                paRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == paRecord.EmployeeId);
+
+                foreach (PAProcessModel process in result.Item2)
+                {
+                    process.Evaluator = employees.FirstOrDefault(x => x.EmployeeId == process.EvaluatorId);
+                }
+
                 paRecord.Processes = result.Item2;
             }
 

@@ -14,6 +14,7 @@
     {
         private IBaseService baseService;
         private ISessionService sessionService;
+        private ICommonService commonService;
 
         [Fact]
         public async Task GetPeriods_WhenCalled_ReturnExpectedResult()
@@ -141,7 +142,8 @@
         {
             baseService = FakeBaseService();
             sessionService = FakeSessionService();
-            var service = new PeriodService(baseService, sessionService);
+            commonService = Substitute.For<ICommonService>();
+            var service = new PeriodService(baseService, sessionService, commonService);
 
             return service;
         }

@@ -23,6 +23,7 @@ var resource_en_US = {
     'DisciplineManagement': 'Discipline Management',
     'Duration': 'Duration',
     'Edit': 'Edit',
+    'EditEmployeeSetting': 'Edit Employee Setting',
     'EditEvaluationFlow': 'Edit Evaluation Flow',
     'EditDiscipline': 'Edit Discipline',
     'EndDate': 'End Date',

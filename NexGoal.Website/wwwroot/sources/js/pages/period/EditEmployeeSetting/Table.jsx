@@ -44,18 +44,16 @@ export default class Table extends Component {
         },
         {
             dataField: 'group',
-            text: 'Team'
-        },
-        {
-            dataField: 'fullName',
-            text: '',
-            hidden: true
+            text: 'Team',
+            formatter: (cell, row, rowIndex, colIndex) => {
+                return row.employee.groupName;
+            }
         },
         {
             dataField: 'nickName',
             text: 'Employee',
             formatter: (cell, row, rowIndex, colIndex) => {
-                return `${row.fullName} (${row.nickName})`;
+                return `${row.employee.fullName} (${row.employee.nickName})`;
             }
         },
         {
@@ -67,7 +65,7 @@ export default class Table extends Component {
 
                 return (
                     <Fragment>
-                        <div>{evaluatorProcess.evaluator}</div>
+                        <div>{evaluatorProcess.evaluator.nickName}</div>
                         <div>{evaluatorProcess.status}</div>
                     </Fragment>
                 );
@@ -82,7 +80,7 @@ export default class Table extends Component {
 
                 return (
                     <Fragment>
-                        <div>{reviewerProcess.evaluator}</div>
+                        <div>{reviewerProcess.evaluator.nickName}</div>
                         <div>
                             {reviewerProcess.startDate && moment(reviewerProcess.startDate).format('DD MMM, YYYY')}
                             {reviewerProcess.endDate && ` - ${moment(reviewerProcess.endDate).format('DD MMM, YYYY')}`}
@@ -120,26 +118,6 @@ export default class Table extends Component {
                 );
             }
         }]
-
-    searchEmployees = (input, callback) => {
-        if (input.length > 2) {
-            return axios(`/common/SearchEmployees?keyword=${input}`)
-                .then(response => {
-                    let options = [];
-
-                    response.data.map(item => {
-                        options.push({
-                            value: item.employeeId,
-                            label: `${item.fullName} (${item.nickName})`
-                        });
-                    });
-
-                    return callback(options);
-                });
-        }
-
-        return callback([]);
-    }
 
     onEmployeeChange = employee => {
         var addFilter = { employee: employee };
@@ -272,7 +250,8 @@ export default class Table extends Component {
                                             <div className="control-content">
                                                 <Select className="react-select-container" classNamePrefix="react-select"
                                                     value={this.state.addFilter.employee} name="employee" isClearable
-                                                    options={this.props.employeeOptions} onChange={this.onEmployeeChange} />
+                                                    options={this.props.employeeOptions} onChange={this.onEmployeeChange}
+                                                />
                                             </div>
                                         </div>
                                         <div className="pull-left field-group">
@@ -287,13 +266,14 @@ export default class Table extends Component {
                                         <div className="pull-left btn-block">
                                             <button className="btn btn-primary" onClick={this.editSettings}>
                                                 <i className="fa fa-pencil-square-o" /> Edit Employee Setting
-                                                </button>
+                                            </button>
                                             <button className="btn btn-primary" onClick={this.showCreateModal}>
                                                 <i className="fa fa-pencil-square-o" /> Generate PA
-                                                </button>
+                                            </button>
                                         </div>
                                     </div>
-                                    <BootstrapTable {...props.baseProps} noDataIndication={noDataIndication} pagination={paginationFactory(PaginationOptions)} striped
+                                    <BootstrapTable {...props.baseProps} noDataIndication={noDataIndication}
+                                        pagination={paginationFactory(PaginationOptions)} striped
                                         selectRow={{ mode: 'checkbox', onSelect: this.onSelectRow, onSelectAll: this.onSelectAllRows }}
                                     />
                                 </Fragment>
@@ -303,8 +283,12 @@ export default class Table extends Component {
                 </ToolkitProvider>
                 {
                     this.state.showEditModal &&
-                    <Edit showModal={this.state.showEditModal} closeModal={this.closeEditModal} paRecordIds={this.state.selectedIds} periodId={this.props.periodId}
+                    <Edit showModal={this.state.showEditModal}
+                        closeModal={this.closeEditModal}
+                        paRecordIds={this.state.selectedIds}
+                        periodId={this.props.periodId}
                         settings={this.props.data.filter(e => this.state.selectedIds.some(s => s === e.paRecordId))}
+                        employeeOptions={this.props.employeeOptions}
                         onEditSuccess={this.onEditSuccess}
                     />
                 }
