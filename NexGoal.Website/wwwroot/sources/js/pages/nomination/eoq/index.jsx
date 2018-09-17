@@ -44,15 +44,15 @@ export default class EOQ extends Component {
             }).catch(axiosError);
     }
 
-    handleYearChange(year) {
+    handleYearChange = (year) => {
         this.setState({ year });
     }
 
-    handleStatusChange(statusId) {
+    handleStatusChange = (statusId) => {
         this.setState({ statusId });
     }
 
-    handleSubmit() {
+    handleSubmit = () => {
         this.getAllEOQ();
     }
 
@@ -62,15 +62,15 @@ export default class EOQ extends Component {
                 <Filter years={this.state.years}
                     year={this.state.year}
                     statusId={this.state.statusId}
-                    handleYearChange={this.handleYearChange.bind(this)}
-                    handleStatusChange={this.handleStatusChange.bind(this)}
-                    handleFilterSubmit={this.handleSubmit.bind(this)}
+                    handleYearChange={this.handleYearChange}
+                    handleStatusChange={this.handleStatusChange}
+                    handleFilterSubmit={this.handleSubmit}
                 />
 
                 <Table
                     eoqs={this.state.eoqs}
                     isHost={this.state.isHost}
-                    handleFilterSubmit={this.handleSubmit.bind(this)}
+                    handleFilterSubmit={this.handleSubmit}
                 />
             </Fragment>
         );

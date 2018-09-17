@@ -2,7 +2,7 @@
 import { Button, Form, Modal } from 'react-bootstrap';
 
 class ConfirmationModal extends Component {
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
         this.props.handleSubmit();
     }
@@ -11,11 +11,12 @@ class ConfirmationModal extends Component {
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.closeModal}
-                dialogClassName="custom-modal">
+                dialogClassName="custom-modal"
+            >
                 <Modal.Header closeButton>
                     <Modal.Title>Confirmation</Modal.Title>
                 </Modal.Header>
-                <Form id="confirmation-form" horizontal onSubmit={this.handleSubmit.bind(this)}>
+                <Form id="confirmation-form" horizontal onSubmit={this.handleSubmit}>
                     <Modal.Body>
                         Do you want to {this.props.action} <strong>{this.props.name}</strong>?
                     </Modal.Body>

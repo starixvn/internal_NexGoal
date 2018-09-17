@@ -29,11 +29,11 @@ export default class EOY extends Component {
             }).catch(axiosError);
     }
 
-    handleStatusChange(statusId) {
+    handleStatusChange = (statusId) => {
         this.setState({ statusId });
     }
 
-    handleSubmit(event) {
+    handleSubmit = () => {
         this.getAllEOY();
     }
 
@@ -41,14 +41,14 @@ export default class EOY extends Component {
         return (
             <Fragment>
                 <Filter statusId={this.state.statusId}
-                    handleStatusChange={this.handleStatusChange.bind(this)}
-                    handleFilterSubmit={this.handleSubmit.bind(this)}
+                    handleStatusChange={this.handleStatusChange}
+                    handleFilterSubmit={this.handleSubmit}
                 />
 
                 <Table
                     eoys={this.state.eoys}
                     isHost={this.state.isHost}
-                    handleFilterSubmit={this.handleSubmit.bind(this)}
+                    handleFilterSubmit={this.handleSubmit}
                 />
             </Fragment>
         );

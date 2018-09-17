@@ -215,7 +215,7 @@ class EmployeeFlowSetting extends Component {
         });
     }
 
-    handleOnCloseModal() {
+    handleOnCloseModal = () => {
         this.setState({
             showDeleteModal: false
         });
@@ -337,7 +337,7 @@ class EmployeeFlowSetting extends Component {
                             action="delete"
                             name="this employee's setting"
                             showModal={this.state.showDeleteModal}
-                            closeModal={this.handleOnCloseModal.bind(this)}
+                            closeModal={this.handleOnCloseModal}
                             handleSubmit={this.handleDeleteFlowSetting}
                         />
                     }

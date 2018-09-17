@@ -21,29 +21,25 @@ class Table extends Component {
         };
     }
 
-    showCreateModal() {
-        this.setState({ showCreateModal: true });
-    }
+    handleShowCreateModal = () => this.setState({ showCreateModal: true });
 
-    closeCreateModal() {
-        this.setState({ showCreateModal: false });
-    }
+    handleCloseCreateModal = () => this.setState({ showCreateModal: false });
 
-    showDeleteModal(eoySelected) {
+    handleShowDeleteModal = (eoySelected) => {
         this.setState({
             showDeleteModal: true,
             eoySelected: eoySelected
         });
     }
 
-    closeDeleteModal() {
+    handleCloseDeleteModal = () => {
         this.setState({
             showDeleteModal: false,
             eoySelected: null
         });
     }
 
-    handleDeleteEOY() {
+    handleDeleteEOY = () => {
         axios({
             url: resolveClientUrl('EOY/Delete'),
             method: 'DELETE',
@@ -79,7 +75,7 @@ class Table extends Component {
                         {isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
-                                    <a className="pull-left btn btn-primary" onClick={this.showCreateModal.bind(this)}>
+                                    <a className="pull-left btn btn-primary" onClick={this.handleShowCreateModal}>
                                         <i className="fa fa-plus" />Create Nomination Period
                                 </a>
                                 </th>
@@ -109,7 +105,7 @@ class Table extends Component {
                                         rowIndex={index + 1}
                                         eoy={eoy}
                                         isHost={isHost}
-                                        showDeleteModal={this.showDeleteModal.bind(this)}
+                                        onShowDeleteModal={this.handleShowDeleteModal}
                                     />
                                 );
                             })
@@ -121,7 +117,7 @@ class Table extends Component {
                     this.state.showCreateModal &&
                     <CreateEOY
                         showModal={this.state.showCreateModal}
-                        closeModal={this.closeCreateModal.bind(this)}
+                        closeModal={this.handleCloseCreateModal}
                         handleFilterSubmit={this.props.handleFilterSubmit}
                     />
                 }
@@ -129,10 +125,10 @@ class Table extends Component {
                     this.state.showDeleteModal &&
                     <ConfirmationModal
                         action="delete"
-                        name={this.state.eoySelected.name}
+                        name={this.state.eoySelected.title}
                         showModal={this.state.showDeleteModal}
-                        closeModal={this.closeDeleteModal.bind(this)}
-                        handleSubmit={this.handleDeleteEOY.bind(this)}
+                        closeModal={this.handleCloseDeleteModal}
+                        handleSubmit={this.handleDeleteEOY}
                     />
                 }
             </Fragment>

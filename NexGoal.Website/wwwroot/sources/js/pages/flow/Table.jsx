@@ -21,29 +21,25 @@ class Table extends Component {
         };
     }
 
-    handleOnCreateClick() {
-        this.setState({ showCreateModal: true });
-    }
+    handleOnCreateClick = () => this.setState({ showCreateModal: true });
 
-    handleOnCloseCreateModal() {
-        this.setState({ showCreateModal: false });
-    }
+    handleOnCloseCreateModal = () => this.setState({ showCreateModal: false });
 
-    handleOnDeleteClick(flowTemplateSelected) {
+    handleOnDeleteClick = (flowTemplateSelected) => {
         this.setState({
             showDeleteModal: true,
             flowTemplateSelected: flowTemplateSelected
         });
     }
 
-    handleOnCloseDeleteModal() {
+    handleOnCloseDeleteModal = () => {
         this.setState({
             showDeleteModal: false,
             flowTemplateSelected: null
         });
     }
 
-    handleDeleteFlowTemplate() {
+    handleDeleteFlowTemplate = () => {
         axios({
             url: resolveClientUrl('Flow/Delete'),
             method: 'DELETE',
@@ -68,14 +64,14 @@ class Table extends Component {
         }).catch(axiosError);
     }
 
-    handleOnCheckboxChange(flowTemplateSelected) {
+    handleOnCheckboxChange = (flowTemplateSelected) => {
         this.setState({
             showEditStatusModal: true,
             flowTemplateSelected: flowTemplateSelected
         });
     }
 
-    handleEditStatusFlowTemplate() {
+    handleEditStatusFlowTemplate = () => {
         axios({
             url: resolveClientUrl('Flow/EditStatus'),
             method: 'POST',
@@ -101,7 +97,7 @@ class Table extends Component {
         }).catch(axiosError);
     }
 
-    handleOnCloseEditStatusModal() {
+    handleOnCloseEditStatusModal = () => {
         this.setState({
             showEditStatusModal: false,
             flowTemplateSelected: null
@@ -119,7 +115,7 @@ class Table extends Component {
                         {isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
-                                    <a className="pull-left btn btn-primary" onClick={this.handleOnCreateClick.bind(this)}>
+                                    <a className="pull-left btn btn-primary" onClick={this.handleOnCreateClick}>
                                         <i className="fa fa-plus" />{getResource('CreateEvaluationFlow')}
                                     </a>
                                 </th>
@@ -147,8 +143,8 @@ class Table extends Component {
                                         rowIndex={index + 1}
                                         flowTemplate={flowTemplate}
                                         isHost={isHost}
-                                        onDelete={this.handleOnDeleteClick.bind(this)}
-                                        onCheckboxChange={this.handleOnCheckboxChange.bind(this)}
+                                        onDelete={this.handleOnDeleteClick}
+                                        onCheckboxChange={this.handleOnCheckboxChange}
                                     />
                                 );
                             })
@@ -160,7 +156,7 @@ class Table extends Component {
                     this.state.showCreateModal &&
                     <Create
                         showModal={this.state.showCreateModal}
-                        closeModal={this.handleOnCloseCreateModal.bind(this)}
+                        closeModal={this.handleOnCloseCreateModal}
                         targetTypes={this.props.targetTypes}
                         onFilterSubmit={this.props.onFilterSubmit}
                     />
@@ -171,8 +167,8 @@ class Table extends Component {
                         action="delete"
                         name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showDeleteModal}
-                        closeModal={this.handleOnCloseDeleteModal.bind(this)}
-                        handleSubmit={this.handleDeleteFlowTemplate.bind(this)}
+                        closeModal={this.handleOnCloseDeleteModal}
+                        handleSubmit={this.handleDeleteFlowTemplate}
                     />
                 }
                 {
@@ -181,8 +177,8 @@ class Table extends Component {
                         action={this.state.flowTemplateSelected.isActive ? 'activate' : 'deactivate'}
                         name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showEditStatusModal}
-                        closeModal={this.handleOnCloseEditStatusModal.bind(this)}
-                        handleSubmit={this.handleEditStatusFlowTemplate.bind(this)}
+                        closeModal={this.handleOnCloseEditStatusModal}
+                        handleSubmit={this.handleEditStatusFlowTemplate}
                     />
                 }
             </Fragment>

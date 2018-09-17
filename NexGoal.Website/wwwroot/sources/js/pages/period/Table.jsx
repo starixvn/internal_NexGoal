@@ -20,12 +20,6 @@ export default class Table extends Component {
             showCreateModal: false,
             showDeleteModal: false
         };
-
-        this.handleShowCreateModal = this.handleShowCreateModal.bind(this);
-        this.handleCloseCreateModal = this.handleCloseCreateModal.bind(this);
-        this.handleShowDeleteModal = this.handleShowDeleteModal.bind(this);
-        this.handleCloseDeleteModal = this.handleCloseDeleteModal.bind(this);
-        this.handleDeletePeriod = this.handleDeletePeriod.bind(this);
     }
 
     columns = [
@@ -135,7 +129,7 @@ export default class Table extends Component {
 
     handleCloseDeleteModal = () => this.setState({ showDeleteModal: false, periodSelected: null })
 
-    handleDeletePeriod() {
+    handleDeletePeriod = () => {
         axios({
             url: resolveClientUrl(`period/delete`),
             method: 'post',
@@ -153,7 +147,7 @@ export default class Table extends Component {
                 toast.success(getResource('DeletedSuccessfully'));
 
                 this.props.onDeletePeriod(this.state.periodSelected.periodId);
-                this.closeModal();
+                this.handleCloseDeleteModal();
             } else {
                 toast.error(data.message);
             }

@@ -4,10 +4,6 @@ import moment from 'moment';
 import { resolveClientUrl } from '../../../common-functions';
 
 class Row extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     formatDate(value) {
         return moment(value).format('DD MMM, YYYY');
     }
@@ -32,8 +28,8 @@ class Row extends Component {
         return 'nomination-period-status ' + className;
     }
 
-    handleDeleteClick() {
-        this.props.showDeleteModal(this.props.eoy);
+    handleDeleteClick = () => {
+        this.props.onShowDeleteModal(this.props.eoy);
     }
 
     renderCellAction() {
@@ -47,7 +43,7 @@ class Row extends Component {
                         href={resolveClientUrl('EOY/Edit/' + eoy.eoqyId)}
                     />
                     {eoy.statusId === 0 &&
-                        <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick.bind(this)} />
+                        <a className="fa fa-trash-o remove" title="Delete" onClick={this.handleDeleteClick} />
                     }
                 </Fragment>
             );

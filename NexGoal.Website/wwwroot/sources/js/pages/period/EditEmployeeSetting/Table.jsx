@@ -12,8 +12,7 @@ import { axiosError, noDataIndication, resolveClientUrl } from '../../../common-
 import getResource from '../../../resourceHelper';
 import Multiselect from '../../../shared/components/multi-select/index';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
-import { PaginationOptions } from '../../../constants';
-import { PAStatus, PerformanceProcess } from '../../../constants';
+import { PaginationOptions, PAStatus, PerformanceProcess } from '../../../constants';
 import Edit from './Edit';
 
 export default class Table extends Component {
@@ -44,21 +43,21 @@ export default class Table extends Component {
         },
         {
             dataField: 'group',
-            text: 'Team',
+            text: `${getResource('Team')}`,
             formatter: (cell, row, rowIndex, colIndex) => {
                 return row.employee.groupName;
             }
         },
         {
             dataField: 'nickName',
-            text: 'Employee',
+            text: `${getResource('Employee')}`,
             formatter: (cell, row, rowIndex, colIndex) => {
                 return `${row.employee.fullName} (${row.employee.nickName})`;
             }
         },
         {
             dataField: 'evaluator',
-            text: 'Evaluator',
+            text: `${getResource('Evaluator')}`,
             isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
                 var evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Evaluator);
@@ -73,7 +72,7 @@ export default class Table extends Component {
         },
         {
             dataField: 'reviewer',
-            text: 'Reviewer',
+            text: `${getResource('Reviewer')}`,
             isDummyField: true,
             formatter: (cell, row, rowIndex, colIndex) => {
                 var reviewerProcess = row.processes.find(p => p.processId === PerformanceProcess.Reviewer);
@@ -92,12 +91,12 @@ export default class Table extends Component {
         },
         {
             dataField: 'status',
-            text: 'PA Status',
+            text: `${getResource('PAStatus')}`,
             classes: 'text-center'
         },
         {
             dataField: 'statusId',
-            text: 'Include',
+            text: `${getResource('Include')}`,
             classes: 'text-center',
             headerStyle: { width: '80px' },
             formatter: (cell, row, rowIndex, colIndex) => {
@@ -108,7 +107,7 @@ export default class Table extends Component {
         },
         {
             dataField: '',
-            text: 'Action',
+            text: `${getResource('Action')}`,
             classes: 'text-center',
             headerStyle: { width: '80px' },
             isDummyField: true,
@@ -154,7 +153,7 @@ export default class Table extends Component {
             var data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Update Successfully');
+                toast.success(getResource('UpdatedSuccessfully'));
                 this.props.refreshData();
             } else {
                 toast.error(data.message);
@@ -206,7 +205,7 @@ export default class Table extends Component {
             var data = response.data;
 
             if (data.isSuccessful) {
-                toast.success('Update Successfully');
+                toast.success(getResource('UpdatedSuccessfully'));
                 this.setState({ showConfirmationModal: false });
                 this.props.getSetting(this.state.selectedSettingToUpdateStatus.paRecordId);
             } else {
@@ -236,17 +235,17 @@ export default class Table extends Component {
                                 <Fragment>
                                     <div className="search-wrapper clearfix" >
                                         <div className="pull-left field-group">
-                                            <label>Team</label>
+                                            <label>{getResource('Team')}</label>
                                             <div className="control-content">
                                                 <Multiselect className="react-select-container" classNamePrefix="react-select"
-                                                    value={this.state.addFilter.groups} name="employee"
+                                                    value={this.state.addFilter.groups} name="groups"
                                                     options={this.props.groups}
                                                     onChange={this.onGroupsChange}
                                                 />
                                             </div>
                                         </div>
                                         <div className="pull-left field-group">
-                                            <label>Employee</label>
+                                            <label>{getResource('Employee')}</label>
                                             <div className="control-content">
                                                 <Select className="react-select-container" classNamePrefix="react-select"
                                                     value={this.state.addFilter.employee} name="employee" isClearable
@@ -255,7 +254,7 @@ export default class Table extends Component {
                                             </div>
                                         </div>
                                         <div className="pull-left field-group">
-                                            <button className="btn btn-primary" onClick={this.addEmployeeSettings}>Add</button>
+                                            <button className="btn btn-primary" onClick={this.addEmployeeSettings}>{getResource('Add')}</button>
                                         </div>
                                         <div className="search pull-right">
                                             <Search.SearchBar {...props.searchProps} placeholder="" delay={100} className="search-textbox" />
@@ -265,10 +264,10 @@ export default class Table extends Component {
                                     <div className="search-wrapper clearfix" >
                                         <div className="pull-left btn-block">
                                             <button className="btn btn-primary" onClick={this.editSettings}>
-                                                <i className="fa fa-pencil-square-o" /> Edit Employee Setting
+                                                <i className="fa fa-pencil-square-o" /> {getResource('EditEmployeeSetting')}
                                             </button>
                                             <button className="btn btn-primary" onClick={this.showCreateModal}>
-                                                <i className="fa fa-pencil-square-o" /> Generate PA
+                                                <i className="fa fa-pencil-square-o" /> {getResource('GeneratePA')}
                                             </button>
                                         </div>
                                     </div>
