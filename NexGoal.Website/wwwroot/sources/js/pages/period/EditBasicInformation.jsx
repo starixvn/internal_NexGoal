@@ -179,9 +179,7 @@ export default class EditBasicInformation extends Component {
                     </Col>
                 </FormGroup>
                 <FormGroup>
-                    <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={2}>
-                        Discipline Start Date
-                    </Col>
+                    <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={2}>Working From Date</Col>
                     <Col sm={2}>
                         <DatePicker name="disciplineStartDate" autoComplete="off"
                             className={`form-control  ${touched.disciplineStartDate && errors.disciplineStartDate && 'input-validation-error'}`}
@@ -191,7 +189,7 @@ export default class EditBasicInformation extends Component {
                         />
                     </Col>
                     <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={2}>
-                        Discipline End Date
+                        Working To Date
                     </Col>
                     <Col sm={2}>
                         <DatePicker name="disciplineEndDate" autoComplete="off"

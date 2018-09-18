@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -7,6 +8,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Periods;
     using NexGoal.Models.Period;
+    using NexGoal.Models.UserManagement;
     using NSubstitute;
     using Xunit;
 
@@ -119,6 +121,41 @@
             var result = await service.EditProcessSetting(1, settings);
 
             Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task GetEmployeeSettings_WhenCalled_ReturnExpectedResult()
+        {
+            var settings = new Tuple<IEnumerable<PARecordModel>, IEnumerable<PAProcessModel>>(
+                new List<PARecordModel>
+                {
+                    new PARecordModel
+                    {
+                        PARecordId = 1,
+                        EmployeeId = 1,
+                        PeriodId = 1,
+                        StatusId = 1
+                    }
+                },
+                new List<PAProcessModel>
+                {
+                    new PAProcessModel
+                    {
+                        PARecordId = 1,
+                        ProcessId = 2,
+                        EvaluatorId = 1,
+                        StatusId = 1
+                    }
+                });
+
+            var service = GetPeriodService();
+            baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingsCriteria>()).Returns(settings);
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<UserModel>());
+
+            var result = await service.GetEmployeeSettings(1, null, null, null);
+
+            Assert.Single(result);
+            Assert.Single(result.FirstOrDefault().Processes);
         }
 
         #region Helpers

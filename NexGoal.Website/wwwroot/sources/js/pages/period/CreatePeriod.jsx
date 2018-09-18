@@ -173,7 +173,7 @@ export default class CreatePeriod extends Component {
                     </FormGroup>
                     <FormGroup>
                         <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={3}>
-                            Discipline Start Date
+                            Working From Date
                         </Col>
                         <Col sm={3}>
                             <DatePicker name="disciplineStartDate" autoComplete="off"
@@ -184,7 +184,7 @@ export default class CreatePeriod extends Component {
                             />
                         </Col>
                         <Col componentClass={ControlLabel} className={values.targetTypeId === TargetType.SemiAnnual && 'required-label'} sm={3}>
-                            Discipline End Date
+                            Working To Date
                         </Col>
                         <Col sm={3}>
                             <DatePicker name="disciplineEndDate" autoComplete="off"

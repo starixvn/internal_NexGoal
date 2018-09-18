@@ -109,6 +109,8 @@ export default class EditProcessSetting extends Component {
         }).catch(axiosError);
     }
 
+    renderOptions = option => <option key={option} value={option}>{option}</option>
+
     render() {
         return (
             <Fragment>
@@ -127,7 +129,7 @@ export default class EditProcessSetting extends Component {
                                 <td>{e.processName}</td>
                                 <td className="text-center">
                                     <select data-processid={e.processId} value={e.duration} onChange={this.handleDurationChange} >
-                                        {this.durationList.map(dl => <option key={dl} value={dl}>{dl}</option>)}
+                                        {this.durationList.map(this.renderOptions)}
                                     </select>
                                 </td>
                                 <td className="text-center">
@@ -137,7 +139,7 @@ export default class EditProcessSetting extends Component {
                                 </td>
                                 <td key={e.processId} className="text-center">
                                     <select data-processid={e.processId} value={e.remindDay} onChange={this.handleRemindDayChange}>
-                                        {this.remindDayList.map(rl => <option key={rl} value={rl} >{rl}</option>)}
+                                        {this.remindDayList.map(this.renderOptions)}
                                     </select>
                                 </td>
                             </tr>)

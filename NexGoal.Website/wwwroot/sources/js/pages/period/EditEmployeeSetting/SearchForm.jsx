@@ -16,6 +16,10 @@ export default class SearchForm extends Component {
         this.props.onSubmit();
     }
 
+    renderGroupOption = option => <option key={option.value} value={option.value}>{option.label}</option>
+
+    renderPerformanceStatusOption = option => <option key={option.id} value={option.id}>{option.name}</option>
+
     render() {
         return (
             <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
@@ -25,7 +29,7 @@ export default class SearchForm extends Component {
                         <div className="control-content">
                             <select value={this.props.filter.groupId} name="groupId" className="form-control" onChange={this.handleGroupIdChange}>
                                 <option value="">-- All --</option>
-                                {this.props.groups.map(e => <option key={e.value} value={e.value}>{e.label}</option>)}
+                                {this.props.groups.map(this.renderGroupOption)}
                             </select>
                         </div>
                     </div>
@@ -44,7 +48,7 @@ export default class SearchForm extends Component {
                         <div className="control-content">
                             <select value={this.props.filter.paStatusId} name="paStatusId" className="form-control" onChange={this.handlePAStatusIdChange}>
                                 <option value="">-- All --</option>performanceStatuses
-                                {this.props.performanceStatuses.map(e => <option key={e.id} value={e.id}>{e.name}</option>)}
+                                {this.props.performanceStatuses.map(this.renderPerformanceStatusOption)}
                             </select>
                         </div>
                     </div>
