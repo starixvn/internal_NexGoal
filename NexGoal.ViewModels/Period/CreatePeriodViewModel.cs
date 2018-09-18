@@ -47,17 +47,22 @@
 
                 if (!DisciplineStartDate.HasValue)
                 {
-                    yield return new ValidationResult(Message.DisciplineStartDateRequired, new[] { nameof(StartDate) });
+                    yield return new ValidationResult(Message.DisciplineStartDateRequired, new[] { nameof(DisciplineStartDate) });
                 }
 
                 if (!DisciplineEndDate.HasValue)
                 {
-                    yield return new ValidationResult(Message.DisciplineEndDateRequired, new[] { nameof(EndDate) });
+                    yield return new ValidationResult(Message.DisciplineEndDateRequired, new[] { nameof(DisciplineEndDate) });
                 }
 
                 if (!FocusStartDate.HasValue)
                 {
-                    yield return new ValidationResult(Message.FocusStartDateRequired, new[] { nameof(EndDate) });
+                    yield return new ValidationResult(Message.FocusStartDateRequired, new[] { nameof(FocusStartDate) });
+                }
+
+                if (!FocusEndDate.HasValue)
+                {
+                    yield return new ValidationResult(Message.FocusEndDateRequired, new[] { nameof(FocusEndDate) });
                 }
             }
         }

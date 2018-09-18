@@ -129,6 +129,9 @@
   <data name="EndDateRequired" xml:space="preserve">
     <value>End Date is required.</value>
   </data>
+  <data name="FocusEndDateRequired" xml:space="preserve">
+    <value>Focus End Date is required.</value>
+  </data>
   <data name="FocusStartDateAfterEndDate" xml:space="preserve">
     <value>Focus Start Date must be after Period End Date.</value>
   </data>

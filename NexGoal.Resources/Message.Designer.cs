@@ -97,6 +97,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Focus End Date is required..
+        /// </summary>
+        public static string FocusEndDateRequired {
+            get {
+                return ResourceManager.GetString("FocusEndDateRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Focus Start Date must be after Period End Date..
         /// </summary>
         public static string FocusStartDateAfterEndDate {
