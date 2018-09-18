@@ -57,7 +57,6 @@ export default class EvaluationPeriod extends Component {
                 isActive: this.state.filter.isActive
             }
         }).then(response => {
-            response.data.forEach((e, index) => e.rowNum = index + 1);
             this.setState({ periods: response.data });
         }).catch(axiosError);
     }

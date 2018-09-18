@@ -25,9 +25,13 @@ export default class Table extends Component {
     columns = [
         {
             dataField: 'rowNum',
+            isDummyField: true,
             text: `${getResource('SymbolCount')}`,
             classes: 'text-center',
-            headerStyle: { width: '50px' }
+            headerStyle: { width: '50px' },
+            formatter: (cell, row, rowIndex) => {
+                return <Fragment>{rowIndex + 1}</Fragment>;
+            }
         },
         {
             dataField: 'name',

@@ -25,15 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.ViewModels", "NexGo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Controllers", "NexGoal.Controllers\NexGoal.Controllers.csproj", "{0628C3E6-5E10-4C42-AA75-D25046A8EBC2}"
 EndProject
-Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NexGoal.Database", "NexGoal.Database\NexGoal.Database.sqlproj", "{61FFF5B1-BB10-4AC9-9023-15C442E79796}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Controllers.UnitTests", "NexGoal.Controllers.UnitTests\NexGoal.Controllers.UnitTests.csproj", "{BBC2C972-8C7D-485B-8700-9E520847E53A}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UnitTests", "UnitTests", "{64E62A2E-4E7A-4BAC-ADC9-2A7AB8848D62}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Services.UnitTests", "NexGoal.Services.UnitTests\NexGoal.Services.UnitTests.csproj", "{B33EEB84-6A9D-4EB1-9882-A497DACDD061}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Core.UnitTests", "NexGoal.Core.UnitTests\NexGoal.Core.UnitTests.csproj", "{28909D61-CA73-46B5-A7D4-02A1844961E2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Core.UnitTests", "NexGoal.Core.UnitTests\NexGoal.Core.UnitTests.csproj", "{28909D61-CA73-46B5-A7D4-02A1844961E2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,12 +71,6 @@ Global
 		{0628C3E6-5E10-4C42-AA75-D25046A8EBC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0628C3E6-5E10-4C42-AA75-D25046A8EBC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0628C3E6-5E10-4C42-AA75-D25046A8EBC2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61FFF5B1-BB10-4AC9-9023-15C442E79796}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{61FFF5B1-BB10-4AC9-9023-15C442E79796}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{61FFF5B1-BB10-4AC9-9023-15C442E79796}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{61FFF5B1-BB10-4AC9-9023-15C442E79796}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{61FFF5B1-BB10-4AC9-9023-15C442E79796}.Release|Any CPU.Build.0 = Release|Any CPU
-		{61FFF5B1-BB10-4AC9-9023-15C442E79796}.Release|Any CPU.Deploy.0 = Release|Any CPU
 		{BBC2C972-8C7D-485B-8700-9E520847E53A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{BBC2C972-8C7D-485B-8700-9E520847E53A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{BBC2C972-8C7D-485B-8700-9E520847E53A}.Release|Any CPU.ActiveCfg = Release|Any CPU

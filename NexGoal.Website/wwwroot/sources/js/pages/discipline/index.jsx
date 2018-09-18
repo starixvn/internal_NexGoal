@@ -91,7 +91,6 @@ export default class DisciplineManagement extends Component {
             }
         }
         ).then(response => {
-            response.data.forEach((e, index) => e.rowNum = index + 1);
             this.setState({ data: response.data });
         });
     }

@@ -53,7 +53,16 @@ class Table extends Component {
         const isHost = this.props.isHost;
         const nominators = this.props.nominators;
         const columns = [
-            { dataField: 'rowNum', text: `${getResource('SymbolCount')}`, classes: 'text-center', headerStyle: { width: '50px' } },
+            {
+                dataField: 'rowNum',
+                isDummyField: true,
+                text: `${getResource('SymbolCount')}`,
+                classes: 'text-center',
+                headerStyle: { width: '50px' },
+                formatter: (cell, row, rowIndex) => {
+                    return <Fragment>{rowIndex + 1}</Fragment>;
+                }
+            },
             { dataField: 'nickName', text: `${getResource('NickName')}`, headerStyle: { width: '120px' } },
             { dataField: 'fullName', text: `${getResource('FullName')}` },
             { dataField: 'jobTitle', text: `${getResource('JobTitle')}` },

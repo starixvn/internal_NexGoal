@@ -63,10 +63,7 @@ export default class RoleManagement extends Component {
                 isShowAll: filter.isShowAll
             }
         }).then(response => {
-            const data = response.data;
-            data.map((e, index) => e.rowNum = index + 1);
-
-            this.setState({ nominators: data });
+            this.setState({ nominators: response.data });
         }).catch(axiosError);
     }
 

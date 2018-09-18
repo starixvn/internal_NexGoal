@@ -81,11 +81,8 @@ export default class EditEmployeeSetting extends Component {
     getEmployeeSettings = () => {
         this.getEmployeeSettingsAxios()
             .then(response => {
-                var settings = response.data;
-                settings.forEach((e, i) => { e.rowNum = i + 1; });
-
                 this.setState({
-                    settings: settings
+                    settings: response.data
                 });
             })
             .catch(axiosError);

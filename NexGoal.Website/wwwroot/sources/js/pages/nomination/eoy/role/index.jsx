@@ -64,10 +64,7 @@ export default class RoleManagement extends Component {
             }
         }
         ).then(response => {
-            let data = response.data;
-            data.map((e, index) => e.rowNum = index + 1);
-
-            this.setState({ nominators: data });
+            this.setState({ nominators: response.data });
         }).catch(axiosError);
     }
 

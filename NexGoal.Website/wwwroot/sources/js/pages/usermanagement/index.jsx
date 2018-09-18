@@ -75,7 +75,6 @@ export default class UserManagement extends Component {
                 isDisabledUser: filter.isDisabledUser
             }
         }).then(response => {
-            response.data.map((e, index) => e.rowNum = index + 1);
             this.setState({ data: response.data });
         }).catch(axiosError);
     }
@@ -121,9 +120,13 @@ export default class UserManagement extends Component {
         const columns = [
             {
                 dataField: 'rowNum',
+                isDummyField: true,
                 text: `${getResource('SymbolCount')}`,
                 classes: 'text-center',
-                headerStyle: { width: '50px' }
+                headerStyle: { width: '50px' },
+                formatter: (cell, row, rowIndex) => {
+                    return <Fragment>{rowIndex + 1}</Fragment>;
+                }
             },
             {
                 dataField: 'code',
