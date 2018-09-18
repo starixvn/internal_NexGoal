@@ -1,18 +1,17 @@
-
 .checkbox label {
-  padding-left: 0;
+    padding-left: 0;
 }
 
-input[type='checkbox']{
+input[type='checkbox'] {
     height: 16px;
     width: 16px;
     position: relative !important;
     cursor: pointer;
     top: 3px;
     margin-right: 4px;
-  }
-  
-  input[type='checkbox']:after{
+}
+
+input[type='checkbox']:after {
     content: '\f00c';
     font-family: 'FontAwesome';
     color: #fff;
@@ -26,19 +25,18 @@ input[type='checkbox']{
     height: 16px;
     width: 16px;
     transition: .25s all ease-in-out;
-    border-radius: 2px;
+    @include border-radius(2px);
     line-height: 15px;
     border: 1px solid #808080;
     padding-left: 3px;
     box-sizing: border-box;
-  
-  }
+}
 
-  input[type='checkbox']:checked:after{
+input[type='checkbox']:checked:after {
     background-color: #025feb;
     border: none;
-  }
-  
-  .checkbox input[type="checkbox"] {
-      margin: 0 4px 0 0;
-  }
+}
+
+.checkbox input[type="checkbox"] {
+    margin: 0 4px 0 0;
+}

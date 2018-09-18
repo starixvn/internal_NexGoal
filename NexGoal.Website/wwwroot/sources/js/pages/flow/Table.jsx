@@ -167,8 +167,8 @@ class Table extends Component {
                         action="delete"
                         name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showDeleteModal}
-                        closeModal={this.handleOnCloseDeleteModal}
-                        handleSubmit={this.handleDeleteFlowTemplate}
+                        onCloseModal={this.handleOnCloseDeleteModal}
+                        onSubmit={this.handleDeleteFlowTemplate}
                     />
                 }
                 {
@@ -177,8 +177,8 @@ class Table extends Component {
                         action={this.state.flowTemplateSelected.isActive ? 'activate' : 'deactivate'}
                         name={this.state.flowTemplateSelected.name}
                         showModal={this.state.showEditStatusModal}
-                        closeModal={this.handleOnCloseEditStatusModal}
-                        handleSubmit={this.handleEditStatusFlowTemplate}
+                        onCloseModal={this.handleOnCloseEditStatusModal}
+                        onSubmit={this.handleEditStatusFlowTemplate}
                     />
                 }
             </Fragment>

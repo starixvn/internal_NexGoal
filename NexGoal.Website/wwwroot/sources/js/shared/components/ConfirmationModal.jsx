@@ -1,16 +1,33 @@
 ﻿import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Button, Form, Modal } from 'react-bootstrap';
 
 class ConfirmationModal extends Component {
+    static propTypes = {
+        action: PropTypes.string,
+        name: PropTypes.string,
+        showModal: PropTypes.bool,
+        onCloseModal: PropTypes.func,
+        onSubmit: PropTypes.func
+    };
+
+    static defaultProps = {
+        action: '',
+        name: '',
+        showModal: false,
+        onCloseModal: function () { },
+        onSubmit: function () { }
+    };
+
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.handleSubmit();
+        this.props.onSubmit();
     }
 
     render() {
         return (
             <Modal keyboard={false} backdrop="static"
-                show={this.props.showModal} onHide={this.props.closeModal}
+                show={this.props.showModal} onHide={this.props.onCloseModal}
                 dialogClassName="custom-modal"
             >
                 <Modal.Header closeButton>
@@ -21,7 +38,7 @@ class ConfirmationModal extends Component {
                         Do you want to {this.props.action} <strong>{this.props.name}</strong>?
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.props.closeModal} className="btn-cancel">Cancel</Button>
+                        <Button onClick={this.props.onCloseModal} className="btn-cancel">Cancel</Button>
                         <Button type="submit" className="btn btn-primary">Submit</Button>
                     </Modal.Footer>
                 </Form>

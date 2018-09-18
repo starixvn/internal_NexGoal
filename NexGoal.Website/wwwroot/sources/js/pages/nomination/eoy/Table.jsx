@@ -127,8 +127,8 @@ class Table extends Component {
                         action="delete"
                         name={this.state.eoySelected.title}
                         showModal={this.state.showDeleteModal}
-                        closeModal={this.handleCloseDeleteModal}
-                        handleSubmit={this.handleDeleteEOY}
+                        onCloseModal={this.handleCloseDeleteModal}
+                        onSubmit={this.handleDeleteEOY}
                     />
                 }
             </Fragment>

@@ -20,8 +20,8 @@ const MultiSelect = props => {
 };
 
 MultiSelect.propTypes = {
-    options: PropTypes.array,
-    value: PropTypes.array,
+    options: PropTypes.arrayOf(PropTypes.object),
+    value: PropTypes.arrayOf(PropTypes.object),
     onChange: PropTypes.func
 };
 

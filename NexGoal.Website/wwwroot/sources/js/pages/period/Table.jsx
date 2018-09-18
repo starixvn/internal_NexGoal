@@ -198,8 +198,8 @@ export default class Table extends Component {
                         action="delete"
                         name={this.state.periodSelected.name}
                         showModal={this.state.showDeleteModal}
-                        closeModal={this.handleCloseDeleteModal}
-                        handleSubmit={this.handleDeletePeriod}
+                        onCloseModal={this.handleCloseDeleteModal}
+                        onSubmit={this.handleDeletePeriod}
                     />
                 }
             </Fragment>

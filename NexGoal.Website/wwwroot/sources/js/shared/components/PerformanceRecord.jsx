@@ -6,7 +6,7 @@ export default class PerformanceRecord extends Component {
         super(props);
         this.state = {
             showCollapseExpandButton: false,
-            isExpanded: false,
+            isExpanded: false
         };
 
         this.collapseExpandComment = this.collapseExpandComment.bind(this);

@@ -326,10 +326,12 @@ export default class Table extends Component {
                 }
                 {
                     this.state.showConfirmationModal &&
-                    <ConfirmationModal showModal={this.state.showConfirmationModal} closeModal={this.closeConfirmationModal}
+                    <ConfirmationModal
+                        showModal={this.state.showConfirmationModal}
                         action={this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected ? 'include' : 'exclude'}
                         name={this.state.selectedSettingToUpdateStatus.nickName}
-                        handleSubmit={this.onEditSettingStatus}
+                        onCloseModal={this.closeConfirmationModal}
+                        onSubmit={this.onEditSettingStatus}
                     />
                 }
             </Fragment>

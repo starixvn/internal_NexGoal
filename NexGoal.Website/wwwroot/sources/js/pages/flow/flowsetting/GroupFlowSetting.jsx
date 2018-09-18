@@ -366,8 +366,8 @@ class GroupFlowSetting extends Component {
                         action="delete"
                         name="this group's setting"
                         showModal={this.state.showDeleteModal}
-                        closeModal={this.handleOnCloseModal}
-                        handleSubmit={this.handleDeleteFlowSetting}
+                        onCloseModal={this.handleOnCloseModal}
+                        onSubmit={this.handleDeleteFlowSetting}
                     />
                 }
             </div>
