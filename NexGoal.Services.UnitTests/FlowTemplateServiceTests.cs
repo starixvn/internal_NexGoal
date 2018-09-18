@@ -138,17 +138,10 @@
             return service;
         }
 
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
         private FlowTemplateService GetFlowTemplateService()
         {
             sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            baseService = Substitute.For<IBaseService>();
             var service = new FlowTemplateService(baseService, sessionService);
 
             return service;

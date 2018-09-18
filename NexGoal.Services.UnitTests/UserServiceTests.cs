@@ -99,16 +99,9 @@
             Assert.Equal(expectedCommandResult.Code, result.Code);
         }
 
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
         private UserService GetUserService()
         {
-            baseService = FakeBaseService();
+            baseService = Substitute.For<IBaseService>();
             var service = new UserService(baseService);
 
             return service;

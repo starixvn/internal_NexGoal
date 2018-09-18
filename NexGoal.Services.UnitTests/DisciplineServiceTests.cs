@@ -79,16 +79,9 @@
             Assert.True(result.IsSuccessful);
         }
 
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
         private DisciplineService GetDisciplineService()
         {
-            baseService = FakeBaseService();
+            baseService = Substitute.For<IBaseService>();
             var service = new DisciplineService(baseService);
 
             return service;

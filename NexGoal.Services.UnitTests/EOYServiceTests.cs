@@ -162,17 +162,10 @@
             return service;
         }
 
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
         private EOYService GetEOYService()
         {
             sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            baseService = Substitute.For<IBaseService>();
             var service = new EOYService(baseService, sessionService);
 
             return service;

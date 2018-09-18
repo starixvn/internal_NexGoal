@@ -179,17 +179,10 @@
             return service;
         }
 
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
         private EOQService GetEOQService()
         {
             sessionService = FakeSessionService();
-            baseService = FakeBaseService();
+            baseService = Substitute.For<IBaseService>();
             var service = new EOQService(baseService, sessionService);
 
             return service;

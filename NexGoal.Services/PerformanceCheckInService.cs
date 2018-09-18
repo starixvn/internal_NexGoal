@@ -69,25 +69,7 @@
 
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
-                string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
-                performanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
-
-                performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
-                int.TryParse(performanceRecord.GradeId, out int gradeId);
-                performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-                performanceRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.EmployeeId);
-                performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
-
-                if (performanceRecord.Employee != null)
-                {
-                    performanceRecord.Employee.Base64Image = avatarService.GetBase64Image(performanceRecord.Employee.Code);
-                }
-
-                if (performanceRecord.Creator != null)
-                {
-                    performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
-                }
+                MappingData(performanceRecord, projects, performanceGrades, employees);
             }
 
             return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
@@ -103,31 +85,14 @@
                 CreatorId = creatorId
             };
             var performanceRecord = await baseService.GetDataEntityAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
-            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             if (performanceRecord != null)
             {
-                string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
-                performanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
+                IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
+                IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+                IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
-                performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
-                int.TryParse(performanceRecord.GradeId, out int gradeId);
-                performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
-
-                performanceRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.EmployeeId);
-                performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
-
-                if (performanceRecord.Employee != null)
-                {
-                    performanceRecord.Employee.Base64Image = avatarService.GetBase64Image(performanceRecord.Employee.Code);
-                }
-
-                if (performanceRecord.Creator != null)
-                {
-                    performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
-                }
+                MappingData(performanceRecord, projects, performanceGrades, employees);
             }
 
             return performanceRecord;
@@ -164,6 +129,33 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        private void MappingData(
+            PerformanceRecordModel performanceRecord,
+            IEnumerable<ProjectModel> projects,
+            IEnumerable<PerformanceGradeModel> performanceGrades,
+            IEnumerable<UserModel> employees)
+        {
+            string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
+            performanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
+
+            performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
+            int.TryParse(performanceRecord.GradeId, out int gradeId);
+            performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+            performanceRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.EmployeeId);
+            performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+
+            if (performanceRecord.Employee != null)
+            {
+                performanceRecord.Employee.Base64Image = avatarService.GetBase64Image(performanceRecord.Employee.Code);
+            }
+
+            if (performanceRecord.Creator != null)
+            {
+                performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
+            }
         }
     }
 }

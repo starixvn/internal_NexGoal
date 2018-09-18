@@ -131,16 +131,9 @@
             return service;
         }
 
-        private static IBaseService FakeBaseService()
-        {
-            var service = Substitute.For<IBaseService>();
-
-            return service;
-        }
-
         private PeriodService GetPeriodService()
         {
-            baseService = FakeBaseService();
+            baseService = Substitute.For<IBaseService>();
             sessionService = FakeSessionService();
             commonService = Substitute.For<ICommonService>();
             var service = new PeriodService(baseService, sessionService, commonService);
