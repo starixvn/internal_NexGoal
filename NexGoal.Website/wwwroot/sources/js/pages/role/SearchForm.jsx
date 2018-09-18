@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { ControlLabel, FormGroup } from 'react-bootstrap';
+import { Form, ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 import getResource from '../../resourceHelper';
@@ -17,21 +17,19 @@ class SearchForm extends Component {
         const selectedOption = roleOptions.find((option) => { return option.value === selectedOpt.toString(); });
 
         return (
-            <form className="form-inline form-filter">
+            <Form inline className="form-filter">
                 <FormGroup>
-                    <div className="col">
-                        <ControlLabel>{getResource('Role')}</ControlLabel>
-                        <div className="control-content">
-                            <Select className="react-select-container" classNamePrefix="react-select"
-                                name="RoleId" isSearchable={false} isClearable={false}
-                                value={selectedOption}
-                                options={roleOptions}
-                                onChange={this.handleOnChange}
-                            />
-                        </div>
+                    <ControlLabel>{getResource('Role')}</ControlLabel>
+                    <div className="control-content">
+                        <Select className="react-select-container" classNamePrefix="react-select"
+                            name="RoleId" isSearchable={false} isClearable={false}
+                            value={selectedOption}
+                            options={roleOptions}
+                            onChange={this.handleOnChange}
+                        />
                     </div>
                 </FormGroup>
-            </form>
+            </Form>
         );
     }
 }
