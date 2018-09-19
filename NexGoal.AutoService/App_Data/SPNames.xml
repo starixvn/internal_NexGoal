@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Functions>
+  <Function Name="Performance Record">
+    <Setting Key="EditPerformanceRecordStatus" SpName="Auto_PerformanceRecord_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Period">
+    <Setting Key="GetPeriodStarted" SpName="Auto_Period_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="InsertEmployeeSettings" SpName="Auto_Period_InsertEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="GeneratePA" SpName="Auto_Period_GeneratePA" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EditPAStatus" SpName="Auto_PA_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+</Functions>

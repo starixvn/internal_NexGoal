@@ -22,8 +22,9 @@ export const PerformanceProcess = {
 export const PAStatus = {
     NotGenerated: 1,
     Opened: 2,
-    Closed: 3,
-    Rejected: 4
+    InProgress: 3,
+    Closed: 4,
+    Rejected: 5
 };
 
 export const Policy = {

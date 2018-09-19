@@ -33,6 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Services.UnitTests"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Core.UnitTests", "NexGoal.Core.UnitTests\NexGoal.Core.UnitTests.csproj", "{28909D61-CA73-46B5-A7D4-02A1844961E2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.AutoService", "NexGoal.AutoService\NexGoal.AutoService.csproj", "{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -83,6 +85,10 @@ Global
 		{28909D61-CA73-46B5-A7D4-02A1844961E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{28909D61-CA73-46B5-A7D4-02A1844961E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{28909D61-CA73-46B5-A7D4-02A1844961E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
