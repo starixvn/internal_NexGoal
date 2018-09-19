@@ -103,6 +103,7 @@ export default class DisciplineManagement extends Component {
     }
 
     onEditDiscipline = () => {
+        this.closeModal();
         this.getDisciplines();
     }
 

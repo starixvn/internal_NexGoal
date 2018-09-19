@@ -158,6 +158,85 @@
             Assert.Single(result.FirstOrDefault().Processes);
         }
 
+        [Fact]
+        public async Task CreateEmployeeSettings_ValidData_ReturnExpectedCommanResult()
+        {
+            var service = GetPeriodService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeSettingsCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.CreateEmployeeSettings(1, "1", null);
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task EditEmployeeSettings_ValidData_ReturnExpectedCommanResult()
+        {
+            var service = GetPeriodService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingsCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.EditEmployeeSettings(1, new[] { 1, 2 }, new List<EditEmployeeSettingModel>());
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task EditEmployeeSettingStatus_ValidData_ReturnExpectedCommanResult()
+        {
+            var service = GetPeriodService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingStatusCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.EditEmployeeSettingStatus(1, 1);
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task GetEmployeeSetting_WhenCalled_ReturnExpectedResult()
+        {
+            var settings = new Tuple<IEnumerable<PARecordModel>, IEnumerable<PAProcessModel>>(
+                new List<PARecordModel>
+                {
+                    new PARecordModel
+                    {
+                        PARecordId = 1,
+                        EmployeeId = 1,
+                        PeriodId = 1,
+                        StatusId = 1
+                    }
+                },
+                new List<PAProcessModel>
+                {
+                    new PAProcessModel
+                    {
+                        PARecordId = 1,
+                        ProcessId = 2,
+                        EvaluatorId = 1,
+                        StatusId = 1
+                    }
+                });
+
+            var service = GetPeriodService();
+            baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingCriteria>()).Returns(settings);
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<UserModel>());
+
+            var result = await service.GetEmployeeSetting(1);
+
+            Assert.NotNull(result);
+            Assert.Single(result.Processes);
+        }
+
+        [Fact]
+        public async Task GeneratePA_ValidData_ReturnExpectedCommanResult()
+        {
+            var service = GetPeriodService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<GeneratePACriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.GeneratePA(1, "1", 1);
+
+            Assert.True(result.IsSuccessful);
+        }
+
         #region Helpers
 
         private ISessionService FakeSessionService()
