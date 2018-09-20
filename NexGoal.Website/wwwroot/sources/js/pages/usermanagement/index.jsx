@@ -125,7 +125,7 @@ export default class UserManagement extends Component {
                 classes: 'text-center',
                 headerStyle: { width: '50px' },
                 formatter: (cell, row, rowIndex) => {
-                    return <Fragment>{rowIndex + 1}</Fragment>;
+                    return rowIndex + 1;
                 }
             },
             {
@@ -163,7 +163,7 @@ export default class UserManagement extends Component {
                 classes: 'text-center',
                 headerStyle: { width: '80px' },
                 isDummyField: true,
-                formatter: (cell, row, rowIndex, colIndex) => {
+                formatter: (cell, row) => {
                     if (this.state.isHost) {
                         return (
                             <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row)} />

@@ -42,15 +42,12 @@ export default class Table extends Component {
             classes: 'text-center',
             headerStyle: { width: '50px' },
             formatter: (cell, row, rowIndex) => {
-                return <Fragment>{rowIndex + 1}</Fragment>;
+                return rowIndex + 1;
             }
         },
         {
-            dataField: 'group',
+            dataField: 'employee.groupName',
             text: `${getResource('Team')}`,
-            formatter: (cell, row, rowIndex, colIndex) => {
-                return row.employee.groupName;
-            }
         },
         {
             dataField: 'nickName',
@@ -63,7 +60,7 @@ export default class Table extends Component {
             dataField: 'evaluator',
             text: `${getResource('Evaluator')}`,
             isDummyField: true,
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 var evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Evaluator);
 
                 return (
@@ -78,7 +75,7 @@ export default class Table extends Component {
             dataField: 'reviewer',
             text: `${getResource('Reviewer')}`,
             isDummyField: true,
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 var reviewerProcess = row.processes.find(p => p.processId === PerformanceProcess.Reviewer);
 
                 return (
@@ -103,7 +100,7 @@ export default class Table extends Component {
             text: `${getResource('Include')}`,
             classes: 'text-center',
             headerStyle: { width: '80px' },
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 return (
                     <input type="checkbox" checked={row.statusId !== PAStatus.Rejected} onChange={() => this.editSettingStatusConfirmation(row)} />
                 );
@@ -115,7 +112,7 @@ export default class Table extends Component {
             classes: 'text-center',
             headerStyle: { width: '80px' },
             isDummyField: true,
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 return (
                     <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.editSetting(row.paRecordId)} />
                 );
@@ -229,7 +226,7 @@ export default class Table extends Component {
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 paRecordId: this.state.selectedSettingToUpdateStatus.paRecordId,
-                statusId: this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected ? PAStatus.NotGenerated : PAStatus.Rejected
+                statusId: this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected ? this.state.selectedSettingToUpdateStatus.processes.some(p => p.statusId) ? PAStatus.Opened : PAStatus.NotGenerated : PAStatus.Rejected
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -261,7 +258,7 @@ export default class Table extends Component {
     render() {
         return (
             <Fragment>
-                <ToolkitProvider keyField="paRecordId" columns={this.columns} data={this.props.data} search >
+                <ToolkitProvider keyField="paRecordId" columns={this.columns} data={this.props.data} search={{ searchFormatted: true }} >
                     {
                         props => {
                             return (

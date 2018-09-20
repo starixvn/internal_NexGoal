@@ -26,7 +26,7 @@ export default class Table extends Component {
             classes: 'text-center',
             headerStyle: { width: '50px' },
             formatter: (cell, row, rowIndex) => {
-                return <Fragment>{rowIndex + 1}</Fragment>;
+                return rowIndex + 1;
             }
         },
         {
@@ -51,7 +51,7 @@ export default class Table extends Component {
             text: `${getResource('IssueDate')}`,
             classes: 'text-center',
             headerStyle: { width: '120px' },
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 return `${moment(row.effectiveDate).format('DD MMM, YYYY')}`;
             }
         },
@@ -67,7 +67,7 @@ export default class Table extends Component {
             text: `${getResource('Active')}`,
             classes: 'text-center',
             headerStyle: { width: '80px' },
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 if (this.props.isHost) {
                     return <input type='checkbox' checked={row.isActive} onChange={this.editDisciplineStatus.bind(this, row)} />;
                 }
@@ -81,7 +81,7 @@ export default class Table extends Component {
             classes: 'text-center',
             headerStyle: { width: '80px' },
             isDummyField: true,
-            formatter: (cell, row, rowIndex, colIndex) => {
+            formatter: (cell, row) => {
                 if (this.props.isHost) {
                     return <a className="fa fa-pencil-square-o" title="Edit" onClick={this.editDiscipline.bind(this, row)} />;
                 }
@@ -121,7 +121,7 @@ export default class Table extends Component {
 
     render() {
         return (
-            <ToolkitProvider keyField="disciplineId" data={this.props.data} columns={this.columns} search >
+            <ToolkitProvider keyField="disciplineId" data={this.props.data} columns={this.columns} search={{ searchFormatted: true }} >
                 {
                     props => {
                         return (
