@@ -13,7 +13,7 @@
     using NexGoal.AutoService.Services;
     using Serilog;
 
-    public class Program
+    public static class Program
     {
         public static IConfiguration Configuration { get; set; }
 
@@ -48,7 +48,7 @@
         {
             services.AddLogging();
             Log.Logger = new LoggerConfiguration()
-                .ReadFrom.Configuration(Configuration)
+                .ReadFrom.ConfigurationSection(Configuration.GetSection("Serilog"))
                 .CreateLogger();
 
             services.AddOptions();
