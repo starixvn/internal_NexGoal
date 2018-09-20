@@ -222,7 +222,8 @@
             {
                 PeriodId = periodId,
                 PARecordIds = paRecordIds,
-                CreatedBy = createdBy
+                CreatedBy = createdBy,
+                Override = true
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
