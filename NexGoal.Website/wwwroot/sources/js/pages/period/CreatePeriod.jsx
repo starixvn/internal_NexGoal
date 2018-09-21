@@ -79,6 +79,7 @@ export default class CreatePeriod extends Component {
                 disciplineStartDate: values.disciplineStartDate ? values.disciplineStartDate.format('YYYY-MM-DD') : null,
                 disciplineEndDate: values.disciplineEndDate ? values.disciplineEndDate.format('YYYY-MM-DD') : null,
                 focusStartDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusStartDate.format('YYYY-MM-DD') : null,
+                focusEndDate: values.targetTypeId === TargetType.SemiAnnual ? values.focusEndDate.format('YYYY-MM-DD') : null,
                 description: values.description,
                 isActive: values.isActive
             }),

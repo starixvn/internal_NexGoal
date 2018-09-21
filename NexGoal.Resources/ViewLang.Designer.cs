@@ -88,6 +88,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee Nomination.
+        /// </summary>
+        public static string EmployeeNomination {
+            get {
+                return ResourceManager.GetString("EmployeeNomination", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to End Date For Committee.
         /// </summary>
         public static string EndDateForCommittee {
@@ -174,6 +183,15 @@ namespace NexGoal.Resources {
         public static string StartDateForNominator {
             get {
                 return ResourceManager.GetString("StartDateForNominator", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Employee Nomination.
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
         

@@ -52,6 +52,12 @@
     <ProjectReference Include="..\NexGoal.ViewModels\NexGoal.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\EmployeeNomination\Create.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
   <Target Name="CreateLogsFolder" AfterTargets="AfterPublish">
     <MakeDir Directories="$(PublishDir)logs" Condition="!Exists('$(PublishDir)logs')" />
     <MakeDir Directories="$(PublishUrl)logs" Condition="!Exists('$(PublishUrl)logs')" />

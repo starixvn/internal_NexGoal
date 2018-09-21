@@ -1,0 +1,18 @@
+﻿@using NexGoal.Resources
+@model bool
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/styles/create-employee-nomination.css" asp-append-version="true" />
+}
+
+@{
+    ViewData["Title"] = ViewLang.EmployeeNomination;
+}
+
+@Html.AntiForgeryToken()
+
+<div id="nomination-wrapper"></div>
+
+@section Scripts{
+    <script src="~/dist/js/create-employee-nomination.js" asp-append-version="true"></script>
+}

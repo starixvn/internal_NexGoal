@@ -91,5 +91,6 @@ var resource_en_US = {
     'UpdatePermissionSuccessfully': 'Permission has been successfully updated!',
     'UpdatedSuccessfully': 'Updated successfully!',
     'UserManagement': 'User Management',
-    'Year': 'Year'
+    'Year': 'Year',
+    'NominationPeriod': 'Nomination Period'
 };

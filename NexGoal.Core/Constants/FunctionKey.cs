@@ -11,5 +11,6 @@
         public const string SelfEvaluation = "SelfEvaluation";
         public const string Evaluation = "Evaluation";
         public const string Review = "Review";
+        public const string EmployeeNomination = "EmployeeNomination";
     }
 }

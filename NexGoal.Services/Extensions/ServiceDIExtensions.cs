@@ -20,6 +20,7 @@
             services.AddScoped<IEmployeeFlowSettingService, EmployeeFlowSettingService>();
             services.AddScoped<IPerformanceCheckInService, PerformanceCheckInService>();
             services.AddScoped<IPARecordService, PARecordService>();
+            services.AddScoped<IEmployeeNominationService, EmployeeNominationService>();
         }
     }
 }
