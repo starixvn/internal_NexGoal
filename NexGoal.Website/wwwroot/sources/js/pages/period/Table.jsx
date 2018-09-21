@@ -61,7 +61,7 @@ export default class Table extends Component {
             classes: 'text-center'
         },
         {
-            dataField: 'totalUnFinished',
+            dataField: 'totalUnfinished',
             text: 'Unfinished PA',
             classes: 'text-center'
         },

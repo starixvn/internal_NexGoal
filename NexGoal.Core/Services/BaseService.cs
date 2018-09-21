@@ -40,6 +40,16 @@ namespace NexGoal.Core.Services
             return new Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>>(new List<TFirst>(), new List<TSecond>());
         }
 
+        public async Task<Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>>> FetchMultipleAsync<TFirst, TSecond, TThird>(ICriteria criteria)
+        {
+            if (criteria != null && criteria.IsValid())
+            {
+                return await dynamicRepository.FetchMultipleAsync<TFirst, TSecond, TThird>(criteria).ConfigureAwait(false);
+            }
+
+            return new Tuple<IEnumerable<TFirst>, IEnumerable<TSecond>, IEnumerable<TThird>>(new List<TFirst>(), new List<TSecond>(), new List<TThird>());
+        }
+
         public async Task<T> GetDataEntityAsync<T>(ICriteria criteria)
         {
             if (criteria != null && criteria.IsValid())

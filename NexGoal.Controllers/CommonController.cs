@@ -63,7 +63,9 @@
         {
             string[] refNames = { ReferenceResource.PerformanceStatus };
             var referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
-            var statuses = referenceResources.Select(x => new PerformanceStatusModel { Id = x.ResourceId, Name = x.Value });
+            IEnumerable<PerformanceStatusModel> statuses = 
+                referenceResources.Select(x => new PerformanceStatusModel { Id = x.ResourceId, Name = x.Value })
+                .OrderBy(x => x.Id);
 
             return Json(statuses);
         }

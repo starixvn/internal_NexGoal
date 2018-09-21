@@ -1,6 +1,7 @@
-﻿namespace NexGoal.Models.Period
+﻿namespace NexGoal.Models.PARecord
 {
     using System;
+    using NexGoal.Models.PerformanceRecord;
     using NexGoal.Models.UserManagement;
 
     public class PAProcessModel
@@ -18,5 +19,8 @@
 
         public int? StatusId { get; set; }
         public string Status { get; set; }
+
+        public int PerformanceRecordId { get; set; }
+        public PerformanceRecordModel PerformanceRecord { get; set; }
     }
 }

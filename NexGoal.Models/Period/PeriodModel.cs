@@ -26,7 +26,7 @@
 
         public int? TotalEmployees { get; set; }
 
-        public int? TotalUnFinished { get; set; }
+        public int? TotalUnfinished { get; set; }
 
         public bool IsActive { get; set; }
 

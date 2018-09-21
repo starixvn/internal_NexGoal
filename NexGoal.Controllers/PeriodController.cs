@@ -9,6 +9,7 @@
     using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
     using NexGoal.Services;
     using NexGoal.ViewModels.Period;

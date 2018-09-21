@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
+    using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
 
     public interface IPeriodService

@@ -7,6 +7,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Periods;
+    using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
     using NexGoal.Models.UserManagement;
     using NSubstitute;

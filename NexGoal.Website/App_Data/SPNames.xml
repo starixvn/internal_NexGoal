@@ -99,4 +99,8 @@
     <Setting Key="PerformanceCheckIn_Insert" SpName="PerformanceCheckIn_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceCheckIn_Update" SpName="PerformanceCheckIn_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="Performanace Appraisal">
+    <Setting Key="PARecord_GetPeriodByActor" SpName="PARecord_GetPeriodByActor" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PARecord_GetByActor" SpName="PARecord_GetByActor" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>
