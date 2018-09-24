@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
     using NexGoal.Models.UserManagement;
@@ -12,6 +13,10 @@
 
         Task<IEnumerable<UserGroupModel>> GetGroupByActorAsync(int actorId, int periodId);
 
-        Task<IEnumerable<PARecordModel>> GetPARecordByActorAsync(int actorId, int periodId);
+        Task<IEnumerable<PARecordModel>> GetPARecordByActorAsync(GetPARecordParam param);
+
+        Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId);
+
+        Task<CommandResult> EditPARecordByReviewerAsync(int actorId, EditPARecordByReviewerModel paRecord);
     }
 }

@@ -168,4 +168,7 @@
   <data name="EmployeeNomination" xml:space="preserve">
     <value>Employee Nomination</value>
   </data>
+  <data name="Grade" xml:space="preserve">
+    <value>Grade</value>
+  </data>
 </root>

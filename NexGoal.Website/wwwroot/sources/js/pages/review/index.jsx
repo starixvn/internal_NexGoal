@@ -7,6 +7,7 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 
 import SearchForm from './SearchForm';
+import Table from './Table';
 
 export default class Review extends Component {
     constructor(props) {
@@ -18,12 +19,13 @@ export default class Review extends Component {
                 groups: null
             },
             periodOptions: [],
-            groupOptions: []
+            groupOptions: [],
+            paRecords: []
         };
     }
 
     componentDidMount() {
-        axios.get(resolveClientUrl('review/getPeriod'))
+        axios.get(resolveClientUrl('review/getPeriods'))
             .then(response => {
                 let periodOptions = response.data.map(period => {
                     return {
@@ -32,20 +34,33 @@ export default class Review extends Component {
                     };
                 });
                 let period = periodOptions.length > 0 ? periodOptions[0] : null;
+                let nextState = Object.assign({}, this.state.filter, { period: period });
 
                 if (period) {
-                    this.getGroups(period.value);
-                }
+                    axios.get(resolveClientUrl(`review/getGroups?periodId=${period.value}`))
+                        .then(response => {
+                            let groupOptions = response.data.map(group => {
+                                return {
+                                    value: group.groupId,
+                                    label: group.name
+                                };
+                            });
+                            nextState = Object.assign({}, nextState, { groups: groupOptions });
 
-                this.setState({
-                    periodOptions: periodOptions,
-                    filter: Object.assign({}, this.state.filter, { period: period })
-                });
+                            this.setState({
+                                periodOptions: periodOptions,
+                                groupOptions: groupOptions,
+                                filter: nextState
+                            });
+
+                            this.getPARecords(nextState);
+                        }).catch(axiosError);
+                }
             }).catch(axiosError);
     }
 
     getGroups = (periodId) => {
-        axios.get(resolveClientUrl(`review/getGroup?periodId=${periodId}`))
+        axios.get(resolveClientUrl(`review/getGroups?periodId=${periodId}`))
             .then(response => {
                 let groupOptions = response.data.map(group => {
                     return {
@@ -61,6 +76,19 @@ export default class Review extends Component {
             }).catch(axiosError);
     }
 
+    getPARecords = (filter) => {
+        axios.get(resolveClientUrl('review/getPARecords'), {
+            params: {
+                periodId: filter.period ? filter.period.value : 0,
+                groupIds: filter.groups.map(group => { return group.value; }).join(',')
+            }
+        }).then(response => {
+            this.setState({
+                paRecords: response.data
+            });
+        }).catch(axiosError);
+    }
+
     handleFilterChange = (name, value) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
@@ -69,6 +97,7 @@ export default class Review extends Component {
 
     handleFilterSubmit = () => {
         const filter = this.state.filter;
+        this.getPARecords(filter);
     }
 
     render() {
@@ -85,6 +114,7 @@ export default class Review extends Component {
                             onFilterChange={this.handleFilterChange}
                             onSubmit={this.handleFilterSubmit}
                         />
+                        <Table data={this.state.paRecords} />
                     </div>
                 </div>
             </ToastLayout>

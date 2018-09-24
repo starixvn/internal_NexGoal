@@ -47,7 +47,7 @@ export default class Table extends Component {
         },
         {
             dataField: 'employee.groupName',
-            text: `${getResource('Team')}`,
+            text: `${getResource('Team')}`
         },
         {
             dataField: 'nickName',
