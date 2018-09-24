@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EmployeeNomination;
     using NexGoal.Models.EmployeeNomination;
@@ -23,6 +24,19 @@
             };
 
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> Create(CreateEmployeeNominationModel model)
+        {
+            var criteria = new CreateEmployeeNominationCriteria
+            {
+                NominationPeriodId = model.NominationPeriodId,
+                NominatorId = model.NominatorId,
+                NomineeId = model.NomineeId,
+                Comment = model.Comment
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
     }
 }

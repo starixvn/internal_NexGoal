@@ -70,7 +70,8 @@ export default class Create extends Component {
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 nominationPeriodId: values.period.value,
-                employeeId: values.employee.value
+                nomineeId: values.employee.value,
+                comment: values.comment
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -91,9 +92,9 @@ export default class Create extends Component {
                 } else {
                     toast.error(data.message);
                 }
-
-                setSubmitting(false);
             }
+
+            setSubmitting(false);
         }).catch(axiosError);
     }
 
