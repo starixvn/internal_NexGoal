@@ -62,6 +62,7 @@ var resource_en_US = {
     'Nominator': 'Nominator',
     'NoticeAtBegin': 'Notice At Begin',
     'PAStatus': 'PA Status',
+    'Period': 'Period',
     'Personal': 'Personal',
     'ProjectTag': 'Project Tag',
     'Quarter': 'Quarter',

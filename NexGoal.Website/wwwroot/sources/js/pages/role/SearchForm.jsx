@@ -5,13 +5,7 @@ import Select from 'react-select';
 import getResource from '../../resourceHelper';
 
 class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleOnChange = this.handleOnChange.bind(this);
-    }
-
-    handleOnChange(selectedOption) {
+    handleOnChange = (selectedOption) => {
         this.props.onRoleChange(selectedOption.value);
     }
 

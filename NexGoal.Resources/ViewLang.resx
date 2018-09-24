@@ -162,10 +162,10 @@
   <data name="NewPerformanceCheckIn" xml:space="preserve">
     <value>New Performance Check-in</value>
   </data>
-  <data name="EmployeeNomination" xml:space="preserve">
-    <value>Employee Nomination</value>
+  <data name="Review" xml:space="preserve">
+    <value>Review</value>
   </data>
-  <data name="String1" xml:space="preserve">
+  <data name="EmployeeNomination" xml:space="preserve">
     <value>Employee Nomination</value>
   </data>
 </root>

@@ -37,8 +37,8 @@ export default class UserManagement extends Component {
     }
 
     componentDidMount = () => {
-        this.getUsers();
         this.getGroups();
+        this.getUsers();
     }
 
     userRoles = [];

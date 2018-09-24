@@ -19,6 +19,7 @@ module.exports = {
         [`${styleDistPath}/selfevaluation`]: `${styleSourcePath}/pages/SelfEvaluation/self-evaluation.scss`,
         [`${styleDistPath}/evaluation`]: `${styleSourcePath}/pages/evaluation.scss`,
         [`${styleDistPath}/create-employee-nomination`]: `${styleSourcePath}/pages/employeenomination/create.scss`,
+        [`${styleDistPath}/reviewpa`]: `${styleSourcePath}/pages/review/index.scss`,
         //
         [`${jsDistPath}/main`]: "./sources/js/main.js",
         [`${jsDistPath}/home`]: `${jsSourcePath}/home/index.jsx`,
@@ -38,5 +39,6 @@ module.exports = {
         [`${jsDistPath}/createmembercheckin`]: `${jsSourcePath}/evaluation/index.jsx`,
         [`${jsDistPath}/editmembercheckin`]: `${jsSourcePath}/evaluation/edit.jsx`,
         [`${jsDistPath}/create-employee-nomination`]: `${jsSourcePath}/employeenomination/create.jsx`,
+        [`${jsDistPath}/reviewpa`]: `${jsSourcePath}/review/index.jsx`
     }
 };
