@@ -14,6 +14,7 @@
     using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Read)]
     public class ReviewController : Controller
     {
         private readonly ISessionService sessionService;
@@ -84,7 +85,6 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Read)]
         public async Task<IActionResult> Details(int id)
         {
             PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
@@ -96,7 +96,6 @@
             return View(id);
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Read)]
         public async Task<IActionResult> GetPARecordById(int id)
         {
             PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);

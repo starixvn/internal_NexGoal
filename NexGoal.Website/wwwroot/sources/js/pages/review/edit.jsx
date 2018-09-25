@@ -133,7 +133,7 @@ export default class EditPARecord extends Component {
                 <FormGroup>
                     <label className="col-sm-2 control-label required-label">{getResource('Comment')}</label>
                     <div className="col-sm-6">
-                        <textarea className={`form-control none-resize ${touched.comment && errors.comment && 'input-validation-error'}`}
+                        <textarea className={`form-control ${touched.comment && errors.comment && 'input-validation-error'}`}
                             rows="3" maxLength="200"
                             name="comment" value={values.comment || ''}
                             onChange={handleChange} disabled={isHost ? false : true}
@@ -179,6 +179,7 @@ export default class EditPARecord extends Component {
                                             grade={process.performanceRecord.grade ? process.performanceRecord.grade.name : ''}
                                             comment={process.performanceRecord.comment}
                                             projects={process.performanceRecord.projects.map(project => { return project.name; }).join(',')}
+                                            avatar={process.evaluator ? process.evaluator.base64Image : null}
                                         />
                                     );
                                 })

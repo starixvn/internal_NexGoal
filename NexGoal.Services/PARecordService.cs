@@ -17,15 +17,18 @@
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
+        private readonly IAvatarService avatarService;
 
         public PARecordService(
             IBaseService baseService,
             ICryptoService cryptoService,
-            ICommonService commonService)
+            ICommonService commonService,
+            IAvatarService avatarService)
         {
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
+            this.avatarService = avatarService;
         }
 
         public async Task<IEnumerable<PeriodModel>> GetPeriodByActorAsync(int actorId)
@@ -75,6 +78,7 @@
             };
 
             var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
@@ -82,7 +86,7 @@
 
             if (record != null)
             {
-                MappingData(record, tuple.Item2, tuple.Item3, employees, performanceGrades);
+                MappingData(record, tuple.Item2, tuple.Item3, employees, performanceGrades, projects);
             }
 
             return record;
@@ -138,11 +142,15 @@
             IEnumerable<PAProcessModel> processes,
             IEnumerable<PerformanceRecordModel> performanceRecords,
             IEnumerable<UserModel> employees,
-            IEnumerable<PerformanceGradeModel> performanceGrades)
+            IEnumerable<PerformanceGradeModel> performanceGrades,
+            IEnumerable<ProjectModel> projects)
         {
             int gradeId;
             foreach (PerformanceRecordModel record in performanceRecords)
             {
+                string[] projectIds = !string.IsNullOrWhiteSpace(record.ProjectIds) ? record.ProjectIds.Split(",") : new string[] { };
+                record.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
+
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out gradeId);
                 record.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
@@ -151,6 +159,11 @@
             foreach (PAProcessModel process in processes)
             {
                 process.Evaluator = employees.FirstOrDefault(x => x.EmployeeId == process.EvaluatorId);
+                if (process.Evaluator != null)
+                {
+                    process.Evaluator.Base64Image = avatarService.GetBase64Image(process.Evaluator.Code);
+                }
+
                 process.PerformanceRecord = performanceRecords.FirstOrDefault(x => x.PerformanceRecordId == process.PerformanceRecordId);
             }
 
