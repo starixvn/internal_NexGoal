@@ -114,14 +114,9 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<JsonResult> GetById(int id)
         {
             EOQYModel eoq = await eoqService.GetByIdAsync(id).ConfigureAwait(false);
-
-            if (eoq == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
 
             return Json(eoq);
         }

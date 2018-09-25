@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 
 import SearchForm from './SearchForm';
@@ -102,22 +101,20 @@ export default class Review extends Component {
 
     render() {
         return (
-            <ToastLayout>
-                <div className="row">
-                    <Breadcrumb>
-                        <li className="current">Review</li>
-                    </Breadcrumb>
-                    <div className="col-sm-12">
-                        <SearchForm filter={this.state.filter}
-                            periodOptions={this.state.periodOptions}
-                            groupOptions={this.state.groupOptions}
-                            onFilterChange={this.handleFilterChange}
-                            onSubmit={this.handleFilterSubmit}
-                        />
-                        <Table data={this.state.paRecords} />
-                    </div>
+            <div className="row">
+                <Breadcrumb>
+                    <li className="current">Review</li>
+                </Breadcrumb>
+                <div className="col-sm-12">
+                    <SearchForm filter={this.state.filter}
+                        periodOptions={this.state.periodOptions}
+                        groupOptions={this.state.groupOptions}
+                        onFilterChange={this.handleFilterChange}
+                        onSubmit={this.handleFilterSubmit}
+                    />
+                    <Table data={this.state.paRecords} />
                 </div>
-            </ToastLayout>
+            </div>
         );
     }
 }

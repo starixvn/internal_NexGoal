@@ -134,11 +134,6 @@
         {
             FlowTemplateModel flowTemplate = await flowTemplateService.GetByIdAsync(id).ConfigureAwait(false);
 
-            if (flowTemplate == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
-
             return Json(flowTemplate);
         }
 

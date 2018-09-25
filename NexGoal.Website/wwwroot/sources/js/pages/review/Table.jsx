@@ -4,7 +4,7 @@ import paginationFactory from 'react-bootstrap-table2-paginator';
 import ToolkitProvider, { Search } from 'react-bootstrap-table2-toolkit';
 
 import getResource from '../../resourceHelper';
-import { noDataIndication } from '../../common-functions';
+import { noDataIndication, resolveClientUrl } from '../../common-functions';
 import { PaginationOptions, PAStatus, PerformanceProcess } from '../../constants';
 
 export default class Table extends Component {
@@ -55,9 +55,9 @@ export default class Table extends Component {
             formatter: (cell, row) => {
                 switch (row.statusId) {
                     case PAStatus.InProgress:
-                        return <a className="fa fa-pencil-square-o" title="Edit" />;
+                        return <a className="fa fa-pencil-square-o" title="Edit" href={resolveClientUrl(`Review/Edit/${row.paRecordId}`)} />;
                     case PAStatus.Closed:
-                        return <a className="fa fa-search" title="Details" />;
+                        return <a className="fa fa-search" title="Details" href={resolveClientUrl(`Review/Details/${row.paRecordId}`)} />;
                     default:
                         return <Fragment />;
                 }

@@ -47,6 +47,7 @@ var resource_en_US = {
     'GeneralInformation': 'General Information',
     'GeneratePA': 'Generate PA',
     'Grade': 'Grade',
+    'GradeRequired': 'Grade is required.',
     'Host': 'Host',
     'Inactive': 'Inactive',
     'Include': 'Include',

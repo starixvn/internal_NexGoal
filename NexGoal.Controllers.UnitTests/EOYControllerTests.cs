@@ -172,23 +172,6 @@
         #region GetById
 
         [Fact]
-        public async Task GetById_EOYIsNotExist_ReturnRedirectToPageNotFound()
-        {
-            // Arrange
-            EOQYModel eoy = null;
-            var controller = GetEOYController();
-            eoyService.GetByIdAsync(1).Returns(eoy);
-
-            // Act
-            var actual = await controller.GetById(1);
-
-            // Assert
-            var viewResult = Assert.IsType<RedirectToActionResult>(actual);
-            Assert.Equal("Error", viewResult.ControllerName);
-            Assert.Equal("PageNotFound", viewResult.ActionName);
-        }
-
-        [Fact]
         public async Task GetById_EOYIsExist_ReturnAsExpectedJsonResult()
         {
             // Arrange

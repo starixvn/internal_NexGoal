@@ -67,8 +67,19 @@
         }
 
         [Route("Self/PerformanceCheckIn/Edit/{id}")]
-        public IActionResult Edit(int id)
+        public async Task<IActionResult> Edit(int id)
         {
+            PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            if (record == null)
+            {
+                return RedirectToAction("PageNotFound", "Error");
+            }
+
+            if (record.StatusId == PerformanceRecordStatus.Closed)
+            {
+                return RedirectToAction("AccessDenied", "Error");
+            }
+
             return View(id);
         }
 
@@ -93,15 +104,6 @@
         public async Task<IActionResult> GetById(int id)
         {
             PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-            if (record == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
-
-            if (record.StatusId == PerformanceRecordStatus.Closed)
-            {
-                return RedirectToAction("AccessDenied", "Error");
-            }
 
             return Json(record);
         }

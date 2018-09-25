@@ -1,0 +1,21 @@
+﻿@using NexGoal.Resources
+@model int
+
+@{
+    ViewData["Title"] = ViewLang.Review;
+    bool isHost = (bool)ViewData["IsHost"];
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/styles/editparecord.css" />
+}
+
+@Html.AntiForgeryToken()
+<input type="hidden" id="PARecordId" value="@Model" />
+<input type="checkbox" hidden id="IsHost" @(isHost ? "checked" : string.Empty) />
+
+<div id="review-wrapper"></div>
+
+@section Scripts{
+    <script src="~/dist/js/editparecord.js"></script>
+}

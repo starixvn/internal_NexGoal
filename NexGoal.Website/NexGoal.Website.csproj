@@ -53,7 +53,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Views\EmployeeNomination\Create.cshtml">
+    <Content Update="Views\Review\Details.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

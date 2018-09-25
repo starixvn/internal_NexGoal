@@ -109,11 +109,6 @@
         {
             EOQYModel eoy = await eoyService.GetByIdAsync(id).ConfigureAwait(false);
 
-            if (eoy == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
-
             return Json(eoy);
         }
 
