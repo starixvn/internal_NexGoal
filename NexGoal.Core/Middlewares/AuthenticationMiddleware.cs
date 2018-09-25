@@ -1,24 +1,21 @@
 ﻿namespace NexGoal.Core.Middlewares
 {
-    using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Http;
-    using NexGoal.Core.Criteria;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
 
     public class AuthenticationMiddleware
     {
         private readonly RequestDelegate next;
-        private readonly IBaseService baseService;
+        private readonly IAuthenticationService authenticationService;
 
         public AuthenticationMiddleware(
             RequestDelegate next,
-            IBaseService baseService)
+            IAuthenticationService authenticationService)
         {
             this.next = next;
-            this.baseService = baseService;
+            this.authenticationService = authenticationService;
         }
 
         public async Task Invoke(HttpContext context)
@@ -28,56 +25,19 @@
             if (currentSession.EmployeeId <= 0)
             {
                 var domainUsername = context.User.Identity.Name;
-                EmployeeSession employee = GetEmployeeByDomainUsername(domainUsername);
+                EmployeeSession employee = await authenticationService.GetEmployeeByDomainUsernameAsync(domainUsername).ConfigureAwait(false);
 
                 if (employee != null)
                 {
                     currentSession.EmployeeId = employee.EmployeeId;
                     currentSession.NickName = employee.NickName;
                     currentSession.FullName = employee.FullName;
-                    currentSession.Functions = GetFunctionByEmployeeId(employee.EmployeeId);
-                    currentSession.MenuItems = GetMenuByEmployeeId(employee.EmployeeId);
+                    currentSession.Functions = await authenticationService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
+                    currentSession.MenuItems = await authenticationService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
                 }
             }
 
             await next(context).ConfigureAwait(false);
-        }
-
-        private EmployeeSession GetEmployeeByDomainUsername(string domainUsername)
-        {
-            var criteria = new GetEmployeeByDomainUsernameCriteria
-            {
-                DomainUsername = domainUsername
-            };
-
-            return baseService.GetDataEntityAsync<EmployeeSession>(criteria).Result;
-        }
-
-        private IEnumerable<FunctionSession> GetFunctionByEmployeeId(int employeeId)
-        {
-            var criteria = new GetFunctionByEmployeeIdCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return baseService.GetDataAsync<FunctionSession>(criteria).Result;
-        }
-
-        private IEnumerable<MenuItemSession> GetMenuByEmployeeId(int employeeId)
-        {
-            var criteria = new GetMenuByEmployeeIdCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            IEnumerable<MenuItemSession> menuItems = baseService.GetDataAsync<MenuItemSession>(criteria).Result;
-            IEnumerable<MenuItemSession> menuGroups = menuItems.Where(x => x.ParentId == null);
-            foreach (MenuItemSession menuGroup in menuGroups)
-            {
-                menuGroup.Childs = menuItems.Where(x => x.ParentId == menuGroup.MenuId);
-            }
-
-            return menuGroups;
         }
     }
 }
