@@ -20,7 +20,7 @@ export default class DisciplineManagement extends Component {
             filter: {
                 from: moment().startOf('year'),
                 to: moment(),
-                isActive: '',
+                isActive: { value: '', label: '-- All --' },
                 groups: [],
                 employee: null
             },
@@ -85,7 +85,7 @@ export default class DisciplineManagement extends Component {
             params: {
                 from: filter.from.format('YYYY-MM-DD'),
                 to: filter.to.format('YYYY-MM-DD'),
-                isActive: filter.isActive,
+                isActive: filter.isActive ? filter.isActive.value : null,
                 employeeId: employeeId,
                 groupIds: groupIds
             }

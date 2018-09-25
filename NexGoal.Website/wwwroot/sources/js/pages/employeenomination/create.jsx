@@ -52,12 +52,12 @@ export default class Create extends Component {
     validateForm = values => {
         let errors = {};
 
-        if (!values.period) {
-            errors.period = 'Period is requried!';
+        if (!values.period || Array.isArray(values.period)) {
+            errors.period = 'Period is required!';
         }
 
-        if (!values.employee) {
-            errors.employee = 'Employee is requried!';
+        if (!values.employee || Array.isArray(values.employee)) {
+            errors.employee = 'Employee is required!';
         }
 
         return errors;
@@ -134,7 +134,7 @@ export default class Create extends Component {
                     <textarea className="form-control" name="comment" value={values.comment} onChange={handleChange} />
                 </FormGroup>
 
-                <button disabled={isSubmitting} type="submit" className="btn btn-primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</button>
+                <button disabled={isSubmitting} type="submit" className="btn btn-primary">{getResource('Submit')}</button>
             </form>
         );
     }

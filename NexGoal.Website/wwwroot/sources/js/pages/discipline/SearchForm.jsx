@@ -38,7 +38,7 @@ class SearchForm extends Component {
     }
 
     handleStatusChange(selectedOption) {
-        this.props.onFilterChange('isActive', selectedOption.value);
+        this.props.onFilterChange('isActive', selectedOption);
     }
 
     handleGroupChange(selectedOptions) {
@@ -56,7 +56,6 @@ class SearchForm extends Component {
 
     render() {
         const filter = this.props.filter;
-        const statusSelected = StatusOptions.find((option) => { return option.value === filter.isActive.toString(); });
 
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
@@ -83,7 +82,7 @@ class SearchForm extends Component {
                     <div className="control-content">
                         <div className="control-content">
                             <Select name="isActive" className="react-select-container" classNamePrefix="react-select"
-                                value={statusSelected} options={StatusOptions}
+                                value={filter.isActive} options={StatusOptions}
                                 isSearchable={false} isClearable={false}
                                 onChange={this.handleStatusChange}
                             />
