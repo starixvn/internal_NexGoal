@@ -7,6 +7,7 @@ module.exports = {
     client: {
         [`${styleDistPath}/main`]: `${styleSourcePath}/main.scss`,
         [`${styleDistPath}/error`]: `${styleSourcePath}/pages/error.scss`,
+        [`${styleDistPath}/home`]: `${styleSourcePath}/pages/home.scss`,
         [`${styleDistPath}/assignpermission`]: `${styleSourcePath}/pages/rolemanagement.scss`,
         [`${styleDistPath}/usermanagement`]: `${styleSourcePath}/pages/usermanagement.scss`,
         [`${styleDistPath}/nominationmanagement`]: `${styleSourcePath}/pages/nomination/index.scss`,
@@ -35,8 +36,8 @@ module.exports = {
         [`${jsDistPath}/period`]: `${jsSourcePath}/period/index.jsx`,
         [`${jsDistPath}/editperiod`]: `${jsSourcePath}/period/edit.jsx`,
         [`${jsDistPath}/selfevaluation`]: `${jsSourcePath}/selfevaluation/index.jsx`,
-        [`${jsDistPath}/createperformancecheckin`]: `${jsSourcePath}/selfevaluation/pci/create.jsx`,
-        [`${jsDistPath}/editperformancecheckin`]: `${jsSourcePath}/selfevaluation/pci/edit.jsx`,
+        [`${jsDistPath}/create-self-performance`]: `${jsSourcePath}/home/create-self-performance.jsx`,
+        [`${jsDistPath}/edit-self-performance`]: `${jsSourcePath}/home/edit-self-performance.jsx`,
         [`${jsDistPath}/createmembercheckin`]: `${jsSourcePath}/evaluation/index.jsx`,
         [`${jsDistPath}/editmembercheckin`]: `${jsSourcePath}/evaluation/edit.jsx`,
         [`${jsDistPath}/create-employee-nomination`]: `${jsSourcePath}/employeenomination/create.jsx`,

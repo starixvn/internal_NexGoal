@@ -27,11 +27,6 @@ export default class PerformanceCheckIn extends Component {
             creatorOptions: [],
             projectOptions: []
         };
-
-        this.handleFilterChange = this.handleFilterChange.bind(this);
-        this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
-        this.handlePageSizeChange = this.handlePageSizeChange.bind(this);
-        this.handlePageIndexChange = this.handlePageIndexChange.bind(this);
     }
 
     componentDidMount() {
@@ -60,7 +55,7 @@ export default class PerformanceCheckIn extends Component {
             }).catch(axiosError);
     }
 
-    getPerformanceRecords(filter) {
+    getPerformanceRecords = (filter) => {
         axios(resolveClientUrl('Self/PerformanceCheckIn/Index'), {
             params: {
                 fromDate: filter.fromDate.format('YYYY-MM-DD'),
@@ -78,19 +73,19 @@ export default class PerformanceCheckIn extends Component {
         }).catch(axiosError);
     }
 
-    handleFilterChange(name, value) {
+    handleFilterChange = (name, value) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
         });
     }
 
-    handleFilterSubmit() {
+    handleFilterSubmit = () => {
         const filter = this.state.filter;
 
         this.getPerformanceRecords(filter);
     }
 
-    handlePageSizeChange(event) {
+    handlePageSizeChange = (event) => {
         event.preventDefault();
 
         const nextPageSize = Number.parseInt(event.target.dataset.page);
@@ -107,7 +102,7 @@ export default class PerformanceCheckIn extends Component {
         }
     }
 
-    handlePageIndexChange(pageIndex) {
+    handlePageIndexChange = (pageIndex) => {
         const nextState = Object.assign({}, this.state.filter, { pageIndex: pageIndex });
 
         this.setState({ filter: nextState });

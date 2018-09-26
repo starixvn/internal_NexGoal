@@ -15,41 +15,41 @@
     public class MyCheckInController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IPerformanceCheckInService performanceCheckInService;
+        private readonly IPerformanceCheckInService performanceService;
 
         public MyCheckInController(
             ISessionService sessionService,
-            IPerformanceCheckInService performanceCheckInService)
+            IPerformanceCheckInService performanceService)
         {
             this.sessionService = sessionService;
-            this.performanceCheckInService = performanceCheckInService;
+            this.performanceService = performanceService;
         }
 
-        [Route("Self/PerformanceCheckIn/GetCreators")]
+        [Route("Self/Performance/GetCreators")]
         public async Task<JsonResult> GetCreators()
         {
-            IEnumerable<UserModel> creators = await performanceCheckInService.GetCreatorsAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<UserModel> creators = await performanceService.GetCreatorsAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(creators);
         }
 
-        [Route("Self/PerformanceCheckIn/Index")]
+        [Route("Self/Performance/Index")]
         public async Task<JsonResult> Index(GetPerformanceCheckInByEmployeeParam param)
         {
             param.EmployeeId = sessionService.EmployeeId;
             Tuple<IEnumerable<PerformanceRecordModel>, int> tuple =
-                await performanceCheckInService.GetPerformanceCheckInByEmployeeAsync(param).ConfigureAwait(false);
+                await performanceService.GetPerformanceCheckInByEmployeeAsync(param).ConfigureAwait(false);
 
             return Json(new { performanceRecords = tuple.Item1, totalItems = tuple.Item2 });
         }
 
-        [Route("Self/PerformanceCheckIn/Create")]
+        [Route("Self/Performance/Create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        [Route("Self/PerformanceCheckIn/Create")]
+        [Route("Self/Performance/Create")]
         [HttpPost]
         public async Task<JsonResult> Create(CreatePerformanceRecordModel performanceRecord)
         {
@@ -57,7 +57,7 @@
             {
                 performanceRecord.EmployeeId = sessionService.EmployeeId;
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                CommandResult commandResult = await performanceCheckInService.CreatePerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
+                CommandResult commandResult = await performanceService.CreatePerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -66,10 +66,10 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [Route("Self/PerformanceCheckIn/Edit/{id}")]
+        [Route("Self/Performance/Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            PerformanceRecordModel record = await performanceService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
             if (record == null)
             {
                 return RedirectToAction("PageNotFound", "Error");
@@ -83,7 +83,7 @@
             return View(id);
         }
 
-        [Route("Self/PerformanceCheckIn/Edit")]
+        [Route("Self/Performance/Edit")]
         [HttpPost]
         public async Task<JsonResult> Edit(EditPerformanceRecordModel performanceRecord)
         {
@@ -91,7 +91,7 @@
             {
                 performanceRecord.EmployeeId = sessionService.EmployeeId;
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                CommandResult commandResult = await performanceCheckInService.EditPerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
+                CommandResult commandResult = await performanceService.EditPerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -100,10 +100,10 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [Route("Self/PerformanceCheckIn/GetById/{id}")]
+        [Route("Self/Performance/GetById/{id}")]
         public async Task<JsonResult> GetById(int id)
         {
-            PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            PerformanceRecordModel record = await performanceService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(record);
         }

@@ -1,21 +1,30 @@
 ﻿import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class PerformanceRecord extends Component {
+    static propTypes = {
+        isHost: PropTypes.bool,
+        editUrl: PropTypes.string
+    };
+
+    static defaultProps = {
+        isHost: false,
+        editUrl: ''
+    };
+
     constructor(props) {
         super(props);
         this.state = {
             showCollapseExpandButton: false,
             isExpanded: false
         };
-
-        this.collapseExpandComment = this.collapseExpandComment.bind(this);
     }
 
     componentDidMount() {
         this.detectCollapseExpandComment();
     }
 
-    collapseExpandComment() {
+    collapseExpandComment = () => {
         this.setState({
             isExpanded: !this.state.isExpanded
         });
@@ -39,7 +48,6 @@ export default class PerformanceRecord extends Component {
                     <div className="name">{this.props.nickName}</div>
                     <span className="role">{this.props.jobTitle}</span>
                 </div>
-                <div className="nominated">{this.props.action} <span className="employee">{this.props.nickName}</span> for {this.props.period}</div>
                 <div className="date">
                     <div className="final-date">{this.props.finalDate}</div><div className="edit-date">Edited on {this.props.editDate}</div>
                 </div>
@@ -54,7 +62,14 @@ export default class PerformanceRecord extends Component {
                 </div>
 
                 <div className="footer">
-                    <div className="edit"><span className="icon-square-edit-outline" /></div>
+                    {
+                        this.props.isHost && this.props.editUrl &&
+                        <div className="edit">
+                            <a href={this.props.editUrl}>
+                                <span className="icon-square-edit-outline" />
+                            </a>
+                        </div>
+                    }
                     <div className="grade">Grade <span className="grade-exceptional">{this.props.grade}</span></div>
                     <div className="project">Project <span className="project-detail">{this.props.projects}</span></div>
                 </div>
