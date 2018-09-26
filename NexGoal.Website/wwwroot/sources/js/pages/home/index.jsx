@@ -1,5 +1,6 @@
 ﻿import React, { Component } from "react";
 import ReactDOM from "react-dom";
+import PersonalTimeline from "./PersonalTimeline";
 
 export default class App extends Component {
     constructor(props) {
@@ -9,7 +10,7 @@ export default class App extends Component {
     render() {
         return (
             <div>
-                Hello
+                <PersonalTimeline />
             </div>
         );
     }

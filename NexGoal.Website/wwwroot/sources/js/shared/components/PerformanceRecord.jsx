@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import { Flip } from 'react-toastify';
 
 export default class PerformanceRecord extends Component {
     constructor(props) {
