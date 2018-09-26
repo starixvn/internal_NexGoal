@@ -45,7 +45,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetAll(int? targetTypeId = null, bool? isActive = null)
+        public async Task<JsonResult> GetAll(int? targetTypeId = null, bool? isActive = null)
         {
             IEnumerable<FlowTemplateModel> flowTemplates = await flowTemplateService.GetAllAsync(targetTypeId, isActive).ConfigureAwait(false);
 
@@ -54,7 +54,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> Create(CreateFlowTemplateModel flowTemplate)
+        public async Task<JsonResult> Create(CreateFlowTemplateModel flowTemplate)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(EditFlowTemplateModel flowTemplate)
+        public async Task<JsonResult> Edit(EditFlowTemplateModel flowTemplate)
         {
             if (ModelState.IsValid)
             {
@@ -100,7 +100,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> EditStatus(int flowTemplateId, bool isActive)
+        public async Task<JsonResult> EditStatus(int flowTemplateId, bool isActive)
         {
             CommandResult result = await flowTemplateService.EditStatusAsync(flowTemplateId, isActive).ConfigureAwait(false);
 
@@ -109,7 +109,7 @@
 
         [HttpDelete]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> Delete(int flowTemplateId)
+        public async Task<JsonResult> Delete(int flowTemplateId)
         {
             CommandResult commandResult = await flowTemplateService.DeleteAsync(flowTemplateId).ConfigureAwait(false);
 
@@ -130,7 +130,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<JsonResult> GetById(int id)
         {
             FlowTemplateModel flowTemplate = await flowTemplateService.GetByIdAsync(id).ConfigureAwait(false);
 
@@ -138,7 +138,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetEmployeeById(int employeeId)
+        public async Task<JsonResult> GetEmployeeById(int employeeId)
         {
             UserModel user = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
 

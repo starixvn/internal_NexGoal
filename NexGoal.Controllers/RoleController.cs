@@ -37,7 +37,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> AssignPermission(int? roleId = null)
+        public async Task<JsonResult> AssignPermission(int? roleId = null)
         {
             string[] refNames = { ReferenceResource.SystemRole };
             IEnumerable<FunctionModel> functions = await functionService.GetFunctionsAsync().ConfigureAwait(false);
@@ -58,7 +58,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> AssignPermission(int roleId, IEnumerable<RolePermissionModel> permissions)
+        public async Task<JsonResult> AssignPermission(int roleId, IEnumerable<RolePermissionModel> permissions)
         {
             CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(roleId, permissions).ConfigureAwait(false);
 

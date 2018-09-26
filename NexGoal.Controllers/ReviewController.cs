@@ -96,13 +96,9 @@
             return View(id);
         }
 
-        public async Task<IActionResult> GetPARecordById(int id)
+        public async Task<JsonResult> GetPARecordById(int id)
         {
             PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-            if (paRecord == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
 
             return Json(paRecord);
         }

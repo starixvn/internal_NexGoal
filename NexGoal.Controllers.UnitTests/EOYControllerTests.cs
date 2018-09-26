@@ -117,10 +117,10 @@
                 Code = 0
             };
             var controller = GetEOYController();
-            eoyService.CreateAsync(eoy).Returns(expected);
+            eoyService.EditAsync(eoy).Returns(expected);
 
             // Act
-            var actual = await controller.Create(eoy);
+            var actual = await controller.Edit(eoy);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -169,10 +169,8 @@
 
         #endregion Details
 
-        #region GetById
-
         [Fact]
-        public async Task GetById_EOYIsExist_ReturnAsExpectedJsonResult()
+        public async Task GetById_WhenCalled_ReturnAsExpectedJsonResult()
         {
             // Arrange
             var eoy = new EOQYModel();
@@ -187,8 +185,6 @@
             var result = Assert.IsAssignableFrom<EOQYModel>(jsonResult.Value);
             Assert.Equal(eoy, result);
         }
-
-        #endregion GetById
 
         [Fact]
         public async Task Delete_WhenCalled_ReturnAsExpectedCommandResult()

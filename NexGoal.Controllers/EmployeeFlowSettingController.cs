@@ -21,7 +21,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetEmployeeHaveSetting(
+        public async Task<JsonResult> GetEmployeeHaveSetting(
             int flowTemplateId,
             int? groupId = null)
         {
@@ -31,7 +31,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetEmployeeUnsetting(
+        public async Task<JsonResult> GetEmployeeUnsetting(
             int flowTemplateId,
             int? groupId = null)
         {
@@ -41,7 +41,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetEmployeeFlowSetting(int flowTemplateId)
+        public async Task<JsonResult> GetEmployeeFlowSetting(int flowTemplateId)
         {
             IEnumerable<EmployeeFlowSettingModel> flowSettings = await flowSettingService.GetEmployeeFlowSettingAsync(flowTemplateId).ConfigureAwait(false);
 
@@ -49,7 +49,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetById(int employeeId, int flowTemplateId)
+        public async Task<JsonResult> GetById(int employeeId, int flowTemplateId)
         {
             EmployeeFlowSettingModel flowSetting = await flowSettingService.GetByIdAsync(employeeId, flowTemplateId).ConfigureAwait(false);
 
@@ -58,7 +58,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(int employeeId, int flowTemplateId, IEnumerable<FlowSettingModel> settings)
+        public async Task<JsonResult> Edit(int employeeId, int flowTemplateId, IEnumerable<FlowSettingModel> settings)
         {
             CommandResult commandResult = await flowSettingService.EditAsync(employeeId, flowTemplateId, settings).ConfigureAwait(false);
 
@@ -67,7 +67,7 @@
 
         [HttpDelete]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> Delete(int employeeId, int flowTemplateId)
+        public async Task<JsonResult> Delete(int employeeId, int flowTemplateId)
         {
             CommandResult commandResult = await flowSettingService.DeleteAsync(employeeId, flowTemplateId).ConfigureAwait(false);
 

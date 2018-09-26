@@ -28,7 +28,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> GetAll(int? statusId = null)
+        public async Task<JsonResult> GetAll(int? statusId = null)
         {
             IEnumerable<EOQYModel> eoys = await eoyService.GetAllAsync(statusId).ConfigureAwait(false);
             IEnumerable<EOQYViewModel> viewModels = eoys != null ? eoys.Select(x => new EOQYViewModel
@@ -47,7 +47,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Create(CreateEOYModel eoy)
+        public async Task<JsonResult> Create(CreateEOYModel eoy)
         {
             if (ModelState.IsValid)
             {
@@ -78,7 +78,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(EditEOYModel eoy)
+        public async Task<JsonResult> Edit(EditEOYModel eoy)
         {
             if (ModelState.IsValid)
             {
@@ -105,7 +105,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<JsonResult> GetById(int id)
         {
             EOQYModel eoy = await eoyService.GetByIdAsync(id).ConfigureAwait(false);
 
@@ -114,7 +114,7 @@
 
         [HttpDelete]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<JsonResult> Delete(int id)
         {
             CommandResult commandResult = await eoyService.DeleteAsync(id).ConfigureAwait(false);
 
@@ -122,7 +122,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> GetNominatorSetting(
+        public async Task<JsonResult> GetNominatorSetting(
             int eoyId,
             string keyword = null,
             string groupIds = null,
@@ -145,7 +145,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> EditNominatorSetting(EditNominatorSettingModel setting)
+        public async Task<JsonResult> EditNominatorSetting(EditNominatorSettingModel setting)
         {
             CommandResult commandResult = await eoyService.EditNominatorSettingAsync(setting).ConfigureAwait(false);
 

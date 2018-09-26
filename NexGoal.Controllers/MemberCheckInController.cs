@@ -25,7 +25,7 @@
         }
 
         [Route("Member/PerformanceCheckIn/GetMembers")]
-        public async Task<IActionResult> GetMembers()
+        public async Task<JsonResult> GetMembers()
         {
             IEnumerable<UserModel> members = await performanceCheckInService.GetMembersAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
@@ -34,7 +34,7 @@
 
         [Route("Member/PerformanceCheckIn/Create")]
         [HttpPost]
-        public async Task<IActionResult> Create(CreatePerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> Create(CreatePerformanceRecordModel performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -68,7 +68,7 @@
 
         [Route("Member/PerformanceCheckIn/Edit")]
         [HttpPost]
-        public async Task<IActionResult> Edit(EditPerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> Edit(EditPerformanceRecordModel performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -84,7 +84,7 @@
         }
 
         [Route("Member/PerformanceCheckIn/GetById/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<JsonResult> GetById(int id)
         {
             PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 

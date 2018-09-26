@@ -26,7 +26,7 @@
         }
 
         [Route("Self/PerformanceCheckIn/GetCreators")]
-        public async Task<IActionResult> GetCreators()
+        public async Task<JsonResult> GetCreators()
         {
             IEnumerable<UserModel> creators = await performanceCheckInService.GetCreatorsAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
@@ -34,7 +34,7 @@
         }
 
         [Route("Self/PerformanceCheckIn/Index")]
-        public async Task<IActionResult> Index(GetPerformanceCheckInByEmployeeParam param)
+        public async Task<JsonResult> Index(GetPerformanceCheckInByEmployeeParam param)
         {
             param.EmployeeId = sessionService.EmployeeId;
             Tuple<IEnumerable<PerformanceRecordModel>, int> tuple =
@@ -51,7 +51,7 @@
 
         [Route("Self/PerformanceCheckIn/Create")]
         [HttpPost]
-        public async Task<IActionResult> Create(CreatePerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> Create(CreatePerformanceRecordModel performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -85,7 +85,7 @@
 
         [Route("Self/PerformanceCheckIn/Edit")]
         [HttpPost]
-        public async Task<IActionResult> Edit(EditPerformanceRecordModel performanceRecord)
+        public async Task<JsonResult> Edit(EditPerformanceRecordModel performanceRecord)
         {
             if (ModelState.IsValid)
             {
@@ -101,7 +101,7 @@
         }
 
         [Route("Self/PerformanceCheckIn/GetById/{id}")]
-        public async Task<IActionResult> GetById(int id)
+        public async Task<JsonResult> GetById(int id)
         {
             PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 

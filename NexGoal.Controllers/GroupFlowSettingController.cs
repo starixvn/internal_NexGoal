@@ -21,7 +21,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetGroupHaveSetting(int flowTemplateId)
+        public async Task<JsonResult> GetGroupHaveSetting(int flowTemplateId)
         {
             IEnumerable<UserGroupModel> groups = await flowSettingService.GetGroupHaveSettingAsync(flowTemplateId).ConfigureAwait(false);
 
@@ -29,7 +29,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetGroupFlowSetting(int flowTemplateId)
+        public async Task<JsonResult> GetGroupFlowSetting(int flowTemplateId)
         {
             IEnumerable<GroupFlowSettingModel> flowSettings = await flowSettingService.GetGroupFlowSettingAsync(flowTemplateId).ConfigureAwait(false);
 
@@ -37,7 +37,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<IActionResult> GetById(int groupId, int flowTemplateId)
+        public async Task<JsonResult> GetById(int groupId, int flowTemplateId)
         {
             GroupFlowSettingModel flowSetting = await flowSettingService.GetByIdAsync(groupId, flowTemplateId).ConfigureAwait(false);
 
@@ -46,7 +46,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(int groupId, int flowTemplateId, IEnumerable<FlowSettingModel> settings)
+        public async Task<JsonResult> Edit(int groupId, int flowTemplateId, IEnumerable<FlowSettingModel> settings)
         {
             CommandResult commandResult = await flowSettingService.EditAsync(groupId, flowTemplateId, settings).ConfigureAwait(false);
 
@@ -55,7 +55,7 @@
 
         [HttpDelete]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<IActionResult> Delete(int groupId, int flowTemplateId)
+        public async Task<JsonResult> Delete(int groupId, int flowTemplateId)
         {
             CommandResult commandResult = await flowSettingService.DeleteAsync(groupId, flowTemplateId).ConfigureAwait(false);
 

@@ -20,7 +20,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> SearchEmployees(
+        public async Task<JsonResult> SearchEmployees(
             string keyword = null,
             int? groupId = null,
             bool? isEnabled = true)
@@ -31,7 +31,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetGroups()
+        public async Task<JsonResult> GetGroups()
         {
             IEnumerable<UserGroupModel> groups = await commonService.GetGroupsAsync().ConfigureAwait(false);
 
@@ -39,7 +39,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetTargetTypes()
+        public async Task<JsonResult> GetTargetTypes()
         {
             string[] refNames = { ReferenceResource.TargetType };
             IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
@@ -49,7 +49,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetEvaluateStatuses()
+        public async Task<JsonResult> GetEvaluateStatuses()
         {
             string[] refNames = { ReferenceResource.EvaluateStatus };
             var referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
@@ -59,7 +59,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPerformanceStatuses()
+        public async Task<JsonResult> GetPerformanceStatuses()
         {
             string[] refNames = { ReferenceResource.PerformanceStatus };
             var referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
@@ -71,7 +71,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetProjects()
+        public async Task<JsonResult> GetProjects()
         {
             IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
 
@@ -79,7 +79,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPerformanceGrades()
+        public async Task<JsonResult> GetPerformanceGrades()
         {
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 

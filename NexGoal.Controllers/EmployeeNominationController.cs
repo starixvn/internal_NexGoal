@@ -1,11 +1,13 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Services;
@@ -27,19 +29,19 @@
             return View();
         }
 
-        public async Task<IActionResult> GetNominationPeriodsForNominator()
+        public async Task<JsonResult> GetNominationPeriodsForNominator()
         {
-            var result = await employeeNominationService.GetNominationPeriodsForNominator(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForNominator(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateEmployeeNominationViewModel model)
+        public async Task<JsonResult> Create(CreateEmployeeNominationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await employeeNominationService.Create(new CreateEmployeeNominationModel
+                CommandResult commandResult = await employeeNominationService.Create(new CreateEmployeeNominationModel
                 {
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
@@ -47,12 +49,10 @@
                     Comment = model.Comment
                 }).ConfigureAwait(false);
 
-                return Json(result);
+                return Json(commandResult);
             }
 
-            var errors = from item in ModelState
-                         where item.Value.Errors.Any()
-                         select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
 
             return Json(new { isSuccessful = false, errors });
         }

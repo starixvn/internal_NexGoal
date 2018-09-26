@@ -28,7 +28,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> GetAll(int? year = null, int? statusId = null)
+        public async Task<JsonResult> GetAll(int? year = null, int? statusId = null)
         {
             IEnumerable<EOQYModel> eoqs = await eoqService.GetAllAsync(year, statusId).ConfigureAwait(false);
             IEnumerable<EOQYViewModel> viewModels = eoqs != null ? eoqs.Select(x => new EOQYViewModel
@@ -47,7 +47,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> GetYears()
+        public async Task<JsonResult> GetYears()
         {
             IEnumerable<int> years = await eoqService.GetYearsAsync().ConfigureAwait(false);
 
@@ -56,7 +56,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Create(CreateEOQModel eoq)
+        public async Task<JsonResult> Create(CreateEOQModel eoq)
         {
             if (ModelState.IsValid)
             {
@@ -87,7 +87,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(EditEOQModel eoq)
+        public async Task<JsonResult> Edit(EditEOQModel eoq)
         {
             if (ModelState.IsValid)
             {
@@ -123,7 +123,7 @@
 
         [HttpDelete]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<JsonResult> Delete(int id)
         {
             CommandResult commandResult = await eoqService.DeleteAsync(id).ConfigureAwait(false);
 
@@ -131,7 +131,7 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
-        public async Task<IActionResult> GetNominatorSetting(
+        public async Task<JsonResult> GetNominatorSetting(
             int eoqId,
             string keyword = null,
             string groupIds = null,
@@ -154,7 +154,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> EditNominatorSetting(EditNominatorSettingModel setting)
+        public async Task<JsonResult> EditNominatorSetting(EditNominatorSettingModel setting)
         {
             CommandResult commandResult = await eoqService.EditNominatorSettingAsync(setting).ConfigureAwait(false);
 

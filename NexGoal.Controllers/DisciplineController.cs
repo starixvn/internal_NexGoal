@@ -1,12 +1,14 @@
 ﻿namespace NexGoal.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.Discipline;
     using NexGoal.Services;
@@ -31,29 +33,29 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetDisciplines(DateTime from, DateTime to, bool? isActive, string groupIds, int? employeeId)
+        public async Task<JsonResult> GetDisciplines(DateTime from, DateTime to, bool? isActive, string groupIds, int? employeeId)
         {
-            var disciplines = await disciplineService.GetDisciplines(from, to, isActive, groupIds, employeeId).ConfigureAwait(false);
+            IEnumerable<DisciplineModel> disciplines = await disciplineService.GetDisciplines(from, to, isActive, groupIds, employeeId).ConfigureAwait(false);
 
             return Json(disciplines);
         }
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> EditStatus(int disciplineId, bool isActive)
+        public async Task<JsonResult> EditStatus(int disciplineId, bool isActive)
         {
-            var result = await disciplineService.EditStatus(disciplineId, isActive, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await disciplineService.EditStatus(disciplineId, isActive, sessionService.EmployeeId).ConfigureAwait(false);
 
-            return Json(result);
+            return Json(commandResult);
         }
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Create(AddDisciplineViewModel model)
+        public async Task<JsonResult> Create(AddDisciplineViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await disciplineService.Create(new AddDisciplineModel
+                CommandResult commandResult = await disciplineService.Create(new AddDisciplineModel
                 {
                     EmployeeId = model.EmployeeId,
                     Content = model.Content,
@@ -61,22 +63,20 @@
                     CreatedBy = sessionService.EmployeeId
                 }).ConfigureAwait(false);
 
-                return Json(result);
+                return Json(commandResult);
             }
 
-            var errors = from item in ModelState
-                         where item.Value.Errors.Any()
-                         select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(EditDisciplineViewModel model)
+        public async Task<JsonResult> Edit(EditDisciplineViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var result = await disciplineService.Edit(new EditDisciplineModel
+                CommandResult commandResult = await disciplineService.Edit(new EditDisciplineModel
                 {
                     DisciplineId = model.DisciplineId,
                     EffectiveDate = model.EffectiveDate,
@@ -84,12 +84,10 @@
                     ModifiedBy = sessionService.EmployeeId
                 }).ConfigureAwait(false);
 
-                return Json(result);
+                return Json(commandResult);
             }
 
-            var errors = from item in ModelState
-                         where item.Value.Errors.Any()
-                         select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
     }

@@ -40,7 +40,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPeriods(bool? isActive)
+        public async Task<JsonResult> GetPeriods(bool? isActive)
         {
             IEnumerable<PeriodModel> periods = await periodService.GetPeriods(isActive).ConfigureAwait(false);
 
@@ -48,7 +48,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetPeriodProcessSetting(int id)
+        public async Task<JsonResult> GetPeriodProcessSetting(int id)
         {
             IEnumerable<PeriodProcessSettingModel> processSettings = await periodService.GetPeriodProcessSetting(id).ConfigureAwait(false);
 
@@ -56,7 +56,7 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> Get(int id)
+        public async Task<JsonResult> Get(int id)
         {
             PeriodModel period = await periodService.GetPeriod(id).ConfigureAwait(false);
 
@@ -65,7 +65,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> Create(CreatePeriodViewModel model)
+        public async Task<JsonResult> Create(CreatePeriodViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -88,15 +88,13 @@
                 return Json(commandResult);
             }
 
-            var errors = from item in ModelState
-                         where item.Value.Errors.Any()
-                         select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> EditStatus(int periodId, bool isActive)
+        public async Task<JsonResult> EditStatus(int periodId, bool isActive)
         {
             CommandResult commandResult = await periodService.EditStatus(periodId, isActive).ConfigureAwait(false);
 
@@ -105,7 +103,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> Delete(int periodId)
+        public async Task<JsonResult> Delete(int periodId)
         {
             CommandResult commandResult = await periodService.Delete(periodId).ConfigureAwait(false);
 
@@ -114,7 +112,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(EditPeriodViewModel model)
+        public async Task<JsonResult> Edit(EditPeriodViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -137,15 +135,13 @@
                 return Json(commandResult);
             }
 
-            var errors = from item in ModelState
-                         where item.Value.Errors.Any()
-                         select new { item.Key, item.Value.Errors.FirstOrDefault().ErrorMessage };
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
             return Json(new { isSuccessful = false, errors });
         }
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> EditProcessSetting(int periodId, IEnumerable<PeriodProcessSettingModel> settings)
+        public async Task<JsonResult> EditProcessSetting(int periodId, IEnumerable<PeriodProcessSettingModel> settings)
         {
             var processSettings = settings.Select(x => new EditProcessSettingModel
             {
@@ -163,7 +159,7 @@
 
         [HttpGet]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> GetEmployeeSettings(int periodId, int? groupId, bool? isEvaluated, int? statusId)
+        public async Task<JsonResult> GetEmployeeSettings(int periodId, int? groupId, bool? isEvaluated, int? statusId)
         {
             IEnumerable<PARecordModel> result = await periodService.GetEmployeeSettings(periodId, groupId, isEvaluated, statusId).ConfigureAwait(false);
 
@@ -172,7 +168,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId)
+        public async Task<JsonResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId)
         {
             CommandResult commandResult = await periodService.CreateEmployeeSettings(periodId, groupIds, employeeId).ConfigureAwait(false);
 
@@ -181,7 +177,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> EditEmployeeSetting(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingViewModel> processes)
+        public async Task<JsonResult> EditEmployeeSetting(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingViewModel> processes)
         {
             var serviceModels = processes.Select(x => new EditEmployeeSettingModel
             {
@@ -198,7 +194,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> EditEmployeeSettingStatus(int paRecordId, int statusId)
+        public async Task<JsonResult> EditEmployeeSettingStatus(int paRecordId, int statusId)
         {
             CommandResult commandResult = await periodService.EditEmployeeSettingStatus(paRecordId, statusId).ConfigureAwait(false);
 
@@ -207,7 +203,7 @@
 
         [HttpGet]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> GetEmployeeSetting(int paRecordId)
+        public async Task<JsonResult> GetEmployeeSetting(int paRecordId)
         {
             PARecordModel result = await periodService.GetEmployeeSetting(paRecordId).ConfigureAwait(false);
 
@@ -216,7 +212,7 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<IActionResult> GeneratePA(int periodId, string paRecordIds)
+        public async Task<JsonResult> GeneratePA(int periodId, string paRecordIds)
         {
             CommandResult commandResult = await periodService.GeneratePA(periodId, paRecordIds, sessionService.EmployeeId).ConfigureAwait(false);
 
