@@ -2,8 +2,6 @@
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import HorizontalTimeline from 'react-horizontal-timeline';
-import PerformanceRecord from '../../shared/components/PerformanceRecord';
-import SwipeableViews from 'react-swipeable-views';
 import TimelineLabel from './TimelineLabel';
 
 export default class PersonalTimeline extends Component {
