@@ -61,7 +61,9 @@ export default class WorkLoad extends Component {
             },
         }
         return (
-            <Pie data={data} options={options} />
+            <div style={{ width: '500px', height: '400px' }} >
+                <Pie data={data} options={options} />
+            </div>
         );
     }
 }
