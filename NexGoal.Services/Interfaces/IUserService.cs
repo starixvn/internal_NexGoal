@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models;
     using NexGoal.Models.UserManagement;
 
     public interface IUserService
@@ -15,5 +16,7 @@
         Task<IEnumerable<UserRoleModel>> GetRolesForUser(int employeeId);
 
         Task<CommandResult> EditUserRoles(EditUserRolesModel model);
+
+        Task<IEnumerable<UserWorkLoadModel>> GetWorkLoad(int employeeId);
     }
 }

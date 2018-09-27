@@ -112,5 +112,6 @@
   </Function>
   <Function Name="Dashboard">
     <Setting Key="Dashboard_GetPARecord" SpName="Dashboard_GetPARecord" DbName="bodb_NexGoal" Plain="0"></Setting>
-  </Function>
+    <Setting Key="User_GetWorkLoad" SpName="User_GetWorkLoad" DbName="bodb_NexGoal" Plain="0"></Setting>
+ </Function>
 </Functions>

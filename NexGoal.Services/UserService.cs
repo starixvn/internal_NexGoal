@@ -4,8 +4,10 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Criteria.PersonalInformation;
     using NexGoal.Criteria.UserManagement;
     using NexGoal.Models.Common;
+    using NexGoal.Models;
     using NexGoal.Models.UserManagement;
 
     public class UserService : IUserService
@@ -49,6 +51,11 @@
                 SelectedRoleIds = model.SelectedRoleIds,
                 ModifiedBy = model.ModifiedBy
             }).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<UserWorkLoadModel>> GetWorkLoad(int employeeId)
+        {
+            return await baseService.GetDataAsync<UserWorkLoadModel>(new GetUserWorkLoadCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
         }
     }
 }

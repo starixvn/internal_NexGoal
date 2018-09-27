@@ -3,13 +3,28 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { stringify } from 'qs';
 import { Pie } from 'react-chartjs-2';
-
+import 'chartjs-plugin-datalabels';
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 
 export default class WorkLoad extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            workLoad: []
+        }
+    }
+
+    componentDidMount() {
+        this.getWorkLoad();
+    }
+
+    getWorkLoad = () => {
+        axios.get(resolveClientUrl('Home/GetWorkLoad'))
+            .then(response => {
+                this.setState({ workLoad: response.data });
+            }).catch(axiosError);
     }
 
     generateColors = number => {
@@ -31,16 +46,11 @@ export default class WorkLoad extends Component {
     render() {
         const data = {
             datasets: [{
-                data: [45, 22, 33, 66],
-                backgroundColor: this.generateColors(3)
+                data: this.state.workLoad.map(e => e.totalHours),
+                backgroundColor: this.generateColors(this.state.workLoad.length),
             }],
 
-            labels: [
-                'NexGoal',
-                'HRP',
-                'NexHRM',
-                'OWP'
-            ]
+            labels: this.state.workLoad.map(e => e.name)
         };
 
         const options = {
@@ -50,7 +60,7 @@ export default class WorkLoad extends Component {
                         var dataset = data.datasets[tooltipItem.datasetIndex];
                         var meta = dataset._meta[0];
                         var currentValue = dataset.data[tooltipItem.index];
-                        var percentage = parseFloat((currentValue / meta.total * 100).toFixed(1))
+                        var percentage = parseFloat((currentValue / meta.total * 100).toFixed(1));
 
                         return `${currentValue} (${percentage}%)`;
                     },
@@ -59,6 +69,13 @@ export default class WorkLoad extends Component {
                     }
                 }
             },
+            plugins: {
+                datalabels: {
+                    backgroundColor: '#fff',
+                    color: '#000',
+                    anchor: 'end'
+                }
+            }
         }
         return (
             <div style={{ width: '500px', height: '400px' }} >
