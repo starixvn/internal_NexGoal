@@ -8,6 +8,7 @@
     using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.Common;
     using NexGoal.Models.UserManagement;
     using NexGoal.Services;
     using NexGoal.ViewModels.UserManagement;
@@ -33,14 +34,14 @@
 
         public async Task<JsonResult> GetUsers(string keyword, int? groupId, bool? isLocal, bool isDisabledUser)
         {
-            IEnumerable<UserModel> users = await userService.GetUsers(keyword, groupId, isLocal, isDisabledUser).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> users = await userService.GetUsers(keyword, groupId, isLocal, isDisabledUser).ConfigureAwait(false);
 
             return Json(users);
         }
 
         public async Task<JsonResult> GetUser(int employeeId)
         {
-            UserModel user = await userService.GetUser(employeeId).ConfigureAwait(false);
+            EmployeeBaseModel user = await userService.GetUser(employeeId).ConfigureAwait(false);
 
             return Json(user);
         }

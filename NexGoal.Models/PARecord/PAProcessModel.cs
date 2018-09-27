@@ -1,8 +1,8 @@
 ﻿namespace NexGoal.Models.PARecord
 {
     using System;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
-    using NexGoal.Models.UserManagement;
 
     public class PAProcessModel
     {
@@ -12,7 +12,7 @@
         public string Process { get; set; }
 
         public int EvaluatorId { get; set; }
-        public UserModel Evaluator { get; set; }
+        public EmployeeBaseModel Evaluator { get; set; }
 
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }

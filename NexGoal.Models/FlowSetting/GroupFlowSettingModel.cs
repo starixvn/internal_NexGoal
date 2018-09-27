@@ -1,9 +1,9 @@
 ﻿namespace NexGoal.Models.FlowSetting
 {
     using System.Collections.Generic;
-    using NexGoal.Models.UserManagement;
+    using NexGoal.Models.Common;
 
-    public class GroupFlowSettingModel : UserGroupModel
+    public class GroupFlowSettingModel : GroupBaseModel
     {
         public IList<FlowSettingModel> HumanResources { get; set; } = new List<FlowSettingModel>();
         public FlowSettingModel Evaluator { get; set; }

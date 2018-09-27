@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Models.UserManagement;
+    using NexGoal.Models.Common;
 
     public class PerformanceRecordModel
     {
@@ -21,9 +21,9 @@
         public IEnumerable<ProjectModel> Projects { get; set; } = new List<ProjectModel>();
 
         public int EmployeeId { get; set; }
-        public UserModel Employee { get; set; }
+        public EmployeeBaseModel Employee { get; set; }
 
         public int CreatorId { get; set; }
-        public UserModel Creator { get; set; }
+        public EmployeeBaseModel Creator { get; set; }
     }
 }

@@ -6,6 +6,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.UserManagement;
+    using NexGoal.Models.Common;
     using NexGoal.Models.UserManagement;
     using NSubstitute;
     using Xunit;
@@ -17,9 +18,9 @@
         [Fact]
         public async Task GetUsers_WhenCalled_ReturnExpectedUsers()
         {
-            var expectedUsers = new List<UserModel>
+            var expectedUsers = new List<EmployeeBaseModel>
             {
-                new UserModel
+                new EmployeeBaseModel
                 {
                     EmployeeId = 1,
                     FullName = "Eha",
@@ -28,7 +29,7 @@
             };
 
             var service = GetUserService();
-            baseService.GetDataAsync<UserModel>(Arg.Any<GetUsersCriteria>()).Returns(expectedUsers);
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetUsersCriteria>()).Returns(expectedUsers);
 
             var result = await service.GetUsers(null, null, null, false);
 
@@ -38,7 +39,7 @@
         [Fact]
         public async Task GetUser_WhenCalled_ReturnExpectedUser()
         {
-            var expectedUser = new UserModel
+            var expectedUser = new EmployeeBaseModel
             {
                 EmployeeId = 1,
                 FullName = "Eha",
@@ -46,7 +47,7 @@
             };
 
             var service = GetUserService();
-            baseService.GetDataEntityAsync<UserModel>(Arg.Any<GetUserCriteria>()).Returns(expectedUser);
+            baseService.GetDataEntityAsync<EmployeeBaseModel>(Arg.Any<GetUserCriteria>()).Returns(expectedUser);
 
             var result = await service.GetUser(1);
 

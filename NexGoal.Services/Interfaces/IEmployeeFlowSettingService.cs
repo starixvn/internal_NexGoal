@@ -3,14 +3,14 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Models.UserManagement;
 
     public interface IEmployeeFlowSettingService
     {
-        Task<IEnumerable<UserModel>> GetEmployeeHaveSettingAsync(int flowTempalteId, int? groupId = null);
+        Task<IEnumerable<EmployeeBaseModel>> GetEmployeeHaveSettingAsync(int flowTempalteId, int? groupId = null);
 
-        Task<IEnumerable<UserModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null);
+        Task<IEnumerable<EmployeeBaseModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null);
 
         Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync(int flowTempalteId);
 

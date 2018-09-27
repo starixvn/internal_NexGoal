@@ -5,9 +5,9 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PARecord;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
-    using NexGoal.Models.UserManagement;
     using NSubstitute;
     using Xunit;
 
@@ -22,12 +22,12 @@
         public async Task GetPeriodByActorAsync_WhenCalled_ReturnAsExpectedPeriods()
         {
             // Arrange
-            var expected = new List<PeriodModel>
+            var expected = new List<PeriodBaseModel>
             {
                 new PeriodModel { PeriodId = 1, Name = "1H 2018" }
             };
             var service = GetPARecordService();
-            baseService.GetDataAsync<PeriodModel>(Arg.Any<GetPeriodByActorCriteria>()).Returns(expected);
+            baseService.GetDataAsync<PeriodBaseModel>(Arg.Any<GetPeriodByActorCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetPeriodByActorAsync(1);
@@ -40,12 +40,12 @@
         public async Task GetGroupByActorAsync_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var expected = new List<UserGroupModel>
+            var expected = new List<GroupBaseModel>
             {
-                new UserGroupModel { GroupId = 1, Name = "Nexus" }
+                new GroupBaseModel { GroupId = 1, Name = "Nexus" }
             };
             var service = GetPARecordService();
-            baseService.GetDataAsync<UserGroupModel>(Arg.Any<GetGroupByActorCriteria>()).Returns(expected);
+            baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupByActorCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetGroupByActorAsync(1, 1);

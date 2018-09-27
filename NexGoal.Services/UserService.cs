@@ -5,6 +5,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.UserManagement;
+    using NexGoal.Models.Common;
     using NexGoal.Models.UserManagement;
 
     public class UserService : IUserService
@@ -16,9 +17,9 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<UserModel>> GetUsers(string keyword, int? groupId, bool? isLocal, bool isDisabledUser)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetUsers(string keyword, int? groupId, bool? isLocal, bool isDisabledUser)
         {
-            return await baseService.GetDataAsync<UserModel>(new GetUsersCriteria
+            return await baseService.GetDataAsync<EmployeeBaseModel>(new GetUsersCriteria
             {
                 Keyword = keyword,
                 GroupId = groupId,
@@ -27,9 +28,9 @@
             }).ConfigureAwait(false);
         }
 
-        public async Task<UserModel> GetUser(int employeeId)
+        public async Task<EmployeeBaseModel> GetUser(int employeeId)
         {
-            return await baseService.GetDataEntityAsync<UserModel>(new GetUserCriteria
+            return await baseService.GetDataEntityAsync<EmployeeBaseModel>(new GetUserCriteria
             {
                 EmployeeId = employeeId
             }).ConfigureAwait(false);

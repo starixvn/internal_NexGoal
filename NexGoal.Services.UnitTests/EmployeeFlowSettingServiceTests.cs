@@ -5,8 +5,8 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.FlowSetting;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Models.UserManagement;
     using NSubstitute;
     using Xunit;
 
@@ -21,12 +21,12 @@
         public async Task GetEmployeeHaveSettingAsync_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var expected = new List<UserModel>
+            var expected = new List<EmployeeBaseModel>
             {
-                new UserModel { EmployeeId = 1, NickName = "Tim" }
+                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
             };
             var service = GetEmployeeFlowSettingService();
-            baseService.GetDataAsync<UserModel>(Arg.Any<GetEmployeeHaveSettingCriteria>()).Returns(expected);
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetEmployeeHaveSettingCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetEmployeeHaveSettingAsync(1);
@@ -39,12 +39,12 @@
         public async Task GetEmployeeUnsettingAsync_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var expected = new List<UserModel>
+            var expected = new List<EmployeeBaseModel>
             {
-                new UserModel { EmployeeId = 1, NickName = "Tim" }
+                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
             };
             var service = GetEmployeeFlowSettingService();
-            baseService.GetDataAsync<UserModel>(Arg.Any<GetEmployeeUnsettingCriteria>()).Returns(expected);
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetEmployeeUnsettingCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetEmployeeUnsettingAsync(1);
@@ -57,7 +57,7 @@
         public async Task GetByIdAsync_WhenCalled_ReturnAsExpectedFlowTemplate()
         {
             // Arrange
-            var employee = new UserModel { EmployeeId = 1, NickName = "Tim" };
+            var employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" };
             var flowSettings = new List<FlowSettingModel>
             {
                 new FlowSettingModel { ProcessId = 1, EvaluatorId = 1, NickName = "Maria" },

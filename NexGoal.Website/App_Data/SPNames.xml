@@ -110,4 +110,7 @@
     <Setting Key="Nomination_GetPeriodsForNominator" SpName="Nomination_GetPeriodsForNominator" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Insert" SpName="Nomination_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="Dashboard">
+    <Setting Key="Dashboard_GetPARecord" SpName="Dashboard_GetPARecord" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>

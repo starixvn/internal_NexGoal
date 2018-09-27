@@ -3,15 +3,14 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.Period;
-    using NexGoal.Models.UserManagement;
 
     public interface IPARecordService
     {
-        Task<IEnumerable<PeriodModel>> GetPeriodByActorAsync(int actorId);
+        Task<IEnumerable<PeriodBaseModel>> GetPeriodByActorAsync(int actorId);
 
-        Task<IEnumerable<UserGroupModel>> GetGroupByActorAsync(int actorId, int periodId);
+        Task<IEnumerable<GroupBaseModel>> GetGroupByActorAsync(int actorId, int periodId);
 
         Task<IEnumerable<PARecordModel>> GetPARecordByActorAsync(GetPARecordParam param);
 

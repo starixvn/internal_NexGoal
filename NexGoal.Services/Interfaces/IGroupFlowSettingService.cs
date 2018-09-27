@@ -3,12 +3,12 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Models.UserManagement;
 
     public interface IGroupFlowSettingService
     {
-        Task<IEnumerable<UserGroupModel>> GetGroupHaveSettingAsync(int flowTempalteId);
+        Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync(int flowTempalteId);
 
         Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync(int flowTempalteId);
 

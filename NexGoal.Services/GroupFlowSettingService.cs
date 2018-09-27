@@ -8,8 +8,8 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.FlowSetting;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Models.UserManagement;
 
     public class GroupFlowSettingService : IGroupFlowSettingService
     {
@@ -27,14 +27,14 @@
             this.avatarService = avatarService;
         }
 
-        public async Task<IEnumerable<UserGroupModel>> GetGroupHaveSettingAsync(int flowTempalteId)
+        public async Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync(int flowTempalteId)
         {
             var criteria = new GetGroupHaveSettingCriteria
             {
                 FlowTemplateId = flowTempalteId
             };
 
-            return await baseService.GetDataAsync<UserGroupModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync(int flowTempalteId)

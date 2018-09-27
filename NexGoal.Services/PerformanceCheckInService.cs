@@ -8,8 +8,8 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceCheckIn;
     using NexGoal.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
-    using NexGoal.Models.UserManagement;
 
     public class PerformanceCheckInService : IPerformanceCheckInService
     {
@@ -30,24 +30,24 @@
             this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<UserModel>> GetCreatorsAsync(int employeeId)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetCreatorsAsync(int employeeId)
         {
             var criteria = new GetCreatorCriteria
             {
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<UserModel>> GetMembersAsync(int actorId)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetMembersAsync(int actorId)
         {
             var criteria = new GetMemberCriteria
             {
                 ActorId = actorId
             };
 
-            return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceCheckInByEmployeeAsync(GetPerformanceCheckInByEmployeeParam param)
@@ -65,7 +65,7 @@
             var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
             IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
@@ -90,7 +90,7 @@
             {
                 IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
                 IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-                IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+                IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
                 MappingData(performanceRecord, projects, performanceGrades, employees);
             }
@@ -135,7 +135,7 @@
             PerformanceRecordModel performanceRecord,
             IEnumerable<ProjectModel> projects,
             IEnumerable<PerformanceGradeModel> performanceGrades,
-            IEnumerable<UserModel> employees)
+            IEnumerable<EmployeeBaseModel> employees)
         {
             string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
             performanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));

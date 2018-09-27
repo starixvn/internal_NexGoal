@@ -9,7 +9,7 @@
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
     using NexGoal.Models;
-    using NexGoal.Models.UserManagement;
+    using NexGoal.Models.Common;
 
     public class CommonService : ICommonService
     {
@@ -47,7 +47,7 @@
             return new SelectList(items, dataValueField, dataTextField);
         }
 
-        public async Task<IEnumerable<UserModel>> GetEmployeesAsync(
+        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(
             string keyword = null,
             int? groupId = null,
             bool? isEnabled = true)
@@ -59,26 +59,26 @@
                 IsEnabled = isEnabled
             };
 
-            return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<UserModel> GetEmployeeByIdAsync(int employeeId)
+        public async Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId)
         {
             var criteria = new SearchUserCriteria
             {
                 EmployeeId = employeeId
             };
-            var employee = await baseService.GetDataEntityAsync<UserModel>(criteria).ConfigureAwait(false) ?? new UserModel();
+            var employee = await baseService.GetDataEntityAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false) ?? new EmployeeBaseModel();
             employee.Base64Image = avatarService.GetBase64Image(employee.Code);
 
             return employee;
         }
 
-        public async Task<IEnumerable<UserGroupModel>> GetGroupsAsync()
+        public async Task<IEnumerable<GroupBaseModel>> GetGroupsAsync()
         {
             var criteria = new GetGroupsCriteria();
 
-            return await baseService.GetDataAsync<UserGroupModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<ProjectModel>> GetProjectsAsync()

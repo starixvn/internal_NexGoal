@@ -7,8 +7,8 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
     public class EmployeeFlowSettingController : Controller
@@ -25,7 +25,7 @@
             int flowTemplateId,
             int? groupId = null)
         {
-            IEnumerable<UserModel> employees = await flowSettingService.GetEmployeeHaveSettingAsync(flowTemplateId, groupId).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await flowSettingService.GetEmployeeHaveSettingAsync(flowTemplateId, groupId).ConfigureAwait(false);
 
             return Json(employees);
         }
@@ -35,7 +35,7 @@
             int flowTemplateId,
             int? groupId = null)
         {
-            IEnumerable<UserModel> employees = await flowSettingService.GetEmployeeUnsettingAsync(flowTemplateId, groupId).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await flowSettingService.GetEmployeeUnsettingAsync(flowTemplateId, groupId).ConfigureAwait(false);
 
             return Json(employees);
         }

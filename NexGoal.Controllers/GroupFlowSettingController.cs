@@ -7,8 +7,8 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
     public class GroupFlowSettingController : Controller
@@ -23,7 +23,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetGroupHaveSetting(int flowTemplateId)
         {
-            IEnumerable<UserGroupModel> groups = await flowSettingService.GetGroupHaveSettingAsync(flowTemplateId).ConfigureAwait(false);
+            IEnumerable<GroupBaseModel> groups = await flowSettingService.GetGroupHaveSettingAsync(flowTemplateId).ConfigureAwait(false);
 
             return Json(groups);
         }

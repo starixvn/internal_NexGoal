@@ -5,8 +5,8 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceCheckIn;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
-    using NexGoal.Models.UserManagement;
     using NSubstitute;
     using Xunit;
 
@@ -21,12 +21,12 @@
         public async Task GetCreatorsAsync_WhenCalled_ReturnAsExpectedCreators()
         {
             // Arrange
-            var expected = new List<UserModel>
+            var expected = new List<EmployeeBaseModel>
             {
-                new UserModel { EmployeeId = 1, NickName = "tim.trinh" }
+                new EmployeeBaseModel { EmployeeId = 1, NickName = "tim.trinh" }
             };
             var service = GetPerformanceCheckInService();
-            baseService.GetDataAsync<UserModel>(Arg.Any<GetCreatorCriteria>()).Returns(expected);
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetCreatorCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetCreatorsAsync(1);
@@ -39,12 +39,12 @@
         public async Task GetMembersAsync_WhenCalled_ReturnAsExpectedCreators()
         {
             // Arrange
-            var expected = new List<UserModel>
+            var expected = new List<EmployeeBaseModel>
             {
-                new UserModel { EmployeeId = 1, NickName = "tim.trinh" }
+                new EmployeeBaseModel { EmployeeId = 1, NickName = "tim.trinh" }
             };
             var service = GetPerformanceCheckInService();
-            baseService.GetDataAsync<UserModel>(Arg.Any<GetMemberCriteria>()).Returns(expected);
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetMemberCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetMembersAsync(1);

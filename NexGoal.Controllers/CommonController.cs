@@ -6,8 +6,8 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.Period;
-    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
     public class CommonController : Controller
@@ -25,7 +25,7 @@
             int? groupId = null,
             bool? isEnabled = true)
         {
-            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(keyword, groupId, isEnabled).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(keyword, groupId, isEnabled).ConfigureAwait(false);
 
             return Json(employees);
         }
@@ -33,7 +33,7 @@
         [HttpGet]
         public async Task<JsonResult> GetGroups()
         {
-            IEnumerable<UserGroupModel> groups = await commonService.GetGroupsAsync().ConfigureAwait(false);
+            IEnumerable<GroupBaseModel> groups = await commonService.GetGroupsAsync().ConfigureAwait(false);
 
             return Json(groups);
         }
@@ -63,7 +63,7 @@
         {
             string[] refNames = { ReferenceResource.PerformanceStatus };
             var referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
-            IEnumerable<PerformanceStatusModel> statuses = 
+            IEnumerable<PerformanceStatusModel> statuses =
                 referenceResources.Select(x => new PerformanceStatusModel { Id = x.ResourceId, Name = x.Value })
                 .OrderBy(x => x.Id);
 

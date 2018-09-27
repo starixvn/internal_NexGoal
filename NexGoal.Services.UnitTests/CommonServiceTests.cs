@@ -7,7 +7,7 @@ namespace NexGoal.Services.UnitTests
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
     using NexGoal.Models;
-    using NexGoal.Models.UserManagement;
+    using NexGoal.Models.Common;
     using NSubstitute;
     using Xunit;
 
@@ -74,12 +74,12 @@ namespace NexGoal.Services.UnitTests
         public async Task GetEmployeesAsync_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
-            var expected = new List<UserModel>
+            var expected = new List<EmployeeBaseModel>
             {
-                new UserModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" }
+                new EmployeeBaseModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" }
             };
             var service = GetCommonService();
-            baseService.GetDataAsync<UserModel>(Arg.Any<SearchUserCriteria>()).Returns(expected);
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<SearchUserCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetEmployeesAsync();
@@ -92,9 +92,9 @@ namespace NexGoal.Services.UnitTests
         public async Task GetEmployeeByIdAsync_WhenCalled_ReturnAsExpectedEmployee()
         {
             // Arrange
-            var employee = new UserModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" };
+            var employee = new EmployeeBaseModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" };
             var service = GetCommonService();
-            baseService.GetDataEntityAsync<UserModel>(Arg.Any<SearchUserCriteria>()).Returns(employee);
+            baseService.GetDataEntityAsync<EmployeeBaseModel>(Arg.Any<SearchUserCriteria>()).Returns(employee);
             avatarService.GetBase64Image(Arg.Any<string>()).Returns("base64string");
 
             // Act
@@ -111,12 +111,12 @@ namespace NexGoal.Services.UnitTests
         public async Task GetGroupsAsync_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var expected = new List<UserGroupModel>
+            var expected = new List<GroupBaseModel>
             {
-                new UserGroupModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
+                new GroupBaseModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
             };
             var service = GetCommonService();
-            baseService.GetDataAsync<UserGroupModel>(Arg.Any<GetGroupsCriteria>()).Returns(expected);
+            baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupsCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetGroupsAsync();

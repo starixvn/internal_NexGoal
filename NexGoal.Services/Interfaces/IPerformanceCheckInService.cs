@@ -4,14 +4,14 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
-    using NexGoal.Models.UserManagement;
 
     public interface IPerformanceCheckInService
     {
-        Task<IEnumerable<UserModel>> GetCreatorsAsync(int employeeId);
+        Task<IEnumerable<EmployeeBaseModel>> GetCreatorsAsync(int employeeId);
 
-        Task<IEnumerable<UserModel>> GetMembersAsync(int actorId);
+        Task<IEnumerable<EmployeeBaseModel>> GetMembersAsync(int actorId);
 
         Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceCheckInByEmployeeAsync(GetPerformanceCheckInByEmployeeParam param);
 

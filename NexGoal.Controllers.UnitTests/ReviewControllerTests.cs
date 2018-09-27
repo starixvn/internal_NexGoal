@@ -6,9 +6,8 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.Period;
-    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
     using NSubstitute;
     using Xunit;
@@ -36,9 +35,9 @@
         public async Task GetPeriods_WhenCalled_ReturnAsExpectedPeriods()
         {
             // Arrange
-            var periods = new List<PeriodModel>
+            var periods = new List<PeriodBaseModel>
             {
-                new PeriodModel { PeriodId = 1, Name = "1H 2018" }
+                new PeriodBaseModel { PeriodId = 1, Name = "1H 2018" }
             };
             var controller = GetReviewController();
             paRecordService.GetPeriodByActorAsync(sessionService.EmployeeId).Returns(periods);
@@ -48,7 +47,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<PeriodModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<PeriodBaseModel>>(jsonResult.Value);
             Assert.Equal(periods, result);
         }
 
@@ -56,9 +55,9 @@
         public async Task GetGroups_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var groups = new List<UserGroupModel>
+            var groups = new List<GroupBaseModel>
             {
-                new UserGroupModel { GroupId = 1, Name = "Nexus" }
+                new GroupBaseModel { GroupId = 1, Name = "Nexus" }
             };
             var controller = GetReviewController();
             paRecordService.GetGroupByActorAsync(sessionService.EmployeeId, 1).Returns(groups);
@@ -68,7 +67,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<UserGroupModel>>(jsonResult.Value);
+            var result = Assert.IsAssignableFrom<IEnumerable<GroupBaseModel>>(jsonResult.Value);
             Assert.Equal(groups, result);
         }
 

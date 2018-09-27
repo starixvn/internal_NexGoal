@@ -7,10 +7,9 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PARecord;
     using NexGoal.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
-    using NexGoal.Models.Period;
-    using NexGoal.Models.UserManagement;
 
     public class PARecordService : IPARecordService
     {
@@ -31,17 +30,17 @@
             this.avatarService = avatarService;
         }
 
-        public async Task<IEnumerable<PeriodModel>> GetPeriodByActorAsync(int actorId)
+        public async Task<IEnumerable<PeriodBaseModel>> GetPeriodByActorAsync(int actorId)
         {
             var criteria = new GetPeriodByActorCriteria
             {
                 ActorId = actorId
             };
 
-            return await baseService.GetDataAsync<PeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<UserGroupModel>> GetGroupByActorAsync(int actorId, int periodId)
+        public async Task<IEnumerable<GroupBaseModel>> GetGroupByActorAsync(int actorId, int periodId)
         {
             var criteria = new GetGroupByActorCriteria
             {
@@ -49,7 +48,7 @@
                 PeriodId = periodId
             };
 
-            return await baseService.GetDataAsync<UserGroupModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PARecordModel>> GetPARecordByActorAsync(GetPARecordParam param)
@@ -62,7 +61,7 @@
             };
             var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             MappingData(tuple.Item1, tuple.Item2, tuple.Item3, employees, performanceGrades);
 
@@ -80,7 +79,7 @@
             var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
             IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            IEnumerable<UserModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
             PARecordModel record = tuple.Item1.FirstOrDefault();
 
@@ -109,7 +108,7 @@
             IEnumerable<PARecordModel> paRecords,
             IEnumerable<PAProcessModel> processes,
             IEnumerable<PerformanceRecordModel> performanceRecords,
-            IEnumerable<UserModel> employees,
+            IEnumerable<EmployeeBaseModel> employees,
             IEnumerable<PerformanceGradeModel> performanceGrades)
         {
             foreach (PerformanceRecordModel record in performanceRecords)
@@ -141,7 +140,7 @@
             PARecordModel paRecord,
             IEnumerable<PAProcessModel> processes,
             IEnumerable<PerformanceRecordModel> performanceRecords,
-            IEnumerable<UserModel> employees,
+            IEnumerable<EmployeeBaseModel> employees,
             IEnumerable<PerformanceGradeModel> performanceGrades,
             IEnumerable<ProjectModel> projects)
         {

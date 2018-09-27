@@ -8,6 +8,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.Common;
     using NexGoal.Models.UserManagement;
     using NexGoal.Services;
     using NexGoal.ViewModels.UserManagement;
@@ -35,9 +36,9 @@
         [Fact]
         public async Task GetUsers_WhenCalled_ReturnExpectedData()
         {
-            var expectedResult = new List<UserModel>
+            var expectedResult = new List<EmployeeBaseModel>
             {
-                new UserModel
+                new EmployeeBaseModel
                 {
                     EmployeeId = 1,
                     Code = "123",
@@ -50,13 +51,13 @@
             var result = await controller.GetUsers(string.Empty, null, null, false);
 
             var jsonResult = Assert.IsType<JsonResult>(result);
-            Assert.IsAssignableFrom<IEnumerable<UserModel>>(jsonResult.Value);
+            Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
         }
 
         [Fact]
         public async Task GetUser_WhenCalled_ReturnExpectedData()
         {
-            var expectedResult = new UserModel
+            var expectedResult = new EmployeeBaseModel
             {
                 EmployeeId = 1,
                 Code = "123",
@@ -68,7 +69,7 @@
             var result = await controller.GetUser(1);
 
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var user = Assert.IsAssignableFrom<UserModel>(jsonResult.Value);
+            var user = Assert.IsAssignableFrom<EmployeeBaseModel>(jsonResult.Value);
             Assert.Equal(expectedResult.EmployeeId, user.EmployeeId);
             Assert.Equal(expectedResult.Code, user.Code);
         }

@@ -5,8 +5,8 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.FlowSetting;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Models.UserManagement;
     using NSubstitute;
     using Xunit;
 
@@ -20,12 +20,12 @@
         public async Task GetGroupHaveSettingAsync_WhenCalled_ReturnAsExpectedGroups()
         {
             // Arrange
-            var expected = new List<UserGroupModel>
+            var expected = new List<GroupBaseModel>
             {
-                new UserGroupModel { GroupId = 1, Code = "NEX" }
+                new GroupBaseModel { GroupId = 1, Code = "NEX" }
             };
             var service = GetGroupFlowSettingService();
-            baseService.GetDataAsync<UserGroupModel>(Arg.Any<GetGroupHaveSettingCriteria>()).Returns(expected);
+            baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupHaveSettingCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetGroupHaveSettingAsync(1);

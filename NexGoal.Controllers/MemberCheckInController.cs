@@ -7,8 +7,8 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
-    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
     public class MemberCheckInController : Controller
@@ -27,7 +27,7 @@
         [Route("Member/PerformanceCheckIn/GetMembers")]
         public async Task<JsonResult> GetMembers()
         {
-            IEnumerable<UserModel> members = await performanceCheckInService.GetMembersAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> members = await performanceCheckInService.GetMembersAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(members);
         }

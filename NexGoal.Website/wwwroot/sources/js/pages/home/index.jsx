@@ -13,16 +13,41 @@ export default class App extends Component {
         super(props);
 
         this.state = {
+            performanceAppraisals: [],
             performanceRecords: []
         };
     }
 
     componentDidMount() {
-        axios(resolveClientUrl('Self/Performance/Index')).then(response => {
-            this.setState({
-                performanceRecords: response.data.performanceRecords
-            });
-        }).catch(axiosError);
+        const promises = [
+            axios(resolveClientUrl('home/GetPARecords')),
+            axios(resolveClientUrl('Self/Performance/Index'))
+        ];
+
+        Promise.all(promises)
+            .then(([paRecordResponse, performanceRecordResponse]) => {
+                let performanceAppraisals = paRecordResponse.data;
+                performanceAppraisals.map(record => record.year = moment(record.period.startDate).year());
+                performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
+                    const val = item['year'];
+                    groups[val] = groups[val] || [];
+                    groups[val].push(item);
+
+                    return groups;
+                }, {});
+
+                performanceAppraisals = Object.keys(performanceAppraisals).map(key => {
+                    return {
+                        year: key,
+                        records: performanceAppraisals[key]
+                    };
+                });
+
+                this.setState({
+                    performanceAppraisals: performanceAppraisals,
+                    performanceRecords: performanceRecordResponse.data.performanceRecords
+                });
+            }).catch(axiosError);
     }
 
     handleAddNewPerformanceClick = () => {
@@ -30,11 +55,44 @@ export default class App extends Component {
     }
 
     render() {
+        const performanceAppraisals = this.state.performanceAppraisals;
         const performanceRecords = this.state.performanceRecords;
 
         return (
             <Fragment>
                 <PersonalTimeline />
+                {
+                    performanceAppraisals.length > 0 &&
+                    <table className="table table-bordered">
+                        <thead>
+                            <tr><th colSpan="2">My PAs</th></tr>
+                        </thead>
+                        <tbody>
+                            {
+                                performanceAppraisals.map(performanceAppraisal => {
+                                    return (
+                                        <Fragment key={`year${performanceAppraisal.year}`}>
+                                            <tr>
+                                                <td colSpan="2">{performanceAppraisal.year}</td>
+                                            </tr>
+
+                                            {
+                                                performanceAppraisal.records.map(record => {
+                                                    return (
+                                                        <tr key={`performanceAppraisal${record.paRecordId}`}>
+                                                            <td>{record.period.name}</td>
+                                                            <td>{record.grade.name}</td>
+                                                        </tr>
+                                                    );
+                                                })
+                                            }
+                                        </Fragment>
+                                    );
+                                })
+                            }
+                        </tbody>
+                    </table>
+                }
                 <input className="form-control add-new-performance" placeholder="What's on your mind?"
                     onClick={this.handleAddNewPerformanceClick}
                 />

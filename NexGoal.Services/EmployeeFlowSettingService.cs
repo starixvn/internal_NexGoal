@@ -8,8 +8,8 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.FlowSetting;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
-    using NexGoal.Models.UserManagement;
 
     public class EmployeeFlowSettingService : IEmployeeFlowSettingService
     {
@@ -30,7 +30,7 @@
             this.avatarService = avatarService;
         }
 
-        public async Task<IEnumerable<UserModel>> GetEmployeeHaveSettingAsync(int flowTempalteId, int? groupId = null)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeeHaveSettingAsync(int flowTempalteId, int? groupId = null)
         {
             var criteria = new GetEmployeeHaveSettingCriteria
             {
@@ -38,10 +38,10 @@
                 FlowTemplateId = flowTempalteId
             };
 
-            return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<UserModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null)
         {
             var criteria = new GetEmployeeUnsettingCriteria
             {
@@ -49,7 +49,7 @@
                 FlowTemplateId = flowTempalteId
             };
 
-            return await baseService.GetDataAsync<UserModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync(int flowTempalteId)
@@ -98,7 +98,7 @@
             };
 
             var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
-            UserModel employee = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+            EmployeeBaseModel employee = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
 
             var employeeFlowSetting = new EmployeeFlowSettingModel
             {

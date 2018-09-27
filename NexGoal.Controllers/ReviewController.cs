@@ -9,9 +9,9 @@
     using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
-    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Read)]
@@ -35,14 +35,14 @@
 
         public async Task<JsonResult> GetPeriods()
         {
-            IEnumerable<PeriodModel> periods = await paRecordService.GetPeriodByActorAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await paRecordService.GetPeriodByActorAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(periods);
         }
 
         public async Task<JsonResult> GetGroups(int periodId)
         {
-            IEnumerable<UserGroupModel> groups = await paRecordService.GetGroupByActorAsync(sessionService.EmployeeId, periodId).ConfigureAwait(false);
+            IEnumerable<GroupBaseModel> groups = await paRecordService.GetGroupByActorAsync(sessionService.EmployeeId, periodId).ConfigureAwait(false);
 
             return Json(groups);
         }

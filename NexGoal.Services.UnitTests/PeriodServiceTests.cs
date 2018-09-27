@@ -7,9 +7,9 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Periods;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Period;
-    using NexGoal.Models.UserManagement;
     using NSubstitute;
     using Xunit;
 
@@ -151,7 +151,7 @@
 
             var service = GetPeriodService();
             baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingsCriteria>()).Returns(settings);
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<UserModel>());
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>());
 
             var result = await service.GetEmployeeSettings(1, null, null, null);
 
@@ -219,7 +219,7 @@
 
             var service = GetPeriodService();
             baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingCriteria>()).Returns(settings);
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<UserModel>());
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>());
 
             var result = await service.GetEmployeeSetting(1);
 

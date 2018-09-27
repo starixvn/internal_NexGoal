@@ -1,10 +1,14 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Services;
+    using NSubstitute;
     using Xunit;
 
     public class HomeControllerTests
     {
+        private IDashboardService dashboardService;
+
         [Fact]
         public void Index_WhenCalled_ReturnsAsExpectedViewResult()
         {
@@ -21,9 +25,10 @@
 
         #region Helpers
 
-        private static HomeController GetHomeController()
+        private HomeController GetHomeController()
         {
-            var controller = new HomeController();
+            dashboardService = Substitute.For<IDashboardService>();
+            var controller = new HomeController(dashboardService);
 
             return controller;
         }

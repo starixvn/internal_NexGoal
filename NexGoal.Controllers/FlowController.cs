@@ -9,8 +9,8 @@
     using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.Common;
     using NexGoal.Models.FlowTemplate;
-    using NexGoal.Models.UserManagement;
     using NexGoal.Services;
     using NexGoal.ViewModels.FlowTemplate;
 
@@ -140,7 +140,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
         public async Task<JsonResult> GetEmployeeById(int employeeId)
         {
-            UserModel user = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
+            EmployeeBaseModel user = await commonService.GetEmployeeByIdAsync(employeeId).ConfigureAwait(false);
 
             return Json(user);
         }
