@@ -3,13 +3,23 @@ import PropTypes from 'prop-types';
 
 export default class PerformanceRecord extends Component {
     static propTypes = {
+        avatar: PropTypes.string,
+        nickName: PropTypes.string,
+        submittedDate: PropTypes.string,
+        modifiedDate: PropTypes.string,
         isHost: PropTypes.bool,
-        editUrl: PropTypes.string
+        editUrl: PropTypes.string,
+        projects: PropTypes.string,
     };
 
     static defaultProps = {
+        avatar: '',
+        nickName: '',
+        submittedDate: '',
+        modifiedDate: '',
         isHost: false,
-        editUrl: ''
+        editUrl: '',
+        projects: ''
     };
 
     constructor(props) {
@@ -49,7 +59,7 @@ export default class PerformanceRecord extends Component {
                     <span className="role">{this.props.jobTitle}</span>
                 </div>
                 <div className="date">
-                    <div className="final-date">{this.props.finalDate}</div><div className="edit-date">Edited on {this.props.editDate}</div>
+                    <div className="final-date">{this.props.submittedDate}</div><div className="edit-date">Edited on {this.props.modifiedDate}</div>
                 </div>
 
                 <div className="comment" >
@@ -70,8 +80,14 @@ export default class PerformanceRecord extends Component {
                             </a>
                         </div>
                     }
-                    <div className="grade">Grade <span className="grade-exceptional">{this.props.grade}</span></div>
-                    <div className="project">Project <span className="project-detail">{this.props.projects}</span></div>
+                    {
+                        this.props.grade &&
+                        <div className="grade">Grade: <span className="grade-detail">{this.props.grade}</span></div>
+                    }
+                    {
+                        this.props.projects &&
+                        <div className="project">Project: <span className="project-detail">{this.props.projects}</span></div>
+                    }
                 </div>
             </div >
         );

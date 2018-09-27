@@ -46,8 +46,8 @@
     .date {
         grid-row: 1;
         grid-column: 3 / 4;
-        direction: rtl;
         padding: 4px 8px;
+        text-align: right;
 
         .final-date {
             color: #212121;

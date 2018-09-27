@@ -1,12 +1,12 @@
 ﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { PerformanceRecordStatus } from '../../constants';
+import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import PersonalTimeline from './PersonalTimeline';
-
 
 export default class App extends Component {
     constructor(props) {
@@ -46,15 +46,19 @@ export default class App extends Component {
                                 let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
                                     || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
                                 let editUrl = isHost ? `${resolveClientUrl('Self/Performance/Edit/') + performanceRecord.performanceRecordId}` : null;
+                                let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
+                                let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
 
                                 return (
                                     <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                                        avatar={performanceRecord.creator.base64Image}
+                                        nickName={performanceRecord.creator.nickName}
+                                        submittedDate={submittedDate} modifiedDate={modifiedDate}
                                         isHost={isHost}
                                         editUrl={editUrl}
                                         grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
                                         comment={performanceRecord.comment}
-                                        projects={performanceRecord.projects.map(project => { return project.name; }).join(',')}
-                                        avatar={performanceRecord.creator.base64Image}
+                                        projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
                                     />
                                 );
                             })
