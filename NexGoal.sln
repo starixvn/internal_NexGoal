@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{6ED4B51C-780A-4FA6-B970-C4010F1B4937}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0", "0", "{6ED4B51C-780A-4FA6-B970-C4010F1B4937}"
 	ProjectSection(SolutionItems) = preProject
 		SonarQube\NexGoalCSharp.ruleset = SonarQube\NexGoalCSharp.ruleset
 		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig

@@ -8,6 +8,7 @@ import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import PersonalTimeline from './PersonalTimeline';
 import WorkLoad from './workload';
+import HrmSummary from './HRMSummary';
 
 export default class App extends Component {
     constructor(props) {
@@ -112,22 +113,22 @@ export default class App extends Component {
                                     let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
                                     let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
 
-                                    return (
-                                        <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                                            avatar={performanceRecord.creator.base64Image}
-                                            nickName={performanceRecord.creator.nickName}
-                                            submittedDate={submittedDate} modifiedDate={modifiedDate}
-                                            isHost={isHost}
-                                            editUrl={editUrl}
-                                            grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
-                                            comment={performanceRecord.comment}
-                                            projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
-                                        />
-                                    );
-                                })
-                            }
-                        </div>
-                    }
+                                return (
+                                    <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                                        avatar={performanceRecord.creator.base64Image}
+                                        nickName={performanceRecord.creator.nickName}
+                                        submittedDate={submittedDate} modifiedDate={modifiedDate}
+                                        isHost={isHost}
+                                        editUrl={editUrl}
+                                        grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
+                                        comment={performanceRecord.comment}
+                                        projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
+                                    />
+                                );
+                            })
+                        }
+                    </div>
+                }
                 </div>
                 <div className="col-sm-3">
                     <WorkLoad />

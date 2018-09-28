@@ -47,6 +47,7 @@
     <Setting Key="Discipline_UpdateStatus" SpName="Discipline_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Discipline_Insert" SpName="Discipline_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Discipline_Update" SpName="Discipline_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Discipline_GetHRMSummary" SpName="Discipline_GetHRMSummary" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Flow Template">
     <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

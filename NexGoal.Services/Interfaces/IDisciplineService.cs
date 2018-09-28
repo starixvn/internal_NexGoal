@@ -10,6 +10,8 @@
     {
         Task<IEnumerable<DisciplineModel>> GetDisciplines(DateTime from, DateTime to, bool? isActive, string groupIds, int? employeeId);
 
+        Task<HRMSummaryModel> GetHRMSummary(DateTime from, DateTime to, int empId);
+
         Task<CommandResult> EditStatus(int disciplineId, bool isActive, int modifiedBy);
 
         Task<CommandResult> Create(AddDisciplineModel model);

@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using System.Text;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
@@ -51,6 +50,24 @@
             var jsonResult = Assert.IsType<JsonResult>(result);
             var json = Assert.IsAssignableFrom<IEnumerable<DisciplineModel>>(jsonResult.Value);
             Assert.Equal(expectedResult.Count, json.Count());
+        }
+
+        [Fact]
+        public async Task GetHRMSummary_WhenCalled_ReturnJson()
+        {
+            var controller = GetDisciplineController();
+            var expectResult = new HRMSummaryModel
+            {
+                ToeicScore = 600,
+                ToeicExamDate = DateTime.Now,
+                Incident = 0
+            };
+
+            disciplineService.GetHRMSummary(DateTime.Today, DateTime.Today, 363).Returns(expectResult);
+
+            var result = await controller.GetHRMSummary(DateTime.Today, DateTime.Today);
+
+            Assert.IsType<JsonResult>(result);
         }
 
         private DisciplineController GetDisciplineController()
