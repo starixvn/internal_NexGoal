@@ -3,19 +3,21 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Models.PARecord;
     using NexGoal.Core.Services;
+    using NexGoal.Models.PARecord;
     using NexGoal.Services;
 
     public class HomeController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IDashboardService dashboardService;
+        private readonly IEmployeeService employeeService;
 
-        public HomeController(IDashboardService dashboardService, ISessionService sessionService)
+        public HomeController(
+            ISessionService sessionService,
+            IEmployeeService employeeService)
         {
-            this.dashboardService = dashboardService;
             this.sessionService = sessionService;
+            this.employeeService = employeeService;
         }
 
         public IActionResult Index()
@@ -30,14 +32,14 @@
 
         public async Task<JsonResult> GetPARecords()
         {
-            IEnumerable<PARecordModel> records = await dashboardService.GetPARecordAsync().ConfigureAwait(false);
+            IEnumerable<PARecordModel> records = await employeeService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(records);
         }
 
         public async Task<IActionResult> GetWorkLoad()
         {
-            var worklLoad = await dashboardService.GetWorkLoad(sessionService.EmployeeId).ConfigureAwait(false);
+            var worklLoad = await employeeService.GetWorkLoadAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(worklLoad);
         }

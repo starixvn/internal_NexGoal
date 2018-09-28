@@ -1,0 +1,113 @@
+﻿namespace NexGoal.Services.UnitTests
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using NexGoal.Core.Models;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.Employee;
+    using NexGoal.Models.Common;
+    using NexGoal.Models.Employee;
+    using NSubstitute;
+    using Xunit;
+
+    public class EmployeeServiceTests
+    {
+        private IBaseService baseService;
+        private ICryptoService cryptoService;
+        private ICommonService commonService;
+
+        [Fact]
+        public async Task GetEmployeesAsync_WhenCalled_ReturnExpectedEmployees()
+        {
+            var employees = new List<EmployeeBaseModel>
+            {
+                new EmployeeBaseModel
+                {
+                    EmployeeId = 1,
+                    FullName = "Eha",
+                    NickName ="Hea"
+                }
+            };
+
+            var service = GetEmployeeService();
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetEmployeesCriteria>()).Returns(employees);
+
+            var result = await service.GetEmployeesAsync(null, null, null, false);
+
+            Assert.Equal(employees, result);
+        }
+
+        [Fact]
+        public async Task GetEmployeeByIdAsync_WhenCalled_ReturnExpectedEmployee()
+        {
+            var employee = new EmployeeBaseModel
+            {
+                EmployeeId = 1,
+                FullName = "Eha",
+                NickName = "Hea"
+            };
+
+            var service = GetEmployeeService();
+            baseService.GetDataEntityAsync<EmployeeBaseModel>(Arg.Any<GetEmployeeByIdCriteria>()).Returns(employee);
+
+            var result = await service.GetEmployeeByIdAsync(1);
+
+            Assert.Equal(employee, result);
+        }
+
+        [Fact]
+        public async Task GetRolesByEmployeeIdAsync_WhenCalled_ReturnExpectedResults()
+        {
+            var expectedRoles = new List<EmployeeRoleModel>
+            {
+                new EmployeeRoleModel
+                {
+                    RoleId = 1,
+                    Role= "HR",
+                    HasRole = true
+                },
+                new EmployeeRoleModel
+                {
+                    RoleId = 2,
+                    Role= "SA",
+                    HasRole = false
+                }
+            };
+
+            var service = GetEmployeeService();
+            baseService.GetDataAsync<EmployeeRoleModel>(Arg.Any<GetRolesByEmployeeIdCriteria>()).Returns(expectedRoles);
+
+            var result = await service.GetRolesByEmployeeIdAsync(1);
+
+            Assert.Equal(expectedRoles.Count, result.Count());
+        }
+
+        [Fact]
+        public async Task EditEmployeeRolesAsync_ValidModel_ReturnExpectedCommandResult()
+        {
+            var expectedCommandResult = new CommandResult
+            {
+                Code = 0,
+                Message = string.Empty
+            };
+
+            var service = GetEmployeeService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeRolesCriteria>()).Returns(expectedCommandResult);
+
+            var result = await service.EditEmployeeRolesAsync(new EditEmployeeRolesModel { EmployeeId = 1, SelectedRoleIds = "1,2,3", ModifiedBy = 2 });
+
+            Assert.Equal(expectedCommandResult.Code, result.Code);
+        }
+
+        private EmployeeService GetEmployeeService()
+        {
+            baseService = Substitute.For<IBaseService>();
+            cryptoService = Substitute.For<ICryptoService>();
+            commonService = Substitute.For<ICommonService>();
+            var service = new EmployeeService(baseService, cryptoService, commonService);
+
+            return service;
+        }
+    }
+}

@@ -23,7 +23,7 @@ class SearchForm extends Component {
     }
 
     handleCheckboxChange = (event) => {
-        this.props.onFilterChange('isDisabledUser', event.target.checked);
+        this.props.onFilterChange('isDisabled', event.target.checked);
     }
 
     handleSubmit(event) {
@@ -56,10 +56,10 @@ class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <label>
-                        <input type="checkbox" name="isDisabledUser"
-                            checked={filter.isDisabledUser}
+                        <input type="checkbox" name="isDisabled"
+                            checked={filter.isDisabled}
                             onChange={this.handleCheckboxChange}
-                        /> Is Disabled User
+                        /> Is Disabled
                     </label>
                 </FormGroup>
                 <FormGroup>

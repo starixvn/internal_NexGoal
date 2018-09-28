@@ -6,27 +6,27 @@ import { stringify } from 'qs';
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 
-export default class EditUserRole extends Component {
+export default class EditEmployeeRole extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            userRoles: []
+            employeeRoles: []
         };
     }
 
     componentDidMount() {
-        this.getUserRoles();
+        this.getRolesByEmployeeId();
     }
 
-    getUserRoles = () => {
-        axios.get(resolveClientUrl(`User/GetRolesForUser?employeeId=${this.props.user.employeeId}`))
+    getRolesByEmployeeId = () => {
+        axios.get(resolveClientUrl(`employee/GetRolesByEmployeeId?employeeId=${this.props.employee.employeeId}`))
             .then(response => {
-                this.setState({ userRoles: response.data });
+                this.setState({ employeeRoles: response.data });
             }).catch(axiosError);
     }
 
-    handleEditUserRoles = (e) => {
+    handleEditEmployeeRoles = (e) => {
         e.preventDefault();
 
         var selectedIds = [];
@@ -36,16 +36,16 @@ export default class EditUserRole extends Component {
             }
         });
 
-        let userRole = stringify({
+        let employeeRole = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-            employeeId: this.props.user.employeeId,
+            employeeId: this.props.employee.employeeId,
             selectedRoleIds: selectedIds.toString()
         });
 
         axios({
-            url: resolveClientUrl('User/EditUserRoles'),
+            url: resolveClientUrl('employee/EditEmployeeRoles'),
             method: 'POST',
-            data: userRole,
+            data: employeeRole,
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
             }
@@ -56,26 +56,26 @@ export default class EditUserRole extends Component {
 
     render() {
         return (
-            this.state.userRoles.length > 0 &&
+            this.state.employeeRoles.length > 0 &&
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.closeModal}
                 dialogClassName="custom-modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{getResource('AssignRolesToUser')}</Modal.Title>
+                    <Modal.Title>{getResource('AssignRolesToEmployee')}</Modal.Title>
                 </Modal.Header>
-                <Form id="edit-user-role-form" horizontal onSubmit={this.handleEditUserRoles}>
+                <Form id="edit-employee-role-form" horizontal onSubmit={this.handleEditEmployeeRoles}>
                     <Modal.Body>
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={2}>{getResource('NickName')}</Col>
                             <div className="col-sm-10">
-                                <ControlLabel>{this.props.user.nickName}</ControlLabel>
+                                <ControlLabel>{this.props.employee.nickName}</ControlLabel>
                             </div>
                         </FormGroup>
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={2}>{getResource('Roles')}</Col>
                             <Col sm={10}>
-                                {this.state.userRoles.map(role =>
+                                {this.state.employeeRoles.map(role =>
                                     <Checkbox key={role.roleId} defaultChecked={role.hasRole} value={role.roleId}>{role.role}</Checkbox>
                                 )}
                             </Col>

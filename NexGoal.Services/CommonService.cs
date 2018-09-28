@@ -52,7 +52,7 @@
             int? groupId = null,
             bool? isEnabled = true)
         {
-            var criteria = new SearchUserCriteria
+            var criteria = new SearchEmployeeCriteria
             {
                 Keyword = keyword,
                 GroupId = groupId,
@@ -64,7 +64,7 @@
 
         public async Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId)
         {
-            var criteria = new SearchUserCriteria
+            var criteria = new SearchEmployeeCriteria
             {
                 EmployeeId = employeeId
             };

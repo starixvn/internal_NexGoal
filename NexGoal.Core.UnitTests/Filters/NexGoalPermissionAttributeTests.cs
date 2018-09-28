@@ -53,7 +53,7 @@
         public void OnAuthorization_EmployeeIdIsValidAndHasPermissionOnFunction_ExpectedRequestSucceeded()
         {
             // Arrange
-            var functionKey = "UserManagement";
+            var functionKey = "EmployeeManagement";
             var session = new MockSession();
             session.SetInt32(SessionKey.InternalEmployeeId, 1);
             session.Set<IEnumerable<FunctionSession>>(SessionKey.InternalFunctionList, new List<FunctionSession>

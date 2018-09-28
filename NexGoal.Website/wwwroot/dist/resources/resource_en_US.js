@@ -4,7 +4,7 @@ var resource_en_US = {
     'Add': 'Add',
     'AddDiscipline': 'Add Discipline',
     'Admin': 'Admin',
-    'AssignRolesToUser': 'Assign Roles To User',
+    'AssignRolesToEmployee': 'Assign Roles To Employee',
     'BackToList': 'Back to list',
     'Cancel': 'Cancel',
     'Code': 'Code',
@@ -27,6 +27,7 @@ var resource_en_US = {
     'EditEmployeeSetting': 'Edit Employee Setting',
     'EditEvaluationFlow': 'Edit Evaluation Flow',
     'EditDiscipline': 'Edit Discipline',
+    'EmployeeManagement': 'Employee Management',
     'EndDate': 'End Date',
     'EndDateForCommittee': 'End Date For Committee',
     'EndDateForNominator': 'End Date For Nominator',
@@ -60,6 +61,7 @@ var resource_en_US = {
     'NickName': 'Nick Name',
     'NoInformationAvailable': 'No information available!',
     'NominationManagement': 'Nomination Management',
+    'NominationPeriod': 'Nomination Period',
     'Nominator': 'Nominator',
     'NoticeAtBegin': 'Notice At Begin',
     'PAStatus': 'PA Status',
@@ -92,7 +94,5 @@ var resource_en_US = {
     'ToDate': 'To Date',
     'UpdatePermissionSuccessfully': 'Permission has been successfully updated!',
     'UpdatedSuccessfully': 'Updated successfully!',
-    'UserManagement': 'User Management',
-    'Year': 'Year',
-    'NominationPeriod': 'Nomination Period'
+    'Year': 'Year'
 };

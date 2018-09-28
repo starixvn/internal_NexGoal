@@ -12,11 +12,11 @@ import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import SearchForm from './SearchForm';
-import EditUserRole from './edit-user-role';
+import EditEmployeeRole from './edit-employee-role';
 
 const { SearchBar } = Search;
 
-export default class UserManagement extends Component {
+export default class EmployeeManagement extends Component {
     constructor(props) {
         super(props);
 
@@ -24,7 +24,7 @@ export default class UserManagement extends Component {
             filter: {
                 keyword: '',
                 group: { value: '', label: '-- All --' },
-                isDisabledUser: false
+                isDisabled: false
             },
             groupOptions: [],
             data: [],
@@ -38,11 +38,10 @@ export default class UserManagement extends Component {
 
     componentDidMount = () => {
         this.getGroups();
-        this.getUsers();
+        this.getEmployees();
     }
 
-    userRoles = [];
-    currentEditUser = [];
+    employeeSelected = {};
 
     handleFilterChange(name, value) {
         this.setState({
@@ -51,7 +50,7 @@ export default class UserManagement extends Component {
     }
 
     handleFilterSubmit() {
-        this.getUsers();
+        this.getEmployees();
     }
 
     getGroups = () => {
@@ -66,29 +65,29 @@ export default class UserManagement extends Component {
             }).catch(axiosError);
     }
 
-    getUsers = () => {
+    getEmployees = () => {
         const filter = this.state.filter;
-        axios.get(resolveClientUrl('User/GetUsers'), {
+        axios.get(resolveClientUrl('employee/GetEmployees'), {
             params: {
                 keyword: filter.keyword,
                 groupId: filter.group.value,
-                isDisabledUser: filter.isDisabledUser
+                isDisabled: filter.isDisabled
             }
         }).then(response => {
             this.setState({ data: response.data });
         }).catch(axiosError);
     }
 
-    getUser = (id, callback) => {
-        axios.get(resolveClientUrl(`User/GetUser?employeeId=${id}`))
+    getEmployeeById = (id, callback) => {
+        axios.get(resolveClientUrl(`employee/GetEmployeeById?employeeId=${id}`))
             .then(response => {
                 if (typeof (callback) === 'function')
                     callback(response.data);
             }).catch(axiosError);
     }
 
-    editUser = (user) => {
-        this.currentEditUser = user;
+    editEmployee = (employee) => {
+        this.employeeSelected = employee;
         this.showModal();
     }
 
@@ -100,14 +99,14 @@ export default class UserManagement extends Component {
         this.setState({ showModal: true });
     }
 
-    handleEditUserRolesSuccess = (data) => {
+    handleEditEmployeeRolesSuccess = (data) => {
         if (data.isSuccessful) {
             toast.success(getResource('UpdatedSuccessfully'));
 
-            this.getUser(this.currentEditUser.employeeId, (updatedUser) => {
+            this.getEmployeeById(this.employeeSelected.employeeId, (updatedEmployee) => {
                 var data = this.state.data.slice();
-                var index = data.findIndex((e) => e.employeeId === this.currentEditUser.employeeId);
-                data[index] = { ...data[index], ...updatedUser };
+                var index = data.findIndex((e) => e.employeeId === this.employeeSelected.employeeId);
+                data[index] = { ...data[index], ...updatedEmployee };
 
                 this.setState({ data: data, showModal: false });
             });
@@ -166,7 +165,7 @@ export default class UserManagement extends Component {
                 formatter: (cell, row) => {
                     if (this.state.isHost) {
                         return (
-                            <a className="fa fa-pencil-square-o" title="Assign role to user" onClick={this.editUser.bind(this, row)} />
+                            <a className="fa fa-pencil-square-o" title="Assign role to employee" onClick={this.editEmployee.bind(this, row)} />
                         );
                     }
 
@@ -178,7 +177,7 @@ export default class UserManagement extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">{getResource('UserManagement')}</li>
+                        <li className="current">{getResource('EmployeeManagement')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <SearchForm filter={this.state.filter}
@@ -210,10 +209,10 @@ export default class UserManagement extends Component {
                     </div>
                     <div>
                         {this.state.showModal &&
-                            <EditUserRole showModal={this.state.showModal}
+                            <EditEmployeeRole showModal={this.state.showModal}
                                 closeModal={this.closeModal}
-                                user={this.currentEditUser}
-                                callback={this.handleEditUserRolesSuccess}
+                                employee={this.employeeSelected}
+                                callback={this.handleEditEmployeeRolesSuccess}
                             />
                         }
                     </div>
@@ -223,4 +222,4 @@ export default class UserManagement extends Component {
     }
 }
 
-ReactDOM.render(<UserManagement />, document.getElementById("user-wrapper"));
+ReactDOM.render(<EmployeeManagement />, document.getElementById("employee-wrapper"));

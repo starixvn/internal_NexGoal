@@ -14,14 +14,14 @@
   </Function>
   <Function Name="Employee">
     <Setting Key="Employee_GetByDomainUsername" SpName="Employee_GetByDomainUsername" DbName="bodb_NexGoal" Plain="0"></Setting>
-  </Function>
-  <Function Name="User Management">
-    <Setting Key="User_Get" SpName="User_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="User_GetGroups" SpName="User_GetGroups" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="User_GetRolesForUser" SpName="User_GetRolesForUser" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="User_EditRoles" SpName="User_EditRoles" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="User_GetById" SpName="User_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="User_Search" SpName="User_Search" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetAll" SpName="Employee_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetGroups" SpName="Employee_GetGroups" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetRolesById" SpName="Employee_GetRolesById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_UpdateRoles" SpName="Employee_UpdateRoles" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetById" SpName="Employee_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_Search" SpName="Employee_Search" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetPerformanceAppraisalResult" SpName="Employee_GetPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetWorkLoad" SpName="Employee_GetWorkLoad" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="EOQ">
     <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -110,8 +110,4 @@
     <Setting Key="Nomination_GetPeriodsForNominator" SpName="Nomination_GetPeriodsForNominator" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Insert" SpName="Nomination_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
-  <Function Name="Dashboard">
-    <Setting Key="Dashboard_GetPARecord" SpName="Dashboard_GetPARecord" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="User_GetWorkLoad" SpName="User_GetWorkLoad" DbName="bodb_NexGoal" Plain="0"></Setting>
- </Function>
 </Functions>

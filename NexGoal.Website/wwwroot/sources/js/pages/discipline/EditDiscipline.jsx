@@ -80,7 +80,7 @@ export default class AddEditDiscipline extends Component {
         setFieldValue,
         isSubmitting }) => {
         return (
-            <Form id="edit-user-role-form" horizontal onSubmit={handleSubmit}>
+            <Form id="edit-form" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     {!isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">

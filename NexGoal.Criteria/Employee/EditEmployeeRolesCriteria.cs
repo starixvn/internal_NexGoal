@@ -1,6 +1,6 @@
-﻿namespace NexGoal.Criteria.UserManagement
+﻿namespace NexGoal.Criteria.Employee
 {
-    public class EditUserRolesCriteria : CommandBaseCriteria
+    public class EditEmployeeRolesCriteria : CommandBaseCriteria
     {
         public int EmployeeId { get; set; }
 
@@ -8,7 +8,7 @@
 
         public string SelectedRoleIds { get; set; }
 
-        public override string GetSettingKey() => "User_EditRoles";
+        public override string GetSettingKey() => "Employee_UpdateRoles";
 
         public override bool IsValid() => EmployeeId > 0 && ModifiedBy > 0;
     }

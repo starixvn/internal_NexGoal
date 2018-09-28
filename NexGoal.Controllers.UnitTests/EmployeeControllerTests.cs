@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
@@ -9,22 +8,22 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
-    using NexGoal.Models.UserManagement;
+    using NexGoal.Models.Employee;
     using NexGoal.Services;
-    using NexGoal.ViewModels.UserManagement;
+    using NexGoal.ViewModels.Employee;
     using NSubstitute;
     using Xunit;
 
-    public class UserControllerTests
+    public class EmployeeControllerTests
     {
-        private IUserService userService;
+        private IEmployeeService employeeService;
         private ISessionService sessionService;
 
         [Fact]
         public void Index_WhenCalled_ReturnExpectedViewResult()
         {
-            var controller = GetUserController();
-            sessionService.HasPermissionOnFunction(FunctionKey.UserManagement, Policy.Host).Returns(true);
+            var controller = GetEmployeeController();
+            sessionService.HasPermissionOnFunction(FunctionKey.EmployeeManagement, Policy.Host).Returns(true);
 
             var result = controller.Index();
 
@@ -34,7 +33,7 @@
         }
 
         [Fact]
-        public async Task GetUsers_WhenCalled_ReturnExpectedData()
+        public async Task GetEmployees_WhenCalled_ReturnExpectedData()
         {
             var expectedResult = new List<EmployeeBaseModel>
             {
@@ -45,17 +44,17 @@
                 }
             };
 
-            var controller = GetUserController();
-            userService.GetUsers(string.Empty, null, null, false).Returns(expectedResult);
+            var controller = GetEmployeeController();
+            employeeService.GetEmployeesAsync(string.Empty, null, null, false).Returns(expectedResult);
 
-            var result = await controller.GetUsers(string.Empty, null, null, false);
+            var result = await controller.GetEmployees(string.Empty, null, null, false);
 
             var jsonResult = Assert.IsType<JsonResult>(result);
             Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
         }
 
         [Fact]
-        public async Task GetUser_WhenCalled_ReturnExpectedData()
+        public async Task GetEmployeeById_WhenCalled_ReturnExpectedData()
         {
             var expectedResult = new EmployeeBaseModel
             {
@@ -63,50 +62,49 @@
                 Code = "123",
             };
 
-            var controller = GetUserController();
-            userService.GetUser(1).Returns(expectedResult);
+            var controller = GetEmployeeController();
+            employeeService.GetEmployeeByIdAsync(1).Returns(expectedResult);
 
-            var result = await controller.GetUser(1);
+            var result = await controller.GetEmployeeById(1);
 
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var user = Assert.IsAssignableFrom<EmployeeBaseModel>(jsonResult.Value);
-            Assert.Equal(expectedResult.EmployeeId, user.EmployeeId);
-            Assert.Equal(expectedResult.Code, user.Code);
+            var employees = Assert.IsAssignableFrom<EmployeeBaseModel>(jsonResult.Value);
+            Assert.Equal(expectedResult, employees);
         }
 
         [Fact]
-        public async Task GetRolesForUser_WhenCalled_ReturnExpectedData()
+        public async Task GetRolesByEmployeeId_WhenCalled_ReturnExpectedData()
         {
-            var expectedResult = new List<UserRoleModel>
+            var expectedResult = new List<EmployeeRoleModel>
             {
-                new UserRoleModel
+                new EmployeeRoleModel
                 {
                     RoleId = 1,
                     HasRole = true
                 }
             };
 
-            var controller = GetUserController();
-            userService.GetRolesForUser(1).Returns(expectedResult);
+            var controller = GetEmployeeController();
+            employeeService.GetRolesByEmployeeIdAsync(1).Returns(expectedResult);
 
-            var result = await controller.GetRolesForUser(1);
+            var result = await controller.GetRolesByEmployeeId(1);
 
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var roles = Assert.IsAssignableFrom<IEnumerable<UserRoleModel>>(jsonResult.Value);
-            Assert.Equal(expectedResult.Count, roles.Count());
+            var roles = Assert.IsAssignableFrom<IEnumerable<EmployeeRoleModel>>(jsonResult.Value);
+            Assert.Equal(expectedResult, roles);
         }
 
         [Fact]
-        public async Task EditUserRoles_ValidModel_ReturnExpectedCommandResult()
+        public async Task EditEmployeeRoles_ValidModel_ReturnExpectedCommandResult()
         {
-            var controller = GetUserController();
+            var controller = GetEmployeeController();
             sessionService.EmployeeId = 1;
-            userService.EditUserRoles(Arg.Any<EditUserRolesModel>()).Returns(new CommandResult
+            employeeService.EditEmployeeRolesAsync(Arg.Any<EditEmployeeRolesModel>()).Returns(new CommandResult
             {
                 Code = 0
             });
 
-            var result = await controller.EditUserRoles(new EditUserRolesViewModel
+            var result = await controller.EditEmployeeRoles(new EditEmployeeRolesViewModel
             {
                 EmployeeId = 1,
                 SelectedRoleIds = "1,2"
@@ -117,12 +115,12 @@
             Assert.True(commandResult.IsSuccessful);
         }
 
-        private UserController GetUserController()
+        private EmployeeController GetEmployeeController()
         {
-            userService = Substitute.For<IUserService>();
+            employeeService = Substitute.For<IEmployeeService>();
             sessionService = Substitute.For<ISessionService>();
 
-            return new UserController(userService, sessionService);
+            return new EmployeeController(employeeService, sessionService);
         }
     }
 }

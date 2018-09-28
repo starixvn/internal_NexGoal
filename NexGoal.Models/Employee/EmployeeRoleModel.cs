@@ -1,6 +1,6 @@
-﻿namespace NexGoal.Models.UserManagement
+﻿namespace NexGoal.Models.Employee
 {
-    public class UserRoleModel
+    public class EmployeeRoleModel
     {
         public int RoleId { get; set; }
 

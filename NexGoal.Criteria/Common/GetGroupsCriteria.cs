@@ -4,7 +4,7 @@
 
     public class GetGroupsCriteria : CriteriaBase
     {
-        public override string GetSettingKey() => "User_GetGroups";
+        public override string GetSettingKey() => "Employee_GetGroups";
 
         public override bool IsValid() => true;
     }

@@ -1,0 +1,20 @@
+﻿@using NexGoal.Resources
+@model bool
+
+@{
+    ViewData["Title"] = ViewLang.EmployeeManagement;
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/styles/employeemanagement.css" />
+}
+
+@Html.AntiForgeryToken()
+<div>
+    <input type="checkbox" hidden id="IsHost" @(Model ? "checked" : string.Empty) />
+</div>
+<div id="employee-wrapper"></div>
+
+@section Scripts{
+    <script src="~/dist/js/employeemanagement.js"></script>
+}

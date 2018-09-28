@@ -79,7 +79,7 @@ namespace NexGoal.Services.UnitTests
                 new EmployeeBaseModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" }
             };
             var service = GetCommonService();
-            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<SearchUserCriteria>()).Returns(expected);
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<SearchEmployeeCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetEmployeesAsync();
@@ -94,7 +94,7 @@ namespace NexGoal.Services.UnitTests
             // Arrange
             var employee = new EmployeeBaseModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" };
             var service = GetCommonService();
-            baseService.GetDataEntityAsync<EmployeeBaseModel>(Arg.Any<SearchUserCriteria>()).Returns(employee);
+            baseService.GetDataEntityAsync<EmployeeBaseModel>(Arg.Any<SearchEmployeeCriteria>()).Returns(employee);
             avatarService.GetBase64Image(Arg.Any<string>()).Returns("base64string");
 
             // Act

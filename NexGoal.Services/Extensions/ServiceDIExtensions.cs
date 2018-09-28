@@ -12,7 +12,7 @@
             services.AddScoped<IFunctionService, FunctionService>();
             services.AddScoped<IEOQService, EOQService>();
             services.AddScoped<IEOYService, EOYService>();
-            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IDisciplineService, DisciplineService>();
             services.AddScoped<IFlowTemplateService, FlowTemplateService>();
             services.AddScoped<IPeriodService, PeriodService>();
@@ -21,7 +21,6 @@
             services.AddScoped<IPerformanceCheckInService, PerformanceCheckInService>();
             services.AddScoped<IPARecordService, PARecordService>();
             services.AddScoped<IEmployeeNominationService, EmployeeNominationService>();
-            services.AddScoped<IDashboardService, DashboardService>();
         }
     }
 }

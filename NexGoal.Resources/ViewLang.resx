@@ -144,8 +144,8 @@
   <data name="StartDateForNominator" xml:space="preserve">
     <value>Start Date For Nominator</value>
   </data>
-  <data name="UserManagement" xml:space="preserve">
-    <value>User Management</value>
+  <data name="EmployeeManagement" xml:space="preserve">
+    <value>Employee Management</value>
   </data>
   <data name="EvaluationFlow" xml:space="preserve">
     <value>Evaluation Flow</value>

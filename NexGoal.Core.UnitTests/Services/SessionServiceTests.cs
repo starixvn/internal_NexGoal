@@ -92,7 +92,7 @@
             // Arrange
             IEnumerable<MenuItemSession> menuItems = new List<MenuItemSession>
             {
-                new MenuItemSession { MenuId = 1, Name = "User Management" }
+                new MenuItemSession { MenuId = 1, Name = "Employee Management" }
             };
             _session = new MockSession();
             sessionService = GetSessionService(_session);
@@ -117,7 +117,7 @@
             // Arrange
             IEnumerable<FunctionSession> functions = new List<FunctionSession>
             {
-                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement" }
+                new FunctionSession { FunctionId = 1, FunctionKey = "EmployeeManagement" }
             };
             _session = new MockSession();
             sessionService = GetSessionService(_session);
@@ -143,7 +143,7 @@
             sessionService = GetSessionService(_session);
             sessionService.Functions = new List<FunctionSession>
             {
-                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement" }
+                new FunctionSession { FunctionId = 1, FunctionKey = "EmployeeManagement" }
             };
 
             // Act
@@ -163,11 +163,11 @@
             sessionService = GetSessionService(_session);
             sessionService.Functions = new List<FunctionSession>
             {
-                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement" }
+                new FunctionSession { FunctionId = 1, FunctionKey = "EmployeeManagement" }
             };
 
             // Act
-            var actual = sessionService.HasPermissionOnFunction("UserManagement", policy);
+            var actual = sessionService.HasPermissionOnFunction("EmployeeManagement", policy);
 
             // Assert
             Assert.False(actual);
@@ -181,11 +181,11 @@
             sessionService = GetSessionService(_session);
             sessionService.Functions = new List<FunctionSession>
             {
-                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement", Policy = Policy.Read }
+                new FunctionSession { FunctionId = 1, FunctionKey = "EmployeeManagement", Policy = Policy.Read }
             };
 
             // Act
-            var actual = sessionService.HasPermissionOnFunction("UserManagement", Policy.Read);
+            var actual = sessionService.HasPermissionOnFunction("EmployeeManagement", Policy.Read);
 
             // Assert
             Assert.True(actual);
@@ -201,11 +201,11 @@
             sessionService = GetSessionService(_session);
             sessionService.Functions = new List<FunctionSession>
             {
-                new FunctionSession { FunctionId = 1, FunctionKey = "UserManagement", Policy = Policy.Host }
+                new FunctionSession { FunctionId = 1, FunctionKey = "EmployeeManagement", Policy = Policy.Host }
             };
 
             // Act
-            var actual = sessionService.HasPermissionOnFunction("UserManagement", policy);
+            var actual = sessionService.HasPermissionOnFunction("EmployeeManagement", policy);
 
             // Assert
             Assert.True(actual);

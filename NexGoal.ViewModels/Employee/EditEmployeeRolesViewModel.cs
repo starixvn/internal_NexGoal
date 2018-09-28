@@ -1,6 +1,6 @@
-﻿namespace NexGoal.ViewModels.UserManagement
+﻿namespace NexGoal.ViewModels.Employee
 {
-    public class EditUserRolesViewModel
+    public class EditEmployeeRolesViewModel
     {
         public int EmployeeId { get; set; }
 

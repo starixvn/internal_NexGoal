@@ -88,6 +88,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Employee Management.
+        /// </summary>
+        public static string EmployeeManagement {
+            get {
+                return ResourceManager.GetString("EmployeeManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Employee Nomination.
         /// </summary>
         public static string EmployeeNomination {
@@ -210,15 +219,6 @@ namespace NexGoal.Resources {
         public static string TargetType {
             get {
                 return ResourceManager.GetString("TargetType", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to User Management.
-        /// </summary>
-        public static string UserManagement {
-            get {
-                return ResourceManager.GetString("UserManagement", resourceCulture);
             }
         }
     }
