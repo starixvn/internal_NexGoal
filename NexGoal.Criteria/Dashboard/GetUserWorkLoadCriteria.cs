@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Criteria.PersonalInformation
+﻿namespace NexGoal.Criteria.Dashboard
 {
     using Fanex.Data.Repository;
 

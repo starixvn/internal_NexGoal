@@ -16,7 +16,5 @@
         Task<IEnumerable<UserRoleModel>> GetRolesForUser(int employeeId);
 
         Task<CommandResult> EditUserRoles(EditUserRolesModel model);
-
-        Task<IEnumerable<UserWorkLoadModel>> GetWorkLoad(int employeeId);
     }
 }

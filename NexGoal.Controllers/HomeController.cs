@@ -9,13 +9,13 @@
 
     public class HomeController : Controller
     {
-        private readonly IUserService userService;
         private readonly ISessionService sessionService;
         private readonly IDashboardService dashboardService;
 
-        public HomeController(IDashboardService dashboardService)
+        public HomeController(IDashboardService dashboardService, ISessionService sessionService)
         {
             this.dashboardService = dashboardService;
+            this.sessionService = sessionService;
         }
 
         public IActionResult Index()
@@ -37,7 +37,7 @@
 
         public async Task<IActionResult> GetWorkLoad()
         {
-            var worklLoad = await userService.GetWorkLoad(sessionService.EmployeeId);
+            var worklLoad = await dashboardService.GetWorkLoad(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(worklLoad);
         }

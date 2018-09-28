@@ -52,6 +52,11 @@
             return paRecords;
         }
 
+        public async Task<IEnumerable<UserWorkLoadModel>> GetWorkLoad(int employeeId)
+        {
+            return await baseService.GetDataAsync<UserWorkLoadModel>(new GetUserWorkLoadCriteria { EmployeeId = employeeId }).ConfigureAwait(false);
+        }
+
         private async Task<IEnumerable<PeriodBaseModel>> GetPeriodsAsync()
         {
             var criteria = new GetPeriodsCriteria { IsActive = true };
