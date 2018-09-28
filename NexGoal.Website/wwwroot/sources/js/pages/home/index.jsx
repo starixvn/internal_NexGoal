@@ -80,10 +80,11 @@ export default class App extends Component {
 
                                                 {
                                                     performanceAppraisal.records.map(record => {
+                                                        let grade = record.grade ? record.grade.name : '';
                                                         return (
                                                             <tr key={`performanceAppraisal${record.paRecordId}`}>
                                                                 <td>{record.period.name}</td>
-                                                                <td>{record.grade.name}</td>
+                                                                <td>{grade}</td>
                                                             </tr>
                                                         );
                                                     })

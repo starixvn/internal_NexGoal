@@ -1,11 +1,9 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { stringify } from 'qs';
 import { Pie } from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
+
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import getResource from '../../resourceHelper';
 
 export default class WorkLoad extends Component {
     constructor(props) {
@@ -14,7 +12,7 @@ export default class WorkLoad extends Component {
         this.state = {
             workLoad: [],
             chartData: null
-        }
+        };
     }
 
     componentDidMount() {
@@ -54,7 +52,7 @@ export default class WorkLoad extends Component {
                     chartData: {
                         datasets: [{
                             data: response.data.map(e => e.totalHours),
-                            backgroundColor: this.generateColors(response.data.length),
+                            backgroundColor: this.generateColors(response.data.length)
                         }],
 
                         labels: response.data.map(e => e.name)
