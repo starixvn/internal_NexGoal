@@ -12,7 +12,8 @@ export default class WorkLoad extends Component {
         super(props);
 
         this.state = {
-            workLoad: []
+            workLoad: [],
+            chartData: null
         }
     }
 
@@ -20,10 +21,45 @@ export default class WorkLoad extends Component {
         this.getWorkLoad();
     }
 
+    chartOptions = {
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                    var meta = dataset._meta[0];
+                    var currentValue = dataset.data[tooltipItem.index];
+                    var percentage = parseFloat((currentValue / meta.total * 100).toFixed(1));
+
+                    return `${currentValue} (${percentage}%)`;
+                },
+                title: function (tooltipItem, data) {
+                    return data.labels[tooltipItem[0].index];
+                }
+            }
+        },
+        plugins: {
+            datalabels: {
+                backgroundColor: '#fff',
+                color: '#000',
+                anchor: 'end'
+            }
+        }
+    }
+
     getWorkLoad = () => {
         axios.get(resolveClientUrl('Home/GetWorkLoad'))
             .then(response => {
-                this.setState({ workLoad: response.data });
+                this.setState({
+                    workLoad: response.data,
+                    chartData: {
+                        datasets: [{
+                            data: response.data.map(e => e.totalHours),
+                            backgroundColor: this.generateColors(response.data.length),
+                        }],
+
+                        labels: response.data.map(e => e.name)
+                    }
+                });
             }).catch(axiosError);
     }
 
@@ -44,43 +80,9 @@ export default class WorkLoad extends Component {
     }
 
     render() {
-        const data = {
-            datasets: [{
-                data: this.state.workLoad.map(e => e.totalHours),
-                backgroundColor: this.generateColors(this.state.workLoad.length),
-            }],
-
-            labels: this.state.workLoad.map(e => e.name)
-        };
-
-        const options = {
-            tooltips: {
-                callbacks: {
-                    label: function (tooltipItem, data) {
-                        var dataset = data.datasets[tooltipItem.datasetIndex];
-                        var meta = dataset._meta[0];
-                        var currentValue = dataset.data[tooltipItem.index];
-                        var percentage = parseFloat((currentValue / meta.total * 100).toFixed(1));
-
-                        return `${currentValue} (${percentage}%)`;
-                    },
-                    title: function (tooltipItem, data) {
-                        return data.labels[tooltipItem[0].index];
-                    }
-                }
-            },
-            plugins: {
-                datalabels: {
-                    backgroundColor: '#fff',
-                    color: '#000',
-                    anchor: 'end'
-                }
-            }
-        }
         return (
-            <div>
-                <Pie data={data} options={options} />
-            </div>
+            this.state.chartData &&
+            <Pie data={this.state.chartData} options={this.chartOptions} />
         );
     }
 }
