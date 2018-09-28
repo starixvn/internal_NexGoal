@@ -4,6 +4,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Services;
+    using NexGoal.Models.Employee;
     using NexGoal.Models.PARecord;
     using NexGoal.Services;
 
@@ -39,9 +40,9 @@
 
         public async Task<IActionResult> GetWorkLoad()
         {
-            var worklLoad = await employeeService.GetWorkLoadAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkLoadAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
-            return Json(worklLoad);
+            return Json(worklLoads);
         }
     }
 }

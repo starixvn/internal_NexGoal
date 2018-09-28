@@ -83,7 +83,7 @@ export default class App extends Component {
                                                         return (
                                                             <tr key={`performanceAppraisal${record.paRecordId}`}>
                                                                 <td>{record.period.name}</td>
-                                                                <td>record.grade.name</td>
+                                                                <td>{record.grade.name}</td>
                                                             </tr>
                                                         );
                                                     })
