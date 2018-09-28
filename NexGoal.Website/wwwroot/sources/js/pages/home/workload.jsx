@@ -78,11 +78,9 @@ export default class WorkLoad extends Component {
             }
         }
         return (
-            <div style={{ width: '500px', height: '400px' }} >
+            <div>
                 <Pie data={data} options={options} />
             </div>
         );
     }
 }
-
-ReactDOM.render(<WorkLoad />, document.getElementById("workload-wrapper"));

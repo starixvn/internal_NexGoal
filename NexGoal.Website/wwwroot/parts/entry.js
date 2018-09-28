@@ -42,7 +42,6 @@ module.exports = {
         [`${jsDistPath}/editmembercheckin`]: `${jsSourcePath}/evaluation/edit.jsx`,
         [`${jsDistPath}/create-employee-nomination`]: `${jsSourcePath}/employeenomination/create.jsx`,
         [`${jsDistPath}/reviewparecord`]: `${jsSourcePath}/review/index.jsx`,
-        [`${jsDistPath}/editparecord`]: `${jsSourcePath}/review/edit.jsx`,
-        [`${jsDistPath}/workload`]: `${jsSourcePath}/home/workload.jsx`
+        [`${jsDistPath}/editparecord`]: `${jsSourcePath}/review/edit.jsx`
     }
 };
