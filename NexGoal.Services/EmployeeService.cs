@@ -6,10 +6,10 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Employee;
-    using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
+    using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.PARecord;
 
     public class EmployeeService : IEmployeeService
@@ -90,27 +90,36 @@
                 EmployeeId = employeeId
             };
 
-            var paRecords = await baseService.GetDataAsync<PARecordModel>(criteria).ConfigureAwait(false);
-            IEnumerable<PeriodBaseModel> periods = await GetPeriodsAsync().ConfigureAwait(false);
+            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PeriodBaseModel>(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            foreach (PARecordModel paRecord in paRecords)
+            foreach (PARecordModel performanceAppraisal in tuple.Item1)
             {
-                paRecord.GradeId = cryptoService.Decrypt(paRecord.GradeId);
-                int.TryParse(paRecord.GradeId, out int gradeId);
-                paRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+                performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
+                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
+                performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
-                paRecord.Period = periods.FirstOrDefault(x => x.PeriodId == paRecord.PeriodId);
+                performanceAppraisal.Period = tuple.Item2.FirstOrDefault(x => x.PeriodId == performanceAppraisal.PeriodId);
             }
 
-            return paRecords;
+            return tuple.Item1;
         }
 
-        private async Task<IEnumerable<PeriodBaseModel>> GetPeriodsAsync()
+        public async Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId)
         {
-            var criteria = new GetPeriodsCriteria { IsActive = true };
+            var criteria = new GetNominationResultCriteria
+            {
+                EmployeeId = employeeId
+            };
 
-            return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
+            var tuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
+
+            foreach (EmployeeNominationModel nomination in tuple.Item1)
+            {
+                nomination.Period = tuple.Item2.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
+            }
+
+            return tuple.Item1;
         }
     }
 }

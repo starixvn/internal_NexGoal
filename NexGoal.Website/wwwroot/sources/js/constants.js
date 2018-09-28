@@ -40,6 +40,12 @@ export const PerformanceRecordStatus = {
     Closed: 4
 };
 
+export const NominationStatus = [
+    { value: 1, text: 'Nominated' },
+    { value: 2, text: 'Shortlisted' },
+    { value: 3, text: 'Winner' }
+];
+
 export const PaginationOptions = {
     sizePerPage: 20,
     showTotal: false,

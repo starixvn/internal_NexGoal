@@ -16,19 +16,21 @@ export default class App extends Component {
 
         this.state = {
             performanceAppraisals: [],
-            performanceRecords: []
+            performanceRecords: [],
+            nominations: []
         };
     }
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('home/GetPARecords')),
+            axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
+            axios(resolveClientUrl('home/GetNominationResult')),
             axios(resolveClientUrl('Self/Performance/Index'))
         ];
 
         Promise.all(promises)
-            .then(([paRecordResponse, performanceRecordResponse]) => {
-                let performanceAppraisals = paRecordResponse.data;
+            .then(([paResponse, nominationResponse, performanceRecordResponse]) => {
+                let performanceAppraisals = paResponse.data;
                 performanceAppraisals.map(record => record.year = moment(record.period.startDate).year());
                 performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
                     const val = item['year'];
@@ -47,6 +49,7 @@ export default class App extends Component {
 
                 this.setState({
                     performanceAppraisals: performanceAppraisals,
+                    nominations: nominationResponse.data,
                     performanceRecords: performanceRecordResponse.data.performanceRecords
                 });
             }).catch(axiosError);

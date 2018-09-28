@@ -5,6 +5,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
+    using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.PARecord;
 
     public interface IEmployeeService
@@ -20,5 +21,7 @@
         Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkLoadAsync(int employeeId);
 
         Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId);
+
+        Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId);
     }
 }
