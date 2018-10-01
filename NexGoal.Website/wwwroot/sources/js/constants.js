@@ -40,7 +40,7 @@ export const PerformanceRecordStatus = {
     Closed: 4
 };
 
-export const NominationStatus = [
+export const NominationStatuses = [
     { value: 1, text: 'Nominated' },
     { value: 2, text: 'Shortlisted' },
     { value: 3, text: 'Winner' }

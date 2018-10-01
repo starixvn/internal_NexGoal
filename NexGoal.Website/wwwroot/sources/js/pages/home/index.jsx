@@ -4,7 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../constants';
+import { DateFormat, NominationStatuses, PerformanceRecordStatus } from '../../constants';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import PersonalTimeline from './PersonalTimeline';
 import WorkLoad from './workload';
@@ -65,6 +65,7 @@ export default class App extends Component {
     render() {
         const performanceAppraisals = this.state.performanceAppraisals;
         const performanceRecords = this.state.performanceRecords;
+        const nominations = this.state.nominations;
 
         return (
             <div className="row">
@@ -97,6 +98,26 @@ export default class App extends Component {
                                                     })
                                                 }
                                             </Fragment>
+                                        );
+                                    })
+                                }
+                            </tbody>
+                        </table>
+                    }
+                    {
+                        nominations.length > 0 &&
+                        <table className="table table-bordered">
+                            <thead>
+                                <tr><th colSpan="2">Nomination</th></tr>
+                            </thead>
+                            <tbody>
+                                {
+                                    nominations.map(nomination => {
+                                        return (
+                                            <tr key={`nomination${nomination.eoqyId}`}>
+                                                <td>{nomination.period.title}</td>
+                                                <td>{NominationStatuses.find(x => x.value === nomination.statusId).text}</td>
+                                            </tr>
                                         );
                                     })
                                 }

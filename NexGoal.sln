@@ -3,12 +3,6 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0", "0", "{6ED4B51C-780A-4FA6-B970-C4010F1B4937}"
-	ProjectSection(SolutionItems) = preProject
-		SonarQube\NexGoalCSharp.ruleset = SonarQube\NexGoalCSharp.ruleset
-		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Core", "NexGoal.Core\NexGoal.Core.csproj", "{960EA39B-CD6A-4F0B-A9B4-85A145F65793}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Models", "NexGoal.Models\NexGoal.Models.csproj", "{D70F8AEE-0558-4DBB-9565-782FA76C27EF}"
@@ -33,7 +27,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Core.UnitTests", "N
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.AutoService", "NexGoal.AutoService\NexGoal.AutoService.csproj", "{ACEF4A7E-C6A3-48DD-881E-BD75DD3FFF09}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NexGoal.Website", "NexGoal.Website\NexGoal.Website.csproj", "{EDABDF2E-4D53-4588-A7E8-7BF5CE71E59A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NexGoal.Website", "NexGoal.Website\NexGoal.Website.csproj", "{EDABDF2E-4D53-4588-A7E8-7BF5CE71E59A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SonarQube", "SonarQube", "{63CCDB0E-35CA-4105-A118-D906485CA6B9}"
+	ProjectSection(SolutionItems) = preProject
+		SonarQube\NexGoalCSharp.ruleset = SonarQube\NexGoalCSharp.ruleset
+		SonarQube\SolutionBinding.sqconfig = SonarQube\SolutionBinding.sqconfig
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
