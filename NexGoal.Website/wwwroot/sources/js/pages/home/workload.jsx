@@ -2,21 +2,13 @@
 import axios from 'axios';
 import { Pie } from 'react-chartjs-2';
 import 'chartjs-plugin-datalabels';
+import memoize from "memoize-one";
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 
 export default class WorkLoad extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            workLoad: [],
-            chartData: null
-        };
-    }
-
-    componentDidMount() {
-        this.getWorkLoad();
     }
 
     chartOptions = {
@@ -44,23 +36,6 @@ export default class WorkLoad extends Component {
         }
     }
 
-    getWorkLoad = () => {
-        axios.get(resolveClientUrl('Home/GetWorkLoad'))
-            .then(response => {
-                this.setState({
-                    workLoad: response.data,
-                    chartData: {
-                        datasets: [{
-                            data: response.data.map(e => e.totalHours),
-                            backgroundColor: this.generateColors(response.data.length)
-                        }],
-
-                        labels: response.data.map(e => e.name)
-                    }
-                });
-            }).catch(axiosError);
-    }
-
     generateColors = number => {
         let colors = [];
 
@@ -77,10 +52,23 @@ export default class WorkLoad extends Component {
         return colors;
     }
 
+    getChartData = memoize(
+        workLoad => (
+            {
+                datasets: [{
+                    data: workLoad.map(e => e.totalHours),
+                    backgroundColor: this.generateColors(workLoad.length)
+                }],
+                labels: workLoad.map(e => e.name)
+            }
+        )
+    )
+
     render() {
+        var chartData = this.getChartData(this.props.workLoad);
+
         return (
-            this.state.chartData &&
-            <Pie data={this.state.chartData} options={this.chartOptions} />
+            <Pie data={chartData} options={this.chartOptions} />
         );
     }
 }

@@ -46,6 +46,20 @@
             return Json(worklLoads);
         }
 
+        public async Task<JsonResult> GetWorkLoadForLeader()
+        {
+            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkLoadForLeaderAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(worklLoads);
+        }
+
+        public async Task<JsonResult> GetWorkLoadForPM()
+        {
+            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkLoadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(worklLoads);
+        }
+
         public async Task<JsonResult> GetNominationResult()
         {
             IEnumerable<EmployeeNominationModel> nominations = await employeeService.GetNominationResultAsync(sessionService.EmployeeId).ConfigureAwait(false);

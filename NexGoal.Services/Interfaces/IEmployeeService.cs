@@ -23,5 +23,9 @@
         Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId);
 
         Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId);
+
+        Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkLoadForPMAsync(int employeeId);
+
+        Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkLoadForLeaderAsync(int employeeId);
     }
 }

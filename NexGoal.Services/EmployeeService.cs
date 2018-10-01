@@ -83,6 +83,26 @@
             return await baseService.GetDataAsync<EmployeeWorkLoadModel>(criteria).ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkLoadForPMAsync(int employeeId)
+        {
+            var criteria = new GetWorkLoadForPMCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<EmployeeWorkLoadModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkLoadForLeaderAsync(int employeeId)
+        {
+            var criteria = new GetWorkLoadForLeaderCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<EmployeeWorkLoadModel>(criteria).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId)
         {
             var criteria = new GetPerformanceAppraisalResult

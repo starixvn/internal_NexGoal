@@ -17,7 +17,8 @@ export default class App extends Component {
         this.state = {
             performanceAppraisals: [],
             performanceRecords: [],
-            nominations: []
+            nominations: [],
+            workLoad: []
         };
     }
 
@@ -25,11 +26,12 @@ export default class App extends Component {
         const promises = [
             axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
             axios(resolveClientUrl('home/GetNominationResult')),
-            axios(resolveClientUrl('Self/Performance/Index'))
+            axios(resolveClientUrl('Self/Performance/Index')),
+            axios(resolveClientUrl('Home/GetWorkLoad'))
         ];
 
         Promise.all(promises)
-            .then(([paResponse, nominationResponse, performanceRecordResponse]) => {
+            .then(([paResponse, nominationResponse, performanceRecordResponse, workLoadResponse]) => {
                 let performanceAppraisals = paResponse.data;
                 performanceAppraisals.map(record => record.year = moment(record.period.startDate).year());
                 performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
@@ -50,7 +52,8 @@ export default class App extends Component {
                 this.setState({
                     performanceAppraisals: performanceAppraisals,
                     nominations: nominationResponse.data,
-                    performanceRecords: performanceRecordResponse.data.performanceRecords
+                    performanceRecords: performanceRecordResponse.data.performanceRecords,
+                    workLoad: workLoadResponse.data
                 });
             }).catch(axiosError);
     }
@@ -134,7 +137,7 @@ export default class App extends Component {
                     }
                 </div>
                 <div className="col-sm-3">
-                    <WorkLoad />
+                    <WorkLoad workLoad={this.state.workLoad} />
                     <HrmSummary />
                 </div>
             </div>

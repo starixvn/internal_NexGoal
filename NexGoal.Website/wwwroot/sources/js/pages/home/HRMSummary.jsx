@@ -40,7 +40,7 @@ export default class HrmSummary extends Component {
                     <li style={{ paddingTop: "15px" }} >
                         TOEIC score:
                     {
-                            data.toeicScore > 0 ? data.toeicScore(moment(data.toeicExamDate).format("DD MMM, YYYY")) : " N/A"
+                            data.toeicScore > 0 ? `${data.toeicScore} ${moment(data.toeicExamDate).format("DD MMM, YYYY")}` : " N/A"
                         }
                     </li>
                     <li>Missing Check In/Out: {data.missingCheckInCheckOut}</li>
