@@ -73,34 +73,34 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkloadAsync(int employeeId)
+        public async Task<IEnumerable<EmployeeWorkloadModel>> GetWorkloadAsync(int employeeId)
         {
             var criteria = new GetWorkloadByEmployeeIdCriteria
             {
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<EmployeeWorkLoadModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeWorkloadModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkloadForPMAsync(int employeeId)
+        public async Task<IEnumerable<EmployeeWorkloadModel>> GetWorkloadForPMAsync(int employeeId)
         {
             var criteria = new GetWorkloadForPMCriteria
             {
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<EmployeeWorkLoadModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeWorkloadModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkloadForLeaderAsync(int employeeId)
+        public async Task<IEnumerable<EmployeeWorkloadModel>> GetWorkloadForLeaderAsync(int employeeId)
         {
             var criteria = new GetWorkloadForLeaderCriteria
             {
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataAsync<EmployeeWorkLoadModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataAsync<EmployeeWorkloadModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId)

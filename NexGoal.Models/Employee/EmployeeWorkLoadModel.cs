@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.Models.Employee
 {
-    public class EmployeeWorkLoadModel
+    public class EmployeeWorkloadModel
     {
         public int ProjectId { get; set; }
 
