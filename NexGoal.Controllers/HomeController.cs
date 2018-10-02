@@ -39,23 +39,23 @@
             return Json(records);
         }
 
-        public async Task<JsonResult> GetWorkLoad()
+        public async Task<JsonResult> GetWorkload()
         {
-            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkLoadAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkloadAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(worklLoads);
         }
 
-        public async Task<JsonResult> GetWorkLoadForLeader()
+        public async Task<JsonResult> GetWorkloadForLeader()
         {
-            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkLoadForLeaderAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkloadForLeaderAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(worklLoads);
         }
 
-        public async Task<JsonResult> GetWorkLoadForPM()
+        public async Task<JsonResult> GetWorkloadForPM()
         {
-            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkLoadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeWorkLoadModel> worklLoads = await employeeService.GetWorkloadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(worklLoads);
         }

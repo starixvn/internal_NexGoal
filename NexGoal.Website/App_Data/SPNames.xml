@@ -21,10 +21,10 @@
     <Setting Key="Employee_GetById" SpName="Employee_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_Search" SpName="Employee_Search" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetPerformanceAppraisalResult" SpName="Employee_GetPerformanceAppraisalResult" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Employee_GetWorkLoad" SpName="Employee_GetWorkLoad" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetWorkload" SpName="Employee_GetWorkload" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetNominationResult" SpName="Employee_GetNominationResult" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Employee_GetWorkLoadForLeader" SpName="Employee_GetWorkLoadForLeader" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Employee_GetWorkLoadForPM" SpName="Employee_GetWorkLoadForPM" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetWorkloadForLeader" SpName="Employee_GetWorkloadForLeader" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetWorkloadForPM" SpName="Employee_GetWorkloadForPM" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="EOQ">
     <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

@@ -2,11 +2,11 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetWorkLoadByEmployeeIdCriteria : CriteriaBase
+    public class GetWorkloadByEmployeeIdCriteria : CriteriaBase
     {
         public int EmployeeId { get; set; }
 
-        public override string GetSettingKey() => "Employee_GetWorkLoad";
+        public override string GetSettingKey() => "Employee_GetWorkload";
 
         public override bool IsValid() => EmployeeId > 0;
     }

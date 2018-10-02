@@ -18,14 +18,14 @@
 
         Task<CommandResult> EditEmployeeRolesAsync(EditEmployeeRolesModel model);
 
-        Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkLoadAsync(int employeeId);
+        Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkloadAsync(int employeeId);
 
         Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId);
 
         Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId);
 
-        Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkLoadForPMAsync(int employeeId);
+        Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkloadForPMAsync(int employeeId);
 
-        Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkLoadForLeaderAsync(int employeeId);
+        Task<IEnumerable<EmployeeWorkLoadModel>> GetWorkloadForLeaderAsync(int employeeId);
     }
 }
