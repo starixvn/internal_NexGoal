@@ -8,7 +8,6 @@
     using NexGoal.Criteria.Redmine;
     using NexGoal.Models.Employee;
     using NexGoal.Models.Redmine;
-    using NexGoal.Services.Interfaces;
 
     public class RedmineService : IRedmineService
     {

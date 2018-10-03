@@ -159,5 +159,16 @@
 
             return tuple.Item1;
         }
+
+        public async Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null)
+        {
+            var criteria = new GetMemberCriteria
+            {
+                ActorId = actorId,
+                Keyword = keyword
+            };
+
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+        }
     }
 }

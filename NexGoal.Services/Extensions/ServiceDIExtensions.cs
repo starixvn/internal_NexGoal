@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Services.Extensions
 {
     using Microsoft.Extensions.DependencyInjection;
-    using NexGoal.Services.Interfaces;
 
     public static class ServiceDIExtensions
     {

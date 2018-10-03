@@ -26,6 +26,7 @@
     <Setting Key="Employee_GetMemberNominationResult" SpName="Employee_GetMemberNominationResult" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetWorkloadForLeader" SpName="Employee_GetWorkloadForLeader" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetWorkloadForPM" SpName="Employee_GetWorkloadForPM" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetMember" SpName="Employee_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Redmine">
     <Setting Key="Redmine_GetTeamWorkLoad" SpName="Redmine_GetTeamWorkLoad" DbName="bodb_NexGoal" Plain="0"></Setting>
