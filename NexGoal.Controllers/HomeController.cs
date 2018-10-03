@@ -58,6 +58,14 @@
             return Json(worklLoads);
         }
 
+        public async Task<JsonResult> GetMembersWorkLoad()
+        {
+            var worklLoads = await redmineService.GetTeamWorkload(125, new DateTime(2017, 7, 1), new DateTime(2017, 12, 31))
+                .ConfigureAwait(false);
+
+            return Json(worklLoads);
+        }
+
         public async Task<JsonResult> GetWorkloadForPM()
         {
             IEnumerable<EmployeeWorkloadModel> worklLoads = await employeeService.GetWorkloadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
