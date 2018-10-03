@@ -39,8 +39,18 @@
             return View(id);
         }
 
-        public async Task<JsonResult> GetMemberNomination(int memberId)
+        public async Task<IActionResult> GetMemberNominationResult(int? memberId = null)
         {
+            if (memberId.HasValue)
+            {
+                IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+                if (!members.Any(x => x.EmployeeId == memberId))
+                {
+                    return RedirectToAction("AccessDenied", "Error");
+                }
+            }
+
             IEnumerable<EmployeeNominationModel> nominations = await employeeService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
             return Json(nominations);

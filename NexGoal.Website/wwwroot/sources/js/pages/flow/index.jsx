@@ -47,10 +47,7 @@ export default class App extends Component {
                 isActive: filter.isActive
             }
         }).then(response => {
-            const data = response.data;
-            data.map((e, index) => e.rowNum = index + 1);
-
-            this.setState({ flowTemplates: data });
+            this.setState({ flowTemplates: response.data });
         }).catch(axiosError);
     }
 

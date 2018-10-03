@@ -1,0 +1,14 @@
+fieldset {
+    @include border-radius(2px);
+    border: 1px solid #dfdfdf;
+    padding: 0 10px 10px;
+
+    legend {
+        width: auto;
+        font-size: 13px;
+        font-weight: bold;
+        border-bottom: none;
+        padding: 0 5px;
+        margin: 0;
+    }
+}

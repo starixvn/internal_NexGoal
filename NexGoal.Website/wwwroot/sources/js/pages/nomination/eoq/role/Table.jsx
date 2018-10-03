@@ -60,7 +60,7 @@ class Table extends Component {
                 classes: 'text-center',
                 headerStyle: { width: '50px' },
                 formatter: (cell, row, rowIndex) => {
-                    return <Fragment>{rowIndex + 1}</Fragment>;
+                    return rowIndex + 1;
                 }
             },
             { dataField: 'nickName', text: `${getResource('NickName')}`, headerStyle: { width: '120px' } },
