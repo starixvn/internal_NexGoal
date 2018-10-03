@@ -31,7 +31,7 @@ class EmployeeFlowSetting extends Component {
                         employeeFlowSettings.length > 0 &&
                         employeeFlowSettings.map((employeeFlowSetting, index) => {
                             return (
-                                <tr key={`employeeFlowSetting${employeeFlowSetting.groupId}`}>
+                                <tr key={`employeeFlowSetting${employeeFlowSetting.employeeId}`}>
                                     <td className="text-center">{index + 1}</td>
                                     <td className="text-center">{employeeFlowSetting.code}</td>
                                     <td className="text-center">{employeeFlowSetting.nickName}</td>

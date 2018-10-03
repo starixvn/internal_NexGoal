@@ -24,7 +24,10 @@
 
         Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId);
 
+        Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(int actorId, int? employeeId = null);
+        
         Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadForPMAsync(int employeeId);
+
 
         Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadForLeaderAsync(int employeeId);
     }

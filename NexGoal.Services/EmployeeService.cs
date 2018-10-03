@@ -141,5 +141,23 @@
 
             return tuple.Item1;
         }
+
+        public async Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(int actorId, int? employeeId = null)
+        {
+            var criteria = new GetMemberNominationResultCriteria
+            {
+                ActorId = actorId,
+                EmployeeId = employeeId
+            };
+
+            var tuple = await baseService.FetchMultipleAsync<EmployeeNominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
+
+            foreach (EmployeeNominationModel nomination in tuple.Item1)
+            {
+                nomination.Period = tuple.Item2.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
+            }
+
+            return tuple.Item1;
+        }
     }
 }
