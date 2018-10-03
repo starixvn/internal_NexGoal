@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Models.Redmine
 {
     using System.Collections.Generic;
+    using NexGoal.Models.Employee;
 
     public class EmployeeWorkLoadModel
     {
@@ -8,6 +9,6 @@
 
         public string NickName { get; set; }
 
-        public IList<Employee.ProjectWorkloadModel> Workloads { get; set; }
+        public IList<ProjectWorkloadModel> Workloads { get; set; }
     }
 }

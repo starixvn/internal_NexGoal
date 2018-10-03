@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Redmine;
+    using NexGoal.Models.Employee;
     using NexGoal.Models.Redmine;
     using NexGoal.Services.Interfaces;
 
@@ -42,7 +43,7 @@
                     {
                         EmployeeId = x.Key.EmpId,
                         NickName = x.Key.NickName,
-                        Workloads = x.Select(y => new Models.Employee.ProjectWorkloadModel
+                        Workloads = x.Select(y => new ProjectWorkloadModel
                         {
                             ProjectId = y.ProjectId,
                             Name = y.ProjectName,
@@ -61,7 +62,7 @@
                 {
                     foreach (var p in notExistProjects)
                     {
-                        var newProject = new Models.Employee.ProjectWorkloadModel
+                        var newProject = new ProjectWorkloadModel
                         {
                             ProjectId = p.ProjectId,
                             Name = p.ProjectName,
