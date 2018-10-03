@@ -42,7 +42,7 @@
                     {
                         EmployeeId = x.Key.EmpId,
                         NickName = x.Key.NickName,
-                        Workloads = x.Select(y => new Models.Employee.EmployeeWorkloadModel
+                        Workloads = x.Select(y => new Models.Employee.ProjectWorkloadModel
                         {
                             ProjectId = y.ProjectId,
                             Name = y.ProjectName,
@@ -61,7 +61,7 @@
                 {
                     foreach (var p in notExistProjects)
                     {
-                        var newProject = new Models.Employee.EmployeeWorkloadModel
+                        var newProject = new Models.Employee.ProjectWorkloadModel
                         {
                             ProjectId = p.ProjectId,
                             Name = p.ProjectName,

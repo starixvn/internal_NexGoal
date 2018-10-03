@@ -46,14 +46,14 @@
 
         public async Task<JsonResult> GetWorkload()
         {
-            IEnumerable<EmployeeWorkloadModel> worklLoads = await employeeService.GetWorkloadAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<ProjectWorkloadModel> worklLoads = await employeeService.GetWorkloadAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(worklLoads);
         }
 
         public async Task<JsonResult> GetWorkloadForLeader()
         {
-            IEnumerable<EmployeeWorkloadModel> worklLoads = await employeeService.GetWorkloadForLeaderAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<ProjectWorkloadModel> worklLoads = await employeeService.GetWorkloadForLeaderAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(worklLoads);
         }
@@ -68,7 +68,7 @@
 
         public async Task<JsonResult> GetWorkloadForPM()
         {
-            IEnumerable<EmployeeWorkloadModel> worklLoads = await employeeService.GetWorkloadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<ProjectWorkloadModel> worklLoads = await employeeService.GetWorkloadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(worklLoads);
         }
