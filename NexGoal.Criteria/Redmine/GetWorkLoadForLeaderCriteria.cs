@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Criteria.Employee
+﻿namespace NexGoal.Criteria.Redmine
 {
     using Fanex.Data.Repository;
 

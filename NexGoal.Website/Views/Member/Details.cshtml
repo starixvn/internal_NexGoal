@@ -1,1 +1,13 @@
-﻿
+﻿@model int
+
+@section Styles {
+    <link rel="stylesheet" href="~/dist/styles/editeoqy.css" />
+}
+
+<input type="hidden" id="MemberId" value="@Model" />
+
+<div id="nomination-wrapper"></div>
+
+@section Scripts{
+    <script src="~/dist/js/editeoq.js"></script>
+}

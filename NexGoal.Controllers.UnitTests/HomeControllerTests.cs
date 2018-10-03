@@ -10,6 +10,7 @@
     {
         private ISessionService sessionService;
         private IEmployeeService employeeService;
+        private IRedmineService redmineService;
 
         [Fact]
         public void Index_WhenCalled_ReturnsAsExpectedViewResult()
@@ -39,7 +40,8 @@
         {
             sessionService = FakeSessionService();
             employeeService = Substitute.For<IEmployeeService>();
-            var controller = new HomeController(sessionService, employeeService);
+            redmineService = Substitute.For<IRedmineService>();
+            var controller = new HomeController(sessionService, employeeService, redmineService);
 
             return controller;
         }

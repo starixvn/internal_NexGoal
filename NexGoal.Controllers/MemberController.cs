@@ -31,7 +31,7 @@
         {
             IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
-            if (members.Any(x => x.EmployeeId == id))
+            if (!members.Any(x => x.EmployeeId == id))
             {
                 return RedirectToAction("AccessDenied", "Error");
             }

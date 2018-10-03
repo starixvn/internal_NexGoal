@@ -6,7 +6,6 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Redmine;
-    using NexGoal.Models.Employee;
     using NexGoal.Models.Redmine;
 
     public class RedmineService : IRedmineService
@@ -18,7 +17,7 @@
             this.baseService = baseService;
         }
 
-        public async Task<IList<EmployeeWorkLoadModel>> GetTeamWorkload(int EmployeeId, DateTime from, DateTime to)
+        public async Task<IList<EmployeeWorkloadModel>> GetTeamWorkload(int EmployeeId, DateTime from, DateTime to)
         {
             var criteria = new GetTeamWorkloadCriteria
             {
@@ -29,16 +28,46 @@
 
             var workloadEntries = await baseService.GetDataAsync<MembersWorkloadEntityModel>(criteria).ConfigureAwait(false);
 
-            IList<EmployeeWorkLoadModel> data = FillFullWorkload(workloadEntries);
+            IList<EmployeeWorkloadModel> data = FillFullWorkload(workloadEntries);
 
             return data;
         }
 
-        private IList<EmployeeWorkLoadModel> FillFullWorkload(IEnumerable<MembersWorkloadEntityModel> workloadEntries)
+        public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadAsync(int employeeId)
+        {
+            var criteria = new GetWorkloadByEmployeeIdCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadForPMAsync(int employeeId)
+        {
+            var criteria = new GetWorkloadForPMCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadForLeaderAsync(int employeeId)
+        {
+            var criteria = new GetWorkloadForLeaderCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
+        }
+
+        private IList<EmployeeWorkloadModel> FillFullWorkload(IEnumerable<MembersWorkloadEntityModel> workloadEntries)
         {
             var workloads = workloadEntries
                     .GroupBy(w => new { w.EmpId, w.NickName })
-                    .Select(x => new EmployeeWorkLoadModel
+                    .Select(x => new EmployeeWorkloadModel
                     {
                         EmployeeId = x.Key.EmpId,
                         NickName = x.Key.NickName,
@@ -52,7 +81,7 @@
 
             var allProjects = workloadEntries.GroupBy(p => new { p.ProjectId, p.ProjectName }).Select(x => x.Key).ToList();
 
-            IList<EmployeeWorkLoadModel> data = new List<EmployeeWorkLoadModel>();
+            IList<EmployeeWorkloadModel> data = new List<EmployeeWorkloadModel>();
             foreach (var workload in workloads)
             {
                 var notExistProjects = allProjects.Where(p => !workload.Workloads.Any(w => w.ProjectId == p.ProjectId));

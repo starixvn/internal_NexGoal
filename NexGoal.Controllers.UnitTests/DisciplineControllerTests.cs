@@ -65,7 +65,7 @@
 
             disciplineService.GetHRMSummary(DateTime.Today, DateTime.Today, 363).Returns(expectResult);
 
-            var result = await controller.GetHRMSummary(DateTime.Today, DateTime.Today);
+            var result = await controller.GetHRMSummary();
 
             Assert.IsType<JsonResult>(result);
         }

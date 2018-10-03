@@ -5,9 +5,9 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Services;
-    using NexGoal.Models.Employee;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.Redmine;
     using NexGoal.Services;
 
     public class HomeController : Controller
@@ -45,31 +45,30 @@
 
         public async Task<JsonResult> GetWorkload()
         {
-            IEnumerable<ProjectWorkloadModel> worklLoads = await employeeService.GetWorkloadAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<ProjectWorkloadModel> workloads = await redmineService.GetWorkloadAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
-            return Json(worklLoads);
+            return Json(workloads);
         }
 
         public async Task<JsonResult> GetWorkloadForLeader()
         {
-            IEnumerable<ProjectWorkloadModel> worklLoads = await employeeService.GetWorkloadForLeaderAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<ProjectWorkloadModel> workloads = await redmineService.GetWorkloadForLeaderAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
-            return Json(worklLoads);
+            return Json(workloads);
         }
 
         public async Task<JsonResult> GetMembersWorkLoad()
         {
-            var worklLoads = await redmineService.GetTeamWorkload(125, new DateTime(2017, 7, 1), new DateTime(2017, 12, 31))
-                .ConfigureAwait(false);
+            IList<EmployeeWorkloadModel> workloads = await redmineService.GetTeamWorkload(125, new DateTime(2017, 7, 1), new DateTime(2017, 12, 31)).ConfigureAwait(false);
 
-            return Json(worklLoads);
+            return Json(workloads);
         }
 
         public async Task<JsonResult> GetWorkloadForPM()
         {
-            IEnumerable<ProjectWorkloadModel> worklLoads = await employeeService.GetWorkloadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<ProjectWorkloadModel> workloads = await redmineService.GetWorkloadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
-            return Json(worklLoads);
+            return Json(workloads);
         }
 
         public async Task<JsonResult> GetNominationResult()
