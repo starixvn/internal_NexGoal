@@ -40,7 +40,7 @@ export default class PersonalTimeline extends Component {
             }
         };
         return (
-            <div style={{ height: '300px', margin: '0 auto', paddingTop: 20 }}>
+            <div style={{ height: '100px', margin: '0 auto', paddingTop: 20 }}>
                 {
                     <HorizontalTimeline
                         index={this.state.value}

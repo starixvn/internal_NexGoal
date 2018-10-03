@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Services.Extensions
 {
     using Microsoft.Extensions.DependencyInjection;
+    using NexGoal.Services.Interfaces;
 
     public static class ServiceDIExtensions
     {
@@ -21,6 +22,7 @@
             services.AddScoped<IPerformanceCheckInService, PerformanceCheckInService>();
             services.AddScoped<IPARecordService, PARecordService>();
             services.AddScoped<IEmployeeNominationService, EmployeeNominationService>();
+            services.AddScoped<IRedmineService, RedmineService>();
         }
     }
 }

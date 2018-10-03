@@ -35,7 +35,7 @@ export default class HrmSummary extends Component {
                     top: "-20px",
                     background: "#fff",
                     padding: "5px"
-                }}>HRM</h3>
+                }} >HRM</h3>
                 <ul style={{ fontSize: "14px", fontWeight: 550 }}>
                     <li style={{ paddingTop: "15px" }} >
                         TOEIC score:

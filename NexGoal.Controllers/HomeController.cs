@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
@@ -8,18 +9,22 @@
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.PARecord;
     using NexGoal.Services;
+    using NexGoal.Services.Interfaces;
 
     public class HomeController : Controller
     {
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
+        private readonly IRedmineService redmineService;
 
         public HomeController(
             ISessionService sessionService,
-            IEmployeeService employeeService)
+            IEmployeeService employeeService,
+            IRedmineService redmineService)
         {
             this.sessionService = sessionService;
             this.employeeService = employeeService;
+            this.redmineService = redmineService;
         }
 
         public IActionResult Index()

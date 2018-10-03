@@ -26,6 +26,9 @@
     <Setting Key="Employee_GetWorkloadForLeader" SpName="Employee_GetWorkloadForLeader" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetWorkloadForPM" SpName="Employee_GetWorkloadForPM" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="Redmine">
+    <Setting Key="Redmine_GetTeamWorkLoad" SpName="Redmine_GetTeamWorkLoad" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
   <Function Name="EOQ">
     <Setting Key="EOQ_Get" SpName="EOQ_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_GetYear" SpName="EOQ_GetYear" DbName="bodb_NexGoal" Plain="0"></Setting>

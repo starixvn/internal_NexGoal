@@ -9,6 +9,7 @@ import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import PersonalTimeline from './PersonalTimeline';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
+import TeamWorkLoad from './TeamWorkLoad';
 
 export default class App extends Component {
     constructor(props) {
@@ -161,6 +162,7 @@ export default class App extends Component {
                     <WorkLoad workLoad={this.state.workLoad} />
                     <HrmSummary />
                 </div>
+                <TeamWorkLoad />
             </div>
         );
     }
