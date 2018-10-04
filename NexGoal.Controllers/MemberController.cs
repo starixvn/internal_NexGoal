@@ -7,6 +7,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.PARecord;
     using NexGoal.Services;
 
     public class MemberController : Controller
@@ -39,18 +40,16 @@
             return View(id);
         }
 
+        public async Task<IActionResult> GetMemberPerformanceAppraisalResult(int? periodId = null, int? memberId = null)
+        {
+            IEnumerable<PARecordModel> performanceAppraisals =
+                await employeeService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId).ConfigureAwait(false);
+
+            return Json(performanceAppraisals);
+        }
+
         public async Task<IActionResult> GetMemberNominationResult(int? memberId = null)
         {
-            if (memberId.HasValue)
-            {
-                IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
-
-                if (!members.Any(x => x.EmployeeId == memberId))
-                {
-                    return RedirectToAction("AccessDenied", "Error");
-                }
-            }
-
             IEnumerable<EmployeeNominationModel> nominations = await employeeService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
             return Json(nominations);

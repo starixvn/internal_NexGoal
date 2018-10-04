@@ -28,7 +28,11 @@
             this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(string keyword, int? groupId, bool? isLocal, bool isDisabled)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(
+            string keyword = null,
+            int? groupId = null,
+            bool? isLocal = null,
+            bool? isDisabled = null)
         {
             var criteria = new GetEmployeesCriteria
             {
@@ -89,6 +93,35 @@
                 int.TryParse(performanceAppraisal.GradeId, out int gradeId);
                 performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
+                performanceAppraisal.Period = tuple.Item2.FirstOrDefault(x => x.PeriodId == performanceAppraisal.PeriodId);
+            }
+
+            return tuple.Item1;
+        }
+
+        public async Task<IEnumerable<PARecordModel>> GetMemberPerformanceAppraisalResultAsync(
+            int actorId,
+            int? periodId = null,
+            int? employeeId = null)
+        {
+            var criteria = new GetMemberPerformanceAppraisalResult
+            {
+                ActorId = actorId,
+                PeriodId = periodId,
+                EmployeeId = employeeId
+            };
+
+            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PeriodBaseModel>(criteria).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> members = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+
+            foreach (PARecordModel performanceAppraisal in tuple.Item1)
+            {
+                performanceAppraisal.GradeId = cryptoService.Decrypt(performanceAppraisal.GradeId);
+                int.TryParse(performanceAppraisal.GradeId, out int gradeId);
+                performanceAppraisal.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+                performanceAppraisal.Employee = members.FirstOrDefault(x => x.EmployeeId == performanceAppraisal.EmployeeId);
                 performanceAppraisal.Period = tuple.Item2.FirstOrDefault(x => x.PeriodId == performanceAppraisal.PeriodId);
             }
 

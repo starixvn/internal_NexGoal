@@ -10,7 +10,10 @@
 
     public interface IEmployeeService
     {
-        Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(string keyword, int? groupId, bool? isLocal, bool isDisabled);
+        Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(string keyword = null,
+            int? groupId = null,
+            bool? isLocal = null,
+            bool? isDisabled = null);
 
         Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId);
 
@@ -19,6 +22,11 @@
         Task<CommandResult> EditEmployeeRolesAsync(EditEmployeeRolesModel model);
 
         Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId);
+
+        Task<IEnumerable<PARecordModel>> GetMemberPerformanceAppraisalResultAsync(
+            int actorId,
+            int? periodId = null,
+            int? employeeId = null);
 
         Task<IEnumerable<EmployeeNominationModel>> GetNominationResultAsync(int employeeId);
 

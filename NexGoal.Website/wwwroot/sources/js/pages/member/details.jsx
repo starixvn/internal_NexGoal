@@ -13,7 +13,8 @@ export default class App extends Component {
 
         this.state = {
             memberId: document.getElementById('MemberId').value,
-            memberNominations: []
+            performanceAppraisals: [],
+            nominations: []
         };
     }
 
@@ -21,34 +22,48 @@ export default class App extends Component {
         const memberId = this.state.memberId;
 
         const promises = [
-            axios(resolveClientUrl('member/GetMemberNominationResult'), {
-                params: {
-                    memberId: memberId
-                }
-            })
+            axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
+            axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } })
         ];
 
         Promise.all(promises)
-            .then(([memberNominationResponse]) => {
-                this.setState({ memberNominations: memberNominationResponse.data });
+            .then(([nominationResponse, performanceAppraisalResponse]) => {
+                this.setState({
+                    nominations: nominationResponse.data,
+                    performanceAppraisals: performanceAppraisalResponse.data
+                });
             }).catch(axiosError);
     }
 
     render() {
-        const memberNominations = this.state.memberNominations;
+        const nominations = this.state.nominations;
+        const performanceAppraisals = this.state.performanceAppraisals;
 
         return (
             <ToastLayout>
                 <div className="row">
                     <div className="col-sm-3">
                         <fieldset>
+                            <legend>Member PAs</legend>
+                            {
+                                performanceAppraisals.map(performanceAppraisal => {
+                                    return (
+                                        <div key={`performanceAppraisal${performanceAppraisal.paRecordId}`}>
+                                            {performanceAppraisal.period.name}-
+                                            {performanceAppraisal.grade.name}
+                                        </div>
+                                    );
+                                })
+                            }
+                        </fieldset>
+                        <fieldset>
                             <legend>{getResource('MemberNomination')}</legend>
                             {
-                                memberNominations.map(memberNomination => {
+                                nominations.map(nomination => {
                                     return (
-                                        <div key={`memberNomination-${memberNomination.employeeId}-${memberNomination.period.nominationPeriodId}`}>
-                                            {memberNomination.period.title}-
-                                            {NominationStatuses.find(x => x.value === memberNomination.statusId).text}
+                                        <div key={`nomination${nomination.employeeId}-${nomination.period.nominationPeriodId}`}>
+                                            {nomination.period.title}-
+                                            {NominationStatuses.find(x => x.value === nomination.statusId).text}
                                         </div>
                                     );
                                 })
