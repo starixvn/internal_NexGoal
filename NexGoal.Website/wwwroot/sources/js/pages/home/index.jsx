@@ -10,6 +10,7 @@ import PersonalTimeline from './PersonalTimeline';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
 import TeamWorkLoad from './TeamWorkLoad';
+import MemberTimeline from './MemberTimeline';
 
 export default class App extends Component {
     constructor(props) {
@@ -28,7 +29,7 @@ export default class App extends Component {
             axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
             axios(resolveClientUrl('home/GetNominationResult')),
             axios(resolveClientUrl('Self/Performance/Index')),
-            axios(resolveClientUrl('Home/GetWorkLoad'))
+            axios(resolveClientUrl('Home/GetWorkLoad')),
         ];
 
         Promise.all(promises)
@@ -71,7 +72,12 @@ export default class App extends Component {
         return (
             <div className="row">
                 <div className="col-sm-3">
-                    <PersonalTimeline />
+
+                    <MemberTimeline memberName="Elton" pcis={this.state.performanceRecords.slice(0).reverse()} />
+                    <MemberTimeline memberName="Raymond" pcis={this.state.performanceRecords.slice(0).reverse()} />
+                    <MemberTimeline memberName="Tim" pcis={this.state.performanceRecords.slice(0).reverse()} />
+                    <MemberTimeline memberName="Olivier" pcis={this.state.performanceRecords.slice(0).reverse()} />
+
                     {
                         performanceAppraisals.length > 0 &&
                         <table className="table table-bordered">

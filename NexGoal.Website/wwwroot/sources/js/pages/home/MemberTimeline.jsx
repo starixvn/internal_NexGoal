@@ -34,6 +34,7 @@ export default class MemberTimeline extends Component {
                             getLabel={this.getLabel}
                             values={pcis.map(pci => pci.createdDate)}
                             fillingMotion={{ stiffness: 150, damping: 25 }}
+
                         />
                     </div>
                 </div>
