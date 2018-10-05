@@ -32,6 +32,11 @@
 
         Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(int actorId, int? employeeId = null);
 
+        Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationDetailsAsync(
+            int actorId,
+            int? nominationPeriodId = null,
+            int? employeeId = null);
+
         Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null);
     }
 }

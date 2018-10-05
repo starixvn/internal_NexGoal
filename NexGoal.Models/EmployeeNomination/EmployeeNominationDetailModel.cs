@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Models.EmployeeNomination
 {
+    using System;
     using Newtonsoft.Json;
     using NexGoal.Models.Common;
 
@@ -13,5 +14,7 @@
         public EmployeeBaseModel Nominator { get; set; }
 
         public string Comment { get; set; }
+        public DateTime CreatedDate { get; set; }
+        public DateTime? ModifiedDate { get; set; }
     }
 }
