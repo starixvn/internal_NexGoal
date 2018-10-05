@@ -13,7 +13,7 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 
-export default class EditMemberCheckIn extends Component {
+export default class EditMemberPerformance extends Component {
     constructor(props) {
         super(props);
 
@@ -42,7 +42,7 @@ export default class EditMemberCheckIn extends Component {
         const promises = [
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
-            axios(resolveClientUrl(`Member/PerformanceCheckIn/GetById/${this.state.performanceRecord.performanceRecordId}`))
+            axios(resolveClientUrl(`Member/Performance/GetById/${this.state.performanceRecord.performanceRecordId}`))
         ];
 
         Promise.all(promises)
@@ -162,7 +162,7 @@ export default class EditMemberCheckIn extends Component {
             });
 
             axios({
-                url: resolveClientUrl('Member/PerformanceCheckIn/Edit'),
+                url: resolveClientUrl('Member/Performance/Edit'),
                 method: 'POST',
                 data: performanceRecord,
                 headers: {
@@ -259,4 +259,4 @@ export default class EditMemberCheckIn extends Component {
     }
 }
 
-ReactDOM.render(<EditMemberCheckIn />, document.getElementById('evaluation-wrapper'));
+ReactDOM.render(<EditMemberPerformance />, document.getElementById('evaluation-wrapper'));

@@ -4,13 +4,13 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.PerformanceCheckIn;
+    using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
     using NSubstitute;
     using Xunit;
 
-    public class PerformanceCheckInServiceTests
+    public class PerformanceRecordServiceTests
     {
         private IBaseService baseService;
         private IAvatarService avatarService;
@@ -25,7 +25,7 @@
             {
                 new EmployeeBaseModel { EmployeeId = 1, NickName = "tim.trinh" }
             };
-            var service = GetPerformanceCheckInService();
+            var service = GetPerformanceRecordService();
             baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetCreatorCriteria>()).Returns(expected);
 
             // Act
@@ -43,7 +43,7 @@
             {
                 new EmployeeBaseModel { EmployeeId = 1, NickName = "tim.trinh" }
             };
-            var service = GetPerformanceCheckInService();
+            var service = GetPerformanceRecordService();
             baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetMemberCriteria>()).Returns(expected);
 
             // Act
@@ -54,7 +54,7 @@
         }
 
         [Fact]
-        public async Task CreatePerformanceCheckInAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task CreatePerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -66,18 +66,18 @@
                 EmployeeId = 1,
                 CreatorId = 2
             };
-            var service = GetPerformanceCheckInService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<CreatePerformanceCheckInCriteria>()).Returns(expected);
+            var service = GetPerformanceRecordService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<CreatePerformanceRecordCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.CreatePerformanceCheckInAsync(performanceRecord);
+            var actual = await service.CreatePerformanceRecordAsync(performanceRecord);
 
             // Assert
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task EditPerformanceCheckInAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task EditPerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult
@@ -90,11 +90,11 @@
                 EmployeeId = 1,
                 CreatorId = 2
             };
-            var service = GetPerformanceCheckInService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditPerformanceCheckInCriteria>()).Returns(expected);
+            var service = GetPerformanceRecordService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditPerformanceRecordCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditPerformanceCheckInAsync(performanceRecord);
+            var actual = await service.EditPerformanceRecordAsync(performanceRecord);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -102,13 +102,13 @@
 
         #region Helpers
 
-        private PerformanceCheckInService GetPerformanceCheckInService()
+        private PerformanceRecordService GetPerformanceRecordService()
         {
             baseService = Substitute.For<IBaseService>();
             avatarService = Substitute.For<IAvatarService>();
             cryptoService = Substitute.For<ICryptoService>();
             commonService = Substitute.For<ICommonService>();
-            var service = new PerformanceCheckInService(baseService, avatarService, cryptoService, commonService);
+            var service = new PerformanceRecordService(baseService, avatarService, cryptoService, commonService);
 
             return service;
         }

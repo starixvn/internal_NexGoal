@@ -6,19 +6,19 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Criteria.PerformanceCheckIn;
+    using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
 
-    public class PerformanceCheckInService : IPerformanceCheckInService
+    public class PerformanceRecordService : IPerformanceRecordService
     {
         private readonly IBaseService baseService;
         private readonly IAvatarService avatarService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
 
-        public PerformanceCheckInService(
+        public PerformanceRecordService(
             IBaseService baseService,
             IAvatarService avatarService,
             ICryptoService cryptoService,
@@ -50,9 +50,9 @@
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceCheckInByEmployeeAsync(GetPerformanceCheckInByEmployeeParam param)
+        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceRecordByEmployeeAsync(GetPerformanceRecordByEmployeeParam param)
         {
-            var criteria = new GetPerformanceCheckInByEmployeeCriteria
+            var criteria = new GetPerformanceRecordByEmployeeCriteria
             {
                 EmployeeId = param.EmployeeId,
                 FromDate = param.FromDate,
@@ -75,11 +75,11 @@
             return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
         }
 
-        public async Task<PerformanceRecordModel> GetPerformanceCheckInByIdAsync(
+        public async Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(
             int performanceRecordId,
             int creatorId)
         {
-            var criteria = new GetPerformanceCheckInByIdCriteria
+            var criteria = new GetPerformanceRecordByIdCriteria
             {
                 PerformanceRecordId = performanceRecordId,
                 CreatorId = creatorId
@@ -98,9 +98,9 @@
             return performanceRecord;
         }
 
-        public async Task<CommandResult> CreatePerformanceCheckInAsync(CreatePerformanceRecordModel performanceRecord)
+        public async Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord)
         {
-            var criteria = new CreatePerformanceCheckInCriteria
+            var criteria = new CreatePerformanceRecordCriteria
             {
                 EmployeeId = performanceRecord.EmployeeId,
                 CreatorId = performanceRecord.CreatorId,
@@ -117,9 +117,9 @@
             return commandResult;
         }
 
-        public async Task<CommandResult> EditPerformanceCheckInAsync(EditPerformanceRecordModel performanceRecord)
+        public async Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord)
         {
-            var criteria = new EditPerformanceCheckInCriteria
+            var criteria = new EditPerformanceRecordCriteria
             {
                 PerformanceRecordId = performanceRecord.PerformanceRecordId,
                 EmployeeId = performanceRecord.EmployeeId,
@@ -128,7 +128,7 @@
                 Comment = performanceRecord.Comment,
                 ProjectIds = performanceRecord.ProjectIds,
                 StatusId = performanceRecord.StatusId,
-                RoleId = performanceRecord.RoleId
+                TypeId = performanceRecord.TypeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

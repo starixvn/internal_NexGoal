@@ -11,35 +11,36 @@
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Services;
 
-    public class MemberCheckInController : Controller
+    public class MemberPerformanceController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IPerformanceCheckInService performanceCheckInService;
+        private readonly IPerformanceRecordService performanceRecordService;
 
-        public MemberCheckInController(
+        public MemberPerformanceController(
             ISessionService sessionService,
-            IPerformanceCheckInService performanceCheckInService)
+            IPerformanceRecordService performanceRecordService)
         {
             this.sessionService = sessionService;
-            this.performanceCheckInService = performanceCheckInService;
+            this.performanceRecordService = performanceRecordService;
         }
 
-        [Route("Member/PerformanceCheckIn/GetMembers")]
+        [Route("Member/Performance/GetMembers")]
         public async Task<JsonResult> GetMembers()
         {
-            IEnumerable<EmployeeBaseModel> members = await performanceCheckInService.GetMembersAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> members = await performanceRecordService.GetMembersAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(members);
         }
 
-        [Route("Member/PerformanceCheckIn/Create")]
+        [Route("Member/Performance/Create")]
         [HttpPost]
         public async Task<JsonResult> Create(CreatePerformanceRecordModel performanceRecord)
         {
             if (ModelState.IsValid)
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                CommandResult commandResult = await performanceCheckInService.CreatePerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
+                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                CommandResult commandResult = await performanceRecordService.CreatePerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -48,10 +49,10 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [Route("Member/PerformanceCheckIn/Edit/{id}")]
+        [Route("Member/Performance/Edit/{id}")]
         public async Task<IActionResult> Edit(int id)
         {
-            PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            PerformanceRecordModel record = await performanceRecordService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 
             if (record == null)
             {
@@ -66,7 +67,7 @@
             return View(id);
         }
 
-        [Route("Member/PerformanceCheckIn/Edit")]
+        [Route("Member/Performance/Edit")]
         [HttpPost]
         public async Task<JsonResult> Edit(EditPerformanceRecordModel performanceRecord)
         {
@@ -74,7 +75,8 @@
             {
                 performanceRecord.EmployeeId = sessionService.EmployeeId;
                 performanceRecord.CreatorId = sessionService.EmployeeId;
-                CommandResult commandResult = await performanceCheckInService.EditPerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
+                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
+                CommandResult commandResult = await performanceRecordService.EditPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -83,10 +85,10 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [Route("Member/PerformanceCheckIn/GetById/{id}")]
+        [Route("Member/Performance/GetById/{id}")]
         public async Task<JsonResult> GetById(int id)
         {
-            PerformanceRecordModel record = await performanceCheckInService.GetPerformanceCheckInByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            PerformanceRecordModel record = await performanceRecordService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(record);
         }

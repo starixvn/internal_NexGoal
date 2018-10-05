@@ -12,7 +12,7 @@ export default class EvaluatorTimeline extends Component {
     }
 
     getMembersPCI = function () {
-        axios.get(resolveClientUrl('Self/PerformanceCheckIn/Index'))
+        axios.get(resolveClientUrl('Self/Performance/Index'))
             .then(response => {
                 this.setState(
                     {

@@ -55,7 +55,7 @@
         }
 
         [Fact]
-        public async Task EditPerformanceCheckInAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task EditPARecordByReviewerAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange
             var expected = new CommandResult

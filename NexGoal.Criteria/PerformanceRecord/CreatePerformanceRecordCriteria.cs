@@ -1,6 +1,6 @@
-﻿namespace NexGoal.Criteria.PerformanceCheckIn
+﻿namespace NexGoal.Criteria.PerformanceRecord
 {
-    public class CreatePerformanceCheckInCriteria : CommandBaseCriteria
+    public class CreatePerformanceRecordCriteria : CommandBaseCriteria
     {
         public int PerformanceRecordId { get; set; }
         public int EmployeeId { get; set; }

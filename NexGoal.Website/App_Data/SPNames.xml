@@ -103,12 +103,12 @@
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Performanace Record">
-    <Setting Key="PerformanceCheckIn_GetCreator" SpName="PerformanceCheckIn_GetCreator" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceCheckIn_GetMember" SpName="PerformanceCheckIn_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceCheckIn_GetByEmployee" SpName="PerformanceCheckIn_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceCheckIn_GetById" SpName="PerformanceCheckIn_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_GetCreator" SpName="PerformanceRecord_GetCreator" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_GetMember" SpName="PerformanceRecord_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_GetByEmployee" SpName="PerformanceRecord_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_GetById" SpName="PerformanceRecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_Insert" SpName="PerformanceRecord_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceCheckIn_Update" SpName="PerformanceCheckIn_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_Update" SpName="PerformanceRecord_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Performanace Appraisal">
     <Setting Key="PARecord_GetPeriodByActor" SpName="PARecord_GetPeriodByActor" DbName="bodb_NexGoal" Plain="0"></Setting>

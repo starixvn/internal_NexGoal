@@ -18,7 +18,7 @@
             services.AddScoped<IPeriodService, PeriodService>();
             services.AddScoped<IGroupFlowSettingService, GroupFlowSettingService>();
             services.AddScoped<IEmployeeFlowSettingService, EmployeeFlowSettingService>();
-            services.AddScoped<IPerformanceCheckInService, PerformanceCheckInService>();
+            services.AddScoped<IPerformanceRecordService, PerformanceRecordService>();
             services.AddScoped<IPARecordService, PARecordService>();
             services.AddScoped<IEmployeeNominationService, EmployeeNominationService>();
             services.AddScoped<IRedmineService, RedmineService>();

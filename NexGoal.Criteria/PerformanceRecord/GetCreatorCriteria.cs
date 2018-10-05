@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Criteria.PerformanceCheckIn
+﻿namespace NexGoal.Criteria.PerformanceRecord
 {
     using Fanex.Data.Repository;
 
@@ -6,7 +6,7 @@
     {
         public int EmployeeId { get; set; }
 
-        public override string GetSettingKey() => "PerformanceCheckIn_GetCreator";
+        public override string GetSettingKey() => "PerformanceRecord_GetCreator";
 
         public override bool IsValid() => EmployeeId > 0;
     }
