@@ -11,6 +11,7 @@ import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
 import TeamWorkLoad from './TeamWorkLoad';
+import MemberPerformance from './MemberPerformance';
 
 export default class App extends Component {
     constructor(props) {
@@ -97,6 +98,10 @@ export default class App extends Component {
             <div className="row">
                 <ToastLayout />
                 <div className="col-sm-3">
+                    <MemberPerformance memberName="Elton" pcis={this.state.performanceRecords.slice(0).reverse()} />
+                    <MemberPerformance memberName="Raymond" pcis={this.state.performanceRecords.slice(0).reverse()} />
+                    <MemberPerformance memberName="Tim" pcis={this.state.performanceRecords.slice(0).reverse()} />
+                    <MemberPerformance memberName="Olivier" pcis={this.state.performanceRecords.slice(0).reverse()} />
                     {
                         performanceAppraisals.length > 0 &&
                         <table className="table table-bordered">

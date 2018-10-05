@@ -8,6 +8,6 @@
 
         public string GroupName { get; set; }
 
-        public IEnumerable<EmployeeWorkloadModel> EmployeeWorkloads { get; set; }
+        public IList<EmployeeWorkloadModel> EmployeeWorkloads { get; set; }
     }
 }

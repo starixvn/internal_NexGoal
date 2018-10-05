@@ -9,3 +9,18 @@
 .section-body {
     padding-top: 15px !important;
 }
+
+.pa-container {
+    overflow: auto;
+    white-space: nowrap;
+
+    .pa-item {
+        width: 60px;
+        height: 40px;
+        border: 1px solid black;
+        display: inline-block;
+        text-align: center;
+        margin: 1px;
+        line-height: 35px;
+    }
+}
