@@ -9,7 +9,8 @@ export default class TeamWorkLoad extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: [],
+            workloads: [],
+            team: '',
             xAxesMaxValue: 0
         };
     }
@@ -22,8 +23,9 @@ export default class TeamWorkLoad extends Component {
             .then(response => {
                 this.setState(
                     {
-                        data: this.generateDataSets(response.data),
-                        xAxesMaxValue: this.calculatexAxesMaxValue(response.data)
+                        workloads: this.generateDataSets(response.data.employeeWorkloads),
+                        team: response.data.groupName,
+                        xAxesMaxValue: this.calculatexAxesMaxValue(response.data.employeeWorkloads)
                     });
             }).catch(axiosError);
     }
@@ -45,6 +47,7 @@ export default class TeamWorkLoad extends Component {
 
     generateDataSets = (workloads) => {
         let labels = workloads.map((member) => member.nickName);
+
         let datasets = [];
         let projects = workloads[1].workloads.map((project) => project.name);
         for (var i = 0; i < projects.length; i++) {
@@ -120,7 +123,7 @@ export default class TeamWorkLoad extends Component {
                     },
                     ticks: {
                         fontFamily: "'Open Sans Bold', sans-serif",
-                        fontSize: 12,
+                        fontSize: 13,
                         beginAtZero: true
                     },
                     stacked: true,
@@ -128,12 +131,7 @@ export default class TeamWorkLoad extends Component {
                 }]
             },
             legend: {
-                labels: {
-                    fontColor: '#000'
-                },
-                onHover: function (e) {
-                    e.target.style.cursor = 'pointer';
-                }
+                display: false
             },
             plugins: {
                 datalabels: {
@@ -149,21 +147,22 @@ export default class TeamWorkLoad extends Component {
     };
 
     render() {
-        const data = this.state.data;
+        const workloads = this.state.workloads;
         const options = this.getChartOptions();
-
+        const teamName = this.state.team;
         return (
-            <div style={{ width: "600px", padding: "20px" }}>
+            <div style={{ width: "500px", padding: "20px" }}>
                 {
-                    data &&
+                    workloads &&
                     <div>
                         <p style={{
                             textTransform: "uppercase",
                             fontWeight: "bold",
                             fontSize: "20px",
                             padding: "10px"
-                        }}>Nexus</p>
-                        <HorizontalBar data={data} options={options} />
+                        }}
+                        >{teamName}</p>
+                        <HorizontalBar data={workloads} options={options} />
                     </div>
                 }
             </div>

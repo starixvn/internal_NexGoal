@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Services;
@@ -59,9 +60,9 @@
 
         public async Task<JsonResult> GetMembersWorkLoad()
         {
-            IList<EmployeeWorkloadModel> workloads = await redmineService.GetTeamWorkload(125, new DateTime(2017, 7, 1), new DateTime(2017, 12, 31)).ConfigureAwait(false);
+            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(125, new DateTime(2017, 7, 1), new DateTime(2017, 12, 31)).ConfigureAwait(false);
 
-            return Json(workloads);
+            return Json(teamWorkloads.FirstOrDefault());
         }
 
         public async Task<JsonResult> GetWorkloadForPM()

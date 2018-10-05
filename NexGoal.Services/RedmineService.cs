@@ -6,6 +6,7 @@
     using System.Threading.Tasks;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Redmine;
+    using NexGoal.Models;
     using NexGoal.Models.Redmine;
 
     public class RedmineService : IRedmineService
@@ -17,7 +18,7 @@
             this.baseService = baseService;
         }
 
-        public async Task<IList<EmployeeWorkloadModel>> GetTeamWorkload(int EmployeeId, DateTime from, DateTime to)
+        public async Task<IEnumerable<TeamWorkloadModel>> GetTeamWorkload(int EmployeeId, DateTime from, DateTime to)
         {
             var criteria = new GetTeamWorkloadCriteria
             {
@@ -26,11 +27,11 @@
                 ToDate = to
             };
 
-            var workloadEntries = await baseService.GetDataAsync<MembersWorkloadEntityModel>(criteria).ConfigureAwait(false);
+            var workloads = await baseService.GetDataAsync<MembersWorkloadEntityModel>(criteria).ConfigureAwait(false);
 
-            IList<EmployeeWorkloadModel> data = FillFullWorkload(workloadEntries);
+            var teamWorkloads = GenerateTeamWorkload(workloads);
 
-            return data;
+            return teamWorkloads;
         }
 
         public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadAsync(int employeeId)
@@ -63,28 +64,73 @@
             return await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
         }
 
-        private IList<EmployeeWorkloadModel> FillFullWorkload(IEnumerable<MembersWorkloadEntityModel> workloadEntries)
+        private IEnumerable<TeamWorkloadModel> GenerateTeamWorkload(IEnumerable<MembersWorkloadEntityModel> rawWorkloads)
         {
-            var workloads = workloadEntries
-                    .GroupBy(w => new { w.EmpId, w.NickName })
-                    .Select(x => new EmployeeWorkloadModel
-                    {
-                        EmployeeId = x.Key.EmpId,
-                        NickName = x.Key.NickName,
-                        Workloads = x.Select(y => new ProjectWorkloadModel
-                        {
-                            ProjectId = y.ProjectId,
-                            Name = y.ProjectName,
-                            TotalHours = y.TotalHour
-                        }).ToList()
-                    });
+            var workloads = GroupWorkloadByTeam(rawWorkloads);
 
-            var allProjects = workloadEntries.GroupBy(p => new { p.ProjectId, p.ProjectName }).Select(x => x.Key).ToList();
-
-            IList<EmployeeWorkloadModel> data = new List<EmployeeWorkloadModel>();
+            var teamWorkloads = new List<TeamWorkloadModel>();
             foreach (var workload in workloads)
             {
-                var notExistProjects = allProjects.Where(p => !workload.Workloads.Any(w => w.ProjectId == p.ProjectId));
+                var fullProjects = GetAllProjects(workload);
+                var fullWorkloads = FillFullWorkload(workload, fullProjects);
+                var teamWorkload = new TeamWorkloadModel
+                {
+                    GroupId = workload.GroupId,
+                    GroupName = workload.GroupName,
+                    EmployeeWorkloads = fullWorkloads
+                };
+                teamWorkloads.Add(teamWorkload);
+            }
+
+            return teamWorkloads;
+        }
+
+        private IEnumerable<TeamWorkloadModel> GroupWorkloadByTeam(IEnumerable<MembersWorkloadEntityModel> workloadEntries)
+        {
+            var teamWorkloads = workloadEntries.GroupBy(w => new { w.GroupId, w.GroupName }).Select(i => new TeamWorkloadModel
+            {
+                GroupId = i.Key.GroupId,
+                GroupName = i.Key.GroupName,
+                EmployeeWorkloads = i.GroupBy(e => new { e.EmpId, e.NickName }).Select(x => new EmployeeWorkloadModel
+                {
+                    EmployeeId = x.Key.EmpId,
+                    NickName = x.Key.NickName,
+                    Workloads = x.Select(y => new ProjectWorkloadModel
+                    {
+                        ProjectId = y.ProjectId,
+                        Name = y.ProjectName,
+                        TotalHours = y.TotalHour
+                    }).ToList()
+                })
+            });
+
+            return teamWorkloads;
+        }
+
+        private IEnumerable<ProjectModel> GetAllProjects(TeamWorkloadModel teamWorkload)
+        {
+            var workloads = new List<ProjectModel>();
+            foreach (var employeeWorkload in teamWorkload.EmployeeWorkloads)
+            {
+                foreach (var workload in employeeWorkload.Workloads)
+                {
+                    workloads.Add(new ProjectModel
+                    {
+                        ProjectId = workload.ProjectId,
+                        Name = workload.Name
+                    });
+                }
+            }
+
+            return workloads.GroupBy(w => w.ProjectId).Select(g => g.First());
+        }
+
+        private IEnumerable<EmployeeWorkloadModel> FillFullWorkload(TeamWorkloadModel teamWorkloads, IEnumerable<ProjectModel> projects)
+        {
+            IList<EmployeeWorkloadModel> data = new List<EmployeeWorkloadModel>();
+            foreach (var workload in teamWorkloads.EmployeeWorkloads)
+            {
+                var notExistProjects = projects.Where(p => !workload.Workloads.Any(w => w.ProjectId == p.ProjectId));
                 var oldWorkload = workload.Workloads;
                 if (notExistProjects.Any())
                 {
@@ -93,7 +139,7 @@
                         var newProject = new ProjectWorkloadModel
                         {
                             ProjectId = p.ProjectId,
-                            Name = p.ProjectName,
+                            Name = p.Name,
                             TotalHours = 0
                         };
                         oldWorkload.Add(newProject);
