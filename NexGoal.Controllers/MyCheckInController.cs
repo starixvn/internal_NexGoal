@@ -57,6 +57,7 @@
             {
                 performanceRecord.EmployeeId = sessionService.EmployeeId;
                 performanceRecord.CreatorId = sessionService.EmployeeId;
+                performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceService.CreatePerformanceCheckInAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);

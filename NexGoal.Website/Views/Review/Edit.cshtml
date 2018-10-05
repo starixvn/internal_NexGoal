@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="~/dist/styles/editparecord.css" />
 }
 
-@Html.AntiForgeryToken()
 <input type="hidden" id="PARecordId" value="@Model" />
 <input type="checkbox" hidden id="IsHost" @(isHost ? "checked" : string.Empty) />
 

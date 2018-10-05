@@ -11,10 +11,7 @@
 
 <input type="hidden" value="@Model.ToString()" id="periodId" />
 
-@Html.AntiForgeryToken()
-
-<div id="edit-period-wrapper">
-</div>
+<div id="edit-period-wrapper"></div>
 
 @section Scripts{
     <script src="~/dist/js/editperiod.js" asp-append-version="true"></script>

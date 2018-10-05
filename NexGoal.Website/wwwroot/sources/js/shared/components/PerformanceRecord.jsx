@@ -9,7 +9,7 @@ export default class PerformanceRecord extends Component {
         modifiedDate: PropTypes.string,
         isHost: PropTypes.bool,
         editUrl: PropTypes.string,
-        projects: PropTypes.string,
+        projects: PropTypes.string
     };
 
     static defaultProps = {

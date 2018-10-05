@@ -1,16 +1,11 @@
 @import "../abstracts/variables";
 @import "../abstracts/mixins";
 @import "../components/form";
+@import "../components/form-performace";
 @import "../components/performance-record";
 @import "../components/tables";
+@import "../components/toast";
 
 .section-body {
     padding-top: 15px !important;
-}
-
-.form-control {
-    &.add-new-performance {
-        margin-bottom: 15px;
-        height: 50px;
-    }
 }

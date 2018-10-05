@@ -29,6 +29,7 @@
         </div>
     </div>
 
+    @Html.AntiForgeryToken()
     @Html.Hidden("RootURL", Url.Content("~/"))
 
     <script>

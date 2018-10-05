@@ -11,10 +11,7 @@
 
 <input type="checkbox" hidden @(Model ? "checked" : string.Empty) id="IsHost" />
 
-@Html.AntiForgeryToken()
-
-<div id="period-wrapper">
-</div>
+<div id="period-wrapper"></div>
 
 @section Scripts{
     <script src="~/dist/js/period.js" asp-append-version="true"></script>

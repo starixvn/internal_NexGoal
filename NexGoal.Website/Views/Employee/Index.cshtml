@@ -9,10 +9,7 @@
     <link rel="stylesheet" href="~/dist/styles/employeemanagement.css" />
 }
 
-@Html.AntiForgeryToken()
-<div>
-    <input type="checkbox" hidden id="IsHost" @(Model ? "checked" : string.Empty) />
-</div>
+<input type="checkbox" hidden id="IsHost" @(Model ? "checked" : string.Empty) />
 <div id="employee-wrapper"></div>
 
 @section Scripts{

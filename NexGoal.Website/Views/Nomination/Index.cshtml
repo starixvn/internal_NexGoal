@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="~/dist/styles/nominationmanagement.css" />
 }
 
-@Html.AntiForgeryToken()
 <input type="checkbox" hidden id="IsHost" @(Model.IsHost ? "checked" : string.Empty) />
 <input type="hidden" id="ActiveTab" value="@Model.ActiveTab" />
 

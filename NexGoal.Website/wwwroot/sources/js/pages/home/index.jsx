@@ -5,12 +5,12 @@ import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, NominationStatuses, PerformanceRecordStatus } from '../../constants';
+import ToastLayout from '../../shared/layouts/ToastLayout';
+import CreateSelfPerformance from './CreateSelfPerformance';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
-import PersonalTimeline from './PersonalTimeline';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
 import TeamWorkLoad from './TeamWorkLoad';
-import MemberTimeline from './MemberTimeline';
 
 export default class App extends Component {
     constructor(props) {
@@ -20,20 +20,34 @@ export default class App extends Component {
             performanceAppraisals: [],
             performanceRecords: [],
             nominations: [],
-            workLoad: []
+            workload: [],
+            performanceGradeOptions: [],
+            projectOptions: []
         };
     }
 
     componentDidMount() {
         const promises = [
+            axios(resolveClientUrl('Common/GetPerformanceGrades')),
+            axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
             axios(resolveClientUrl('home/GetNominationResult')),
             axios(resolveClientUrl('Self/Performance/Index')),
-            axios(resolveClientUrl('Home/GetWorkLoad')),
+            axios(resolveClientUrl('Home/GetWorkLoad'))
         ];
 
         Promise.all(promises)
-            .then(([paResponse, nominationResponse, performanceRecordResponse, workLoadResponse]) => {
+            .then(([gradeResponse, projectResponse, paResponse, nominationResponse, performanceRecordResponse, workloadResponse]) => {
+                const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
+                    return {
+                        value: performanceGrade.gradeId,
+                        label: performanceGrade.description ? `${performanceGrade.description} (${performanceGrade.name})` : performanceGrade.name
+                    };
+                });
+                const projectOptions = projectResponse.data.map((project) => {
+                    return { value: project.projectId, label: project.name };
+                });
+
                 let performanceAppraisals = paResponse.data;
                 performanceAppraisals.map(record => record.year = moment(record.period.startDate).year());
                 performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
@@ -52,16 +66,26 @@ export default class App extends Component {
                 });
 
                 this.setState({
+                    performanceGradeOptions: performanceGradeOptions,
+                    projectOptions: projectOptions,
                     performanceAppraisals: performanceAppraisals,
                     nominations: nominationResponse.data,
                     performanceRecords: performanceRecordResponse.data.performanceRecords,
-                    workLoad: workLoadResponse.data
+                    workload: workloadResponse.data
                 });
             }).catch(axiosError);
     }
 
-    handleAddNewPerformanceClick = () => {
-        window.location = resolveClientUrl('Self/Performance/Create');
+    handleCreatePerformanceSuccess = (response) => {
+        axios(resolveClientUrl(`Self/Performance/GetById/${response.objectId}`))
+            .then((response) => {
+                let performanceRecords = this.state.performanceRecords.slice();
+                performanceRecords.unshift(response.data);
+
+                this.setState({
+                    performanceRecords: performanceRecords
+                });
+            }).catch(axiosError);
     }
 
     render() {
@@ -71,13 +95,8 @@ export default class App extends Component {
 
         return (
             <div className="row">
+                <ToastLayout />
                 <div className="col-sm-3">
-
-                    <MemberTimeline memberName="Elton" pcis={this.state.performanceRecords.slice(0).reverse()} />
-                    <MemberTimeline memberName="Raymond" pcis={this.state.performanceRecords.slice(0).reverse()} />
-                    <MemberTimeline memberName="Tim" pcis={this.state.performanceRecords.slice(0).reverse()} />
-                    <MemberTimeline memberName="Olivier" pcis={this.state.performanceRecords.slice(0).reverse()} />
-
                     {
                         performanceAppraisals.length > 0 &&
                         <table className="table table-bordered">
@@ -133,8 +152,10 @@ export default class App extends Component {
                     }
                 </div>
                 <div className="col-sm-6">
-                    <input className="form-control add-new-performance" placeholder="What's on your mind?"
-                        onClick={this.handleAddNewPerformanceClick}
+                    <CreateSelfPerformance
+                        performanceGradeOptions={this.state.performanceGradeOptions}
+                        projectOptions={this.state.projectOptions}
+                        handleSuccess={this.handleCreatePerformanceSuccess}
                     />
                     {
                         performanceRecords.length > 0 &&
@@ -165,7 +186,7 @@ export default class App extends Component {
                     }
                 </div>
                 <div className="col-sm-3">
-                    <WorkLoad workLoad={this.state.workLoad} />
+                    <WorkLoad workLoad={this.state.workload} />
                     <HrmSummary />
                 </div>
                 <TeamWorkLoad />

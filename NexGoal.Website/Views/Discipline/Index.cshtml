@@ -11,8 +11,6 @@
 
 <input type="checkbox" hidden @(Model ? "checked" : string.Empty) id="IsHost" />
 
-@Html.AntiForgeryToken()
-
 <div id="discipline-wrapper"></div>
 
 @section Scripts{

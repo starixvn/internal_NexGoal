@@ -10,7 +10,6 @@
     <link rel="stylesheet" href="~/dist/styles/evaluationflow.css" />
 }
 
-@Html.AntiForgeryToken()
 <input type="hidden" asp-for="TargetTypeId" />
 <input type="hidden" asp-for="IsActive" />
 <input type="checkbox" hidden id="IsHost" @(Model.IsHost ? "checked" : string.Empty) />

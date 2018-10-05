@@ -37,7 +37,6 @@ module.exports = {
         [`${jsDistPath}/period`]: `${jsSourcePath}/period/index.jsx`,
         [`${jsDistPath}/editperiod`]: `${jsSourcePath}/period/edit.jsx`,
         [`${jsDistPath}/selfevaluation`]: `${jsSourcePath}/selfevaluation/index.jsx`,
-        [`${jsDistPath}/create-self-performance`]: `${jsSourcePath}/home/create-self-performance.jsx`,
         [`${jsDistPath}/edit-self-performance`]: `${jsSourcePath}/home/edit-self-performance.jsx`,
         [`${jsDistPath}/createmembercheckin`]: `${jsSourcePath}/evaluation/index.jsx`,
         [`${jsDistPath}/editmembercheckin`]: `${jsSourcePath}/evaluation/edit.jsx`,

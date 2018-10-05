@@ -14,6 +14,6 @@
 
         public string ProjectIds { get; set; }
         public int StatusId { get; set; }
-        public int RoleId { get; set; }
+        public int TypeId { get; set; }
     }
 }
