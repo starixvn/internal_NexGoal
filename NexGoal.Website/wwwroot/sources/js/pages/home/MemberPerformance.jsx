@@ -23,7 +23,7 @@ export default class MemberPerformance extends Component {
     getTooltip = pci => (
         <Tooltip id="tooltip">
             <p>Created by <strong>{pci.creator.nickName}</strong> on {moment(pci.createdDate).format("DD MMM, YYYY")}</p>
-            <p><strong>Grade</strong>: {pci.grade.name}</p>
+            <p><strong>Grade</strong>: {pci.grade ? pci.grade.name : 'N/A'}</p>
             <div style={{ wordWrap: 'break-word' }}>
                 {pci.comment}
             </div>
@@ -42,7 +42,7 @@ export default class MemberPerformance extends Component {
                         {pcis.map(pci => (
                             <OverlayTrigger placement="bottom" overlay={this.getTooltip(pci)}>
                                 <div className="pa-item">
-                                    {pci.grade.name}
+                                    {pci.grade ? pci.grade.name : 'N/A'}
                                 </div>
                             </OverlayTrigger>
                         ))
