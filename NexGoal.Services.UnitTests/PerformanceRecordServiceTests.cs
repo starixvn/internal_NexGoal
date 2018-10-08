@@ -18,24 +18,6 @@
         private ICommonService commonService;
 
         [Fact]
-        public async Task GetCreatorsAsync_WhenCalled_ReturnAsExpectedCreators()
-        {
-            // Arrange
-            var expected = new List<EmployeeBaseModel>
-            {
-                new EmployeeBaseModel { EmployeeId = 1, NickName = "tim.trinh" }
-            };
-            var service = GetPerformanceRecordService();
-            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetCreatorCriteria>()).Returns(expected);
-
-            // Act
-            var actual = await service.GetCreatorsAsync(1);
-
-            // Assert
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
         public async Task GetMembersAsync_WhenCalled_ReturnAsExpectedCreators()
         {
             // Arrange

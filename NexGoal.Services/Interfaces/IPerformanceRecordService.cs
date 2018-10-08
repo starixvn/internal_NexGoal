@@ -8,8 +8,6 @@
 
     public interface IPerformanceRecordService
     {
-        Task<IEnumerable<EmployeeBaseModel>> GetCreatorsAsync(int employeeId);
-
         Task<IEnumerable<EmployeeBaseModel>> GetMembersAsync(int actorId);
 
         Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByEmployeeAsync(int employeeId);

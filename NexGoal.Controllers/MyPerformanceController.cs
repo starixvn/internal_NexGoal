@@ -7,7 +7,6 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Services;
 
@@ -22,14 +21,6 @@
         {
             this.sessionService = sessionService;
             this.performanceService = performanceService;
-        }
-
-        [Route("Self/Performance/GetCreators")]
-        public async Task<JsonResult> GetCreators()
-        {
-            IEnumerable<EmployeeBaseModel> creators = await performanceService.GetCreatorsAsync(sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(creators);
         }
 
         [Route("Self/Performance/Index")]

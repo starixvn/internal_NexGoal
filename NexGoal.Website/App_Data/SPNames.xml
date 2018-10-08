@@ -103,7 +103,6 @@
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Performanace Record">
-    <Setting Key="PerformanceRecord_GetCreator" SpName="PerformanceRecord_GetCreator" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetMember" SpName="PerformanceRecord_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetByEmployee" SpName="PerformanceRecord_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetById" SpName="PerformanceRecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>

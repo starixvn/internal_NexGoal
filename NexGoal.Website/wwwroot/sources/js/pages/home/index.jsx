@@ -28,7 +28,7 @@ export default class App extends Component {
             performanceGradeOptions: [],
             projectOptions: [],
             showEditPerformanceModal: false,
-            performanceRecordSelected: null
+            performanceRecordIdSelected: null
         };
     }
 
@@ -95,28 +95,35 @@ export default class App extends Component {
     }
 
     handleEditPerformanceRecord = (performanceRecordId) => {
-        let index = this.state.performanceRecords.map(record => { return record.performanceRecordId; }).indexOf(performanceRecordId);
-
-        if (index >= 0) {
-            this.setState({
-                showEditPerformanceModal: true,
-                performanceRecordSelected: { ...this.state.performanceRecords[index] }
-            });
-        }
+        this.setState({
+            showEditPerformanceModal: true,
+            performanceRecordIdSelected: performanceRecordId
+        });
     }
 
     handleCloseEditPerformanceModal = () => {
         this.setState({
             showEditPerformanceModal: false,
-            performanceRecordSelected: null
+            performanceRecordIdSelected: null
         });
     }
 
-    handleEditPerformanceSuccess = (performanceRecord) => {
-        this.setState({
-            showEditPerformanceModal: false,
-            performanceRecordSelected: null
-        });
+    handleEditPerformanceSuccess = (performanceRecordId) => {
+        axios(resolveClientUrl(`Self/Performance/GetById/${performanceRecordId}`))
+            .then((response) => {
+                let performanceRecords = this.state.performanceRecords.slice();
+
+                let index = performanceRecords.map(record => { return record.performanceRecordId; }).indexOf(performanceRecordId);
+                if (index >= 0) {
+                    performanceRecords[index] = response.data;
+                }
+
+                this.setState({
+                    performanceRecords: performanceRecords,
+                    showEditPerformanceModal: false,
+                    performanceRecordIdSelected: null
+                });
+            }).catch(axiosError);
     }
 
     render() {
@@ -184,7 +191,7 @@ export default class App extends Component {
                 {
                     this.state.showEditPerformanceModal &&
                     <EditSelfPerformance
-                        performanceRecord={this.state.performanceRecordSelected}
+                        performanceRecordId={this.state.performanceRecordIdSelected}
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}
                         showModal={this.state.showEditPerformanceModal}

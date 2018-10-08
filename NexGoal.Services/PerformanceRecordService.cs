@@ -30,16 +30,6 @@
             this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetCreatorsAsync(int employeeId)
-        {
-            var criteria = new GetCreatorCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
-        }
-
         public async Task<IEnumerable<EmployeeBaseModel>> GetMembersAsync(int actorId)
         {
             var criteria = new GetMemberCriteria

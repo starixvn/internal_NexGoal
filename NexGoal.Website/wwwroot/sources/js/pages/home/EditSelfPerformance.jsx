@@ -13,8 +13,11 @@ import getResource from '../../resourceHelper';
 
 export default class EditSelfPerformance extends Component {
     static propTypes = {
+        performanceRecordId: PropTypes.number,
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
+        showModal: PropTypes.bool,
+        onCloseModal: PropTypes.func,
         onSubmitSuccess: PropTypes.func
     };
 
@@ -22,9 +25,27 @@ export default class EditSelfPerformance extends Component {
         super(props);
 
         this.state = {
-            performanceRecord: props.performanceRecord,
+            performanceRecord: {},
             errors: {}
         };
+    }
+
+    componentDidMount() {
+        axios(resolveClientUrl(`Self/Performance/GetById/${this.props.performanceRecordId}`))
+            .then((response) => {
+                let performanceRecord = response.data;
+                performanceRecord.grade = performanceRecord.grade ? {
+                    value: performanceRecord.grade.gradeId,
+                    label: performanceRecord.grade.description ?
+                        `${performanceRecord.grade.description} (${performanceRecord.grade.name})`
+                        : performanceRecord.grade.name
+                } : null;
+                performanceRecord.projects = performanceRecord.projects.map(project => {
+                    return { value: project.projectId, label: project.name };
+                });
+
+                this.setState({ performanceRecord });
+            }).catch(axiosError);
     }
 
     handleGradeChange = (selectedOption) => {
@@ -100,6 +121,8 @@ export default class EditSelfPerformance extends Component {
 
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
+
+                    this.props.onSubmitSuccess(this.state.performanceRecord.performanceRecordId);
                 } else {
                     if (data.errors) {
                         let errors = {};
@@ -120,15 +143,6 @@ export default class EditSelfPerformance extends Component {
         let performanceGradeOptions = this.props.performanceGradeOptions;
         let projectOptions = this.props.projectOptions;
         let performanceRecord = this.state.performanceRecord;
-        performanceRecord.grade = performanceRecord.grade ? {
-            value: performanceRecord.grade.gradeId,
-            label: performanceRecord.grade.description ?
-                `${performanceRecord.grade.description} (${performanceRecord.grade.name})`
-                : performanceRecord.grade.name
-        } : null;
-        performanceRecord.projects = performanceRecord.projects.map(project => {
-            return { value: project.projectId, label: project.name };
-        });
         let errors = this.state.errors;
 
         return (
