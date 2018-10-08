@@ -1,0 +1,52 @@
+﻿namespace NexGoal.Services
+{
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using NexGoal.Core.Services;
+    using NexGoal.Criteria.PAFocus;
+    using NexGoal.Models.Common;
+    using NexGoal.Models.PAFocus;
+
+    public class PAFocusService : IPAFocusService
+    {
+        private readonly IBaseService baseService;
+        private readonly ICryptoService cryptoService;
+        private readonly ICommonService commonService;
+
+        public PAFocusService(
+            IBaseService baseService,
+            ICryptoService cryptoService,
+            ICommonService commonService)
+        {
+            this.baseService = baseService;
+            this.cryptoService = cryptoService;
+            this.commonService = commonService;
+        }
+
+        public async Task<IEnumerable<PAFocusModel>> GetPAFocusAsync(GetPAFocusParam param)
+        {
+            var criteria = new GetPAFocusCriteria
+            {
+                ActorId = param.ActorId,
+                PeriodId = param.PeriodId,
+                GroupIds = param.GroupIds,
+                EmployeeId = param.EmployeeId
+            };
+
+            var paFocuses = await baseService.GetDataAsync<PAFocusModel>(criteria).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+
+            foreach (PAFocusModel paFocus in paFocuses)
+            {
+                paFocus.Employee = employees.FirstOrDefault(x => x.EmployeeId == paFocus.EmployeeId);
+
+                paFocus.IsReadyPromotion = cryptoService.Decrypt(paFocus.IsReadyPromotion);
+                paFocus.Contribution = cryptoService.Decrypt(paFocus.Contribution);
+                paFocus.BonusGiven = cryptoService.Decrypt(paFocus.BonusGiven);
+            }
+
+            return paFocuses;
+        }
+    }
+}

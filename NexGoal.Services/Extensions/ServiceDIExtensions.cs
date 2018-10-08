@@ -22,6 +22,7 @@
             services.AddScoped<IPARecordService, PARecordService>();
             services.AddScoped<IEmployeeNominationService, EmployeeNominationService>();
             services.AddScoped<IRedmineService, RedmineService>();
+            services.AddScoped<IPAFocusService, PAFocusService>();
         }
     }
 }
