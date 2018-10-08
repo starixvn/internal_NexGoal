@@ -3,22 +3,23 @@ import PropTypes from 'prop-types';
 
 export default class PerformanceRecord extends Component {
     static propTypes = {
+        objectId: PropTypes.number,
         avatar: PropTypes.string,
         nickName: PropTypes.string,
         submittedDate: PropTypes.string,
         modifiedDate: PropTypes.string,
         isHost: PropTypes.bool,
-        editUrl: PropTypes.string,
-        projects: PropTypes.string
+        projects: PropTypes.string,
+        onEdit: PropTypes.func
     };
 
     static defaultProps = {
+        objectId: 0,
         avatar: '',
         nickName: '',
         submittedDate: '',
         modifiedDate: '',
         isHost: false,
-        editUrl: '',
         projects: ''
     };
 
@@ -50,6 +51,10 @@ export default class PerformanceRecord extends Component {
         }
     }
 
+    handleEdit = () => {
+        this.props.onEdit(this.props.objectId);
+    }
+
     render() {
         return (
             <div className="record">
@@ -78,9 +83,9 @@ export default class PerformanceRecord extends Component {
 
                 <div className="footer">
                     {
-                        this.props.isHost && this.props.editUrl &&
+                        this.props.isHost &&
                         <div className="edit">
-                            <a href={this.props.editUrl}>
+                            <a onClick={this.handleEdit}>
                                 <span className="icon-square-edit-outline" />
                             </a>
                         </div>

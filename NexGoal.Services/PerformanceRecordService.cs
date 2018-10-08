@@ -50,17 +50,11 @@
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceRecordByEmployeeAsync(GetPerformanceRecordByEmployeeParam param)
+        public async Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByEmployeeAsync(int employeeId)
         {
             var criteria = new GetPerformanceRecordByEmployeeCriteria
             {
-                EmployeeId = param.EmployeeId,
-                FromDate = param.FromDate,
-                ToDate = param.ToDate,
-                CreatorIds = param.CreatorIds,
-                ProjectIds = param.ProjectIds,
-                PageSize = param.PageSize,
-                PageIndex = param.PageIndex
+                EmployeeId = employeeId
             };
             var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
             IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
@@ -72,7 +66,7 @@
                 MappingData(performanceRecord, projects, performanceGrades, employees);
             }
 
-            return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
+            return performanceRecords;
         }
 
         public async Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(

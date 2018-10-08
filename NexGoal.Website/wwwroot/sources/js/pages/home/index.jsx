@@ -1,17 +1,20 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { DateFormat, NominationStatuses, PerformanceRecordStatus } from '../../constants';
+import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
-import CreateSelfPerformance from './CreateSelfPerformance';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
+import CreateSelfPerformance from './CreateSelfPerformance';
+import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
 import TeamWorkLoad from './TeamWorkLoad';
 import MemberPerformance from './MemberPerformance';
+import PerformanceAppraisalResult from './PerformanceAppraisalResult';
+import NominationResult from './NominationResult';
 
 export default class App extends Component {
     constructor(props) {
@@ -23,7 +26,9 @@ export default class App extends Component {
             nominations: [],
             workload: [],
             performanceGradeOptions: [],
-            projectOptions: []
+            projectOptions: [],
+            showEditPerformanceModal: false,
+            performanceRecordSelected: null
         };
     }
 
@@ -71,7 +76,7 @@ export default class App extends Component {
                     projectOptions: projectOptions,
                     performanceAppraisals: performanceAppraisals,
                     nominations: nominationResponse.data,
-                    performanceRecords: performanceRecordResponse.data.performanceRecords,
+                    performanceRecords: performanceRecordResponse.data,
                     workload: workloadResponse.data
                 });
             }).catch(axiosError);
@@ -89,6 +94,31 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
+    handleEditPerformanceRecord = (performanceRecordId) => {
+        let index = this.state.performanceRecords.map(record => { return record.performanceRecordId; }).indexOf(performanceRecordId);
+
+        if (index >= 0) {
+            this.setState({
+                showEditPerformanceModal: true,
+                performanceRecordSelected: { ...this.state.performanceRecords[index] }
+            });
+        }
+    }
+
+    handleCloseEditPerformanceModal = () => {
+        this.setState({
+            showEditPerformanceModal: false,
+            performanceRecordSelected: null
+        });
+    }
+
+    handleEditPerformanceSuccess = (performanceRecord) => {
+        this.setState({
+            showEditPerformanceModal: false,
+            performanceRecordSelected: null
+        });
+    }
+
     render() {
         const performanceAppraisals = this.state.performanceAppraisals;
         const performanceRecords = this.state.performanceRecords;
@@ -104,63 +134,18 @@ export default class App extends Component {
                     <MemberPerformance memberName="Olivier" pcis={this.state.performanceRecords.slice(0).reverse()} />
                     {
                         performanceAppraisals.length > 0 &&
-                        <table className="table table-bordered">
-                            <thead>
-                                <tr><th colSpan="2">My PAs</th></tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    performanceAppraisals.map(performanceAppraisal => {
-                                        return (
-                                            <Fragment key={`year${performanceAppraisal.year}`}>
-                                                <tr>
-                                                    <td colSpan="2">{performanceAppraisal.year}</td>
-                                                </tr>
-
-                                                {
-                                                    performanceAppraisal.records.map(record => {
-                                                        let grade = record.grade ? record.grade.name : '';
-                                                        return (
-                                                            <tr key={`performanceAppraisal${record.paRecordId}`}>
-                                                                <td>{record.period.name}</td>
-                                                                <td>{grade}</td>
-                                                            </tr>
-                                                        );
-                                                    })
-                                                }
-                                            </Fragment>
-                                        );
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                        <PerformanceAppraisalResult performanceAppraisals={performanceAppraisals} />
                     }
                     {
                         nominations.length > 0 &&
-                        <table className="table table-bordered">
-                            <thead>
-                                <tr><th colSpan="2">Nomination</th></tr>
-                            </thead>
-                            <tbody>
-                                {
-                                    nominations.map(nomination => {
-                                        return (
-                                            <tr key={`nomination${nomination.eoqyId}`}>
-                                                <td>{nomination.period.title}</td>
-                                                <td>{NominationStatuses.find(x => x.value === nomination.statusId).text}</td>
-                                            </tr>
-                                        );
-                                    })
-                                }
-                            </tbody>
-                        </table>
+                        <NominationResult nominations={nominations} />
                     }
                 </div>
                 <div className="col-sm-6">
                     <CreateSelfPerformance
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}
-                        handleSuccess={this.handleCreatePerformanceSuccess}
+                        onSubmitSuccess={this.handleCreatePerformanceSuccess}
                     />
                     {
                         performanceRecords.length > 0 &&
@@ -169,20 +154,20 @@ export default class App extends Component {
                                 performanceRecords.map((performanceRecord) => {
                                     let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
                                         || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
-                                    let editUrl = isHost ? `${resolveClientUrl('Self/Performance/Edit/') + performanceRecord.performanceRecordId}` : null;
                                     let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
                                     let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
 
                                     return (
                                         <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                                            objectId={performanceRecord.performanceRecordId}
                                             avatar={performanceRecord.creator.base64Image}
                                             nickName={performanceRecord.creator.nickName}
                                             submittedDate={submittedDate} modifiedDate={modifiedDate}
                                             isHost={isHost}
-                                            editUrl={editUrl}
                                             grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
                                             comment={performanceRecord.comment}
                                             projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
+                                            onEdit={this.handleEditPerformanceRecord}
                                         />
                                     );
                                 })
@@ -195,6 +180,18 @@ export default class App extends Component {
                     <HrmSummary />
                 </div>
                 <TeamWorkLoad />
+
+                {
+                    this.state.showEditPerformanceModal &&
+                    <EditSelfPerformance
+                        performanceRecord={this.state.performanceRecordSelected}
+                        performanceGradeOptions={this.state.performanceGradeOptions}
+                        projectOptions={this.state.projectOptions}
+                        showModal={this.state.showEditPerformanceModal}
+                        onCloseModal={this.handleCloseEditPerformanceModal}
+                        onSubmitSuccess={this.handleEditPerformanceSuccess}
+                    />
+                }
             </div>
         );
     }

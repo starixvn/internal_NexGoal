@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -34,13 +33,11 @@
         }
 
         [Route("Self/Performance/Index")]
-        public async Task<JsonResult> Index(GetPerformanceRecordByEmployeeParam param)
+        public async Task<JsonResult> Index()
         {
-            param.EmployeeId = sessionService.EmployeeId;
-            Tuple<IEnumerable<PerformanceRecordModel>, int> tuple =
-                await performanceService.GetPerformanceRecordByEmployeeAsync(param).ConfigureAwait(false);
+            IEnumerable<PerformanceRecordModel> performanceRecords = await performanceService.GetPerformanceRecordByEmployeeAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
-            return Json(new { performanceRecords = tuple.Item1, totalItems = tuple.Item2 });
+            return Json(performanceRecords);
         }
 
         [Route("Self/Performance/Create")]
@@ -65,23 +62,6 @@
 
             var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
             return Json(new { isSuccessful = false, errors });
-        }
-
-        [Route("Self/Performance/Edit/{id}")]
-        public async Task<IActionResult> Edit(int id)
-        {
-            PerformanceRecordModel record = await performanceService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-            if (record == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
-
-            if (record.StatusId == PerformanceRecordStatus.Closed)
-            {
-                return RedirectToAction("AccessDenied", "Error");
-            }
-
-            return View(id);
         }
 
         [Route("Self/Performance/Edit")]

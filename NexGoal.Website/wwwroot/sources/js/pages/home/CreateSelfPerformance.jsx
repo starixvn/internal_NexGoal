@@ -15,7 +15,7 @@ export default class CreateSelfPerformance extends Component {
     static propTypes = {
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
-        handleSuccess: PropTypes.func
+        onSubmitSuccess: PropTypes.func
     };
 
     constructor(props) {
@@ -110,7 +110,7 @@ export default class CreateSelfPerformance extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
 
-                    this.props.handleSuccess(response.data);
+                    this.props.onSubmitSuccess(response.data);
                     this.setState({ isOpenForm: false });
                 } else {
                     if (data.errors) {
@@ -152,7 +152,7 @@ export default class CreateSelfPerformance extends Component {
 
                 {
                     isOpenForm &&
-                    <form className="form-filter form-performance">
+                    <form className="form-filter form-performance create">
                         {
                             !isEmpty(errors) &&
                             <ul className="list-message-error">

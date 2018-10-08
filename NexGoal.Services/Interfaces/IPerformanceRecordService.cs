@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
@@ -13,7 +12,7 @@
 
         Task<IEnumerable<EmployeeBaseModel>> GetMembersAsync(int actorId);
 
-        Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceRecordByEmployeeAsync(GetPerformanceRecordByEmployeeParam param);
+        Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByEmployeeAsync(int employeeId);
 
         Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(
             int performanceRecordId,
