@@ -121,6 +121,9 @@
     <Setting Key="Nomination_Insert" SpName="Nomination_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="PA Focus">
+    <Setting Key="PAFocus_GetPeriod" SpName="PAFocus_GetPeriod" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_GetGroup" SpName="PAFocus_GetGroup" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_GetMember" SpName="PAFocus_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

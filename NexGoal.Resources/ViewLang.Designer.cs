@@ -169,6 +169,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PA Focus.
+        /// </summary>
+        public static string PAFocus {
+            get {
+                return ResourceManager.GetString("PAFocus", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remind Date For Nominator.
         /// </summary>
         public static string RemindDateForNominator {

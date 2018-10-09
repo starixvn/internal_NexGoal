@@ -23,6 +23,7 @@ module.exports = {
         [`${styleDistPath}/reviewparecord`]: `${styleSourcePath}/pages/review/index.scss`,
         [`${styleDistPath}/editparecord`]: `${styleSourcePath}/pages/review/edit.scss`,
         [`${styleDistPath}/member-index`]: `${styleSourcePath}/pages/member/index.scss`,
+        [`${styleDistPath}/pafocus`]: `${styleSourcePath}/pages/pafocus/index.scss`,
         //
         [`${jsDistPath}/main`]: "./sources/js/main.js",
         [`${jsDistPath}/home`]: `${jsSourcePath}/home/index.jsx`,
@@ -42,6 +43,7 @@ module.exports = {
         [`${jsDistPath}/reviewparecord`]: `${jsSourcePath}/review/index.jsx`,
         [`${jsDistPath}/editparecord`]: `${jsSourcePath}/review/edit.jsx`,
         [`${jsDistPath}/member-index`]: `${jsSourcePath}/member/index.jsx`,
-        [`${jsDistPath}/member-details`]: `${jsSourcePath}/member/details.jsx`
+        [`${jsDistPath}/member-details`]: `${jsSourcePath}/member/details.jsx`,
+        [`${jsDistPath}/pafocus`]: `${jsSourcePath}/pafocus/index.jsx`
     }
 };

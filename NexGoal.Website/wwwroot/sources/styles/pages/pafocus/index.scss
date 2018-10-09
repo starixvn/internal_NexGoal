@@ -1,0 +1,30 @@
+﻿@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../components/buttons";
+@import "../../components/buttons";
+@import "../../components/form";
+@import "../../components/form-filter";
+@import "../../components/form-inline";
+@import "../../components/messages";
+@import "../../components/modal";
+@import "../../components/react-select";
+@import "../../components/tables";
+@import "../../components/tabs";
+@import "../../components/toast";
+
+.pa-focus-table {
+    tr {
+        &.group-row {
+            td {
+                background: #525e86;
+                color: #fff;
+                font-weight: 500;
+                padding: 6px 8px !important;
+
+                &:hover {
+                    background: #525e86 !important;
+                }
+            }
+        }
+    }
+}

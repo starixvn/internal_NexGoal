@@ -24,6 +24,33 @@
             this.commonService = commonService;
         }
 
+        public async Task<IEnumerable<PeriodBaseModel>> GetPeriodAsync()
+        {
+            var criteria = new GetPeriodCriteria();
+
+            return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId)
+        {
+            var criteria = new GetGroupCriteria
+            {
+                ActorId = actorId
+            };
+
+            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId)
+        {
+            var criteria = new GetMemberCriteria
+            {
+                ActorId = actorId
+            };
+
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<PAFocusModel>> GetPAFocusAsync(GetPAFocusParam param)
         {
             var criteria = new GetPAFocusCriteria

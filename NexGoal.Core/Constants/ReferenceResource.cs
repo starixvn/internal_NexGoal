@@ -8,5 +8,6 @@
         public const string EvaluateStatus = "EvaluateStatus";
         public const string PerformanceStatus = "PerformanceStatus";
         public const string PerformanceGrade = "PerformanceGrade";
+        public const string FocusEvaluationLevel = "FocusEvaluationLevel";
     }
 }
