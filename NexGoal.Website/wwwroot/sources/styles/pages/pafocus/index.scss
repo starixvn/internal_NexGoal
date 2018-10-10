@@ -11,9 +11,16 @@
 @import "../../components/tables";
 @import "../../components/tabs";
 @import "../../components/toast";
+@import "../../components/tooltip";
 
 .pa-focus-table {
     tr {
+        th {
+            &.width-200 {
+                width: 200px;
+            }
+        }
+
         &.group-row {
             td {
                 background: #525e86;
@@ -26,5 +33,92 @@
                 }
             }
         }
+
+        select.form-control {
+            height: 23px;
+            line-height: 23px;
+            padding: 0;
+        }
+
+        &.noticeable-performance {
+            td {
+                color: #fff;
+            }
+
+            &.outstanding {
+                td {
+                    background: #59b03b;
+                }
+            }
+
+            &.very-good {
+                td {
+                    background: #68a9bd;
+                }
+            }
+
+            &.poor {
+                td {
+                    background: #ff5f5f;
+                }
+            }
+
+            &:hover {
+                &.outstanding {
+                    td {
+                        background: #59b03b;
+                    }
+                }
+
+                &.very-good {
+                    td {
+                        background: #68a9bd;
+                    }
+                }
+
+                &.poor {
+                    td {
+                        background: #ff5f5f;
+                    }
+                }
+            }
+        }
+    }
+}
+
+.fa-info-circle {
+    font-size: 16px;
+    margin-left: 5px;
+}
+
+.tooltip.focus-note {
+    .tooltip-inner {
+        background: #eaeaea;
+        max-width: 500px;
+        text-align: left;
+        padding: 10px;
+
+        span {
+            color: #324373;
+            font-weight: bold;
+        }
+    }
+
+    &.in {
+        opacity: 1;
+    }
+}
+
+.focus-evaluation-status {
+    &.good {
+        color: #3da52a;
+    }
+
+    &.warning {
+        color: red;
+    }
+
+    &.normal {
+        color: #555;
     }
 }

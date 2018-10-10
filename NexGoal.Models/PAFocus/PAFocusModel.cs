@@ -11,8 +11,8 @@
         public int EmployeeId { get; set; }
         public EmployeeBaseModel Employee { get; set; }
 
-        public string LastCompletedPercentObjective { get; set; }
-        public string NextDescriptionObjective { get; set; }
+        public string CurrentObjective { get; set; }
+        public string NextObjective { get; set; }
         public string Contribution { get; set; }
         public string BonusGiven { get; set; }
         public string IsReadyPromotion { get; set; }

@@ -1,10 +1,30 @@
 ﻿import React, { Component, Fragment } from 'react';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 
 import getResource from '../../../resourceHelper';
+import Row from './Row';
 
 export default class Table extends Component {
+    getTooltipBestSuitedToTeamGoals = () => {
+        return (
+            <Tooltip id="tooltip-focus-note" className="focus-note">
+                Best Suited to Team Goals:
+                <span> I would always want him or her on my team (ability to work well with others).</span>
+            </Tooltip>
+        );
+    }
+
+    getTooltipDeserveHighestReward = () => {
+        return (
+            <Tooltip id="tooltip-focus-note" className="focus-note">
+                Deserve Highest Reward (Increment And Bonus):
+                <span> I would want to award this person the highest possible benefit (increase and bonus) which is available for her/his job grade.</span>
+            </Tooltip>
+        );
+    }
+
     render() {
-        const paFocuses = this.props.data;
+        const pafocuses = this.props.data;
 
         return (
             <table className="table table-bordered table-striped pa-focus-table">
@@ -14,6 +34,18 @@ export default class Table extends Component {
                         <th>{getResource('NickName')}</th>
                         <th>{getResource('FullName')}</th>
                         <th>{getResource('JobTitle')}</th>
+                        <th className="width-200">
+                            Best Suited to Team Goals
+                            <OverlayTrigger placement="top" overlay={this.getTooltipBestSuitedToTeamGoals()}>
+                                <i className="fa fa-info-circle" />
+                            </OverlayTrigger>
+                        </th>
+                        <th className="width-200">
+                            Deserve Highest Reward (Increment And Bonus)
+                            <OverlayTrigger placement="top" overlay={this.getTooltipDeserveHighestReward()}>
+                                <i className="fa fa-info-circle" />
+                            </OverlayTrigger>
+                        </th>
                         <th>{getResource('ReadyForPromotion')}</th>
                         <th>{getResource('AccomplishedCurrentObjectives')}</th>
                         <th colSpan="2">{getResource('NextObjectives')}</th>
@@ -21,14 +53,14 @@ export default class Table extends Component {
                 </thead>
                 <tbody>
                     {
-                        paFocuses.length === 0 &&
+                        pafocuses.length === 0 &&
                         <tr>
                             <td className="empty-result" colSpan="13">{getResource('NoInformationAvailable')}</td>
                         </tr>
                     }
                     {
-                        paFocuses.length > 0 &&
-                        paFocuses.map(record => {
+                        pafocuses.length > 0 &&
+                        pafocuses.map(record => {
                             return (
                                 <Fragment key={`record${record.groupCode}`}>
                                     <tr className="group-row">
@@ -37,15 +69,12 @@ export default class Table extends Component {
                                     {
                                         record.members.map((member, index) => {
                                             return (
-                                                <tr key={`member${member.paFocusId}`}>
-                                                    <td className="text-center">{index + 1}</td>
-                                                    <td>{member.employee.nickName}</td>
-                                                    <td>{member.employee.fullName}</td>
-                                                    <td>{member.employee.jobTitle}</td>
-                                                    <td></td>
-                                                    <td></td>
-                                                    <td></td>
-                                                </tr>
+                                                <Row key={`member${member.paFocusId}`}
+                                                    data={member}
+                                                    rowIndex={index + 1}
+                                                    focusEvaluationLevelOptions={this.props.focusEvaluationLevelOptions}
+                                                    onChange={this.props.onChange}
+                                                />
                                             );
                                         })
                                     }

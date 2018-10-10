@@ -125,5 +125,6 @@
     <Setting Key="PAFocus_GetGroup" SpName="PAFocus_GetGroup" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_GetMember" SpName="PAFocus_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PAFocus_Get" SpName="PAFocus_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_Update" SpName="PAFocus_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

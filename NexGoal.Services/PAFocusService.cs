@@ -3,6 +3,8 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Extensions;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PAFocus;
     using NexGoal.Models.Common;
@@ -74,6 +76,24 @@
             }
 
             return paFocuses;
+        }
+
+        public async Task<CommandResult> EditPAFocusAsync(int actorId, IEnumerable<EditPAFocusModel> paFocuses)
+        {
+            foreach (EditPAFocusModel paFocus in paFocuses)
+            {
+                paFocus.IsReadyPromotion = cryptoService.Encrypt(paFocus.IsReadyPromotion);
+                paFocus.Contribution = cryptoService.Encrypt(paFocus.Contribution);
+                paFocus.BonusGiven = cryptoService.Encrypt(paFocus.BonusGiven);
+            }
+
+            var criteria = new EditPAFocusCriteria
+            {
+                ActorId = actorId,
+                Value = paFocuses.ToXML().ToString()
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
     }
 }

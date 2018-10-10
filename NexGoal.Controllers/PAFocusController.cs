@@ -4,7 +4,10 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
     using NexGoal.Services;
@@ -13,19 +16,33 @@
     public class PAFocusController : Controller
     {
         private readonly ISessionService sessionService;
+        private readonly ICommonService commonService;
         private readonly IPAFocusService focusService;
 
         public PAFocusController(
             ISessionService sessionService,
+            ICommonService commonService,
             IPAFocusService focusService)
         {
             this.sessionService = sessionService;
+            this.commonService = commonService;
             this.focusService = focusService;
         }
 
         public IActionResult Index()
         {
             return View();
+        }
+
+        public async Task<JsonResult> GetFocusEvaluationLevel()
+        {
+            string[] refNames = { ReferenceResource.FocusEvaluationLevel };
+            IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+            IEnumerable<FocusEvaluationLevelModel> levels =
+                referenceResources.Select(x => new FocusEvaluationLevelModel { Value = x.ResourceId, Name = x.Value })
+                .OrderByDescending(x => x.Value);
+
+            return Json(levels);
         }
 
         public async Task<JsonResult> GetPeriod()
@@ -64,6 +81,14 @@
                 });
 
             return Json(result);
+        }
+
+        [HttpPost]
+        public async Task<JsonResult> Edit(int roleId, IEnumerable<EditPAFocusModel> paFocuses)
+        {
+            CommandResult commandResult = await focusService.EditPAFocusAsync(sessionService.EmployeeId, paFocuses).ConfigureAwait(false);
+
+            return Json(commandResult);
         }
     }
 }

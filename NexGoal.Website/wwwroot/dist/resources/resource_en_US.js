@@ -82,6 +82,7 @@ var resource_en_US = {
     'ReadyForPromotion': 'Ready for Promotion',
     'RemindDay': 'Remind Day',
     'RemindDateForNominator': 'Remind Date For Nominator',
+    'Reset': 'Reset',
     'Reviewer': 'Reviewer',
     'Role': 'Role',
     'RoleManagement': 'Role Management',

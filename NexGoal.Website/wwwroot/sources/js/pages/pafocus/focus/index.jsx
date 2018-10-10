@@ -18,10 +18,11 @@ export default class PAFocus extends Component {
                 groups: [],
                 employee: null
             },
+            focusEvaluationLevelOptions: [],
             periodOptions: [],
             groupOptions: [],
             memberOptions: [],
-            paFocuses: []
+            pafocuses: []
         };
     }
 
@@ -29,11 +30,12 @@ export default class PAFocus extends Component {
         const promises = [
             axios(resolveClientUrl('pafocus/getPeriod')),
             axios(resolveClientUrl('pafocus/getGroup')),
-            axios(resolveClientUrl('pafocus/getMember'))
+            axios(resolveClientUrl('pafocus/getMember')),
+            axios(resolveClientUrl('pafocus/getFocusEvaluationLevel'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, groupResponse, memberResponse]) => {
+            .then(([periodResponse, groupResponse, memberResponse, levelResponse]) => {
                 const periodOptions = periodResponse.data.map((period) => {
                     return {
                         value: period.periodId,
@@ -64,6 +66,7 @@ export default class PAFocus extends Component {
 
                 this.setState({
                     filter: filter,
+                    focusEvaluationLevelOptions: levelResponse.data,
                     periodOptions: periodOptions,
                     groupOptions: groupOptions,
                     memberOptions: memberOptions
@@ -87,13 +90,64 @@ export default class PAFocus extends Component {
                 employeeId: filter.employee ? filter.employee.value : ''
             }
         }).then(response => {
-            this.setState({ paFocuses: response.data });
+            this.setState({ pafocuses: response.data });
         }).catch(axiosError);
     }
 
     handleFilterSubmit = () => {
         let filter = this.state.filter;
         this.getPAFocus(filter);
+    }
+
+    handleChange = (groupCode, paFocusId, propName, value) => {
+        let pafocuses = this.state.pafocuses.slice();
+        let index = pafocuses.map(pafocus => { return pafocus.groupCode; }).indexOf(groupCode);
+
+        if (index >= 0) {
+            let memberIndex = pafocuses[index].members.map(member => { return member.paFocusId; }).indexOf(paFocusId);
+
+            if (memberIndex >= 0) {
+                pafocuses[index].members[memberIndex] = Object.assign({}, pafocuses[index].members[memberIndex], { [propName]: value });
+                this.setState({ pafocuses });
+            }
+        }
+    }
+
+    handleSubmit = () => {
+        let pafocuses = [];
+
+        this.state.pafocuses.forEach((pafocus) => {
+            pafocus.members.forEach((member) => {
+                pafocuses.push({
+                    paFocusId: member.paFocusId,
+                    isReadyPromotion: member.isReadyPromotion,
+                    contribution: member.contribution,
+                    bonusGiven: member.bonusGiven,
+                    currentObjective: member.currentObjective,
+                    nextObjective: member.nextObjective
+                });
+            });
+        });
+
+        axios({
+            url: resolveClientUrl('pafocus/edit'),
+            method: 'POST',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                paFocuses: pafocuses
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success(getResource('UpdatedSuccessfully'));
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
     }
 
     render() {
@@ -107,7 +161,16 @@ export default class PAFocus extends Component {
                     onSubmit={this.handleFilterSubmit}
                 />
 
-                <Table data={this.state.paFocuses} />
+                <Table
+                    data={this.state.pafocuses}
+                    focusEvaluationLevelOptions={this.state.focusEvaluationLevelOptions}
+                    onChange={this.handleChange}
+                />
+
+                <div className="navbar navbar-default navbar-fixed-bottom action-section text-center">
+                    <button className="btn btn-cancel" onClick={this.handleFilterSubmit}>{getResource('Reset')}</button>
+                    <button className="btn btn-primary" onClick={this.handleSubmit}>{getResource('Submit')}</button>
+                </div>
             </Fragment>
         );
     }
