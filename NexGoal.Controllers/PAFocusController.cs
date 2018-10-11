@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models;
@@ -70,6 +71,7 @@
         {
             param.ActorId = sessionService.EmployeeId;
             IEnumerable<PAFocusModel> paFocuses = await focusService.GetPAFocusAsync(param).ConfigureAwait(false);
+            bool isHost = paFocuses.Any(x => x.IsHost) && sessionService.HasPermissionOnFunction(FunctionKey.PAFocus, Policy.Host);
 
             IEnumerable<PAFocusViewModel> result = paFocuses.GroupBy(x => new { x.Employee.GroupCode, x.Employee.GroupName },
                 (key, g) => new PAFocusViewModel
@@ -79,7 +81,7 @@
                     Members = g
                 });
 
-            return Json(result);
+            return Json(new { isHost, paFocuses = result });
         }
 
         [HttpPost]

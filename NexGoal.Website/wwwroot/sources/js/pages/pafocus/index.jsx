@@ -1,11 +1,12 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import ReactDOM from 'react-dom';
-import { Tabs, Tab } from 'react-bootstrap';
+import { Nav, NavItem, Tab } from 'react-bootstrap';
 
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import getResource from '../../resourceHelper';
 
+import InformationModal from './focus/InformationModal';
 import PAFocus from './focus/index';
 import Chart from './chart/index';
 
@@ -14,6 +15,7 @@ export default class App extends Component {
         super(props);
 
         this.state = {
+            isShowModal: false,
             activeKey: 1,
             isFirstLoad: false
         };
@@ -27,6 +29,16 @@ export default class App extends Component {
         }
     }
 
+    handleShowModal = () => {
+        this.setState({
+            isShowModal: true
+        });
+    }
+
+    handleCloseModal = () => {
+        this.setState({ isShowModal: false });
+    }
+
     render() {
         return (
             <ToastLayout>
@@ -35,22 +47,40 @@ export default class App extends Component {
                         <li className="current">{`${getResource('ContributionAndRanking')} (${getResource('PAFocus')})`}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <Tabs id="tabs-pafocus"
+                        <Tab.Container id="tabs-pafocus"
                             activeKey={this.state.activeKey}
                             onSelect={this.handleSelect}
                         >
-                            <Tab eventKey={1} title={getResource('PAFocus')}>
-                                <PAFocus />
-                            </Tab>
-                            <Tab eventKey={2} title={getResource('Chart')}>
-                                {
-                                    this.state.isFirstLoad &&
-                                    <Chart />
-                                }
-                            </Tab>
-                        </Tabs>
+                            <Fragment>
+                                <Nav bsStyle="tabs">
+                                    <NavItem eventKey={1}>
+                                        {getResource('PAFocus')}
+                                        <i className="fa fa-info-circle" onClick={this.handleShowModal} />
+                                    </NavItem>
+                                    <NavItem eventKey={2}>{getResource('Chart')}</NavItem>
+                                </Nav>
+                                <Tab.Content animation>
+                                    <Tab.Pane eventKey={1}>
+                                        <PAFocus />
+                                    </Tab.Pane>
+                                    <Tab.Pane eventKey={2}>
+                                        {
+                                            this.state.isFirstLoad &&
+                                            <Chart />
+                                        }
+                                    </Tab.Pane>
+                                </Tab.Content>
+                            </Fragment>
+                        </Tab.Container>
                     </div>
                 </div>
+                {
+                    this.state.isShowModal &&
+                    <InformationModal
+                        isShow={this.state.isShowModal}
+                        onClose={this.handleCloseModal}
+                    />
+                }
             </ToastLayout>
         );
     }

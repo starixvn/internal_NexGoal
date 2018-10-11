@@ -12,6 +12,7 @@
 @import "../../components/tabs";
 @import "../../components/toast";
 @import "../../components/tooltip";
+@import "./evaluation-process";
 
 .pa-focus-table {
     tr {
@@ -51,7 +52,7 @@
         }
 
         &.noticeable-performance {
-            td, a {
+            td, a, .focus-evaluation-status {
                 color: #fff;
             }
 
@@ -96,6 +97,14 @@
     }
 }
 
+.nav-tabs {
+    .fa-info-circle {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
 .fa-info-circle {
     font-size: 16px;
     margin-left: 5px;
@@ -124,11 +133,13 @@
         color: #3da52a;
     }
 
-    &.warning {
-        color: red;
-    }
-
     &.normal {
         color: #555;
+    }
+}
+
+.action-section {
+    .btn + .btn {
+        margin-left: 5px;
     }
 }

@@ -33,7 +33,7 @@ export default class Row extends Component {
     }
 
     getFocusEvaluationLevel = (value) => {
-        let index = this.props.focusEvaluationLevelOptions.map(function (item) { return item.Value; }).indexOf(value);
+        let index = this.props.focusEvaluationLevelOptions.map(function (item) { return item.value.toString(); }).indexOf(value);
 
         if (index >= 0) {
             return this.props.focusEvaluationLevelOptions[index].name;
@@ -100,6 +100,8 @@ export default class Row extends Component {
 
     renderReadyPromotion = () => {
         let pafocus = this.props.data;
+        let cssClass = pafocus.isReadyPromotion === null || pafocus.isReadyPromotion === '' ? '' : pafocus.isReadyPromotion === 'true' ? 'good' : 'normal';
+        let label = pafocus.isReadyPromotion === null || pafocus.isReadyPromotion === '' ? '-' : pafocus.isReadyPromotion === 'true' ? 'Yes' : 'No';
 
         return (
             <Fragment>
@@ -115,8 +117,8 @@ export default class Row extends Component {
                 }
                 {
                     !pafocus.isHost &&
-                    <span className={pafocus.isReadyPromotion ? 'good' : 'normal'}>
-                        {pafocus.isReadyPromotion === null ? '-' : pafocus.isReadyPromotion ? 'Yes' : 'No'}
+                    <span className={`focus-evaluation-status ${cssClass}`}>
+                        {label}
                     </span>
                 }
             </Fragment>
@@ -154,10 +156,6 @@ export default class Row extends Component {
                                 {
                                     pafocus[propName].length > 25 &&
                                     <a className="fa fa-search" title="View" name={propName} onClick={this.handleShowObjectiveModal} />
-                                }
-                                {
-                                    pafocus[propName].length <= 25 &&
-                                    <Fragment>{pafocus[propName]}</Fragment>
                                 }
                             </Fragment>
                         }

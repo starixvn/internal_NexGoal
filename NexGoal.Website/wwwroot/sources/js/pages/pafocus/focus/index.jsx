@@ -2,10 +2,12 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
+import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import SearchForm from './SearchForm';
+import EvaluationProcess from './EvaluationProcess';
 import Table from './Table';
 
 export default class PAFocus extends Component {
@@ -18,6 +20,7 @@ export default class PAFocus extends Component {
                 groups: [],
                 employee: null
             },
+            isHost: false,
             focusEvaluationLevelOptions: [],
             periodOptions: [],
             groupOptions: [],
@@ -91,7 +94,8 @@ export default class PAFocus extends Component {
             }
         }).then(response => {
             this.setState({
-                pafocuses: response.data
+                isHost: response.data.isHost,
+                pafocuses: response.data.paFocuses
             });
         }).catch(axiosError);
     }
@@ -120,14 +124,16 @@ export default class PAFocus extends Component {
 
         this.state.pafocuses.forEach((pafocus) => {
             pafocus.members.forEach((member) => {
-                pafocuses.push({
-                    paFocusId: member.paFocusId,
-                    isReadyPromotion: member.isReadyPromotion,
-                    contribution: member.contribution,
-                    bonusGiven: member.bonusGiven,
-                    currentObjective: member.currentObjective,
-                    nextObjective: member.nextObjective
-                });
+                if (member.isHost) {
+                    pafocuses.push({
+                        paFocusId: member.paFocusId,
+                        isReadyPromotion: member.isReadyPromotion,
+                        contribution: member.contribution,
+                        bonusGiven: member.bonusGiven,
+                        currentObjective: member.currentObjective,
+                        nextObjective: member.nextObjective
+                    });
+                }
             });
         });
 
@@ -157,6 +163,11 @@ export default class PAFocus extends Component {
     }
 
     render() {
+        let period = this.state.filter.period,
+            today = moment(new Date()),
+            focusStartDate = period && period.focusStartDate ? moment(period.focusStartDate) : null,
+            focusEndDate = period && period.focusEndDate ? moment(period.focusEndDate) : null;
+
         return (
             <Fragment>
                 <SearchForm filter={this.state.filter}
@@ -167,16 +178,21 @@ export default class PAFocus extends Component {
                     onSubmit={this.handleFilterSubmit}
                 />
 
+                <EvaluationProcess period={this.state.filter.period} />
+
                 <Table
                     data={this.state.pafocuses}
                     focusEvaluationLevelOptions={this.state.focusEvaluationLevelOptions}
                     onChange={this.handleChange}
                 />
 
-                <div className="navbar navbar-default navbar-fixed-bottom action-section text-center">
-                    <button className="btn btn-cancel" onClick={this.handleFilterSubmit}>{getResource('Reset')}</button>
-                    <button className="btn btn-primary" onClick={this.handleSubmit}>{getResource('Submit')}</button>
-                </div>
+                {
+                    this.state.isHost && focusStartDate <= today && focusEndDate >= today &&
+                    <div className="navbar navbar-default navbar-fixed-bottom action-section text-center">
+                        <button className="btn btn-cancel" onClick={this.handleFilterSubmit}>{getResource('Reset')}</button>
+                        <button className="btn btn-primary" onClick={this.handleSubmit}>{getResource('Submit')}</button>
+                    </div>
+                }
             </Fragment>
         );
     }

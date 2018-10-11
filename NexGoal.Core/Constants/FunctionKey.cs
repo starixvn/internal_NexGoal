@@ -12,5 +12,6 @@
         public const string Evaluation = "Evaluation";
         public const string Review = "Review";
         public const string EmployeeNomination = "EmployeeNomination";
+        public const string PAFocus = "PAFocus";
     }
 }
