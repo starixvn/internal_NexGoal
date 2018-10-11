@@ -76,7 +76,6 @@
                 {
                     GroupCode = key.GroupCode,
                     GroupName = key.GroupName,
-                    TotalBonus = g.Sum(x => !string.IsNullOrWhiteSpace(x.BonusGiven) ? int.Parse(x.BonusGiven) : 0),
                     Members = g
                 });
 

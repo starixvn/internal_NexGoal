@@ -90,7 +90,9 @@ export default class PAFocus extends Component {
                 employeeId: filter.employee ? filter.employee.value : ''
             }
         }).then(response => {
-            this.setState({ pafocuses: response.data });
+            this.setState({
+                pafocuses: response.data
+            });
         }).catch(axiosError);
     }
 
@@ -128,6 +130,10 @@ export default class PAFocus extends Component {
                 });
             });
         });
+
+        if (pafocuses.length === 0) {
+            return;
+        }
 
         axios({
             url: resolveClientUrl('pafocus/edit'),

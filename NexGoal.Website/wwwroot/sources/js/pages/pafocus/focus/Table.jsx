@@ -46,8 +46,8 @@ export default class Table extends Component {
                                 <i className="fa fa-info-circle" />
                             </OverlayTrigger>
                         </th>
-                        <th>{getResource('ReadyForPromotion')}</th>
-                        <th>{getResource('AccomplishedCurrentObjectives')}</th>
+                        <th className="width-150">{getResource('ReadyForPromotion')}</th>
+                        <th colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
                         <th colSpan="2">{getResource('NextObjectives')}</th>
                     </tr>
                 </thead>

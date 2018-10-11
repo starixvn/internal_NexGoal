@@ -1,9 +1,23 @@
 ﻿import React, { Component, Fragment } from 'react';
 
 import getResource from '../../../resourceHelper';
+import ObjectiveModal from './ObjectiveModal';
 
 export default class Row extends Component {
-    getCssClass = (pafocus) => {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            isShowObjectiveModal: false,
+            objectiveSelected: {
+                name: '',
+                value: ''
+            }
+        };
+    }
+
+    getCssClass = () => {
+        let pafocus = this.props.data;
         let className = '';
         let contribution = pafocus.contribution ? parseInt(pafocus.contribution) : 0;
         let bonusGiven = pafocus.bonusGiven ? parseInt(pafocus.bonusGiven) : 0;
@@ -28,7 +42,9 @@ export default class Row extends Component {
         return '-';
     }
 
-    renderContributionCell = (pafocus) => {
+    renderContribution = () => {
+        let pafocus = this.props.data;
+
         return (
             <Fragment>
                 {
@@ -54,7 +70,9 @@ export default class Row extends Component {
         );
     }
 
-    renderBonusGivenCell = (pafocus) => {
+    renderBonusGiven = () => {
+        let pafocus = this.props.data;
+
         return (
             <Fragment>
                 {
@@ -80,7 +98,9 @@ export default class Row extends Component {
         );
     }
 
-    renderReadyPromotionCell = (pafocus) => {
+    renderReadyPromotion = () => {
+        let pafocus = this.props.data;
+
         return (
             <Fragment>
                 {
@@ -103,34 +123,44 @@ export default class Row extends Component {
         );
     }
 
-    renderCurrentObjectiveCell = (pafocus) => {
+    renderContentObjective = (objective) => {
         return (
             <Fragment>
                 {
-                    (pafocus.currentObjective === null || pafocus.currentObjective.length === 0) &&
-                    <Fragment>-</Fragment>
-                }
-                {
-                    pafocus.currentObjective !== null && pafocus.currentObjective.length > 0 &&
+                    objective !== null && objective.length > 0 &&
                     <Fragment>
-                        {pafocus.currentObjective.length > 25 ? `${pafocus.currentObjective.substring(0, 25)} ...` : pafocus.currentObjective}
+                        {objective.length > 25 ? `${objective.substring(0, 25)} ...` : objective}
                     </Fragment>
                 }
             </Fragment>
         );
     }
 
-    renderNextObjectiveCell = (pafocus) => {
+    renderActionObjective = (propName) => {
+        let pafocus = this.props.data;
+
         return (
             <Fragment>
                 {
-                    (pafocus.nextObjective === null || pafocus.nextObjective.length === 0) &&
-                    <Fragment>-</Fragment>
+                    pafocus.isHost &&
+                    <a className="fa fa-pencil-square-o" title="Edit" name={propName} onClick={this.handleShowObjectiveModal} />
                 }
                 {
-                    pafocus.nextObjective !== null && pafocus.nextObjective.length > 0 &&
+                    !pafocus.isHost &&
                     <Fragment>
-                        {pafocus.nextObjective.length > 25 ? `${pafocus.nextObjective.substring(0, 25)} ...` : pafocus.nextObjective}
+                        {
+                            pafocus[propName] !== null && pafocus[propName].length > 0 &&
+                            <Fragment>
+                                {
+                                    pafocus[propName].length > 25 &&
+                                    <a className="fa fa-search" title="View" name={propName} onClick={this.handleShowObjectiveModal} />
+                                }
+                                {
+                                    pafocus[propName].length <= 25 &&
+                                    <Fragment>{pafocus[propName]}</Fragment>
+                                }
+                            </Fragment>
+                        }
                     </Fragment>
                 }
             </Fragment>
@@ -138,36 +168,79 @@ export default class Row extends Component {
     }
 
     handleOnChange = (event) => {
-        const pafocus = this.props.data;
+        let pafocus = this.props.data;
 
         this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, event.target.name, event.target.value);
     }
 
+    handleChangeObjective = (objective) => {
+        let pafocus = this.props.data;
+
+        this.props.onChange(pafocus.employee.groupCode, pafocus.paFocusId, objective.name, objective.value);
+    }
+
+    handleShowObjectiveModal = (event) => {
+        let targetName = event.target.name;
+        let value = this.props.data[targetName] ? this.props.data[targetName] : '';
+
+        let objective = {
+            name: targetName,
+            value: value
+        };
+
+        this.setState({
+            isShowObjectiveModal: true,
+            objectiveSelected: objective
+        });
+    }
+
+    handleCloseObjectiveModal = () => {
+        this.setState({ isShowObjectiveModal: false });
+    }
+
     render() {
-        const pafocus = this.props.data;
+        let pafocus = this.props.data;
 
         return (
-            <tr className={this.getCssClass(pafocus)}>
-                <td className="text-center">{this.props.rowIndex}</td>
-                <td>{pafocus.employee.nickName}</td>
-                <td>{pafocus.employee.fullName}</td>
-                <td>{pafocus.employee.jobTitle}</td>
-                <td className="text-center">
-                    {this.renderContributionCell(pafocus)}
-                </td>
-                <td className="text-center">
-                    {this.renderBonusGivenCell(pafocus)}
-                </td>
-                <td className="text-center">
-                    {this.renderReadyPromotionCell(pafocus)}
-                </td>
-                <td className="text-center">
-                    {this.renderCurrentObjectiveCell(pafocus)}
-                </td>
-                <td className="text-center">
-                    {this.renderNextObjectiveCell(pafocus)}
-                </td>
-            </tr>
+            <Fragment>
+                <tr className={this.getCssClass()}>
+                    <td className="text-center">{this.props.rowIndex}</td>
+                    <td>{pafocus.employee.nickName}</td>
+                    <td>{pafocus.employee.fullName}</td>
+                    <td>{pafocus.employee.jobTitle}</td>
+                    <td className="text-center">
+                        {this.renderContribution()}
+                    </td>
+                    <td className="text-center">
+                        {this.renderBonusGiven()}
+                    </td>
+                    <td className="text-center">
+                        {this.renderReadyPromotion()}
+                    </td>
+                    <td>
+                        {this.renderContentObjective(pafocus.currentObjective)}
+                    </td>
+                    <td className="text-center width-40">
+                        {this.renderActionObjective('currentObjective')}
+                    </td>
+                    <td>
+                        {this.renderContentObjective(pafocus.nextObjective)}
+                    </td>
+                    <td className="text-center width-40">
+                        {this.renderActionObjective('nextObjective')}
+                    </td>
+                </tr>
+                {
+                    this.state.isShowObjectiveModal &&
+                    <ObjectiveModal
+                        isHost={pafocus.isHost}
+                        objective={this.state.objectiveSelected}
+                        isShow={this.state.isShowObjectiveModal}
+                        onClose={this.handleCloseObjectiveModal}
+                        onSubmit={this.handleChangeObjective}
+                    />
+                }
+            </Fragment>
         );
     }
 }

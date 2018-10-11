@@ -15,10 +15,16 @@
 
 .pa-focus-table {
     tr {
-        th {
-            &.width-200 {
-                width: 200px;
-            }
+        .width-40 {
+            width: 40px;
+        }
+
+        .width-150 {
+            width: 150px;
+        }
+
+        .width-200 {
+            width: 200px;
         }
 
         &.group-row {
@@ -40,8 +46,12 @@
             padding: 0;
         }
 
+        a.fa {
+            margin-left: 0;
+        }
+
         &.noticeable-performance {
-            td {
+            td, a {
                 color: #fff;
             }
 
