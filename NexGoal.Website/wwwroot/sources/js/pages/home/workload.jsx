@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
-import { Pie } from 'react-chartjs-2';
-import 'chartjs-plugin-datalabels';
+import { Doughnut } from 'react-chartjs-2';
 import memoize from "memoize-one";
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
@@ -12,28 +11,62 @@ export default class WorkLoad extends Component {
     }
 
     chartOptions = {
+        cutoutPercentage: 60,
         tooltips: {
             callbacks: {
                 label: function (tooltipItem, data) {
                     var dataset = data.datasets[tooltipItem.datasetIndex];
-                    var meta = dataset._meta[0];
                     var currentValue = dataset.data[tooltipItem.index];
-                    var percentage = parseFloat((currentValue / meta.total * 100).toFixed(1));
 
-                    return `${currentValue} (${percentage}%)`;
+                    return `${currentValue} hours`;
                 },
                 title: function (tooltipItem, data) {
                     return data.labels[tooltipItem[0].index];
                 }
             }
         },
-        plugins: {
-            datalabels: {
-                backgroundColor: '#fff',
-                color: '#000',
-                anchor: 'end'
+        legend: {
+            position: 'right',
+            labels: {
+                generateLabels: function (chart) {
+                    let data = chart.data;
+
+                    if (data.labels.length && data.datasets.length) {
+                        var meta = chart.getDatasetMeta(0);
+                        var ds = data.datasets[0];
+                        var total = ds.data.reduce((accumulator, currentValue) => accumulator + currentValue);
+
+                        return data.labels.map(function (label, i) {
+                            var percentage = (ds.data[i] / total * 100).toFixed(1);
+                            var arc = meta.data[i];
+                            var custom = arc && arc.custom || {};
+                            var arcOpts = chart.options.elements.arc;
+                            var fill = custom.backgroundColor ? custom.backgroundColor : ds.backgroundColor[i] || arcOpts.backgroundColor;
+                            var stroke = arcOpts.borderColor;
+                            var bw = arcOpts.borderWidth;
+
+                            return {
+                                text: `${label}: ${percentage}%`,
+                                fillStyle: fill,
+                                strokeStyle: stroke,
+                                lineWidth: bw,
+                                hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
+                                index: i
+                            }
+                        })
+                    }
+
+                    return [];
+                }
             }
         }
+        //plugins: {
+        //    datalabels: {
+        //        backgroundColor: '#fff',
+        //        color: '#000',
+        //        anchor: 'end'
+        //    }
+        //}
     }
 
     generateColors = number => {
@@ -65,10 +98,14 @@ export default class WorkLoad extends Component {
     )
 
     render() {
-        var chartData = this.getChartData(this.props.workLoad);
+        if (this.props.workLoad.length > 0) {
+            var chartData = this.getChartData(this.props.workLoad);
 
-        return (
-            <Pie data={chartData} options={this.chartOptions} />
-        );
+            return (
+                <Doughnut data={chartData} options={this.chartOptions} />
+            );
+        }
+
+        return '';
     }
 }
