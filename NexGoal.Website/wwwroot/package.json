@@ -36,6 +36,7 @@
     "react-horizontal-timeline": "^1.5.3",
     "react-select": "^2.0.0",
     "react-toastify": "^4.1.0",
+    "react-tooltip": "^3.8.4",
     "webfontloader": "^1.6.28"
   },
   "devDependencies": {

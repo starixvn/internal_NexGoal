@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
+import ReactTooltip from 'react-tooltip';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
@@ -15,6 +16,10 @@ import TeamWorkLoad from './TeamWorkLoad';
 import MemberPerformance from './MemberPerformance';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
+
+var sanitizeHtmlReact = require('sanitize-html-react');
+sanitizeHtmlReact.defaults.allowedTags = false;
+sanitizeHtmlReact.defaults.allowedAttributes = false;
 
 export default class App extends Component {
     constructor(props) {
@@ -30,6 +35,10 @@ export default class App extends Component {
             showEditPerformanceModal: false,
             performanceRecordIdSelected: null
         };
+    }
+
+    componentDidUpdate() {
+        ReactTooltip.rebuild();
     }
 
     componentDidMount() {
@@ -135,10 +144,10 @@ export default class App extends Component {
             <div className="row">
                 <ToastLayout />
                 <div className="col-sm-3">
-                    <MemberPerformance memberName="Elton" pcis={this.state.performanceRecords.slice(0).reverse()} />
-                    <MemberPerformance memberName="Raymond" pcis={this.state.performanceRecords.slice(0).reverse()} />
-                    <MemberPerformance memberName="Tim" pcis={this.state.performanceRecords.slice(0).reverse()} />
-                    <MemberPerformance memberName="Olivier" pcis={this.state.performanceRecords.slice(0).reverse()} />
+                    <MemberPerformance memberName="Elton" pcis={this.state.performanceRecords.slice(0, 6).reverse()} />
+                    <MemberPerformance memberName="Raymond" pcis={this.state.performanceRecords.slice(0, 5).reverse()} />
+                    <MemberPerformance memberName="Tim" pcis={this.state.performanceRecords.slice(0, 3).reverse()} />
+                    <MemberPerformance memberName="Olivier" pcis={this.state.performanceRecords.slice(0, 4).reverse()} />
                     {
                         performanceAppraisals.length > 0 &&
                         <PerformanceAppraisalResult performanceAppraisals={performanceAppraisals} />
@@ -199,6 +208,8 @@ export default class App extends Component {
                         onSubmitSuccess={this.handleEditPerformanceSuccess}
                     />
                 }
+                <ReactTooltip id="tooltip" place="bottom" type="info" html={true} className="tooltip" />
+
             </div>
         );
     }
