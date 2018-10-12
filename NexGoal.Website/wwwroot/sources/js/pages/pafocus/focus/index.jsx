@@ -25,6 +25,7 @@ export default class PAFocus extends Component {
             periodOptions: [],
             groupOptions: [],
             memberOptions: [],
+            periodSelected: null,
             pafocuses: []
         };
     }
@@ -94,6 +95,7 @@ export default class PAFocus extends Component {
             }
         }).then(response => {
             this.setState({
+                periodSelected: filter.period,
                 isHost: response.data.isHost,
                 pafocuses: response.data.paFocuses
             });
@@ -178,7 +180,7 @@ export default class PAFocus extends Component {
                     onSubmit={this.handleFilterSubmit}
                 />
 
-                <EvaluationProcess period={this.state.filter.period} />
+                <EvaluationProcess period={this.state.periodSelected} />
 
                 <Table
                     data={this.state.pafocuses}

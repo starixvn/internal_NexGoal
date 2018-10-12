@@ -143,3 +143,10 @@
         margin-left: 5px;
     }
 }
+
+#chartjs-tooltip {
+    .content {
+        padding: 5px 10px;
+        @include border-radius(2px);
+    }
+}
