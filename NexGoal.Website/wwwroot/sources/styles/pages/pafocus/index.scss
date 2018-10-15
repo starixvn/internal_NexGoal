@@ -14,6 +14,12 @@
 @import "../../components/tooltip";
 @import "./evaluation-process";
 
+.button-block {
+    .btn + .btn {
+        margin-left: 16px;
+    }
+}
+
 .pa-focus-table {
     tr {
         .width-40 {

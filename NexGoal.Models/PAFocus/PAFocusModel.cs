@@ -16,6 +16,10 @@
         public string Contribution { get; set; }
         public string BonusGiven { get; set; }
         public string IsReadyPromotion { get; set; }
+
+        [JsonIgnore]
+        public string GradeId { get; set; }
+        public PerformanceGradeModel Grade { get; set; }
         public bool IsHost { get; set; }
     }
 }

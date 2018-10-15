@@ -7,6 +7,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PAFocus;
+    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
 
@@ -65,6 +66,7 @@
 
             var paFocuses = await baseService.GetDataAsync<PAFocusModel>(criteria).ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
             foreach (PAFocusModel paFocus in paFocuses)
             {
@@ -73,6 +75,10 @@
                 paFocus.IsReadyPromotion = cryptoService.Decrypt(paFocus.IsReadyPromotion);
                 paFocus.Contribution = cryptoService.Decrypt(paFocus.Contribution);
                 paFocus.BonusGiven = cryptoService.Decrypt(paFocus.BonusGiven);
+
+                paFocus.GradeId = cryptoService.Decrypt(paFocus.GradeId);
+                int.TryParse(paFocus.GradeId, out int gradeId);
+                paFocus.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             }
 
             return paFocuses;

@@ -18,6 +18,11 @@ export default class SearchForm extends Component {
         this.props.onChange('employee', selectedOption);
     }
 
+    handleExportToExcel = (event) => {
+        event.preventDefault();
+        this.props.onExportToExcel();
+    }
+
     handleSubmit = (event) => {
         event.preventDefault();
         this.props.onSubmit();
@@ -30,7 +35,7 @@ export default class SearchForm extends Component {
         const memberOptions = this.props.memberOptions;
 
         return (
-            <Form inline className="form-filter" onSubmit={this.handleSubmit}>
+            <Form inline className="form-filter">
                 <FormGroup>
                     <ControlLabel>{getResource('EvaluationPeriod')}</ControlLabel>
                     <div className="control-content">
@@ -61,8 +66,9 @@ export default class SearchForm extends Component {
                         />
                     </div>
                 </FormGroup>
-                <FormGroup>
-                    <button className="btn btn-primary">{getResource('Search')}</button>
+                <FormGroup className="button-block">
+                    <button className="btn btn-primary" onClick={this.handleSubmit}>{getResource('Search')}</button>
+                    <button className="btn btn-excel" onClick={this.handleExportToExcel}>{getResource('Excel')}</button>
                 </FormGroup>
             </Form>
         );

@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -19,15 +20,18 @@
         private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IPAFocusService focusService;
+        private readonly IExportPAFocusService exportExcelService;
 
         public PAFocusController(
             ISessionService sessionService,
             ICommonService commonService,
-            IPAFocusService focusService)
+            IPAFocusService focusService,
+            IExportPAFocusService exportExcelService)
         {
             this.sessionService = sessionService;
             this.commonService = commonService;
             this.focusService = focusService;
+            this.exportExcelService = exportExcelService;
         }
 
         public IActionResult Index()
@@ -90,6 +94,18 @@
             CommandResult commandResult = await focusService.EditPAFocusAsync(sessionService.EmployeeId, paFocuses).ConfigureAwait(false);
 
             return Json(commandResult);
+        }
+
+        public async Task<IActionResult> ExportToExcel(GetPAFocusParam param)
+        {
+            param.ActorId = sessionService.EmployeeId;
+            IEnumerable<PeriodBaseModel> periods = await focusService.GetPeriodAsync().ConfigureAwait(false);
+            IEnumerable<PAFocusModel> paFocuses = await focusService.GetPAFocusAsync(param).ConfigureAwait(false);
+            PeriodBaseModel period = periods.First(x => x.PeriodId == param.PeriodId);
+
+            var fileContent = exportExcelService.Export(period, paFocuses);
+
+            return File(fileContent, MimeType.XLSX, $"PAFocusReport_{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx");
         }
     }
 }

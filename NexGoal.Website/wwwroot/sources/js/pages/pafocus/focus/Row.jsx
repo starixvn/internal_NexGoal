@@ -1,6 +1,5 @@
 ﻿import React, { Component, Fragment } from 'react';
 
-import getResource from '../../../resourceHelper';
 import ObjectiveModal from './ObjectiveModal';
 
 export default class Row extends Component {
@@ -214,6 +213,9 @@ export default class Row extends Component {
                     </td>
                     <td className="text-center">
                         {this.renderReadyPromotion()}
+                    </td>
+                    <td className="text-center">
+                        {pafocus.grade ? pafocus.grade.name : ''}
                     </td>
                     <td>
                         {this.renderContentObjective(pafocus.currentObjective)}

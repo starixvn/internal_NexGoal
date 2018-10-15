@@ -107,6 +107,25 @@ export default class PAFocus extends Component {
         this.getPAFocus(filter);
     }
 
+    handleExportToExcel = () => {
+        let filter = this.state.filter;
+        let groupIds = filter.groups.map((group) => { return group.value; }).join(',');
+        let employeeId = filter.employee ? filter.employee.value : '';
+
+        axios({
+            url: resolveClientUrl('pafocus/ExportToExcel') + `?periodId=${filter.period.value}&groupIds=${groupIds}&employeeId=${employeeId}`,
+            method: 'get',
+            responseType: 'blob'
+        }).then((response) => {
+            let url = window.URL.createObjectURL(new Blob([response.data]));
+            let link = document.createElement('a');
+            link.href = url;
+            link.setAttribute('download', `PA Focus of ${filter.period ? filter.period.label : ''}.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+        });
+    }
+
     handleChange = (groupCode, paFocusId, propName, value) => {
         let pafocuses = this.state.pafocuses.slice();
         let index = pafocuses.map(pafocus => { return pafocus.groupCode; }).indexOf(groupCode);
@@ -178,6 +197,7 @@ export default class PAFocus extends Component {
                     memberOptions={this.state.memberOptions}
                     onChange={this.handleFilterChange}
                     onSubmit={this.handleFilterSubmit}
+                    onExportToExcel={this.handleExportToExcel}
                 />
 
                 <EvaluationProcess period={this.state.periodSelected} />

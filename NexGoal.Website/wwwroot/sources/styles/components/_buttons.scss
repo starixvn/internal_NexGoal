@@ -34,8 +34,18 @@
     &.btn-add {
         background-color: #14862e;
         color: #fff;
+
         &:hover, &:focus, &:active {
             background-color: rgba(#14862e, 0.8);
+        }
+    }
+
+    &.btn-excel {
+        background: #549f3b;
+
+        &:hover, &:focus, &:active {
+            background: #61b844;
+            color: #fff;
         }
     }
 

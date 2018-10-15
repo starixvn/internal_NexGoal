@@ -47,6 +47,7 @@ export default class Table extends Component {
                             </OverlayTrigger>
                         </th>
                         <th className="width-150">{getResource('ReadyForPromotion')}</th>
+                        <th>PA Grade</th>
                         <th colSpan="2">{getResource('AccomplishedCurrentObjectives')}</th>
                         <th colSpan="2">{getResource('NextObjectives')}</th>
                     </tr>

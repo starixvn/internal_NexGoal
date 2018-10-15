@@ -47,6 +47,7 @@ var resource_en_US = {
     'EvaluationStartDate': 'Evaluation Start Date',
     'Evaluator': 'Evaluator',
     'EvaluatorProcess': 'Evaluator Process',
+    'Excel': 'Excel',
     'FlowList': 'Flow List',
     'From': 'From',
     'FromDate': 'From Date',
