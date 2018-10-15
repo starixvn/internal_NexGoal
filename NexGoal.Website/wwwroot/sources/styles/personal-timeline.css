@@ -1,0 +1,124 @@
+﻿.time-line {
+    top: 100px;
+    padding: 30px 10px 100px 0;
+}
+
+.xaxes {
+    width: 100%;
+    position: relative;
+    height: 2px;
+    border: 1px solid #0094ff;
+    float: right;
+}
+
+    .xaxes::before {
+        position: absolute;
+        content: '';
+        display: inline-block;
+        width: 8px;
+        height: 8px;
+        -moz-border-radius: 7.5px;
+        -webkit-border-radius: 7.5px;
+        border-radius: 7.5px;
+        background-color: #0094ff;
+        left: -8px;
+        top: -4px;
+    }
+
+    .xaxes::after {
+        border-top: 5px solid transparent;
+        border-bottom: 5px solid transparent;
+        border-left: 10px solid #0094ff;
+        content: "";
+        right: 0;
+        position: absolute;
+        width: 0;
+        height: 0;
+        right: -10px;
+        top: -5px;
+    }
+
+.timeline-node {
+    position: absolute;
+    lefT: 50px;
+    top: 20px;
+}
+
+.timeline-grade {
+    position: absolute;
+    top: 15px;
+    border: 1px solid #0094ff;
+    border-radius: 50px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: bold;
+    background-color: #fff;
+    line-height: 25px;
+}
+
+.timeline-info {
+    position: absolute;
+    top: 50px;
+    border: 1px solid #0094ff;
+    border-radius: 8px;
+    width: 80px;
+    text-align: center;
+}
+
+    .timeline-info .name {
+        font-weight: bold;
+        padding: 5px;
+        color: #fff;
+        margin: 0;
+    }
+
+    .timeline-info::after {
+        border-top: 5px solid #0094ff;
+        border-left: 2px solid #0094ff;
+        content: "";
+        right: 0;
+        position: absolute;
+        width: 0;
+        height: 0;
+        left: 38px;
+        top: -6px;
+    }
+
+    .timeline-info .create-date {
+        line-height: 25px;
+        margin: 0;
+    }
+
+.previous, .next {
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    height: 40px;
+    width: 40px;
+    position: absolute;
+    top: 50px;
+    color: #ccc;
+    cursor: pointer;
+}
+
+    .previous:hover, .next:hover {
+        color: #000;
+        background-color: #ccc;
+    }
+
+.previous {
+    left: 15px;
+}
+
+.next {
+    right: 15px;
+}
+
+.button-icon {
+    font-size: 20px;
+    display: inline-block;
+    position: absolute;
+    top: 8px;
+    left: 8px;
+}

@@ -28,7 +28,7 @@
         {
             IEnumerable<PerformanceRecordModel> performanceRecords = await performanceService.GetPerformanceRecordByEmployeeAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
-            return Json(performanceRecords);
+            return Json(performanceRecords.OrderBy(p => p.CreatedDate));
         }
 
         [Route("Self/Performance/Create")]

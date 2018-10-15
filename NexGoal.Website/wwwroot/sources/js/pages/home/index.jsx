@@ -16,6 +16,7 @@ import TeamWorkLoad from './TeamWorkLoad';
 import MemberPerformance from './MemberPerformance';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
+import PersonalTimeline from './PersonalTimeline';
 
 var sanitizeHtmlReact = require('sanitize-html-react');
 sanitizeHtmlReact.defaults.allowedTags = false;
@@ -35,10 +36,6 @@ export default class App extends Component {
             showEditPerformanceModal: false,
             performanceRecordIdSelected: null
         };
-    }
-
-    componentDidUpdate() {
-        ReactTooltip.rebuild();
     }
 
     componentDidMount() {
@@ -89,6 +86,10 @@ export default class App extends Component {
                     workload: workloadResponse.data
                 });
             }).catch(axiosError);
+    }
+
+    componentDidUpdate() {
+        ReactTooltip.rebuild();
     }
 
     handleCreatePerformanceSuccess = (response) => {
@@ -158,6 +159,7 @@ export default class App extends Component {
                     }
                 </div>
                 <div className="col-sm-6">
+                    <PersonalTimeline />
                     <CreateSelfPerformance
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}

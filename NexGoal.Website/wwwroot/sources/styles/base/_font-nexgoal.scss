@@ -68,12 +68,20 @@
     content: "\e909";
 }
 
-.icon-chevron-down:before, .icon-chevron-up:before {
+.icon-chevron-down:before, .icon-chevron-up:before, .icon-chevron-right:before, .icon-chevron-left:before {
     content: "\e90a";
 }
 
 .icon-chevron-up {
     transform: rotate(180deg);
+}
+
+.icon-chevron-left {
+    transform: rotate(90deg);
+}
+
+.icon-chevron-right {
+    transform: rotate(-90deg);
 }
 
 .icon-comment-text:before {
