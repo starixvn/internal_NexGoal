@@ -26,6 +26,14 @@ export default class PersonalTimeline extends Component {
         }).catch(axiosError);
     }
 
+    onClickPrevious = () => {
+        console.log("Prev Clicked");
+    }
+
+    onClickNext = () => {
+        console.log("Next Clicked");
+    }
+
     calculateNodePosition = (totalNode, index) => {
         let baseLeft = 0;
         let timelineWidth = this.state.timelineWidth;
