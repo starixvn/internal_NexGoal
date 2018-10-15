@@ -6,8 +6,63 @@
 @import "../components/tables";
 @import "../components/toast";
 
-.section-body {
-    padding-top: 15px !important;
+.my-page {
+    display: grid; 
+    grid-template-columns: 285px 1fr 285px;
+    > div {
+        padding: 12px;
+    }
+    .general-info {
+        box-shadow: 0 0 3px #dedede;
+    }
+}
+
+.user-info {
+    overflow: hidden;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ccc;
+    .avatar {
+        @include border-radius(3px);
+        float: left;
+        border: 2px solid #dedede;
+        margin-right: 12px;
+    }
+    .nick-name {
+        color: #0067b4;
+        font-size: 14px;
+        font-weight: bold;
+    }
+}
+
+.my-pa {
+    padding: 12px 0;
+    &:before {
+        content: 'My PAs';
+        color: #04517d;
+        font-weight: bold;
+        margin-bottom: 12px;
+        display: block;
+    }
+    &-year {
+        margin-bottom: 12px;
+        .year {
+            font-weight: bold;
+            color: #535353;
+            margin-bottom: 8px;
+        }
+        .term {
+            display: grid;
+            grid-template-columns: 85px 120px 1fr;
+            margin-bottom: 8px;
+            .grade {
+                @include border-radius(2px);
+                font-size: 11px;
+                text-align: center;
+                background-color: #e1eef7;
+                border: 1px solid #afccde;
+            }
+        }
+    }    
 }
 
 .pa-container {

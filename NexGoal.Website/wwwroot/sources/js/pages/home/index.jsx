@@ -12,6 +12,7 @@ import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
+import avatar from '../../../styles/images/avatar.jpg';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
 import PersonalTimeline from './PersonalTimeline';
@@ -143,71 +144,94 @@ export default class App extends Component {
         return (
             <div className="row">
                 <ToastLayout />
-                <div className="col-sm-3">
-
-                    {
-                        performanceAppraisals.length > 0 &&
-                        <PerformanceAppraisalResult performanceAppraisals={performanceAppraisals} />
-                    }
-                    {
-                        nominations.length > 0 &&
-                        <NominationResult nominations={nominations} />
-                    }
-                </div>
-                <div className="col-sm-6">
-                    <PersonalTimeline />
-                    <CreateSelfPerformance
-                        performanceGradeOptions={this.state.performanceGradeOptions}
-                        projectOptions={this.state.projectOptions}
-                        onSubmitSuccess={this.handleCreatePerformanceSuccess}
-                    />
-                    {
-                        performanceRecords.length > 0 &&
-                        <div className="performance-record">
-                            {
-                                performanceRecords.map((performanceRecord) => {
-                                    let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
-                                        || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
-                                    let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
-                                    let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
-
-                                    return (
-                                        <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                                            objectId={performanceRecord.performanceRecordId}
-                                            avatar={performanceRecord.creator.base64Image}
-                                            nickName={performanceRecord.creator.nickName}
-                                            submittedDate={submittedDate} modifiedDate={modifiedDate}
-                                            isHost={isHost}
-                                            grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
-                                            comment={performanceRecord.comment}
-                                            projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
-                                            onEdit={this.handleEditPerformanceRecord}
-                                        />
-                                    );
-                                })
-                            }
+                <div className="my-page">
+                    <div className="general-info">
+                        {/* <MemberPerformance memberName="Elton" pcis={this.state.performanceRecords.slice(0, 6).reverse()} />
+                        <MemberPerformance memberName="Raymond" pcis={this.state.performanceRecords.slice(0, 5).reverse()} />
+                        <MemberPerformance memberName="Tim" pcis={this.state.performanceRecords.slice(0, 3).reverse()} />
+                        <MemberPerformance memberName="Olivier" pcis={this.state.performanceRecords.slice(0, 4).reverse()} />
+                        {
+                            performanceAppraisals.length > 0 &&
+                            <PerformanceAppraisalResult performanceAppraisals={performanceAppraisals} />
+                        }
+                        {
+                            nominations.length > 0 &&
+                            <NominationResult nominations={nominations} />
+                        } */}
+                        <div className="user-info">
+                            <img src={avatar} alt="avatar" className="avatar"/>
+                            <div className="nick-name">Richard</div>
+                            <div className="user-name">Trương Văn Thảo</div>
+                            <div className="role role-PM">Project Manager</div>
                         </div>
+                        <div className="my-pa">
+                            <div className="my-pa-year">
+                                <div className="year">2018</div>
+                                <div className="term"><div>Second Half</div><div className="grade">Exception</div></div>
+                                <div className="term"><div>First Half</div><div className="grade">Meet Expectations +</div></div>
+                            </div>
+                            <div className="my-pa-year">
+                                <div className="year">2017</div>
+                                <div className="term"><div>Second Half</div><div className="grade">Exceeds Expectations</div></div>
+                                <div className="term"><div>First Half</div><div className="grade">Meet Expectations +</div></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                      	<PersonalTimeline />
+                        <CreateSelfPerformance
+                            performanceGradeOptions={this.state.performanceGradeOptions}
+                            projectOptions={this.state.projectOptions}
+                            onSubmitSuccess={this.handleCreatePerformanceSuccess}
+                        />
+                        {
+                            performanceRecords.length > 0 &&
+                            <div className="performance-record">
+                                {
+                                    performanceRecords.map((performanceRecord) => {
+                                        let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
+                                            || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
+                                        let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
+                                        let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
+
+                                        return (
+                                            <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                                                objectId={performanceRecord.performanceRecordId}
+                                                avatar={performanceRecord.creator.base64Image}
+                                                nickName={performanceRecord.creator.nickName}
+                                                submittedDate={submittedDate} modifiedDate={modifiedDate}
+                                                isHost={isHost}
+                                                grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
+                                                comment={performanceRecord.comment}
+                                                projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
+                                                onEdit={this.handleEditPerformanceRecord}
+                                            />
+                                        );
+                                    })
+                                }
+                            </div>
+                        }
+                    </div>
+                    <div className="">
+                        <WorkLoad workLoad={this.state.workload} />
+
+                        <HrmSummary />
+                    </div>
+                    {/* <TeamWorkLoad /> */}
+
+                    {
+                        this.state.showEditPerformanceModal &&
+                        <EditSelfPerformance
+                            performanceRecordId={this.state.performanceRecordIdSelected}
+                            performanceGradeOptions={this.state.performanceGradeOptions}
+                            projectOptions={this.state.projectOptions}
+                            showModal={this.state.showEditPerformanceModal}
+                            onCloseModal={this.handleCloseEditPerformanceModal}
+                            onSubmitSuccess={this.handleEditPerformanceSuccess}
+                        />
                     }
+                    <ReactTooltip id="tooltip" place="bottom" type="info" html={true} className="tooltip" />
                 </div>
-                <div className="col-sm-3">
-                    {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
-
-                    <HrmSummary />
-                </div>
-
-                {
-                    this.state.showEditPerformanceModal &&
-                    <EditSelfPerformance
-                        performanceRecordId={this.state.performanceRecordIdSelected}
-                        performanceGradeOptions={this.state.performanceGradeOptions}
-                        projectOptions={this.state.projectOptions}
-                        showModal={this.state.showEditPerformanceModal}
-                        onCloseModal={this.handleCloseEditPerformanceModal}
-                        onSubmitSuccess={this.handleEditPerformanceSuccess}
-                    />
-                }
-                <ReactTooltip id="tooltip" place="bottom" type="info" html={true} className="tooltip" />
-
             </div>
         );
     }
