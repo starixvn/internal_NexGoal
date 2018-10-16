@@ -59,6 +59,31 @@
             return performanceRecords;
         }
 
+        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<int>>> GetPerformanceRecordPagination(
+            int employeeId,
+            int skip,
+            int itemPerPage)
+        {
+            var criteria = new GetPerformanceRecordPaginationCriteria
+            {
+                EmployeeId = employeeId,
+                Skip = skip,
+                PageSize = itemPerPage
+            };
+            var tuple = await baseService.FetchMultipleAsync<PerformanceRecordModel, int>(criteria).ConfigureAwait(false);
+
+            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
+            foreach (PerformanceRecordModel performanceRecord in tuple.Item1)
+            {
+                MappingData(performanceRecord, projects, performanceGrades, employees);
+            }
+
+            return tuple;
+        }
+
         public async Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(
             int performanceRecordId,
             int creatorId)

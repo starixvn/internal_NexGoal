@@ -42,6 +42,7 @@
     position: absolute;
     lefT: 50px;
     top: 20px;
+    cursor: pointer;
 }
 
 .timeline-grade {
@@ -56,6 +57,7 @@
     font-weight: bold;
     background-color: #fff;
     line-height: 25px;
+    cursor: pointer;
 }
 
 .timeline-info {
@@ -65,6 +67,7 @@
     border-radius: 8px;
     width: 80px;
     text-align: center;
+    cursor: pointer;
 }
 
     .timeline-info .name {
@@ -92,6 +95,7 @@
     }
 
 .previous, .next {
+    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 50%;
     height: 40px;
@@ -103,7 +107,7 @@
 }
 
     .previous:hover, .next:hover {
-        color: #000;
+        color: #fff;
         background-color: #ccc;
     }
 
@@ -122,3 +126,12 @@
     top: 8px;
     left: 8px;
 }
+
+.disabled {
+    cursor: not-allowed !important;
+}
+
+    .disabled:hover {
+        color: #ccc !important;
+        background-color: #fff !important;
+    }

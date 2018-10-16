@@ -31,6 +31,18 @@
             return Json(performanceRecords.OrderBy(p => p.CreatedDate));
         }
 
+        [Route("Self/Performance/GetByEmployee")]
+        public async Task<JsonResult> GetByEmployeePagination(int pageIndex, int itemPerPage)
+        {
+            int skip = pageIndex == 1 ? 0 : (pageIndex - 1) * itemPerPage;
+            var tuple = await performanceService.GetPerformanceRecordPagination(sessionService.EmployeeId, skip, itemPerPage)
+                .ConfigureAwait(false);
+
+            bool isOverPCI = (pageIndex * itemPerPage) >= tuple.Item2.First();
+
+            return Json(new { performanceRecord = tuple.Item1, isOverPCI });
+        }
+
         [Route("Self/Performance/Create")]
         public IActionResult Create()
         {

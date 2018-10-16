@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
@@ -15,6 +16,11 @@
         Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(
             int performanceRecordId,
             int creatorId);
+
+        Task<Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<int>>> GetPerformanceRecordPagination(
+            int employeeId,
+            int skip,
+            int itemPerPage);
 
         Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord);
 
