@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -102,10 +101,11 @@
             IEnumerable<PeriodBaseModel> periods = await focusService.GetPeriodAsync().ConfigureAwait(false);
             IEnumerable<PAFocusModel> paFocuses = await focusService.GetPAFocusAsync(param).ConfigureAwait(false);
             PeriodBaseModel period = periods.First(x => x.PeriodId == param.PeriodId);
+            var fileName = string.Format("PA Focus of {0}.xlsx", period != null ? period.Name : string.Empty);
 
-            var fileContent = exportExcelService.Export(period, paFocuses);
+            byte[] fileContent = exportExcelService.Export(period, paFocuses);
 
-            return File(fileContent, MimeType.XLSX, $"PAFocusReport_{DateTime.Now.ToString("yyyyMMddHHmmss")}.xlsx");
+            return File(fileContent, MimeType.XLSX, fileName);
         }
     }
 }

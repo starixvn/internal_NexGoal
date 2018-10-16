@@ -2,6 +2,16 @@
 import { Scatter } from 'react-chartjs-2';
 
 export default class ScatterChart extends Component {
+    shouldComponentUpdate(nextProps) {
+        if (this.props.period !== nextProps.period
+            || this.props.focusEvaluationLevelOptions !== nextProps.focusEvaluationLevelOptions
+            || this.props.pafocuses !== nextProps.pafocuses) {
+            return true;
+        }
+
+        return false;
+    }
+
     position = {
         None: 0,
         Left: 1,

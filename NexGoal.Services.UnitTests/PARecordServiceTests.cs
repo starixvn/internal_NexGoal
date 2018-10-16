@@ -24,7 +24,7 @@
             // Arrange
             var expected = new List<PeriodBaseModel>
             {
-                new PeriodModel { PeriodId = 1, Name = "1H 2018" }
+                new PeriodBaseModel { PeriodId = 1, Name = "1H 2018" }
             };
             var service = GetPARecordService();
             baseService.GetDataAsync<PeriodBaseModel>(Arg.Any<GetPeriodByActorCriteria>()).Returns(expected);

@@ -10,12 +10,6 @@ import getResource from '../../../../resourceHelper';
 const { SearchBar } = Search;
 
 class Table extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-    }
-
     shouldComponentUpdate(nextProps, nextState) {
         if (this.props.nominators !== nextProps.nominators
             || this.props.isHost !== nextProps.isHost) {
@@ -25,7 +19,7 @@ class Table extends Component {
         return false;
     }
 
-    handleCheckboxChange(event, nominator) {
+    handleCheckboxChange = (event, nominator) => {
         const name = event.target.name;
 
         if (name === 'Nominator') {

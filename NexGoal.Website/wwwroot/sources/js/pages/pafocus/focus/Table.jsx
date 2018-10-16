@@ -5,6 +5,15 @@ import getResource from '../../../resourceHelper';
 import Row from './Row';
 
 export default class Table extends Component {
+    shouldComponentUpdate(nextProps) {
+        if (this.props.data !== nextProps.data
+            || this.props.focusEvaluationLevelOptions !== nextProps.focusEvaluationLevelOptions) {
+            return true;
+        }
+
+        return false;
+    }
+
     getTooltipBestSuitedToTeamGoals = () => {
         return (
             <Tooltip id="tooltip-focus-note" className="focus-note">
