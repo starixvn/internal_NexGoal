@@ -34,11 +34,12 @@
             return teamWorkloads;
         }
 
-        public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadAsync(int employeeId)
+        public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadAsync(int employeeId, int periodId)
         {
             var criteria = new GetWorkloadByEmployeeIdCriteria
             {
-                EmployeeId = employeeId
+                EmployeeId = employeeId,
+                PeriodId = periodId
             };
 
             return await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);

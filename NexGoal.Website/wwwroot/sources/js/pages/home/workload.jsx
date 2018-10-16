@@ -19,13 +19,12 @@ export default class WorkLoad extends PureComponent {
     }
 
     getWorkload = () => {
-        axios(resolveClientUrl('Home/GetWorkLoad', {
+        debugger;
+        axios.get(resolveClientUrl('Home/GetWorkload'), {
             params: {
                 periodId: this.props.periods[this.state.currentPeriodIndex].periodId
             }
-        }))
-            .then(response => this.setState({ workload: response.data }))
-            .catch(axiosError)
+        }).then(response => this.setState({ workload: response.data })).catch(axiosError);
     }
 
     onNextPeriod = () => {

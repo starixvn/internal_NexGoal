@@ -6,8 +6,10 @@
     {
         public int EmployeeId { get; set; }
 
+        public int PeriodId { get; set; }
+
         public override string GetSettingKey() => "Employee_GetWorkload";
 
-        public override bool IsValid() => EmployeeId > 0;
+        public override bool IsValid() => EmployeeId > 0 && PeriodId > 0;
     }
 }

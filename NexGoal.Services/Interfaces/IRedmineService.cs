@@ -9,7 +9,7 @@
     {
         Task<IEnumerable<TeamWorkloadModel>> GetTeamWorkload(int EmployeeId, DateTime from, DateTime to);
 
-        Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadAsync(int employeeId);
+        Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadAsync(int employeeId, int periodId);
 
         Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadForPMAsync(int employeeId);
 
