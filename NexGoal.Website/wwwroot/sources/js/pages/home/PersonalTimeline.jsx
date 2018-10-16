@@ -2,6 +2,7 @@
 import TimelineNode from './TimelineNode';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../common-functions';
+
 const itemPerPage = window.innerWidth > 1440 ? 8 : 5;
 
 export default class PersonalTimeline extends Component {
@@ -64,7 +65,7 @@ export default class PersonalTimeline extends Component {
                 });
             }
             this.getPCI();
-            });
+        });
     }
 
     calculateNodePosition = (totalNode, index) => {
