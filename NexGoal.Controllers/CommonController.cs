@@ -85,5 +85,13 @@
 
             return Json(performanceGrades);
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetAllPeriods()
+        {
+            var periods = await commonService.GetAllPeriods().ConfigureAwait(false);
+
+            return Json(periods);
+        }
     }
 }

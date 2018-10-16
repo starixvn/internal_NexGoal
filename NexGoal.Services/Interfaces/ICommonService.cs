@@ -24,5 +24,7 @@
         Task<IEnumerable<ProjectModel>> GetProjectsAsync();
 
         Task<IEnumerable<PerformanceGradeModel>> GetPerformanceGradeAsync();
+
+        Task<IEnumerable<PeriodBaseModel>> GetAllPeriods();
     }
 }

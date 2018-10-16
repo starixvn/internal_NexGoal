@@ -34,7 +34,8 @@ export default class App extends Component {
             performanceGradeOptions: [],
             projectOptions: [],
             showEditPerformanceModal: false,
-            performanceRecordIdSelected: null
+            performanceRecordIdSelected: null,
+            periods: []
         };
     }
 
@@ -45,11 +46,11 @@ export default class App extends Component {
             axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
             axios(resolveClientUrl('home/GetNominationResult')),
             axios(resolveClientUrl('Self/Performance/Index')),
-            axios(resolveClientUrl('Home/GetWorkLoad'))
+            axios(resolveClientUrl('Common/GetAllPeriods')),
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, paResponse, nominationResponse, performanceRecordResponse, workloadResponse]) => {
+            .then(([gradeResponse, projectResponse, paResponse, nominationResponse, performanceRecordResponse, periodResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -61,14 +62,14 @@ export default class App extends Component {
                 });
 
                 let performanceAppraisals = paResponse.data;
-                performanceAppraisals.map(record => record.year = moment(record.period.startDate).year());
+                performanceAppraisals.forEach(record => record.year = moment(record.period.startDate).year());
                 performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
                     const val = item['year'];
                     groups[val] = groups[val] || [];
                     groups[val].push(item);
 
                     return groups;
-                }, {});
+                }, []);
 
                 performanceAppraisals = Object.keys(performanceAppraisals).map(key => {
                     return {
@@ -83,7 +84,7 @@ export default class App extends Component {
                     performanceAppraisals: performanceAppraisals,
                     nominations: nominationResponse.data,
                     performanceRecords: performanceRecordResponse.data,
-                    workload: workloadResponse.data
+                    periods: periodResponse.data
                 });
             }).catch(axiosError);
     }
@@ -194,7 +195,8 @@ export default class App extends Component {
                     }
                 </div>
                 <div className="col-sm-3">
-                    <WorkLoad workLoad={this.state.workload} />
+                    {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
+
                     <HrmSummary />
                 </div>
                 <TeamWorkLoad />

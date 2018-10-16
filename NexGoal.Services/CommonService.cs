@@ -8,6 +8,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
+    using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
 
@@ -100,6 +101,13 @@
             }).OrderBy(x => x.GradeId);
 
             return performanceGrades;
+        }
+
+        public async Task<IEnumerable<PeriodBaseModel>> GetAllPeriods()
+        {
+            var criteria = new GetAllPeriodsCriteria();
+
+            return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
     }
 }

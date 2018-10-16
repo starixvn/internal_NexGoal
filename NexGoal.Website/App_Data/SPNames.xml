@@ -98,6 +98,7 @@
     <Setting Key="Period_GetEmployeeSetting" SpName="Period_GetEmployeeSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GetEmployeeSettings" SpName="Period_GetEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Period_GeneratePA" SpName="Period_GeneratePA" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_GetAll" SpName="Period_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Project">
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>

@@ -1,13 +1,39 @@
-﻿import React, { Component } from 'react';
+﻿import React, { PureComponent } from 'react';
 import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
 import memoize from "memoize-one";
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 
-export default class WorkLoad extends Component {
+export default class WorkLoad extends PureComponent {
     constructor(props) {
         super(props);
+        this.state = {
+            workload: [],
+            currentPeriodIndex: 0
+        }
+    }
+
+    componentDidMount() {
+        this.getWorkload();
+    }
+
+    getWorkload = () => {
+        axios(resolveClientUrl('Home/GetWorkLoad', {
+            params: {
+                periodId: this.props.periods[this.state.currentPeriodIndex].periodId
+            }
+        }))
+            .then(response => this.setState({ workload: response.data }))
+            .catch(axiosError)
+    }
+
+    onNextPeriod = () => {
+        this.setState({ currentPeriodIndex: this.state.currentPeriodIndex + 1 }, this.getWorkload);
+    }
+
+    onPrevPeriod = () => {
+        this.setState({ currentPeriodIndex: this.state.currentPeriodIndex - 1 }, this.getWorkload);
     }
 
     chartOptions = {
@@ -86,20 +112,20 @@ export default class WorkLoad extends Component {
     }
 
     getChartData = memoize(
-        workLoad => (
+        workload => (
             {
                 datasets: [{
-                    data: workLoad.map(e => e.totalHours),
-                    backgroundColor: this.generateColors(workLoad.length)
+                    data: workload.map(e => e.totalHours),
+                    backgroundColor: this.generateColors(workload.length)
                 }],
-                labels: workLoad.map(e => e.name)
+                labels: workload.map(e => e.name)
             }
         )
     )
 
     render() {
-        if (this.props.workLoad.length > 0) {
-            var chartData = this.getChartData(this.props.workLoad);
+        if (this.state.workload.length > 0) {
+            var chartData = this.getChartData(this.state.workload);
 
             return (
                 <Doughnut data={chartData} options={this.chartOptions} />
