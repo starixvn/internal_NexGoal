@@ -85,7 +85,7 @@ export default class PersonalTimeline extends Component {
                     records.map((reccord, index) => {
                         let position = this.calculateNodePosition(records.length, index);
                         return (
-                            <TimelineNode data={reccord} position={position} />
+                            <TimelineNode key={index} data={reccord} position={position} />
                         );
                     })
                 }
