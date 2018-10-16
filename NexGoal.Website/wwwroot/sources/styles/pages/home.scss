@@ -2,9 +2,10 @@
 @import "../abstracts/mixins";
 @import "../components/form";
 @import "../components/form-performace";
-@import "../components/performance-record";
+@import "../layouts/record";
 @import "../components/tables";
 @import "../components/toast";
+@import "../layouts/nomination";
 
 .my-page {
     display: grid; 
@@ -15,6 +16,13 @@
     .general-info {
         box-shadow: 0 0 3px #dedede;
     }
+}
+
+.warning {
+    color: #05499C;
+    background-color: #FFEEBF;
+    border: 1px solid #DFC681;
+    padding: 4px 8px;
 }
 
 .user-info {
@@ -29,25 +37,44 @@
     }
     .nick-name {
         color: #0067b4;
-        font-size: 14px;
-        font-weight: bold;
+        font-size: 20px;
+        font-weight: 600;
+    }
+    .user-name {
+        font-size: 16px;
     }
 }
-
+.record-your-mind {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 1fr;
+    .comment .form-control {
+        font-size: 14px;
+    }
+    .grade {
+        width: 230px;
+        display: inline-block;
+        margin-right: 16px;
+    }
+    .project {
+        display: inline-block;
+        width: calc(100% - 230px - 16px);
+    }
+}
 .my-pa {
     padding: 12px 0;
     &:before {
         content: 'My PAs';
-        color: #04517d;
+        color: #05517E;
         font-weight: bold;
         margin-bottom: 12px;
         display: block;
+        font-size: 16px;
     }
     &-year {
         margin-bottom: 12px;
         .year {
             font-weight: bold;
-            color: #535353;
+            font-size: 16px;
             margin-bottom: 8px;
         }
         .term {
@@ -65,6 +92,41 @@
     }    
 }
 
+.nomination {
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    padding-bottom: 12px;
+    h5 {
+        color: #05517E;
+        font-size: 16px;
+        font-weight: 600;
+    }
+}
+
+.work-info {
+    box-shadow: 0 0 3px #dedede;
+}
+.hrm-summary {
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    padding-top: 12px;
+    h5 {
+        font-weight: bold;
+        color: #05517E;
+        font-size: 16px;
+    }
+    .hrm-info {
+        padding: 0;
+        list-style: none;
+        li {
+            padding: 2px 0;
+        }
+    }
+}
+.workload {
+    padding: 8px 0;
+    border-bottom: 1px solid #EAEAEA;
+}
 .pa-container {
     position: relative;
 

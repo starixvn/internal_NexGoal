@@ -28,16 +28,10 @@ export default class HrmSummary extends Component {
     render() {
         const data = this.state.data;
         return (
-            <div style={{ marginTop: 20, border: "2px solid #ccc", borderRadius: "5px", width: "max-content", padding: 20, position: "relative" }}>
-                <h3 style={{
-                    margin: 0,
-                    position: "absolute",
-                    top: "-20px",
-                    background: "#fff",
-                    padding: "5px"
-                }} >HRM</h3>
-                <ul style={{ fontSize: "14px", fontWeight: 550 }}>
-                    <li style={{ paddingTop: "15px" }} >
+            <div className="hrm-summary">
+                <h5>HRM</h5>
+                <ul className="hrm-info">
+                    <li>
                         TOEIC score:
                     {
                             data.toeicScore > 0 ? `${data.toeicScore} (${moment(data.toeicExamDate).format("DD MMM, YYYY")})` : " N/A"

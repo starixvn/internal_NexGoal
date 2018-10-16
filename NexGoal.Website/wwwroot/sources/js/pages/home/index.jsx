@@ -12,7 +12,7 @@ import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
-import avatar from '../../../styles/images/avatar.jpg';
+import avatar1 from '../../../styles/images/avatar.png';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
 import PersonalTimeline from './PersonalTimeline';
@@ -140,6 +140,7 @@ export default class App extends Component {
         const performanceAppraisals = this.state.performanceAppraisals;
         const performanceRecords = this.state.performanceRecords;
         const nominations = this.state.nominations;
+        const avatar = `dist/styles/${avatar1}`;
 
         return (
             <div className="row">
@@ -178,6 +179,9 @@ export default class App extends Component {
                         </div>
                     </div>
                     <div>
+                        <div class="warning">
+                            News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
+                        </div>
                       	<PersonalTimeline />
                         <CreateSelfPerformance
                             performanceGradeOptions={this.state.performanceGradeOptions}
@@ -211,10 +215,42 @@ export default class App extends Component {
                                 }
                             </div>
                         }
+                        <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
+                                                    marking it look like readable English.many desktop publishing package and web."
+                                                    }
+                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"} nickName={"Richard"} submittedDate={"Aug 01, 2018"}     
+                        />
+                         <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
+                                                    marking it look like readable English.many desktop publishing package and web."
+                                                    }
+                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"}  nickName={"Raymond"} submittedDate={"Aug 01, 2018"}      
+                        />
+                         <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
+                                                    marking it look like readable English.many desktop publishing package and web."
+                                                    }
+                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"}   nickName={"Peter"} submittedDate={"Aug 01, 2018"}     
+                        />
+                         <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
+                                                    marking it look like readable English.many desktop publishing package and web."
+                                                    }
+                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"}    nickName={"Ronny"} submittedDate={"Aug 01, 2018"}    
+                        />
                     </div>
-                    <div className="">
-                        <WorkLoad workLoad={this.state.workload} />
-
+                    <div className="work-info">
+                        <div className="nomination">
+                            <h5>Nomination</h5>
+                            <div>3rd EOQ 2018 - <span className="status-shortlisted">Shortlisted</span></div>
+                            <div>EOY 2016 - <span className="status-nomination">Nominated</span></div>
+                            <div>1st EOQ 2015 - <span className="status-winner">Winner</span></div>
+                        </div>
+                        <div className="workload">
+                            <WorkLoad workLoad={this.state.workload} />
+                        </div>
+                        
                         <HrmSummary />
                     </div>
                     {/* <TeamWorkLoad /> */}

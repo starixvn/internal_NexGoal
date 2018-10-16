@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import avatar1 from '../../../styles/images/avatar.png';
 
 export default class PerformanceRecord extends Component {
     static propTypes = {
@@ -56,12 +57,14 @@ export default class PerformanceRecord extends Component {
     }
 
     render() {
+        const avatar = `dist/styles/${avatar1}`;
         return (
             <div className="record">
                 <div className="avatar-user">
-                    <img src={this.props.avatar} className="avatar" />
+                    {/* <img src={this.props.avatar} className="avatar" /> */}
+                    <img src={avatar} className="avatar" />
                     <div className="name">{this.props.nickName}</div>
-                    <span className="role">{this.props.jobTitle}</span>
+                    <div className="submit-date">{this.props.submittedDate}</div>
                 </div>
                 <div className="date">
                     <div className="final-date">{this.props.submittedDate}</div>
@@ -71,7 +74,6 @@ export default class PerformanceRecord extends Component {
                         <div className="edit-date">Edited on {this.props.modifiedDate}</div>
                     }
                 </div>
-
                 <div className="comment" >
                     <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{this.props.comment}</p>
                     {
@@ -79,26 +81,9 @@ export default class PerformanceRecord extends Component {
                             <span className={this.state.isExpanded ? "icon-chevron-down" : "icon-chevron-up"} onClick={this.collapseExpandComment} />
                             : null
                     }
-                </div>
-
-                <div className="footer">
-                    {
-                        this.props.isHost &&
-                        <div className="edit">
-                            <a onClick={this.handleEdit}>
-                                <span className="icon-square-edit-outline" />
-                            </a>
-                        </div>
-                    }
-                    {
-                        this.props.grade &&
-                        <div className="grade">Grade: <span className="grade-detail">{this.props.grade}</span></div>
-                    }
-                    {
-                        this.props.projects &&
-                        <div className="project">Project: <span className="project-detail">{this.props.projects}</span></div>
-                    }
-                </div>
+                </div>                    
+                <div className="grade">Grade: <div className="grade-detail">{this.props.grade}</div></div>            
+                <div className="project">Project: <div className="project-detail">{this.props.projects}</div></div>
             </div >
         );
     }
