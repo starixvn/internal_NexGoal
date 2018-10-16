@@ -12,8 +12,6 @@ import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
-import TeamWorkLoad from './TeamWorkLoad';
-import MemberPerformance from './MemberPerformance';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
 import PersonalTimeline from './PersonalTimeline';
@@ -146,10 +144,7 @@ export default class App extends Component {
             <div className="row">
                 <ToastLayout />
                 <div className="col-sm-3">
-                    <MemberPerformance memberName="Elton" pcis={this.state.performanceRecords.slice(0, 6).reverse()} />
-                    <MemberPerformance memberName="Raymond" pcis={this.state.performanceRecords.slice(0, 5).reverse()} />
-                    <MemberPerformance memberName="Tim" pcis={this.state.performanceRecords.slice(0, 3).reverse()} />
-                    <MemberPerformance memberName="Olivier" pcis={this.state.performanceRecords.slice(0, 4).reverse()} />
+
                     {
                         performanceAppraisals.length > 0 &&
                         <PerformanceAppraisalResult performanceAppraisals={performanceAppraisals} />
@@ -199,7 +194,6 @@ export default class App extends Component {
 
                     <HrmSummary />
                 </div>
-                <TeamWorkLoad />
 
                 {
                     this.state.showEditPerformanceModal &&

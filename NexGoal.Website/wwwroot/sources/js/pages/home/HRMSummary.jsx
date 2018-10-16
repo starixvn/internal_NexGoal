@@ -11,11 +11,11 @@ export default class HrmSummary extends Component {
         };
     }
 
-    componentDidMount = function () {
+    componentDidMount() {
         this.getHrmSummary();
     }
 
-    getHrmSummary = function () {
+    getHrmSummary = () => {
         axios.get(resolveClientUrl('Discipline/GetHRMSummary'))
             .then(response => {
                 this.setState(
