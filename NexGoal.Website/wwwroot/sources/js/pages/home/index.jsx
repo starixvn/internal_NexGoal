@@ -248,7 +248,6 @@ export default class App extends Component {
                             <div>1st EOQ 2015 - <span className="status-winner">Winner</span></div>
                         </div>
                         <div className="workload">
-                            <WorkLoad workLoad={this.state.workload} />
                         </div>
                         
                         <HrmSummary />
