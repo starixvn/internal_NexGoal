@@ -62,6 +62,7 @@
         .edit-date {
             color: #777;
             font-size: 12px;
+
             .icon-edit {
                 margin-left: 8px;
             }
@@ -77,41 +78,27 @@
 
         p {
             overflow: hidden;
-        }
+            white-space: pre-wrap;
 
-        p.collapsed {
-            max-height: 55px;
-            &:after {
-                content: '...see more';
-                color: #2475D7;
-                font-size: 12px;
-                display: block;
-                text-align: right;
-                cursor: pointer;
+            &.collapsed {
+                max-height: 55px;
+
+                &:after {
+                    content: '...see more';
+                    color: #2475D7;
+                    font-size: 12px;
+                    display: block;
+                    text-align: right;
+                    cursor: pointer;
+                }
+            }
+
+            &.expanded {
+                max-height: 1000px;
+                transition: max-height 1.5s ease-in-out;
             }
         }
 
-        p.expanded {
-            max-height: 1000px;
-            transition: max-height 1.5s ease-in-out;
-        }
-      
-        // .icon-chevron-down, .icon-chevron-up {
-        //     @include border-radius(0);
-        //     position: absolute;
-        //     bottom: 0;
-        //     left: 50%;
-        //     padding: 0 12px;
-        //     background: #d9e6f7;
-        //     border-top-left-radius: 3px;
-        //     border-top-right-radius: 3px;
-        //     cursor: pointer;
-
-        //     &:before {
-        //         font-size: 18px;
-        //         color: #575755
-        //     }
-        // }
         .see-more, .see-less {
             color: #2475D7;
             font-size: 12px;
@@ -124,6 +111,7 @@
         .see-more:before {
             content: '...see more';
         }
+
         .see-less:before {
             content: '...see less';
         }
@@ -139,15 +127,17 @@
             padding: 0 8px;
         }
     }
+
     .grade-detail {
         margin-right: 16px;
         font-size: 14px;
     }
+
     .grade {
-        grid-column: 1; 
+        grid-column: 1;
         grid-row: 3;
-       
     }
+
     .project {
         grid-column: 2;
         grid-row: 3;

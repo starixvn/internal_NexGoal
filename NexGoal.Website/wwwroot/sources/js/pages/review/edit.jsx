@@ -176,10 +176,9 @@ export default class EditPARecord extends Component {
                                     return (
                                         process.performanceRecord &&
                                         <PerformanceRecord key={`process${process.performanceRecord.performanceRecordId}`}
-                                            grade={process.performanceRecord.grade ? process.performanceRecord.grade.name : ''}
+                                            grade={process.performanceRecord.grade}
                                             comment={process.performanceRecord.comment}
-                                            projects={process.performanceRecord.projects.map(project => { return project.name; }).join(',')}
-                                            avatar={process.evaluator ? process.evaluator.base64Image : null}
+                                            projects={process.performanceRecord.projects.map(project => { return project.name; })}
                                         />
                                     );
                                 })
