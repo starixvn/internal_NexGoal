@@ -160,7 +160,7 @@ export default class App extends Component {
                             <NominationResult nominations={nominations} />
                         } */}
                         <div className="user-info">
-                            <img src={avatar} alt="avatar" className="avatar"/>
+                            <img src={avatar} alt="avatar" className="avatar" />
                             <div className="nick-name">Richard</div>
                             <div className="user-name">Trương Văn Thảo</div>
                             <div className="role role-PM">Project Manager</div>
@@ -182,7 +182,7 @@ export default class App extends Component {
                         <div class="warning">
                             News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
                         </div>
-                      	<PersonalTimeline />
+                        <PersonalTimeline />
                         <CreateSelfPerformance
                             performanceGradeOptions={this.state.performanceGradeOptions}
                             projectOptions={this.state.projectOptions}
@@ -218,26 +218,26 @@ export default class App extends Component {
                         <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
-                                                    }
-                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"} nickName={"Richard"} submittedDate={"Aug 01, 2018"}     
+                        }
+                            grade={"Meets Expectations +"} projects={"Alpha, Nexgoal"} nickName={"Richard"} submittedDate={"Aug 01, 2018"}
                         />
-                         <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                        <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
-                                                    }
-                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"}  nickName={"Raymond"} submittedDate={"Aug 01, 2018"}      
+                        }
+                            grade={"Meets Expectations +"} projects={"Alpha, Nexgoal"} nickName={"Raymond"} submittedDate={"Aug 01, 2018"}
                         />
-                         <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                        <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
-                                                    }
-                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"}   nickName={"Peter"} submittedDate={"Aug 01, 2018"}     
+                        }
+                            grade={"Meets Expectations +"} projects={"Alpha, Nexgoal"} nickName={"Peter"} submittedDate={"Aug 01, 2018"}
                         />
-                         <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                        <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
-                                                    }
-                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"}    nickName={"Ronny"} submittedDate={"Aug 01, 2018"}    
+                        }
+                            grade={"Meets Expectations +"} projects={"Alpha, Nexgoal"} nickName={"Ronny"} submittedDate={"Aug 01, 2018"}
                         />
                     </div>
                     <div className="work-info">
@@ -248,8 +248,10 @@ export default class App extends Component {
                             <div>1st EOQ 2015 - <span className="status-winner">Winner</span></div>
                         </div>
                         <div className="workload">
+                            <h5>Workload</h5>
+                            {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
                         </div>
-                        
+
                         <HrmSummary />
                     </div>
                     {/* <TeamWorkLoad /> */}

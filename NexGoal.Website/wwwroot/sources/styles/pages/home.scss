@@ -8,11 +8,13 @@
 @import "../layouts/nomination";
 
 .my-page {
-    display: grid; 
+    display: grid;
     grid-template-columns: 285px 1fr 285px;
+
     > div {
         padding: 12px;
     }
+
     .general-info {
         box-shadow: 0 0 3px #dedede;
     }
@@ -29,39 +31,48 @@
     overflow: hidden;
     padding-bottom: 12px;
     border-bottom: 1px solid #ccc;
+
     .avatar {
         @include border-radius(3px);
         float: left;
         border: 2px solid #dedede;
         margin-right: 12px;
     }
+
     .nick-name {
         color: #0067b4;
         font-size: 20px;
         font-weight: 600;
     }
+
     .user-name {
         font-size: 16px;
     }
 }
+
 .record-your-mind {
     grid-template-columns: 1fr;
     grid-template-rows: 50px 1fr;
+
     .comment .form-control {
         font-size: 14px;
     }
+
     .grade {
         width: 230px;
         display: inline-block;
         margin-right: 16px;
     }
+
     .project {
         display: inline-block;
         width: calc(100% - 230px - 16px);
     }
 }
+
 .my-pa {
     padding: 12px 0;
+
     &:before {
         content: 'My PAs';
         color: #05517E;
@@ -70,17 +81,21 @@
         display: block;
         font-size: 16px;
     }
+
     &-year {
         margin-bottom: 12px;
+
         .year {
             font-weight: bold;
             font-size: 16px;
             margin-bottom: 8px;
         }
+
         .term {
             display: grid;
             grid-template-columns: 85px 120px 1fr;
             margin-bottom: 8px;
+
             .grade {
                 @include border-radius(2px);
                 font-size: 11px;
@@ -89,13 +104,14 @@
                 border: 1px solid #afccde;
             }
         }
-    }    
+    }
 }
 
 .nomination {
     border-bottom: 1px solid #ccc;
     font-size: 14px;
     padding-bottom: 12px;
+
     h5 {
         color: #05517E;
         font-size: 16px;
@@ -106,27 +122,33 @@
 .work-info {
     box-shadow: 0 0 3px #dedede;
 }
+
 .hrm-summary {
     border-bottom: 1px solid #ccc;
     font-size: 14px;
     padding-top: 12px;
+
     h5 {
         font-weight: bold;
         color: #05517E;
         font-size: 16px;
     }
+
     .hrm-info {
         padding: 0;
         list-style: none;
+
         li {
             padding: 2px 0;
         }
     }
 }
+
 .workload {
     padding: 8px 0;
     border-bottom: 1px solid #EAEAEA;
 }
+
 .pa-container {
     position: relative;
 
