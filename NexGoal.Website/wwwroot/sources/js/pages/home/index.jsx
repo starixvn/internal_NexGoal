@@ -12,7 +12,7 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
-import WorkLoad from './workload';
+import WorkLoad from './Workload';
 import HrmSummary from './HRMSummary';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';

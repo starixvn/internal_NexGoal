@@ -28,11 +28,15 @@ export default class WorkLoad extends PureComponent {
     }
 
     onNextPeriod = () => {
-        this.setState({ currentPeriodIndex: this.state.currentPeriodIndex + 1 }, this.getWorkload);
+        if (this.props.periods[this.state.currentPeriodIndex + 1]) {
+            this.setState({ currentPeriodIndex: this.state.currentPeriodIndex + 1 }, this.getWorkload);
+        }
     }
 
     onPrevPeriod = () => {
-        this.setState({ currentPeriodIndex: this.state.currentPeriodIndex - 1 }, this.getWorkload);
+        if (this.props.periods[this.state.currentPeriodIndex - 1]) {
+            this.setState({ currentPeriodIndex: this.state.currentPeriodIndex - 1 }, this.getWorkload);
+        }
     }
 
     chartOptions = {
@@ -123,7 +127,11 @@ export default class WorkLoad extends PureComponent {
                 <div className="workload">
                     <div className="title">
                         <h5>Workload</h5>
-                        <div className="milestone"><div className="icon-chevron-down arrow-left"></div>2nd 2018<div className="icon-chevron-down arrow-right"></div></div>
+                        <div className="milestone">
+                            <div className="icon-chevron-down arrow-left" onClick={this.onPrevPeriod}></div>
+                            {this.props.periods[this.state.currentPeriodIndex].name}
+                            <div className="icon-chevron-down arrow-right" onClick={this.onNextPeriod}></div>
+                        </div>
                     </div>
                     <Doughnut data={chartData} options={this.chartOptions} />
                 </div>
