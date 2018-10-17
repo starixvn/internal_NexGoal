@@ -14,12 +14,10 @@
     public class CommonController : Controller
     {
         private readonly ICommonService commonService;
-        private readonly ISessionService sessionService;
 
-        public CommonController(ICommonService commonService, ISessionService sessionService)
+        public CommonController(ICommonService commonService)
         {
             this.commonService = commonService;
-            this.sessionService = sessionService;
         }
 
         [HttpGet]
