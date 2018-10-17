@@ -1,19 +1,17 @@
-﻿import React, { PureComponent } from 'react';
+﻿import React from 'react';
 
-export default class EmployeeInfo extends PureComponent {
-    render() {
-        let nickName = document.getElementById('employeeInfo-nickName').innerText;
-        let fullName = document.getElementById('employeeInfo-fullName').innerText;
-        let jobTitle = document.getElementById('employeeInfo-jobTitle').innerText;
-        let avatar = document.getElementById('employeeInfo-avatar').getAttribute('src');
 
+export default function EmployeeInfo(props) {
+    if (props.employee) {
         return (
             <div className="user-info">
-                <img src={avatar} alt="avatar" className="avatar" />
-                <div className="nick-name">{nickName}</div>
-                <div className="user-name">{fullName}</div>
-                <div className="role role-PM">{jobTitle}</div>
+                <img src={`data:image/png;base64 ${props.employee.base64Image}`} alt="avatar" className="avatar" />
+                <div className="nick-name">{props.employee.nickName}</div>
+                <div className="user-name">{props.employee.fullName}</div>
+                <div className="role role-PM">{props.employee.jobTitle}</div>
             </div>
         );
     }
+
+    return '';
 }

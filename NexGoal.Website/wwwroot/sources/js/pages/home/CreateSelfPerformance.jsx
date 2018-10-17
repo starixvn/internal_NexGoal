@@ -36,6 +36,7 @@ export default class CreateSelfPerformance extends Component {
                 projects: [],
                 statusId: null
             },
+            currentDate: moment(),
             errors: {}
         };
     }
@@ -165,6 +166,7 @@ export default class CreateSelfPerformance extends Component {
         let performanceGradeOptions = this.props.performanceGradeOptions;
         let projectOptions = this.props.projectOptions;
         let errors = this.state.errors;
+        const employee = this.props.employee;
         let nickName = document.getElementById('employeeInfo-nickName').innerText;
         let avatar = document.getElementById('employeeInfo-avatar').getAttribute('src');
         let today = moment(new Date()).format(DateFormat);
@@ -172,9 +174,9 @@ export default class CreateSelfPerformance extends Component {
         return (
             <div className="record record-your-mind">
                 <div className="avatar-user">
-                    <img src={avatar} className="avatar" />
-                    <div className="name">{nickName}</div>
-                    <div className="submit-date">{today}</div>
+                            <img src={`data:image/png;base64 ${employee ? employee.base64Image : ''}`} className="avatar" />
+                            <div className="name">{employee ? employee.nickName : ''}</div>
+                            <div className="submit-date">{this.state.currentDate.format('MMM DD, YYYY')}</div>
                 </div>
                 <div className="comment">
                     {
@@ -187,6 +189,9 @@ export default class CreateSelfPerformance extends Component {
                     }
                     {
                         isOpenForm &&
+                            <img src={`data:image/png;base64 ${employee ? employee.base64Image : ''}`} className="avatar" />
+                            <div className="name">{employee ? employee.nickName : ''}</div>
+                            <div className="submit-date">{this.state.currentDate.format('MMM DD, YYYY')}</div>
                         <form className="form-filter form-performance create">
                             <FormGroup>
                                 <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>

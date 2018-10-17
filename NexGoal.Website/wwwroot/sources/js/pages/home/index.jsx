@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
+import InfiniteScroll from 'react-infinite-scroller';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
@@ -16,6 +18,7 @@ import HrmSummary from './HRMSummary';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
 import PersonalTimeline from './PersonalTimeline';
+import EmployeeInfo from './EmployeeInfo';
 
 var sanitizeHtmlReact = require('sanitize-html-react');
 sanitizeHtmlReact.defaults.allowedTags = false;
@@ -43,10 +46,11 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('Self/Performance/Index')),
             axios(resolveClientUrl('Common/GetAllPeriods'))
+            axios(resolveClientUrl('Common/GetEmployeeInfo'))
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse]) => {
+            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, empResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -61,7 +65,8 @@ export default class App extends Component {
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     performanceRecords: performanceRecordResponse.data,
-                    periods: periodResponse.data
+                    periods: periodResponse.data,
+                    employee: empResponse.data
                 });
             }).catch(axiosError);
     }
@@ -124,6 +129,8 @@ export default class App extends Component {
                     <div className="general-info">
                         <EmployeeInfo />
                         <PerformanceAppraisalResult />
+
+                        <EmployeeInfo employee={this.state.employee} />
                     </div>
                     <div>
                         <div className="warning">
@@ -131,57 +138,60 @@ export default class App extends Component {
                         </div>
                         <PersonalTimeline />
                         <CreateSelfPerformance
+                            employee={this.state.employee}
                             performanceGradeOptions={this.state.performanceGradeOptions}
                             projectOptions={this.state.projectOptions}
                             onSubmitSuccess={this.handleCreatePerformanceSuccess}
                         />
-                        {
-                            performanceRecords.length > 0 &&
-                            <div className="performance-record">
-                                {
-                                    performanceRecords.map((performanceRecord) => {
-                                        let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
-                                            || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
-                                        let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
-                                        let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
+                        <Scrollbars style={{ height: '500px', overflowY: 'auto' }} autoHide={true}  >
 
-                                        return (
-                                            <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                                                objectId={performanceRecord.performanceRecordId}
-                                                avatar={performanceRecord.creator.base64Image}
-                                                nickName={performanceRecord.creator.nickName}
-                                                submittedDate={submittedDate} modifiedDate={modifiedDate}
-                                                isHost={isHost}
-                                                grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
-                                                comment={performanceRecord.comment}
-                                                projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
-                                                onEdit={this.handleEditPerformanceRecord}
-                                            />
-                                        );
-                                    })
-                                }
-                            </div>
-                        }
+                            {
+                                performanceRecords.length > 0 &&
+
+                                performanceRecords.map((performanceRecord) => {
+                                    let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
+                                        || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
+                                    let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
+                                    let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
+
+                                    return (
+                                        <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                                            objectId={performanceRecord.performanceRecordId}
+                                            avatar={performanceRecord.creator.base64Image}
+                                            nickName={performanceRecord.creator.nickName}
+                                            submittedDate={submittedDate} modifiedDate={modifiedDate}
+                                            isHost={isHost}
+                                            grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
+                                            comment={performanceRecord.comment}
+                                            projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
+                                            onEdit={this.handleEditPerformanceRecord}
+                                        />
+                                    );
+                                })
+                            }
                         <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
+                                                    marking it look like readable English.many desktop publishing package and web. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
                             grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Richard" submittedDate="Aug 01, 2018"
-                        />
+                            />
                         <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
                             grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Raymond" submittedDate="Aug 01, 2018"
-                        />
+                            />
                         <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
                             grade="Meets Expectations +" projects={"Alpha, Nexgoal"} nickName="Peter" submittedDate="Aug 01, 2018"
-                        />
+                            />
                         <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
                             grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Ronny" submittedDate="Aug 01, 2018"
-                        />
+                            />
+                        </Scrollbars >
                     </div>
                     <div className="work-info">
                         <NominationResult />
