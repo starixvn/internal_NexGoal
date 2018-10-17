@@ -1,6 +1,6 @@
 ﻿.time-line {
-    top: 100px;
     padding: 30px 10px 100px 0;
+    position: relative;
 }
 
 .xaxes {
