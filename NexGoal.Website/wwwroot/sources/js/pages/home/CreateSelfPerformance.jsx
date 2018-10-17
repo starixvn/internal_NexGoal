@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import Select from 'react-select';
@@ -6,17 +6,23 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
+import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { PerformanceRecordStatus } from '../../constants';
+import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
-import avatar1 from '../../../styles/images/avatar.png';
 
 export default class CreateSelfPerformance extends Component {
     static propTypes = {
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
         onSubmitSuccess: PropTypes.func
+    };
+
+    static defaultProps = {
+        performanceGradeOptions: [],
+        projectOptions: [],
+        onSubmitSuccess: function () { }
     };
 
     constructor(props) {
@@ -32,6 +38,18 @@ export default class CreateSelfPerformance extends Component {
             },
             errors: {}
         };
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
+            || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
+            || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
+            || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
+            || this.state.isOpenForm !== nextState.isOpenForm) {
+            return true;
+        }
+
+        return false;
     }
 
     handleOpenForm = () => {
@@ -130,7 +148,15 @@ export default class CreateSelfPerformance extends Component {
     }
 
     handleCancel = () => {
-        this.setState({ isOpenForm: false });
+        this.setState({
+            isOpenForm: false,
+            performanceRecord: {
+                grade: null,
+                comment: '',
+                projects: [],
+                statusId: null
+            },
+            errors: {} });
     }
 
     render() {
@@ -139,82 +165,68 @@ export default class CreateSelfPerformance extends Component {
         let performanceGradeOptions = this.props.performanceGradeOptions;
         let projectOptions = this.props.projectOptions;
         let errors = this.state.errors;
-        const avatar = `dist/styles/${avatar1}`;
+        let nickName = document.getElementById('employeeInfo-nickName').innerText;
+        let avatar = document.getElementById('employeeInfo-avatar').getAttribute('src');
+        let today = moment(new Date()).format(DateFormat);
+
         return (
-            <Fragment>
-                {
-                    !isOpenForm &&
-                    <div className="record record-your-mind">
-                        <div className="avatar-user">
-                            <img src={avatar} className="avatar" />
-                            <div className="name">Raymond</div>
-                            <div className="submit-date">Oct 10, 2018</div>
-                        </div>
-                        <div className="comment"><input className="form-control"
+            <div className="record record-your-mind">
+                <div className="avatar-user">
+                    <img src={avatar} className="avatar" />
+                    <div className="name">{nickName}</div>
+                    <div className="submit-date">{today}</div>
+                </div>
+                <div className="comment">
+                    {
+                        !isOpenForm &&
+                        <input className="form-control"
                             style={{ height: 50, marginBottom: 15 }}
                             placeholder="What's on your mind?"
                             onClick={this.handleOpenForm}
-                        /></div>
-                    </div>
-                }
-
-                {
-                    isOpenForm &&
-                    <div className="record record-your-mind">
-                        <div className="avatar-user">
-                            <img src={avatar} className="avatar" />
-                            <div className="name">Raymond</div>
-                            <div className="submit-date">Oct 10, 2018</div>
-                        </div>
-                        <div class="comment">
-                            <form className="form-filter form-performance create">
-                            {
-                                !isEmpty(errors) &&
-                                <ul className="list-message-error">
-                                    {errors.comment && <li>{errors.comment}</li>}
-                                </ul>
-                            }
-                                <FormGroup>
-                                    <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
-                                    <FormControl componentClass="textarea" name="comment"
-                                        className={`comment-field ${!isEmpty(errors) && errors.comment && 'input-validation-error'}`}
-                                        value={performanceRecord.comment} onChange={this.handleCommentChange}
+                        />
+                    }
+                    {
+                        isOpenForm &&
+                        <form className="form-filter form-performance create">
+                            <FormGroup>
+                                <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
+                                <FormControl componentClass="textarea" name="comment"
+                                    className={`comment-field ${!isEmpty(errors) && errors.comment && 'input-validation-error'}`}
+                                    value={performanceRecord.comment} onChange={this.handleCommentChange}
+                                />
+                            </FormGroup>
+                            <FormGroup>
+                                <div className="grade">
+                                    <ControlLabel>{getResource('Grade')}</ControlLabel>
+                                    <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
+                                        placeholder="Select Grade"
+                                        value={performanceRecord.grade}
+                                        options={performanceGradeOptions}
+                                        isSearchable={false}
+                                        isClearable
+                                        onChange={this.handleGradeChange}
                                     />
-                                </FormGroup>
-                                <FormGroup>
-                                    <div className="grade">
-                                        <ControlLabel>{getResource('Grade')}</ControlLabel>
-                                        <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
-                                            placeholder="Select Grade"
-                                            value={performanceRecord.grade}
-                                            options={performanceGradeOptions}
-                                            isSearchable={false}
-                                            isClearable
-                                            onChange={this.handleGradeChange}
-                                        />
-                                    </div>
-                                    <div className="project">
-                                        <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
-                                        <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
-                                            className="react-select-container project-field" classNamePrefix="react-select"
-                                            value={performanceRecord.projects}
-                                            options={projectOptions}
-                                            onChange={this.handleProjectChange}
-                                        />
-                                    </div>
-                                </FormGroup>
-                                
-                                <FormGroup>
-                                    <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
-                                    <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
-                                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</Button>                                    
-                                </FormGroup>
-                            </form> 
-                        </div>
-                    </div>
-                    
-                }
-            </Fragment>
+                                </div>
+                                <div className="project">
+                                    <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
+                                    <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
+                                        className="react-select-container project-field" classNamePrefix="react-select"
+                                        value={performanceRecord.projects}
+                                        options={projectOptions}
+                                        onChange={this.handleProjectChange}
+                                    />
+                                </div>
+                            </FormGroup>
+
+                            <FormGroup>
+                                <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
+                                <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
+                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</Button>
+                            </FormGroup>
+                        </form>
+                    }
+                </div>
+            </div>
         );
     }
 }

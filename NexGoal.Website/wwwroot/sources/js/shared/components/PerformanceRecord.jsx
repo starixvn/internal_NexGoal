@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+
 import avatar1 from '../../../styles/images/avatar.png';
 
 export default class PerformanceRecord extends Component {
@@ -44,7 +45,7 @@ export default class PerformanceRecord extends Component {
 
     detectCollapseExpandComment() {
         let height = this.element.offsetHeight;
-        if (height >= 55) {
+        if (height > 60) {
             this.setState({
                 showCollapseExpandButton: true,
                 isExpanded: true
@@ -69,7 +70,7 @@ export default class PerformanceRecord extends Component {
                 <div className="date">
                     {
                         this.props.modifiedDate &&
-                        <div className="edit-date">Edited on {this.props.modifiedDate}<span class="icon-playlist"></span></div>
+                        <div className="edit-date">Edited on {this.props.modifiedDate}<span className="icon-playlist" /></div>
                     }
                 </div>
                 <div className="comment" >
@@ -79,8 +80,8 @@ export default class PerformanceRecord extends Component {
                             <span className={this.state.isExpanded ? "see-more" : "see-less"} onClick={this.collapseExpandComment} />
                             : null
                     }
-                </div>                    
-                <div className="grade">Grade: <div className="grade-detail">{this.props.grade}</div></div>            
+                </div>
+                <div className="grade">Grade: <div className="grade-detail">{this.props.grade}</div></div>
                 <div className="project">Project: <div className="project-detail">{this.props.projects}</div></div>
             </div >
         );

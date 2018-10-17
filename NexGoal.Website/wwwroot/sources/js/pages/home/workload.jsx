@@ -8,10 +8,11 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 export default class WorkLoad extends PureComponent {
     constructor(props) {
         super(props);
+
         this.state = {
             workload: [],
             currentPeriodIndex: 0
-        }
+        };
     }
 
     componentDidMount() {
@@ -76,21 +77,14 @@ export default class WorkLoad extends PureComponent {
                                 lineWidth: bw,
                                 hidden: isNaN(ds.data[i]) || meta.data[i].hidden,
                                 index: i
-                            }
-                        })
+                            };
+                        });
                     }
 
                     return [];
                 }
             }
         }
-        //plugins: {
-        //    datalabels: {
-        //        backgroundColor: '#fff',
-        //        color: '#000',
-        //        anchor: 'end'
-        //    }
-        //}
     }
 
     generateColors = number => {

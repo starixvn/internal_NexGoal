@@ -1,23 +1,29 @@
 ﻿namespace NexGoal.Website.Views.Shared.Components.Menu
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Core.Services;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Models;
+    using NexGoal.Services;
 
     public class MenuViewComponent : ViewComponent
     {
         private readonly ISessionService sessionService;
+        private readonly ICommonService commonService;
 
-        public MenuViewComponent(ISessionService sessionService)
+        public MenuViewComponent(
+            ISessionService sessionService,
+            ICommonService commonService)
         {
             this.sessionService = sessionService;
+            this.commonService = commonService;
         }
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            ViewData["NickName"] = sessionService.NickName;
-            ViewData["FullName"] = sessionService.FullName;
-            var menuItems = await Task.FromResult(sessionService.MenuItems);
+            IEnumerable<MenuItemSession> menuItems = sessionService.MenuItems;
+            ViewData["employee"] = await commonService.GetEmployeeByIdAsync(sessionService.EmployeeId);
 
             return View("Menu", menuItems);
         }

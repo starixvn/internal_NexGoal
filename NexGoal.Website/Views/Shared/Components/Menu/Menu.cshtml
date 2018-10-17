@@ -1,10 +1,12 @@
 ﻿@using NexGoal.Core.Models
+@using NexGoal.Models.Common
 @model IEnumerable<MenuItemSession>
 
 @{
     var currentController = ViewContext.RouteData.Values["Controller"].ToString();
     var currentAction = ViewContext.RouteData.Values["Action"].ToString();
     var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);
+    var employee = (EmployeeBaseModel)ViewData["employee"];
 }
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -20,11 +22,12 @@
     </div>
 
     <div class="auth-info pull-right">
-        <strong>@ViewData["FullName"] - @ViewData["NickName"]</strong>
+        <strong id="employeeInfo-fullName">@employee.FullName</strong> - <strong id="employeeInfo-nickName">@employee.NickName</strong>
         &nbsp;&nbsp;
         <span class="user-avatar">
-            <img src="" />
+            <img id="employeeInfo-avatar" src="@employee.Base64Image" />
         </span>
+        <span class="hide" id="employeeInfo-jobTitle">@employee.JobTitle</span>
     </div>
 </nav>
 

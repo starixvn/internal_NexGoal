@@ -8,11 +8,11 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
+import EmployeeInfo from './EmployeeInfo';
 import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
-import avatar1 from '../../../styles/images/avatar.png';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
 import PersonalTimeline from './PersonalTimeline';
@@ -116,19 +116,13 @@ export default class App extends Component {
 
     render() {
         const performanceRecords = this.state.performanceRecords;
-        const avatar = `dist/styles/${avatar1}`;
 
         return (
             <div className="row">
                 <ToastLayout />
                 <div className="my-page">
                     <div className="general-info">
-                        <div className="user-info">
-                            <img src={avatar} alt="avatar" className="avatar" />
-                            <div className="nick-name">Richard</div>
-                            <div className="user-name">Trương Văn Thảo</div>
-                            <div className="role role-PM">Project Manager</div>
-                        </div>
+                        <EmployeeInfo />
                         <PerformanceAppraisalResult />
                     </div>
                     <div>
@@ -191,9 +185,7 @@ export default class App extends Component {
                     </div>
                     <div className="work-info">
                         <NominationResult />
-                        <div className="workload">
-                            {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
-                        </div>
+                        {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
 
                         <HrmSummary />
                     </div>
