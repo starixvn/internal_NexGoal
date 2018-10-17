@@ -10,7 +10,6 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
-import EmployeeInfo from './EmployeeInfo';
 import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';
@@ -36,7 +35,13 @@ export default class App extends Component {
             projectOptions: [],
             showEditPerformanceModal: false,
             performanceRecordIdSelected: null,
-            periods: []
+            periods: [],
+            employee: {
+                nickName: document.getElementById('employeeInfo-nickName').innerText,
+                fullName: document.getElementById('employeeInfo-fullName').innerText,
+                jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
+                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
+            }
         };
     }
 
@@ -46,11 +51,10 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('Self/Performance/Index')),
             axios(resolveClientUrl('Common/GetAllPeriods'))
-            axios(resolveClientUrl('Common/GetEmployeeInfo'))
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, empResponse]) => {
+            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -65,8 +69,7 @@ export default class App extends Component {
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     performanceRecords: performanceRecordResponse.data,
-                    periods: periodResponse.data,
-                    employee: empResponse.data
+                    periods: periodResponse.data
                 });
             }).catch(axiosError);
     }
@@ -127,10 +130,8 @@ export default class App extends Component {
                 <ToastLayout />
                 <div className="my-page">
                     <div className="general-info">
-                        <EmployeeInfo />
-                        <PerformanceAppraisalResult />
-
                         <EmployeeInfo employee={this.state.employee} />
+                        <PerformanceAppraisalResult />
                     </div>
                     <div>
                         <div className="warning">
@@ -169,27 +170,27 @@ export default class App extends Component {
                                     );
                                 })
                             }
-                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                            <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
-                            grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Richard" submittedDate="Aug 01, 2018"
+                                grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Richard" submittedDate="Aug 01, 2018"
                             />
-                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                            <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
-                            grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Raymond" submittedDate="Aug 01, 2018"
+                                grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Raymond" submittedDate="Aug 01, 2018"
                             />
-                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                            <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
-                            grade="Meets Expectations +" projects={"Alpha, Nexgoal"} nickName="Peter" submittedDate="Aug 01, 2018"
+                                grade="Meets Expectations +" projects={"Alpha, Nexgoal"} nickName="Peter" submittedDate="Aug 01, 2018"
                             />
-                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                            <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
-                            grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Ronny" submittedDate="Aug 01, 2018"
+                                grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Ronny" submittedDate="Aug 01, 2018"
                             />
                         </Scrollbars >
                     </div>

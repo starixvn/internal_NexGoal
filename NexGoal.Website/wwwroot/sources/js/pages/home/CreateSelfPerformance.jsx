@@ -157,7 +157,8 @@ export default class CreateSelfPerformance extends Component {
                 projects: [],
                 statusId: null
             },
-            errors: {} });
+            errors: {}
+        });
     }
 
     render() {
@@ -167,16 +168,13 @@ export default class CreateSelfPerformance extends Component {
         let projectOptions = this.props.projectOptions;
         let errors = this.state.errors;
         const employee = this.props.employee;
-        let nickName = document.getElementById('employeeInfo-nickName').innerText;
-        let avatar = document.getElementById('employeeInfo-avatar').getAttribute('src');
-        let today = moment(new Date()).format(DateFormat);
 
         return (
             <div className="record record-your-mind">
                 <div className="avatar-user">
-                            <img src={`data:image/png;base64 ${employee ? employee.base64Image : ''}`} className="avatar" />
-                            <div className="name">{employee ? employee.nickName : ''}</div>
-                            <div className="submit-date">{this.state.currentDate.format('MMM DD, YYYY')}</div>
+                    <img src={employee.avatar} className="avatar" />
+                    <div className="name">{employee.nickName}</div>
+                    <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
                 </div>
                 <div className="comment">
                     {
@@ -189,9 +187,6 @@ export default class CreateSelfPerformance extends Component {
                     }
                     {
                         isOpenForm &&
-                            <img src={`data:image/png;base64 ${employee ? employee.base64Image : ''}`} className="avatar" />
-                            <div className="name">{employee ? employee.nickName : ''}</div>
-                            <div className="submit-date">{this.state.currentDate.format('MMM DD, YYYY')}</div>
                         <form className="form-filter form-performance create">
                             <FormGroup>
                                 <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>

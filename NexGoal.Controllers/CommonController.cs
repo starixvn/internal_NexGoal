@@ -96,13 +96,5 @@
 
             return Json(periods);
         }
-
-        [HttpGet]
-        public async Task<JsonResult> GetEmployeeInfo()
-        {
-            var info = await commonService.GetEmployeeByIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(info);
-        }
     }
 }
