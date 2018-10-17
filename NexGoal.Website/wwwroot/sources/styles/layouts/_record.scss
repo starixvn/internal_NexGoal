@@ -93,21 +93,35 @@
             transition: max-height 1.5s ease-in-out;
         }
 
-        .icon-chevron-down, .icon-chevron-up {
-            @include border-radius(0);
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            padding: 0 12px;
-            background: #d9e6f7;
-            border-top-left-radius: 3px;
-            border-top-right-radius: 3px;
-            cursor: pointer;
+        // .icon-chevron-down, .icon-chevron-up {
+        //     @include border-radius(0);
+        //     position: absolute;
+        //     bottom: 0;
+        //     left: 50%;
+        //     padding: 0 12px;
+        //     background: #d9e6f7;
+        //     border-top-left-radius: 3px;
+        //     border-top-right-radius: 3px;
+        //     cursor: pointer;
 
-            &:before {
-                font-size: 18px;
-                color: #575755
-            }
+        //     &:before {
+        //         font-size: 18px;
+        //         color: #575755
+        //     }
+        // }
+        .see-more, .see-less {
+            color: #2475D7;
+            font-size: 12px;
+            position: absolute;
+            right: 0;
+            bottom: 10px;
+        }
+
+        .see-more:before {
+            content: '...see more';
+        }
+        .see-less:before {
+            content: '...see less';
         }
     }
 
@@ -134,47 +148,4 @@
         grid-column: 2;
         grid-row: 3;
     }
-
-    // .footer {
-    //     grid-row: 3;
-    //     grid-column: 2 / 4;
-    //     border-top: 1px solid #d7e7f7;
-    //     padding: 0px 8px;
-
-    //     .grade, .project, .edit, .english-policy {
-    //         float: left;
-    //         padding: 8px 10px;
-    //     }
-
-    //     .grade {
-    //         .grade-detail {
-    //             color: #a50cb4;
-    //             font-weight: 700;
-    //         }
-    //     }
-
-    //     .project-detail {
-    //         color: #212121;
-    //         font-weight: 700;
-    //     }
-
-    //     .english-policy {
-    //         display: table;
-
-    //         * {
-    //             display: table-cell;
-    //             vertical-align: middle;
-    //         }
-
-    //         [class^="safety"] {
-    //             padding-left: 4px;
-    //         }
-    //     }
-
-    //     .edit {
-    //         padding: 8px 15px 8px 5px;
-    //         border-right: 1px solid #d7e7f7;
-    //         cursor: pointer;
-    //     }
-    // }
 }

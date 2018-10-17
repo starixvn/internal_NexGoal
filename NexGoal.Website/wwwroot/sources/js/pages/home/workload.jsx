@@ -19,7 +19,6 @@ export default class WorkLoad extends PureComponent {
     }
 
     getWorkload = () => {
-        debugger;
         axios.get(resolveClientUrl('Home/GetWorkload'), {
             params: {
                 periodId: this.props.periods[this.state.currentPeriodIndex].periodId

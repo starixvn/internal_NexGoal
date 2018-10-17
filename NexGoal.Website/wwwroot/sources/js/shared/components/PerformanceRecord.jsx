@@ -76,7 +76,7 @@ export default class PerformanceRecord extends Component {
                     <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{this.props.comment}</p>
                     {
                         this.state.showCollapseExpandButton ?
-                            <span className={this.state.isExpanded ? "icon-chevron-down" : "icon-chevron-up"} onClick={this.collapseExpandComment} />
+                            <span className={this.state.isExpanded ? "see-more" : "see-less"} onClick={this.collapseExpandComment} />
                             : null
                     }
                 </div>                    
