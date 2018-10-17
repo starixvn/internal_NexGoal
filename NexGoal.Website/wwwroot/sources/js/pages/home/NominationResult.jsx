@@ -1,38 +1,71 @@
 ﻿import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import axios from 'axios';
 
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
 
-export default class PerformanceAppraisalResult extends Component {
-    static propTypes = {
-        nominations: PropTypes.arrayOf(PropTypes.object)
-    };
+export default class NominationResult extends Component {
+    constructor(props) {
+        super(props);
 
-    static defaultProps = {
-        nominations: []
-    };
+        this.state = {
+            nominations: []
+        };
+    }
+
+    componentDidMount() {
+        axios.get(resolveClientUrl('home/GetNominationResult'))
+            .then(response => {
+                this.setState({
+                    nominations: response.data
+                });
+            }).catch(axiosError);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (JSON.stringify(this.state.nominations) !== JSON.stringify(nextState.nominations)) {
+            return true;
+        }
+
+        return false;
+    }
+
+    getCssClass = (statusId) => {
+        let cssClass = '';
+
+        switch (statusId) {
+            case NominationStatuses[0].value:
+                cssClass = 'status-nomination';
+                break;
+
+            case NominationStatuses[1].value:
+                cssClass = 'status-shortlisted';
+                break;
+
+            case NominationStatuses[2].value:
+                cssClass = 'status-winner';
+                break;
+        }
+
+        return cssClass;
+    }
 
     render() {
-        const nominations = this.props.nominations;
+        const nominations = this.state.nominations;
 
         return (
-            <table className="table table-bordered">
-                <thead>
-                    <tr><th colSpan="2">Nomination</th></tr>
-                </thead>
-                <tbody>
-                    {
-                        nominations.map(nomination => {
-                            return (
-                                <tr key={`nomination${nomination.eoqyId}`}>
-                                    <td>{nomination.period.title}</td>
-                                    <td>{NominationStatuses.find(x => x.value === nomination.statusId).text}</td>
-                                </tr>
-                            );
-                        })
-                    }
-                </tbody>
-            </table>
+            <div className="nomination">
+                <h5>Nomination</h5>
+                {
+                    nominations.map(nomination => {
+                        return (
+                            <div key={`nomination${nomination.eoqyId}`}>
+                                {nomination.period.title} - <span className={this.getCssClass(nomination.statusId)}>{NominationStatuses.find(x => x.value === nomination.statusId).text}</span>
+                            </div>
+                        );
+                    })
+                }
+            </div>
         );
     }
 }

@@ -1,5 +1,5 @@
 ﻿import React, { Component } from 'react';
-import { ControlLabel, FormGroup } from 'react-bootstrap';
+import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 import getResource from '../../resourceHelper';
@@ -40,33 +40,31 @@ class Filter extends Component {
         const statusSelected = StatusOptions.find((option) => { return option.value === filter.isActive.toString(); });
 
         return (
-            <form className="from-inline form-filter" onSubmit={this.handleOnSubmit}>
+            <Form inline className="form-filter" onSubmit={this.handleOnSubmit}>
                 <FormGroup>
-                    <div className="col">
-                        <ControlLabel>{getResource('TargetType')}</ControlLabel>
-                        <div className="control-content">
-                            <Select name="TargetTypeId" className="react-select-container" classNamePrefix="react-select"
-                                value={targetTypeSelected} options={targetTypeOptions}
-                                isSearchable={false} isClearable={false}
-                                onChange={this.handleTargetTypeChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="col">
-                        <ControlLabel>{getResource('Status')}</ControlLabel>
-                        <div className="control-content">
-                            <Select name="IsActive" className="react-select-container" classNamePrefix="react-select"
-                                value={statusSelected} options={StatusOptions}
-                                isSearchable={false} isClearable={false}
-                                onChange={this.handleStatusChange}
-                            />
-                        </div>
-                    </div>
-                    <div className="col">
-                        <button className="btn btn-primary">{getResource('Search')}</button>
+                    <ControlLabel>{getResource('TargetType')}</ControlLabel>
+                    <div className="control-content">
+                        <Select name="TargetTypeId" className="react-select-container" classNamePrefix="react-select"
+                            value={targetTypeSelected} options={targetTypeOptions}
+                            isSearchable={false} isClearable={false}
+                            onChange={this.handleTargetTypeChange}
+                        />
                     </div>
                 </FormGroup>
-            </form>
+                <FormGroup>
+                    <ControlLabel>{getResource('Status')}</ControlLabel>
+                    <div className="control-content">
+                        <Select name="IsActive" className="react-select-container" classNamePrefix="react-select"
+                            value={statusSelected} options={StatusOptions}
+                            isSearchable={false} isClearable={false}
+                            onChange={this.handleStatusChange}
+                        />
+                    </div>
+                </FormGroup>
+                <FormGroup>
+                    <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
+                </FormGroup>
+            </Form>
         );
     }
 }

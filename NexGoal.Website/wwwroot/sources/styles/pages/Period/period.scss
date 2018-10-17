@@ -2,11 +2,12 @@
 @import "../../abstracts/variables";
 @import "../../components/buttons";
 @import "../../components/form-filter";
+@import "../../components/form-inline";
 @import "../../components/form";
 @import "../../components/modal";
 @import "../../components/messages";
 @import "../../components/tables";
-@import "../../components/_table-search.scss";
+@import "../../components/table-search";
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import "../../components/react-datepicker-custom";
 @import "../../components/toast";

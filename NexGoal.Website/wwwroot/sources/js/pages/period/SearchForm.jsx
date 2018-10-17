@@ -14,19 +14,17 @@ export default class SearchForm extends Component {
         return (
             <Form inline className="form-filter" onSubmit={this.props.onSubmit}>
                 <FormGroup>
-                    <div className="col">
-                        <ControlLabel>{getResource('Status')}</ControlLabel>
-                        <div className="control-content">
-                            <select value={this.props.isActive} name="isActive" className="form-control" onChange={this.handleStatusChange}>
-                                <option value="">-- All --</option>
-                                <option value="true">Active</option>
-                                <option value="false">Inactive</option>
-                            </select>
-                        </div>
+                    <ControlLabel>{getResource('Status')}</ControlLabel>
+                    <div className="control-content">
+                        <select value={this.props.isActive} name="isActive" className="form-control" onChange={this.handleStatusChange}>
+                            <option value="">-- All --</option>
+                            <option value="true">Active</option>
+                            <option value="false">Inactive</option>
+                        </select>
                     </div>
-                    <div className="col">
-                        <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
-                    </div>
+                </FormGroup>
+                <FormGroup>
+                    <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                 </FormGroup>
             </Form>
         );
