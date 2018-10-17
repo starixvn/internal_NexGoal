@@ -1,32 +1,36 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import avatar1 from '../../../styles/images/avatar.png';
-
 export default class PerformanceRecord extends Component {
     static propTypes = {
         objectId: PropTypes.number,
-        avatar: PropTypes.string,
-        nickName: PropTypes.string,
+        employee: PropTypes.object,
+        creator: PropTypes.object,
         submittedDate: PropTypes.string,
         modifiedDate: PropTypes.string,
         isHost: PropTypes.bool,
-        projects: PropTypes.string,
+        comment: PropTypes.string,
+        grade: PropTypes.object,
+        projects: PropTypes.arrayOf(PropTypes.string),
         onEdit: PropTypes.func
     };
 
     static defaultProps = {
         objectId: 0,
-        avatar: '',
-        nickName: '',
+        employee: { employeeId: 0, nickName: '', fullName: '', base64Image: '' },
+        creator: { employeeId: 0, nickName: '', fullName: '', base64Image: '' },
         submittedDate: '',
         modifiedDate: '',
         isHost: false,
-        projects: ''
+        comment: '',
+        grade: null,
+        projects: [''],
+        onEdit: function () { }
     };
 
     constructor(props) {
         super(props);
+
         this.state = {
             showCollapseExpandButton: false,
             isExpanded: false
@@ -58,19 +62,17 @@ export default class PerformanceRecord extends Component {
     }
 
     render() {
-        const avatar = `dist/styles/${avatar1}`;
         return (
             <div className="record">
                 <div className="avatar-user">
-                    {/* <img src={this.props.avatar} className="avatar" /> */}
-                    <img src={avatar} className="avatar" />
-                    <div className="name">{this.props.nickName}</div>
+                    <img src={this.props.creator.base64Image} className="avatar" />
+                    <div className="name">{this.props.creator.nickName}</div>
                     <div className="submit-date">{this.props.submittedDate}</div>
                 </div>
                 <div className="date">
                     {
                         this.props.modifiedDate &&
-                        <div className="edit-date">Edited on {this.props.modifiedDate}<span class="icon-edit"></span></div>
+                        <div className="edit-date">Edited on {this.props.modifiedDate}<a className="icon-edit" onClick={this.handleEdit} /></div>
                     }
                 </div>
                 <div className="comment" >
@@ -81,8 +83,12 @@ export default class PerformanceRecord extends Component {
                             : null
                     }
                 </div>
-                <div className="grade">Grade: <div className="grade-detail">{this.props.grade}</div></div>
-                <div className="project">Project: <div className="project-detail">{this.props.projects}</div></div>
+                <div className="grade">
+                    Grade: <div className="grade-detail">{this.props.grade ? this.props.grade.name : ''}</div>
+                </div>
+                <div className="project">
+                    Project: <div className="project-detail">{this.props.projects.join(', ')}</div>
+                </div>
             </div >
         );
     }

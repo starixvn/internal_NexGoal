@@ -158,40 +158,19 @@ export default class App extends Component {
                                     return (
                                         <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                                             objectId={performanceRecord.performanceRecordId}
-                                            avatar={performanceRecord.creator.base64Image}
-                                            nickName={performanceRecord.creator.nickName}
+                                                employee={performanceRecord.employee}
+                                                creator={performanceRecord.creator}
                                             submittedDate={submittedDate} modifiedDate={modifiedDate}
                                             isHost={isHost}
-                                            grade={performanceRecord.grade ? performanceRecord.grade.name : ''}
+                                                grade={performanceRecord.grade}
                                             comment={performanceRecord.comment}
-                                            projects={performanceRecord.projects.map(project => { return project.name; }).join(', ')}
+                                                projects={performanceRecord.projects.map(project => { return project.name; })}
                                             onEdit={this.handleEditPerformanceRecord}
                                         />
                                     );
                                 })
                             }
-                            <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
-                                                    marking it look like readable English.many desktop publishing package and web. It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
-                                                    marking it look like readable English.many desktop publishing package and web."
-                                grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Richard" submittedDate="Aug 01, 2018"
-                            />
-                            <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
-                                                    marking it look like readable English.many desktop publishing package and web."
-                                grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Raymond" submittedDate="Aug 01, 2018"
-                            />
-                            <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
-                                                    marking it look like readable English.many desktop publishing package and web."
-                                grade="Meets Expectations +" projects={"Alpha, Nexgoal"} nickName="Peter" submittedDate="Aug 01, 2018"
-                            />
-                            <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
-                                                    marking it look like readable English.many desktop publishing package and web."
-                                grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Ronny" submittedDate="Aug 01, 2018"
-                            />
+
                         </Scrollbars >
                     </div>
                     <div className="work-info">
