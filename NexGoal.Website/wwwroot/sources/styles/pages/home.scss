@@ -68,8 +68,10 @@
         display: inline-block;
         width: calc(100% - 230px - 16px);
     }
+
     .comment .form-filter {
         padding: 0;
+
         .form-group:last-child {
             margin-bottom: 0;
         }
@@ -153,6 +155,12 @@
 .workload {
     padding: 8px 0;
     border-bottom: 1px solid #EAEAEA;
+
+    h5 {
+        font-weight: bold;
+        color: #05517E;
+        font-size: 16px;
+    }
 }
 
 .pa-container {

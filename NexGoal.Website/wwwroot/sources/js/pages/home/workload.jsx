@@ -126,7 +126,10 @@ export default class WorkLoad extends PureComponent {
             var chartData = this.getChartData(this.state.workload);
 
             return (
-                <Doughnut data={chartData} options={this.chartOptions} />
+                <div className="workload">
+                    <h5>Workload</h5>
+                    <Doughnut data={chartData} options={this.chartOptions} />
+                </div>
             );
         }
 

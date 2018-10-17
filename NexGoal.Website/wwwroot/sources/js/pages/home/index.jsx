@@ -219,7 +219,7 @@ export default class App extends Component {
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
                                                     marking it look like readable English.many desktop publishing package and web."
                         }
-                                           grade={"Meets Expectations +"}  projects={"Alpha, Nexgoal"} nickName={"Richard"} submittedDate={"Aug 01, 2018"} modifiedDate={"Aug 01, 2018"}
+                            grade={"Meets Expectations +"} projects={"Alpha, Nexgoal"} nickName={"Richard"} submittedDate={"Aug 01, 2018"} modifiedDate={"Aug 01, 2018"}
                         />
                         <PerformanceRecord comment={"It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                                                     The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
@@ -248,7 +248,6 @@ export default class App extends Component {
                             <div>1st EOQ 2015 - <span className="status-winner">Winner</span></div>
                         </div>
                         <div className="workload">
-                            {/* <WorkLoad workLoad={this.state.workload} /> */}
                             {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
                         </div>
 
