@@ -121,7 +121,10 @@ export default class WorkLoad extends PureComponent {
 
             return (
                 <div className="workload">
-                    <h5>Workload</h5>
+                    <div className="title">
+                        <h5>Workload</h5>
+                        <div className="milestone"><div className="icon-chevron-down arrow-left"></div>2nd 2018<div className="icon-chevron-down arrow-right"></div></div>
+                    </div>
                     <Doughnut data={chartData} options={this.chartOptions} />
                 </div>
             );

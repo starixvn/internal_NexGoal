@@ -70,7 +70,7 @@ export default class PerformanceRecord extends Component {
                 <div className="date">
                     {
                         this.props.modifiedDate &&
-                        <div className="edit-date">Edited on {this.props.modifiedDate}<span className="icon-playlist" /></div>
+                        <div className="edit-date">Edited on {this.props.modifiedDate}<span class="icon-edit"></span></div>
                     }
                 </div>
                 <div className="comment" >
