@@ -1,6 +1,8 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -32,6 +34,38 @@
 
             // Assert
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetGroupFlowSettingAsync_WhenCalled_ReturnAsExectedFlowSettings()
+        {
+            // Arrange
+            var groupFlowSettings = new List<GroupFlowSettingModel>
+            {
+                new GroupFlowSettingModel { GroupId = 1, Code = "NEX" }
+            };
+            var flowSettings = new List<FlowSettingModel>
+            {
+                new FlowSettingModel { ProcessId = 1, GroupId = 1, EvaluatorId = 1, NickName = "Maria" },
+                new FlowSettingModel { ProcessId = 4, GroupId = 1, EvaluatorId = 2, NickName = "Quinn" },
+                new FlowSettingModel { ProcessId = 5, GroupId = 1, EvaluatorId = 3, NickName = "Anders" }
+            };
+            var tuple = new Tuple<IEnumerable<GroupFlowSettingModel>, IEnumerable<FlowSettingModel>>(groupFlowSettings, flowSettings);
+            var service = GetGroupFlowSettingService();
+            baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(Arg.Any<GetGroupFlowSettingCriteria>()).Returns(tuple);
+
+            // Act
+            var actual = await service.GetGroupFlowSettingAsync(1);
+
+            // Assert
+            Assert.Single(actual);
+            Assert.Equal(1, actual.First().GroupId);
+            Assert.Equal("NEX", actual.First().Code);
+
+            Assert.Single(actual.First().HumanResources);
+            Assert.Equal(flowSettings[0], actual.First().HumanResources.First());
+            Assert.Equal(flowSettings[1], actual.First().Evaluator);
+            Assert.Equal(flowSettings[2], actual.First().Reviewer);
         }
 
         [Fact]

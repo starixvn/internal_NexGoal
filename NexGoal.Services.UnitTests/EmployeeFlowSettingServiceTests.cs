@@ -1,6 +1,8 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System;
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -51,6 +53,38 @@
 
             // Assert
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetEmployeeFlowSettingAsync_WhenCalled_ReturnAsExpectedFlowSettings()
+        {
+            // Arrange
+            var employeeFlowSettings = new List<EmployeeFlowSettingModel>
+            {
+                new EmployeeFlowSettingModel { EmployeeId = 1, NickName = "Tim" }
+            };
+            var flowSettings = new List<FlowSettingModel>
+            {
+                new FlowSettingModel { ProcessId = 1, EmployeeId = 1, EvaluatorId = 1, NickName = "Maria" },
+                new FlowSettingModel { ProcessId = 4, EmployeeId = 1, EvaluatorId = 2, NickName = "Quinn" },
+                new FlowSettingModel { ProcessId = 5, EmployeeId = 1, EvaluatorId = 3, NickName = "Anders" }
+            };
+            var tuple = new Tuple<IEnumerable<EmployeeFlowSettingModel>, IEnumerable<FlowSettingModel>>(employeeFlowSettings, flowSettings);
+            var service = GetEmployeeFlowSettingService();
+            baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(Arg.Any<GetEmployeeFlowSettingCriteria>()).Returns(tuple);
+
+            // Act
+            var actual = await service.GetEmployeeFlowSettingAsync(1);
+
+            // Assert
+            Assert.Single(actual);
+            Assert.Equal(1, actual.First().EmployeeId);
+            Assert.Equal("Tim", actual.First().NickName);
+
+            Assert.Single(actual.First().HumanResources);
+            Assert.Equal(flowSettings[0], actual.First().HumanResources.First());
+            Assert.Equal(flowSettings[1], actual.First().Evaluator);
+            Assert.Equal(flowSettings[2], actual.First().Reviewer);
         }
 
         [Fact]
