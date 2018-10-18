@@ -133,18 +133,21 @@ export default class App extends Component {
                         <EmployeeInfo employee={this.state.employee} />
                         <PerformanceAppraisalResult />
                     </div>
-                    <div>
-                        <div className="warning">
-                            News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
-                        </div>
-                        <PersonalTimeline />
-                        <CreateSelfPerformance
-                            employee={this.state.employee}
-                            performanceGradeOptions={this.state.performanceGradeOptions}
-                            projectOptions={this.state.projectOptions}
-                            onSubmitSuccess={this.handleCreatePerformanceSuccess}
-                        />
-                        <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" >
+                    <div className="main-my-page">
+                        <div className="fixed-section">
+                            <div className="warning">
+                                News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
+                            </div>
+                            <PersonalTimeline />
+                            <CreateSelfPerformance
+                                employee={this.state.employee}
+                                performanceGradeOptions={this.state.performanceGradeOptions}
+                                projectOptions={this.state.projectOptions}
+                                onSubmitSuccess={this.handleCreatePerformanceSuccess}
+                            />
+                        </div>                       
+                        <div className="record-list">
+                        {/* <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" > */}
 
                             {
                                 performanceRecords.length > 0 &&
@@ -170,8 +173,8 @@ export default class App extends Component {
                                     );
                                 })
                             }
-
-                        </Scrollbars >
+                        </div>
+                        {/* </Scrollbars > */}
                     </div>
                     <div className="work-info">
                         <NominationResult />
