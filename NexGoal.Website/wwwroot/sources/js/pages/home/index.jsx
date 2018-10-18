@@ -144,7 +144,7 @@ export default class App extends Component {
                             projectOptions={this.state.projectOptions}
                             onSubmitSuccess={this.handleCreatePerformanceSuccess}
                         />
-                        <Scrollbars style={{ height: '500px', overflowY: 'auto' }} autoHide={true}  >
+                        <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" >
 
                             {
                                 performanceRecords.length > 0 &&

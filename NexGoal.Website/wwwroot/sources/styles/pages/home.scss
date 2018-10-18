@@ -11,10 +11,6 @@
     display: grid;
     grid-template-columns: 400px 1fr 400px;
 
-    > div {
-        padding: 12px;
-    }
-
     .general-info {
         box-shadow: 0 0 3px #dedede;
     }
@@ -25,6 +21,7 @@
     background-color: #FFEEBF;
     border: 1px solid #DFC681;
     padding: 4px 8px;
+    margin: 12px;
 }
 
 .user-info {
@@ -184,6 +181,9 @@
         }
     }
 }
+// .scrollbar {
+//     padding: 0 12px;
+// }
 
 .pa-container {
     position: relative;
