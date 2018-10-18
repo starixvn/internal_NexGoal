@@ -160,7 +160,7 @@ export default class App extends Component {
                                 onExpandForm={this.handleExpandForm}
                             />
                         </div>
-                        <div className={this.state.isFormExpanded ? 'record-list-collapse' : 'record-list-expand'}>
+                        <div className={this.state.isFormExpanded ? 'record-list record-list-collapse' : 'record-list record-list-expand'}>
                             {/* <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" > */}
 
                             {performanceRecords.length > 0 &&
