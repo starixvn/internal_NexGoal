@@ -19,6 +19,7 @@
         top: 50px;
         bottom: 0;
         left: 50px;
+        background-color: #fff;
     }
 }
 .main-my-page {
@@ -122,13 +123,13 @@
 }
 .fixed-section {
     position: fixed;
-    top: 62px;
+    top: 50px;
     z-index: 10;
     width: calc(100% - 800px - 54px);
     background: #fff;
 }
 .record-list {
-    margin-top: 364px;
+    padding-top: 364px;
 }
 .nomination {
     border-bottom: 1px solid #ccc;
@@ -150,6 +151,7 @@
     top: 50px;
     bottom: 0;
     right: 0;
+    background-color: #fff;
 }
 
 .hrm-summary {
