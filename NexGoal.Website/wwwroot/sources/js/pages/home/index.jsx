@@ -42,7 +42,8 @@ export default class App extends Component {
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
-            }
+            },
+            isFormExpanded: false
         };
     }
 
@@ -128,10 +129,11 @@ export default class App extends Component {
     }
 
     loadItems = (page) => {
-        debugger;
         let records = this.state.performanceRecords.slice(0, (page) * 3);
         this.setState({ displayedPerformanceRecords: records, hasMore: records.length < this.state.performanceRecords.length })
     }
+
+    handleExpandForm = isExpanded => this.setState({ isFormExpanded: isExpanded });
 
     render() {
         const performanceRecords = this.state.displayedPerformanceRecords;
@@ -155,9 +157,10 @@ export default class App extends Component {
                                 performanceGradeOptions={this.state.performanceGradeOptions}
                                 projectOptions={this.state.projectOptions}
                                 onSubmitSuccess={this.handleCreatePerformanceSuccess}
+                                onExpandForm={this.handleExpandForm}
                             />
                         </div>
-                        <div className="record-list">
+                        <div className={this.state.isFormExpanded ? 'record-list-collapse' : 'record-list-expand'}>
                             {/* <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" > */}
 
                             {performanceRecords.length > 0 &&

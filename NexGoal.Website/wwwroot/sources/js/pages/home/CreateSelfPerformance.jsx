@@ -55,6 +55,7 @@ export default class CreateSelfPerformance extends Component {
 
     handleOpenForm = () => {
         this.setState({ isOpenForm: true });
+        this.props.onExpandForm(true);
     }
 
     handleGradeChange = (selectedOption) => {
@@ -159,6 +160,8 @@ export default class CreateSelfPerformance extends Component {
             },
             errors: {}
         });
+
+        this.props.onExpandForm(false);
     }
 
     render() {
