@@ -29,6 +29,7 @@ export default class App extends Component {
 
         this.state = {
             performanceRecords: [],
+            displayedPerformanceRecords: [],
             nominations: [],
             workload: [],
             performanceGradeOptions: [],
@@ -65,11 +66,15 @@ export default class App extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
+                let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, 3)
+
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     performanceRecords: performanceRecordResponse.data,
-                    periods: periodResponse.data
+                    periods: periodResponse.data,
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
                 });
             }).catch(axiosError);
     }
@@ -122,8 +127,14 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
+    loadItems = (page) => {
+        debugger;
+        let records = this.state.performanceRecords.slice(0, (page) * 3);
+        this.setState({ displayedPerformanceRecords: records, hasMore: records.length < this.state.performanceRecords.length })
+    }
+
     render() {
-        const performanceRecords = this.state.performanceRecords;
+        const performanceRecords = this.state.displayedPerformanceRecords;
 
         return (
             <div className="row">
@@ -145,36 +156,46 @@ export default class App extends Component {
                                 projectOptions={this.state.projectOptions}
                                 onSubmitSuccess={this.handleCreatePerformanceSuccess}
                             />
-                        </div>                       
-                        <div className="record-list">
-                        {/* <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" > */}
-
-                            {
-                                performanceRecords.length > 0 &&
-
-                                performanceRecords.map((performanceRecord) => {
-                                    let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
-                                        || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
-                                    let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
-                                    let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
-
-                                    return (
-                                        <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                                            objectId={performanceRecord.performanceRecordId}
-                                                employee={performanceRecord.employee}
-                                                creator={performanceRecord.creator}
-                                            submittedDate={submittedDate} modifiedDate={modifiedDate}
-                                            isHost={isHost}
-                                                grade={performanceRecord.grade}
-                                            comment={performanceRecord.comment}
-                                                projects={performanceRecord.projects.map(project => { return project.name; })}
-                                            onEdit={this.handleEditPerformanceRecord}
-                                        />
-                                    );
-                                })
-                            }
                         </div>
-                        {/* </Scrollbars > */}
+                        <div className="record-list">
+                            {/* <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" > */}
+
+                            {performanceRecords.length > 0 &&
+                                <InfiniteScroll
+                                    pageStart={1} initialLoad={true}
+                                    loadMore={this.loadItems}
+                                    hasMore={this.state.hasMore}
+                                    threshold={0}
+                                    useWindow={true} ref={this.infiniteScrollRef} >
+
+                                    {
+                                        performanceRecords.map((performanceRecord) => {
+                                            let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
+                                                || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
+                                            let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
+                                            let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
+
+                                            return (
+                                                <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                                                    objectId={performanceRecord.performanceRecordId}
+                                                    employee={performanceRecord.employee}
+                                                    creator={performanceRecord.creator}
+                                                    submittedDate={submittedDate} modifiedDate={modifiedDate}
+                                                    isHost={isHost}
+                                                    grade={performanceRecord.grade}
+                                                    comment={performanceRecord.comment}
+                                                    projects={performanceRecord.projects.map(project => { return project.name; })}
+                                                    onEdit={this.handleEditPerformanceRecord}
+                                                />
+                                            );
+                                        })
+                                    }
+                                </InfiniteScroll>
+                            }
+
+                            {/* </Scrollbars > */}
+
+                        </div>
                     </div>
                     <div className="work-info">
                         <NominationResult />
