@@ -6,6 +6,7 @@ namespace NexGoal.Services.UnitTests
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
+    using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NSubstitute;
@@ -123,6 +124,58 @@ namespace NexGoal.Services.UnitTests
 
             // Assert
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetProjectsAsync_WhenCalled_ReturnAsExpectedProjects()
+        {
+            // Arrange
+            var projects = new List<ProjectModel>
+            {
+                new ProjectModel { ProjectId = 1, Name = "NexGoal" }
+            };
+            var service = GetCommonService();
+            baseService.GetDataAsync<ProjectModel>(Arg.Any<GetProjectsCriteria>()).Returns(projects);
+
+            // Act
+            var actual = await service.GetProjectsAsync();
+
+            // Assert
+            Assert.Equal(projects, actual);
+        }
+
+        [Fact]
+        public async Task GetPerformanceGradeAsync_WhenCalled_ReturnAsExpectedPerformanceGrades()
+        {
+            // Arrange
+            var referenceResources = GetRefResourcesForTest();
+            var service = GetCommonService();
+            baseService.GetDataAsync<ReferenceResourceModel>(Arg.Any<GetRefResourceByNamesCriteria>()).Returns(referenceResources);
+
+            // Act
+            var actual = await service.GetPerformanceGradeAsync();
+
+            // Assert
+            Assert.IsAssignableFrom<IEnumerable<PerformanceGradeModel>>(actual);
+            Assert.Equal(referenceResources.Count, actual.Count());
+        }
+
+        [Fact]
+        public async Task GetAllPeriods_WhenCalled_ReturnAsExpectedPeriods()
+        {
+            // Arrange
+            var periods = new List<PeriodBaseModel>
+            {
+                new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" }
+            };
+            var service = GetCommonService();
+            baseService.GetDataAsync<PeriodBaseModel>(Arg.Any<GetAllPeriodsCriteria>()).Returns(periods);
+
+            // Act
+            var actual = await service.GetAllPeriods();
+
+            // Assert
+            Assert.Equal(periods, actual);
         }
 
         #region Helpers
