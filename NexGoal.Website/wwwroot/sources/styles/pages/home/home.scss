@@ -1,11 +1,12 @@
-@import "../abstracts/variables";
-@import "../abstracts/mixins";
-@import "../components/form";
-@import "../components/form-performace";
-@import "../layouts/record";
-@import "../components/tables";
-@import "../components/toast";
-@import "../layouts/nomination";
+@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../components/form";
+@import "../../components/form-performace";
+@import "../../layouts/record";
+@import "../../components/tables";
+@import "../../components/toast";
+@import "../../layouts/nomination";
+@import "personal-timeline";
 
 .my-page {
     //  display: grid;
@@ -129,7 +130,10 @@
     background: #fff;
 }
 .record-list {
-    padding-top: 364px;
+    padding-top: 340px;
+    &.record-list-collapse {
+        padding-top: 492px;
+    }
 }
 .nomination {
     border-bottom: 1px solid #ccc;

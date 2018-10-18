@@ -7,7 +7,7 @@ module.exports = {
     client: {
         [`${styleDistPath}/main`]: `${styleSourcePath}/main.scss`,
         [`${styleDistPath}/error`]: `${styleSourcePath}/pages/error.scss`,
-        [`${styleDistPath}/home`]: `${styleSourcePath}/pages/home.scss`,
+        [`${styleDistPath}/home`]: `${styleSourcePath}/pages/home/home.scss`,
         [`${styleDistPath}/assignpermission`]: `${styleSourcePath}/pages/rolemanagement.scss`,
         [`${styleDistPath}/employeemanagement`]: `${styleSourcePath}/pages/employeemanagement.scss`,
         [`${styleDistPath}/nominationmanagement`]: `${styleSourcePath}/pages/nomination/index.scss`,
