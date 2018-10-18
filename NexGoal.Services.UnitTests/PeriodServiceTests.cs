@@ -58,6 +58,24 @@
         }
 
         [Fact]
+        public async Task GetPeriodProcessSetting_WhenCalled_ReturnAsExpectedProcessSettings()
+        {
+            // Arrange
+            var processSettings = new List<PeriodProcessSettingModel>
+            {
+                new PeriodProcessSettingModel { PeriodId = 1, ProcessId = 1, Duration = 5 }
+            };
+            var service = GetPeriodService();
+            baseService.GetDataAsync<PeriodProcessSettingModel>(Arg.Any<GetPeriodProcessSettingCriteria>()).Returns(processSettings);
+
+            // Act
+            var actual = await service.GetPeriodProcessSetting(1);
+
+            // Assert
+            Assert.Equal(processSettings, actual);
+        }
+
+        [Fact]
         public async Task Create_ValidModel_ReturnExpectedCommandResult()
         {
             var model = new CreatePeriodModel
@@ -100,6 +118,21 @@
             var result = await service.Edit(model);
 
             Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task Delete_WhenCalled_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var commandResult = new CommandResult();
+            var service = GetPeriodService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<DeletePeriodCriteria>()).Returns(commandResult);
+
+            // Act
+            var actual = await service.Delete(1);
+
+            // Assert
+            Assert.Equal(commandResult, actual);
         }
 
         [Fact]
