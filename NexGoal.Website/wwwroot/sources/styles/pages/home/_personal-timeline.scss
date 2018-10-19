@@ -1,18 +1,22 @@
-﻿.time-line {
-    padding: 30px 10px 100px 10px;
+﻿@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+
+.time-line {
     position: relative;
     margin: 0 12px;
+    box-shadow: 0 0 3px #dedede;
+    height: 100px;
+    padding: 0 78px;
 }
 
 .xaxes {
     width: 100%;
     position: relative;
     height: 2px;
-    border: 1px solid #0094ff;
-    float: right;
-}
-
-    .xaxes::before {
+    border: 1px solid #B0CBDD;
+    float: right;    
+    top: 30px;
+    &:before {
         position: absolute;
         content: '';
         display: inline-block;
@@ -21,15 +25,14 @@
         -moz-border-radius: 7.5px;
         -webkit-border-radius: 7.5px;
         border-radius: 7.5px;
-        background-color: #0094ff;
+        background-color: #B0CBDD;
         left: -8px;
         top: -4px;
     }
-
-    .xaxes::after {
+    &:after {
         border-top: 5px solid transparent;
         border-bottom: 5px solid transparent;
-        border-left: 10px solid #0094ff;
+        border-left: 10px solid #B0CBDD;
         content: "";
         right: 0;
         position: absolute;
@@ -38,6 +41,7 @@
         right: -10px;
         top: -5px;
     }
+}
 
 .timeline-node {
     position: absolute;
@@ -47,77 +51,93 @@
 }
 
 .timeline-grade {
+    @include border-radius(2px);
     position: absolute;
-    top: 15px;
-    border: 1px solid #0094ff;
-    border-radius: 50px;
-    width: 30px;
-    height: 30px;
+    top: 20px;
+    border: 1px solid #B0CBDD;
+    width: 28px;
+    height: 20px;
     text-align: center;
     font-size: 11px;
     font-weight: bold;
-    background-color: #fff;
-    line-height: 25px;
+    background-color: #F1F4F8;
+    line-height: 18px;
     cursor: pointer;
 }
 
 .timeline-info {
+    @include border-radius(2px);
     position: absolute;
-    top: 50px;
-    border: 1px solid #0094ff;
-    border-radius: 8px;
-    width: 80px;
+    top: 47px;
+    border: 1px solid #B0CBDD;
+    width: 60px;
     text-align: center;
     cursor: pointer;
-}
-
-    .timeline-info .name {
-        font-weight: bold;
-        padding: 5px;
-        color: #fff;
-        margin: 0;
-    }
-
-    .timeline-info::after {
-        border-top: 5px solid #0094ff;
-        border-left: 2px solid #0094ff;
+    border-top: none;
+    &:after {
+        border-top: 7px solid #B0CBDD;
+        border-left: 2px solid #B0CBDD;
         content: "";
         right: 0;
         position: absolute;
         width: 0;
         height: 0;
-        left: 38px;
-        top: -6px;
+        left: 31px;
+        top: -8px;
     }
-
-    .timeline-info .create-date {
+    .name {
+        @include border-radius(2px);
+        font-weight: bold;
+        color: #fff;
+        margin: 0;
+        width: 60px;
+        margin-left: -1px;
+        &.role-member {
+            background-color: $role-member-color;
+        }
+        &.role-evaluator {
+            background-color: $role-evaluator-color;
+        }
+        &.role-pm {
+            background-color: $role-pm-color;
+        }
+        &.role-reviewer {
+            background-color: $role-reviewer-color;
+        }
+    }
+    .create-date {
         line-height: 25px;
         margin: 0;
+        font-size: 11px;
+        font-weight: bold;
+        height: 17px;
+        line-height: 17px;
     }
+}
+
 
 .previous, .next {
     background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 50%;
+    border: none;
     height: 40px;
     width: 40px;
     position: absolute;
-    top: 50px;
-    color: #ccc;
+    top: 46px;
+    color: #8F8F8F;
     cursor: pointer;
 }
 
     .previous:hover, .next:hover {
-        color: #fff;
-        background-color: #ccc;
+        color: #8F8F8F;
+        opacity: 0.5;
     }
 
 .previous {
-    left: 15px;
+    left: 54px;
 }
 
 .next {
-    right: 15px;
+    right: 54px;
 }
 
 .button-icon {

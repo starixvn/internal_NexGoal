@@ -10,27 +10,27 @@ export default class TimelineNode extends Component {
     }
 
     getRoleColor = (data) => {
-        var color = "";
+        var className = "";
         if (data.creatorId === data.employeeId) {
-            color = "#61c361";
+            className = "role-member";
         } else if (data.creator.roles.indexOf("PM") !== -1) {
-            color = "#0b33ee";
+            className = "role-pm";
         } else {
-            color = "#b707d8";
+            className = "role-evaluator";
         }
 
-        return color;
+        return className;
     }
 
     render() {
         const data = this.props.data;
         const position = this.props.position;
-        const color = this.getRoleColor(data);
+        const className = this.getRoleColor(data);
         return (
             <Fragment>
                 <p className="timeline-grade" style={{ left: position }}>{data.grade ? data.grade.name : ""}</p>
-                <div className="timeline-info" style={{ left: position - 25 }}>
-                    <p className="name" style={{ backgroundColor: color }}>{data.creator.nickName}</p>
+                <div className="timeline-info" style={{ left: position - 18 }}>
+                    <p className={"name " + className}>{data.creator.nickName}</p>
                     <p className="create-date">{moment(data.createdDate).format("DD MMM")}</p>
                 </div>
             </Fragment >
