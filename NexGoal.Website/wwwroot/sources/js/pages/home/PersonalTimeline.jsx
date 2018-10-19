@@ -3,8 +3,6 @@ import TimelineNode from './TimelineNode';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../common-functions';
 
-const itemPerPage = window.innerWidth > 1440 ? 8 : 5;
-
 export default class PersonalTimeline extends Component {
     constructor(props) {
         super(props);
@@ -13,13 +11,11 @@ export default class PersonalTimeline extends Component {
             performanceRecords: [],
             nextDisabled: true,
             prevDisabled: false,
-            pageIndex: 1,
+            currentPage: 1,
             isOverPCI: false
         };
 
         this.timelineWidth = React.createRef();
-        this.onClickPrevious = this.onClickPrevious.bind(this);
-        this.onClickNext = this.onClickNext.bind(this);
     }
 
     componentDidMount() {
@@ -34,22 +30,22 @@ export default class PersonalTimeline extends Component {
     getPCI = () => {
         axios(resolveClientUrl('Self/Performance/GetByEmployee'), {
             params: {
-                pageIndex: this.state.pageIndex,
-                itemPerPage: itemPerPage
+                pageIndex: this.state.currentPage,
+                itemPerPage: this.props.itemPerPage
             }
         }).then((response) => {
             this.setState({
                 performanceRecords: response.data.performanceRecord,
                 timelineWidth: this.timelineWidth.current.offsetWidth,
-                prevDisabled: response.data.isOverPCI
+                prevDisabled: response.data.isOverPCI,
+                nextDisabled: this.state.currentPage === 1
             });
         }).catch(axiosError);
     }
 
     onClickPrevious = () => {
         this.setState({
-            pageIndex: this.state.pageIndex + 1,
-            nextDisabled: false
+            currentPage: this.state.currentPage + 1,
         }, () => {
             this.getPCI();
         });
@@ -57,19 +53,14 @@ export default class PersonalTimeline extends Component {
 
     onClickNext = () => {
         this.setState({
-            pageIndex: this.state.pageIndex - 1
+            currentPage: this.state.currentPage - 1
         }, () => {
-            if (this.state.pageIndex === 1) {
-                this.setState({
-                    nextDisabled: true
-                });
-            }
             this.getPCI();
         });
     }
 
     calculateNodePosition = (totalNode, index) => {
-        let baseLeft = 60; // calculate from padding-left
+        let baseLeft = 60;
         let timelineWidth = this.state.timelineWidth;
         console.log(timelineWidth);
         let distanceFromRoot = timelineWidth / (totalNode + 1);

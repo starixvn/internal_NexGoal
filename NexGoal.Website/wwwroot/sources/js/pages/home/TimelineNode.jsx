@@ -28,8 +28,8 @@ export default class TimelineNode extends Component {
         const className = this.getRoleColor(data);
         return (
             <Fragment>
-                <p className="timeline-grade" style={{ left: position }}>{data.grade ? data.grade.name : ""}</p>
-                <div className="timeline-info" style={{ left: position - 18 }}>
+                <p className="timeline-grade" style={{ right: position }}>{data.grade ? data.grade.name : ""}</p>
+                <div className="timeline-info" style={{ right: position - 16 }}>
                     <p className={"name " + className}>{data.creator.nickName}</p>
                     <p className="create-date">{moment(data.createdDate).format("DD MMM")}</p>
                 </div>

@@ -43,7 +43,8 @@ export default class App extends Component {
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
             },
-            isFormExpanded: false
+            isFormExpanded: false,
+            itemPerPage: window.innerWidth > 1600 ? 8 : 4
         };
     }
 
@@ -151,7 +152,7 @@ export default class App extends Component {
                             <div className="warning">
                                 News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
                             </div>
-                            <PersonalTimeline />
+                            <PersonalTimeline itemPerPage={this.state.itemPerPage} />
                             <CreateSelfPerformance
                                 employee={this.state.employee}
                                 performanceGradeOptions={this.state.performanceGradeOptions}

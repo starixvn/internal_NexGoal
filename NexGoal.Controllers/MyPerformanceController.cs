@@ -40,7 +40,7 @@
 
             bool isOverPCI = (pageIndex * itemPerPage) >= tuple.Item2.First();
 
-            return Json(new { performanceRecord = tuple.Item1.OrderBy(p => p.CreatedDate), isOverPCI });
+            return Json(new { performanceRecord = tuple.Item1, isOverPCI });
         }
 
         [Route("Self/Performance/Create")]

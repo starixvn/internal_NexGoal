@@ -14,8 +14,9 @@
     position: relative;
     height: 2px;
     border: 1px solid #B0CBDD;
-    float: right;    
+    float: right;
     top: 30px;
+
     &:before {
         position: absolute;
         content: '';
@@ -29,6 +30,7 @@
         left: -8px;
         top: -4px;
     }
+
     &:after {
         border-top: 5px solid transparent;
         border-bottom: 5px solid transparent;
@@ -74,6 +76,7 @@
     text-align: center;
     cursor: pointer;
     border-top: none;
+
     &:after {
         border-top: 7px solid #B0CBDD;
         border-left: 2px solid #B0CBDD;
@@ -82,9 +85,10 @@
         position: absolute;
         width: 0;
         height: 0;
-        left: 31px;
-        top: -8px;
+        left: 28px;
+        top: -7px;
     }
+
     .name {
         @include border-radius(2px);
         font-weight: bold;
@@ -92,19 +96,24 @@
         margin: 0;
         width: 60px;
         margin-left: -1px;
+
         &.role-member {
             background-color: $role-member-color;
         }
+
         &.role-evaluator {
             background-color: $role-evaluator-color;
         }
+
         &.role-pm {
             background-color: $role-pm-color;
         }
+
         &.role-reviewer {
             background-color: $role-reviewer-color;
         }
     }
+
     .create-date {
         line-height: 25px;
         margin: 0;
@@ -114,7 +123,6 @@
         line-height: 17px;
     }
 }
-
 
 .previous, .next {
     background-color: #fff;
@@ -127,10 +135,10 @@
     cursor: pointer;
 }
 
-    .previous:hover, .next:hover {
-        color: #8F8F8F;
-        opacity: 0.5;
-    }
+.previous:hover, .next:hover {
+    color: #8F8F8F;
+    opacity: 0.5;
+}
 
 .previous {
     left: 54px;
@@ -152,7 +160,7 @@
     cursor: not-allowed !important;
 }
 
-    .disabled:hover {
-        color: #ccc !important;
-        background-color: #fff !important;
-    }
+.disabled:hover {
+    color: #ccc !important;
+    background-color: #fff !important;
+}
