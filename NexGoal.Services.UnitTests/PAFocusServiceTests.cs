@@ -1,10 +1,12 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PAFocus;
+    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
     using NSubstitute;
@@ -68,6 +70,41 @@
 
             // Assert
             Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetPAFocusAsync_WhenCalled_ReturnAsExpectedPAFocuses()
+        {
+            // Arrange
+            var plainText = "1";
+            var focuses = new List<PAFocusModel>
+            {
+                new PAFocusModel { PAFocusId = 1, EmployeeId = 1 }
+            };
+            var employees = new List<EmployeeBaseModel>
+            {
+                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+            };
+            var performanceGrades = new List<PerformanceGradeModel>
+            {
+                new PerformanceGradeModel { GradeId = 1, Name = "E+" }
+            };
+            var service = GetPAFocusService();
+            baseService.GetDataAsync<PAFocusModel>(Arg.Any<GetPAFocusCriteria>()).Returns(focuses);
+            commonService.GetEmployeesAsync().Returns(employees);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(plainText);
+
+            // Act
+            var actual = await service.GetPAFocusAsync(new GetPAFocusParam());
+
+            // Assert
+            Assert.Single(actual);
+            Assert.Equal(employees[0], actual.First().Employee);
+            Assert.Equal(performanceGrades[0], actual.First().Grade);
+            Assert.Equal(plainText, actual.First().IsReadyPromotion);
+            Assert.Equal(plainText, actual.First().Contribution);
+            Assert.Equal(plainText, actual.First().BonusGiven);
         }
 
         [Fact]
