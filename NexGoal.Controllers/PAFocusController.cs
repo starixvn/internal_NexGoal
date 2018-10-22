@@ -88,7 +88,7 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> Edit(int roleId, IEnumerable<EditPAFocusModel> paFocuses)
+        public async Task<JsonResult> Edit(IEnumerable<EditPAFocusModel> paFocuses)
         {
             CommandResult commandResult = await focusService.EditPAFocusAsync(sessionService.EmployeeId, paFocuses).ConfigureAwait(false);
 

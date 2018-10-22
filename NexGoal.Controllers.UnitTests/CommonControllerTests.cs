@@ -156,7 +156,7 @@
         }
 
         [Fact]
-        public async Task GetAllPeriods_WhenCalled_ReturnAsExpectedPerformanceGrades()
+        public async Task GetAllPeriods_WhenCalled_ReturnAsExpectedPeriods()
         {
             // Arrange
             var periods = new List<PeriodBaseModel>
