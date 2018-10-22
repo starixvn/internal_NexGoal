@@ -47,7 +47,8 @@ export default class App extends Component {
         };
 
         this.infiniteScrollRef = React.createRef();
-        this.itemPerPage = 4;//window.innerWidth > 1600 ? 8 : 4;
+        this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
+        this.itemPerPage = 4;
     }
 
     componentDidMount() {
@@ -91,10 +92,19 @@ export default class App extends Component {
         axios(resolveClientUrl(`Self/Performance/GetById/${response.objectId}`))
             .then((response) => {
                 let performanceRecords = this.state.performanceRecords.slice();
-                performanceRecords.unshift(response.data);
+                var data = response.data;
+                if (data.statusId === PerformanceRecordStatus.Draft) {
+                    performanceRecords.unshift(data);
+                } else {
+                    let index = performanceRecords.findIndex(element => element.statusId !== PerformanceRecordStatus.Draft);
+                    performanceRecords.splice(index, 0, data);
+                }
+
+                this.infiniteScrollRef.pageLoaded = 1;
 
                 this.setState({
-                    performanceRecords: performanceRecords
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
                 });
             }).catch(axiosError);
     }
@@ -123,20 +133,24 @@ export default class App extends Component {
                     performanceRecords[index] = response.data;
                 }
 
+                let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
+                index = displayedPerformanceRecords.findIndex(element => element.performanceRecordId === performanceRecordId);
+                if (index >= 0) {
+                    displayedPerformanceRecords[index] = response.data;
+                }
+
                 this.setState({
                     performanceRecords: performanceRecords,
                     showEditPerformanceModal: false,
-                    performanceRecordIdSelected: null
+                    performanceRecordIdSelected: null,
+                    displayedPerformanceRecords: displayedPerformanceRecords
                 });
             }).catch(axiosError);
     }
 
     loadPCIs = (page, callback) => {
-        debugger;
         let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
         this.setState({ displayedPerformanceRecords: records, hasMore: records.length < this.state.performanceRecords.length }, () => {
-            debugger;
-
             if (callback)
                 callback();
         });
@@ -159,27 +173,30 @@ export default class App extends Component {
                 isHost={isHost}
                 grade={performanceRecord.grade}
                 comment={performanceRecord.comment}
-                projects={performanceRecord.projects.map(project => { return project.name; })}
+                projects={performanceRecord.projects.map(project => project.name)}
                 onEdit={this.handleEditPerformanceRecord}
+                isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
             />
         );
     }
 
     handlePCIClick = performanceRecordId => {
-        debugger;
+        this.setState({ selectedPCIId: performanceRecordId });
+
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-            this.selectedPCIId = performanceRecordId;
             let index = this.state.performanceRecords.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
             });
 
-            let page = Math.ceil(index + 1 / this.itemPerPage);
+            let page = Math.ceil((index + 1) / this.itemPerPage);
 
-            this.infiniteScrollRef.current.pageLoaded = page;
+            this.infiniteScrollRef.pageLoaded = page;
             this.loadPCIs(page, () => {
+                this.setState({ selectedPCIId: performanceRecordId });
                 document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
             });
         } else {
+            this.setState({ selectedPCIId: performanceRecordId });
             document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
         }
     }
@@ -201,7 +218,7 @@ export default class App extends Component {
                             <div className="warning">
                                 News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
                             </div>
-                            <PersonalTimeline itemPerPage={this.itemPerPage} onItemClick={this.handlePCIClick} />
+                            <PersonalTimeline itemPerPage={this.timelineItemPerPage} onItemClick={this.handlePCIClick} selectedPCIId={this.state.selectedPCIId} />
                             <CreateSelfPerformance
                                 employee={this.state.employee}
                                 performanceGradeOptions={this.state.performanceGradeOptions}
@@ -211,7 +228,6 @@ export default class App extends Component {
                             />
                         </div>
                         <div className={this.state.isFormExpanded ? 'record-list record-list-collapse' : 'record-list record-list-expand'}>
-                            {/* <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" > */}
                             {performanceRecords.length > 0 &&
                                 <InfiniteScroll
                                     pageStart={1} initialLoad={true}
@@ -224,8 +240,6 @@ export default class App extends Component {
                                     }
                                 </InfiniteScroll>
                             }
-                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                            {/* </Scrollbars > */}
 
                         </div>
                     </div>

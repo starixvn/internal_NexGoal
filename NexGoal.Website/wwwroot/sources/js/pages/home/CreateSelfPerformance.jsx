@@ -133,6 +133,7 @@ export default class CreateSelfPerformance extends Component {
 
                     this.props.onSubmitSuccess(response.data);
                     this.setState({ isOpenForm: false });
+                    this.props.onExpandForm(false);
                 } else {
                     if (data.errors) {
                         let errors = {};
