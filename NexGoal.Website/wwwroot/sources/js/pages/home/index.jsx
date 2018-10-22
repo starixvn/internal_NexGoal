@@ -203,7 +203,6 @@ export default class App extends Component {
 
     render() {
         const performanceRecords = this.state.displayedPerformanceRecords;
-        const avatar = `dist/styles/${avatar1}`;
 
         return (
             <div className="row">
