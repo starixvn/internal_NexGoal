@@ -3,6 +3,8 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
+import InfiniteScroll from 'react-infinite-scroller';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
@@ -12,10 +14,10 @@ import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
-import avatar1 from '../../../styles/images/avatar.png';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
 import PersonalTimeline from './PersonalTimeline';
+import EmployeeInfo from './EmployeeInfo';
 
 var sanitizeHtmlReact = require('sanitize-html-react');
 sanitizeHtmlReact.defaults.allowedTags = false;
@@ -42,8 +44,10 @@ export default class App extends Component {
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
             },
             isFormExpanded: false,
-            itemPerPage: window.innerWidth > 1600 ? 8 : 4
         };
+
+        this.infiniteScrollRef = React.createRef();
+        this.itemPerPage = 4;//window.innerWidth > 1600 ? 8 : 4;
     }
 
     componentDidMount() {
@@ -66,7 +70,7 @@ export default class App extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
-                let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, 3)
+                let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage)
 
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
@@ -127,12 +131,58 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
-    loadItems = (page) => {
-        let records = this.state.performanceRecords.slice(0, (page) * 3);
-        this.setState({ displayedPerformanceRecords: records, hasMore: records.length < this.state.performanceRecords.length })
+    loadPCIs = (page, callback) => {
+        debugger;
+        let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
+        this.setState({ displayedPerformanceRecords: records, hasMore: records.length < this.state.performanceRecords.length }, () => {
+            debugger;
+
+            if (callback)
+                callback();
+        });
     }
 
     handleExpandForm = isExpanded => this.setState({ isFormExpanded: isExpanded });
+
+    renderPerformanceRecord = (performanceRecord) => {
+        let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
+            || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
+        let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
+        let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
+
+        return (
+            <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                objectId={performanceRecord.performanceRecordId}
+                employee={performanceRecord.employee}
+                creator={performanceRecord.creator}
+                submittedDate={submittedDate} modifiedDate={modifiedDate}
+                isHost={isHost}
+                grade={performanceRecord.grade}
+                comment={performanceRecord.comment}
+                projects={performanceRecord.projects.map(project => { return project.name; })}
+                onEdit={this.handleEditPerformanceRecord}
+            />
+        );
+    }
+
+    handlePCIClick = performanceRecordId => {
+        debugger;
+        if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
+            this.selectedPCIId = performanceRecordId;
+            let index = this.state.performanceRecords.findIndex(function (element) {
+                return element.performanceRecordId === performanceRecordId;
+            });
+
+            let page = Math.ceil(index + 1 / this.itemPerPage);
+
+            this.infiniteScrollRef.current.pageLoaded = page;
+            this.loadPCIs(page, () => {
+                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            });
+        } else {
+            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        }
+    }
 
     render() {
         const performanceRecords = this.state.displayedPerformanceRecords;
@@ -143,12 +193,7 @@ export default class App extends Component {
                 <ToastLayout />
                 <div className="my-page">
                     <div className="general-info">
-                        <div className="user-info">
-                            <img src={avatar} alt="avatar" className="avatar" />
-                            <div className="nick-name">Richard</div>
-                            <div className="user-name">Trương Văn Thảo</div>
-                            <div className="role role-PM">Project Manager</div>
-                        </div>
+                        <EmployeeInfo employee={this.state.employee} />
                         <PerformanceAppraisalResult />
                     </div>
                     <div className="main-my-page">
@@ -156,7 +201,7 @@ export default class App extends Component {
                             <div className="warning">
                                 News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
                             </div>
-                            <PersonalTimeline itemPerPage={this.state.itemPerPage} />
+                            <PersonalTimeline itemPerPage={this.itemPerPage} onItemClick={this.handlePCIClick} />
                             <CreateSelfPerformance
                                 employee={this.state.employee}
                                 performanceGradeOptions={this.state.performanceGradeOptions}
@@ -170,31 +215,12 @@ export default class App extends Component {
                             {performanceRecords.length > 0 &&
                                 <InfiniteScroll
                                     pageStart={1} initialLoad={true}
-                                    loadMore={this.loadItems}
+                                    loadMore={this.loadPCIs}
                                     hasMore={this.state.hasMore}
                                     threshold={0}
-                                    useWindow={true} ref={this.infiniteScrollRef} >
+                                    useWindow={true} ref={r => this.infiniteScrollRef = r} >
                                     {
-                                        performanceRecords.map((performanceRecord) => {
-                                            let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
-                                                || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
-                                            let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
-                                            let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
-
-                                            return (
-                                                <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                                                    objectId={performanceRecord.performanceRecordId}
-                                                    employee={performanceRecord.employee}
-                                                    creator={performanceRecord.creator}
-                                                    submittedDate={submittedDate} modifiedDate={modifiedDate}
-                                                    isHost={isHost}
-                                                    grade={performanceRecord.grade}
-                                                    comment={performanceRecord.comment}
-                                                    projects={performanceRecord.projects.map(project => { return project.name; })}
-                                                    onEdit={this.handleEditPerformanceRecord}
-                                                />
-                                            );
-                                        })
+                                        performanceRecords.map(this.renderPerformanceRecord)
                                     }
                                 </InfiniteScroll>
                             }
@@ -202,28 +228,10 @@ export default class App extends Component {
                             {/* </Scrollbars > */}
 
                         </div>
-                        />
-                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
-                                                    marking it look like readable English.many desktop publishing package and web."
-                            grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Raymond" submittedDate="Aug 01, 2018"
-                        />
-                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
-                                                    marking it look like readable English.many desktop publishing package and web."
-                            grade="Meets Expectations +" projects={"Alpha, Nexgoal"} nickName="Peter" submittedDate="Aug 01, 2018"
-                        />
-                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
-                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
-                                                    marking it look like readable English.many desktop publishing package and web."
-                            grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Ronny" submittedDate="Aug 01, 2018"
-                        />
                     </div>
                     <div className="work-info">
                         <NominationResult />
-                        <div className="workload">
-                            {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
-                        </div>
+                        {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
 
                         <HrmSummary />
                     </div>

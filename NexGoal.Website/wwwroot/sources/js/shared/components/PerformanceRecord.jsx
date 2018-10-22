@@ -63,7 +63,7 @@ export default class PerformanceRecord extends Component {
 
     render() {
         return (
-            <div className="record">
+            <div className="record" id={`record-${this.props.objectId}`}>
                 <div className="avatar-user">
                     <img src={this.props.creator.base64Image} className="avatar" />
                     <div className="name">{this.props.creator.nickName}</div>

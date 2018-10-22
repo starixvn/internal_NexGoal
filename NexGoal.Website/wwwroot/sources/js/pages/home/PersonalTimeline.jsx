@@ -55,9 +55,8 @@ export default class PersonalTimeline extends Component {
 
     calculateNodePosition = (totalNode, index) => {
         let baseLeft = 60;
-        let timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
-        let distanceFromRoot = timelineWidth && totalNode ?
-            timelineWidth / (totalNode + 1) : 0;
+        let timelineWidth = this.state.timelineWidth;
+        let distanceFromRoot = timelineWidth / (totalNode + 1);
         return Math.round(baseLeft + (index + 1) * distanceFromRoot);
     }
 
@@ -71,7 +70,7 @@ export default class PersonalTimeline extends Component {
                     records.map((reccord, index) => {
                         let position = this.calculateNodePosition(records.length, index);
                         return (
-                            <TimelineNode key={index} data={reccord} position={position} />
+                            <TimelineNode key={index} data={reccord} position={position} onClick={this.props.onItemClick} />
                         );
                     })
                 }
