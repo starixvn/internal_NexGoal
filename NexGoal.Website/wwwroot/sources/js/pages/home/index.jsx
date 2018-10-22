@@ -98,6 +98,7 @@ export default class App extends Component {
                 } else {
                     let index = performanceRecords.findIndex(element => element.statusId !== PerformanceRecordStatus.Draft);
                     performanceRecords.splice(index, 0, data);
+                    this.timelineRef.getPCI();
                 }
 
                 this.infiniteScrollRef.pageLoaded = 1;
@@ -129,14 +130,20 @@ export default class App extends Component {
                 let performanceRecords = this.state.performanceRecords.slice();
 
                 let index = performanceRecords.map(record => { return record.performanceRecordId; }).indexOf(performanceRecordId);
+
                 if (index >= 0) {
                     performanceRecords[index] = response.data;
                 }
 
                 let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
                 index = displayedPerformanceRecords.findIndex(element => element.performanceRecordId === performanceRecordId);
+
                 if (index >= 0) {
                     displayedPerformanceRecords[index] = response.data;
+                }
+
+                if (this.timelineRef.state.performanceRecords.some(element => element.performanceRecordId === performanceRecordId)) {
+                    this.timelineRef.getPCI();
                 }
 
                 this.setState({
@@ -193,11 +200,11 @@ export default class App extends Component {
             this.infiniteScrollRef.pageLoaded = page;
             this.loadPCIs(page, () => {
                 this.setState({ selectedPCIId: performanceRecordId });
-                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
             });
         } else {
             this.setState({ selectedPCIId: performanceRecordId });
-            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
         }
     }
 
@@ -217,7 +224,7 @@ export default class App extends Component {
                             <div className="warning">
                                 News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
                             </div>
-                            <PersonalTimeline itemPerPage={this.timelineItemPerPage} onItemClick={this.handlePCIClick} selectedPCIId={this.state.selectedPCIId} />
+                            <PersonalTimeline itemPerPage={this.timelineItemPerPage} onItemClick={this.handlePCIClick} selectedPCIId={this.state.selectedPCIId} ref={r => this.timelineRef = r} />
                             <CreateSelfPerformance
                                 employee={this.state.employee}
                                 performanceGradeOptions={this.state.performanceGradeOptions}
