@@ -16,7 +16,7 @@
         box-shadow: 0 0 3px #dedede;
         padding: 12px;
         position: fixed;
-        width: 400px;
+        width: 300px;
         top: 50px;
         bottom: 0;
         left: 50px;
@@ -25,7 +25,7 @@
 }
 .main-my-page {
     margin: 0 auto;
-    width: calc(100% - 804px);
+    width: calc(100% - 504px);
 }
 .warning {
     color: #05499C;
@@ -126,7 +126,7 @@
     position: fixed;
     top: 50px;
     z-index: 10;
-    width: calc(100% - 800px - 54px);
+    width: calc(100% - 500px - 54px);
     background: #fff;
 }
 .record-list {
@@ -151,7 +151,7 @@
     box-shadow: 0 0 3px #dedede;
     padding: 12px;
     position: fixed;
-    width: 400px;
+    width: 250px;
     top: 50px;
     bottom: 0;
     right: 0;
@@ -298,4 +298,33 @@
     &.type-info.place-bottom:after, &.place-top:after {
         border-bottom-color: #324373;
     }
+}
+
+@media screen and (min-device-width: 1920px) {
+    .my-page {
+        .general-info, .work-info {
+            width: 400px;
+        }
+        .main-my-page {
+            width: calc(100% - 804px);
+        }
+        .fixed-section {
+            width: calc(100% - 800px - 54px);
+        }
+    }
+        
+}
+@media screen and (min-device-width: 1280px) and (max-device-width: 1919px) {
+    .my-page {
+        .work-info {
+            width: 300px;
+        }
+        .main-my-page {
+            width: calc(100% - 604px);
+        }
+        .fixed-section {
+            width: calc(100% - 600px - 54px);
+        }
+    }
+
 }
