@@ -10,7 +10,9 @@
     "build:app:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production",
     "build:all:dev": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js && node node_modules/webpack/bin/webpack.js --config webpack.config.js",
     "build:all:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env=production && node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production",
-    "start": "node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --hot --inline --progress"
+    "start": "node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --hot --inline --progress",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "author": "",
   "dependencies": {
@@ -22,6 +24,7 @@
     "formik": "^1.0.1",
     "jquery": "^3.3.1",
     "jquery-ui": "^1.12.1",
+    "jsdom": "^12.2.0",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "react": "^16.4.2",
@@ -51,7 +54,11 @@
     "babel-preset-react": "^6.24.1",
     "clean-webpack-plugin": "^0.1.19",
     "css-loader": "^1.0.0",
+    "enzyme": "^3.7.0",
+    "enzyme-adapter-react-16": "^1.6.0",
+    "enzyme-to-json": "^3.3.4",
     "file-loader": "^2.0.0",
+    "jest": "^23.6.0",
     "mini-css-extract-plugin": "^0.4.2",
     "node-noop": "^1.0.0",
     "node-sass": "^4.9.3",
@@ -64,5 +71,14 @@
     "webpack-dev-server": "^3.1.5",
     "webpack-merge": "^4.1.4"
   },
-  "license": "ISC"
+  "license": "ISC",
+  "jest": {
+    "setupFiles": [
+      "<rootDir>/sources/js/__tests__/setup/jestSetup.js"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/sources/js/__tests__/setup/setupEnzyme.js",
+    "testPathIgnorePatterns": [
+      "<rootDir>/sources/js/__tests__/setup/"
+    ]
+  }
 }

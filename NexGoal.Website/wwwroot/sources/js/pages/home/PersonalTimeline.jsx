@@ -12,7 +12,6 @@ export default class PersonalTimeline extends Component {
             nextDisabled: true,
             prevDisabled: false,
             currentPage: 1,
-            isOverPCI: false
         };
 
         this.timelineWidth = React.createRef();
@@ -20,11 +19,6 @@ export default class PersonalTimeline extends Component {
 
     componentDidMount() {
         this.getPCI();
-        this.setTimelineWidth();
-    }
-
-    setTimelineWidth = () => {
-        this.setState({ timelineWidth: this.timelineWidth.current.offsetWidth });
     }
 
     getPCI = () => {
@@ -61,9 +55,9 @@ export default class PersonalTimeline extends Component {
 
     calculateNodePosition = (totalNode, index) => {
         let baseLeft = 60;
-        let timelineWidth = this.state.timelineWidth;
-        console.log(timelineWidth);
-        let distanceFromRoot = timelineWidth / (totalNode + 1);
+        let timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
+        let distanceFromRoot = timelineWidth && totalNode ?
+            timelineWidth / (totalNode + 1) : 0;
         return Math.round(baseLeft + (index + 1) * distanceFromRoot);
     }
 

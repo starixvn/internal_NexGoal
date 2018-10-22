@@ -3,8 +3,6 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
-import InfiniteScroll from 'react-infinite-scroller';
-import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
@@ -12,12 +10,12 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
-import WorkLoad from './Workload';
+import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
+import avatar1 from '../../../styles/images/avatar.png';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
 import PersonalTimeline from './PersonalTimeline';
-import EmployeeInfo from './EmployeeInfo';
 
 var sanitizeHtmlReact = require('sanitize-html-react');
 sanitizeHtmlReact.defaults.allowedTags = false;
@@ -138,13 +136,19 @@ export default class App extends Component {
 
     render() {
         const performanceRecords = this.state.displayedPerformanceRecords;
+        const avatar = `dist/styles/${avatar1}`;
 
         return (
             <div className="row">
                 <ToastLayout />
                 <div className="my-page">
                     <div className="general-info">
-                        <EmployeeInfo employee={this.state.employee} />
+                        <div className="user-info">
+                            <img src={avatar} alt="avatar" className="avatar" />
+                            <div className="nick-name">Richard</div>
+                            <div className="user-name">Trương Văn Thảo</div>
+                            <div className="role role-PM">Project Manager</div>
+                        </div>
                         <PerformanceAppraisalResult />
                     </div>
                     <div className="main-my-page">
@@ -163,7 +167,6 @@ export default class App extends Component {
                         </div>
                         <div className={this.state.isFormExpanded ? 'record-list record-list-collapse' : 'record-list record-list-expand'}>
                             {/* <Scrollbars style={{ height: '500px' }} autoHide={true} className="scrollbar" > */}
-
                             {performanceRecords.length > 0 &&
                                 <InfiniteScroll
                                     pageStart={1} initialLoad={true}
@@ -171,7 +174,6 @@ export default class App extends Component {
                                     hasMore={this.state.hasMore}
                                     threshold={0}
                                     useWindow={true} ref={this.infiniteScrollRef} >
-
                                     {
                                         performanceRecords.map((performanceRecord) => {
                                             let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
@@ -196,14 +198,32 @@ export default class App extends Component {
                                     }
                                 </InfiniteScroll>
                             }
-
+                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
                             {/* </Scrollbars > */}
 
                         </div>
+                        />
+                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
+                                                    marking it look like readable English.many desktop publishing package and web."
+                            grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Raymond" submittedDate="Aug 01, 2018"
+                        />
+                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
+                                                    marking it look like readable English.many desktop publishing package and web."
+                            grade="Meets Expectations +" projects={"Alpha, Nexgoal"} nickName="Peter" submittedDate="Aug 01, 2018"
+                        />
+                        <PerformanceRecord comment="It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.\
+                                                    The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here',\
+                                                    marking it look like readable English.many desktop publishing package and web."
+                            grade="Meets Expectations +" projects="Alpha, Nexgoal" nickName="Ronny" submittedDate="Aug 01, 2018"
+                        />
                     </div>
                     <div className="work-info">
                         <NominationResult />
-                        {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
+                        <div className="workload">
+                            {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
+                        </div>
 
                         <HrmSummary />
                     </div>
