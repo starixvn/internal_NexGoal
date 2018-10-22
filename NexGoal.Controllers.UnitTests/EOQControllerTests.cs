@@ -7,6 +7,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Models.EOQY;
     using NexGoal.Services;
+    using NexGoal.ViewModels.EOQY;
     using NSubstitute;
     using Xunit;
 
@@ -14,6 +15,26 @@
     {
         private ISessionService sessionService;
         private IEOQService eoqService;
+
+        [Fact]
+        public async Task GetAll_WhenCalled_ReturnAsExpectedEOQs()
+        {
+            // Arrange
+            var eoqs = new List<EOQYModel>
+            {
+                new EOQYModel { EOQYId = 1, Quarter = 1, Year = 2018 }
+            };
+            var controller = GetEOQController();
+            eoqService.GetAllAsync(2018).Returns(eoqs);
+
+            // Act
+            var actual = await controller.GetAll(2018);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<EOQYViewModel>>(jsonResult.Value);
+            Assert.Single(result);
+        }
 
         [Fact]
         public async Task GetYears_WhenCalled_ReturnAsExpectedYears()
@@ -188,7 +209,7 @@
         #endregion Details
 
         [Fact]
-        public async Task GetById_WhenCalled_ReturnAsExpectedJsonResult()
+        public async Task GetById_WhenCalled_ReturnAsExpectedEOQ()
         {
             // Arrange
             var eoq = new EOQYModel();
@@ -222,6 +243,26 @@
             var jsonResult = Assert.IsType<JsonResult>(actual);
             var commandResult = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
             Assert.Equal(expected, commandResult);
+        }
+
+        [Fact]
+        public async Task GetNominatorSetting_WhenCalled_ReturnAsExpectedSettings()
+        {
+            // Arrange
+            var settings = new List<NominatorSettingModel>
+            {
+                new NominatorSettingModel { EmployeeId = 1, NickName = "tim.trinh", RoleIds = "1,2" }
+            };
+            var controller = GetEOQController();
+            eoqService.GetNominatorSettingAsync(1).Returns(settings);
+
+            // Act
+            var actual = await controller.GetNominatorSetting(1);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<NominatorSettingViewModel>>(jsonResult.Value);
+            Assert.Single(result);
         }
 
         [Fact]

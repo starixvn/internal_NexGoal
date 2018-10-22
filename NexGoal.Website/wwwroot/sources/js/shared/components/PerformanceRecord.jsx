@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
 export default class PerformanceRecord extends Component {
@@ -69,12 +69,21 @@ export default class PerformanceRecord extends Component {
                     <div className="name">{this.props.creator.nickName}</div>
                     <div className="submit-date">{this.props.submittedDate}</div>
                 </div>
-                <div className="date">
-                    {
-                        this.props.modifiedDate &&
-                        <div className="edit-date">Edited on {this.props.modifiedDate}<a className="icon-edit" onClick={this.handleEdit} /></div>
-                    }
-                </div>
+                {
+                    (this.props.modifiedDate || this.props.isHost) &&
+                    <div className="date">
+                        <div className="edit-date">
+                            {
+                                this.props.modifiedDate &&
+                                <Fragment>Edited on {this.props.modifiedDate}</Fragment>
+                            }
+                            {
+                                this.props.isHost &&
+                                <a className="icon-edit" onClick={this.handleEdit} />
+                            }
+                        </div>
+                    </div>
+                }
                 <div className="comment" >
                     <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{this.props.comment}</p>
                     {

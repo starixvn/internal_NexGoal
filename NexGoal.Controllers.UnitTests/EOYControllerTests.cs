@@ -1,11 +1,13 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.EOQY;
     using NexGoal.Services;
+    using NexGoal.ViewModels.EOQY;
     using NSubstitute;
     using Xunit;
 
@@ -13,6 +15,26 @@
     {
         private ISessionService sessionService;
         private IEOYService eoyService;
+
+        [Fact]
+        public async Task GetAll_WhenCalled_ReturnAsExpectedEOQs()
+        {
+            // Arrange
+            var eoys = new List<EOQYModel>
+            {
+                new EOQYModel { EOQYId = 1, Quarter = 1, Year = 2018 }
+            };
+            var controller = GetEOYController();
+            eoyService.GetAllAsync(2018).Returns(eoys);
+
+            // Act
+            var actual = await controller.GetAll(2018);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<EOQYViewModel>>(jsonResult.Value);
+            Assert.Single(result);
+        }
 
         #region Create
 
@@ -170,7 +192,7 @@
         #endregion Details
 
         [Fact]
-        public async Task GetById_WhenCalled_ReturnAsExpectedJsonResult()
+        public async Task GetById_WhenCalled_ReturnAsExpectedEOY()
         {
             // Arrange
             var eoy = new EOQYModel();
@@ -204,6 +226,26 @@
             var jsonResult = Assert.IsType<JsonResult>(actual);
             var commandResult = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
             Assert.Equal(expected, commandResult);
+        }
+
+        [Fact]
+        public async Task GetNominatorSetting_WhenCalled_ReturnAsExpectedSettings()
+        {
+            // Arrange
+            var settings = new List<NominatorSettingModel>
+            {
+                new NominatorSettingModel { EmployeeId = 1, NickName = "tim.trinh", RoleIds = "1,2" }
+            };
+            var controller = GetEOYController();
+            eoyService.GetNominatorSettingAsync(1).Returns(settings);
+
+            // Act
+            var actual = await controller.GetNominatorSetting(1);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<NominatorSettingViewModel>>(jsonResult.Value);
+            Assert.Single(result);
         }
 
         [Fact]
