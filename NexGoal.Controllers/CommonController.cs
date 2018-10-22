@@ -5,7 +5,6 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
-    using NexGoal.Core.Services;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
@@ -44,7 +43,7 @@
         {
             string[] refNames = { ReferenceResource.TargetType };
             IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
-            IEnumerable<TargetTypeModel> targetTypes = referenceResources.Select(x => new TargetTypeModel { TargetTypeId = x.ResourceId, Name = x.Value });
+            var targetTypes = referenceResources.Select(x => new TargetTypeModel { TargetTypeId = x.ResourceId, Name = x.Value });
 
             return Json(targetTypes);
         }
@@ -90,7 +89,7 @@
         [HttpGet]
         public async Task<JsonResult> GetAllPeriods()
         {
-            var periods = await commonService.GetAllPeriods().ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await commonService.GetAllPeriods().ConfigureAwait(false);
 
             return Json(periods);
         }
