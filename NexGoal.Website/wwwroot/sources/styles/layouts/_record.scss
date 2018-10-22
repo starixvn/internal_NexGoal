@@ -6,6 +6,9 @@
     margin-bottom: 16px;
     padding: 16px;
     margin: 12px;
+    &:focus-within {
+        box-shadow: 0 0 32px #cecece;
+    }
 
     .avatar-user {
         grid-column: 1;
@@ -105,7 +108,7 @@
             font-size: 12px;
             position: absolute;
             right: 0;
-            bottom: 10px;
+            bottom: 0;
             cursor: pointer;
         }
 
