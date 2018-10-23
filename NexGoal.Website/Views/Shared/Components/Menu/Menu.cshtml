@@ -3,22 +3,46 @@
 @model IEnumerable<MenuItemSession>
 
 @{
-    var currentController = ViewContext.RouteData.Values["Controller"].ToString();
-    var currentAction = ViewContext.RouteData.Values["Action"].ToString();
-    var currentUrl = string.Format("/{0}/{1}", currentController, currentAction);
     var employee = (EmployeeBaseModel)ViewData["employee"];
 }
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="pull-left left-bar-xs" id="topNavigation">
+    <div class="pull-left left-bar">
         <a class="navbar-brand" asp-controller="home" asp-action="index">
             <img src="~/sources/styles/images/nexgoal.svg" />
         </a>
     </div>
     <div class="pull-left nav-hamberger">
-        <a href="javascript:;" id="modifyMenuVisibility">
-            <i class="fa fa-bars"></i>
-        </a>
+        @if (Model != null && Model.Any())
+        {
+            <ul class="nav navbar-nav">
+                @foreach (MenuItemSession menuGroup in Model)
+                {
+                    @if (menuGroup.Childs.Any())
+                    {
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                                @menuGroup.Name <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                @foreach (MenuItemSession child in menuGroup.Childs)
+                                {
+                                    <li>
+                                        <a href="@child.Link">@child.Name</a>
+                                    </li>
+                                }
+                            </ul>
+                        </li>
+                    }
+                    else
+                    {
+                        <li>
+                            <a href="@menuGroup.Link">@menuGroup.Name</a>
+                        </li>
+                    }
+                }
+            </ul>
+        }
     </div>
 
     <div class="auth-info pull-right">
@@ -30,45 +54,3 @@
         <span class="hide" id="employeeInfo-jobTitle">@employee.JobTitle</span>
     </div>
 </nav>
-
-<div id="sidebar" class="sidebar-xs">
-    <ul class="list-group">
-        @if (Model != null && Model.Any())
-        {
-            foreach (MenuItemSession menuGroup in Model)
-            {
-                <li class="list-group-item @(menuGroup.Childs.Any() ? "has-sub" : "no-sub")">
-                    @if (menuGroup.Childs.Any())
-                    {
-                        <a class="sub-menu-title" data-toggle="collapse" data-target=".menu-@menuGroup.MenuId">
-                            <i class="fa fa-@menuGroup.Description"></i>
-                            <span>@menuGroup.Name</span>
-                            <i class="fa fa-chevron-down pull-right"></i>
-                        </a>
-
-                        <ul class="list-group menu-@menuGroup.MenuId">
-                            @foreach (MenuItemSession child in menuGroup.Childs)
-                            {
-                                <li class="list-group-item sub-menu @(currentUrl.Equals(child.Link,  StringComparison.CurrentCultureIgnoreCase) ? "active" : string.Empty)">
-                                    <a href="@child.Link">
-                                        <span>@child.Name</span>
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    }
-                    else
-                    {
-                        if (!string.IsNullOrWhiteSpace(menuGroup.Link))
-                        {
-                            <a href="@menuGroup.Link">
-                                <i class="fa fa-@menuGroup.Description"></i>
-                                <span>@menuGroup.Name</span>
-                            </a>
-                        }
-                    }
-                </li>
-            }
-        }
-    </ul>
-</div>

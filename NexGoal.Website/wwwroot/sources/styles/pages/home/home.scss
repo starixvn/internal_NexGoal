@@ -2,6 +2,7 @@
 @import "../../abstracts/mixins";
 @import "../../components/form";
 @import "../../components/form-performace";
+@import "../../components/modal";
 @import "../../layouts/record";
 @import "../../components/tables";
 @import "../../components/toast";
@@ -9,9 +10,8 @@
 @import "personal-timeline";
 
 .my-page {
-    //  display: grid;
-    //  grid-template-columns: 400px 1fr 400px;
     position: relative;
+
     .general-info {
         box-shadow: 0 0 3px #dedede;
         padding: 12px;
@@ -19,14 +19,15 @@
         width: 300px;
         top: 50px;
         bottom: 0;
-        left: 50px;
         background-color: #fff;
     }
 }
+
 .main-my-page {
     margin: 0 auto;
     width: calc(100% - 504px);
 }
+
 .warning {
     color: #05499C;
     background-color: #FFEEBF;
@@ -122,19 +123,22 @@
         }
     }
 }
+
 .fixed-section {
     position: fixed;
     top: 50px;
     z-index: 10;
-    width: calc(100% - 500px - 54px);
     background: #fff;
 }
+
 .record-list {
     padding-top: 310px;
+
     &.record-list-collapse {
         padding-top: 462px;
     }
 }
+
 .nomination {
     border-bottom: 1px solid #ccc;
     font-size: 14px;
@@ -189,21 +193,25 @@
         font-size: 16px;
         display: inline-block;
     }
+
     .milestone {
         float: right;
         background-color: #F1F4F8;
         border: 1px solid #DAE1EA;
         margin-top: 4px;
+
         [class^="icon"] {
             font-size: 14px;
             position: relative;
             top: 2px;
         }
+
         .arrow-left {
             transform: rotate(90deg);
             display: inline-block;
             margin-right: 2px;
         }
+
         .arrow-right {
             transform: rotate(-90deg);
             display: inline-block;
@@ -305,26 +313,21 @@
         .general-info, .work-info {
             width: 400px;
         }
-        .main-my-page {
+
+        .main-my-page, .fixed-section {
             width: calc(100% - 804px);
         }
-        .fixed-section {
-            width: calc(100% - 800px - 54px);
-        }
     }
-        
 }
+
 @media screen and (min-device-width: 1280px) and (max-device-width: 1919px) {
     .my-page {
         .work-info {
             width: 300px;
         }
-        .main-my-page {
+
+        .main-my-page, .fixed-section {
             width: calc(100% - 604px);
         }
-        .fixed-section {
-            width: calc(100% - 600px - 54px);
-        }
     }
-
 }

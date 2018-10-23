@@ -14,4 +14,12 @@ form.form-performance {
     .form-group button {
         margin-right: 12px;
     }
+
+    .modal-body {
+        .form-control {
+            &.comment-field {
+                min-height: 200px;
+            }
+        }
+    }
 }
