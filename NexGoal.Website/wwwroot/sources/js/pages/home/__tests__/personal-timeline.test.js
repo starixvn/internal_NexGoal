@@ -2,7 +2,7 @@
 import PersonalTimeline from '../PersonalTimeline';
 import TimelineNode from '../TimelineNode';
 import renderer from 'react-test-renderer';
-import { shallow, mount, configure } from 'enzyme';
+import { shallow } from 'enzyme';
 
 const records = [{
     performanceRecordId: 1,
@@ -60,7 +60,7 @@ describe('renders correctly', () => {
     it('render disabled Next button when page is 1', () => {
         const component = shallow(<PersonalTimeline />);
         component.setState({
-            pageIndex: 1
+            currentPage: 1
         });
         expect(component.find('.next').props('disabled').disabled).toBe(true);
     });
@@ -80,7 +80,7 @@ describe('onClick Next Prev Button', () => {
     const component = shallow(<PersonalTimeline />);
     beforeEach(() => {
         component.setState({
-            pageIndex: 5,
+            currentPage: 5,
             performanceTimeline: records
         });
         component.onClickPrevious = jest.fn();
@@ -89,12 +89,12 @@ describe('onClick Next Prev Button', () => {
 
     it('prev button when click increase pageIndex state', () => {
         component.find('.previous').simulate('click');
-        expect(component.state().pageIndex).toEqual(6);
+        expect(component.state().currentPage).toEqual(6);
     });
 
     it('next button when click call descrease pageIndex state', () => {
         component.find('.next').simulate('click');
-        expect(component.state().pageIndex).toEqual(4);
+        expect(component.state().currentPage).toEqual(4);
     });
 });
 
@@ -102,7 +102,6 @@ describe('component will call right method', () => {
     it('call get PCI when click button', () => {
         const component = shallow(<PersonalTimeline />);
         component.setState({
-            pageIndex: 5,
             performanceTimeline: records
         });
         component.onClickPrevious = jest.fn();
