@@ -46,7 +46,6 @@ export default class App extends Component {
             isFormExpanded: false,
         };
 
-        this.infiniteScrollRef = React.createRef();
         this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
         this.itemPerPage = 4;
     }
@@ -98,10 +97,10 @@ export default class App extends Component {
                 } else {
                     let index = performanceRecords.findIndex(element => element.statusId !== PerformanceRecordStatus.Draft);
                     performanceRecords.splice(index, 0, data);
-                    this.timelineRef.getPCI();
+                    this.refs.timelineRef.getPCI();
                 }
 
-                this.infiniteScrollRef.pageLoaded = 1;
+                this.refs.infiniteScrollRef.pageLoaded = 1;
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -142,8 +141,8 @@ export default class App extends Component {
                     displayedPerformanceRecords[index] = response.data;
                 }
 
-                if (this.timelineRef.state.performanceRecords.some(element => element.performanceRecordId === performanceRecordId)) {
-                    this.timelineRef.getPCI();
+                if (this.refs.timelineRef.state.performanceRecords.some(element => element.performanceRecordId === performanceRecordId)) {
+                    this.refs.timelineRef.getPCI();
                 }
 
                 this.setState({
@@ -197,7 +196,7 @@ export default class App extends Component {
 
             let page = Math.ceil((index + 1) / this.itemPerPage);
 
-            this.infiniteScrollRef.pageLoaded = page;
+            this.refs.infiniteScrollRef.pageLoaded = page;
             this.loadPCIs(page, () => {
                 this.setState({ selectedPCIId: performanceRecordId });
                 document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
@@ -224,7 +223,7 @@ export default class App extends Component {
                             <div className="warning">
                                 News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
                             </div>
-                            <PersonalTimeline itemPerPage={this.timelineItemPerPage} onItemClick={this.handlePCIClick} selectedPCIId={this.state.selectedPCIId} ref={r => this.timelineRef = r} />
+                            <PersonalTimeline itemPerPage={this.timelineItemPerPage} onItemClick={this.handlePCIClick} selectedPCIId={this.state.selectedPCIId} ref="timelineRef" />
                             <CreateSelfPerformance
                                 employee={this.state.employee}
                                 performanceGradeOptions={this.state.performanceGradeOptions}
@@ -240,7 +239,7 @@ export default class App extends Component {
                                     loadMore={this.loadPCIs}
                                     hasMore={this.state.hasMore}
                                     threshold={0}
-                                    useWindow={true} ref={r => this.infiniteScrollRef = r} >
+                                    useWindow={true} ref="infiniteScrollRef" >
                                     {
                                         performanceRecords.map(this.renderPerformanceRecord)
                                     }
@@ -269,7 +268,7 @@ export default class App extends Component {
                     }
                     <ReactTooltip id="tooltip" place="bottom" type="info" html={true} className="tooltip" />
                 </div>
-            </div>
+            </div >
         );
     }
 }
