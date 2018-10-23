@@ -250,9 +250,10 @@ export default class App extends Component {
                     </div>
                     <div className="work-info">
                         <NominationResult />
+                        <HrmSummary />
+
                         {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
 
-                        <HrmSummary />
                     </div>
 
                     {

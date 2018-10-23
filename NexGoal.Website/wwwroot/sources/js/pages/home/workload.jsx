@@ -4,6 +4,7 @@ import { Doughnut } from 'react-chartjs-2';
 import memoize from "memoize-one";
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { ChartColors } from '../../constants';
 
 export default class WorkLoad extends PureComponent {
     constructor(props) {
@@ -75,7 +76,7 @@ export default class WorkLoad extends PureComponent {
                             var bw = arcOpts.borderWidth;
 
                             return {
-                                text: `${label}: ${percentage}%`,
+                                text: `${label}: ${percentage}% `,
                                 fillStyle: fill,
                                 strokeStyle: stroke,
                                 lineWidth: bw,
@@ -91,28 +92,12 @@ export default class WorkLoad extends PureComponent {
         }
     }
 
-    generateColors = number => {
-        let colors = [];
-
-        for (let i = 0; i < number; i++) {
-            let hex = "0123456789ABCDEF",
-                color = "#";
-            for (let j = 1; j <= 6; j++) {
-                color += hex[Math.floor(Math.random() * 16)];
-            }
-
-            colors.push(color);
-        }
-
-        return colors;
-    }
-
     getChartData = memoize(
         workload => (
             {
                 datasets: [{
                     data: workload.map(e => e.totalHours),
-                    backgroundColor: this.generateColors(workload.length)
+                    backgroundColor: ChartColors
                 }],
                 labels: workload.map(e => e.name)
             }

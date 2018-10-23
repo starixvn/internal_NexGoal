@@ -63,3 +63,5 @@ export const PerformanceRecordSizePerPages = [
     { text: '20', value: 20 },
     { text: '50', value: 50 }
 ];
+
+export const ChartColors = ['#1B1464', '#F3AC16', '#838BC5', '#BA9BC9', '#39B54A', '#0071BC']
