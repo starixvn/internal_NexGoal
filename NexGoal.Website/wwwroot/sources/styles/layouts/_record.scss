@@ -1,4 +1,5 @@
 .record {
+    @include border-radius(2px);
     box-shadow: 0 0 3px #dedede;
     display: grid;
     grid-template-columns: 230px 1fr;
@@ -6,6 +7,9 @@
     margin-bottom: 16px;
     padding: 16px;
     margin: 12px;
+    &.highlighted {
+        border: 2px solid #2475D7;
+    }
     &:focus-within {
         box-shadow: 0 0 32px #cecece;
     }
