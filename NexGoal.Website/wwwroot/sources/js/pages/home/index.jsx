@@ -189,8 +189,6 @@ export default class App extends Component {
     }
 
     handlePCIClick = performanceRecordId => {
-        this.setState({ selectedPCIId: performanceRecordId });
-
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
             let index = this.state.performanceRecords.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
