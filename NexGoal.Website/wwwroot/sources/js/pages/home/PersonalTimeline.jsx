@@ -54,10 +54,10 @@ export default class PersonalTimeline extends Component {
     }
 
     calculateNodePosition = (totalNode, index) => {
-        let baseLeft = 60;
+        let baseRight = 20;
         let timelineWidth = this.state.timelineWidth;
         let distanceFromRoot = timelineWidth / (totalNode + 1);
-        return Math.round(baseLeft + (index + 1) * distanceFromRoot);
+        return Math.round(baseRight + (index + 1) * distanceFromRoot);
     }
 
     render() {

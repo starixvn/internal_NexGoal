@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from "react";
 import moment from 'moment';
+import { DateFormat } from '../../constants';
 
 export default class TimelineNode extends Component {
     constructor(props) {
@@ -33,7 +34,7 @@ export default class TimelineNode extends Component {
                 <p className="timeline-grade" style={{ right: position }} onClick={this.handleClick} >{data.grade ? data.grade.name : ""}</p>
                 <div className="timeline-info" style={{ right: position - 22 }} onClick={this.handleClick}>
                     <p className={"name " + className}>{data.creator.nickName}</p>
-                    <p className="create-date">{moment(data.createdDate).format("DD MMM")}</p>
+                    <p className="create-date">{moment(data.createdDate).format(DateFormat)}</p>
                 </div>
             </Fragment >
         );
