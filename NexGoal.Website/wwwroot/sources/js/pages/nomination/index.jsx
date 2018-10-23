@@ -12,15 +12,13 @@ export default class App extends Component {
     constructor(props) {
         super(props);
 
-        this.handleSelect = this.handleSelect.bind(this);
-
         this.state = {
             activeKey: parseInt(document.getElementById('ActiveTab').value),
             isFirstLoad: parseInt(document.getElementById('ActiveTab').value) === 2
         };
     }
 
-    handleSelect(key) {
+    handleSelect = (key) => {
         this.setState({ activeKey: key });
 
         if (key === 2 && !this.state.isFirstLoad) {

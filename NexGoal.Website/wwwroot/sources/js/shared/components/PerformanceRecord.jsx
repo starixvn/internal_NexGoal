@@ -1,6 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
+import { PerformanceProcess, PerformanceRecordStatus } from '../../constants';
+
 export default class PerformanceRecord extends Component {
     static propTypes = {
         objectId: PropTypes.number,
@@ -61,12 +63,46 @@ export default class PerformanceRecord extends Component {
         this.props.onEdit(this.props.objectId);
     }
 
+    getRoleClassName = (roleId) => {
+        let cssClass = '';
+        switch (roleId) {
+            case PerformanceProcess.Self:
+                cssClass = 'role-member';
+                break;
+            case PerformanceProcess.ProjectManager:
+                cssClass = 'role-pm';
+                break;
+            case PerformanceProcess.Evaluator:
+                cssClass = 'role-evaluator';
+                break;
+            case PerformanceProcess.Reviewer:
+                cssClass = 'role-reviewer';
+                break;
+        }
+
+        return cssClass;
+    }
+
     render() {
+        let employee = this.props.employee;
+        let creator = this.props.creator;
         return (
-            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
+            <div className="record" id={`record-${this.props.objectId}`}>
                 <div className="avatar-user">
-                    <img src={this.props.creator.base64Image} className="avatar" />
-                    <div className="name">{this.props.creator.nickName}</div>
+                    <img src={creator.base64Image} className="avatar" />
+                    <div className="name">
+                        <span className={this.getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
+                        {
+                            employee.employeeId !== creator.employeeId &&
+                            <Fragment>
+                                <span> checked in for</span> <span className="role-member">{employee.nickName}</span>
+                            </Fragment>
+                        }
+                        {
+                            this.props.statusId === PerformanceRecordStatus.Draft &&
+                            <span> draft</span>
+                        }
+                    </div>
                     <div className="submit-date">{this.props.submittedDate}</div>
                 </div>
                 {

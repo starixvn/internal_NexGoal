@@ -18,28 +18,24 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            selectedOption: null,
+            roleSelected: null,
             options: [],
             functions: [],
             isHost: false
         };
-
-        this.handleOnRoleChange = this.handleOnRoleChange.bind(this);
-        this.handleOnCheckboxChange = this.handleOnCheckboxChange.bind(this);
-        this.handleOnSubmit = this.handleOnSubmit.bind(this);
     }
 
     componentDidMount() {
         this.getAssignPermissions(null);
     }
 
-    getAssignPermissions(roleId) {
+    getAssignPermissions = (roleId) => {
         axios.get(resolveClientUrl(`Role/AssignPermission?roleId=${roleId}`))
             .then(response => {
                 let data = response.data;
 
                 this.setState({
-                    selectedOption: data.roleId,
+                    roleSelected: data.roleId,
                     options: data.roles,
                     functions: data.functions,
                     isHost: data.isHost
@@ -47,11 +43,11 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
-    handleOnRoleChange(roleId) {
+    handleOnRoleChange = (roleId) => {
         this.getAssignPermissions(roleId);
     }
 
-    handleOnCheckboxChange(functionObj, target, isChecked) {
+    handleOnCheckboxChange = (functionObj, target, isChecked) => {
         let functionId = functionObj.functionId;
         let parentId = functionObj.parentId;
         let functions = this.state.functions.slice();
@@ -89,10 +85,10 @@ export default class App extends Component {
         this.setState({ functions: functions });
     }
 
-    handleOnSubmit(event) {
+    handleOnSubmit = (event) => {
         event.preventDefault();
 
-        let roleId = this.state.selectedOption;
+        let roleId = this.state.roleSelected;
         let permissions = this.state.functions.slice().map(func => {
             return { roleId: roleId, functionId: func.functionId, policy: func.policy };
         });
@@ -128,7 +124,7 @@ export default class App extends Component {
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <SearchForm roleOptions={this.state.options}
-                            selectedOption={this.state.selectedOption}
+                            roleSelected={this.state.roleSelected}
                             onRoleChange={this.handleOnRoleChange}
                         />
 

@@ -3,10 +3,11 @@
 import { Policy } from '../../../constants';
 
 class Row extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleOnChange = this.handleOnChange.bind(this);
+    shouldComponentUpdate(nextProps) {
+        if (this.props.isHost !== nextProps.isHost
+            || JSON.stringify(this.props.function) !== JSON.stringify(nextProps.function)) {
+            return true;
+        }
     }
 
     renderCellFunctionName(func) {
@@ -27,7 +28,7 @@ class Row extends Component {
         );
     }
 
-    handleOnChange(event) {
+    handleOnChange = (event) => {
         this.props.onCheckboxChange(this.props.function, event.target.name, event.target.checked);
     }
 

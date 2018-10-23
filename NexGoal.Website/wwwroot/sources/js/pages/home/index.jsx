@@ -175,6 +175,8 @@ export default class App extends Component {
                 objectId={performanceRecord.performanceRecordId}
                 employee={performanceRecord.employee}
                 creator={performanceRecord.creator}
+                roleId={performanceRecord.roleId}
+                statusId={performanceRecord.statusId}
                 submittedDate={submittedDate} modifiedDate={modifiedDate}
                 isHost={isHost}
                 grade={performanceRecord.grade}

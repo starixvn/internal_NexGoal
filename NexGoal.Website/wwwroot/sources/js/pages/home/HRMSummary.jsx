@@ -18,7 +18,6 @@ export default class HrmSummary extends Component {
     getHrmSummary = () => {
         axios.get(resolveClientUrl('Discipline/GetHRMSummary'))
             .then(response => {
-                console.log(response.data);
                 this.setState(
                     {
                         data: response.data

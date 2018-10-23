@@ -25,5 +25,7 @@
 
         public int CreatorId { get; set; }
         public EmployeeBaseModel Creator { get; set; }
+
+        public int RoleId { get; set; }
     }
 }

@@ -31,19 +31,16 @@ export default class EmployeeManagement extends Component {
             showModal: false,
             isHost: document.getElementById('IsHost').checked
         };
-
-        this.handleFilterChange = this.handleFilterChange.bind(this);
-        this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     }
 
-    componentDidMount = () => {
+    componentDidMount() {
         this.getGroups();
         this.getEmployees();
     }
 
     employeeSelected = {};
 
-    handleFilterChange(name, value) {
+    handleFilterChange = (name, value) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
         });

@@ -6,23 +6,23 @@ import { statusOptions } from '../common';
 import getResource from '../../../resourceHelper';
 
 class Filter extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleYearChange = this.handleYearChange.bind(this);
-        this.handleStatusChange = this.handleStatusChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    shouldComponentUpdate(nextProps) {
+        if (this.props.year !== nextProps.year
+            || this.props.statusId !== nextProps.statusId
+            || JSON.stringify(this.props.years) !== JSON.stringify(nextProps.years)) {
+            return true;
+        }
     }
 
-    handleYearChange(selectedOption) {
+    handleYearChange = (selectedOption) => {
         this.props.handleYearChange(selectedOption.value);
     }
 
-    handleStatusChange(selectedOption) {
+    handleStatusChange = (selectedOption) => {
         this.props.handleStatusChange(selectedOption.value);
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
         this.props.handleFilterSubmit();
     }

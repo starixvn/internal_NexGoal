@@ -5,12 +5,19 @@ import Select from 'react-select';
 import getResource from '../../resourceHelper';
 
 class SearchForm extends Component {
+    shouldComponentUpdate(nextProps) {
+        if (this.props.roleSelected !== nextProps.roleSelected
+            || JSON.stringify(this.props.roleOptions) !== JSON.stringify(nextProps.roleOptions)) {
+            return true;
+        }
+    }
+
     handleOnChange = (selectedOption) => {
         this.props.onRoleChange(selectedOption.value);
     }
 
     render() {
-        const selectedOpt = this.props.selectedOption;
+        const selectedOpt = this.props.roleSelected;
         const roleOptions = this.props.roleOptions.map((option) => {
             return { value: option.value, label: option.text };
         });

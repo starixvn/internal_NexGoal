@@ -4,21 +4,21 @@ import Select from 'react-select';
 
 import getResource from '../../resourceHelper';
 
-class SearchForm extends Component {
-    constructor(props) {
-        super(props);
+export default class SearchForm extends Component {
+    shouldComponentUpdate(nextProps) {
+        if (JSON.stringify(this.props.filter) !== JSON.stringify(nextProps.filter)
+            || JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)) {
+            return true;
+        }
 
-        this.handleKeywordChange = this.handleKeywordChange.bind(this);
-        this.handleOnGroupChange = this.handleOnGroupChange.bind(this);
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        return false;
     }
 
     handleKeywordChange = (event) => {
         this.props.onFilterChange('keyword', event.target.value);
     }
 
-    handleOnGroupChange(selectedOption) {
+    handleOnGroupChange = (selectedOption) => {
         this.props.onFilterChange('group', selectedOption);
     }
 
@@ -26,7 +26,7 @@ class SearchForm extends Component {
         this.props.onFilterChange('isDisabled', event.target.checked);
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
         this.props.onFilterSubmit();
     }
@@ -69,5 +69,3 @@ class SearchForm extends Component {
         );
     }
 }
-
-export default SearchForm;
