@@ -87,7 +87,7 @@ export default class PerformanceRecord extends Component {
         let employee = this.props.employee;
         let creator = this.props.creator;
         return (
-            <div className="record" id={`record-${this.props.objectId}`}>
+            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
                 <div className="avatar-user">
                     <img src={creator.base64Image} className="avatar" />
                     <div className="name">
