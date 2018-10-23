@@ -21,27 +21,27 @@
         position: absolute;
         content: '';
         display: inline-block;
-        width: 8px;
-        height: 8px;
+        width: 6px;
+        height: 6px;
         -moz-border-radius: 7.5px;
         -webkit-border-radius: 7.5px;
         border-radius: 7.5px;
         background-color: #B0CBDD;
-        left: -8px;
-        top: -4px;
+        left: -7px;
+        top: -3px;
     }
 
     &:after {
-        border-top: 5px solid transparent;
-        border-bottom: 5px solid transparent;
-        border-left: 10px solid #B0CBDD;
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 8px solid #B0CBDD;
         content: "";
         right: 0;
         position: absolute;
         width: 0;
         height: 0;
-        right: -10px;
-        top: -5px;
+        right: -8px;
+        top: -4px;
     }
 }
 
@@ -70,7 +70,7 @@
 .timeline-info {
     @include border-radius(2px);
     position: absolute;
-    top: 47px;
+    top: 48px;
     border: 1px solid #B0CBDD;
     width: 60px;
     text-align: center;
@@ -78,7 +78,7 @@
     border-top: none;
 
     &:after {
-        border-top: 7px solid #B0CBDD;
+        border-top: 4px solid #B0CBDD;
         border-left: 2px solid #B0CBDD;
         content: "";
         right: 0;
@@ -86,7 +86,7 @@
         width: 0;
         height: 0;
         left: 28px;
-        top: -7px;
+        top: -9px;
     }
 
     .name {
@@ -125,14 +125,12 @@
 }
 
 .previous, .next {
-    background-color: #fff;
     border: none;
-    height: 40px;
-    width: 40px;
     position: absolute;
     top: 46px;
     color: #8F8F8F;
     cursor: pointer;
+    padding: 0;
 }
 
 .previous:hover, .next:hover {
@@ -141,11 +139,11 @@
 }
 
 .previous {
-    left: 54px;
+    left: 11px;
 }
 
 .next {
-    right: 54px;
+    right: 46px;
 }
 
 .button-icon {
