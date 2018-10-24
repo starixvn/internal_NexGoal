@@ -23,7 +23,7 @@ Array [
     }
   >
     <p
-      className="name role-member"
+      className="name "
     >
       Michael
     </p>

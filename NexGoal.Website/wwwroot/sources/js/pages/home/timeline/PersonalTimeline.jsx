@@ -12,7 +12,7 @@ export default class PersonalTimeline extends Component {
             performanceRecords: [],
             nextDisabled: true,
             prevDisabled: false,
-            pageIndex: 0
+            pageIndex: 1
         };
 
         this.timelineWidth = React.createRef();
@@ -23,7 +23,7 @@ export default class PersonalTimeline extends Component {
     }
 
     getPCI = () => {
-        axios.get(resolveClientUrl('Self/Performance/GetByEmployee'), {
+        axios.get(resolveClientUrl('Self/Performance/Timeline'), {
             params: {
                 pageIndex: this.state.pageIndex,
                 pageSize: this.props.itemPerPage
