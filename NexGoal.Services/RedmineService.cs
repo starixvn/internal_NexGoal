@@ -18,13 +18,12 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<TeamWorkloadModel>> GetTeamWorkload(int EmployeeId, DateTime from, DateTime to)
+        public async Task<IEnumerable<TeamWorkloadModel>> GetTeamWorkload(int EmployeeId, int periodId)
         {
             var criteria = new GetTeamWorkloadCriteria
             {
                 EmployeeId = EmployeeId,
-                FromDate = from,
-                ToDate = to
+                PeriodId = periodId
             };
 
             var workloads = await baseService.GetDataAsync<MembersWorkloadEntityModel>(criteria).ConfigureAwait(false);
@@ -108,9 +107,9 @@
             {
                 GroupId = i.Key.GroupId,
                 GroupName = i.Key.GroupName,
-                EmployeeWorkloads = i.GroupBy(e => new { e.EmpId, e.NickName }).Select(x => new EmployeeWorkloadModel
+                EmployeeWorkloads = i.GroupBy(e => new { e.EmployeeId, e.NickName }).Select(x => new EmployeeWorkloadModel
                 {
-                    EmployeeId = x.Key.EmpId,
+                    EmployeeId = x.Key.EmployeeId,
                     NickName = x.Key.NickName,
                     Workloads = x.Select(y => new ProjectWorkloadModel
                     {

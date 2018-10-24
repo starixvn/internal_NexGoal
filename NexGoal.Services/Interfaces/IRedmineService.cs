@@ -7,7 +7,7 @@
 
     public interface IRedmineService
     {
-        Task<IEnumerable<TeamWorkloadModel>> GetTeamWorkload(int EmployeeId, DateTime from, DateTime to);
+        Task<IEnumerable<TeamWorkloadModel>> GetTeamWorkload(int EmployeeId, int periodId);
 
         Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadAsync(int employeeId, int periodId);
 

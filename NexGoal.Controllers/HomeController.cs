@@ -58,9 +58,9 @@
             return Json(workloads);
         }
 
-        public async Task<JsonResult> GetMembersWorkLoad()
+        public async Task<JsonResult> GetMembersWorkLoad(int periodId)
         {
-            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(125, new DateTime(2017, 7, 1), new DateTime(2017, 12, 31)).ConfigureAwait(false);
+            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(125, periodId).ConfigureAwait(false);
 
             return Json(teamWorkloads.FirstOrDefault());
         }

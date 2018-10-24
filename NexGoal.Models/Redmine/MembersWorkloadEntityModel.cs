@@ -2,7 +2,7 @@
 {
     public class MembersWorkloadEntityModel
     {
-        public int EmpId { get; set; }
+        public int EmployeeId { get; set; }
 
         public int GroupId { get; set; }
 

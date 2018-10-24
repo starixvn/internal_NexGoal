@@ -6,6 +6,7 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
+import TeamWorkload from './TeamWorkLoad';
 
 export default class App extends Component {
     constructor(props) {
@@ -13,18 +14,21 @@ export default class App extends Component {
 
         this.state = {
             memberPerformanceAppraisals: [],
-            memberNominations: []
+            memberNominations: [],
+            periods: []
         };
     }
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('member/GetMemberNominationResult'))
+            axios(resolveClientUrl('member/GetMemberNominationResult')),
+            axios(resolveClientUrl('Common/GetAllPeriods')),
+
         ];
 
         Promise.all(promises)
-            .then(([memberNominationResponse]) => {
-                this.setState({ memberNominations: memberNominationResponse.data });
+            .then(([memberNominationResponse, periodResponse]) => {
+                this.setState({ memberNominations: memberNominationResponse.data, periods: periodResponse.data });
             }).catch(axiosError);
     }
 
@@ -59,6 +63,7 @@ export default class App extends Component {
                         <fieldset>
                             <legend>Workload</legend>
                         </fieldset>
+                        {this.state.periods.length > 0 && <TeamWorkload periods={this.state.periods} />}
                     </div>
                 </div>
             </ToastLayout>

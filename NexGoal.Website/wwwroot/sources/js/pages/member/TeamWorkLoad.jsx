@@ -10,7 +10,8 @@ export default class TeamWorkLoad extends Component {
         this.state = {
             workloads: [],
             team: '',
-            xAxesMaxValue: 0
+            xAxesMaxValue: 0,
+            currentPeriodIndex: 0
         };
     }
     componentDidMount() {
@@ -18,15 +19,18 @@ export default class TeamWorkLoad extends Component {
     }
 
     getMembersWorkloads = function () {
-        axios.get(resolveClientUrl('Home/GetMembersWorkLoad'))
-            .then(response => {
-                this.setState(
-                    {
-                        workloads: this.generateDataSets(response.data.employeeWorkloads),
-                        team: response.data.groupName,
-                        xAxesMaxValue: this.calculatexAxesMaxValue(response.data.employeeWorkloads)
-                    });
-            }).catch(axiosError);
+        axios.get(resolveClientUrl('Home/GetMembersWorkLoad'), {
+            params: {
+                periodId: this.props.periods[this.state.currentPeriodIndex].periodId
+            }
+        }).then(response => {
+            this.setState(
+                {
+                    workloads: this.generateDataSets(response.data.employeeWorkloads),
+                    team: response.data.groupName,
+                    xAxesMaxValue: this.calculatexAxesMaxValue(response.data.employeeWorkloads)
+                });
+        }).catch(axiosError);
     }
 
     calculatexAxesMaxValue = (workloads) => {
@@ -111,7 +115,6 @@ export default class TeamWorkLoad extends Component {
                     },
                     gridLines: {
                     },
-                    stacked: true
                 }],
                 yAxes: [{
                     gridLines: {
