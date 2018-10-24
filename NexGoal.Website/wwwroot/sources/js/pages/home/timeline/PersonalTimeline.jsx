@@ -23,7 +23,7 @@ export default class PersonalTimeline extends Component {
     }
 
     getPCI = () => {
-        axios(resolveClientUrl('Self/Performance/Timeline'), {
+        axios.get(resolveClientUrl('Self/Performance/GetByEmployee'), {
             params: {
                 pageIndex: this.state.pageIndex,
                 pageSize: this.props.itemPerPage

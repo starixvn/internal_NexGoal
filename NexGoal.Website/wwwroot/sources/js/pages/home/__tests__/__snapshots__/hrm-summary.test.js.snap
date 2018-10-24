@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly render UI 1`] = `
+exports[`Test render correctly  renderUI correctly 1`] = `
 <div
   className="hrm-summary"
 >

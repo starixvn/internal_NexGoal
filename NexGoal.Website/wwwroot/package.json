@@ -73,6 +73,7 @@
   },
   "license": "ISC",
   "jest": {
+    "verbose": false,
     "setupFiles": [
       "<rootDir>/sources/js/__tests__/setup/jestSetup.js"
     ],

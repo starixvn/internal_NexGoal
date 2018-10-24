@@ -1,6 +1,62 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`onClick Prev Button state of pageIndex should be updated 1`] = `
+exports[`Test timeline component renders correctly render correctly when click 2 button 1`] = `
+<div
+  className="time-line"
+>
+  <div
+    className="xaxes"
+  />
+  <button
+    className="previous"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <span
+      className="button-icon icon-chevron-left"
+    />
+  </button>
+  <button
+    className="next disabled"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <span
+      className="button-icon icon-chevron-right"
+    />
+  </button>
+</div>
+`;
+
+exports[`Test timeline component renders correctly render correctly when click 2 button 2`] = `
+<div
+  className="time-line"
+>
+  <div
+    className="xaxes"
+  />
+  <button
+    className="previous"
+    disabled={false}
+    onClick={[Function]}
+  >
+    <span
+      className="button-icon icon-chevron-left"
+    />
+  </button>
+  <button
+    className="next disabled"
+    disabled={true}
+    onClick={[Function]}
+  >
+    <span
+      className="button-icon icon-chevron-right"
+    />
+  </button>
+</div>
+`;
+
+exports[`Test timeline component renders correctly renders without crashing 1`] = `
 <div
   className="time-line"
 >
@@ -85,34 +141,6 @@ exports[`renders correctly render correctly when click 2 button 2`] = `
 `;
 
 exports[`renders correctly renders without crashing 1`] = `
-<div
-  className="time-line"
->
-  <div
-    className="xaxes"
-  />
-  <button
-    className="previous"
-    disabled={false}
-    onClick={[Function]}
-  >
-    <span
-      className="button-icon icon-chevron-left"
-    />
-  </button>
-  <button
-    className="next disabled"
-    disabled={true}
-    onClick={[Function]}
-  >
-    <span
-      className="button-icon icon-chevron-right"
-    />
-  </button>
-</div>
-`;
-
-exports[`renders correctly: renders without crashing 1`] = `
 <div
   className="time-line"
 >
