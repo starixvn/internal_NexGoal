@@ -13,14 +13,9 @@
 
         Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByEmployeeAsync(int employeeId);
 
-        Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(
-            int performanceRecordId,
-            int creatorId);
+        Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(int performanceRecordId, int creatorId);
 
-        Task<Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<int>>> GetPerformanceRecordPagination(
-            int employeeId,
-            int skip,
-            int itemPerPage);
+        Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param);
 
         Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord);
 

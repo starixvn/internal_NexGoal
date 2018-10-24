@@ -1,5 +1,5 @@
 ﻿import React from 'react';
-import TimelineNode from '../TimelineNode';
+import TimelineNode from '../timeline/TimelineNode';
 import renderer from 'react-test-renderer';
 
 const record = {

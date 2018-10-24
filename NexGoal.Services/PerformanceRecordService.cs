@@ -53,35 +53,31 @@
 
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
-                MappingData(performanceRecord, projects, performanceGrades, employees);
+                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees);
             }
 
             return performanceRecords;
         }
 
-        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<int>>> GetPerformanceRecordPagination(
-            int employeeId,
-            int skip,
-            int itemPerPage)
+        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param)
         {
-            var criteria = new GetPerformanceRecordPaginationCriteria
+            var criteria = new GetPerformanceTimelineCriteria
             {
-                EmployeeId = employeeId,
-                Skip = skip,
-                PageSize = itemPerPage
+                EmployeeId = param.EmployeeId,
+                PageIndex = param.PageIndex,
+                PageSize = param.PageSize
             };
-            var tuple = await baseService.FetchMultipleAsync<PerformanceRecordModel, int>(criteria).ConfigureAwait(false);
+            var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
 
-            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
-            foreach (PerformanceRecordModel performanceRecord in tuple.Item1)
+            foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
-                MappingData(performanceRecord, projects, performanceGrades, employees);
+                MappingDataPerformanceTimeline(performanceRecord, performanceGrades, employees);
             }
 
-            return tuple;
+            return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
         }
 
         public async Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(
@@ -101,7 +97,7 @@
                 IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
                 IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
-                MappingData(performanceRecord, projects, performanceGrades, employees);
+                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees);
             }
 
             return performanceRecord;
@@ -143,7 +139,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        private void MappingData(
+        private void MappingDataPerformanceRecord(
             PerformanceRecordModel performanceRecord,
             IEnumerable<ProjectModel> projects,
             IEnumerable<PerformanceGradeModel> performanceGrades,
@@ -168,6 +164,18 @@
             {
                 performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
             }
+        }
+
+        private void MappingDataPerformanceTimeline(
+            PerformanceRecordModel performanceRecord,
+            IEnumerable<PerformanceGradeModel> performanceGrades,
+            IEnumerable<EmployeeBaseModel> employees)
+        {
+            performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
+            int.TryParse(performanceRecord.GradeId, out int gradeId);
+            performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
+            performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
         }
     }
 }

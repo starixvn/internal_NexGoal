@@ -105,7 +105,7 @@
   </Function>
   <Function Name="Performanace Record">
     <Setting Key="PerformanceRecord_GetMember" SpName="PerformanceRecord_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PerformanceRecord_GetByEmployeePagination" SpName="PerformanceRecord_GetByEmployeePagination" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_GetTimeline" SpName="PerformanceRecord_GetTimeline" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetByEmployee" SpName="PerformanceRecord_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetById" SpName="PerformanceRecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_Insert" SpName="PerformanceRecord_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>

@@ -1,6 +1,6 @@
 ﻿import React from 'react';
-import PersonalTimeline from '../PersonalTimeline';
-import TimelineNode from '../TimelineNode';
+import PersonalTimeline from '../timeline/PersonalTimeline';
+import TimelineNode from '../timeline/TimelineNode';
 import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
 

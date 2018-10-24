@@ -1,7 +1,8 @@
 ﻿import React, { Component } from "react";
-import TimelineNode from './TimelineNode';
 import axios from 'axios';
-import { axiosError, resolveClientUrl } from '../../common-functions';
+
+import { axiosError, resolveClientUrl } from '../../../common-functions';
+import TimelineNode from './TimelineNode';
 
 export default class PersonalTimeline extends Component {
     constructor(props) {
@@ -11,7 +12,7 @@ export default class PersonalTimeline extends Component {
             performanceRecords: [],
             nextDisabled: true,
             prevDisabled: false,
-            currentPage: 1,
+            pageIndex: 0
         };
 
         this.timelineWidth = React.createRef();
@@ -22,32 +23,32 @@ export default class PersonalTimeline extends Component {
     }
 
     getPCI = () => {
-        axios(resolveClientUrl('Self/Performance/GetByEmployee'), {
+        axios(resolveClientUrl('Self/Performance/Timeline'), {
             params: {
-                pageIndex: this.state.currentPage,
-                itemPerPage: this.props.itemPerPage
+                pageIndex: this.state.pageIndex,
+                pageSize: this.props.itemPerPage
             }
         }).then((response) => {
             this.setState({
                 performanceRecords: response.data.performanceRecord,
                 timelineWidth: this.timelineWidth.current.offsetWidth,
                 prevDisabled: response.data.isOverPCI,
-                nextDisabled: this.state.currentPage === 1
+                nextDisabled: this.state.pageIndex === 0
             });
         }).catch(axiosError);
     }
 
     onClickPrevious = () => {
-        this.setState({
-            currentPage: this.state.currentPage + 1,
+        this.setState(prevState => {
+            return { pageIndex: prevState.pageIndex + 1 };
         }, () => {
             this.getPCI();
         });
     }
 
     onClickNext = () => {
-        this.setState({
-            currentPage: this.state.currentPage - 1
+        this.setState(prevState => {
+            return { pageIndex: prevState.pageIndex - 1 };
         }, () => {
             this.getPCI();
         });
@@ -62,15 +63,16 @@ export default class PersonalTimeline extends Component {
 
     render() {
         const records = this.state.performanceRecords;
+
         return (
             <div className="time-line">
                 <div className="xaxes" ref={this.timelineWidth} />
                 {
                     records.length > 0 &&
-                    records.map((reccord, index) => {
+                    records.map((record, index) => {
                         let position = this.calculateNodePosition(records.length, index);
                         return (
-                            <TimelineNode key={index} data={reccord} position={position} onClick={this.props.onItemClick} />
+                            <TimelineNode key={`timeline${index}`} data={record} position={position} onClick={this.props.onItemClick} />
                         );
                     })
                 }

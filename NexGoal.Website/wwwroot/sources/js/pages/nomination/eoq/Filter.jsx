@@ -12,6 +12,8 @@ class Filter extends Component {
             || JSON.stringify(this.props.years) !== JSON.stringify(nextProps.years)) {
             return true;
         }
+
+        return false;
     }
 
     handleYearChange = (selectedOption) => {

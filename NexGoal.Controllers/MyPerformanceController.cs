@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -31,14 +32,13 @@
             return Json(performanceRecords);
         }
 
-        [Route("Self/Performance/GetByEmployee")]
-        public async Task<JsonResult> GetByEmployeePagination(int pageIndex, int itemPerPage)
+        [Route("Self/Performance/Timeline")]
+        public async Task<JsonResult> GetPerformanceTimeline(GetPerformanceTimelineParam param)
         {
-            int skip = pageIndex == 1 ? 0 : (pageIndex - 1) * itemPerPage;
-            var tuple = await performanceService.GetPerformanceRecordPagination(sessionService.EmployeeId, skip, itemPerPage)
-                .ConfigureAwait(false);
+            param.EmployeeId = sessionService.EmployeeId;
+            Tuple<IEnumerable<PerformanceRecordModel>, int> tuple = await performanceService.GetPerformanceTimelineAsync(param).ConfigureAwait(false);
 
-            bool isOverPCI = (pageIndex * itemPerPage) >= tuple.Item2.First();
+            bool isOverPCI = (param.PageIndex + 1) * param.PageSize >= tuple.Item2;
 
             return Json(new { performanceRecord = tuple.Item1, isOverPCI });
         }

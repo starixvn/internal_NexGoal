@@ -4,7 +4,6 @@ import axios from 'axios';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
@@ -16,7 +15,7 @@ import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
-import PersonalTimeline from './PersonalTimeline';
+import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
 
 var sanitizeHtmlReact = require('sanitize-html-react');
@@ -43,7 +42,7 @@ export default class App extends Component {
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
             },
-            isFormExpanded: false,
+            isFormExpanded: false
         };
 
         this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
@@ -223,7 +222,12 @@ export default class App extends Component {
                             <div className="warning">
                                 News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
                             </div>
-                            <PersonalTimeline itemPerPage={this.timelineItemPerPage} onItemClick={this.handlePCIClick} selectedPCIId={this.state.selectedPCIId} ref="timelineRef" />
+                            <PersonalTimeline
+                                itemPerPage={this.timelineItemPerPage}
+                                onItemClick={this.handlePCIClick}
+                                selectedPCIId={this.state.selectedPCIId}
+                                ref="timelineRef"
+                            />
                             <CreateSelfPerformance
                                 employee={this.state.employee}
                                 performanceGradeOptions={this.state.performanceGradeOptions}
@@ -239,7 +243,8 @@ export default class App extends Component {
                                     loadMore={this.loadPCIs}
                                     hasMore={this.state.hasMore}
                                     threshold={0}
-                                    useWindow={true} ref="infiniteScrollRef" >
+                                    useWindow={true} ref="infiniteScrollRef"
+                                >
                                     {
                                         performanceRecords.map(this.renderPerformanceRecord)
                                     }

@@ -64,23 +64,23 @@ export default class PerformanceRecord extends Component {
     }
 
     getRoleClassName = (roleId) => {
-        let cssClass = '';
+        let className = '';
         switch (roleId) {
             case PerformanceProcess.Self:
-                cssClass = 'role-member';
+                className = 'role-member';
                 break;
             case PerformanceProcess.ProjectManager:
-                cssClass = 'role-pm';
+                className = 'role-pm';
                 break;
             case PerformanceProcess.Evaluator:
-                cssClass = 'role-evaluator';
+                className = 'role-evaluator';
                 break;
             case PerformanceProcess.Reviewer:
-                cssClass = 'role-reviewer';
+                className = 'role-reviewer';
                 break;
         }
 
-        return cssClass;
+        return className;
     }
 
     render() {

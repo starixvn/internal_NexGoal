@@ -10,6 +10,8 @@ class SearchForm extends Component {
             || JSON.stringify(this.props.roleOptions) !== JSON.stringify(nextProps.roleOptions)) {
             return true;
         }
+
+        return false;
     }
 
     handleOnChange = (selectedOption) => {

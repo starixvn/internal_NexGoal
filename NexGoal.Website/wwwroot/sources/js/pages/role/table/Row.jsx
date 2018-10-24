@@ -8,6 +8,8 @@ class Row extends Component {
             || JSON.stringify(this.props.function) !== JSON.stringify(nextProps.function)) {
             return true;
         }
+
+        return false;
     }
 
     renderCellFunctionName(func) {
