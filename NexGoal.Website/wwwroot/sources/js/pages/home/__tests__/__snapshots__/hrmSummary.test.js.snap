@@ -1,0 +1,34 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly render UI 1`] = `
+<div
+  className="hrm-summary"
+>
+  <h5>
+    HRM
+  </h5>
+  <ul
+    className="hrm-info"
+  >
+    <li>
+      TOEIC score: 
+      N/A
+    </li>
+    <li>
+      Missing Check In/Out: 
+    </li>
+    <li>
+      Late In/Early Out: 
+    </li>
+    <li>
+      Unpaid leave: 
+    </li>
+    <li>
+      Unplaned Annual Leave: 
+    </li>
+    <li>
+      Incident: 
+    </li>
+  </ul>
+</div>
+`;
