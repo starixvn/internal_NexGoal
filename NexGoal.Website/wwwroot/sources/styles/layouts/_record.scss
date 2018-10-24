@@ -15,9 +15,12 @@
     }
 
     .avatar-user {
-        grid-column: 1;
+        grid-column: 1 / 3;
         grid-row: 1;
         text-align: left;
+        display: grid;
+        grid-template-columns: 40px 1fr 1fr;
+        grid-gap: 8px;
 
         .avatar {
             @include border-radius(2px);
@@ -30,10 +33,26 @@
             margin-right: 8px;
         }
 
-        .name {
-            color: #0067b4;
-            font-weight: 700;
-            font-size: 16px;
+        .person-info {
+            //color: #0067b4;
+            //font-weight: 700;
+            //font-size: 16px;
+            [class^="role-"] {
+                font-weight: 700;
+                font-size: 16px;
+            }
+            .draft {
+                font-size: 10px;
+                background-color: rgba(#F4783D, 0.2);
+                border: 1px solid #F69652;
+                color: #E15F00;
+                padding: 1px 8px 3px;
+                text-align: center;
+                border-radius: 10px;
+                margin-left: 16px;
+                position: relative;
+                top: -4px;
+            }
         }
 
         .submit-date {
@@ -58,8 +77,6 @@
     }
 
     .date {
-        grid-row: 1;
-        grid-column: 2;
         padding: 4px 8px;
         text-align: right;
 

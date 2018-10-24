@@ -90,7 +90,7 @@ export default class PerformanceRecord extends Component {
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
                 <div className="avatar-user">
                     <img src={creator.base64Image} className="avatar" />
-                    <div className="name">
+                    <div className="person-info">
                         <span className={this.getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
                         {
                             employee.employeeId !== creator.employeeId &&
@@ -100,26 +100,27 @@ export default class PerformanceRecord extends Component {
                         }
                         {
                             this.props.statusId === PerformanceRecordStatus.Draft &&
-                            <span> draft</span>
+                            <span className="draft">draft</span>
                         }
+                        <div className="submit-date">{this.props.submittedDate}</div>
                     </div>
-                    <div className="submit-date">{this.props.submittedDate}</div>
-                </div>
-                {
-                    (this.props.modifiedDate || this.props.isHost) &&
-                    <div className="date">
-                        <div className="edit-date">
-                            {
-                                this.props.modifiedDate &&
-                                <Fragment>Edited on {this.props.modifiedDate}</Fragment>
-                            }
-                            {
-                                this.props.isHost &&
-                                <a className="icon-edit" onClick={this.handleEdit} />
-                            }
+                    {
+                        (this.props.modifiedDate || this.props.isHost) &&
+                        <div className="date">
+                            <div className="edit-date">
+                                {
+                                    this.props.modifiedDate &&
+                                    <Fragment>Edited on {this.props.modifiedDate}</Fragment>
+                                }
+                                {
+                                    this.props.isHost &&
+                                    <a className="icon-edit" onClick={this.handleEdit} />
+                                }
+                            </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
+               
                 <div className="comment" >
                     <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{this.props.comment}</p>
                     {
