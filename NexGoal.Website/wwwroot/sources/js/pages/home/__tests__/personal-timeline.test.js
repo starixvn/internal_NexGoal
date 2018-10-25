@@ -84,7 +84,7 @@ describe('Test timeline component', () => {
         it('render disabled Next button when page is 1', () => {
             const component = shallow(<PersonalTimeline />);
             component.setState({
-                currentPage: 1
+                pageIndex: 0
             });
             expect(component.find('.next').props('disabled').disabled).toBe(true);
         });
@@ -120,7 +120,7 @@ describe('Test timeline component', () => {
         const setUpComponent = () => {
             const component = shallow(<PersonalTimeline />);
             component.setState({
-                currentPage: 5,
+                pageIndex: 5,
                 performanceTimeline: records
             });
 
@@ -132,14 +132,14 @@ describe('Test timeline component', () => {
         it('prev button when click increase pageIndex state', () => {
             let component = setUpComponent();
             component.find('.previous').simulate('click');
-            expect(component.state().currentPage).toEqual(6);
+            expect(component.state().pageIndex).toEqual(6);
         });
 
         it('next button when click call descrease pageIndex state', () => {
             let component = setUpComponent();
 
             component.find('.next').simulate('click');
-            expect(component.state().currentPage).toEqual(4);
+            expect(component.state().pageIndex).toEqual(4);
         });
     });
 });
