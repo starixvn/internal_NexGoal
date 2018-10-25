@@ -12,6 +12,7 @@ export default class WorkLoad extends PureComponent {
 
         this.state = {
             workload: [],
+            chartData: null,
             currentPeriodIndex: 0
         };
     }
@@ -25,8 +26,21 @@ export default class WorkLoad extends PureComponent {
             params: {
                 periodId: this.props.periods[this.state.currentPeriodIndex].periodId
             }
-        }).then(response => this.setState({ workload: response.data })).catch(axiosError);
+        }).then(response => this.setState({
+            workload: response.data,
+            chartData: this.getChartData(response.data)
+        })).catch(axiosError);
     }
+
+    getChartData = workload => (
+        {
+            datasets: [{
+                data: workload.map(e => e.totalHours),
+                backgroundColor: ChartColors
+            }],
+            labels: workload.map(e => e.name)
+        }
+    )
 
     onNextPeriod = () => {
         if (this.props.periods[this.state.currentPeriodIndex + 1]) {
@@ -92,37 +106,21 @@ export default class WorkLoad extends PureComponent {
         }
     }
 
-    getChartData = memoize(
-        workload => (
-            {
-                datasets: [{
-                    data: workload.map(e => e.totalHours),
-                    backgroundColor: ChartColors
-                }],
-                labels: workload.map(e => e.name)
-            }
-        )
-    )
-
     render() {
-        if (this.state.workload.length > 0) {
-            var chartData = this.getChartData(this.state.workload);
+        const chartData = this.state.chartData;
 
-            return (
-                <div className="workload">
-                    <div className="title">
-                        <h5>Workload</h5>
-                        <div className="milestone">
+        return (
+            <div className="workload">
+                <div className="title">
+                    <h5>Workload</h5>
+                    <div className="milestone">
                             <div className="icon-chevron-down arrow-left" onClick={this.onPrevPeriod} />
-                            {this.props.periods[this.state.currentPeriodIndex].name}
+                        {this.props.periods[this.state.currentPeriodIndex].name}
                             <div className="icon-chevron-down arrow-right" onClick={this.onNextPeriod} />
-                        </div>
                     </div>
-                    <Doughnut data={chartData} options={this.chartOptions} />
                 </div>
-            );
-        }
-
-        return '';
+                {chartData && <Doughnut data={chartData} options={this.chartOptions} />}
+            </div>
+        );
     }
 }

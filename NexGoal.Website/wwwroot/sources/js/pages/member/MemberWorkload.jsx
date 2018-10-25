@@ -8,7 +8,7 @@ export default class MemberWorkload extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            workloads: [],
+            workloads: null,
             team: '',
             xAxesMaxValue: 0,
             currentPeriodIndex: 0
@@ -80,70 +80,39 @@ export default class MemberWorkload extends Component {
         return color;
     }
 
-    getChartOptions = () => {
-        return {
-            tooltips: {
-                enable: true,
-                callbacks: {
-                    label: function (tooltipItem, data) {
-                        var dataset = data.datasets[tooltipItem.datasetIndex];
-                        var currentValue = dataset.data[tooltipItem.index];
-                        return currentValue > 0 ? `${dataset.label}: ${currentValue}h` : ``;
-                    },
-                    title: function (tooltipItem, data) {
-                        return data.labels[tooltipItem[0].index] > 0 ? data.labels[tooltipItem[0].index] : ``;
-                    }
+    chartOptions = {
+        tooltips: {
+            callbacks: {
+                label: function (tooltipItem, data) {
+                    var dataset = data.datasets[tooltipItem.datasetIndex];
+                    var currentValue = dataset.data[tooltipItem.index];
+                    return currentValue > 0 ? `${dataset.label}: ${currentValue}h` : ``;
+                },
+                title: function (tooltipItem, data) {
+                    return data.labels[tooltipItem[0].index] > 0 ? data.labels[tooltipItem[0].index] : ``;
                 }
-            },
-            hover: {
-                animationDuration: 0,
-                onHover: function (e) {
-                    var point = this.getElementAtEvent(e);
-                    if (point.length) e.target.style.cursor = 'pointer';
-                    else e.target.style.cursor = 'default';
-                }
-            },
-            scales: {
-                xAxes: [{
-                    ticks: {
-                        beginAtZero: true,
-                        fontFamily: "'Open Sans Bold', sans-serif",
-                        fontSize: 10
-                    },
-                    scaleLabel: {
-                        display: true
-                    },
-                    gridLines: {
-                    },
-                }],
-                yAxes: [{
-                    gridLines: {
-                        display: false,
-                        color: "#fff",
-                        zeroLineColor: "#fff",
-                        zeroLineWidth: 0
-                    },
-                    ticks: {
-                        fontFamily: "'Open Sans Bold', sans-serif",
-                        fontSize: 13,
-                        beginAtZero: true
-                    },
-                    stacked: true,
-                    categoryPercentage: 0.8
-                }]
-            },
-            legend: {
-                display: false
             }
-        };
-    };
+        },
+        scales: {
+            yAxes: [{
+                gridLines: {
+                    display: false,
+                },
+                stacked: true
+            }]
+        },
+        legend: {
+            display: false
+        }
+    }
 
     render() {
         const workloads = this.state.workloads;
-        const options = this.getChartOptions();
+        const options = this.chartOptions;
         const teamName = this.state.team;
+
         return (
-            <div style={{ width: "500px", padding: "20px" }}>
+            <div>
                 {
                     workloads &&
                     <div>
