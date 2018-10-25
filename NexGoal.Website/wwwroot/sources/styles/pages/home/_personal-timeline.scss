@@ -96,22 +96,6 @@
         margin: 0;
         width: 74px;
         margin-left: -1px;
-
-        &.role-member {
-            background-color: $role-member-color;
-        }
-
-        &.role-evaluator {
-            background-color: $role-evaluator-color;
-        }
-
-        &.role-pm {
-            background-color: $role-pm-color;
-        }
-
-        &.role-reviewer {
-            background-color: $role-reviewer-color;
-        }
     }
 
     .create-date {

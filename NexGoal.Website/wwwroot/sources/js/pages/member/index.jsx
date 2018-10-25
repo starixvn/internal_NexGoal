@@ -49,24 +49,29 @@ export default class App extends Component {
                             </fieldset>
                         </div>
                         <div className="work-info">
-                            <fieldset>
-                                <legend>{getResource('MemberNomination')}</legend>
+                            <div className="nomination">
+                                <h5>{getResource('MemberNomination')}</h5>
                                 {
                                     memberNominations.map(memberNomination => {
                                         return (
                                             <div key={`memberNomination-${memberNomination.employeeId}-${memberNomination.period.nominationPeriodId}`}>
-                                                {memberNomination.nickName}-
-                                                {memberNomination.period.title}-
-                                                {NominationStatuses.find(x => x.value === memberNomination.statusId).text}
+                                                <span className="nick-name">{memberNomination.nickName}</span> - <span>{memberNomination.period.title}</span> - <span className="status-nominated ">{NominationStatuses.find(x => x.value === memberNomination.statusId).text}</span>
                                             </div>
                                         );
                                     })
                                 }
-                            </fieldset>
-                            <fieldset>
-                                <legend>Workload</legend>
-                            </fieldset>
-                            {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
+                            </div>
+                            <div className="workload">
+                                <div className="title">
+                                    <h5>Workload</h5>
+                                    <div className="milestone">
+                                        <div className="icon-chevron-down arrow-left" onClick={this.onPrevPeriod}></div>
+                                        2nd 2018
+                                        <div className="icon-chevron-down arrow-right" onClick={this.onNextPeriod}></div>
+                                    </div>
+                                </div>
+                            </div>
+                            {/* {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />} */}
                         </div>
                     </div>
                 </div>

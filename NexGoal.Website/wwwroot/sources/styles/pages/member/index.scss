@@ -13,10 +13,122 @@
 
 .member-performance {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 90px 1fr;
+    align-content: center;
+    .employee-info {
+        align-self: center;
+        .nick-name {
+            color: #2475D7;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    }
 }
+
+
 .timeline {
     margin: 0; 
     box-shadow: none;
     padding: 0;
+    height: 55px;
+    .role-member {
+        border: 1px solid $role-member-color;
+        background-color: rgba($role-member-color, 0.2);
+        color: #458A00;
+    }
+    .role-evaluator {
+        border: 1px solid $role-evaluator-color;
+        background-color: rgba($role-evaluator-color, 0.2);
+        color: #C15C13;
+    }
+    .role-pm {
+        border: 1px solid $role-pm-color;
+        background-color: rgba($role-pm-color, 0.2);
+        color: #0072C7;
+    }
+    .role-reviewer {
+        border: 1px solid $role-reviewer-color;
+        background-color: rgba($role-reviewer-color, 0.2);
+        color: #9A308C;
+    }
+    .timeline-grade {
+        top: 3px;
+        font-size: 10px;
+        height: 17px;
+        line-height: 15px;
+    }
+    .timeline-info {
+        border: none;
+        top: 29px;
+        width: 50px;
+        font-size: 10px;
+        &:after {
+            left: 25px;
+        }
+        .name {
+            width: 50px;
+        }
+    }
+    .xaxes {
+        top: 24px;
+    }
+    .previous, .next {
+        top: 21px;
+    }
+    .previous {
+        left: -20px;
+    }
+    .next {
+        right: 17px;
+    }
 } 
+.workload {
+    padding: 8px 12px;
+    border-bottom: 1px solid #EAEAEA;
+
+    h5 {
+        font-weight: bold;
+        color: #05517E;
+        font-size: 16px;
+        display: inline-block;
+    }
+
+    .milestone {
+        float: right;
+        background-color: #F1F4F8;
+        border: 1px solid #DAE1EA;
+        margin-top: 4px;
+
+        [class^="icon"] {
+            font-size: 14px;
+            position: relative;
+            top: 2px;
+        }
+
+        .arrow-left {
+            transform: rotate(90deg);
+            display: inline-block;
+            margin-right: 2px;
+        }
+
+        .arrow-right {
+            transform: rotate(-90deg);
+            display: inline-block;
+            margin-left: 2px;
+        }
+    }
+}
+.nomination {
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    padding: 0 12px 12px 12px;
+
+    h5 {
+        color: #05517E;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    .nick-name {
+        font-weight: bold;
+    }
+}
