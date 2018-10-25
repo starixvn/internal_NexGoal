@@ -1,32 +1,15 @@
 ﻿import React, { Component } from 'react';
-import axios from 'axios';
-
-import { axiosError, resolveClientUrl } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
 
 export default class NominationResult extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            nominations: []
-        };
-    }
-
-    componentDidMount() {
-        axios.get(resolveClientUrl('home/GetNominationResult'))
-            .then(response => {
-                this.setState({
-                    nominations: response.data
-                });
-            }).catch(axiosError);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.state.nominations) !== JSON.stringify(nextState.nominations)) {
+        if (JSON.stringify(this.props.nominations) !== JSON.stringify(nextProps.nominations)) {
             return true;
         }
-
         return false;
     }
 
@@ -51,13 +34,13 @@ export default class NominationResult extends Component {
     }
 
     render() {
-        const nominations = this.state.nominations;
+        const nominations = this.props.nominations;
 
         return (
             <div className="nomination">
                 <h5>Nomination</h5>
                 {
-                    nominations.map(nomination => {
+                    nominations && nominations.map(nomination => {
                         return (
                             <div key={`nomination${nomination.eoqyId}`}>
                                 {nomination.period.title} - <span className={this.getCssClass(nomination.statusId)}>{NominationStatuses.find(x => x.value === nomination.statusId).text}</span>

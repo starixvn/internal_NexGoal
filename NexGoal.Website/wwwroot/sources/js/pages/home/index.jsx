@@ -36,6 +36,7 @@ export default class App extends Component {
             performanceRecordIdSelected: null,
             periods: [],
             hrmDetail: {},
+            nominations: [],
             employee: {
                 nickName: document.getElementById('employeeInfo-nickName').innerText,
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
@@ -55,11 +56,12 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('Self/Performance/Index')),
             axios(resolveClientUrl('Common/GetAllPeriods')),
-            axios(resolveClientUrl('Discipline/GetHRMSummary'))
+            axios(resolveClientUrl('Discipline/GetHRMSummary')),
+            axios(resolveClientUrl('home/GetNominationResult'))
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse]) => {
+            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse, nominationResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -78,6 +80,7 @@ export default class App extends Component {
                     performanceRecords: performanceRecordResponse.data,
                     periods: periodResponse.data,
                     hrmDetail: hrmDetailResponse.data,
+                    nominations: nominationResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
                 });
@@ -256,7 +259,7 @@ export default class App extends Component {
                         </div>
                     </div>
                     <div className="work-info">
-                        <NominationResult />
+                        <NominationResult nominations={this.state.nominations} />
                         <HrmSummary hrmDetail={this.state.hrmDetail} />
 
                         {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}

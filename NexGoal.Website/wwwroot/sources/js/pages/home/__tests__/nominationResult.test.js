@@ -2,9 +2,6 @@
 import { shallow, mount } from "enzyme";
 import NominationResult from '../NominationResult';
 import renderer from 'react-test-renderer';
-import axios from "axios";
-
-jest.mock('axios');
 
 const nominations = [{
     eoqyId: 1,
@@ -26,27 +23,10 @@ const nominations = [{
     statusId: 2
 }];
 
-describe("Test render correctly ", () => {
-    beforeEach(() => {
-        axios.get.mockImplementation(() =>
-            Promise.resolve({
-                data: nominations
-            })
-        );
-    });
-
-    afterEach(() => {
-        axios.get.mockReset();
-    });
-
+describe("Test nomination component", () => {
     describe('Component render correctly', () => {
-        it("should fetch data when mount", async () => {
-            const wrapper = mount(<NominationResult />);
-            expect(axios.get).toHaveBeenCalledTimes(1);
-        });
-
         it('renderUI correctly', () => {
-            const component = renderer.create(<NominationResult />);
+            const component = renderer.create(<NominationResult nominations={nominations} />);
             expect(component.toJSON()).toMatchSnapshot();
         });
     });
@@ -61,20 +41,17 @@ describe("Test render correctly ", () => {
         });
 
         it('Component should update when nominations change', () => {
-            const wrapper = shallow(<NominationResult />);
-            const nextState = { nominations };
-            const shouldUpdate = wrapper.instance().shouldComponentUpdate({}, nextState);
+            const wrapper = shallow(<NominationResult nominations={[]} />);
+            const nextProps = { nominations };
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps);
             expect(shouldUpdate).toBe(true);
         });
 
         it('Component should not update when nominations have no change', () => {
-            const wrapper = shallow(<NominationResult />);
-            wrapper.setState({
-                nominations: nominations
-            });
-            const nextState = { nominations };
+            const wrapper = shallow(<NominationResult nominations={nominations} />);
+            const nextProps = { nominations };
 
-            const shouldUpdate = wrapper.instance().shouldComponentUpdate('', nextState);
+            const shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps);
             expect(shouldUpdate).toBe(false);
         });
     });
