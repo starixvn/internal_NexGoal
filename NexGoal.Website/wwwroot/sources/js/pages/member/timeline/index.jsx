@@ -9,15 +9,16 @@ export default class Timeline extends Component {
         super(props);
 
         this.state = {
-            memberPerformances: []
+            memberPerformances: [],
+            pageSize: window.innerWidth > 1600 ? 4 : 2
         };
 
         this.timelineWidth = React.createRef();
     }
 
     componentDidMount() {
-        this.getMemberPerformanceTimeline();
         window.addEventListener('resize', this.updateDimensions);
+        this.getMemberPerformanceTimeline();
     }
 
     componentWillUnmount() {
@@ -25,30 +26,58 @@ export default class Timeline extends Component {
     }
 
     updateDimensions = () => {
-        this.setState({
-            height: window.innerHeight,
-            width: window.innerWidth
-        });
+        //this.setState({
+        //    timelineWidth: this.timelineWidth.current.offsetWidth,
+        //    pageSize: window.innerWidth > 1600 ? 4 : 2
+        //}, () => {
+        //    this.getMemberPerformanceTimeline();
+        //});
     }
 
     getMemberPerformanceTimeline = () => {
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
                 pageIndex: 0,
-                pageSize: 4
+                pageSize: this.state.pageSize
             }
         }).then((response) => {
             response.data.map(memberPerformance => {
                 memberPerformance.pageIndex = 0;
-                memberPerformance.pageSize = 4;
                 memberPerformance.nextDisabled = memberPerformance.pageIndex === 0;
-                memberPerformance.prevDisabled = (memberPerformance.pageIndex + 1) * memberPerformance.pageSize >= memberPerformance.totalItems;
+                memberPerformance.prevDisabled = (memberPerformance.pageIndex + 1) * this.state.pageSize >= memberPerformance.totalItems;
             });
 
             this.setState({
                 memberPerformances: response.data
             });
         }).catch(axiosError);
+    }
+
+    handlePageChange = (employeeId, pageIndex) => {
+        let memberPerformances = this.state.memberPerformances.slice();
+        let index = memberPerformances.map(memberPerformance => { return memberPerformance.employeeId; }).indexOf(employeeId);
+
+        if (index >= 0) {
+            axios(resolveClientUrl('Member/Performance/Timeline'), {
+                params: {
+                    employeeId: employeeId,
+                    pageIndex: pageIndex,
+                    pageSize: this.state.pageSize
+                }
+            }).then((response) => {
+                response.data[0].pageIndex = pageIndex;
+                response.data[0].nextDisabled = pageIndex === 0;
+                response.data[0].prevDisabled = (pageIndex + 1) * this.state.pageSize >= response.data[0].totalItems;
+
+                memberPerformances[index] = response.data[0];
+
+                this.setState({
+                    memberPerformances: memberPerformances
+                });
+            }).catch(axiosError);
+        }
+
+        
     }
 
     render() {
@@ -63,6 +92,8 @@ export default class Timeline extends Component {
                             <Line key={`memberTimeline${index}`}
                                 data={memberPerformance}
                                 timelineWidth={timelineWidth}
+                                onPageChange={this.handlePageChange}
+                                onSelectNode={this.props.onSelectNode}
                             />
                         );
                     })

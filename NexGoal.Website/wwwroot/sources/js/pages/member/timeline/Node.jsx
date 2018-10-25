@@ -1,7 +1,6 @@
 ﻿import React, { Component, Fragment } from "react";
-import moment from 'moment';
 
-import { DateFormat, PerformanceProcess } from '../../../constants';
+import { PerformanceProcess } from '../../../constants';
 
 export default class TimelineNode extends Component {
     shouldComponentUpdate(nextProps) {
@@ -33,7 +32,9 @@ export default class TimelineNode extends Component {
         return className;
     }
 
-    handleClick = () => this.props.onClick(this.props.data.performanceRecordId)
+    handleClick = () => {
+        this.props.onSelectNode(this.props.data.performanceRecordId);
+    }
 
     render() {
         const data = this.props.data;

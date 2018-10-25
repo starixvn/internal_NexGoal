@@ -1,31 +1,20 @@
 ﻿import React, { Component } from "react";
-import axios from 'axios';
 
-import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Node from './Node';
 
 export default class Timeline extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            timelineWidth: 0,
-            memberPerformances: [],
-            nextDisabled: true,
-            prevDisabled: false,
-            pageIndex: 0
-        };
-    }
-
     onClickPrevious = () => {
-        this.setState(prevState => {
-            return { pageIndex: prevState.pageIndex + 1 };
-        });
+        const memberPerformance = this.props.data;
+        const pageIndex = memberPerformance.pageIndex + 1;
+
+        this.props.onPageChange(memberPerformance.employeeId, pageIndex);
     }
 
     onClickNext = () => {
-        this.setState(prevState => {
-            return { pageIndex: prevState.pageIndex - 1 };
-        });
+        const memberPerformance = this.props.data;
+        const pageIndex = memberPerformance.pageIndex - 1;
+
+        this.props.onPageChange(memberPerformance.employeeId, pageIndex);
     }
 
     calculateNodePosition = (totalNode, index) => {
@@ -55,7 +44,7 @@ export default class Timeline extends Component {
                                 <Node key={`timelineNode${performanceRecord.performanceRecordId}`}
                                     data={performanceRecord}
                                     position={position}
-                                    onClick={this.props.onItemClick}
+                                    onClick={this.props.onSelectNode}
                                 />
                             );
                         })
