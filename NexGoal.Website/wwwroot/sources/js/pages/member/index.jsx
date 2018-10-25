@@ -39,33 +39,35 @@ export default class App extends Component {
         return (
             <ToastLayout>
                 <div className="row">
-                    <div className="col-sm-3">
-                        <Timeline />
-                    </div>
-                    <div className="col-sm-6">
-                        <fieldset>
-                            <legend>{getResource('MemberPerformance')}</legend>
-                        </fieldset>
-                    </div>
-                    <div className="col-sm-3">
-                        <fieldset>
-                            <legend>{getResource('MemberNomination')}</legend>
-                            {
-                                memberNominations.map(memberNomination => {
-                                    return (
-                                        <div key={`memberNomination-${memberNomination.employeeId}-${memberNomination.period.nominationPeriodId}`}>
-                                            {memberNomination.nickName}-
-                                            {memberNomination.period.title}-
-                                            {NominationStatuses.find(x => x.value === memberNomination.statusId).text}
-                                        </div>
-                                    );
-                                })
-                            }
-                        </fieldset>
-                        <fieldset>
-                            <legend>Workload</legend>
-                        </fieldset>
-                        {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
+                    <div className="main-layout member-page">
+                        <div className="general-info">
+                            <Timeline />
+                        </div>
+                        <div className="main-content">
+                            <fieldset>
+                                <legend>{getResource('MemberPerformance')}</legend>
+                            </fieldset>
+                        </div>
+                        <div className="work-info">
+                            <fieldset>
+                                <legend>{getResource('MemberNomination')}</legend>
+                                {
+                                    memberNominations.map(memberNomination => {
+                                        return (
+                                            <div key={`memberNomination-${memberNomination.employeeId}-${memberNomination.period.nominationPeriodId}`}>
+                                                {memberNomination.nickName}-
+                                                {memberNomination.period.title}-
+                                                {NominationStatuses.find(x => x.value === memberNomination.statusId).text}
+                                            </div>
+                                        );
+                                    })
+                                }
+                            </fieldset>
+                            <fieldset>
+                                <legend>Workload</legend>
+                            </fieldset>
+                            {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
+                        </div>
                     </div>
                 </div>
             </ToastLayout>

@@ -1,0 +1,60 @@
+@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+
+.main-layout {
+    .general-info {
+        box-shadow: 0 0 3px #dedede;
+        padding: 12px;
+        position: fixed;
+        width: 300px;
+        top: 50px;
+        bottom: 0;
+        background-color: #fff;
+        overflow: auto;
+    }
+    .main-content {
+        margin: 0 auto;
+        width: calc(100% - 504px);
+    }
+    .work-info {
+        box-shadow: 0 0 3px #dedede;
+        padding: 12px;
+        position: fixed;
+        width: 250px;
+        top: 50px;
+        bottom: 0;
+        right: 0;
+        background-color: #fff;
+    }
+    .fixed-section {
+        position: fixed;
+        top: 50px;
+        z-index: 10;
+        background: #fff;
+    }
+}
+
+
+@media screen and (min-device-width: 1920px) {
+    .main-layout {
+        .general-info, .work-info {
+            width: 400px;
+        }
+
+        .main-content, .fixed-section {
+            width: calc(100% - 804px);
+        }
+    }
+}
+
+@media screen and (min-device-width: 1280px) and (max-device-width: 1919px) {
+    .main-layout {
+        .work-info {
+            width: 300px;
+        }
+
+        .main-content, .fixed-section {
+            width: calc(100% - 604px);
+        }
+    }
+}

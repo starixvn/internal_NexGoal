@@ -8,4 +8,15 @@
 @import "../../layouts/nomination";
 @import "../../layouts/role";
 @import "../../layouts/form-performance";
+@import "../../layouts/main-layout";
 @import "../home/personal-timeline";
+
+.member-performance {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+}
+.timeline {
+    margin: 0; 
+    box-shadow: none;
+    padding: 0;
+} 
