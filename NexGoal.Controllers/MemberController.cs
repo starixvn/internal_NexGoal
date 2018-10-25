@@ -40,7 +40,7 @@
             return View(id);
         }
 
-        public async Task<IActionResult> GetMemberPerformanceAppraisalResult(int? periodId = null, int? memberId = null)
+        public async Task<JsonResult> GetMemberPerformanceAppraisalResult(int? periodId = null, int? memberId = null)
         {
             IEnumerable<PARecordModel> performanceAppraisals =
                 await employeeService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId).ConfigureAwait(false);
@@ -48,14 +48,14 @@
             return Json(performanceAppraisals);
         }
 
-        public async Task<IActionResult> GetMemberNominationResult(int? memberId = null)
+        public async Task<JsonResult> GetMemberNominationResult(int? memberId = null)
         {
             IEnumerable<EmployeeNominationModel> nominations = await employeeService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
             return Json(nominations);
         }
 
-        public async Task<IActionResult> GetMemberNominationDetails(
+        public async Task<JsonResult> GetMemberNominationDetails(
             int? nominationPeriodId = null,
             int? employeeId = null)
         {
@@ -66,5 +66,7 @@
 
             return Json(nominationDetails);
         }
+
+        
     }
 }

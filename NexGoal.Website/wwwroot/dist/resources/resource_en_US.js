@@ -83,6 +83,7 @@ var resource_en_US = {
     'Period': 'Period',
     'Personal': 'Personal',
     'ProjectTag': 'Project Tag',
+    'Publish': 'Publish',
     'Quarter': 'Quarter',
     'Read': 'Read',
     'ReadyForPromotion': 'Ready for Promotion',

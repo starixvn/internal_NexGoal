@@ -7,6 +7,7 @@ import { NominationStatuses } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import TeamWorkload from './TeamWorkLoad';
+import Timeline from './timeline/index';
 
 export default class App extends Component {
     constructor(props) {
@@ -39,6 +40,14 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <div className="col-sm-3">
+                        <Timeline />
+                    </div>
+                    <div className="col-sm-6">
+                        <fieldset>
+                            <legend>{getResource('MemberPerformance')}</legend>
+                        </fieldset>
+                    </div>
+                    <div className="col-sm-3">
                         <fieldset>
                             <legend>{getResource('MemberNomination')}</legend>
                             {
@@ -53,13 +62,6 @@ export default class App extends Component {
                                 })
                             }
                         </fieldset>
-                    </div>
-                    <div className="col-sm-6">
-                        <fieldset>
-                            <legend>{getResource('MemberPerformance')}</legend>
-                        </fieldset>
-                    </div>
-                    <div className="col-sm-3">
                         <fieldset>
                             <legend>Workload</legend>
                         </fieldset>

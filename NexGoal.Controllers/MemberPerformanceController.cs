@@ -92,5 +92,14 @@
 
             return Json(record);
         }
+
+        [Route("Member/Performance/Timeline")]
+        public async Task<JsonResult> GetMemberPerformanceTimeline(GetMemberPerformanceTimelineParam param)
+        {
+            param.ActorId = sessionService.EmployeeId;
+            IEnumerable<MemberPerformanceTimelineModel> memberPerformances = await performanceRecordService.GetMemberPerformanceTimelineAsyn(param).ConfigureAwait(false);
+
+            return Json(memberPerformances);
+        }
     }
 }

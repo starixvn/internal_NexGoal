@@ -70,7 +70,7 @@
             var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
 
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
 
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
@@ -78,6 +78,26 @@
             }
 
             return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
+        }
+
+        public async Task<IEnumerable<MemberPerformanceTimelineModel>> GetMemberPerformanceTimelineAsyn(GetMemberPerformanceTimelineParam param)
+        {
+            var criteria = new GetMemberPerformanceTimelineCriteria
+            {
+                ActorId = param.ActorId,
+                EmployeeId = param.EmployeeId,
+                PageIndex = param.PageIndex,
+                PageSize = param.PageSize
+            };
+
+            var tuple = await baseService.FetchMultipleAsync<MemberPerformanceTimelineModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
+
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
+
+            MappingDataMemberPerformanceTime(tuple.Item1, tuple.Item2, performanceGrades, employees);
+
+            return tuple.Item1;
         }
 
         public async Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(
@@ -176,6 +196,23 @@
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
             performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+        }
+
+        private void MappingDataMemberPerformanceTime(
+            IEnumerable<MemberPerformanceTimelineModel> memberPerformances,
+            IEnumerable<PerformanceRecordModel> performanceRecords,
+            IEnumerable<PerformanceGradeModel> performanceGrades,
+            IEnumerable<EmployeeBaseModel> employees)
+        {
+            foreach (PerformanceRecordModel performanceRecord in performanceRecords)
+            {
+                MappingDataPerformanceTimeline(performanceRecord, performanceGrades, employees);
+            }
+
+            foreach (MemberPerformanceTimelineModel memberPerformance in memberPerformances)
+            {
+                memberPerformance.PerformanceRecords = performanceRecords.Where(x => x.EmployeeId == memberPerformance.EmployeeId);
+            }
         }
     }
 }

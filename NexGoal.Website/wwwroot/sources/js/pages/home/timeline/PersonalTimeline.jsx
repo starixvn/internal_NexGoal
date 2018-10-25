@@ -65,7 +65,7 @@ export default class PersonalTimeline extends Component {
         const records = this.state.performanceRecords;
 
         return (
-            <div className="time-line">
+            <div className="timeline">
                 <div className="xaxes" ref={this.timelineWidth} />
                 {
                     records.length > 0 &&

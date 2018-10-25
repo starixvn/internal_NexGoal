@@ -17,6 +17,8 @@
 
         Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param);
 
+        Task<IEnumerable<MemberPerformanceTimelineModel>> GetMemberPerformanceTimelineAsyn(GetMemberPerformanceTimelineParam param);
+
         Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord);
 
         Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord);
