@@ -15,7 +15,7 @@ import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import NominationResult from './NominationResult';
-import PersonalTimeline from './timeline/PersonalTimeline';
+import PersonalTimeline from '../../shared/layouts/timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
 
 var sanitizeHtmlReact = require('sanitize-html-react');

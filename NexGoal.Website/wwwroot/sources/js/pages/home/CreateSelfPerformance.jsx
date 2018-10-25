@@ -177,10 +177,11 @@ export default class CreateSelfPerformance extends Component {
             <div className="record record-your-mind">
                 <div className="avatar-user">
                     <img src={employee.avatar} className="avatar" />
-                    <div className="name">
+                    <div className="person-info">
                         <span className="role-member">{employee.nickName}</span>
+                        <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
                     </div>
-                    <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                    
                 </div>
                 <div className="comment">
                     {
