@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test render correctly  Component render correctly renderUI correctly 1`] = `
+<div
+  className="nomination"
+>
+  <h5>
+    Nomination
+  </h5>
+</div>
+`;
+
+exports[`Test render correctly  renderUI correctly 1`] = `
+<div
+  className="nomination"
+>
+  <h5>
+    Nomination
+  </h5>
+</div>
+`;
