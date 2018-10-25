@@ -12,7 +12,7 @@ export default class PersonalTimeline extends Component {
             performanceRecords: [],
             nextDisabled: true,
             prevDisabled: false,
-            pageIndex: 1
+            pageIndex: 0
         };
 
         this.timelineWidth = React.createRef();

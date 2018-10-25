@@ -6,7 +6,7 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
-import TeamWorkload from './TeamWorkLoad';
+import MemberWorkload from './MemberWorkload';
 import Timeline from './timeline/index';
 
 export default class App extends Component {
@@ -23,7 +23,7 @@ export default class App extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('member/GetMemberNominationResult')),
-            axios(resolveClientUrl('Common/GetAllPeriods')),
+            axios(resolveClientUrl('Common/GetAllPeriods'))
 
         ];
 
@@ -65,7 +65,7 @@ export default class App extends Component {
                         <fieldset>
                             <legend>Workload</legend>
                         </fieldset>
-                        {this.state.periods.length > 0 && <TeamWorkload periods={this.state.periods} />}
+                        {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
                     </div>
                 </div>
             </ToastLayout>

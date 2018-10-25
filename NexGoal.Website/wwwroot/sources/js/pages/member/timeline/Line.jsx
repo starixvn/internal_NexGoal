@@ -42,6 +42,7 @@ export default class Timeline extends Component {
         return (
             <div className="timeline">
                 {memberPerformance.nickName}
+                <div>PA:</div>
 
                 <div className="xaxes" />
 

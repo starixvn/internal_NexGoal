@@ -4,7 +4,7 @@ import { HorizontalBar } from 'react-chartjs-2';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 
-export default class TeamWorkLoad extends Component {
+export default class MemberWorkload extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -14,12 +14,13 @@ export default class TeamWorkLoad extends Component {
             currentPeriodIndex: 0
         };
     }
+
     componentDidMount() {
         this.getMembersWorkloads();
     }
 
     getMembersWorkloads = function () {
-        axios.get(resolveClientUrl('Home/GetMembersWorkLoad'), {
+        axios.get(resolveClientUrl('Home/GetMembersWorkload'), {
             params: {
                 periodId: this.props.periods[this.state.currentPeriodIndex].periodId
             }
@@ -80,7 +81,6 @@ export default class TeamWorkLoad extends Component {
     }
 
     getChartOptions = () => {
-        const xAxesMaxValue = this.state.xAxesMaxValue;
         return {
             tooltips: {
                 enable: true,
@@ -134,17 +134,7 @@ export default class TeamWorkLoad extends Component {
             },
             legend: {
                 display: false
-            },
-            //plugins: {
-            //    datalabels: {
-            //        formatter: function (value, data) {
-            //            let percentage = Math.round(value / xAxesMaxValue * 100);
-            //            return percentage > 10 ? value + 'h' : '';
-            //        },
-            //        fontSize: 10,
-            //        color: "#fff"
-            //    }
-            //}
+            }
         };
     };
 

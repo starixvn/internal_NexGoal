@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -58,9 +57,9 @@
             return Json(workloads);
         }
 
-        public async Task<JsonResult> GetMembersWorkLoad(int periodId)
+        public async Task<JsonResult> GetMembersWorkload(int periodId)
         {
-            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(125, periodId).ConfigureAwait(false);
+            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(sessionService.EmployeeId, periodId).ConfigureAwait(false);
 
             return Json(teamWorkloads.FirstOrDefault());
         }
