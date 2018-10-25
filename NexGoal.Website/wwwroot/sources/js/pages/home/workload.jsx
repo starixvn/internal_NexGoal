@@ -113,9 +113,9 @@ export default class WorkLoad extends PureComponent {
                     <div className="title">
                         <h5>Workload</h5>
                         <div className="milestone">
-                            <div className="icon-chevron-down arrow-left" onClick={this.onPrevPeriod}></div>
+                            <div className="icon-chevron-down arrow-left" onClick={this.onPrevPeriod} />
                             {this.props.periods[this.state.currentPeriodIndex].name}
-                            <div className="icon-chevron-down arrow-right" onClick={this.onNextPeriod}></div>
+                            <div className="icon-chevron-down arrow-right" onClick={this.onNextPeriod} />
                         </div>
                     </div>
                     <Doughnut data={chartData} options={this.chartOptions} />
