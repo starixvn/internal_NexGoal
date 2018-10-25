@@ -2,7 +2,7 @@
 
 exports[`Test timeline component renders correctly render correctly when click 2 button 1`] = `
 <div
-  className="time-line"
+  className="timeline"
 >
   <div
     className="xaxes"
@@ -30,7 +30,7 @@ exports[`Test timeline component renders correctly render correctly when click 2
 
 exports[`Test timeline component renders correctly render correctly when click 2 button 2`] = `
 <div
-  className="time-line"
+  className="timeline"
 >
   <div
     className="xaxes"
@@ -58,7 +58,7 @@ exports[`Test timeline component renders correctly render correctly when click 2
 
 exports[`Test timeline component renders correctly renders without crashing 1`] = `
 <div
-  className="time-line"
+  className="timeline"
 >
   <div
     className="xaxes"

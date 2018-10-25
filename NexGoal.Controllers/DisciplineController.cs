@@ -41,11 +41,12 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetHRMSummary()
+        public async Task<JsonResult> GetHRMSummary(int? employeeId)
         {
             var from = new DateTime(DateTime.Now.Year, 1, 1);
             var to = DateTime.Now;
-            var HRMSummay = await disciplineService.GetHRMSummary(from, to, sessionService.EmployeeId).ConfigureAwait(false);
+            var empId = employeeId ?? sessionService.EmployeeId;
+            var HRMSummay = await disciplineService.GetHRMSummary(from, to, empId).ConfigureAwait(false);
             return Json(HRMSummay);
         }
 

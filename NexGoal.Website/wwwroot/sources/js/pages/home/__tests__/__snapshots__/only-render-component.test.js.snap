@@ -1,0 +1,66 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Test render correctly  Render correctly with props 1`] = `
+<div
+  className="user-info"
+>
+  <img
+    alt="avatar"
+    className="avatar"
+    src="oliver"
+  />
+  <div
+    className="nick-name"
+  >
+    Oliver
+  </div>
+  <div
+    className="user-name"
+  >
+    Đặng Hoàng Hải
+  </div>
+  <div
+    className="role role-PM"
+  >
+    Software Engineer
+  </div>
+</div>
+`;
+
+exports[`Test render correctly  render hrm detail correctly without Toeic score 1`] = `
+<div
+  className="hrm-summary"
+>
+  <h5>
+    HRM
+  </h5>
+  <ul
+    className="hrm-info"
+  >
+    <li>
+      TOEIC score: 
+      N/A
+    </li>
+    <li>
+      Missing Check In/Out: 
+      3
+    </li>
+    <li>
+      Late In/Early Out: 
+      3
+    </li>
+    <li>
+      Unpaid leave: 
+    </li>
+    <li>
+      Unplaned Annual Leave: 
+    </li>
+    <li>
+      Incident: 
+      0
+    </li>
+  </ul>
+</div>
+`;
+
+exports[`Test render correctly  render hrm detail correctly without Toeic score 2`] = `null`;

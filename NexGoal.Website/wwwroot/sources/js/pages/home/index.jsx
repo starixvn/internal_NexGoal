@@ -36,6 +36,7 @@ export default class App extends Component {
             showEditPerformanceModal: false,
             performanceRecordIdSelected: null,
             periods: [],
+            hrmDetail: {},
             employee: {
                 nickName: document.getElementById('employeeInfo-nickName').innerText,
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
@@ -54,11 +55,12 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('Self/Performance/Index')),
-            axios(resolveClientUrl('Common/GetAllPeriods'))
+            axios(resolveClientUrl('Common/GetAllPeriods')),
+            axios(resolveClientUrl('Discipline/GetHRMSummary'))
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse]) => {
+            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -69,13 +71,14 @@ export default class App extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
-                let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage)
+                let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
 
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     performanceRecords: performanceRecordResponse.data,
                     periods: periodResponse.data,
+                    hrmDetail: hrmDetailResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
                 });
@@ -255,7 +258,7 @@ export default class App extends Component {
                     </div>
                     <div className="work-info">
                         <NominationResult />
-                        <HrmSummary />
+                        <HrmSummary hrmDetail={this.state.hrmDetail} />
 
                         {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
 
