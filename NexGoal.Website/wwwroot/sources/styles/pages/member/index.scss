@@ -31,44 +31,14 @@
     box-shadow: none;
     padding: 0;
     height: 55px;
-    .role-member {
-        border: 1px solid $role-member-color;
-        background-color: rgba($role-member-color, 0.2);
-        color: #458A00;
-    }
-    .role-evaluator {
-        border: 1px solid $role-evaluator-color;
-        background-color: rgba($role-evaluator-color, 0.2);
-        color: #C15C13;
-    }
-    .role-pm {
-        border: 1px solid $role-pm-color;
-        background-color: rgba($role-pm-color, 0.2);
-        color: #0072C7;
-    }
-    .role-reviewer {
-        border: 1px solid $role-reviewer-color;
-        background-color: rgba($role-reviewer-color, 0.2);
-        color: #9A308C;
-    }
+   
     .timeline-grade {
         top: 3px;
         font-size: 10px;
         height: 17px;
         line-height: 15px;
     }
-    .timeline-info {
-        border: none;
-        top: 29px;
-        width: 50px;
-        font-size: 10px;
-        &:after {
-            left: 25px;
-        }
-        .name {
-            width: 50px;
-        }
-    }
+    
     .xaxes {
         top: 24px;
     }
@@ -82,6 +52,38 @@
         right: 17px;
     }
 } 
+.timeline-info {
+    border: none;
+    top: 29px;
+    width: 50px;
+    font-size: 10px;
+    &:after {
+        left: 25px;
+    }
+    .name {
+        width: 50px;
+        &.role-member {
+            border: 1px solid $role-member-color;
+            background-color: rgba($role-member-color, 0.2);
+            color: #458A00;
+        }
+        &.role-evaluator {
+            border: 1px solid $role-evaluator-color;
+            background-color: rgba($role-evaluator-color, 0.2);
+            color: #C15C13;
+        }
+        &.role-pm {
+            border: 1px solid $role-pm-color;
+            background-color: rgba($role-pm-color, 0.2);
+            color: #0072C7;
+        }
+        &.role-reviewer {
+            border: 1px solid $role-reviewer-color;
+            background-color: rgba($role-reviewer-color, 0.2);
+            color: #9A308C;
+        }
+    }
+}
 .workload {
     padding: 8px 12px;
     border-bottom: 1px solid #EAEAEA;
