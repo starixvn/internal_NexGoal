@@ -195,7 +195,6 @@ export default class CreateSelfPerformance extends Component {
                         isOpenForm &&
                         <form className="form-filter form-performance create">
                             <FormGroup>
-                                <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                                 <FormControl componentClass="textarea" name="comment"
                                     className={`comment-field ${!isEmpty(errors) && errors.comment && 'input-validation-error'}`}
                                     value={performanceRecord.comment} onChange={this.handleCommentChange}

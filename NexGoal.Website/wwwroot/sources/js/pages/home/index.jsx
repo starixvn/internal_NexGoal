@@ -228,7 +228,9 @@ export default class App extends Component {
                                 onItemClick={this.handlePCIClick}
                                 selectedPCIId={this.state.selectedPCIId}
                                 ref="timelineRef"
-                            />
+                            />                            
+                        </div>
+                        <div className="record-list">
                             <CreateSelfPerformance
                                 employee={this.state.employee}
                                 performanceGradeOptions={this.state.performanceGradeOptions}
@@ -236,23 +238,24 @@ export default class App extends Component {
                                 onSubmitSuccess={this.handleCreatePerformanceSuccess}
                                 onExpandForm={this.handleExpandForm}
                             />
-                        </div>
-                        <div className={this.state.isFormExpanded ? 'record-list record-list-collapse' : 'record-list record-list-expand'}>
-                            {performanceRecords.length > 0 &&
-                                <InfiniteScroll
-                                    pageStart={1} initialLoad={true}
-                                    loadMore={this.loadPCIs}
-                                    hasMore={this.state.hasMore}
-                                    threshold={0}
-                                    useWindow={true} ref="infiniteScrollRef"
-                                >
-                                    {
-                                        performanceRecords.map(this.renderPerformanceRecord)
-                                    }
-                                </InfiniteScroll>
-                            }
+                            <div className="pci-list">
+                                {performanceRecords.length > 0 &&
+                                    <InfiniteScroll
+                                        pageStart={1} initialLoad={true}
+                                        loadMore={this.loadPCIs}
+                                        hasMore={this.state.hasMore}
+                                        threshold={0}
+                                        useWindow={true} ref="infiniteScrollRef"
+                                    >
+                                        {
+                                            performanceRecords.map(this.renderPerformanceRecord)
+                                        }
+                                    </InfiniteScroll>
+                                }
 
-                        </div>
+                            </div>
+                        </div>                      
+                        
                     </div>
                     <div className="work-info">
                         <NominationResult nominations={this.state.nominations} />

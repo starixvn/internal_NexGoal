@@ -151,13 +151,13 @@ export default class EditSelfPerformance extends Component {
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal modal-md"
+                dialogClassName="custom-modal modal-md edit-performance-modal"
             >
                 <Modal.Header>
                     <Modal.Title>{getResource('EditPerformance')}</Modal.Title>
                 </Modal.Header>
-                <form className="form-filter form-performance">
-                    <Modal.Body>
+                <Modal.Body>
+                    <div className="record">
                         <div className="avatar-user">
                             <img src={employeeInfo.avatar} className="avatar" />
                             <div className="person-info">
@@ -165,7 +165,13 @@ export default class EditSelfPerformance extends Component {
                                 <div className="submit-date">{moment().format(DateFormat)}</div>
                             </div>
                         </div>
-                        <FormGroup>
+                        <div className="comment">
+                            <FormControl componentClass="textarea" name="comment"
+                                className={`comment-field ${!isEmpty(errors) && errors.comment && 'input-validation-error'}`}
+                                value={performanceRecord.comment} onChange={this.handleCommentChange}
+                            />
+                        </div>
+                        <div className="grade">
                             <ControlLabel>{getResource('Grade')}</ControlLabel>
                             <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
                                 placeholder="Select Grade"
@@ -174,15 +180,8 @@ export default class EditSelfPerformance extends Component {
                                 isSearchable={false} isClearable
                                 onChange={this.handleGradeChange}
                             />
-                        </FormGroup>
-                        <FormGroup>
-                            <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
-                            <FormControl componentClass="textarea" name="comment"
-                                className={`comment-field ${!isEmpty(errors) && errors.comment && 'input-validation-error'}`}
-                                value={performanceRecord.comment} onChange={this.handleCommentChange}
-                            />
-                        </FormGroup>
-                        <FormGroup>
+                        </div>
+                        <div className="project">
                             <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
                             <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
                                 className="react-select-container project-field" classNamePrefix="react-select"
@@ -190,14 +189,14 @@ export default class EditSelfPerformance extends Component {
                                 options={projectOptions}
                                 onChange={this.handleProjectChange}
                             />
-                        </FormGroup>
-                    </Modal.Body>
+                        </div>
+                    </div>
+                </Modal.Body>
                     <Modal.Footer>
-                        <Button type="submit" bsStyle="primary" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
-                        <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</Button>
                         <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
+                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
+                        <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</Button>                        
                     </Modal.Footer>
-                </form>
             </Modal>
         );
     }
