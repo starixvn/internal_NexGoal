@@ -1,6 +1,6 @@
 ﻿import React from "react";
-import { shallow, mount } from "enzyme";
-import NominationResult from '../NominationResult';
+import { shallow } from "enzyme";
+import NominationResult from '../../../shared/components/NominationResult';
 import renderer from 'react-test-renderer';
 
 const nominations = [{

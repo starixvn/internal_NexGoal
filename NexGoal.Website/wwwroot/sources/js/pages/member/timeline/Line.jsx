@@ -18,9 +18,8 @@ export default class Timeline extends Component {
     }
 
     calculateNodePosition = (totalNode, index) => {
-        let baseRight = 0;
-        let distanceFromRoot = (this.props.timelineWidth - 90) / (totalNode + 1);
-        return Math.round(baseRight + (index + 1) * distanceFromRoot);
+        let distanceFromRoot = (this.props.timelineWidth - 70) / (totalNode + 1);
+        return Math.round((index + 1) * distanceFromRoot);
     }
 
     render() {

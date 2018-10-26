@@ -9,12 +9,12 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
+import NominationResult from '../../shared/components/NominationResult';
 import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';
 import HrmSummary from './HRMSummary';
 import PerformanceAppraisalResult from './PerformanceAppraisalResult';
-import NominationResult from './NominationResult';
 import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
 

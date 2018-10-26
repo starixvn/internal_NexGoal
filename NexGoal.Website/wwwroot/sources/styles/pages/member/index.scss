@@ -1,7 +1,7 @@
 @import "../../abstracts/variables";
 @import "../../abstracts/mixins";
-@import "../../components/fieldset";
 @import "../../components/form";
+@import "../../components/marquee";
 @import "../../components/modal";
 @import "../../layouts/record";
 @import "../../components/toast";
@@ -15,8 +15,10 @@
     display: grid;
     grid-template-columns: 90px 1fr;
     align-content: center;
+
     .employee-info {
         align-self: center;
+
         .nick-name {
             color: #2475D7;
             font-size: 12px;
@@ -25,58 +27,67 @@
     }
 }
 
-
 .timeline {
-    margin: 0; 
+    margin: 0;
     box-shadow: none;
     padding: 0;
     height: 55px;
-   
+
     .timeline-grade {
         top: 3px;
         font-size: 10px;
         height: 17px;
         line-height: 15px;
     }
-    
+
     .xaxes {
         top: 24px;
     }
+
     .previous, .next {
         top: 21px;
     }
+
     .previous {
         left: -20px;
     }
+
     .next {
         right: 17px;
     }
-} 
+}
+
 .timeline-info {
     border: none;
     top: 29px;
     width: 50px;
     font-size: 10px;
+
     &:after {
         left: 25px;
     }
+
     .name {
         width: 50px;
+
         &.role-member {
             border: 1px solid $role-member-color;
             background-color: rgba($role-member-color, 0.2);
             color: #458A00;
         }
+
         &.role-evaluator {
             border: 1px solid $role-evaluator-color;
             background-color: rgba($role-evaluator-color, 0.2);
             color: #C15C13;
         }
+
         &.role-pm {
             border: 1px solid $role-pm-color;
             background-color: rgba($role-pm-color, 0.2);
             color: #0072C7;
         }
+
         &.role-reviewer {
             border: 1px solid $role-reviewer-color;
             background-color: rgba($role-reviewer-color, 0.2);
@@ -84,6 +95,7 @@
         }
     }
 }
+
 .workload {
     padding: 8px 12px;
     border-bottom: 1px solid #EAEAEA;
@@ -120,6 +132,7 @@
         }
     }
 }
+
 .nomination {
     border-bottom: 1px solid #ccc;
     font-size: 14px;
@@ -130,6 +143,7 @@
         font-size: 16px;
         font-weight: 600;
     }
+
     .nick-name {
         font-weight: bold;
     }

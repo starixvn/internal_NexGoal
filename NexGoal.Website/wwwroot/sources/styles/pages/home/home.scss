@@ -1,6 +1,7 @@
 @import "../../abstracts/variables";
 @import "../../abstracts/mixins";
 @import "../../components/form";
+@import "../../components/marquee";
 @import "../../components/modal";
 @import "../../layouts/record";
 @import "../../components/tables";
@@ -13,38 +14,6 @@
 
 .my-page {
     position: relative;
-}
-
-.warning {
-    color: #05499C;
-    background-color: #FFEEBF;
-    border: 1px solid #DFC681;
-    padding: 4px 8px;
-    margin: 12px;
-}
-
-.marquee {
-    overflow: hidden;
-    white-space: nowrap;
-
-    div {
-        @include transform(translateX(100%));
-        @include css3-prefix('animation', 'marquee 20s linear infinite');
-
-        &:hover {
-            animation-play-state: paused;
-        }
-    }
-}
-
-@keyframes marquee {
-    0% {
-        @include transform(translateX(100%));
-    }
-
-    100% {
-        @include transform(translateX(-100%));
-    }
 }
 
 .user-info {
