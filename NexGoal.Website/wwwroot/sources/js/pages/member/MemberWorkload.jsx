@@ -10,7 +10,6 @@ export default class MemberWorkload extends Component {
         this.state = {
             workloads: null,
             team: '',
-            xAxesMaxValue: 0,
             currentPeriodIndex: 0
         };
     }
@@ -28,32 +27,28 @@ export default class MemberWorkload extends Component {
             this.setState(
                 {
                     workloads: this.generateDataSets(response.data.employeeWorkloads),
-                    team: response.data.groupName,
-                    xAxesMaxValue: this.calculatexAxesMaxValue(response.data.employeeWorkloads)
+                    team: response.data.groupName
                 });
         }).catch(axiosError);
     }
 
-    calculatexAxesMaxValue = (workloads) => {
-        let teamTotalHours = [];
-        for (var i = 0; i < workloads.length; i++) {
-            let memberWorkloads = workloads[i].workloads;
-            let total = memberWorkloads.reduce((hours, workload, index, memberWorkloads) => {
-                return hours += workload.totalHours;
-            }, 0);
-            teamTotalHours.push(total);
+    onNextPeriod = () => {
+        if (this.props.periods[this.state.currentPeriodIndex + 1]) {
+            this.setState({ currentPeriodIndex: this.state.currentPeriodIndex + 1 }, this.getMembersWorkloads);
         }
+    }
 
-        let maxValue = Math.max(...teamTotalHours);
-
-        return Math.round((maxValue + 50) / 100) * 100;
+    onPrevPeriod = () => {
+        if (this.props.periods[this.state.currentPeriodIndex - 1]) {
+            this.setState({ currentPeriodIndex: this.state.currentPeriodIndex - 1 }, this.getMembersWorkloads);
+        }
     }
 
     generateDataSets = (workloads) => {
         let labels = workloads.map((member) => member.nickName);
-
         let datasets = [];
         let projects = workloads[1].workloads.map((project) => project.name);
+
         for (var i = 0; i < projects.length; i++) {
             let dataSet = {
                 label: projects[i],
@@ -112,20 +107,16 @@ export default class MemberWorkload extends Component {
         const teamName = this.state.team;
 
         return (
-            <div>
-                {
-                    workloads &&
-                    <div>
-                        <p style={{
-                            textTransform: "uppercase",
-                            fontWeight: "bold",
-                            fontSize: "20px",
-                            padding: "10px"
-                        }}
-                        >{teamName}</p>
-                        <HorizontalBar data={workloads} options={options} />
+            <div className="workload">
+                <div className="title">
+                    <h5>Workload</h5>
+                    <div className="milestone">
+                        <div className="icon-chevron-down arrow-left" onClick={this.onNextPeriod} />
+                        {this.props.periods[this.state.currentPeriodIndex].name}
+                        <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
                     </div>
-                }
+                </div>
+                {workloads && <HorizontalBar data={workloads} options={options} />}
             </div>
         );
     }

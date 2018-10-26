@@ -61,17 +61,7 @@ export default class App extends Component {
                                     })
                                 }
                             </div>
-                            <div className="workload">
-                                <div className="title">
-                                    <h5>Workload</h5>
-                                    <div className="milestone">
-                                        <div className="icon-chevron-down arrow-left" onClick={this.onPrevPeriod}></div>
-                                        2nd 2018
-                                        <div className="icon-chevron-down arrow-right" onClick={this.onNextPeriod}></div>
-                                    </div>
-                                </div>
-                            </div>
-                            {/* {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />} */}
+                            {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
                         </div>
                     </div>
                 </div>
