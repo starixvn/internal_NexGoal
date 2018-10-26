@@ -44,9 +44,8 @@ export default class App extends Component {
                             <Timeline />
                         </div>
                         <div className="main-content">
-                            <fieldset>
-                                <legend>{getResource('MemberPerformance')}</legend>
-                            </fieldset>
+                            <div className="fixed-section">
+                            </div>
                         </div>
                         <div className="work-info">
                             <div className="nomination">

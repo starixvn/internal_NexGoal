@@ -25,10 +25,11 @@
 
 .marquee {
     overflow: hidden;
+    white-space: nowrap;
 
     div {
         @include transform(translateX(100%));
-        @include css3-prefix('animation', 'marquee 15s linear infinite');
+        @include css3-prefix('animation', 'marquee 20s linear infinite');
 
         &:hover {
             animation-play-state: paused;
