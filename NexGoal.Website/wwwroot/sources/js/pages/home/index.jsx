@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
+
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -36,7 +37,6 @@ export default class App extends Component {
             performanceRecordIdSelected: null,
             periods: [],
             hrmDetail: {},
-            nominations: [],
             employee: {
                 nickName: document.getElementById('employeeInfo-nickName').innerText,
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
@@ -269,6 +269,7 @@ export default class App extends Component {
                     {
                         this.state.showEditPerformanceModal &&
                         <EditSelfPerformance
+                            employeeInfo={this.state.employee}
                             performanceRecordId={this.state.performanceRecordIdSelected}
                             performanceGradeOptions={this.state.performanceGradeOptions}
                             projectOptions={this.state.projectOptions}

@@ -181,7 +181,6 @@ export default class CreateSelfPerformance extends Component {
                         <span className="role-member">{employee.nickName}</span>
                         <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
                     </div>
-                    
                 </div>
                 <div className="comment">
                     {

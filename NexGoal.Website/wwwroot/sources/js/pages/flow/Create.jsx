@@ -11,10 +11,6 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 
 class Create extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleOnSubmit = (values, { setErrors }) => {
         let flowTemplate = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,

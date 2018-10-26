@@ -41,7 +41,7 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetHRMSummary(int? employeeId)
+        public async Task<JsonResult> GetHRMSummary(int? employeeId = null)
         {
             var from = new DateTime(DateTime.Now.Year, 1, 1);
             var to = DateTime.Now;

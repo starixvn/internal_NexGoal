@@ -6,9 +6,10 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
+import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { PerformanceRecordStatus } from '../../constants';
+import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class EditSelfPerformance extends Component {
@@ -16,6 +17,7 @@ export default class EditSelfPerformance extends Component {
         performanceRecordId: PropTypes.number,
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
+        employeeInfo: PropTypes.object,
         showModal: PropTypes.bool,
         onCloseModal: PropTypes.func,
         onSubmitSuccess: PropTypes.func
@@ -142,6 +144,7 @@ export default class EditSelfPerformance extends Component {
     render() {
         let performanceGradeOptions = this.props.performanceGradeOptions;
         let projectOptions = this.props.projectOptions;
+        let employeeInfo = this.props.employeeInfo;
         let performanceRecord = this.state.performanceRecord;
         let errors = this.state.errors;
 
@@ -150,15 +153,18 @@ export default class EditSelfPerformance extends Component {
                 show={this.props.showModal} onHide={this.props.onCloseModal}
                 dialogClassName="custom-modal modal-md"
             >
+                <Modal.Header>
+                    <Modal.Title>{getResource('EditPerformance')}</Modal.Title>
+                </Modal.Header>
                 <form className="form-filter form-performance">
                     <Modal.Body>
-                        {
-                            !isEmpty(errors) &&
-                            <ul className="list-message-error">
-                                {errors.comment && <li>{errors.comment}</li>}
-                            </ul>
-                        }
-
+                        <div className="avatar-user">
+                            <img src={employeeInfo.avatar} className="avatar" />
+                            <div className="person-info">
+                                <span className="role-member">{employeeInfo.nickName}</span>
+                                <div className="submit-date">{moment().format(DateFormat)}</div>
+                            </div>
+                        </div>
                         <FormGroup>
                             <ControlLabel>{getResource('Grade')}</ControlLabel>
                             <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
