@@ -224,8 +224,8 @@ export default class App extends Component {
                     </div>
                     <div className="main-content">
                         <div className="fixed-section">
-                            <div className="warning">
-                                News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
+                            <div className="warning marquee">
+                                <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
                             </div>
                             <PersonalTimeline
                                 itemPerPage={this.timelineItemPerPage}

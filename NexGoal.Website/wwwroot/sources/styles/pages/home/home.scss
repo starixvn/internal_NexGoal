@@ -13,14 +13,37 @@
 
 .my-page {
     position: relative;
-
 }
+
 .warning {
     color: #05499C;
     background-color: #FFEEBF;
     border: 1px solid #DFC681;
     padding: 4px 8px;
     margin: 12px;
+}
+
+.marquee {
+    overflow: hidden;
+
+    div {
+        @include transform(translateX(100%));
+        @include css3-prefix('animation', 'marquee 15s linear infinite');
+
+        &:hover {
+            animation-play-state: paused;
+        }
+    }
+}
+
+@keyframes marquee {
+    0% {
+        @include transform(translateX(100%));
+    }
+
+    100% {
+        @include transform(translateX(-100%));
+    }
 }
 
 .user-info {
@@ -111,8 +134,6 @@
     }
 }
 
-
-
 .record-list {
     padding-top: 310px;
 
@@ -132,8 +153,6 @@
         font-weight: 600;
     }
 }
-
-
 
 .hrm-summary {
     border-bottom: 1px solid #ccc;

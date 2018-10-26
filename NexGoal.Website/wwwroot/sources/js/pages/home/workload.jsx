@@ -11,7 +11,6 @@ export default class WorkLoad extends PureComponent {
         super(props);
 
         this.state = {
-            workload: [],
             chartData: null,
             currentPeriodIndex: 0
         };
@@ -27,7 +26,6 @@ export default class WorkLoad extends PureComponent {
                 periodId: this.props.periods[this.state.currentPeriodIndex].periodId
             }
         }).then(response => this.setState({
-            workload: response.data,
             chartData: this.getChartData(response.data)
         })).catch(axiosError);
     }
