@@ -66,7 +66,5 @@
 
             return Json(nominationDetails);
         }
-
-        
     }
 }

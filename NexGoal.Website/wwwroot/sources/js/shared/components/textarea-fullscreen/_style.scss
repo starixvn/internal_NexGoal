@@ -1,0 +1,14 @@
+﻿.textarea-fullscreen-wrapper {
+    position: relative;
+
+    .textarea-fullscreen-editor {
+        &.expanded {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 80%;
+            height: 80%;
+            z-index: 500;
+        }
+    }
+}

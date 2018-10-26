@@ -24,7 +24,7 @@
             this.performanceService = performanceService;
         }
 
-        [Route("Self/Performance/Index")]
+        [Route("Self/Performance")]
         public async Task<JsonResult> Index()
         {
             IEnumerable<PerformanceRecordModel> performanceRecords = await performanceService.GetPerformanceRecordByEmployeeAsync(sessionService.EmployeeId).ConfigureAwait(false);

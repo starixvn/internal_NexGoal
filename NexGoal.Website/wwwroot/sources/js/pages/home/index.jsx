@@ -54,7 +54,7 @@ export default class App extends Component {
         const promises = [
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
-            axios(resolveClientUrl('Self/Performance/Index')),
+            axios(resolveClientUrl('Self/Performance')),
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('Discipline/GetHRMSummary')),
             axios(resolveClientUrl('home/GetNominationResult'))

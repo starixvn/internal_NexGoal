@@ -80,6 +80,26 @@
             return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
         }
 
+        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberPerformanceAsync(int actorId, int? employeeId = null)
+        {
+            var criteria = new GetMemberPerformanceCriteria
+            {
+                ActorId = actorId,
+                EmployeeId = employeeId
+            };
+            var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
+            foreach (PerformanceRecordModel performanceRecord in performanceRecords)
+            {
+                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees);
+            }
+
+            return performanceRecords;
+        }
+
         public async Task<IEnumerable<MemberPerformanceTimelineModel>> GetMemberPerformanceTimelineAsyn(GetMemberPerformanceTimelineParam param)
         {
             var criteria = new GetMemberPerformanceTimelineCriteria

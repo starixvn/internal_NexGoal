@@ -29,7 +29,10 @@ export default class App extends Component {
 
         Promise.all(promises)
             .then(([memberNominationResponse, periodResponse]) => {
-                this.setState({ memberNominations: memberNominationResponse.data, periods: periodResponse.data });
+                this.setState({
+                    memberNominations: memberNominationResponse.data,
+                    periods: periodResponse.data
+                });
             }).catch(axiosError);
     }
 
