@@ -18,10 +18,6 @@ import PerformanceAppraisalResult from './PerformanceAppraisalResult';
 import PersonalTimeline from './timeline/PersonalTimeline';
 import EmployeeInfo from './EmployeeInfo';
 
-var sanitizeHtmlReact = require('sanitize-html-react');
-sanitizeHtmlReact.defaults.allowedTags = false;
-sanitizeHtmlReact.defaults.allowedAttributes = false;
-
 export default class App extends Component {
     constructor(props) {
         super(props);

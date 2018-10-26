@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
+import InfiniteScroll from 'react-infinite-scroller';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, NominationStatuses, PerformanceRecordStatus } from '../../constants';
@@ -20,8 +21,11 @@ export default class App extends Component {
             memberPerformances: [],
             memberPerformanceAppraisals: [],
             memberNominations: [],
-            periods: []
+            periods: [],
+            displayedMemberPerformances: []
         };
+
+        this.itemPerPage = 4;
     }
 
     componentDidMount() {
@@ -33,10 +37,14 @@ export default class App extends Component {
 
         Promise.all(promises)
             .then(([periodResponse, memberNominationResponse, memberPerformanceResponse]) => {
+                let displayedMemberPerformances = memberPerformanceResponse.data.slice(0, this.itemPerPage);
+
                 this.setState({
                     periods: periodResponse.data,
                     memberNominations: memberNominationResponse.data,
-                    memberPerformances: memberPerformanceResponse.data
+                    memberPerformances: memberPerformanceResponse.data,
+                    displayedMemberPerformances: displayedMemberPerformances,
+                    hasMore: displayedMemberPerformances.length < memberPerformanceResponse.data.length
                 });
             }).catch(axiosError);
     }
@@ -65,6 +73,11 @@ export default class App extends Component {
         );
     }
 
+    loadMorePerformances = (page) => {
+        let records = this.state.memberPerformances.slice(0, page * this.itemPerPage);
+        this.setState({ displayedMemberPerformances: records, hasMore: records.length < this.state.memberPerformances.length });
+    }
+
     render() {
         return (
             <ToastLayout>
@@ -81,7 +94,17 @@ export default class App extends Component {
                             </div>
                             <div className="record-list">
                                 {
-                                    this.state.memberPerformances.map(this.renderPerformanceRecord)
+                                    <InfiniteScroll
+                                        pageStart={1} initialLoad={true}
+                                        loadMore={this.loadMorePerformances}
+                                        hasMore={this.state.hasMore}
+                                        threshold={0}
+                                        useWindow={true}
+                                    >
+                                        {
+                                            this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
+                                        }
+                                    </InfiniteScroll>
                                 }
                             </div>
                         </div>
