@@ -8,16 +8,43 @@ export default class TextareaFullscreenEditor extends Component {
             isFullscreen: false
         };
 
+        this.$body = $(document.body);
         this.textareaEditor = React.createRef();
     }
 
+    handleChangeMode = () => {
+        const isFullscreen = this.state.isFullscreen;
+
+        if (!isFullscreen) {
+            this.$body.css({ 'overflow': 'hidden' });
+            this.textareaEditor.current.focus();
+        } else {
+            this.$body.css({ 'overflow': '' });
+        }
+
+        this.setState(prevState => {
+            return { isFullscreen: !prevState.isFullscreen };
+        });
+    }
+
+    handleOnChange = (event) => {
+        this.props.onChange(event);
+    }
+
     render() {
+        const isFullscreen = this.state.isFullscreen;
+
         return (
             <div className={`textarea-fullscreen-wrapper`}>
-                <div className={`textarea-fullscreen-editor ${this.state.isFullscreen ? 'expanded' : ''}`}>
-                    <textarea name={this.props.name} value={this.props.value} />
-                </div >
-            </div >
+                <button type="button" onClick={this.handleChangeMode}>{isFullscreen ? 'Minimize' : 'Maximize'}</button>
+                <div className={`textarea-fullscreen-editor ${isFullscreen ? 'expanded' : ''}`}>
+                    <textarea ref={this.textareaEditor} className={this.props.className}
+                        name={this.props.name}
+                        value={this.props.value}
+                        onChange={this.handleOnChange}
+                    />
+                </div>
+            </div>
         );
     }
 }
