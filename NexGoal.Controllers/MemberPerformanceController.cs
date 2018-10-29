@@ -82,7 +82,7 @@
         {
             if (ModelState.IsValid)
             {
-                performanceRecord.EmployeeId = sessionService.EmployeeId;
+                performanceRecord.EmployeeIds = sessionService.EmployeeId.ToString();
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceRecordService.EditPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);

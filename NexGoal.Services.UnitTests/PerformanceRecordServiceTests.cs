@@ -45,7 +45,7 @@
             };
             var performanceRecord = new CreatePerformanceRecordModel
             {
-                EmployeeId = 1,
+                EmployeeIds = "1",
                 CreatorId = 2
             };
             var service = GetPerformanceRecordService();
@@ -69,7 +69,7 @@
             var performanceRecord = new EditPerformanceRecordModel
             {
                 PerformanceRecordId = 1,
-                EmployeeId = 1,
+                EmployeeIds = "1",
                 CreatorId = 2
             };
             var service = GetPerformanceRecordService();

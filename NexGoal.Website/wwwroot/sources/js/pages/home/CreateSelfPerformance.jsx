@@ -132,7 +132,7 @@ export default class CreateSelfPerformance extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
 
-                    this.props.onSubmitSuccess(response.data);
+                    this.props.onSubmitSuccess();
                     this.setState({ isOpenForm: false });
                     this.props.onExpandForm(false);
                 } else {

@@ -154,7 +154,7 @@ export default class EditMemberPerformance extends Component {
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: this.state.performanceRecord.performanceRecordId,
-                employeeId: this.state.performanceRecord.employee.value,
+                employeeIds: this.state.performanceRecord.employee.value,
                 gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
                 comment: this.state.performanceRecord.comment,
                 projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(','),

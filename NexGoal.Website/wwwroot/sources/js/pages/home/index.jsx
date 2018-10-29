@@ -89,19 +89,12 @@ export default class App extends Component {
         ReactTooltip.rebuild();
     }
 
-    handleCreatePerformanceSuccess = (response) => {
-        axios(resolveClientUrl(`Self/Performance/GetById/${response.objectId}`))
+    handleCreatePerformanceSuccess = () => {
+        axios(resolveClientUrl('Self/Performance'))
             .then((response) => {
-                let performanceRecords = this.state.performanceRecords.slice();
-                var data = response.data;
-                if (data.statusId === PerformanceRecordStatus.Draft) {
-                    performanceRecords.unshift(data);
-                } else {
-                    let index = performanceRecords.findIndex(element => element.statusId !== PerformanceRecordStatus.Draft);
-                    performanceRecords.splice(index, 0, data);
-                    this.refs.timelineRef.getPCI();
-                }
+                let performanceRecords = response.data;
 
+                this.refs.timelineRef.getPCI();
                 this.refs.infiniteScrollRef.pageLoaded = 1;
 
                 this.setState({

@@ -3,7 +3,7 @@
     public class EditPerformanceRecordCriteria : CommandBaseCriteria
     {
         public int PerformanceRecordId { get; set; }
-        public int EmployeeId { get; set; }
+        public string EmployeeIds { get; set; }
         public int CreatorId { get; set; }
         public string GradeId { get; set; }
         public string Comment { get; set; }
@@ -13,6 +13,6 @@
 
         public override string GetSettingKey() => "PerformanceRecord_Update";
 
-        public override bool IsValid() => PerformanceRecordId > 0 && EmployeeId > 0 && CreatorId > 0 && !string.IsNullOrWhiteSpace(Comment);
+        public override bool IsValid() => PerformanceRecordId > 0 && !string.IsNullOrWhiteSpace(EmployeeIds) && CreatorId > 0 && !string.IsNullOrWhiteSpace(Comment);
     }
 }

@@ -147,7 +147,7 @@
         {
             var criteria = new CreatePerformanceRecordCriteria
             {
-                EmployeeId = performanceRecord.EmployeeId,
+                EmployeeIds = performanceRecord.EmployeeIds,
                 CreatorId = performanceRecord.CreatorId,
                 GradeId = cryptoService.Encrypt(performanceRecord.GradeId),
                 Comment = performanceRecord.Comment,
@@ -157,7 +157,6 @@
             };
 
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-            commandResult.ObjectId = criteria.PerformanceRecordId;
 
             return commandResult;
         }
@@ -167,7 +166,7 @@
             var criteria = new EditPerformanceRecordCriteria
             {
                 PerformanceRecordId = performanceRecord.PerformanceRecordId,
-                EmployeeId = performanceRecord.EmployeeId,
+                EmployeeIds = performanceRecord.EmployeeIds,
                 CreatorId = performanceRecord.CreatorId,
                 GradeId = cryptoService.Encrypt(performanceRecord.GradeId),
                 Comment = performanceRecord.Comment,

@@ -5,7 +5,7 @@
 
     public class CreatePerformanceRecordModel
     {
-        public int EmployeeId { get; set; }
+        public string EmployeeIds { get; set; }
         public int CreatorId { get; set; }
         public string GradeId { get; set; }
 

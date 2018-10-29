@@ -36,10 +36,9 @@ export default class TextareaFullscreenEditor extends Component {
 
         return (
             <div className={`textarea-fullscreen-wrapper`}>
-                {/* <button type="button" onClick={this.handleChangeMode}>{isFullscreen ? 'Minimize' : 'Maximize'}</button> */}
                 <div className={`textarea-fullscreen-editor ${isFullscreen ? 'expanded' : ''}`}>
                     <div className="fullscreen-content">
-                        <div className="header"></div>
+                        <div className="header" onClick={this.handleChangeMode} title={isFullscreen ? 'Minimize' : 'Maximize'} />
                         <textarea ref={this.textareaEditor} className={this.props.className}
                             name={this.props.name}
                             value={this.props.value}
@@ -48,7 +47,7 @@ export default class TextareaFullscreenEditor extends Component {
                     </div>
                     
                 </div>
-                <span className="icon-fullmode" onClick={this.handleChangeMode}></span>
+                <span className="icon-fullmode" onClick={this.handleChangeMode} title={isFullscreen ? 'Minimize' : 'Maximize'} />
             </div>
         );
     }
