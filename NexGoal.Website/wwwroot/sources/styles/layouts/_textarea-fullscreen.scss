@@ -37,6 +37,7 @@
             }
             textarea {
                 border: none;
+                height: calc(100% - 40px);
                 &:focus{
                     box-shadow: none;
                 }
