@@ -3,13 +3,15 @@ import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import Multiselect from '../../shared/components/multi-select/index';
 
 export default class MemberWorkload extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            workloads: null,
-            team: '',
+            workloads: [],
+            groupOptions: [],
+            selectedGroups: [],
             currentPeriodIndex: 0
         };
     }
@@ -18,16 +20,21 @@ export default class MemberWorkload extends Component {
         this.getMembersWorkloads();
     }
 
-    getMembersWorkloads = function () {
+    getMembersWorkloads = () => {
         axios.get(resolveClientUrl('Home/GetMembersWorkload'), {
             params: {
                 periodId: this.props.periods[this.state.currentPeriodIndex].periodId
             }
         }).then(response => {
+            debugger;
+            let workloads = response.data.map(this.generateWorkload);
+            let groupOptions = response.data.map(x => ({ value: x.groupId, label: x.groupName }));
+
             this.setState(
                 {
-                    workloads: this.generateDataSets(response.data.employeeWorkloads),
-                    team: response.data.groupName
+                    workloads: workloads,
+                    groupOptions: groupOptions,
+                    selectedGroups: groupOptions,
                 });
         }).catch(axiosError);
     }
@@ -44,10 +51,25 @@ export default class MemberWorkload extends Component {
         }
     }
 
+    generateWorkload = (groupWorkload) => ({
+        groupId: groupWorkload.groupId,
+        groupName: groupWorkload.groupName,
+        chartData: this.generateDataSets(groupWorkload.employeeWorkloads),
+        chartOptions: {
+            ... this.chartOptions,
+            ... {
+                title: {
+                    display: true,
+                    text: groupWorkload.groupName
+                }
+            }
+        }
+    })
+
     generateDataSets = (workloads) => {
         let labels = workloads.map((member) => member.nickName);
         let datasets = [];
-        let projects = workloads[1].workloads.map((project) => project.name);
+        let projects = workloads[0].workloads.map((project) => project.name);
 
         for (var i = 0; i < projects.length; i++) {
             let dataSet = {
@@ -64,6 +86,10 @@ export default class MemberWorkload extends Component {
             datasets
         };
     }
+
+    handleGroupChange = (selectedOptions) => this.setState({
+        selectedGroups: selectedOptions
+    })
 
     generateColor = () => {
         let hex = "0123456789ABCDEF",
@@ -101,11 +127,13 @@ export default class MemberWorkload extends Component {
         }
     }
 
-    render() {
-        const workloads = this.state.workloads;
-        const options = this.chartOptions;
-        const teamName = this.state.team;
+    renderChart = (group) => {
+        let workload = this.state.workloads.find(x => x.groupId === group.value);
+        return (<HorizontalBar key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />)
+    }
 
+    render() {
+        debugger;
         return (
             <div className="workload">
                 <div className="title">
@@ -116,7 +144,12 @@ export default class MemberWorkload extends Component {
                         <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
                     </div>
                 </div>
-                {workloads && <HorizontalBar data={workloads} options={options} />}
+                <Multiselect className="react-select-container" classNamePrefix="react-select"
+                    value={this.state.selectedGroups}
+                    options={this.state.groupOptions}
+                    onChange={this.handleGroupChange}
+                />
+                {this.state.selectedGroups.map(this.renderChart)}
             </div>
         );
     }
