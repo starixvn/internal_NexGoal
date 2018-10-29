@@ -46,7 +46,7 @@ export default class NominationResult extends Component {
         const nominations = this.props.nominations;
 
         return (
-            <div className="nomination">
+            <div className="nomination box">
                 <h5>Nomination</h5>
                 {
                     nominations && nominations.map((nomination, index) => {

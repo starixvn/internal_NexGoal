@@ -4,13 +4,15 @@
 .main-layout {
     .general-info {
         box-shadow: 0 0 3px #dedede;
-        padding: 12px;
         position: fixed;
         width: 300px;
         top: 50px;
         bottom: 0;
         background-color: #fff;
         overflow: auto;
+        div:last-child {
+            border-bottom: none;
+        }
     }
     .main-content {
         margin: 0 auto;

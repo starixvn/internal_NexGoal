@@ -105,6 +105,13 @@
             resize: vertical;
             min-height: 80px;
         }
+
+        .icon-fullmode {
+            position: absolute;
+            right: 8px;
+            top: 8px;
+            cursor: pointer;
+        }
         p {
             overflow: hidden;
             white-space: pre-wrap;

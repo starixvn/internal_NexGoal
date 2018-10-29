@@ -67,17 +67,17 @@
     }
 }
 
-.my-pa {
-    padding: 12px 0;
-
-    &:before {
-        content: 'My PAs';
+.box {
+    border-bottom: 1px solid #ccc;
+    padding: 16px;
+    h5 {
         color: #05517E;
-        font-weight: bold;
-        margin-bottom: 12px;
-        display: block;
         font-size: 16px;
+        font-weight: 600;
+        margin-top: 0;
     }
+}
+.my-pa {
 
     &-year {
         margin-bottom: 12px;
@@ -109,27 +109,11 @@
 }
 
 .nomination {
-    border-bottom: 1px solid #ccc;
-    font-size: 14px;
-    padding: 0 12px 12px 12px;
 
-    h5 {
-        color: #05517E;
-        font-size: 16px;
-        font-weight: 600;
-    }
 }
 
 .hrm-summary {
-    border-bottom: 1px solid #ccc;
     font-size: 14px;
-    padding: 12px 12px 0;
-
-    h5 {
-        font-weight: bold;
-        color: #05517E;
-        font-size: 16px;
-    }
 
     .hrm-info {
         padding: 0;
@@ -143,12 +127,7 @@
 
 .workload {
     padding: 8px 12px;
-    border-bottom: 1px solid #EAEAEA;
-
     h5 {
-        font-weight: bold;
-        color: #05517E;
-        font-size: 16px;
         display: inline-block;
     }
 
@@ -203,15 +182,8 @@
             margin-top: -7px;
         }
     }
-    // overflow: auto;
-    //white-space: nowrap;
+
     .pa-item {
-        //width: 60px;
-        //border: 1px solid black;
-        //display: inline-block;
-        //text-align: center;
-        //margin: 1px;
-        //line-height: 35px;
         position: relative;
         z-index: 2;
         float: left;
@@ -267,11 +239,19 @@
     padding: 0; 
     box-shadow: none;
 }
-.edit-performance-modal {
-    .record .project {
-        margin-left: 16px;
+
+.form-performance {
+    &.edit .record{
+        .project {
+            margin-left: 16px;
+        }
+        .comment {
+            margin-bottom: 12px;
+        }
     }
-    .record .comment {
-        margin-bottom: 12px;
+    &.edit, &.create {
+        .comment textarea {
+            padding: 3px 20px 3px 4px; 
+        }
     }
 }

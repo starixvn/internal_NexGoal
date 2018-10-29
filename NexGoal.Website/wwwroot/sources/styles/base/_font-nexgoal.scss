@@ -20,6 +20,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-fullmode:before {
+    content: "\e91e";
+    color: #959595;
+}
+
 .icon-edit:before {
     content: "\e91d";
     color: #2475d7;
