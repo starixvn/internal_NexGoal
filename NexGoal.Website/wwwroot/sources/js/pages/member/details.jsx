@@ -47,7 +47,7 @@ export default class App extends Component {
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberInfo'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
-            axios(resolveClientUrl('member/Performance/GetPerformanceRecords'), { params: { memberId: memberId } }),
+            axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('discipline/GetHRMSummary'), { params: { memberId: memberId } })
         ];
 
@@ -156,6 +156,9 @@ export default class App extends Component {
                     </div>
                     <div className="main-content">
                         <div className="fixed-section">
+                            <div className="warning marquee">
+                                <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
+                            </div>
                             <PersonalTimeline
                                 itemPerPage={this.timelineItemPerPage}
                                 onItemClick={this.handlePCIClick}
