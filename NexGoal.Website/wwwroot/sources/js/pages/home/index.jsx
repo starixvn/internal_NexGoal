@@ -26,7 +26,6 @@ export default class App extends Component {
             performanceRecords: [],
             displayedPerformanceRecords: [],
             nominations: [],
-            workload: [],
             performanceGradeOptions: [],
             projectOptions: [],
             performanceAppraisals: [],
@@ -231,7 +230,7 @@ export default class App extends Component {
                                 onItemClick={this.handlePCIClick}
                                 selectedPCIId={this.state.selectedPCIId}
                                 ref="timelineRef"
-                            />                            
+                            />
                         </div>
                         <div className="record-list">
                             <CreateSelfPerformance
@@ -257,8 +256,8 @@ export default class App extends Component {
                                 }
 
                             </div>
-                        </div>                      
-                        
+                        </div>
+
                     </div>
                     <div className="work-info">
                         <NominationResult nominations={this.state.nominations} />

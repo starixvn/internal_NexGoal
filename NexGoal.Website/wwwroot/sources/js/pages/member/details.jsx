@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { DateFormat, NominationStatuses, PerformanceRecordStatus } from '../../constants';
+import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -11,8 +11,10 @@ import moment from 'moment';
 import EmployeeInfo from '../home/EmployeeInfo';
 import PersonalTimeline from '../home/timeline/PersonalTimeline';
 import PerformanceAppraisalResult from '../home/PerformanceAppraisalResult';
-import NominationResult from '../home/NominationResult';
+import NominationResult from '../../shared/components/NominationResult';
 import HrmSummary from '../home/HRMSummary';
+import WorkLoad from '../home/workload';
+import CreateSelfPerformance from '../home/CreateSelfPerformance';
 
 export default class App extends Component {
     constructor(props) {
@@ -26,6 +28,9 @@ export default class App extends Component {
             performanceRecords: [],
             performanceRecordIdSelected: null,
             nominations: [],
+            periods: [],
+            performanceGradeOptions: [],
+            projectOptions: [],
             hrmDetails: {},
             hasMore: false
         };
@@ -36,15 +41,18 @@ export default class App extends Component {
     componentDidMount() {
         const memberId = this.state.memberId;
         const promises = [
+            axios(resolveClientUrl('common/GetAllPeriods')),
+            axios(resolveClientUrl('Common/GetPerformanceGrades')),
+            axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberInfo'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
-            axios(resolveClientUrl('Member/Performance/GetPerformanceRecords'), { params: { memberId: memberId } }),
-            axios(resolveClientUrl('Discipline/GetHRMSummary'), { params: { memberId: memberId } })
+            axios(resolveClientUrl('member/Performance/GetPerformanceRecords'), { params: { memberId: memberId } }),
+            axios(resolveClientUrl('discipline/GetHRMSummary'), { params: { memberId: memberId } })
         ];
 
         Promise.all(promises)
-            .then(([nominationResponse, memberInfoResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, nominationResponse, memberInfoResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse]) => {
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
                 let memberInfo = {
                     nickName: memberInfoResponse.data.nickName,
@@ -52,7 +60,21 @@ export default class App extends Component {
                     jobTitle: memberInfoResponse.data.jobTitle,
                     avatar: memberInfoResponse.data.base64Image
                 };
+
+                const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
+                    return {
+                        value: performanceGrade.gradeId,
+                        label: performanceGrade.description ? `${performanceGrade.description} (${performanceGrade.name})` : performanceGrade.name
+                    };
+                });
+
+                const projectOptions = projectResponse.data.map((project) => {
+                    return { value: project.projectId, label: project.name };
+                });
                 this.setState({
+                    performanceGradeOptions: performanceGradeOptions,
+                    projectOptions: projectOptions,
+                    periods: periodResponse.data,
                     nominations: nominationResponse.data,
                     memberInfo: memberInfo,
                     performanceAppraisals: performanceAppraisalResponse.data,
@@ -99,6 +121,8 @@ export default class App extends Component {
         );
     }
 
+    handleExpandForm = isExpanded => this.setState({ isFormExpanded: isExpanded });
+
     handlePCIClick = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
             let index = this.state.performanceRecords.findIndex(function (element) {
@@ -139,7 +163,14 @@ export default class App extends Component {
                                 ref="timelineRef"
                             />
                         </div>
-                        <div className={this.state.isFormExpanded ? 'record-list record-list-collapse' : 'record-list record-list-expand'}>
+                        <div className="record-list">
+                            <CreateSelfPerformance
+                                employee={this.state.memberInfo}
+                                performanceGradeOptions={this.state.performanceGradeOptions}
+                                projectOptions={this.state.projectOptions}
+                                onSubmitSuccess={this.handleCreatePerformanceSuccess}
+                                onExpandForm={this.handleExpandForm}
+                            />
                             {performanceRecords.length > 0 &&
                                 <InfiniteScroll
                                     pageStart={1} initialLoad={true}
@@ -153,12 +184,15 @@ export default class App extends Component {
                                     }
                                 </InfiniteScroll>
                             }
-
                         </div>
                     </div>
                     <div className="work-info">
                         <NominationResult nominations={nominations} />
                         <HrmSummary hrmDetail={this.state.hrmDetails} />
+                        {
+                            this.state.periods.length > 0 &&
+                            <WorkLoad periods={this.state.periods} memberId={this.state.memberId} />
+                        }
                     </div>
 
                 </div>
