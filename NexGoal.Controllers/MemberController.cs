@@ -12,13 +12,16 @@
 
     public class MemberController : Controller
     {
+        private readonly ICommonService commonService;
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
 
         public MemberController(
+            ICommonService commonService,
             ISessionService sessionService,
             IEmployeeService employeeService)
         {
+            this.commonService = commonService;
             this.sessionService = sessionService;
             this.employeeService = employeeService;
         }
@@ -46,6 +49,12 @@
                 await employeeService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId).ConfigureAwait(false);
 
             return Json(performanceAppraisals);
+        }
+
+        public async Task<JsonResult> GetMemberInfo(int memberId)
+        {
+            var member = await commonService.GetEmployeeByIdAsync(memberId).ConfigureAwait(false);
+            return Json(member);
         }
 
         public async Task<JsonResult> GetMemberNominationResult(int? memberId = null)

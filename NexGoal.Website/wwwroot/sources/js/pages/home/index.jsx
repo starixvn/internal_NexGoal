@@ -29,6 +29,7 @@ export default class App extends Component {
             workload: [],
             performanceGradeOptions: [],
             projectOptions: [],
+            performanceAppraisals: [],
             showEditPerformanceModal: false,
             performanceRecordIdSelected: null,
             periods: [],
@@ -53,11 +54,12 @@ export default class App extends Component {
             axios(resolveClientUrl('Self/Performance')),
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('Discipline/GetHRMSummary')),
-            axios(resolveClientUrl('home/GetNominationResult'))
+            axios(resolveClientUrl('home/GetNominationResult')),
+            axios(resolveClientUrl('home/GetPerformanceAppraisalResult'))
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse, nominationResponse]) => {
+            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse, nominationResponse, performanceAppraisalsResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -77,6 +79,7 @@ export default class App extends Component {
                     periods: periodResponse.data,
                     hrmDetail: hrmDetailResponse.data,
                     nominations: nominationResponse.data,
+                    performanceAppraisals: performanceAppraisalsResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < performanceRecordResponse.data.length
                 });
@@ -216,7 +219,7 @@ export default class App extends Component {
                 <div className="my-page main-layout">
                     <div className="general-info">
                         <EmployeeInfo employee={this.state.employee} />
-                        <PerformanceAppraisalResult />
+                        <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
                     </div>
                     <div className="main-content">
                         <div className="fixed-section">

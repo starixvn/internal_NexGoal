@@ -1,54 +1,41 @@
 ﻿import React, { Component } from 'react';
-import axios from 'axios';
 import moment from 'moment';
-
-import { axiosError, resolveClientUrl } from '../../common-functions';
 
 export default class PerformanceAppraisalResult extends Component {
     constructor(props) {
         super(props);
-
-        this.state = {
-            performanceAppraisals: []
-        };
-    }
-
-    componentDidMount() {
-        axios.get(resolveClientUrl('home/GetPerformanceAppraisalResult'))
-            .then(response => {
-                let performanceAppraisals = response.data;
-                performanceAppraisals.forEach(record => record.year = moment(record.period.startDate).year());
-                performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
-                    const val = item['year'];
-                    groups[val] = groups[val] || [];
-                    groups[val].push(item);
-
-                    return groups;
-                }, []);
-
-                performanceAppraisals = Object.keys(performanceAppraisals).map(key => {
-                    return {
-                        year: key,
-                        records: performanceAppraisals[key]
-                    };
-                });
-
-                this.setState({
-                    performanceAppraisals: performanceAppraisals
-                });
-            }).catch(axiosError);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.state.performanceAppraisals) !== JSON.stringify(nextState.performanceAppraisals)) {
+        if (JSON.stringify(this.props.performanceAppraisals) !== JSON.stringify(nextProps.performanceAppraisals)) {
             return true;
         }
-
         return false;
     }
 
+    groupPerformanceAppraisals = (pa) => {
+        let performanceAppraisals = pa;
+        performanceAppraisals.forEach(record => record.year = moment(record.period.startDate).year());
+        performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
+            const val = item['year'];
+            groups[val] = groups[val] || [];
+            groups[val].push(item);
+
+            return groups;
+        }, []);
+
+        performanceAppraisals = Object.keys(performanceAppraisals).map(key => {
+            return {
+                year: key,
+                records: performanceAppraisals[key]
+            };
+        });
+
+        return performanceAppraisals;
+    };
+
     render() {
-        const performanceAppraisals = this.state.performanceAppraisals;
+        const performanceAppraisals = this.groupPerformanceAppraisals(this.props.performanceAppraisals);
 
         return (
             <div className="my-pa">

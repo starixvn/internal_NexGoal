@@ -110,5 +110,13 @@
 
             return Json(memberPerformances);
         }
+
+        [Route("Member/Performance/GetPerformanceRecords")]
+        public async Task<JsonResult> GetMemberPerformanceRecords(int memberId)
+        {
+            IEnumerable<PerformanceRecordModel> performanceRecords = await performanceRecordService.GetPerformanceRecordByEmployeeAsync(memberId).ConfigureAwait(false);
+
+            return Json(performanceRecords);
+        }
     }
 }
