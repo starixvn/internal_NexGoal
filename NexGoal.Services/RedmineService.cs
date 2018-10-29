@@ -125,20 +125,11 @@
 
         private IEnumerable<ProjectModel> GetAllProjects(TeamWorkloadModel teamWorkload)
         {
-            var workloads = new List<ProjectModel>();
-            foreach (var employeeWorkload in teamWorkload.EmployeeWorkloads)
+            return teamWorkload.EmployeeWorkloads.SelectMany(x => x.Workloads).Select(x => new ProjectModel
             {
-                foreach (var workload in employeeWorkload.Workloads)
-                {
-                    workloads.Add(new ProjectModel
-                    {
-                        ProjectId = workload.ProjectId,
-                        Name = workload.Name
-                    });
-                }
-            }
-
-            return workloads.GroupBy(w => w.ProjectId).Select(g => g.First());
+                ProjectId = x.ProjectId,
+                Name = x.Name
+            }).GroupBy(x => x.ProjectId).Select(g => g.First());
         }
 
         private IEnumerable<EmployeeWorkloadModel> FillFullWorkload(TeamWorkloadModel teamWorkloads, IEnumerable<ProjectModel> projects)

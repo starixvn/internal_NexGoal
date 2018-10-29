@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import Multiselect from '../../shared/components/multi-select/index';
@@ -26,7 +27,6 @@ export default class MemberWorkload extends Component {
                 periodId: this.props.periods[this.state.currentPeriodIndex].periodId
             }
         }).then(response => {
-            debugger;
             let workloads = response.data.map(this.generateWorkload);
             let groupOptions = response.data.map(x => ({ value: x.groupId, label: x.groupName }));
 
@@ -133,7 +133,6 @@ export default class MemberWorkload extends Component {
     }
 
     render() {
-        debugger;
         return (
             <div className="workload">
                 <div className="title">
@@ -149,7 +148,11 @@ export default class MemberWorkload extends Component {
                     options={this.state.groupOptions}
                     onChange={this.handleGroupChange}
                 />
-                {this.state.selectedGroups.map(this.renderChart)}
+                <Scrollbars autoHeight={true} autoHeightMax={500} autoHide={true} >
+
+                    {this.state.selectedGroups.map(this.renderChart)}
+                </Scrollbars >
+
             </div>
         );
     }
