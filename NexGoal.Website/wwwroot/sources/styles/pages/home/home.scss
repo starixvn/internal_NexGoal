@@ -11,7 +11,7 @@
 @import "../../layouts/form-performance";
 @import "../../layouts/main-layout";
 @import "personal-timeline";
-@import "../../../js/shared/components/textarea-fullscreen/style";
+@import "../../layouts/textarea-fullscreen";
 
 .my-page {
     position: relative;
@@ -248,7 +248,14 @@
         }
         .comment {
             margin-bottom: 12px;
+            .textarea-fullscreen-wrapper .textarea-fullscreen-editor.expanded {
+                width: 100vw;
+                height: 100vh;
+                margin-left: calc(-50vw + 50%);
+                margin-top: calc(-60vh + 50%);
+            }
         }
+
     }
     &.edit, &.create {
         .comment textarea {

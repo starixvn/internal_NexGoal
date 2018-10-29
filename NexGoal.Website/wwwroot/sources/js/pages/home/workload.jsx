@@ -109,7 +109,7 @@ export default class WorkLoad extends PureComponent {
         const chartData = this.state.chartData;
 
         return (
-            <div className="workload">
+            <div className="workload box">
                 <div className="title">
                     <h5>Workload</h5>
                     <div className="milestone">

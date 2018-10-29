@@ -3,7 +3,7 @@ import moment from 'moment';
 
 export default function HrmDetail(props) {
     return (
-        <div className="hrm-summary">
+        <div className="hrm-summary box">
             <h5>HRM</h5>
             <ul className="hrm-info">
                 <li>

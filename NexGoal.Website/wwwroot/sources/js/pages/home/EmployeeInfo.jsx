@@ -2,7 +2,7 @@
 
 export default function EmployeeInfo(props) {
     return (
-        <div className="user-info">
+        <div className="user-info box">
             <img src={props.employee.avatar} alt="avatar" className="avatar" />
             <div className="nick-name">{props.employee.nickName}</div>
             <div className="user-name">{props.employee.fullName}</div>

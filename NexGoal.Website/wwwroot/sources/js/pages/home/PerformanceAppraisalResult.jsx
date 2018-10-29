@@ -38,7 +38,8 @@ export default class PerformanceAppraisalResult extends Component {
         const performanceAppraisals = this.groupPerformanceAppraisals(this.props.performanceAppraisals);
 
         return (
-            <div className="my-pa">
+            <div className="my-pa box">
+                <h5>My PAs</h5>
                 {
                     performanceAppraisals.map(performanceAppraisal => {
                         return (

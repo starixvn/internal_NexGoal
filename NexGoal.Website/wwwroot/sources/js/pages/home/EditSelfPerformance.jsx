@@ -152,7 +152,7 @@ export default class EditSelfPerformance extends Component {
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal modal-md edit-performance-modal"
+                dialogClassName="custom-modal modal-md form-performance edit"
             >
                 <Modal.Header>
                     <Modal.Title>{getResource('EditPerformance')}</Modal.Title>
