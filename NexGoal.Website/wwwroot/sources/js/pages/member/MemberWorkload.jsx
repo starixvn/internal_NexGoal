@@ -148,11 +148,8 @@ export default class MemberWorkload extends Component {
                     options={this.state.groupOptions}
                     onChange={this.handleGroupChange}
                 />
-                <Scrollbars autoHeight={true} autoHeightMax={500} autoHide={true} >
 
-                    {this.state.selectedGroups.map(this.renderChart)}
-                </Scrollbars >
-
+                {this.state.selectedGroups.map(this.renderChart)}
             </div>
         );
     }

@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, NominationStatuses, PerformanceRecordStatus } from '../../constants';
@@ -109,8 +110,10 @@ export default class App extends Component {
                             </div>
                         </div>
                         <div className="work-info">
-                            <NominationResult isSupervisor={true} nominations={this.state.memberNominations} />
-                            {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
+                            <Scrollbars style={{ maxHeight: '100%' }} autoHide={true} >
+                                < NominationResult isSupervisor={true} nominations={this.state.memberNominations} />
+                                {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
+                            </Scrollbars >
                         </div>
                     </div>
                 </div>
