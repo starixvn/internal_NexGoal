@@ -187,18 +187,19 @@
             string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
             performanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
 
+            string[] employeeIds = !string.IsNullOrWhiteSpace(performanceRecord.EmployeeIds) ? performanceRecord.EmployeeIds.Split(",") : new string[] { };
+            performanceRecord.Employees = employees.Where(x => employeeIds.Contains(x.EmployeeId.ToString()));
+
+            foreach (EmployeeBaseModel employee in performanceRecord.Employees)
+            {
+                employee.Base64Image = avatarService.GetBase64Image(employee.Code);
+            }
+
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
-            performanceRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.EmployeeId);
             performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
-
-            if (performanceRecord.Employee != null)
-            {
-                performanceRecord.Employee.Base64Image = avatarService.GetBase64Image(performanceRecord.Employee.Code);
-            }
-
             if (performanceRecord.Creator != null)
             {
                 performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
@@ -230,7 +231,7 @@
 
             foreach (MemberPerformanceTimelineModel memberPerformance in memberPerformances)
             {
-                memberPerformance.PerformanceRecords = performanceRecords.Where(x => x.EmployeeId == memberPerformance.EmployeeId);
+                memberPerformance.PerformanceRecords = performanceRecords.Where(x => x.EmployeeIds == memberPerformance.EmployeeId.ToString());
             }
         }
     }

@@ -6,8 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import { DateFormat, NominationStatuses, PerformanceRecordStatus } from '../../constants';
-import getResource from '../../resourceHelper';
+import { DateFormat } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import NominationResult from '../../shared/components/NominationResult';
@@ -51,20 +50,18 @@ export default class App extends Component {
     }
 
     renderPerformanceRecord = (performanceRecord) => {
-        let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
-            || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
         let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
         let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
 
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 objectId={performanceRecord.performanceRecordId}
-                employee={performanceRecord.employee}
+                employees={performanceRecord.employees}
                 creator={performanceRecord.creator}
                 roleId={performanceRecord.roleId}
                 statusId={performanceRecord.statusId}
                 submittedDate={submittedDate} modifiedDate={modifiedDate}
-                isHost={isHost}
+                isHost={performanceRecord.isHost}
                 grade={performanceRecord.grade}
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}

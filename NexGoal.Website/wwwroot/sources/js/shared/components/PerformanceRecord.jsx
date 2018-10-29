@@ -6,7 +6,7 @@ import { PerformanceProcess, PerformanceRecordStatus } from '../../constants';
 export default class PerformanceRecord extends Component {
     static propTypes = {
         objectId: PropTypes.number,
-        employee: PropTypes.object,
+        employees: PropTypes.arrayOf(PropTypes.object),
         creator: PropTypes.object,
         submittedDate: PropTypes.string,
         modifiedDate: PropTypes.string,
@@ -19,7 +19,7 @@ export default class PerformanceRecord extends Component {
 
     static defaultProps = {
         objectId: 0,
-        employee: { employeeId: 0, nickName: '', fullName: '', base64Image: '' },
+        employees: [],
         creator: { employeeId: 0, nickName: '', fullName: '', base64Image: '' },
         submittedDate: '',
         modifiedDate: '',
@@ -84,8 +84,9 @@ export default class PerformanceRecord extends Component {
     }
 
     render() {
-        let employee = this.props.employee;
+        let employees = this.props.employees;
         let creator = this.props.creator;
+
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
                 <div className="avatar-user">
@@ -93,9 +94,10 @@ export default class PerformanceRecord extends Component {
                     <div className="person-info">
                         <span className={this.getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
                         {
-                            employee.employeeId !== creator.employeeId &&
+                            employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
-                                <span> checked in for</span> <span className="role-member">{employee.nickName}</span>
+                                <span> checked in for </span>
+                                <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
                             </Fragment>
                         }
                         {
