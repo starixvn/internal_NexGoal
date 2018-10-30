@@ -1,91 +1,60 @@
 ﻿import React, { Component } from "react";
-import axios from 'axios';
-
-import { axiosError, resolveClientUrl } from '../../../common-functions';
 import TimelineNode from './TimelineNode';
 
 export default class PersonalTimeline extends Component {
     constructor(props) {
         super(props);
-        this.state = {
-            timelineWidth: 0,
-            performanceRecords: [],
-            nextDisabled: true,
-            prevDisabled: false,
-            pageIndex: 0
-        };
-
         this.timelineWidth = React.createRef();
     }
-
-    componentDidMount() {
-        this.getPCI();
-    }
-
-    getPCI = () => {
-        axios.get(resolveClientUrl('Self/Performance/Timeline'), {
-            params: {
-                pageIndex: this.state.pageIndex,
-                pageSize: this.props.itemPerPage
-            }
-        }).then((response) => {
-            this.setState({
-                performanceRecords: response.data.performanceRecord,
-                timelineWidth: this.timelineWidth.current.offsetWidth,
-                prevDisabled: response.data.isOverPCI,
-                nextDisabled: this.state.pageIndex === 0
-            });
-        }).catch(axiosError);
-    }
-
     onClickPrevious = () => {
-        this.setState(prevState => {
-            return { pageIndex: prevState.pageIndex + 1 };
-        }, () => {
-            this.getPCI();
-        });
+        const memberPerformance = this.props.data;
+        const pageIndex = memberPerformance.pageIndex + 1;
+        this.props.onPageChange(pageIndex);
     }
 
     onClickNext = () => {
-        this.setState(prevState => {
-            return { pageIndex: prevState.pageIndex - 1 };
-        }, () => {
-            this.getPCI();
-        });
+        const memberPerformance = this.props.data;
+        const pageIndex = memberPerformance.pageIndex - 1;
+        this.props.onPageChange(pageIndex);
     }
 
     calculateNodePosition = (totalNode, index) => {
         let baseRight = 20;
-        let timelineWidth = this.state.timelineWidth;
+        let timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
         let distanceFromRoot = timelineWidth / (totalNode + 1);
         return Math.round(baseRight + (index + 1) * distanceFromRoot);
     }
 
     render() {
-        const records = this.state.performanceRecords;
-
+        const memberPerformance = this.props.data;
+        const records = memberPerformance.records;
+        const totalNodes = records.length;
         return (
             <div className="timeline">
                 <div className="xaxes" ref={this.timelineWidth} />
                 {
-                    records.length > 0 &&
+                    totalNodes > 0 &&
                     records.map((record, index) => {
-                        let position = this.calculateNodePosition(records.length, index);
+                        let position = this.calculateNodePosition(totalNodes, index);
                         return (
-                            <TimelineNode key={`timeline${index}`} data={record} position={position} onClick={this.props.onItemClick} />
+                            <TimelineNode key={`timelineNode${record.performanceRecordId}`}
+                                data={record}
+                                position={position}
+                                onClick={this.props.onItemClick}
+                            />
                         );
                     })
                 }
 
-                <button className={this.state.prevDisabled ? "previous disabled" : "previous"}
+                <button className={memberPerformance.prevDisabled ? "previous disabled" : "previous"}
                     onClick={this.onClickPrevious}
-                    disabled={this.state.prevDisabled}
+                    disabled={memberPerformance.prevDisabled}
                 >
                     <span className="button-icon icon-chevron-left" />
                 </button>
-                <button className={this.state.nextDisabled ? "next disabled" : "next"}
+                <button className={memberPerformance.nextDisabled ? "next disabled" : "next"}
                     onClick={this.onClickNext}
-                    disabled={this.state.nextDisabled}
+                    disabled={memberPerformance.nextDisabled}
                 >
                     <span className="button-icon icon-chevron-right" />
                 </button>

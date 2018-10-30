@@ -32,6 +32,12 @@ export default class App extends Component {
             showEditPerformanceModal: false,
             performanceRecordIdSelected: null,
             periods: [],
+            personalTimeline: {
+                records: [],
+                pageIndex: 0,
+                nextDisabled: false,
+                prevDisabled: false
+            },
             hrmDetail: {},
             employee: {
                 nickName: document.getElementById('employeeInfo-nickName').innerText,
@@ -42,6 +48,7 @@ export default class App extends Component {
             isFormExpanded: false
         };
 
+        this.timelineWidth = React.createRef();
         this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
         this.itemPerPage = 4;
     }
@@ -54,11 +61,17 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('Discipline/GetHRMSummary')),
             axios(resolveClientUrl('home/GetNominationResult')),
-            axios(resolveClientUrl('home/GetPerformanceAppraisalResult'))
+            axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
+            axios(resolveClientUrl('self/Performance/Timeline'), {
+                params: {
+                    pageIndex: this.state.personalTimeline.pageIndex,
+                    pageSize: this.timelineItemPerPage
+                }
+            })
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse, nominationResponse, performanceAppraisalsResponse]) => {
+            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse, nominationResponse, performanceAppraisalsResponse, personalTimelineResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -70,12 +83,18 @@ export default class App extends Component {
                 });
 
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
-
+                let timeline = personalTimelineResponse.data;
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     performanceRecords: performanceRecordResponse.data,
                     periods: periodResponse.data,
+                    personalTimeline: {
+                        records: timeline.performanceRecord,
+                        pageIndex: 0,
+                        nextDisabled: timeline.pageIndex === 0,
+                        prevDisabled: timeline.isOverPCI
+                    },
                     hrmDetail: hrmDetailResponse.data,
                     nominations: nominationResponse.data,
                     performanceAppraisals: performanceAppraisalsResponse.data,
@@ -88,6 +107,25 @@ export default class App extends Component {
     componentDidUpdate() {
         ReactTooltip.rebuild();
     }
+
+    onTimelinePageChange = (pageIndex) => {
+        axios.get(resolveClientUrl('Self/Performance/Timeline'), {
+            params: {
+                pageIndex: pageIndex,
+                pageSize: this.timelineItemPerPage
+            }
+        }).then((response) => {
+            let timelineRecord = response.data;
+            this.setState({
+                personalTimeline: {
+                    records: timelineRecord.performanceRecord,
+                    pageIndex: timelineRecord.pageIndex,
+                    nextDisabled: timelineRecord.pageIndex === 0,
+                    prevDisabled: timelineRecord.isOverPCI
+                }
+            });
+        }).catch(axiosError);
+    };
 
     handleCreatePerformanceSuccess = () => {
         axios(resolveClientUrl('Self/Performance'))
@@ -217,8 +255,9 @@ export default class App extends Component {
                                 <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
                             </div>
                             <PersonalTimeline
-                                itemPerPage={this.timelineItemPerPage}
+                                data={this.state.personalTimeline}
                                 onItemClick={this.handlePCIClick}
+                                onPageChange={this.onTimelinePageChange}
                                 selectedPCIId={this.state.selectedPCIId}
                                 ref="timelineRef"
                             />

@@ -40,7 +40,7 @@
 
             bool isOverPCI = (param.PageIndex + 1) * param.PageSize >= tuple.Item2;
 
-            return Json(new { performanceRecord = tuple.Item1, isOverPCI });
+            return Json(new { performanceRecord = tuple.Item1, isOverPCI, pageIndex = param.PageIndex });
         }
 
         [Route("Self/Performance/Create")]

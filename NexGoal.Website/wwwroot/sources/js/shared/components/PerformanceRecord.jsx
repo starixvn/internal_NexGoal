@@ -40,6 +40,7 @@ export default class PerformanceRecord extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
         this.detectCollapseExpandComment();
     }
 
@@ -122,7 +123,7 @@ export default class PerformanceRecord extends Component {
                         </div>
                     }
                 </div>
-               
+
                 <div className="comment" >
                     <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{this.props.comment}</p>
                     {
