@@ -100,9 +100,31 @@ export default class App extends Component {
         );
     }
 
-    loadMorePerformances = (page) => {
+    handlePCIClick = performanceRecordId => {
+        if (!this.state.displayedMemberPerformances.some(r => r.performanceRecordId === performanceRecordId)) {
+            let index = this.state.memberPerformances.findIndex(function (element) {
+                return element.performanceRecordId === performanceRecordId;
+            });
+
+            let page = Math.ceil((index + 1) / this.itemPerPage);
+
+            this.refs.infiniteScrollRef.pageLoaded = page;
+            this.loadMorePerformances(page, () => {
+                this.setState({ selectedPCIId: performanceRecordId });
+                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
+            });
+        } else {
+            this.setState({ selectedPCIId: performanceRecordId });
+            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
+        }
+    }
+
+    loadMorePerformances = (page, callback) => {
         let records = this.state.memberPerformances.slice(0, page * this.itemPerPage);
-        this.setState({ displayedMemberPerformances: records, hasMore: records.length < this.state.memberPerformances.length });
+        this.setState({ displayedMemberPerformances: records, hasMore: records.length < this.state.memberPerformances.length }, () => {
+            if (callback)
+                callback();
+        });
     }
 
     render() {
@@ -111,7 +133,7 @@ export default class App extends Component {
                 <div className="row">
                     <div className="main-layout member-page">
                         <div className="general-info box">
-                            <Timeline />
+                            <Timeline onSelectNode={this.handlePCIClick} />
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
@@ -134,6 +156,7 @@ export default class App extends Component {
                                     hasMore={this.state.hasMore}
                                     threshold={0}
                                     useWindow={true}
+                                    ref="infiniteScrollRef"
                                 >
                                     {
                                         this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)

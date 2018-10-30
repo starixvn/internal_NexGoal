@@ -33,7 +33,7 @@ export default class TimelineNode extends Component {
     }
 
     handleClick = () => {
-        this.props.onSelectNode(this.props.data.performanceRecordId);
+        this.props.onClick(this.props.data.performanceRecordId);
     }
 
     render() {
@@ -43,7 +43,7 @@ export default class TimelineNode extends Component {
 
         return (
             <Fragment>
-                <p className="timeline-grade" style={{ right: position - 25}} onClick={this.handleClick} >{data.grade ? data.grade.name : ""}</p>
+                <p className="timeline-grade" style={{ right: position - 25 }} onClick={this.handleClick} >{data.grade ? data.grade.name : ""}</p>
                 <div className="timeline-info" style={{ right: position - 35 }} onClick={this.handleClick}>
                     <p className={"name " + className}>{data.creator.nickName}</p>
                 </div>
