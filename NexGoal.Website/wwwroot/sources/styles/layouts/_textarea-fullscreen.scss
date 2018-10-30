@@ -38,6 +38,10 @@
             textarea {
                 border: none;
                 height: calc(100% - 40px);
+                padding: 16px 0;
+                .input-validation-error {
+                    box-shadow: none;
+                }
                 &:focus{
                     box-shadow: none;
                 }

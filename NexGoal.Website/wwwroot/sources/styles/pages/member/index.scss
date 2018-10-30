@@ -12,6 +12,9 @@
 @import "../home/personal-timeline";
 @import "../../layouts/textarea-fullscreen";
 
+.general-info {
+    padding: 16px 16px 16px 12px;
+}
 .member-performance {
     display: grid;
     grid-template-columns: 90px 1fr;
@@ -99,12 +102,8 @@
 
 .workload {
     padding: 8px 12px;
-    border-bottom: 1px solid #EAEAEA;
 
     h5 {
-        font-weight: bold;
-        color: #05517E;
-        font-size: 16px;
         display: inline-block;
     }
 
@@ -112,7 +111,6 @@
         float: right;
         background-color: #F1F4F8;
         border: 1px solid #DAE1EA;
-        margin-top: 4px;
 
         [class^="icon"] {
             font-size: 14px;
@@ -132,18 +130,20 @@
             margin-left: 2px;
         }
     }
+    
+    .team {
+        display: inline-block;
+        width: 40px;
+    }
+    .react-select-container {
+        display: inline-block;
+        width: calc(100% - 40px);
+    }
+
 }
 
 .nomination {
-    border-bottom: 1px solid #ccc;
     font-size: 14px;
-    padding: 0 12px 12px 12px;
-
-    h5 {
-        color: #05517E;
-        font-size: 16px;
-        font-weight: 600;
-    }
 
     .nick-name {
         font-weight: bold;

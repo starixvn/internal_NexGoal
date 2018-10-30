@@ -110,7 +110,7 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <div className="main-layout member-page">
-                        <div className="general-info">
+                        <div className="general-info box">
                             <Timeline />
                         </div>
                         <div className="main-content">

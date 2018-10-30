@@ -203,7 +203,7 @@ export default class MemberWorkload extends Component {
 
     render() {
         return (
-            <div className="workload">
+            <div className="workload box">
                 <div className="title">
                     <h5>Workload</h5>
                     <div className="milestone">
@@ -212,12 +212,14 @@ export default class MemberWorkload extends Component {
                         <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
                     </div>
                 </div>
-                <Multiselect className="react-select-container" classNamePrefix="react-select"
-                    value={this.state.selectedGroups}
-                    options={this.state.groupOptions}
-                    onChange={this.handleGroupChange}
-                />
-
+                <div>
+                    <div className="team">Team</div>
+                    <Multiselect className="react-select-container" classNamePrefix="react-select"
+                        value={this.state.selectedGroups}
+                        options={this.state.groupOptions}
+                        onChange={this.handleGroupChange}
+                    />
+                </div>    
                 {this.state.selectedGroups.map(this.renderChart)}
             </div>
         );
