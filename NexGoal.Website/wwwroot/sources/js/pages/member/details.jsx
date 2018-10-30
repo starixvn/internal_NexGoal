@@ -29,10 +29,17 @@ export default class App extends Component {
             performanceRecordIdSelected: null,
             nominations: [],
             periods: [],
+            personalTimeline: {
+                records: [],
+                pageIndex: 0,
+                nextDisabled: true,
+                prevDisabled: false
+            },
             performanceGradeOptions: [],
             projectOptions: [],
             hrmDetails: {},
-            hasMore: false
+            hasMore: false,
+            isFormExpanded: false
         };
         this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
         this.itemPerPage = 4;
@@ -48,11 +55,18 @@ export default class App extends Component {
             axios(resolveClientUrl('member/GetMemberInfo'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
-            axios(resolveClientUrl('discipline/GetHRMSummary'), { params: { memberId: memberId } })
+            axios(resolveClientUrl('discipline/GetHRMSummary'), { params: { memberId: memberId } }),
+            axios(resolveClientUrl('Member/Performance/Timeline'), {
+                params: {
+                    employeeId: this.state.memberId,
+                    pageIndex: 0,
+                    pageSize: this.timelineItemPerPage
+                }
+            })
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, nominationResponse, memberInfoResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, nominationResponse, memberInfoResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse, timelineResponse]) => {
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
                 let memberInfo = {
                     nickName: memberInfoResponse.data.nickName,
@@ -71,12 +85,20 @@ export default class App extends Component {
                 const projectOptions = projectResponse.data.map((project) => {
                     return { value: project.projectId, label: project.name };
                 });
+
+                let timelineInfo = timelineResponse.data[0];
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     periods: periodResponse.data,
                     nominations: nominationResponse.data,
                     memberInfo: memberInfo,
+                    personalTimeline: {
+                        records: timelineInfo.performanceRecords,
+                        pageIndex: 0,
+                        nextDisabled: true,
+                        prevDisabled: this.timelineItemPerPage >= timelineInfo.totalItems
+                    },
                     performanceAppraisals: performanceAppraisalResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     performanceRecords: performanceRecordResponse.data,
@@ -95,6 +117,26 @@ export default class App extends Component {
             if (callback)
                 callback();
         });
+    }
+
+    onTimelinePageChange = (pageIndex) => {
+        axios(resolveClientUrl('Member/Performance/Timeline'), {
+            params: {
+                employeeId: this.state.memberId,
+                pageIndex: pageIndex,
+                pageSize: this.timelineItemPerPage
+            }
+        }).then((response) => {
+            let timelineInfo = response.data[0];
+            this.setState({
+                personalTimeline: {
+                    records: timelineInfo.performanceRecords,
+                    pageIndex: pageIndex,
+                    nextDisabled: pageIndex === 0,
+                    prevDisabled: (pageIndex + 1) * this.timelineItemPerPage >= timelineInfo.totalItems
+                }
+            });
+        }).catch(axiosError);
     }
 
     renderPerformanceRecord = (performanceRecord) => {
@@ -161,6 +203,8 @@ export default class App extends Component {
                             </div>
                             <PersonalTimeline
                                 itemPerPage={this.timelineItemPerPage}
+                                data={this.state.personalTimeline}
+                                onPageChange={this.onTimelinePageChange}
                                 onItemClick={this.handlePCIClick}
                                 selectedPCIId={this.state.selectedPCIId}
                                 ref="timelineRef"
