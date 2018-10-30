@@ -103,13 +103,14 @@ export default class CreateMemberPerformance extends Component {
 
     validateForm = () => {
         let errors = {}, isValid = true;
+        let performanceRecord = this.state.performanceRecord;
 
-        if (!this.state.performanceRecord.employee || isEmpty(this.state.performanceRecord.employee)) {
+        if (performanceRecord.employees.length === 0) {
             errors.employee = getResource('EmployeeRequired');
             isValid = false;
         }
 
-        if (!this.state.performanceRecord.comment || this.state.performanceRecord.comment.trim() === '') {
+        if (!performanceRecord.comment || performanceRecord.comment.trim() === '') {
             errors.comment = getResource('CommentRequired');
             isValid = false;
         }
@@ -224,7 +225,7 @@ export default class CreateMemberPerformance extends Component {
                             <FormGroup>
                                 <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
                                 <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
-                                    className={`react-select-container employee-field ${!isEmpty(errors) && errors.employees && 'input-validation-error'}`}
+                                    className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee && 'input-validation-error'}`}
                                     placeholder="Select Employees"
                                     value={performanceRecord.employees} options={memberOptions}
                                     onChange={this.handleEmployeeChange} isClearable
