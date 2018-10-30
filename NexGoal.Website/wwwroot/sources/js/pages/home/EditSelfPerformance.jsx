@@ -18,7 +18,7 @@ export default class EditSelfPerformance extends Component {
         performanceRecordId: PropTypes.number,
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
-        employeeInfo: PropTypes.object,
+        currentUser: PropTypes.object,
         showModal: PropTypes.bool,
         onCloseModal: PropTypes.func,
         onSubmitSuccess: PropTypes.func
@@ -145,7 +145,7 @@ export default class EditSelfPerformance extends Component {
     render() {
         let performanceGradeOptions = this.props.performanceGradeOptions;
         let projectOptions = this.props.projectOptions;
-        let employeeInfo = this.props.employeeInfo;
+        let currentUser = this.props.currentUser;
         let performanceRecord = this.state.performanceRecord;
         let errors = this.state.errors;
 
@@ -160,9 +160,9 @@ export default class EditSelfPerformance extends Component {
                 <Modal.Body>
                     <div className="record">
                         <div className="avatar-user">
-                            <img src={employeeInfo.avatar} className="avatar" />
+                            <img src={currentUser.avatar} className="avatar" />
                             <div className="person-info">
-                                <span className="role-member">{employeeInfo.nickName}</span>
+                                <span className="role-member">{currentUser.nickName}</span>
                                 <div className="submit-date">{moment().format(DateFormat)}</div>
                             </div>
                         </div>

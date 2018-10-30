@@ -15,12 +15,14 @@ import TextareaFullscreenEditor from '../../shared/components/textarea-fullscree
 
 export default class CreateSelfPerformance extends Component {
     static propTypes = {
+        currentUser: PropTypes.object,
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
         onSubmitSuccess: PropTypes.func
     };
 
     static defaultProps = {
+        currentUser: { nickName: '', avatar: '' },
         performanceGradeOptions: [],
         projectOptions: [],
         onSubmitSuccess: function () { }
@@ -43,7 +45,8 @@ export default class CreateSelfPerformance extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
+        if (JSON.stringify(this.props.currentUser) !== JSON.stringify(nextProps.currentUser)
+            || JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
             || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
             || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
             || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
@@ -56,7 +59,6 @@ export default class CreateSelfPerformance extends Component {
 
     handleOpenForm = () => {
         this.setState({ isOpenForm: true });
-        this.props.onExpandForm(true);
     }
 
     handleGradeChange = (selectedOption) => {
@@ -134,7 +136,6 @@ export default class CreateSelfPerformance extends Component {
 
                     this.props.onSubmitSuccess();
                     this.setState({ isOpenForm: false });
-                    this.props.onExpandForm(false);
                 } else {
                     if (data.errors) {
                         let errors = {};
@@ -142,7 +143,7 @@ export default class CreateSelfPerformance extends Component {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
 
-                        this.setState({ errors });
+                        this.handleCancel();
                     } else {
                         toast.error(data.message);
                     }
@@ -162,8 +163,6 @@ export default class CreateSelfPerformance extends Component {
             },
             errors: {}
         });
-
-        this.props.onExpandForm(false);
     }
 
     render() {
@@ -172,14 +171,14 @@ export default class CreateSelfPerformance extends Component {
         let performanceGradeOptions = this.props.performanceGradeOptions;
         let projectOptions = this.props.projectOptions;
         let errors = this.state.errors;
-        const employee = this.props.employee;
+        let currentUser = this.props.currentUser;
 
         return (
             <div className="record record-your-mind">
                 <div className="avatar-user">
-                    <img src={employee.avatar} className="avatar" />
+                    <img src={currentUser.avatar} className="avatar" />
                     <div className="person-info">
-                        <span className="role-member">{employee.nickName}</span>
+                        <span className="role-member">{currentUser.nickName}</span>
                         <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
                     </div>
                 </div>

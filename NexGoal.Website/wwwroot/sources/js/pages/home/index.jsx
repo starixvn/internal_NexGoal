@@ -39,13 +39,12 @@ export default class App extends Component {
                 prevDisabled: false
             },
             hrmDetail: {},
-            employee: {
+            currentUser: {
                 nickName: document.getElementById('employeeInfo-nickName').innerText,
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
-            },
-            isFormExpanded: false
+            }
         };
 
         this.timelineWidth = React.createRef();
@@ -199,8 +198,6 @@ export default class App extends Component {
         });
     }
 
-    handleExpandForm = isExpanded => this.setState({ isFormExpanded: isExpanded });
-
     renderPerformanceRecord = (performanceRecord) => {
         let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
         let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
@@ -244,14 +241,15 @@ export default class App extends Component {
     }
 
     render() {
-        const performanceRecords = this.state.displayedPerformanceRecords;
+        let performanceRecords = this.state.displayedPerformanceRecords;
+        let currentUser = this.state.currentUser;
 
         return (
             <div className="row">
                 <ToastLayout />
                 <div className="my-page main-layout">
                     <div className="general-info">
-                        <EmployeeInfo employee={this.state.employee} />
+                        <EmployeeInfo employee={currentUser} />
                         <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
                     </div>
                     <div className="main-content">
@@ -269,11 +267,10 @@ export default class App extends Component {
                         </div>
                         <div className="record-list">
                             <CreateSelfPerformance
-                                employee={this.state.employee}
+                                currentUser={currentUser}
                                 performanceGradeOptions={this.state.performanceGradeOptions}
                                 projectOptions={this.state.projectOptions}
                                 onSubmitSuccess={this.handleCreatePerformanceSuccess}
-                                onExpandForm={this.handleExpandForm}
                             />
                             <div className="pci-list">
                                 {performanceRecords.length > 0 &&
@@ -305,7 +302,7 @@ export default class App extends Component {
                     {
                         this.state.showEditPerformanceModal &&
                         <EditSelfPerformance
-                            employeeInfo={this.state.employee}
+                            currentUser={currentUser}
                             performanceRecordId={this.state.performanceRecordIdSelected}
                             performanceGradeOptions={this.state.performanceGradeOptions}
                             projectOptions={this.state.projectOptions}

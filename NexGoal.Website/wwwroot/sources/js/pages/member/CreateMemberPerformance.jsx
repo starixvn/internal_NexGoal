@@ -15,6 +15,7 @@ import TextareaFullscreenEditor from '../../shared/components/textarea-fullscree
 
 export default class CreateMemberPerformance extends Component {
     static propTypes = {
+        currentUser: PropTypes.object,
         memberOptions: PropTypes.arrayOf(PropTypes.object),
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
@@ -22,6 +23,7 @@ export default class CreateMemberPerformance extends Component {
     };
 
     static defaultProps = {
+        currentUser: { nickName: '', avatar: '' },
         memberOptions: [],
         performanceGradeOptions: [],
         projectOptions: [],
@@ -46,7 +48,8 @@ export default class CreateMemberPerformance extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.memberOptions) !== JSON.stringify(nextProps.memberOptions)
+        if (JSON.stringify(this.props.currentUser) !== JSON.stringify(nextProps.currentUser)
+            || JSON.stringify(this.props.memberOptions) !== JSON.stringify(nextProps.memberOptions)
             || JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
             || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
             || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
@@ -188,8 +191,6 @@ export default class CreateMemberPerformance extends Component {
             },
             errors: {}
         });
-
-        this.props.onExpandForm(false);
     }
 
     render() {
@@ -199,14 +200,14 @@ export default class CreateMemberPerformance extends Component {
         let performanceGradeOptions = this.props.performanceGradeOptions;
         let projectOptions = this.props.projectOptions;
         let errors = this.state.errors;
-        const employee = this.props.employee;
+        let currentUser = this.props.currentUser;
 
         return (
             <div className="record record-your-mind">
                 <div className="avatar-user">
-                    <img src={employee.avatar} className="avatar" />
+                    <img src={currentUser.avatar} className="avatar" />
                     <div className="person-info">
-                        <span className="role-member">{employee.nickName}</span>
+                        <span className="role-member">{currentUser.nickName}</span>
                         <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
                     </div>
                 </div>

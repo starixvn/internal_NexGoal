@@ -27,7 +27,7 @@ export default class App extends Component {
             memberNominations: [],
             periods: [],
             displayedMemberPerformances: [],
-            actorUser: {
+            currentUser: {
                 nickName: document.getElementById('employeeInfo-nickName').innerText,
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
@@ -162,12 +162,11 @@ export default class App extends Component {
                             </div>
                             <div className="record-list">
                                 <CreateMemberPerformance
-                                    employee={this.state.actorUser}
+                                    currentUser={this.state.currentUser}
                                     memberOptions={this.state.memberOptions}
                                     performanceGradeOptions={this.state.performanceGradeOptions}
                                     projectOptions={this.state.projectOptions}
                                     onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
-                                    onExpandForm={this.handleExpandForm}
                                 />
                                 <InfiniteScroll
                                     pageStart={1}
