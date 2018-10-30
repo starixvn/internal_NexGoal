@@ -212,14 +212,17 @@ export default class MemberWorkload extends Component {
                         <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
                     </div>
                 </div>
-                <div>
-                    <div className="team">Team</div>
-                    <Multiselect className="react-select-container" classNamePrefix="react-select"
-                        value={this.state.selectedGroups}
-                        options={this.state.groupOptions}
-                        onChange={this.handleGroupChange}
-                    />
-                </div>    
+                {this.state.groupOptions.length > 0 &&
+                    <div>
+                        <div className="team">Team</div>
+                        <Multiselect className="react-select-container" classNamePrefix="react-select"
+                            value={this.state.selectedGroups}
+                            options={this.state.groupOptions}
+                            onChange={this.handleGroupChange}
+                        />
+                    </div>
+                }
+
                 {this.state.selectedGroups.map(this.renderChart)}
             </div>
         );
