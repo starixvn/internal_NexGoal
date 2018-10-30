@@ -220,11 +220,13 @@ export default class App extends Component {
                             />
                             {performanceRecords.length > 0 &&
                                 <InfiniteScroll
-                                    pageStart={1} initialLoad={true}
+                                    pageStart={1}
+                                    initialLoad
                                     loadMore={this.loadPCIs}
                                     hasMore={this.state.hasMore}
                                     threshold={0}
-                                    useWindow={true} ref="infiniteScrollRef"
+                                    useWindow
+                                    ref="infiniteScrollRef"
                                 >
                                     {
                                         performanceRecords.map(this.renderPerformanceRecord)
