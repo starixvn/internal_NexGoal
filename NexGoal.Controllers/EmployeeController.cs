@@ -19,7 +19,9 @@
         private readonly IEmployeeService employeeService;
         private readonly ISessionService sessionService;
 
-        public EmployeeController(IEmployeeService employeeService, ISessionService sessionService)
+        public EmployeeController(
+            IEmployeeService employeeService,
+            ISessionService sessionService)
         {
             this.employeeService = employeeService;
             this.sessionService = sessionService;

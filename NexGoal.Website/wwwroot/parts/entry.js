@@ -37,8 +37,6 @@ module.exports = {
         [`${jsDistPath}/editevaluationflow`]: `${jsSourcePath}/flow/edit.jsx`,
         [`${jsDistPath}/period`]: `${jsSourcePath}/period/index.jsx`,
         [`${jsDistPath}/editperiod`]: `${jsSourcePath}/period/edit.jsx`,
-        [`${jsDistPath}/create-member-performance`]: `${jsSourcePath}/evaluation/index.jsx`,
-        [`${jsDistPath}/edit-member-performance`]: `${jsSourcePath}/evaluation/edit.jsx`,
         [`${jsDistPath}/create-employee-nomination`]: `${jsSourcePath}/employeenomination/create.jsx`,
         [`${jsDistPath}/reviewparecord`]: `${jsSourcePath}/review/index.jsx`,
         [`${jsDistPath}/editparecord`]: `${jsSourcePath}/review/edit.jsx`,

@@ -7,7 +7,6 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
-    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Services;
 
@@ -31,14 +30,6 @@
                 await performanceRecordService.GetMemberPerformanceAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
             return Json(memberPerformances);
-        }
-
-        [Route("Member/Performance/GetMembers")]
-        public async Task<JsonResult> GetMembers()
-        {
-            IEnumerable<EmployeeBaseModel> members = await performanceRecordService.GetMembersAsync(sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(members);
         }
 
         [Route("Member/Performance/Create")]

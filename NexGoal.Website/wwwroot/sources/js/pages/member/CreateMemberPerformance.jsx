@@ -71,7 +71,7 @@ export default class CreateMemberPerformance extends Component {
         }
 
         this.setState({
-            performanceRecord: Object.assign({}, this.state.performanceRecord, { employee: selectedOption }),
+            performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: selectedOptions }),
             errors: errors
         });
     }
@@ -225,13 +225,14 @@ export default class CreateMemberPerformance extends Component {
                             <FormGroup>
                                 <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
                                 <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
-                                    className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee && 'input-validation-error'}`}
+                                    className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
                                     placeholder="Select Employees"
                                     value={performanceRecord.employees} options={memberOptions}
                                     onChange={this.handleEmployeeChange} isClearable
                                 />
                             </FormGroup>
                             <FormGroup>
+                                <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                                 <TextareaFullscreenEditor
                                     className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                     name="comment"

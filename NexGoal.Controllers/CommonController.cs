@@ -5,6 +5,7 @@
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Services;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
@@ -12,11 +13,18 @@
 
     public class CommonController : Controller
     {
+        private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
+        private readonly IEmployeeService employeeService;
 
-        public CommonController(ICommonService commonService)
+        public CommonController(
+            ISessionService sessionService,
+            ICommonService commonService,
+            IEmployeeService employeeService)
         {
+            this.sessionService = sessionService;
             this.commonService = commonService;
+            this.employeeService = employeeService;
         }
 
         [HttpGet]
@@ -92,6 +100,13 @@
             IEnumerable<PeriodBaseModel> periods = await commonService.GetAllPeriods().ConfigureAwait(false);
 
             return Json(periods);
+        }
+
+        public async Task<JsonResult> GetMembers()
+        {
+            IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(members);
         }
     }
 }

@@ -3,15 +3,14 @@
 @import "../../components/form";
 @import "../../components/marquee";
 @import "../../components/modal";
-@import "../../layouts/record";
-@import "../../components/tables";
 @import "../../components/toast";
+@import "../../layouts/record";
 @import "../../layouts/nomination";
 @import "../../layouts/role";
 @import "../../layouts/form-performance";
 @import "../../layouts/main-layout";
-@import "personal-timeline";
 @import "../../layouts/textarea-fullscreen";
+@import "personal-timeline";
 
 .my-page {
     position: relative;
@@ -68,8 +67,15 @@
     }
 }
 
-.my-pa {
+.react-select-container {
+    &.project-field {
+        .react-select__control {
+            height: auto;
+        }
+    }
+}
 
+.my-pa {
     &-year {
         margin-bottom: 12px;
 
@@ -99,7 +105,6 @@
     padding-top: 152px;
 }
 
-
 .hrm-summary {
     font-size: 14px;
 
@@ -115,6 +120,7 @@
 
 .workload {
     padding: 8px 12px;
+
     h5 {
         display: inline-block;
     }
@@ -222,19 +228,22 @@
         border-bottom-color: #324373;
     }
 }
+
 .modal-body .record {
     margin: 0;
-    padding: 0; 
+    padding: 0;
     box-shadow: none;
 }
 
 .form-performance {
-    &.edit .record{
+    &.edit .record {
         .project {
             margin-left: 16px;
         }
+
         .comment {
             margin-bottom: 12px;
+
             .textarea-fullscreen-wrapper .textarea-fullscreen-editor.expanded {
                 width: 100vw;
                 height: 100vh;
@@ -242,11 +251,11 @@
                 margin-top: -68px;
             }
         }
-
     }
+
     &.edit, &.create {
         .comment textarea {
-            padding: 3px 20px 3px 4px; 
+            padding: 3px 20px 3px 4px;
         }
     }
 }

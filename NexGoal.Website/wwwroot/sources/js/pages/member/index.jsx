@@ -43,7 +43,7 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
-            axios(resolveClientUrl('member/Performance/GetMembers')),
+            axios(resolveClientUrl('Common/GetMembers')),
             axios(resolveClientUrl('member/GetMemberNominationResult')),
             axios(resolveClientUrl('member/Performance'))
         ];
@@ -119,12 +119,30 @@ export default class App extends Component {
         }
     }
 
-    loadMorePerformances = (page, callback) => {
+    loadMoreMemberPerformances = (page, callback) => {
         let records = this.state.memberPerformances.slice(0, page * this.itemPerPage);
         this.setState({ displayedMemberPerformances: records, hasMore: records.length < this.state.memberPerformances.length }, () => {
             if (callback)
                 callback();
         });
+    }
+
+    handleTimelineNodeClick = (performanceRecordId) => {
+
+    }
+
+    handleCreateMemberPerformanceSuccess = () => {
+        axios(resolveClientUrl('member/Performance'))
+            .then((response) => {
+                let memberPerformances = response.data;
+
+                this.refs.infiniteScrollRef.pageLoaded = 1;
+
+                this.setState({
+                    memberPerformances: memberPerformances,
+                    displayedMemberPerformances: memberPerformances.slice(0, this.itemPerPage)
+                });
+            }).catch(axiosError);
     }
 
     render() {
@@ -133,7 +151,7 @@ export default class App extends Component {
                 <div className="row">
                     <div className="main-layout member-page">
                         <div className="general-info box">
-                            <Timeline onSelectNode={this.handlePCIClick} />
+                            <Timeline onNodeClick={this.handleTimelineNodeClick} />
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
@@ -147,15 +165,16 @@ export default class App extends Component {
                                     memberOptions={this.state.memberOptions}
                                     performanceGradeOptions={this.state.performanceGradeOptions}
                                     projectOptions={this.state.projectOptions}
-                                    onSubmitSuccess={this.handleCreatePerformanceSuccess}
+                                    onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
                                     onExpandForm={this.handleExpandForm}
                                 />
                                 <InfiniteScroll
-                                    pageStart={1} initialLoad={true}
-                                    loadMore={this.loadMorePerformances}
+                                    pageStart={1}
+                                    initialLoad
+                                    loadMore={this.loadMoreMemberPerformances}
                                     hasMore={this.state.hasMore}
                                     threshold={0}
-                                    useWindow={true}
+                                    useWindow
                                     ref="infiniteScrollRef"
                                 >
                                     {
@@ -167,7 +186,7 @@ export default class App extends Component {
                         </div>
                         <div className="work-info">
                             <Scrollbars style={{ maxHeight: '100%' }} autoHide={true} >
-                                < NominationResult isSupervisor={true} nominations={this.state.memberNominations} />
+                                <NominationResult isSupervisor={true} nominations={this.state.memberNominations} />
                                 {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
                             </Scrollbars >
                         </div>

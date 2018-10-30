@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
@@ -17,12 +17,12 @@ export default class Timeline extends Component {
     }
 
     componentDidMount() {
-        window.addEventListener('resize', this.updateDimensions);
+        //window.addEventListener('resize', this.updateDimensions);
         this.getMemberPerformanceTimeline();
     }
 
     componentWillUnmount() {
-        window.removeEventListener('resize', this.updateDimensions);
+        //window.removeEventListener('resize', this.updateDimensions);
     }
 
     updateDimensions = () => {
@@ -93,7 +93,7 @@ export default class Timeline extends Component {
                                 data={memberPerformance}
                                 timelineWidth={timelineWidth}
                                 onPageChange={this.handlePageChange}
-                                onSelectNode={this.props.onSelectNode}
+                                onNodeClick={this.props.onNodeClick}
                             />
                         );
                     })

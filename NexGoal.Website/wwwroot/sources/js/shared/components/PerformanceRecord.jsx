@@ -40,7 +40,6 @@ export default class PerformanceRecord extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props);
         this.detectCollapseExpandComment();
     }
 
@@ -108,7 +107,7 @@ export default class PerformanceRecord extends Component {
                                 <span className="draft">draft</span>
                             }
                         </div>
-                        
+
                     </div>
                     {
                         (this.props.modifiedDate || this.props.isHost) &&

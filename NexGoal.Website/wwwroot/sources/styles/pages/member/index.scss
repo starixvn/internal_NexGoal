@@ -3,18 +3,19 @@
 @import "../../components/form";
 @import "../../components/marquee";
 @import "../../components/modal";
-@import "../../layouts/record";
 @import "../../components/toast";
+@import "../../layouts/record";
 @import "../../layouts/nomination";
 @import "../../layouts/role";
 @import "../../layouts/form-performance";
 @import "../../layouts/main-layout";
-@import "../home/personal-timeline";
 @import "../../layouts/textarea-fullscreen";
+@import "../home/personal-timeline";
 
 .general-info {
     padding: 16px 16px 16px 12px;
 }
+
 .member-performance {
     display: grid;
     grid-template-columns: 90px 1fr;
@@ -134,16 +135,16 @@
             margin-left: 2px;
         }
     }
-    
+
     .team {
         display: inline-block;
         width: 40px;
     }
+
     .react-select-container {
         display: inline-block;
         width: calc(100% - 40px);
     }
-
 }
 
 .nomination {
@@ -168,5 +169,13 @@
         width: 10px;
         height: 10px;
         margin-right: 10px;
+    }
+}
+
+.react-select-container {
+    &.project-field, &.employee-field {
+        .react-select__control {
+            height: auto;
+        }
     }
 }

@@ -187,14 +187,15 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
-    loadPCIs = (page, callback) => {
+    loadMorePerformances = (page, callback) => {
         let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
         this.setState({
             displayedPerformanceRecords: records,
             hasMore: records.length < this.state.performanceRecords.length
         }, () => {
-            if (callback)
+            if (callback) {
                 callback();
+            }
         });
     }
 
@@ -231,7 +232,8 @@ export default class App extends Component {
             let page = Math.ceil((index + 1) / this.itemPerPage);
 
             this.refs.infiniteScrollRef.pageLoaded = page;
-            this.loadPCIs(page, () => {
+
+            this.loadMorePerformances(page, () => {
                 this.setState({ selectedPCIId: performanceRecordId });
                 document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
             });
@@ -278,7 +280,7 @@ export default class App extends Component {
                                     <InfiniteScroll
                                         pageStart={1}
                                         initialLoad
-                                        loadMore={this.loadPCIs}
+                                        loadMore={this.loadMorePerformances}
                                         hasMore={this.state.hasMore}
                                         threshold={0}
                                         useWindow
@@ -289,19 +291,17 @@ export default class App extends Component {
                                         }
                                     </InfiniteScroll>
                                 }
-
                             </div>
                         </div>
-
                     </div>
                     <div className="work-info">
                         <NominationResult nominations={this.state.nominations} />
                         <HrmSummary hrmDetail={this.state.hrmDetail} />
-
-                        {this.state.periods.length > 0 && <WorkLoad periods={this.state.periods} />}
-
+                        {
+                            this.state.periods.length > 0 &&
+                            <WorkLoad periods={this.state.periods} />
+                        }
                     </div>
-
                     {
                         this.state.showEditPerformanceModal &&
                         <EditSelfPerformance

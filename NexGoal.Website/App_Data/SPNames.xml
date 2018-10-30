@@ -12,10 +12,12 @@
     <Setting Key="Function_GetByEmployeeId" SpName="Function_GetByEmployeeId" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Role_AssignFunction" SpName="Role_AssignFunction" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="Group">
+    <Setting Key="Group_GetAll" SpName="Group_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
   <Function Name="Employee">
     <Setting Key="Employee_GetByDomainUsername" SpName="Employee_GetByDomainUsername" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetAll" SpName="Employee_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="Employee_GetGroups" SpName="Employee_GetGroups" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetRolesById" SpName="Employee_GetRolesById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_UpdateRoles" SpName="Employee_UpdateRoles" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetById" SpName="Employee_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
@@ -104,7 +106,6 @@
     <Setting Key="Project_GetAll" SpName="Project_GetAll" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Performanace Record">
-    <Setting Key="PerformanceRecord_GetMember" SpName="PerformanceRecord_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetByEmployee" SpName="PerformanceRecord_GetByEmployee" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetTimeline" SpName="PerformanceRecord_GetTimeline" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetMemberPerformance" SpName="PerformanceRecord_GetMemberPerformance" DbName="bodb_NexGoal" Plain="0"></Setting>

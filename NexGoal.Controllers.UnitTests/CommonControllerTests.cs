@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Services;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
@@ -180,7 +181,9 @@
         private CommonController GetCommonController()
         {
             commonService = Substitute.For<ICommonService>();
-            var controller = new CommonController(commonService);
+            var sessionService = Substitute.For<ISessionService>();
+            var employeeService = Substitute.For<IEmployeeService>();
+            var controller = new CommonController(sessionService, commonService, employeeService);
 
             return controller;
         }
