@@ -66,6 +66,7 @@ var resource_en_US = {
     'IssueDateRequired': 'Issue Date is required.',
     'JobTitle': 'Job Title',
     'Keyword': 'Keyword',
+    'Member': 'Member',
     'MemberNomination': 'Member Nomination',
     'MemberPerformance': 'Member Performance',
     'Name': 'Name',

@@ -189,7 +189,10 @@ export default class App extends Component {
 
     loadPCIs = (page, callback) => {
         let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
-        this.setState({ displayedPerformanceRecords: records, hasMore: records.length < this.state.performanceRecords.length }, () => {
+        this.setState({
+            displayedPerformanceRecords: records,
+            hasMore: records.length < this.state.performanceRecords.length
+        }, () => {
             if (callback)
                 callback();
         });

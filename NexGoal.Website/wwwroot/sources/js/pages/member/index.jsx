@@ -10,6 +10,7 @@ import { DateFormat } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import NominationResult from '../../shared/components/NominationResult';
+import CreateMemberPerformance from './CreateMemberPerformance';
 import MemberWorkload from './MemberWorkload';
 import Timeline from './timeline/index';
 
@@ -18,11 +19,20 @@ export default class App extends Component {
         super(props);
 
         this.state = {
+            memberOptions: [],
+            performanceGradeOptions: [],
+            projectOptions: [],
             memberPerformances: [],
             memberPerformanceAppraisals: [],
             memberNominations: [],
             periods: [],
-            displayedMemberPerformances: []
+            displayedMemberPerformances: [],
+            actorUser: {
+                nickName: document.getElementById('employeeInfo-nickName').innerText,
+                fullName: document.getElementById('employeeInfo-fullName').innerText,
+                jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
+                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
+            }
         };
 
         this.itemPerPage = 4;
@@ -31,16 +41,35 @@ export default class App extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetAllPeriods')),
+            axios(resolveClientUrl('Common/GetPerformanceGrades')),
+            axios(resolveClientUrl('Common/GetProjects')),
+            axios(resolveClientUrl('member/Performance/GetMembers')),
             axios(resolveClientUrl('member/GetMemberNominationResult')),
             axios(resolveClientUrl('member/Performance'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, memberNominationResponse, memberPerformanceResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, memberNominationResponse, memberPerformanceResponse]) => {
+                const performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
+                    return {
+                        value: performanceGrade.gradeId,
+                        label: performanceGrade.description ? `${performanceGrade.description} (${performanceGrade.name})` : performanceGrade.name
+                    };
+                });
+                const projectOptions = projectResponse.data.map(project => {
+                    return { value: project.projectId, label: project.name };
+                });
+                const memberOptions = memberResponse.data.map(member => {
+                    return { value: member.employeeId, label: `${member.fullName} (${member.nickName})` };
+                });
+
                 let displayedMemberPerformances = memberPerformanceResponse.data.slice(0, this.itemPerPage);
 
                 this.setState({
                     periods: periodResponse.data,
+                    performanceGradeOptions: performanceGradeOptions,
+                    projectOptions: projectOptions,
+                    memberOptions: memberOptions,
                     memberNominations: memberNominationResponse.data,
                     memberPerformances: memberPerformanceResponse.data,
                     displayedMemberPerformances: displayedMemberPerformances,
@@ -91,19 +120,26 @@ export default class App extends Component {
                                 </div>
                             </div>
                             <div className="record-list">
-                                {
-                                    <InfiniteScroll
-                                        pageStart={1} initialLoad={true}
-                                        loadMore={this.loadMorePerformances}
-                                        hasMore={this.state.hasMore}
-                                        threshold={0}
-                                        useWindow={true}
-                                    >
-                                        {
-                                            this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
-                                        }
-                                    </InfiniteScroll>
-                                }
+                                <CreateMemberPerformance
+                                    employee={this.state.actorUser}
+                                    memberOptions={this.state.memberOptions}
+                                    performanceGradeOptions={this.state.performanceGradeOptions}
+                                    projectOptions={this.state.projectOptions}
+                                    onSubmitSuccess={this.handleCreatePerformanceSuccess}
+                                    onExpandForm={this.handleExpandForm}
+                                />
+                                <InfiniteScroll
+                                    pageStart={1} initialLoad={true}
+                                    loadMore={this.loadMorePerformances}
+                                    hasMore={this.state.hasMore}
+                                    threshold={0}
+                                    useWindow={true}
+                                >
+                                    {
+                                        this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
+                                    }
+                                </InfiniteScroll>
+
                             </div>
                         </div>
                         <div className="work-info">
