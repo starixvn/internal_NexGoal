@@ -1,6 +1,14 @@
 ﻿import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 
 export default class TextareaFullscreenEditor extends Component {
+    static propTypes = {
+        className: PropTypes.string,
+        name: PropTypes.string,
+        value: PropTypes.string,
+        onChange: PropTypes.func
+    };
+
     constructor(props) {
         super(props);
 
@@ -10,6 +18,17 @@ export default class TextareaFullscreenEditor extends Component {
 
         this.$body = $(document.body);
         this.textareaEditor = React.createRef();
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.className !== nextProps.className
+            || this.props.name !== nextProps.name
+            || this.props.value !== nextProps.value
+            || this.state.isFullscreen !== nextState.isFullscreen) {
+            return true;
+        }
+
+        return false;
     }
 
     handleChangeMode = () => {

@@ -2,14 +2,11 @@
 import moment from 'moment';
 
 export default class PerformanceAppraisalResult extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     shouldComponentUpdate(nextProps, nextState) {
         if (JSON.stringify(this.props.performanceAppraisals) !== JSON.stringify(nextProps.performanceAppraisals)) {
             return true;
         }
+
         return false;
     }
 
@@ -44,7 +41,7 @@ export default class PerformanceAppraisalResult extends Component {
                     performanceAppraisals.map(performanceAppraisal => {
                         return (
                             <div key={`year${performanceAppraisal.year}`} className="my-pa-year">
-                                <div className="year">2018</div>
+                                <div className="year">{performanceAppraisal.year}</div>
                                 {
                                     performanceAppraisal.records.map(record => {
                                         let grade = record.grade ? record.grade.name : '';

@@ -34,7 +34,7 @@ export default class MemberWorkload extends Component {
                 {
                     workloads: workloads,
                     groupOptions: groupOptions,
-                    selectedGroups: groupOptions,
+                    selectedGroups: groupOptions
                 });
         }).catch(axiosError);
     }
@@ -117,7 +117,7 @@ export default class MemberWorkload extends Component {
         scales: {
             yAxes: [{
                 gridLines: {
-                    display: false,
+                    display: false
                 },
                 stacked: true
             }]
@@ -129,7 +129,7 @@ export default class MemberWorkload extends Component {
 
     renderChart = (group) => {
         let workload = this.state.workloads.find(x => x.groupId === group.value);
-        return (<HorizontalBar key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />)
+        return <HorizontalBar key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />;
     }
 
     render() {
