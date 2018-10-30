@@ -33,7 +33,7 @@ export default class TimelineNode extends Component {
     }
 
     handleClick = () => {
-        this.props.onNodeClick(this.props.data.performanceRecordId);
+        this.props.onClick(this.props.data.performanceRecordId);
     }
 
     render() {

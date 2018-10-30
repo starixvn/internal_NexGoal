@@ -43,7 +43,7 @@ export default class Timeline extends Component {
                                 <Node key={`timelineNode${performanceRecord.performanceRecordId}`}
                                     data={performanceRecord}
                                     position={position}
-                                    onClick={this.props.onSelectNode}
+                                    onClick={this.props.onNodeClick}
                                 />
                             );
                         })

@@ -100,7 +100,19 @@ export default class App extends Component {
         );
     }
 
-    handlePCIClick = performanceRecordId => {
+    loadMoreMemberPerformances = (page, callback) => {
+        let records = this.state.memberPerformances.slice(0, page * this.itemPerPage);
+        this.setState({
+            displayedMemberPerformances: records,
+            hasMore: records.length < this.state.memberPerformances.length
+        }, () => {
+            if (callback) {
+                callback();
+            }
+        });
+    }
+
+    handleTimelineNodeClick = (performanceRecordId) => {
         if (!this.state.displayedMemberPerformances.some(r => r.performanceRecordId === performanceRecordId)) {
             let index = this.state.memberPerformances.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
@@ -109,7 +121,8 @@ export default class App extends Component {
             let page = Math.ceil((index + 1) / this.itemPerPage);
 
             this.refs.infiniteScrollRef.pageLoaded = page;
-            this.loadMorePerformances(page, () => {
+
+            this.loadMoreMemberPerformances(page, () => {
                 this.setState({ selectedPCIId: performanceRecordId });
                 document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
             });
@@ -117,18 +130,6 @@ export default class App extends Component {
             this.setState({ selectedPCIId: performanceRecordId });
             document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
         }
-    }
-
-    loadMoreMemberPerformances = (page, callback) => {
-        let records = this.state.memberPerformances.slice(0, page * this.itemPerPage);
-        this.setState({ displayedMemberPerformances: records, hasMore: records.length < this.state.memberPerformances.length }, () => {
-            if (callback)
-                callback();
-        });
-    }
-
-    handleTimelineNodeClick = (performanceRecordId) => {
-
     }
 
     handleCreateMemberPerformanceSuccess = () => {
