@@ -155,13 +155,14 @@ export default class MemberWorkload extends Component {
                         innerHtml += '<tr><th>' + title + '</th></tr>';
                     });
                     innerHtml += '</thead><tbody>';
-
-                    bodyLines.filter(b => b.length > 0).forEach(function (body, i) {
-                        var colors = tooltipModel.labelColors[i];
-                        var style = 'background:' + colors.backgroundColor;
-                        style += '; border: 2px solid ' + colors.borderColor;
-                        var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
-                        innerHtml += '<tr><td>' + span + body + '</td></tr>';
+                    bodyLines.forEach(function (body, i) {
+                        if (body.length > 0) {
+                            var colors = tooltipModel.labelColors[i];
+                            var style = 'background:' + colors.backgroundColor;
+                            style += '; border: 2px solid ' + colors.borderColor;
+                            var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
+                            innerHtml += '<tr><td>' + span + body + '</td></tr>';
+                        }
                     });
                     innerHtml += '</tbody>';
 
@@ -188,8 +189,8 @@ export default class MemberWorkload extends Component {
                 gridLines: {
                     display: false
                 },
-                stacked: true
-            }]
+                stacked: true,
+            }],
         },
         legend: {
             display: false
