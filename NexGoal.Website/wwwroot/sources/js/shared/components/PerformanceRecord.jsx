@@ -101,11 +101,14 @@ export default class PerformanceRecord extends Component {
                                 <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
                             </Fragment>
                         }
-                        {
-                            this.props.statusId === PerformanceRecordStatus.Draft &&
-                            <span className="draft">draft</span>
-                        }
-                        <div className="submit-date">{this.props.submittedDate}</div>
+                        <div>
+                            <span className="submit-date">{this.props.submittedDate}</span>
+                            {
+                                this.props.statusId === PerformanceRecordStatus.Draft &&
+                                <span className="draft">draft</span>
+                            }
+                        </div>
+                        
                     </div>
                     {
                         (this.props.modifiedDate || this.props.isHost) &&

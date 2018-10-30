@@ -34,7 +34,7 @@ $c-sidebar-menu-item-link-active-text: #324373;
 }
 
 .left-bar {
-    width: 279px;
+    width: 250px;
     padding-right: 15px;
     background: #2C3B66;
     transition: width 0.25s;
@@ -50,5 +50,17 @@ $c-sidebar-menu-item-link-active-text: #324373;
 
     .page-header {
         margin-top: 0;
+    }
+}
+
+@media screen and (min-device-width: 1920px) {
+    .left-bar {
+        width: 400px;
+    }
+}
+
+@media screen and (min-device-width: 1280px) and (max-device-width: 1919px) {
+    .left-bar {
+        width: 300px;
     }
 }
