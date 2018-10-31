@@ -43,6 +43,9 @@
     grid-template-columns: 1fr;
     grid-template-rows: 50px 1fr;
 
+    .comment {
+        padding-bottom: 0;
+    }
     .comment .form-control {
         font-size: 14px;
     }
