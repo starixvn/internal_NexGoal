@@ -14,12 +14,43 @@ form.form-performance {
     .form-group button {
         margin-right: 12px;
     }
+}
 
-    .modal-body {
-        .form-control {
-            &.comment-field {
-                min-height: 200px;
+.form-performance {
+    .modal-body .record {
+        margin: 0;
+        padding: 0;
+        box-shadow: none;
+    }
+
+    .react-select-container {
+        &.project-field, &.employee-field {
+            .react-select__control {
+                height: auto;
             }
+        }
+    }
+
+    &.edit .record {
+        .project {
+            margin-left: 16px;
+        }
+
+        .comment {
+            margin-bottom: 12px;
+
+            .textarea-fullscreen-wrapper .textarea-fullscreen-editor.expanded {
+                width: 100vw;
+                height: 100vh;
+                margin-left: calc(-50vw + 50%);
+                margin-top: -68px;
+            }
+        }
+    }
+
+    &.edit, &.create {
+        .comment textarea {
+            padding: 3px 20px 3px 4px;
         }
     }
 }

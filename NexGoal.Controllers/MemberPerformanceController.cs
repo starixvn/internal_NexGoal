@@ -49,31 +49,12 @@
             return Json(new { isSuccessful = false, errors });
         }
 
-        [Route("Member/Performance/Edit/{id}")]
-        public async Task<IActionResult> Edit(int id)
-        {
-            PerformanceRecordModel record = await performanceRecordService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-
-            if (record == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
-
-            if (record.StatusId == PerformanceRecordStatus.Closed)
-            {
-                return RedirectToAction("AccessDenied", "Error");
-            }
-
-            return View(id);
-        }
-
         [Route("Member/Performance/Edit")]
         [HttpPost]
         public async Task<JsonResult> Edit(EditPerformanceRecordModel performanceRecord)
         {
             if (ModelState.IsValid)
             {
-                performanceRecord.EmployeeIds = sessionService.EmployeeId.ToString();
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
                 CommandResult commandResult = await performanceRecordService.EditPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);

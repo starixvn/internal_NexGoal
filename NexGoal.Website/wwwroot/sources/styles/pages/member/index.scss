@@ -171,11 +171,3 @@
         margin-right: 10px;
     }
 }
-
-.react-select-container {
-    &.project-field, &.employee-field {
-        .react-select__control {
-            height: auto;
-        }
-    }
-}

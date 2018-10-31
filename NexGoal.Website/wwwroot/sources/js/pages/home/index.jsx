@@ -47,7 +47,6 @@ export default class App extends Component {
             }
         };
 
-        this.timelineWidth = React.createRef();
         this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
         this.itemPerPage = 4;
     }

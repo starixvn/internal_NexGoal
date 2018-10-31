@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, ControlLabel, FormControl, FormGroup, Modal } from 'react-bootstrap';
+import { Button, ControlLabel, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -103,12 +103,14 @@ export default class EditSelfPerformance extends Component {
                     break;
             }
 
+            let record = this.state.performanceRecord;
+
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                performanceRecordId: this.state.performanceRecord.performanceRecordId,
-                gradeId: this.state.performanceRecord.grade ? this.state.performanceRecord.grade.value : null,
-                comment: this.state.performanceRecord.comment,
-                projectIds: this.state.performanceRecord.projects.map((project) => { return project.value; }).join(','),
+                performanceRecordId: record.performanceRecordId,
+                gradeId: record.grade ? record.grade.value : null,
+                comment: record.comment,
+                projectIds: record.projects.map((project) => { return project.value; }).join(','),
                 statusId: statusId
             });
 
@@ -125,7 +127,7 @@ export default class EditSelfPerformance extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
 
-                    this.props.onSubmitSuccess(this.state.performanceRecord.performanceRecordId);
+                    this.props.onSubmitSuccess(record.performanceRecordId);
                 } else {
                     if (data.errors) {
                         let errors = {};

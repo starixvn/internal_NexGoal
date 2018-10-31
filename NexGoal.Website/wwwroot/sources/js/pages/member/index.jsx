@@ -11,6 +11,7 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import NominationResult from '../../shared/components/NominationResult';
 import CreateMemberPerformance from './CreateMemberPerformance';
+import EditMemberPerformance from './EditMemberPerformance';
 import MemberWorkload from './MemberWorkload';
 import Timeline from './timeline/index';
 
@@ -27,6 +28,10 @@ export default class App extends Component {
             memberNominations: [],
             periods: [],
             displayedMemberPerformances: [],
+            editMemberPerformance: {
+                isShowModal: false,
+                performanceRecordId: 0
+            },
             currentUser: {
                 nickName: document.getElementById('employeeInfo-nickName').innerText,
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
@@ -94,8 +99,8 @@ export default class App extends Component {
                 grade={performanceRecord.grade}
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
-                onEdit={this.handleEditPerformanceRecord}
-                isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
+                onEdit={this.handleEditMemberPerformanceRecordClick}
+                isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />
         );
     }
@@ -123,11 +128,11 @@ export default class App extends Component {
             this.refs.infiniteScrollRef.pageLoaded = page;
 
             this.loadMoreMemberPerformances(page, () => {
-                this.setState({ selectedPCIId: performanceRecordId });
+                this.setState({ performanceRecordIdHighlighted: performanceRecordId });
                 document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
             });
         } else {
-            this.setState({ selectedPCIId: performanceRecordId });
+            this.setState({ performanceRecordIdHighlighted: performanceRecordId });
             document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
         }
     }
@@ -146,7 +151,34 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
+    handleEditMemberPerformanceRecordClick = (performanceRecordId) => {
+        this.setState({
+            editMemberPerformance: {
+                isShowModal: true,
+                performanceRecordId: performanceRecordId
+            }
+        });
+    }
+
+    handleCancelEditMemberPerformanceClick = () => {
+        this.setState({
+            editMemberPerformance: {
+                isShowModal: false,
+                performanceRecordId: 0
+            }
+        });
+    }
+
+    handleEditMemberPerformanceSuccess = () => {
+        this.handleCancelEditMemberPerformanceClick();
+    }
+
     render() {
+        let memberOptions = this.state.memberOptions;
+        let performanceGradeOptions = this.state.performanceGradeOptions;
+        let projectOptions = this.state.projectOptions;
+        let currentUser = this.state.currentUser;
+
         return (
             <ToastLayout>
                 <div className="row">
@@ -165,10 +197,10 @@ export default class App extends Component {
                             </div>
                             <div className="record-list">
                                 <CreateMemberPerformance
-                                    currentUser={this.state.currentUser}
-                                    memberOptions={this.state.memberOptions}
-                                    performanceGradeOptions={this.state.performanceGradeOptions}
-                                    projectOptions={this.state.projectOptions}
+                                    currentUser={currentUser}
+                                    memberOptions={memberOptions}
+                                    performanceGradeOptions={performanceGradeOptions}
+                                    projectOptions={projectOptions}
                                     onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
                                 />
                                 <InfiniteScroll
@@ -195,6 +227,19 @@ export default class App extends Component {
                         </div>
                     </div>
                 </div>
+                {
+                    this.state.editMemberPerformance.isShowModal &&
+                    <EditMemberPerformance
+                        currentUser={currentUser}
+                        performanceRecordId={this.state.editMemberPerformance.performanceRecordId}
+                        memberOptions={memberOptions}
+                        performanceGradeOptions={performanceGradeOptions}
+                        projectOptions={projectOptions}
+                        isShowModal={this.state.editMemberPerformance.isShowModal}
+                        onCloseModal={this.handleCancelEditMemberPerformanceClick}
+                        onSubmitSuccess={this.handleEditMemberPerformanceSuccess}
+                    />
+                }
             </ToastLayout>
         );
     }

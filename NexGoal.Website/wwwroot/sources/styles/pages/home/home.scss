@@ -70,14 +70,6 @@
     }
 }
 
-.react-select-container {
-    &.project-field {
-        .react-select__control {
-            height: auto;
-        }
-    }
-}
-
 .my-pa {
     &-year {
         margin-bottom: 12px;
@@ -229,36 +221,5 @@
 
     &.type-info.place-bottom:after, &.place-top:after {
         border-bottom-color: #324373;
-    }
-}
-
-.modal-body .record {
-    margin: 0;
-    padding: 0;
-    box-shadow: none;
-}
-
-.form-performance {
-    &.edit .record {
-        .project {
-            margin-left: 16px;
-        }
-
-        .comment {
-            margin-bottom: 12px;
-
-            .textarea-fullscreen-wrapper .textarea-fullscreen-editor.expanded {
-                width: 100vw;
-                height: 100vh;
-                margin-left: calc(-50vw + 50%);
-                margin-top: -68px;
-            }
-        }
-    }
-
-    &.edit, &.create {
-        .comment textarea {
-            padding: 3px 20px 3px 4px;
-        }
     }
 }

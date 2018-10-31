@@ -6,6 +6,7 @@ export default class PersonalTimeline extends Component {
         super(props);
         this.timelineWidth = React.createRef();
     }
+
     onClickPrevious = () => {
         const memberPerformance = this.props.data;
         const pageIndex = memberPerformance.pageIndex + 1;
@@ -29,6 +30,7 @@ export default class PersonalTimeline extends Component {
         const memberPerformance = this.props.data;
         const records = memberPerformance.records;
         const totalNodes = records.length;
+
         return (
             <div className="timeline">
                 <div className="xaxes" ref={this.timelineWidth} />
