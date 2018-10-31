@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, ControlLabel, Modal } from 'react-bootstrap';
+import { Button, ControlLabel, Modal, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
@@ -197,7 +197,7 @@ export default class EditMemberPerformance extends Component {
                     <Modal.Title>{getResource('EditPerformance')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="record">
+                    <div className="record record-your-mind">
                         <div className="avatar-user">
                             <img src={currentUser.avatar} className="avatar" />
                             <div className="person-info">
@@ -205,44 +205,50 @@ export default class EditMemberPerformance extends Component {
                                 <div className="submit-date">{moment().format(DateFormat)}</div>
                             </div>
                         </div>
-                        <div className="member">
-                            <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
-                            <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
-                                className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
-                                placeholder="Select Employees"
-                                value={performanceRecord.employees} options={memberOptions}
-                                onChange={this.handleEmployeeChange} isClearable
-                            />
-                        </div>
                         <div className="comment">
-                            <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
-                            <TextareaFullscreenEditor
-                                className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
-                                name="comment"
-                                value={performanceRecord.comment}
-                                onChange={this.handleCommentChange}
-                            />
-                        </div>
-                        <div className="grade">
-                            <ControlLabel>{getResource('Grade')}</ControlLabel>
-                            <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
-                                placeholder="Select Grade"
-                                value={performanceRecord.grade}
-                                options={performanceGradeOptions}
-                                isSearchable={false}
-                                isClearable
-                                onChange={this.handleGradeChange}
-                            />
-                        </div>
-                        <div className="project">
-                            <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
-                            <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
-                                className="react-select-container project-field" classNamePrefix="react-select"
-                                value={performanceRecord.projects}
-                                options={projectOptions}
-                                onChange={this.handleProjectChange}
-                            />
-                        </div>
+                            <form className="form-filter form-performance edit">
+                                <FormGroup>
+                                    <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
+                                    <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
+                                        className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
+                                        placeholder="Select Employees"
+                                        value={performanceRecord.employees} options={memberOptions}
+                                        onChange={this.handleEmployeeChange} isClearable
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
+                                    <TextareaFullscreenEditor
+                                        className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
+                                        name="comment"
+                                        value={performanceRecord.comment}
+                                        onChange={this.handleCommentChange}
+                                    />
+                                </FormGroup>
+                                <FormGroup>
+                                    <div className="grade">
+                                        <ControlLabel>{getResource('Grade')}</ControlLabel>
+                                        <Select name="grade" className="react-select-container grade-field" classNamePrefix="react-select"
+                                            placeholder="Select Grade"
+                                            value={performanceRecord.grade}
+                                            options={performanceGradeOptions}
+                                            isSearchable={false}
+                                            isClearable
+                                            onChange={this.handleGradeChange}
+                                        />
+                                    </div>
+                                    <div className="project">
+                                        <ControlLabel>{getResource('ProjectTag')}</ControlLabel>
+                                        <Select name="projects" isMulti closeMenuOnSelect={false} placeholder="Projects"
+                                            className="react-select-container project-field" classNamePrefix="react-select"
+                                            value={performanceRecord.projects}
+                                            options={projectOptions}
+                                            onChange={this.handleProjectChange}
+                                        />
+                                    </div>
+                                </FormGroup>
+                            </form>
+                        </div>  
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
