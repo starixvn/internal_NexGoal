@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -47,12 +46,14 @@
             {
                 workload = workload.OrderByDescending(x => x.TotalHours);
 
-                var result = new List<ProjectWorkloadModel>(workload.Take(5));
-                result.Add(new ProjectWorkloadModel
+                var result = new List<ProjectWorkloadModel>(workload.Take(5))
                 {
-                    Name = "Others",
-                    TotalHours = workload.Skip(5).Sum(x => x.TotalHours)
-                });
+                    new ProjectWorkloadModel
+                    {
+                        Name = "Others",
+                        TotalHours = workload.Skip(5).Sum(x => x.TotalHours)
+                    }
+                };
 
                 return result;
             }
