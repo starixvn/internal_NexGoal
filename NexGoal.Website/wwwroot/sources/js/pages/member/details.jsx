@@ -198,7 +198,6 @@ export default class App extends Component {
         axios(resolveClientUrl('member/Performance'), { params: { memberId: this.state.memberInfo.id } })
             .then((response) => {
                 let memberPerformances = response.data;
-                console.log(memberPerformances);
                 this.refs.infiniteScrollRef.pageLoaded = 1;
 
                 this.setState({
@@ -224,7 +223,7 @@ export default class App extends Component {
                         <EmployeeInfo employee={this.state.memberInfo} />
                         <PerformanceAppraisalResult
                             performanceAppraisals={performanceAppraisals}
-                            memberName={this.state.memberInfo.nickName}
+                            title={`${this.state.memberInfo.nickName}'s PAs`}
                         />
                     </div>
                     <div className="main-content">

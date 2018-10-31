@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import moment from 'moment';
+import getResource from '../../resourceHelper';
 
 export default class PerformanceAppraisalResult extends Component {
     shouldComponentUpdate(nextProps, nextState) {
@@ -32,12 +33,11 @@ export default class PerformanceAppraisalResult extends Component {
     };
 
     render() {
-        const employee = this.props.employee ? this.props.employee.nickName + "'s " : "My ";
         const performanceAppraisals = this.groupPerformanceAppraisals(this.props.performanceAppraisals);
-
+        const title = this.props.title ? this.props.title : 'My PAs';
         return (
             <div className="my-pa box">
-                <h5>{employee} PAs</h5>
+                <h5>{title}</h5>
                 {
                     performanceAppraisals.map(performanceAppraisal => {
                         return (

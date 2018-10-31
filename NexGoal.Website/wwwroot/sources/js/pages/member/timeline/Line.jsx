@@ -30,7 +30,7 @@ export default class Timeline extends Component {
         return (
             <div className="member-performance">
                 <div className="employee-info">
-                    <a href="#" className="nick-name">{memberPerformance.nickName}</a>
+                    <a href={`details/${memberPerformance.employeeId}`} className="nick-name">{memberPerformance.nickName}</a>
                     <div>PA:</div>
                 </div>
                 <div className="timeline">
