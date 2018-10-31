@@ -13,7 +13,14 @@
             this.baseService = baseService;
         }
 
-        public CommandResult InsertEmployeeSettings()
+        public CommandResult CreatePeriod()
+        {
+            var criteria = new CreatePeriodCriteria();
+
+            return baseService.ExecuteNonQuery(criteria);
+        }
+
+        public CommandResult CreateEmployeeSettings()
         {
             IEnumerable<int> periodIds = GetPeriodStarted();
             var criteria = new CreateEmployeeSettingsCriteria

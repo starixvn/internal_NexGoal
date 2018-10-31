@@ -4,7 +4,9 @@
 
     public interface IPeriodService
     {
-        CommandResult InsertEmployeeSettings();
+        CommandResult CreatePeriod();
+
+        CommandResult CreateEmployeeSettings();
 
         CommandResult GeneratePA();
 

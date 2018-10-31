@@ -20,7 +20,8 @@
         {
             try
             {
-                periodService.InsertEmployeeSettings();
+                periodService.CreatePeriod();
+                periodService.CreateEmployeeSettings();
                 periodService.GeneratePA();
                 periodService.EditStatus();
 
