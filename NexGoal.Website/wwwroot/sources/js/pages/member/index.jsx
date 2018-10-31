@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
+import { Tabs, Tab } from 'react-bootstrap';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat } from '../../constants';
@@ -37,7 +38,9 @@ export default class App extends Component {
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
-            }
+            },
+            activeTabKey: 1,
+            loadNominationTab: false
         };
 
         this.itemPerPage = 4;
@@ -151,6 +154,14 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
+    handleSelectTab(key) {
+        if (key === 2 && !this.state.loadNominationTab) {
+            this.setState({ activeTabKey: key, loadNominationTab: true });
+        } else {
+            this.setState({ activeTabKey: key });
+        }
+    }
+
     handleEditMemberPerformanceRecordClick = (performanceRecordId) => {
         this.setState({
             editMemberPerformance: {
@@ -185,7 +196,7 @@ export default class App extends Component {
                     <div className="main-layout member-page">
                         <div className="general-info box">
                             <Scrollbars style={{ maxHeight: '100%' }} autoHide={true} >
-                            <h5>Member Performance - 2nd 2018</h5>
+                                <h5>Member Performance - 2nd 2018</h5>
                                 <Timeline onNodeClick={this.handleTimelineNodeClick} />
                             </Scrollbars >
                         </div>
@@ -195,29 +206,37 @@ export default class App extends Component {
                                     <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
                                 </div>
                             </div>
-                            <div className="record-list">
-                                <CreateMemberPerformance
+                            <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab}>
+                                <Tab eventKey={1} title="Performance">
+                                    <div className="record-list">
+                                        <CreateMemberPerformance
                                     currentUser={currentUser}
                                     memberOptions={memberOptions}
                                     performanceGradeOptions={performanceGradeOptions}
                                     projectOptions={projectOptions}
-                                    onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
-                                />
-                                <InfiniteScroll
-                                    pageStart={1}
-                                    initialLoad
-                                    loadMore={this.loadMoreMemberPerformances}
-                                    hasMore={this.state.hasMore}
-                                    threshold={0}
-                                    useWindow
-                                    ref="infiniteScrollRef"
-                                >
-                                    {
-                                        this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
-                                    }
-                                </InfiniteScroll>
+                                            onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                        />
+                                        <InfiniteScroll
+                                            pageStart={1}
+                                            initialLoad
+                                            loadMore={this.loadMoreMemberPerformances}
+                                            hasMore={this.state.hasMore}
+                                            threshold={0}
+                                            useWindow
+                                            ref="infiniteScrollRef"
+                                        >
+                                            {
+                                                this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
+                                            }
+                                        </InfiniteScroll>
 
-                            </div>
+                                    </div>
+                                </Tab>
+                                <Tab eventKey={2} title="Nomination">
+
+                                </Tab>
+
+                            </Tabs>
                         </div>
                         <div className="work-info">
                             <Scrollbars style={{ maxHeight: '100%' }} autoHide={true} >
