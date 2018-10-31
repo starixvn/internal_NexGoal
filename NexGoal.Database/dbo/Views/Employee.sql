@@ -13,4 +13,5 @@ SELECT Id AS EmployeeId
 	,JobTitleId
 	,Email
 	,1 AS IsLocal
-FROM NexHRM.dbo.Employee WITH (NOLOCK)
+FROM [$(NexHRM)].dbo.Employee WITH (NOLOCK)
+

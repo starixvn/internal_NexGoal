@@ -85,7 +85,7 @@ BEGIN
 				,pap.ProcessId AS '@pi'
 				,pap.EvaluatorId AS '@ei'
 				,pr.PerformanceRecordId AS '@pri'
-				,pr.EmployeeId AS '@pei'
+				,pr.EmployeeIds AS '@pei'
 				,pr.GradeId AS '@pgi'
 				,pr.Comment AS '@pc'
 				,pr.CreatedDate AS '@pcd'
@@ -124,7 +124,7 @@ BEGIN
 			,STUFF((
 					SELECT CHAR(10) + prcmt.Comment
 					FROM PerformanceRecord AS prcmt WITH (NOLOCK)
-					WHERE prcmt.EmployeeId = par.EmployeeId
+					WHERE prcmt.EmployeeIds = par.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
 						AND prcmt.TypeId = 1
 						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
@@ -406,7 +406,7 @@ BEGIN
 				,pap.ProcessId AS '@pi'
 				,pap.EvaluatorId AS '@ei'
 				,pr.PerformanceRecordId AS '@pri'
-				,pr.EmployeeId AS '@pei'
+				,pr.EmployeeIds AS '@pei'
 				,pr.GradeId AS '@pgi'
 				,pr.Comment AS '@pc'
 				,pr.CreatedDate AS '@pcd'

@@ -27,3 +27,4 @@ BEGIN
 	GROUP BY pst.ProjectId
 		,p.[Name] 
 END
+

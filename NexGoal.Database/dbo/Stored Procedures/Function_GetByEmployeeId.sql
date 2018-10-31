@@ -24,3 +24,4 @@ BEGIN
 	GROUP BY func.FunctionId
 		,func.FunctionKey
 END
+

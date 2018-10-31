@@ -7,22 +7,25 @@
     <Name>NexGoal.Database</Name>
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
-    <ProjectGuid>{61fff5b1-bb10-4ac9-9023-15c442e79796}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <ProjectGuid>{c3cfd4d0-261f-4a80-aca5-c578f4cb6fcb}</ProjectGuid>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
     <RootNamespace>NexGoal.Database</RootNamespace>
     <AssemblyName>NexGoal.Database</AssemblyName>
-    <ModelCollation>1033, CI</ModelCollation>
+    <ModelCollation>1033,CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <TargetFrameworkProfile />
+    <DefaultCollation>SQL_Latin1_General_CP1_CI_AS</DefaultCollation>
+    <DefaultFilegroup>NexGoal_Data</DefaultFilegroup>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -65,142 +68,175 @@
     <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
-    <Build Include="dbo\Tables\RoleFunction.sql" />
-    <Build Include="dbo\Tables\RefResource.sql" />
-    <Build Include="dbo\Tables\Period.sql" />
+    <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
+      <Name>NexHR.Database</Name>
+      <Project>{f21d8ec2-79e6-46da-93d2-fd0602e37cd1}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>NexHRM</DatabaseSqlCmdVariable>
+    </ProjectReference>
+    <ProjectReference Include="..\Redmine.Database\Redmine.Database.sqlproj">
+      <Name>Redmine.Database</Name>
+      <Project>{624d83f2-17cd-4cb2-bc14-c849d1762006}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>RedmineNexcel</DatabaseSqlCmdVariable>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="NexHRM">
+      <DefaultValue>NexHR.Database</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="RedmineNexcel">
+      <DefaultValue>Redmine.Database</DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="NexGoal.Database.publish.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Build Include="dbo\Tables\GroupFlowSetting.sql" />
+    <Build Include="dbo\Tables\EmployeeFlowSetting.sql" />
+    <Build Include="dbo\Tables\PeriodProcessSetting.sql" />
+    <Build Include="dbo\Tables\EmployeeRole.sql" />
+    <Build Include="dbo\Tables\PeriodDefaultProcessSetting.sql" />
     <Build Include="dbo\Tables\Menu.sql" />
-    <Build Include="dbo\Tables\LogDetail.sql" />
+    <Build Include="dbo\Tables\RefResource.sql" />
+    <Build Include="dbo\Tables\RoleFunction.sql" />
     <Build Include="dbo\Tables\LogActionType.sql" />
     <Build Include="dbo\Tables\LogAction.sql" />
-    <Build Include="dbo\Tables\Function.sql" />
-    <Build Include="dbo\Tables\EOQYNominatorSetting.sql" />
-    <Build Include="dbo\Tables\EOQY.sql" />
-    <Build Include="dbo\Tables\EmployeeRole.sql" />
-    <Build Include="dbo\Tables\Discipline.sql" />
-    <Build Include="dbo\Views\JobTitle.sql" />
-    <Build Include="dbo\Views\Group.sql" />
-    <Build Include="dbo\Views\Employee.sql" />
-    <Build Include="Storage\NexGoal_Data.sql" />
-    <Build Include="dbo\Functions\func_SplitString.sql" />
-    <Build Include="dbo\Stored Procedures\Role_AssignFunction.sql" />
-    <Build Include="dbo\Stored Procedures\RefResource_GetByNames.sql" />
-    <Build Include="dbo\Stored Procedures\Period_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Period_Get.sql" />
-    <Build Include="dbo\Stored Procedures\Menu_GetByEmployeeId.sql" />
-    <Build Include="dbo\Stored Procedures\LogDetail_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Function_GetByRoleId.sql" />
-    <Build Include="dbo\Stored Procedures\Function_GetByEmployeeId.sql" />
-    <Build Include="dbo\Stored Procedures\Function_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_UpdateNominatorSetting.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_Update.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_GetNominatorSetting.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_Get.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_UpdateNominatorSetting.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_Update.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_GetYear.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_GetNominatorSetting.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_Get.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetByDomainUsername.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_UpdateStatus.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_Update.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_Get.sql" />
-    <Build Include="dbo\Tables\PeriodProcessSetting.sql" />
-    <Build Include="dbo\Tables\PeriodDefaultProcessSetting.sql" />
-    <Build Include="dbo\Tables\PerformanceRecord.sql" />
     <Build Include="dbo\Tables\PARecord.sql" />
-    <Build Include="dbo\Tables\PAProcess.sql" />
-    <Build Include="dbo\Tables\PAFocus.sql" />
-    <Build Include="dbo\Tables\NominationDetail.sql" />
     <Build Include="dbo\Tables\Nomination.sql" />
-    <Build Include="dbo\Tables\GroupFlowSetting.sql" />
-    <Build Include="dbo\Tables\FlowTemplate.sql" />
+    <Build Include="dbo\Tables\LogDetail.sql" />
     <Build Include="dbo\Tables\EmployeeObjective.sql" />
-    <Build Include="dbo\Tables\EmployeeFlowSetting.sql" />
+    <Build Include="dbo\Tables\PAFocus.sql" />
+    <Build Include="dbo\Tables\PAProcess.sql" />
+    <Build Include="dbo\Tables\NominationDetail.sql" />
+    <Build Include="dbo\Tables\Period.sql" />
+    <Build Include="dbo\Tables\PerformanceRecord.sql" />
+    <Build Include="dbo\Tables\Function.sql" />
+    <Build Include="dbo\Tables\EOQY.sql" />
+    <Build Include="dbo\Tables\EOQYNominatorSetting.sql" />
+    <Build Include="dbo\Tables\Discipline.sql" />
+    <Build Include="dbo\Tables\FlowTemplate.sql" />
     <Build Include="dbo\Views\ProjectSpentTime.sql" />
     <Build Include="dbo\Views\ProjectMember.sql" />
+    <Build Include="dbo\Views\Employee.sql" />
+    <Build Include="dbo\Views\JobTitle.sql" />
+    <Build Include="dbo\Views\Group.sql" />
     <Build Include="dbo\Views\Project.sql" />
+    <Build Include="Storage\NexGoal_Data.sql" />
+    <Build Include="dbo\Functions\func_SplitString.sql" />
     <Build Include="dbo\Functions\func_GetMember.sql" />
-    <Build Include="dbo\Stored Procedures\Redmine_GetTeamWorkLoad.sql" />
-    <Build Include="dbo\Stored Procedures\Project_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\Period_UpdateStatus.sql" />
-    <Build Include="dbo\Stored Procedures\Period_UpdateProcessSetting.sql" />
-    <Build Include="dbo\Stored Procedures\Period_UpdateEmployeeSettingStatus.sql" />
-    <Build Include="dbo\Stored Procedures\Period_UpdateEmployeeSettings.sql" />
-    <Build Include="dbo\Stored Procedures\Period_Update.sql" />
-    <Build Include="dbo\Stored Procedures\Period_InsertEmployeeSettings.sql" />
-    <Build Include="dbo\Stored Procedures\Period_GetProcessSetting.sql" />
-    <Build Include="dbo\Stored Procedures\Period_GetEmployeeSettings.sql" />
-    <Build Include="dbo\Stored Procedures\Period_GetEmployeeSetting.sql" />
-    <Build Include="dbo\Stored Procedures\Period_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\Period_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\Period_GeneratePA.sql" />
-    <Build Include="dbo\Stored Procedures\Period_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_Update.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetTimeline.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberTimeline.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberPerformance.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetByEmployee.sql" />
-    <Build Include="dbo\Stored Procedures\PARecord_UpdateByReviewer.sql" />
-    <Build Include="dbo\Stored Procedures\PARecord_GetPeriodByActor.sql" />
-    <Build Include="dbo\Stored Procedures\PARecord_GetGroupByActor.sql" />
-    <Build Include="dbo\Stored Procedures\PARecord_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\PARecord_GetByActor.sql" />
-    <Build Include="dbo\Stored Procedures\PAFocus_Update.sql" />
-    <Build Include="dbo\Stored Procedures\PAFocus_GetPeriod.sql" />
-    <Build Include="dbo\Stored Procedures\PAFocus_GetMember.sql" />
-    <Build Include="dbo\Stored Procedures\PAFocus_GetGroup.sql" />
-    <Build Include="dbo\Stored Procedures\PAFocus_Get.sql" />
-    <Build Include="dbo\Stored Procedures\PAFocus_Generate.sql" />
-    <Build Include="dbo\Stored Procedures\Nomination_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Nomination_GetPeriodsForNominator.sql" />
-    <Build Include="dbo\Stored Procedures\GroupFlowSetting_Update.sql" />
-    <Build Include="dbo\Stored Procedures\GroupFlowSetting_GetGroupHaveSetting.sql" />
-    <Build Include="dbo\Stored Procedures\GroupFlowSetting_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\GroupFlowSetting_Get.sql" />
-    <Build Include="dbo\Stored Procedures\GroupFlowSetting_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\Group_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_UpdateStatus.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_Update.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_Get.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Update.sql" />
-    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetEmployeeUnsetting.sql" />
-    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetEmployeeHaveSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetByDomainUsername.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Get.sql" />
-    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_Search.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetWorkloadForPM.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetWorkloadForLeader.sql" />
+    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetEmployeeHaveSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetEmployeeUnsetting.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetMemberNominationResult.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetMember.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetMemberPerformanceAppraisalResult.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetMemberNominationDetails.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetPerformanceAppraisalDetails.sql" />
+    <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PerformanceRecord_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_Period_GetPeriodStarted.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_Period_InsertEmployeeSettings.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_Period_GeneratePA.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PA_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PerformanceRecord_UpdateStatus_xpre.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_Update.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_GetHRMSummary.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetPerformanceAppraisalResult.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_Search.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetWorkload.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetRolesById.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetPerformanceAppraisalResult.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetPerformanceAppraisalDetails.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetNominationResult.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetMemberPerformanceAppraisalResult.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetMemberNominationResult.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetMemberNominationDetails.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetMember.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetGroups.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetById.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_GetHRMSummary.sql" />
-    <Build Include="dbo\Stored Procedures\Auto_Period_InsertEmployeeSettings.sql" />
-    <Build Include="dbo\Stored Procedures\Auto_Period_GetPeriodStarted.sql" />
-    <Build Include="dbo\Stored Procedures\Auto_Period_GeneratePA.sql" />
-    <Build Include="dbo\Stored Procedures\Auto_PerformanceRecord_UpdateStatus.sql" />
-    <Build Include="dbo\Stored Procedures\Auto_PA_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetNominationResult.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_GetNominatorSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_GetYear.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EOQ_UpdateNominatorSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_Get.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_GetNominatorSetting.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_Update.sql" />
+    <Build Include="dbo\Stored Procedures\EOY_UpdateNominatorSetting.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_Get.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_Update.sql" />
+    <Build Include="dbo\Stored Procedures\FlowTemplate_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Function_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\Function_GetByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\Function_GetByRoleId.sql" />
+    <Build Include="dbo\Stored Procedures\Group_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\GroupFlowSetting_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\GroupFlowSetting_Get.sql" />
+    <Build Include="dbo\Stored Procedures\GroupFlowSetting_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\GroupFlowSetting_GetGroupHaveSetting.sql" />
+    <Build Include="dbo\Stored Procedures\GroupFlowSetting_Update.sql" />
+    <Build Include="dbo\Stored Procedures\LogDetail_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Menu_GetByEmployeeId.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_GetPeriodsForNominator.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\PAFocus_Generate.sql" />
+    <Build Include="dbo\Stored Procedures\PAFocus_Get.sql" />
+    <Build Include="dbo\Stored Procedures\PAFocus_GetGroup.sql" />
+    <Build Include="dbo\Stored Procedures\PAFocus_GetMember.sql" />
+    <Build Include="dbo\Stored Procedures\PAFocus_GetPeriod.sql" />
+    <Build Include="dbo\Stored Procedures\PAFocus_Update.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetByActor.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetGroupByActor.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetPeriodByActor.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_UpdateByReviewer.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetByEmployee.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMember_notused.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberPerformance.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberTimeline.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetTimeline.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_Update.sql" />
+    <Build Include="dbo\Stored Procedures\Period_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Period_Get.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GetById.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GetEmployeeSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GetEmployeeSettings.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GetProcessSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Period_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Period_InsertEmployee_xtest.sql" />
+    <Build Include="dbo\Stored Procedures\Period_InsertEmployeeSettings.sql" />
+    <Build Include="dbo\Stored Procedures\Period_Update.sql" />
+    <Build Include="dbo\Stored Procedures\Period_UpdateEmployeeSettings.sql" />
+    <Build Include="dbo\Stored Procedures\Period_UpdateEmployeeSettingStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Period_UpdateProcessSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Period_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\Project_GetAll.sql" />
+    <Build Include="dbo\Stored Procedures\Redmine_GetTeamWorkLoad.sql" />
+    <Build Include="dbo\Stored Procedures\Redmine_GetTeamWorkLoad_xpre.sql" />
+    <Build Include="dbo\Stored Procedures\RefResource_GetByNames.sql" />
+    <Build Include="dbo\Stored Procedures\Role_AssignFunction.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GeneratePA.sql" />
   </ItemGroup>
 </Project>

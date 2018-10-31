@@ -15,4 +15,5 @@ SELECT Id AS GroupId
 	,AssistantLeaderId
 	,ISNULL(Deleted, 0) AS IsDeleted
 	,Rank
-FROM NexHRM.dbo.EmployeeGroup WITH (NOLOCK)
+FROM [$(NexHRM)].dbo.EmployeeGroup WITH (NOLOCK)
+

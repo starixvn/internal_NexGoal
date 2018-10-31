@@ -9,5 +9,5 @@
     [ModifiedBy]    INT            NULL,
     [ModifiedDate]  DATETIME       NULL,
     CONSTRAINT [PK_DisciplineId] PRIMARY KEY CLUSTERED ([DisciplineId] ASC) ON [PRIMARY]
-) TEXTIMAGE_ON [PRIMARY];
+) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY];
 

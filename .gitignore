@@ -39,3 +39,5 @@ packages/
 /NexGoal.Website/Properties/PublishProfiles
 node_modules
 /NexGoal.AutoService/Properties/PublishProfiles
+/Redmine.Database/Redmine.Database.jfm
+/Redmine.Database/Redmine.Database.sqlproj
