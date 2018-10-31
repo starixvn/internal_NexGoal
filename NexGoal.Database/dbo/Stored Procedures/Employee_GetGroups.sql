@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[User_GetGroups]
+CREATE PROCEDURE [dbo].[Employee_GetGroups]
 AS
 /*
 Created: 20180704@Elton.ton
@@ -11,6 +11,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	SELECT g.GroupId
+		,g.Code
 		,g.[Name]
 	FROM dbo.[Group] AS g WITH (NOLOCK)
 	WHERE g.IsDeleted = 0

@@ -1,9 +1,9 @@
 ﻿
-CREATE PROCEDURE [dbo].[User_GetById] @EmployeeId INT
+CREATE PROCEDURE [dbo].[Employee_GetById] @EmployeeId INT
 AS
 /*
 Created: 20180704@Elton.ton
-Task: Get user by id
+Task: Get employee by id
 DB: bodb_NexGoal
 
 */
@@ -15,7 +15,8 @@ BEGIN
 		,e.FullName
 		,e.NickName
 		,jt.[Name] AS JobTitle
-		,g.Code AS 'Group'
+		,g.Code AS GroupCode
+		,g.[Name] AS GroupName
 		,STUFF((
 				SELECT ', ' + rr.Value
 				FROM dbo.EmployeeRole AS er WITH (NOLOCK)

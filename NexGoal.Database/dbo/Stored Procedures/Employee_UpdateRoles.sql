@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[User_EditRoles] @EmployeeId INT
+CREATE PROCEDURE [dbo].[Employee_UpdateRoles] @EmployeeId INT
 	,@ModifiedBy INT
 	,@SelectedRoleIds VARCHAR(255) = NULL
 	,@ErrCode INT = 0 OUTPUT
@@ -7,27 +7,25 @@ CREATE PROCEDURE [dbo].[User_EditRoles] @EmployeeId INT
 AS
 /*
 Created: 20180705@Elton.Ton
-Task: update user roles
+Task: update employee roles
 DB: bodb_NexGoal
 */
 BEGIN
 	SET NOCOUNT ON
 
 	-- For write log
-	DECLARE @startRun DATETIME
+	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
 		,@duration INT
 		,@logData NVARCHAR(MAX)
 		,@logDataOld NVARCHAR(MAX)
 		,@xml XML
-
 	DECLARE @SelectedRole TABLE (RoleId INT)
 
 	INSERT INTO @SelectedRole
 	SELECT CAST(val AS INT)
 	FROM dbo.func_SplitString(@SelectedRoleIds, ',')
-
-	SET @startRun = GETDATE()
+	
 	-- Write log before assign permission	
 	SET @xml = (
 			SELECT er.RoleId AS '@ri'
@@ -76,7 +74,7 @@ BEGIN
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
 	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
-		,@SPName = 'User_EditRoles'
+		,@SPName = 'Employee_UpdateRoles'
 		,@ObjectId = @EmployeeId
 		,@Data = @logData
 		,@OldData = @logDataOld

@@ -14,22 +14,6 @@ DB: bobd_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
-	IF NOT EXISTS (
-			SELECT 1
-			FROM dbo.EmployeeRole AS er WITH (NOLOCK)
-				INNER JOIN dbo.RoleFunction AS rf WITH (NOLOCK) ON er.RoleId = rf.RoleId
-				AND rf.Policy = 2
-				INNER JOIN dbo.[Function] AS f WITH (NOLOCK) ON rf.FunctionId = f.FunctionId
-				AND f.FunctionKey = 'DisciplineManagement'
-			WHERE er.EmployeeId = @ModifiedBy
-			)
-	BEGIN
-		SET @ErrCode = 1
-		SET @ErrMsg = 'You dont have permission'
-
-		RETURN
-	END
-
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
 		,@duration INT

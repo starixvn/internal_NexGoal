@@ -44,4 +44,5 @@ BEGIN
 			AND rfunc.Policy > 0
 		) AS func ON menu.FunctionId = func.FunctionId
 	WHERE menu.IsActive = 1
+	ORDER BY menu.DisplayOrder
 END

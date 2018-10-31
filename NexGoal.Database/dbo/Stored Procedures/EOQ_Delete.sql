@@ -37,21 +37,10 @@ BEGIN
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
 		,@duration INT
-		,@logData NVARCHAR(MAX)
+		,@logDataOld NVARCHAR(MAX)
 		,@xml XML
 
-	DELETE setting
-	FROM dbo.EOQYNominatorSetting AS setting
-		INNER JOIN dbo.EOQY AS eoq WITH (NOLOCK) ON setting.EOQYId = eoq.EOQYId
-	WHERE eoq.EOQYId = @EOQId
-		AND eoq.IsQuarter = 1
-
-	DELETE
-	FROM dbo.EOQY
-	WHERE EOQYId = @EOQId
-		AND IsQuarter = 1
-
-	-- write log after delete
+	-- write log before delete
 	SET @xml = (
 			SELECT @EOQId AS '@id'
 				,[Quarter] AS '@q'
@@ -66,13 +55,26 @@ BEGIN
 			FOR XML PATH('r')
 				,TYPE
 			)
-	SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
+	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
+
+	DELETE setting
+	FROM dbo.EOQYNominatorSetting AS setting
+		INNER JOIN dbo.EOQY AS eoq WITH (NOLOCK) ON setting.EOQYId = eoq.EOQYId
+	WHERE eoq.EOQYId = @EOQId
+		AND eoq.IsQuarter = 1
+
+	DELETE
+	FROM dbo.EOQY
+	WHERE EOQYId = @EOQId
+		AND IsQuarter = 1
+
+	-- write log after delete
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
 	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
 		,@SPName = 'EOQ_Delete'
 		,@ObjectId = @EOQId
-		,@Data = @logData
+		,@OldData = @logDataOld
 		,@Duration = @Duration
 END

@@ -1,8 +1,8 @@
 ﻿
-CREATE PROCEDURE [dbo].[User_Get] @Keyword VARCHAR(250) = NULL
+CREATE PROCEDURE [dbo].[Employee_GetAll] @Keyword VARCHAR(250) = NULL
 	,@GroupId INT = NULL
 	,@IsLocal BIT = NULL
-	,@IsDisabledUser BIT = NULL
+	,@IsDisabled BIT = NULL
 AS
 /*
 Created: 20180704@Elton.ton
@@ -18,7 +18,8 @@ BEGIN
 		,e.FullName
 		,e.NickName
 		,jt.[Name] AS JobTitle
-		,g.Code AS 'Group'
+		,g.Code AS GroupCode
+		,g.[Name] AS GroupName
 		,STUFF((
 				SELECT ', ' + rr.Value
 				FROM dbo.EmployeeRole AS er WITH (NOLOCK)
@@ -30,15 +31,16 @@ BEGIN
 	FROM dbo.Employee AS e WITH (NOLOCK)
 		INNER JOIN dbo.JobTitle AS jt WITH (NOLOCK) ON e.JobTitleId = jt.JobTitleId
 		INNER JOIN dbo.[Group] AS g WITH (NOLOCK) ON e.GroupId = g.GroupId
-	WHERE ISNULL(@GroupId, e.GroupId) = e.GroupId
+	WHERE (@GroupId IS NULL OR e.GroupId = @GroupId)
 		AND (
-			e.[Enabled] <> @IsDisabledUser
-			OR @IsDisabledUser IS NULL
+			e.[Enabled] <> @IsDisabled
+			OR @IsDisabled IS NULL
 			)
-		AND ISNULL(@IsLocal, e.IsLocal) = e.IsLocal
+		AND (@IsLocal IS NULL OR e.IsLocal = @IsLocal)
 		AND (
-			e.FullName LIKE '%' + ISNULL(@Keyword, '') + '%'
-			OR e.NickName LIKE '%' + ISNULL(@Keyword, '') + '%'
+			@Keyword IS NULL
+			OR e.FullName LIKE '%' + @Keyword + '%'
+			OR e.NickName LIKE '%' + @Keyword + '%'
 			)
 	ORDER BY g.[Rank]
 		,g.Code

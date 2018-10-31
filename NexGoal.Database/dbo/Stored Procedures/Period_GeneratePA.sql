@@ -1,0 +1,430 @@
+﻿
+CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
+	,@PARecordIds VARCHAR(MAX) = NULL
+	,@CreatedBy INT
+	,@Override BIT = 0
+	,@ErrCode INT = 0 OUTPUT
+	,@ErrMsg NVARCHAR(200) = '' OUTPUT
+AS
+/*
+Created: 20180827@Elton.ton
+Task: generate pa
+DB: bodb_NexGoal
+Original:
+
+Revisions:
+Param's Explanation:
+*/
+BEGIN
+	SET NOCOUNT ON;
+
+	DECLARE @disciplineStartDate DATE
+		,@disciplineEndDate DATE
+		,@PMGroupId TINYINT = 13
+	-- process
+	DECLARE @HRProcessId TINYINT = 1
+		,@SelfProcessId TINYINT = 2
+		,@PMProcessId TINYINT = 3
+		,@EvaluatorProcessId TINYINT = 4
+		,@ReviewerProcessId TINYINT = 5
+	-- Performance Status
+	DECLARE @PAOpened TINYINT = 2
+		,@PAInProgress TINYINT = 3
+		,@PAClosed TINYINT = 4
+	-- Performance Record Status
+	DECLARE @PRSubmitted TINYINT = 3
+		,@PRClosed TINYINT = 4
+	--
+	DECLARE @selectedPARecordTbl TABLE (PARecordId INT PRIMARY KEY)
+	DECLARE @paRecordTbl TABLE (
+		PARecordId INT PRIMARY KEY
+		,EmployeeId INT
+		)
+
+	CREATE TABLE #performanceRecordTbl (
+		PerFormanceRecordId INT PRIMARY KEY
+		,EmployeeIds VARCHAR(MAX)
+		,EvaluatorId INT
+		)
+
+	DECLARE @startRun DATETIME = GETDATE()
+		,@endRun DATETIME
+		,@duration INT
+		,@logData NVARCHAR(MAX)
+		,@oldLogData NVARCHAR(MAX)
+		,@xml XML
+
+	INSERT INTO @selectedPARecordTbl (PARecordId)
+	SELECT val
+	FROM dbo.func_SplitString(@PARecordIds, ',')
+
+	INSERT INTO @paRecordTbl (
+		PARecordId
+		,EmployeeId
+		)
+	SELECT par.PARecordId
+		,par.EmployeeId
+	FROM dbo.PARecord AS par WITH (NOLOCK)
+		INNER JOIN @selectedPARecordTbl AS spari ON spari.PARecordId = par.PARecordId
+	WHERE par.PeriodId = @PeriodId
+		AND NOT EXISTS (
+			SELECT 1
+			FROM dbo.PAProcess AS pap WITH (NOLOCK)
+			WHERE pap.ProcessId <> @HRProcessId
+				AND pap.PerformanceRecordId IS NOT NULL
+				AND pap.PARecordId = par.PARecordId
+			)
+
+	SELECT @disciplineStartDate = p.DisciplineStartDate
+		,@disciplineEndDate = p.DisciplineEndDate
+	FROM dbo.Period AS p WITH (NOLOCK)
+	WHERE p.PeriodId = @PeriodId
+
+	SET @xml = (
+			SELECT pap.PARecordId AS '@pari'
+				,pap.ProcessId AS '@pi'
+				,pap.EvaluatorId AS '@ei'
+				,pr.PerformanceRecordId AS '@pri'
+				,pr.EmployeeId AS '@pei'
+				,pr.GradeId AS '@pgi'
+				,pr.Comment AS '@pc'
+				,pr.CreatedDate AS '@pcd'
+				,pr.ModifiedDate AS '@pmd'
+			FROM dbo.PAProcess AS pap WITH (NOLOCK)
+				INNER JOIN @selectedPARecordTbl AS spari ON pap.PARecordId = spari.PARecordId
+				LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
+			WHERE pap.ProcessId <> @HRProcessId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @oldLogData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
+
+	IF EXISTS (
+			SELECT 1
+			FROM @paRecordTbl
+			)
+	BEGIN
+		-- Capture For PM
+		INSERT INTO dbo.PerformanceRecord (
+			EmployeeIds
+			,CreatorId
+			,GradeId
+			,Comment
+			,StatusId
+			,CreatedDate
+			,TypeId
+			)
+		OUTPUT INSERTED.PerformanceRecordId
+			,INSERTED.EmployeeIds
+			,INSERTED.CreatorId
+		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeIds, EvaluatorId)
+		SELECT par.EmployeeId
+			,lg.CreatorId
+			,lg.GradeId
+			,STUFF((
+					SELECT CHAR(10) + prcmt.Comment
+					FROM PerformanceRecord AS prcmt WITH (NOLOCK)
+					WHERE prcmt.EmployeeId = par.EmployeeId
+						AND prcmt.CreatorId = lg.CreatorId
+						AND prcmt.TypeId = 1
+						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
+							AND @disciplineEndDate
+						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
+					ORDER BY prcmt.CreatedDate DESC
+					FOR XML PATH('')
+					), 1, 1, '')
+			,@PRSubmitted
+			,GETDATE()
+			,2
+		FROM @paRecordTbl AS par
+			CROSS APPLY (
+			SELECT pr.CreatorId
+				,pr.GradeId
+			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
+				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pr.CreatorId = emp.EmployeeId
+				AND emp.GroupId = @PMGroupId
+				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
+				AND pr.EmployeeIds = pr1.EmployeeIds
+				AND pr.CreatedDate BETWEEN @disciplineStartDate
+					AND @disciplineEndDate
+				AND pr1.CreatedDate BETWEEN @disciplineStartDate
+					AND @disciplineEndDate
+				AND pr.CreatedDate < pr1.CreatedDate
+				AND pr.TypeId = 1
+				AND pr1.TypeId = 1
+				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
+				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
+			WHERE pr1.CreatorId IS NULL
+				AND pr1.EmployeeIds IS NULL
+				AND pr.EmployeeIds = par.EmployeeId
+				AND pr.CreatorId <> pr.EmployeeIds
+				AND NOT EXISTS (
+					SELECT 1
+					FROM dbo.PAProcess AS pap WITH (NOLOCK)
+					WHERE pap.PARecordId = par.PARecordId
+						AND pap.EvaluatorId = pr.CreatorId
+						AND pap.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
+					)
+			) lg
+
+		-- Capture for Self, Reviewer, Evaluator
+		INSERT INTO dbo.PerformanceRecord (
+			EmployeeIds
+			,CreatorId
+			,GradeId
+			,Comment
+			,StatusId
+			,CreatedDate
+			,TypeId
+			)
+		OUTPUT INSERTED.PerformanceRecordId
+			,INSERTED.EmployeeIds
+			,INSERTED.CreatorId
+		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeIds, EvaluatorId)
+		SELECT par.EmployeeId
+			,pap.EvaluatorId
+			,lg.GradeId
+			,STUFF((
+					SELECT CHAR(10) + prcmt.comment
+					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
+					WHERE prcmt.EmployeeIds = par.EmployeeId
+						AND prcmt.CreatorId = lg.CreatorId
+						AND prcmt.TypeId = 1
+						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
+							AND @disciplineEndDate
+						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
+					ORDER BY prcmt.CreatedDate DESC
+					FOR XML PATH('')
+					), 1, 1, '')
+			,@PRSubmitted
+			,GETDATE()
+			,2
+		FROM @paRecordTbl AS par
+			INNER JOIN dbo.PAProcess AS pap WITH (NOLOCK) ON par.PARecordId = pap.PARecordId
+			AND pap.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+			CROSS APPLY (
+			SELECT TOP 1 pr.CreatorId
+				,pr.GradeId
+			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
+			WHERE pr.EmployeeIds = par.EmployeeId
+				AND pr.CreatorId = pap.EvaluatorId
+				AND pr.TypeId = 1
+				AND pr.CreatedDate <= @disciplineEndDate
+				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
+			ORDER BY pr.CreatedDate DESC
+			) lg
+
+		UPDATE pap
+		SET pap.PerformanceRecordId = prt.PerFormanceRecordId
+		FROM dbo.PAProcess AS pap WITH (ROWLOCK, UPDLOCK)
+			INNER JOIN @paRecordTbl AS par ON pap.PARecordId = par.PARecordId
+			INNER JOIN #performanceRecordTbl AS prt ON par.EmployeeId = prt.EmployeeIds
+			AND pap.EvaluatorId = prt.EvaluatorId
+		WHERE pap.ProcessId <> @HRProcessId
+
+		-- Insert PM Process
+		INSERT INTO dbo.PAProcess (
+			PARecordId
+			,ProcessId
+			,EvaluatorId
+			,PerformanceRecordId
+			,[Priority]
+			)
+		SELECT par.PARecordId
+			,@PMProcessId
+			,prt.EvaluatorId
+			,prt.PerFormanceRecordId
+			,0
+		FROM #performanceRecordTbl AS prt
+			INNER JOIN @paRecordTbl AS par ON prt.EmployeeIds = par.EmployeeId
+		WHERE NOT EXISTS (
+				SELECT 1
+				FROM dbo.PAProcess AS pap WITH (NOLOCK)
+				WHERE pap.PerformanceRecordId = prt.PerFormanceRecordId
+				)
+
+		UPDATE par
+		SET StatusId = @PAOpened
+		FROM dbo.PARecord AS par WITH (ROWLOCK, UPDLOCK)
+		WHERE EXISTS (
+				SELECT 1
+				FROM @paRecordTbl part
+				WHERE par.PARecordId = part.PARecordId
+				)
+	END
+
+	IF @Override = 1
+	BEGIN
+		DECLARE @generatedPARecordTbl TABLE (
+			PARecordId INT PRIMARY KEY
+			,EmployeeId INT
+			)
+
+		INSERT INTO @generatedPARecordTbl (
+			PARecordId
+			,EmployeeId
+			)
+		SELECT spari.PARecordId
+			,par.EmployeeId
+		FROM @selectedPARecordTbl AS spari
+			INNER JOIN dbo.PARecord AS par WITH (NOLOCK) ON par.PARecordId = spari.PARecordId
+		WHERE NOT EXISTS (
+				SELECT 1
+				FROM @paRecordTbl AS part
+				WHERE spari.PARecordId = part.PARecordId
+				)
+
+		-- update existing records
+		UPDATE pr
+		SET pr.GradeId = lg.GradeId
+			,pr.Comment = STUFF((
+					SELECT CHAR(10) + prcmt.Comment
+					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
+					WHERE prcmt.EmployeeIds = pr.EmployeeIds
+						AND prcmt.CreatorId = pap.EvaluatorId
+						AND prcmt.TypeId = 1
+						AND (
+							pap.ProcessId <> @PMProcessId
+							OR prcmt.CreatedDate >= @disciplineStartDate
+							)
+						AND prcmt.CreatedDate <= @disciplineEndDate
+						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
+					ORDER BY pr.CreatedDate DESC
+					FOR XML PATH('')
+					), 1, 1, '')
+			,pr.CreatorId = pap.EvaluatorId
+			,pr.ModifiedDate = GETDATE()
+		FROM dbo.PerformanceRecord AS pr WITH (ROWLOCK, UPDLOCK)
+			INNER JOIN dbo.PAProcess AS pap WITH (NOLOCK) ON pr.PerformanceRecordId = pap.PerformanceRecordId
+			CROSS APPLY (
+			SELECT TOP 1 pr1.GradeId
+			FROM dbo.PerformanceRecord AS pr1 WITH (NOLOCK)
+			WHERE pr1.EmployeeIds = pr.EmployeeIds
+				AND pr1.CreatorId = pap.EvaluatorId
+				AND pr1.TypeId = 1
+				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
+				AND (
+					pap.ProcessId <> @PMProcessId
+					OR pr.CreatedDate >= @disciplineStartDate
+					)
+				AND pr1.CreatedDate <= @disciplineEndDate
+			ORDER BY pr1.CreatedDate DESC
+			) lg
+		WHERE EXISTS (
+				SELECT 1
+				FROM @generatedPARecordTbl AS gpar
+				WHERE pap.PARecordId = gpar.PARecordId
+				)
+
+		-- Add new PCIs from PM
+		DELETE
+		FROM #performanceRecordTbl
+
+		INSERT INTO dbo.PerformanceRecord (
+			EmployeeIds
+			,CreatorId
+			,GradeId
+			,Comment
+			,StatusId
+			,CreatedDate
+			,TypeId
+			)
+		OUTPUT INSERTED.PerformanceRecordId
+			,INSERTED.EmployeeIds
+			,INSERTED.CreatorId
+		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeIds, EvaluatorId)
+		SELECT gpar.EmployeeId
+			,lg.CreatorId
+			,lg.GradeId
+			,STUFF((
+					SELECT CHAR(10) + prcmt.comment
+					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
+					WHERE prcmt.EmployeeIds = gpar.EmployeeId
+						AND prcmt.CreatorId = lg.CreatorId
+						AND prcmt.TypeId = 1
+						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
+							AND @disciplineEndDate
+						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
+					ORDER BY prcmt.CreatedDate DESC
+					FOR XML PATH('')
+					), 1, 1, '')
+			,@PRSubmitted
+			,GETDATE()
+			,2
+		FROM @generatedPARecordTbl AS gpar
+			CROSS APPLY (
+			SELECT pr.CreatorId
+				,pr.GradeId
+			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
+				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pr.CreatorId = emp.EmployeeId
+				AND emp.GroupId = @PMGroupId
+				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
+				AND pr.EmployeeIds = pr1.EmployeeIds
+				AND pr.CreatedDate BETWEEN @disciplineStartDate
+					AND @disciplineEndDate
+				AND pr1.CreatedDate BETWEEN @disciplineStartDate
+					AND @disciplineEndDate
+				AND pr.CreatedDate < pr1.CreatedDate
+				AND pr.TypeId = 1
+				AND pr1.TypeId = 1
+				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
+				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
+			WHERE pr1.CreatorId IS NULL
+				AND pr1.EmployeeIds IS NULL
+				AND pr.EmployeeIds = gpar.EmployeeId
+				AND pr.CreatorId <> pr.EmployeeIds
+				AND NOT EXISTS (
+					SELECT 1
+					FROM dbo.PAProcess AS pap WITH (NOLOCK)
+					WHERE pap.PARecordId = gpar.PARecordId
+						AND pap.EvaluatorId = pr.CreatorId
+						AND pap.ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+					)
+			) lg
+
+		-- Insert PM Process
+		INSERT INTO dbo.PAProcess (
+			PARecordId
+			,ProcessId
+			,EvaluatorId
+			,PerformanceRecordId
+			,[Priority]
+			)
+		SELECT gpar.PARecordId
+			,@PMProcessId
+			,prt.EvaluatorId
+			,prt.PerFormanceRecordId
+			,0
+		FROM #performanceRecordTbl AS prt
+			INNER JOIN @generatedPARecordTbl AS gpar ON prt.EmployeeIds = gpar.EmployeeId
+	END
+
+	SET @endRun = GETDATE()
+	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
+	SET @xml = (
+			SELECT pap.PARecordId AS '@pari'
+				,pap.ProcessId AS '@pi'
+				,pap.EvaluatorId AS '@ei'
+				,pr.PerformanceRecordId AS '@pri'
+				,pr.EmployeeId AS '@pei'
+				,pr.GradeId AS '@pgi'
+				,pr.Comment AS '@pc'
+				,pr.CreatedDate AS '@pcd'
+				,pr.ModifiedDate AS '@pmd'
+			FROM dbo.PAProcess AS pap WITH (NOLOCK)
+				INNER JOIN @selectedPARecordTbl AS spari ON pap.PARecordId = spari.PARecordId
+				LEFT JOIN dbo.PerformanceRecord AS pr WITH (NOLOCK) ON pap.PerformanceRecordId = pr.PerformanceRecordId
+			WHERE pap.ProcessId <> @HRProcessId
+			FOR XML PATH('r')
+				,TYPE
+			)
+	SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
+
+	EXEC dbo.LogDetail_Insert @ActorId = @CreatedBy
+		,@SPName = 'Period_GeneratePA'
+		,@ObjectId = @PeriodId
+		,@Data = @logData
+		,@Duration = @Duration
+
+	DROP TABLE #performanceRecordTbl
+END
