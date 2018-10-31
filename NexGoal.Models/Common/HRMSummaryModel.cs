@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Models.Discipline
+﻿namespace NexGoal.Models.Common
 {
     using System;
 

@@ -68,17 +68,5 @@
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
-
-        public async Task<HRMSummaryModel> GetHRMSummary(DateTime from, DateTime to, int empId)
-        {
-            var criteria = new GetHRMSummaryCriteria
-            {
-                FromDate = from,
-                ToDate = to,
-                EmployeeId = empId
-            };
-
-            return await baseService.GetDataEntityAsync<HRMSummaryModel>(criteria).ConfigureAwait(false);
-        }
     }
 }

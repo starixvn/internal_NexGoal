@@ -15,6 +15,7 @@ import NominationResult from '../../shared/components/NominationResult';
 import HrmSummary from '../home/HRMSummary';
 import WorkLoad from '../home/workload';
 import CreateMemberPerformance from './CreateMemberPerformance';
+import EditMemberPerformance from './EditMemberPerformance';
 
 export default class App extends Component {
     constructor(props) {
@@ -47,6 +48,10 @@ export default class App extends Component {
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
             },
+            editMemberPerformance: {
+                isShowModal: false,
+                performanceRecordId: 0
+            },
             performanceGradeOptions: [],
             projectOptions: [],
             hrmDetails: {},
@@ -67,7 +72,7 @@ export default class App extends Component {
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
-            axios(resolveClientUrl('discipline/GetHRMSummary'), { params: { memberId: memberId } }),
+            axios(resolveClientUrl('common/GetHRMSummary'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('Member/Performance/Timeline'), {
                 params: {
                     employeeId: this.state.memberInfo.id,
@@ -129,6 +134,28 @@ export default class App extends Component {
         });
     }
 
+    handleEditMemberPerformanceRecordClick = (performanceRecordId) => {
+        this.setState({
+            editMemberPerformance: {
+                isShowModal: true,
+                performanceRecordId: performanceRecordId
+            }
+        });
+    }
+
+    handleCancelEditMemberPerformanceClick = () => {
+        this.setState({
+            editMemberPerformance: {
+                isShowModal: false,
+                performanceRecordId: 0
+            }
+        });
+    }
+
+    handleEditMemberPerformanceSuccess = () => {
+        this.handleCancelEditMemberPerformanceClick();
+    }
+
     onTimelinePageChange = (pageIndex) => {
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
@@ -167,7 +194,7 @@ export default class App extends Component {
                 grade={performanceRecord.grade}
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
-                onEdit={this.handleEditPerformanceRecord}
+                onEdit={this.handleEditMemberPerformanceRecordClick}
                 isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
             />
         );
@@ -215,69 +242,83 @@ export default class App extends Component {
             value: parseInt(this.state.memberInfo.id),
             label: `${this.state.memberInfo.fullName} (${this.state.memberInfo.nickName})`
         }];
+
         return (
-            <div className="row">
-                <ToastLayout />
-                <div className="my-page main-layout">
-                    <div className="general-info">
-                        <EmployeeInfo employee={this.state.memberInfo} />
-                        <PerformanceAppraisalResult
-                            performanceAppraisals={performanceAppraisals}
-                            title={`${this.state.memberInfo.nickName}'s PAs`}
-                        />
-                    </div>
-                    <div className="main-content">
-                        <div className="fixed-section">
-                            <div className="warning marquee">
-                                <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
-                            </div>
-                            <PersonalTimeline
-                                itemPerPage={this.timelineItemPerPage}
-                                data={this.state.personalTimeline}
-                                onPageChange={this.onTimelinePageChange}
-                                onItemClick={this.handlePCIClick}
-                                selectedPCIId={this.state.selectedPCIId}
-                                ref="timelineRef"
+            <ToastLayout>
+                <div className="row">
+                    <div className="my-page main-layout">
+                        <div className="general-info">
+                            <EmployeeInfo employee={this.state.memberInfo} />
+                            <PerformanceAppraisalResult
+                                performanceAppraisals={performanceAppraisals}
+                                title={`${this.state.memberInfo.nickName}'s PAs`}
                             />
                         </div>
-                        <div className="record-list">
-                            <CreateMemberPerformance
-                                currentUser={this.state.currentUser}
-                                memberOptions={this.state.memberOptions}
-                                performanceGradeOptions={this.state.performanceGradeOptions}
-                                projectOptions={this.state.projectOptions}
-                                selectedMembers={selectedMembes}
-                                onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
-                            />
-                            {performanceRecords.length > 0 &&
-                                <InfiniteScroll
-                                    pageStart={1}
-                                    initialLoad
-                                    loadMore={this.loadPCIs}
-                                    hasMore={this.state.hasMore}
-                                    threshold={0}
-                                    useWindow
-                                    ref="infiniteScrollRef"
-                                >
-                                    {
-                                        performanceRecords.map(this.renderPerformanceRecord)
-                                    }
-                                </InfiniteScroll>
+                        <div className="main-content">
+                            <div className="fixed-section">
+                                <div className="warning marquee">
+                                    <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
+                                </div>
+                                <PersonalTimeline
+                                    itemPerPage={this.timelineItemPerPage}
+                                    data={this.state.personalTimeline}
+                                    onPageChange={this.onTimelinePageChange}
+                                    onItemClick={this.handlePCIClick}
+                                    selectedPCIId={this.state.selectedPCIId}
+                                    ref="timelineRef"
+                                />
+                            </div>
+                            <div className="record-list">
+                                <CreateMemberPerformance
+                                    currentUser={this.state.currentUser}
+                                    memberOptions={this.state.memberOptions}
+                                    performanceGradeOptions={this.state.performanceGradeOptions}
+                                    projectOptions={this.state.projectOptions}
+                                    selectedMembers={selectedMembes}
+                                    onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                />
+                                {performanceRecords.length > 0 &&
+                                    <InfiniteScroll
+                                        pageStart={1}
+                                        initialLoad
+                                        loadMore={this.loadPCIs}
+                                        hasMore={this.state.hasMore}
+                                        threshold={0}
+                                        useWindow
+                                        ref="infiniteScrollRef"
+                                    >
+                                        {
+                                            performanceRecords.map(this.renderPerformanceRecord)
+                                        }
+                                    </InfiniteScroll>
+                                }
+                            </div>
+                        </div>
+                        <div className="work-info">
+                            <NominationResult nominations={nominations} />
+                            <HrmSummary hrmDetail={this.state.hrmDetails} />
+                            {
+                                this.state.periods.length > 0 &&
+                                <WorkLoad periods={this.state.periods} memberId={this.state.memberInfo.id} />
                             }
                         </div>
-                    </div>
-                    <div className="work-info">
-                        <NominationResult nominations={nominations} />
-                        <HrmSummary hrmDetail={this.state.hrmDetails} />
-                        {
-                            this.state.periods.length > 0 &&
-                            <WorkLoad periods={this.state.periods} memberId={this.state.memberInfo.id} />
-                        }
-                    </div>
 
+                    </div>
                 </div>
-            </div>
-
+                {
+                    this.state.editMemberPerformance.isShowModal &&
+                    <EditMemberPerformance
+                        currentUser={this.statecurrentUser}
+                        performanceRecordId={this.state.editMemberPerformance.performanceRecordId}
+                        memberOptions={this.state.memberOptions}
+                        performanceGradeOptions={this.state.performanceGradeOptions}
+                        projectOptions={this.stateprojectOptions}
+                        isShowModal={this.state.editMemberPerformance.isShowModal}
+                        onCloseModal={this.handleCancelEditMemberPerformanceClick}
+                        onSubmitSuccess={this.handleEditMemberPerformanceSuccess}
+                    />
+                }
+            </ToastLayout>
         );
     }
 }

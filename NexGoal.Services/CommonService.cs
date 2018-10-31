@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -8,6 +9,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
+    using NexGoal.Criteria.Discipline;
     using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
@@ -108,6 +110,18 @@
             var criteria = new GetAllPeriodsCriteria();
 
             return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<HRMSummaryModel> GetHRMSummary(DateTime from, DateTime to, int empId)
+        {
+            var criteria = new GetHRMSummaryCriteria
+            {
+                FromDate = from,
+                ToDate = to,
+                EmployeeId = empId
+            };
+
+            return await baseService.GetDataEntityAsync<HRMSummaryModel>(criteria).ConfigureAwait(false);
         }
     }
 }

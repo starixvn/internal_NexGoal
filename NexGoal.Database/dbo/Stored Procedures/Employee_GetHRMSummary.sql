@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[Discipline_GetHRMSummary] 
+CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] 
 	@FromDate DATETIME
 	,@ToDate DATETIME
 	,@EmployeeId INT

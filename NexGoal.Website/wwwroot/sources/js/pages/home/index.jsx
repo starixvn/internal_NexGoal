@@ -59,7 +59,7 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('Self/Performance')),
             axios(resolveClientUrl('Common/GetAllPeriods')),
-            axios(resolveClientUrl('Discipline/GetHRMSummary')),
+            axios(resolveClientUrl('common/GetHRMSummary')),
             axios(resolveClientUrl('home/GetNominationResult')),
             axios(resolveClientUrl('home/GetPerformanceAppraisalResult')),
             axios(resolveClientUrl('self/Performance/Timeline'), {

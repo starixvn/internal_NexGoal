@@ -162,7 +162,7 @@
     <Build Include="dbo\Stored Procedures\Employee_GetGroups.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetById.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetAll.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetHRMSummary.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetNominationResult.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_Delete.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_Get.sql" />

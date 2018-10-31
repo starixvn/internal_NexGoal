@@ -11,7 +11,7 @@
 
         public DateTime ToDate { get; set; }
 
-        public override string GetSettingKey() => "Discipline_GetHRMSummary";
+        public override string GetSettingKey() => "Employee_GetHRMSummary";
 
         public override bool IsValid() => EmployeeId > 0 &&
                                 FromDate < ToDate;

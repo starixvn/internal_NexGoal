@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc.Rendering;
@@ -26,5 +27,7 @@
         Task<IEnumerable<PerformanceGradeModel>> GetPerformanceGradeAsync();
 
         Task<IEnumerable<PeriodBaseModel>> GetAllPeriods();
+
+        Task<HRMSummaryModel> GetHRMSummary(DateTime from, DateTime to, int empId);
     }
 }

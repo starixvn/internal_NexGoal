@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Controllers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -107,6 +108,16 @@
             IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(members);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetHRMSummary(int? memberId = null)
+        {
+            var from = new DateTime(DateTime.Now.Year, 1, 1);
+            var to = DateTime.Now;
+            var empId = memberId ?? sessionService.EmployeeId;
+            var HRMSummay = await commonService.GetHRMSummary(from, to, empId).ConfigureAwait(false);
+            return Json(HRMSummay);
         }
     }
 }

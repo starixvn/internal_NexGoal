@@ -40,16 +40,6 @@
             return Json(disciplines);
         }
 
-        [HttpGet]
-        public async Task<JsonResult> GetHRMSummary(int? memberId = null)
-        {
-            var from = new DateTime(DateTime.Now.Year, 1, 1);
-            var to = DateTime.Now;
-            var empId = memberId ?? sessionService.EmployeeId;
-            var HRMSummay = await disciplineService.GetHRMSummary(from, to, empId).ConfigureAwait(false);
-            return Json(HRMSummay);
-        }
-
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
         public async Task<JsonResult> EditStatus(int disciplineId, bool isActive)
