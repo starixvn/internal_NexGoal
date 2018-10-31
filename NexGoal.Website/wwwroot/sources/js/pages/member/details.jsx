@@ -263,7 +263,7 @@ export default class App extends Component {
                                     itemPerPage={this.timelineItemPerPage}
                                     data={this.state.personalTimeline}
                                     onPageChange={this.onTimelinePageChange}
-                                    onItemClick={this.handlePCIClick}
+                                    onNodeClick={this.handlePCIClick}
                                     selectedPCIId={this.state.selectedPCIId}
                                     ref="timelineRef"
                                 />
