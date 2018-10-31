@@ -210,10 +210,10 @@ export default class App extends Component {
                                 <Tab eventKey={1} title="Performance">
                                     <div className="record-list">
                                         <CreateMemberPerformance
-                                    currentUser={currentUser}
-                                    memberOptions={memberOptions}
-                                    performanceGradeOptions={performanceGradeOptions}
-                                    projectOptions={projectOptions}
+                                            currentUser={currentUser}
+                                            memberOptions={memberOptions}
+                                            performanceGradeOptions={performanceGradeOptions}
+                                            projectOptions={projectOptions}
                                             onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
                                         />
                                         <InfiniteScroll
