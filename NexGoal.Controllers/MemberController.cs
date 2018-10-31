@@ -40,7 +40,9 @@
                 return RedirectToAction("AccessDenied", "Error");
             }
 
-            return View(id);
+            EmployeeBaseModel member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
+
+            return View(member);
         }
 
         public async Task<JsonResult> GetMemberPerformanceAppraisalResult(int? periodId = null, int? memberId = null)
@@ -49,12 +51,6 @@
                 await employeeService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId).ConfigureAwait(false);
 
             return Json(performanceAppraisals);
-        }
-
-        public async Task<JsonResult> GetMemberInfo(int memberId)
-        {
-            var member = await commonService.GetEmployeeByIdAsync(memberId).ConfigureAwait(false);
-            return Json(member);
         }
 
         public async Task<JsonResult> GetMemberNominationResult(int? memberId = null)

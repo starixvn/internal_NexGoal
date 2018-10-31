@@ -70,6 +70,14 @@
     }
 }
 
+.react-select-container {
+    &.project-field, &.employee-field {
+        .react-select__control {
+            height: auto;
+        }
+    }
+}
+
 .my-pa {
     &-year {
         margin-bottom: 12px;

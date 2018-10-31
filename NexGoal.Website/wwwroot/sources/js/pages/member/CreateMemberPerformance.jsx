@@ -63,6 +63,7 @@ export default class CreateMemberPerformance extends Component {
 
     handleOpenForm = () => {
         this.setState({ isOpenForm: true });
+        this.selectMember();
     }
 
     handleEmployeeChange = (selectedOptions) => {
@@ -83,6 +84,14 @@ export default class CreateMemberPerformance extends Component {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
+    }
+
+    selectMember = () => {
+        if (this.props.selectedMembers !== undefined && this.state.performanceRecord.employees.length === 0) {
+            this.setState({
+                performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: this.props.selectedMembers })
+            });
+        }
     }
 
     handleCommentChange = (event) => {
@@ -138,7 +147,6 @@ export default class CreateMemberPerformance extends Component {
             }
 
             let record = this.state.performanceRecord;
-
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 employeeIds: record.employees.map((employee) => { return employee.value; }).join(','),
@@ -157,10 +165,8 @@ export default class CreateMemberPerformance extends Component {
                 }
             }).then(response => {
                 let data = response.data;
-
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
-
                     this.props.onSubmitSuccess();
                     this.setState({ isOpenForm: false });
                 } else {

@@ -32,11 +32,12 @@ export default class PerformanceAppraisalResult extends Component {
     };
 
     render() {
+        const employee = this.props.employee ? this.props.employee.nickName + "'s " : "My ";
         const performanceAppraisals = this.groupPerformanceAppraisals(this.props.performanceAppraisals);
 
         return (
             <div className="my-pa box">
-                <h5>My PAs</h5>
+                <h5>{employee} PAs</h5>
                 {
                     performanceAppraisals.map(performanceAppraisal => {
                         return (

@@ -1,11 +1,15 @@
-﻿@model int
+﻿@using NexGoal.Models.Common
+@model EmployeeBaseModel
 
 @section Styles {
-    @*<link rel="stylesheet" href="~/dist/styles/member-index.css" />*@
     <link rel="stylesheet" href="~/dist/styles/home.css" />
 }
 
-<input type="hidden" id="MemberId" value="@Model" />
+<input type="hidden" id="MemberId" value="@Model.EmployeeId" />
+<input type="hidden" id="member-fullName" value="@Model.FullName" />
+<input type="hidden" id="member-nickName" value="@Model.NickName" />
+<input type="hidden" id="member-jobTitle" value="@Model.JobTitle" />
+<input type="hidden" id="member-avatar" value="@Model.Base64Image" />
 
 <div id="member-wrapper"></div>
 
