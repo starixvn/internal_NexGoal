@@ -154,7 +154,6 @@
     <Build Include="dbo\Stored Procedures\Auto_PerformanceRecord_UpdateStatus_xpre.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Update.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_GetHRMSummary.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetPerformanceAppraisalResult.sql" />
     <Build Include="dbo\Stored Procedures\Employee_Search.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetWorkload.sql" />
