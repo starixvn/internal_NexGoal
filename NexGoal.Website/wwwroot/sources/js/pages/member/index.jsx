@@ -154,7 +154,7 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
-    handleSelectTab(key) {
+    handleSelectTab = (key) => {
         if (key === 2 && !this.state.loadNominationTab) {
             this.setState({ activeTabKey: key, loadNominationTab: true });
         } else {
@@ -233,7 +233,7 @@ export default class App extends Component {
                                     </div>
                                 </Tab>
                                 <Tab eventKey={2} title="Nomination">
-
+                                    {this.state.loadNominationTab && <Nomination />}
                                 </Tab>
 
                             </Tabs>
