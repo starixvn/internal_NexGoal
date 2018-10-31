@@ -153,6 +153,7 @@ export default class App extends Component {
                     <div className="main-layout member-page">
                         <div className="general-info box">
                             <Scrollbars style={{ maxHeight: '100%' }} autoHide={true} >
+                            <h5>Member Performance - 2nd 2018</h5>
                                 <Timeline onNodeClick={this.handleTimelineNodeClick} />
                             </Scrollbars >
                         </div>

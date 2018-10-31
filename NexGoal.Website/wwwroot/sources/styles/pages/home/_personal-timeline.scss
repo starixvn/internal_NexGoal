@@ -130,11 +130,18 @@
     color: #8F8F8F;
     cursor: pointer;
     padding: 0;
+    &.disabled {
+        opacity: 0.4;
+        &:hover {
+            color: #8F8F8F !important;
+            opacity: 0.4;
+        }
+    }
 }
 
 .previous:hover, .next:hover {
     color: #8F8F8F;
-    opacity: 0.5;
+    opacity: 0.8;
 }
 
 .previous {
