@@ -94,7 +94,7 @@ class EmployeeFlowSetting extends Component {
                 break;
         }
 
-        let index = items.map((item) => { return item.evaluatorId; }).indexOf(employeeId);
+        let index = items.findIndex(item => item.evaluatorId === employeeId);
         if (index < 0) {
             if ((sender === 'evaluators' || sender === 'reviewers') && items.length > 0) {
                 toast.error('Evaluator or Reviewer is single setting!');
@@ -147,7 +147,7 @@ class EmployeeFlowSetting extends Component {
 
     handleOnRemoveItem(sender, evaluatorId) {
         let items = this.state[sender].slice();
-        let index = items.map((item) => { return item.evaluatorId; }).indexOf(evaluatorId);
+        let index = items.findIndex(item => item.evaluatorId === evaluatorId);
         items.splice(index, 1);
         this.setState({ [sender]: items });
     }

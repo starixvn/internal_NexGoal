@@ -102,7 +102,7 @@ export default class App extends Component {
                 grade={performanceRecord.grade}
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
-                onEdit={this.handleEditMemberPerformanceRecordClick}
+                onEdit={this.handleEditMemberPerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />
         );
@@ -162,7 +162,7 @@ export default class App extends Component {
         }
     }
 
-    handleEditMemberPerformanceRecordClick = (performanceRecordId) => {
+    handleEditMemberPerformanceRecord = (performanceRecordId) => {
         this.setState({
             editMemberPerformance: {
                 isShowModal: true,
@@ -171,7 +171,7 @@ export default class App extends Component {
         });
     }
 
-    handleCancelEditMemberPerformanceClick = () => {
+    handleCancelEditMemberPerformance = () => {
         this.setState({
             editMemberPerformance: {
                 isShowModal: false,
@@ -181,7 +181,7 @@ export default class App extends Component {
     }
 
     handleEditMemberPerformanceSuccess = () => {
-        this.handleCancelEditMemberPerformanceClick();
+        this.handleCancelEditMemberPerformance();
     }
 
     render() {
@@ -255,7 +255,7 @@ export default class App extends Component {
                         performanceGradeOptions={performanceGradeOptions}
                         projectOptions={projectOptions}
                         isShowModal={this.state.editMemberPerformance.isShowModal}
-                        onCloseModal={this.handleCancelEditMemberPerformanceClick}
+                        onCloseModal={this.handleCancelEditMemberPerformance}
                         onSubmitSuccess={this.handleEditMemberPerformanceSuccess}
                     />
                 }

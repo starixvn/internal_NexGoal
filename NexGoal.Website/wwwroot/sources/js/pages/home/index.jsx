@@ -29,8 +29,10 @@ export default class App extends Component {
             performanceGradeOptions: [],
             projectOptions: [],
             performanceAppraisals: [],
-            showEditPerformanceModal: false,
-            performanceRecordIdSelected: null,
+            editPerformance: {
+                isShowModal: false,
+                performanceRecordId: 0
+            },
             periods: [],
             personalTimeline: {
                 records: [],
@@ -145,15 +147,19 @@ export default class App extends Component {
 
     handleEditPerformanceRecord = (performanceRecordId) => {
         this.setState({
-            showEditPerformanceModal: true,
-            performanceRecordIdSelected: performanceRecordId
+            editPerformance: {
+                isShowModal: true,
+                performanceRecordId: performanceRecordId
+            }
         });
     }
 
-    handleCloseEditPerformanceModal = () => {
+    handleCancelEditPerformance = () => {
         this.setState({
-            showEditPerformanceModal: false,
-            performanceRecordIdSelected: null
+            editPerformance: {
+                isShowModal: false,
+                performanceRecordId: 0
+            }
         });
     }
 
@@ -161,16 +167,13 @@ export default class App extends Component {
         axios(resolveClientUrl(`Self/Performance/GetById/${performanceRecordId}`))
             .then((response) => {
                 let performanceRecords = this.state.performanceRecords.slice();
-
-                let index = performanceRecords.map(record => { return record.performanceRecordId; }).indexOf(performanceRecordId);
-
+                let index = performanceRecords.findIndex(record => record.performanceRecordId === performanceRecordId);
                 if (index >= 0) {
                     performanceRecords[index] = response.data;
                 }
 
                 let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
                 index = displayedPerformanceRecords.findIndex(element => element.performanceRecordId === performanceRecordId);
-
                 if (index >= 0) {
                     displayedPerformanceRecords[index] = response.data;
                 }
@@ -181,8 +184,10 @@ export default class App extends Component {
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    showEditPerformanceModal: false,
-                    performanceRecordIdSelected: null,
+                    editPerformance: {
+                        isShowModal: false,
+                        performanceRecordId: 0
+                    },
                     displayedPerformanceRecords: displayedPerformanceRecords
                 });
             }).catch(axiosError);
@@ -217,12 +222,12 @@ export default class App extends Component {
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
                 onEdit={this.handleEditPerformanceRecord}
-                isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
+                isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />
         );
     }
 
-    handlePCIClick = performanceRecordId => {
+    handleTimelineNodeClick = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
             let index = this.state.performanceRecords.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
@@ -233,11 +238,11 @@ export default class App extends Component {
             this.refs.infiniteScrollRef.pageLoaded = page;
 
             this.loadMorePerformances(page, () => {
-                this.setState({ selectedPCIId: performanceRecordId });
+                this.setState({ performanceRecordIdHighlighted: performanceRecordId });
                 document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
             });
         } else {
-            this.setState({ selectedPCIId: performanceRecordId });
+            this.setState({ performanceRecordIdHighlighted: performanceRecordId });
             document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
         }
     }
@@ -261,9 +266,8 @@ export default class App extends Component {
                             </div>
                             <PersonalTimeline
                                 data={this.state.personalTimeline}
-                                onItemClick={this.handlePCIClick}
+                                onNodeClick={this.handleTimelineNodeClick}
                                 onPageChange={this.onTimelinePageChange}
-                                selectedPCIId={this.state.selectedPCIId}
                             />
                         </div>
                         <div className="record-list">
@@ -301,14 +305,14 @@ export default class App extends Component {
                         }
                     </div>
                     {
-                        this.state.showEditPerformanceModal &&
+                        this.state.editPerformance.isShowModal &&
                         <EditSelfPerformance
                             currentUser={currentUser}
-                            performanceRecordId={this.state.performanceRecordIdSelected}
+                            performanceRecordId={this.state.editPerformance.performanceRecordId}
                             performanceGradeOptions={this.state.performanceGradeOptions}
                             projectOptions={this.state.projectOptions}
-                            showModal={this.state.showEditPerformanceModal}
-                            onCloseModal={this.handleCloseEditPerformanceModal}
+                            showModal={this.state.editPerformance.isShowModal}
+                            onCloseModal={this.handleCancelEditPerformance}
                             onSubmitSuccess={this.handleEditPerformanceSuccess}
                         />
                     }

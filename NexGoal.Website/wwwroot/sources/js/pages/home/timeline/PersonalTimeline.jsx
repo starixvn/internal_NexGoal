@@ -7,6 +7,14 @@ export default class PersonalTimeline extends Component {
         this.timelineWidth = React.createRef();
     }
 
+    shouldComponentUpdate(nextProps) {
+        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
+            return true;
+        }
+
+        return false;
+    }
+
     onClickPrevious = () => {
         const memberPerformance = this.props.data;
         const pageIndex = memberPerformance.pageIndex + 1;
@@ -42,7 +50,7 @@ export default class PersonalTimeline extends Component {
                             <TimelineNode key={`timelineNode${record.performanceRecordId}`}
                                 data={record}
                                 position={position}
-                                onClick={this.props.onItemClick}
+                                onClick={this.props.onNodeClick}
                             />
                         );
                     })

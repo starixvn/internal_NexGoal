@@ -1,6 +1,7 @@
 ﻿import React, { Component } from "react";
 
 import Node from './Node';
+import { resolveClientUrl } from '../../../common-functions';
 
 export default class Timeline extends Component {
     onClickPrevious = () => {
@@ -30,7 +31,7 @@ export default class Timeline extends Component {
         return (
             <div className="member-performance">
                 <div className="employee-info">
-                    <a href={`details/${memberPerformance.employeeId}`} className="nick-name">{memberPerformance.nickName}</a>
+                    <a href={resolveClientUrl(`member/details/${memberPerformance.employeeId}`)} className="nick-name">{memberPerformance.nickName}</a>
                     <div>PA:</div>
                 </div>
                 <div className="timeline">

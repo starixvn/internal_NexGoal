@@ -21,6 +21,15 @@ export default class Timeline extends Component {
         this.getMemberPerformanceTimeline();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.state.pageSize !== nextState.pageSize
+            || JSON.stringify(this.state.memberPerformances) !== JSON.stringify(nextState.memberPerformances)) {
+            return true;
+        }
+
+        return false;
+    }
+
     componentWillUnmount() {
         //window.removeEventListener('resize', this.updateDimensions);
     }
@@ -55,7 +64,7 @@ export default class Timeline extends Component {
 
     handlePageChange = (employeeId, pageIndex) => {
         let memberPerformances = this.state.memberPerformances.slice();
-        let index = memberPerformances.map(memberPerformance => { return memberPerformance.employeeId; }).indexOf(employeeId);
+        let index = memberPerformances.findIndex(memberPerformance => memberPerformance.employeeId === employeeId);
 
         if (index >= 0) {
             axios(resolveClientUrl('Member/Performance/Timeline'), {
@@ -76,8 +85,6 @@ export default class Timeline extends Component {
                 });
             }).catch(axiosError);
         }
-
-        
     }
 
     render() {

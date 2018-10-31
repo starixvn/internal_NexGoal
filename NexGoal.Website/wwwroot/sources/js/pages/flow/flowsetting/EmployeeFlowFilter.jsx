@@ -99,10 +99,10 @@ class EmployeeFlowFilter extends Component {
         let employeeSettings = this.state.employeeSettings.slice();
         let filteredEmployees = this.state.filteredEmployees.slice();
 
-        let index = filteredEmployees.map((employee) => { return employee.employeeId.toString(); }).indexOf(this.state.employeeUnsettingSelected);
+        let index = filteredEmployees.findIndex(employee => employee.employeeId.toString() === this.state.employeeUnsettingSelected);
         filteredEmployees.splice(index, 1);
 
-        index = employeeUnsettings.map((employee) => { return employee.employeeId.toString(); }).indexOf(this.state.employeeUnsettingSelected);
+        index = employeeUnsettings.findIndex(employee => employee.employeeId.toString()=== this.state.employeeUnsettingSelected);
         employeeSettings.push(employeeUnsettings[index]);
         employeeUnsettings.splice(index, 1);
 
@@ -118,7 +118,7 @@ class EmployeeFlowFilter extends Component {
         let employeeUnsettings = this.state.employeeUnsettings.slice();
         let employeeSettings = this.state.employeeSettings.slice();
 
-        let index = employeeSettings.map((employee) => { return employee.employeeId.toString(); }).indexOf(this.state.employeeSettingSelected);
+        let index = employeeSettings.findIndex(employee => employee.employeeId.toString() === this.state.employeeSettingSelected);
         employeeUnsettings.push(employeeSettings[index]);
         employeeSettings.splice(index, 1);
 

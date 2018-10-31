@@ -128,10 +128,10 @@ export default class PAFocus extends Component {
 
     handleChange = (groupCode, paFocusId, propName, value) => {
         let pafocuses = this.state.pafocuses.slice();
-        let index = pafocuses.map(pafocus => { return pafocus.groupCode; }).indexOf(groupCode);
+        let index = pafocuses.findIndex(pafocus => pafocus.groupCode === groupCode);
 
         if (index >= 0) {
-            let memberIndex = pafocuses[index].members.map(member => { return member.paFocusId; }).indexOf(paFocusId);
+            let memberIndex = pafocuses[index].members.findIndex(member => member.paFocusId === paFocusId);
 
             if (memberIndex >= 0) {
                 pafocuses[index].members[memberIndex] = Object.assign({}, pafocuses[index].members[memberIndex], { [propName]: value });

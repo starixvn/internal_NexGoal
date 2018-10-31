@@ -92,7 +92,7 @@ class GroupFlowSetting extends Component {
                 break;
         }
 
-        let index = items.map((item) => { return item.evaluatorId; }).indexOf(employeeId);
+        let index = items.findIndex(item => item.evaluatorId === employeeId);
         if (index < 0) {
             if ((sender === 'evaluators' || sender === 'reviewers') && items.length > 0) {
                 toast.error('Evaluator or Reviewer is single setting!');
@@ -145,7 +145,7 @@ class GroupFlowSetting extends Component {
 
     handleOnRemoveItem(sender, evaluatorId) {
         let items = this.state[sender].slice();
-        let index = items.map((item) => { return item.evaluatorId; }).indexOf(evaluatorId);
+        let index = items.findIndex(item => item.evaluatorId === evaluatorId);
         items.splice(index, 1);
         this.setState({ [sender]: items });
     }
@@ -200,11 +200,9 @@ class GroupFlowSetting extends Component {
                     toast.success(getResource('UpdatedSuccessfully'));
 
                     let groupSettings = this.state.groupSettings.slice();
-                    let groupIds = groupSettings.map((group) => {
-                        return group.groupId;
-                    });
+                    let index = groupSettings.findIndex(group => group.groupId === this.state.groupSelected.value);
 
-                    if (groupIds.indexOf(this.state.groupSelected.value) === -1) {
+                    if (index === -1) {
                         groupSettings.push({ groupId: this.state.groupSelected.value, name: this.state.groupSelected.label });
 
                         this.setState({ groupSettings });
@@ -251,10 +249,7 @@ class GroupFlowSetting extends Component {
                 this.handleOnCloseModal();
 
                 let groupSettings = this.state.groupSettings.slice();
-                let groupIds = groupSettings.map((group) => {
-                    return group.groupId;
-                });
-                let index = groupIds.indexOf(this.state.groupSelected.value);
+                let index = groupSettings.findIndex(group => group.groupId === this.state.groupSelected.value);
                 groupSettings.splice(index, 1);
 
                 this.setState({

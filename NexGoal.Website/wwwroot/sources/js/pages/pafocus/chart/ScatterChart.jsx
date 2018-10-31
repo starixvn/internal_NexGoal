@@ -22,7 +22,7 @@ export default class ScatterChart extends Component {
     points = [];
 
     getFocusEvaluationLevel = (value) => {
-        let index = this.props.focusEvaluationLevelOptions.map(function (item) { return item.value.toString(); }).indexOf(value);
+        let index = this.props.focusEvaluationLevelOptions.findIndex(item => item.value.toString() === value);
 
         if (index >= 0) {
             return this.props.focusEvaluationLevelOptions[index].name;
