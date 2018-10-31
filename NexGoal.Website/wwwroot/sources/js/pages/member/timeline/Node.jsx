@@ -43,8 +43,8 @@ export default class TimelineNode extends Component {
 
         return (
             <Fragment>
-                <p className="timeline-grade" style={{ right: position - 25 }} onClick={this.handleClick} >{data.grade ? data.grade.name : ""}</p>
-                <div className="timeline-info" style={{ right: position - 35 }} onClick={this.handleClick}>
+                <p className="timeline-grade" style={{ right: position - 34 }} onClick={this.handleClick} >{data.grade ? data.grade.name : ""}</p>
+                <div className="timeline-info" style={{ right: position - 44 }} onClick={this.handleClick}>
                     <p className={"name " + className}>{data.creator.nickName}</p>
                 </div>
             </Fragment >

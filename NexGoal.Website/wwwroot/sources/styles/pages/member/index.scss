@@ -14,7 +14,14 @@
 @import "../home/personal-timeline";
 
 .general-info {
-    padding: 16px 16px 16px 12px;
+    padding: 0;
+    .member-timeline {
+        padding: 0 20px 12px 12px;
+    }
+    h5 {
+        padding: 12px;
+        margin-bottom: 0;
+    }
 }
 
 .member-performance {
@@ -33,8 +40,21 @@
     }
 }
 
-.record-list {
-    padding-top: 52px;
+#tabs {
+    padding: 52px 12px 0;
+    .record {
+        margin: 12px 0;
+    }
+    .nav-tabs {
+        position: fixed;
+        top: 102px;
+        z-index: 55;
+        background-color: #fff;
+        width: calc(100% - 804px - 24px);
+    }
+    .tab-content {
+        padding-top: 36px;
+    }
 }
 
 .timeline {
@@ -106,6 +126,40 @@
     }
 }
 
+.record-your-mind {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 1fr;
+
+    .comment {
+        padding-bottom: 0;
+    }
+    .comment .form-control {
+        font-size: 14px;
+    }
+
+    .grade {
+        width: 230px;
+        display: inline-block;
+        margin-right: 16px;
+    }
+
+    .project {
+        display: inline-block;
+        width: calc(100% - 230px - 16px);
+    }
+
+    .form-performance.edit .record .project {
+        margin-left: 0;
+    }
+
+    .comment .form-filter {
+        padding: 0;
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
 .workload {
     padding: 8px 12px;
 
