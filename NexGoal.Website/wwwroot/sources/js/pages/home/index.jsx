@@ -131,7 +131,10 @@ export default class App extends Component {
             .then((response) => {
                 let performanceRecords = response.data;
 
-                this.refs.timelineRef.getPCI();
+                if (this.state.personalTimeline.pageIndex === 0) {
+                    this.onTimelinePageChange(0);
+                }
+
                 this.refs.infiniteScrollRef.pageLoaded = 1;
 
                 this.setState({
@@ -173,8 +176,8 @@ export default class App extends Component {
                     displayedPerformanceRecords[index] = response.data;
                 }
 
-                if (this.refs.timelineRef.state.performanceRecords.some(element => element.performanceRecordId === performanceRecordId)) {
-                    this.refs.timelineRef.getPCI();
+                if (this.state.personalTimeline.records.some(element => element.performanceRecordId === performanceRecordId)) {
+                    this.onTimelinePageChange(this.state.personalTimeline.pageIndex);
                 }
 
                 this.setState({
@@ -262,7 +265,6 @@ export default class App extends Component {
                                 onItemClick={this.handlePCIClick}
                                 onPageChange={this.onTimelinePageChange}
                                 selectedPCIId={this.state.selectedPCIId}
-                                ref="timelineRef"
                             />
                         </div>
                         <div className="record-list">
