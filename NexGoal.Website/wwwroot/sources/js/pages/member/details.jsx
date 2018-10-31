@@ -308,7 +308,7 @@ export default class App extends Component {
                 {
                     this.state.editMemberPerformance.isShowModal &&
                     <EditMemberPerformance
-                        currentUser={this.statecurrentUser}
+                        currentUser={this.state.currentUser}
                         performanceRecordId={this.state.editMemberPerformance.performanceRecordId}
                         memberOptions={this.state.memberOptions}
                         performanceGradeOptions={this.state.performanceGradeOptions}
