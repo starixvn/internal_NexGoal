@@ -35,18 +35,6 @@
         }
 
         [Fact]
-        public async Task GetHRMSummary_WhenCalled_ReturnExpectedResult()
-        {
-            var expectResult = new HRMSummaryModel();
-            var service = GetDisciplineService();
-            baseService.GetDataEntityAsync<HRMSummaryModel>(Arg.Any<GetHRMSummaryCriteria>()).Returns(expectResult);
-
-            var result = await service.GetDisciplines(DateTime.Today, DateTime.Today.AddMonths(1), null, string.Empty, null);
-
-            Assert.NotNull(result);
-        }
-
-        [Fact]
         public async Task EditStatus_ValidData_ReturnExpectedResult()
         {
             var service = GetDisciplineService();

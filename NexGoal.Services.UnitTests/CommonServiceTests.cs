@@ -1,5 +1,6 @@
 namespace NexGoal.Services.UnitTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -106,6 +107,18 @@ namespace NexGoal.Services.UnitTests
             Assert.Equal(employee.Code, actual.Code);
             Assert.Equal(employee.NickName, actual.NickName);
             Assert.Equal("base64string", actual.Base64Image);
+        }
+
+        [Fact]
+        public async Task GetHRMSummary_WhenCalled_ReturnExpectedResult()
+        {
+            var expectResult = new HRMSummaryModel();
+            var service = GetCommonService();
+            baseService.GetDataEntityAsync<HRMSummaryModel>(Arg.Any<GetHRMSummaryCriteria>()).Returns(expectResult);
+
+            var result = await service.GetHRMSummary(DateTime.Today, DateTime.Today.AddMonths(1), 363);
+
+            Assert.NotNull(result);
         }
 
         [Fact]

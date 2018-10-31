@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -74,6 +75,24 @@
             var jsonResult = Assert.IsType<JsonResult>(actual);
             var result = Assert.IsAssignableFrom<IEnumerable<TargetTypeModel>>(jsonResult.Value);
             Assert.Equal(referenceResources.Count, result.Count());
+        }
+
+        [Fact]
+        public async Task GetHRMSummary_WhenCalled_ReturnJson()
+        {
+            var controller = GetCommonController();
+            var expectResult = new HRMSummaryModel
+            {
+                ToeicScore = 600,
+                ToeicExamDate = DateTime.Now,
+                Incident = 0
+            };
+
+            commonService.GetHRMSummary(DateTime.Today, DateTime.Today, 363).Returns(expectResult);
+
+            var result = await controller.GetHRMSummary();
+
+            Assert.IsType<JsonResult>(result);
         }
 
         [Fact]

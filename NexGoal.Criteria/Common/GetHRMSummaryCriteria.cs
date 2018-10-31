@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Criteria.Discipline
+﻿namespace NexGoal.Criteria.Common
 {
     using System;
     using Fanex.Data.Repository;
