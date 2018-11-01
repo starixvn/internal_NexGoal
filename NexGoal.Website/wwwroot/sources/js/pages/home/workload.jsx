@@ -31,15 +31,36 @@ export default class WorkLoad extends PureComponent {
         })).catch(axiosError);
     }
 
-    getChartData = workload => (
-        {
+    getChartData = workload => {
+        debugger;
+        if (workload.length > 5) {
+            let labels = workload.slice(0, 5).map(e => e.name);
+            labels.push("Others");
+            let data = workload.slice(0, 5).map(e => e.totalHours);
+
+            let othersValue = workload.slice(5, workload.length).reduce(function (total, current) {
+                return total += current.totalHours;
+            }, 0);
+
+            data.push(othersValue);
+
+            return {
+                datasets: [{
+                    data: data,
+                    backgroundColor: ChartColors
+                }],
+                labels: labels
+            }
+        }
+
+        return {
             datasets: [{
                 data: workload.map(e => e.totalHours),
                 backgroundColor: ChartColors
             }],
             labels: workload.map(e => e.name)
         }
-    )
+    }
 
     onNextPeriod = () => {
         if (this.props.periods[this.state.currentPeriodIndex + 1]) {
@@ -71,6 +92,7 @@ export default class WorkLoad extends PureComponent {
         legend: {
             position: 'right',
             labels: {
+                usePointStyle: true,
                 generateLabels: function (chart) {
                     let data = chart.data;
 

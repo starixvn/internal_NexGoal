@@ -42,23 +42,7 @@
 
             var workload = await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
 
-            if (workload.Count() > 5)
-            {
-                workload = workload.OrderByDescending(x => x.TotalHours);
-
-                var result = new List<ProjectWorkloadModel>(workload.Take(5))
-                {
-                    new ProjectWorkloadModel
-                    {
-                        Name = "Others",
-                        TotalHours = workload.Skip(5).Sum(x => x.TotalHours)
-                    }
-                };
-
-                return result;
-            }
-
-            return workload;
+            return workload.OrderByDescending(x => x.TotalHours);
         }
 
         public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadForPMAsync(int employeeId)
