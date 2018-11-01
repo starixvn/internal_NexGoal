@@ -95,6 +95,7 @@
             var criteria = new GetMemberPerformanceTimelineCriteria
             {
                 ActorId = param.ActorId,
+                PeriodId = param.PeriodId,
                 EmployeeId = param.EmployeeId,
                 PageIndex = param.PageIndex,
                 PageSize = param.PageSize

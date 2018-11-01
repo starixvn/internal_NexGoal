@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
@@ -16,13 +16,9 @@ export default class Timeline extends Component {
         this.timelineWidth = React.createRef();
     }
 
-    componentDidMount() {
-        //window.addEventListener('resize', this.updateDimensions);
-        this.getMemberPerformanceTimeline();
-    }
-
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.state.pageSize !== nextState.pageSize
+        if (JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(nextProps.currentPerformancePeriod)
+            || this.state.pageSize !== nextState.pageSize
             || JSON.stringify(this.state.memberPerformances) !== JSON.stringify(nextState.memberPerformances)) {
             return true;
         }
@@ -30,22 +26,17 @@ export default class Timeline extends Component {
         return false;
     }
 
-    componentWillUnmount() {
-        //window.removeEventListener('resize', this.updateDimensions);
-    }
-
-    updateDimensions = () => {
-        //this.setState({
-        //    timelineWidth: this.timelineWidth.current.offsetWidth,
-        //    pageSize: window.innerWidth > 1600 ? 4 : 2
-        //}, () => {
-        //    this.getMemberPerformanceTimeline();
-        //});
+    componentDidUpdate(prevProps) {
+        if (JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(prevProps.currentPerformancePeriod)) {
+            this.getMemberPerformanceTimeline();
+        }
     }
 
     getMemberPerformanceTimeline = () => {
+        console.log(this.props.currentPerformancePeriod);
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
+                periodId: this.props.currentPerformancePeriod ? this.props.currentPerformancePeriod.periodId : null,
                 pageIndex: 0,
                 pageSize: this.state.pageSize
             }
@@ -88,24 +79,28 @@ export default class Timeline extends Component {
     }
 
     render() {
+        let currentPerformancePeriod = this.props.currentPerformancePeriod;
         const memberPerformances = this.state.memberPerformances;
         const timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
 
         return (
-            <div className="member-timeline" ref={this.timelineWidth}>
-                {
-                    memberPerformances.map((memberPerformance, index) => {
-                        return (
-                            <Line key={`memberTimeline${index}`}
-                                data={memberPerformance}
-                                timelineWidth={timelineWidth}
-                                onPageChange={this.handlePageChange}
-                                onNodeClick={this.props.onNodeClick}
-                            />
-                        );
-                    })
-                }
-            </div>
+            <Fragment>
+                <h5>Member Performance{currentPerformancePeriod ? ` - ${currentPerformancePeriod.name}` : ''}</h5>
+                <div className="member-timeline" ref={this.timelineWidth}>
+                    {
+                        memberPerformances.map((memberPerformance, index) => {
+                            return (
+                                <Line key={`memberTimeline${index}`}
+                                    data={memberPerformance}
+                                    timelineWidth={timelineWidth}
+                                    onPageChange={this.handlePageChange}
+                                    onNodeClick={this.props.onNodeClick}
+                                />
+                            );
+                        })
+                    }
+                </div>
+            </Fragment>
         );
     }
 }

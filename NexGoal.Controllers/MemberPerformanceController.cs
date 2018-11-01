@@ -24,7 +24,7 @@
         }
 
         [Route("Member/Performance")]
-        public async Task<JsonResult> Index(int? periodId = null, int? memberId = null)
+        public async Task<JsonResult> Index(int? memberId = null)
         {
             IEnumerable<PerformanceRecordModel> memberPerformances =
                 await performanceRecordService.GetMemberPerformanceAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);

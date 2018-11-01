@@ -29,6 +29,7 @@ export default class App extends Component {
             memberPerformanceAppraisals: [],
             memberNominations: [],
             periods: [],
+            currentPerformancePeriod: null,
             displayedMemberPerformances: [],
             editMemberPerformance: {
                 isShowModal: false,
@@ -53,12 +54,14 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
             axios(resolveClientUrl('Common/GetMembers')),
+            axios(resolveClientUrl('Common/GetCurrentPerformancePeriod')),
             axios(resolveClientUrl('member/GetMemberNominationResult')),
             axios(resolveClientUrl('member/Performance'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, memberNominationResponse, memberPerformanceResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, currentPerformancePeriodResponse,
+                memberNominationResponse, memberPerformanceResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
@@ -79,6 +82,7 @@ export default class App extends Component {
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     memberOptions: memberOptions,
+                    currentPerformancePeriod: currentPerformancePeriodResponse.data,
                     memberNominations: memberNominationResponse.data,
                     memberPerformances: memberPerformanceResponse.data,
                     displayedMemberPerformances: displayedMemberPerformances,
@@ -196,9 +200,11 @@ export default class App extends Component {
                 <div className="row">
                     <div className="main-layout member-page">
                         <div className="general-info box">
-                            <Scrollbars style={{ maxHeight: '100%' }} autoHide={true} >
-                                <h5>Member Performance - 2nd 2018</h5>
-                                <Timeline onNodeClick={this.handleTimelineNodeClick} />
+                            <Scrollbars style={{ maxHeight: '100%' }} autoHide>
+                                <Timeline
+                                    currentPerformancePeriod={this.state.currentPerformancePeriod}
+                                    onNodeClick={this.handleTimelineNodeClick}
+                                />
                             </Scrollbars >
                         </div>
                         <div className="main-content">

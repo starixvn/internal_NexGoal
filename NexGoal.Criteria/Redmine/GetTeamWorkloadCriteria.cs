@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Criteria.Redmine
 {
-    using System;
     using Fanex.Data.Repository;
 
     public class GetTeamWorkloadCriteria : CriteriaBase
