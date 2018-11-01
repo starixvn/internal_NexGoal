@@ -32,8 +32,8 @@ BEGIN
     SELECT a.EmpId,
             AttendanceDate,
             1
-    FROM [NexHRM].[dbo].EmployeeAttendance a WITH (NOLOCK)
-            INNER JOIN [NexHRM].[dbo].EmployeeCalendar C WITH (NOLOCK) ON c.empID = a.EmpID
+    FROM [dbo].EmployeeAttendance a WITH (NOLOCK)
+            INNER JOIN [dbo].EmployeeCalendar C WITH (NOLOCK) ON c.empID = a.EmpID
                                                             AND c.WorkDate = AttendanceDate
     WHERE attendancedate BETWEEN @FromDate AND @ToDate
             AND a.EmpId = @EmployeeId
@@ -46,7 +46,7 @@ BEGIN
             AND NOT EXISTS
     (
         SELECT 1
-        FROM [NexHRM].[dbo].WorkingTimeRequest r WITH (NOLOCK)
+        FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
         WHERE r.empid = a.empid 
                 AND r.EmpId = @EmployeeId
                 AND requesttype = 1
@@ -55,7 +55,7 @@ BEGIN
             AND NOT EXISTS
     (
         SELECT 1
-        FROM [NexHRM].[dbo].WorkingTimeRequest r WITH (NOLOCK)
+        FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
         WHERE r.empid = a.empid
                 AND r.EmpId = @EmployeeId				
                 AND requesttype = 6
@@ -72,8 +72,8 @@ BEGIN
     SELECT a.EmpId,
             AttendanceDate,
             2
-    FROM [NexHRM].[dbo].EmployeeAttendance a WITH (NOLOCK)
-            INNER JOIN [NexHRM].[dbo].EmployeeCalendar C WITH (NOLOCK) ON c.empID = a.EmpID
+    FROM [dbo].EmployeeAttendance a WITH (NOLOCK)
+            INNER JOIN [dbo].EmployeeCalendar C WITH (NOLOCK) ON c.empID = a.EmpID
                                                             AND c.WorkDate = AttendanceDate
     WHERE attendancedate BETWEEN @FromDate AND @ToDate
             AND a.EmpId = @EmployeeId
@@ -86,7 +86,7 @@ BEGIN
             AND NOT EXISTS
     (
         SELECT 1
-        FROM [NexHRM].[dbo].WorkingTimeRequest r WITH (NOLOCK)
+        FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
         WHERE r.empid = a.empid 
                 AND r.EmpId = @EmployeeId 
                 AND requesttype = 2
@@ -95,7 +95,7 @@ BEGIN
             AND NOT EXISTS
     (
         SELECT 1
-        FROM [NexHRM].[dbo].WorkingTimeRequest r WITH (NOLOCK)
+        FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
         WHERE r.empid = a.empid
 				AND r.EmpId = @EmployeeId
                 AND requesttype = 6
@@ -108,12 +108,12 @@ BEGIN
 
 	SET @toeic = (
 		SELECT (Listening + Reading)
-		FROM [NexHRM].[dbo].[TOEIC] WITH (NOLOCK)
+		FROM [dbo].[TOEIC] WITH (NOLOCK)
 		WHERE EmpId = @EmployeeId)
 
 	SET @examDate = (
 		SELECT LRExamDate
-		FROM [NexHRM].[dbo].[TOEIC] WITH (NOLOCK)
+		FROM [dbo].[TOEIC] WITH (NOLOCK)
 		WHERE EmpId = @EmployeeId)
 
 	SET @incident = (
@@ -124,7 +124,7 @@ BEGIN
 
 	SET @missingCheckInCheckOut =
 						(SELECT COUNT(1)
-						 FROM [NexHRM].[dbo].[WorkingTimeRequest] WITH (NOLOCK)
+						 FROM [dbo].[WorkingTimeRequest] WITH (NOLOCK)
 						 WHERE (RequestType = 1 or RequestType = 2) 
 							AND EmpId = @EmployeeId
 							AND FromDate BETWEEN @FromDate AND @ToDate)
@@ -153,7 +153,7 @@ BEGIN
 					WHEN (LeaveTypeId = 30 AND LeaveTypeId2 = 30) THEN 2
 					ELSE 0
 				END) as UnplanAnnualLeave
-	FROM [NexHRM].[dbo].[EmployeeAttendance] as et WITH (NOLOCK)
+	FROM [dbo].[EmployeeAttendance] as et WITH (NOLOCK)
 	WHERE AttendanceDate BETWEEN @FromDate AND @ToDate
 		AND et.EmpId = @EmployeeId
 END

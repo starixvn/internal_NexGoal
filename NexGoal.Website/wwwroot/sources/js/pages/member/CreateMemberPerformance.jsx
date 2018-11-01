@@ -63,7 +63,6 @@ export default class CreateMemberPerformance extends Component {
 
     handleOpenForm = () => {
         this.setState({ isOpenForm: true });
-        this.selectMember();
     }
 
     handleEmployeeChange = (selectedOptions) => {
@@ -84,14 +83,6 @@ export default class CreateMemberPerformance extends Component {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
         });
-    }
-
-    selectMember = () => {
-        if (this.props.selectedMembers !== undefined && this.state.performanceRecord.employees.length === 0) {
-            this.setState({
-                performanceRecord: Object.assign({}, this.state.performanceRecord, { employees: this.props.selectedMembers })
-            });
-        }
     }
 
     handleCommentChange = (event) => {
@@ -117,7 +108,7 @@ export default class CreateMemberPerformance extends Component {
         let errors = {}, isValid = true;
         let performanceRecord = this.state.performanceRecord;
 
-        if (performanceRecord.employees.length === 0) {
+        if (performanceRecord.employees.length === 0 && this.props.isMultiple) {
             errors.employee = getResource('EmployeeRequired');
             isValid = false;
         }
@@ -147,9 +138,11 @@ export default class CreateMemberPerformance extends Component {
             }
 
             let record = this.state.performanceRecord;
+            let employeeIds = this.props.isMultiple ? record.employees.map((employee) => { return employee.value; }).join(',') :
+                this.props.selectedMemberId;
             let performanceRecord = stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                employeeIds: record.employees.map((employee) => { return employee.value; }).join(','),
+                employeeIds: employeeIds,
                 gradeId: record.grade ? record.grade.value : null,
                 comment: record.comment,
                 projectIds: record.projects.map((project) => { return project.value; }).join(','),
@@ -229,15 +222,17 @@ export default class CreateMemberPerformance extends Component {
                     {
                         isOpenForm &&
                         <form className="form-filter form-performance create">
-                            <FormGroup>
-                                <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
-                                <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
-                                    className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
-                                    placeholder="Select Employees"
-                                    value={performanceRecord.employees} options={memberOptions}
-                                    onChange={this.handleEmployeeChange} isClearable
-                                />
-                            </FormGroup>
+                            {this.props.isMultiple &&
+                                <FormGroup>
+                                    <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
+                                    <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
+                                        className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
+                                        placeholder="Select Employees"
+                                        value={performanceRecord.employees} options={memberOptions}
+                                        onChange={this.handleEmployeeChange} isClearable
+                                    />
+                                </FormGroup>
+                            }
                             <FormGroup>
                                 <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                                 <TextareaFullscreenEditor

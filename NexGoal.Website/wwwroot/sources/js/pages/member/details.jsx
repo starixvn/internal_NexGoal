@@ -238,10 +238,6 @@ export default class App extends Component {
         const nominations = this.state.nominations;
         const performanceAppraisals = this.state.performanceAppraisals;
         const performanceRecords = this.state.displayedPerformanceRecords;
-        const selectedMembes = [{
-            value: parseInt(this.state.memberInfo.id),
-            label: `${this.state.memberInfo.fullName} (${this.state.memberInfo.nickName})`
-        }];
 
         return (
             <ToastLayout>
@@ -274,8 +270,9 @@ export default class App extends Component {
                                     memberOptions={this.state.memberOptions}
                                     performanceGradeOptions={this.state.performanceGradeOptions}
                                     projectOptions={this.state.projectOptions}
-                                    selectedMembers={selectedMembes}
+                                    selectedMemberId={this.state.memberInfo.id}
                                     onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                    isMultiple={false}
                                 />
                                 {performanceRecords.length > 0 &&
                                     <InfiniteScroll

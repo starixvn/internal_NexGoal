@@ -216,6 +216,7 @@ export default class App extends Component {
                                             performanceGradeOptions={performanceGradeOptions}
                                             projectOptions={projectOptions}
                                             onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                            isMultiple
                                         />
                                         <InfiniteScroll
                                             pageStart={1}
@@ -230,7 +231,6 @@ export default class App extends Component {
                                                 this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
                                             }
                                         </InfiniteScroll>
-
                                     </div>
                                 </Tab>
                                 <Tab eventKey={2} title="Nomination">
