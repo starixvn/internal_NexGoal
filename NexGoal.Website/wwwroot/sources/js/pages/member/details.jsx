@@ -213,11 +213,11 @@ export default class App extends Component {
             this.refs.infiniteScrollRef.pageLoaded = page;
             this.loadPCIs(page, () => {
                 this.setState({ selectedPCIId: performanceRecordId });
-                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
+                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'denter', behavior: 'smooth' });
             });
         } else {
             this.setState({ selectedPCIId: performanceRecordId });
-            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
+            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
         }
     }
 
