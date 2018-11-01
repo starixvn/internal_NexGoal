@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat } from '../../constants';
@@ -50,7 +51,7 @@ export default class App extends Component {
         };
 
         this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
-        this.itemPerPage = 4;
+        this.itemPerPage = 5;
     }
 
     componentDidMount() {
@@ -239,11 +240,11 @@ export default class App extends Component {
 
             this.loadMorePerformances(page, () => {
                 this.setState({ performanceRecordIdHighlighted: performanceRecordId });
-                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
+                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'start', behavior: 'smooth' });
             });
         } else {
             this.setState({ performanceRecordIdHighlighted: performanceRecordId });
-            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'end', behavior: 'smooth' });
+            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'start', behavior: 'smooth' });
         }
     }
 
@@ -271,30 +272,36 @@ export default class App extends Component {
                             />
                         </div>
                         <div className="record-list">
-                            <CreateSelfPerformance
-                                currentUser={currentUser}
-                                performanceGradeOptions={this.state.performanceGradeOptions}
-                                projectOptions={this.state.projectOptions}
-                                onSubmitSuccess={this.handleCreatePerformanceSuccess}
-                            />
-                            <div className="pci-list">
-                               {performanceRecords.length > 0 &&
+                            <Scrollbars style={{ height: '100%' }} autoHide={true}  >
+
+                                <CreateSelfPerformance
+                                    currentUser={currentUser}
+                                    performanceGradeOptions={this.state.performanceGradeOptions}
+                                    projectOptions={this.state.projectOptions}
+                                    onSubmitSuccess={this.handleCreatePerformanceSuccess}
+                                />
+                                {performanceRecords.length > 0 &&
                                     <InfiniteScroll
                                         pageStart={1}
                                         initialLoad
                                         loadMore={this.loadMorePerformances}
                                         hasMore={this.state.hasMore}
                                         threshold={0}
-                                        useWindow
                                         ref="infiniteScrollRef"
+                                        useWindow={false}
                                     >
-                                        {
-                                            performanceRecords.map(this.renderPerformanceRecord)
-                                        }
+                                        <div className="pci-list">
+                                            {
+                                                performanceRecords.map(this.renderPerformanceRecord)
+                                            }
+                                        </div>
+
                                     </InfiniteScroll>
-                                } 
-                            </div>
+                                }
+
+                            </Scrollbars>
                         </div>
+
                     </div>
                     <div className="work-info">
                         <NominationResult nominations={this.state.nominations} />

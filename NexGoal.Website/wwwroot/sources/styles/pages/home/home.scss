@@ -46,6 +46,7 @@
     .comment {
         padding-bottom: 0;
     }
+
     .comment .form-control {
         font-size: 14px;
     }
@@ -106,12 +107,11 @@
 
 .record-list {
     padding-top: 152px;
-    height: calc(100vh - 152px);
-    box-sizing: content-box;
+    height: calc(100vh - 202px);
     overflow: auto;
-    .pci-list {
+    /*.pci-list {
         margin-bottom: 64px;
-    }
+    }*/
 }
 
 .hrm-summary {

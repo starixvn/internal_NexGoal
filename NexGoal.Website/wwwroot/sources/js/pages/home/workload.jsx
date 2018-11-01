@@ -32,7 +32,6 @@ export default class WorkLoad extends PureComponent {
     }
 
     getChartData = workload => {
-        debugger;
         if (workload.length > 5) {
             let labels = workload.slice(0, 5).map(e => e.name);
             labels.push("Others");
