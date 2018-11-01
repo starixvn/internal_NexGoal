@@ -10,7 +10,7 @@
     {
         Task<IEnumerable<PeriodModel>> GetPeriods(bool? isActive);
 
-        Task<PeriodModel> GetPeriod(int periodId);
+        Task<PeriodModel> GetByIdAsync(int periodId);
 
         Task<CommandResult> Create(CreatePeriodModel model);
 

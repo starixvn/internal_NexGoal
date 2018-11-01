@@ -28,6 +28,8 @@
 
         Task<IEnumerable<PeriodBaseModel>> GetAllPeriods();
 
+        Task<PeriodBaseModel> GetCurrentPerformancePeriodAsync();
+
         Task<HRMSummaryModel> GetHRMSummary(DateTime from, DateTime to, int empId);
     }
 }

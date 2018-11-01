@@ -103,6 +103,15 @@
             return Json(periods);
         }
 
+        [HttpGet]
+        public async Task<JsonResult> GetCurrentPerformancePeriod()
+        {
+            PeriodBaseModel period = await commonService.GetCurrentPerformancePeriodAsync().ConfigureAwait(false);
+
+            return Json(period);
+        }
+
+        [HttpGet]
         public async Task<JsonResult> GetMembers()
         {
             IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);

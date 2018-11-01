@@ -27,7 +27,7 @@ export default class EditProcessSetting extends Component {
     }
 
     getPeriod = () => {
-        axios.get(resolveClientUrl('Period/Get/' + this.props.periodId))
+        axios.get(resolveClientUrl('Period/GetById/' + this.props.periodId))
             .then(response => {
                 var data = response.data;
                 this.setState({ period: data });

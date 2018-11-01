@@ -56,9 +56,9 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> Get(int id)
+        public async Task<JsonResult> GetById(int id)
         {
-            PeriodModel period = await periodService.GetPeriod(id).ConfigureAwait(false);
+            PeriodModel period = await periodService.GetByIdAsync(id).ConfigureAwait(false);
 
             return Json(period);
         }

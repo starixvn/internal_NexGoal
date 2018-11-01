@@ -34,7 +34,7 @@
             return await baseService.GetDataAsync<PeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<PeriodModel> GetPeriod(int periodId)
+        public async Task<PeriodModel> GetByIdAsync(int periodId)
         {
             var criteria = new GetPeriodCriteria { PeriodId = periodId };
 

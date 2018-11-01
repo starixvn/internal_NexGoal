@@ -123,7 +123,7 @@ BEGIN
 			,lg.GradeId
 			,STUFF((
 					SELECT CHAR(10) + prcmt.Comment
-					FROM PerformanceRecord AS prcmt WITH (NOLOCK)
+					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 					WHERE prcmt.EmployeeIds = par.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
 						AND prcmt.TypeId = 1

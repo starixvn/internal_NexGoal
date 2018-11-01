@@ -40,7 +40,7 @@
         }
 
         [Fact]
-        public async Task GetPeriod_WhenCalled_ReturnExpectedResult()
+        public async Task GetByIdAsync_WhenCalled_ReturnExpectedResult()
         {
             var expectedPeriod = new PeriodModel
             {
@@ -51,10 +51,9 @@
             var service = GetPeriodService();
             baseService.GetDataEntityAsync<PeriodModel>(Arg.Any<GetPeriodCriteria>()).Returns(expectedPeriod);
 
-            var result = await service.GetPeriod(1);
+            var result = await service.GetByIdAsync(1);
 
-            Assert.Equal(expectedPeriod.PeriodId, result.PeriodId);
-            Assert.Equal(expectedPeriod.TargetTypeId, result.TargetTypeId);
+            Assert.Equal(expectedPeriod, result);
         }
 
         [Fact]

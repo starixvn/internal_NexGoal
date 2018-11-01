@@ -1,5 +1,6 @@
 ﻿
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberTimeline] @ActorId INT
+	,@PeriodId INT = NULL
 	,@EmployeeId INT = NULL
 	,@PageIndex INT = 0
 	,@PageSize INT = 4
@@ -17,6 +18,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @FromDate DATE
+		,@ToDate DATE
 	-- process
 	DECLARE @PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
@@ -40,6 +43,14 @@ BEGIN
 		,RoleId TINYINT
 		,CreatedDate DATETIME
 		)
+
+	IF @PeriodId IS NOT NULL
+	BEGIN
+		SELECT @FromDate = DisciplineStartDate
+			,@ToDate = DisciplineEndDate
+		FROM dbo.Period WITH (NOLOCK)
+		WHERE PeriodId = @PeriodId
+	END
 
 	INSERT INTO #tblMember (
 		EmployeeId
@@ -100,6 +111,11 @@ BEGIN
 					OR record.EmployeeIds = record.CreatorId
 					)
 				)
+			)
+		AND (
+			@PeriodId IS NULL
+			OR record.CreatedDate BETWEEN @FromDate
+				AND @ToDate
 			)
 
 	SELECT emp.EmployeeId

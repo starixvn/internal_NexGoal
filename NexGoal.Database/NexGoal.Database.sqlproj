@@ -151,7 +151,6 @@
     <Build Include="dbo\Stored Procedures\Auto_Period_InsertEmployeeSettings.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Period_GeneratePA.sql" />
     <Build Include="dbo\Stored Procedures\Auto_PA_UpdateStatus.sql" />
-    <Build Include="dbo\Stored Procedures\Auto_PerformanceRecord_UpdateStatus_xpre.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Update.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetPerformanceAppraisalResult.sql" />
@@ -224,7 +223,6 @@
     <Build Include="dbo\Stored Procedures\Period_GetEmployeeSettings.sql" />
     <Build Include="dbo\Stored Procedures\Period_GetProcessSetting.sql" />
     <Build Include="dbo\Stored Procedures\Period_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\Period_InsertEmployee_xtest.sql" />
     <Build Include="dbo\Stored Procedures\Period_InsertEmployeeSettings.sql" />
     <Build Include="dbo\Stored Procedures\Period_Update.sql" />
     <Build Include="dbo\Stored Procedures\Period_UpdateEmployeeSettings.sql" />
@@ -233,9 +231,12 @@
     <Build Include="dbo\Stored Procedures\Period_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\Project_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\Redmine_GetTeamWorkLoad.sql" />
-    <Build Include="dbo\Stored Procedures\Redmine_GetTeamWorkLoad_xpre.sql" />
     <Build Include="dbo\Stored Procedures\RefResource_GetByNames.sql" />
     <Build Include="dbo\Stored Procedures\Role_AssignFunction.sql" />
     <Build Include="dbo\Stored Procedures\Period_GeneratePA.sql" />
+    <Build Include="dbo\Stored Procedures\Discipline_GetHRMSummary.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_Period_Insert.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GetCurrentPerformancePeriod.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
   </ItemGroup>
 </Project>

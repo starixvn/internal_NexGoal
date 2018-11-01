@@ -9,7 +9,6 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria;
     using NexGoal.Criteria.Common;
-    using NexGoal.Criteria.Discipline;
     using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
@@ -110,6 +109,13 @@
             var criteria = new GetAllPeriodsCriteria();
 
             return await baseService.GetDataAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<PeriodBaseModel> GetCurrentPerformancePeriodAsync()
+        {
+            var criteria = new GetCurrentPerformancePeriodCriteria();
+
+            return await baseService.GetDataEntityAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<HRMSummaryModel> GetHRMSummary(DateTime from, DateTime to, int empId)
