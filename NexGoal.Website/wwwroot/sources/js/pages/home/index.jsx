@@ -278,7 +278,7 @@ export default class App extends Component {
                                 onSubmitSuccess={this.handleCreatePerformanceSuccess}
                             />
                             <div className="pci-list">
-                                {performanceRecords.length > 0 &&
+                               {performanceRecords.length > 0 &&
                                     <InfiniteScroll
                                         pageStart={1}
                                         initialLoad
@@ -292,7 +292,7 @@ export default class App extends Component {
                                             performanceRecords.map(this.renderPerformanceRecord)
                                         }
                                     </InfiniteScroll>
-                                }
+                                } 
                             </div>
                         </div>
                     </div>
