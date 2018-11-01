@@ -26,7 +26,7 @@ const nominations = [{
 describe("Test nomination component", () => {
     describe('Component render correctly', () => {
         it('renderUI correctly', () => {
-            const component = renderer.create(<NominationResult nominations={nominations} />);
+            const component = renderer.create(<NominationResult nominations={nominations} isSupervisor />);
             expect(component.toJSON()).toMatchSnapshot();
         });
     });
@@ -41,15 +41,19 @@ describe("Test nomination component", () => {
         });
 
         it('Component should update when nominations change', () => {
-            const wrapper = shallow(<NominationResult nominations={[]} />);
-            const nextProps = { nominations };
-            const shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps);
+            const wrapper = shallow(<NominationResult nominations={[]} isSupervisor />);
+            let nextProps = { nominations };
+            let shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps);
+            expect(shouldUpdate).toBe(true);
+
+            nextProps = { nominations: [], isSupervisor: false };
+            shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps);
             expect(shouldUpdate).toBe(true);
         });
 
         it('Component should not update when nominations have no change', () => {
-            const wrapper = shallow(<NominationResult nominations={nominations} />);
-            const nextProps = { nominations };
+            const wrapper = shallow(<NominationResult nominations={nominations} isSupervisor />);
+            const nextProps = { nominations, isSupervisor: true };
 
             const shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps);
             expect(shouldUpdate).toBe(false);

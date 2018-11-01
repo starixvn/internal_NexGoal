@@ -2,7 +2,7 @@
 
 exports[`Test render correctly  Render correctly with props 1`] = `
 <div
-  className="user-info"
+  className="user-info box"
 >
   <img
     alt="avatar"
@@ -29,7 +29,7 @@ exports[`Test render correctly  Render correctly with props 1`] = `
 
 exports[`Test render correctly  render hrm detail correctly 1`] = `
 <div
-  className="hrm-summary"
+  className="hrm-summary box"
 >
   <h5>
     HRM
