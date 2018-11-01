@@ -30,9 +30,7 @@ BEGIN
 			FROM dbo.Employee AS emp WITH (NOLOCK)
 				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
 				AND er.RoleId = @SARoleId
-			WHERE emp.[Enabled] = 1
-				AND emp.IsDeleted = 0
-				AND emp.EmployeeId = @ActorId
+			WHERE emp.EmployeeId = @ActorId
 			)
 	BEGIN
 		INSERT INTO @result (
@@ -52,9 +50,7 @@ BEGIN
 			FROM dbo.Employee AS emp WITH (NOLOCK)
 				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
 				AND er.RoleId = @ManagementRoleId
-			WHERE emp.[Enabled] = 1
-				AND emp.IsDeleted = 0
-				AND emp.EmployeeId = @ActorId
+			WHERE emp.EmployeeId = @ActorId
 			)
 	BEGIN
 		INSERT INTO @result (
@@ -169,23 +165,32 @@ BEGIN
 				)
 	END
 
-	INSERT INTO @result
-	SELECT DISTINCT emp.EmployeeId
-		,@PMProcessId
-		,@PMRoleId
-	FROM dbo.Employee AS emp WITH (NOLOCK)
-		INNER JOIN dbo.ProjectMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
-		AND member.EmployeeId <> @ActorId
-		AND member.RoleId NOT IN (1, 2, 3, 7) -- none member, anonymous, project manager, viewer
-		INNER JOIN dbo.ProjectSpentTime AS spenttime WITH (NOLOCK) ON member.ProjectId = spenttime.ProjectId
-		AND member.EmployeeId = spenttime.EmployeeId
-		AND spenttime.SpentOn BETWEEN @StartDate
-			AND @EndDate
-		INNER JOIN dbo.ProjectMember AS pm WITH (NOLOCK) ON member.ProjectId = pm.ProjectId
-		AND pm.EmployeeId = @ActorId
-		AND pm.RoleId = 3 -- project manager
-	WHERE emp.[Enabled] = 1
-		AND emp.IsDeleted = 0
+	IF EXISTS (
+			SELECT 1
+			FROM dbo.Employee AS emp WITH (NOLOCK)
+				INNER JOIN dbo.EmployeeRole AS er WITH (NOLOCK) ON er.EmployeeId = emp.EmployeeId
+				AND er.RoleId = @PMRoleId
+			WHERE emp.EmployeeId = @ActorId
+			)
+	BEGIN
+		INSERT INTO @result
+		SELECT DISTINCT emp.EmployeeId
+			,@PMProcessId
+			,@PMRoleId
+		FROM dbo.Employee AS emp WITH (NOLOCK)
+			INNER JOIN dbo.ProjectMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
+			AND member.EmployeeId <> @ActorId
+			AND member.RoleId NOT IN (1, 2, 3, 7) -- none member, anonymous, project manager, viewer
+			INNER JOIN dbo.ProjectSpentTime AS spenttime WITH (NOLOCK) ON member.ProjectId = spenttime.ProjectId
+			AND member.EmployeeId = spenttime.EmployeeId
+			AND spenttime.SpentOn BETWEEN @StartDate
+				AND @EndDate
+			INNER JOIN dbo.ProjectMember AS pm WITH (NOLOCK) ON member.ProjectId = pm.ProjectId
+			AND pm.EmployeeId = @ActorId
+			AND pm.RoleId = 3 -- project manager
+		WHERE emp.[Enabled] = 1
+			AND emp.IsDeleted = 0
+	END
 
 	RETURN
 END

@@ -1,8 +1,9 @@
-﻿CREATE PROCEDURE [dbo].[Period_GetCurrentPerformancePeriod]
+﻿
+CREATE PROCEDURE [dbo].[Period_GetCurrentPerformancePeriod]
 AS
 /*
 Created: 20181101@Tim.Trinh
-Task: get current period.
+Task: get current performance period.
 DB: bodb_NexGoal
 Original:
 

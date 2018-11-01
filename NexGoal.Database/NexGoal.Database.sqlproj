@@ -209,7 +209,6 @@
     <Build Include="dbo\Stored Procedures\PARecord_UpdateByReviewer.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetByEmployee.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMember_notused.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberPerformance.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetMemberTimeline.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetTimeline.sql" />

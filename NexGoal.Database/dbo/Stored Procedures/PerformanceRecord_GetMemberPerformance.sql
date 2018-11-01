@@ -106,17 +106,30 @@ BEGIN
 			,record.CreatorId
 		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
-			INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
+			AND emp.[Enabled] = 1
+			AND emp.IsDeleted = 0
 			INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 			AND creator.[Enabled] = 1
 			AND creator.IsDeleted = 0
+			LEFT JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 		WHERE record.TypeId = 1
 			AND record.StatusId IN (@Submitted, @Closed)
 			AND (
-				member.IsHost = 1
-				OR (
-					member.IsHost = 0
+				(
+					-- not member
+					member.EmployeeId IS NULL
 					AND record.CreatorId = @ActorId
+					AND record.EmployeeIds <> @ActorId
+					)
+				OR (
+					member.EmployeeId IS NOT NULL
+					AND (
+						member.IsHost = 1
+						OR (
+							member.IsHost = 0
+							AND record.CreatorId = @ActorId
+							)
+						)
 					)
 				)
 		) AS data

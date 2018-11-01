@@ -14,6 +14,10 @@ Param's Explanation:
 */
 BEGIN
 	DECLARE @Today DATE = GETDATE()
+	-- process
+	DECLARE @PMProcessId TINYINT = 3
+		,@EvaluatorProcessId TINYINT = 4
+		,@ReviewerProcessId TINYINT = 5
 
 	CREATE TABLE #tblMember (EmployeeId INT)
 
@@ -21,6 +25,7 @@ BEGIN
 	SELECT DISTINCT EmployeeId
 	FROM dbo.func_GetMember(@ActorId)
 	WHERE ISNULL(@EmployeeId, EmployeeId) = EmployeeId
+		AND ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 
 	SELECT emp.EmployeeId
 		,emp.Code
