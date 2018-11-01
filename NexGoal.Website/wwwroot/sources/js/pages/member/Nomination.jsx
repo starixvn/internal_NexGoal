@@ -14,5 +14,6 @@ export default class Nomination extends Component {
     }
 
     render() {
+        return '';
     }
 }

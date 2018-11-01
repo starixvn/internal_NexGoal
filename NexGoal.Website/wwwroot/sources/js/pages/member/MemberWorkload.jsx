@@ -75,7 +75,7 @@ export default class MemberWorkload extends Component {
             let dataSet = {
                 label: projects[i],
                 data: workloads.map((member) => member.workloads[i].totalHours),
-                backgroundColor: this.generateColor()
+                backgroundColor: "#F3AC16"
             };
 
             datasets.push(dataSet);
@@ -161,7 +161,7 @@ export default class MemberWorkload extends Component {
                             var style = 'background:' + colors.backgroundColor;
                             style += '; border: 2px solid ' + colors.borderColor;
                             var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
-                            innerHtml += '<tr><td>' + span + body + '</td></tr>';
+                            innerHtml += '<tr><td>' + body + '</td></tr>';
                         }
                     });
                     innerHtml += '</tbody>';
@@ -175,7 +175,7 @@ export default class MemberWorkload extends Component {
                 // Display, position, and set styles for font
                 tooltipEl.style.opacity = 1;
                 tooltipEl.style.position = 'absolute';
-                tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 100 + 'px';
+                tooltipEl.style.left = position.left + window.pageXOffset + tooltipModel.caretX + 'px';
                 tooltipEl.style.top = position.top + window.pageYOffset + tooltipModel.caretY + 'px';
                 tooltipEl.style.fontFamily = tooltipModel._bodyFontFamily;
                 tooltipEl.style.fontSize = tooltipModel.bodyFontSize + 'px';
@@ -190,6 +190,7 @@ export default class MemberWorkload extends Component {
                     display: false
                 },
                 stacked: true,
+                barThickness: 20
             }],
         },
         legend: {
@@ -199,7 +200,15 @@ export default class MemberWorkload extends Component {
 
     renderChart = (group) => {
         let workload = this.state.workloads.find(x => x.groupId === group.value);
-        return <HorizontalBar key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />;
+        let basicHeight = 100;
+
+        if (workload.chartData.labels.length > 2) {
+            basicHeight += (workload.chartData.labels.length - 2) * 20
+        }
+
+        return (
+            <HorizontalBar height={basicHeight} key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />
+        );
     }
 
     render() {

@@ -15,6 +15,7 @@ import CreateMemberPerformance from './CreateMemberPerformance';
 import EditMemberPerformance from './EditMemberPerformance';
 import MemberWorkload from './MemberWorkload';
 import Timeline from './timeline/index';
+import Nomination from './Nomination';
 
 export default class App extends Component {
     constructor(props) {
