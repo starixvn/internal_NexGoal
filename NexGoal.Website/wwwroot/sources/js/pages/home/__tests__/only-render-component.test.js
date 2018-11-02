@@ -20,7 +20,7 @@ describe("Test render correctly ", () => {
         expect(component.toJSON()).toMatchSnapshot();
     });
 
-    it('Render correctly with props', () => {
+    it('Render EmployeeInfo correctly with props', () => {
         const employee = {
             avatar: 'oliver',
             nickName: 'Oliver',
@@ -29,5 +29,12 @@ describe("Test render correctly ", () => {
         };
         const component = renderer.create(<EmployeeInfo employee={employee} />);
         expect(component.toJSON()).toMatchSnapshot();
+    });
+
+    describe('Test for performance appraisal', () => {
+        let data = [{
+        }];
+        it('Component will render correctly', () => {
+        });
     });
 });
