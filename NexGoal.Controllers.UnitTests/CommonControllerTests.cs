@@ -18,7 +18,7 @@
         private ICommonService commonService;
 
         [Fact]
-        public async Task SearchEmployees_WhenCalled_ReturnAsExpectedEmployees()
+        public async Task GetEmployees_WhenCalled_ReturnAsExpectedEmployees()
         {
             // Arrange
             var employees = new List<EmployeeBaseModel>
@@ -29,7 +29,7 @@
             commonService.GetEmployeesAsync().Returns(employees);
 
             // Act
-            var actual = await controller.SearchEmployees();
+            var actual = await controller.GetEmployees();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);

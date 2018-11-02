@@ -49,7 +49,7 @@ export default class EditEmployeeSetting extends Component {
 
     getGroupsAxios = () => axios(resolveClientUrl('Common/GetGroups'));
 
-    getEmployeesAxios = () => axios(resolveClientUrl('common/SearchEmployees'))
+    getEmployeesAxios = () => axios(resolveClientUrl('common/GetEmployees'))
 
     getEmployeeSettingsAxios = () =>
         axios(resolveClientUrl('Period/GetEmployeeSettings'), {

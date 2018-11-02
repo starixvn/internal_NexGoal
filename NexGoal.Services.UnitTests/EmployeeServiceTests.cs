@@ -100,6 +100,42 @@
             Assert.Equal(expectedCommandResult.Code, result.Code);
         }
 
+        [Fact]
+        public async Task GetMemberAsync_WhenCalled_ReturnAsExpectedEmployees()
+        {
+            // Arrange
+            var employees = new List<EmployeeBaseModel>
+            {
+                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+            };
+            var service = GetEmployeeService();
+            baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetMemberByActorIdCriteria>()).Returns(employees);
+
+            // Act
+            var actual = await service.GetMemberAsync(1);
+
+            // Assert
+            Assert.Equal(employees, actual);
+        }
+
+        [Fact]
+        public async Task GetGroupAsync_WhenCalled_ReturnAsExpectedGroups()
+        {
+            // Arrange
+            var groups = new List<GroupBaseModel>
+            {
+                new GroupBaseModel { GroupId = 1, Name = "Nexus" }
+            };
+            var service = GetEmployeeService();
+            baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupByActorIdCriteria>()).Returns(groups);
+
+            // Act
+            var actual = await service.GetGroupAsync(1);
+
+            // Assert
+            Assert.Equal(groups, actual);
+        }
+
         private EmployeeService GetEmployeeService()
         {
             baseService = Substitute.For<IBaseService>();

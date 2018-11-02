@@ -32,7 +32,7 @@ export default class Create extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('Common/SearchEmployees')),
+            axios(resolveClientUrl('Common/GetEmployees')),
             axios(resolveClientUrl('EmployeeNomination/GetNominationPeriodsForNominator'))
         ];
 

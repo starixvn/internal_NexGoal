@@ -18,7 +18,14 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @RoleIdString NVARCHAR(3)
+
 	CREATE TABLE #tblGroupIds (GroupId INT)
+
+	SET @RoleIdString = CASE 
+			WHEN @RoleId IS NULL THEN ''
+			ELSE CAST(@RoleId AS VARCHAR(3))
+			END
 
 	IF @GroupIds IS NOT NULL
 	BEGIN
@@ -53,14 +60,11 @@ BEGIN
 			OR tbl.GroupId IS NOT NULL
 			)
 		AND (
-			@RoleId IS NULL
-			OR EXISTS (
-				SELECT 1
-				FROM dbo.EOQYNominatorSetting AS st WITH (NOLOCK)
-					CROSS APPLY dbo.func_SplitString(st.RoleIds, ',') AS f
-				WHERE st.EOQYId = setting.EOQYId
-					AND f.val = @RoleId
-				)
+			@RoleIdString = ''
+			OR st.RoleIds LIKE @RoleIdString
+			OR st.RoleIds LIKE @RoleIdString + ',%'
+			OR st.RoleIds LIKE '%,' + @RoleIdString + ',%'
+			OR st.RoleIds LIKE '%,' + @RoleIdString
 			)
 		AND (
 			(

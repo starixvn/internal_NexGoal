@@ -22,8 +22,8 @@ export default class App extends Component {
         super(props);
 
         this.state = {
+            employeeOptions: [],
             myGroupOptions: [],
-            memberOptions: [],
             performanceGradeOptions: [],
             projectOptions: [],
             memberPerformances: [],
@@ -54,7 +54,7 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
-            axios(resolveClientUrl('Common/GetMyMember')),
+            axios(resolveClientUrl('Common/GetEmployees')),
             axios(resolveClientUrl('Common/GetMyGroup')),
             axios(resolveClientUrl('Common/GetCurrentPerformancePeriod')),
             axios(resolveClientUrl('member/GetMemberNominationResult')),
@@ -62,7 +62,7 @@ export default class App extends Component {
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, myGroupResponse, currentPerformancePeriodResponse,
+            .then(([periodResponse, gradeResponse, projectResponse, employeeResponse, myGroupResponse, currentPerformancePeriodResponse,
                 memberNominationResponse, memberPerformanceResponse]) => {
                 let performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
@@ -74,7 +74,7 @@ export default class App extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
-                let memberOptions = memberResponse.data.map(member => {
+                let employeeOptions = employeeResponse.data.map(member => {
                     return { value: member.employeeId, label: `${member.fullName} (${member.nickName})` };
                 });
 
@@ -88,7 +88,7 @@ export default class App extends Component {
                     periods: periodResponse.data,
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
-                    memberOptions: memberOptions,
+                    employeeOptions: employeeOptions,
                     myGroupOptions: myGroupOptions,
                     currentPerformancePeriod: currentPerformancePeriodResponse.data,
                     memberNominations: memberNominationResponse.data,
@@ -211,7 +211,7 @@ export default class App extends Component {
     }
 
     render() {
-        let memberOptions = this.state.memberOptions;
+        let employeeOptions = this.state.employeeOptions;
         let performanceGradeOptions = this.state.performanceGradeOptions;
         let projectOptions = this.state.projectOptions;
         let currentUser = this.state.currentUser;
@@ -243,7 +243,7 @@ export default class App extends Component {
 
                                             <CreateMemberPerformance
                                                 currentUser={currentUser}
-                                                memberOptions={memberOptions}
+                                                memberOptions={employeeOptions}
                                                 performanceGradeOptions={performanceGradeOptions}
                                                 projectOptions={projectOptions}
                                                 onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
@@ -284,7 +284,7 @@ export default class App extends Component {
                     <EditMemberPerformance
                         currentUser={currentUser}
                         performanceRecordId={this.state.editMemberPerformance.performanceRecordId}
-                        memberOptions={memberOptions}
+                        memberOptions={employeeOptions}
                         performanceGradeOptions={performanceGradeOptions}
                         projectOptions={projectOptions}
                         isShowModal={this.state.editMemberPerformance.isShowModal}

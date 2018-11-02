@@ -29,7 +29,7 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> SearchEmployees(
+        public async Task<JsonResult> GetEmployees(
             string keyword = null,
             int? groupId = null,
             bool? isEnabled = true)
