@@ -214,6 +214,7 @@ export default class EditMemberPerformance extends Component {
                                         placeholder="Select Employees"
                                         value={performanceRecord.employees} options={memberOptions}
                                         onChange={this.handleEmployeeChange} isClearable
+                                        isDisabled={this.props.isDisabledAddMember}
                                     />
                                 </FormGroup>
                                 <FormGroup>
@@ -248,7 +249,7 @@ export default class EditMemberPerformance extends Component {
                                     </div>
                                 </FormGroup>
                             </form>
-                        </div>  
+                        </div>
                     </div>
                 </Modal.Body>
                 <Modal.Footer>

@@ -281,31 +281,33 @@ export default class App extends Component {
                                         ref="timelineRef"
                                     />
                                     <div className="record-list">
-                                        <CreateMemberPerformance
-                                            currentUser={this.state.currentUser}
-                                            memberOptions={this.state.memberOptions}
-                                            performanceGradeOptions={this.state.performanceGradeOptions}
-                                            projectOptions={this.state.projectOptions}
-                                            selectedMemberId={this.state.memberInfo.id}
-                                            onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
-                                            isMultiple={false}
-                                        />
-                                        {performanceRecords.length > 0 &&
-                                            <InfiniteScroll
-                                                pageStart={1}
-                                                initialLoad
-                                                loadMore={this.loadPCIs}
-                                                hasMore={this.state.hasMore}
-                                                threshold={0}
-                                                useWindow
-                                                ref="infiniteScrollRef"
-                                            >
-                                                {
-                                                    performanceRecords.map(this.renderPerformanceRecord)
-                                                }
-                                            </InfiniteScroll>
-                                        }
-                                    </div>s
+                                        <Scrollbars style={{ height: '100%' }} autoHide  >
+                                            <CreateMemberPerformance
+                                                currentUser={this.state.currentUser}
+                                                memberOptions={this.state.memberOptions}
+                                                performanceGradeOptions={this.state.performanceGradeOptions}
+                                                projectOptions={this.state.projectOptions}
+                                                selectedMemberId={this.state.memberInfo.id}
+                                                onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                                isMultiple={false}
+                                            />
+                                            {performanceRecords.length > 0 &&
+                                                <InfiniteScroll
+                                                    pageStart={1}
+                                                    initialLoad
+                                                    loadMore={this.loadPCIs}
+                                                    hasMore={this.state.hasMore}
+                                                    threshold={0}
+                                                    useWindow
+                                                    ref="infiniteScrollRef"
+                                                >
+                                                    {
+                                                        performanceRecords.map(this.renderPerformanceRecord)
+                                                    }
+                                                </InfiniteScroll>
+                                            }
+                                        </Scrollbars>
+                                    </div>
                                 </Tab>
                                 <Tab eventKey={2} title="Nomination">
                                     {this.state.loadNominationTab && <Nomination />}
@@ -331,10 +333,11 @@ export default class App extends Component {
                         performanceRecordId={this.state.editMemberPerformance.performanceRecordId}
                         memberOptions={this.state.memberOptions}
                         performanceGradeOptions={this.state.performanceGradeOptions}
-                        projectOptions={this.stateprojectOptions}
+                        projectOptions={this.state.projectOptions}
                         isShowModal={this.state.editMemberPerformance.isShowModal}
                         onCloseModal={this.handleCancelEditMemberPerformanceClick}
                         onSubmitSuccess={this.handleEditMemberPerformanceSuccess}
+                        isDisabledAddMember
                     />
                 }
             </ToastLayout>
