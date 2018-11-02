@@ -114,7 +114,7 @@ export default class PerformanceRecord extends Component {
                         <div className="date">
                             <div className="edit-date">
                                 {
-                                    this.props.modifiedDate &&
+                                    this.props.statusId !== PerformanceRecordStatus.Draft && this.props.modifiedDate &&
                                     <Fragment>Edited on {this.props.modifiedDate}</Fragment>
                                 }
                                 {

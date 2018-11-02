@@ -61,10 +61,10 @@ BEGIN
 			)
 		AND (
 			@RoleIdString = ''
-			OR st.RoleIds LIKE @RoleIdString
-			OR st.RoleIds LIKE @RoleIdString + ',%'
-			OR st.RoleIds LIKE '%,' + @RoleIdString + ',%'
-			OR st.RoleIds LIKE '%,' + @RoleIdString
+			OR setting.RoleIds LIKE @RoleIdString
+			OR setting.RoleIds LIKE @RoleIdString + ',%'
+			OR setting.RoleIds LIKE '%,' + @RoleIdString + ',%'
+			OR setting.RoleIds LIKE '%,' + @RoleIdString
 			)
 		AND (
 			(
