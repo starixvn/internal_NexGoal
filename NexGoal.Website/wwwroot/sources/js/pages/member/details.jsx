@@ -6,7 +6,9 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
+import { Tabs, Tab } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Scrollbars } from 'react-custom-scrollbars';
 import moment from 'moment';
 import EmployeeInfo from '../home/EmployeeInfo';
 import PersonalTimeline from '../home/timeline/PersonalTimeline';
@@ -16,6 +18,7 @@ import HrmSummary from '../home/HRMSummary';
 import WorkLoad from '../home/workload';
 import CreateMemberPerformance from './CreateMemberPerformance';
 import EditMemberPerformance from './EditMemberPerformance';
+import Nomination from './Nomination';
 
 export default class App extends Component {
     constructor(props) {
@@ -56,7 +59,9 @@ export default class App extends Component {
             projectOptions: [],
             hrmDetails: {},
             hasMore: false,
-            isFormExpanded: false
+            isFormExpanded: false,
+            activeTabKey: 1,
+            loadNominationTab: false
         };
         this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
         this.itemPerPage = 4;
@@ -234,6 +239,14 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
+    handleSelectTab = (key) => {
+        if (key === 2 && !this.state.loadNominationTab) {
+            this.setState({ activeTabKey: key, loadNominationTab: true });
+        } else {
+            this.setState({ activeTabKey: key });
+        }
+    }
+
     render() {
         const nominations = this.state.nominations;
         const performanceAppraisals = this.state.performanceAppraisals;
@@ -255,41 +268,50 @@ export default class App extends Component {
                                 <div className="warning marquee">
                                     <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
                                 </div>
-                                <PersonalTimeline
-                                    itemPerPage={this.timelineItemPerPage}
-                                    data={this.state.personalTimeline}
-                                    onPageChange={this.onTimelinePageChange}
-                                    onNodeClick={this.handlePCIClick}
-                                    selectedPCIId={this.state.selectedPCIId}
-                                    ref="timelineRef"
-                                />
+
                             </div>
-                            <div className="record-list">
-                                <CreateMemberPerformance
-                                    currentUser={this.state.currentUser}
-                                    memberOptions={this.state.memberOptions}
-                                    performanceGradeOptions={this.state.performanceGradeOptions}
-                                    projectOptions={this.state.projectOptions}
-                                    selectedMemberId={this.state.memberInfo.id}
-                                    onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
-                                    isMultiple={false}
-                                />
-                                {performanceRecords.length > 0 &&
-                                    <InfiniteScroll
-                                        pageStart={1}
-                                        initialLoad
-                                        loadMore={this.loadPCIs}
-                                        hasMore={this.state.hasMore}
-                                        threshold={0}
-                                        useWindow
-                                        ref="infiniteScrollRef"
-                                    >
-                                        {
-                                            performanceRecords.map(this.renderPerformanceRecord)
+                            <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab}>
+                                <Tab eventKey={1} title="Performance">
+                                    <PersonalTimeline
+                                        itemPerPage={this.timelineItemPerPage}
+                                        data={this.state.personalTimeline}
+                                        onPageChange={this.onTimelinePageChange}
+                                        onNodeClick={this.handlePCIClick}
+                                        selectedPCIId={this.state.selectedPCIId}
+                                        ref="timelineRef"
+                                    />
+                                    <div className="record-list">
+                                        <CreateMemberPerformance
+                                            currentUser={this.state.currentUser}
+                                            memberOptions={this.state.memberOptions}
+                                            performanceGradeOptions={this.state.performanceGradeOptions}
+                                            projectOptions={this.state.projectOptions}
+                                            selectedMemberId={this.state.memberInfo.id}
+                                            onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                            isMultiple={false}
+                                        />
+                                        {performanceRecords.length > 0 &&
+                                            <InfiniteScroll
+                                                pageStart={1}
+                                                initialLoad
+                                                loadMore={this.loadPCIs}
+                                                hasMore={this.state.hasMore}
+                                                threshold={0}
+                                                useWindow
+                                                ref="infiniteScrollRef"
+                                            >
+                                                {
+                                                    performanceRecords.map(this.renderPerformanceRecord)
+                                                }
+                                            </InfiniteScroll>
                                         }
-                                    </InfiniteScroll>
-                                }
-                            </div>
+                                    </div>s
+                                </Tab>
+                                <Tab eventKey={2} title="Nomination">
+                                    {this.state.loadNominationTab && <Nomination />}
+                                </Tab>
+                            </Tabs>
+
                         </div>
                         <div className="work-info">
                             <NominationResult nominations={nominations} />
