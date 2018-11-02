@@ -38,7 +38,6 @@ export default class App extends Component {
             performanceRecordIdSelected: null,
             nominations: [],
             periods: [],
-            memberOptions: [],
             personalTimeline: {
                 records: [],
                 pageIndex: 0,
@@ -73,7 +72,6 @@ export default class App extends Component {
             axios(resolveClientUrl('common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
-            axios(resolveClientUrl('Common/GetMyMember')),
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
@@ -88,7 +86,7 @@ export default class App extends Component {
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, nominationResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse, timelineResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, nominationResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse, timelineResponse]) => {
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
 
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
@@ -102,17 +100,12 @@ export default class App extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
-                const memberOptions = memberResponse.data.map(member => {
-                    return { value: member.employeeId, label: `${member.fullName} (${member.nickName})` };
-                });
-
                 let timelineInfo = timelineResponse.data[0];
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     periods: periodResponse.data,
                     nominations: nominationResponse.data,
-                    memberOptions: memberOptions,
                     personalTimeline: {
                         records: timelineInfo.performanceRecords,
                         pageIndex: 0,
@@ -284,7 +277,6 @@ export default class App extends Component {
                                         <Scrollbars style={{ height: '100%' }} autoHide  >
                                             <CreateMemberPerformance
                                                 currentUser={this.state.currentUser}
-                                                memberOptions={this.state.memberOptions}
                                                 performanceGradeOptions={this.state.performanceGradeOptions}
                                                 projectOptions={this.state.projectOptions}
                                                 selectedMemberId={this.state.memberInfo.id}
@@ -331,7 +323,6 @@ export default class App extends Component {
                     <EditMemberPerformance
                         currentUser={this.state.currentUser}
                         performanceRecordId={this.state.editMemberPerformance.performanceRecordId}
-                        memberOptions={this.state.memberOptions}
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}
                         isShowModal={this.state.editMemberPerformance.isShowModal}

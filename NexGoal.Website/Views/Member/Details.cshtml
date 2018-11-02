@@ -1,6 +1,10 @@
 ﻿@using NexGoal.Models.Common
 @model EmployeeBaseModel
 
+@{
+    ViewData["Title"] = Model.NickName + " Page";
+}
+
 @section Styles {
     <link rel="stylesheet" href="~/dist/styles/home.css" />
     <link rel="stylesheet" href="~/dist/styles/member-index.css" />
