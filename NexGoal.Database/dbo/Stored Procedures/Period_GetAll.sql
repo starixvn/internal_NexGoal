@@ -3,7 +3,7 @@ CREATE PROCEDURE [dbo].[Period_GetAll]
 AS
 /*
 Created: 20181016@Elton.Ton
-Task: get  all period
+Task: get all period
 DB: bodb_NexGoal
 */
 BEGIN

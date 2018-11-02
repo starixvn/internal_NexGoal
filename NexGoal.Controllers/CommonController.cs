@@ -112,11 +112,19 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetMembers()
+        public async Task<JsonResult> GetMyMember()
         {
             IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(members);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetMyGroup()
+        {
+            IEnumerable<GroupBaseModel> groups = await employeeService.GetGroupAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(groups);
         }
 
         [HttpGet]

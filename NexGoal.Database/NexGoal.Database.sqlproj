@@ -157,7 +157,6 @@
     <Build Include="dbo\Stored Procedures\Employee_Search.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetWorkload.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetRolesById.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetGroups.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetById.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetHRMSummary.sql" />
@@ -237,5 +236,6 @@
     <Build Include="dbo\Stored Procedures\Auto_Period_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Period_GetCurrentPerformancePeriod.sql" />
     <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetGroup.sql" />
   </ItemGroup>
 </Project>

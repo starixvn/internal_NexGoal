@@ -185,13 +185,23 @@
 
         public async Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null)
         {
-            var criteria = new GetMemberCriteria
+            var criteria = new GetMemberByActorIdCriteria
             {
                 ActorId = actorId,
                 Keyword = keyword
             };
 
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId)
+        {
+            var criteria = new GetGroupByActorIdCriteria
+            {
+                ActorId = actorId
+            };
+
+            return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
         }
 
         private static void MappingData(

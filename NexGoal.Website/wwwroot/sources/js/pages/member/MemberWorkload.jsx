@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
-import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import Multiselect from '../../shared/components/multi-select/index';

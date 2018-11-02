@@ -31,6 +31,7 @@ BEGIN
 	CREATE TABLE #tblMember (
 		EmployeeId INT
 		,IsHost BIT
+		,[Priority] TINYINT
 		)
 
 	CREATE TABLE #tblPerformanceRecord (
@@ -55,15 +56,22 @@ BEGIN
 	INSERT INTO #tblMember (
 		EmployeeId
 		,IsHost
+		,[Priority]
 		)
 	SELECT data.EmployeeId
 		,MAX(data.IsHost)
+		,MIN(data.[Priority])
 	FROM (
 		SELECT EmployeeId
 			,(CASE 
 				WHEN ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId) THEN 1
 				ELSE 0 END
 				) AS IsHost
+			,(CASE 
+				WHEN ProcessId = @EvaluatorProcessId THEN 1
+				WHEN ProcessId = @ReviewerProcessId THEN 2
+				ELSE 3 END
+				) AS [Priority]
 		FROM dbo.func_GetMember(@ActorId)
 		WHERE ISNULL(@EmployeeId, EmployeeId) = EmployeeId
 			AND ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
@@ -131,7 +139,8 @@ BEGIN
 		FROM #tblPerformanceRecord WITH (NOLOCK)
 		GROUP BY EmployeeIds
 		) AS record ON emp.EmployeeId = record.EmployeeIds
-	ORDER BY emp.NickName
+	ORDER BY member.[Priority]
+		,emp.NickName
 
 	IF @EmployeeId IS NULL
 	BEGIN

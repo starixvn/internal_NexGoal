@@ -38,5 +38,7 @@
             int? employeeId = null);
 
         Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null);
+
+        Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId);
     }
 }

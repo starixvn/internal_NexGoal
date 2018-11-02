@@ -2,6 +2,7 @@
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+//import Multiselect from '../../../shared/components/multi-select/index';
 import Line from './Line';
 
 export default class Timeline extends Component {
@@ -9,6 +10,9 @@ export default class Timeline extends Component {
         super(props);
 
         this.state = {
+            filter: {
+                groups: []
+            },
             memberPerformances: [],
             pageSize: window.innerWidth > 1600 ? 4 : 2
         };
@@ -17,7 +21,8 @@ export default class Timeline extends Component {
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(nextProps.currentPerformancePeriod)
+        if (JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)
+            || JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(nextProps.currentPerformancePeriod)
             || this.state.pageSize !== nextState.pageSize
             || JSON.stringify(this.state.memberPerformances) !== JSON.stringify(nextState.memberPerformances)) {
             return true;
@@ -27,16 +32,23 @@ export default class Timeline extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(prevProps.currentPerformancePeriod)) {
+        if (JSON.stringify(this.props.groupOptions) !== JSON.stringify(prevProps.groupOptions)
+            || JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(prevProps.currentPerformancePeriod)) {
             this.getMemberPerformanceTimeline();
         }
     }
 
+    updateFilter = (name, value) => {
+        this.setState({
+            filter: Object.assign({}, this.state.filter, { [name]: value })
+        });
+    }
+
     getMemberPerformanceTimeline = () => {
-        console.log(this.props.currentPerformancePeriod);
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
                 periodId: this.props.currentPerformancePeriod ? this.props.currentPerformancePeriod.periodId : null,
+                //groupIds: this.state.filter.groups.map(group => { return group.value; }).join(','),
                 pageIndex: 0,
                 pageSize: this.state.pageSize
             }
@@ -79,6 +91,7 @@ export default class Timeline extends Component {
     }
 
     render() {
+        //let groupOptions = this.props.groupOptions;
         let currentPerformancePeriod = this.props.currentPerformancePeriod;
         const memberPerformances = this.state.memberPerformances;
         const timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
@@ -86,6 +99,14 @@ export default class Timeline extends Component {
         return (
             <Fragment>
                 <h5>Member Performance{currentPerformancePeriod ? ` - ${currentPerformancePeriod.name}` : ''}</h5>
+                {
+                //    groupOptions && groupOptions.length > 1 &&
+                //    <Multiselect className="react-select-container" classNamePrefix="react-select"
+                //        value={this.state.filter.groups}
+                //        options={this.props.groupOptions}
+                //        onChange={this.handleGroupChange}
+                //    />
+                }
                 <div className="member-timeline" ref={this.timelineWidth}>
                     {
                         memberPerformances.map((memberPerformance, index) => {

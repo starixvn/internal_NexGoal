@@ -14,12 +14,18 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+	
+	-- process
+	DECLARE @PMProcessId TINYINT = 3
+		,@EvaluatorProcessId TINYINT = 4
+		,@ReviewerProcessId TINYINT = 5
 
 	SELECT DISTINCT emp.EmployeeId
 		,emp.FullName
 		,emp.NickName
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.func_GetMember(@ActorId) AS member ON emp.EmployeeId = member.EmployeeId
+		AND member.ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		AND (

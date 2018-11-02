@@ -22,6 +22,7 @@ export default class App extends Component {
         super(props);
 
         this.state = {
+            myGroupOptions: [],
             memberOptions: [],
             performanceGradeOptions: [],
             projectOptions: [],
@@ -53,26 +54,32 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
-            axios(resolveClientUrl('Common/GetMembers')),
+            axios(resolveClientUrl('Common/GetMyMember')),
+            axios(resolveClientUrl('Common/GetMyGroup')),
             axios(resolveClientUrl('Common/GetCurrentPerformancePeriod')),
             axios(resolveClientUrl('member/GetMemberNominationResult')),
             axios(resolveClientUrl('member/Performance'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, currentPerformancePeriodResponse,
+            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, myGroupResponse, currentPerformancePeriodResponse,
                 memberNominationResponse, memberPerformanceResponse]) => {
-                const performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
+                let performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
                         label: performanceGrade.description ? `${performanceGrade.description} (${performanceGrade.name})` : performanceGrade.name
                     };
                 });
-                const projectOptions = projectResponse.data.map(project => {
+                let projectOptions = projectResponse.data.map(project => {
                     return { value: project.projectId, label: project.name };
                 });
-                const memberOptions = memberResponse.data.map(member => {
+
+                let memberOptions = memberResponse.data.map(member => {
                     return { value: member.employeeId, label: `${member.fullName} (${member.nickName})` };
+                });
+
+                let myGroupOptions = myGroupResponse.data.map(group => {
+                    return { value: group.groupId, label: group.name };
                 });
 
                 let displayedMemberPerformances = memberPerformanceResponse.data.slice(0, this.itemPerPage);
@@ -82,6 +89,7 @@ export default class App extends Component {
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     memberOptions: memberOptions,
+                    myGroupOptions: myGroupOptions,
                     currentPerformancePeriod: currentPerformancePeriodResponse.data,
                     memberNominations: memberNominationResponse.data,
                     memberPerformances: memberPerformanceResponse.data,
@@ -184,7 +192,22 @@ export default class App extends Component {
     }
 
     handleEditMemberPerformanceSuccess = () => {
-        this.handleCancelEditMemberPerformance();
+        axios(resolveClientUrl('member/Performance'))
+            .then((response) => {
+                let memberPerformances = response.data;
+
+                this.refs.memberTimelineRef.getMemberPerformanceTimeline();
+                this.refs.infiniteScrollRef.pageLoaded = 1;
+
+                this.setState({
+                    memberPerformances: memberPerformances,
+                    editMemberPerformance: {
+                        isShowModal: false,
+                        performanceRecordId: 0
+                    },
+                    displayedMemberPerformances: memberPerformances.slice(0, this.itemPerPage)
+                });
+            }).catch(axiosError);
     }
 
     render() {
@@ -199,8 +222,9 @@ export default class App extends Component {
                     <div className="main-layout member-page">
                         <div className="general-info box">
                             <Scrollbars style={{ maxHeight: '100%' }} autoHide>
-                                <Timeline
+                                <Timeline ref="memberTimelineRef"
                                     currentPerformancePeriod={this.state.currentPerformancePeriod}
+                                    groupOptions={this.state.myGroupOptions}
                                     onNodeClick={this.handleTimelineNodeClick}
                                 />
                             </Scrollbars >

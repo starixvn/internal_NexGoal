@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetMemberCriteria : CriteriaBase
+    public class GetMemberByActorIdCriteria : CriteriaBase
     {
         public int ActorId { get; set; }
         public string Keyword { get; set; }

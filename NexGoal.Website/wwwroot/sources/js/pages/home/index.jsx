@@ -164,24 +164,13 @@ export default class App extends Component {
         });
     }
 
-    handleEditPerformanceSuccess = (performanceRecordId) => {
-        axios(resolveClientUrl(`Self/Performance/GetById/${performanceRecordId}`))
+    handleEditPerformanceSuccess = () => {
+        axios(resolveClientUrl(`Self/Performance`))
             .then((response) => {
-                let performanceRecords = this.state.performanceRecords.slice();
-                let index = performanceRecords.findIndex(record => record.performanceRecordId === performanceRecordId);
-                if (index >= 0) {
-                    performanceRecords[index] = response.data;
-                }
+                let performanceRecords = response.data;
 
-                let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
-                index = displayedPerformanceRecords.findIndex(element => element.performanceRecordId === performanceRecordId);
-                if (index >= 0) {
-                    displayedPerformanceRecords[index] = response.data;
-                }
-
-                if (this.state.personalTimeline.records.some(element => element.performanceRecordId === performanceRecordId)) {
-                    this.onTimelinePageChange(this.state.personalTimeline.pageIndex);
-                }
+                this.onTimelinePageChange(0);
+                this.refs.infiniteScrollRef.pageLoaded = 1;
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -189,7 +178,7 @@ export default class App extends Component {
                         isShowModal: false,
                         performanceRecordId: 0
                     },
-                    displayedPerformanceRecords: displayedPerformanceRecords
+                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
                 });
             }).catch(axiosError);
     }

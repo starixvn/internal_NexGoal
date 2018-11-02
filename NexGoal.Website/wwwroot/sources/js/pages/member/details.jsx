@@ -73,7 +73,7 @@ export default class App extends Component {
             axios(resolveClientUrl('common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
-            axios(resolveClientUrl('Common/GetMembers')),
+            axios(resolveClientUrl('Common/GetMyMember')),
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
