@@ -23,7 +23,10 @@
         margin-bottom: 0;
     }
 }
-
+.record-list {
+    height: calc(100vh - 50px - 52px - 36px);
+    overflow: auto;
+}
 .member-performance {
     display: grid;
     grid-template-columns: 90px 1fr;
@@ -41,9 +44,9 @@
 }
 
 #tabs {
-    padding: 52px 12px 0;
+    padding: 52px 0px 0;
     .record {
-        margin: 12px 0;
+        margin: 12px;
     }
     .nav-tabs {
         position: fixed;
@@ -51,6 +54,7 @@
         z-index: 55;
         background-color: #fff;
         width: calc(100% - 804px - 24px);
+        margin: 0 12px;
     }
     .tab-content {
         padding-top: 36px;

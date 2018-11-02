@@ -46,7 +46,7 @@ export default class App extends Component {
             loadNominationTab: false
         };
 
-        this.itemPerPage = 4;
+        this.itemPerPage = 5;
     }
 
     componentDidMount() {
@@ -251,11 +251,11 @@ export default class App extends Component {
                                             />
                                             <InfiniteScroll
                                                 pageStart={1}
-                                                initialLoad
+                                                initialLoad={false}
                                                 loadMore={this.loadMoreMemberPerformances}
                                                 hasMore={this.state.hasMore}
                                                 threshold={0}
-                                                useWindow
+                                                useWindow={false}
                                                 ref="infiniteScrollRef"
                                             >
                                                 {
