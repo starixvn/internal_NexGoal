@@ -240,11 +240,11 @@ export default class App extends Component {
 
             this.loadMorePerformances(page, () => {
                 this.setState({ performanceRecordIdHighlighted: performanceRecordId });
-                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'start', behavior: 'smooth' });
+                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
             });
         } else {
             this.setState({ performanceRecordIdHighlighted: performanceRecordId });
-            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'start', behavior: 'smooth' });
+            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
         }
     }
 
