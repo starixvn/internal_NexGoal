@@ -239,12 +239,10 @@ export default class App extends Component {
             this.refs.infiniteScrollRef.pageLoaded = page;
 
             this.loadMorePerformances(page, () => {
-                this.setState({ performanceRecordIdHighlighted: performanceRecordId });
-                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
+                this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
             });
         } else {
-            this.setState({ performanceRecordIdHighlighted: performanceRecordId });
-            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
+            this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
         }
     }
 

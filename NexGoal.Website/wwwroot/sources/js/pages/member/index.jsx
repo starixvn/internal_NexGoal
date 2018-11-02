@@ -136,12 +136,10 @@ export default class App extends Component {
             this.refs.infiniteScrollRef.pageLoaded = page;
 
             this.loadMoreMemberPerformances(page, () => {
-                this.setState({ performanceRecordIdHighlighted: performanceRecordId });
-                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
+                this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
             });
         } else {
-            this.setState({ performanceRecordIdHighlighted: performanceRecordId });
-            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
+            this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
         }
     }
 
@@ -215,28 +213,32 @@ export default class App extends Component {
                             </div>
                             <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab}>
                                 <Tab eventKey={1} title="Performance">
+
                                     <div className="record-list">
-                                        <CreateMemberPerformance
-                                            currentUser={currentUser}
-                                            memberOptions={memberOptions}
-                                            performanceGradeOptions={performanceGradeOptions}
-                                            projectOptions={projectOptions}
-                                            onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
-                                            isMultiple
-                                        />
-                                        <InfiniteScroll
-                                            pageStart={1}
-                                            initialLoad
-                                            loadMore={this.loadMoreMemberPerformances}
-                                            hasMore={this.state.hasMore}
-                                            threshold={0}
-                                            useWindow
-                                            ref="infiniteScrollRef"
-                                        >
-                                            {
-                                                this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
-                                            }
-                                        </InfiniteScroll>
+                                        <Scrollbars style={{ height: '100%' }} autoHide={true}  >
+
+                                            <CreateMemberPerformance
+                                                currentUser={currentUser}
+                                                memberOptions={memberOptions}
+                                                performanceGradeOptions={performanceGradeOptions}
+                                                projectOptions={projectOptions}
+                                                onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                                isMultiple
+                                            />
+                                            <InfiniteScroll
+                                                pageStart={1}
+                                                initialLoad
+                                                loadMore={this.loadMoreMemberPerformances}
+                                                hasMore={this.state.hasMore}
+                                                threshold={0}
+                                                useWindow
+                                                ref="infiniteScrollRef"
+                                            >
+                                                {
+                                                    this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
+                                                }
+                                            </InfiniteScroll>
+                                        </Scrollbars>
                                     </div>
                                 </Tab>
                                 <Tab eventKey={2} title="Nomination">
