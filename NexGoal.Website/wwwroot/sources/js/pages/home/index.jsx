@@ -273,7 +273,6 @@ export default class App extends Component {
                         </div>
                         <div className="record-list">
                             <Scrollbars style={{ height: '100%' }} autoHide={true}  >
-
                                 <CreateSelfPerformance
                                     currentUser={currentUser}
                                     performanceGradeOptions={this.state.performanceGradeOptions}
@@ -281,9 +280,8 @@ export default class App extends Component {
                                     onSubmitSuccess={this.handleCreatePerformanceSuccess}
                                 />
                                 {performanceRecords.length > 0 &&
-                                    <InfiniteScroll
+                                    <InfiniteScroll initialLoad={false}
                                         pageStart={1}
-                                        initialLoad
                                         loadMore={this.loadMorePerformances}
                                         hasMore={this.state.hasMore}
                                         threshold={0}
@@ -298,7 +296,6 @@ export default class App extends Component {
 
                                     </InfiniteScroll>
                                 }
-
                             </Scrollbars>
                         </div>
 
