@@ -107,11 +107,9 @@
 
 .record-list {
     padding-top: 152px;
-    height: calc(100vh - 202px);
+    height: calc(100% - 152px);
+    box-sizing: content-box;
     overflow: auto;
-    /*.pci-list {
-        margin-bottom: 64px;
-    }*/
 }
 
 .hrm-summary {
