@@ -15,7 +15,7 @@ import CreateMemberPerformance from './CreateMemberPerformance';
 import EditMemberPerformance from './EditMemberPerformance';
 import MemberWorkload from './MemberWorkload';
 import Timeline from './timeline/index';
-import Nomination from './Nomination';
+import Nomination from './nomination/Nomination';
 
 export default class App extends Component {
     constructor(props) {
@@ -266,16 +266,15 @@ export default class App extends Component {
                                     </div>
                                 </Tab>
                                 <Tab eventKey={2} title="Nomination">
-                                    {this.state.loadNominationTab && <Nomination />}
+                                    {this.state.loadNominationTab &&
+                                        <Nomination currentUser={currentUser} employeeOptions={employeeOptions} />}
                                 </Tab>
 
                             </Tabs>
                         </div>
                         <div className="work-info">
-                            <Scrollbars style={{ maxHeight: '100%' }} autoHide >
-                                <NominationResult isSupervisor nominations={this.state.memberNominations} />
-                                {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
-                            </Scrollbars >
+                            <NominationResult isSupervisor nominations={this.state.memberNominations} />
+                            {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
                         </div>
                     </div>
                 </div>
