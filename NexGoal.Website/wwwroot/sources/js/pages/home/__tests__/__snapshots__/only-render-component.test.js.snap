@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Test render correctly  Render correctly with props 1`] = `
+exports[`Test render correctly  Render EmployeeInfo correctly with props 1`] = `
 <div
   className="user-info box"
 >
@@ -23,6 +23,37 @@ exports[`Test render correctly  Render correctly with props 1`] = `
     className="role role-PM"
   >
     Software Engineer
+  </div>
+</div>
+`;
+
+exports[`Test render correctly  Test for performance appraisal Component will render correctly 1`] = `
+<div
+  className="my-pa box"
+>
+  <h5>
+    My PAs
+  </h5>
+  <div
+    className="my-pa-year"
+  >
+    <div
+      className="year"
+    >
+      2018
+    </div>
+    <div
+      className="term"
+    >
+      <div>
+        1h 2018
+      </div>
+      <div
+        className="grade"
+      >
+        
+      </div>
+    </div>
   </div>
 </div>
 `;
