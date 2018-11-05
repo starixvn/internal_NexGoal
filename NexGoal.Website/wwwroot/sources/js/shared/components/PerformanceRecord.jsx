@@ -43,6 +43,24 @@ export default class PerformanceRecord extends Component {
         this.detectCollapseExpandComment();
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (this.props.objectId !== nextProps.objectId
+            || JSON.stringify(this.props.employees) !== JSON.stringify(nextProps.employees)
+            || JSON.stringify(this.props.creator) !== JSON.stringify(nextProps.creator)
+            || this.props.submittedDate !== nextProps.submittedDate
+            || this.props.modifiedDate !== nextProps.modifiedDate
+            || this.props.isHost !== nextProps.isHost
+            || this.props.comment !== nextProps.comment
+            || JSON.stringify(this.props.grade) !== JSON.stringify(nextProps.grade)
+            || JSON.stringify(this.state.projects) !== JSON.stringify(nextState.projects)
+            || this.state.showCollapseExpandButton !== nextState.showCollapseExpandButton
+            || this.state.isExpanded !== nextState.isExpanded) {
+            return true;
+        }
+
+        return false;
+    }
+
     collapseExpandComment = () => {
         this.setState({
             isExpanded: !this.state.isExpanded
@@ -86,6 +104,7 @@ export default class PerformanceRecord extends Component {
     render() {
         let employees = this.props.employees;
         let creator = this.props.creator;
+
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
                 <div className="avatar-user">
