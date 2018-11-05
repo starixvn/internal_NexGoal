@@ -126,4 +126,14 @@ describe('Event tests', () => {
         });
         expect(mockAxios).not.toHaveBeenCalled();
     });
+
+    it('when click Cancel form isclose', () => {
+        const wrapper = shallow(<CreateSelfPerformance {...props} />);
+        wrapper.setState({ isOpenForm: true });
+        const spyCancel = jest.spyOn(wrapper.instance(), 'handleCancel');
+        wrapper.instance().forceUpdate();
+        wrapper.find(Button).at(0).simulate('click');
+        expect(spyCancel).toHaveBeenCalledTimes(1);
+        expect(wrapper.find('.form-filter')).toHaveLength(0);
+    });
 });
