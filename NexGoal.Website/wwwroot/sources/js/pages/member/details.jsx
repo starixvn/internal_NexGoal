@@ -18,7 +18,7 @@ import HrmSummary from '../home/HRMSummary';
 import WorkLoad from '../home/workload';
 import CreateMemberPerformance from './CreateMemberPerformance';
 import EditMemberPerformance from './EditMemberPerformance';
-import Nomination from './Nomination';
+import Nomination from './nomination/Nomination';
 
 export default class App extends Component {
     constructor(props) {
@@ -308,7 +308,14 @@ export default class App extends Component {
                                     </div>
                                 </Tab>
                                 <Tab eventKey={2} title="Nomination">
-                                    {this.state.loadNominationTab && <Nomination />}
+                                    {
+                                        this.state.loadNominationTab &&
+                                        <Nomination
+                                            currentUser={this.state.currentUser}
+                                            isEmployeeSelectable={false}
+                                            nomineeId={this.state.memberInfo.id}
+                                        />
+                                    }
                                 </Tab>
                             </Tabs>
 

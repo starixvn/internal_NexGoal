@@ -61,7 +61,7 @@ export default class CreateNomination extends Component {
             errors.period = 'Period is required!';
         }
 
-        if (!values.employee || Array.isArray(values.employee)) {
+        if ((!values.employee || Array.isArray(values.employee)) && this.props.isEmployeeSelectable) {
             errors.employee = 'Employee is required!';
         }
 
@@ -75,7 +75,7 @@ export default class CreateNomination extends Component {
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 nominationPeriodId: values.period.value,
-                nomineeId: values.employee.value,
+                nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
                 comment: values.comment
             }),
             headers: {
@@ -120,13 +120,16 @@ export default class CreateNomination extends Component {
                         options={this.state.nominationPeriodOptions}
                     />
                 </FormGroup>
-                <FormGroup>
-                    <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
-                    <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
-                        value={values.employee} onChange={value => setFieldValue('employee', value)}
-                        options={this.props.employeeOptions}
-                    />
-                </FormGroup>
+                {
+                    this.props.isEmployeeSelectable &&
+                    <FormGroup>
+                        <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
+                        <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
+                            value={values.employee} onChange={value => setFieldValue('employee', value)}
+                            options={this.props.employeeOptions}
+                        />
+                    </FormGroup>
+                }
                 <FormGroup>
                     <ControlLabel>{getResource('Comment')}</ControlLabel>
                     <TextareaFullscreenEditor

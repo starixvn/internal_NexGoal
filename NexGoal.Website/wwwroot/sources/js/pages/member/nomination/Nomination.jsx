@@ -17,7 +17,7 @@ export default class Nomination extends Component {
     render() {
         return (
             <div className="record-list">
-                <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions} />
+                <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions} isEmployeeSelectable={this.props.isEmployeeSelectable} nomineeId={this.props.nomineeId} />
             </div>
         );
     }

@@ -267,7 +267,11 @@ export default class App extends Component {
                                 </Tab>
                                 <Tab eventKey={2} title="Nomination">
                                     {this.state.loadNominationTab &&
-                                        <Nomination currentUser={currentUser} employeeOptions={employeeOptions} />}
+                                        <Nomination
+                                            currentUser={currentUser}
+                                            employeeOptions={employeeOptions}
+                                            isEmployeeSelectable
+                                        />}
                                 </Tab>
 
                             </Tabs>
