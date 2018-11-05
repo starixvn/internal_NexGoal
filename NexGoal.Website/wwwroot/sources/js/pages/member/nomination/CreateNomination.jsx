@@ -57,11 +57,11 @@ export default class CreateNomination extends Component {
     validateForm = values => {
         let errors = {};
 
-        if (!values.period || Array.isArray(values.period)) {
+        if (!values.period) {
             errors.period = 'Period is required!';
         }
 
-        if ((!values.employee || Array.isArray(values.employee)) && this.props.isEmployeeSelectable) {
+        if (!values.employee && this.props.isEmployeeSelectable) {
             errors.employee = 'Employee is required!';
         }
 
