@@ -183,7 +183,7 @@ export default class App extends Component {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 objectId={performanceRecord.performanceRecordId}
-                employee={performanceRecord.employee}
+                employees={performanceRecord.employees}
                 creator={performanceRecord.creator}
                 roleId={performanceRecord.roleId}
                 statusId={performanceRecord.statusId}
@@ -210,12 +210,16 @@ export default class App extends Component {
 
             this.refs.infiniteScrollRef.pageLoaded = page;
             this.loadPCIs(page, () => {
-                this.setState({ selectedPCIId: performanceRecordId });
-                document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
+                this.setState({
+                    selectedPCIId: performanceRecordId
+                }, () => document.getElementById(`record-${performanceRecordId}`)
+                    .scrollIntoView({ block: 'center', behavior: 'smooth' }));
             });
         } else {
-            this.setState({ selectedPCIId: performanceRecordId });
-            document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' });
+            this.setState({
+                selectedPCIId: performanceRecordId
+            }, () => document.getElementById(`record-${performanceRecordId}`)
+                .scrollIntoView({ block: 'center', behavior: 'smooth' }));
         }
     }
 
@@ -274,7 +278,7 @@ export default class App extends Component {
                                         ref="timelineRef"
                                     />
                                     <div className="record-list">
-                                        <Scrollbars style={{ height: '100%' }} autoHide  >
+                                        <Scrollbars style={{ height: '100%' }} autoHide>
                                             <CreateMemberPerformance
                                                 currentUser={this.state.currentUser}
                                                 performanceGradeOptions={this.state.performanceGradeOptions}
@@ -286,16 +290,18 @@ export default class App extends Component {
                                             {performanceRecords.length > 0 &&
                                                 <InfiniteScroll
                                                     pageStart={1}
-                                                    initialLoad
+                                                    initialLoad={false}
                                                     loadMore={this.loadPCIs}
                                                     hasMore={this.state.hasMore}
                                                     threshold={0}
-                                                    useWindow
+                                                    useWindow={false}
                                                     ref="infiniteScrollRef"
                                                 >
-                                                    {
-                                                        performanceRecords.map(this.renderPerformanceRecord)
-                                                    }
+                                                    <div className="pci-list">
+                                                        {
+                                                            performanceRecords.map(this.renderPerformanceRecord)
+                                                        }
+                                                    </div>
                                                 </InfiniteScroll>
                                             }
                                         </Scrollbars>

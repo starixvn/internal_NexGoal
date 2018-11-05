@@ -38,7 +38,7 @@ describe('Render', () => {
 
 describe('Event tests', () => {
     beforeEach(() => {
-        mockAxios.post.mockImplementation(() =>
+        mockAxios.mockImplementation(() =>
             Promise.resolve({
                 data: {
                     isSuccessful: true
@@ -48,7 +48,7 @@ describe('Event tests', () => {
     });
 
     afterEach(() => {
-        mockAxios.get.mockReset();
+        mockAxios.mockReset();
     });
 
     it('when change form call the right method', () => {
@@ -103,6 +103,27 @@ describe('Event tests', () => {
                 name: 'save'
             }
         });
-        expect(spyValidateForm).toHaveBeenCalledTimes(1);
+        expect(mockAxios).toHaveBeenCalledTimes(1);
+    });
+
+    it('when form not validated, axios will NOT be called to submit form to server', () => {
+        const wrapper = shallow(<CreateSelfPerformance {...props} />);
+        wrapper.setState({ isOpenForm: true });
+        const spyValidateForm = jest.spyOn(wrapper.instance(), 'validateForm');
+        spyValidateForm.mockReturnValue(false);
+        spyOn(document, "getElementsByName").and.callFake(function () {
+            return [{
+                value: "abc test"
+            }];
+        });
+        wrapper.instance().forceUpdate();
+        wrapper.find(Button).at(2).simulate('click', {
+            preventDefault: () => {
+            },
+            target: {
+                name: 'save'
+            }
+        });
+        expect(mockAxios).not.toHaveBeenCalled();
     });
 });
