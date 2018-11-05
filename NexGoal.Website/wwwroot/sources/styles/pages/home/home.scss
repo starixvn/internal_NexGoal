@@ -8,35 +8,14 @@
 @import "../../layouts/nomination";
 @import "../../layouts/role";
 @import "../../layouts/form-performance";
+@import "../../layouts/employee-info";
+@import "../../layouts/hrm-summary";
 @import "../../layouts/main-layout";
 @import "../../layouts/textarea-fullscreen";
 @import "personal-timeline";
 
 .my-page {
     position: relative;
-}
-
-.user-info {
-    overflow: hidden;
-    padding-bottom: 12px;
-    border-bottom: 1px solid #ccc;
-
-    .avatar {
-        @include border-radius(3px);
-        float: left;
-        border: 2px solid #dedede;
-        margin-right: 12px;
-    }
-
-    .nick-name {
-        color: #0067b4;
-        font-size: 20px;
-        font-weight: 600;
-    }
-
-    .user-name {
-        font-size: 16px;
-    }
 }
 
 .record-your-mind {
@@ -110,19 +89,6 @@
     height: calc(100% - 152px);
     box-sizing: content-box;
     overflow: auto;
-}
-
-.hrm-summary {
-    font-size: 14px;
-
-    .hrm-info {
-        padding: 0;
-        list-style: none;
-
-        li {
-            padding: 2px 0;
-        }
-    }
 }
 
 .workload {

@@ -1,0 +1,23 @@
+
+.user-info {
+    overflow: hidden;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #ccc;
+
+    .avatar {
+        @include border-radius(3px);
+        float: left;
+        border: 2px solid #dedede;
+        margin-right: 12px;
+    }
+
+    .nick-name {
+        color: #0067b4;
+        font-size: 20px;
+        font-weight: 600;
+    }
+
+    .user-name {
+        font-size: 16px;
+    }
+}

@@ -132,21 +132,21 @@ export default class Timeline extends Component {
                 <h5>Member Performance{currentPerformancePeriod ? ` - ${currentPerformancePeriod.name}` : ''}</h5>
                 {
                     groupOptions && groupOptions.length > 1 &&
-                    <Fragment>
-                        <div>{getResource('Team')}</div>
+                    <div class="ddl-team">
+                        <div className="team">{getResource('Team')}</div>
                         <Multiselect className="react-select-container" classNamePrefix="react-select"
                             value={this.state.filter.groups}
                             options={this.props.groupOptions}
                             onChange={this.handleGroupChange}
                         />
-                    </Fragment>
+                    </div>
                 }
                 <div className="member-timeline" ref={this.timelineWidth}>
                     {
                         groupPerformances.map((groupPerformance, index) => {
                             return (
                                 <Fragment key={`groupPerformance${index}`}>
-                                    <div>{groupPerformance.groupName}</div>
+                                    <div className="group-name">{groupPerformance.groupName}</div>
                                     {
                                         groupPerformance.records.map((memberPerformance) => {
                                             return (

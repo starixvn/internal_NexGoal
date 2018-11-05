@@ -10,7 +10,7 @@
         bottom: 0;
         background-color: #fff;
         overflow: auto;
-        div:last-child {
+        .box:last-child {
             border-bottom: none;
         }
     }

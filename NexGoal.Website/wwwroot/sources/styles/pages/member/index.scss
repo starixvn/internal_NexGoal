@@ -9,6 +9,8 @@
 @import "../../layouts/nomination";
 @import "../../layouts/role";
 @import "../../layouts/form-performance";
+@import "../../layouts/employee-info";
+@import "../../layouts/hrm-summary";
 @import "../../layouts/main-layout";
 @import "../../layouts/textarea-fullscreen";
 @import "../home/personal-timeline";
@@ -21,6 +23,17 @@
     h5 {
         padding: 12px;
         margin-bottom: 0;
+    }
+    .ddl-team {
+        padding: 0 12px 12px;
+        .team {
+            padding-bottom: 4px;
+        }
+    }
+    .group-name {
+        font-weight: bold;
+        font-size: 14px;
+        margin-top: 16px;
     }
 }
 .record-list {
@@ -64,6 +77,7 @@
         padding-top: 36px;
     }
 }
+
 .member-detail .timeline {
     margin-top: 12px;
 }
