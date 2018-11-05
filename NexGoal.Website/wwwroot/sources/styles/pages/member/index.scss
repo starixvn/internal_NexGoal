@@ -27,6 +27,10 @@
     height: calc(100vh - 50px - 52px - 36px);
     overflow: auto;
 }
+.member-detail .record-list {
+    height: calc(100vh - 50px - 52px - 36px - 112px);
+}
+
 .member-performance {
     display: grid;
     grid-template-columns: 90px 1fr;
@@ -60,8 +64,10 @@
         padding-top: 36px;
     }
 }
-
-.timeline {
+.member-detail .timeline {
+    margin-top: 12px;
+}
+.member-timeline .timeline {
     margin: 0;
     box-shadow: none;
     padding: 0;
@@ -91,7 +97,7 @@
     }
 }
 
-.timeline-info {
+.member-timeline  .timeline-info {
     border: none;
     top: 29px;
     width: 50px;

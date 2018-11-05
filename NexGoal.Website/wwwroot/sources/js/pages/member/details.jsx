@@ -248,7 +248,7 @@ export default class App extends Component {
         return (
             <ToastLayout>
                 <div className="row">
-                    <div className="my-page main-layout">
+                    <div className="my-page member-detail main-layout">
                         <div className="general-info">
                             <EmployeeInfo employee={this.state.memberInfo} />
                             <PerformanceAppraisalResult
