@@ -117,7 +117,8 @@ BEGIN
 			AND (
 				(
 					-- not member
-					member.EmployeeId IS NULL
+					@EmployeeIdString = ''
+					AND member.EmployeeId IS NULL
 					AND record.CreatorId = @ActorId
 					AND record.EmployeeIds <> @ActorId
 					)

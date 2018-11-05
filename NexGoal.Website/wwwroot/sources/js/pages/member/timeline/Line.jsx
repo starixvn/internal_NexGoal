@@ -1,9 +1,18 @@
-﻿import React, { Component } from "react";
+﻿import React, { Component } from 'react';
 
 import Node from './Node';
 import { resolveClientUrl } from '../../../common-functions';
 
 export default class Timeline extends Component {
+    shouldComponentUpdate(nextProps) {
+        if (this.props.timelineWidth !== nextProps.timelineWidth
+            || JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
+            return true;
+        }
+
+        return false;
+    }
+
     onClickPrevious = () => {
         const memberPerformance = this.props.data;
         const pageIndex = memberPerformance.pageIndex + 1;
@@ -19,7 +28,7 @@ export default class Timeline extends Component {
     }
 
     calculateNodePosition = (totalNode, index) => {
-        let distanceFromRoot = (this.props.timelineWidth - 70) / (totalNode + 1);
+        let distanceFromRoot = (this.props.timelineWidth - 80) / (totalNode + 1);
         return Math.round((index + 1) * distanceFromRoot);
     }
 
@@ -32,7 +41,10 @@ export default class Timeline extends Component {
             <div className="member-performance">
                 <div className="employee-info">
                     <a href={resolveClientUrl(`member/details/${memberPerformance.employeeId}`)} className="nick-name">{memberPerformance.nickName}</a>
-                    <div>PA:</div>
+                    {
+                        memberPerformance.grade &&
+                        <div>PA: {memberPerformance.grade.name}</div>
+                    }
                 </div>
                 <div className="timeline">
                     <div className="xaxes" />

@@ -222,6 +222,10 @@
 
             foreach (MemberPerformanceTimelineModel memberPerformance in memberPerformances)
             {
+                memberPerformance.GradeId = cryptoService.Decrypt(memberPerformance.GradeId);
+                int.TryParse(memberPerformance.GradeId, out int gradeId);
+                memberPerformance.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+
                 memberPerformance.PerformanceRecords = performanceRecords.Where(x => x.EmployeeIds == memberPerformance.EmployeeId.ToString());
             }
         }

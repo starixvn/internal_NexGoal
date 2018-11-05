@@ -20,6 +20,7 @@ BEGIN
 
 	DECLARE @FromDate DATE
 		,@ToDate DATE
+		,@PAClosed TINYINT = 4
 	-- process
 	DECLARE @PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
@@ -43,6 +44,12 @@ BEGIN
 		,StatusId TINYINT
 		,RoleId TINYINT
 		,CreatedDate DATETIME
+		)
+
+	CREATE TABLE #tblPARecord (
+		RowNum INT
+		,EmployeeId INT
+		,GradeId VARCHAR(MAX)
 		)
 
 	IF @PeriodId IS NOT NULL
@@ -114,10 +121,7 @@ BEGIN
 			member.IsHost = 1
 			OR (
 				member.IsHost = 0
-				AND (
-					record.CreatorId = @ActorId
-					OR record.EmployeeIds = record.CreatorId
-					)
+				AND record.CreatorId = @ActorId
 				)
 			)
 		AND (
@@ -126,13 +130,40 @@ BEGIN
 				AND @ToDate
 			)
 
+	INSERT INTO #tblPARecord (
+		RowNum
+		,EmployeeId
+		,GradeId
+		)
+	SELECT ROW_NUMBER() OVER (
+			PARTITION BY pa.EmployeeId ORDER BY pa.EmployeeId
+				,process.EndDate DESC
+			) AS RowNum
+		,pa.EmployeeId
+		,pa.GradeId
+	FROM dbo.PARecord AS pa WITH (NOLOCK)
+		INNER JOIN dbo.PAProcess AS process WITH (NOLOCK) ON pa.PARecordId = process.PARecordId
+		AND process.ProcessId = @ReviewerProcessId
+		INNER JOIN #tblMember AS member WITH (NOLOCK) ON pa.EmployeeId = member.EmployeeId
+		AND member.IsHost = 1
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		AND period.IsActive = 1
+	WHERE pa.StatusId = @PAClosed
+
 	SELECT emp.EmployeeId
 		,emp.NickName
 		,emp.FullName
 		,emp.Code
+		,gr.Code AS GroupCode
+		,gr.[Name] AS GroupName
+		,pa.GradeId
 		,record.TotalItems
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
+		LEFT JOIN #tblPARecord AS pa WITH (NOLOCK) ON emp.EmployeeId = pa.EmployeeId
+		AND pa.RowNum = 1
 		LEFT JOIN (
 		SELECT EmployeeIds
 			,COUNT(1) AS TotalItems
@@ -172,4 +203,6 @@ BEGIN
 	DROP TABLE #tblMember
 
 	DROP TABLE #tblPerformanceRecord
+
+	DROP TABLE #tblPARecord
 END

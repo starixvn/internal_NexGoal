@@ -2,7 +2,8 @@
 import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-//import Multiselect from '../../../shared/components/multi-select/index';
+import getResource from '../../../resourceHelper';
+import Multiselect from '../../../shared/components/multi-select/index';
 import Line from './Line';
 
 export default class Timeline extends Component {
@@ -23,6 +24,7 @@ export default class Timeline extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         if (JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)
             || JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(nextProps.currentPerformancePeriod)
+            || JSON.stringify(this.state.filter) !== JSON.stringify(nextState.filter)
             || this.state.pageSize !== nextState.pageSize
             || JSON.stringify(this.state.memberPerformances) !== JSON.stringify(nextState.memberPerformances)) {
             return true;
@@ -32,23 +34,19 @@ export default class Timeline extends Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (JSON.stringify(this.props.groupOptions) !== JSON.stringify(prevProps.groupOptions)
-            || JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(prevProps.currentPerformancePeriod)) {
+        if (JSON.stringify(this.props.groupOptions) !== JSON.stringify(prevProps.groupOptions)) {
+            this.updateFilter('groups', this.props.groupOptions);
+        }
+
+        if (JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(prevProps.currentPerformancePeriod)) {
             this.getMemberPerformanceTimeline();
         }
-    }
-
-    updateFilter = (name, value) => {
-        this.setState({
-            filter: Object.assign({}, this.state.filter, { [name]: value })
-        });
     }
 
     getMemberPerformanceTimeline = () => {
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
                 periodId: this.props.currentPerformancePeriod ? this.props.currentPerformancePeriod.periodId : null,
-                //groupIds: this.state.filter.groups.map(group => { return group.value; }).join(','),
                 pageIndex: 0,
                 pageSize: this.state.pageSize
             }
@@ -63,6 +61,12 @@ export default class Timeline extends Component {
                 memberPerformances: response.data
             });
         }).catch(axiosError);
+    }
+
+    updateFilter = (name, value) => {
+        this.setState({
+            filter: Object.assign({}, this.state.filter, { [name]: value })
+        });
     }
 
     handlePageChange = (employeeId, pageIndex) => {
@@ -90,33 +94,72 @@ export default class Timeline extends Component {
         }
     }
 
+    handleGroupChange = (selectedOptions) => {
+        this.updateFilter('groups', selectedOptions);
+    }
+
+    groupMemberPerformances = (records) => {
+        let memberPerformances = records ? records.slice() : [];
+        memberPerformances = memberPerformances.reduce(function (groups, item) {
+            const val = item['groupName'];
+            groups[val] = groups[val] || [];
+            groups[val].push(item);
+
+            return groups;
+        }, []);
+
+        memberPerformances = Object.keys(memberPerformances).map(key => {
+            let index = this.state.filter.groups.findIndex(group => group.label === key);
+
+            return {
+                groupName: key,
+                isDisplay: index >= 0,
+                records: memberPerformances[key]
+            };
+        });
+
+        return memberPerformances.filter(group => group.isDisplay);
+    };
+
     render() {
-        //let groupOptions = this.props.groupOptions;
+        let groupOptions = this.props.groupOptions;
         let currentPerformancePeriod = this.props.currentPerformancePeriod;
-        const memberPerformances = this.state.memberPerformances;
-        const timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
+        let groupPerformances = this.groupMemberPerformances(this.state.memberPerformances);
+        let timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
 
         return (
             <Fragment>
                 <h5>Member Performance{currentPerformancePeriod ? ` - ${currentPerformancePeriod.name}` : ''}</h5>
                 {
-                //    groupOptions && groupOptions.length > 1 &&
-                //    <Multiselect className="react-select-container" classNamePrefix="react-select"
-                //        value={this.state.filter.groups}
-                //        options={this.props.groupOptions}
-                //        onChange={this.handleGroupChange}
-                //    />
+                    groupOptions && groupOptions.length > 1 &&
+                    <Fragment>
+                        <div>{getResource('Team')}</div>
+                        <Multiselect className="react-select-container" classNamePrefix="react-select"
+                            value={this.state.filter.groups}
+                            options={this.props.groupOptions}
+                            onChange={this.handleGroupChange}
+                        />
+                    </Fragment>
                 }
                 <div className="member-timeline" ref={this.timelineWidth}>
                     {
-                        memberPerformances.map((memberPerformance, index) => {
+                        groupPerformances.map((groupPerformance, index) => {
                             return (
-                                <Line key={`memberTimeline${index}`}
-                                    data={memberPerformance}
-                                    timelineWidth={timelineWidth}
-                                    onPageChange={this.handlePageChange}
-                                    onNodeClick={this.props.onNodeClick}
-                                />
+                                <Fragment key={`groupPerformance${index}`}>
+                                    <div>{groupPerformance.groupName}</div>
+                                    {
+                                        groupPerformance.records.map((memberPerformance) => {
+                                            return (
+                                                <Line key={`memberTimeline${memberPerformance.employeeId}`}
+                                                    data={memberPerformance}
+                                                    timelineWidth={timelineWidth}
+                                                    onPageChange={this.handlePageChange}
+                                                    onNodeClick={this.props.onNodeClick}
+                                                />
+                                            );
+                                        })
+                                    }
+                                </Fragment>
                             );
                         })
                     }
