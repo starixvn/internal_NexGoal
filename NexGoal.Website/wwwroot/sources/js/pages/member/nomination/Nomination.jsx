@@ -20,7 +20,11 @@ export default class Nomination extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('MemberNomination/GetMemberNominations'))
+            axios(resolveClientUrl('MemberNomination/GetMemberNominations'), {
+                params: {
+                    memberId: this.props.isMemberDetail ? this.props.nomineeId : null
+                }
+            })
         ];
 
         Promise.all(promises)
@@ -56,9 +60,12 @@ export default class Nomination extends Component {
     render() {
         return (
             <div className="record-list">
-                <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions} isEmployeeSelectable={this.props.isEmployeeSelectable} nomineeId={this.props.nomineeId} />
+                <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions} isEmployeeSelectable={!this.props.isMemberDetail} nomineeId={this.props.nomineeId} />
 
-                {this.state.nominations.map(this.renderPerformanceRecord)}
+                {
+                    this.state.nominations.length > 0 &&
+                    this.state.nominations.map(this.renderPerformanceRecord)
+                }
             </div>
         );
     }
