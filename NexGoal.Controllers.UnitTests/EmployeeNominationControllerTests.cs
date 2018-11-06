@@ -73,13 +73,13 @@
             Assert.False((bool)jsonResult.Value.GetType().GetProperty("isSuccessful").GetValue(jsonResult.Value));
         }
 
-        private EmployeeNominationController GetController()
+        private MemberNominationController GetController()
         {
             employeeNominationService = Substitute.For<IEmployeeNominationService>();
             sessionService = Substitute.For<ISessionService>();
             sessionService.EmployeeId = 1;
 
-            return new EmployeeNominationController(employeeNominationService, sessionService);
+            return new MemberNominationController(employeeNominationService, sessionService);
         }
     }
 }

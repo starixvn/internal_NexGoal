@@ -15,15 +15,15 @@
     {
         private readonly IBaseService baseService;
 
-        private readonly IDynamicRepository dynamicRepository;
-
         private readonly IAvatarService avatarService;
 
-        public EmployeeNominationService(IBaseService baseService, IDynamicRepository dynamicRepository, IAvatarService avatarService)
+        private readonly ICommonService commonService;
+
+        public EmployeeNominationService(IBaseService baseService, IAvatarService avatarService, ICommonService commonService)
         {
             this.baseService = baseService;
-            this.dynamicRepository = dynamicRepository;
             this.avatarService = avatarService;
+            this.commonService = commonService;
         }
 
         public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominator(int nominatorId)
@@ -57,18 +57,14 @@
                 MemberId = memberId
             };
 
-            var result = await dynamicRepository.FetchMultipleAsync(criteria,
-                new[] {
-                    typeof(PerformanceRecordModel),
-                    typeof(EmployeeBaseModel),
-                    typeof(NominationModel),
-                    typeof(NominationPeriodModel)
-                }).ConfigureAwait(false);
+            var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
 
-            var performanceRecords = result[0].Cast<PerformanceRecordModel>();
-            var employees = result[1].Cast<EmployeeBaseModel>();
-            var nominations = result[2].Cast<NominationModel>();
-            var nominationPeriods = result[3].Cast<NominationPeriodModel>();
+            var performanceRecords = result.Item1;
+            var nominations = result.Item2;
+            var nominationPeriods = result.Item3;
+
+            var employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            employees = employees.Where(x => performanceRecords.Any(r => r.CreatorId == x.EmployeeId || r.EmployeeIds.Split(',').Select(int.Parse).Any(e => e == x.EmployeeId)));
 
             MappingData(performanceRecords, employees, nominations, nominationPeriods);
 
