@@ -58,9 +58,9 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMemberNominations()
+        public async Task<IActionResult> GetMemberNominations(int? memberId)
         {
-            var result = await employeeNominationService.GetMemberNominationssAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            var result = await employeeNominationService.GetMemberNominationssAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
             return Json(result);
         }

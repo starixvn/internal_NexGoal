@@ -49,11 +49,12 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationssAsync(int nominatorId)
+        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationssAsync(int nominatorId, int? memberId)
         {
             var criteria = new GetMemberNominationCriteria
             {
                 ActorId = nominatorId,
+                MemberId = memberId
             };
 
             var result = await dynamicRepository.FetchMultipleAsync(criteria,

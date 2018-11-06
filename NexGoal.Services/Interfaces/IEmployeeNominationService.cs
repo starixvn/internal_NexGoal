@@ -12,6 +12,6 @@
 
         Task<CommandResult> Create(CreateEmployeeNominationModel model);
 
-        Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationssAsync(int nominatorId);
+        Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationssAsync(int nominatorId, int? memberId);
     }
 }
