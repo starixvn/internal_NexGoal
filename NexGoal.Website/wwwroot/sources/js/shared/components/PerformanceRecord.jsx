@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { PerformanceProcess, PerformanceRecordStatus } from '../../constants';
+import { PerformanceProcess, PerformanceRecordStatus, PerformanceRecordType } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class PerformanceRecord extends Component {
@@ -18,7 +18,9 @@ export default class PerformanceRecord extends Component {
         roleId: PropTypes.number,
         statusId: PropTypes.number,
         isHighlighted: PropTypes.bool,
-        onEdit: PropTypes.func
+        onEdit: PropTypes.func,
+        type: PropTypes.number,
+        nomination: PropTypes.object
     };
 
     static defaultProps = {
@@ -34,7 +36,9 @@ export default class PerformanceRecord extends Component {
         roleId: 0,
         statusId: 0,
         isHighlighted: false,
-        onEdit: function () { }
+        onEdit: function () { },
+        type: null,
+        nomination: null
     };
 
     constructor(props) {
@@ -142,6 +146,8 @@ export default class PerformanceRecord extends Component {
                         (this.props.modifiedDate || this.props.isHost) &&
                         <div className="date">
                             <div className="edit-date">
+                                {this.props.type === PerformanceRecordType.Nomination && <Fragment>{this.props.nomination.period.title}</Fragment>}
+
                                 {
                                     this.props.statusId !== PerformanceRecordStatus.Draft && this.props.modifiedDate &&
                                     <Fragment>Edited on {this.props.modifiedDate}</Fragment>
@@ -163,12 +169,16 @@ export default class PerformanceRecord extends Component {
                             : null
                     }
                 </div>
-                <div className="grade">
+                {this.props.type !== PerformanceRecordType.Nomination &&
+                    <Fragment>
+                        <div className="grade">
                     {`${getResource('Grade')}:`} <div className="grade-detail">{this.props.grade ? this.props.grade.name : ''}</div>
-                </div>
-                <div className="project">
+                        </div>
+                        <div className="project">
                     {`${getResource('ProjectTag')}:`} <div className="project-detail">{projects}</div>
-                </div>
+                        </div>
+                    </Fragment>
+                }
             </div >
         );
     }

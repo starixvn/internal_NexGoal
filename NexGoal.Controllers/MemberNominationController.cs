@@ -13,12 +13,12 @@
     using NexGoal.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EmployeeNomination, Policy = Policy.Host)]
-    public class EmployeeNominationController : Controller
+    public class MemberNominationController : Controller
     {
         private readonly IEmployeeNominationService employeeNominationService;
         private readonly ISessionService sessionService;
 
-        public EmployeeNominationController(IEmployeeNominationService employeeNominationService, ISessionService sessionService)
+        public MemberNominationController(IEmployeeNominationService employeeNominationService, ISessionService sessionService)
         {
             this.employeeNominationService = employeeNominationService;
             this.sessionService = sessionService;
@@ -55,6 +55,14 @@
             var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
 
             return Json(new { isSuccessful = false, errors });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetMemberNominations()
+        {
+            var result = await employeeNominationService.GetMemberNominationssAsync(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
         }
     }
 }

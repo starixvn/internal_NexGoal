@@ -41,7 +41,7 @@ export default class CreateNomination extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('EmployeeNomination/GetNominationPeriodsForNominator'))
+            axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
         ];
 
         Promise.all(promises)
@@ -70,7 +70,7 @@ export default class CreateNomination extends Component {
 
     handleSubmit = (values, { setSubmitting, setErrors }) => {
         axios({
-            url: resolveClientUrl(`EmployeeNomination/Create`),
+            url: resolveClientUrl(`MemberNomination/Create`),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
