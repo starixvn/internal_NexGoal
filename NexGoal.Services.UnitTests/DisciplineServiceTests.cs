@@ -1,8 +1,6 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
@@ -16,67 +14,70 @@
         private IBaseService baseService;
 
         [Fact]
-        public async Task GetDisciplines_WhenCalled_ReturnExpectedResult()
+        public async Task GetDisciplineAsync_WhenCalled_ReturnAsExpectedDisciplines()
         {
-            var expectedDisciplines = new List<DisciplineModel>
+            // Arrange
+            var param = new GetDisciplineParam();
+            var expected = new List<DisciplineModel>
             {
                 new DisciplineModel
                 {
                     DisciplineId = 1
                 }
             };
-
             var service = GetDisciplineService();
-            baseService.GetDataAsync<DisciplineModel>(Arg.Any<GetDisciplinesCriteria>()).Returns(expectedDisciplines);
+            baseService.GetDataAsync<DisciplineModel>(Arg.Any<GetDisciplinesCriteria>()).Returns(expected);
 
-            var result = await service.GetDisciplines(DateTime.Today, DateTime.Today.AddMonths(1), null, string.Empty, null);
+            // Act
+            var actual = await service.GetDisciplineAsync(param);
 
-            Assert.Equal(expectedDisciplines.Count, result.Count());
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task EditStatus_ValidData_ReturnExpectedResult()
+        public async Task EditStatusAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
+            // Arrange
+            var expected = new CommandResult();
             var service = GetDisciplineService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<UpdateDisciplineStatusCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<UpdateDisciplineStatusCriteria>()).Returns(expected);
 
-            var result = await service.EditStatus(1, true, 1);
+            // Act
+            var actual = await service.EditStatusAsync(1, true, 1);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task Create_ValidData_ReturnExpectedResult()
+        public async Task CreateAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
+            // Arrange
+            var expected = new CommandResult();
             var service = GetDisciplineService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<AddDisciplineCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<AddDisciplineCriteria>()).Returns(expected);
 
-            var result = await service.Create(new AddDisciplineModel
-            {
-                EmployeeId = 1,
-                EffectiveDate = DateTime.Today,
-                Content = "content",
-                CreatedBy = 1
-            });
+            // Act
+            var actual = await service.CreateAsync(new AddDisciplineModel());
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task Edit_ValidData_ReturnExpectedResult()
+        public async Task EditAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
+            // Arrange
+            var expected = new CommandResult();
             var service = GetDisciplineService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditDisciplineCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditDisciplineCriteria>()).Returns(expected);
 
-            var result = await service.Edit(new EditDisciplineModel
-            {
-                DisciplineId = 1,
-                EffectiveDate = DateTime.Today,
-                Content = "content",
-                ModifiedBy = 1
-            });
+            // Act
+            var actual = await service.EditAsync(new EditDisciplineModel());
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         private DisciplineService GetDisciplineService()

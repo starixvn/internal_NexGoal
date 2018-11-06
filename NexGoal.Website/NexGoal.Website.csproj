@@ -61,5 +61,9 @@
     <MakeDir Directories="$(PublishUrl)logs" Condition="!Exists('$(PublishUrl)logs')" />
   </Target>
 
-  <ProjectExtensions><VisualStudio><UserProperties wwwroot_4package_1json__JSONSchema="http://json.schemastore.org/modernizrrc" /></VisualStudio></ProjectExtensions>
+  <ProjectExtensions>
+    <VisualStudio>
+      <UserProperties wwwroot_4package_1json__JSONSchema="http://json.schemastore.org/modernizrrc" />
+    </VisualStudio>
+  </ProjectExtensions>
 </Project>

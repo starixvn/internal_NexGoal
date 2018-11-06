@@ -83,8 +83,8 @@ export default class DisciplineManagement extends Component {
 
         axios(resolveClientUrl('Discipline/GetDisciplines'), {
             params: {
-                from: filter.from.format('YYYY-MM-DD'),
-                to: filter.to.format('YYYY-MM-DD'),
+                fromDate: filter.from.format('YYYY-MM-DD'),
+                toDate: filter.to.format('YYYY-MM-DD'),
                 isActive: filter.isActive ? filter.isActive.value : null,
                 employeeId: employeeId,
                 groupIds: groupIds

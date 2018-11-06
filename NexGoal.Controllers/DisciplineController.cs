@@ -33,9 +33,9 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetDisciplines(DateTime from, DateTime to, bool? isActive, string groupIds, int? employeeId)
+        public async Task<JsonResult> GetDisciplines(GetDisciplineParam param)
         {
-            IEnumerable<DisciplineModel> disciplines = await disciplineService.GetDisciplines(from, to, isActive, groupIds, employeeId).ConfigureAwait(false);
+            IEnumerable<DisciplineModel> disciplines = await disciplineService.GetDisciplineAsync(param).ConfigureAwait(false);
 
             return Json(disciplines);
         }
@@ -44,7 +44,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Host)]
         public async Task<JsonResult> EditStatus(int disciplineId, bool isActive)
         {
-            CommandResult commandResult = await disciplineService.EditStatus(disciplineId, isActive, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await disciplineService.EditStatusAsync(disciplineId, isActive, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(commandResult);
         }
@@ -55,7 +55,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await disciplineService.Create(new AddDisciplineModel
+                CommandResult commandResult = await disciplineService.CreateAsync(new AddDisciplineModel
                 {
                     EmployeeId = model.EmployeeId,
                     Content = model.Content,
@@ -76,7 +76,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await disciplineService.Edit(new EditDisciplineModel
+                CommandResult commandResult = await disciplineService.EditAsync(new EditDisciplineModel
                 {
                     DisciplineId = model.DisciplineId,
                     EffectiveDate = model.EffectiveDate,

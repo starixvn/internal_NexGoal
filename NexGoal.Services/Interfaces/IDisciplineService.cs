@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
@@ -8,12 +7,12 @@
 
     public interface IDisciplineService
     {
-        Task<IEnumerable<DisciplineModel>> GetDisciplines(DateTime from, DateTime to, bool? isActive, string groupIds, int? employeeId);
+        Task<IEnumerable<DisciplineModel>> GetDisciplineAsync(GetDisciplineParam param);
 
-        Task<CommandResult> EditStatus(int disciplineId, bool isActive, int modifiedBy);
+        Task<CommandResult> EditStatusAsync(int disciplineId, bool isActive, int modifiedBy);
 
-        Task<CommandResult> Create(AddDisciplineModel model);
+        Task<CommandResult> CreateAsync(AddDisciplineModel model);
 
-        Task<CommandResult> Edit(EditDisciplineModel model);
+        Task<CommandResult> EditAsync(EditDisciplineModel model);
     }
 }

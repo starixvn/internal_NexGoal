@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
@@ -17,21 +16,21 @@
             this.baseService = baseService;
         }
 
-        public async Task<IEnumerable<DisciplineModel>> GetDisciplines(DateTime from, DateTime to, bool? isActive, string groupIds, int? employeeId)
+        public async Task<IEnumerable<DisciplineModel>> GetDisciplineAsync(GetDisciplineParam param)
         {
             var criteria = new GetDisciplinesCriteria
             {
-                FromDate = from,
-                ToDate = to,
-                IsActive = isActive,
-                GroupIds = groupIds,
-                EmployeeId = employeeId
+                FromDate = param.FromDate,
+                ToDate = param.ToDate,
+                IsActive = param.IsActive,
+                GroupIds = param.GroupIds,
+                EmployeeId = param.EmployeeId
             };
 
             return await baseService.GetDataAsync<DisciplineModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditStatus(int disciplineId, bool isActive, int modifiedBy)
+        public async Task<CommandResult> EditStatusAsync(int disciplineId, bool isActive, int modifiedBy)
         {
             var criteria = new UpdateDisciplineStatusCriteria
             {
@@ -43,7 +42,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> Create(AddDisciplineModel model)
+        public async Task<CommandResult> CreateAsync(AddDisciplineModel model)
         {
             var criteria = new AddDisciplineCriteria
             {
@@ -56,7 +55,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> Edit(EditDisciplineModel model)
+        public async Task<CommandResult> EditAsync(EditDisciplineModel model)
         {
             var criteria = new EditDisciplineCriteria
             {
