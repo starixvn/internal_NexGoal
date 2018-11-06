@@ -132,8 +132,6 @@
     <Build Include="dbo\Functions\func_GetMember.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetByDomainUsername.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetWorkloadForPM.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetWorkloadForLeader.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Update.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Delete.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_GetEmployeeHaveSetting.sql" />

@@ -45,26 +45,6 @@
             return workload.OrderByDescending(x => x.TotalHours);
         }
 
-        public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadForPMAsync(int employeeId)
-        {
-            var criteria = new GetWorkloadForPMCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<ProjectWorkloadModel>> GetWorkloadForLeaderAsync(int employeeId)
-        {
-            var criteria = new GetWorkloadForLeaderCriteria
-            {
-                EmployeeId = employeeId
-            };
-
-            return await baseService.GetDataAsync<ProjectWorkloadModel>(criteria).ConfigureAwait(false);
-        }
-
         private IEnumerable<TeamWorkloadModel> GenerateTeamWorkload(IEnumerable<MembersWorkloadEntityModel> rawWorkloads)
         {
             var workloads = GroupWorkloadByTeam(rawWorkloads);

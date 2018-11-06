@@ -15,7 +15,9 @@
 
     public class CommonControllerTests
     {
+        private ISessionService sessionService;
         private ICommonService commonService;
+        private IEmployeeService employeeService;
 
         [Fact]
         public async Task GetEmployees_WhenCalled_ReturnAsExpectedEmployees()
@@ -195,13 +197,78 @@
             Assert.Equal(periods, result);
         }
 
+        [Fact]
+        public async Task GetCurrentPerformancePeriod_WhenCalled_ReturnAsExpectedPeriod()
+        {
+            // Arrange
+            var period = new PeriodBaseModel { PeriodId = 1, Name = "1h-2018" };
+            var controller = GetCommonController();
+            commonService.GetCurrentPerformancePeriodAsync().Returns(period);
+
+            // Act
+            var actual = await controller.GetCurrentPerformancePeriod();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<PeriodBaseModel>(jsonResult.Value);
+            Assert.Equal(period, result);
+        }
+
+        [Fact]
+        public async Task GetMyMember_WhenCalled_ReturnAsExpectedEmployees()
+        {
+            // Arrange
+            var employees = new List<EmployeeBaseModel>
+            {
+                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+            };
+            var controller = GetCommonController();
+            employeeService.GetMemberAsync(sessionService.EmployeeId).Returns(employees);
+
+            // Act
+            var actual = await controller.GetMyMember();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            Assert.Equal(employees, result);
+        }
+
+        [Fact]
+        public async Task GetMyGroup_WhenCalled_ReturnAsExpectedGroups()
+        {
+            // Arrange
+            var groups = new List<GroupBaseModel>
+            {
+                new GroupBaseModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
+            };
+            var controller = GetCommonController();
+            employeeService.GetGroupAsync(sessionService.EmployeeId).Returns(groups);
+
+            // Act
+            var actual = await controller.GetMyGroup();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<GroupBaseModel>>(jsonResult.Value);
+            Assert.Equal(groups, result);
+        }
+
         #region Helpers
+
+        private ISessionService FakeSessionService()
+        {
+            var service = Substitute.For<ISessionService>();
+            service.EmployeeId = 1;
+
+            return service;
+        }
 
         private CommonController GetCommonController()
         {
+            sessionService = FakeSessionService();
             commonService = Substitute.For<ICommonService>();
-            var sessionService = Substitute.For<ISessionService>();
-            var employeeService = Substitute.For<IEmployeeService>();
+            employeeService = Substitute.For<IEmployeeService>();
             var controller = new CommonController(sessionService, commonService, employeeService);
 
             return controller;

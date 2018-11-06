@@ -1,7 +1,6 @@
 ﻿namespace NexGoal.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Services;
@@ -31,11 +30,6 @@
             return View();
         }
 
-        public IActionResult WorkLoad()
-        {
-            return View();
-        }
-
         public async Task<JsonResult> GetPerformanceAppraisalResult()
         {
             IEnumerable<PARecordModel> records = await employeeService.GetPerformanceAppraisalResultAsync(sessionService.EmployeeId).ConfigureAwait(false);
@@ -51,25 +45,11 @@
             return Json(workloads);
         }
 
-        public async Task<JsonResult> GetWorkloadForLeader()
-        {
-            IEnumerable<ProjectWorkloadModel> workloads = await redmineService.GetWorkloadForLeaderAsync(sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(workloads);
-        }
-
         public async Task<JsonResult> GetMembersWorkload(int periodId)
         {
             IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(sessionService.EmployeeId, periodId).ConfigureAwait(false);
 
             return Json(teamWorkloads);
-        }
-
-        public async Task<JsonResult> GetWorkloadForPM()
-        {
-            IEnumerable<ProjectWorkloadModel> workloads = await redmineService.GetWorkloadForPMAsync(sessionService.EmployeeId).ConfigureAwait(false);
-
-            return Json(workloads);
         }
 
         public async Task<JsonResult> GetNominationResult()
