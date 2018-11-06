@@ -2,6 +2,7 @@
 import PropTypes from 'prop-types';
 
 import { PerformanceProcess, PerformanceRecordStatus } from '../../constants';
+import getResource from '../../resourceHelper';
 
 export default class PerformanceRecord extends Component {
     static propTypes = {
@@ -14,6 +15,9 @@ export default class PerformanceRecord extends Component {
         comment: PropTypes.string,
         grade: PropTypes.object,
         projects: PropTypes.arrayOf(PropTypes.string),
+        roleId: PropTypes.number,
+        statusId: PropTypes.number,
+        isHighlighted: PropTypes.bool,
         onEdit: PropTypes.func
     };
 
@@ -27,6 +31,9 @@ export default class PerformanceRecord extends Component {
         comment: '',
         grade: null,
         projects: [''],
+        roleId: 0,
+        statusId: 0,
+        isHighlighted: false,
         onEdit: function () { }
     };
 
@@ -53,6 +60,9 @@ export default class PerformanceRecord extends Component {
             || this.props.comment !== nextProps.comment
             || JSON.stringify(this.props.grade) !== JSON.stringify(nextProps.grade)
             || JSON.stringify(this.state.projects) !== JSON.stringify(nextState.projects)
+            || this.props.roleId !== nextProps.roleId
+            || this.props.statusId !== nextProps.statusId
+            || this.props.isHighlighted !== nextProps.isHighlighted
             || this.state.showCollapseExpandButton !== nextState.showCollapseExpandButton
             || this.state.isExpanded !== nextState.isExpanded) {
             return true;
@@ -104,6 +114,7 @@ export default class PerformanceRecord extends Component {
     render() {
         let employees = this.props.employees;
         let creator = this.props.creator;
+        let projects = this.props.projects && this.props.projects.length > 0 ? this.props.projects.join(', ') : 'N/A';
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
@@ -153,10 +164,10 @@ export default class PerformanceRecord extends Component {
                     }
                 </div>
                 <div className="grade">
-                    Grade: <div className="grade-detail">{this.props.grade ? this.props.grade.name : ''}</div>
+                    {`${getResource('Grade')}:`} <div className="grade-detail">{this.props.grade ? this.props.grade.name : ''}</div>
                 </div>
                 <div className="project">
-                    Project: <div className="project-detail">{this.props.projects.join(', ')}</div>
+                    {`${getResource('ProjectTag')}:`} <div className="project-detail">{projects}</div>
                 </div>
             </div >
         );
