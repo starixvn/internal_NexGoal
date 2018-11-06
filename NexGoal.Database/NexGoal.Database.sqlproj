@@ -235,5 +235,6 @@
     <Build Include="dbo\Stored Procedures\Period_GetCurrentPerformancePeriod.sql" />
     <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetGroup.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominations.sql" />
   </ItemGroup>
 </Project>
