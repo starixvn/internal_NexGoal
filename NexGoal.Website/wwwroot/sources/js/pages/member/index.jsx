@@ -277,8 +277,10 @@ export default class App extends Component {
                             </Tabs>
                         </div>
                         <div className="work-info">
-                            <NominationResult isSupervisor nominations={this.state.memberNominations} />
-                            {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
+                            <Scrollbars style={{ maxHeight: '100%' }} autoHide>
+                                <NominationResult isSupervisor nominations={this.state.memberNominations} />
+                                {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
+                            </Scrollbars >
                         </div>
                     </div>
                 </div>
