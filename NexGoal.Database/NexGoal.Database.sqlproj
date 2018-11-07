@@ -236,5 +236,6 @@
     <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetGroup.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominations.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_GetByRecordId.sql" />
   </ItemGroup>
 </Project>
