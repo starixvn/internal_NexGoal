@@ -36,7 +36,6 @@
         }
 
         public async Task<IActionResult> Details(int id)
-
         {
             IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
 

@@ -191,6 +191,21 @@ namespace NexGoal.Services.UnitTests
             Assert.Equal(periods, actual);
         }
 
+        [Fact]
+        public async Task GetCurrentPerformancePeriodAsync_WhenCalled_ReturnAsExpectedPeriod()
+        {
+            // Arrange
+            var expected = new PeriodBaseModel { PeriodId = 1, Name = "2h 2018" };
+            var service = GetCommonService();
+            baseService.GetDataEntityAsync<PeriodBaseModel>(Arg.Any<GetCurrentPerformancePeriodCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetCurrentPerformancePeriodAsync();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
         #region Helpers
 
         private List<ReferenceResourceModel> GetRefResourcesForTest()
