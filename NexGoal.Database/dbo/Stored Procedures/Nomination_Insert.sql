@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Nomination_Insert] @NominationPeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[Nomination_Insert] @NominationPeriodId INT
 	,@NomineeId INT
 	,@NominatorId INT
 	,@Comment NVARCHAR(MAX) = NULL
@@ -26,6 +27,15 @@ BEGIN
 	BEGIN
 		SET @ErrCode = 1
 		SET @ErrMsg = N'The Employee has already been nominated in this period'
+
+		RETURN
+	END
+
+	IF @NominatorId = @NomineeId 
+		AND EXISTS (SELECT 1 FROM dbo.EOQY e WITH (NOLOCK) WHERE e.EOQYId = @NominationPeriodId AND e.IsQuarter = 1 AND e.Quarter IS NOT NULL)
+	BEGIN
+		SET @ErrCode = 1
+		SET @ErrMsg = N'You cant nominate yourself'
 
 		RETURN
 	END
