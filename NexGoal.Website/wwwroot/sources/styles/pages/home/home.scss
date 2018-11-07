@@ -10,6 +10,7 @@
 @import "../../layouts/form-performance";
 @import "../../layouts/employee-info";
 @import "../../layouts/hrm-summary";
+@import "../../layouts/pa";
 @import "../../layouts/main-layout";
 @import "../../layouts/textarea-fullscreen";
 @import "personal-timeline";
@@ -54,32 +55,6 @@
     &.project-field, &.employee-field {
         .react-select__control {
             height: auto;
-        }
-    }
-}
-
-.my-pa {
-    &-year {
-        margin-bottom: 12px;
-
-        .year {
-            font-weight: bold;
-            font-size: 16px;
-            margin-bottom: 8px;
-        }
-
-        .term {
-            display: grid;
-            grid-template-columns: 85px 120px 1fr;
-            margin-bottom: 8px;
-
-            .grade {
-                @include border-radius(2px);
-                font-size: 11px;
-                text-align: center;
-                background-color: #e1eef7;
-                border: 1px solid #afccde;
-            }
         }
     }
 }

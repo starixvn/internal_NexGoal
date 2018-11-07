@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'NexGoalIcon';
-  src:  url('fonts/NexGoalIcon.eot?kunogg');
-  src:  url('fonts/NexGoalIcon.eot?kunogg#iefix') format('embedded-opentype'),
-    url('fonts/NexGoalIcon.ttf?kunogg') format('truetype'),
-    url('fonts/NexGoalIcon.woff?kunogg') format('woff'),
-    url('fonts/NexGoalIcon.svg?kunogg#NexGoalIcon') format('svg');
+  src:  url('fonts/NexGoalIcon.eot?6cqui4');
+  src:  url('fonts/NexGoalIcon.eot?6cqui4#iefix') format('embedded-opentype'),
+    url('fonts/NexGoalIcon.ttf?6cqui4') format('truetype'),
+    url('fonts/NexGoalIcon.woff?6cqui4') format('woff'),
+    url('fonts/NexGoalIcon.svg?6cqui4#NexGoalIcon') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -24,6 +24,10 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-checkin:before {
+  content: "\e920";
+  color: #2270ce;
+}
 .icon-exit-fullmode:before {
   content: "\e91f";
   color: #8f8f8f;

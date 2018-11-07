@@ -129,7 +129,7 @@ export default class Timeline extends Component {
 
         return (
             <Fragment>
-                <h5>Member Performance{currentPerformancePeriod ? ` - ${currentPerformancePeriod.name}` : ''}</h5>
+                <h5 className="title">Member Performance{currentPerformancePeriod ? ` - ${currentPerformancePeriod.name}` : ''}</h5>
                 {
                     groupOptions && groupOptions.length > 1 &&
                     <div class="ddl-team">

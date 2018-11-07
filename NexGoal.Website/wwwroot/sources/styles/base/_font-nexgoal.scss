@@ -20,6 +20,11 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-checkin:before {
+    content: "\e920";
+    color: #2270ce;
+  }
+
 .icon-exit-fullmode:before {
     content: "\e91f";
     color: #8f8f8f;

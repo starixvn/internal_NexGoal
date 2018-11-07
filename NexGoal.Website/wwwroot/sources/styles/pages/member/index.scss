@@ -11,6 +11,7 @@
 @import "../../layouts/form-performance";
 @import "../../layouts/employee-info";
 @import "../../layouts/hrm-summary";
+@import "../../layouts/pa";
 @import "../../layouts/main-layout";
 @import "../../layouts/textarea-fullscreen";
 @import "../home/personal-timeline";
@@ -20,7 +21,7 @@
     .member-timeline {
         padding: 0 20px 12px 12px;
     }
-    h5 {
+    .title {
         padding: 12px;
         margin-bottom: 0;
     }
