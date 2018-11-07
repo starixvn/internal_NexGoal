@@ -110,6 +110,9 @@ export default class PerformanceRecord extends Component {
             case PerformanceProcess.Reviewer:
                 className = 'role-reviewer';
                 break;
+
+            default:
+                className = 'role-default';
         }
 
         return className;
