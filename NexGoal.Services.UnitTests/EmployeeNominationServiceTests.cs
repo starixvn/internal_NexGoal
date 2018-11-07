@@ -48,6 +48,17 @@
             Assert.True(result.IsSuccessful);
         }
 
+        [Fact]
+        public async Task IsNominator_ValidData_WhenCalledReturnExpectedResult()
+        {
+            var service = GetService();
+            baseService.GetDataEntityAsync<bool>(Arg.Any<CheckIsNominatorCriteria>()).Returns(true);
+
+            var result = await service.IsNominator(125);
+
+            Assert.True(result);
+        }
+
         private EmployeeNominationService GetService()
         {
             baseService = Substitute.For<IBaseService>();

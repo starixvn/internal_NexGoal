@@ -121,12 +121,11 @@
             }
         }
 
-        public async Task<bool> IsNominator(int actorId, int? memberId)
+        public async Task<bool> IsNominator(int actorId)
         {
             var criteria = new CheckIsNominatorCriteria
             {
-                ActorId = actorId,
-                MemberId = memberId
+                ActorId = actorId
             };
 
             return await baseService.GetDataEntityAsync<bool>(criteria).ConfigureAwait(false);

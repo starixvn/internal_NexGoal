@@ -31,7 +31,7 @@
 
         public async Task<IActionResult> Index()
         {
-            bool isNominator = await nominationService.IsNominator(sessionService.EmployeeId, null).ConfigureAwait(false);
+            bool isNominator = await nominationService.IsNominator(sessionService.EmployeeId).ConfigureAwait(false);
             return View(isNominator);
         }
 
@@ -44,9 +44,8 @@
             {
                 return RedirectToAction("AccessDenied", "Error");
             }
-            bool isNominator = await nominationService.IsNominator(sessionService.EmployeeId, id).ConfigureAwait(false);
             EmployeeBaseModel member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
-            ViewData["IsNominator"] = isNominator;
+            ViewData["IsNominator"] = await nominationService.IsNominator(sessionService.EmployeeId).ConfigureAwait(false);
             return View(member);
         }
 
