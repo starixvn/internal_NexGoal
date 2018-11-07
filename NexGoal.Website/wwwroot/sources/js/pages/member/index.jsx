@@ -135,20 +135,22 @@ export default class App extends Component {
     }
 
     handleTimelineNodeClick = (performanceRecordId) => {
-        if (!this.state.displayedMemberPerformances.some(r => r.performanceRecordId === performanceRecordId)) {
-            let index = this.state.memberPerformances.findIndex(function (element) {
-                return element.performanceRecordId === performanceRecordId;
-            });
+        if (this.state.activeTabKey === 1) {
+            if (!this.state.displayedMemberPerformances.some(r => r.performanceRecordId === performanceRecordId)) {
+                let index = this.state.memberPerformances.findIndex(function (element) {
+                    return element.performanceRecordId === performanceRecordId;
+                });
 
-            let page = Math.ceil((index + 1) / this.itemPerPage);
+                let page = Math.ceil((index + 1) / this.itemPerPage);
 
-            this.refs.infiniteScrollRef.pageLoaded = page;
+                this.refs.infiniteScrollRef.pageLoaded = page;
 
-            this.loadMoreMemberPerformances(page, () => {
+                this.loadMoreMemberPerformances(page, () => {
+                    this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+                });
+            } else {
                 this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
-            });
-        } else {
-            this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+            }
         }
     }
 
