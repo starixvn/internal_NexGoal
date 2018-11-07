@@ -10,6 +10,8 @@
 
         public string Comment { get; set; }
 
+        public int PerformanceRecordId { get; set; }
+
         public override string GetSettingKey() => "Nomination_Insert";
 
         public override bool IsValid() => NominationPeriodId > 0 && NomineeId > 0 && NominatorId > 0;

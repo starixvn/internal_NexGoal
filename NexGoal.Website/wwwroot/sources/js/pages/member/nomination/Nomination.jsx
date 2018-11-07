@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
+import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { DateFormat, PerformanceRecordType } from '../../../constants';
@@ -35,6 +36,18 @@ export default class Nomination extends Component {
             }).catch(axiosError);
     }
 
+    handleCreateNominationSuccess = performanceRecordId => {
+        axios.get(resolveClientUrl('MemberNomination/GetByRecordId'), {
+            params: {
+                performanceRecordId: performanceRecordId
+            }
+        }).then(response => {
+            this.setState(prevState => ({
+                nominations: [response.data, ...prevState.nominations]
+            }));
+        }).catch(axiosError);
+    }
+
     renderPerformanceRecord = (performanceRecord) => {
         let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
         let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
@@ -60,12 +73,12 @@ export default class Nomination extends Component {
     render() {
         return (
             <div className="record-list">
-                <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions} isEmployeeSelectable={!this.props.isMemberDetail} nomineeId={this.props.nomineeId} />
+                <Scrollbars style={{ height: '100%' }} autoHide={true}  >
+                    <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions} isEmployeeSelectable={!this.props.isMemberDetail}
+                        nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess} />
 
-                {
-                    this.state.nominations.length > 0 &&
-                    this.state.nominations.map(this.renderPerformanceRecord)
-                }
+                    {this.state.nominations.map(this.renderPerformanceRecord)}
+                </Scrollbars>
             </div>
         );
     }

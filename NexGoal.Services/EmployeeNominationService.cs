@@ -46,7 +46,36 @@
                 Comment = model.Comment
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            commandResult.ObjectId = criteria.PerformanceRecordId;
+
+            return commandResult;
+        }
+
+        public async Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId)
+        {
+            var criteria = new GetNominationByRecordIdCriteria
+            {
+                RecordId = performanceRecordId
+            };
+
+            var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
+
+            var performanceRecord = result.Item1.FirstOrDefault();
+            var nomination = result.Item2.FirstOrDefault();
+            var nominationPeriod = result.Item3.FirstOrDefault();
+
+            performanceRecord.Creator = await commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).ConfigureAwait(false);
+            performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
+
+            var nominee = await commonService.GetEmployeeByIdAsync(int.Parse(performanceRecord.EmployeeIds)).ConfigureAwait(false);
+            nominee.Base64Image = avatarService.GetBase64Image(nominee.Code);
+            performanceRecord.Employees = new List<EmployeeBaseModel> { nominee };
+
+            nomination.Period = nominationPeriod;
+            performanceRecord.Nomination = nomination;
+
+            return performanceRecord;
         }
 
         public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationssAsync(int nominatorId, int? memberId)

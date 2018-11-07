@@ -35,7 +35,7 @@ export default class CreateNomination extends Component {
         this.setState({ openForm: true });
     }
 
-    handleCancel = () => {
+    handleCloseForm = () => {
         this.setState({ openForm: false });
     }
 
@@ -85,6 +85,8 @@ export default class CreateNomination extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
+                this.handleCloseForm();
+                this.props.onCreateSuccess(data.objectId);
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
                 if (data.errors) {
@@ -139,7 +141,7 @@ export default class CreateNomination extends Component {
                         onChange={handleChange} />
                 </FormGroup>
                 <FormGroup>
-                    <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
+                    <Button className="btn-cancel" onClick={this.handleCloseForm}>{getResource('Cancel')}</Button>
                     <Button className="btn-primary" disabled={isSubmitting} type="submit">{getResource('Submit')}</Button>
                 </FormGroup>
             </form>

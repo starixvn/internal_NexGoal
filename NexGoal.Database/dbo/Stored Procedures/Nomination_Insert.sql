@@ -1,8 +1,8 @@
-﻿
-CREATE PROCEDURE [dbo].[Nomination_Insert] @NominationPeriodId INT
+﻿CREATE PROCEDURE [dbo].[Nomination_Insert] @NominationPeriodId INT
 	,@NomineeId INT
 	,@NominatorId INT
 	,@Comment NVARCHAR(MAX) = NULL
+	,@PerformanceRecordId INT OUTPUT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -75,7 +75,7 @@ BEGIN
 		,3
 		)
 
-	DECLARE @PerformanceRecordId INT = SCOPE_IDENTITY()
+	SET @PerformanceRecordId  = SCOPE_IDENTITY()
 
 	INSERT INTO dbo.NominationDetail (
 		NominationId

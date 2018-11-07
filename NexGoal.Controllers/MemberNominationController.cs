@@ -64,5 +64,13 @@
 
             return Json(result);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetByRecordId(int performanceRecordId)
+        {
+            var result = await employeeNominationService.GetNominationByRecordIdAsync(performanceRecordId).ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

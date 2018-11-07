@@ -13,12 +13,7 @@ Param's Explanation:
 
 */
 BEGIN
-	DECLARE @PMProcessId TINYINT = 3, @EvaluatorProcessId TINYINT = 4, @ReviewerProcessId TINYINT = 5
-
-	SELECT EmployeeId
-	INTO #tblMember
-	FROM dbo.func_GetMember(@ActorId)
-	WHERE ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+	SET NOCOUNT ON;
 
 	SELECT pr.PerformanceRecordId
 		,pr.Comment
@@ -33,8 +28,7 @@ BEGIN
 	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
 	INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) on pr.PerformanceRecordId = nd.PerformanceRecordId
 	INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId
-	WHERE EXISTS (SELECT 1 FROM #tblMember m WHERE m.EmployeeId = n.NomineeId)
-		AND pr.CreatorId = @ActorId AND nd.NominatorId = @ActorId
+	WHERE pr.CreatorId = @ActorId AND nd.NominatorId = @ActorId
 		AND (@MemberId IS NULL OR n.NomineeId = @MemberId)
 	ORDER BY pr.CreatedDate DESC
 
@@ -47,6 +41,7 @@ BEGIN
 		,StatusId
 		,NominationId
 	FROM #nominationTbl
+	ORDER BY CreatedDate DESC
 
 	SELECT n.NominationId
 		,n.EOQYId AS 'NominationPeriodId'
@@ -67,5 +62,4 @@ BEGIN
 		)
 
 	DROP TABLE #nominationTbl
-	DROP TABLE #tblMember
 END
