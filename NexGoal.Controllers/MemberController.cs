@@ -29,9 +29,10 @@
             this.nominationService = nominationService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            bool isNominator = await nominationService.IsNominator(sessionService.EmployeeId, null).ConfigureAwait(false);
+            return View(isNominator);
         }
 
         public async Task<IActionResult> Details(int id)
