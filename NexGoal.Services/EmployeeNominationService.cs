@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
-    using Fanex.Data.Repository;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EmployeeNomination;
@@ -120,6 +119,17 @@
                 record.Creator = employees.FirstOrDefault(x => x.EmployeeId == record.CreatorId);
                 record.Nomination = nominations.FirstOrDefault(x => x.NominationId == record.NominationId);
             }
+        }
+
+        public async Task<bool> IsNominator(int actorId, int? memberId)
+        {
+            var criteria = new CheckIsNominatorCriteria
+            {
+                ActorId = actorId,
+                MemberId = memberId
+            };
+
+            return await baseService.GetDataEntityAsync<bool>(criteria).ConfigureAwait(false);
         }
     }
 }

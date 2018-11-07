@@ -15,5 +15,7 @@
         Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationssAsync(int nominatorId, int? memberId);
 
         Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId);
+        
+        Task<bool> IsNominator(int actorId, int? memberId);
     }
 }

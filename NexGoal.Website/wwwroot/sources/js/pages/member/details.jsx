@@ -48,7 +48,8 @@ export default class App extends Component {
                 nickName: document.getElementById('employeeInfo-nickName').innerText,
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
-                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
+                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src'),
+                isNominator: document.getElementById('isNominator').checked
             },
             editMemberPerformance: {
                 isShowModal: false,
@@ -67,6 +68,7 @@ export default class App extends Component {
     }
 
     componentDidMount() {
+        console.log(this.state.currentUser);
         const memberId = this.state.memberInfo.id;
         const promises = [
             axios(resolveClientUrl('common/GetAllPeriods')),
@@ -307,16 +309,19 @@ export default class App extends Component {
                                         </Scrollbars>
                                     </div>
                                 </Tab>
-                                <Tab eventKey={2} title="Nomination">
-                                    {
-                                        this.state.loadNominationTab &&
-                                        <Nomination
-                                            currentUser={this.state.currentUser}
-                                            isMemberDetail={true}
-                                            nomineeId={this.state.memberInfo.id}
-                                        />
-                                    }
-                                </Tab>
+                                {
+                                    this.state.currentUser.isNominator &&
+                                    <Tab eventKey={2} title="Nomination">
+                                        {
+                                            this.state.loadNominationTab &&
+                                            <Nomination
+                                                currentUser={this.state.currentUser}
+                                                isMemberDetail
+                                                nomineeId={this.state.memberInfo.id}
+                                            />
+                                        }
+                                    </Tab>
+                                }
                             </Tabs>
 
                         </div>

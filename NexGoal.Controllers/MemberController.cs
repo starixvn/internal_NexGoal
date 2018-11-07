@@ -15,15 +15,18 @@
         private readonly ICommonService commonService;
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
+        private readonly IEmployeeNominationService nominationService;
 
         public MemberController(
             ICommonService commonService,
             ISessionService sessionService,
-            IEmployeeService employeeService)
+            IEmployeeService employeeService,
+            IEmployeeNominationService nominationService)
         {
             this.commonService = commonService;
             this.sessionService = sessionService;
             this.employeeService = employeeService;
+            this.nominationService = nominationService;
         }
 
         public IActionResult Index()
@@ -32,6 +35,7 @@
         }
 
         public async Task<IActionResult> Details(int id)
+
         {
             IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
@@ -39,9 +43,9 @@
             {
                 return RedirectToAction("AccessDenied", "Error");
             }
-
+            bool isNominator = await nominationService.IsNominator(sessionService.EmployeeId, id).ConfigureAwait(false);
             EmployeeBaseModel member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
-
+            ViewData["IsNominator"] = isNominator;
             return View(member);
         }
 

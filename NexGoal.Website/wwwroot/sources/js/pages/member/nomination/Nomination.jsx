@@ -16,7 +16,7 @@ export default class Nomination extends Component {
 
         this.state = {
             nominations: []
-        }
+        };
     }
 
     componentDidMount() {
