@@ -84,17 +84,17 @@ export default class App extends Component {
                 });
 
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
-                let timeline = personalTimelineResponse.data;
+
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
                     performanceRecords: performanceRecordResponse.data,
                     periods: periodResponse.data,
                     personalTimeline: {
-                        records: timeline.performanceRecord,
+                        records: personalTimelineResponse.data.performanceRecords,
                         pageIndex: 0,
-                        nextDisabled: timeline.pageIndex === 0,
-                        prevDisabled: timeline.isOverPCI
+                        nextDisabled: true,
+                        prevDisabled: this.timelineItemPerPage >= personalTimelineResponse.data.totalItems
                     },
                     hrmDetail: hrmDetailResponse.data,
                     nominations: nominationResponse.data,
@@ -116,13 +116,12 @@ export default class App extends Component {
                 pageSize: this.timelineItemPerPage
             }
         }).then((response) => {
-            let timelineRecord = response.data;
             this.setState({
                 personalTimeline: {
-                    records: timelineRecord.performanceRecord,
-                    pageIndex: timelineRecord.pageIndex,
-                    nextDisabled: timelineRecord.pageIndex === 0,
-                    prevDisabled: timelineRecord.isOverPCI
+                    records: response.data.performanceRecords,
+                    pageIndex: pageIndex,
+                    nextDisabled: pageIndex === 0,
+                    prevDisabled: (pageIndex + 1) * this.timelineItemPerPage >= response.data.totalItems
                 }
             });
         }).catch(axiosError);
@@ -259,7 +258,7 @@ export default class App extends Component {
                             />
                         </div>
                         <div className="record-list">
-                            <Scrollbars style={{ height: '100%' }} autoHide={true}  >
+                            <Scrollbars style={{ height: '100%' }} autoHide={true}>
                                 <CreateSelfPerformance
                                     currentUser={currentUser}
                                     performanceGradeOptions={this.state.performanceGradeOptions}

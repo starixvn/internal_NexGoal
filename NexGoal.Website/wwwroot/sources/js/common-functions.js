@@ -7,7 +7,6 @@ export const resolveClientUrl = (relativePath) => {
 };
 
 export const axiosError = (error) => {
-    debugger;
     if (error.response) {
         var url;
 

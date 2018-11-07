@@ -1,11 +1,9 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
-    using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceRecord;
-    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
     using NSubstitute;
     using Xunit;

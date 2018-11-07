@@ -38,15 +38,7 @@
             param.EmployeeId = sessionService.EmployeeId;
             Tuple<IEnumerable<PerformanceRecordModel>, int> tuple = await performanceService.GetPerformanceTimelineAsync(param).ConfigureAwait(false);
 
-            bool isOverPCI = (param.PageIndex + 1) * param.PageSize >= tuple.Item2;
-
-            return Json(new { performanceRecord = tuple.Item1, isOverPCI, pageIndex = param.PageIndex });
-        }
-
-        [Route("Self/Performance/Create")]
-        public IActionResult Create()
-        {
-            return View();
+            return Json(new { performanceRecords = tuple.Item1, totalItems = tuple.Item2 });
         }
 
         [Route("Self/Performance/Create")]
