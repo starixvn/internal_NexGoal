@@ -22,13 +22,14 @@ export default class CreateNomination extends Component {
             openForm: false,
             nominationPeriodOptions: [],
             currentDate: moment(),
+            eoqQuestions: [],
+            eoyQuestions: [],
+            initialObj: {
+                period: null,
+                employee: null,
+                comment: ''
+            }
         };
-    }
-
-    initialObj = {
-        period: null,
-        employee: null,
-        comment: ''
     }
 
     handleOpenForm = () => {
@@ -41,15 +42,20 @@ export default class CreateNomination extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
+            axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator')),
+            axios(resolveClientUrl('Common/GetEOQQuestions')),
+            axios(resolveClientUrl('Common/GetEOYQuestions')),
         ];
 
         Promise.all(promises)
-            .then(([nominationPeriodResponse]) => {
+            .then(([nominationPeriodResponse, eoqResponse, eoyResponse]) => {
                 this.setState({
+                    nominationPeriods: nominationPeriodResponse.data,
                     nominationPeriodOptions: nominationPeriodResponse.data.map(np => {
                         return { value: np.nominationPeriodId, label: np.title }
-                    })
+                    }),
+                    eoqQuestions: eoqResponse.data,
+                    eoyQuestions: eoyResponse.data
                 });
             }).catch(axiosError);
     }
@@ -113,12 +119,30 @@ export default class CreateNomination extends Component {
         handleSubmit,
         setFieldValue,
         isSubmitting }) => {
+        let onPeriodChange = (value) => {
+            var period = this.state.nominationPeriods.find(x => x.nominationPeriodId === value.value);
+            let questions = '';
+            if (period.quarter) {
+                questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
+            } else {
+                questions = this.state.eoyQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
+            }
+
+            this.setState({
+                initialObj: {
+                    period: value,
+                    employee: values.employee,
+                    comment: questions
+                }
+            });
+        }
+
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance create">
                 <FormGroup>
                     <ControlLabel className="required-label" >{getResource('NominationPeriod')}</ControlLabel>
                     <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
-                        value={values.period} onChange={value => setFieldValue('period', value)}
+                        value={values.period} onChange={onPeriodChange}
                         options={this.state.nominationPeriodOptions}
                     />
                 </FormGroup>
@@ -171,7 +195,7 @@ export default class CreateNomination extends Component {
                     }
                     {
                         this.state.openForm &&
-                        <Formik initialValues={this.initialObj} validate={this.validateForm} onSubmit={this.handleSubmit} render={this.renderForm} />
+                        <Formik enableReinitialize={true} initialValues={this.state.initialObj} validate={this.validateForm} onSubmit={this.handleSubmit} render={this.renderForm} />
                     }
                 </div>
             </div>

@@ -9,5 +9,7 @@
         public const string PerformanceStatus = "PerformanceStatus";
         public const string PerformanceGrade = "PerformanceGrade";
         public const string FocusEvaluationLevel = "FocusEvaluationLevel";
+        public const string EOQQuestion = "EOQQuestion";
+        public const string EOYQuestion = "EOYQuestion";
     }
 }

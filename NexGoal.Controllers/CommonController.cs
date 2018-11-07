@@ -136,5 +136,23 @@
             var HRMSummay = await commonService.GetHRMSummary(from, to, empId).ConfigureAwait(false);
             return Json(HRMSummay);
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetEOQQuestions()
+        {
+            string[] refNames = { ReferenceResource.EOQQuestion };
+            IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+
+            return Json(referenceResources.OrderBy(x => x.ResourceId));
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetEOYQuestions()
+        {
+            string[] refNames = { ReferenceResource.EOYQuestion };
+            IEnumerable<ReferenceResourceModel> referenceResources = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+
+            return Json(referenceResources.OrderBy(x => x.ResourceId));
+        }
     }
 }
