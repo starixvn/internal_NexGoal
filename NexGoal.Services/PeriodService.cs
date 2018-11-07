@@ -27,7 +27,7 @@
             this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<PeriodModel>> GetPeriods(bool? isActive)
+        public async Task<IEnumerable<PeriodModel>> GetPeriodAsync(bool? isActive = null)
         {
             var criteria = new GetPeriodsCriteria { IsActive = isActive };
 
@@ -41,14 +41,14 @@
             return await baseService.GetDataEntityAsync<PeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSetting(int periodId)
+        public async Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSettingAsync(int periodId)
         {
             var criteria = new GetPeriodProcessSettingCriteria { PeriodId = periodId };
 
             return await baseService.GetDataAsync<PeriodProcessSettingModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> Create(CreatePeriodModel model)
+        public async Task<CommandResult> CreateAsync(CreatePeriodModel model)
         {
             var criteria = new CreatePeriodCriteria
             {
@@ -68,7 +68,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditStatus(int periodId, bool isActive)
+        public async Task<CommandResult> EditStatusAsync(int periodId, bool isActive)
         {
             var criteria = new UpdatePeriodStatusCriteria
             {
@@ -80,7 +80,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> Delete(int periodId)
+        public async Task<CommandResult> DeleteAsync(int periodId)
         {
             var criteria = new DeletePeriodCriteria
             {
@@ -91,7 +91,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> Edit(EditPeriodModel model)
+        public async Task<CommandResult> EditAsync(EditPeriodModel model)
         {
             var criteria = new EditPeriodCriteria
             {
@@ -111,7 +111,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings)
+        public async Task<CommandResult> EditProcessSettingAsync(int periodId, IEnumerable<EditProcessSettingModel> settings)
         {
             var criteria = new EditProcessSettingCriteria
             {
@@ -123,7 +123,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isEvaluated, int? statusId)
+        public async Task<IEnumerable<PARecordModel>> GetEmployeeSettingAsync(int periodId, int? groupId = null, bool? isEvaluated = null, int? statusId = null)
         {
             var criteria = new GetEmployeeSettingsCriteria
             {
@@ -153,7 +153,7 @@
             return paRecords;
         }
 
-        public async Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId)
+        public async Task<CommandResult> CreateEmployeeSettingAsync(int periodId, string groupIds, int? employeeId = null)
         {
             var criteria = new CreateEmployeeSettingsCriteria
             {
@@ -166,7 +166,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEmployeeSettings(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes)
+        public async Task<CommandResult> EditEmployeeSettingAsync(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes)
         {
             var criteria = new EditEmployeeSettingsCriteria
             {
@@ -179,7 +179,7 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEmployeeSettingStatus(int paRecordId, int statusId)
+        public async Task<CommandResult> EditEmployeeSettingStatusAsync(int paRecordId, int statusId)
         {
             var criteria = new EditEmployeeSettingStatusCriteria
             {
@@ -191,9 +191,9 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<PARecordModel> GetEmployeeSetting(int paRecordId)
+        public async Task<PARecordModel> GetEmployeeSettingByIdAsync(int paRecordId)
         {
-            var criteria = new GetEmployeeSettingCriteria
+            var criteria = new GetEmployeeSettingByIdCriteria
             {
                 PARecordId = paRecordId
             };
@@ -217,7 +217,7 @@
             return paRecord;
         }
 
-        public async Task<CommandResult> GeneratePA(int periodId, string paRecordIds, int createdBy)
+        public async Task<CommandResult> GeneratePAAsync(int periodId, string paRecordIds, int createdBy)
         {
             var criteria = new GeneratePACriteria
             {
@@ -227,9 +227,7 @@
                 Override = true
             };
 
-            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-
-            return commandResult;
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
     }
 }

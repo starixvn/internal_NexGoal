@@ -8,32 +8,32 @@
 
     public interface IPeriodService
     {
-        Task<IEnumerable<PeriodModel>> GetPeriods(bool? isActive);
+        Task<IEnumerable<PeriodModel>> GetPeriodAsync(bool? isActive = null);
 
         Task<PeriodModel> GetByIdAsync(int periodId);
 
-        Task<CommandResult> Create(CreatePeriodModel model);
+        Task<CommandResult> CreateAsync(CreatePeriodModel model);
 
-        Task<CommandResult> EditStatus(int periodId, bool isActive);
+        Task<CommandResult> EditStatusAsync(int periodId, bool isActive);
 
-        Task<CommandResult> Delete(int periodId);
+        Task<CommandResult> DeleteAsync(int periodId);
 
-        Task<CommandResult> Edit(EditPeriodModel model);
+        Task<CommandResult> EditAsync(EditPeriodModel model);
 
-        Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSetting(int periodId);
+        Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSettingAsync(int periodId);
 
-        Task<CommandResult> EditProcessSetting(int periodId, IEnumerable<EditProcessSettingModel> settings);
+        Task<CommandResult> EditProcessSettingAsync(int periodId, IEnumerable<EditProcessSettingModel> settings);
 
-        Task<IEnumerable<PARecordModel>> GetEmployeeSettings(int periodId, int? groupId, bool? isEvaluated, int? statusId);
+        Task<IEnumerable<PARecordModel>> GetEmployeeSettingAsync(int periodId, int? groupId = null, bool? isEvaluated = null, int? statusId = null);
 
-        Task<CommandResult> CreateEmployeeSettings(int periodId, string groupIds, int? employeeId);
+        Task<CommandResult> CreateEmployeeSettingAsync(int periodId, string groupIds, int? employeeId = null);
 
-        Task<CommandResult> EditEmployeeSettings(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes);
+        Task<CommandResult> EditEmployeeSettingAsync(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes);
 
-        Task<CommandResult> EditEmployeeSettingStatus(int paRecordId, int statusId);
+        Task<CommandResult> EditEmployeeSettingStatusAsync(int paRecordId, int statusId);
 
-        Task<PARecordModel> GetEmployeeSetting(int paRecordId);
+        Task<PARecordModel> GetEmployeeSettingByIdAsync(int paRecordId);
 
-        Task<CommandResult> GeneratePA(int periodId, string paRecordIds, int createdBy);
+        Task<CommandResult> GeneratePAAsync(int periodId, string paRecordIds, int createdBy);
     }
 }

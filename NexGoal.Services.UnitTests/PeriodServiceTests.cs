@@ -20,9 +20,10 @@
         private ICommonService commonService;
 
         [Fact]
-        public async Task GetPeriods_WhenCalled_ReturnExpectedResult()
+        public async Task GetPeriodAsync_WhenCalled_ReturnAsExpectedPeriods()
         {
-            var expectedPeriods = new List<PeriodModel>
+            // Arrange
+            var expected = new List<PeriodModel>
             {
                 new PeriodModel
                 {
@@ -30,34 +31,38 @@
                     TargetTypeId = 1
                 }
             };
-
             var service = GetPeriodService();
-            baseService.GetDataAsync<PeriodModel>(Arg.Any<GetPeriodsCriteria>()).Returns(expectedPeriods);
+            baseService.GetDataAsync<PeriodModel>(Arg.Any<GetPeriodsCriteria>()).Returns(expected);
 
-            var result = await service.GetPeriods(null);
+            // Act
+            var actual = await service.GetPeriodAsync(null);
 
-            Assert.Equal(expectedPeriods.Count, result.Count());
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
         public async Task GetByIdAsync_WhenCalled_ReturnExpectedResult()
         {
-            var expectedPeriod = new PeriodModel
+            // Arrange
+            var expected = new PeriodModel
             {
                 PeriodId = 1,
                 TargetTypeId = 1
             };
 
             var service = GetPeriodService();
-            baseService.GetDataEntityAsync<PeriodModel>(Arg.Any<GetPeriodCriteria>()).Returns(expectedPeriod);
+            baseService.GetDataEntityAsync<PeriodModel>(Arg.Any<GetPeriodCriteria>()).Returns(expected);
 
-            var result = await service.GetByIdAsync(1);
+            // Act
+            var actual = await service.GetByIdAsync(1);
 
-            Assert.Equal(expectedPeriod, result);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task GetPeriodProcessSetting_WhenCalled_ReturnAsExpectedProcessSettings()
+        public async Task GetPeriodProcessSettingAsync_WhenCalled_ReturnAsExpectedProcessSettings()
         {
             // Arrange
             var processSettings = new List<PeriodProcessSettingModel>
@@ -68,75 +73,86 @@
             baseService.GetDataAsync<PeriodProcessSettingModel>(Arg.Any<GetPeriodProcessSettingCriteria>()).Returns(processSettings);
 
             // Act
-            var actual = await service.GetPeriodProcessSetting(1);
+            var actual = await service.GetPeriodProcessSettingAsync(1);
 
             // Assert
             Assert.Equal(processSettings, actual);
         }
 
         [Fact]
-        public async Task Create_ValidModel_ReturnExpectedCommandResult()
+        public async Task CreateAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
+            // Arrange
             var model = new CreatePeriodModel
             {
                 Name = "",
                 TargetTypeId = 1
             };
-
+            var expected = new CommandResult { Code = 0 };
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<CreatePeriodCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<CreatePeriodCriteria>()).Returns(expected);
 
-            var result = await service.Create(model);
+            // Act
+            var actual = await service.CreateAsync(model);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task EditStatus_ValidModel_ReturnExpectedCommandResult()
+        public async Task EditStatusAsync_ValidModel_ReturnExpectedCommandResult()
         {
+            // Arrange
+            var expected = new CommandResult { Code = 0 };
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<UpdatePeriodStatusCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<UpdatePeriodStatusCriteria>()).Returns(expected);
 
-            var result = await service.EditStatus(1, true);
+            // Act
+            var actual = await service.EditStatusAsync(1, true);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task Edit_ValidModel_ReturnExpectedCommandResult()
+        public async Task EditAsync_ValidModel_ReturnExpectedCommandResult()
         {
+            // Arrange
             var model = new EditPeriodModel
             {
                 PeriodId = 1,
                 Name = ""
             };
-
+            var expected = new CommandResult { Code = 0 };
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditPeriodCriteria>()).Returns(new CommandResult { Code = 0 });
-
-            var result = await service.Edit(model);
-
-            Assert.True(result.IsSuccessful);
-        }
-
-        [Fact]
-        public async Task Delete_WhenCalled_ReturnAsExpectedCommandResult()
-        {
-            // Arrange
-            var commandResult = new CommandResult();
-            var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<DeletePeriodCriteria>()).Returns(commandResult);
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditPeriodCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.Delete(1);
+            var actual = await service.EditAsync(model);
 
             // Assert
-            Assert.Equal(commandResult, actual);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task EditProcessSetting_ValidModel_ReturnExpectedCommandResult()
+        public async Task DeleteAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
+            // Arrange
+            var expected = new CommandResult { Code = 0 };
+            var service = GetPeriodService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<DeletePeriodCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.DeleteAsync(1);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task EditProcessSettingAsync_ValidModel_ReturnExpectedCommandResult()
+        {
+            // Arrange
             var settings = new List<EditProcessSettingModel>
             {
                 new EditProcessSettingModel
@@ -147,18 +163,21 @@
                     RemindDay = 1
                 }
             };
-
+            var expected = new CommandResult { Code = 0 };
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditProcessSettingCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditProcessSettingCriteria>()).Returns(expected);
 
-            var result = await service.EditProcessSetting(1, settings);
+            // Act
+            var actual = await service.EditProcessSettingAsync(1, settings);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task GetEmployeeSettings_WhenCalled_ReturnExpectedResult()
+        public async Task GetEmployeeSettingAsync_WhenCalled_ReturnExpectedResult()
         {
+            // Arrange
             var settings = new Tuple<IEnumerable<PARecordModel>, IEnumerable<PAProcessModel>>(
                 new List<PARecordModel>
                 {
@@ -185,48 +204,63 @@
             baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingsCriteria>()).Returns(settings);
             commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>());
 
-            var result = await service.GetEmployeeSettings(1, null, null, null);
+            // Act
+            var result = await service.GetEmployeeSettingAsync(1, null, null, null);
 
+            // Assert
             Assert.Single(result);
             Assert.Single(result.FirstOrDefault().Processes);
         }
 
         [Fact]
-        public async Task CreateEmployeeSettings_ValidData_ReturnExpectedCommanResult()
+        public async Task CreateEmployeeSettingAsync_ValidData_ReturnExpectedCommanResult()
         {
+            // Arrange
+            var expected = new CommandResult { Code = 0 };
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeSettingsCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeSettingsCriteria>()).Returns(expected);
 
-            var result = await service.CreateEmployeeSettings(1, "1", null);
+            // Act
+            var actual = await service.CreateEmployeeSettingAsync(1, "1", null);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task EditEmployeeSettings_ValidData_ReturnExpectedCommanResult()
+        public async Task EditEmployeeSettingAsync_ValidData_ReturnExpectedCommanResult()
         {
+            // Arrange
+            var expected = new CommandResult { Code = 0 };
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingsCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingsCriteria>()).Returns(expected);
 
-            var result = await service.EditEmployeeSettings(1, new[] { 1, 2 }, new List<EditEmployeeSettingModel>());
+            // Act
+            var actual = await service.EditEmployeeSettingAsync(1, new[] { 1, 2 }, new List<EditEmployeeSettingModel>());
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task EditEmployeeSettingStatus_ValidData_ReturnExpectedCommanResult()
+        public async Task EditEmployeeSettingStatusAsync_ValidData_ReturnExpectedCommanResult()
         {
+            // Arrange
+            var expected = new CommandResult { Code = 0 };
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingStatusCriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingStatusCriteria>()).Returns(expected);
 
-            var result = await service.EditEmployeeSettingStatus(1, 1);
+            // Act
+            var actual = await service.EditEmployeeSettingStatusAsync(1, 1);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task GetEmployeeSetting_WhenCalled_ReturnExpectedResult()
+        public async Task GetEmployeeSettingByIdAsync_WhenCalled_ReturnExpectedResult()
         {
+            // Arrange
             var settings = new Tuple<IEnumerable<PARecordModel>, IEnumerable<PAProcessModel>>(
                 new List<PARecordModel>
                 {
@@ -250,24 +284,30 @@
                 });
 
             var service = GetPeriodService();
-            baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingCriteria>()).Returns(settings);
+            baseService.FetchMultipleAsync<PARecordModel, PAProcessModel>(Arg.Any<GetEmployeeSettingByIdCriteria>()).Returns(settings);
             commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>());
 
-            var result = await service.GetEmployeeSetting(1);
+            // Act
+            var result = await service.GetEmployeeSettingByIdAsync(1);
 
+            // Assert
             Assert.NotNull(result);
             Assert.Single(result.Processes);
         }
 
         [Fact]
-        public async Task GeneratePA_ValidData_ReturnExpectedCommanResult()
+        public async Task GeneratePAAsync_ValidData_ReturnExpectedCommanResult()
         {
+            // Arrange
+            var expected = new CommandResult { Code = 0 };
             var service = GetPeriodService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<GeneratePACriteria>()).Returns(new CommandResult { Code = 0 });
+            baseService.ExecuteNonQueryAsync(Arg.Any<GeneratePACriteria>()).Returns(expected);
 
-            var result = await service.GeneratePA(1, "1", 1);
+            // Act
+            var actual = await service.GeneratePAAsync(1, "1", 1);
 
-            Assert.True(result.IsSuccessful);
+            // Assert
+            Assert.Equal(expected, actual);
         }
 
         #region Helpers

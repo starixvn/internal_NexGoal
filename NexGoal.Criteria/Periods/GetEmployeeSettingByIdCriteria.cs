@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetEmployeeSettingCriteria : CriteriaBase
+    public class GetEmployeeSettingByIdCriteria : CriteriaBase
     {
         public int PARecordId { get; set; }
 

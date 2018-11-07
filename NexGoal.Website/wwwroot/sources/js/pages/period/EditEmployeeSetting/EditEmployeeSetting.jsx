@@ -62,7 +62,7 @@ export default class EditEmployeeSetting extends Component {
         });
 
     getEmployeeSetting = (paRecordId) => {
-        axios(resolveClientUrl('Period/GetEmployeeSetting'), {
+        axios(resolveClientUrl('Period/GetEmployeeSettingById'), {
             params: {
                 paRecordId: paRecordId
             }
