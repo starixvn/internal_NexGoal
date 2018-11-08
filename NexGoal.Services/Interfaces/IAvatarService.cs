@@ -2,6 +2,6 @@
 {
     public interface IAvatarService
     {
-        string GetBase64Image(string code);
+        string GetFilePath(string code);
     }
 }

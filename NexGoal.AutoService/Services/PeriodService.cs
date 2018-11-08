@@ -42,13 +42,6 @@
             return baseService.ExecuteNonQuery(criteria);
         }
 
-        public CommandResult EditStatus()
-        {
-            var criteria = new EditStatusCriteria();
-
-            return baseService.ExecuteNonQuery(criteria);
-        }
-
         private IEnumerable<int> GetPeriodStarted()
         {
             var criteria = new GetPeriodStartedCriteria();

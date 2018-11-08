@@ -10,6 +10,6 @@
         public virtual string GroupName { get; set; }
         public virtual string JobTitle { get; set; }
         public virtual string Roles { get; set; }
-        public virtual string Base64Image { get; set; }
+        public virtual string Avatar { get; set; }
     }
 }

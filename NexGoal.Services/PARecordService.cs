@@ -160,7 +160,7 @@
                 process.Evaluator = employees.FirstOrDefault(x => x.EmployeeId == process.EvaluatorId);
                 if (process.Evaluator != null)
                 {
-                    process.Evaluator.Base64Image = avatarService.GetBase64Image(process.Evaluator.Code);
+                    process.Evaluator.Avatar = avatarService.GetFilePath(process.Evaluator.Code);
                 }
 
                 process.PerformanceRecord = performanceRecords.FirstOrDefault(x => x.PerformanceRecordId == process.PerformanceRecordId);

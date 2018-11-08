@@ -8,6 +8,9 @@
     <Setting Key="GetPeriodStarted" SpName="Auto_Period_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="InsertEmployeeSettings" SpName="Auto_Period_InsertEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GeneratePA" SpName="Auto_Period_GeneratePA" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="Performance Appraisal">
+    <Setting Key="EditWhenEvaluationFinished" SpName="Auto_PA_UpdateWhenEvaluationFinished" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EditPAStatus" SpName="Auto_PA_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

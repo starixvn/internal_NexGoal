@@ -9,7 +9,5 @@
         CommandResult CreateEmployeeSettings();
 
         CommandResult GeneratePA();
-
-        CommandResult EditStatus();
     }
 }

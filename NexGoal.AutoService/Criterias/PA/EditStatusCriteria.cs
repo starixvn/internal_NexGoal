@@ -1,4 +1,4 @@
-﻿namespace NexGoal.AutoService.Criterias.Period
+﻿namespace NexGoal.AutoService.Criterias.PA
 {
     public class EditStatusCriteria : CommandBaseCriteria
     {

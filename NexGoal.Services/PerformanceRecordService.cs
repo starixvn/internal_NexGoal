@@ -183,7 +183,7 @@
 
             foreach (EmployeeBaseModel employee in performanceRecord.Employees)
             {
-                employee.Base64Image = avatarService.GetBase64Image(employee.Code);
+                employee.Avatar = avatarService.GetFilePath(employee.Code);
             }
 
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
@@ -193,7 +193,7 @@
             performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
             if (performanceRecord.Creator != null)
             {
-                performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
+                performanceRecord.Creator.Avatar = avatarService.GetFilePath(performanceRecord.Creator.Code);
             }
         }
 

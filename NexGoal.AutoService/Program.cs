@@ -58,8 +58,10 @@
             services.AddTransient<IBaseRepository, BaseRepository>();
             services.AddTransient<IBaseMailService, BaseMailService>();
             services.AddTransient<IBaseService, BaseService>();
-            services.AddTransient<IPerformanceRecordService, PerformanceRecordService>();
+            services.AddTransient<IAvatarService, AvatarService>();
             services.AddTransient<IPeriodService, PeriodService>();
+            services.AddTransient<IPerformanceRecordService, PerformanceRecordService>();
+            services.AddTransient<IPAService, PAService>();
 
             services.AddTransient<IAppService, AppService>();
         }

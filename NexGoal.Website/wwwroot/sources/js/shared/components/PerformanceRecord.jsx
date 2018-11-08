@@ -26,7 +26,7 @@ export default class PerformanceRecord extends Component {
     static defaultProps = {
         objectId: 0,
         employees: [],
-        creator: { employeeId: 0, nickName: '', fullName: '', base64Image: '' },
+        creator: { employeeId: 0, nickName: '', fullName: '', avatar: '' },
         submittedDate: '',
         modifiedDate: '',
         isHost: false,
@@ -126,13 +126,13 @@ export default class PerformanceRecord extends Component {
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
                 <div className="avatar-user">
-                    <img src={creator.base64Image} className="avatar" />
+                    <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
                         <span className={this.getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
                         {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
-                                <span className="icon-checkin"></span>
+                                <span className="icon-checkin" />
                                 <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
                             </Fragment>
                         }

@@ -242,7 +242,7 @@ export default class App extends Component {
                                 <Tab eventKey={1} title="Performance">
 
                                     <div className="record-list">
-                                        <Scrollbars style={{ height: '100%' }} autoHide={true}  >
+                                        <Scrollbars style={{ height: '100%' }} autoHide={true}>
 
                                             <CreateMemberPerformance
                                                 currentUser={currentUser}

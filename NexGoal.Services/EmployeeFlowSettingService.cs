@@ -106,12 +106,11 @@
                 NickName = employee.NickName,
                 FullName = employee.FullName,
                 Code = employee.Code,
-                Base64Image = employee.Base64Image
             };
 
             foreach (FlowSettingModel flowSetting in flowSettings)
             {
-                flowSetting.Base64Image = avatarService.GetBase64Image(flowSetting.Code);
+                flowSetting.Avatar = avatarService.GetFilePath(flowSetting.Code);
                 switch (flowSetting.ProcessId)
                 {
                     case (int)PerformanceProcess.HumanResource:

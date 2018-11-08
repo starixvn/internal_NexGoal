@@ -70,7 +70,7 @@
                 EmployeeId = employeeId
             };
             var employee = await baseService.GetDataEntityAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false) ?? new EmployeeBaseModel();
-            employee.Base64Image = avatarService.GetBase64Image(employee.Code);
+            employee.Avatar = avatarService.GetFilePath(employee.Code);
 
             return employee;
         }

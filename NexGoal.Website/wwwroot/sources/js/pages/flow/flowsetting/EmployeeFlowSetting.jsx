@@ -65,7 +65,7 @@ class EmployeeFlowSetting extends Component {
                         code: data.code,
                         nickName: data.nickName,
                         fullName: data.fullName,
-                        base64Image: data.base64Image
+                        avatar: data.avatar
                     },
                     showDeleteButton: data.humanResources.length > 0 || data.evaluator !== null || data.reviewer !== null
                 });
@@ -108,7 +108,7 @@ class EmployeeFlowSetting extends Component {
                             nickName: data.nickName,
                             fullName: data.fullName,
                             code: data.code,
-                            base64Image: data.base64Image
+                            avatar: data.avatar
                         };
 
                         items.splice(toIndex, 0, item);
@@ -298,7 +298,7 @@ class EmployeeFlowSetting extends Component {
                                         {employeeSelected &&
                                             <ul>
                                                 <li className="alert alert-info">
-                                                    <img src={employeeSelected.base64Image} />
+                                                    <img src={employeeSelected.avatar} />
                                                     <p>{`${employeeSelected.nickName} (${employeeSelected.fullName})`}</p>
                                                 </li>
                                             </ul>

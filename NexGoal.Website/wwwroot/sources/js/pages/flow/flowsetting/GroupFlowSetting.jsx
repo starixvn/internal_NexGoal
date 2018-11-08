@@ -106,7 +106,7 @@ class GroupFlowSetting extends Component {
                             nickName: data.nickName,
                             fullName: data.fullName,
                             code: data.code,
-                            base64Image: data.base64Image
+                            avatar: data.avatar
                         };
 
                         items.splice(toIndex, 0, item);

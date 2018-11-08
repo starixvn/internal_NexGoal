@@ -97,7 +97,7 @@ namespace NexGoal.Services.UnitTests
             var employee = new EmployeeBaseModel { EmployeeId = 1, Code = "NEX", NickName = "Nexus" };
             var service = GetCommonService();
             baseService.GetDataEntityAsync<EmployeeBaseModel>(Arg.Any<SearchEmployeeCriteria>()).Returns(employee);
-            avatarService.GetBase64Image(Arg.Any<string>()).Returns("base64string");
+            avatarService.GetFilePath(Arg.Any<string>()).Returns("filepath");
 
             // Act
             var actual = await service.GetEmployeeByIdAsync(1);
@@ -106,7 +106,7 @@ namespace NexGoal.Services.UnitTests
             Assert.Equal(employee.EmployeeId, actual.EmployeeId);
             Assert.Equal(employee.Code, actual.Code);
             Assert.Equal(employee.NickName, actual.NickName);
-            Assert.Equal("base64string", actual.Base64Image);
+            Assert.Equal("filepath", actual.Avatar);
         }
 
         [Fact]

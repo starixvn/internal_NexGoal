@@ -28,6 +28,6 @@
         public string FullName { get; set; }
 
         [XmlIgnore]
-        public string Base64Image { get; set; }
+        public string Avatar { get; set; }
     }
 }

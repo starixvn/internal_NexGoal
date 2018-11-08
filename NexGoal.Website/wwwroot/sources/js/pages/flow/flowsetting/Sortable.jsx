@@ -36,7 +36,7 @@ class Sortable extends Component {
                 {this.props.enable &&
                     <a className="fa fa-times" onClick={(e) => this.handleOnRemoveClick(e, item.evaluatorId)} />
                 }
-                <img src={item.base64Image} />
+                <img src={item.avatar} />
                 <p>{`${item.nickName} (${item.fullName})`}</p>
             </li>
         );

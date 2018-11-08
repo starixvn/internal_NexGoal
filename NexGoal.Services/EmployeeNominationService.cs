@@ -65,10 +65,10 @@
             var nominationPeriod = result.Item3.FirstOrDefault();
 
             performanceRecord.Creator = await commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).ConfigureAwait(false);
-            performanceRecord.Creator.Base64Image = avatarService.GetBase64Image(performanceRecord.Creator.Code);
+            performanceRecord.Creator.Avatar = avatarService.GetFilePath(performanceRecord.Creator.Code);
 
             var nominee = await commonService.GetEmployeeByIdAsync(int.Parse(performanceRecord.EmployeeIds)).ConfigureAwait(false);
-            nominee.Base64Image = avatarService.GetBase64Image(nominee.Code);
+            nominee.Avatar = avatarService.GetFilePath(nominee.Code);
             performanceRecord.Employees = new List<EmployeeBaseModel> { nominee };
 
             nomination.Period = nominationPeriod;
@@ -99,12 +99,15 @@
             return performanceRecords;
         }
 
-        private void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<EmployeeBaseModel> employees, IEnumerable<NominationModel> nominations,
+        private void MappingData(
+            IEnumerable<PerformanceRecordModel> performanceRecords,
+            IEnumerable<EmployeeBaseModel> employees,
+            IEnumerable<NominationModel> nominations,
             IEnumerable<NominationPeriodModel> nominationPeriods)
         {
             foreach (var employee in employees)
             {
-                employee.Base64Image = avatarService.GetBase64Image(employee.Code);
+                employee.Avatar = avatarService.GetFilePath(employee.Code);
             }
 
             foreach (var nomination in nominations)

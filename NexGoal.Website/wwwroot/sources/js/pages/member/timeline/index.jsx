@@ -132,7 +132,7 @@ export default class Timeline extends Component {
                 <h5 className="title">Member Performance{currentPerformancePeriod ? ` - ${currentPerformancePeriod.name}` : ''}</h5>
                 {
                     groupOptions && groupOptions.length > 1 &&
-                    <div class="ddl-team">
+                    <div className="ddl-team">
                         <div className="team">{getResource('Team')}</div>
                         <Multiselect className="react-select-container" classNamePrefix="react-select"
                             value={this.state.filter.groups}
