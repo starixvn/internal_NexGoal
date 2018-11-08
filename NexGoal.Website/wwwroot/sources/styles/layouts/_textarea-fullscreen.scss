@@ -4,7 +4,7 @@
     .textarea-fullscreen-editor {
         textarea {
             height: 100%;
-            resize: none;
+            resize: vertical;
         }
 
         &.expanded {
@@ -15,10 +15,12 @@
             height: 100%;
             z-index: 1500;
             background-color: #fff;
+
             .header {
                 position: relative;
                 height: 36px;
                 border-bottom: 2px solid #ccc;
+
                 &:after {
                     content: '\e91f';
                     font-family: 'NexGoalIcon';
@@ -29,20 +31,23 @@
                     cursor: pointer;
                 }
             }
-           
+
             .fullscreen-content {
                 width: 800px;
                 margin: 0 auto;
                 height: 100%;
             }
+
             textarea {
                 border: none;
                 height: calc(100% - 40px);
                 padding: 16px 0;
+
                 .input-validation-error {
                     box-shadow: none;
                 }
-                &:focus{
+
+                &:focus {
                     box-shadow: none;
                 }
             }

@@ -7,9 +7,11 @@
     margin-bottom: 16px;
     padding: 16px;
     margin: 12px;
+
     &.highlighted {
         border: 2px solid #2475D7;
     }
+
     &:focus-within {
         box-shadow: 0 0 32px #cecece;
     }
@@ -38,6 +40,7 @@
                 font-weight: 700;
                 font-size: 16px;
             }
+
             .draft {
                 font-size: 11px;
                 background-color: rgba(#000, 0.1);
@@ -48,6 +51,7 @@
                 border-radius: 10px;
                 margin-left: 8px;
             }
+
             .icon-checkin {
                 margin: 0 4px 0 8px;
             }
@@ -99,10 +103,6 @@
         position: relative;
         font-size: 14px;
         padding-bottom: 16px;
-        textarea {
-            resize: vertical;
-            min-height: 80px;
-        }
 
         .icon-fullmode {
             position: absolute;
@@ -110,10 +110,11 @@
             top: 8px;
             cursor: pointer;
         }
+
         p {
             overflow: hidden;
             white-space: pre-wrap;
-            margin : 0;
+            margin: 0;
 
             &.collapsed {
                 max-height: 55px;
