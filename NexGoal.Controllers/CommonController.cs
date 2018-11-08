@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -17,15 +16,18 @@
         private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IEmployeeService employeeService;
+        private readonly IPeriodService periodService;
 
         public CommonController(
             ISessionService sessionService,
             ICommonService commonService,
-            IEmployeeService employeeService)
+            IEmployeeService employeeService,
+            IPeriodService periodService)
         {
             this.sessionService = sessionService;
             this.commonService = commonService;
             this.employeeService = employeeService;
+            this.periodService = periodService;
         }
 
         [HttpGet]
@@ -130,10 +132,10 @@
         [HttpGet]
         public async Task<JsonResult> GetHRMSummary(int? memberId = null)
         {
-            var from = new DateTime(DateTime.Now.Year, 1, 1);
-            var to = DateTime.Now;
+            var period = await periodService.GetCurrentPeriod().ConfigureAwait(false);
             var empId = memberId ?? sessionService.EmployeeId;
-            var HRMSummay = await commonService.GetHRMSummary(from, to, empId).ConfigureAwait(false);
+            var HRMSummay = await commonService.GetHRMSummary(period.StartDate, period.EndDate, empId).ConfigureAwait(false);
+
             return Json(HRMSummay);
         }
 

@@ -237,5 +237,6 @@
     <Build Include="dbo\Stored Procedures\Employee_GetGroup.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominations.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByRecordId.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_CheckIsNominator.sql" />
   </ItemGroup>
 </Project>

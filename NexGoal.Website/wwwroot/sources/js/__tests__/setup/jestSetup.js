@@ -1,10 +1,18 @@
 ﻿window._virtualConsole.removeAllListeners("jsdomError");
 
 document.getElementById = (id) => {
+    let input;
     if (id === "RootURL") {
-        let input = document.createElement("input", { value: "/" });
+        input = document.createElement("input", { value: "/" });
         return input;
+    } else {
+        input = document.createElement("input", {
+            value: "test",
+            innerText: "test",
+            attribute: (atr) => { return "image src"; }
+        });
     }
+    return input;
 };
 
 document.getElementByName = (name) => {

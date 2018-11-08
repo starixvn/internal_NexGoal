@@ -118,7 +118,7 @@
             return await baseService.GetDataEntityAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<HRMSummaryModel> GetHRMSummary(DateTime from, DateTime to, int empId)
+        public async Task<HRMSummaryModel> GetHRMSummary(DateTime? from, DateTime? to, int empId)
         {
             var criteria = new GetHRMSummaryCriteria
             {
