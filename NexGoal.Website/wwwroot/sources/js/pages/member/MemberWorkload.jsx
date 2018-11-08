@@ -65,7 +65,7 @@ export default class MemberWorkload extends Component {
                 ... {
                     title: {
                         display: true,
-                        text: `${groupWorkload.groupName} (${totalHours} hours)`
+                        text: `${groupWorkload.groupName} (${totalHours.toFixed(2)} hours)`
                     }
                 }
             }
