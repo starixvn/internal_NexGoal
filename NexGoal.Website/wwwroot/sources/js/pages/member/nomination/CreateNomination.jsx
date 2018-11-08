@@ -68,6 +68,10 @@ export default class CreateNomination extends Component {
             errors.employee = 'Employee is required!';
         }
 
+        if (!values.comment) {
+            errors.comment = 'Comment is required!';
+        }
+
         return errors;
     }
 
@@ -154,9 +158,9 @@ export default class CreateNomination extends Component {
                     </FormGroup>
                 }
                 <FormGroup>
-                    <ControlLabel>{getResource('Comment')}</ControlLabel>
+                    <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                     <TextareaFullscreenEditor
-                        className="form-control comment-field"
+                        className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
                         name="comment"
                         value={values.comment}
                         onChange={handleChange} />

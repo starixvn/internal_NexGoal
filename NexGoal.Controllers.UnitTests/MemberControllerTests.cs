@@ -18,6 +18,7 @@
         private ISessionService sessionService;
         private IEmployeeService employeeService;
         private IEmployeeNominationService nominationService;
+        private IRedmineService redmineService;
 
         [Fact]
         public async Task Index_WhenCalled_ReturnsAsExpectedViewResult()
@@ -154,7 +155,8 @@
             employeeService = Substitute.For<IEmployeeService>();
             commonService = Substitute.For<ICommonService>();
             nominationService = Substitute.For<IEmployeeNominationService>();
-            var controller = new MemberController(commonService, sessionService, employeeService, nominationService);
+            redmineService = Substitute.For<IRedmineService>();
+            var controller = new MemberController(commonService, sessionService, employeeService, nominationService, redmineService);
 
             return controller;
         }
