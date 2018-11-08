@@ -20,7 +20,9 @@ export default class CreateNomination extends Component {
 
         this.state = {
             openForm: false,
-            nominationPeriodOptions: [],
+            nominationPeriodOptions: props.nominationPeriods.map(np => {
+                return { value: np.nominationPeriodId, label: np.title }
+            }),
             currentDate: moment(),
             eoqQuestions: [],
             eoyQuestions: [],
@@ -42,18 +44,13 @@ export default class CreateNomination extends Component {
 
     componentDidMount() {
         const promises = [
-            axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator')),
             axios(resolveClientUrl('Common/GetEOQQuestions')),
             axios(resolveClientUrl('Common/GetEOYQuestions')),
         ];
 
         Promise.all(promises)
-            .then(([nominationPeriodResponse, eoqResponse, eoyResponse]) => {
+            .then(([eoqResponse, eoyResponse]) => {
                 this.setState({
-                    nominationPeriods: nominationPeriodResponse.data,
-                    nominationPeriodOptions: nominationPeriodResponse.data.map(np => {
-                        return { value: np.nominationPeriodId, label: np.title }
-                    }),
                     eoqQuestions: eoqResponse.data,
                     eoyQuestions: eoyResponse.data
                 });
@@ -120,7 +117,7 @@ export default class CreateNomination extends Component {
         setFieldValue,
         isSubmitting }) => {
         let onPeriodChange = (value) => {
-            var period = this.state.nominationPeriods.find(x => x.nominationPeriodId === value.value);
+            var period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
             let questions = '';
             if (period.quarter) {
                 questions = this.state.eoqQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");

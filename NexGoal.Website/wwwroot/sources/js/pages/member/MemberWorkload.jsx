@@ -50,20 +50,27 @@ export default class MemberWorkload extends Component {
         }
     }
 
-    generateWorkload = (groupWorkload) => ({
-        groupId: groupWorkload.groupId,
-        groupName: groupWorkload.groupName,
-        chartData: this.generateDataSets(groupWorkload.employeeWorkloads),
-        chartOptions: {
-            ... this.chartOptions,
-            ... {
-                title: {
-                    display: true,
-                    text: groupWorkload.groupName
+    generateWorkload = (groupWorkload) => {
+        var totalHours = 0;
+        groupWorkload.employeeWorkloads.forEach(e => {
+            totalHours += e.workloads.reduce((total, current) => total + current.totalHours, 0)
+        })
+
+        return {
+            groupId: groupWorkload.groupId,
+            groupName: groupWorkload.groupName,
+            chartData: this.generateDataSets(groupWorkload.employeeWorkloads),
+            chartOptions: {
+                ... this.chartOptions,
+                ... {
+                    title: {
+                        display: true,
+                        text: `${groupWorkload.groupName} (${totalHours} hours)`
+                    }
                 }
             }
         }
-    })
+    }
 
     generateDataSets = (workloads) => {
         let labels = workloads.map((member) => member.nickName);

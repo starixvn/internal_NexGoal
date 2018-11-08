@@ -8,6 +8,7 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.Redmine;
     using NexGoal.Services;
 
     public class MemberController : Controller
@@ -16,17 +17,20 @@
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
         private readonly IEmployeeNominationService nominationService;
+        private readonly IRedmineService redmineService;
 
         public MemberController(
             ICommonService commonService,
             ISessionService sessionService,
             IEmployeeService employeeService,
-            IEmployeeNominationService nominationService)
+            IEmployeeNominationService nominationService,
+            IRedmineService redmineService)
         {
             this.commonService = commonService;
             this.sessionService = sessionService;
             this.employeeService = employeeService;
             this.nominationService = nominationService;
+            this.redmineService = redmineService;
         }
 
         public async Task<IActionResult> Index()
@@ -73,6 +77,14 @@
                 employeeId).ConfigureAwait(false);
 
             return Json(nominationDetails);
+        }
+
+        [HttpGet]
+        public async Task<JsonResult> GetMembersWorkload(int periodId)
+        {
+            IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(sessionService.EmployeeId, periodId).ConfigureAwait(false);
+
+            return Json(teamWorkloads);
         }
     }
 }

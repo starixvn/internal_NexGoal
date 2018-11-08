@@ -15,7 +15,8 @@ export default class Nomination extends Component {
         super(props);
 
         this.state = {
-            nominations: []
+            nominations: [],
+            nominationPeriods: []
         };
     }
 
@@ -25,13 +26,15 @@ export default class Nomination extends Component {
                 params: {
                     memberId: this.props.isMemberDetail ? this.props.nomineeId : null
                 }
-            })
+            }),
+            axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
         ];
 
         Promise.all(promises)
-            .then(([nominationResponse]) => {
+            .then(([nominationResponse, nominationPeriodResponse]) => {
                 this.setState({
-                    nominations: nominationResponse.data
+                    nominations: nominationResponse.data,
+                    nominationPeriods: nominationPeriodResponse.data,
                 });
             }).catch(axiosError);
     }
@@ -74,8 +77,10 @@ export default class Nomination extends Component {
         return (
             <div className="record-list">
                 <Scrollbars style={{ height: '100%' }} autoHide={true}  >
-                    <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions} isEmployeeSelectable={!this.props.isMemberDetail}
-                        nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess} />
+                    {this.state.nominationPeriods.length > 0 &&
+                        <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions}
+                            nominationPeriods={this.state.nominationPeriods} isEmployeeSelectable={!this.props.isMemberDetail}
+                            nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess} />}
 
                     {this.state.nominations.map(this.renderPerformanceRecord)}
                 </Scrollbars>

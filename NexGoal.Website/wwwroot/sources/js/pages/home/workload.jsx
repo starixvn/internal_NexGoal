@@ -38,7 +38,7 @@ export default class WorkLoad extends PureComponent {
             let data = workload.slice(0, 5).map(e => e.totalHours);
 
             let othersValue = workload.slice(5, workload.length).reduce(function (total, current) {
-                return total += current.totalHours;
+                return total + current.totalHours;
             }, 0);
 
             data.push(othersValue);
