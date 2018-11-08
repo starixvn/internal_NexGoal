@@ -16,15 +16,19 @@ export default class Nomination extends Component {
 
         this.state = {
             nominations: [],
-            nominationPeriods: []
+            nominationPeriods: [],
+            hasMore: false
         };
+
+        this.itemPerPage = 8;
     }
 
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('MemberNomination/GetMemberNominations'), {
                 params: {
-                    memberId: this.props.isMemberDetail ? this.props.nomineeId : null
+                    memberId: this.props.isMemberDetail ? this.props.nomineeId : null,
+                    pageSize: this.itemPerPage
                 }
             }),
             axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
@@ -33,10 +37,29 @@ export default class Nomination extends Component {
         Promise.all(promises)
             .then(([nominationResponse, nominationPeriodResponse]) => {
                 this.setState({
-                    nominations: nominationResponse.data,
+                    nominations: nominationResponse.data.nominations,
+                    hasMore: nominationResponse.data.nominations.length < nominationResponse.data.total,
                     nominationPeriods: nominationPeriodResponse.data,
                 });
             }).catch(axiosError);
+    }
+
+    loadMoreNominations = page => {
+        axios.get(resolveClientUrl('MemberNomination/GetMemberNominations'), {
+            params: {
+                memberId: this.props.isMemberDetail ? this.props.nomineeId : null,
+                pageSize: this.itemPerPage,
+                page: page
+            }
+        }).then(reponse => {
+            this.setState(prevState => {
+                let nominations = [...prevState.nominations, ...reponse.data.nominations];
+                return {
+                    nominations: nominations,
+                    hasMore: nominations.length < reponse.data.total
+                }
+            });
+        }).catch(axiosError)
     }
 
     handleCreateNominationSuccess = performanceRecordId => {
@@ -82,7 +105,16 @@ export default class Nomination extends Component {
                             nominationPeriods={this.state.nominationPeriods} isEmployeeSelectable={!this.props.isMemberDetail}
                             nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess} />}
 
-                    {this.state.nominations.map(this.renderPerformanceRecord)}
+                    <InfiniteScroll
+                        pageStart={1}
+                        initialLoad={false}
+                        loadMore={this.loadMoreNominations}
+                        hasMore={this.state.hasMore}
+                        threshold={0}
+                        useWindow={false}
+                    >
+                        {this.state.nominations.map(this.renderPerformanceRecord)}
+                    </InfiniteScroll>
                 </Scrollbars>
             </div>
         );

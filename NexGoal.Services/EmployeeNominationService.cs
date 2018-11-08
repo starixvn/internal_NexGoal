@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -77,12 +78,14 @@
             return performanceRecord;
         }
 
-        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationssAsync(int nominatorId, int? memberId)
+        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetMemberNominationssAsync(int nominatorId, int? memberId, int pageSize, int page)
         {
             var criteria = new GetMemberNominationCriteria
             {
                 ActorId = nominatorId,
-                MemberId = memberId
+                MemberId = memberId,
+                PageSize = pageSize,
+                Page = page
             };
 
             var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
@@ -96,7 +99,7 @@
 
             MappingData(performanceRecords, employees, nominations, nominationPeriods);
 
-            return performanceRecords;
+            return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.Total);
         }
 
         private void MappingData(

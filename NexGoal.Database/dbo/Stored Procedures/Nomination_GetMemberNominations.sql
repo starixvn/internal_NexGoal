@@ -1,6 +1,9 @@
 ﻿CREATE PROCEDURE [dbo].[Nomination_GetMemberNominations] 
 	@ActorId INT
 	,@MemberId INT = NULL
+	,@Page INT
+	,@PageSize INT
+	,@Total INT OUT
 AS
 /*
 Created: 201801105@Elton.Ton
@@ -14,6 +17,13 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
+
+	SELECT @Total = COUNT(*)
+	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
+	INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) on pr.PerformanceRecordId = nd.PerformanceRecordId
+	INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId
+	WHERE pr.CreatorId = @ActorId AND nd.NominatorId = @ActorId
+		AND (@MemberId IS NULL OR n.NomineeId = @MemberId)
 
 	SELECT pr.PerformanceRecordId
 		,pr.Comment
@@ -31,6 +41,8 @@ BEGIN
 	WHERE pr.CreatorId = @ActorId AND nd.NominatorId = @ActorId
 		AND (@MemberId IS NULL OR n.NomineeId = @MemberId)
 	ORDER BY pr.CreatedDate DESC
+	OFFSET (@Page - 1) * @PageSize ROWS
+	FETCH NEXT @PageSize ROWS ONLY
 
 	SELECT PerformanceRecordId
 		,Comment

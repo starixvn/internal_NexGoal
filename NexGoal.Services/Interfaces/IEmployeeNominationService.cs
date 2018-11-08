@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
@@ -12,7 +13,7 @@
 
         Task<CommandResult> Create(CreateEmployeeNominationModel model);
 
-        Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationssAsync(int nominatorId, int? memberId);
+        Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetMemberNominationssAsync(int nominatorId, int? memberId, int pageSize, int page);
 
         Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId);
 

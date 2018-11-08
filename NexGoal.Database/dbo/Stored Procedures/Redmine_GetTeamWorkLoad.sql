@@ -21,10 +21,21 @@ BEGIN
 		WHERE p.PeriodId = @PeriodId
 	END
 
-	SELECT m.EmployeeId, m.ProcessId, m.RoleId
+	SELECT p.EmployeeId
+		,MIN(p.Priority) AS Priority
 	INTO #member
-	FROM dbo.func_GetMember(@EmployeeId) m
-	WHERE m.ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+	FROM (
+		SELECT m.EmployeeId
+		,(CASE 
+			WHEN ProcessId = @EvaluatorProcessId THEN 1
+			WHEN ProcessId = @ReviewerProcessId THEN 2
+			ELSE 3 END
+		) AS [Priority]
+		FROM dbo.func_GetMember(@EmployeeId) m
+		WHERE m.ProcessId IS NOT NULL
+
+	) p
+	GROUP BY p.EmployeeId
 
 	SELECT g.GroupId
 		 ,g.Name as GroupName
@@ -37,20 +48,18 @@ BEGIN
 	INNER JOIN [dbo].[Group] as g WITH (NOLOCK) ON e.GroupId = g.GroupId
 	INNER JOIN dbo.ProjectSpentTime pst WITH (NOLOCK) ON e.EmployeeId = pst.EmployeeId
 	INNER JOIN dbo.Project p WITH (NOLOCK) ON pst.ProjectId = p.ProjectId
+	INNER JOIN #member m ON m.EmployeeId = e.EmployeeId
 	WHERE e.IsDeleted = 0
 		AND e.[Enabled] = 1
 		AND pst.SpentOn BETWEEN @fromDate AND @toDate
-		AND EXISTS (
-					SELECT 1
-					FROM #member m
-					WHERE m.EmployeeId = e.EmployeeId
-		)
 	GROUP BY g.GroupId
 		,g.Name
 		,e.EmployeeId
 		,e.NickName
 		,p.ProjectId
 		,p.Name
-
+		,m.Priority
+	ORDER BY m.Priority, e.NickName
+	
 	DROP TABLE #member
 END
