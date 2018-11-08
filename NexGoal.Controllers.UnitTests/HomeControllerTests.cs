@@ -73,26 +73,6 @@
         }
 
         [Fact]
-        public async Task GetMembersWorkload_WhenCalled_ReturnAsExpectedWorkloads()
-        {
-            // Arrange
-            var expected = new List<TeamWorkloadModel>
-            {
-                new TeamWorkloadModel { GroupId = 1, GroupName = "Nexus" }
-            };
-            var homeController = GetHomeController();
-            redmineService.GetTeamWorkload(sessionService.EmployeeId, 1).Returns(expected);
-
-            // Act
-            var result = await homeController.GetMembersWorkload(1);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<TeamWorkloadModel>>(jsonResult.Value);
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
         public async Task GetNominationResult_WhenCalled_ReturnAsExpectedNominations()
         {
             // Arrange

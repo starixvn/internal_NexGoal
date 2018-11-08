@@ -8,6 +8,7 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.Redmine;
     using NexGoal.Services;
     using NSubstitute;
     using Xunit;
@@ -136,6 +137,26 @@
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
             var actual = Assert.IsAssignableFrom<IEnumerable<EmployeeNominationModel>>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetMembersWorkload_WhenCalled_ReturnAsExpectedWorkloads()
+        {
+            // Arrange
+            var expected = new List<TeamWorkloadModel>
+            {
+                new TeamWorkloadModel { GroupId = 1, GroupName = "Nexus" }
+            };
+            var controller = GetMemberController();
+            redmineService.GetTeamWorkload(sessionService.EmployeeId, 1).Returns(expected);
+
+            // Act
+            var result = await controller.GetMembersWorkload(1);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<TeamWorkloadModel>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
