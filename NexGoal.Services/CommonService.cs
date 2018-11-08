@@ -122,8 +122,6 @@
             var currentPeriod = await GetCurrentPerformancePeriodAsync().ConfigureAwait(false);
             var criteria = new GetHRMSummaryCriteria
             {
-                FromDate = currentPeriod.StartDate,
-                ToDate = currentPeriod.EndDate,
                 EmployeeId = empId
             };
 
