@@ -174,13 +174,32 @@
     .project {
         grid-column: 2;
         grid-row: 3;
-        .tag {
-            display: inline-block;
+        .tag, .react-select__multi-value {
+            @include border-radius(2px);            
             border: 1px solid #B0CBDD;
             background-color: #E1EEF7;
             margin: 0 4px;
             padding: 0px 4px 2px;
             font-size: 11px;
+        }
+        .tag {
+            display: inline-block;
+            padding: 2px 4px 3px;
+        }
+        .react-select__multi-value {
+            display: inherit;
+            .react-select__multi-value__label {
+                font-size: 100%;
+                padding: 2px 0 1px;
+            }
+            .react-select__multi-value__remove {
+                position: relative;
+                top: 1px;
+                &:hover {
+                    background-color: transparent;
+                    cursor: pointer;
+                }
+            }
         }
     }
 }
