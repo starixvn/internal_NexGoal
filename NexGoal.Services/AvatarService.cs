@@ -18,10 +18,10 @@
 
             if (File.Exists(filePath))
             {
-                return $"dist/avatars/{code}.jpg";
+                return $"/dist/avatars/{code}.jpg";
             }
 
-            return "dist/avatars/avatar.jpg";
+            return "/dist/avatars/avatar.jpg";
         }
     }
 }
