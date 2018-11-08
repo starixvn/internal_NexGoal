@@ -21,7 +21,7 @@ export default class MemberWorkload extends Component {
     }
 
     getMembersWorkloads = () => {
-        axios.get(resolveClientUrl('Home/GetMembersWorkload'), {
+        axios.get(resolveClientUrl('Member/GetMembersWorkload'), {
             params: {
                 periodId: this.props.periods[this.state.currentPeriodIndex].periodId
             }
@@ -228,7 +228,7 @@ export default class MemberWorkload extends Component {
                         <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
                     </div>
                 </div>
-                {this.state.groupOptions.length > 0 &&
+                {this.state.groupOptions.length > 1 &&
                     <div>
                         <div className="team">Team</div>
                         <Multiselect className="react-select-container" classNamePrefix="react-select"
