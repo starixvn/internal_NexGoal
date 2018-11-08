@@ -229,12 +229,5 @@
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
-
-        public async Task<PeriodBaseModel> GetCurrentPeriod()
-        {
-            var criteria = new GetCurrentPerformancePeriodCriteria();
-
-            return await baseService.GetDataEntityAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
-        }
     }
 }

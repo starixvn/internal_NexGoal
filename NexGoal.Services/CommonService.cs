@@ -1,6 +1,5 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -118,12 +117,13 @@
             return await baseService.GetDataEntityAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<HRMSummaryModel> GetHRMSummary(DateTime? from, DateTime? to, int empId)
+        public async Task<HRMSummaryModel> GetHRMSummary(int empId)
         {
+            var currentPeriod = await GetCurrentPerformancePeriodAsync().ConfigureAwait(false);
             var criteria = new GetHRMSummaryCriteria
             {
-                FromDate = from,
-                ToDate = to,
+                FromDate = currentPeriod.StartDate,
+                ToDate = currentPeriod.EndDate,
                 EmployeeId = empId
             };
 

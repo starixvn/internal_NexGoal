@@ -16,18 +16,15 @@
         private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly IEmployeeService employeeService;
-        private readonly IPeriodService periodService;
 
         public CommonController(
             ISessionService sessionService,
             ICommonService commonService,
-            IEmployeeService employeeService,
-            IPeriodService periodService)
+            IEmployeeService employeeService)
         {
             this.sessionService = sessionService;
             this.commonService = commonService;
             this.employeeService = employeeService;
-            this.periodService = periodService;
         }
 
         [HttpGet]
@@ -132,9 +129,8 @@
         [HttpGet]
         public async Task<JsonResult> GetHRMSummary(int? memberId = null)
         {
-            var period = await periodService.GetCurrentPeriod().ConfigureAwait(false);
             var empId = memberId ?? sessionService.EmployeeId;
-            var HRMSummay = await commonService.GetHRMSummary(period.StartDate, period.EndDate, empId).ConfigureAwait(false);
+            var HRMSummay = await commonService.GetHRMSummary(empId).ConfigureAwait(false);
 
             return Json(HRMSummay);
         }

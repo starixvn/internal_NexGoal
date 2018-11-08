@@ -310,27 +310,6 @@
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public async Task GetCurrentPeriod_WhenCalled_ReturnExpectedResult()
-        {
-            // Arrange
-            var expected = new PeriodBaseModel
-            {
-                PeriodId = 1,
-                StartDate = DateTime.Now.AddMonths(-6),
-                EndDate = DateTime.Now
-            };
-
-            var service = GetPeriodService();
-            baseService.GetDataEntityAsync<PeriodBaseModel>(Arg.Any<GetCurrentPerformancePeriodCriteria>()).Returns(expected);
-
-            // Act
-            var actual = await service.GetCurrentPeriod();
-
-            // Assert
-            Assert.Equal(expected, actual);
-        }
-
         #region Helpers
 
         private ISessionService FakeSessionService()

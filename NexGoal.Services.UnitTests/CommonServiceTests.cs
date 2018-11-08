@@ -112,13 +112,24 @@ namespace NexGoal.Services.UnitTests
         [Fact]
         public async Task GetHRMSummary_WhenCalled_ReturnExpectedResult()
         {
-            var expectResult = new HRMSummaryModel();
+            var expectResult = new HRMSummaryModel
+            {
+                UnpaidLeave = 1
+            };
+
             var service = GetCommonService();
+            var currentPeriod = new PeriodBaseModel
+            {
+                PeriodId = 1,
+                StartDate = DateTime.Now.AddMonths(-6),
+                EndDate = DateTime.Now
+            };
+            baseService.GetDataEntityAsync<PeriodBaseModel>(Arg.Any<GetCurrentPerformancePeriodCriteria>()).Returns(currentPeriod);
             baseService.GetDataEntityAsync<HRMSummaryModel>(Arg.Any<GetHRMSummaryCriteria>()).Returns(expectResult);
 
-            var result = await service.GetHRMSummary(DateTime.Today, DateTime.Today.AddMonths(1), 363);
+            var actual = await service.GetHRMSummary(363);
 
-            Assert.NotNull(result);
+            Assert.Equal(expectResult, actual);
         }
 
         [Fact]

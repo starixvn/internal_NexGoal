@@ -18,7 +18,6 @@
         private ISessionService sessionService;
         private ICommonService commonService;
         private IEmployeeService employeeService;
-        private IPeriodService periodService;
 
         [Fact]
         public async Task GetEmployees_WhenCalled_ReturnAsExpectedEmployees()
@@ -90,14 +89,8 @@
                 ToeicExamDate = DateTime.Now,
                 Incident = 0
             };
-            var currentPeriod = new PeriodBaseModel
-            {
-                PeriodId = 1,
-                StartDate = DateTime.Now.AddMonths(-6),
-                EndDate = DateTime.Now
-            };
-            periodService.GetCurrentPeriod().Returns(currentPeriod);
-            commonService.GetHRMSummary(currentPeriod.StartDate, currentPeriod.EndDate, 363).Returns(expectResult);
+
+            commonService.GetHRMSummary(363).Returns(expectResult);
 
             var result = await controller.GetHRMSummary();
 
@@ -276,8 +269,7 @@
             sessionService = FakeSessionService();
             commonService = Substitute.For<ICommonService>();
             employeeService = Substitute.For<IEmployeeService>();
-            periodService = Substitute.For<IPeriodService>();
-            var controller = new CommonController(sessionService, commonService, employeeService, periodService);
+            var controller = new CommonController(sessionService, commonService, employeeService);
 
             return controller;
         }
