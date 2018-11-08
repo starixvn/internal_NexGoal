@@ -10,6 +10,8 @@
 
         public int MissingCheckInCheckOut { get; set; }
 
+        public float AverageWorkingDays { get; set; }
+
         public int Incident { get; set; }
 
         public int TotalLateInEarlyOut { get; set; }
@@ -17,5 +19,22 @@
         public int UnpaidLeave { get; set; }
 
         public int UnplanedAnnualLeave { get; set; }
+
+        public float TotalSpentTime { get; set; }
+
+        public float TotalWorkHours { get; set; }
+
+        public string AverageSpentTime
+        {
+            get
+            {
+                if (TotalWorkHours > 0)
+                {
+                    var avarage = Math.Round((TotalSpentTime / TotalWorkHours) * 100, 2);
+                    return string.Format("{0}{1}", avarage, "%");
+                }
+                return "N/A";
+            }
+        }
     }
 }

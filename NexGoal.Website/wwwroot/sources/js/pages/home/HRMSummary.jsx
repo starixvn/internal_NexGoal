@@ -10,6 +10,8 @@ export default function HrmDetail(props) {
                     TOEIC score: {`${props.hrmDetail.toeicScore > 0 ? `${props.hrmDetail.toeicScore} (${moment(props.hrmDetail.toeicExamDate).format("DD MMM, YYYY")})` : 'N/A'}`}
                 </li>
                 <li>Missing Check In/Out: {props.hrmDetail.missingCheckInCheckOut}</li>
+                <li>Average Working Days: {props.hrmDetail.averageWorkingDays}</li>
+                <li>Average Spent Time: {props.hrmDetail.averageSpentTime}</li>
                 <li>Late In/Early Out: {props.hrmDetail.totalLateInEarlyOut}</li>
                 <li>Unpaid leave: {props.hrmDetail.unpaidLeave}</li>
                 <li>Unplaned Annual Leave: {props.hrmDetail.unplanedAnnualLeave}</li>
