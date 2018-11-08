@@ -121,7 +121,7 @@ export default class PerformanceRecord extends Component {
     render() {
         let employees = this.props.employees;
         let creator = this.props.creator;
-        let projects = this.props.projects && this.props.projects.length > 0 ? this.props.projects.join(', ') : 'N/A';
+        let projects = this.props.projects && this.props.projects.length > 0 ? this.props.projects.map((e, i) => <span key={i} className="tag">{e}</span>) : 'N/A';
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>

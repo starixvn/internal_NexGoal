@@ -155,7 +155,6 @@
 
     .grade, .project {
         &-detail {
-            margin-top: 4px;
             padding: 0 8px;
             display: inline-block
         }
@@ -175,5 +174,13 @@
     .project {
         grid-column: 2;
         grid-row: 3;
+        .tag {
+            display: inline-block;
+            border: 1px solid #B0CBDD;
+            background-color: #E1EEF7;
+            margin: 0 4px;
+            padding: 0px 4px 2px;
+            font-size: 11px;
+        }
     }
 }
