@@ -40,7 +40,7 @@
 
             textarea {
                 border: none;
-                height: calc(100% - 40px);
+                height: calc(100% - 40px) !important;
                 padding: 16px 0;
 
                 .input-validation-error {

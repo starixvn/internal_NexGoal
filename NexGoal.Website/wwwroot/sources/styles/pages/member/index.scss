@@ -89,10 +89,16 @@
     height: 55px;
 
     .timeline-grade {
+        color: #545454;
         top: 3px;
         font-size: 10px;
         height: 17px;
         line-height: 15px;
+        border-width: 1px;
+        .role-system {
+            border-color: $role-system-color;
+            color: $role-system-color;
+        }
     }
 
     .xaxes {
@@ -147,6 +153,11 @@
             border: 1px solid $role-reviewer-color;
             background-color: rgba($role-reviewer-color, 0.2);
             color: #9A308C;
+        }
+        &.role-system {
+            border: 1px solid $role-system-color;
+            background-color: rgba($role-system-color, 0.2);
+            color: $role-system-color;
         }
     }
 }
