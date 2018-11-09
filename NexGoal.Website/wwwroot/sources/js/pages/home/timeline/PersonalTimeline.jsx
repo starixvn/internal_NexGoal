@@ -4,27 +4,63 @@ import TimelineNode from './TimelineNode';
 export default class PersonalTimeline extends Component {
     constructor(props) {
         super(props);
+        this.state = {
+            totalNode: 8
+        };
+
         this.timelineWidth = React.createRef();
+        this.updateDimensions = this.updateDimensions.bind(this);
     }
 
-    shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
+    componentDidMount() {
+        this.updateDimensions();
+        const pageIndex = this.props.data.pageIndex;
+        this.props.onPageChange(pageIndex, this.state.totalNode);
+        window.addEventListener("resize", this.updateDimensions);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)
+            || nextState.totalNode !== this.state.totalNode) {
             return true;
         }
 
         return false;
     }
 
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateDimensions);
+    }
+
+    updateDimensions() {
+        this.setState((prevState, prevProps) => ({
+            totalNode: this.calculateNodes(prevState, prevProps)
+        }));
+    }
+
+    calculateNodes = (prevState, prevProps) => {
+        const width = window.innerWidth;
+        let totalNodes = 8;
+
+        if (width > 1024 && width < 1366) totalNodes = 3;
+        else if (width >= 1366 && width <= 1440) totalNodes = 5;
+
+        if (totalNodes !== prevState) {
+            this.props.onPageChange(prevProps.data.pageIndex, totalNodes);
+        }
+        return totalNodes;
+    }
+
     onClickPrevious = () => {
         const memberPerformance = this.props.data;
         const pageIndex = memberPerformance.pageIndex + 1;
-        this.props.onPageChange(pageIndex);
+        this.props.onPageChange(pageIndex, this.state.totalNode);
     }
 
     onClickNext = () => {
         const memberPerformance = this.props.data;
         const pageIndex = memberPerformance.pageIndex - 1;
-        this.props.onPageChange(pageIndex);
+        this.props.onPageChange(pageIndex, this.state.totalNode);
     }
 
     calculateNodePosition = (totalNode, index) => {

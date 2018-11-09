@@ -107,11 +107,11 @@ export default class MyPage extends Component {
         ReactTooltip.rebuild();
     }
 
-    onTimelinePageChange = (pageIndex) => {
+    onTimelinePageChange = (pageIndex, pageSize) => {
         axios.get(resolveClientUrl('Self/Performance/Timeline'), {
             params: {
                 pageIndex: pageIndex,
-                pageSize: this.timelineItemPerPage
+                pageSize: pageSize
             }
         }).then((response) => {
             this.setState({
@@ -119,7 +119,7 @@ export default class MyPage extends Component {
                     records: response.data.performanceRecords,
                     pageIndex: pageIndex,
                     nextDisabled: pageIndex === 0,
-                    prevDisabled: (pageIndex + 1) * this.timelineItemPerPage >= response.data.totalItems
+                    prevDisabled: (pageIndex + 1) * pageSize >= response.data.totalItems
                 }
             });
         }).catch(axiosError);

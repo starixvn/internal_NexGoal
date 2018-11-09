@@ -1,6 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] @FromDate DATETIME
-	,@ToDate DATETIME
-	,@EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] 
+	@EmployeeId INT
 AS
 /*
 Created: 20180926@Oliver.Dang
@@ -10,10 +9,18 @@ DB: bodb_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @toeic INT
+	DECLARE @FromDate DATETIME
+		,@ToDate DATETIME 
+		,@toeic INT
 		,@examDate DATETIME
 		,@incident INT
 		,@missingCheckInCheckOut INT
+	SELECT @FromDate = DisciplineStartDate
+		 ,@ToDate = DisciplineEndDate	
+	FROM dbo.Period WITH (NOLOCK)
+	WHERE IsActive = 1
+		AND DisciplineStartDate <= GETDATE()
+	ORDER BY DisciplineStartDate DESC
 
 	CREATE TABLE #EmployeeAttendance (
 		EmpId INT
@@ -212,7 +219,7 @@ BEGIN
 						AND c.LeaveDay < 1
 						THEN 0.5
 					ELSE 0
-					END) / DATEDIFF(month, @FromDate, @ToDate)
+					END) / (DATEDIFF(month, @FromDate, @ToDate) + 1)
 			) AS AverageWorkingDays
 		,(
 			SELECT SUM(st.[Hours])
@@ -221,11 +228,11 @@ BEGIN
 				AND st.SpentOn BETWEEN @FromDate
 					AND @ToDate
 			) AS TotalSpentTime
-		,SUM(et.TotalWorkHours) as TotalWorkHours
+		,SUM(et.TotalWorkHours) AS TotalWorkHours
 	FROM [dbo].[EmployeeAttendance] AS et WITH (NOLOCK)
 	INNER JOIN [dbo].[EmployeeCalendar] AS c WITH (NOLOCK) ON et.AttendanceDate = c.WorkDate
 		AND et.EmpId = c.EmpId
 	WHERE AttendanceDate BETWEEN @FromDate
 			AND @ToDate
 		AND et.EmpId = @EmployeeId
-END 
+END
