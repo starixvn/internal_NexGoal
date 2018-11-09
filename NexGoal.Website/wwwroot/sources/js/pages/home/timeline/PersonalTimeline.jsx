@@ -59,19 +59,19 @@ export default class PersonalTimeline extends Component {
     onClickPrevious = () => {
         const memberPerformance = this.props.data;
         const pageIndex = memberPerformance.pageIndex + 1;
-        this.props.onPageChange(pageIndex, this.state.totalNode);
+        this.props.onPageChange(pageIndex, this.state.totalNodes);
     }
 
     onClickNext = () => {
         const memberPerformance = this.props.data;
         const pageIndex = memberPerformance.pageIndex - 1;
-        this.props.onPageChange(pageIndex, this.state.totalNode);
+        this.props.onPageChange(pageIndex, this.state.totalNodes);
     }
 
-    calculateNodePosition = (totalNode, index) => {
+    calculateNodePosition = (totalNodes, index) => {
         let baseRight = 20;
         let timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
-        let distanceFromRoot = timelineWidth / (totalNode + 1);
+        let distanceFromRoot = timelineWidth / (totalNodes + 1);
         return Math.round(baseRight + (index + 1) * distanceFromRoot);
     }
 
