@@ -5,7 +5,8 @@ export default class PersonalTimeline extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            totalNode: 8
+            totalNodes: 8,
+            windowWidth: window.innerWidth
         };
 
         this.timelineWidth = React.createRef();
@@ -15,13 +16,14 @@ export default class PersonalTimeline extends Component {
     componentDidMount() {
         this.updateDimensions();
         const pageIndex = this.props.data.pageIndex;
-        this.props.onPageChange(pageIndex, this.state.totalNode);
+        this.props.onPageChange(pageIndex, this.state.totalNodes);
         window.addEventListener("resize", this.updateDimensions);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
         if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)
-            || nextState.totalNode !== this.state.totalNode) {
+            || nextState.totalNode !== this.state.totalNodes
+            || nextState.windowWidth !== this.state.windowWidth) {
             return true;
         }
 
@@ -33,22 +35,25 @@ export default class PersonalTimeline extends Component {
     }
 
     updateDimensions() {
-        this.setState((prevState, prevProps) => ({
-            totalNode: this.calculateNodes(prevState, prevProps)
-        }));
+        this.setState((prevState, prevProps) => {
+            let nodes = this.calculateNodes();
+            if (nodes !== prevState.totalNodes) {
+                this.props.onPageChange(prevProps.data.pageIndex, nodes);
+                return {
+                    totalNodes: nodes,
+                    windowWidth: window.innerWidth
+                };
+            }
+
+            return { windowWidth: window.innerWidth };
+        });
     }
 
-    calculateNodes = (prevState, prevProps) => {
+    calculateNodes = () => {
         const width = window.innerWidth;
-        let totalNodes = 8;
-
-        if (width > 1024 && width < 1366) totalNodes = 3;
-        else if (width >= 1366 && width <= 1440) totalNodes = 5;
-
-        if (totalNodes !== prevState) {
-            this.props.onPageChange(prevProps.data.pageIndex, totalNodes);
-        }
-        return totalNodes;
+        if (width > 1024 && width < 1366) return 3;
+        if (width >= 1366 && width <= 1440) return 5;
+        return 8;
     }
 
     onClickPrevious = () => {

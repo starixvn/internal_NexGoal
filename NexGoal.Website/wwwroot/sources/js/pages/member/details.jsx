@@ -68,7 +68,6 @@ export default class App extends Component {
     }
 
     componentDidMount() {
-        console.log(this.state.currentUser);
         const memberId = this.state.memberInfo.id;
         const promises = [
             axios(resolveClientUrl('common/GetAllPeriods')),
@@ -156,12 +155,12 @@ export default class App extends Component {
         this.handleCancelEditMemberPerformanceClick();
     }
 
-    onTimelinePageChange = (pageIndex) => {
+    onTimelinePageChange = (pageIndex, pageSize) => {
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
                 employeeId: this.state.memberInfo.id,
                 pageIndex: pageIndex,
-                pageSize: this.timelineItemPerPage
+                pageSize: pageSize
             }
         }).then((response) => {
             let timelineInfo = response.data[0];
@@ -170,7 +169,7 @@ export default class App extends Component {
                     records: timelineInfo.performanceRecords,
                     pageIndex: pageIndex,
                     nextDisabled: pageIndex === 0,
-                    prevDisabled: (pageIndex + 1) * this.timelineItemPerPage >= timelineInfo.totalItems
+                    prevDisabled: (pageIndex + 1) * pageSize >= timelineInfo.totalItems
                 }
             });
         }).catch(axiosError);
