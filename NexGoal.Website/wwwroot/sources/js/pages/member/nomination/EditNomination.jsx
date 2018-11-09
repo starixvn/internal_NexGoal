@@ -132,18 +132,14 @@ export default class EditNomination extends Component {
         }
 
         return (
-
             <form onSubmit={handleSubmit} className="form-filter form-performance edit">
                 <FormGroup>
-                    <ControlLabel className="required-label" >{getResource('NominationPeriod')}</ControlLabel>
-                    <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
-                        value={values.period} onChange={onPeriodChange}
-                        options={this.state.nominationPeriodOptions}
-                    />
+                    <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
+                    {this.props.performanceRecord.nomination.period.title}
                 </FormGroup>
 
                 <FormGroup>
-                    <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
+                    <ControlLabel>{getResource('Employee')}</ControlLabel>
                     {`${this.props.performanceRecord.employees[0].fullName} (${this.props.performanceRecord.employees[0].nickName})`}
                 </FormGroup>
 
