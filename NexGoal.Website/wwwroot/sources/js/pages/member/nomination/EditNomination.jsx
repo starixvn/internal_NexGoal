@@ -26,14 +26,14 @@ export default class EditNomination extends Component {
             eoqQuestions: [],
             eoyQuestions: [],
             initialObj: {
-                period: {
-                    label: props.performanceRecord.nomination.period.title,
-                    value: props.performanceRecord.nomination.period.nominationPeriodId
-                },
-                employee: {
-                    label: `${props.performanceRecord.employees[0].fullName} (${props.performanceRecord.employees[0].nickName})`,
-                    value: props.performanceRecord.employees[0].employeeId
-                },
+                //period: {
+                //    label: props.performanceRecord.nomination.period.title,
+                //    value: props.performanceRecord.nomination.period.nominationPeriodId
+                //},
+                //employee: {
+                //    label: `${props.performanceRecord.employees[0].fullName} (${props.performanceRecord.employees[0].nickName})`,
+                //    value: props.performanceRecord.employees[0].employeeId
+                //},
                 comment: props.performanceRecord.comment
             }
         };
@@ -57,14 +57,6 @@ export default class EditNomination extends Component {
     validateForm = values => {
         let errors = {};
 
-        if (!values.period) {
-            errors.period = 'Period is required!';
-        }
-
-        if (!values.employee && this.props.isEmployeeSelectable) {
-            errors.employee = 'Employee is required!';
-        }
-
         if (!values.comment) {
             errors.comment = 'Comment is required!';
         }
@@ -79,6 +71,7 @@ export default class EditNomination extends Component {
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 nominationId: this.props.performanceRecord.nominationId,
+                performanceRecordId: this.props.performanceRecord.performanceRecordId,
                 nominationPeriodId: values.period.value,
                 nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
                 comment: values.comment
@@ -148,16 +141,12 @@ export default class EditNomination extends Component {
                         options={this.state.nominationPeriodOptions}
                     />
                 </FormGroup>
-                {
-                    this.props.isEmployeeSelectable &&
-                    <FormGroup>
-                        <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
-                        <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
-                            value={values.employee} onChange={value => setFieldValue('employee', value)}
-                            options={this.props.employeeOptions}
-                        />
-                    </FormGroup>
-                }
+
+                <FormGroup>
+                    <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
+                    {`${this.props.performanceRecord.employees[0].fullName} (${this.props.performanceRecord.employees[0].nickName})`}
+                </FormGroup>
+
                 <FormGroup>
                     <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                     <TextareaFullscreenEditor

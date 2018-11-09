@@ -57,6 +57,27 @@
             return Json(new { isSuccessful = false, errors });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> Create(CreateEmployeeNominationViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                CommandResult commandResult = await employeeNominationService.Create(new CreateEmployeeNominationModel
+                {
+                    NominationPeriodId = model.NominationPeriodId,
+                    NomineeId = model.NomineeId,
+                    NominatorId = sessionService.EmployeeId,
+                    Comment = model.Comment
+                }).ConfigureAwait(false);
+
+                return Json(commandResult);
+            }
+
+            var errors = ModelState.Where(x => x.Value.Errors.Any()).Select(x => new { x.Key, x.Value.Errors.First().ErrorMessage });
+
+            return Json(new { isSuccessful = false, errors });
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetMemberNominations(int pageSize, int? memberId, int page = 1)
         {

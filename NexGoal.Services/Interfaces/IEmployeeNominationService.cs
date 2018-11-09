@@ -18,5 +18,7 @@
         Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId);
 
         Task<bool> IsNominator(int actorId);
+
+        Task<CommandResult> Edit(EditEmployeeNominationModel model);
     }
 }

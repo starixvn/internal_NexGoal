@@ -19,7 +19,7 @@ BEGIN
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.NominationDetail AS nd WITH (NOLOCK)
-				INNER JOIN dbo.Nomination AS n WITH (NOLOCK) ON nd.NominationId = nd.NominationId
+				INNER JOIN dbo.Nomination AS n WITH (NOLOCK) ON nd.NominationId = n.NominationId
 			WHERE nd.NominatorId = @NominatorId
 				AND n.NomineeId = @NomineeId
 				AND n.EOQYId = @NominationPeriodId

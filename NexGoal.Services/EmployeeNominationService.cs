@@ -98,6 +98,23 @@
             return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.Total);
         }
 
+        public async Task<CommandResult> Edit(EditEmployeeNominationModel model)
+        {
+            var criteria = new EditEmployeeNominationCriteria
+            {
+                NominationPeriodId = model.NominationPeriodId,
+                NominatorId = model.NominatorId,
+                NomineeId = model.NomineeId,
+                Comment = model.Comment,
+                PerformanceRecordId = model.PerformanceRecordId
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            commandResult.ObjectId = criteria.PerformanceRecordId;
+
+            return commandResult;
+        }
+
         private static void MappingData(
             IEnumerable<PerformanceRecordModel> performanceRecords,
             IEnumerable<EmployeeBaseModel> employees,

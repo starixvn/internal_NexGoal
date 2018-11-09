@@ -135,7 +135,6 @@ export default class Nomination extends Component {
                         nominationPeriods={this.state.nominationPeriods}
                         employeeOptions={this.props.employeeOptions}
                         onCloseModal={this.closeEditModal}
-                        isEmployeeSelectable={!this.props.isMemberDetail}
                     />
                 }
             </div>
