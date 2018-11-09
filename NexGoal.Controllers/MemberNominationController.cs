@@ -58,11 +58,11 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> Create(CreateEmployeeNominationViewModel model)
+        public async Task<JsonResult> Edit(CreateEmployeeNominationViewModel model)
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await employeeNominationService.Create(new CreateEmployeeNominationModel
+                CommandResult commandResult = await employeeNominationService.Edit(new EditEmployeeNominationModel
                 {
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
