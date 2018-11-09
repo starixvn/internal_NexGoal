@@ -32,6 +32,7 @@ var resource_en_US = {
     'EditEmployeeSetting': 'Edit Employee Setting',
     'EditEvaluationFlow': 'Edit Evaluation Flow',
     'EditDiscipline': 'Edit Discipline',
+    'EditNomination': 'Edit Nomination',
     'EditPerformance': 'Edit Performance',
     'EmployeeManagement': 'Employee Management',
     'EndDate': 'End Date',

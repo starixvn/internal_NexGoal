@@ -9,6 +9,7 @@ import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { DateFormat, PerformanceRecordType } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import CreateNomination from './CreateNomination';
+import EditNomination from './EditNomination';
 
 export default class Nomination extends Component {
     constructor(props) {
@@ -17,10 +18,11 @@ export default class Nomination extends Component {
         this.state = {
             nominations: [],
             nominationPeriods: [],
-            hasMore: false
+            hasMore: false,
+            showEditModal: false
         };
 
-        this.itemPerPage = 8;
+        this.itemPerPage = 10;
     }
 
     componentDidMount() {
@@ -74,6 +76,15 @@ export default class Nomination extends Component {
         }).catch(axiosError);
     }
 
+    handleEdit = performanceRecordId => {
+        this.setState(prevState => ({
+            showEditModal: true,
+            editedNomination: prevState.nominations.find(x => x.performanceRecordId === performanceRecordId)
+        }));
+    }
+
+    closeEditModal = () => this.setState({ showEditModal: false, editedNomination: null });
+
     renderPerformanceRecord = (performanceRecord) => {
         let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
         let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
@@ -89,7 +100,7 @@ export default class Nomination extends Component {
                 modifiedDate={modifiedDate}
                 isHost={performanceRecord.isHost}
                 comment={performanceRecord.comment}
-                onEdit={this.handleEditPerformanceRecord}
+                onEdit={this.handleEdit}
                 type={PerformanceRecordType.Nomination}
                 nomination={performanceRecord.nomination}
             />
@@ -116,6 +127,17 @@ export default class Nomination extends Component {
                         {this.state.nominations.map(this.renderPerformanceRecord)}
                     </InfiniteScroll>
                 </Scrollbars>
+
+                {this.state.showEditModal &&
+                    <EditNomination showModal={this.state.showEditModal}
+                        currentUser={this.props.currentUser}
+                        performanceRecord={this.state.editedNomination}
+                        nominationPeriods={this.state.nominationPeriods}
+                        employeeOptions={this.props.employeeOptions}
+                        onCloseModal={this.closeEditModal}
+                        isEmployeeSelectable={!this.props.isMemberDetail}
+                    />
+                }
             </div>
         );
     }

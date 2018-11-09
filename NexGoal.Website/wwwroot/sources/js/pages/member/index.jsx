@@ -238,7 +238,7 @@ export default class App extends Component {
                                     <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
                                 </div>
                             </div>
-                            <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab}>
+                            <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
                                 <Tab eventKey={1} title="Performance">
 
                                     <div className="record-list">
