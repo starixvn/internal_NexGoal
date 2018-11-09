@@ -14,7 +14,6 @@
     {
         private IBaseService baseService;
         private ICommonService commonService;
-        private IAvatarService avatarService;
 
         [Fact]
         public async Task GetNominationPeriodsForNominator_WhenCalled_ReturnExpectedResult()
@@ -63,9 +62,8 @@
         {
             baseService = Substitute.For<IBaseService>();
             commonService = Substitute.For<ICommonService>();
-            avatarService = Substitute.For<IAvatarService>();
 
-            var service = new EmployeeNominationService(baseService, avatarService, commonService);
+            var service = new EmployeeNominationService(baseService, commonService);
 
             return service;
         }

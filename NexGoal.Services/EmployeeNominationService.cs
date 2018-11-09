@@ -14,15 +14,13 @@
     public class EmployeeNominationService : IEmployeeNominationService
     {
         private readonly IBaseService baseService;
-
-        private readonly IAvatarService avatarService;
-
         private readonly ICommonService commonService;
 
-        public EmployeeNominationService(IBaseService baseService, IAvatarService avatarService, ICommonService commonService)
+        public EmployeeNominationService(
+            IBaseService baseService,
+            ICommonService commonService)
         {
             this.baseService = baseService;
-            this.avatarService = avatarService;
             this.commonService = commonService;
         }
 
@@ -66,10 +64,8 @@
             var nominationPeriod = result.Item3.FirstOrDefault();
 
             performanceRecord.Creator = await commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).ConfigureAwait(false);
-            performanceRecord.Creator.Avatar = avatarService.GetFilePath(performanceRecord.Creator.Code);
 
             var nominee = await commonService.GetEmployeeByIdAsync(int.Parse(performanceRecord.EmployeeIds)).ConfigureAwait(false);
-            nominee.Avatar = avatarService.GetFilePath(nominee.Code);
             performanceRecord.Employees = new List<EmployeeBaseModel> { nominee };
 
             nomination.Period = nominationPeriod;
@@ -94,7 +90,7 @@
             var nominations = result.Item2;
             var nominationPeriods = result.Item3;
 
-            var employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
             employees = employees.Where(x => performanceRecords.Any(r => r.CreatorId == x.EmployeeId || r.EmployeeIds.Split(',').Select(int.Parse).Any(e => e == x.EmployeeId)));
 
             MappingData(performanceRecords, employees, nominations, nominationPeriods);
@@ -102,17 +98,12 @@
             return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.Total);
         }
 
-        private void MappingData(
+        private static void MappingData(
             IEnumerable<PerformanceRecordModel> performanceRecords,
             IEnumerable<EmployeeBaseModel> employees,
             IEnumerable<NominationModel> nominations,
             IEnumerable<NominationPeriodModel> nominationPeriods)
         {
-            foreach (var employee in employees)
-            {
-                employee.Avatar = avatarService.GetFilePath(employee.Code);
-            }
-
             foreach (var nomination in nominations)
             {
                 nomination.Period = nominationPeriods.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);

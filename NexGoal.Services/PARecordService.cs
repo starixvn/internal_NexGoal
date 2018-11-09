@@ -16,18 +16,15 @@
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
-        private readonly IAvatarService avatarService;
 
         public PARecordService(
             IBaseService baseService,
             ICryptoService cryptoService,
-            ICommonService commonService,
-            IAvatarService avatarService)
+            ICommonService commonService)
         {
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
-            this.avatarService = avatarService;
         }
 
         public async Task<IEnumerable<PeriodBaseModel>> GetPeriodByActorAsync(int actorId)
@@ -158,10 +155,6 @@
             foreach (PAProcessModel process in processes)
             {
                 process.Evaluator = employees.FirstOrDefault(x => x.EmployeeId == process.EvaluatorId);
-                if (process.Evaluator != null)
-                {
-                    process.Evaluator.Avatar = avatarService.GetFilePath(process.Evaluator.Code);
-                }
 
                 process.PerformanceRecord = performanceRecords.FirstOrDefault(x => x.PerformanceRecordId == process.PerformanceRecordId);
             }

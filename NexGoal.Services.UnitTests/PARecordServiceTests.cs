@@ -7,14 +7,12 @@
     using NexGoal.Criteria.PARecord;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.Period;
     using NSubstitute;
     using Xunit;
 
     public class PARecordServiceTests
     {
         private IBaseService baseService;
-        private IAvatarService avatarService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
 
@@ -82,10 +80,10 @@
         private PARecordService GetPARecordService()
         {
             baseService = Substitute.For<IBaseService>();
-            avatarService = Substitute.For<IAvatarService>();
             cryptoService = Substitute.For<ICryptoService>();
             commonService = Substitute.For<ICommonService>();
-            var service = new PARecordService(baseService, cryptoService, commonService, avatarService);
+
+            var service = new PARecordService(baseService, cryptoService, commonService);
 
             return service;
         }

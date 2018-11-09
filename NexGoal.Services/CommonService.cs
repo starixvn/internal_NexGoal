@@ -60,7 +60,13 @@
                 IsEnabled = isEnabled
             };
 
-            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+            var employees = await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+            foreach(EmployeeBaseModel employee in employees)
+            {
+                employee.Avatar = avatarService.GetFilePath(employee.Code);
+            }
+
+            return employees;
         }
 
         public async Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId)

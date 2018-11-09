@@ -14,18 +14,15 @@
     public class PerformanceRecordService : IPerformanceRecordService
     {
         private readonly IBaseService baseService;
-        private readonly IAvatarService avatarService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
 
         public PerformanceRecordService(
             IBaseService baseService,
-            IAvatarService avatarService,
             ICryptoService cryptoService,
             ICommonService commonService)
         {
             this.baseService = baseService;
-            this.avatarService = avatarService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
         }
@@ -181,20 +178,11 @@
             string[] employeeIds = !string.IsNullOrWhiteSpace(performanceRecord.EmployeeIds) ? performanceRecord.EmployeeIds.Split(",") : new string[] { };
             performanceRecord.Employees = employees.Where(x => employeeIds.Contains(x.EmployeeId.ToString()));
 
-            foreach (EmployeeBaseModel employee in performanceRecord.Employees)
-            {
-                employee.Avatar = avatarService.GetFilePath(employee.Code);
-            }
-
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
             performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
-            if (performanceRecord.Creator != null)
-            {
-                performanceRecord.Creator.Avatar = avatarService.GetFilePath(performanceRecord.Creator.Code);
-            }
         }
 
         private void MappingDataPerformanceTimeline(

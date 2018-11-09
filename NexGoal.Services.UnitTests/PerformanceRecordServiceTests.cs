@@ -11,7 +11,6 @@
     public class PerformanceRecordServiceTests
     {
         private IBaseService baseService;
-        private IAvatarService avatarService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
 
@@ -67,10 +66,10 @@
         private PerformanceRecordService GetPerformanceRecordService()
         {
             baseService = Substitute.For<IBaseService>();
-            avatarService = Substitute.For<IAvatarService>();
             cryptoService = Substitute.For<ICryptoService>();
             commonService = Substitute.For<ICommonService>();
-            var service = new PerformanceRecordService(baseService, avatarService, cryptoService, commonService);
+
+            var service = new PerformanceRecordService(baseService, cryptoService, commonService);
 
             return service;
         }
