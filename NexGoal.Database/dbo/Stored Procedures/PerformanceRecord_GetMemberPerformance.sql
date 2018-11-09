@@ -108,12 +108,16 @@ BEGIN
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
-			INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+			LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 			AND creator.[Enabled] = 1
 			AND creator.IsDeleted = 0
 			LEFT JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 		WHERE record.TypeId = 1
 			AND record.StatusId IN (@Submitted, @Closed)
+			AND (
+				record.CreatorId = - 1
+				OR creator.EmployeeId IS NOT NULL
+				)
 			AND (
 				(
 					-- not member

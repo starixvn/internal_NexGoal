@@ -21,7 +21,7 @@ BEGIN
 		,@periodId INT
 
 	CREATE TABLE #tblPeriodIds (
-		Id INT IDENTITY(1, 1)
+		RowNum INT IDENTITY(1, 1)
 		,PeriodId INT NOT NULL
 		)
 
@@ -37,7 +37,7 @@ BEGIN
 	BEGIN
 		SELECT @periodId = PeriodId
 		FROM #tblPeriodIds WITH (NOLOCK)
-		WHERE Id = @index
+		WHERE RowNum = @index
 
 		SELECT @paRecordIds = COALESCE(@paRecordIds + ',', '') + CAST(PARecordId AS VARCHAR(10))
 		FROM dbo.PARecord WITH (NOLOCK)

@@ -36,10 +36,6 @@ export const getRoleClassName = (roleId) => {
     let className = '';
 
     switch (roleId) {
-        case -1:
-            className = 'role-system';
-            break;
-
         case 2:
             className = 'role-member';
             break;
@@ -54,6 +50,10 @@ export const getRoleClassName = (roleId) => {
 
         case 5:
             className = 'role-reviewer';
+            break;
+
+        case 255:
+            className = 'role-system';
             break;
 
         default:

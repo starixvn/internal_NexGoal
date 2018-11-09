@@ -112,11 +112,15 @@ BEGIN
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
-		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
+		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		AND creator.[Enabled] = 1
 		AND creator.IsDeleted = 0
 	WHERE record.TypeId = 1
 		AND record.StatusId IN (@Submitted, @Closed)
+		AND (
+			record.CreatorId = - 1
+			OR creator.EmployeeId IS NOT NULL
+			)
 		AND (
 			member.IsHost = 1
 			OR (

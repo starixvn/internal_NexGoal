@@ -238,5 +238,6 @@
     <Build Include="dbo\Stored Procedures\Nomination_GetMemberNominations.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByRecordId.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_CheckIsNominator.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PA_UpdateWhenEvaluationFinished.sql" />
   </ItemGroup>
 </Project>
