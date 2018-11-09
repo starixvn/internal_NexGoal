@@ -119,7 +119,6 @@
 
         public async Task<HRMSummaryModel> GetHRMSummary(int empId)
         {
-            var currentPeriod = await GetCurrentPerformancePeriodAsync().ConfigureAwait(false);
             var criteria = new GetHRMSummaryCriteria
             {
                 EmployeeId = empId
