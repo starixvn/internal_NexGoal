@@ -61,7 +61,7 @@
             };
 
             var employees = await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
-            foreach(EmployeeBaseModel employee in employees)
+            foreach (EmployeeBaseModel employee in employees)
             {
                 employee.Avatar = avatarService.GetFilePath(employee.Code);
             }

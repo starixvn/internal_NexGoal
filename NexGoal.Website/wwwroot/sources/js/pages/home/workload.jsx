@@ -49,7 +49,7 @@ export default class WorkLoad extends PureComponent {
                     backgroundColor: ChartColors
                 }],
                 labels: labels
-            }
+            };
         }
 
         return {
@@ -58,7 +58,7 @@ export default class WorkLoad extends PureComponent {
                 backgroundColor: ChartColors
             }],
             labels: workload.map(e => e.name)
-        }
+        };
     }
 
     onNextPeriod = () => {

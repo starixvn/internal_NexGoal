@@ -7,15 +7,15 @@ export default function HrmDetail(props) {
             <h5>HRM</h5>
             <ul className="hrm-info">
                 <li>
-                    TOEIC score: {`${props.hrmDetail.toeicScore > 0 ? `${props.hrmDetail.toeicScore} (${moment(props.hrmDetail.toeicExamDate).format("DD MMM, YYYY")})` : 'N/A'}`}
+                    TOEIC Score: {`${props.hrmDetail.toeicScore > 0 ? `${props.hrmDetail.toeicScore} (${moment(props.hrmDetail.toeicExamDate).format("DD MMM, YYYY")})` : 'N/A'}`}
                 </li>
                 <li>Missing Check In/Out: {props.hrmDetail.missingCheckInCheckOut}</li>
                 <li>Average Working Days: {props.hrmDetail.averageWorkingDays}</li>
                 <li>Average Spent Time: {props.hrmDetail.averageSpentTime}</li>
                 <li>Late In/Early Out: {props.hrmDetail.totalLateInEarlyOut}</li>
-                <li>Unpaid leave: {props.hrmDetail.unpaidLeave}</li>
+                <li>Unpaid Leave: {props.hrmDetail.unpaidLeave}</li>
                 <li>Unplaned Annual Leave: {props.hrmDetail.unplanedAnnualLeave}</li>
-                <li>Incident: {props.hrmDetail.incident}</li>
+                <li>Discipline: {props.hrmDetail.incident}</li>
             </ul>
         </div >
     );

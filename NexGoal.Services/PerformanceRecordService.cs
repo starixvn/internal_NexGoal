@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceRecord;
@@ -182,7 +183,8 @@
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
-            performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+            performanceRecord.Creator = performanceRecord.CreatorId == Constants.NexGoalSystemId ?
+                NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
         }
 
         private void MappingDataPerformanceTimeline(
@@ -194,7 +196,8 @@
             int.TryParse(performanceRecord.GradeId, out int gradeId);
             performanceRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
 
-            performanceRecord.Creator = employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+            performanceRecord.Creator = performanceRecord.CreatorId == Constants.NexGoalSystemId ?
+                NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
         }
 
         private void MappingDataMemberPerformanceTime(

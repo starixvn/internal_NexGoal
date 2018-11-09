@@ -32,4 +32,35 @@ export const axiosError = (error) => {
     }
 };
 
+export const getRoleClassName = (roleId) => {
+    let className = '';
+
+    switch (roleId) {
+        case -1:
+            className = 'role-system';
+            break;
+
+        case 2:
+            className = 'role-member';
+            break;
+
+        case 3:
+            className = 'role-pm';
+            break;
+
+        case 4:
+            className = 'role-evaluator';
+            break;
+
+        case 5:
+            className = 'role-reviewer';
+            break;
+
+        default:
+            className = 'role-default';
+    }
+
+    return className;
+};
+
 export const noDataIndication = () => <span className="text-danger">No information available!</span>;

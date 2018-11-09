@@ -1,7 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { PerformanceProcess, PerformanceRecordStatus, PerformanceRecordType } from '../../constants';
+import { getRoleClassName } from '../../common-functions';
+import { PerformanceRecordStatus, PerformanceRecordType } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class PerformanceRecord extends Component {
@@ -95,29 +96,6 @@ export default class PerformanceRecord extends Component {
         this.props.onEdit(this.props.objectId);
     }
 
-    getRoleClassName = (roleId) => {
-        let className = '';
-        switch (roleId) {
-            case PerformanceProcess.Self:
-                className = 'role-member';
-                break;
-            case PerformanceProcess.ProjectManager:
-                className = 'role-pm';
-                break;
-            case PerformanceProcess.Evaluator:
-                className = 'role-evaluator';
-                break;
-            case PerformanceProcess.Reviewer:
-                className = 'role-reviewer';
-                break;
-
-            default:
-                className = 'role-default';
-        }
-
-        return className;
-    }
-
     render() {
         let employees = this.props.employees;
         let creator = this.props.creator;
@@ -128,7 +106,7 @@ export default class PerformanceRecord extends Component {
                 <div className="avatar-user">
                     <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
-                        <span className={this.getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
+                        <span className={getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
                         {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>

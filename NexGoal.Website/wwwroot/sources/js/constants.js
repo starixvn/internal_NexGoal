@@ -43,7 +43,7 @@ export const PerformanceRecordStatus = {
 export const PerformanceRecordType = {
     PCI: 1,
     PA: 2,
-    Nomination: 3,
+    Nomination: 3
 };
 
 export const NominationStatuses = [

@@ -2,6 +2,6 @@
 {
     public static class Constants
     {
-        public const string NexGoal = "NexGoal";
+        public const int NexGoalSystemId = -1;
     }
 }
