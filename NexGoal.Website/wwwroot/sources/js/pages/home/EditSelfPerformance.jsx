@@ -51,13 +51,6 @@ export default class EditSelfPerformance extends Component {
             }).catch(axiosError);
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        if (nextProps.performanceRecordId !== this.props.performanceRecordId) {
-            return true;
-        }
-        return false;
-    }
-
     handleGradeChange = (selectedOption) => {
         this.setState({
             performanceRecord: Object.assign({}, this.state.performanceRecord, { grade: selectedOption })
