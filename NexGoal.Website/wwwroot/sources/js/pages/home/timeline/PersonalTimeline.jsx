@@ -14,9 +14,6 @@ export default class PersonalTimeline extends Component {
     }
 
     componentDidMount() {
-        this.updateDimensions();
-        const pageIndex = this.props.data.pageIndex;
-        this.props.onPageChange(pageIndex, this.state.totalNodes);
         window.addEventListener("resize", this.updateDimensions);
     }
 

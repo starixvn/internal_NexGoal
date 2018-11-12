@@ -48,7 +48,7 @@ export default class MyPage extends Component {
             }
         };
 
-        this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
+        this.timelineItemPerPage = this.calculateTimelineNodes();
         this.itemPerPage = 5;
     }
 
@@ -105,6 +105,16 @@ export default class MyPage extends Component {
 
     componentDidUpdate() {
         ReactTooltip.rebuild();
+    }
+
+    calculateTimelineNodes = () => {
+        const width = window.innerWidth;
+        if (width > 1600) return 8;
+        if (width > 1500 && width <= 1600) return 7;
+        if (width >= 1440 && width <= 1500) return 6;
+        if (width >= 1366 && width <= 1440) return 5;
+        if (width > 1280 && width < 1366) return 4;
+        return 3;
     }
 
     onTimelinePageChange = (pageIndex, pageSize) => {
