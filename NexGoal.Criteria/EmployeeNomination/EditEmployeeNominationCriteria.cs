@@ -12,8 +12,10 @@
 
         public int PerformanceRecordId { get; set; }
 
+        public int PerformanceRecordStatusId { get; set; }
+
         public override string GetSettingKey() => "Nomination_Update";
 
-        public override bool IsValid() => NominationPeriodId > 0 && NomineeId > 0 && NominatorId > 0 && PerformanceRecordId > 0;
+        public override bool IsValid() => NominationPeriodId > 0 && NomineeId > 0 && NominatorId > 0 && PerformanceRecordId > 0 && PerformanceRecordStatusId > 0;
     }
 }

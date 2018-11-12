@@ -46,7 +46,8 @@
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
                     NominatorId = sessionService.EmployeeId,
-                    Comment = model.Comment
+                    Comment = model.Comment,
+                    PerformanceRecordStatusId = model.PerformanceRecordStatusId
                 }).ConfigureAwait(false);
 
                 return Json(commandResult);
@@ -58,7 +59,7 @@
         }
 
         [HttpPost]
-        public async Task<JsonResult> Edit(CreateEmployeeNominationViewModel model)
+        public async Task<JsonResult> Edit(EditEmployeeNominationViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -67,7 +68,9 @@
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
                     NominatorId = sessionService.EmployeeId,
-                    Comment = model.Comment
+                    Comment = model.Comment,
+                    PerformanceRecordStatusId = model.PerformanceRecordStatusId,
+                    PerformanceRecordId = model.PerformanceRecordId
                 }).ConfigureAwait(false);
 
                 return Json(commandResult);

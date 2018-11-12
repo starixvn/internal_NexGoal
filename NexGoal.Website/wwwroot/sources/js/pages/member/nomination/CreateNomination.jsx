@@ -10,7 +10,7 @@ import { Formik } from 'formik';
 import moment from 'moment'
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat } from '../../../constants';
+import { DateFormat, PerformanceRecordStatus } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 
@@ -29,7 +29,8 @@ export default class CreateNomination extends Component {
             initialObj: {
                 period: null,
                 employee: null,
-                comment: ''
+                comment: '',
+                statusId: PerformanceRecordStatus.Submitted
             }
         };
     }
@@ -83,7 +84,8 @@ export default class CreateNomination extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 nominationPeriodId: values.period.value,
                 nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
-                comment: values.comment
+                comment: values.comment,
+                performanceRecordStatusId: values.statusId
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -119,6 +121,7 @@ export default class CreateNomination extends Component {
         handleChange,
         handleSubmit,
         setFieldValue,
+        submitForm,
         isSubmitting }) => {
         let onPeriodChange = (value) => {
             var period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
@@ -129,13 +132,13 @@ export default class CreateNomination extends Component {
                 questions = this.state.eoyQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
             }
 
-            this.setState({
-                initialObj: {
-                    period: value,
-                    employee: values.employee,
-                    comment: questions
-                }
-            });
+            setFieldValue('period', value);
+            setFieldValue('comment', questions);
+        }
+
+        let handleSaveDraft = () => {
+            setFieldValue('statusId', PerformanceRecordStatus.Draft);
+            submitForm();
         }
 
         return (
@@ -167,6 +170,7 @@ export default class CreateNomination extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Button className="btn-cancel" onClick={this.handleCloseForm}>{getResource('Cancel')}</Button>
+                    <Button className="btn-cancel" onClick={handleSaveDraft} name="saveAsDraft">{getResource('SaveAsDraft')}</Button>
                     <Button className="btn-primary" disabled={isSubmitting} type="submit">{getResource('Submit')}</Button>
                 </FormGroup>
             </form>
@@ -196,7 +200,7 @@ export default class CreateNomination extends Component {
                     }
                     {
                         this.state.openForm &&
-                        <Formik enableReinitialize={true} initialValues={this.state.initialObj} validate={this.validateForm} onSubmit={this.handleSubmit} render={this.renderForm} />
+                        <Formik initialValues={this.state.initialObj} validate={this.validateForm} onSubmit={this.handleSubmit} render={this.renderForm} />
                     }
                 </div>
             </div>

@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat, PerformanceRecordType } from '../../../constants';
+import { DateFormat, PerformanceRecordType, PerformanceRecordStatus } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import CreateNomination from './CreateNomination';
 import EditNomination from './EditNomination';
@@ -64,15 +64,58 @@ export default class Nomination extends Component {
         }).catch(axiosError)
     }
 
+    sortNominationsDesc = (firstNomination, secondNomination) => {
+        if (firstNomination.statusId === PerformanceRecordStatus.Draft && secondNomination.statusId !== PerformanceRecordStatus.Draft)
+            return -1;
+
+        if (firstNomination.statusId !== PerformanceRecordStatus.Draft && secondNomination.statusId === PerformanceRecordStatus.Draft)
+            return 1;
+
+        var firsNominationCreatedDate = moment(firstNomination.createdDate);
+        var secondNominationCreatedDate = moment(secondNomination.createdDate);
+
+        if (firsNominationCreatedDate > secondNominationCreatedDate)
+            return -1;
+
+        if (firsNominationCreatedDate < secondNominationCreatedDate)
+            return 1;
+
+        return 0;
+    }
+
     handleCreateNominationSuccess = performanceRecordId => {
         axios.get(resolveClientUrl('MemberNomination/GetByRecordId'), {
             params: {
                 performanceRecordId: performanceRecordId
             }
         }).then(response => {
-            this.setState(prevState => ({
-                nominations: [response.data, ...prevState.nominations]
-            }));
+            this.setState(prevState => {
+                let nominations = [response.data, ...prevState.nominations]
+                nominations.sort(this.sortNominationsDesc)
+
+                return {
+                    nominations: nominations
+                }
+            });
+        }).catch(axiosError);
+    }
+
+    handleEditNominationSuccess = performanceRecordId => {
+        axios.get(resolveClientUrl('MemberNomination/GetByRecordId'), {
+            params: {
+                performanceRecordId: performanceRecordId
+            }
+        }).then(response => {
+            this.setState(prevState => {
+                let nomnations = prevState.nominations.slice();
+                let index = nominations.findIndex(x => x.performanceRecordId === performanceRecordId);
+                nomnations[index] = response.data;
+                nominations.sort(this.sortNominationsDesc);
+
+                return {
+                    nominations: nomnations
+                }
+            });
         }).catch(axiosError);
     }
 
@@ -135,6 +178,8 @@ export default class Nomination extends Component {
                         nominationPeriods={this.state.nominationPeriods}
                         employeeOptions={this.props.employeeOptions}
                         onCloseModal={this.closeEditModal}
+                        onEditSuccess={this.handleEditNominationSuccess}
+                        isEmployeeSelectable={!this.props.isMemberDetail}
                     />
                 }
             </div>

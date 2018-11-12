@@ -38,7 +38,7 @@
 
         public int RoleId { get; set; }
 
-        public int NominationId { get; set; }
+        public int? NominationId { get; set; }
 
         public NominationModel Nomination { get; set; }
 

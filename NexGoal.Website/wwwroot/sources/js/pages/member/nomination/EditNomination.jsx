@@ -10,7 +10,7 @@ import { Formik } from 'formik';
 import moment from 'moment'
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat } from '../../../constants';
+import { DateFormat, PerformanceRecordStatus } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 
@@ -26,14 +26,14 @@ export default class EditNomination extends Component {
             eoqQuestions: [],
             eoyQuestions: [],
             initialObj: {
-                //period: {
-                //    label: props.performanceRecord.nomination.period.title,
-                //    value: props.performanceRecord.nomination.period.nominationPeriodId
-                //},
-                //employee: {
-                //    label: `${props.performanceRecord.employees[0].fullName} (${props.performanceRecord.employees[0].nickName})`,
-                //    value: props.performanceRecord.employees[0].employeeId
-                //},
+                period: {
+                    label: props.performanceRecord.nomination.period.title,
+                    value: props.performanceRecord.nomination.period.nominationPeriodId
+                },
+                employee: {
+                    label: `${props.performanceRecord.employees[0].fullName} (${props.performanceRecord.employees[0].nickName})`,
+                    value: props.performanceRecord.employees[0].employeeId
+                },
                 comment: props.performanceRecord.comment
             }
         };
@@ -70,10 +70,10 @@ export default class EditNomination extends Component {
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                nominationId: this.props.performanceRecord.nominationId,
                 performanceRecordId: this.props.performanceRecord.performanceRecordId,
                 nominationPeriodId: values.period.value,
                 nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
+                performanceRecordStatusId: PerformanceRecordStatus.Submitted,
                 comment: values.comment
             }),
             headers: {
@@ -84,7 +84,7 @@ export default class EditNomination extends Component {
 
             if (data.isSuccessful) {
                 this.handleCloseForm();
-                this.props.onCreateSuccess(data.objectId);
+                this.props.onEditSuccess(data.objectId);
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
                 if (data.errors) {
@@ -122,25 +122,31 @@ export default class EditNomination extends Component {
                 questions = this.state.eoyQuestions.map(e => `${e.resourceId}. ${e.value}`).join("\r\n\r\n");
             }
 
-            this.setState({
-                initialObj: {
-                    period: value,
-                    employee: values.employee,
-                    comment: questions
-                }
-            });
+            setFieldValue('period', value);
+            setFieldValue('comment', questions);
         }
 
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance edit">
                 <FormGroup>
                     <ControlLabel>{getResource('NominationPeriod')}</ControlLabel>
-                    {this.props.performanceRecord.nomination.period.title}
+                    <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
+                        value={values.period} onChange={onPeriodChange}
+                        options={this.state.nominationPeriodOptions}
+                    />
                 </FormGroup>
 
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
-                    {`${this.props.performanceRecord.employees[0].fullName} (${this.props.performanceRecord.employees[0].nickName})`}
+                    {this.props.isEmployeeSelectable ?
+                        <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
+                            value={values.employee} onChange={value => setFieldValue('employee', value)}
+                            options={this.props.employeeOptions}
+                        />
+                        :
+                        values.employee.label
+                    }
+
                 </FormGroup>
 
                 <FormGroup>
