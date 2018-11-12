@@ -113,7 +113,8 @@ export default class Nomination extends Component {
                 nominations.sort(this.sortNominationsDesc);
 
                 return {
-                    nominations: nomnations
+                    nominations: nomnations,
+                    showEditModal: false
                 }
             });
         }).catch(axiosError);

@@ -34,7 +34,8 @@ export default class EditNomination extends Component {
                     label: `${props.performanceRecord.employees[0].fullName} (${props.performanceRecord.employees[0].nickName})`,
                     value: props.performanceRecord.employees[0].employeeId
                 },
-                comment: props.performanceRecord.comment
+                comment: props.performanceRecord.comment,
+                statusId: props.performanceRecord.statusId
             }
         };
     }
@@ -103,7 +104,15 @@ export default class EditNomination extends Component {
         }).catch(axiosError);
     }
 
-    submitForm = () => this.refs.form.submitForm()
+    handleSubmitForm = () => {
+        this.refs.form.setFieldValue('statusId', PerformanceRecordStatus.Submitted);
+        this.refs.form.submitForm();
+    }
+
+    handleSaveDraft = () => {
+        this.refs.form.setFieldValue('statusId', PerformanceRecordStatus.Draft);
+        this.refs.form.submitForm();
+    }
 
     renderForm = ({
         values,
@@ -188,7 +197,11 @@ export default class EditNomination extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.submitForm}>{getResource('Submit')}</Button>
+                    {
+                        this.props.performanceRecord.statusId === PerformanceRecordStatus.Draft &&
+                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveDraft}>{getResource('SaveAsDraft')}</Button>
+                    }
+                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmitForm}>{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Modal>
 
