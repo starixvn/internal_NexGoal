@@ -66,6 +66,13 @@ export default class EditMemberPerformance extends Component {
             }).catch(axiosError);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (nextProps.performanceRecordId !== this.props.performanceRecordId) {
+            return true;
+        }
+        return false;
+    }
+
     handleEmployeeChange = (selectedOptions) => {
         let errors = { ...this.state.errors };
         delete errors['employee'];

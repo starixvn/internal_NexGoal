@@ -51,9 +51,12 @@ export default class PersonalTimeline extends Component {
 
     calculateNodes = () => {
         const width = window.innerWidth;
-        if (width > 1024 && width < 1366) return 3;
+        if (width > 1600) return 8;
+        if (width > 1500 && width <= 1600) return 7;
+        if (width >= 1440 && width <= 1500) return 6;
         if (width >= 1366 && width <= 1440) return 5;
-        return 8;
+        if (width > 1280 && width < 1366) return 4;
+        return 3;
     }
 
     onClickPrevious = () => {
