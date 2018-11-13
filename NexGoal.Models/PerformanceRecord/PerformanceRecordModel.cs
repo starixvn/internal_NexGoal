@@ -45,11 +45,6 @@
 
         public NominationPeriodModel NominationPeriod { get; set; }
 
-        [JsonIgnore]
-        public int? NominationId { get; set; }
-
-        public NominationModel Nomination { get; set; }
-
         public int TypeId { get; set; }
 
         public bool IsHost => StatusId == PerformanceRecordStatus.Draft || StatusId == PerformanceRecordStatus.Submitted;

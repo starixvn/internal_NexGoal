@@ -121,7 +121,7 @@ export default class App extends Component {
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
                 type={performanceRecord.typeId}
-                nomination={nomination}
+                nominationPeriod={performanceRecord.nominationPeriod}
                 onEdit={this.handleEditMemberPerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />
@@ -143,7 +143,7 @@ export default class App extends Component {
     handleTimelineNodeClick = (performanceRecordId) => {
         if (this.state.activeTabKey === 1) {
             if (!this.state.displayedMemberPerformances.some(r => r.performanceRecordId === performanceRecordId)) {
-                let index = this.state.memberPerformances.findIndex(function (element) {
+                let index = this.state.memberPerformances.findIndex(function(element) {
                     return element.performanceRecordId === performanceRecordId;
                 });
 

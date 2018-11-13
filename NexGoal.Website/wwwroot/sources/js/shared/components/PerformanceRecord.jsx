@@ -39,7 +39,7 @@ export default class PerformanceRecord extends Component {
         isHighlighted: false,
         onEdit: function () { },
         type: null,
-        nomination: null
+        nominationPeriod: null
     };
 
     constructor(props) {
@@ -189,7 +189,7 @@ export default class PerformanceRecord extends Component {
                         (this.props.modifiedDate || this.props.isHost) &&
                         <div className="date">
                             <div className="edit-date">
-                                {this.props.nomination && this.props.nomination.period ? this.props.nomination.period.title : ''}
+                                {this.props.nominationPeriod && this.props.nominationPeriod.title}
 
                                 {
                                     this.props.statusId !== PerformanceRecordStatus.Draft && this.props.modifiedDate &&
@@ -239,7 +239,7 @@ export default class PerformanceRecord extends Component {
 
     renderNominationResult = () => {
         let creator = this.props.creator;
-        let nominationStatusId = this.props.nomination ? this.props.nomination.statusId : 0;
+        let nominationStatusId = this.props.nominationStatusId;
         let nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
 
         return (
@@ -254,7 +254,7 @@ export default class PerformanceRecord extends Component {
                     </div>
                     <div className="date">
                         <div className="edit-date">
-                            {this.props.nomination && this.props.nomination.period ? this.props.nomination.period.title : ''}
+                            {this.props.nominationPeriod && this.props.nominationPeriod.title}
                         </div>
                         <div className={getNominationClassName(nominationStatusId)}>
                             {nominationStatus ? nominationStatus.text : ''}

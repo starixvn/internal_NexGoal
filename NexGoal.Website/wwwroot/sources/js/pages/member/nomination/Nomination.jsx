@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat, PerformanceRecordType, PerformanceRecordStatus } from '../../../constants';
+import { DateFormat, PerformanceRecordStatus } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import CreateNomination from './CreateNomination';
 import EditNomination from './EditNomination';
@@ -144,8 +144,8 @@ export default class Nomination extends Component {
                 isHost={performanceRecord.isHost}
                 comment={performanceRecord.comment}
                 onEdit={this.handleEdit}
-                type={PerformanceRecordType.Nomination}
-                nomination={performanceRecord.nomination}
+                type={performanceRecord.typeId}
+                nominationPeriod={performanceRecord.nominationPeriod}
             />
         );
     }
