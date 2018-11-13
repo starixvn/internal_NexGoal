@@ -7,7 +7,11 @@
     margin-bottom: 16px;
     padding: 16px;
     margin: 12px;
-
+    &.record-system {
+        grid-template-rows: 50px 0 20px;
+        background-color: #EBF4FF;
+        border: 1px solid #5191DF;
+    }
     &.highlighted {
         border: 2px solid #2475D7;
     }
