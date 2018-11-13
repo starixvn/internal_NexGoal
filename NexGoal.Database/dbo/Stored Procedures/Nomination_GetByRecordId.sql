@@ -21,22 +21,13 @@ BEGIN
 		,pr.CreatorId
 		,pr.EmployeeIds
 		,pr.StatusId
-		,n.NominationId
+		,pr.TypeId
+		,n.StatusId AS NominationStatusId
+		,n.EOQYId AS NominationPeriodId
 	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
 	INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) on pr.PerformanceRecordId = nd.PerformanceRecordId
 	INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId
 	WHERE pr.PerformanceRecordId = @RecordId AND pr.TypeId = 3
-
-	SELECT n.NominationId
-		,n.EOQYId AS 'NominationPeriodId'
-		,n.StatusId
-		,n.NomineeId
-	FROM dbo.Nomination n WITH (NOLOCK)
-	WHERE EXISTS (
-			SELECT 1 
-			FROM dbo.NominationDetail nd WITH (NOLOCK)
-			WHERE nd.PerformanceRecordId = @RecordId AND nd.NominationId = n.NominationId
-			)
 
 	SELECT e.EOQYId AS 'NominationPeriodId'
 		,e.[Quarter]

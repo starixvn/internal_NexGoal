@@ -240,5 +240,6 @@
     <Build Include="dbo\Stored Procedures\Nomination_CheckIsNominator.sql" />
     <Build Include="dbo\Stored Procedures\Auto_PA_UpdateWhenEvaluationFinished.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Nomination_UpdateWhenFinished.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_Update.sql" />
   </ItemGroup>
 </Project>

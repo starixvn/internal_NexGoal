@@ -1,9 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[Nomination_GetMemberNominations] 
 	@ActorId INT
 	,@MemberId INT = NULL
-	,@Page INT
-	,@PageSize INT
-	,@Total INT OUT
 AS
 /*
 Created: 201801105@Elton.Ton
@@ -18,13 +15,6 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	SELECT @Total = COUNT(*)
-	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
-	INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) on pr.PerformanceRecordId = nd.PerformanceRecordId
-	INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId
-	WHERE pr.CreatorId = @ActorId AND nd.NominatorId = @ActorId
-		AND (@MemberId IS NULL OR n.NomineeId = @MemberId)
-
 	SELECT pr.PerformanceRecordId
 		,pr.Comment
 		,pr.CreatedDate
@@ -32,17 +22,20 @@ BEGIN
 		,pr.CreatorId
 		,pr.EmployeeIds
 		,pr.StatusId
-		,n.NomineeId
-		,n.NominationId
+		,pr.TypeId
+		,n.StatusId AS NominationStatusId
+		,n.EOQYId AS NominationPeriodId
 	INTO #nominationTbl
 	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
 	INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) on pr.PerformanceRecordId = nd.PerformanceRecordId
 	INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId
 	WHERE pr.CreatorId = @ActorId AND nd.NominatorId = @ActorId
 		AND (@MemberId IS NULL OR n.NomineeId = @MemberId)
-	ORDER BY pr.CreatedDate DESC
-	OFFSET (@Page - 1) * @PageSize ROWS
-	FETCH NEXT @PageSize ROWS ONLY
+	ORDER BY CASE 
+			WHEN pr.StatusId = 2 THEN 1
+			ELSE 2
+			END
+		,pr.CreatedDate DESC
 
 	SELECT PerformanceRecordId
 		,Comment
@@ -51,16 +44,15 @@ BEGIN
 		,CreatorId
 		,EmployeeIds
 		,StatusId
-		,NominationId
+		,TypeId
+		,NominationPeriodId
+		,NominationStatusId
 	FROM #nominationTbl
-	ORDER BY CreatedDate DESC
-
-	SELECT n.NominationId
-		,n.EOQYId AS 'NominationPeriodId'
-		,n.StatusId
-		,n.NomineeId
-	FROM dbo.Nomination n WITH (NOLOCK)
-	WHERE EXISTS (SELECT 1 FROM #nominationTbl nt WHERE nt.NominationId = n.NominationId AND nt.NomineeId = n.NomineeId)
+	ORDER BY CASE 
+			WHEN StatusId = 2 THEN 1
+			ELSE 2
+			END
+		,CreatedDate DESC
 
 	SELECT e.EOQYId AS 'NominationPeriodId'
 		,e.[Quarter]
@@ -68,9 +60,7 @@ BEGIN
 	FROM dbo.EOQY e WITH (NOLOCK)
 	WHERE EXISTS (
 			SELECT 1 
-			FROM dbo.Nomination n WITH (NOLOCK)
-			WHERE n.EOQYId = e.EOQYId
-				AND EXISTS (SELECT 1 FROM #nominationTbl nt WHERE nt.NominationId = n.NominationId AND nt.NomineeId = n.NomineeId)
+			FROM #nominationTbl nt WHERE nt.NominationPeriodId = e.EOQYId
 		)
 
 	DROP TABLE #nominationTbl

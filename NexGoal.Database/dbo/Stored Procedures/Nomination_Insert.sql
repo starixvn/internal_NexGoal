@@ -3,6 +3,7 @@ CREATE PROCEDURE [dbo].[Nomination_Insert] @NominationPeriodId INT
 	,@NomineeId INT
 	,@NominatorId INT
 	,@Comment NVARCHAR(MAX) = NULL
+	,@PerformanceRecordStatusId TINYINT
 	,@PerformanceRecordId INT OUTPUT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
@@ -45,15 +46,22 @@ BEGIN
 		,@duration INT
 		,@logData NVARCHAR(MAX)
 		,@xml XML
-	DECLARE @NominationId INT
+	DECLARE @NominationId INT, @NominationStatusId TINYINT
 
-	SELECT @NominationId = n.NominationId
+	SELECT @NominationId = n.NominationId, @NominationStatusId = n.StatusId
 	FROM dbo.Nomination AS n WITH (NOLOCK)
 	WHERE n.NomineeId = @NomineeId
 		AND n.EOQYId = @NominationPeriodId
 
 	IF @NominationId IS NULL
 	BEGIN
+		SET @NominationStatusId = 1
+
+		IF @PerformanceRecordStatusId = 2
+		BEGIN
+			SET @NominationStatusId = 4
+		END
+
 		INSERT INTO dbo.Nomination (
 			EOQYId
 			,NomineeId
@@ -62,10 +70,19 @@ BEGIN
 		VALUES (
 			@NominationPeriodId
 			,@NomineeId
-			,1
+			,@NominationStatusId
 			)
 
 		SELECT @NominationId = SCOPE_IDENTITY()
+	END
+	ELSE
+	BEGIN
+		IF @NominationStatusId = 4 AND @PerformanceRecordStatusId = 3
+		BEGIN
+			UPDATE dbo.Nomination WITH (ROWLOCK, UPDLOCK)
+			SET StatusId = 1
+			WHERE NominationId = @NominationId
+		END
 	END
 
 	INSERT INTO dbo.PerformanceRecord (
@@ -80,7 +97,7 @@ BEGIN
 		@NomineeId
 		,@NominatorId
 		,@Comment
-		,3
+		,@PerformanceRecordStatusId
 		,GETDATE()
 		,3
 		)
