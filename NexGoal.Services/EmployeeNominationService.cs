@@ -66,17 +66,18 @@
             performanceRecord.Creator = await commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).ConfigureAwait(false);
             performanceRecord.NominationPeriod = nominationPeriod;
 
+            var nominee = await commonService.GetEmployeeByIdAsync(int.Parse(performanceRecord.EmployeeIds)).ConfigureAwait(false);
+            performanceRecord.Employees = new List<EmployeeBaseModel> { nominee };
+
             return performanceRecord;
         }
 
-        public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetMemberNominationsAsync(int nominatorId, int? memberId, int pageSize, int page)
+        public async Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationsAsync(int nominatorId, int? memberId)
         {
             var criteria = new GetMemberNominationCriteria
             {
                 ActorId = nominatorId,
-                MemberId = memberId,
-                PageSize = pageSize,
-                Page = page
+                MemberId = memberId
             };
 
             var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
@@ -89,7 +90,7 @@
 
             MappingData(performanceRecords, employees, nominationPeriods);
 
-            return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.Total);
+            return performanceRecords;
         }
 
         public async Task<CommandResult> Edit(EditEmployeeNominationModel model)

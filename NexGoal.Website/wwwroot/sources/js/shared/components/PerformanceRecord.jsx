@@ -21,7 +21,8 @@ export default class PerformanceRecord extends Component {
         isHighlighted: PropTypes.bool,
         onEdit: PropTypes.func,
         type: PropTypes.number,
-        nomination: PropTypes.object
+        nominationPeriod: PropTypes.object,
+        nominationStatusId: PropTypes.number
     };
 
     static defaultProps = {
@@ -37,9 +38,10 @@ export default class PerformanceRecord extends Component {
         roleId: 0,
         statusId: 0,
         isHighlighted: false,
-        onEdit: function () { },
+        onEdit: function() { },
         type: null,
-        nominationPeriod: null
+        nominationPeriod: null,
+        nominationStatusId: null
     };
 
     constructor(props) {

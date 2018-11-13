@@ -1,7 +1,6 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
-import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
@@ -17,11 +16,8 @@ export default class Nomination extends Component {
         this.state = {
             nominations: [],
             nominationPeriods: [],
-            hasMore: false,
             showEditModal: false
         };
-
-        this.itemPerPage = 10;
     }
 
     componentDidMount() {
@@ -29,7 +25,6 @@ export default class Nomination extends Component {
             axios(resolveClientUrl('MemberNomination/GetMemberNominations'), {
                 params: {
                     memberId: this.props.isMemberDetail ? this.props.nomineeId : null,
-                    pageSize: this.itemPerPage
                 }
             }),
             axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
@@ -38,29 +33,10 @@ export default class Nomination extends Component {
         Promise.all(promises)
             .then(([nominationResponse, nominationPeriodResponse]) => {
                 this.setState({
-                    nominations: nominationResponse.data.nominations,
-                    hasMore: nominationResponse.data.nominations.length < nominationResponse.data.total,
+                    nominations: nominationResponse.data,
                     nominationPeriods: nominationPeriodResponse.data,
                 });
             }).catch(axiosError);
-    }
-
-    loadMoreNominations = page => {
-        axios.get(resolveClientUrl('MemberNomination/GetMemberNominations'), {
-            params: {
-                memberId: this.props.isMemberDetail ? this.props.nomineeId : null,
-                pageSize: this.itemPerPage,
-                page: page
-            }
-        }).then(reponse => {
-            this.setState(prevState => {
-                let nominations = [...prevState.nominations, ...reponse.data.nominations];
-                return {
-                    nominations: nominations,
-                    hasMore: nominations.length < reponse.data.total
-                };
-            });
-        }).catch(axiosError);
     }
 
     sortNominationsDesc = (firstNomination, secondNomination) => {
@@ -163,16 +139,7 @@ export default class Nomination extends Component {
                         />
                     }
 
-                    <InfiniteScroll
-                        pageStart={1}
-                        initialLoad={false}
-                        loadMore={this.loadMoreNominations}
-                        hasMore={this.state.hasMore}
-                        threshold={0}
-                        useWindow={false}
-                    >
-                        {this.state.nominations.map(this.renderPerformanceRecord)}
-                    </InfiniteScroll>
+                    {this.state.nominations.map(this.renderPerformanceRecord)}
                 </Scrollbars>
 
                 {this.state.showEditModal &&

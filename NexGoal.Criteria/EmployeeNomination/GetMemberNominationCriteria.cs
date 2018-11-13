@@ -8,14 +8,8 @@
 
         public int? MemberId { get; set; }
 
-        public int PageSize { get; set; }
-
-        public int Page { get; set; }
-
-        public int Total { get; set; }
-
         public override string GetSettingKey() => "Nomination_GetMemberNominations";
 
-        public override bool IsValid() => ActorId > 0 && PageSize > 0 && Page > 0;
+        public override bool IsValid() => ActorId > 0;
     }
 }

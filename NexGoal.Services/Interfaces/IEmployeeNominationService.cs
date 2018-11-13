@@ -13,7 +13,7 @@
 
         Task<CommandResult> Create(CreateEmployeeNominationModel model);
 
-        Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetMemberNominationsAsync(int nominatorId, int? memberId, int pageSize, int page);
+        Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationsAsync(int nominatorId, int? memberId);
 
         Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId);
 

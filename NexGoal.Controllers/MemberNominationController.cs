@@ -82,11 +82,11 @@
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetMemberNominations(int pageSize, int? memberId, int page = 1)
+        public async Task<IActionResult> GetMemberNominations(int? memberId)
         {
-            var result = await employeeNominationService.GetMemberNominationsAsync(sessionService.EmployeeId, memberId, pageSize, page).ConfigureAwait(false);
+            var result = await employeeNominationService.GetMemberNominationsAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
-            return Json(new { nominations = result.Item1, total = result.Item2 });
+            return Json(result);
         }
 
         [HttpGet]

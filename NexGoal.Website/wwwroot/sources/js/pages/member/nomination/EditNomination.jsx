@@ -27,8 +27,8 @@ export default class EditNomination extends Component {
             eoyQuestions: [],
             initialObj: {
                 period: {
-                    label: props.performanceRecord.nomination.period.title,
-                    value: props.performanceRecord.nomination.period.nominationPeriodId
+                    label: props.performanceRecord.nominationPeriod.title,
+                    value: props.performanceRecord.nominationPeriod.nominationPeriodId
                 },
                 employee: {
                     label: `${props.performanceRecord.employees[0].fullName} (${props.performanceRecord.employees[0].nickName})`,
