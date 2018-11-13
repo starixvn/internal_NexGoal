@@ -103,6 +103,10 @@ export default class App extends Component {
     renderPerformanceRecord = (performanceRecord) => {
         let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
         let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
+        let nomination = {
+            period: performanceRecord.nominationPeriod,
+            statusId: performanceRecord.nominationStatusId
+        };
 
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
@@ -117,6 +121,7 @@ export default class App extends Component {
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
                 type={performanceRecord.typeId}
+                nomination={nomination}
                 onEdit={this.handleEditMemberPerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />

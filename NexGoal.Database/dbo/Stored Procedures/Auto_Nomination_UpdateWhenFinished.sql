@@ -45,7 +45,7 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON nomination.NomineeId = emp.EmployeeId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-	WHERE nomination.PerformanceRecordId IS NOT NULL
+	WHERE nomination.PerformanceRecordId IS NULL
 
 	DELETE
 	FROM #tblNomination
@@ -78,7 +78,7 @@ BEGIN
 
 		SET @PerformanceRecordId = SCOPE_IDENTITY()
 
-		UPDATE pa
+		UPDATE nomination
 		SET nomination.PerformanceRecordId = @PerformanceRecordId
 		FROM dbo.Nomination AS nomination WITH (ROWLOCK, UPDLOCK)
 		WHERE nomination.NominationId = @NominationId
