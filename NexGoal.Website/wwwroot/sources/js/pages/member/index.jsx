@@ -116,6 +116,7 @@ export default class App extends Component {
                 grade={performanceRecord.grade}
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
+                type={performanceRecord.typeId}
                 onEdit={this.handleEditMemberPerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />

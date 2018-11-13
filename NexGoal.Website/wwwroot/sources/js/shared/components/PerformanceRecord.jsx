@@ -1,8 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 
-import { getRoleClassName } from '../../common-functions';
-import { PerformanceRecordStatus, PerformanceRecordType } from '../../constants';
+import { getNominationClassName, getRoleClassName } from '../../common-functions';
+import { NominationStatuses, PerformanceRecordStatus, PerformanceRecordType } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default class PerformanceRecord extends Component {
@@ -52,7 +52,10 @@ export default class PerformanceRecord extends Component {
     }
 
     componentDidMount() {
-        this.detectCollapseExpandComment();
+        if (this.props.type === PerformanceRecordType.PerformanceCheckin
+            || this.props.type === PerformanceRecordType.Nomination) {
+            this.detectCollapseExpandComment();
+        }
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -96,13 +99,72 @@ export default class PerformanceRecord extends Component {
         this.props.onEdit(this.props.objectId);
     }
 
-    render() {
+    renderPerformanceCheckin = () => {
         let employees = this.props.employees;
         let creator = this.props.creator;
         let projects = this.props.projects && this.props.projects.length > 0 ? this.props.projects.map((e, i) => <span key={i} className="tag">{e}</span>) : 'N/A';
 
         return (
-            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
+            <Fragment>
+                <div className="avatar-user">
+                    <img src={creator.avatar} alt="avatar" className="avatar" />
+                    <div className="person-info">
+                        <span className={getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
+                        {
+                            employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
+                            <Fragment>
+                                <span className="icon-checkin" />
+                                <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
+                            </Fragment>
+                        }
+                        <div>
+                            <span className="submit-date">{this.props.submittedDate}</span>
+                            {
+                                this.props.statusId === PerformanceRecordStatus.Draft &&
+                                <span className="draft">draft</span>
+                            }
+                        </div>
+                    </div>
+                    {
+                        (this.props.modifiedDate || this.props.isHost) &&
+                        <div className="date">
+                            <div className="edit-date">
+                                {
+                                    this.props.statusId !== PerformanceRecordStatus.Draft && this.props.modifiedDate &&
+                                    <Fragment>Edited on {this.props.modifiedDate}</Fragment>
+                                }
+                                {
+                                    this.props.isHost &&
+                                    <a className="icon-edit" onClick={this.handleEdit} />
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div className="comment" >
+                    <p className={this.state.isExpanded ? "collapsed" : "expanded"} ref={(element) => this.element = element}>{this.props.comment}</p>
+                    {
+                        this.state.showCollapseExpandButton ?
+                            <span className={this.state.isExpanded ? "see-more" : "see-less"} onClick={this.collapseExpandComment} />
+                            : null
+                    }
+                </div>
+                <div className="grade">
+                    {`${getResource('Grade')}:`} <div className="grade-detail">{this.props.grade ? this.props.grade.name : 'N/A'}</div>
+                </div>
+                <div className="project">
+                    {`${getResource('ProjectTag')}:`} <div className="project-detail">{projects}</div>
+                </div>
+            </Fragment>
+        );
+    }
+
+    renderNomination = () => {
+        let employees = this.props.employees;
+        let creator = this.props.creator;
+
+        return (
+            <Fragment>
                 <div className="avatar-user">
                     <img src={creator.avatar} alt="avatar" className="avatar" />
                     <div className="person-info">
@@ -127,7 +189,7 @@ export default class PerformanceRecord extends Component {
                         (this.props.modifiedDate || this.props.isHost) &&
                         <div className="date">
                             <div className="edit-date">
-                                {this.props.type === PerformanceRecordType.Nomination && <Fragment>{this.props.nomination.period.title}</Fragment>}
+                                {this.props.nomination.period.title}
 
                                 {
                                     this.props.statusId !== PerformanceRecordStatus.Draft && this.props.modifiedDate &&
@@ -150,15 +212,77 @@ export default class PerformanceRecord extends Component {
                             : null
                     }
                 </div>
-                {this.props.type !== PerformanceRecordType.Nomination &&
-                    <Fragment>
-                        <div className="grade">
-                    {`${getResource('Grade')}:`} <div className="grade-detail">{this.props.grade ? this.props.grade.name : ''}</div>
+            </Fragment>
+        );
+    }
+
+    renderPerformanceApprisalResult = () => {
+        let creator = this.props.creator;
+
+        return (
+            <Fragment>
+                <div className="avatar-user">
+                    <img src={creator.avatar} alt="avatar" className="avatar" />
+                    <div className="person-info">
+                        <span className={getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
+                        <div>
+                            <span className="submit-date">{this.props.submittedDate}</span>
                         </div>
-                        <div className="project">
-                    {`${getResource('ProjectTag')}:`} <div className="project-detail">{projects}</div>
+                    </div>
+                </div>
+                <div className="grade">
+                    {`${getResource('Grade')}:`} <div className="grade-detail">{this.props.grade ? this.props.grade.name : 'N/A'}</div>
+                </div>
+            </Fragment>
+        );
+    }
+
+    renderNominationResult = () => {
+        let creator = this.props.creator;
+        let nominationStatusId = this.props.nomination.statusId;
+        let nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
+
+        return (
+            <Fragment>
+                <div className="avatar-user">
+                    <img src={creator.avatar} alt="avatar" className="avatar" />
+                    <div className="person-info">
+                        <span className={getRoleClassName(this.props.roleId)}>{creator.nickName}</span>
+                        <div>
+                            <span className="submit-date">{this.props.submittedDate}</span>
                         </div>
-                    </Fragment>
+                    </div>
+                    <div className="date">
+                        <div className="edit-date">
+                            {this.props.nomination.period.title}
+                        </div>
+                        <div className={getNominationClassName(nominationStatusId)}>
+                            {nominationStatus ? nominationStatus.text : ''}
+                        </div>
+                    </div>
+                </div>
+            </Fragment>
+        );
+    }
+
+    render() {
+        return (
+            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
+                {
+                    this.props.type === PerformanceRecordType.PerformanceCheckin &&
+                    this.renderPerformanceCheckin()
+                }
+                {
+                    this.props.type === PerformanceRecordType.Nomination &&
+                    this.renderNomination()
+                }
+                {
+                    this.props.type === PerformanceRecordType.SystemPerformanceAppraisal &&
+                    this.renderPerformanceApprisalResult()
+                }
+                {
+                    this.props.type === PerformanceRecordType.SystemNomination &&
+                    this.renderNominationResult()
                 }
             </div >
         );

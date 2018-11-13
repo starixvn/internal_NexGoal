@@ -63,6 +63,7 @@ export default class App extends Component {
             activeTabKey: 1,
             loadNominationTab: false
         };
+
         this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
         this.itemPerPage = 4;
     }
@@ -193,6 +194,7 @@ export default class App extends Component {
                 grade={performanceRecord.grade}
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
+                type={performanceRecord.typeId}
                 onEdit={this.handleEditMemberPerformanceRecordClick}
                 isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
             />

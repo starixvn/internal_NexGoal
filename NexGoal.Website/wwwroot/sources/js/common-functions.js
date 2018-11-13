@@ -63,4 +63,24 @@ export const getRoleClassName = (roleId) => {
     return className;
 };
 
+export const getNominationClassName = (statusId) => {
+    let className = '';
+
+    switch (statusId) {
+        case 1:
+            className = 'status-nomination';
+            break;
+
+        case 2:
+            className = 'status-shortlisted';
+            break;
+
+        case 3:
+            className = 'status-winner';
+            break;
+    }
+
+    return className;
+};
+
 export const noDataIndication = () => <span className="text-danger">No information available!</span>;

@@ -10,6 +10,7 @@
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.PerformanceRecord;
 
     public class PerformanceRecordService : IPerformanceRecordService
@@ -34,17 +35,17 @@
             {
                 EmployeeId = employeeId
             };
-            var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            var tuple = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
             IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
-            foreach (PerformanceRecordModel performanceRecord in performanceRecords)
+            foreach (PerformanceRecordModel performanceRecord in tuple.Item1)
             {
-                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees);
+                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees, tuple.Item2);
             }
 
-            return performanceRecords;
+            return tuple.Item1;
         }
 
         public async Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param)
@@ -171,7 +172,8 @@
             PerformanceRecordModel performanceRecord,
             IEnumerable<ProjectModel> projects,
             IEnumerable<PerformanceGradeModel> performanceGrades,
-            IEnumerable<EmployeeBaseModel> employees)
+            IEnumerable<EmployeeBaseModel> employees,
+            IEnumerable<NominationPeriodModel> nominationPeriods = null)
         {
             string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
             performanceRecord.Projects = projects.Where(x => projectIds.Contains(x.ProjectId.ToString()));
@@ -185,6 +187,11 @@
 
             performanceRecord.Creator = performanceRecord.CreatorId == Constants.NexGoalSystemId ?
                 NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+
+            if(performanceRecord.NominationPeriodId.HasValue && nominationPeriods != null)
+            {
+                performanceRecord.NominationPeriod = nominationPeriods.FirstOrDefault(x => x.NominationPeriodId == performanceRecord.NominationPeriodId.Value);
+            }
         }
 
         private void MappingDataPerformanceTimeline(

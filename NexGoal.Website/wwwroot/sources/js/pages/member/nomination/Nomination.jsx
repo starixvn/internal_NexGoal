@@ -1,5 +1,4 @@
 ﻿import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
 import axios from 'axios';
 import moment from 'moment';
 import InfiniteScroll from 'react-infinite-scroller';
@@ -59,9 +58,9 @@ export default class Nomination extends Component {
                 return {
                     nominations: nominations,
                     hasMore: nominations.length < reponse.data.total
-                }
+                };
             });
-        }).catch(axiosError)
+        }).catch(axiosError);
     }
 
     sortNominationsDesc = (firstNomination, secondNomination) => {
@@ -154,11 +153,14 @@ export default class Nomination extends Component {
     render() {
         return (
             <div className="record-list">
-                <Scrollbars style={{ height: '100%' }} autoHide={true}  >
-                    {this.state.nominationPeriods.length > 0 &&
+                <Scrollbars style={{ height: '100%' }} autoHide={true}>
+                    {
+                        this.state.nominationPeriods.length > 0 &&
                         <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions}
                             nominationPeriods={this.state.nominationPeriods} isEmployeeSelectable={!this.props.isMemberDetail}
-                            nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess} />}
+                            nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess}
+                        />
+                    }
 
                     <InfiniteScroll
                         pageStart={1}

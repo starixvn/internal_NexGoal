@@ -129,8 +129,8 @@
         [HttpGet]
         public async Task<JsonResult> GetHRMSummary(int? memberId = null)
         {
-            var empId = memberId ?? sessionService.EmployeeId;
-            var HRMSummay = await commonService.GetHRMSummary(empId).ConfigureAwait(false);
+            var employeeId = memberId ?? sessionService.EmployeeId;
+            var HRMSummay = await commonService.GetHRMSummary(employeeId).ConfigureAwait(false);
 
             return Json(HRMSummay);
         }

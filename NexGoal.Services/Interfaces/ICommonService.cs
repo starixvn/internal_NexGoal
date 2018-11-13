@@ -29,6 +29,6 @@
 
         Task<PeriodBaseModel> GetCurrentPerformancePeriodAsync();
 
-        Task<HRMSummaryModel> GetHRMSummary(int empId);
+        Task<HRMSummaryModel> GetHRMSummary(int employeeId);
     }
 }

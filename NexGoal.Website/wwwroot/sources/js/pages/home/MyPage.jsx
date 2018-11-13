@@ -4,6 +4,7 @@ import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
+
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { DateFormat } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -205,6 +206,10 @@ export default class MyPage extends Component {
     renderPerformanceRecord = (performanceRecord) => {
         let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
         let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
+        let nomination = {
+            period: performanceRecord.nominationPeriod,
+            statusId: performanceRecord.nominationStatusId
+        };
 
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
@@ -218,6 +223,8 @@ export default class MyPage extends Component {
                 grade={performanceRecord.grade}
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
+                type={performanceRecord.typeId}
+                nomination={nomination}
                 onEdit={this.handleEditPerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />

@@ -10,7 +10,7 @@
             EmployeeId = Constants.NexGoalSystemId,
             NickName = "NexGoal",
             FullName = "NexGoal",
-            Avatar = "/dist/avatars/avatar.jpg"
+            Avatar = "/dist/avatars/nexgoal.jpg"
         };
     }
 }

@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+import { getNominationClassName } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
 
 export default class NominationResult extends Component {
@@ -22,26 +23,6 @@ export default class NominationResult extends Component {
         return false;
     }
 
-    getCssClass = (statusId) => {
-        let cssClass = '';
-
-        switch (statusId) {
-            case NominationStatuses[0].value:
-                cssClass = 'status-nomination';
-                break;
-
-            case NominationStatuses[1].value:
-                cssClass = 'status-shortlisted';
-                break;
-
-            case NominationStatuses[2].value:
-                cssClass = 'status-winner';
-                break;
-        }
-
-        return cssClass;
-    }
-
     render() {
         const nominations = this.props.nominations;
 
@@ -56,7 +37,7 @@ export default class NominationResult extends Component {
                                     this.props.isSupervisor &&
                                     <span className="nick-name">{nomination.nickName} - </span>
                                 }
-                                {nomination.period.title} - <span className={this.getCssClass(nomination.statusId)}>
+                                {nomination.period.title} - <span className={getNominationClassName(nomination.statusId)}>
                                     {NominationStatuses.find(x => x.value === nomination.statusId).text}
                                 </span>
                             </div>

@@ -123,11 +123,11 @@
             return await baseService.GetDataEntityAsync<PeriodBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<HRMSummaryModel> GetHRMSummary(int empId)
+        public async Task<HRMSummaryModel> GetHRMSummary(int employeeId)
         {
             var criteria = new GetHRMSummaryCriteria
             {
-                EmployeeId = empId
+                EmployeeId = employeeId
             };
 
             return await baseService.GetDataEntityAsync<HRMSummaryModel>(criteria).ConfigureAwait(false);
