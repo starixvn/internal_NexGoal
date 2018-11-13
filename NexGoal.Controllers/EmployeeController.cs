@@ -11,7 +11,6 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
     using NexGoal.Services;
-    using NexGoal.ViewModels.Employee;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EmployeeManagement, Policy = Policy.Read)]
     public class EmployeeController : Controller
@@ -57,14 +56,10 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EmployeeManagement, Policy = Policy.Host)]
-        public async Task<JsonResult> EditEmployeeRoles(EditEmployeeRolesViewModel model)
+        public async Task<JsonResult> EditEmployeeRoles(EditEmployeeRolesModel model)
         {
-            CommandResult commandResult = await employeeService.EditEmployeeRolesAsync(new EditEmployeeRolesModel
-            {
-                EmployeeId = model.EmployeeId,
-                SelectedRoleIds = model.SelectedRoleIds,
-                ModifiedBy = sessionService.EmployeeId
-            }).ConfigureAwait(false);
+            model.ModifiedBy = sessionService.EmployeeId;
+            CommandResult commandResult = await employeeService.EditEmployeeRolesAsync(model).ConfigureAwait(false);
 
             return Json(commandResult);
         }

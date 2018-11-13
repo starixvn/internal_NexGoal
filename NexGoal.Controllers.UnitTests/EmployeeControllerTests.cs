@@ -10,7 +10,6 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
     using NexGoal.Services;
-    using NexGoal.ViewModels.Employee;
     using NSubstitute;
     using Xunit;
 
@@ -97,22 +96,23 @@
         [Fact]
         public async Task EditEmployeeRoles_ValidModel_ReturnExpectedCommandResult()
         {
+            // Arrange
+            var expected = new CommandResult();
             var controller = GetEmployeeController();
             sessionService.EmployeeId = 1;
-            employeeService.EditEmployeeRolesAsync(Arg.Any<EditEmployeeRolesModel>()).Returns(new CommandResult
-            {
-                Code = 0
-            });
+            employeeService.EditEmployeeRolesAsync(Arg.Any<EditEmployeeRolesModel>()).Returns(expected);
 
-            var result = await controller.EditEmployeeRoles(new EditEmployeeRolesViewModel
+            // Act
+            var result = await controller.EditEmployeeRoles(new EditEmployeeRolesModel
             {
                 EmployeeId = 1,
                 SelectedRoleIds = "1,2"
             });
 
+            // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            var commandResult = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
-            Assert.True(commandResult.IsSuccessful);
+            var actual = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(expected, actual);
         }
 
         private EmployeeController GetEmployeeController()
