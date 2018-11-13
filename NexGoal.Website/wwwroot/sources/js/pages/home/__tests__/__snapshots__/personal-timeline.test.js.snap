@@ -8,7 +8,7 @@ exports[`Test timeline component renders correctly renders without crashing 1`] 
     className="xaxes"
   />
   <p
-    className="timeline-grade"
+    className="timeline-grade role-default"
     onClick={[Function]}
     style={
       Object {
@@ -28,7 +28,7 @@ exports[`Test timeline component renders correctly renders without crashing 1`] 
     }
   >
     <p
-      className="name "
+      className="name role-default"
     >
       Michael
     </p>

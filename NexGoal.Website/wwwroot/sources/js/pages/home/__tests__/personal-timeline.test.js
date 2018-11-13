@@ -4,6 +4,14 @@ import TimelineNode from '../timeline/TimelineNode';
 import renderer from 'react-test-renderer';
 import { shallow } from 'enzyme';
 
+const resize = (width, height) => {
+    window.innerWidth = width;
+    if (height) {
+        window.innerHeight = height;
+    }
+    window.dispatchEvent(new Event('resize'));
+};
+
 const records = [{
     performanceRecordId: 1,
     gradeId: 2,
@@ -49,11 +57,13 @@ describe('Test timeline component', () => {
 
         it('shouldComponentUpdate will return right value', () => {
             const wrapper = shallow(<PersonalTimeline data={data} />);
+            wrapper.setState({ totalNodes: 8, windowWidth: 1600 });
             let nextProps;
+            let nextState;
             let shouldUpdate;
-
+            nextState = { totalNodes: 8, windowWidth: 1600 };
             nextProps = { data };
-            shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps);
+            shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps, nextState);
             expect(shouldUpdate).toBe(false);
 
             nextProps = {
@@ -62,6 +72,7 @@ describe('Test timeline component', () => {
                 records: [],
                 pageIndex: 2
             };
+            nextState = { totalNodes: 6, windowWidth: 1500 };
             shouldUpdate = wrapper.instance().shouldComponentUpdate(nextProps);
             expect(shouldUpdate).toBe(true);
         });
@@ -75,12 +86,26 @@ describe('Test timeline component', () => {
 
         it('on click previous button', () => {
             component.onClickPrevious();
-            expect(component.props.onPageChange).toBeCalledWith(3);
+            expect(component.props.onPageChange).toBeCalledWith(3, 8);
         });
 
         it('on click next button', () => {
             component.onClickNext();
-            expect(component.props.onPageChange).toBeCalledWith(1);
+            expect(component.props.onPageChange).toBeCalledWith(1, 8);
+        });
+    });
+
+    describe('time line responsive test', () => {
+        let component;
+        beforeEach(() => {
+            component = shallow(<PersonalTimeline data={data} onPageChange={() => jest.fn()} />);
+        });
+
+        it('calculate displayed node will return expected value', () => {
+            let returnValue;
+            resize(1601);
+            returnValue = component.instance().calculateNodes();
+            expect(returnValue).toEqual(8);
         });
     });
 });

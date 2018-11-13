@@ -1,4 +1,6 @@
 ﻿window._virtualConsole.removeAllListeners("jsdomError");
+window.innerWidth = 1920;
+window.innerHeight = 938;
 
 document.getElementById = (id) => {
     let input;

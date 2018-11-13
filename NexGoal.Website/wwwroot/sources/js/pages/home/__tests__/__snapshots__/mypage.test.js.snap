@@ -1,260 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[` 1`] = `
-<div
-  className="row"
->
-  <div
-    className="Toastify"
-  />
-  <div
-    className="my-page main-layout"
-  >
-    <div
-      className="general-info"
-    >
-      <div
-        className="user-info box"
-      >
-        <img
-          alt="avatar"
-          className="avatar"
-          src={null}
-        />
-        <div
-          className="nick-name"
-        />
-        <div
-          className="user-name"
-        />
-        <div
-          className="role role-PM"
-        />
-      </div>
-      <div
-        className="my-pa box"
-      >
-        <h5>
-          My PAs
-        </h5>
-      </div>
-    </div>
-    <div
-      className="main-content"
-    >
-      <div
-        className="fixed-section"
-      >
-        <div
-          className="warning marquee"
-        >
-          <div>
-            News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed
-          </div>
-        </div>
-        <div
-          className="timeline"
-        >
-          <div
-            className="xaxes"
-          />
-          <button
-            className="previous"
-            disabled={false}
-            onClick={[Function]}
-          >
-            <span
-              className="button-icon icon-chevron-left"
-            />
-          </button>
-          <button
-            className="next"
-            disabled={false}
-            onClick={[Function]}
-          >
-            <span
-              className="button-icon icon-chevron-right"
-            />
-          </button>
-        </div>
-      </div>
-      <div
-        className="record-list"
-      >
-        <div
-          style={
-            Object {
-              "height": "100%",
-              "overflow": "hidden",
-              "position": "relative",
-              "width": "100%",
-            }
-          }
-        >
-          <div
-            style={
-              Object {
-                "WebkitOverflowScrolling": "touch",
-                "bottom": 0,
-                "left": 0,
-                "marginBottom": 0,
-                "marginRight": 0,
-                "overflow": "scroll",
-                "position": "absolute",
-                "right": 0,
-                "top": 0,
-              }
-            }
-          >
-            <div
-              className="record record-your-mind"
-            >
-              <div
-                className="avatar-user"
-              >
-                <img
-                  className="avatar"
-                  src={null}
-                />
-                <div
-                  className="person-info"
-                >
-                  <span
-                    className="role-member"
-                  />
-                  <div
-                    className="submit-date"
-                  >
-                    2018–05–11T12:00:00+00:00
-                  </div>
-                </div>
-              </div>
-              <div
-                className="comment"
-              >
-                <input
-                  className="form-control"
-                  onClick={[Function]}
-                  placeholder="What's on your mind?"
-                  style={
-                    Object {
-                      "height": 50,
-                      "marginBottom": 15,
-                    }
-                  }
-                />
-              </div>
-            </div>
-          </div>
-          <div
-            style={
-              Object {
-                "borderRadius": 3,
-                "bottom": 2,
-                "display": "none",
-                "height": 6,
-                "left": 2,
-                "opacity": 0,
-                "position": "absolute",
-                "right": 2,
-                "transition": "opacity 200ms",
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,.2)",
-                  "borderRadius": "inherit",
-                  "cursor": "pointer",
-                  "display": "block",
-                  "height": "100%",
-                  "position": "relative",
-                }
-              }
-            />
-          </div>
-          <div
-            style={
-              Object {
-                "borderRadius": 3,
-                "bottom": 2,
-                "display": "none",
-                "opacity": 0,
-                "position": "absolute",
-                "right": 2,
-                "top": 2,
-                "transition": "opacity 200ms",
-                "width": 6,
-              }
-            }
-          >
-            <div
-              style={
-                Object {
-                  "backgroundColor": "rgba(0,0,0,.2)",
-                  "borderRadius": "inherit",
-                  "cursor": "pointer",
-                  "display": "block",
-                  "position": "relative",
-                  "width": "100%",
-                }
-              }
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-    <div
-      className="work-info"
-    >
-      <div
-        className="nomination box"
-      >
-        <h5>
-          Nomination
-        </h5>
-      </div>
-      <div
-        className="hrm-summary box"
-      >
-        <h5>
-          HRM
-        </h5>
-        <ul
-          className="hrm-info"
-        >
-          <li>
-            TOEIC score: 
-            N/A
-          </li>
-          <li>
-            Missing Check In/Out: 
-          </li>
-          <li>
-            Late In/Early Out: 
-          </li>
-          <li>
-            Unpaid leave: 
-          </li>
-          <li>
-            Unplaned Annual Leave: 
-          </li>
-          <li>
-            Incident: 
-          </li>
-        </ul>
-      </div>
-    </div>
-    <div
-      className="__react_component_tooltip place-bottom type-dark "
-      data-id="tooltip"
-      id="tooltip"
-    />
-  </div>
-</div>
-`;
-
 exports[`Render correctly Correctly snapshot 1`] = `
 <div
   className="row"
@@ -480,23 +225,29 @@ exports[`Render correctly Correctly snapshot 1`] = `
           className="hrm-info"
         >
           <li>
-            TOEIC score: 
+            TOEIC Score: 
             N/A
           </li>
           <li>
             Missing Check In/Out: 
           </li>
           <li>
+            Average Working Days: 
+          </li>
+          <li>
+            Average Spent Time: 
+          </li>
+          <li>
             Late In/Early Out: 
           </li>
           <li>
-            Unpaid leave: 
+            Unpaid Leave: 
           </li>
           <li>
             Unplaned Annual Leave: 
           </li>
           <li>
-            Incident: 
+            Discipline: 
           </li>
         </ul>
       </div>

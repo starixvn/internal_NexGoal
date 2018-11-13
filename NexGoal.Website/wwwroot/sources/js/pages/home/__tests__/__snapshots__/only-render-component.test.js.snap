@@ -69,7 +69,7 @@ exports[`Test render correctly  render hrm detail correctly 1`] = `
     className="hrm-info"
   >
     <li>
-      TOEIC score: 
+      TOEIC Score: 
       N/A
     </li>
     <li>
@@ -77,17 +77,23 @@ exports[`Test render correctly  render hrm detail correctly 1`] = `
       3
     </li>
     <li>
+      Average Working Days: 
+    </li>
+    <li>
+      Average Spent Time: 
+    </li>
+    <li>
       Late In/Early Out: 
       3
     </li>
     <li>
-      Unpaid leave: 
+      Unpaid Leave: 
     </li>
     <li>
       Unplaned Annual Leave: 
     </li>
     <li>
-      Incident: 
+      Discipline: 
       0
     </li>
   </ul>

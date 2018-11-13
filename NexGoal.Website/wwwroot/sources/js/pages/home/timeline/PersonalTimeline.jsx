@@ -19,7 +19,7 @@ export default class PersonalTimeline extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)
-            || nextState.totalNode !== this.state.totalNodes
+            || nextState.totalNodes !== this.state.totalNodes
             || nextState.windowWidth !== this.state.windowWidth) {
             return true;
         }

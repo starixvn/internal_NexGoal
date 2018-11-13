@@ -3,7 +3,7 @@
 exports[`render correctly 1`] = `
 Array [
   <p
-    className="timeline-grade"
+    className="timeline-grade role-default"
     onClick={[Function]}
     style={
       Object {
@@ -23,7 +23,7 @@ Array [
     }
   >
     <p
-      className="name "
+      className="name role-default"
     >
       Michael
     </p>
