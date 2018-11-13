@@ -2,7 +2,7 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -64,7 +64,7 @@ export default class App extends Component {
             loadNominationTab: false
         };
 
-        this.timelineItemPerPage = window.innerWidth > 1600 ? 8 : 4;
+        this.timelineItemPerPage = calculateTimelineNode();
         this.itemPerPage = 4;
     }
 
@@ -157,11 +157,12 @@ export default class App extends Component {
     }
 
     onTimelinePageChange = (pageIndex, pageSize) => {
+        let size = pageSize ? pageSize : calculateTimelineNode();
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
                 employeeId: this.state.memberInfo.id,
                 pageIndex: pageIndex,
-                pageSize: pageSize
+                pageSize: size
             }
         }).then((response) => {
             let timelineInfo = response.data[0];
@@ -170,7 +171,7 @@ export default class App extends Component {
                     records: timelineInfo.performanceRecords,
                     pageIndex: pageIndex,
                     nextDisabled: pageIndex === 0,
-                    prevDisabled: (pageIndex + 1) * pageSize >= timelineInfo.totalItems
+                    prevDisabled: (pageIndex + 1) * size >= timelineInfo.totalItems
                 }
             });
         }).catch(axiosError);

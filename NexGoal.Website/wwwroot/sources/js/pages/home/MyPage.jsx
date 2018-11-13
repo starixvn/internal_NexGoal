@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
 import { DateFormat } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
@@ -49,7 +49,7 @@ export default class MyPage extends Component {
             }
         };
 
-        this.timelineItemPerPage = this.calculateTimelineNodes();
+        this.timelineItemPerPage = calculateTimelineNode();
         this.itemPerPage = 5;
     }
 
@@ -108,21 +108,12 @@ export default class MyPage extends Component {
         ReactTooltip.rebuild();
     }
 
-    calculateTimelineNodes = () => {
-        const width = window.innerWidth;
-        if (width > 1600) return 8;
-        if (width > 1500 && width <= 1600) return 7;
-        if (width >= 1440 && width <= 1500) return 6;
-        if (width >= 1366 && width <= 1440) return 5;
-        if (width > 1280 && width < 1366) return 4;
-        return 3;
-    }
-
     onTimelinePageChange = (pageIndex, pageSize) => {
+        let size = pageSize ? pageSize : calculateTimelineNode();
         axios.get(resolveClientUrl('Self/Performance/Timeline'), {
             params: {
                 pageIndex: pageIndex,
-                pageSize: pageSize
+                pageSize: size
             }
         }).then((response) => {
             this.setState({
@@ -130,7 +121,7 @@ export default class MyPage extends Component {
                     records: response.data.performanceRecords,
                     pageIndex: pageIndex,
                     nextDisabled: pageIndex === 0,
-                    prevDisabled: (pageIndex + 1) * pageSize >= response.data.totalItems
+                    prevDisabled: (pageIndex + 1) * size >= response.data.totalItems
                 }
             });
         }).catch(axiosError);

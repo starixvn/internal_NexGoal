@@ -1,11 +1,12 @@
 ﻿import React, { Component } from "react";
+import { calculateTimelineNode } from '../../../common-functions';
 import TimelineNode from './TimelineNode';
 
 export default class PersonalTimeline extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            totalNodes: 8,
+            totalNodes: calculateTimelineNode(),
             windowWidth: window.innerWidth
         };
 
@@ -33,7 +34,7 @@ export default class PersonalTimeline extends Component {
 
     updateDimensions() {
         this.setState((prevState, prevProps) => {
-            let nodes = this.calculateNodes();
+            let nodes = calculateTimelineNode();
             if (nodes !== prevState.totalNodes) {
                 this.props.onPageChange(prevProps.data.pageIndex, nodes);
                 return {
@@ -44,16 +45,6 @@ export default class PersonalTimeline extends Component {
 
             return { windowWidth: window.innerWidth };
         });
-    }
-
-    calculateNodes = () => {
-        const width = window.innerWidth;
-        if (width > 1600) return 8;
-        if (width > 1500 && width <= 1600) return 7;
-        if (width >= 1440 && width <= 1500) return 6;
-        if (width >= 1366 && width <= 1440) return 5;
-        if (width > 1280 && width < 1366) return 4;
-        return 3;
     }
 
     onClickPrevious = () => {
