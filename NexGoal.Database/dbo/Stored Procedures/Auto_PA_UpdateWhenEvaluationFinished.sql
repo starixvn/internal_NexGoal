@@ -91,7 +91,7 @@ BEGIN
 			,GradeId
 			,@Closed
 			,GETDATE()
-			,1
+			,4 -- system PA
 			,255
 		FROM #tblPARecord WITH (NOLOCK)
 		WHERE PARecordId = @PARecordId

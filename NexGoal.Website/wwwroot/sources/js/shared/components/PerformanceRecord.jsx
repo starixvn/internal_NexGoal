@@ -266,8 +266,11 @@ export default class PerformanceRecord extends Component {
     }
 
     render() {
+        let systemClassName = this.props.type === PerformanceRecordType.SystemPerformanceAppraisal
+            || this.props.type === PerformanceRecordType.SystemNomination ? 'record-system' : '';
+
         return (
-            <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
+            <div className={`record ${systemClassName} ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${this.props.objectId}`}>
                 {
                     this.props.type === PerformanceRecordType.PerformanceCheckin &&
                     this.renderPerformanceCheckin()

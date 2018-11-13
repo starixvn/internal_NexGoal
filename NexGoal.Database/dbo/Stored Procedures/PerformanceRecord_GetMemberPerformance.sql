@@ -20,6 +20,10 @@ BEGIN
 	DECLARE @PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
+	-- Performance Record Type
+	DECLARE @Checkin TINYINT = 1
+		,@SystemPA TINYINT = 4
+		,@SystemNomination TINYINT = 5
 	-- Performance Record Status
 	DECLARE @Draft TINYINT = 2
 		,@Submitted TINYINT = 3
@@ -33,6 +37,22 @@ BEGIN
 	CREATE TABLE #tblMember (
 		EmployeeId INT
 		,IsHost BIT
+		)
+
+	CREATE TABLE #tblPerformanceRecord (
+		PerformanceRecordId INT
+		,GradeId VARCHAR(MAX)
+		,Comment NVARCHAR(MAX)
+		,StatusId TINYINT
+		,ProjectIds VARCHAR(MAX)
+		,CreatedDate DATETIME
+		,ModifiedDate DATETIME
+		,RoleId TINYINT
+		,EmployeeIds VARCHAR(MAX)
+		,CreatorId INT
+		,NominationStatusId TINYINT
+		,NominationPeriodId INT
+		,TypeId TINYINT
 		)
 
 	INSERT INTO #tblMember (
@@ -53,6 +73,21 @@ BEGIN
 		) AS data
 	GROUP BY data.EmployeeId
 
+	INSERT INTO #tblPerformanceRecord (
+		PerformanceRecordId
+		,GradeId
+		,Comment
+		,StatusId
+		,ProjectIds
+		,CreatedDate
+		,ModifiedDate
+		,RoleId
+		,EmployeeIds
+		,CreatorId
+		,NominationStatusId
+		,NominationPeriodId
+		,TypeId
+		)
 	SELECT data.PerformanceRecordId
 		,data.GradeId
 		,data.Comment
@@ -63,6 +98,9 @@ BEGIN
 		,data.RoleId
 		,data.EmployeeIds
 		,data.CreatorId
+		,data.NominationStatusId
+		,data.NominationPeriodId
+		,data.TypeId
 	FROM (
 		SELECT record.PerformanceRecordId
 			,record.GradeId
@@ -77,8 +115,11 @@ BEGIN
 			,record.RoleId
 			,record.EmployeeIds
 			,record.CreatorId
+			,record.TypeId
+			,NULL AS NominationStatusId
+			,NULL AS NominationPeriodId
 		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
-		WHERE record.TypeId = 1
+		WHERE record.TypeId = @Checkin
 			AND record.EmployeeIds <> CAST(record.CreatorId AS VARCHAR(20))
 			AND record.CreatorId = @ActorId
 			AND record.StatusId = @Draft
@@ -104,6 +145,9 @@ BEGIN
 			,record.RoleId
 			,record.EmployeeIds
 			,record.CreatorId
+			,record.TypeId
+			,nomination.StatusId AS NominationStatusId
+			,nomination.EOQYId AS NominationPeriodId
 		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
 			AND emp.[Enabled] = 1
@@ -112,7 +156,16 @@ BEGIN
 			AND creator.[Enabled] = 1
 			AND creator.IsDeleted = 0
 			LEFT JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
-		WHERE record.TypeId = 1
+			LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
+			AND record.PerformanceRecordId = nomination.PerformanceRecordId
+			AND nomination.StatusId <> 4 -- draft
+		WHERE (
+				record.TypeId IN (@Checkin, @SystemNomination)
+				OR (
+					record.TypeId = @SystemPA
+					AND @EmployeeId IS NOT NULL
+					)
+				)
 			AND record.StatusId IN (@Submitted, @Closed)
 			AND (
 				record.CreatorId = - 1
@@ -138,11 +191,35 @@ BEGIN
 					)
 				)
 		) AS data
+
+	SELECT PerformanceRecordId
+		,GradeId
+		,Comment
+		,StatusId
+		,ProjectIds
+		,CreatedDate
+		,ModifiedDate
+		,RoleId
+		,EmployeeIds
+		,CreatorId
+		,NominationStatusId
+		,NominationPeriodId
+		,TypeId
+	FROM #tblPerformanceRecord WITH (NOLOCK)
 	ORDER BY CASE 
-			WHEN data.StatusId = @Draft THEN 1
+			WHEN StatusId = @Draft THEN 1
 			ELSE 2
 			END
-		,data.CreatedDate DESC
+		,CreatedDate DESC
+
+	SELECT period.EOQYId AS NominationPeriodId
+		,period.[Quarter]
+		,period.[Year]
+	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 
 	DROP TABLE #tblMember
+
+	DROP TABLE #tblPerformanceRecord
 END

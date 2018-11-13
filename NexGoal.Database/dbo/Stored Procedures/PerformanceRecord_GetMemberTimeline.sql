@@ -25,6 +25,10 @@ BEGIN
 	DECLARE @PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
 		,@ReviewerProcessId TINYINT = 5
+	-- Performance Record Type
+	DECLARE @Checkin TINYINT = 1
+		,@SystemPA TINYINT = 4
+		,@SystemNomination TINYINT = 5
 	-- Performance Record Status
 	DECLARE @Submitted TINYINT = 3
 		,@Closed TINYINT = 4
@@ -115,7 +119,13 @@ BEGIN
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		AND creator.[Enabled] = 1
 		AND creator.IsDeleted = 0
-	WHERE record.TypeId = 1
+	WHERE (
+			record.TypeId = @Checkin
+			OR (
+				record.TypeId = @SystemPA
+				AND @EmployeeId IS NOT NULL
+				)
+			)
 		AND record.StatusId IN (@Submitted, @Closed)
 		AND (
 			record.CreatorId = - 1
