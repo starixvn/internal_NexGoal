@@ -211,6 +211,7 @@ export default class MyPage extends Component {
                 comment={performanceRecord.comment}
                 projects={performanceRecord.projects.map(project => project.name)}
                 type={performanceRecord.typeId}
+                nominationStatusId={performanceRecord.nominationStatusId}
                 nominationPeriod={performanceRecord.nominationPeriod}
                 onEdit={this.handleEditPerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}

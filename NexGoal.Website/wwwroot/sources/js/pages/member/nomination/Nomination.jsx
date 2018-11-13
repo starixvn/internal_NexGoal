@@ -146,6 +146,7 @@ export default class Nomination extends Component {
                 onEdit={this.handleEdit}
                 type={performanceRecord.typeId}
                 nominationPeriod={performanceRecord.nominationPeriod}
+                nominationStatusId={performanceRecord.nominationStatusId}
             />
         );
     }
