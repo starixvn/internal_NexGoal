@@ -106,13 +106,13 @@ export default class Nomination extends Component {
             }
         }).then(response => {
             this.setState(prevState => {
-                let nomnations = prevState.nominations.slice();
+                let nominations = prevState.nominations.slice();
                 let index = nominations.findIndex(x => x.performanceRecordId === performanceRecordId);
-                nomnations[index] = response.data;
+                nominations[index] = response.data;
                 nominations.sort(this.sortNominationsDesc);
 
                 return {
-                    nominations: nomnations,
+                    nominations: nominations,
                     showEditModal: false
                 }
             });

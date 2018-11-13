@@ -73,8 +73,8 @@ export default class EditNomination extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 performanceRecordId: this.props.performanceRecord.performanceRecordId,
                 nominationPeriodId: values.period.value,
-                nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
-                performanceRecordStatusId: PerformanceRecordStatus.Submitted,
+                nomineeId: values.employee.value,
+                performanceRecordStatusId: values.statusId,
                 comment: values.comment
             }),
             headers: {
@@ -84,7 +84,6 @@ export default class EditNomination extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                this.handleCloseForm();
                 this.props.onEditSuccess(data.objectId);
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
