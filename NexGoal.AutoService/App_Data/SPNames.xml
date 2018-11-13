@@ -13,4 +13,7 @@
     <Setting Key="EditWhenEvaluationFinished" SpName="Auto_PA_UpdateWhenEvaluationFinished" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EditPAStatus" SpName="Auto_PA_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="Nomination">
+    <Setting Key="EditWhenNominationFinished" SpName="Auto_Nomination_UpdateWhenFinished" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>
