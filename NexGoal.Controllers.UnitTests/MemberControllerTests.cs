@@ -29,11 +29,13 @@
             // Act
             nominationService.IsNominator(sessionService.EmployeeId).Returns(true);
             var actual = await controller.Index();
-
+            var employees = new List<EmployeeBaseModel>();
+            // Act
+            employeeService.GetMemberByProcessIdAsync(sessionService.EmployeeId, PerformanceProcess.Reviewer).Returns(employees);
             // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
-            var viewModel = Assert.IsType<bool>(viewResult.Model);
-            Assert.True(viewModel);
+            Assert.True((bool)viewResult.ViewData["IsNominator"]);
+            Assert.False((bool)viewResult.ViewData["IsReviewer"]);
         }
 
         [Fact]
