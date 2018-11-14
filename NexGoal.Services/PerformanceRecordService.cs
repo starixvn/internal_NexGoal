@@ -57,7 +57,10 @@
                 PageIndex = param.PageIndex,
                 PageSize = param.PageSize
             };
-            var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
+
+            var performanceRecords = result.Item1;
+            var nominationsPeriods = result.Item2;
 
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
@@ -65,6 +68,7 @@
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
                 MappingDataPerformanceTimeline(performanceRecord, performanceGrades, employees);
+                performanceRecord.NominationPeriod = nominationsPeriods.FirstOrDefault(x => x.NominationPeriodId == performanceRecord.NominationPeriodId);
             }
 
             return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);

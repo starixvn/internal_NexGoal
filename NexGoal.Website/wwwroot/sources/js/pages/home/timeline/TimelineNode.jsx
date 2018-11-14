@@ -2,7 +2,7 @@
 import moment from 'moment';
 
 import { getRoleClassName } from '../../../common-functions';
-import { DateFormat } from '../../../constants';
+import { DateFormat, PerformanceRecordType, NominationStatuses } from '../../../constants';
 
 export default class TimelineNode extends Component {
     shouldComponentUpdate(nextProps) {
@@ -16,9 +16,28 @@ export default class TimelineNode extends Component {
 
     handleClick = () => this.props.onClick(this.props.data.performanceRecordId)
 
+    renderSystemNomination = (data, position) => {
+        let status = NominationStatuses.find(x => x.value === data.nominationStatusId);
+
+        return (
+            <Fragment>
+                <p className={`timeline-grade ${getRoleClassName(data.roleId)}`} style={{ right: position }} onClick={this.handleClick} >
+                    {status.text}
+                </p>
+                <div className="timeline-info" style={{ right: position - 22 }} onClick={this.handleClick}>
+                    <p className={`name ${getRoleClassName(data.roleId)}`}>{data.nominationPeriod.shortTitle}</p>
+                </div>
+            </Fragment >
+        );
+    }
+
     render() {
         const data = this.props.data;
         const position = this.props.position;
+
+        if (data.typeId === PerformanceRecordType.SystemNomination) {
+            return this.renderSystemNomination(data, position);
+        }
 
         return (
             <Fragment>
