@@ -166,16 +166,19 @@ export default class PerformanceRecord extends Component {
                         (modifiedDate || record.isHost) &&
                         <div className="date">
                             <div className="edit-date">
-                                {record.nominationPeriod && record.nominationPeriod.title}
-
-                                {
-                                    record.statusId !== PerformanceRecordStatus.Draft && modifiedDate &&
-                                    <Fragment>Edited on {modifiedDate}</Fragment>
-                                }
+                                <div className="nomination-info">
+                                    <div className="nomination-period">{this.props.nominationPeriod && this.props.nominationPeriod.title}</div>  
+                                    
+                                    {
+                                        this.props.statusId !== PerformanceRecordStatus.Draft && this.props.modifiedDate &&
+                                        <Fragment>Edited on {this.props.modifiedDate}</Fragment>
+                                    }
+                                </div>
                                 {
                                     record.isHost &&
                                     <a className="icon-edit" onClick={this.handleEdit} />
                                 }
+                                
                             </div>
                         </div>
                     }
