@@ -201,7 +201,7 @@
             var criteria = new GetMemberByProcessIdCriteria
             {
                 ActorId = actorId,
-                ProcessId = performanceProcess
+                ProcessId = (int)performanceProcess
             };
 
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);

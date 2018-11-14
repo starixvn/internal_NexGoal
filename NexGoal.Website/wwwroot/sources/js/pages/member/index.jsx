@@ -288,7 +288,6 @@ export default class App extends Component {
                                         }
                                     </Tab>
                                 }
-
                             </Tabs>
                         </div>
                         <div className="work-info">

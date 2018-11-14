@@ -1,13 +1,12 @@
 ﻿namespace NexGoal.Criteria.Employee
 {
     using Fanex.Data.Repository;
-    using NexGoal.Core.Enumerations;
 
     public class GetMemberByProcessIdCriteria : CriteriaBase
     {
         public int ActorId { get; set; }
 
-        public PerformanceProcess ProcessId { get; set; }
+        public int ProcessId { get; set; }
 
         public override string GetSettingKey() => "Employee_GetMemberByProcessId";
 
