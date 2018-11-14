@@ -92,8 +92,8 @@ BEGIN
 		,NominationStatusId
 		,TypeId
 	FROM #tblPerformanceRecord WITH (NOLOCK)
-	ORDER BY CreatedDate DESC OFFSET(@PageIndex * @PageSize) ROWS
-
+	ORDER BY CreatedDate DESC 
+	OFFSET(@PageIndex * @PageSize) ROWS
 	FETCH NEXT @PageSize ROWS ONLY
 	
 	SELECT period.EOQYId AS NominationPeriodId
@@ -102,6 +102,16 @@ BEGIN
 	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+
+	SELECT e.EOQYId AS 'NominationPeriodId'
+		,e.[Quarter]
+		,e.[Year]
+	FROM dbo.EOQY e WITH (NOLOCK)
+	WHERE EXISTS (
+			SELECT 1
+			FROM #tblPerformanceRecord tpr WITH (NOLOCK)
+			WHERE tpr.NominationPeriodId = e.EOQYId
+		)
 
 	SELECT @TotalItems = COUNT(1)
 	FROM #tblPerformanceRecord
