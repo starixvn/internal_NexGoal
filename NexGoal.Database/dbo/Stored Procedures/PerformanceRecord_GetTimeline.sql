@@ -32,6 +32,8 @@ BEGIN
 		,StatusId TINYINT
 		,RoleId TINYINT
 		,CreatedDate DATETIME
+		,NominationStatusId TINYINT
+		,NominationPeriodId INT
 		,TypeId TINYINT
 		)
 
@@ -42,6 +44,8 @@ BEGIN
 		,StatusId
 		,RoleId
 		,CreatedDate
+		,NominationPeriodId
+		,NominationStatusId
 		,TypeId
 		)
 	SELECT record.PerformanceRecordId
@@ -53,6 +57,8 @@ BEGIN
 			) AS StatusId
 		,record.RoleId
 		,record.CreatedDate
+		,nomination.EOQYId AS NominationPeriodId
+		,nomination.StatusId AS NominationStatusId
 		,record.TypeId
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
@@ -60,7 +66,16 @@ BEGIN
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		AND creator.[Enabled] = 1
 		AND creator.IsDeleted = 0
-	WHERE record.TypeId IN (@Checkin, @SystemPA)
+		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
+		AND nomination.NomineeId = @EmployeeId
+		AND nomination.StatusId <> 4 -- draft
+	WHERE (
+			record.TypeId IN (@Checkin, @SystemPA)
+			OR (
+				record.TypeId = @SystemNomination
+				AND nomination.NominationId IS NOT NULL
+				)
+			)
 		AND record.StatusId IN (@Submitted, @Closed)
 		AND (
 			record.CreatorId = - 1
@@ -73,11 +88,20 @@ BEGIN
 		,StatusId
 		,RoleId
 		,CreatedDate
+		,NominationPeriodId
+		,NominationStatusId
 		,TypeId
 	FROM #tblPerformanceRecord WITH (NOLOCK)
 	ORDER BY CreatedDate DESC OFFSET(@PageIndex * @PageSize) ROWS
 
 	FETCH NEXT @PageSize ROWS ONLY
+	
+	SELECT period.EOQYId AS NominationPeriodId
+		,period.[Quarter]
+		,period.[Year]
+	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 
 	SELECT @TotalItems = COUNT(1)
 	FROM #tblPerformanceRecord

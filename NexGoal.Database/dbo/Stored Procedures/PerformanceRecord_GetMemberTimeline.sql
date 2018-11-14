@@ -48,6 +48,9 @@ BEGIN
 		,StatusId TINYINT
 		,RoleId TINYINT
 		,CreatedDate DATETIME
+		,NominationStatusId TINYINT
+		,NominationPeriodId INT
+		,TypeId TINYINT
 		)
 
 	CREATE TABLE #tblPARecord (
@@ -98,6 +101,9 @@ BEGIN
 		,StatusId
 		,RoleId
 		,CreatedDate
+		,NominationPeriodId
+		,NominationStatusId
+		,TypeId
 		)
 	SELECT ROW_NUMBER() OVER (
 			PARTITION BY record.EmployeeIds ORDER BY record.EmployeeIds
@@ -113,16 +119,22 @@ BEGIN
 			) AS StatusId
 		,record.RoleId
 		,record.CreatedDate
+		,nomination.EOQYId AS NominationPeriodId
+		,nomination.StatusId AS NominationStatusId
+		,record.TypeId
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		AND creator.[Enabled] = 1
 		AND creator.IsDeleted = 0
+		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
+		AND nomination.NomineeId = @EmployeeId
+		AND nomination.StatusId <> 4 -- draft
 	WHERE (
 			record.TypeId = @Checkin
 			OR (
-				record.TypeId = @SystemPA
+				record.TypeId IN (@SystemPA, @SystemNomination)
 				AND @EmployeeId IS NOT NULL
 				)
 			)
@@ -196,6 +208,9 @@ BEGIN
 			,StatusId
 			,RoleId
 			,CreatedDate
+			,NominationPeriodId
+			,NominationStatusId
+			,TypeId
 		FROM #tblPerformanceRecord WITH (NOLOCK)
 		WHERE RowNum <= @PageSize
 	END
@@ -208,11 +223,21 @@ BEGIN
 			,StatusId
 			,RoleId
 			,CreatedDate
+			,NominationPeriodId
+			,NominationStatusId
+			,TypeId
 		FROM #tblPerformanceRecord WITH (NOLOCK)
 		ORDER BY CreatedDate DESC OFFSET(@PageIndex * @PageSize) ROWS
 
 		FETCH NEXT @PageSize ROWS ONLY
 	END
+
+	SELECT period.EOQYId AS NominationPeriodId
+		,period.[Quarter]
+		,period.[Year]
+	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 
 	DROP TABLE #tblMember
 

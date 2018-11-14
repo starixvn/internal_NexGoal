@@ -24,7 +24,7 @@ export default class Nomination extends Component {
         const promises = [
             axios(resolveClientUrl('MemberNomination/GetMemberNominations'), {
                 params: {
-                    memberId: this.props.isMemberDetail ? this.props.nomineeId : null,
+                    memberId: this.props.isMemberDetail ? this.props.nomineeId : null
                 }
             }),
             axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
@@ -34,7 +34,7 @@ export default class Nomination extends Component {
             .then(([nominationResponse, nominationPeriodResponse]) => {
                 this.setState({
                     nominations: nominationResponse.data,
-                    nominationPeriods: nominationPeriodResponse.data,
+                    nominationPeriods: nominationPeriodResponse.data
                 });
             }).catch(axiosError);
     }
@@ -65,12 +65,12 @@ export default class Nomination extends Component {
             }
         }).then(response => {
             this.setState(prevState => {
-                let nominations = [response.data, ...prevState.nominations]
-                nominations.sort(this.sortNominationsDesc)
+                let nominations = [response.data, ...prevState.nominations];
+                nominations.sort(this.sortNominationsDesc);
 
                 return {
                     nominations: nominations
-                }
+                };
             });
         }).catch(axiosError);
     }
@@ -90,7 +90,7 @@ export default class Nomination extends Component {
                 return {
                     nominations: nominations,
                     showEditModal: false
-                }
+                };
             });
         }).catch(axiosError);
     }

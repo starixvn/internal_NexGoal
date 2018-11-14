@@ -242,7 +242,7 @@ export default class PerformanceRecord extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="comment" >
+                        <div className="comment">
                             Congratulations to the {nominationStatus ? nominationStatus.text : ''} of {record.nominationPeriod && record.nominationPeriod.title} award: <strong>{record.employees.map(employee => { return employee.nickName; }).join(', ')}</strong>
                         </div>
                     </Fragment>

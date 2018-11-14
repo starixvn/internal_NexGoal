@@ -13,6 +13,7 @@ Param's Explanation:
 */
 BEGIN
 	DECLARE @Today DATE = GETDATE()
+		,@Draft TINYINT = 4
 
 	SELECT emp.EmployeeId
 		,emp.Code
@@ -23,6 +24,7 @@ BEGIN
 		,eoqy.EndDateForCommittee
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
+		AND nomination.StatusId <> @Draft
 		INNER JOIN dbo.EOQY AS eoqy WITH (NOLOCK) ON nomination.EOQYId = eoqy.EOQYId
 		AND eoqy.EndDateForCommittee < @Today
 	WHERE emp.EmployeeId = @EmployeeId
@@ -33,6 +35,7 @@ BEGIN
 		,eoqy.[Year]
 	FROM dbo.EOQY AS eoqy WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON eoqy.EOQYId = nomination.EOQYId
+		AND nomination.StatusId <> @Draft
 	WHERE nomination.NomineeId = @EmployeeId
 		AND eoqy.EndDateForCommittee < @Today
 END

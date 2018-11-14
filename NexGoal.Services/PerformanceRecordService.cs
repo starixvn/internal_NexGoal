@@ -57,21 +57,16 @@
                 PageIndex = param.PageIndex,
                 PageSize = param.PageSize
             };
-            var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
-
-            var performanceRecords = result.Item1;
-            var nominationsPeriods = result.Item2;
-
+            var tuple = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
 
-            foreach (PerformanceRecordModel performanceRecord in performanceRecords)
+            foreach (PerformanceRecordModel performanceRecord in tuple.Item1)
             {
-                MappingDataPerformanceTimeline(performanceRecord, performanceGrades, employees);
-                performanceRecord.NominationPeriod = nominationsPeriods.FirstOrDefault(x => x.NominationPeriodId == performanceRecord.NominationPeriodId);
+                MappingDataPerformanceTimeline(performanceRecord, performanceGrades, employees, tuple.Item2);
             }
 
-            return new Tuple<IEnumerable<PerformanceRecordModel>, int>(performanceRecords, criteria.TotalItems);
+            return new Tuple<IEnumerable<PerformanceRecordModel>, int>(tuple.Item1, criteria.TotalItems);
         }
 
         public async Task<IEnumerable<PerformanceRecordModel>> GetMemberPerformanceAsync(int actorId, int? employeeId = null)
@@ -107,12 +102,11 @@
                 PageSize = param.PageSize
             };
 
-            var tuple = await baseService.FetchMultipleAsync<MemberPerformanceTimelineModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
-
+            var tuple = await baseService.FetchMultipleAsync<MemberPerformanceTimelineModel, PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync().ConfigureAwait(false);
 
-            MappingDataMemberPerformanceTime(tuple.Item1, tuple.Item2, performanceGrades, employees);
+            MappingDataMemberPerformanceTime(tuple.Item1, tuple.Item2, performanceGrades, employees, tuple.Item3);
 
             return tuple.Item1;
         }
@@ -204,7 +198,8 @@
         private void MappingDataPerformanceTimeline(
             PerformanceRecordModel performanceRecord,
             IEnumerable<PerformanceGradeModel> performanceGrades,
-            IEnumerable<EmployeeBaseModel> employees)
+            IEnumerable<EmployeeBaseModel> employees,
+            IEnumerable<NominationPeriodModel> nominationPeriods)
         {
             performanceRecord.GradeId = cryptoService.Decrypt(performanceRecord.GradeId);
             int.TryParse(performanceRecord.GradeId, out int gradeId);
@@ -212,6 +207,11 @@
 
             performanceRecord.Creator = performanceRecord.CreatorId == Constants.NexGoalSystemId ?
                 NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+
+            if (performanceRecord.NominationPeriodId.HasValue)
+            {
+                performanceRecord.NominationPeriod = nominationPeriods.FirstOrDefault(x => x.NominationPeriodId == performanceRecord.NominationPeriodId.Value);
+            }
         }
 
         private static IEnumerable<PerformanceRecordModel> GroupDataMemberPerformance(IEnumerable<PerformanceRecordModel> performanceRecords)
@@ -240,11 +240,12 @@
             IEnumerable<MemberPerformanceTimelineModel> memberPerformances,
             IEnumerable<PerformanceRecordModel> performanceRecords,
             IEnumerable<PerformanceGradeModel> performanceGrades,
-            IEnumerable<EmployeeBaseModel> employees)
+            IEnumerable<EmployeeBaseModel> employees,
+            IEnumerable<NominationPeriodModel> nominationPeriods)
         {
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
-                MappingDataPerformanceTimeline(performanceRecord, performanceGrades, employees);
+                MappingDataPerformanceTimeline(performanceRecord, performanceGrades, employees, nominationPeriods);
             }
 
             foreach (MemberPerformanceTimelineModel memberPerformance in memberPerformances)

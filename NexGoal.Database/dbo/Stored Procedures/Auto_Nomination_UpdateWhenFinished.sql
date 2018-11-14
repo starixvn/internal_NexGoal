@@ -47,10 +47,17 @@ BEGIN
 		AND emp.IsDeleted = 0
 	WHERE nomination.PerformanceRecordId IS NULL
 
+	-- delete draft
+	DELETE nomination
+	FROM dbo.Nomination AS nomination
+		INNER JOIN #tblNomination AS tbl ON nomination.NominationId = tbl.NominationId
+		AND tbl.StatusId = @Draft
+
 	DELETE
 	FROM #tblNomination
 	WHERE StatusId = @Draft
 
+	-- insert performance record
 	WHILE EXISTS (
 			SELECT 1
 			FROM #tblNomination WITH (NOLOCK)
