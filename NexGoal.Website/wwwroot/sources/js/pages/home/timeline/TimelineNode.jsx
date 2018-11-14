@@ -1,7 +1,7 @@
 ﻿import React, { Component, Fragment } from "react";
 import moment from 'moment';
 
-import { getRoleClassName } from '../../../common-functions';
+import { getRoleClassName, getNominationClassName } from '../../../common-functions';
 import { DateFormat, PerformanceRecordType, NominationStatuses } from '../../../constants';
 
 export default class TimelineNode extends Component {
@@ -17,17 +17,18 @@ export default class TimelineNode extends Component {
     handleClick = () => this.props.onClick(this.props.data.performanceRecordId)
 
     renderSystemNomination = (data, position) => {
-        let status = NominationStatuses.find(x => x.value === data.nominationStatusId);
+        let status = getNominationClassName(data.nominationStatusId);
+        let statusText = NominationStatuses.find(x => x.value === data.nominationStatusId).text;
 
         return (
             <Fragment>
-                <p className={`timeline-grade ${status.text}`} style={{ right: position }} onClick={this.handleClick} >
-                    {status.text}
+                <p className={`timeline-grade ${status}`} style={{ right: position - 22}} onClick={this.handleClick} >
+                    {statusText}
                 </p>
                 <div className="timeline-info" style={{ right: position - 22 }} onClick={this.handleClick}>
-                    <p className={`name ${status.text}`}>{data.nominationPeriod.shortTitle}</p>
+                    <p className={`name ${status}`}>{data.nominationPeriod.shortTitle}</p>
                 </div>
-            </Fragment >
+            </Fragment>
         );
     }
 

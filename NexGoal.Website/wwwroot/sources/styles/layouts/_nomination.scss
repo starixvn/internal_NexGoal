@@ -1,12 +1,14 @@
+@import "../abstracts/variables";
+
 [class^="status"] {
     font-weight: 600;
 }
 .status-shortlisted {
-    color: #F4783D;
+    color: $status-shortlisted-color;
 }
-.status-nominated {
-    color: #376E00;
+.status-nomination {
+    color: $status-nomination-color;
 }
 .status-winner {
-    color: #2475D7;
+    color: $status-winner-color;
 }

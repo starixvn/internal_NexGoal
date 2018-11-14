@@ -17,6 +17,24 @@
 
 .my-page {
     position: relative;
+    .record[class*="status-"] {
+        grid-template-rows: 1fr;
+        .comment {
+            color: #fff;
+            font-size: 20px;
+            text-align: center;
+            padding-bottom: 0;
+        }
+    }
+    .record.status-nomination {
+        background-color: $status-nomination-color;
+    }
+    .record.status-winner {
+        background-color: $status-winner-color;
+    }
+    .record.status-shortlisted {
+        background-color: $status-shortlisted-color;
+    }
 }
 
 .record-your-mind {

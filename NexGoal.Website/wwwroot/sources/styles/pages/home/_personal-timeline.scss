@@ -70,6 +70,24 @@
         border-color: $role-system-color;
         color: $role-system-color;
     }
+    &[class*="status"] {
+        width: 74px;
+    }
+    &.status-nomination {
+        border-color: $status-nomination-color;
+        background-color: rgba($status-nomination-color, 0.1);
+        color: $status-nomination-color;
+    }
+    &.status-winner {
+        border-color: $status-winner-color;
+        background-color: #EBF4FF;
+        color: 1px solid $status-winner-color;
+    }
+    &.status-shortlisted {
+        border-color: $status-shortlisted-color;
+        background-color: rgba($status-shortlisted-color, 0.05);
+        color: 1px solid $status-winner-color;
+    }
 }
 
 .timeline-info {
@@ -118,6 +136,15 @@
         }
         &.role-system {
             background-color: $role-system-color;
+        }
+        &.status-nomination {
+            background-color: $status-nomination-color;
+        }
+        &.status-winner {
+            background-color: $status-winner-color;
+        }
+        &.status-shortlisted {
+            background-color: $status-shortlisted-color;
         }
     }
 

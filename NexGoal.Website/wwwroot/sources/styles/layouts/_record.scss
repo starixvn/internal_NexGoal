@@ -1,3 +1,6 @@
+@import "../abstracts/variables";
+@import "nomination";
+
 .record {
     @include border-radius(2px);
     box-shadow: 0 0 6px #dedede;
@@ -11,6 +14,18 @@
         grid-template-rows: 50px 0 20px;
         background-color: #EBF4FF;
         border: 1px solid #5191DF;
+    }
+    &.status-nomination {
+        border: 1px solid $status-nomination-color;
+        background-color: rgba($status-nomination-color, 0.1);
+    }
+    &.status-winner {
+        border: 1px solid $status-winner-color;
+        background-color: #EBF4FF;
+    }
+    &.status-shortlisted {
+        border: 1px solid $status-shortlisted-color;
+        background-color: rgba($status-shortlisted-color, 0.05);
     }
     &.highlighted {
         border: 2px solid #2475D7;
@@ -170,7 +185,7 @@
     .grade, .project {
         &-detail {
             padding: 0 8px;
-            display: inline-block
+            display: inline-block;
         }
     }
 
