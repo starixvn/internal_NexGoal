@@ -172,7 +172,16 @@
     .comment .form-control {
         font-size: 14px;
     }
-
+    .nomination-period, .employee {
+        display: inline-block;
+    }
+    .nomination-period {
+        width: 300px;
+        margin-right: 16px;
+    }
+    .employee {
+        width: calc(100% - 300px - 16px);
+    }
     .grade {
         width: 230px;
         display: inline-block;
