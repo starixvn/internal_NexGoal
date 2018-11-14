@@ -21,11 +21,11 @@ export default class TimelineNode extends Component {
 
         return (
             <Fragment>
-                <p className={`timeline-grade ${getRoleClassName(data.roleId)}`} style={{ right: position }} onClick={this.handleClick} >
+                <p className={`timeline-grade ${status.text}`} style={{ right: position }} onClick={this.handleClick} >
                     {status.text}
                 </p>
                 <div className="timeline-info" style={{ right: position - 22 }} onClick={this.handleClick}>
-                    <p className={`name ${getRoleClassName(data.roleId)}`}>{data.nominationPeriod.shortTitle}</p>
+                    <p className={`name ${status.text}`}>{data.nominationPeriod.shortTitle}</p>
                 </div>
             </Fragment >
         );
