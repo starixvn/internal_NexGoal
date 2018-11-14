@@ -1,12 +1,10 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
-import moment from 'moment';
 import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
-import { DateFormat } from '../../constants';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import NominationResult from '../../shared/components/NominationResult';
@@ -195,24 +193,9 @@ export default class MyPage extends Component {
     }
 
     renderPerformanceRecord = (performanceRecord) => {
-        let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
-        let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
-
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                objectId={performanceRecord.performanceRecordId}
-                employees={performanceRecord.employees}
-                creator={performanceRecord.creator}
-                roleId={performanceRecord.roleId}
-                statusId={performanceRecord.statusId}
-                submittedDate={submittedDate} modifiedDate={modifiedDate}
-                isHost={performanceRecord.isHost}
-                grade={performanceRecord.grade}
-                comment={performanceRecord.comment}
-                projects={performanceRecord.projects.map(project => project.name)}
-                type={performanceRecord.typeId}
-                nominationStatusId={performanceRecord.nominationStatusId}
-                nominationPeriod={performanceRecord.nominationPeriod}
+                data={performanceRecord}
                 onEdit={this.handleEditPerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />

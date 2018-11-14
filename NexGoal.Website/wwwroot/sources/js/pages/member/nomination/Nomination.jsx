@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../../constants';
+import { PerformanceRecordStatus } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import CreateNomination from './CreateNomination';
 import EditNomination from './EditNomination';
@@ -105,24 +105,10 @@ export default class Nomination extends Component {
     closeEditModal = () => this.setState({ showEditModal: false, editedNomination: null });
 
     renderPerformanceRecord = (performanceRecord) => {
-        let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
-        let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
-
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                objectId={performanceRecord.performanceRecordId}
-                employees={performanceRecord.employees}
-                creator={performanceRecord.creator}
-                roleId={performanceRecord.roleId}
-                statusId={performanceRecord.statusId}
-                submittedDate={submittedDate}
-                modifiedDate={modifiedDate}
-                isHost={performanceRecord.isHost}
-                comment={performanceRecord.comment}
+                data={performanceRecord}
                 onEdit={this.handleEdit}
-                type={performanceRecord.typeId}
-                nominationPeriod={performanceRecord.nominationPeriod}
-                nominationStatusId={performanceRecord.nominationStatusId}
             />
         );
     }

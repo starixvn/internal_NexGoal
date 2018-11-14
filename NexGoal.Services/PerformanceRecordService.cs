@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceRecord;
@@ -81,12 +82,14 @@
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
 
-            foreach (PerformanceRecordModel performanceRecord in tuple.Item1)
+            IEnumerable<PerformanceRecordModel> performanceRecords = GroupDataMemberPerformance(tuple.Item1);
+
+            foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
                 MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees, tuple.Item2);
             }
 
-            return tuple.Item1;
+            return performanceRecords;
         }
 
         public async Task<IEnumerable<MemberPerformanceTimelineModel>> GetMemberPerformanceTimelineAsyn(GetMemberPerformanceTimelineParam param)
@@ -205,6 +208,28 @@
 
             performanceRecord.Creator = performanceRecord.CreatorId == Constants.NexGoalSystemId ?
                 NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+        }
+
+        private static IEnumerable<PerformanceRecordModel> GroupDataMemberPerformance(IEnumerable<PerformanceRecordModel> performanceRecords)
+        {
+            var records = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.PerformanceCheckin
+                    || x.TypeId == (int)PerformanceRecordType.SystemPerformanceAppraisal).ToList();
+            var systemNominations = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.SystemNomination);
+
+            foreach (PerformanceRecordModel nomination in systemNominations)
+            {
+                if (!records.Any(x => x.NominationPeriodId == nomination.NominationPeriodId && x.NominationStatusId == nomination.NominationStatusId))
+                {
+                    records.Add(nomination);
+                }
+                else
+                {
+                    int index = records.FindIndex(x => x.NominationPeriodId == nomination.NominationPeriodId && x.NominationStatusId == nomination.NominationStatusId);
+                    records[index].EmployeeIds = $"{records[index].EmployeeIds},{nomination.EmployeeIds}";
+                }
+            }
+
+            return records.OrderByDescending(x => x.CreatedDate);
         }
 
         private void MappingDataMemberPerformanceTime(

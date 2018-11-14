@@ -1,15 +1,13 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import PerformanceRecord from '../../shared/components/PerformanceRecord';
-import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../constants';
-import getResource from '../../resourceHelper';
-import ToastLayout from '../../shared/layouts/ToastLayout';
 import { Tabs, Tab } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
-import moment from 'moment';
+
+import ToastLayout from '../../shared/layouts/ToastLayout';
+import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
+import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import EmployeeInfo from '../home/EmployeeInfo';
 import PersonalTimeline from '../home/timeline/PersonalTimeline';
 import PerformanceAppraisalResult from '../home/PerformanceAppraisalResult';
@@ -178,29 +176,9 @@ export default class App extends Component {
     }
 
     renderPerformanceRecord = (performanceRecord) => {
-        let isHost = performanceRecord.statusId === PerformanceRecordStatus.Draft
-            || performanceRecord.statusId === PerformanceRecordStatus.Submitted;
-        let submittedDate = performanceRecord.createdDate ? moment(performanceRecord.createdDate).format(DateFormat) : '';
-        let modifiedDate = performanceRecord.modifiedDate ? moment(performanceRecord.modifiedDate).format(DateFormat) : '';
-        let nomination = {
-            period: performanceRecord.nominationPeriod,
-            statusId: performanceRecord.nominationStatusId
-        };
-
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                objectId={performanceRecord.performanceRecordId}
-                employees={performanceRecord.employees}
-                creator={performanceRecord.creator}
-                roleId={performanceRecord.roleId}
-                statusId={performanceRecord.statusId}
-                submittedDate={submittedDate} modifiedDate={modifiedDate}
-                isHost={isHost}
-                grade={performanceRecord.grade}
-                comment={performanceRecord.comment}
-                projects={performanceRecord.projects.map(project => project.name)}
-                type={performanceRecord.typeId}
-                nomination={nomination}
+                data={performanceRecord}
                 onEdit={this.handleEditMemberPerformanceRecordClick}
                 isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
             />
