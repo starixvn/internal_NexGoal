@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
@@ -38,6 +39,8 @@
             int? employeeId = null);
 
         Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null);
+
+        Task<IEnumerable<EmployeeBaseModel>> GetMemberByProcessIdAsync(int actorId, PerformanceProcess performanceProcess);
 
         Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId);
     }

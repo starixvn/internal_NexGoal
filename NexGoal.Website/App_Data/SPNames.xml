@@ -30,6 +30,7 @@
     <Setting Key="Employee_GetMemberNominationDetails" SpName="Employee_GetMemberNominationDetails" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetGroup" SpName="Employee_GetGroup" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetMember" SpName="Employee_GetMember" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Employee_GetMemberByProcessId" SpName="Employee_GetMemberByProcessId" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Employee_GetHRMSummary" SpName="Employee_GetHRMSummary" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Redmine">

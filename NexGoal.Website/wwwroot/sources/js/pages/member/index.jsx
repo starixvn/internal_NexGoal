@@ -14,6 +14,7 @@ import EditMemberPerformance from './EditMemberPerformance';
 import MemberWorkload from './MemberWorkload';
 import Timeline from './timeline/index';
 import Nomination from './nomination/Nomination';
+import MemberPerformanceAppraisal from './performance-appraisal/MemberPerformanceAppraisal';
 
 export default class App extends Component {
     constructor(props) {
@@ -39,10 +40,12 @@ export default class App extends Component {
                 fullName: document.getElementById('employeeInfo-fullName').innerText,
                 jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src'),
-                isNominator: document.getElementById('isNominator').checked
+                isNominator: document.getElementById('isNominator').checked,
+                isReviewer: document.getElementById('isReviewer').checked
             },
             activeTabKey: 1,
-            loadNominationTab: false
+            loadNominationTab: false,
+            loadPATab: false
         };
 
         this.itemPerPage = 5;
@@ -124,7 +127,7 @@ export default class App extends Component {
     handleTimelineNodeClick = (performanceRecordId) => {
         if (this.state.activeTabKey === 1) {
             if (!this.state.displayedMemberPerformances.some(r => r.performanceRecordId === performanceRecordId)) {
-                let index = this.state.memberPerformances.findIndex(function(element) {
+                let index = this.state.memberPerformances.findIndex(function (element) {
                     return element.performanceRecordId === performanceRecordId;
                 });
 
@@ -158,6 +161,8 @@ export default class App extends Component {
     handleSelectTab = (key) => {
         if (key === 2 && !this.state.loadNominationTab) {
             this.setState({ activeTabKey: key, loadNominationTab: true });
+        } else if (key === 3 && !this.state.loadPATab) {
+            this.setState({ activeTabKey: key, loadPATab: true });
         } else {
             this.setState({ activeTabKey: key });
         }
@@ -205,7 +210,12 @@ export default class App extends Component {
         let performanceGradeOptions = this.state.performanceGradeOptions;
         let projectOptions = this.state.projectOptions;
         let currentUser = this.state.currentUser;
-
+        const periodOptions = this.state.periods.map(period => {
+            return {
+                value: period.periodId,
+                label: period.name
+            }
+        })
         return (
             <ToastLayout>
                 <div className="row">
@@ -229,7 +239,7 @@ export default class App extends Component {
                                 <Tab eventKey={1} title="Performance">
 
                                     <div className="record-list">
-                                        <Scrollbars style={{ height: '100%' }} autoHide={true}>
+                                        <Scrollbars style={{ height: '100%' }} autoHide>
 
                                             <CreateMemberPerformance
                                                 currentUser={currentUser}
@@ -264,6 +274,18 @@ export default class App extends Component {
                                                 employeeOptions={employeeOptions}
                                                 isEmployeeSelectable
                                             />}
+                                    </Tab>
+                                }
+                                {
+                                    this.state.currentUser.isReviewer &&
+                                    <Tab eventKey={3} title="Member Appraisals">
+                                        {
+                                            this.state.loadPATab && this.state.periods.length > 0 &&
+                                            < MemberPerformanceAppraisal
+                                                periodOptions={periodOptions}
+                                                groupOptions={this.state.myGroupOptions}
+                                            />
+                                        }
                                     </Tab>
                                 }
 

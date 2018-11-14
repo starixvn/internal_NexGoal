@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.Employee;
@@ -189,6 +190,18 @@
             {
                 ActorId = actorId,
                 Keyword = keyword
+            };
+
+            return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<EmployeeBaseModel>> GetMemberByProcessIdAsync(int actorId,
+            PerformanceProcess performanceProcess)
+        {
+            var criteria = new GetMemberByProcessIdCriteria
+            {
+                ActorId = actorId,
+                ProcessId = performanceProcess
             };
 
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);

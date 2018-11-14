@@ -1,0 +1,68 @@
+﻿import React, { Component } from 'react';
+import axios from 'axios';
+import { axiosError, resolveClientUrl } from '../../../common-functions';
+import Filter from './filter';
+
+export default class MemberPerformanceAppraisal extends Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            filter: {
+                period: props.periodOptions[0],
+                groups: props.groupOptions
+            },
+            performanceAppraisals: []
+        };
+    }
+
+    componentDidMount() {
+        this.getPerformanceAppraisals(this.state.filter);
+    }
+
+    shouldComponentUpdate(nextProps, nextState) {
+        if (JSON.stringify(nextProps.periodOptions) !== JSON.stringify(this.props.periodOptions)
+            || JSON.stringify(nextProps.groupOptions) !== JSON.stringify(this.props.groupOptions)
+            || JSON.stringify(nextState.performanceAppraisals) !== JSON.stringify(this.state.performanceAppraisals)
+            || JSON.stringify(nextState.filter) !== JSON.stringify(this.state.filter)) {
+            return true;
+        }
+        return false;
+    }
+
+    handleFilterChange = (name, value) => {
+        this.setState({
+            filter: Object.assign({}, this.state.filter, { [name]: value })
+        });
+    }
+
+    handleFilterSubmit = () => {
+        this.getPerformanceAppraisals();
+    }
+
+    getPerformanceAppraisals = () => {
+        const filter = this.state.filter;
+        axios.get(resolveClientUrl('Review/GetPARecords'), {
+            params: {
+                periodId: filter.period.value,
+                groupIds: filter.groups.map(group => { return group.value }).join(',')
+            }
+        }).then(response => this.setState({
+            performanceAppraisals: response.data
+        })).catch(axiosError);
+    }
+
+    render() {
+        return (
+            <div className="record-list">
+                <Filter
+                    filter={this.state.filter}
+                    periodOptions={this.props.periodOptions}
+                    groupOptions={this.props.groupOptions}
+                    onFilterChange={this.handleFilterChange}
+                    onSubmit={this.handleFilterSubmit}
+                />
+            </div>
+        );
+    }
+}

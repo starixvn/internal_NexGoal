@@ -4,6 +4,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
@@ -35,8 +36,13 @@
 
         public async Task<IActionResult> Index()
         {
+            IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberByProcessIdAsync(sessionService.EmployeeId, PerformanceProcess.Reviewer).ConfigureAwait(false);
+            bool isReviewer = members.Any();
             bool isNominator = await nominationService.IsNominator(sessionService.EmployeeId).ConfigureAwait(false);
-            return View(isNominator);
+            ViewData["IsNominator"] = isNominator;
+            ViewData["IsReviewer"] = isReviewer;
+
+            return View();
         }
 
         public async Task<IActionResult> Details(int id)

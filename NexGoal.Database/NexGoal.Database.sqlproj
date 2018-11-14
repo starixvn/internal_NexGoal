@@ -241,5 +241,6 @@
     <Build Include="dbo\Stored Procedures\Auto_PA_UpdateWhenEvaluationFinished.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Nomination_UpdateWhenFinished.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_Update.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetMemberByProcessId.sql" />
   </ItemGroup>
 </Project>
