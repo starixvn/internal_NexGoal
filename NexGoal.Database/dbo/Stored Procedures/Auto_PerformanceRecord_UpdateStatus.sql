@@ -18,6 +18,8 @@ BEGIN
 		,@PerformanceRecordDuration TINYINT
 		,@Submitted TINYINT = 3
 		,@Closed TINYINT = 4
+		-- type
+		,@Checkin TINYINT = 1
 
 	SELECT @PerformanceRecordDuration = Value
 	FROM dbo.RefResource WITH (NOLOCK)
@@ -27,6 +29,7 @@ BEGIN
 	SET record.StatusId = @Closed
 	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
 	WHERE DATEADD(DAY, @PerformanceRecordDuration, CreatedDate) < @Today
+		AND record.TypeId = @Checkin
 		AND StatusId = @Submitted
 
 	IF @@ERROR > 0

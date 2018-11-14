@@ -56,6 +56,7 @@ BEGIN
 		RETURN
 	END
 
+	DECLARE @Today DATE = GETDATE()
 	-- For write log
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
@@ -89,6 +90,20 @@ BEGIN
 		,[Description] = @Description
 	WHERE EOQYId = @EOYId
 		AND IsQuarter = 0
+
+	IF @EndDateForCommittee < @Today
+	BEGIN
+		EXEC dbo.Auto_Nomination_UpdateWhenFinished @ErrCode OUTPUT
+			,@ErrMsg OUTPUT
+	END
+
+	IF @@ERROR > 0
+	BEGIN
+		SELECT @ErrCode = 1
+			,@ErrMsg = 'Failed to update EOQ.'
+
+		RETURN
+	END
 
 	-- write log after update
 	SET @xml = (
