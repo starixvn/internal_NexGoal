@@ -18,11 +18,11 @@ export default class PerformanceRecord extends Component {
         projects: PropTypes.arrayOf(PropTypes.string),
         roleId: PropTypes.number,
         statusId: PropTypes.number,
-        isHighlighted: PropTypes.bool,
-        onEdit: PropTypes.func,
         type: PropTypes.number,
         nominationPeriod: PropTypes.object,
-        nominationStatusId: PropTypes.number
+        nominationStatusId: PropTypes.number,
+        isHighlighted: PropTypes.bool,
+        onEdit: PropTypes.func
     };
 
     static defaultProps = {
@@ -37,11 +37,11 @@ export default class PerformanceRecord extends Component {
         projects: [''],
         roleId: 0,
         statusId: 0,
-        isHighlighted: false,
-        onEdit: function() { },
         type: null,
         nominationPeriod: null,
-        nominationStatusId: null
+        nominationStatusId: null,
+        isHighlighted: false,
+        onEdit: function () { }
     };
 
     constructor(props) {
@@ -72,6 +72,9 @@ export default class PerformanceRecord extends Component {
             || JSON.stringify(this.state.projects) !== JSON.stringify(nextState.projects)
             || this.props.roleId !== nextProps.roleId
             || this.props.statusId !== nextProps.statusId
+            || this.props.type !== nextProps.type
+            || JSON.stringify(this.state.nominationPeriod) !== JSON.stringify(nextState.nominationPeriod)
+            || this.props.nominationStatusId !== nextProps.nominationStatusId
             || this.props.isHighlighted !== nextProps.isHighlighted
             || this.state.showCollapseExpandButton !== nextState.showCollapseExpandButton
             || this.state.isExpanded !== nextState.isExpanded) {

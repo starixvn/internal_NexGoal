@@ -9,17 +9,20 @@
         private readonly IPeriodService periodService;
         private readonly IPerformanceRecordService performanceRecordService;
         private readonly IPAService paService;
+        private readonly INominationService nominationService;
 
         public AppService(
             IAvatarService avatarService,
             IPeriodService periodService,
             IPerformanceRecordService performanceRecordService,
-            IPAService paService)
+            IPAService paService,
+            INominationService nominationService)
         {
             this.avatarService = avatarService;
             this.periodService = periodService;
             this.performanceRecordService = performanceRecordService;
             this.paService = paService;
+            this.nominationService = nominationService;
         }
 
         public void Run()
@@ -34,6 +37,8 @@
 
                 paService.EditWhenEvaluationFinished();
                 paService.EditStatus();
+
+                nominationService.EditWhenFinished();
 
                 performanceRecordService.EditStatus();
             }

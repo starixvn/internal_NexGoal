@@ -62,6 +62,7 @@
             services.AddTransient<IPeriodService, PeriodService>();
             services.AddTransient<IPerformanceRecordService, PerformanceRecordService>();
             services.AddTransient<IPAService, PAService>();
+            services.AddTransient<INominationService, NominationService>();
 
             services.AddTransient<IAppService, AppService>();
         }
