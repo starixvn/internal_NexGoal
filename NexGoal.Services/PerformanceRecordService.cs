@@ -40,10 +40,11 @@
             IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await commonService.GetAllPeriods().ConfigureAwait(false);
 
             foreach (PerformanceRecordModel performanceRecord in tuple.Item1)
             {
-                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees, tuple.Item2);
+                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees, periods, tuple.Item2);
             }
 
             return tuple.Item1;
@@ -80,12 +81,13 @@
             IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
             IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+            IEnumerable<PeriodBaseModel> periods = await commonService.GetAllPeriods().ConfigureAwait(false);
 
             IEnumerable<PerformanceRecordModel> performanceRecords = GroupDataMemberPerformance(tuple.Item1);
 
             foreach (PerformanceRecordModel performanceRecord in performanceRecords)
             {
-                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees, tuple.Item2);
+                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees, periods, tuple.Item2);
             }
 
             return performanceRecords;
@@ -174,6 +176,7 @@
             IEnumerable<ProjectModel> projects,
             IEnumerable<PerformanceGradeModel> performanceGrades,
             IEnumerable<EmployeeBaseModel> employees,
+            IEnumerable<PeriodBaseModel> periods = null,
             IEnumerable<NominationPeriodModel> nominationPeriods = null)
         {
             string[] projectIds = !string.IsNullOrWhiteSpace(performanceRecord.ProjectIds) ? performanceRecord.ProjectIds.Split(",") : new string[] { };
@@ -188,6 +191,11 @@
 
             performanceRecord.Creator = performanceRecord.CreatorId == Constants.NexGoalSystemId ?
                 NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == performanceRecord.CreatorId);
+
+            if (performanceRecord.PeriodId.HasValue && periods != null)
+            {
+                performanceRecord.Period = periods.FirstOrDefault(x => x.PeriodId == performanceRecord.PeriodId.Value);
+            }
 
             if (performanceRecord.NominationPeriodId.HasValue && nominationPeriods != null)
             {

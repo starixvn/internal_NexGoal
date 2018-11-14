@@ -202,7 +202,7 @@ export default class PerformanceRecord extends Component {
                 <div className="avatar-user">
                     <img src={resolveClientUrl('dist/avatars/nexgoal.jpg')} alt="avatar" className="avatar" />
                     <div className="person-info">
-                        <span className={getRoleClassName(record.roleId)}>NexGoal</span>
+                        <span className={getRoleClassName(record.roleId)}>NexGoal - {record.period ? record.period.name : ''}</span>
                         <div>
                             <span className="submit-date">{createdDate}</span>
                         </div>

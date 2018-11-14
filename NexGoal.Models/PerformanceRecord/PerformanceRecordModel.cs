@@ -12,8 +12,11 @@
         public int PerformanceRecordId { get; set; }
 
         [JsonIgnore]
-        public string GradeId { get; set; }
+        public int? PeriodId { get; set; }
+        public PeriodBaseModel Period { get; set; }
 
+        [JsonIgnore]
+        public string GradeId { get; set; }
         public PerformanceGradeModel Grade { get; set; }
 
         public string Comment { get; set; }
@@ -23,17 +26,14 @@
 
         [JsonIgnore]
         public string ProjectIds { get; set; }
-
         public IEnumerable<ProjectModel> Projects { get; set; } = new List<ProjectModel>();
 
         [JsonIgnore]
         public string EmployeeIds { get; set; }
-
         public IEnumerable<EmployeeBaseModel> Employees { get; set; } = new List<EmployeeBaseModel>();
 
         [JsonIgnore]
         public int CreatorId { get; set; }
-
         public EmployeeBaseModel Creator { get; set; }
 
         public int RoleId { get; set; }
@@ -42,7 +42,6 @@
 
         [JsonIgnore]
         public int? NominationPeriodId { get; set; }
-
         public NominationPeriodModel NominationPeriod { get; set; }
 
         public int TypeId { get; set; }

@@ -25,6 +25,7 @@ BEGIN
 
 	CREATE TABLE #tblPerformanceRecord (
 		PerformanceRecordId INT
+		,PeriodId INT
 		,GradeId VARCHAR(MAX)
 		,Comment NVARCHAR(MAX)
 		,StatusId TINYINT
@@ -41,6 +42,7 @@ BEGIN
 
 	INSERT INTO #tblPerformanceRecord (
 		PerformanceRecordId
+		,PeriodId
 		,GradeId
 		,Comment
 		,StatusId
@@ -55,6 +57,7 @@ BEGIN
 		,TypeId
 		)
 	SELECT data.PerformanceRecordId
+		,data.PeriodId
 		,data.GradeId
 		,data.Comment
 		,data.StatusId
@@ -69,6 +72,7 @@ BEGIN
 		,data.TypeId
 	FROM (
 		SELECT record.PerformanceRecordId
+			,NULL AS PeriodId
 			,record.GradeId
 			,record.Comment
 			,record.StatusId
@@ -89,6 +93,7 @@ BEGIN
 		
 		UNION
 		SELECT record.PerformanceRecordId
+			,pa.PeriodId
 			,record.GradeId
 			,record.Comment
 			,(CASE 
@@ -110,6 +115,8 @@ BEGIN
 			LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 			AND creator.[Enabled] = 1
 			AND creator.IsDeleted = 0
+			LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+			AND emp.EmployeeId = pa.EmployeeId
 			LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
 			AND record.PerformanceRecordId = nomination.PerformanceRecordId
 			AND nomination.StatusId <> 4 -- draft
@@ -122,6 +129,7 @@ BEGIN
 		) AS data
 
 	SELECT PerformanceRecordId
+		,PeriodId
 		,GradeId
 		,Comment
 		,StatusId
