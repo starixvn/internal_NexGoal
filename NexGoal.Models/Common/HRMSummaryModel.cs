@@ -6,6 +6,8 @@
     {
         public int ToeicScore { get; set; }
 
+        public bool IsPassedToeic { get; set; }
+
         public DateTime ToeicExamDate { get; set; }
 
         public int MissingCheckInCheckOut { get; set; }
