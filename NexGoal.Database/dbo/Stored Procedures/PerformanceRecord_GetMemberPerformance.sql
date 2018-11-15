@@ -167,7 +167,7 @@ BEGIN
 			AND record.PerformanceRecordId = nomination.PerformanceRecordId
 			AND nomination.StatusId <> 4 -- draft
 		WHERE (
-				record.TypeId IN (@Checkin, @SystemNomination)
+				record.TypeId = @Checkin
 				OR (
 					record.TypeId = @SystemPA
 					AND @EmployeeId IS NOT NULL
@@ -197,6 +197,32 @@ BEGIN
 						)
 					)
 				)
+		
+		UNION
+		SELECT record.PerformanceRecordId
+			,NULL AS PeriodId
+			,record.GradeId
+			,record.Comment
+			,record.StatusId
+			,record.ProjectIds
+			,record.CreatedDate
+			,record.ModifiedDate
+			,record.RoleId
+			,record.EmployeeIds
+			,record.CreatorId
+			,record.TypeId
+			,nomination.StatusId AS NominationStatusId
+			,nomination.EOQYId AS NominationPeriodId
+		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
+			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
+			AND emp.[Enabled] = 1
+			AND emp.IsDeleted = 0
+			INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
+			INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
+			AND record.PerformanceRecordId = nomination.PerformanceRecordId
+			AND nomination.StatusId <> 4 -- draft
+		WHERE record.TypeId = @SystemNomination
+			AND record.CreatorId = - 1
 		) AS data
 
 	SELECT PerformanceRecordId
