@@ -15,10 +15,14 @@ export default class Timeline extends Component {
                 groups: []
             },
             memberPerformances: [],
-            pageSize: window.innerWidth > 1600 ? 4 : 2
+            pageSize: window.innerWidth >= 1920 ? 4 : 3
         };
 
-        this.timelineWidth = React.createRef();
+        this.timelineEl = React.createRef();
+    }
+
+    componentDidMount() {
+        window.addEventListener('resize', this.updateDimensions);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -39,22 +43,40 @@ export default class Timeline extends Component {
         }
 
         if (JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(prevProps.currentPerformancePeriod)) {
-            this.getMemberPerformanceTimeline();
+            this.getMemberPerformanceTimeline(this.state.pageSize);
         }
     }
 
-    getMemberPerformanceTimeline = () => {
+    componentWillUnmount() {
+        window.removeEventListener('resize', this.updateDimensions);
+    }
+
+    updateDimensions = () => {
+        let pageSize = window.innerWidth >= 1920 ? 4 : 3;
+
+        this.setState((prevState, prevProps) => {
+            if (prevState.pageSize !== pageSize) {
+                this.getMemberPerformanceTimeline(pageSize);
+
+                return { pageSize };
+            }
+
+            return { pageSize };
+        });
+    }
+
+    getMemberPerformanceTimeline = (pageSize) => {
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
                 periodId: this.props.currentPerformancePeriod ? this.props.currentPerformancePeriod.periodId : null,
                 pageIndex: 0,
-                pageSize: this.state.pageSize
+                pageSize: pageSize
             }
         }).then((response) => {
             response.data.map(memberPerformance => {
                 memberPerformance.pageIndex = 0;
                 memberPerformance.nextDisabled = memberPerformance.pageIndex === 0;
-                memberPerformance.prevDisabled = (memberPerformance.pageIndex + 1) * this.state.pageSize >= memberPerformance.totalItems;
+                memberPerformance.prevDisabled = (memberPerformance.pageIndex + 1) * pageSize >= memberPerformance.totalItems;
             });
 
             this.setState({
@@ -125,7 +147,7 @@ export default class Timeline extends Component {
         let groupOptions = this.props.groupOptions;
         let currentPerformancePeriod = this.props.currentPerformancePeriod;
         let groupPerformances = this.groupMemberPerformances(this.state.memberPerformances);
-        let timelineWidth = this.timelineWidth.current ? this.timelineWidth.current.offsetWidth : 0;
+        let timelineWidth = this.timelineEl.current ? this.timelineEl.current.offsetWidth : 0;
 
         return (
             <Fragment>
@@ -141,7 +163,7 @@ export default class Timeline extends Component {
                         />
                     </div>
                 }
-                <div className="member-timeline" ref={this.timelineWidth}>
+                <div className="member-timeline" ref={this.timelineEl}>
                     {
                         groupPerformances.map((groupPerformance, index) => {
                             return (

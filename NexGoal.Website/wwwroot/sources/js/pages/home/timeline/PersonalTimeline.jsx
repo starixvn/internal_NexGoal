@@ -11,7 +11,6 @@ export default class PersonalTimeline extends Component {
         };
 
         this.timelineWidth = React.createRef();
-        this.updateDimensions = this.updateDimensions.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +31,7 @@ export default class PersonalTimeline extends Component {
         window.removeEventListener("resize", this.updateDimensions);
     }
 
-    updateDimensions() {
+    updateDimensions = () => {
         this.setState((prevState, prevProps) => {
             let nodes = calculateTimelineNode();
             if (nodes !== prevState.totalNodes) {
