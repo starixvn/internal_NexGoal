@@ -12,12 +12,19 @@ export default class MemberWorkload extends Component {
             workloads: [],
             groupOptions: [],
             selectedGroups: [],
-            currentPeriodIndex: 0
+            currentPeriodIndex: 0,
+            chartWrapperElement: null
         };
     }
 
     componentDidMount() {
         this.getMembersWorkloads();
+        window.addEventListener('resize', () => {
+            let children = this.state.chartWrapperElement.children;
+            for (let i = 0; i < children.length; i++) {
+                children[i].style.width = `${this.state.chartWrapperElement.clientWidth}px`;
+            }
+        })
     }
 
     getMembersWorkloads = () => {
@@ -33,7 +40,8 @@ export default class MemberWorkload extends Component {
                 {
                     workloads: workloads,
                     groupOptions: groupOptions,
-                    selectedGroups: groupOptions
+                    selectedGroups: groupOptions,
+                    chartWrapperElement: document.getElementById('chart-wrapper')
                 });
         }).catch(axiosError);
     }
@@ -201,19 +209,20 @@ export default class MemberWorkload extends Component {
         },
         legend: {
             display: false
-        }
+        },
+        responsive: false,
     }
 
     renderChart = (group) => {
         let workload = this.state.workloads.find(x => x.groupId === group.value);
-        let basicHeight = 100;
+        let basicHeight = 140;
 
         if (workload.chartData.labels.length > 2) {
-            basicHeight += (workload.chartData.labels.length - 2) * 20
+            basicHeight += (workload.chartData.labels.length - 2) * 20;
         }
 
         return (
-            <HorizontalBar height={basicHeight} key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />
+            <HorizontalBar height={basicHeight} width={this.state.chartWrapperElement.clientWidth} key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />
         );
     }
 
@@ -238,8 +247,9 @@ export default class MemberWorkload extends Component {
                         />
                     </div>
                 }
-
-                {this.state.selectedGroups.map(this.renderChart)}
+                <div id="chart-wrapper" >
+                    {this.state.selectedGroups.map(this.renderChart)}
+                </div>
             </div>
         );
     }

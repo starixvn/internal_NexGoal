@@ -89,7 +89,7 @@ export default class WorkLoad extends PureComponent {
             }
         },
         legend: {
-            position: 'right',
+            position: 'bottom',
             labels: {
                 usePointStyle: true,
                 generateLabels: function (chart) {
@@ -123,7 +123,7 @@ export default class WorkLoad extends PureComponent {
                     return [];
                 }
             }
-        }
+        },
     }
 
     render() {
