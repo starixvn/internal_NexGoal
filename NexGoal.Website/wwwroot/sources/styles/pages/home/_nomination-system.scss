@@ -1,7 +1,6 @@
 @import "../../abstracts/variables";
 
 .my-page {
-    position: relative;
     .record[class*="status-"] {
         grid-template-rows: 1fr;
         .comment {

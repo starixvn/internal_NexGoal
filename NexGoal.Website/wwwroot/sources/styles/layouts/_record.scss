@@ -52,6 +52,15 @@
             object-fit: cover;
             float: left;
             margin-right: 8px;
+            &.icon-nomination {
+                background-color: #324476;
+                text-align: center;
+                padding-top: 10px;
+                &:before {
+                    color: #fff;
+                    font-size: 18px;
+                }
+            }
         }
 
         .person-info {

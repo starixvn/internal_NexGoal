@@ -278,7 +278,7 @@ export default class PerformanceRecord extends Component {
                     this.props.pageType === PageType.MemberPage &&
                     <Fragment>
                         <div className="avatar-user">
-                            <img src={resolveClientUrl('dist/avatars/nexgoal.jpg')} alt="avatar" className="avatar" />
+                            <span className="icon-nomination avatar" ></span>
                             <div className="person-info">
                                 <span className={getRoleClassName(record.roleId)}>
                                     {record.nominationPeriod && record.nominationPeriod.title}
