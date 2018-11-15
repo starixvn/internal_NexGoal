@@ -34,7 +34,7 @@ export default class PerformanceAppraisalResult extends Component {
 
     render() {
         const performanceAppraisals = this.groupPerformanceAppraisals([...this.props.performanceAppraisals]);
-        const title = this.props.title ? this.props.title : 'My PAs';
+        const title = this.props.title ? this.props.title : getResource('MyPerformanceAppraisal');
         return (
             <div className="my-pa box">
                 <h5>{title}</h5>

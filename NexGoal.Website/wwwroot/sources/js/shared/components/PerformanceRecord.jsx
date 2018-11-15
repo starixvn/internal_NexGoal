@@ -6,17 +6,23 @@ import { getNominationClassName, getRoleClassName, resolveClientUrl } from '../.
 import { DateFormat, NominationStatuses, PerformanceRecordStatus, PerformanceRecordType } from '../../constants';
 import getResource from '../../resourceHelper';
 
+const PageType = {
+    MyPage: 1,
+    MemberPage: 2,
+    MemberProfile: 3
+};
+
 export default class PerformanceRecord extends Component {
     static propTypes = {
         data: PropTypes.object,
-        isSupervisor: PropTypes.bool,
+        pageType: PropTypes.number,
         isHighlighted: PropTypes.bool,
         onEdit: PropTypes.func
     };
 
     static defaultProps = {
         data: null,
-        isSupervisor: false,
+        pageType: PageType.MyPage,
         isHighlighted: false,
         onEdit: function () { }
     };
@@ -39,7 +45,7 @@ export default class PerformanceRecord extends Component {
 
     shouldComponentUpdate(nextProps, nextState) {
         if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)
-            || this.props.isSupervisor !== nextProps.isSupervisor
+            || this.props.pageType !== nextProps.pageType
             || this.props.isHighlighted !== nextProps.isHighlighted
             || this.state.showCollapseExpandButton !== nextState.showCollapseExpandButton
             || this.state.isExpanded !== nextState.isExpanded) {
@@ -196,7 +202,7 @@ export default class PerformanceRecord extends Component {
         );
     }
 
-    renderPerformanceApprisalResult = () => {
+    renderSystemPerformanceAppraisal = () => {
         let record = this.props.data;
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
 
@@ -218,16 +224,55 @@ export default class PerformanceRecord extends Component {
         );
     }
 
-    renderNominationResult = () => {
+    renderSystemNomination = () => {
         let record = this.props.data;
         let nominationStatusId = record.nominationStatusId;
         let nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
+        let nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
+        let content = '';
+
+        switch (nominationStatusId) {
+            case NominationStatuses[0].value:
+                content = this.props.pageType === PageType.MyPage ?
+                    `You were in the nomination list of ${nominationPeriod}`
+                    : this.props.pageType === PageType.MemberProfile ?
+                        `${record.employees[0].nickName} was in the nomination list of ${nominationPeriod}`
+                        : `Here is the list of nominated nominee(s): ${record.employees.map(employee => { return employee.nickName; }).join(', ')}`;
+                break;
+
+            case NominationStatuses[1].value:
+                content = this.props.pageType === PageType.MyPage ?
+                    `You were in the shortlist of ${nominationPeriod}`
+                    : this.props.pageType === PageType.MemberProfile ?
+                        `${record.employees[0].nickName} was in the shortlist of ${nominationPeriod}`
+                        : `Here is the list of shortlisted nominee(s): ${record.employees.map(employee => { return employee.nickName; }).join(', ')}`;
+                break;
+
+            case NominationStatuses[2].value:
+                content = this.props.pageType === PageType.MyPage ?
+                    `Congratulations! You were the Winner of ${nominationPeriod}`
+                    : this.props.pageType === PageType.MemberProfile ?
+                        `Congratulations! ${record.employees[0].nickName} was the Winner of ${nominationPeriod}`
+                        : `Congratulations to the Winner(s): ${record.employees.map(employee => { return employee.nickName; }).join(', ')}`;
+
+                break;
+        }
 
         return (
-            <div className={`record record-system ${getNominationClassName(nominationStatusId)} ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
+            <div className={`record record-system ${getNominationClassName(nominationStatusId)} ${this.props.isHighlighted ? 'highlighted' : ''}`}
+                id={`record-${record.performanceRecordId}`}
+            >
                 {
-                    this.props.isSupervisor &&
+                    this.props.pageType === PageType.MyPage &&
+                    <div className="comment">{content}</div>
+                }
+                {
+                    this.props.pageType === PageType.MemberProfile &&
+                    <div className="comment">{content}</div>
+                }
+                {
+                    this.props.pageType === PageType.MemberPage &&
                     <Fragment>
                         <div className="avatar-user">
                             <img src={resolveClientUrl('dist/avatars/nexgoal.jpg')} alt="avatar" className="avatar" />
@@ -245,16 +290,8 @@ export default class PerformanceRecord extends Component {
                                 </div>
                             </div>
                         </div>
-                        <div className="comment">
-                            Congratulations to the {nominationStatus ? nominationStatus.text : ''} of {record.nominationPeriod && record.nominationPeriod.title} award: <strong>{record.employees.map(employee => { return employee.nickName; }).join(', ')}</strong>
-                        </div>
+                        <div className="comment">{content}</div>
                     </Fragment>
-                }
-                {
-                    !this.props.isSupervisor &&
-                    <div className="comment" >
-                        Congratulations! You are the {nominationStatus ? nominationStatus.text : ''} of {record.nominationPeriod && record.nominationPeriod.title} award.
-                    </div>
                 }
             </div>
         );
@@ -271,10 +308,10 @@ export default class PerformanceRecord extends Component {
                 return this.renderNomination();
 
             case PerformanceRecordType.SystemPerformanceAppraisal:
-                return this.renderPerformanceApprisalResult();
+                return this.renderSystemPerformanceAppraisal();
 
             case PerformanceRecordType.SystemNomination:
-                return this.renderNominationResult();
+                return this.renderSystemNomination();
         }
     }
 

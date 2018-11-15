@@ -104,7 +104,7 @@ export default class App extends Component {
     renderPerformanceRecord = (performanceRecord) => {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                isSupervisor={true}
+                pageType={2}
                 data={performanceRecord}
                 onEdit={this.handleEditMemberPerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}

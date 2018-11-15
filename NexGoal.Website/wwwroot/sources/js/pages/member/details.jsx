@@ -179,6 +179,7 @@ export default class App extends Component {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 data={performanceRecord}
+                pageType={3}
                 onEdit={this.handleEditMemberPerformanceRecordClick}
                 isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
             />
