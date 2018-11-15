@@ -2,11 +2,11 @@
 import moment from 'moment';
 
 export default function HrmDetail(props) {
-    const toeicClass = props.hrmDetail.isPassedToeic ? '' : 'color-red';
+    const toeicClass = props.hrmDetail.isPassedToeic ? '' : 'red';
     let toeicScore;
     if (props.hrmDetail.toeicScore > 0) {
-        toeicScore = (<li>Toeic Score: <span className={toeicClass}>{props.hrmDetail.toeicScore} </span>
-            ({moment(props.hrmDetail.toeicExamDate).format("DD MMM, YYYY")})</li>);
+        toeicScore = (<li>Toeic Score: <span className="bold"><span className={toeicClass}>{props.hrmDetail.toeicScore} </span>
+            ({moment(props.hrmDetail.toeicExamDate).format("DD MMM, YYYY")})</span></li>);
     } else {
         toeicScore = <li>TOEIC Score: <span className={toeicClass}>N/A</span></li>;
     }
@@ -16,13 +16,13 @@ export default function HrmDetail(props) {
             <h5>HRM</h5>
             <ul className="hrm-info">
                 {toeicScore}
-                <li>Missing Check In/Out: {props.hrmDetail.missingCheckInCheckOut}</li>
-                <li>Average Working Days: {props.hrmDetail.averageWorkingDays}</li>
-                <li>Average Spent Time: {props.hrmDetail.averageSpentTime}</li>
-                <li>Late In/Early Out: {props.hrmDetail.totalLateInEarlyOut}</li>
-                <li>Unpaid Leave: {props.hrmDetail.unpaidLeave}</li>
-                <li>Unplaned Annual Leave: {props.hrmDetail.unplanedAnnualLeave}</li>
-                <li>Discipline: {props.hrmDetail.incident}</li>
+                <li>Missing Check In/Out<span className="bold">: {props.hrmDetail.missingCheckInCheckOut}</span></li>
+                <li>Average Working Days<span className="bold">: {props.hrmDetail.averageWorkingDays}</span></li>
+                <li>Average Spent Time<span className="bold">: {props.hrmDetail.averageSpentTime}</span></li>
+                <li>Late In/Early Out<span className="bold">: {props.hrmDetail.totalLateInEarlyOut}</span></li>
+                <li>Unpaid Leave<span className="bold">: {props.hrmDetail.unpaidLeave}</span></li>
+                <li>Unplaned Annual Leave<span className="bold">: {props.hrmDetail.unplanedAnnualLeave}</span></li>
+                <li>Discipline<span className="bold">: {props.hrmDetail.incident}</span></li>
             </ul>
         </div >
     );

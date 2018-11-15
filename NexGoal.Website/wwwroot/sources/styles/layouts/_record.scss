@@ -61,6 +61,11 @@
                     font-size: 18px;
                 }
             }
+            &.nexgoal-system {
+                background-color: #324476;
+                text-align: center;
+                padding-top: 6px;
+            }
         }
 
         .person-info {
@@ -216,7 +221,7 @@
             @include border-radius(2px);            
             border: 1px solid #B0CBDD;
             background-color: #E1EEF7;
-            margin: 0 4px;
+            margin: 0 4px 4px;
             padding: 0px 4px 2px;
             font-size: 11px;
         }

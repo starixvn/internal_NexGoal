@@ -211,7 +211,7 @@ export default class PerformanceRecord extends Component {
         return (
             <div className={`record record-system ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
                 <div className="avatar-user">
-                    <img src={resolveClientUrl('dist/avatars/nexgoal.jpg')} alt="avatar" className="avatar" />
+                    <div className="avatar nexgoal-system"><img src={resolveClientUrl('dist/avatars/icon-nexgoal.svg')} alt="avatar" /></div>
                     <div className="person-info">
                         <span className={getRoleClassName(record.roleId)}>NexGoal - {record.period ? record.period.name : ''}</span>
                         <div>
