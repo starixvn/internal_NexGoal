@@ -73,7 +73,7 @@ export default class MyPage extends Component {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
-                        label: performanceGrade.description ? `${performanceGrade.description} (${performanceGrade.name})` : performanceGrade.name
+                        label: `(${performanceGrade.name}) ${performanceGrade.description}`
                     };
                 });
                 const projectOptions = projectResponse.data.map((project) => {
@@ -273,7 +273,10 @@ export default class MyPage extends Component {
 
                     </div>
                     <div className="work-info">
-                        <NominationResult nominations={this.state.nominations} />
+                        {
+                            this.state.nominations.length > 0 &&
+                            <NominationResult nominations={this.state.nominations} />
+                        }
                         <HrmSummary hrmDetail={this.state.hrmDetail} />
                         {
                             this.state.periods.length > 0 &&

@@ -11,8 +11,7 @@ export default class PerformanceAppraisalResult extends Component {
         return false;
     }
 
-    groupPerformanceAppraisals = (pa) => {
-        let performanceAppraisals = pa;
+    groupPerformanceAppraisals = (performanceAppraisals) => {
         performanceAppraisals.forEach(record => record.year = moment(record.period.startDate).year());
         performanceAppraisals = performanceAppraisals.reduce(function (groups, item) {
             const val = item['year'];
@@ -33,12 +32,18 @@ export default class PerformanceAppraisalResult extends Component {
     };
 
     render() {
-        const performanceAppraisals = this.groupPerformanceAppraisals([...this.props.performanceAppraisals]);
+        const performanceAppraisals = this.props.performanceAppraisals ? this.groupPerformanceAppraisals(this.props.performanceAppraisals) : [];
         const title = this.props.title ? this.props.title : getResource('MyPerformanceAppraisal');
+
         return (
             <div className="my-pa box">
                 <h5>{title}</h5>
                 {
+                    performanceAppraisals.length === 0 &&
+                    <div>{getResource('NoInformationAvailable')}</div>
+                }
+                {
+                    performanceAppraisals.length > 0 &&
                     performanceAppraisals.map(performanceAppraisal => {
                         return (
                             <div key={`year${performanceAppraisal.year}`} className="my-pa-year">

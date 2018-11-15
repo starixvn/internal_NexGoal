@@ -37,7 +37,7 @@ export default class NominationResult extends Component {
                                     this.props.isSupervisor &&
                                     <span className="nick-name">{nomination.nickName} - </span>
                                 }
-                                {nomination.period.title} - <span className={getNominationClassName(nomination.statusId)}>
+                                {nomination.period.shortTitle} - <span className={getNominationClassName(nomination.statusId)}>
                                     {NominationStatuses.find(x => x.value === nomination.statusId).text}
                                 </span>
                             </div>

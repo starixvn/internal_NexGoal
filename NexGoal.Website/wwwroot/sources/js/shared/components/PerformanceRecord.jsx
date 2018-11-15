@@ -79,6 +79,7 @@ export default class PerformanceRecord extends Component {
         let record = this.props.data;
         let employees = record.employees;
         let creator = record.creator;
+        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : 'N/A';
         let projects = record.projects && record.projects.length > 0 ?
             record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : 'N/A';
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
@@ -130,7 +131,7 @@ export default class PerformanceRecord extends Component {
                     }
                 </div>
                 <div className="grade">
-                    {`${getResource('Grade')}:`} <div className="grade-detail">{record.grade ? record.grade.name : 'N/A'}</div>
+                    {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
                 </div>
                 <div className="project">
                     {`${getResource('ProjectTag')}:`} <div className="project-detail">{projects}</div>
@@ -204,6 +205,7 @@ export default class PerformanceRecord extends Component {
 
     renderSystemPerformanceAppraisal = () => {
         let record = this.props.data;
+        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : 'N/A';
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
 
         return (
@@ -218,7 +220,7 @@ export default class PerformanceRecord extends Component {
                     </div>
                 </div>
                 <div className="grade">
-                    {`${getResource('Grade')}:`} <div className="grade-detail">{record.grade ? record.grade.name : 'N/A'}</div>
+                    {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
                 </div>
             </div>
         );
@@ -230,6 +232,7 @@ export default class PerformanceRecord extends Component {
         let nominationStatus = NominationStatuses.find(x => x.value === nominationStatusId);
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
         let nominationPeriod = record.nominationPeriod ? record.nominationPeriod.title : '';
+        let employees = record.employees.map(employee => { return employee.nickName; }).join(', ');
         let content = '';
 
         switch (nominationStatusId) {
@@ -237,24 +240,24 @@ export default class PerformanceRecord extends Component {
                 content = this.props.pageType === PageType.MyPage ?
                     `You were in the nomination list of ${nominationPeriod}`
                     : this.props.pageType === PageType.MemberProfile ?
-                        `${record.employees[0].nickName} was in the nomination list of ${nominationPeriod}`
-                        : `Here is the list of nominated nominee(s): ${record.employees.map(employee => { return employee.nickName; }).join(', ')}`;
+                        `${employees} was in the nomination list of ${nominationPeriod}`
+                        : `Here is the list of nominated nominee(s): ${employees}`;
                 break;
 
             case NominationStatuses[1].value:
                 content = this.props.pageType === PageType.MyPage ?
                     `You were in the shortlist of ${nominationPeriod}`
                     : this.props.pageType === PageType.MemberProfile ?
-                        `${record.employees[0].nickName} was in the shortlist of ${nominationPeriod}`
-                        : `Here is the list of shortlisted nominee(s): ${record.employees.map(employee => { return employee.nickName; }).join(', ')}`;
+                        `${employees} was in the shortlist of ${nominationPeriod}`
+                        : `Here is the list of shortlisted nominee(s): ${employees}`;
                 break;
 
             case NominationStatuses[2].value:
                 content = this.props.pageType === PageType.MyPage ?
                     `Congratulations! You were the Winner of ${nominationPeriod}`
                     : this.props.pageType === PageType.MemberProfile ?
-                        `Congratulations! ${record.employees[0].nickName} was the Winner of ${nominationPeriod}`
-                        : `Congratulations to the Winner(s): ${record.employees.map(employee => { return employee.nickName; }).join(', ')}`;
+                        `Congratulations! ${employees} was the Winner of ${nominationPeriod}`
+                        : `Congratulations to the Winner(s): ${employees}`;
 
                 break;
         }

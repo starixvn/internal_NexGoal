@@ -92,7 +92,7 @@ export default class App extends Component {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
-                        label: performanceGrade.description ? `${performanceGrade.description} (${performanceGrade.name})` : performanceGrade.name
+                        label: `(${performanceGrade.name}) ${performanceGrade.description}`
                     };
                 });
 

@@ -134,8 +134,8 @@ export default class CreateSelfPerformance extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
 
+                    this.handleCancel();
                     this.props.onSubmitSuccess();
-                    this.setState({ isOpenForm: false });
                 } else {
                     if (data.errors) {
                         let errors = {};
@@ -143,7 +143,7 @@ export default class CreateSelfPerformance extends Component {
                             errors[camelCase(error.key)] = error.errorMessage;
                         });
 
-                        this.handleCancel();
+                        this.setState({ errors });
                     } else {
                         toast.error(data.message);
                     }
