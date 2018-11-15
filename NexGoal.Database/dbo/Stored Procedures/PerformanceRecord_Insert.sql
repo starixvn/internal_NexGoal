@@ -54,7 +54,10 @@ BEGIN
 		,[Priority]
 		)
 	SELECT DISTINCT val
-		,@SelfProcessId
+		,CASE 
+			WHEN val = @CreatorId THEN @SelfProcessId
+			ELSE 0
+			END
 		,0
 	FROM dbo.func_SplitString(@EmployeeIds, ',')
 	WHERE ISNUMERIC(val) = 1
