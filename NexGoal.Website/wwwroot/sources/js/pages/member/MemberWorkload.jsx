@@ -89,7 +89,7 @@ export default class MemberWorkload extends Component {
             let dataSet = {
                 label: projects[i],
                 data: workloads.map((member) => member.workloads[i].totalHours),
-                backgroundColor: "#F3AC16"
+                backgroundColor: "#2748A5"
             };
 
             datasets.push(dataSet);
@@ -104,16 +104,6 @@ export default class MemberWorkload extends Component {
     handleGroupChange = (selectedOptions) => this.setState({
         selectedGroups: selectedOptions
     })
-
-    generateColor = () => {
-        let hex = "0123456789ABCDEF",
-            color = "#";
-        for (var i = 0; i < 6; i++) {
-            color += hex[Math.floor(Math.random() * 16)];
-        }
-
-        return color;
-    }
 
     chartOptions = {
         tooltips: {

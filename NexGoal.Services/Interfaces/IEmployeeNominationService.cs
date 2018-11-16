@@ -20,5 +20,7 @@
         Task<bool> IsNominator(int actorId);
 
         Task<CommandResult> Edit(EditEmployeeNominationModel model);
+
+        Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForForComittee(int committeeId);
     }
 }

@@ -56,6 +56,12 @@
     <Folder Include="wwwroot\sources\js\pages\home\__tests__\__snapshots__\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="Views\NominationAssessment\Index.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
   <Target Name="CreateLogsFolder" AfterTargets="AfterPublish">
     <MakeDir Directories="$(PublishDir)logs" Condition="!Exists('$(PublishDir)logs')" />
     <MakeDir Directories="$(PublishUrl)logs" Condition="!Exists('$(PublishUrl)logs')" />

@@ -34,6 +34,16 @@
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
+        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForForComittee(int committeeId)
+        {
+            var criteria = new GetNominationPeriodsForComitteeCriteria
+            {
+                CommitteeId = committeeId
+            };
+
+            return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
+        }
+
         public async Task<CommandResult> Create(CreateEmployeeNominationModel model)
         {
             var criteria = new CreateEmployeeNominationCriteria

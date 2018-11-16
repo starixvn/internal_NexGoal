@@ -1,5 +1,7 @@
 ﻿namespace NexGoal.Models.EmployeeNomination
 {
+    using System;
+
     public class NominationPeriodModel
     {
         public int NominationPeriodId { get; set; }
@@ -7,6 +9,14 @@
         public int? Quarter { get; set; }
 
         public int Year { get; set; }
+
+        public DateTime StartDateForNominator { get; set; }
+
+        public DateTime EndDateForNominator { get; set; }
+
+        public DateTime RemindDateForNominator { get; set; }
+
+        public DateTime EndDateForCommittee { get; set; }
 
         public string Title
         {
