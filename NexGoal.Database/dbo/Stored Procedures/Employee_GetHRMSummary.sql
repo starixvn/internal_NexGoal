@@ -1,5 +1,4 @@
-﻿CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] 
-	@EmployeeId INT
+﻿CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] @EmployeeId INT
 AS
 /*
 Created: 20180926@Oliver.Dang
@@ -10,13 +9,15 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @FromDate DATETIME
-		,@ToDate DATETIME 
+		,@ToDate DATETIME
 		,@toeic INT
+		,@isPassedToeic BIT
 		,@examDate DATETIME
 		,@incident INT
 		,@missingCheckInCheckOut INT
+
 	SELECT @FromDate = DisciplineStartDate
-		 ,@ToDate = DisciplineEndDate	
+		,@ToDate = DisciplineEndDate
 	FROM dbo.Period WITH (NOLOCK)
 	WHERE IsActive = 1
 		AND DisciplineStartDate <= GETDATE()
@@ -118,16 +119,19 @@ BEGIN
 			);
 
 	/* End Get have not request missing check in check out*/
-	SET @toeic = (
-			SELECT (Listening + Reading)
-			FROM [dbo].[TOEIC] WITH (NOLOCK)
-			WHERE EmpId = @EmployeeId
+	SELECT @toeic = (Listening + Reading)
+		,@examDate = LRExamDate
+		,@isPassedToeic = (
+			CASE 
+				WHEN (ISNULL(Listening, 0) + ISNULL(Reading, 0)) >= ISNULL(MinimumScore, 0)
+					OR (ISNULL(Listening, 0) + ISNULL(Reading, 0)) >= 900
+					THEN 1
+				ELSE 0
+				END
 			)
-	SET @examDate = (
-			SELECT LRExamDate
-			FROM [dbo].[TOEIC] WITH (NOLOCK)
-			WHERE EmpId = @EmployeeId
-			)
+	FROM [dbo].[TOEIC] WITH (NOLOCK)
+	WHERE EmpId = @EmployeeId
+
 	SET @incident = (
 			SELECT COUNT(1)
 			FROM dbo.Discipline WITH (NOLOCK)
@@ -154,6 +158,7 @@ BEGIN
 
 	SELECT @toeic AS ToeicScore
 		,@examDate AS ToeicExamDate
+		,@isPassedToeic AS IsPassedToeic
 		,@incident AS Incident
 		,@missingCheckInCheckOut AS MissingCheckInCheckOut
 		,SUM(CASE 
