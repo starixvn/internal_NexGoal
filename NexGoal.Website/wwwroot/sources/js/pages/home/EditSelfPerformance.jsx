@@ -203,7 +203,7 @@ export default class EditSelfPerformance extends Component {
                         performanceRecord.statusId === PerformanceRecordStatus.Draft &&
                         <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
                     }
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</Button>
+                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
                 </Modal.Footer>
             </Modal>
         );

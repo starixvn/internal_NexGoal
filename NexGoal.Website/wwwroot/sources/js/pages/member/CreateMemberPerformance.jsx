@@ -269,7 +269,7 @@ export default class CreateMemberPerformance extends Component {
                             <FormGroup>
                                 <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
                                 <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
-                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</Button>
+                                <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
                             </FormGroup>
                         </form>
                     }

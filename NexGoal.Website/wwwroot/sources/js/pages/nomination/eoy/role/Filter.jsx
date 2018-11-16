@@ -1,44 +1,40 @@
 ﻿import React, { Component } from 'react';
-import { Form, ControlLabel, FormGroup } from 'react-bootstrap';
+import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
 import MultiSelect from '../../../../shared/components/multi-select/index';
 import getResource from '../../../../resourceHelper';
 
 class Filter extends Component {
-    constructor(props) {
-        super(props);
+    shouldComponentUpdate(nextProps, nextState) {
+        if (JSON.stringify(this.props.filter) !== JSON.stringify(nextProps.filter)
+            || JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)
+            || JSON.stringify(this.props.nominationRoleOptions) !== JSON.stringify(nextProps.nominationRoleOptions)) {
+            return true;
+        }
 
-        this.onKeywordChange = this.onKeywordChange.bind(this);
-        this.handleGroupChange = this.handleGroupChange.bind(this);
-        this.handleRoleChange = this.handleRoleChange.bind(this);
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        return false;
     }
 
-    onKeywordChange(event) {
-        this.props.filter.keyword = event.target.value;
-        this.props.handleFilterChange(this.props.filter);
+    onKeywordChange = (event) =>  {
+        this.props.onChange('keyword', event.target.value);
     }
 
-    handleGroupChange(selectedOptions) {
-        this.props.filter.groups = selectedOptions;
-        this.props.handleFilterChange(this.props.filter);
+    handleGroupChange = (selectedOptions) => {
+        this.props.onChange('groups', selectedOptions);
     }
 
-    handleRoleChange(selectedOption) {
-        this.props.filter.role = selectedOption;
-        this.props.handleFilterChange(this.props.filter);
+    handleRoleChange = (selectedOption) => {
+        this.props.onChange('role', selectedOption);
     }
 
-    handleCheckboxChange(event) {
-        this.props.filter.isShowAll = event.target.checked;
-        this.props.handleFilterChange(this.props.filter);
+    handleCheckboxChange = (event) => {
+        this.props.onChange('isShowAll', event.target.checked);
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
-        this.props.handleFilterSubmit();
+        this.props.onSubmit();
     }
 
     render() {
@@ -87,7 +83,7 @@ class Filter extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <button className="btn btn-primary">{getResource('Search')}</button>
+                    <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
                 </FormGroup>
             </Form>
         );

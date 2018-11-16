@@ -40,7 +40,7 @@ class Table extends Component {
             }
         }
 
-        this.props.editNominatorSetting(nominator);
+        this.props.onEdit(nominator);
     }
 
     render() {

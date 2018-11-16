@@ -1,13 +1,12 @@
-﻿import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
+﻿import React, { Component } from 'react';
 import { FormGroup, ControlLabel, Button } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { camelCase, isEmpty } from 'lodash';
+import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 import { Formik } from 'formik';
-import moment from 'moment'
+import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../../constants';
@@ -21,7 +20,7 @@ export default class CreateNomination extends Component {
         this.state = {
             openForm: false,
             nominationPeriodOptions: props.nominationPeriods.map(np => {
-                return { value: np.nominationPeriodId, label: np.title }
+                return { value: np.nominationPeriodId, label: np.title };
             }),
             currentDate: moment(),
             eoqQuestions: [],
@@ -35,18 +34,10 @@ export default class CreateNomination extends Component {
         };
     }
 
-    handleOpenForm = () => {
-        this.setState({ openForm: true });
-    }
-
-    handleCloseForm = () => {
-        this.setState({ openForm: false });
-    }
-
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetEOQQuestions')),
-            axios(resolveClientUrl('Common/GetEOYQuestions')),
+            axios(resolveClientUrl('Common/GetEOYQuestions'))
         ];
 
         Promise.all(promises)
@@ -56,6 +47,14 @@ export default class CreateNomination extends Component {
                     eoyQuestions: eoyResponse.data
                 });
             }).catch(axiosError);
+    }
+
+    handleOpenForm = () => {
+        this.setState({ openForm: true });
+    }
+
+    handleCloseForm = () => {
+        this.setState({ openForm: false });
     }
 
     validateForm = values => {
@@ -134,12 +133,12 @@ export default class CreateNomination extends Component {
 
             setFieldValue('period', value);
             setFieldValue('comment', questions);
-        }
+        };
 
         let handleSaveDraft = () => {
             setFieldValue('statusId', PerformanceRecordStatus.Draft);
             submitForm();
-        }
+        };
 
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance create">
@@ -166,12 +165,13 @@ export default class CreateNomination extends Component {
                         className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
                         name="comment"
                         value={values.comment}
-                        onChange={handleChange} />
+                        onChange={handleChange}
+                    />
                 </FormGroup>
                 <FormGroup>
                     <Button className="btn-cancel" onClick={this.handleCloseForm}>{getResource('Cancel')}</Button>
                     <Button className="btn-cancel" onClick={handleSaveDraft} name="saveAsDraft">{getResource('SaveAsDraft')}</Button>
-                    <Button className="btn-primary" disabled={isSubmitting} type="submit">{getResource('Submit')}</Button>
+                    <Button className="btn-primary" disabled={isSubmitting} type="submit">{getResource('Publish')}</Button>
                 </FormGroup>
             </form>
         );
@@ -200,7 +200,12 @@ export default class CreateNomination extends Component {
                     }
                     {
                         this.state.openForm &&
-                        <Formik initialValues={this.state.initialObj} validate={this.validateForm} onSubmit={this.handleSubmit} render={this.renderForm} />
+                        <Formik
+                            initialValues={this.state.initialObj}
+                            validate={this.validateForm}
+                            onSubmit={this.handleSubmit}
+                            render={this.renderForm}
+                        />
                     }
                 </div>
             </div>

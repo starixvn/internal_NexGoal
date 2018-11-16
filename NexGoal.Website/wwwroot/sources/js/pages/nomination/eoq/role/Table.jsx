@@ -11,7 +11,7 @@ const { SearchBar } = Search;
 
 class Table extends Component {
     shouldComponentUpdate(nextProps, nextState) {
-        if (this.props.nominators !== nextProps.nominators
+        if (JSON.stringify(this.props.nominators) !== JSON.stringify(nextProps.nominators)
             || this.props.isHost !== nextProps.isHost) {
             return true;
         }
@@ -40,7 +40,7 @@ class Table extends Component {
             }
         }
 
-        this.props.editNominatorSetting(nominator);
+        this.props.onEdit(nominator);
     }
 
     render() {

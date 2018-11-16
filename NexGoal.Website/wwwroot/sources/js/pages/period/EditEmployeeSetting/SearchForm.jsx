@@ -1,10 +1,9 @@
 ﻿import React, { Component } from 'react';
+import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
+
+import getResource from '../../../resourceHelper';
 
 export default class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     handleGroupIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
 
     handleEvaluatedStatusIdChange = e => this.props.onFilterChange(e.target.name, e.target.value)
@@ -22,39 +21,39 @@ export default class SearchForm extends Component {
 
     render() {
         return (
-            <form className="form-inline form-filter" onSubmit={this.handleSubmit}>
-                <div className="form-group" >
-                    <div className="col">
-                        <label className="control-label size-l">Team</label>
-                        <div className="control-content">
-                            <select value={this.props.filter.groupId} name="groupId" className="form-control" onChange={this.handleGroupIdChange}>
-                                <option value="">-- All --</option>
-                                {this.props.groups.map(this.renderGroupOption)}
-                            </select>
-                        </div>
+            <Form inline className="form-filter" onSubmit={this.handleSubmit}>
+                <FormGroup>
+                    <ControlLabel>{getResource('Team')}</ControlLabel>
+                    <div className="control-content">
+                        <select value={this.props.filter.groupId} name="groupId" className="form-control" onChange={this.handleGroupIdChange}>
+                            <option value="">-- All --</option>
+                            {this.props.groups.map(this.renderGroupOption)}
+                        </select>
                     </div>
-                    <div className="col">
-                        <label className="control-label size-l">Evaluated Status</label>
-                        <div className="control-content">
-                            <select value={this.props.filter.evaluatedStatusId} name="evaluatedStatusId" className="form-control" onChange={this.handleEvaluatedStatusIdChange}>
-                                <option value="">-- All --</option>
-                                <option value="true">Evaluated</option>
-                                <option value="false">Not Evaluated</option>
-                            </select>
-                        </div>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>Evaluated Status</ControlLabel>
+                    <div className="control-content">
+                        <select value={this.props.filter.evaluatedStatusId} name="evaluatedStatusId" className="form-control" onChange={this.handleEvaluatedStatusIdChange}>
+                            <option value="">-- All --</option>
+                            <option value="true">Evaluated</option>
+                            <option value="false">Not Evaluated</option>
+                        </select>
                     </div>
-                    <div className="col">
-                        <label className="control-label">PA Status</label>
-                        <div className="control-content">
-                            <select value={this.props.filter.paStatusId} name="paStatusId" className="form-control" onChange={this.handlePAStatusIdChange}>
-                                <option value="">-- All --</option>performanceStatuses
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>PA Status</ControlLabel>
+                    <div className="control-content">
+                        <select value={this.props.filter.paStatusId} name="paStatusId" className="form-control" onChange={this.handlePAStatusIdChange}>
+                            <option value="">-- All --</option>performanceStatuses
                                 {this.props.performanceStatuses.map(this.renderPerformanceStatusOption)}
-                            </select>
-                        </div>
+                        </select>
                     </div>
-                    <button type="submit" className="btn btn-primary">Search</button>
-                </div>
-            </form>
+                </FormGroup>
+                <FormGroup>
+                    <Button type="submit" bsStyle="primary">{getResource('Search')}</Button>
+                </FormGroup>
+            </Form>
         );
     }
 }

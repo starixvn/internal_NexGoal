@@ -1,13 +1,12 @@
-﻿import React, { Component, Fragment } from 'react';
-import ReactDOM from 'react-dom';
+﻿import React, { Component } from 'react';
 import { FormGroup, ControlLabel, Button, Modal } from 'react-bootstrap';
 import Select from 'react-select';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import { camelCase, isEmpty } from 'lodash';
+import { camelCase } from 'lodash';
 import { stringify } from 'qs';
 import { Formik } from 'formik';
-import moment from 'moment'
+import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../../constants';
@@ -20,7 +19,7 @@ export default class EditNomination extends Component {
 
         this.state = {
             nominationPeriodOptions: props.nominationPeriods.map(np => {
-                return { value: np.nominationPeriodId, label: np.title }
+                return { value: np.nominationPeriodId, label: np.title };
             }),
             createdDate: moment(props.performanceRecord.createdDate),
             eoqQuestions: [],
@@ -43,7 +42,7 @@ export default class EditNomination extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetEOQQuestions')),
-            axios(resolveClientUrl('Common/GetEOYQuestions')),
+            axios(resolveClientUrl('Common/GetEOYQuestions'))
         ];
 
         Promise.all(promises)
@@ -132,7 +131,7 @@ export default class EditNomination extends Component {
 
             setFieldValue('period', value);
             setFieldValue('comment', questions);
-        }
+        };
 
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance edit">
@@ -163,7 +162,8 @@ export default class EditNomination extends Component {
                         className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
                         name="comment"
                         value={values.comment}
-                        onChange={handleChange} />
+                        onChange={handleChange}
+                    />
                 </FormGroup>
             </form>
         );
@@ -200,7 +200,7 @@ export default class EditNomination extends Component {
                         this.props.performanceRecord.statusId === PerformanceRecordStatus.Draft &&
                         <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveDraft}>{getResource('SaveAsDraft')}</Button>
                     }
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmitForm}>{getResource('Submit')}</Button>
+                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmitForm}>{getResource('Publish')}</Button>
                 </Modal.Footer>
             </Modal>
 

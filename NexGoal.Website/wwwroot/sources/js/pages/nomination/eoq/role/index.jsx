@@ -25,10 +25,6 @@ export default class RoleManagement extends Component {
             nominators: [],
             isHost: document.getElementById('IsHost').checked
         };
-
-        this.handleFilterChange = this.handleFilterChange.bind(this);
-        this.editNominatorSetting = this.editNominatorSetting.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -36,7 +32,7 @@ export default class RoleManagement extends Component {
         this.getNominatorSetting();
     }
 
-    getGroups() {
+    getGroups = () => {
         axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
                 const groupOptions = response.data.map((group) => {
@@ -50,7 +46,7 @@ export default class RoleManagement extends Component {
             }).catch(axiosError);
     }
 
-    getNominatorSetting() {
+    getNominatorSetting = () => {
         const filter = this.state.filter;
         const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
 
@@ -67,7 +63,7 @@ export default class RoleManagement extends Component {
         }).catch(axiosError);
     }
 
-    editNominatorSetting(nominator) {
+    editNominatorSetting = (nominator) => {
         const setting = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
             eoqyId: this.state.eoqId,
@@ -95,11 +91,13 @@ export default class RoleManagement extends Component {
         }).catch(axiosError);
     }
 
-    handleFilterChange(filter) {
-        this.setState({ filter: filter });
+    handleFilterChange = (name, value) => {
+        this.setState({
+            filter: Object.assign({}, this.state.filter, { [name]: value })
+        });
     }
 
-    handleSubmit() {
+    handleSubmit = () => {
         this.getNominatorSetting();
     }
 
@@ -109,13 +107,13 @@ export default class RoleManagement extends Component {
                 <Filter filter={this.state.filter}
                     groupOptions={this.state.groupOptions}
                     nominationRoleOptions={nominationRoleOptions}
-                    handleFilterChange={this.handleFilterChange}
-                    handleFilterSubmit={this.handleSubmit}
+                    onChange={this.handleFilterChange}
+                    onSubmit={this.handleSubmit}
                 />
 
                 <Table isHost={this.state.isHost}
                     nominators={this.state.nominators}
-                    editNominatorSetting={this.editNominatorSetting}
+                    onEdit={this.editNominatorSetting}
                 />
             </Fragment>
         );
