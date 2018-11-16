@@ -230,7 +230,6 @@
     <Build Include="dbo\Stored Procedures\RefResource_GetByNames.sql" />
     <Build Include="dbo\Stored Procedures\Role_AssignFunction.sql" />
     <Build Include="dbo\Stored Procedures\Period_GeneratePA.sql" />
-    <Build Include="dbo\Stored Procedures\Discipline_GetHRMSummary.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Period_Insert.sql" />
     <Build Include="dbo\Stored Procedures\Period_GetCurrentPerformancePeriod.sql" />
     <Build Include="dbo\Stored Procedures\Employee_UpdateRoles.sql" />
