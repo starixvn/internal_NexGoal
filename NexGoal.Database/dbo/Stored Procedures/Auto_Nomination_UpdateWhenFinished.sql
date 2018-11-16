@@ -29,6 +29,29 @@ BEGIN
 		,StatusId TINYINT
 		)
 
+	-- delete draft
+	DELETE record
+	FROM dbo.PerformanceRecord AS record
+		INNER JOIN dbo.NominationDetail AS detail WITH (NOLOCK) ON record.PerformanceRecordId = detail.PerformanceRecordId
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
+		AND nomination.StatusId = @Draft
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EndDateForNominator < @Today
+
+	DELETE detail
+	FROM dbo.NominationDetail AS detail
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
+		AND nomination.StatusId = @Draft
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EndDateForNominator < @Today
+
+	DELETE nomination
+	FROM dbo.Nomination AS nomination
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EndDateForNominator < @Today
+	WHERE nomination.StatusId = @Draft
+
+	-- insert performance record
 	INSERT INTO #tblNomination (
 		NominationId
 		,EmployeeId
@@ -45,19 +68,9 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON nomination.NomineeId = emp.EmployeeId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-	WHERE nomination.PerformanceRecordId IS NULL
+	WHERE nomination.StatusId <> @Draft
+		AND nomination.PerformanceRecordId IS NULL
 
-	-- delete draft
-	DELETE nomination
-	FROM dbo.Nomination AS nomination
-		INNER JOIN #tblNomination AS tbl ON nomination.NominationId = tbl.NominationId
-		AND tbl.StatusId = @Draft
-
-	DELETE
-	FROM #tblNomination
-	WHERE StatusId = @Draft
-
-	-- insert performance record
 	WHILE EXISTS (
 			SELECT 1
 			FROM #tblNomination WITH (NOLOCK)

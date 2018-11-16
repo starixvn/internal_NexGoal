@@ -57,6 +57,30 @@ BEGIN
 			)
 	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
+	DELETE record
+	FROM dbo.PerformanceRecord AS record
+		INNER JOIN dbo.NominationDetail AS detail WITH (NOLOCK) ON record.PerformanceRecordId = detail.PerformanceRecordId
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EOQYId = @EOQId
+
+	DELETE detail
+	FROM dbo.NominationDetail AS detail
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EOQYId = @EOQId
+
+	DELETE record
+	FROM dbo.PerformanceRecord AS record
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EOQYId = @EOQId
+
+	DELETE nomination
+	FROM dbo.Nomination AS nomination
+		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EOQYId = @EOQId
+
 	DELETE setting
 	FROM dbo.EOQYNominatorSetting AS setting
 		INNER JOIN dbo.EOQY AS eoq WITH (NOLOCK) ON setting.EOQYId = eoq.EOQYId

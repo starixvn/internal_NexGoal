@@ -21,8 +21,4 @@
     </PackageReference>
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
-  </ItemGroup>
-
 </Project>

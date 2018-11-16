@@ -242,5 +242,10 @@
     <Build Include="dbo\Stored Procedures\Auto_Nomination_UpdateWhenFinished.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_Update.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetMemberByProcessId.sql" />
+    <Build Include="dbo\Views\WorkingTimeRequest.sql" />
+    <Build Include="dbo\Views\ToeicPolicy.sql" />
+    <Build Include="dbo\Views\TOEIC.sql" />
+    <Build Include="dbo\Views\EmployeeCalendar.sql" />
+    <Build Include="dbo\Views\EmployeeAttendance.sql" />
   </ItemGroup>
 </Project>
