@@ -15,7 +15,7 @@ export default class Timeline extends Component {
                 groups: []
             },
             memberPerformances: [],
-            pageSize: window.innerWidth >= 1920 ? 4 : 3
+            pageSize: window.innerWidth >= 1600 ? 4 : 3
         };
 
         this.timelineEl = React.createRef();
@@ -52,7 +52,7 @@ export default class Timeline extends Component {
     }
 
     updateDimensions = () => {
-        let pageSize = window.innerWidth >= 1920 ? 4 : 3;
+        let pageSize = window.innerWidth >= 1600 ? 4 : 3;
 
         this.setState((prevState, prevProps) => {
             if (prevState.pageSize !== pageSize) {

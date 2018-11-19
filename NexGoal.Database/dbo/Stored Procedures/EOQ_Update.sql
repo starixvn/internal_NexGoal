@@ -59,9 +59,7 @@ BEGIN
 	END
 
 	DECLARE @Today DATE = GETDATE()
-		-- Nomination Status
-		,@Draft TINYINT = 4
-		-- For write log
+		-- for write log
 		,@startRun DATETIME = GETDATE()
 		,@endRun DATETIME
 		,@duration INT
@@ -69,7 +67,7 @@ BEGIN
 		,@logDataOld NVARCHAR(MAX)
 		,@xml XML
 
-	-- Write log before update	
+	-- write log before update	
 	SET @xml = (
 			SELECT @EOQId AS '@id'
 				,[Quarter] AS '@q'
@@ -97,32 +95,12 @@ BEGIN
 	WHERE EOQYId = @EOQId
 		AND IsQuarter = 1
 
-	-- delete draft
 	IF @EndDateForNominator < @Today
+		OR @EndDateForCommittee < @Today
 	BEGIN
-		DELETE record
-		FROM dbo.PerformanceRecord AS record
-			INNER JOIN dbo.NominationDetail AS detail WITH (NOLOCK) ON record.PerformanceRecordId = detail.PerformanceRecordId
-			INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
-			AND nomination.StatusId = @Draft
-			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-			AND period.EOQYId = @EOQId
-			AND period.EndDateForNominator < @Today
-
-		DELETE detail
-		FROM dbo.NominationDetail AS detail
-			INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
-			AND nomination.StatusId = @Draft
-			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-			AND period.EOQYId = @EOQId
-			AND period.EndDateForNominator < @Today
-
-		DELETE nomination
-		FROM dbo.Nomination AS nomination
-			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-			AND period.EOQYId = @EOQId
-			AND period.EndDateForNominator < @Today
-		WHERE nomination.StatusId = @Draft
+		EXEC dbo.Auto_Nomination_UpdateWhenFinished @EOQId
+			,@ErrCode OUTPUT
+			,@ErrMsg OUTPUT
 	END
 
 	IF @@ERROR > 0

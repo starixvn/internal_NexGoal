@@ -17,6 +17,12 @@ Original:
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @Nominated TINYINT = 1
+		,@Draft TINYINT = 4
+		-- performance record status
+		,@PR_Draft TINYINT = 2
+		,@PR_Submitted TINYINT = 3
+
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.NominationDetail AS nd WITH (NOLOCK)
@@ -27,16 +33,22 @@ BEGIN
 			)
 	BEGIN
 		SET @ErrCode = 1
-		SET @ErrMsg = N'The Employee has already been nominated in this period'
+		SET @ErrMsg = N'The employee has already been nominated in this period.'
 
 		RETURN
 	END
 
-	IF @NominatorId = @NomineeId 
-		AND EXISTS (SELECT 1 FROM dbo.EOQY e WITH (NOLOCK) WHERE e.EOQYId = @NominationPeriodId AND e.IsQuarter = 1 AND e.Quarter IS NOT NULL)
+	IF @NominatorId = @NomineeId
+		AND EXISTS (
+			SELECT 1
+			FROM dbo.EOQY AS e WITH (NOLOCK)
+			WHERE e.EOQYId = @NominationPeriodId
+				AND e.IsQuarter = 1
+				AND e.[Quarter] IS NOT NULL
+			)
 	BEGIN
 		SET @ErrCode = 1
-		SET @ErrMsg = N'You cant nominate yourself'
+		SET @ErrMsg = N'You can''t nominate yourself.'
 
 		RETURN
 	END
@@ -46,20 +58,22 @@ BEGIN
 		,@duration INT
 		,@logData NVARCHAR(MAX)
 		,@xml XML
-	DECLARE @NominationId INT, @NominationStatusId TINYINT
+	DECLARE @NominationId INT
+		,@NominationStatusId TINYINT
 
-	SELECT @NominationId = n.NominationId, @NominationStatusId = n.StatusId
+	SELECT @NominationId = n.NominationId
+		,@NominationStatusId = n.StatusId
 	FROM dbo.Nomination AS n WITH (NOLOCK)
 	WHERE n.NomineeId = @NomineeId
 		AND n.EOQYId = @NominationPeriodId
 
 	IF @NominationId IS NULL
 	BEGIN
-		SET @NominationStatusId = 1
+		SET @NominationStatusId = @Nominated
 
-		IF @PerformanceRecordStatusId = 2
+		IF @PerformanceRecordStatusId = @PR_Draft
 		BEGIN
-			SET @NominationStatusId = 4
+			SET @NominationStatusId = @Draft
 		END
 
 		INSERT INTO dbo.Nomination (
@@ -77,10 +91,11 @@ BEGIN
 	END
 	ELSE
 	BEGIN
-		IF @NominationStatusId = 4 AND @PerformanceRecordStatusId = 3
+		IF @NominationStatusId = @Draft
+			AND @PerformanceRecordStatusId = @PR_Submitted
 		BEGIN
 			UPDATE dbo.Nomination WITH (ROWLOCK, UPDLOCK)
-			SET StatusId = 1
+			SET StatusId = @Nominated
 			WHERE NominationId = @NominationId
 		END
 	END
@@ -102,7 +117,7 @@ BEGIN
 		,3
 		)
 
-	SET @PerformanceRecordId  = SCOPE_IDENTITY()
+	SET @PerformanceRecordId = SCOPE_IDENTITY()
 
 	INSERT INTO dbo.NominationDetail (
 		NominationId

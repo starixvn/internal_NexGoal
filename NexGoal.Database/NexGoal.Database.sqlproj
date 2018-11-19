@@ -246,5 +246,7 @@
     <Build Include="dbo\Views\TOEIC.sql" />
     <Build Include="dbo\Views\EmployeeCalendar.sql" />
     <Build Include="dbo\Views\EmployeeAttendance.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PA_UpdateGrade.sql" />
+    <Build Include="dbo\Stored Procedures\Auto_PA_GetDataToUpdateGrade.sql" />
   </ItemGroup>
 </Project>

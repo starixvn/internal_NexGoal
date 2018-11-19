@@ -7,6 +7,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import ToastLayout from '../../shared/layouts/ToastLayout';
+import getResource from '../../resourceHelper';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import NominationResult from '../../shared/components/NominationResult';
 import CreateMemberPerformance from './CreateMemberPerformance';
@@ -236,7 +237,7 @@ export default class App extends Component {
                                 </div>
                             </div>
                             <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
-                                <Tab eventKey={1} title="Performance">
+                                <Tab eventKey={1} title={getResource('MemberPerformance')}>
 
                                     <div className="record-list">
                                         <Scrollbars style={{ height: '100%' }} autoHide>
@@ -267,8 +268,9 @@ export default class App extends Component {
                                 </Tab>
                                 {
                                     this.state.currentUser.isNominator &&
-                                    <Tab eventKey={2} title="Nomination">
-                                        {this.state.loadNominationTab &&
+                                    <Tab eventKey={2} title={getResource('Nomination')}>
+                                        {
+                                            this.state.loadNominationTab &&
                                             <Nomination
                                                 currentUser={currentUser}
                                                 employeeOptions={employeeOptions}

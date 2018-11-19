@@ -1,5 +1,6 @@
 ﻿
-CREATE PROCEDURE [dbo].[Auto_Nomination_UpdateWhenFinished] @ErrCode INT = 0 OUTPUT
+CREATE PROCEDURE [dbo].[Auto_Nomination_UpdateWhenFinished] @NominationPeriodId INT = NULL
+	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
 /*
@@ -20,7 +21,8 @@ BEGIN
 	-- Nomination Status
 	DECLARE @Draft TINYINT = 4
 	-- Performance Record Status
-	DECLARE @Closed TINYINT = 4
+	DECLARE @PR_Draft TINYINT = 2
+		,@PR_Closed TINYINT = 4
 
 	CREATE TABLE #tblNomination (
 		NominationId INT
@@ -33,23 +35,33 @@ BEGIN
 	DELETE record
 	FROM dbo.PerformanceRecord AS record
 		INNER JOIN dbo.NominationDetail AS detail WITH (NOLOCK) ON record.PerformanceRecordId = detail.PerformanceRecordId
-		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
-		AND nomination.StatusId = @Draft
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = nomination.NominationId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 		AND period.EndDateForNominator < @Today
+	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
+		AND (
+			record.StatusId = @PR_Draft
+			OR nomination.StatusId = @Draft
+			)
 
 	DELETE detail
 	FROM dbo.NominationDetail AS detail
-		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
-		AND nomination.StatusId = @Draft
+		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = nomination.NominationId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 		AND period.EndDateForNominator < @Today
+		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON detail.PerformanceRecordId = record.PerformanceRecordId
+	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
+		AND (
+			nomination.StatusId = @Draft
+			OR record.PerformanceRecordId IS NULL
+			)
 
 	DELETE nomination
 	FROM dbo.Nomination AS nomination
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 		AND period.EndDateForNominator < @Today
-	WHERE nomination.StatusId = @Draft
+	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
+		AND nomination.StatusId = @Draft
 
 	-- insert performance record
 	INSERT INTO #tblNomination (
@@ -68,7 +80,8 @@ BEGIN
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON nomination.NomineeId = emp.EmployeeId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-	WHERE nomination.StatusId <> @Draft
+	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
+		AND nomination.StatusId <> @Draft
 		AND nomination.PerformanceRecordId IS NULL
 
 	WHILE EXISTS (
@@ -89,7 +102,7 @@ BEGIN
 			)
 		SELECT EmployeeId
 			,- 1
-			,@Closed
+			,@PR_Closed
 			,GETDATE()
 			,5 -- system Nomination
 			,255

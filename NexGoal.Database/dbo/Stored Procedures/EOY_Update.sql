@@ -57,8 +57,6 @@ BEGIN
 	END
 
 	DECLARE @Today DATE = GETDATE()
-		-- Nomination Status
-		,@Draft TINYINT = 4
 		-- For write log
 		,@startRun DATETIME = GETDATE()
 		,@endRun DATETIME
@@ -93,32 +91,12 @@ BEGIN
 	WHERE EOQYId = @EOYId
 		AND IsQuarter = 0
 
-	-- delete draft
 	IF @EndDateForNominator < @Today
+		OR @EndDateForCommittee < @Today
 	BEGIN
-		DELETE record
-		FROM dbo.PerformanceRecord AS record
-			INNER JOIN dbo.NominationDetail AS detail WITH (NOLOCK) ON record.PerformanceRecordId = detail.PerformanceRecordId
-			INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
-			AND nomination.StatusId = @Draft
-			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-			AND period.EOQYId = @EOYId
-			AND period.EndDateForNominator < @Today
-
-		DELETE detail
-		FROM dbo.NominationDetail AS detail
-			INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = detail.NominationId
-			AND nomination.StatusId = @Draft
-			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-			AND period.EOQYId = @EOYId
-			AND period.EndDateForNominator < @Today
-
-		DELETE nomination
-		FROM dbo.Nomination AS nomination
-			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-			AND period.EOQYId = @EOYId
-			AND period.EndDateForNominator < @Today
-		WHERE nomination.StatusId = @Draft
+		EXEC dbo.Auto_Nomination_UpdateWhenFinished @EOYId
+			,@ErrCode OUTPUT
+			,@ErrMsg OUTPUT
 	END
 
 	IF @@ERROR > 0
