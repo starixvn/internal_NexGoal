@@ -59,6 +59,7 @@
             services.AddTransient<IBaseMailService, BaseMailService>();
             services.AddTransient<IBaseService, BaseService>();
             services.AddTransient<IAvatarService, AvatarService>();
+            services.AddTransient<ICryptoService, CryptoService>();
             services.AddTransient<IPeriodService, PeriodService>();
             services.AddTransient<IPerformanceRecordService, PerformanceRecordService>();
             services.AddTransient<IPAService, PAService>();

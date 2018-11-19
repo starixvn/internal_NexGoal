@@ -35,6 +35,7 @@
                 periodService.CreateEmployeeSettings();
                 periodService.GeneratePA();
 
+                paService.EditGrade();
                 paService.EditWhenEvaluationFinished();
                 paService.EditStatus();
 

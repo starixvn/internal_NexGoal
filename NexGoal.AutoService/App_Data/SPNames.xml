@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <Functions>
+  <Function Name="Reference Resource">
+    <Setting Key="GetRefResourceByNames" SpName="RefResource_GetByNames" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
   <Function Name="Performance Record">
     <Setting Key="EditPerformanceRecordStatus" SpName="Auto_PerformanceRecord_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
@@ -12,6 +15,8 @@
   <Function Name="Performance Appraisal">
     <Setting Key="EditWhenEvaluationFinished" SpName="Auto_PA_UpdateWhenEvaluationFinished" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EditPAStatus" SpName="Auto_PA_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="GetDataToEditPAGrade" SpName="Auto_PA_GetDataToUpdateGrade" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="EditPAGrade" SpName="Auto_PA_UpdateGrade" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Nomination">
     <Setting Key="EditWhenNominationFinished" SpName="Auto_Nomination_UpdateWhenFinished" DbName="bodb_NexGoal" Plain="0"></Setting>

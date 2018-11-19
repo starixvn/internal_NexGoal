@@ -4,6 +4,8 @@
 
     public interface IPAService
     {
+        CommandResult EditGrade();
+
         CommandResult EditWhenEvaluationFinished();
 
         CommandResult EditStatus();
