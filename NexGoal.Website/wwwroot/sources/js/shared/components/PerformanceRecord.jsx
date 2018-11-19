@@ -134,7 +134,7 @@ export default class PerformanceRecord extends Component {
                     {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
                 </div>
                 <div className="project">
-                    {`${getResource('ProjectTag')}:`} <div className="project-detail">{projects}</div>
+                    <div className="lb-project">{`${getResource('ProjectTag')}:`}</div> <div className="project-detail">{projects}</div>
                 </div>
             </div>
         );

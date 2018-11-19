@@ -5,7 +5,7 @@
     @include border-radius(2px);
     box-shadow: 0 0 6px #dedede;
     display: grid;
-    grid-template-columns: 230px 1fr;
+    grid-template-columns: 280px 1fr;
     grid-template-rows: 50px minmax(36px, auto) minmax(20px, auto);
     margin-bottom: 16px;
     padding: 16px;
@@ -217,6 +217,7 @@
     .project {
         grid-column: 2;
         grid-row: 3;
+        display: table;
         .tag, .react-select__multi-value {
             @include border-radius(2px);            
             border: 1px solid #B0CBDD;
@@ -243,6 +244,13 @@
                     cursor: pointer;
                 }
             }
+        }
+        .lb-project, .project-detail {
+            display: table-cell;
+            vertical-align: top;
+        }
+        .lb-project {
+            width: 72px;
         }
     }
 }
