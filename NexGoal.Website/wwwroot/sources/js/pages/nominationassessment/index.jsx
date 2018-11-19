@@ -2,6 +2,7 @@
 import ReactDOM from 'react-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
+import moment from 'moment';
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
@@ -19,11 +20,13 @@ export default class NominationAssessment extends Component {
             filter: {
                 nominationPeriod: null,
             },
+            currentDate: moment(),
             selectedNominationperiod: null,
-            nominees: [],
+            nominations: [],
             nominationPeriods: null,
             showModal: false,
-            periodOptions: []
+            periodOptions: [],
+            canUpdateNominationStatus: false
         };
     }
 
@@ -48,9 +51,20 @@ export default class NominationAssessment extends Component {
     }
 
     handleFilterSubmit = () => {
-        this.setState(prevState => ({
-            selectedNominationperiod: prevState.nominationPeriods.find(e => e.nominationPeriodId == prevState.filter.nominationPeriod.value)
-        }));
+        axios.get(resolveClientUrl('NominationAssessment/GetNominationsByPeriodId'), {
+            params: {
+                nominationPeriodId: this.state.filter.nominationPeriod.value
+            }
+        }).then(response => {
+            this.setState(prevState => {
+                let period = prevState.nominationPeriods.find(e => e.nominationPeriodId == prevState.filter.nominationPeriod.value);
+                return {
+                    selectedNominationperiod: period,
+                    nominations: response.data,
+                    canUpdateNominationStatus: prevState.currentDate > moment(period.endDateForNominator) && prevState.currentDate <= moment(period.endDateForCommittee)
+                };
+            });
+        }).catch(axiosError);
     }
 
     closeModal = () => {
@@ -77,9 +91,8 @@ export default class NominationAssessment extends Component {
                         {this.state.selectedNominationperiod &&
                             <NominationProcess period={this.state.selectedNominationperiod} />
                         }
+                        <Table canUpdate={this.state.canUpdateNominationStatus} nominations={this.state.nominations} />
                     </div>
-
-                    <Table />
                 </div>
             </ToastLayout>
         );

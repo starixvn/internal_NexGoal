@@ -22,5 +22,7 @@
         Task<CommandResult> Edit(EditEmployeeNominationModel model);
 
         Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForForComittee(int committeeId);
+
+        Task<IEnumerable<NominationModel>> GetNominationsByPeriodId(int nominationPeriodId);
     }
 }

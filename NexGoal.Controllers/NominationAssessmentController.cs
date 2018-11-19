@@ -35,5 +35,13 @@
 
             return Json(result);
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetNominationsByPeriodId(int nominationPeriodId)
+        {
+            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodId(nominationPeriodId).ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

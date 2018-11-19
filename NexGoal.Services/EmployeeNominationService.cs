@@ -103,6 +103,25 @@
             return performanceRecords;
         }
 
+        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodId(int nominationPeriodId)
+        {
+            var criteria = new GetNominationsByPeriodIdCriteria
+            {
+                NominationPeriodId = nominationPeriodId
+            };
+
+            var result = await baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
+
+            var nominations = result.Item1;
+            var performanceRecords = result.Item2;
+
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
+            MappingData(performanceRecords, employees, nominations);
+
+            return nominations;
+        }
+
         public async Task<CommandResult> Edit(EditEmployeeNominationModel model)
         {
             var criteria = new EditEmployeeNominationCriteria
@@ -119,6 +138,20 @@
             commandResult.ObjectId = criteria.PerformanceRecordId;
 
             return commandResult;
+        }
+
+        private static void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<EmployeeBaseModel> employees, IEnumerable<NominationModel> nominations)
+        {
+            foreach (var record in performanceRecords)
+            {
+                record.Creator = employees.FirstOrDefault(x => x.EmployeeId == record.CreatorId);
+            }
+
+            foreach (var nomination in nominations)
+            {
+                nomination.Nominee = employees.FirstOrDefault(x => x.EmployeeId == nomination.NomineeId);
+                nomination.Nominators = performanceRecords.Where(x => x.EmployeeIds == nomination.NomineeId.ToString());
+            }
         }
 
         private static void MappingData(
