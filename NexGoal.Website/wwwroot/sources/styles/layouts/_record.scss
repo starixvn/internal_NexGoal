@@ -123,8 +123,11 @@
             color: #777;
             font-size: 12px;
 
-            .icon-edit {
+            .icon-edit, .icon-delete {
                 margin-left: 8px;
+            }
+            .icon-delete {
+                font-size: 13px;
             }
             .nomination-info {
                 display: inline-block;

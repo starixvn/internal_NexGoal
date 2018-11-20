@@ -20,6 +20,20 @@
     -moz-osx-font-smoothing: grayscale;
 }
 
+.icon-notification:before {
+content: "\e928";
+color: #fff;
+}
+.icon-search:before {
+content: "\e929";
+color: #fff;
+}
+
+.icon-delete:before {
+    content: "\e927";
+    color: #2475d7;
+  }
+
 .icon-nomination:before {
     content: "\e921";
     color: #fff;

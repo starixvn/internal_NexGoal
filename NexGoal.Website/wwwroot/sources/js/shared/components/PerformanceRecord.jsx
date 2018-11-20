@@ -141,11 +141,13 @@ export default class PerformanceRecord extends Component {
     }
 
     renderNomination = () => {
+        debugger;
         let record = this.props.data;
         let employees = record.employees;
         let creator = record.creator;
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
         let modifiedDate = record.modifiedDate ? moment(record.modifiedDate).format(DateFormat) : '';
+        let status = NominationStatuses.find(x => x.value === record.nominationStatusId);
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
@@ -174,17 +176,20 @@ export default class PerformanceRecord extends Component {
                         <div className="date">
                             <div className="edit-date">
                                 <div className="nomination-info">
-                                    <div className="nomination-period">{this.props.nominationPeriod && this.props.nominationPeriod.title}</div>  
+                                    <div className="nomination-period">{record.nominationPeriod && record.nominationPeriod.title}</div>  
                                     
                                     {
-                                        this.props.statusId !== PerformanceRecordStatus.Draft && this.props.modifiedDate &&
-                                        <Fragment>Edited on {this.props.modifiedDate}</Fragment>
+                                        record.statusId !== PerformanceRecordStatus.Draft && modifiedDate &&
+                                        <Fragment>Edited on {modifiedDate}</Fragment>
                                     }
                                 </div>
                                 {
                                     record.isHost &&
                                     <a className="icon-edit" onClick={this.handleEdit} />
                                 }
+                                <a className="icon-delete" onClick={this.handleEdit} />
+                            
+                                    <div className={getNominationClassName(record.nominationStatusId)}>{status.text}</div>
                                 
                             </div>
                         </div>

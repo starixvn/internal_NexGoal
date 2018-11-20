@@ -143,24 +143,25 @@ export default class CreateNomination extends Component {
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance create">
                 <FormGroup>
-                    <ControlLabel className="required-label" >{getResource('NominationPeriod')}</ControlLabel>
-                    <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
-                        value={values.period} onChange={onPeriodChange}
-                        options={this.state.nominationPeriodOptions}
-                    />
-                </FormGroup>
-                {
-                    this.props.isEmployeeSelectable &&
-                    <FormGroup>
-                        <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
-                        <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
-                            value={values.employee} onChange={value => setFieldValue('employee', value)}
-                            options={this.props.employeeOptions}
+                    <div className="nomination-period">
+                        <ControlLabel className="required-label" >{getResource('NominationPeriod')}</ControlLabel>
+                        <Select name="period" className={`react-select-container ${touched.period && errors.period && 'input-validation-error'}`} classNamePrefix="react-select"
+                            value={values.period} onChange={onPeriodChange}
+                            options={this.state.nominationPeriodOptions}
                         />
-                    </FormGroup>
-                }
+                    </div>
+                    {
+                        this.props.isEmployeeSelectable &&
+                        <div className="employee">
+                            <ControlLabel className="required-label">{getResource('Employee')}</ControlLabel>
+                            <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
+                                value={values.employee} onChange={value => setFieldValue('employee', value)}
+                                options={this.props.employeeOptions}
+                            />
+                        </div>
+                    }
+                </FormGroup>                
                 <FormGroup>
-                    <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                     <TextareaFullscreenEditor
                         className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
                         name="comment"

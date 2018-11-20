@@ -12,6 +12,12 @@ $fa-font-path: "~font-awesome/fonts";
 
 .auth-info {
     margin-right: 15px;
+    .icon-search, .icon-notification {
+        font-size: 16px;
+        margin-left: 16px;
+        position: relative;
+        top: 3px;
+    }
 }
 
 .nav-hamberger {
