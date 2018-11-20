@@ -141,7 +141,6 @@ export default class PerformanceRecord extends Component {
     }
 
     renderNomination = () => {
-        debugger;
         let record = this.props.data;
         let employees = record.employees;
         let creator = record.creator;
