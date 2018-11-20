@@ -46,11 +46,15 @@
     </div>
 
     <div class="auth-info pull-right">
-        <strong id="employeeInfo-fullName">@employee.FullName</strong> - <strong id="employeeInfo-nickName">@employee.NickName</strong>
-        &nbsp;&nbsp;
         <span class="user-avatar">
-            <img id="employeeInfo-avatar" src="@employee.Avatar" />
+            <img alt="Avatar" src="@employee.Avatar" />
         </span>
-        <span class="hide" id="employeeInfo-jobTitle">@employee.JobTitle</span>
     </div>
 </nav>
+
+<div class="hide" id="currentUserInfo">
+    <span id="employeeInfo-fullName">@employee.FullName</span>
+    <span id="employeeInfo-nickName">@employee.NickName</span>
+    <span id="employeeInfo-jobTitle">@employee.JobTitle</span>
+    <img id="employeeInfo-avatar" src="@employee.Avatar" />
+</div>
