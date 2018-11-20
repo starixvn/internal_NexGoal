@@ -17,10 +17,20 @@ export default class Table extends Component {
         }
     }
 
+    handleShowNominatorComment = nominator => {
+        this.props.onShowNominatorComment(nominator);
+    }
+
+    handleChangeStatus = (nominationId, status) => {
+        this.props.onUpdateStatus(nominationId, status.value);
+    }
+
     renderNominator = nominator => (
         <tr key={nominator.performanceRecordId}>
             <td>{`${nominator.creator.fullName} (${nominator.creator.nickName})`}</td>
-            <td></td>
+            <td className="text-center">
+                <a class="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nominator)}></a>
+            </td>
         </tr>
     )
 
@@ -31,7 +41,7 @@ export default class Table extends Component {
             <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
                 value={this.state.nominationStatuses.find(x => x.value === nomination.statusId)} options={this.state.nominationStatuses}
                 isClearable={false}
-                onChange={value => this.props.onUpdateStatus(nomination.nominationId, value.value)}
+                onChange={this.handleChangeStatus.bind(this, nomination.nominationId)}
             />
             :
             <span className={getNominationClassName(nomination.statusId)}>
@@ -50,7 +60,9 @@ export default class Table extends Component {
                     {nomination.nominators.length === 1 &&
                         <Fragment>
                             <td>{`${nomination.nominators[0].creator.fullName} (${nomination.nominators[0].creator.nickName})`}</td>
-                            <td></td>
+                            <td className="text-center">
+                                <a class="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nomination.nominators[0])}></a>
+                            </td>
                         </Fragment>
                     }
                 </tr>

@@ -12,6 +12,7 @@ import Breadcrumb from '../../shared/components/Breadcrumb';
 import SearchForm from './SearchForm';
 import NominationProcess from './NominationProcess';
 import Table from './Table';
+import NominatorComment from './NominatorComment';
 
 export default class NominationAssessment extends Component {
     constructor(props) {
@@ -96,12 +97,12 @@ export default class NominationAssessment extends Component {
         }).catch(axiosError);
     }
 
-    closeModal = () => {
-        this.setState({ showModal: false });
+    handleShowNominatorComment = nominator => {
+        this.setState({ showModal: true, nominator: nominator });
     }
 
-    showModal = () => {
-        this.setState({ showModal: true });
+    closeModal = () => {
+        this.setState({ showModal: false });
     }
 
     render() {
@@ -119,8 +120,13 @@ export default class NominationAssessment extends Component {
                     {this.state.selectedNominationperiod &&
                         <NominationProcess period={this.state.selectedNominationperiod} />
                     }
-                    <Table canUpdate={this.state.canUpdateNominationStatus} nominations={this.state.nominations} onUpdateStatus={this.handleUpdateNominationStatus} />
+                    <Table canUpdate={this.state.canUpdateNominationStatus}
+                        nominations={this.state.nominations}
+                        onUpdateStatus={this.handleUpdateNominationStatus}
+                        onShowNominatorComment={this.handleShowNominatorComment}
+                    />
                 </div>
+                <NominatorComment nominator={this.state.nominator} showModal={this.state.showModal} onCloseModal={this.closeModal} />
                 <ToastLayout />
             </div>
         );
