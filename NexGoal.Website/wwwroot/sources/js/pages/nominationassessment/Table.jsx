@@ -40,7 +40,7 @@ export default class Table extends Component {
         let renderStatus = this.props.canUpdate ?
             <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
                 value={this.state.nominationStatuses.find(x => x.value === nomination.statusId)} options={this.state.nominationStatuses}
-                isClearable={false}
+                isClearable={false} isSearchable={false}
                 onChange={this.handleChangeStatus.bind(this, nomination.nominationId)}
             />
             :
