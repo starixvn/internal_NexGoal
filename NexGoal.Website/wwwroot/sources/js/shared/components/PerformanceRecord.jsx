@@ -32,7 +32,8 @@ export default class PerformanceRecord extends Component {
 
         this.state = {
             showCollapseExpandButton: false,
-            isExpanded: false
+            isExpanded: false,
+            currentDate: moment()
         };
     }
 
@@ -147,6 +148,7 @@ export default class PerformanceRecord extends Component {
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
         let modifiedDate = record.modifiedDate ? moment(record.modifiedDate).format(DateFormat) : '';
         let status = NominationStatuses.find(x => x.value === record.nominationStatusId);
+        let endDateForNominator = moment(record.nominationPeriod.endDateForNominator);
 
         return (
             <div className={`record ${this.props.isHighlighted ? 'highlighted' : ''}`} id={`record-${record.performanceRecordId}`}>
@@ -170,29 +172,28 @@ export default class PerformanceRecord extends Component {
                         </div>
 
                     </div>
-                    {
-                        (modifiedDate || record.isHost) &&
-                        <div className="date">
-                            <div className="edit-date">
-                                <div className="nomination-info">
-                                    <div className="nomination-period">{record.nominationPeriod && record.nominationPeriod.title}</div>  
-                                    
-                                    {
-                                        record.statusId !== PerformanceRecordStatus.Draft && modifiedDate &&
-                                        <Fragment>Edited on {modifiedDate}</Fragment>
-                                    }
-                                </div>
+                    <div className="date">
+                        <div className="edit-date">
+                            <div className="nomination-info">
+                                <div className="nomination-period">{record.nominationPeriod && record.nominationPeriod.title}</div>
+
                                 {
-                                    record.isHost &&
-                                    <a className="icon-edit" onClick={this.handleEdit} />
+                                    record.statusId !== PerformanceRecordStatus.Draft && modifiedDate && endDateForNominator >= this.state.currentDate &&
+                                    < Fragment > Edited on {modifiedDate}</Fragment>
                                 }
-                                <a className="icon-delete" onClick={this.handleEdit} />
-                            
-                                    <div className={getNominationClassName(record.nominationStatusId)}>{status.text}</div>
-                                
                             </div>
+                            {
+                                record.isHost &&
+                                <Fragment>
+                                    <a className="icon-edit" onClick={this.handleEdit} />
+                                    <a className="icon-delete" onClick={this.handleEdit} />
+                                </Fragment>
+                            }
+
+                            {endDateForNominator < this.state.currentDate && <div className={getNominationClassName(record.nominationStatusId)}>{status.text}</div>}
+
                         </div>
-                    }
+                    </div>
                 </div>
 
                 <div className="comment" >
@@ -203,7 +204,7 @@ export default class PerformanceRecord extends Component {
                             : null
                     }
                 </div>
-            </div>
+            </div >
         );
     }
 
