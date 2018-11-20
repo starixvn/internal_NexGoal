@@ -2,6 +2,7 @@
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Filter from './filter';
+import PerformanceAppraisalDetail from './ListPA';
 
 export default class MemberPerformanceAppraisal extends Component {
     constructor(props) {
@@ -12,6 +13,8 @@ export default class MemberPerformanceAppraisal extends Component {
                 period: props.periodOptions[0],
                 groups: props.groupOptions
             },
+            isShowEditPAModal: false,
+            paRecord: {},
             performanceAppraisals: []
         };
     }
@@ -45,7 +48,7 @@ export default class MemberPerformanceAppraisal extends Component {
         axios.get(resolveClientUrl('Review/GetPARecords'), {
             params: {
                 periodId: filter.period.value,
-                groupIds: filter.groups.map(group => { return group.value }).join(',')
+                groupIds: filter.groups.map(group => { return group.value; }).join(',')
             }
         }).then(response => this.setState({
             performanceAppraisals: response.data
@@ -62,6 +65,13 @@ export default class MemberPerformanceAppraisal extends Component {
                     onFilterChange={this.handleFilterChange}
                     onSubmit={this.handleFilterSubmit}
                 />
+                <PerformanceAppraisalDetail
+                    data={this.state.performanceAppraisals}
+                    gradeOptions={this.props.gradeOptions}
+                    onClickRow={this.handleClickRow}
+                    render={this.getPerformanceAppraisals}
+                />
+
             </div>
         );
     }

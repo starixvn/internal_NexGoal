@@ -280,11 +280,12 @@ export default class App extends Component {
                                 }
                                 {
                                     this.state.currentUser.isReviewer &&
-                                    <Tab eventKey={3} title="Member Appraisals">
+                                    <Tab eventKey={3} title="Performance Appraisal">
                                         {
                                             this.state.loadPATab && this.state.periods.length > 0 &&
                                             < MemberPerformanceAppraisal
                                                 periodOptions={periodOptions}
+                                                gradeOptions={this.state.performanceGradeOptions}
                                                 groupOptions={this.state.myGroupOptions}
                                             />
                                         }
