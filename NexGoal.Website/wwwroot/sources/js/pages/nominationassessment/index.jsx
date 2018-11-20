@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import moment from 'moment';
+import { stringify } from 'qs'
 
 import { axiosError, noDataIndication, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
@@ -67,6 +68,34 @@ export default class NominationAssessment extends Component {
         }).catch(axiosError);
     }
 
+    handleUpdateNominationStatus = (nominationId, statusId) => {
+        axios({
+            url: resolveClientUrl(`NominationAssessment/EditStatus`),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                nominationId: nominationId,
+                statusId: statusId
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                var nominations = this.state.nominations.slice();
+                var nomination = nominations.find(x => x.nominationId === nominationId);
+                nomination.statusId = statusId;
+
+                this.setState({ nominations });
+                toast.success(getResource('UpdatedSuccessfully'));
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
+
     closeModal = () => {
         this.setState({ showModal: false });
     }
@@ -77,24 +106,23 @@ export default class NominationAssessment extends Component {
 
     render() {
         return (
-            <ToastLayout>
-                <div className="row">
-                    <Breadcrumb>
-                        <li className="current">{getResource('EmployeeNomination')}</li>
-                    </Breadcrumb>
-                    <div className="col-sm-12">
-                        <SearchForm filter={this.state.filter}
-                            periodOptions={this.state.periodOptions}
-                            onFilterChange={this.handleFilterChange}
-                            onFilterSubmit={this.handleFilterSubmit}
-                        />
-                        {this.state.selectedNominationperiod &&
-                            <NominationProcess period={this.state.selectedNominationperiod} />
-                        }
-                        <Table canUpdate={this.state.canUpdateNominationStatus} nominations={this.state.nominations} />
-                    </div>
+            <div className="row">
+                <Breadcrumb>
+                    <li className="current">{getResource('EmployeeNomination')}</li>
+                </Breadcrumb>
+                <div className="col-sm-12">
+                    <SearchForm filter={this.state.filter}
+                        periodOptions={this.state.periodOptions}
+                        onFilterChange={this.handleFilterChange}
+                        onFilterSubmit={this.handleFilterSubmit}
+                    />
+                    {this.state.selectedNominationperiod &&
+                        <NominationProcess period={this.state.selectedNominationperiod} />
+                    }
+                    <Table canUpdate={this.state.canUpdateNominationStatus} nominations={this.state.nominations} onUpdateStatus={this.handleUpdateNominationStatus} />
                 </div>
-            </ToastLayout>
+                <ToastLayout />
+            </div>
         );
     }
 }

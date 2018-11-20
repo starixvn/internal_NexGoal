@@ -43,5 +43,13 @@
 
             return Json(result);
         }
+
+        [HttpPost]
+        public async Task<JsonResult> EditStatus(int nominationId, int statusId)
+        {
+            var result = await employeeNominationService.EditStatus(nominationId, statusId, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

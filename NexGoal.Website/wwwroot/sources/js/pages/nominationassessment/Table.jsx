@@ -8,6 +8,13 @@ import { getNominationClassName } from '../../common-functions';
 export default class Table extends Component {
     constructor(props) {
         super(props);
+
+        this.state = {
+            nominationStatuses: NominationStatuses.map(x => ({
+                value: x.value,
+                label: x.text
+            }))
+        }
     }
 
     renderNominator = nominator => (
@@ -18,12 +25,12 @@ export default class Table extends Component {
     )
 
     renderNomination = (nomination, index) => {
-        let rowSpan = nomination.nominators.length + 1;
+        let rowSpan = nomination.nominators.length === 1 ? 1 : nomination.nominators.length + 1;
 
         let renderStatus = this.props.canUpdate ?
             <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
-                value={NominationStatuses.find(x => x.value === nomination.statusId)} options={NominationStatuses}
-                isClearable={false} getOptionLabel={e => e.text}
+                value={this.state.nominationStatuses.find(x => x.value === nomination.statusId)} options={this.state.nominationStatuses}
+                isClearable={false}
                 onChange={value => this.props.onUpdateStatus(nomination.nominationId, value.value)}
             />
             :
@@ -40,8 +47,14 @@ export default class Table extends Component {
                     <td rowSpan={rowSpan}>
                         {renderStatus}
                     </td>
+                    {nomination.nominators.length === 1 &&
+                        <Fragment>
+                            <td>{`${nomination.nominators[0].creator.fullName} (${nomination.nominators[0].creator.nickName})`}</td>
+                            <td></td>
+                        </Fragment>
+                    }
                 </tr>
-                {nomination.nominators.map(this.renderNominator)}
+                {nomination.nominators.length > 1 && nomination.nominators.map(this.renderNominator)}
             </Fragment>
         )
     }

@@ -140,6 +140,20 @@
             return commandResult;
         }
 
+        public async Task<CommandResult> EditStatus(int nominationId, int statusId, int updatedById)
+        {
+            var criteria = new EditNominationStatusCriteria
+            {
+                NominationId = nominationId,
+                StatusId = statusId,
+                UpdatedById = updatedById
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return commandResult;
+        }
+
         private static void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<EmployeeBaseModel> employees, IEnumerable<NominationModel> nominations)
         {
             foreach (var record in performanceRecords)
