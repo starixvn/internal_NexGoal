@@ -85,9 +85,16 @@
                 margin-left: 8px;
             }
 
-            .icon-checkin {
+            .icon-checkin,  {
                 margin: 0 4px 0 8px;
             }
+            .icon-nomination{
+                margin: 0  8px;
+                &:before {
+                    color: #2270CE;
+                    font-size: 16px;
+                }
+            }                
         }
 
         .submit-date {

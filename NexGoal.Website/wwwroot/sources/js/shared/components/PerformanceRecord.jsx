@@ -165,7 +165,7 @@ export default class PerformanceRecord extends Component {
                         {
                             employees && employees.length > 0 && employees[0].employeeId !== creator.employeeId &&
                             <Fragment>
-                                <span className="icon-checkin" />
+                                <span className="icon-nomination" />
                                 <span className="role-member">{employees.map(employee => { return employee.nickName; }).join(', ')}</span>
                             </Fragment>
                         }
