@@ -143,7 +143,7 @@ export default class App extends Component {
         });
     }
 
-    handleTimelineNodeClick = (performanceRecordId) => {
+    handleClickTimelineNode = (performanceRecordId) => {
         if (this.state.activeTabKey === 1) {
             if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
                 let index = this.state.performanceRecords.findIndex(function (element) {
@@ -295,7 +295,7 @@ export default class App extends Component {
                                 <Timeline ref="memberTimelineRef"
                                     currentPerformancePeriod={this.state.currentPerformancePeriod}
                                     groupOptions={this.state.myGroupOptions}
-                                    onNodeClick={this.handleTimelineNodeClick}
+                                    onNodeClick={this.handleClickTimelineNode}
                                 />
                             </Scrollbars >
                         </div>

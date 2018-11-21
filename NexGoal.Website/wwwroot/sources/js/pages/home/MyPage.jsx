@@ -269,7 +269,7 @@ export default class MyPage extends Component {
         );
     }
 
-    handleTimelineNodeClick = performanceRecordId => {
+    handleClickTimelineNode = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
             let index = this.state.performanceRecords.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
@@ -306,7 +306,7 @@ export default class MyPage extends Component {
                             </div>
                             <PersonalTimeline
                                 data={this.state.personalTimeline}
-                                onNodeClick={this.handleTimelineNodeClick}
+                                onNodeClick={this.handleClickTimelineNode}
                                 onPageChange={this.onTimelinePageChange}
                             />
                         </div>
