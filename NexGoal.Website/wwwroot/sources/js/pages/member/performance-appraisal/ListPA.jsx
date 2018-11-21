@@ -13,14 +13,14 @@ export default class PerformanceAppraisalDetail extends Component {
 
         this.state = {
             isShowEditModal: false,
-            paRecord: {}
+            paRecordId: null
         };
     }
 
-    handleClick = (paRecord) => {
+    handleClick = (paRecordId) => {
         this.setState({
             isShowEditModal: true,
-            paRecord: paRecord
+            paRecordId: paRecordId
         });
     }
 
@@ -103,7 +103,7 @@ export default class PerformanceAppraisalDetail extends Component {
                         return (
                             <Fragment>
                                 <span>{row.grade ? row.grade.name : ''}</span>
-                                <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.handleClick(row)} />
+                                <a className="fa fa-pencil-square-o" title="Edit" onClick={() => this.handleClick(row.paRecordId)} />
                             </Fragment>
                         );
                     case PAStatus.Closed:
@@ -135,9 +135,9 @@ export default class PerformanceAppraisalDetail extends Component {
                     this.state.isShowEditModal &&
                     <EditMemberPA
                         isShowModal={this.state.isShowEditModal}
+                        paRecordId={this.state.paRecordId}
                         gradeOptions={this.props.gradeOptions}
                         onCloseModal={this.onCloseModal}
-                        paRecord={this.state.paRecord}
                     />
                 }
             </Fragment>

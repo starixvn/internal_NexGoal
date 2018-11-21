@@ -271,7 +271,7 @@ export default class MyPage extends Component {
 
     handleTimelineNodeClick = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-            let index = this.state.performanceRecords.findIndex(function(element) {
+            let index = this.state.performanceRecords.findIndex(function (element) {
                 return element.performanceRecordId === performanceRecordId;
             });
 
