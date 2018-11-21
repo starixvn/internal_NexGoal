@@ -52,7 +52,6 @@
                 NominatorId = model.NominatorId,
                 NomineeId = model.NomineeId,
                 Comment = model.Comment,
-                PerformanceRecordStatusId = model.PerformanceRecordStatusId,
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
@@ -131,7 +130,6 @@
                 NomineeId = model.NomineeId,
                 Comment = model.Comment,
                 PerformanceRecordId = model.PerformanceRecordId,
-                PerformanceRecordStatusId = model.PerformanceRecordStatusId
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

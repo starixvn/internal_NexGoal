@@ -12,8 +12,5 @@
 
         [Required]
         public string Comment { get; set; }
-
-        [Required]
-        public int PerformanceRecordStatusId { get; set; }
     }
 }

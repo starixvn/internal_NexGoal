@@ -28,8 +28,7 @@ export default class CreateNomination extends Component {
             initialObj: {
                 period: null,
                 employee: null,
-                comment: '',
-                statusId: PerformanceRecordStatus.Submitted
+                comment: ''
             }
         };
     }
@@ -83,8 +82,7 @@ export default class CreateNomination extends Component {
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 nominationPeriodId: values.period.value,
                 nomineeId: this.props.isEmployeeSelectable ? values.employee.value : this.props.nomineeId,
-                comment: values.comment,
-                performanceRecordStatusId: values.statusId
+                comment: values.comment
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -134,12 +132,6 @@ export default class CreateNomination extends Component {
             setFieldValue('period', value);
             setFieldValue('comment', questions);
         };
-
-        let handleSaveDraft = () => {
-            setFieldValue('statusId', PerformanceRecordStatus.Draft);
-            submitForm();
-        };
-
         return (
             <form onSubmit={handleSubmit} className="form-filter form-performance create">
                 <FormGroup>
@@ -160,7 +152,7 @@ export default class CreateNomination extends Component {
                             />
                         </div>
                     }
-                </FormGroup>                
+                </FormGroup>
                 <FormGroup>
                     <TextareaFullscreenEditor
                         className={`form-control comment-field ${touched.comment && errors.comment && 'input-validation-error'}`}
@@ -171,7 +163,6 @@ export default class CreateNomination extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Button className="btn-cancel" onClick={this.handleCloseForm}>{getResource('Cancel')}</Button>
-                    <Button className="btn-cancel" onClick={handleSaveDraft} name="saveAsDraft">{getResource('SaveAsDraft')}</Button>
                     <Button className="btn-primary" disabled={isSubmitting} type="submit">{getResource('Publish')}</Button>
                 </FormGroup>
             </form>

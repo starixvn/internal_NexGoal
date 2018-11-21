@@ -57,6 +57,9 @@ BEGIN
 	SELECT e.EOQYId AS 'NominationPeriodId'
 		,e.[Quarter]
 		,e.[Year]
+		,e.StartDateForNominator
+		,e.EndDateForNominator
+		,e.EndDateForCommittee
 	FROM dbo.EOQY e WITH (NOLOCK)
 	WHERE EXISTS (
 			SELECT 1 

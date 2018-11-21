@@ -34,7 +34,6 @@ export default class EditNomination extends Component {
                     value: props.performanceRecord.employees[0].employeeId
                 },
                 comment: props.performanceRecord.comment,
-                statusId: props.performanceRecord.statusId
             }
         };
     }
@@ -73,7 +72,6 @@ export default class EditNomination extends Component {
                 performanceRecordId: this.props.performanceRecord.performanceRecordId,
                 nominationPeriodId: values.period.value,
                 nomineeId: values.employee.value,
-                performanceRecordStatusId: values.statusId,
                 comment: values.comment
             }),
             headers: {
@@ -103,12 +101,6 @@ export default class EditNomination extends Component {
     }
 
     handleSubmitForm = () => {
-        this.refs.form.setFieldValue('statusId', PerformanceRecordStatus.Submitted);
-        this.refs.form.submitForm();
-    }
-
-    handleSaveDraft = () => {
-        this.refs.form.setFieldValue('statusId', PerformanceRecordStatus.Draft);
         this.refs.form.submitForm();
     }
 
@@ -142,7 +134,7 @@ export default class EditNomination extends Component {
                             value={values.period} onChange={onPeriodChange}
                             options={this.state.nominationPeriodOptions}
                         />
-                    </div>  
+                    </div>
                     <div className="employee">
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
                         {this.props.isEmployeeSelectable ?
@@ -153,7 +145,7 @@ export default class EditNomination extends Component {
                             :
                             values.employee.label
                         }
-                    </div>                  
+                    </div>
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
@@ -195,10 +187,6 @@ export default class EditNomination extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
-                    {
-                        this.props.performanceRecord.statusId === PerformanceRecordStatus.Draft &&
-                        <Button type="submit" className="btn-cancel" name="saveAsDraft" onClick={this.handleSaveDraft}>{getResource('SaveAsDraft')}</Button>
-                    }
                     <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmitForm}>{getResource('Publish')}</Button>
                 </Modal.Footer>
             </Modal>

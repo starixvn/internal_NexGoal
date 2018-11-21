@@ -24,11 +24,7 @@
             this.sessionService = sessionService;
         }
 
-        public IActionResult Create()
-        {
-            return View();
-        }
-
+        [HttpGet]
         public async Task<JsonResult> GetNominationPeriodsForNominator()
         {
             IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForNominator(sessionService.EmployeeId).ConfigureAwait(false);
@@ -47,7 +43,6 @@
                     NomineeId = model.NomineeId,
                     NominatorId = sessionService.EmployeeId,
                     Comment = model.Comment,
-                    PerformanceRecordStatusId = model.PerformanceRecordStatusId
                 }).ConfigureAwait(false);
 
                 return Json(commandResult);
@@ -69,7 +64,6 @@
                     NomineeId = model.NomineeId,
                     NominatorId = sessionService.EmployeeId,
                     Comment = model.Comment,
-                    PerformanceRecordStatusId = model.PerformanceRecordStatusId,
                     PerformanceRecordId = model.PerformanceRecordId
                 }).ConfigureAwait(false);
 

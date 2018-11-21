@@ -4,7 +4,6 @@ CREATE PROCEDURE [dbo].[Nomination_Update] @NominationPeriodId INT
 	,@NominatorId INT
 	,@Comment NVARCHAR(MAX) = NULL
 	,@PerformanceRecordId INT
-	,@PerformanceRecordStatusId TINYINT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -55,14 +54,9 @@ BEGIN
 		,@oldLogData NVARCHAR(MAX)
 		,@xml XML
 		,@NominationId INT
-		,@CurrentNominationId INT
-		,@CurrentNominationStatusId INT
-		,@NumberOfNominations INT
-		,@SubmittedStatusId TINYINT = 1
-		,@DraftStatusId TINYINT = 4
-		-- Performance Record Status
-		,@PR_Draft TINYINT = 2
-		,@PR_Submitted TINYINT = 3
+		,@CurrentNomineeId INT
+		,@CurrentPeriodId INT
+		,@Nominated TINYINT = 1
 
 	SET @xml = (
 			SELECT n.NominationId AS '@ni'
@@ -72,7 +66,7 @@ BEGIN
 				,nd.NominatorId AS '@nri'
 				,nd.PerformanceRecordId AS '@pri'
 				,pr.Comment AS '@prc'
-				,pr.CreatedDate AS '@prcd'
+				,pr.ModifiedDate AS '@prmd'
 				,pr.StatusId AS '@prsi'
 				,pr.TypeId AS '@prti'
 			FROM dbo.Nomination AS n WITH (NOLOCK)
@@ -88,97 +82,75 @@ BEGIN
 	UPDATE dbo.PerformanceRecord WITH (ROWLOCK, UPDLOCK)
 	SET EmployeeIds = @NomineeId
 		,Comment = @Comment
-		,StatusId = @PerformanceRecordStatusId
 		,ModifiedDate = GETDATE()
 	WHERE PerformanceRecordId = @PerformanceRecordId
 
-	SELECT @CurrentNominationId = nd.NominationId
-		,@CurrentNominationStatusId = n.StatusId
-	FROM dbo.NominationDetail AS nd WITH (NOLOCK)
-		INNER JOIN dbo.Nomination AS n WITH (NOLOCK) ON nd.NominationId = n.NominationId
-	WHERE nd.NominatorId = @NominatorId
-		AND nd.PerformanceRecordId = @PerformanceRecordId
-
 	SELECT @NominationId = n.NominationId
-	FROM dbo.Nomination AS n WITH (NOLOCK)
-	WHERE n.NomineeId = @NomineeId
-		AND n.EOQYId = @NominationPeriodId
-
-	DECLARE @NominationStatusId TINYINT = @SubmittedStatusId
-
-	IF @PerformanceRecordStatusId = @PR_Draft
+		,@CurrentNomineeId = n.NomineeId
+		,@CurrentPeriodId = n.EOQYId
+	FROM dbo.Nomination n WITH (NOLOCK)
+	WHERE EXISTS (
+			SELECT 1
+			FROM dbo.NominationDetail nd WITH (NOLOCK)
+			WHERE nd.NominationId = n.NominationId AND nd.PerformanceRecordId = @PerformanceRecordId
+				AND nd.NominatorId = @NominatorId
+		)
+	
+	IF @CurrentNomineeId <> @NomineeId OR @CurrentPeriodId <> @NominationPeriodId
 	BEGIN
-		SET @NominationStatusId = @DraftStatusId
-	END
+		DECLARE @NewNominationId INT
 
-	IF @CurrentNominationId = @NominationId
-	BEGIN
-		IF @CurrentNominationStatusId = @DraftStatusId
-			AND @PerformanceRecordStatusId = @PR_Submitted
-		BEGIN
-			UPDATE dbo.Nomination WITH (ROWLOCK, UPDLOCK)
-			SET StatusId = @NominationStatusId
-			WHERE NominationId = @CurrentNominationId
-		END
-	END
-	ELSE
-	BEGIN
-		SELECT @NumberOfNominations = COUNT(*)
-		FROM dbo.NominationDetail AS nd WITH (NOLOCK)
-		WHERE nd.NominationId = @CurrentNominationId
+		SELECT @NewNominationId = n.NominationId
+		FROM dbo.Nomination n WITH (NOLOCK)
+		WHERE n.NomineeId = @NomineeId AND n.EOQYId = @NominationPeriodId
 
-		IF @NumberOfNominations = 1
-			AND @NominationId IS NULL
+		IF @NewNominationId IS NULL
 		BEGIN
-			UPDATE dbo.Nomination WITH (ROWLOCK, UPDLOCK)
-			SET NomineeId = @NomineeId
-				,EOQYId = @NominationPeriodId
-				,StatusId = @NominationStatusId
-			WHERE NominationId = @CurrentNominationId
-		END
-		ELSE
-		BEGIN
-			IF @NominationId IS NULL
+			IF NOT EXISTS (
+				SELECT 1 
+				FROM dbo.NominationDetail nd WITH (NOLOCK) WHERE nd.NominationId = @NominationId AND nd.PerformanceRecordId <> @PerformanceRecordId
+					AND nd.NominatorId <> @NominatorId
+				)
 			BEGIN
-				INSERT INTO [dbo].[Nomination] (
-					[EOQYId]
-					,[NomineeId]
-					,[StatusId]
+				UPDATE dbo.Nomination WITH (ROWLOCK, UPDLOCK)
+				SET NomineeId = @NomineeId
+					,EOQYId = @NominationPeriodId
+				WHERE NominationId = @NominationId
+			END
+			ELSE
+			BEGIN
+				INSERT INTO dbo.Nomination (
+					EOQYId
+					,NomineeId
+					,StatusId
 					)
 				VALUES (
 					@NominationPeriodId
 					,@NomineeId
-					,@NominationStatusId
+					,@Nominated
 					)
 
-				SET @NominationId = SCOPE_IDENTITY()
-			END
+				SET @NewNominationId = SCOPE_IDENTITY()
 
-			UPDATE dbo.NominationDetail WITH (ROWLOCK, UPDLOCK)
-			SET NominationId = @NominationId
-			WHERE NominatorId = @NominatorId
-				AND PerformanceRecordId = @PerformanceRecordId
-
-			IF @NumberOfNominations = 1
-			BEGIN
-				DELETE dbo.Nomination
-				WHERE NominationId = @CurrentNominationId
+				UPDATE dbo.NominationDetail WITH(ROWLOCK,UPDLOCK)
+				SET NominationId = @NewNominationId
+				WHERE PerformanceRecordId = @PerformanceRecordId
+					AND NominatorId = @NominatorId 	
 			END
-			ELSE
+		END
+		ELSE
+		BEGIN
+			UPDATE dbo.NominationDetail WITH(ROWLOCK,UPDLOCK)
+			SET NominationId = @NewNominationId
+			WHERE PerformanceRecordId = @PerformanceRecordId
+				AND NominatorId = @NominatorId 	
+
+			IF NOT EXISTS (
+				SELECT 1 
+				FROM dbo.NominationDetail nd WITH (NOLOCK) WHERE nd.NominationId = @NominationId 
+			)
 			BEGIN
-				IF @CurrentNominationStatusId = @SubmittedStatusId
-					AND NOT EXISTS (
-						SELECT 1
-						FROM dbo.NominationDetail nd WITH (NOLOCK)
-							INNER JOIN dbo.PerformanceRecord pr ON nd.PerformanceRecordId = pr.PerformanceRecordId
-						WHERE pr.PerformanceRecordId = @PerformanceRecordId
-							AND nd.NominationId = @CurrentNominationId
-						)
-				BEGIN
-					UPDATE dbo.Nomination WITH (ROWLOCK, UPDLOCK)
-					SET StatusId = @DraftStatusId
-					WHERE NominationId = @CurrentNominationId
-				END
+				DELETE FROM dbo.Nomination WHERE NominationId = @NominationId
 			END
 		END
 	END
@@ -191,7 +163,7 @@ BEGIN
 				,nd.NominatorId AS '@nri'
 				,nd.PerformanceRecordId AS '@pri'
 				,pr.Comment AS '@prc'
-				,pr.CreatedDate AS '@prcd'
+				,pr.ModifiedDate AS '@prmd'
 				,pr.StatusId AS '@prsi'
 				,pr.TypeId AS '@prti'
 			FROM dbo.Nomination AS n WITH (NOLOCK)

@@ -1,9 +1,15 @@
 ﻿import React, { Component, Fragment } from 'react';
-import Select from 'react-select';
+import Select, { components } from 'react-select';
 
 import getResource from '../../resourceHelper';
 import { NominationStatuses } from '../../constants';
 import { getNominationClassName } from '../../common-functions';
+
+const SingleValue = ({ children, ...props }) => (
+    <components.SingleValue {...props}>
+        <span className={getNominationClassName(props.selectProps.value.value)} >{children}</span>
+    </components.SingleValue>
+);
 
 export default class Table extends Component {
     constructor(props) {
@@ -15,6 +21,8 @@ export default class Table extends Component {
                 label: x.text
             }))
         }
+
+        this.selectComponents = { SingleValue };
     }
 
     handleShowNominatorComment = nominator => {
@@ -29,7 +37,7 @@ export default class Table extends Component {
         <tr key={nominator.performanceRecordId}>
             <td>{`${nominator.creator.fullName} (${nominator.creator.nickName})`}</td>
             <td className="text-center">
-                <a class="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nominator)}></a>
+                <a className="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nominator)}></a>
             </td>
         </tr>
     )
@@ -40,7 +48,7 @@ export default class Table extends Component {
         let renderStatus = this.props.canUpdate ?
             <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
                 value={this.state.nominationStatuses.find(x => x.value === nomination.statusId)} options={this.state.nominationStatuses}
-                isClearable={false} isSearchable={false}
+                isClearable={false} isSearchable={false} components={this.selectComponents}
                 onChange={this.handleChangeStatus.bind(this, nomination.nominationId)}
             />
             :
@@ -61,7 +69,7 @@ export default class Table extends Component {
                         <Fragment>
                             <td>{`${nomination.nominators[0].creator.fullName} (${nomination.nominators[0].creator.nickName})`}</td>
                             <td className="text-center">
-                                <a class="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nomination.nominators[0])}></a>
+                                <a className="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nomination.nominators[0])}></a>
                             </td>
                         </Fragment>
                     }
