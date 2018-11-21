@@ -153,6 +153,20 @@ export default class App extends Component {
 
     handleEditPerformanceRecordSuccess = () => {
         this.handleCancelEditPerformanceRecord();
+        axios(resolveClientUrl('member/Performance'), { params: { memberId: this.state.memberInfo.id } })
+            .then((response) => {
+                let performanceRecords = response.data;
+
+                this.onTimelinePageChange(0);
+                this.refs.infiniteScrollRef.pageLoaded = 1;
+
+                this.setState({
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
+                });
+
+                this.handleCancelEditPerformanceRecord();
+            }).catch(axiosError);
     }
 
     onTimelinePageChange = (pageIndex, pageSize) => {
