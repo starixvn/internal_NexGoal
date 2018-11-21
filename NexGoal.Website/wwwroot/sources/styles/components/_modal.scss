@@ -26,6 +26,11 @@
         .modal-body {
             padding: 20px;
             padding-bottom: 0;
+            textarea {
+                width: 100%;
+                min-height: 80px;
+                resize: vertical;
+            }
         }
 
         .modal-footer {

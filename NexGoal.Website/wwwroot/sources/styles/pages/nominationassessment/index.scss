@@ -12,3 +12,7 @@
 @import "../../components/toast";
 @import "../../components/tooltip";
 @import "./evaluation-process";
+
+.form-filter .control-content {
+    width: 300px;
+}
