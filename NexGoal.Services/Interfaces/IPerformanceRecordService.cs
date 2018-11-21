@@ -21,5 +21,7 @@
         Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord);
 
         Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord);
+
+        Task<CommandResult> DeletePerformanceRecordAsync(int performanceRecordId, int actorId);
     }
 }

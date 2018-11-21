@@ -114,6 +114,7 @@
     <Setting Key="PerformanceRecord_GetById" SpName="PerformanceRecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_Insert" SpName="PerformanceRecord_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_Update" SpName="PerformanceRecord_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_Delete" SpName="PerformanceRecord_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Performanace Appraisal">
     <Setting Key="PARecord_GetPeriodByActor" SpName="PARecord_GetPeriodByActor" DbName="bodb_NexGoal" Plain="0"></Setting>

@@ -77,6 +77,15 @@
             return Json(new { isSuccessful = false, errors });
         }
 
+        [Route("Self/Performance/Delete")]
+        [HttpDelete]
+        public async Task<JsonResult> Delete(int id)
+        {
+            CommandResult commandResult = await performanceService.DeletePerformanceRecordAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
+
         [Route("Self/Performance/GetById/{id}")]
         public async Task<JsonResult> GetById(int id)
         {

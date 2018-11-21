@@ -171,6 +171,17 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
+        public async Task<CommandResult> DeletePerformanceRecordAsync(int performanceRecordId, int actorId)
+        {
+            var criteria = new DeletePerformanceRecordCriteria
+            {
+                PerformanceRecordId = performanceRecordId,
+                ActorId = actorId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
         private void MappingDataPerformanceRecord(
             PerformanceRecordModel performanceRecord,
             IEnumerable<ProjectModel> projects,

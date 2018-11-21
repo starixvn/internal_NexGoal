@@ -13,21 +13,21 @@
     public class MemberPerformanceController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IPerformanceRecordService performanceRecordService;
+        private readonly IPerformanceRecordService performanceService;
 
         public MemberPerformanceController(
             ISessionService sessionService,
-            IPerformanceRecordService performanceRecordService)
+            IPerformanceRecordService performanceService)
         {
             this.sessionService = sessionService;
-            this.performanceRecordService = performanceRecordService;
+            this.performanceService = performanceService;
         }
 
         [Route("Member/Performance")]
         public async Task<JsonResult> Index(int? memberId = null)
         {
             IEnumerable<PerformanceRecordModel> memberPerformances =
-                await performanceRecordService.GetMemberPerformanceAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+                await performanceService.GetMemberPerformanceAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
             return Json(memberPerformances);
         }
@@ -40,7 +40,7 @@
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
-                CommandResult commandResult = await performanceRecordService.CreatePerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+                CommandResult commandResult = await performanceService.CreatePerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -57,7 +57,7 @@
             {
                 performanceRecord.CreatorId = sessionService.EmployeeId;
                 performanceRecord.TypeId = (int)PerformanceRecordType.PerformanceCheckin;
-                CommandResult commandResult = await performanceRecordService.EditPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
+                CommandResult commandResult = await performanceService.EditPerformanceRecordAsync(performanceRecord).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -66,10 +66,19 @@
             return Json(new { isSuccessful = false, errors });
         }
 
+        [Route("Member/Performance/Delete")]
+        [HttpDelete]
+        public async Task<JsonResult> Delete(int id)
+        {
+            CommandResult commandResult = await performanceService.DeletePerformanceRecordAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
+
         [Route("Member/Performance/GetById/{id}")]
         public async Task<JsonResult> GetById(int id)
         {
-            PerformanceRecordModel record = await performanceRecordService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
+            PerformanceRecordModel record = await performanceService.GetPerformanceRecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(record);
         }
@@ -78,7 +87,7 @@
         public async Task<JsonResult> GetMemberPerformanceTimeline(GetMemberPerformanceTimelineParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<MemberPerformanceTimelineModel> memberPerformances = await performanceRecordService.GetMemberPerformanceTimelineAsyn(param).ConfigureAwait(false);
+            IEnumerable<MemberPerformanceTimelineModel> memberPerformances = await performanceService.GetMemberPerformanceTimelineAsyn(param).ConfigureAwait(false);
 
             return Json(memberPerformances);
         }
