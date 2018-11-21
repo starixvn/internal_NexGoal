@@ -49,7 +49,7 @@ export default class App extends Component {
                 avatar: document.getElementById('employeeInfo-avatar').getAttribute('src'),
                 isNominator: document.getElementById('isNominator').checked
             },
-            editMemberPerformance: {
+            editPerformanceRecord: {
                 isShowModal: false,
                 performanceRecordId: 0
             },
@@ -121,37 +121,38 @@ export default class App extends Component {
             }).catch(axiosError);
     }
 
-    loadPCIs = (page, callback) => {
+    loadMorePerformanceRecord = (page, callback) => {
         let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
         this.setState({
             displayedPerformanceRecords: records,
             hasMore: records.length < this.state.performanceRecords.length
         }, () => {
-            if (callback)
+            if (callback) {
                 callback();
+            }
         });
     }
 
-    handleEditMemberPerformanceRecordClick = (performanceRecordId) => {
+    handleClickEditPerformanceRecord = (performanceRecordId) => {
         this.setState({
-            editMemberPerformance: {
+            editPerformanceRecord: {
                 isShowModal: true,
                 performanceRecordId: performanceRecordId
             }
         });
     }
 
-    handleCancelEditMemberPerformanceClick = () => {
+    handleCancelEditPerformanceRecord = () => {
         this.setState({
-            editMemberPerformance: {
+            editPerformanceRecord: {
                 isShowModal: false,
                 performanceRecordId: 0
             }
         });
     }
 
-    handleEditMemberPerformanceSuccess = () => {
-        this.handleCancelEditMemberPerformanceClick();
+    handleEditPerformanceRecordSuccess = () => {
+        this.handleCancelEditPerformanceRecord();
     }
 
     onTimelinePageChange = (pageIndex, pageSize) => {
@@ -180,13 +181,11 @@ export default class App extends Component {
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 data={performanceRecord}
                 pageType={3}
-                onEdit={this.handleEditMemberPerformanceRecordClick}
+                onEdit={this.handleClickEditPerformanceRecord}
                 isHighlighted={this.state.selectedPCIId === performanceRecord.performanceRecordId}
             />
         );
     }
-
-    handleExpandForm = isExpanded => this.setState({ isFormExpanded: isExpanded });
 
     handlePCIClick = performanceRecordId => {
         if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
@@ -197,21 +196,19 @@ export default class App extends Component {
             let page = Math.ceil((index + 1) / this.itemPerPage);
 
             this.refs.infiniteScrollRef.pageLoaded = page;
-            this.loadPCIs(page, () => {
+            this.loadMorePerformanceRecord(page, () => {
                 this.setState({
                     selectedPCIId: performanceRecordId
-                }, () => document.getElementById(`record-${performanceRecordId}`)
-                    .scrollIntoView({ block: 'center', behavior: 'smooth' }));
+                }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
             });
         } else {
             this.setState({
                 selectedPCIId: performanceRecordId
-            }, () => document.getElementById(`record-${performanceRecordId}`)
-                .scrollIntoView({ block: 'center', behavior: 'smooth' }));
+            }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
         }
     }
 
-    handleCreateMemberPerformanceSuccess = () => {
+    handleCreatePerformanceRecordSuccess = () => {
         axios(resolveClientUrl('member/Performance'), { params: { memberId: this.state.memberInfo.id } })
             .then((response) => {
                 let memberPerformances = response.data;
@@ -272,14 +269,14 @@ export default class App extends Component {
                                                 performanceGradeOptions={this.state.performanceGradeOptions}
                                                 projectOptions={this.state.projectOptions}
                                                 selectedMemberId={this.state.memberInfo.id}
-                                                onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                                onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                                 isMultiple={false}
                                             />
                                             {performanceRecords.length > 0 &&
                                                 <InfiniteScroll
                                                     pageStart={1}
                                                     initialLoad={false}
-                                                    loadMore={this.loadPCIs}
+                                                    loadMore={this.loadMorePerformanceRecord}
                                                     hasMore={this.state.hasMore}
                                                     threshold={0}
                                                     useWindow={false}
@@ -323,15 +320,15 @@ export default class App extends Component {
                     </div>
                 </div>
                 {
-                    this.state.editMemberPerformance.isShowModal &&
+                    this.state.editPerformanceRecord.isShowModal &&
                     <EditMemberPerformance
                         currentUser={this.state.currentUser}
-                        performanceRecordId={this.state.editMemberPerformance.performanceRecordId}
+                        performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}
-                        isShowModal={this.state.editMemberPerformance.isShowModal}
-                        onCloseModal={this.handleCancelEditMemberPerformanceClick}
-                        onSubmitSuccess={this.handleEditMemberPerformanceSuccess}
+                        isShowModal={this.state.editPerformanceRecord.isShowModal}
+                        onCloseModal={this.handleCancelEditPerformanceRecord}
+                        onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
                         isDisabledAddMember
                     />
                 }

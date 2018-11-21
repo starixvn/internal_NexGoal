@@ -3,9 +3,13 @@ import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
+import { toast } from 'react-toastify';
+import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
+import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import NominationResult from '../../shared/components/NominationResult';
 import CreateSelfPerformance from './CreateSelfPerformance';
@@ -27,7 +31,11 @@ export default class MyPage extends Component {
             performanceGradeOptions: [],
             projectOptions: [],
             performanceAppraisals: [],
-            editPerformance: {
+            editPerformanceRecord: {
+                isShowModal: false,
+                performanceRecordId: 0
+            },
+            deletePerformanceRecord: {
                 isShowModal: false,
                 performanceRecordId: 0
             },
@@ -125,7 +133,7 @@ export default class MyPage extends Component {
         }).catch(axiosError);
     };
 
-    handleCreatePerformanceSuccess = () => {
+    handleCreatePerformanceRecordSuccess = () => {
         axios(resolveClientUrl('Self/Performance'))
             .then((response) => {
                 let performanceRecords = response.data;
@@ -143,25 +151,25 @@ export default class MyPage extends Component {
             }).catch(axiosError);
     }
 
-    handleEditPerformanceRecord = (performanceRecordId) => {
+    handleClickEditPerformanceRecord = (performanceRecordId) => {
         this.setState({
-            editPerformance: {
+            editPerformanceRecord: {
                 isShowModal: true,
                 performanceRecordId: performanceRecordId
             }
         });
     }
 
-    handleCancelEditPerformance = () => {
+    handleCancelEditPerformanceRecord = () => {
         this.setState({
-            editPerformance: {
+            editPerformanceRecord: {
                 isShowModal: false,
                 performanceRecordId: 0
             }
         });
     }
 
-    handleEditPerformanceSuccess = () => {
+    handleEditPerformanceRecordSuccess = () => {
         axios(resolveClientUrl(`Self/Performance`))
             .then((response) => {
                 let performanceRecords = response.data;
@@ -171,16 +179,74 @@ export default class MyPage extends Component {
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    editPerformance: {
-                        isShowModal: false,
-                        performanceRecordId: 0
-                    },
                     displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
                 });
+
+                this.handleCancelEditPerformanceRecord();
             }).catch(axiosError);
     }
 
-    loadMorePerformances = (page, callback) => {
+    handleClickDeletePerformanceRecord = (performanceRecordId) => {
+        this.setState({
+            deletePerformanceRecord: {
+                isShowModal: true,
+                performanceRecordId: performanceRecordId
+            }
+        });
+    }
+
+    handleDeletePerformanceRecord = () => {
+        let performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
+        axios({
+            url: resolveClientUrl('Self/Performance/Delete'),
+            method: 'DELETE',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                id: performanceRecordId
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success(getResource('DeletedSuccessfully'));
+
+                let performanceRecords = this.state.performanceRecords.slice();
+                let index = performanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
+                if (index >= 0) {
+                    performanceRecords.splice(index, 1);
+                }
+
+                let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
+                index = displayedPerformanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
+                if (index >= 0) {
+                    displayedPerformanceRecords.splice(index, 1);
+                }
+
+                this.setState({
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: displayedPerformanceRecords
+                });
+
+                this.handleCancelDeletePerformanceRecord();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
+
+    handleCancelDeletePerformanceRecord = () => {
+        this.setState({
+            deletePerformanceRecord: {
+                isShowModal: false,
+                performanceRecordId: 0
+            }
+        });
+    }
+
+    loadMorePerformanceRecord = (page, callback) => {
         let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
         this.setState({
             displayedPerformanceRecords: records,
@@ -196,7 +262,8 @@ export default class MyPage extends Component {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 data={performanceRecord}
-                onEdit={this.handleEditPerformanceRecord}
+                onEdit={this.handleClickEditPerformanceRecord}
+                onDelete={this.handleClickDeletePerformanceRecord}
                 isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
             />
         );
@@ -212,7 +279,7 @@ export default class MyPage extends Component {
 
             this.refs.infiniteScrollRef.pageLoaded = page;
 
-            this.loadMorePerformances(page, () => {
+            this.loadMorePerformanceRecord(page, () => {
                 this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
             });
         } else {
@@ -249,12 +316,12 @@ export default class MyPage extends Component {
                                     currentUser={currentUser}
                                     performanceGradeOptions={this.state.performanceGradeOptions}
                                     projectOptions={this.state.projectOptions}
-                                    onSubmitSuccess={this.handleCreatePerformanceSuccess}
+                                    onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                 />
                                 {performanceRecords.length > 0 &&
                                     <InfiniteScroll initialLoad={false}
                                         pageStart={1}
-                                        loadMore={this.loadMorePerformances}
+                                        loadMore={this.loadMorePerformanceRecord}
                                         hasMore={this.state.hasMore}
                                         threshold={0}
                                         ref="infiniteScrollRef"
@@ -283,20 +350,30 @@ export default class MyPage extends Component {
                             <WorkLoad periods={this.state.periods} />
                         }
                     </div>
-                    {
-                        this.state.editPerformance.isShowModal &&
-                        <EditSelfPerformance
-                            currentUser={currentUser}
-                            performanceRecordId={this.state.editPerformance.performanceRecordId}
-                            performanceGradeOptions={this.state.performanceGradeOptions}
-                            projectOptions={this.state.projectOptions}
-                            showModal={this.state.editPerformance.isShowModal}
-                            onCloseModal={this.handleCancelEditPerformance}
-                            onSubmitSuccess={this.handleEditPerformanceSuccess}
-                        />
-                    }
                     <ReactTooltip id="tooltip" place="bottom" type="info" html={true} className="tooltip" />
                 </div>
+                {
+                    this.state.editPerformanceRecord.isShowModal &&
+                    <EditSelfPerformance
+                        currentUser={currentUser}
+                        performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
+                        performanceGradeOptions={this.state.performanceGradeOptions}
+                        projectOptions={this.state.projectOptions}
+                        showModal={this.state.editPerformanceRecord.isShowModal}
+                        onCloseModal={this.handleCancelEditPerformanceRecord}
+                        onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
+                    />
+                }
+                {
+                    this.state.deletePerformanceRecord.isShowModal &&
+                    <ConfirmationModal
+                        action="delete"
+                        name="this performance"
+                        showModal={this.state.deletePerformanceRecord.isShowModal}
+                        onCloseModal={this.handleCancelDeletePerformanceRecord}
+                        onSubmit={this.handleDeletePerformanceRecord}
+                    />
+                }
             </div >
         );
     }

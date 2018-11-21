@@ -17,14 +17,16 @@ export default class PerformanceRecord extends Component {
         data: PropTypes.object,
         pageType: PropTypes.number,
         isHighlighted: PropTypes.bool,
-        onEdit: PropTypes.func
+        onEdit: PropTypes.func,
+        onDelete: PropTypes.func
     };
 
     static defaultProps = {
         data: null,
         pageType: PageType.MyPage,
         isHighlighted: false,
-        onEdit: function () { }
+        onEdit: function () { },
+        onDelete: function () { }
     };
 
     constructor(props) {
@@ -72,9 +74,9 @@ export default class PerformanceRecord extends Component {
         }
     }
 
-    handleEdit = () => {
-        this.props.onEdit(this.props.data.performanceRecordId);
-    }
+    handleEdit = () => this.props.onEdit(this.props.data.performanceRecordId);
+
+    handleDelete = () => this.props.onDelete(this.props.data.performanceRecordId);
 
     renderPerformanceCheckin = () => {
         let record = this.props.data;
@@ -117,7 +119,11 @@ export default class PerformanceRecord extends Component {
                                 }
                                 {
                                     record.isHost &&
-                                    <a className="icon-edit" onClick={this.handleEdit} />
+                                    <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEdit} />
+                                }
+                                {
+                                    record.isHost && record.statusId === PerformanceRecordStatus.Draft &&
+                                    <a className="icon-delete" title={getResource('Delete')} onClick={this.handleDelete} />
                                 }
                             </div>
                         </div>
@@ -185,8 +191,8 @@ export default class PerformanceRecord extends Component {
                             {
                                 record.isHost &&
                                 <Fragment>
-                                    <a className="icon-edit" onClick={this.handleEdit} />
-                                    <a className="icon-delete" onClick={this.handleEdit} />
+                                    <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEdit} />
+                                    <a className="icon-delete" title={getResource('Delete')} onClick={this.handleEdit} />
                                 </Fragment>
                             }
 
@@ -283,7 +289,7 @@ export default class PerformanceRecord extends Component {
                     this.props.pageType === PageType.MemberPage &&
                     <Fragment>
                         <div className="avatar-user">
-                            <span className="icon-nomination avatar" ></span>
+                            <span className="icon-nomination avatar" />
                             <div className="person-info">
                                 <span className={getRoleClassName(record.roleId)}>
                                     {record.nominationPeriod && record.nominationPeriod.title}

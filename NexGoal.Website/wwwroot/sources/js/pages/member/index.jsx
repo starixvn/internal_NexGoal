@@ -4,10 +4,13 @@ import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { Tabs, Tab } from 'react-bootstrap';
+import { toast } from 'react-toastify';
+import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
-import ToastLayout from '../../shared/layouts/ToastLayout';
 import getResource from '../../resourceHelper';
+import ToastLayout from '../../shared/layouts/ToastLayout';
+import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import NominationResult from '../../shared/components/NominationResult';
 import CreateMemberPerformance from './CreateMemberPerformance';
@@ -26,13 +29,17 @@ export default class App extends Component {
             myGroupOptions: [],
             performanceGradeOptions: [],
             projectOptions: [],
-            memberPerformances: [],
+            performanceRecords: [],
+            displayedPerformanceRecords: [],
             memberPerformanceAppraisals: [],
             memberNominations: [],
             periods: [],
             currentPerformancePeriod: null,
-            displayedMemberPerformances: [],
-            editMemberPerformance: {
+            editPerformanceRecord: {
+                isShowModal: false,
+                performanceRecordId: 0
+            },
+            deletePerformanceRecord: {
                 isShowModal: false,
                 performanceRecordId: 0
             },
@@ -85,7 +92,7 @@ export default class App extends Component {
                     return { value: group.groupId, label: group.name };
                 });
 
-                let displayedMemberPerformances = memberPerformanceResponse.data.slice(0, this.itemPerPage);
+                let displayedPerformanceRecords = memberPerformanceResponse.data.slice(0, this.itemPerPage);
 
                 this.setState({
                     periods: periodResponse.data,
@@ -95,66 +102,9 @@ export default class App extends Component {
                     myGroupOptions: myGroupOptions,
                     currentPerformancePeriod: currentPerformancePeriodResponse.data,
                     memberNominations: memberNominationResponse.data,
-                    memberPerformances: memberPerformanceResponse.data,
-                    displayedMemberPerformances: displayedMemberPerformances,
-                    hasMore: displayedMemberPerformances.length < memberPerformanceResponse.data.length
-                });
-            }).catch(axiosError);
-    }
-
-    renderPerformanceRecord = (performanceRecord) => {
-        return (
-            <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
-                pageType={2}
-                data={performanceRecord}
-                onEdit={this.handleEditMemberPerformanceRecord}
-                isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
-            />
-        );
-    }
-
-    loadMoreMemberPerformances = (page, callback) => {
-        let records = this.state.memberPerformances.slice(0, page * this.itemPerPage);
-        this.setState({
-            displayedMemberPerformances: records,
-            hasMore: records.length < this.state.memberPerformances.length
-        }, () => {
-            if (callback) {
-                callback();
-            }
-        });
-    }
-
-    handleTimelineNodeClick = (performanceRecordId) => {
-        if (this.state.activeTabKey === 1) {
-            if (!this.state.displayedMemberPerformances.some(r => r.performanceRecordId === performanceRecordId)) {
-                let index = this.state.memberPerformances.findIndex(function (element) {
-                    return element.performanceRecordId === performanceRecordId;
-                });
-
-                let page = Math.ceil((index + 1) / this.itemPerPage);
-
-                this.refs.infiniteScrollRef.pageLoaded = page;
-
-                this.loadMoreMemberPerformances(page, () => {
-                    this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
-                });
-            } else {
-                this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
-            }
-        }
-    }
-
-    handleCreateMemberPerformanceSuccess = () => {
-        axios(resolveClientUrl('member/Performance'))
-            .then((response) => {
-                let memberPerformances = response.data;
-
-                this.refs.infiniteScrollRef.pageLoaded = 1;
-
-                this.setState({
-                    memberPerformances: memberPerformances,
-                    displayedMemberPerformances: memberPerformances.slice(0, this.itemPerPage)
+                    performanceRecords: memberPerformanceResponse.data,
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < memberPerformanceResponse.data.length
                 });
             }).catch(axiosError);
     }
@@ -169,41 +119,159 @@ export default class App extends Component {
         }
     }
 
-    handleEditMemberPerformanceRecord = (performanceRecordId) => {
+    renderPerformanceRecord = (performanceRecord) => {
+        return (
+            <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                pageType={2}
+                data={performanceRecord}
+                onEdit={this.handleClickEditPerformanceRecord}
+                onDelete={this.handleClickDeletePerformanceRecord}
+                isHighlighted={this.state.performanceRecordIdHighlighted === performanceRecord.performanceRecordId}
+            />
+        );
+    }
+
+    loadMorePerformanceRecord = (page, callback) => {
+        let records = this.state.performanceRecords.slice(0, page * this.itemPerPage);
         this.setState({
-            editMemberPerformance: {
+            displayedPerformanceRecords: records,
+            hasMore: records.length < this.state.performanceRecords.length
+        }, () => {
+            if (callback) {
+                callback();
+            }
+        });
+    }
+
+    handleTimelineNodeClick = (performanceRecordId) => {
+        if (this.state.activeTabKey === 1) {
+            if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
+                let index = this.state.performanceRecords.findIndex(function (element) {
+                    return element.performanceRecordId === performanceRecordId;
+                });
+
+                let page = Math.ceil((index + 1) / this.itemPerPage);
+
+                this.refs.infiniteScrollRef.pageLoaded = page;
+
+                this.loadMorePerformanceRecord(page, () => {
+                    this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+                });
+            } else {
+                this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+            }
+        }
+    }
+
+    handleCreatePerformanceRecordSuccess = () => {
+        axios(resolveClientUrl('member/Performance'))
+            .then((response) => {
+                let performanceRecords = response.data;
+
+                this.refs.infiniteScrollRef.pageLoaded = 1;
+
+                this.setState({
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
+                });
+            }).catch(axiosError);
+    }
+
+    handleClickEditPerformanceRecord = (performanceRecordId) => {
+        this.setState({
+            editPerformanceRecord: {
                 isShowModal: true,
                 performanceRecordId: performanceRecordId
             }
         });
     }
 
-    handleCancelEditMemberPerformance = () => {
+    handleCancelEditPerformanceRecord = () => {
         this.setState({
-            editMemberPerformance: {
+            editPerformanceRecord: {
                 isShowModal: false,
                 performanceRecordId: 0
             }
         });
     }
 
-    handleEditMemberPerformanceSuccess = () => {
+    handleEditPerformanceRecordSuccess = () => {
         axios(resolveClientUrl('member/Performance'))
             .then((response) => {
-                let memberPerformances = response.data;
+                let performanceRecords = response.data;
 
                 this.refs.memberTimelineRef.getMemberPerformanceTimeline();
                 this.refs.infiniteScrollRef.pageLoaded = 1;
 
                 this.setState({
-                    memberPerformances: memberPerformances,
-                    editMemberPerformance: {
+                    performanceRecords: performanceRecords,
+                    editPerformanceRecord: {
                         isShowModal: false,
                         performanceRecordId: 0
                     },
-                    displayedMemberPerformances: memberPerformances.slice(0, this.itemPerPage)
+                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
                 });
             }).catch(axiosError);
+    }
+
+    handleClickDeletePerformanceRecord = (performanceRecordId) => {
+        this.setState({
+            deletePerformanceRecord: {
+                isShowModal: true,
+                performanceRecordId: performanceRecordId
+            }
+        });
+    }
+
+    handleDeletePerformanceRecord = () => {
+        let performanceRecordId = this.state.deletePerformanceRecord.performanceRecordId;
+        axios({
+            url: resolveClientUrl('Member/Performance/Delete'),
+            method: 'DELETE',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                id: performanceRecordId
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                toast.success(getResource('DeletedSuccessfully'));
+
+                let performanceRecords = this.state.performanceRecords.slice();
+                let index = performanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
+                if (index >= 0) {
+                    performanceRecords.splice(index, 1);
+                }
+
+                let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
+                index = displayedPerformanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
+                if (index >= 0) {
+                    displayedPerformanceRecords.splice(index, 1);
+                }
+
+                this.setState({
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: displayedPerformanceRecords
+                });
+
+                this.handleCancelDeletePerformanceRecord();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
+    }
+
+    handleCancelDeletePerformanceRecord = () => {
+        this.setState({
+            deletePerformanceRecord: {
+                isShowModal: false,
+                performanceRecordId: 0
+            }
+        });
     }
 
     render() {
@@ -215,8 +283,9 @@ export default class App extends Component {
             return {
                 value: period.periodId,
                 label: period.name
-            }
-        })
+            };
+        });
+
         return (
             <ToastLayout>
                 <div className="row">
@@ -247,20 +316,20 @@ export default class App extends Component {
                                                 memberOptions={employeeOptions}
                                                 performanceGradeOptions={performanceGradeOptions}
                                                 projectOptions={projectOptions}
-                                                onSubmitSuccess={this.handleCreateMemberPerformanceSuccess}
+                                                onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
                                                 isMultiple
                                             />
                                             <InfiniteScroll
                                                 pageStart={1}
                                                 initialLoad={false}
-                                                loadMore={this.loadMoreMemberPerformances}
+                                                loadMore={this.loadMorePerformanceRecord}
                                                 hasMore={this.state.hasMore}
                                                 threshold={0}
                                                 useWindow={false}
                                                 ref="infiniteScrollRef"
                                             >
                                                 {
-                                                    this.state.displayedMemberPerformances.map(this.renderPerformanceRecord)
+                                                    this.state.displayedPerformanceRecords.map(this.renderPerformanceRecord)
                                                 }
                                             </InfiniteScroll>
                                         </Scrollbars>
@@ -302,16 +371,26 @@ export default class App extends Component {
                     </div>
                 </div>
                 {
-                    this.state.editMemberPerformance.isShowModal &&
+                    this.state.editPerformanceRecord.isShowModal &&
                     <EditMemberPerformance
                         currentUser={currentUser}
-                        performanceRecordId={this.state.editMemberPerformance.performanceRecordId}
+                        performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
                         memberOptions={employeeOptions}
                         performanceGradeOptions={performanceGradeOptions}
                         projectOptions={projectOptions}
-                        isShowModal={this.state.editMemberPerformance.isShowModal}
-                        onCloseModal={this.handleCancelEditMemberPerformance}
-                        onSubmitSuccess={this.handleEditMemberPerformanceSuccess}
+                        isShowModal={this.state.editPerformanceRecord.isShowModal}
+                        onCloseModal={this.handleCancelEditPerformanceRecord}
+                        onSubmitSuccess={this.handleEditPerformanceRecordSuccess}
+                    />
+                }
+                {
+                    this.state.deletePerformanceRecord.isShowModal &&
+                    <ConfirmationModal
+                        action="delete"
+                        name="this performance"
+                        showModal={this.state.deletePerformanceRecord.isShowModal}
+                        onCloseModal={this.handleCancelDeletePerformanceRecord}
+                        onSubmit={this.handleDeletePerformanceRecord}
                     />
                 }
             </ToastLayout>
