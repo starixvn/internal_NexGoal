@@ -178,8 +178,9 @@ BEGIN
 					,StatusId AS '@sid'
 					,ProjectIds AS '@pids'
 					,CreatedDate AS '@cdate'
-					,TypeId AS '@tid'
-					,RoleId AS '@rid'
+					,ModifiedDate AS '@mdate'
+					,TypeId AS '@type'
+					,RoleId AS '@role'
 				FROM dbo.PerformanceRecord WITH (NOLOCK)
 				WHERE PerformanceRecordId = @recordId
 				FOR XML PATH('r')
@@ -191,7 +192,7 @@ BEGIN
 			,@SPName = 'PerformanceRecord_Insert'
 			,@ObjectId = @recordId
 			,@Data = @logData
-			,@Duration = @Duration
+			,@Duration = @duration
 
 		SET @rowNum = @rowNum + 1
 	END

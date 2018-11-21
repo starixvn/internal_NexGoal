@@ -18,10 +18,9 @@ BEGIN
 	DECLARE @Today DATE = GETDATE()
 		,@NominationId INT
 		,@PerformanceRecordId INT
-	-- Nomination Status
-	DECLARE @Draft TINYINT = 4
 	-- Performance Record Status
 	DECLARE @PR_Draft TINYINT = 2
+		,@PR_Submitted TINYINT = 3
 		,@PR_Closed TINYINT = 4
 
 	CREATE TABLE #tblNomination (
@@ -31,37 +30,15 @@ BEGIN
 		,StatusId TINYINT
 		)
 
-	-- delete draft
-	DELETE record
-	FROM dbo.PerformanceRecord AS record
+	-- update performance record status
+	UPDATE record
+	SET record.StatusId = @PR_Closed
+	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.NominationDetail AS detail WITH (NOLOCK) ON record.PerformanceRecordId = detail.PerformanceRecordId
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = nomination.NominationId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 		AND period.EndDateForNominator < @Today
-	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
-		AND (
-			record.StatusId = @PR_Draft
-			OR nomination.StatusId = @Draft
-			)
-
-	DELETE detail
-	FROM dbo.NominationDetail AS detail
-		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON detail.NominationId = nomination.NominationId
-		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-		AND period.EndDateForNominator < @Today
-		LEFT JOIN dbo.PerformanceRecord AS record WITH (NOLOCK) ON detail.PerformanceRecordId = record.PerformanceRecordId
-	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
-		AND (
-			nomination.StatusId = @Draft
-			OR record.PerformanceRecordId IS NULL
-			)
-
-	DELETE nomination
-	FROM dbo.Nomination AS nomination
-		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
-		AND period.EndDateForNominator < @Today
-	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
-		AND nomination.StatusId = @Draft
+	WHERE record.StatusId = @PR_Submitted
 
 	-- insert performance record
 	INSERT INTO #tblNomination (
@@ -81,7 +58,6 @@ BEGIN
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 	WHERE ISNULL(@NominationPeriodId, period.EOQYId) = period.EOQYId
-		AND nomination.StatusId <> @Draft
 		AND nomination.PerformanceRecordId IS NULL
 
 	WHILE EXISTS (

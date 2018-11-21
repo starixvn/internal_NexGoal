@@ -323,7 +323,10 @@ export default class App extends Component {
 
                         </div>
                         <div className="work-info">
-                            <NominationResult nominations={nominations} />
+                            {
+                                nominations.length > 0 &&
+                                <NominationResult nominations={nominations} />
+                            }
                             <HrmSummary hrmDetail={this.state.hrmDetails} />
                             {
                                 this.state.periods.length > 0 &&

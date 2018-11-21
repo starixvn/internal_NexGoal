@@ -24,6 +24,8 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @RoleId TINYINT
+		,@CurrentStatusId TINYINT
+		,@CurrentCreatedDate DATETIME
 		,@Draft TINYINT = 2
 		-- process
 		,@SelfProcessId TINYINT = 2
@@ -60,7 +62,9 @@ BEGIN
 				,StatusId AS '@sid'
 				,ProjectIds AS '@pids'
 				,CreatedDate AS '@cdate'
+				,ModifiedDate AS '@mdate'
 				,TypeId AS '@type'
+				,RoleId AS '@role'
 			FROM dbo.PerformanceRecord WITH (NOLOCK)
 			WHERE PerformanceRecordId = @PerformanceRecordId
 			FOR XML PATH('r')
@@ -108,7 +112,7 @@ BEGIN
 		SELECT TOP 1 @RoleId = RoleId
 		FROM #tblMember WITH (NOLOCK)
 		ORDER BY [Priority] DESC
-		
+
 		UPDATE dbo.PerformanceRecord WITH (ROWLOCK, UPDLOCK)
 		SET EmployeeIds = @EmployeeIds
 			,CreatorId = @CreatorId
@@ -116,13 +120,16 @@ BEGIN
 			,Comment = @Comment
 			,StatusId = @StatusId
 			,ProjectIds = @ProjectIds
-			,ModifiedDate = GETDATE()
 			,TypeId = @TypeId
 			,RoleId = @RoleId
 		WHERE PerformanceRecordId = @PerformanceRecordId
 	END
 	ELSE
 	BEGIN
+		SELECT @CurrentStatusId = StatusId
+			,@CurrentCreatedDate = CreatedDate
+		FROM dbo.PerformanceRecord WITH (NOLOCK)
+
 		UPDATE record
 		SET record.EmployeeIds = member.EmployeeId
 			,record.CreatorId = @CreatorId
@@ -130,7 +137,14 @@ BEGIN
 			,record.Comment = @Comment
 			,record.StatusId = @StatusId
 			,record.ProjectIds = @ProjectIds
-			,record.ModifiedDate = GETDATE()
+			,record.CreatedDate = CASE 
+				WHEN @CurrentStatusId = @Draft THEN GETDATE()
+				ELSE @CurrentCreatedDate
+				END
+			,record.ModifiedDate = CASE 
+				WHEN @CurrentStatusId = @Draft THEN NULL
+				ELSE GETDATE()
+				END
 			,record.TypeId = @TypeId
 			,record.RoleId = member.RoleId
 		FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
@@ -146,6 +160,7 @@ BEGIN
 			,StatusId
 			,ProjectIds
 			,CreatedDate
+			,ModifiedDate
 			,TypeId
 			,RoleId
 			)
@@ -157,7 +172,14 @@ BEGIN
 			,@Comment
 			,@StatusId
 			,@ProjectIds
-			,GETDATE()
+			,CASE 
+				WHEN @CurrentStatusId = @Draft THEN GETDATE()
+				ELSE @CurrentCreatedDate
+				END
+			,CASE 
+				WHEN @CurrentStatusId = @Draft THEN NULL
+				ELSE GETDATE()
+				END
 			,@TypeId
 			,RoleId
 		FROM #tblMember WITH (NOLOCK)
@@ -201,8 +223,9 @@ BEGIN
 					,StatusId AS '@sid'
 					,ProjectIds AS '@pids'
 					,CreatedDate AS '@cdate'
-					,TypeId AS '@tid'
-					,RoleId AS '@rid'
+					,ModifiedDate AS '@mdate'
+					,TypeId AS '@type'
+					,RoleId AS '@role'
 				FROM dbo.PerformanceRecord WITH (NOLOCK)
 				WHERE PerformanceRecordId = @recordId
 				FOR XML PATH('r')
@@ -213,8 +236,9 @@ BEGIN
 		EXEC dbo.LogDetail_Insert @ActorId = @CreatorId
 			,@SPName = 'PerformanceRecord_Update'
 			,@ObjectId = @recordId
+			,@OldData = @logDataOld
 			,@Data = @logData
-			,@Duration = @Duration
+			,@Duration = @duration
 
 		SET @rowNum = @rowNum + 1
 	END

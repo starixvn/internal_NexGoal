@@ -14,7 +14,6 @@ Param's Explanation:
 */
 BEGIN
 	DECLARE @Today DATE = GETDATE()
-		,@Draft TINYINT = 4
 	-- process
 	DECLARE @PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
@@ -37,7 +36,6 @@ BEGIN
 		,eoqy.EndDateForCommittee
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
-		AND nomination.StatusId <> @Draft
 		INNER JOIN dbo.EOQY AS eoqy WITH (NOLOCK) ON nomination.EOQYId = eoqy.EOQYId
 		AND eoqy.EndDateForCommittee < @Today
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
@@ -51,7 +49,6 @@ BEGIN
 		,eoqy.[Year]
 	FROM dbo.EOQY AS eoqy WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON eoqy.EOQYId = nomination.EOQYId
-		AND nomination.StatusId <> @Draft
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON nomination.NomineeId = emp.EmployeeId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
