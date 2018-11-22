@@ -1,0 +1,14 @@
+@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../components/form-filter";
+@import "../../components/form-inline";
+
+.pa-content {
+    padding: 0 16px;
+}
+
+.form-filter {
+    .team {
+        width: 280px;
+    }
+}

@@ -36,7 +36,7 @@ export default class Filter extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content team">
                         <MultiSelect className="react-select-container" classNamePrefix="react-select"
                             name="groups"
                             value={filter.groups}

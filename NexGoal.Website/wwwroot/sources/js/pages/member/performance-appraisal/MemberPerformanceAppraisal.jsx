@@ -58,7 +58,7 @@ export default class MemberPerformanceAppraisal extends Component {
 
     render() {
         return (
-            <div className="record-list">
+            <div className="pa-content">
                 <Filter
                     filter={this.state.filter}
                     periodOptions={this.props.periodOptions}
