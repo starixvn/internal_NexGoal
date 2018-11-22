@@ -158,7 +158,7 @@ export default class Timeline extends Component {
                         <div className="team">{getResource('Team')}</div>
                         <Multiselect className="react-select-container" classNamePrefix="react-select"
                             value={this.state.filter.groups}
-                            options={this.props.groupOptions}
+                            options={groupOptions}
                             onChange={this.handleGroupChange}
                         />
                     </div>

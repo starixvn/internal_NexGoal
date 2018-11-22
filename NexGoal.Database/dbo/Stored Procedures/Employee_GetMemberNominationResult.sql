@@ -42,11 +42,15 @@ BEGIN
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 	ORDER BY eoqy.EndDateForCommittee DESC
+		,nomination.StatusId DESC
 		,emp.NickName
 
 	SELECT eoqy.EOQYId AS NominationPeriodId
 		,eoqy.[Quarter]
 		,eoqy.[Year]
+		,eoqy.StartDateForNominator
+		,eoqy.EndDateForNominator
+		,eoqy.EndDateForCommittee
 	FROM dbo.EOQY AS eoqy WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON eoqy.EOQYId = nomination.EOQYId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON nomination.NomineeId = emp.EmployeeId

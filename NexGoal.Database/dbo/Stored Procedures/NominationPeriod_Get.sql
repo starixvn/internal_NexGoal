@@ -16,7 +16,7 @@ BEGIN
 
 	DECLARE @Today DATE = GETDATE()
 
-	SELECT EOQYId
+	SELECT EOQYId AS NominationPeriodId
 		,[Quarter]
 		,[Year]
 		,StartDateForNominator
