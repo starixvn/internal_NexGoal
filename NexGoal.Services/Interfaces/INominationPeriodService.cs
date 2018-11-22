@@ -10,5 +10,7 @@
         Task<IEnumerable<NominationPeriodModel>> GetAsync(bool? isCompleted = null);
 
         Task<CommandResult> DeleteAsync(int nominationPeriodId, int actorId);
+
+        Task<IEnumerable<RoleSettingModel>> GetRoleSettingAsync(GetRoleSettingParam param);
     }
 }

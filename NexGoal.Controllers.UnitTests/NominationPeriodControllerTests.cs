@@ -1,12 +1,15 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
+    using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
     using NexGoal.ViewModels.EOQY;
+    using NexGoal.ViewModels.NominationPeriod;
     using NSubstitute;
     using Xunit;
 
@@ -52,6 +55,27 @@
             var jsonResult = Assert.IsType<JsonResult>(actual);
             var commandResult = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
             Assert.Equal(expected, commandResult);
+        }
+
+        [Fact]
+        public async Task GetRoleSetting_WhenCalled_ReturnAsExpectedSettings()
+        {
+            // Arrange
+            var param = new GetRoleSettingParam();
+            var settings = new List<RoleSettingModel>
+            {
+                new RoleSettingModel { EmployeeId = 1, NickName = "tim.trinh", RoleIds = "1,2" }
+            };
+            var controller = GetNominationPeriodController();
+            nominationPeriodService.GetRoleSettingAsync(param).Returns(settings);
+
+            // Act
+            var actual = await controller.GetRoleSetting(param);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<RoleSettingViewModel>>(jsonResult.Value);
+            Assert.Single(result);
         }
 
         #region Helpers

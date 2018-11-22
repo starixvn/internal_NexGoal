@@ -226,26 +226,6 @@
         }
 
         [Fact]
-        public async Task GetNominatorSetting_WhenCalled_ReturnAsExpectedSettings()
-        {
-            // Arrange
-            var settings = new List<NominatorSettingModel>
-            {
-                new NominatorSettingModel { EmployeeId = 1, NickName = "tim.trinh", RoleIds = "1,2" }
-            };
-            var controller = GetEOQController();
-            eoqService.GetNominatorSettingAsync(1).Returns(settings);
-
-            // Act
-            var actual = await controller.GetNominatorSetting(1);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<NominatorSettingViewModel>>(jsonResult.Value);
-            Assert.Single(result);
-        }
-
-        [Fact]
         public async Task EditNominatorSetting_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange

@@ -110,24 +110,6 @@
         }
 
         [Fact]
-        public async Task GetNominatorSettingAsync_WhenCalled_ReturnAsExpectedEOQs()
-        {
-            // Arrange
-            var expected = new List<NominatorSettingModel>
-            {
-                new NominatorSettingModel { EmployeeId = 1, NickName = "tim.trinh", RoleIds = "1,2" }
-            };
-            var service = GetEOQService();
-            baseService.GetDataAsync<NominatorSettingModel>(Arg.Any<GetNominatorSettingCriteria>()).Returns(expected);
-
-            // Act
-            var actual = await service.GetNominatorSettingAsync(1);
-
-            // Assert
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
         public async Task EditNominatorSettingAsync_WhenCalled_ReturnAsExpectedCommandResult()
         {
             // Arrange

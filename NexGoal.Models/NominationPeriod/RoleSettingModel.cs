@@ -1,6 +1,6 @@
-﻿namespace NexGoal.Models.EOQY
+﻿namespace NexGoal.Models.NominationPeriod
 {
-    public class NominatorSettingModel
+    public class RoleSettingModel
     {
         public int EmployeeId { get; set; }
         public string NickName { get; set; }

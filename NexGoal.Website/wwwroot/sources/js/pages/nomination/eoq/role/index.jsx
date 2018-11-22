@@ -28,31 +28,29 @@ export default class RoleManagement extends Component {
     }
 
     componentDidMount() {
-        this.getGroups();
-        this.getNominatorSetting();
-    }
-
-    getGroups = () => {
         axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
-                const groupOptions = response.data.map((group) => {
+                let groupOptions = response.data.map((group) => {
                     return { value: group.groupId, label: group.name };
                 });
 
+                let filter = Object.assign({}, this.state.filter, { groups: groupOptions });
+
                 this.setState({
                     groupOptions: groupOptions,
-                    filter: Object.assign({}, this.state.filter, { groups: groupOptions })
+                    filter: filter
                 });
+
+                this.getRoleSetting(filter);
             }).catch(axiosError);
     }
 
-    getNominatorSetting = () => {
-        const filter = this.state.filter;
+    getRoleSetting = (filter) => {
         const groupIds = this.state.filter.groups.map((group) => { return group.value; }).join(',');
 
-        axios.get(resolveClientUrl('EOQ/GetNominatorSetting'), {
+        axios.get(resolveClientUrl('nominationPeriod/GetRoleSetting'), {
             params: {
-                eoqId: this.state.eoqId,
+                nominationPeriodId: this.state.eoqId,
                 keyword: filter.keyword,
                 groupIds: groupIds,
                 roleId: filter.role.roleId,
@@ -98,7 +96,7 @@ export default class RoleManagement extends Component {
     }
 
     handleSubmit = () => {
-        this.getNominatorSetting();
+        this.getRoleSetting(this.state.filter);
     }
 
     render() {

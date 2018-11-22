@@ -73,25 +73,6 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<NominatorSettingModel>> GetNominatorSettingAsync(
-            int eoyId,
-            string keyword = null,
-            string groupIds = null,
-            int? roleId = null,
-            bool isShowAll = false)
-        {
-            var criteria = new GetNominatorSettingCriteria
-            {
-                EOYId = eoyId,
-                Keyword = keyword,
-                GroupIds = groupIds,
-                RoleId = roleId,
-                IsShowAll = isShowAll
-            };
-
-            return await baseService.GetDataAsync<NominatorSettingModel>(criteria).ConfigureAwait(false);
-        }
-
         public async Task<CommandResult> EditNominatorSettingAsync(EditNominatorSettingModel setting)
         {
             var criteria = new EditNominatorSettingCriteria

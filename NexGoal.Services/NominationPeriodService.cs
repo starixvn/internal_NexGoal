@@ -36,5 +36,19 @@
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
+
+        public async Task<IEnumerable<RoleSettingModel>> GetRoleSettingAsync(GetRoleSettingParam param)
+        {
+            var criteria = new GetRoleSettingCriteria
+            {
+                NominationPeriodId = param.NominationPeriodId,
+                Keyword = param.Keyword,
+                GroupIds = param.GroupIds,
+                RoleId = param.RoleId,
+                IsShowAll = param.IsShowAll
+            };
+
+            return await baseService.GetDataAsync<RoleSettingModel>(criteria).ConfigureAwait(false);
+        }
     }
 }

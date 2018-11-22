@@ -17,13 +17,6 @@
 
         Task<CommandResult> EditAsync(EditEOQModel eoq);
 
-        Task<IEnumerable<NominatorSettingModel>> GetNominatorSettingAsync(
-            int eoqId,
-            string keyword = null,
-            string groupIds = null,
-            int? roleId = null,
-            bool isShowAll = false);
-
         Task<CommandResult> EditNominatorSettingAsync(EditNominatorSettingModel setting);
     }
 }

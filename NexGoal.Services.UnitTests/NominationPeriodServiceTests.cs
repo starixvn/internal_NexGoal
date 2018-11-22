@@ -49,6 +49,24 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task GetRoleSettingAsync_WhenCalled_ReturnAsExpectedEOQs()
+        {
+            // Arrange
+            var expected = new List<RoleSettingModel>
+            {
+                new RoleSettingModel { EmployeeId = 1, NickName = "tim.trinh", RoleIds = "1,2" }
+            };
+            var service = GetNominationPeriodService();
+            baseService.GetDataAsync<RoleSettingModel>(Arg.Any<GetRoleSettingCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetRoleSettingAsync(new GetRoleSettingParam());
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
         #region Helpers
 
         private NominationPeriodService GetNominationPeriodService()

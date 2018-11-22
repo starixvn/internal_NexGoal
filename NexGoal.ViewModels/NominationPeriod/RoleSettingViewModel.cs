@@ -1,11 +1,11 @@
-﻿namespace NexGoal.ViewModels.EOQY
+﻿namespace NexGoal.ViewModels.NominationPeriod
 {
     using System.Collections.Generic;
     using System.Linq;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Models.EOQY;
+    using NexGoal.Models.NominationPeriod;
 
-    public class NominatorSettingViewModel : NominatorSettingModel
+    public class RoleSettingViewModel : RoleSettingModel
     {
         public IEnumerable<int> Roles
         {
