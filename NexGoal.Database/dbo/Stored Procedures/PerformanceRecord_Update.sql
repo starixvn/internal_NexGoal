@@ -129,6 +129,7 @@ BEGIN
 		SELECT @CurrentStatusId = StatusId
 			,@CurrentCreatedDate = CreatedDate
 		FROM dbo.PerformanceRecord WITH (NOLOCK)
+		WHERE PerformanceRecordId = @PerformanceRecordId
 
 		UPDATE record
 		SET record.EmployeeIds = member.EmployeeId

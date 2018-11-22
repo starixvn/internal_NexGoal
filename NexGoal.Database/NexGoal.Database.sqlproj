@@ -159,7 +159,6 @@
     <Build Include="dbo\Stored Procedures\Employee_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetHRMSummary.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetNominationResult.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_Delete.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_Get.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_GetById.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_GetNominatorSetting.sql" />
@@ -167,7 +166,6 @@
     <Build Include="dbo\Stored Procedures\EOQ_Insert.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_Update.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_UpdateNominatorSetting.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_Delete.sql" />
     <Build Include="dbo\Stored Procedures\EOY_Get.sql" />
     <Build Include="dbo\Stored Procedures\EOY_GetById.sql" />
     <Build Include="dbo\Stored Procedures\EOY_GetNominatorSetting.sql" />
@@ -252,5 +250,7 @@
     <Build Include="dbo\Stored Procedures\PerformanceRecord_Delete.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByPeriodId.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_UpdateStatus.sql" />
+    <Build Include="dbo\Stored Procedures\NominationPeriod_Get.sql" />
+    <Build Include="dbo\Stored Procedures\NominationPeriod_Delete.sql" />
   </ItemGroup>
 </Project>

@@ -22,4 +22,4 @@ BEGIN
 					WHERE eoqy.EOQYId = ens.EOQYId AND ens.NominatorId = @CommitteeId
 						AND EXISTS (SELECT 1 FROM dbo.func_SplitString(ens.RoleIds, ',') r WHERE r.val = 2)
 					)
-	
+END
