@@ -42,7 +42,6 @@
     <Setting Key="EOQ_GetById" SpName="EOQ_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Insert" SpName="EOQ_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_Update" SpName="EOQ_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="EOQ_Delete" SpName="EOQ_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_GetNominatorSetting" SpName="EOQ_GetNominatorSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOQ_UpdateNominatorSetting" SpName="EOQ_UpdateNominatorSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
@@ -51,7 +50,6 @@
     <Setting Key="EOY_GetById" SpName="EOY_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_Insert" SpName="EOY_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_Update" SpName="EOY_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="EOY_Delete" SpName="EOY_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_GetNominatorSetting" SpName="EOY_GetNominatorSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="EOY_UpdateNominatorSetting" SpName="EOY_UpdateNominatorSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
@@ -125,6 +123,7 @@
   </Function>
   <Function Name="Nomination Period">
     <Setting Key="NominationPeriod_Get" SpName="NominationPeriod_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="NominationPeriod_Delete" SpName="NominationPeriod_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Employee Nomination">
     <Setting Key="Nomination_GetPeriodsForNominator" SpName="Nomination_GetPeriodsForNominator" DbName="bodb_NexGoal" Plain="0"></Setting>

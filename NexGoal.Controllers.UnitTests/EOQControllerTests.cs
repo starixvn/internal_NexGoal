@@ -226,26 +226,6 @@
         }
 
         [Fact]
-        public async Task Delete_WhenCalled_ReturnAsExpectedCommandResult()
-        {
-            // Arrange
-            var expected = new CommandResult
-            {
-                Code = 0
-            };
-            var controller = GetEOQController();
-            eoqService.DeleteAsync(1).Returns(expected);
-
-            // Act
-            var actual = await controller.Delete(1);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var commandResult = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
-            Assert.Equal(expected, commandResult);
-        }
-
-        [Fact]
         public async Task GetNominatorSetting_WhenCalled_ReturnAsExpectedSettings()
         {
             // Arrange

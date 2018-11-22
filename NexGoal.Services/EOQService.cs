@@ -83,17 +83,6 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> DeleteAsync(int eoqId)
-        {
-            var criteria = new DeleteEOQCriteria
-            {
-                EOQId = eoqId,
-                ModifiedBy = sessionService.EmployeeId
-            };
-
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-        }
-
         public async Task<IEnumerable<NominatorSettingModel>> GetNominatorSettingAsync(
             int eoqId,
             string keyword = null,

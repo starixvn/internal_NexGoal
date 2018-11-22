@@ -93,24 +93,6 @@
         }
 
         [Fact]
-        public async Task DeleteAsync_WhenCalled_ReturnAsExpectedCommandResult()
-        {
-            // Arrange
-            var expected = new CommandResult
-            {
-                Code = 0
-            };
-            var service = GetEOYService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<DeleteEOYCriteria>()).Returns(expected);
-
-            // Act
-            var actual = await service.DeleteAsync(1);
-
-            // Assert
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
         public async Task GetNominatorSettingAsync_WhenCalled_ReturnAsExpectedEOQs()
         {
             // Arrange

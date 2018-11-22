@@ -30,7 +30,7 @@ export default class App extends Component {
     }
 
     handleBackClick() {
-        window.location = resolveClientUrl('Nomination/index?tab=eoy');
+        window.location = resolveClientUrl('NominationPeriod/index?tab=eoy');
     }
 
     render() {

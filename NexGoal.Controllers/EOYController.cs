@@ -112,15 +112,6 @@
             return Json(eoy);
         }
 
-        [HttpDelete]
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<JsonResult> Delete(int id)
-        {
-            CommandResult commandResult = await eoyService.DeleteAsync(id).ConfigureAwait(false);
-
-            return Json(commandResult);
-        }
-
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]
         public async Task<JsonResult> GetNominatorSetting(
             int eoyId,

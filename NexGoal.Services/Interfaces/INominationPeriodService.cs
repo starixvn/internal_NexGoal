@@ -2,10 +2,13 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Models.NominationPeriod;
 
     public interface INominationPeriodService
     {
         Task<IEnumerable<NominationPeriodModel>> GetAsync(bool? isCompleted = null);
+
+        Task<CommandResult> DeleteAsync(int nominationPeriodId, int actorId);
     }
 }

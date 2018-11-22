@@ -15,8 +15,6 @@
 
         Task<CommandResult> EditAsync(EditEOYModel eoy);
 
-        Task<CommandResult> DeleteAsync(int eoyId);
-
         Task<IEnumerable<NominatorSettingModel>> GetNominatorSettingAsync(
             int eoyId,
             string keyword = null,

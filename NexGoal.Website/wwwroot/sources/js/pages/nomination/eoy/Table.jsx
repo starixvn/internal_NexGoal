@@ -41,7 +41,7 @@ class Table extends Component {
 
     handleDeleteEOY = () => {
         axios({
-            url: resolveClientUrl('EOY/Delete'),
+            url: resolveClientUrl('NominationPeriod/Delete'),
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,

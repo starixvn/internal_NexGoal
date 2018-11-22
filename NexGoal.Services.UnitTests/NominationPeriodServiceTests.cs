@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.NominationPeriod;
     using NexGoal.Models.NominationPeriod;
@@ -25,6 +26,24 @@
 
             // Act
             var actual = await service.GetAsync();
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var service = GetNominationPeriodService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<DeleteNominationPeriodCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.DeleteAsync(1, 1);
 
             // Assert
             Assert.Equal(expected, actual);

@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.NominationPeriod;
     using NexGoal.Models.NominationPeriod;
@@ -23,6 +24,17 @@
             };
 
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<CommandResult> DeleteAsync(int nominationPeriodId, int actorId)
+        {
+            var criteria = new DeleteNominationPeriodCriteria
+            {
+                NominationPeriodId = nominationPeriodId,
+                ActorId = actorId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
     }
 }
