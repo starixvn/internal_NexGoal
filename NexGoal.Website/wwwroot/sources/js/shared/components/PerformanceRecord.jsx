@@ -1,7 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-
 import { getNominationClassName, getRoleClassName, resolveClientUrl } from '../../common-functions';
 import { DateFormat, NominationStatuses, PerformanceRecordStatus, PerformanceRecordType } from '../../constants';
 import getResource from '../../resourceHelper';
@@ -15,10 +14,10 @@ const PageType = {
 export default class PerformanceRecord extends Component {
     static propTypes = {
         data: PropTypes.object,
-        pageType: PropTypes.number,
         isHighlighted: PropTypes.bool,
+        onDelete: PropTypes.func,
         onEdit: PropTypes.func,
-        onDelete: PropTypes.func
+        pageType: PropTypes.number
     };
 
     static defaultProps = {
@@ -82,9 +81,9 @@ export default class PerformanceRecord extends Component {
         let record = this.props.data;
         let employees = record.employees;
         let creator = record.creator;
-        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : 'N/A';
+        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
         let projects = record.projects && record.projects.length > 0 ?
-            record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : 'N/A';
+            record.projects.map(project => <span key={project.projectId} className="tag">{project.name}</span>) : getResource('N/A');
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
         let modifiedDate = record.modifiedDate ? moment(record.modifiedDate).format(DateFormat) : '';
 
@@ -215,7 +214,7 @@ export default class PerformanceRecord extends Component {
 
     renderSystemPerformanceAppraisal = () => {
         let record = this.props.data;
-        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : 'N/A';
+        let grade = record.grade ? `(${record.grade.name}) ${record.grade.description}` : getResource('N/A');
         let createdDate = record.createdDate ? moment(record.createdDate).format(DateFormat) : '';
 
         return (

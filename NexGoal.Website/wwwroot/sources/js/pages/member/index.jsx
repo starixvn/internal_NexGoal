@@ -6,7 +6,6 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { Tabs, Tab } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
-
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -345,7 +344,7 @@ export default class App extends Component {
                                 }
                                 {
                                     this.state.currentUser.isReviewer &&
-                                    <Tab eventKey={3} title="Performance Appraisal">
+                                    <Tab eventKey={3} title={getResource('PerformanceAppraisal')}>
                                         {
                                             this.state.loadPATab && this.state.periods.length > 0 &&
                                             < MemberPerformanceAppraisal

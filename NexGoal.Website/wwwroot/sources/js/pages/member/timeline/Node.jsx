@@ -1,5 +1,5 @@
 ﻿import React, { Component, Fragment } from "react";
-
+import getResource from '../../../resourceHelper';
 import { getRoleClassName } from '../../../common-functions';
 
 export default class TimelineNode extends Component {
@@ -23,7 +23,7 @@ export default class TimelineNode extends Component {
         return (
             <Fragment>
                 <p className={`timeline-grade ${getRoleClassName(data.roleId)}`} style={{ right: position - 34 }} onClick={this.handleClick} >
-                    {data.grade ? data.grade.name : 'N/A'}
+                    {data.grade ? data.grade.name : getResource('N/A')}
                 </p>
                 <div className="timeline-info" style={{ right: position - 44 }} onClick={this.handleClick}>
                     <p className={`name ${getRoleClassName(data.roleId)}`}>{data.creator.nickName}</p>

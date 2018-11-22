@@ -311,7 +311,7 @@ export default class MyPage extends Component {
                             />
                         </div>
                         <div className="record-list">
-                            <Scrollbars style={{ height: '100%' }} autoHide={true}>
+                            <Scrollbars style={{ height: '100%' }} autoHide>
                                 <CreateSelfPerformance
                                     currentUser={currentUser}
                                     performanceGradeOptions={this.state.performanceGradeOptions}
@@ -350,7 +350,7 @@ export default class MyPage extends Component {
                             <WorkLoad periods={this.state.periods} />
                         }
                     </div>
-                    <ReactTooltip id="tooltip" place="bottom" type="info" html={true} className="tooltip" />
+                    <ReactTooltip id="tooltip" place="bottom" type="info" html className="tooltip" />
                 </div>
                 {
                     this.state.editPerformanceRecord.isShowModal &&

@@ -1,6 +1,6 @@
 ﻿import React, { Component, Fragment } from "react";
 import moment from 'moment';
-
+import getResource from '../../../resourceHelper';
 import { getRoleClassName, getNominationClassName } from '../../../common-functions';
 import { DateFormat, PerformanceRecordType, NominationStatuses } from '../../../constants';
 
@@ -22,7 +22,7 @@ export default class TimelineNode extends Component {
 
         return (
             <Fragment>
-                <p className={`timeline-grade ${status}`} style={{ right: position - 22}} onClick={this.handleClick} >
+                <p className={`timeline-grade ${status}`} style={{ right: position - 22 }} onClick={this.handleClick} >
                     {statusText}
                 </p>
                 <div className="timeline-info" style={{ right: position - 22 }} onClick={this.handleClick}>
@@ -43,7 +43,7 @@ export default class TimelineNode extends Component {
         return (
             <Fragment>
                 <p className={`timeline-grade ${getRoleClassName(data.roleId)}`} style={{ right: position }} onClick={this.handleClick} >
-                    {data.grade ? data.grade.name : 'N/A'}
+                    {data.grade ? data.grade.name : getResource('N/A')}
                 </p>
                 <div className="timeline-info" style={{ right: position - 22 }} onClick={this.handleClick}>
                     <p className={`name ${getRoleClassName(data.roleId)}`}>{data.creator.nickName}</p>

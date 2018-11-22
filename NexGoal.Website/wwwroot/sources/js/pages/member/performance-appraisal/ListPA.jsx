@@ -38,7 +38,7 @@ export default class PerformanceAppraisalDetail extends Component {
         },
         {
             dataField: 'self',
-            text: 'Self',
+            text: getResource('Self'),
             isDummyField: true,
             formatter: (cell, row) => {
                 let evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Self);
@@ -52,7 +52,7 @@ export default class PerformanceAppraisalDetail extends Component {
             }
         }, {
             dataField: 'PM',
-            text: 'Project Manager',
+            text: getResource('ProjectManager'),
             isDummyField: true,
             formatter: (cell, row) => {
                 let evaluatorProcess = row.processes.filter(p => p.processId === PerformanceProcess.ProjectManager);
@@ -66,7 +66,7 @@ export default class PerformanceAppraisalDetail extends Component {
             }
         }, {
             dataField: 'Evaluator',
-            text: 'Evaluator',
+            text: getResource('Evaluator'),
             isDummyField: true,
             formatter: (cell, row) => {
                 let evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Evaluator);
@@ -80,7 +80,7 @@ export default class PerformanceAppraisalDetail extends Component {
             }
         }, {
             dataField: 'Reviewer',
-            text: 'Reviewer',
+            text: getResource('Reviewer'),
             isDummyField: true,
             formatter: (cell, row) => {
                 let evaluatorProcess = row.processes.find(p => p.processId === PerformanceProcess.Reviewer);
@@ -94,7 +94,7 @@ export default class PerformanceAppraisalDetail extends Component {
             }
         }, {
             dataField: 'statusId',
-            text: `PA Grade`,
+            text: getResource('PerformanceAppraisal'),
             classes: 'text-center',
             headerStyle: { width: '80px' },
             formatter: (cell, row) => {
