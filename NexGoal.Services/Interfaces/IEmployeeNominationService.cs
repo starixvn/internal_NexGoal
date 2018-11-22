@@ -1,10 +1,10 @@
 ﻿namespace NexGoal.Services
 {
-    using System;
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PerformanceRecord;
 
     public interface IEmployeeNominationService

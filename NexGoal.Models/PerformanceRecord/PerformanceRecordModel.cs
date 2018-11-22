@@ -5,7 +5,7 @@
     using Newtonsoft.Json;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
-    using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
 
     public class PerformanceRecordModel
     {

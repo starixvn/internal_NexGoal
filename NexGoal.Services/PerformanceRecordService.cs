@@ -11,7 +11,7 @@
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models;
     using NexGoal.Models.Common;
-    using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PerformanceRecord;
 
     public class PerformanceRecordService : IPerformanceRecordService

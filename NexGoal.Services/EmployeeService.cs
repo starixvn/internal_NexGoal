@@ -11,6 +11,7 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
 
     public class EmployeeService : IEmployeeService

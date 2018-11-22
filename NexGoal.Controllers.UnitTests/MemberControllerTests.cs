@@ -7,6 +7,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Redmine;
     using NexGoal.Services;
@@ -18,6 +19,7 @@
         private ICommonService commonService;
         private ISessionService sessionService;
         private IEmployeeService employeeService;
+        private INominationPeriodService nominationPeriodService;
         private IEmployeeNominationService nominationService;
         private IRedmineService redmineService;
 
@@ -50,7 +52,7 @@
             var actual = await controller.Details(363);
 
             // Assert
-            var viewResult = Assert.IsType<RedirectToActionResult>(actual);
+            Assert.IsType<RedirectToActionResult>(actual);
         }
 
         [Fact]
@@ -70,7 +72,7 @@
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
-            var viewModel = Assert.IsType<EmployeeBaseModel>(viewResult.Model);
+            Assert.IsType<EmployeeBaseModel>(viewResult.Model);
             Assert.True((bool)viewResult.ViewData["IsNominator"]);
         }
 
@@ -91,6 +93,26 @@
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
             var actual = Assert.IsAssignableFrom<IEnumerable<PARecordModel>>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task GetNominationPeriod_WhenCalled_ReturnAsExpectedNominationPeriods()
+        {
+            // Arrange
+            var expected = new List<NominationPeriodModel>
+            {
+                new NominationPeriodModel { NominationPeriodId = 1, Year = 2018, Quarter = 1 }
+            };
+            var controller = GetMemberController();
+            nominationPeriodService.GetAsync().Returns(expected);
+
+            // Act
+            var result = await controller.GetNominationPeriod();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<NominationPeriodModel>>(jsonResult.Value);
             Assert.Equal(expected, actual);
         }
 
@@ -177,9 +199,10 @@
             sessionService = FakeSessionService();
             employeeService = Substitute.For<IEmployeeService>();
             commonService = Substitute.For<ICommonService>();
+            nominationPeriodService = Substitute.For<INominationPeriodService>();
             nominationService = Substitute.For<IEmployeeNominationService>();
             redmineService = Substitute.For<IRedmineService>();
-            var controller = new MemberController(commonService, sessionService, employeeService, nominationService, redmineService);
+            var controller = new MemberController(sessionService, commonService, employeeService, nominationPeriodService, nominationService, redmineService);
 
             return controller;
         }

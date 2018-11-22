@@ -1,13 +1,12 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.AspNetCore.Routing;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
     using NSubstitute;
     using Xunit;
@@ -16,16 +15,6 @@
     {
         private IEmployeeNominationService employeeNominationService;
         private ISessionService sessionService;
-
-        [Fact]
-        public void Create_WhenCalled_ReturnExpectedViewResult()
-        {
-            var controller = GetController();
-
-            var result = controller.Create();
-
-            Assert.IsType<ViewResult>(result);
-        }
 
         [Fact]
         public async Task GetNominationPeriodsForNominator_WhenCalled_ReturnExpectedResult()

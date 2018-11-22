@@ -10,6 +10,7 @@
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<IAvatarService, AvatarService>();
             services.AddScoped<IFunctionService, FunctionService>();
+            services.AddScoped<INominationPeriodService, NominationPeriodService>();
             services.AddScoped<IEOQService, EOQService>();
             services.AddScoped<IEOYService, EOYService>();
             services.AddScoped<IEmployeeService, EmployeeService>();

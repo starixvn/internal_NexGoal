@@ -123,6 +123,9 @@
     <Setting Key="PARecord_GetById" SpName="PARecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_UpdateByReviewer" SpName="PARecord_UpdateByReviewer" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function Name="Nomination Period">
+    <Setting Key="NominationPeriod_Get" SpName="NominationPeriod_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
   <Function Name="Employee Nomination">
     <Setting Key="Nomination_GetPeriodsForNominator" SpName="Nomination_GetPeriodsForNominator" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Nomination_Insert" SpName="Nomination_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>

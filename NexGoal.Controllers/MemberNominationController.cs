@@ -10,6 +10,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EmployeeNomination, Policy = Policy.Host)]
@@ -18,7 +19,9 @@
         private readonly IEmployeeNominationService employeeNominationService;
         private readonly ISessionService sessionService;
 
-        public MemberNominationController(IEmployeeNominationService employeeNominationService, ISessionService sessionService)
+        public MemberNominationController(
+            IEmployeeNominationService employeeNominationService,
+            ISessionService sessionService)
         {
             this.employeeNominationService = employeeNominationService;
             this.sessionService = sessionService;

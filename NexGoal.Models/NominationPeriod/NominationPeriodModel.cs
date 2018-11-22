@@ -1,4 +1,4 @@
-﻿namespace NexGoal.Models.EmployeeNomination
+﻿namespace NexGoal.Models.NominationPeriod
 {
     using System;
 

@@ -52,7 +52,7 @@ export const NominationStatus = {
     Nominated: 1,
     Shortlisted: 2,
     Winner: 3
-}
+};
 
 export const NominationStatuses = [
     { value: 1, text: 'Nominated' },

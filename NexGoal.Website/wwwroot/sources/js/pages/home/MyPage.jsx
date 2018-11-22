@@ -11,7 +11,7 @@ import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
-import NominationResult from '../../shared/components/NominationResult';
+import NominationResult from './NominationResult';
 import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
 import WorkLoad from './workload';

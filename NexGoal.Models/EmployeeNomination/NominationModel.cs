@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using NexGoal.Models.Common;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PerformanceRecord;
 
     public class NominationModel

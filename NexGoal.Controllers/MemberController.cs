@@ -8,6 +8,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Redmine;
     using NexGoal.Services;
@@ -17,19 +18,22 @@
         private readonly ICommonService commonService;
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
+        private readonly INominationPeriodService nominationPeriodService;
         private readonly IEmployeeNominationService nominationService;
         private readonly IRedmineService redmineService;
 
         public MemberController(
-            ICommonService commonService,
             ISessionService sessionService,
+            ICommonService commonService,
             IEmployeeService employeeService,
+            INominationPeriodService nominationPeriodService,
             IEmployeeNominationService nominationService,
             IRedmineService redmineService)
         {
-            this.commonService = commonService;
             this.sessionService = sessionService;
+            this.commonService = commonService;
             this.employeeService = employeeService;
+            this.nominationPeriodService = nominationPeriodService;
             this.nominationService = nominationService;
             this.redmineService = redmineService;
         }
@@ -64,6 +68,13 @@
                 await employeeService.GetMemberPerformanceAppraisalResultAsync(sessionService.EmployeeId, periodId, memberId).ConfigureAwait(false);
 
             return Json(performanceAppraisals);
+        }
+
+        public async Task<JsonResult> GetNominationPeriod(bool? isCompleted = null)
+        {
+            IEnumerable<NominationPeriodModel> nominationPeriods = await nominationPeriodService.GetAsync(isCompleted).ConfigureAwait(false);
+
+            return Json(nominationPeriods);
         }
 
         public async Task<JsonResult> GetMemberNominationResult(int? memberId = null)

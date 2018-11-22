@@ -4,6 +4,7 @@
     using Newtonsoft.Json;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
+    using NexGoal.Models.NominationPeriod;
 
     public class EmployeeNominationModel : EmployeeBaseModel
     {

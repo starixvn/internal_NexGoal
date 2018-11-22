@@ -12,7 +12,7 @@ import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
-import NominationResult from '../../shared/components/NominationResult';
+import NominationResult from './NominationResult';
 import CreateMemberPerformance from './CreateMemberPerformance';
 import EditMemberPerformance from './EditMemberPerformance';
 import MemberWorkload from './MemberWorkload';
@@ -32,7 +32,6 @@ export default class App extends Component {
             performanceRecords: [],
             displayedPerformanceRecords: [],
             memberPerformanceAppraisals: [],
-            memberNominations: [],
             periods: [],
             currentPerformancePeriod: null,
             editPerformanceRecord: {
@@ -67,13 +66,11 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetEmployees')),
             axios(resolveClientUrl('Common/GetMyGroup')),
             axios(resolveClientUrl('Common/GetCurrentPerformancePeriod')),
-            axios(resolveClientUrl('member/GetMemberNominationResult')),
             axios(resolveClientUrl('member/Performance'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, employeeResponse, myGroupResponse, currentPerformancePeriodResponse,
-                memberNominationResponse, memberPerformanceResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, employeeResponse, myGroupResponse, currentPerformancePeriodResponse, memberPerformanceResponse]) => {
                 let performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
@@ -101,7 +98,6 @@ export default class App extends Component {
                     employeeOptions: employeeOptions,
                     myGroupOptions: myGroupOptions,
                     currentPerformancePeriod: currentPerformancePeriodResponse.data,
-                    memberNominations: memberNominationResponse.data,
                     performanceRecords: memberPerformanceResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < memberPerformanceResponse.data.length
@@ -364,8 +360,11 @@ export default class App extends Component {
                         </div>
                         <div className="work-info">
                             <Scrollbars style={{ maxHeight: '100%' }} autoHide>
-                                <NominationResult isSupervisor nominations={this.state.memberNominations} />
-                                {this.state.periods.length > 0 && <MemberWorkload periods={this.state.periods} />}
+                                <NominationResult />
+                                {
+                                    this.state.periods.length > 0 &&
+                                    <MemberWorkload periods={this.state.periods} />
+                                }
                             </Scrollbars >
                         </div>
                     </div>

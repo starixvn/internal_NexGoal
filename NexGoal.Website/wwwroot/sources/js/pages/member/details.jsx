@@ -14,7 +14,7 @@ import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import EmployeeInfo from '../home/EmployeeInfo';
 import PersonalTimeline from '../home/timeline/PersonalTimeline';
 import PerformanceAppraisalResult from '../home/PerformanceAppraisalResult';
-import NominationResult from '../../shared/components/NominationResult';
+import NominationResult from '../home/NominationResult';
 import HrmSummary from '../home/HRMSummary';
 import WorkLoad from '../home/workload';
 import CreateMemberPerformance from './CreateMemberPerformance';

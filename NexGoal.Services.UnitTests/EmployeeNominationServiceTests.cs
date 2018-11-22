@@ -7,6 +7,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EmployeeNomination;
     using NexGoal.Models.EmployeeNomination;
+    using NexGoal.Models.NominationPeriod;
     using NSubstitute;
     using Xunit;
 
