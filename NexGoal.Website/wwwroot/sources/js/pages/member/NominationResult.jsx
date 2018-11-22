@@ -70,9 +70,9 @@ export default class NominationResult extends Component {
             if (!nominations[key]) {
                 nominations[key] = {
                     period: nomination.period,
-                    winners: [],
-                    shortlisteds: [],
-                    nominateds: []
+                    winners: nomination.statusId === NominationStatuses[2].value ? [nomination.nickName] : [],
+                    shortlisteds: nomination.statusId === NominationStatuses[1].value ? [nomination.nickName] : [],
+                    nominateds: nomination.statusId === NominationStatuses[0].value ? [nomination.nickName] : []
                 };
             } else {
                 switch (nomination.statusId) {
