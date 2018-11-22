@@ -182,17 +182,16 @@ export default class PerformanceRecord extends Component {
                         <div className="edit-date">
                             <div className="nomination-info">
                                 <div className="nomination-period">{record.nominationPeriod && record.nominationPeriod.title}</div>
-
                                 {
                                     record.statusId !== PerformanceRecordStatus.Draft && modifiedDate && endDateForNominator >= this.state.currentDate &&
-                                    < Fragment > Edited on {modifiedDate}</Fragment>
+                                    <Fragment> Edited on {modifiedDate}</Fragment>
                                 }
                             </div>
                             {
                                 record.isHost &&
                                 <Fragment>
                                     <a className="icon-edit" title={getResource('Edit')} onClick={this.handleEdit} />
-                                    <a className="icon-delete" title={getResource('Delete')} onClick={this.handleEdit} />
+                                    <a className="icon-delete" title={getResource('Delete')} onClick={this.handleDelete} />
                                 </Fragment>
                             }
 

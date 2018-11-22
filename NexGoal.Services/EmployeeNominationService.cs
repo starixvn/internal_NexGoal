@@ -152,6 +152,19 @@
             return commandResult;
         }
 
+        public async Task<CommandResult> Delete(int performanceRecordId, int deletedById)
+        {
+            var criteria = new DeleteNominationCriteria
+            {
+                PerformanceRecordId = performanceRecordId,
+                DeletedById = deletedById
+            };
+
+            var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+
+            return commandResult;
+        }
+
         private static void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<EmployeeBaseModel> employees, IEnumerable<NominationModel> nominations)
         {
             foreach (var record in performanceRecords)

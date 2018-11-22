@@ -26,5 +26,7 @@
         Task<IEnumerable<NominationModel>> GetNominationsByPeriodId(int nominationPeriodId);
 
         Task<CommandResult> EditStatus(int nominationId, int statusId, int updatedById);
+
+        Task<CommandResult> Delete(int performanceRecordId, int deletedById);
     }
 }

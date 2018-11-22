@@ -1,11 +1,13 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
 import moment from 'moment';
+import { stringify } from 'qs';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import { PerformanceRecordStatus } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
+import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import CreateNomination from './CreateNomination';
 import EditNomination from './EditNomination';
 
@@ -16,7 +18,8 @@ export default class Nomination extends Component {
         this.state = {
             nominations: [],
             nominationPeriods: [],
-            showEditModal: false
+            showEditModal: false,
+            showDeleteModal: false,
         };
     }
 
@@ -39,25 +42,6 @@ export default class Nomination extends Component {
             }).catch(axiosError);
     }
 
-    sortNominationsDesc = (firstNomination, secondNomination) => {
-        if (firstNomination.statusId === PerformanceRecordStatus.Draft && secondNomination.statusId !== PerformanceRecordStatus.Draft)
-            return -1;
-
-        if (firstNomination.statusId !== PerformanceRecordStatus.Draft && secondNomination.statusId === PerformanceRecordStatus.Draft)
-            return 1;
-
-        var firsNominationCreatedDate = moment(firstNomination.createdDate);
-        var secondNominationCreatedDate = moment(secondNomination.createdDate);
-
-        if (firsNominationCreatedDate > secondNominationCreatedDate)
-            return -1;
-
-        if (firsNominationCreatedDate < secondNominationCreatedDate)
-            return 1;
-
-        return 0;
-    }
-
     handleCreateNominationSuccess = performanceRecordId => {
         axios.get(resolveClientUrl('MemberNomination/GetByRecordId'), {
             params: {
@@ -66,7 +50,6 @@ export default class Nomination extends Component {
         }).then(response => {
             this.setState(prevState => {
                 let nominations = [response.data, ...prevState.nominations];
-                nominations.sort(this.sortNominationsDesc);
 
                 return {
                     nominations: nominations
@@ -102,13 +85,58 @@ export default class Nomination extends Component {
         }));
     }
 
+    handleDelete = performanceRecordId => {
+        this.setState(prevState => ({
+            showDeleteModal: true,
+            deletedRecordId: performanceRecordId
+        }));
+    }
+
+    deleteNomination = () => {
+        axios({
+            url: resolveClientUrl(`MemberNomination/Delete`),
+            method: 'post',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                performanceRecordId: this.state.deletedRecordId,
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+
+            if (data.isSuccessful) {
+                this.setState(prevState => {
+                    let nominations = prevState.nominations.slice();
+                    let index = nominations.findIndex(x => x.performanceRecordId === this.state.deletedRecordId);
+                    nominations.splice(index, 1);
+
+                    return {
+                        nominations: nominations,
+                        deletedRecordId: nulll,
+                        showDeleteModal: false
+                    }
+                });
+                toast.success(getResource('DeletedSuccessfully'));
+            } else {
+                toast.error(data.message);
+            }
+
+            setSubmitting(false);
+        }).catch(axiosError);
+    }
+
     closeEditModal = () => this.setState({ showEditModal: false, editedNomination: null });
+
+    closeDeleteModal = () => this.setState({ showDeleteModal: false, deletedRecordId: null });
 
     renderPerformanceRecord = (performanceRecord) => {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
                 data={performanceRecord}
                 onEdit={this.handleEdit}
+                onDelete={this.handleDelete}
             />
         );
     }
@@ -139,6 +167,13 @@ export default class Nomination extends Component {
                         isEmployeeSelectable={!this.props.isMemberDetail}
                     />
                 }
+
+                <ConfirmationModal showModal={this.state.showDeleteModal}
+                    onCloseModal={this.closeDeleteModal}
+                    action="delete"
+                    name="this nomination"
+                    onSubmit={this.deleteNomination}
+                />
             </div>
         );
     }

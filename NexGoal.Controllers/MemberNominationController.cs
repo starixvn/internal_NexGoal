@@ -75,6 +75,14 @@
             return Json(new { isSuccessful = false, errors });
         }
 
+        [HttpPost]
+        public async Task<JsonResult> Delete(int performanceRecordId)
+        {
+            CommandResult commandResult = await employeeNominationService.Delete(performanceRecordId, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetMemberNominations(int? memberId)
         {
