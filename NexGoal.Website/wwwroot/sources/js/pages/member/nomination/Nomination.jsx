@@ -122,8 +122,6 @@ export default class Nomination extends Component {
             } else {
                 toast.error(data.message);
             }
-
-            setSubmitting(false);
         }).catch(axiosError);
     }
 
