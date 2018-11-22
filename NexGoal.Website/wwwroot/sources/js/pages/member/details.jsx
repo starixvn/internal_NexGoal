@@ -6,7 +6,6 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
-
 import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -70,7 +69,7 @@ export default class App extends Component {
         };
 
         this.timelineItemPerPage = calculateTimelineNode();
-        this.itemPerPage = 4;
+        this.itemPerPage = 5;
     }
 
     componentDidMount() {
@@ -206,11 +205,14 @@ export default class App extends Component {
         axios(resolveClientUrl('member/Performance'), { params: { memberId: this.state.memberInfo.id } })
             .then((response) => {
                 let memberPerformances = response.data;
+                if (this.state.personalTimeline.pageIndex === 0) {
+                    this.onTimelinePageChange(0);
+                }
                 this.refs.infiniteScrollRef.pageLoaded = 1;
 
                 this.setState({
                     performanceRecords: memberPerformances,
-                    displayedMemberPerformances: memberPerformances.slice(0, this.itemPerPage)
+                    displayedPerformanceRecords: memberPerformances.slice(0, this.itemPerPage)
                 });
             }).catch(axiosError);
     }
