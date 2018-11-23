@@ -10,8 +10,7 @@ export default class MemberWorkload extends Component {
         super(props);
         this.state = {
             workloads: [],
-            groupOptions: [],
-            selectedGroups: [],
+            selectedGroups: this.props.groupOptions,
             currentPeriodIndex: 0,
             chartWrapperElement: null
         };
@@ -27,6 +26,10 @@ export default class MemberWorkload extends Component {
         })
     }
 
+    componentWillUnmount() {
+        window.removeEventListener('resize');
+    }
+
     getMembersWorkloads = () => {
         axios.get(resolveClientUrl('Member/GetMembersWorkload'), {
             params: {
@@ -34,13 +37,10 @@ export default class MemberWorkload extends Component {
             }
         }).then(response => {
             let workloads = response.data.map(this.generateWorkload);
-            let groupOptions = response.data.map(x => ({ value: x.groupId, label: x.groupName }));
 
             this.setState(
                 {
                     workloads: workloads,
-                    groupOptions: groupOptions,
-                    selectedGroups: groupOptions,
                     chartWrapperElement: document.getElementById('chart-wrapper')
                 });
         }).catch(axiosError);
@@ -205,15 +205,20 @@ export default class MemberWorkload extends Component {
 
     renderChart = (group) => {
         let workload = this.state.workloads.find(x => x.groupId === group.value);
-        let basicHeight = 140;
 
-        if (workload.chartData.labels.length > 2) {
-            basicHeight += (workload.chartData.labels.length - 2) * 20;
+        if (workload) {
+            let basicHeight = 140;
+
+            if (workload.chartData.labels.length > 2) {
+                basicHeight += (workload.chartData.labels.length - 2) * 20;
+            }
+
+            return (
+                <HorizontalBar height={basicHeight} width={this.state.chartWrapperElement.clientWidth} key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />
+            );
         }
 
-        return (
-            <HorizontalBar height={basicHeight} width={this.state.chartWrapperElement.clientWidth} key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />
-        );
+        return '';
     }
 
     render() {
@@ -227,12 +232,12 @@ export default class MemberWorkload extends Component {
                         <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
                     </div>
                 </div>
-                {this.state.groupOptions.length > 1 &&
+                {this.props.groupOptions.length > 1 &&
                     <div>
                         <div className="team">Team</div>
                         <Multiselect className="react-select-container" classNamePrefix="react-select"
                             value={this.state.selectedGroups}
-                            options={this.state.groupOptions}
+                            options={this.props.groupOptions}
                             onChange={this.handleGroupChange}
                         />
                     </div>
