@@ -149,6 +149,7 @@ export default class EditMemberPA extends Component {
         const selfRecord = this.renderRecordByProcess(PerformanceProcess.Self);
         const pmRecords = this.renderRecordByProcess(PerformanceProcess.ProjectManager);
         const evaluatorRecord = this.renderRecordByProcess(PerformanceProcess.Evaluator);
+        const reviewerRecord = this.renderRecordByProcess(PerformanceProcess.Reviewer);
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
@@ -196,6 +197,9 @@ export default class EditMemberPA extends Component {
                             </Tab>
                             <Tab eventKey={3} title="Evaluator">
                                 {evaluatorRecord}
+                            </Tab>
+                            <Tab eventKey={4} title="Reviewer">
+                                {reviewerRecord}
                             </Tab>
                         </Tabs>
                     </div>
