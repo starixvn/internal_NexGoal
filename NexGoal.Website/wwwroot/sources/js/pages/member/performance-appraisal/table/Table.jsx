@@ -94,7 +94,7 @@ class Table extends Component {
                         paRecordId={this.state.paRecordId}
                         gradeOptions={this.props.gradeOptions}
                         onCloseModal={this.onCloseModal}
-                        onSubmitSucess={this.onEditSucess}
+                        onSubmitSuccess={this.onEditSucess}
                     />
                 }
             </Fragment>

@@ -33,7 +33,7 @@
         {
             get
             {
-                return Grade.GradeId != CalculateAutoGeneratePAGrade();
+                return Grade != null && Grade.GradeId != CalculateAutoGeneratePAGrade();
             }
         }
 
@@ -42,15 +42,20 @@
         private int CalculateAutoGeneratePAGrade()
         {
             var evaluatorProcess = Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Evaluator);
-            var grade = evaluatorProcess.PerformanceRecord.Grade.GradeId;
-            if (IsPassedToeic)
+            int grade = 0;
+            if (evaluatorProcess.PerformanceRecord != null)
             {
-                grade++;
+                grade = evaluatorProcess.PerformanceRecord.Grade.GradeId;
+                if (IsPassedToeic)
+                {
+                    grade++;
+                }
+                else
+                {
+                    grade--;
+                }
             }
-            else
-            {
-                grade--;
-            }
+
             return grade;
         }
     }

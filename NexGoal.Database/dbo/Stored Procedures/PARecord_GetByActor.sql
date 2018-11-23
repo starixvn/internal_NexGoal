@@ -57,6 +57,19 @@ BEGIN
 	SELECT pa.PARecordId
 		,pa.PeriodId
 		,pa.EmployeeId
+        ,(t.Reading + t.Listening) AS Toeic
+		,t.MinimumScore
+		,(
+			CASE 
+				WHEN (
+						(ISNULL(t.Listening, 0) + ISNULL(t.Reading, 0)) >= ISNULL(t.MinimumScore, 0)
+						AND DATEADD(YEAR, 3, LRExamDate) >= convert(DATE, getdate())
+						)
+					OR (ISNULL(t.Listening, 0) + ISNULL(t.Reading, 0)) >= 900
+					THEN 1
+				ELSE 0
+				END
+			) AS IsPassedToeic
 		,(CASE 
 			WHEN tbl.ProcessId <> @ReviewerProcessId THEN @PAClosed
 			ELSE pa.StatusId END
@@ -71,6 +84,7 @@ BEGIN
 			) AS Comment
 	FROM dbo.PARecord AS pa WITH (NOLOCK)
 		INNER JOIN #tblPARecordId AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+		INNER JOIN dbo.TOEIC AS t WITH (NOLOCK) ON pa.EmployeeId = t.EmpId
 
 	SELECT process.PARecordId
 		,process.ProcessId

@@ -139,6 +139,8 @@ export default class EditMemberPA extends Component {
                     grade: process.performanceRecord.grade
                 };
                 return <PerformanceRecord data={paRecord} />;
+            } else {
+                return <span>No information</span>
             }
         });
     };
