@@ -141,7 +141,7 @@ export default class NominationResult extends Component {
                             nominations && nominations.map((nomination, index) => {
                                 return (
                                     <Fragment key={`nominationResult${index}`}>
-                                        <div>{nomination.period.shortTitle}</div>
+                                        <div className="nomination-period-title">{nomination.period.shortTitle}</div>
                                         {
                                             nomination.winners.length > 0 &&
                                             <div>
