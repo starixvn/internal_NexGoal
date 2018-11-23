@@ -161,17 +161,13 @@
     <Build Include="dbo\Stored Procedures\Employee_GetNominationResult.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_Get.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_GetNominatorSetting.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_GetYear.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_Insert.sql" />
     <Build Include="dbo\Stored Procedures\EOQ_Update.sql" />
-    <Build Include="dbo\Stored Procedures\EOQ_UpdateNominatorSetting.sql" />
     <Build Include="dbo\Stored Procedures\EOY_Get.sql" />
     <Build Include="dbo\Stored Procedures\EOY_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_GetNominatorSetting.sql" />
     <Build Include="dbo\Stored Procedures\EOY_Insert.sql" />
     <Build Include="dbo\Stored Procedures\EOY_Update.sql" />
-    <Build Include="dbo\Stored Procedures\EOY_UpdateNominatorSetting.sql" />
     <Build Include="dbo\Stored Procedures\FlowTemplate_Delete.sql" />
     <Build Include="dbo\Stored Procedures\FlowTemplate_Get.sql" />
     <Build Include="dbo\Stored Procedures\FlowTemplate_GetById.sql" />
@@ -252,5 +248,7 @@
     <Build Include="dbo\Stored Procedures\Nomination_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\NominationPeriod_Get.sql" />
     <Build Include="dbo\Stored Procedures\NominationPeriod_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\NominationPeriod_UpdateSetting.sql" />
+    <Build Include="dbo\Stored Procedures\NominationPeriod_GetSetting.sql" />
   </ItemGroup>
 </Project>

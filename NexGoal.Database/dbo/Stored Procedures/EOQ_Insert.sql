@@ -98,6 +98,9 @@ BEGIN
 		,setting.NominatorId
 	FROM dbo.EOQYNominatorSetting AS setting WITH (NOLOCK)
 		INNER JOIN dbo.EOQY AS eoq WITH (NOLOCK) ON setting.EOQYId = eoq.EOQYId
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON setting.NominatorId = emp.EmployeeId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
 	WHERE eoq.IsQuarter = 1
 		AND eoq.EndDateForNominator IN (
 			SELECT MAX(EndDateForNominator)

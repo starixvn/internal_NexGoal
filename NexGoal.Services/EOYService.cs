@@ -72,18 +72,5 @@
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
-
-        public async Task<CommandResult> EditNominatorSettingAsync(EditNominatorSettingModel setting)
-        {
-            var criteria = new EditNominatorSettingCriteria
-            {
-                EOYId = setting.EOQYId,
-                EmployeeId = setting.EmployeeId,
-                RoleIds = setting.RoleIds,
-                ModifiedBy = sessionService.EmployeeId
-            };
-
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-        }
     }
 }

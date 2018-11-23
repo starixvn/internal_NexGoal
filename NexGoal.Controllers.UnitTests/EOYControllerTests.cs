@@ -208,27 +208,6 @@
             Assert.Equal(eoy, result);
         }
 
-        [Fact]
-        public async Task EditNominatorSetting_WhenCalled_ReturnAsExpectedCommandResult()
-        {
-            // Arrange
-            var setting = new EditNominatorSettingModel();
-            var expected = new CommandResult
-            {
-                Code = 0
-            };
-            var controller = GetEOYController();
-            eoyService.EditNominatorSettingAsync(setting).Returns(expected);
-
-            // Act
-            var actual = await controller.EditNominatorSetting(setting);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var commandResult = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
-            Assert.Equal(expected, commandResult);
-        }
-
         #region Helpers
 
         private ISessionService FakeSessionService()

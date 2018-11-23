@@ -71,5 +71,14 @@
 
             return Json(viewModels);
         }
+
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
+        public async Task<JsonResult> EditRoleSetting(EditRoleSettingModel setting)
+        {
+            CommandResult commandResult = await nominationPeriodService.EditRoleSettingAsync(setting, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
     }
 }

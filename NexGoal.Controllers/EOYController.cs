@@ -111,14 +111,5 @@
 
             return Json(eoy);
         }
-
-        [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Host)]
-        public async Task<JsonResult> EditNominatorSetting(EditNominatorSettingModel setting)
-        {
-            CommandResult commandResult = await eoyService.EditNominatorSettingAsync(setting).ConfigureAwait(false);
-
-            return Json(commandResult);
-        }
     }
 }

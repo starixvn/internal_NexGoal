@@ -64,13 +64,13 @@ export default class RoleManagement extends Component {
     editNominatorSetting = (nominator) => {
         const setting = stringify({
             __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-            eoqyId: this.state.eoqId,
+            nominationPeriodId: this.state.eoqId,
             employeeId: nominator.employeeId,
             roleIds: nominator.roles.join(',')
         });
 
         axios({
-            url: resolveClientUrl('EOQ/EditNominatorSetting'),
+            url: resolveClientUrl('NominationPeriod/EditRoleSetting'),
             method: 'POST',
             data: setting,
             headers: {

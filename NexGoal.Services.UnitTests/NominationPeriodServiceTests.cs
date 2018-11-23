@@ -67,6 +67,30 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task EditNominatorSettingAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var setting = new EditRoleSettingModel
+            {
+                NominationPeriodId = 1,
+                EmployeeId = 1,
+                RoleIds = "1,2"
+            };
+            var service = GetNominationPeriodService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditRoleSettingCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.EditRoleSettingAsync(setting, 1);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
         #region Helpers
 
         private NominationPeriodService GetNominationPeriodService()

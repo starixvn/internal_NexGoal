@@ -12,5 +12,7 @@
         Task<CommandResult> DeleteAsync(int nominationPeriodId, int actorId);
 
         Task<IEnumerable<RoleSettingModel>> GetRoleSettingAsync(GetRoleSettingParam param);
+
+        Task<CommandResult> EditRoleSettingAsync(EditRoleSettingModel setting, int actorId);
     }
 }

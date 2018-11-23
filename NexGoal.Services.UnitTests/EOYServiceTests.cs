@@ -92,30 +92,6 @@
             Assert.Equal(expected, actual);
         }
 
-        [Fact]
-        public async Task EditNominatorSettingAsync_WhenCalled_ReturnAsExpectedCommandResult()
-        {
-            // Arrange
-            var expected = new CommandResult
-            {
-                Code = 0
-            };
-            var setting = new EditNominatorSettingModel
-            {
-                EOQYId = 1,
-                EmployeeId = 1,
-                RoleIds = "1,2"
-            };
-            var service = GetEOYService();
-            baseService.ExecuteNonQueryAsync(Arg.Any<EditNominatorSettingCriteria>()).Returns(expected);
-
-            // Act
-            var actual = await service.EditNominatorSettingAsync(setting);
-
-            // Assert
-            Assert.Equal(expected, actual);
-        }
-
         #region Helpers
 
         private ISessionService FakeSessionService()

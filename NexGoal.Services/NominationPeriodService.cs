@@ -50,5 +50,18 @@
 
             return await baseService.GetDataAsync<RoleSettingModel>(criteria).ConfigureAwait(false);
         }
+
+        public async Task<CommandResult> EditRoleSettingAsync(EditRoleSettingModel setting, int actorId)
+        {
+            var criteria = new EditRoleSettingCriteria
+            {
+                NominationPeriodId = setting.NominationPeriodId,
+                EmployeeId = setting.EmployeeId,
+                RoleIds = setting.RoleIds,
+                ActorId = actorId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
     }
 }

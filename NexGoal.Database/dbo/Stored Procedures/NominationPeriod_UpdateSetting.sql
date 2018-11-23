@@ -1,14 +1,14 @@
 ﻿
-CREATE PROCEDURE [dbo].[EOY_UpdateNominatorSetting] @EOYId INT
+CREATE PROCEDURE [dbo].[NominationPeriod_UpdateSetting] @NominationPeriodId INT
 	,@EmployeeId INT
 	,@RoleIds NVARCHAR(10) = NULL
-	,@ModifiedBy INT
+	,@ActorId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
 /*
-Created: 20180719@Tim.Trinh
-Task: Update nominator setting.
+Created: 20181122@Tim.Trinh
+Task: Update setting.
 DB: bodb_NexGoal
 Original: 
 
@@ -30,7 +30,7 @@ BEGIN
 	BEGIN
 		DELETE setting
 		FROM dbo.EOQYNominatorSetting AS setting
-		WHERE setting.EOQYId = @EOYId
+		WHERE setting.EOQYId = @NominationPeriodId
 			AND setting.NominatorId = @EmployeeId
 
 		SET @xml = (
@@ -38,7 +38,7 @@ BEGIN
 					,NominatorId AS '@nid'
 					,RoleIds AS '@r'
 				FROM dbo.EOQYNominatorSetting WITH (NOLOCK)
-				WHERE EOQYId = @EOYId
+				WHERE EOQYId = @NominationPeriodId
 				FOR XML PATH('r')
 					,TYPE
 				)
@@ -49,7 +49,7 @@ BEGIN
 		IF NOT EXISTS (
 				SELECT 1
 				FROM dbo.EOQYNominatorSetting WITH (NOLOCK)
-				WHERE EOQYId = @EOYId
+				WHERE EOQYId = @NominationPeriodId
 					AND NominatorId = @EmployeeId
 				)
 		BEGIN
@@ -59,7 +59,7 @@ BEGIN
 				,RoleIds
 				)
 			VALUES (
-				@EOYId
+				@NominationPeriodId
 				,@EmployeeId
 				,@RoleIds
 				)
@@ -69,7 +69,7 @@ BEGIN
 						,NominatorId AS '@nid'
 						,RoleIds AS '@r'
 					FROM dbo.EOQYNominatorSetting WITH (NOLOCK)
-					WHERE EOQYId = @EOYId
+					WHERE EOQYId = @NominationPeriodId
 					FOR XML PATH('r')
 						,TYPE
 					)
@@ -82,7 +82,7 @@ BEGIN
 						,NominatorId AS '@nid'
 						,RoleIds AS '@r'
 					FROM dbo.EOQYNominatorSetting WITH (NOLOCK)
-					WHERE EOQYId = @EOYId
+					WHERE EOQYId = @NominationPeriodId
 					FOR XML PATH('r')
 						,TYPE
 					)
@@ -90,7 +90,7 @@ BEGIN
 
 			UPDATE dbo.EOQYNominatorSetting WITH (ROWLOCK, UPDLOCK)
 			SET RoleIds = @RoleIds
-			WHERE EOQYId = @EOYId
+			WHERE EOQYId = @NominationPeriodId
 				AND NominatorId = @EmployeeId
 
 			SET @xml = (
@@ -98,7 +98,7 @@ BEGIN
 						,NominatorId AS '@nid'
 						,RoleIds AS '@r'
 					FROM dbo.EOQYNominatorSetting WITH (NOLOCK)
-					WHERE EOQYId = @EOYId
+					WHERE EOQYId = @NominationPeriodId
 					FOR XML PATH('r')
 						,TYPE
 					)
@@ -109,9 +109,9 @@ BEGIN
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
-	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
-		,@SPName = 'EOY_UpdateNominatorSetting'
-		,@ObjectId = @EOYId
+	EXEC dbo.LogDetail_Insert @ActorId = @ActorId
+		,@SPName = 'NominationPeriod_UpdateSetting'
+		,@ObjectId = @NominationPeriodId
 		,@Data = @logData
 		,@OldData = @logDataOld
 		,@Duration = @Duration

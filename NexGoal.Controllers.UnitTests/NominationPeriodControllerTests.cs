@@ -78,6 +78,27 @@
             Assert.Single(result);
         }
 
+        [Fact]
+        public async Task EditNominatorSetting_WhenCalled_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var setting = new EditRoleSettingModel();
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var controller = GetNominationPeriodController();
+            nominationPeriodService.EditRoleSettingAsync(setting, sessionService.EmployeeId).Returns(expected);
+
+            // Act
+            var result = await controller.EditRoleSetting(setting);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
         #region Helpers
 
         private ISessionService FakeSessionService()

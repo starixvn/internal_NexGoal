@@ -16,7 +16,5 @@
         Task<CommandResult> CreateAsync(CreateEOQModel eoq);
 
         Task<CommandResult> EditAsync(EditEOQModel eoq);
-
-        Task<CommandResult> EditNominatorSettingAsync(EditNominatorSettingModel setting);
     }
 }
