@@ -163,11 +163,12 @@ export default class App extends Component {
             .then((response) => {
                 let performanceRecords = response.data;
 
-                this.refs.infiniteScrollRef.pageLoaded = 1;
+                let displayedPerformanceRecords = performanceRecords.slice(0, this.refs.infiniteScrollRef.pageLoaded * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
     }
@@ -196,7 +197,8 @@ export default class App extends Component {
                 let performanceRecords = response.data;
 
                 this.refs.memberTimelineRef.getMemberPerformanceTimeline();
-                this.refs.infiniteScrollRef.pageLoaded = 1;
+
+                let displayedPerformanceRecords = performanceRecords.slice(0, this.refs.infiniteScrollRef.pageLoaded * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -204,7 +206,8 @@ export default class App extends Component {
                         isShowModal: false,
                         performanceRecordId: 0
                     },
-                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
     }
