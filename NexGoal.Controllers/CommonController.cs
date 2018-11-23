@@ -111,9 +111,9 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetMyMember()
+        public async Task<JsonResult> GetMyMember(string keyword = null)
         {
-            IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberAsync(sessionService.EmployeeId, keyword).ConfigureAwait(false);
 
             return Json(members);
         }

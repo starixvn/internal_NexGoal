@@ -9,6 +9,7 @@ $fa-font-path: "~font-awesome/fonts";
 @import "./base/scaffolding";
 @import "./components/navbar";
 @import "./components/sidebar";
+@import "./layouts/search-member";
 
 .auth-info {
     margin-right: 15px;

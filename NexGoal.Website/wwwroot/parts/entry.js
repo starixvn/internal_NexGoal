@@ -25,6 +25,7 @@ module.exports = {
         [`${styleDistPath}/nomination-assessment`]: `${styleSourcePath}/pages/nominationassessment/index.scss`,
         //
         [`${jsDistPath}/main`]: "./sources/js/main.js",
+        [`${jsDistPath}/search-member`]: "./sources/js/SearchMember.jsx",
         [`${jsDistPath}/home`]: `${jsSourcePath}/home/index.jsx`,
         [`${jsDistPath}/assignpermission`]: `${jsSourcePath}/role/index.jsx`,
         [`${jsDistPath}/employeemanagement`]: `${jsSourcePath}/employeemanagement/index.jsx`,
@@ -41,6 +42,6 @@ module.exports = {
         [`${jsDistPath}/member-index`]: `${jsSourcePath}/member/index.jsx`,
         [`${jsDistPath}/member-details`]: `${jsSourcePath}/member/details.jsx`,
         [`${jsDistPath}/pafocus`]: `${jsSourcePath}/pafocus/index.jsx`,
-        [`${jsDistPath}/nomination-assessment`]: `${jsSourcePath}/nominationassessment/index.jsx`,
+        [`${jsDistPath}/nomination-assessment`]: `${jsSourcePath}/nominationassessment/index.jsx`
     }
 };
