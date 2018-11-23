@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
 
@@ -25,8 +26,6 @@
 
         public int? Toeic { get; set; }
 
-        public bool IsPassedToeic { get; set; }
-
         public int? MinimumScore { get; set; }
 
         public bool IsEdited
@@ -46,11 +45,12 @@
             if (evaluatorProcess.PerformanceRecord != null)
             {
                 grade = evaluatorProcess.PerformanceRecord.Grade.GradeId;
-                if (IsPassedToeic)
+                if (Toeic > MinimumScore || Toeic > Constants.ToeicThreshold)
                 {
                     grade++;
                 }
-                else
+
+                if (Toeic < MinimumScore)
                 {
                     grade--;
                 }

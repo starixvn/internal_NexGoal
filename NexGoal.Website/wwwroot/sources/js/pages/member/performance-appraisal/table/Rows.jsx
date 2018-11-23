@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { PerformanceProcess } from '../../../../constants';
+import getResource from '../../../../resourceHelper';
 
 class Row extends Component {
     constructor(props) {
@@ -13,6 +14,13 @@ class Row extends Component {
         }
 
         return false;
+    }
+
+    renderToeic = (toeic, minimumScore) => {
+        let toeicClass = '';
+        if (toeic !== null && toeic > minimumScore || toeic >= 900) toeicClass = 'role-member';
+        if (toeic === null || toeic < minimumScore) toeicClass = 'red';
+        return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 
     renderPAByProcess = (paProcesses, processId) => {
@@ -40,7 +48,7 @@ class Row extends Component {
                         return (
                             <tr>
                                 <td>{record.employee.nickName}</td>
-                                <td>{record.toeic}</td>
+                                <td>{this.renderToeic(record.toeic, record.minimumScore)}</td>
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Self)}</td>
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}</td>

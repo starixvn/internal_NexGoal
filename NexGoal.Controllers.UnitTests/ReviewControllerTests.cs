@@ -92,8 +92,7 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<PARecordModel>>(jsonResult.Value);
-            Assert.Equal(records, result);
+            var result = Assert.IsAssignableFrom<IEnumerable<PARecordGroupModel>>(jsonResult.Value);
         }
 
         #region Edit

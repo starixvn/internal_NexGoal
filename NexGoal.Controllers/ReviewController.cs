@@ -49,9 +49,19 @@
         public async Task<JsonResult> GetPARecords(GetPARecordParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<PARecordGroupModel> paRecords = await paRecordService.GetPARecordByActorGroupByTeamAsync(param).ConfigureAwait(false);
+            IEnumerable<PARecordModel> paRecords = await paRecordService.GetPARecordByActorAsync(param).ConfigureAwait(false);
+            if (param.IsEdited != null)
+            {
+                paRecords = paRecords.Where(r => r.IsEdited == param.IsEdited);
+            }
 
-            return Json(paRecords);
+            var paRecordsGroupByTeam = paRecords.GroupBy(p => p.Employee.GroupName)
+                .Select(x => new PARecordGroupModel
+                {
+                    GroupName = x.Key,
+                    PerformanceAppraisals = x
+                });
+            return Json(paRecordsGroupByTeam);
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Host)]
