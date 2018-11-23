@@ -153,7 +153,7 @@ export default class EditMemberPA extends Component {
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal modal-md form-performance edit"
+                dialogClassName="custom-modal modal-md form-performance edit performance-appraisal"
             >
                 <Modal.Header>
                     <Modal.Title>{getResource('EditPerformance')}</Modal.Title>

@@ -12,3 +12,17 @@
         width: 280px;
     }
 }
+
+.performance-appraisal {
+    .record-your-mind {
+        grid-template-rows: 1fr;
+    }
+    .modal-body .tab-content .record {
+        box-shadow: 0 0 6px #dedede;
+        padding: 16px;
+    }
+    .tab-content {
+        padding-top: 12px;
+    }
+}
+   
