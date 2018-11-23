@@ -142,11 +142,12 @@ export default class MyPage extends Component {
                     this.onTimelinePageChange(0);
                 }
 
-                this.refs.infiniteScrollRef.pageLoaded = 1;
+                let displayedPerformanceRecords = performanceRecords.slice(0, this.refs.infiniteScrollRef.pageLoaded * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
     }
@@ -175,11 +176,12 @@ export default class MyPage extends Component {
                 let performanceRecords = response.data;
 
                 this.onTimelinePageChange(0);
-                this.refs.infiniteScrollRef.pageLoaded = 1;
+                let displayedPerformanceRecords = performanceRecords.slice(0, this.refs.infiniteScrollRef.pageLoaded * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
 
                 this.handleCancelEditPerformanceRecord();
