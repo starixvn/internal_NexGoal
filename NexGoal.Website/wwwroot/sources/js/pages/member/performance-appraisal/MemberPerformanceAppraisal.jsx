@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Filter from './filter';
-import PerformanceAppraisalDetail from './ListPA';
+import Table from './table/Table';
 
 export default class MemberPerformanceAppraisal extends Component {
     constructor(props) {
@@ -66,11 +66,10 @@ export default class MemberPerformanceAppraisal extends Component {
                     onFilterChange={this.handleFilterChange}
                     onSubmit={this.handleFilterSubmit}
                 />
-                <PerformanceAppraisalDetail
+                <Table
                     data={this.state.performanceAppraisals}
                     gradeOptions={this.props.gradeOptions}
-                    onClickRow={this.handleClickRow}
-                    render={this.getPerformanceAppraisals}
+                    renderPA={this.getPerformanceAppraisals}
                 />
             </div>
         );

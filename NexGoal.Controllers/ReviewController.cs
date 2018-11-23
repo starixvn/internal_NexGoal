@@ -11,7 +11,6 @@
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
-    using NexGoal.Models.Period;
     using NexGoal.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Read)]
@@ -50,7 +49,7 @@
         public async Task<JsonResult> GetPARecords(GetPARecordParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<PARecordModel> paRecords = await paRecordService.GetPARecordByActorAsync(param).ConfigureAwait(false);
+            IEnumerable<PARecordGroupModel> paRecords = await paRecordService.GetPARecordByActorGroupByTeamAsync(param).ConfigureAwait(false);
 
             return Json(paRecords);
         }

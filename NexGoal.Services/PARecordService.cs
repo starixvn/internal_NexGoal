@@ -65,6 +65,14 @@
             return tuple.Item1;
         }
 
+        public async Task<IEnumerable<PARecordGroupModel>> GetPARecordByActorGroupByTeamAsync(GetPARecordParam param)
+        {
+            var listPA = await GetPARecordByActorAsync(param).ConfigureAwait(false);
+
+            var group = listPA.GroupBy(p => p.Employee.GroupName).Select(x => new PARecordGroupModel { GroupName = x.Key, PerformanceAppraisals = x });
+            return group;
+        }
+
         public async Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId)
         {
             var criteria = new GetPARecordByIdCriteria
