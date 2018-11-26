@@ -6,6 +6,12 @@ export const StatusOptions = [
     { value: 'false', label: 'Inactive' }
 ];
 
+export const PAEditOptions = [
+    { value: null, label: '-- All --' },
+    { value: true, label: 'Edited' },
+    { value: false, label: 'Not Edited' }
+];
+
 export const TargetType = {
     Probation: 1,
     SemiAnnual: 2

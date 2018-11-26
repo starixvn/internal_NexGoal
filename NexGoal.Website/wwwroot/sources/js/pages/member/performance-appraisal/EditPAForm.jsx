@@ -30,11 +30,11 @@ export default class EditMemberPA extends Component {
         axios(resolveClientUrl(`Review/GetPARecordById/${this.props.paRecordId}`)).then(response => {
             if (response.data) {
                 let pa = response.data;
+                let grade = pa.isEdited ? pa.grade : pa.originalGrade;
                 this.setState({
                     paRecord: {
                         paRecordId: pa.paRecordId,
-                        grade: pa.grade ?
-                            this.props.gradeOptions.find(o => o.value === pa.grade.gradeId) : null,
+                        grade: this.props.gradeOptions.find(o => o.value === grade.gradeId),
                         comment: pa.comment
                     },
                     paProcesses: pa.processes
@@ -140,7 +140,7 @@ export default class EditMemberPA extends Component {
                 };
                 return <PerformanceRecord data={paRecord} />;
             } else {
-                return <span>No information</span>
+                return <span>No information</span>;
             }
         });
     };

@@ -124,10 +124,12 @@
             foreach (PARecordModel record in paRecords)
             {
                 record.Employee = employees.FirstOrDefault(x => x.EmployeeId == record.EmployeeId);
-
+                record.OriginalGradeId = cryptoService.Decrypt(record.OriginalGradeId);
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out int gradeId);
+                int.TryParse(record.OriginalGradeId, out int originalGradeId);
                 record.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+                record.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == originalGradeId);
 
                 record.Processes = processes.Where(x => x.PARecordId == record.PARecordId);
             }
@@ -142,6 +144,7 @@
             IEnumerable<ProjectModel> projects)
         {
             int gradeId;
+            int originalGradeId;
             foreach (PerformanceRecordModel record in performanceRecords)
             {
                 string[] projectIds = !string.IsNullOrWhiteSpace(record.ProjectIds) ? record.ProjectIds.Split(",") : new string[] { };
@@ -162,8 +165,11 @@
             paRecord.Employee = employees.FirstOrDefault(x => x.EmployeeId == paRecord.EmployeeId);
 
             paRecord.GradeId = cryptoService.Decrypt(paRecord.GradeId);
+            paRecord.OriginalGradeId = cryptoService.Decrypt(paRecord.OriginalGradeId);
             int.TryParse(paRecord.GradeId, out gradeId);
+            int.TryParse(paRecord.OriginalGradeId, out originalGradeId);
             paRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
+            paRecord.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == originalGradeId);
 
             paRecord.Processes = processes.Where(x => x.PARecordId == paRecord.PARecordId);
         }

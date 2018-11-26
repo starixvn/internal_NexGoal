@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PARecord_GetByActor] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_GetByActor] @ActorId INT
 	,@PeriodId INT
 	,@GroupIds VARCHAR(MAX) = ''
 AS
@@ -57,13 +56,14 @@ BEGIN
 	SELECT pa.PARecordId
 		,pa.PeriodId
 		,pa.EmployeeId
-        ,(t.Reading + t.Listening) AS Toeic
-		,t.MinimumScore
+		,pa.ToeicPolicy
+		,pa.OriginalGradeId
+		,pa.ModifiedDate
+		,(t.Listening + t.Reading) AS Toeic
 		,(
 			CASE 
 				WHEN (
 						(ISNULL(t.Listening, 0) + ISNULL(t.Reading, 0)) >= ISNULL(t.MinimumScore, 0)
-						AND DATEADD(YEAR, 3, LRExamDate) >= convert(DATE, getdate())
 						)
 					OR (ISNULL(t.Listening, 0) + ISNULL(t.Reading, 0)) >= 900
 					THEN 1

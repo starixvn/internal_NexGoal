@@ -37,6 +37,8 @@ BEGIN
 	SELECT pa.PARecordId
 		,pa.PeriodId
 		,pa.EmployeeId
+        ,pa.ModifiedDate
+		,pa.OriginalGradeId
 		,(CASE 
 			WHEN @ProcessId <> @ReviewerProcessId THEN @PAClosed
 			ELSE pa.StatusId END

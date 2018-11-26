@@ -16,7 +16,6 @@ export default class MemberPerformanceAppraisal extends Component {
                 status: PAEditOptions.find(option => option.value === null)
             },
             isShowEditPAModal: false,
-            paRecord: {},
             performanceAppraisals: []
         };
     }
@@ -54,9 +53,11 @@ export default class MemberPerformanceAppraisal extends Component {
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),
                 isEdited: filter.status.value
             }
-        }).then(response => this.setState({
-            performanceAppraisals: response.data
-        })).catch(axiosError);
+        }).then(response => {
+            this.setState({
+                performanceAppraisals: response.data
+            });
+        }).catch(axiosError);
     }
 
     render() {

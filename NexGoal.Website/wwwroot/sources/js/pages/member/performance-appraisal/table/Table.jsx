@@ -16,11 +16,10 @@ class Table extends Component {
     shouldComponentUpdate(nextProps, nextState) {
         if (JSON.stringify(nextProps.data) !== JSON.stringify(this.props.data)
             || JSON.stringify(nextProps.gradeOptions) !== JSON.stringify(this.props.gradeOptions)
-            || nextState.isShowEditModal !== this.state.isShowEditModal
+            || nextState.isShowModal !== this.state.isShowEditModal
             || nextState.paRecordId !== this.state.paRecordId) {
             return true;
         }
-
         return false;
     }
 

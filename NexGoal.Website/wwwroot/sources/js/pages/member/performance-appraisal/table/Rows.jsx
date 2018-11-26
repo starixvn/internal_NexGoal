@@ -2,34 +2,66 @@
 import { PerformanceProcess } from '../../../../constants';
 import getResource from '../../../../resourceHelper';
 
-class Row extends Component {
+class Rows extends Component {
     constructor(props) {
         super(props);
     }
 
     shouldComponentUpdate(nextProps) {
-        if (this.props.groupName !== nextProps.groupName
-            || JSON.stringify(this.props.performanceAppraisals) !== JSON.stringify(nextProps.performanceAppraisals)) {
+        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
             return true;
         }
 
         return false;
     }
 
-    renderToeic = (toeic, minimumScore) => {
+    renderToeic = (toeicPolicy, toeic) => {
         let toeicClass = '';
-        if (toeic !== null && toeic > minimumScore || toeic >= 900) toeicClass = 'role-member';
-        if (toeic === null || toeic < minimumScore) toeicClass = 'red';
+        if (toeicPolicy !== null && toeicPolicy > 0) toeicClass = 'role-member';
+        if (toeicPolicy === null || toeicPolicy < 0) toeicClass = 'red';
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
+
+    renderPAForReviewer = (record) => {
+        let reviewerProcess = record.processes.filter(process => process.processId === PerformanceProcess.Reviewer);
+        let paGrade;
+        let gradeChangeClass = '';
+        if (record.isEdited) {
+            paGrade = record.grade.name;
+        } else {
+            paGrade = record.originalGrade.name;
+        }
+        if (record.gradeId < record.originalGradeId) gradeChangeClass = 'descrease';
+        if (record.gradeId > record.originalGradeId) gradeChangeClass = 'increase';
+
+        return (
+            <Fragment>
+                {
+                    reviewerProcess.length > 0 &&
+                    <span className="fa fa-pencil-square-o" />
+                }
+                <a onClick={() => this.handleClick(record.paRecordId)}>{paGrade}</a>
+                <span className={gradeChangeClass} />
+            </Fragment>
+        );
+    };
 
     renderPAByProcess = (paProcesses, processId) => {
         let processes = paProcesses.filter(process => process.processId === processId);
         let grade = processes.map(process => {
             return process.performanceRecord ? process.performanceRecord.grade.name : '';
         }).join(', ');
+
         return <span>{grade}</span>;
     };
+
+    renderStatus = (isEdited) => {
+        if (isEdited) {
+            return <span className="checked-stick" />;
+        } else {
+            return <span onClick={() => console.log("Click status")} >Click</span>;
+        }
+    }
 
     handleClick = (paRecordId) => {
         this.props.onClickEditPA(paRecordId);
@@ -48,16 +80,12 @@ class Row extends Component {
                         return (
                             <tr>
                                 <td>{record.employee.nickName}</td>
-                                <td>{this.renderToeic(record.toeic, record.minimumScore)}</td>
+                                <td>{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Self)}</td>
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
-                                <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Reviewer)}</td>
-                                <td>
-                                    <a className="fa fa-pencil-square-o" title="Edit"
-                                        onClick={() => this.handleClick(record.paRecordId)}>{record.grade.name}
-                                    </a>
-                                </td>
+                                <td>{this.renderPAForReviewer(record)}</td>
+                                <td>{this.renderStatus(record.isEdited)}</td>
                             </tr>
                         );
                     })
@@ -67,4 +95,4 @@ class Row extends Component {
     }
 }
 
-export default Row;
+export default Rows;

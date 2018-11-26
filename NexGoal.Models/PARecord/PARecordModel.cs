@@ -1,9 +1,7 @@
 ﻿namespace NexGoal.Models.PARecord
 {
+    using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using NexGoal.Core.Constants;
-    using NexGoal.Core.Enumerations;
     using NexGoal.Models.Common;
 
     public class PARecordModel
@@ -24,43 +22,23 @@
 
         public string Comment { get; set; }
 
-        public int? Toeic { get; set; }
+        public int ToeicPolicy { get; set; }
 
-        public int? MinimumScore { get; set; }
+        public string OriginalGradeId { get; set; }
+        public PerformanceGradeModel OriginalGrade { get; set; }
+
+        public DateTime? ModifiedDate { get; set; }
 
         public bool IsEdited
         {
             get
             {
-                return Grade != null && Grade.GradeId != CalculateAutoGeneratePAGrade();
+                return ModifiedDate != null;
             }
         }
+
+        public int? Toeic { get; set; }
 
         public IEnumerable<PAProcessModel> Processes { get; set; }
-
-        private int CalculateAutoGeneratePAGrade()
-        {
-            int grade = 0;
-
-            if (Processes != null)
-            {
-                var evaluatorProcess = Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Evaluator);
-                if (evaluatorProcess.PerformanceRecord != null)
-                {
-                    grade = evaluatorProcess.PerformanceRecord.Grade.GradeId;
-                    if (Toeic > MinimumScore || Toeic > Constants.ToeicThreshold)
-                    {
-                        grade += 1;
-                    }
-
-                    if (Toeic < MinimumScore)
-                    {
-                        grade -= 1;
-                    }
-                }
-            }
-
-            return grade;
-        }
     }
 }
