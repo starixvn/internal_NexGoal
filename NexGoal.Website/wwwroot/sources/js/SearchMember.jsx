@@ -10,7 +10,7 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            members: [],
+            hasMember: false,
             showSearchbox: false
         };
     }
@@ -19,7 +19,7 @@ export default class App extends Component {
         axios.get(resolveClientUrl('common/GetMyMember'))
             .then(response => {
                 this.setState({
-                    members: response.data
+                    hasMember: response.data && response.data.length > 0
                 });
             }).catch(axiosError);
     }
@@ -60,7 +60,7 @@ export default class App extends Component {
         return (
             <Fragment>
                 {
-                    this.state.members.length > 0 &&
+                    this.state.hasMember &&
                     <div className={`search-member-container ${this.state.showSearchbox ? 'focused' : ''}`}>
                         <span className="icon-search" onClick={this.handleClick} />
                         {
@@ -73,7 +73,6 @@ export default class App extends Component {
                                 components={{ DropdownIndicator: null }}
                                 noOptionsMessage={() => "Type nick name or full name to search"}
                                 loadingMessage={() => "Type nick name or full name to search"}
-                                isFocused={this.state.showSearchbox}
                                 isLoading={false}
                                 onChange={this.handleChange}
                             />
