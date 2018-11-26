@@ -3,6 +3,7 @@ import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Filter from './filter';
 import Table from './table/Table';
+import { PAEditOptions } from '../../../constants';
 
 export default class MemberPerformanceAppraisal extends Component {
     constructor(props) {
@@ -11,7 +12,8 @@ export default class MemberPerformanceAppraisal extends Component {
         this.state = {
             filter: {
                 period: props.periodOptions[0],
-                groups: props.groupOptions
+                groups: props.groupOptions,
+                status: PAEditOptions.find(option => option.value === null)
             },
             isShowEditPAModal: false,
             paRecord: {},
@@ -49,7 +51,8 @@ export default class MemberPerformanceAppraisal extends Component {
         axios.get(resolveClientUrl('Review/GetPARecords'), {
             params: {
                 periodId: filter.period.value,
-                groupIds: filter.groups.map(group => { return group.value; }).join(',')
+                groupIds: filter.groups.map(group => { return group.value; }).join(','),
+                isEdited: filter.status.value
             }
         }).then(response => this.setState({
             performanceAppraisals: response.data

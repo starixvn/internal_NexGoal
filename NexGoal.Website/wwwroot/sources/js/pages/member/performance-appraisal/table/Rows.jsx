@@ -55,7 +55,8 @@ class Row extends Component {
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Reviewer)}</td>
                                 <td>
                                     <a className="fa fa-pencil-square-o" title="Edit"
-                                        onClick={() => this.handleClick(record.paRecordId)} />
+                                        onClick={() => this.handleClick(record.paRecordId)}>{record.grade.name}
+                                    </a>
                                 </td>
                             </tr>
                         );

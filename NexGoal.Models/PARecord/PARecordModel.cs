@@ -40,19 +40,23 @@
 
         private int CalculateAutoGeneratePAGrade()
         {
-            var evaluatorProcess = Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Evaluator);
             int grade = 0;
-            if (evaluatorProcess.PerformanceRecord != null)
-            {
-                grade = evaluatorProcess.PerformanceRecord.Grade.GradeId;
-                if (Toeic > MinimumScore || Toeic > Constants.ToeicThreshold)
-                {
-                    grade++;
-                }
 
-                if (Toeic < MinimumScore)
+            if (Processes != null)
+            {
+                var evaluatorProcess = Processes.FirstOrDefault(p => p.ProcessId == (int)PerformanceProcess.Evaluator);
+                if (evaluatorProcess.PerformanceRecord != null)
                 {
-                    grade--;
+                    grade = evaluatorProcess.PerformanceRecord.Grade.GradeId;
+                    if (Toeic > MinimumScore || Toeic > Constants.ToeicThreshold)
+                    {
+                        grade += 1;
+                    }
+
+                    if (Toeic < MinimumScore)
+                    {
+                        grade -= 1;
+                    }
                 }
             }
 
