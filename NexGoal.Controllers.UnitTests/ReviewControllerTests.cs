@@ -78,7 +78,8 @@
             var param = new GetPARecordParam
             {
                 PeriodId = 1,
-                GroupIds = "1,2"
+                GroupIds = "1,2",
+                IsEdited = true
             };
             var records = new List<PARecordModel>
             {
