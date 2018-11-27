@@ -113,9 +113,7 @@
             return tuple.Item1;
         }
 
-        public async Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(
-            int performanceRecordId,
-            int creatorId)
+        public async Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(int performanceRecordId, int creatorId)
         {
             var criteria = new GetPerformanceRecordByIdCriteria
             {
@@ -136,6 +134,27 @@
             return performanceRecord;
         }
 
+        public async Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByIdsAsync(string performanceRecordIds, int creatorId)
+        {
+            var criteria = new GetPerformanceRecordByIdsCriteria
+            {
+                PerformanceRecordIds = performanceRecordIds,
+                CreatorId = creatorId
+            };
+            var performanceRecords = await baseService.GetDataAsync<PerformanceRecordModel>(criteria).ConfigureAwait(false);
+
+            foreach (PerformanceRecordModel performanceRecord in performanceRecords)
+            {
+                IEnumerable<ProjectModel> projects = await commonService.GetProjectsAsync().ConfigureAwait(false);
+                IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+                IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
+                MappingDataPerformanceRecord(performanceRecord, projects, performanceGrades, employees);
+            }
+
+            return performanceRecords;
+        }
+
         public async Task<CommandResult> CreatePerformanceRecordAsync(CreatePerformanceRecordModel performanceRecord)
         {
             var criteria = new CreatePerformanceRecordCriteria
@@ -150,6 +169,7 @@
             };
 
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            commandResult.ObjectIds = criteria.PerformanceRecordIds;
 
             return commandResult;
         }

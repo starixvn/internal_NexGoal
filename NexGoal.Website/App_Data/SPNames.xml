@@ -108,6 +108,7 @@
     <Setting Key="PerformanceRecord_GetMemberPerformance" SpName="PerformanceRecord_GetMemberPerformance" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetMemberTimeline" SpName="PerformanceRecord_GetMemberTimeline" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_GetById" SpName="PerformanceRecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PerformanceRecord_GetByIds" SpName="PerformanceRecord_GetByIds" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_Insert" SpName="PerformanceRecord_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_Update" SpName="PerformanceRecord_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PerformanceRecord_Delete" SpName="PerformanceRecord_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>

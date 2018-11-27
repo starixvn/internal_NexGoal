@@ -1,5 +1,6 @@
 ﻿
-CREATE PROCEDURE [dbo].[PerformanceRecord_Insert] @EmployeeIds VARCHAR(MAX) = ''
+CREATE PROCEDURE [dbo].[PerformanceRecord_Insert] @PerformanceRecordIds VARCHAR(MAX) = '' OUTPUT
+	,@EmployeeIds VARCHAR(MAX) = ''
 	,@CreatorId INT
 	,@GradeId VARCHAR(MAX) = ''
 	,@Comment NVARCHAR(MAX)
@@ -151,6 +152,9 @@ BEGIN
 
 		RETURN
 	END
+
+	SELECT @PerformanceRecordIds = COALESCE(@PerformanceRecordIds + ',', '') + CAST(PerformanceRecordId AS VARCHAR(20))
+	FROM #tblPerformanceRecordOutput WITH (NOLOCK)
 
 	-- write log after insert
 	SET @endRun = GETDATE()

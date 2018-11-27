@@ -21,7 +21,7 @@ BEGIN
 	CREATE TABLE #tblPARecord (
 		PARecordId INT
 		,GradeId VARCHAR(MAX)
-		,ToeicPolicy TINYINT
+		,ToeicPolicy SMALLINT
 		)
 
 	EXEC sp_xml_preparedocument @idoc OUTPUT
@@ -35,10 +35,11 @@ BEGIN
 	SELECT PARecordId
 		,GradeId
 		,ToeicPolicy
-	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (PARecordId INT, GradeId VARCHAR(MAX), ToeicPolicy TINYINT) AS data
+	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (PARecordId INT, GradeId VARCHAR(MAX), ToeicPolicy SMALLINT) AS data
 
 	UPDATE record
-	SET record.GradeId = tbl.GradeId
+	SET record.OriginalGradeId = tbl.GradeId
+		,record.GradeId = tbl.GradeId
 		,record.ToeicPolicy = tbl.ToeicPolicy
 	FROM dbo.PARecord AS record WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON record.PARecordId = tbl.PARecordId

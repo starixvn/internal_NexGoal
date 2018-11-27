@@ -7,6 +7,7 @@ import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
 import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
+import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
@@ -133,21 +134,31 @@ export default class MyPage extends Component {
         }).catch(axiosError);
     };
 
-    handleCreatePerformanceRecordSuccess = () => {
-        axios(resolveClientUrl('Self/Performance'))
+    handleCreatePerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+        axios(resolveClientUrl(`Self/Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
-                let performanceRecords = response.data;
+                let performanceRecords = this.state.performanceRecords.slice();
+                let displayedPerformanceRecords;
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
 
-                if (this.state.personalTimeline.pageIndex === 0) {
-                    this.onTimelinePageChange(0);
+                if (statusId === PerformanceRecordStatus.Draft) {
+                    performanceRecords.splice(0, 0, ...response.data);
+                } else {
+                    if (this.state.personalTimeline.pageIndex === 0) {
+                        this.onTimelinePageChange(0);
+                    }
+
+                    let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(statusId);
+                    lastIndex = lastIndex >= 0 ? lastIndex : 0;
+
+                    performanceRecords.splice(lastIndex, 0, ...response.data);
                 }
 
-                let displayedPerformanceRecords = performanceRecords.slice(0, this.refs.infiniteScrollRef.pageLoaded * this.itemPerPage);
+                displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                    displayedPerformanceRecords: displayedPerformanceRecords
                 });
             }).catch(axiosError);
     }

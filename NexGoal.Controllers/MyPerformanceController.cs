@@ -93,5 +93,13 @@
 
             return Json(record);
         }
+
+        [Route("Self/Performance/GetByIds/{ids:minlength(1)}")]
+        public async Task<JsonResult> GetByIds(string ids)
+        {
+            IEnumerable<PerformanceRecordModel> records = await performanceService.GetPerformanceRecordByIdsAsync(ids, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(records);
+        }
     }
 }

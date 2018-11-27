@@ -1,5 +1,6 @@
 ﻿
-CREATE PROCEDURE [dbo].[Auto_PA_UpdateWhenEvaluationFinished] @ErrCode INT = 0 OUTPUT
+CREATE PROCEDURE [dbo].[Auto_PA_UpdateWhenEvaluationFinished] @PeriodId INT = NULL
+	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
 /*
@@ -43,6 +44,7 @@ BEGIN
 		,pa.PerformanceRecordId
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
+		AND ISNULL(@PeriodId, period.PeriodId) = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId

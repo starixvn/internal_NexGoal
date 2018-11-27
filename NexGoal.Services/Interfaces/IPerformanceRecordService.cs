@@ -12,6 +12,8 @@
 
         Task<PerformanceRecordModel> GetPerformanceRecordByIdAsync(int performanceRecordId, int creatorId);
 
+        Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByIdsAsync(string performanceRecordIds, int creatorId);
+
         Task<Tuple<IEnumerable<PerformanceRecordModel>, int>> GetPerformanceTimelineAsync(GetPerformanceTimelineParam param);
 
         Task<IEnumerable<PerformanceRecordModel>> GetMemberPerformanceAsync(int actorId, int? employeeId = null);

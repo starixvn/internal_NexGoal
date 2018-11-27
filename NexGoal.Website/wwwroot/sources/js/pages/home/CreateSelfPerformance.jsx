@@ -135,7 +135,7 @@ export default class CreateSelfPerformance extends Component {
                     toast.success(getResource('CreatedSuccessfully'));
 
                     this.handleCancel();
-                    this.props.onSubmitSuccess();
+                    this.props.onSubmitSuccess(data.objectIds, statusId);
                 } else {
                     if (data.errors) {
                         let errors = {};
