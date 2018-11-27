@@ -1,4 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
+import axios from 'axios';
+import { axiosError, resolveClientUrl } from '../../../../common-functions';
+import { stringify } from 'qs';
 import getResource from '../../../../resourceHelper';
 import Rows from './Rows';
 import EditMemberPA from '../EditPAForm';
@@ -21,6 +24,27 @@ class Table extends Component {
             return true;
         }
         return false;
+    }
+
+    onQuickEditPA = (paRecordId) => {
+        axios({
+            url: resolveClientUrl('Review/QuickEdit'),
+            method: 'POST',
+            data: stringify({
+                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
+                paRecordId: paRecordId
+            }),
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded'
+            }
+        }).then(response => {
+            let data = response.data;
+            if (data.isSuccessful) {
+                this.props.renderPA();
+            } else {
+                toast.error(data.message);
+            }
+        }).catch(axiosError);
     }
 
     onClickEditPA = (paRecordId) => {
@@ -59,6 +83,7 @@ class Table extends Component {
                             colSpan={7}
                             gradeOptions={this.props.gradeOptions}
                             onClickEditPA={this.onClickEditPA}
+                            onQuickEditPA={this.onQuickEditPA}
                         />
                     );
                 }));

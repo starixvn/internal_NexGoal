@@ -94,6 +94,15 @@
             return Json(new { isSuccessful = false, errors });
         }
 
+        [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Host)]
+        public async Task<IActionResult> QuickEdit(int paRecordId)
+        {
+            CommandResult commandResult = await paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
+
+            return Json(commandResult);
+        }
+
         public async Task<IActionResult> Details(int id)
         {
             PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);

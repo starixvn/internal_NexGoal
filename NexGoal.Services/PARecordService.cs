@@ -173,5 +173,16 @@
 
             paRecord.Processes = processes.Where(x => x.PARecordId == paRecord.PARecordId);
         }
+
+        public async Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId)
+        {
+            var criteria = new QuickEditPARecordByReviewerCriteria
+            {
+                PARecordId = paRecordId,
+                ActorId = actorId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
     }
 }

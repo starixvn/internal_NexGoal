@@ -17,5 +17,7 @@
         Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId);
 
         Task<CommandResult> EditPARecordByReviewerAsync(int actorId, EditPARecordByReviewerModel paRecord);
+
+        Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId);
     }
 }

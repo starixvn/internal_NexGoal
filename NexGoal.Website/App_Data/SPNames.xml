@@ -113,9 +113,10 @@
   <Function Name="Performanace Appraisal">
     <Setting Key="PARecord_GetPeriodByActor" SpName="PARecord_GetPeriodByActor" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_GetGroupByActor" SpName="PARecord_GetGroupByActor" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="PARecord_GetByActor" SpName="PARecord_GetByActor_xtest" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PARecord_GetByActor" SpName="PARecord_GetByActor" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_GetById" SpName="PARecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_UpdateByReviewer" SpName="PARecord_UpdateByReviewer" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PARecord_QuickUpdateByReviewer" SpName="PARecord_QuickUpdateByReviewer" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
   <Function Name="Nomination Period">
     <Setting Key="NominationPeriod_Get" SpName="NominationPeriod_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

@@ -55,11 +55,11 @@ class Rows extends Component {
         return <span>{grade}</span>;
     };
 
-    renderStatus = (isEdited) => {
+    renderStatus = (isEdited, paRecordId) => {
         if (isEdited) {
             return <span className="checked-stick" />;
         } else {
-            return <span onClick={() => console.log("Click status")} >Click</span>;
+            return <span onClick={() => this.props.onQuickEditPA(paRecordId)} >Click</span>;
         }
     }
 
@@ -85,7 +85,7 @@ class Rows extends Component {
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
                                 <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
                                 <td>{this.renderPAForReviewer(record)}</td>
-                                <td>{this.renderStatus(record.isEdited)}</td>
+                                <td>{this.renderStatus(record.isEdited, record.paRecordId)}</td>
                             </tr>
                         );
                     })
