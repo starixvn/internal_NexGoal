@@ -6,7 +6,9 @@ import { Scrollbars } from 'react-custom-scrollbars';
 import { Tabs, Tab } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
+
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
@@ -158,17 +160,28 @@ export default class App extends Component {
         }
     }
 
-    handleCreatePerformanceRecordSuccess = () => {
-        axios(resolveClientUrl('member/Performance'))
+    handleCreatePerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+        axios(resolveClientUrl(`Member/Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
-                let performanceRecords = response.data;
+                let performanceRecords = this.state.performanceRecords.slice();
 
-                let displayedPerformanceRecords = performanceRecords.slice(0, this.refs.infiniteScrollRef.pageLoaded * this.itemPerPage);
+                if (statusId === PerformanceRecordStatus.Draft) {
+                    performanceRecords.splice(0, 0, ...response.data);
+                } else {
+                    let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                    lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+
+                    performanceRecords.splice(lastIndex, 0, ...response.data);
+
+                    this.refs.memberTimelineRef.getMemberPerformanceTimeline(this.refs.memberTimelineRef.state.pageSize);
+                }
+
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
+                    displayedPerformanceRecords: displayedPerformanceRecords
                 });
             }).catch(axiosError);
     }
@@ -202,13 +215,11 @@ export default class App extends Component {
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    editPerformanceRecord: {
-                        isShowModal: false,
-                        performanceRecordId: 0
-                    },
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
+
+                this.handleCancelEditPerformanceRecord();
             }).catch(axiosError);
     }
 
@@ -245,11 +256,8 @@ export default class App extends Component {
                     performanceRecords.splice(index, 1);
                 }
 
-                let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
-                index = displayedPerformanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
-                if (index >= 0) {
-                    displayedPerformanceRecords.splice(index, 1);
-                }
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,

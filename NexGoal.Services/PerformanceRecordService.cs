@@ -275,7 +275,7 @@
                 }
             }
 
-            return records.OrderByDescending(x => x.CreatedDate);
+            return records.OrderBy(x => x.StatusId == PerformanceRecordStatus.Draft ? 1 : 2).ThenByDescending(x => x.CreatedDate);
         }
 
         private void MappingDataMemberPerformanceTime(

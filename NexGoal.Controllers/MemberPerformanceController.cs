@@ -83,6 +83,14 @@
             return Json(record);
         }
 
+        [Route("Member/Performance/GetByIds/{ids:minlength(1)}")]
+        public async Task<JsonResult> GetByIds(string ids)
+        {
+            IEnumerable<PerformanceRecordModel> records = await performanceService.GetPerformanceRecordByIdsAsync(ids, sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(records);
+        }
+
         [Route("Member/Performance/Timeline")]
         public async Task<JsonResult> GetMemberPerformanceTimeline(GetMemberPerformanceTimelineParam param)
         {

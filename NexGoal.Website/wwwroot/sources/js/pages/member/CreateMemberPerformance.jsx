@@ -160,7 +160,8 @@ export default class CreateMemberPerformance extends Component {
                 let data = response.data;
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
-                    this.props.onSubmitSuccess();
+
+                    this.props.onSubmitSuccess(data.objectIds, statusId);
                     this.handleCancel();
                 } else {
                     if (data.errors) {
