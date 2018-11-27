@@ -71,7 +71,7 @@ class Table extends Component {
         if (isNoData) {
             return (
                 <tr>
-                    <td colSpan={7}>There is no information</td>
+                    <td className="empty-result" colSpan={7}>No information available!</td>
                 </tr>
             );
         } else {

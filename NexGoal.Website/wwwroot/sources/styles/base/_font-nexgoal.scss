@@ -19,14 +19,25 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
+.icon-descrease-arrow:before {
+    content: "\e92a";
+    color: #d10000;
+}
+.icon-increase-arrow:before {
+    content: "\e92b";
+    color: #458a00;
+}
+.icon-note:before {
+    content: "\e92c";
+    color: #6d829b;
+}
 .icon-notification:before {
-content: "\e928";
-color: #fff;
+    content: "\e928";
+    color: #fff;
 }
 .icon-search:before {
-content: "\e929";
-color: #fff;
+    content: "\e929";
+    color: #fff;
 }
 
 .icon-delete:before {

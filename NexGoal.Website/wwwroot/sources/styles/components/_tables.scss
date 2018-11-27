@@ -44,6 +44,11 @@
             &:hover td:not(.title) {
                 background: $table-td-bg-hover;
             }
+            &.group-row td {
+                background-color: #525e86;
+                color: #fff;
+                font-weight: 600;
+            }
         }
     }
 

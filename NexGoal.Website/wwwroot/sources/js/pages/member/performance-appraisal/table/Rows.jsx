@@ -32,14 +32,14 @@ class Rows extends Component {
         } else {
             paGrade = record.originalGrade.name;
         }
-        if (record.gradeId < record.originalGradeId) gradeChangeClass = 'descrease';
-        if (record.gradeId > record.originalGradeId) gradeChangeClass = 'increase';
+        if (record.gradeId < record.originalGradeId) gradeChangeClass = 'icon-increase-arrow';
+        if (record.gradeId > record.originalGradeId) gradeChangeClass = 'icon-descrease-arrow';
 
         return (
             <Fragment>
                 {
                     reviewerProcess.length > 0 &&
-                    <span className="fa fa-pencil-square-o" />
+                    <span className="icon-note" />
                 }
                 <a onClick={() => this.handleClick(record.paRecordId)}>{paGrade}</a>
                 <span className={gradeChangeClass} />
@@ -82,7 +82,7 @@ class Rows extends Component {
 
     renderStatus = (isEdited, paRecordId) => {
         if (isEdited) {
-            return <span className="checked-stick" />;
+            return (<span className="checked-stick" />);
         } else {
             return <span onClick={() => this.props.onQuickEditPA(paRecordId)} >Click</span>;
         }
@@ -96,7 +96,7 @@ class Rows extends Component {
         const performanceRecords = this.props.data.performanceAppraisals;
         return (
             <Fragment>
-                <tr>
+                <tr className="group-row">
                     <td colSpan={this.props.colSpan}>{this.props.data.groupName}</td>
                 </tr>
                 {
@@ -105,12 +105,12 @@ class Rows extends Component {
                         return (
                             <tr>
                                 <td>{record.employee.nickName}</td>
-                                <td>{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
-                                <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Self)}</td>
-                                <td>{this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
-                                <td>{this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
-                                <td>{this.renderPAForReviewer(record)}</td>
-                                <td>{this.renderStatus(record.isEdited, record.paRecordId)}</td>
+                                <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
+                                <td className="text-center">{this.renderPAByProcess(record.processes, PerformanceProcess.Self)}</td>
+                                <td className="text-center">{this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
+                                <td className="text-center">{this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
+                                <td className="text-center">{this.renderPAForReviewer(record)}</td>
+                                <td className="text-center">{this.renderStatus(record.isEdited, record.paRecordId)}</td>
                             </tr>
                         );
                     })

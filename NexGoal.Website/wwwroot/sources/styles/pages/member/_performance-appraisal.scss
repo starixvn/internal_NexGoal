@@ -25,4 +25,26 @@
         padding-top: 12px;
     }
 }
+.table {
+    > tbody > tr > td {
+        position: relative;
+    }
+    .icon-increase-arrow, .icon-descrease-arrow {
+        display: inline-block;
+        margin-left: 6px;
+        cursor: pointer;
+        &:before {
+            font-size: 9px;
+        }
+    }
+    .icon-note {
+        position: absolute;
+        left: 5px;
+        top: 3px;
+        cursor: pointer;
+        &:before {
+            font-size: 12px;
+        }
+    }
+}
    
