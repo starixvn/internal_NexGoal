@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
 	,@PARecordIds VARCHAR(MAX) = NULL
 	,@CreatedBy INT
 	,@Override BIT = 0
@@ -142,22 +141,20 @@ BEGIN
 				,pr.GradeId
 			FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
 				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pr.CreatorId = emp.EmployeeId
-				AND emp.GroupId = @PMGroupId
+					AND emp.GroupId = @PMGroupId
 				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
-				AND pr.EmployeeIds = pr1.EmployeeIds
-				AND pr.CreatedDate BETWEEN @disciplineStartDate
-					AND @disciplineEndDate
-				AND pr1.CreatedDate BETWEEN @disciplineStartDate
-					AND @disciplineEndDate
-				AND pr.CreatedDate < pr1.CreatedDate
+					AND pr.EmployeeIds = pr1.EmployeeIds
+					AND pr.CreatedDate < pr1.CreatedDate
+					AND pr.TypeId = pr1.TypeId
+					AND pr1.CreatedDate BETWEEN @disciplineStartDate AND @disciplineEndDate
+					AND pr1.TypeId = 1
+					AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
+			WHERE pr1.CreatedDate IS NULL
 				AND pr.TypeId = 1
-				AND pr1.TypeId = 1
-				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
-				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
-			WHERE pr1.CreatorId IS NULL
-				AND pr1.EmployeeIds IS NULL
+				AND pr.CreatedDate BETWEEN @disciplineStartDate AND @disciplineEndDate
 				AND pr.EmployeeIds = par.EmployeeId
 				AND pr.CreatorId <> pr.EmployeeIds
+				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
 				AND NOT EXISTS (
 					SELECT 1
 					FROM dbo.PAProcess AS pap WITH (NOLOCK)
@@ -359,20 +356,18 @@ BEGIN
 				INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON pr.CreatorId = emp.EmployeeId
 				AND emp.GroupId = @PMGroupId
 				LEFT JOIN dbo.PerformanceRecord AS pr1 WITH (NOLOCK) ON pr.CreatorId = pr1.CreatorId
-				AND pr.EmployeeIds = pr1.EmployeeIds
-				AND pr.CreatedDate BETWEEN @disciplineStartDate
-					AND @disciplineEndDate
-				AND pr1.CreatedDate BETWEEN @disciplineStartDate
-					AND @disciplineEndDate
-				AND pr.CreatedDate < pr1.CreatedDate
+					AND pr.EmployeeIds = pr1.EmployeeIds				
+					AND pr.CreatedDate < pr1.CreatedDate
+					AND pr.TypeId = pr1.TypeId
+					AND pr1.CreatedDate BETWEEN @disciplineStartDate AND @disciplineEndDate
+					AND pr1.TypeId = 1
+					AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
+			WHERE pr1.CreatedDate IS NULL
 				AND pr.TypeId = 1
-				AND pr1.TypeId = 1
-				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
-				AND pr1.StatusId IN (@PRSubmitted, @PRClosed)
-			WHERE pr1.CreatorId IS NULL
-				AND pr1.EmployeeIds IS NULL
+				AND pr.CreatedDate BETWEEN @disciplineStartDate AND @disciplineEndDate
 				AND pr.EmployeeIds = gpar.EmployeeId
 				AND pr.CreatorId <> pr.EmployeeIds
+				AND pr.StatusId IN (@PRSubmitted, @PRClosed)
 				AND NOT EXISTS (
 					SELECT 1
 					FROM dbo.PAProcess AS pap WITH (NOLOCK)

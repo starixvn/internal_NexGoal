@@ -119,6 +119,12 @@ BEGIN
 				,TYPE
 			)
 	SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
+
+	IF @EndDate < GETDATE()
+	BEGIN
+		EXEC dbo.Auto_PA_UpdateWhenEvaluationFinished @PeriodId
+	END
+
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 

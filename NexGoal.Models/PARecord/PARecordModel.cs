@@ -39,6 +39,8 @@
 
         public int? Toeic { get; set; }
 
+        public int ToeicBonus { get; set; }
         public IEnumerable<PAProcessModel> Processes { get; set; }
+
     }
 }
