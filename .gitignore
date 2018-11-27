@@ -37,3 +37,4 @@ packages/
 .vs
 node_modules
 *.jfm
+output

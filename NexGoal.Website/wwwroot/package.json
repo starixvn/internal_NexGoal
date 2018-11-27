@@ -12,7 +12,8 @@
     "build:all:pro": "node node_modules/webpack/bin/webpack.js --config webpack.config.vendor.js --env=production && node node_modules/webpack/bin/webpack.js --config webpack.config.js --env=production",
     "start": "node_modules/.bin/webpack-dev-server --config webpack.config.dev.js --hot --inline --progress",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --coverageDirectory=output/coverage/jest"
   },
   "author": "",
   "dependencies": {
@@ -74,6 +75,10 @@
   "license": "ISC",
   "jest": {
     "verbose": false,
+    "coverageReporters": [
+      "text",
+      "html"
+    ],
     "setupFiles": [
       "<rootDir>/sources/js/__tests__/setup/jestSetup.js"
     ],
