@@ -1,5 +1,6 @@
 ﻿import React, { Component, Fragment } from 'react';
 import { PerformanceProcess } from '../../../../constants';
+import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import getResource from '../../../../resourceHelper';
 
 class Rows extends Component {
@@ -51,9 +52,33 @@ class Rows extends Component {
         let grade = processes.map(process => {
             return process.performanceRecord ? process.performanceRecord.grade.name : '';
         }).join(', ');
+        let tooltip;
 
-        return <span>{grade}</span>;
-    };
+        if (processId === PerformanceProcess.ProjectManager) {
+            tooltip = (
+                <Tooltip>
+                    {
+                        processes.map(process => {
+                            return (
+                                <p>
+                                    {`${process.evaluator.nickName}: ${process.performanceRecord
+                                        ? process.performanceRecord.grade.name : "N/A"} `}
+                                </p>
+                            );
+                        })
+                    }
+                </Tooltip>
+            );
+
+            return (
+                <OverlayTrigger placement="bottom" overlay={tooltip}>
+                    <span>{grade}</span>
+                </OverlayTrigger>
+            );
+        } else {
+            return <span>{grade}</span>;
+        }
+    }
 
     renderStatus = (isEdited, paRecordId) => {
         if (isEdited) {
