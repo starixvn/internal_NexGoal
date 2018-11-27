@@ -81,7 +81,7 @@ export default class EditNomination extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                this.props.onEditSuccess(data.objectId);
+                this.props.onEditSuccess(this.props.performanceRecord.performanceRecordId);
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
                 if (data.errors) {

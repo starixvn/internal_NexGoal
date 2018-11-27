@@ -133,7 +133,6 @@
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-            commandResult.ObjectId = criteria.PerformanceRecordId;
 
             return commandResult;
         }

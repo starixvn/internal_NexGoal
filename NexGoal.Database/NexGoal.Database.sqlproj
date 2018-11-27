@@ -250,6 +250,7 @@
     <Build Include="dbo\Stored Procedures\NominationPeriod_Delete.sql" />
     <Build Include="dbo\Stored Procedures\NominationPeriod_UpdateSetting.sql" />
     <Build Include="dbo\Stored Procedures\NominationPeriod_GetSetting.sql" />
+    <Build Include="dbo\Stored Procedures\Period_GetPARecordsToUpdateGrade.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_QuickUpdateByReviewer.sql" />
   </ItemGroup>
 </Project>
