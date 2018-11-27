@@ -75,6 +75,25 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task QuickEditPARecordByReviewerAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+
+            var service = GetPARecordService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<QuickEditPARecordByReviewerCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.QuickEditPARecordByReviewerAsync(165, 1);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
         #region Helpers
 
         private PARecordService GetPARecordService()

@@ -169,6 +169,27 @@
             Assert.Equal(expected, commandResult);
         }
 
+        [Fact]
+        public async Task QuickEditPost_ModelStateIsValid_ReturnAsExpectedCommandResult()
+        {
+            // Arrange
+            var paRecordId = 10;
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var controller = GetReviewController();
+            paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId).Returns(expected);
+
+            // Act
+            var actual = await controller.QuickEdit(paRecordId);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var commandResult = Assert.IsAssignableFrom<CommandResult>(jsonResult.Value);
+            Assert.Equal(expected, commandResult);
+        }
+
         #endregion Edit
 
         #region Details

@@ -18,6 +18,7 @@
         private IBaseService baseService;
         private ISessionService sessionService;
         private ICommonService commonService;
+        private ICryptoService cryptoService;
 
         [Fact]
         public async Task GetPeriodAsync_WhenCalled_ReturnAsExpectedPeriods()
@@ -325,7 +326,8 @@
             baseService = Substitute.For<IBaseService>();
             sessionService = FakeSessionService();
             commonService = Substitute.For<ICommonService>();
-            var service = new PeriodService(baseService, sessionService, commonService);
+            cryptoService = Substitute.For<ICryptoService>();
+            var service = new PeriodService(baseService, sessionService, commonService, cryptoService);
 
             return service;
         }
