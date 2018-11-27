@@ -35,6 +35,7 @@ BEGIN
 		,record.ModifiedDate
 		,record.EmployeeIds
 		,record.CreatorId
+		,record.TypeId
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN #tblPerformanceRecordIds AS tbl WITH (NOLOCK) ON record.PerformanceRecordId = tbl.PerformanceRecordId
 		INNER JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId

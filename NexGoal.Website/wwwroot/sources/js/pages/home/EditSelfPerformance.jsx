@@ -127,7 +127,7 @@ export default class EditSelfPerformance extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('UpdatedSuccessfully'));
 
-                    this.props.onSubmitSuccess();
+                    this.props.onSubmitSuccess(data.objectIds, statusId);
                 } else {
                     if (data.errors) {
                         let errors = {};

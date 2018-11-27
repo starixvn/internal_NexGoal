@@ -138,8 +138,6 @@ export default class MyPage extends Component {
         axios(resolveClientUrl(`Self/Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
                 let performanceRecords = this.state.performanceRecords.slice();
-                let displayedPerformanceRecords;
-                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
 
                 if (statusId === PerformanceRecordStatus.Draft) {
                     performanceRecords.splice(0, 0, ...response.data);
@@ -148,13 +146,14 @@ export default class MyPage extends Component {
                         this.onTimelinePageChange(0);
                     }
 
-                    let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(statusId);
-                    lastIndex = lastIndex >= 0 ? lastIndex : 0;
+                    let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                    lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
                     performanceRecords.splice(lastIndex, 0, ...response.data);
                 }
 
-                displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -181,13 +180,32 @@ export default class MyPage extends Component {
         });
     }
 
-    handleEditPerformanceRecordSuccess = () => {
-        axios(resolveClientUrl(`Self/Performance`))
+    handleEditPerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+        axios(resolveClientUrl(`Self/Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
-                let performanceRecords = response.data;
+                let performanceRecords = this.state.performanceRecords.slice();
+                let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
+                let currentRecord = performanceRecords[currentRecordIndex];
 
-                this.onTimelinePageChange(0);
-                let displayedPerformanceRecords = performanceRecords.slice(0, this.refs.infiniteScrollRef.pageLoaded * this.itemPerPage);
+                if (currentRecord.statusId === PerformanceRecordStatus.Draft) {
+                    if (statusId === PerformanceRecordStatus.Draft) {
+                        performanceRecords.splice(currentRecordIndex, 1, ...response.data);
+                    } else {
+                        performanceRecords.splice(currentRecordIndex, 1);
+
+                        let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                        lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+
+                        performanceRecords.splice(lastIndex, 0, ...response.data);
+
+                        this.onTimelinePageChange(this.state.personalTimeline.pageIndex);
+                    }
+                } else {
+                    performanceRecords.splice(currentRecordIndex, 1, ...response.data);
+                }
+
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
@@ -232,11 +250,8 @@ export default class MyPage extends Component {
                     performanceRecords.splice(index, 1);
                 }
 
-                let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
-                index = displayedPerformanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
-                if (index >= 0) {
-                    displayedPerformanceRecords.splice(index, 1);
-                }
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,

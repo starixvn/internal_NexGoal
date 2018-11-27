@@ -188,7 +188,10 @@
                 TypeId = performanceRecord.TypeId
             };
 
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+            commandResult.ObjectIds = criteria.PerformanceRecordIds;
+
+            return commandResult;
         }
 
         public async Task<CommandResult> DeletePerformanceRecordAsync(int performanceRecordId, int actorId)

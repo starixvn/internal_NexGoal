@@ -92,7 +92,7 @@ export default class CreateNomination extends Component {
 
             if (data.isSuccessful) {
                 this.handleCloseForm();
-                this.props.onCreateSuccess(data.objectId);
+                this.props.onCreateSuccess(data.objectIds);
                 toast.success(getResource('CreatedSuccessfully'));
             } else {
                 if (data.errors) {

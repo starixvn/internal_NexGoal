@@ -2,6 +2,7 @@
 {
     public class EditPerformanceRecordCriteria : CommandBaseCriteria
     {
+        public string PerformanceRecordIds { get; set; }
         public int PerformanceRecordId { get; set; }
         public string EmployeeIds { get; set; }
         public int CreatorId { get; set; }

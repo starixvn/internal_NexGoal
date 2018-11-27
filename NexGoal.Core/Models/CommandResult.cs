@@ -11,7 +11,6 @@ namespace NexGoal.Core.Models
         public int Code { get; set; }
         public string Message { get; set; }
         public bool IsSuccessful => Code == 0;
-        public int ObjectId { get; set; }
         public string ObjectIds { get; set; }
     }
 }

@@ -194,6 +194,34 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task GetByIds_WhenCalled_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var expected = new List<PerformanceRecordModel>
+            {
+                new PerformanceRecordModel
+                {
+                    PerformanceRecordId = 1,
+                    Employees = new List<EmployeeBaseModel>
+                    {
+                        new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" }
+                    },
+                    Comment = "test"
+                }
+            };
+            var controller = GetMyPerformanceController();
+            performanceService.GetPerformanceRecordByIdsAsync("1", sessionService.EmployeeId).Returns(expected);
+
+            // Act
+            var result = await controller.GetByIds("1");
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<PerformanceRecordModel>>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
         #region Helpers
 
         private ISessionService FakeSessionService()
