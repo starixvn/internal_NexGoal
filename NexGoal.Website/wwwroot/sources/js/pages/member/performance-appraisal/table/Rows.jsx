@@ -32,8 +32,8 @@ class Rows extends Component {
         } else {
             paGrade = record.originalGrade.name;
         }
-        if (record.gradeId < record.originalGradeId) gradeChangeClass = 'icon-increase-arrow';
-        if (record.gradeId > record.originalGradeId) gradeChangeClass = 'icon-descrease-arrow';
+        if (parseInt(record.gradeId) > parseInt(record.originalGradeId)) gradeChangeClass = 'icon-increase-arrow';
+        if (parseInt(record.gradeId) < parseInt(record.originalGradeId)) gradeChangeClass = 'icon-descrease-arrow';
 
         return (
             <Fragment>
