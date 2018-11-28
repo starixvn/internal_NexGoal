@@ -86,7 +86,7 @@
                 new PARecordModel { PARecordId = 1, EmployeeId = 1 }
             };
             var controller = GetReviewController();
-            paRecordService.GetPARecordByActorAsync(Arg.Any<GetPARecordParam>()).Returns(records);
+            paRecordService.GetPARecordByReviewerAsync(Arg.Any<GetPARecordParam>()).Returns(records);
 
             // Act
             var actual = await controller.GetPARecords(param);

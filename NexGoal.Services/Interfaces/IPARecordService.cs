@@ -14,6 +14,8 @@
 
         Task<IEnumerable<PARecordModel>> GetPARecordByActorAsync(GetPARecordParam param);
 
+        Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(GetPARecordParam param);
+
         Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId);
 
         Task<CommandResult> EditPARecordByReviewerAsync(int actorId, EditPARecordByReviewerModel paRecord);

@@ -60,16 +60,6 @@ BEGIN
 		,pa.OriginalGradeId
 		,pa.ModifiedDate
 		,(t.Listening + t.Reading) AS Toeic
-		,(
-			CASE 
-				WHEN (
-						(ISNULL(t.Listening, 0) + ISNULL(t.Reading, 0)) >= ISNULL(t.MinimumScore, 0)
-						)
-					OR (ISNULL(t.Listening, 0) + ISNULL(t.Reading, 0)) >= 900
-					THEN 1
-				ELSE 0
-				END
-			) AS IsPassedToeic
 		,(CASE 
 			WHEN tbl.ProcessId <> @ReviewerProcessId THEN @PAClosed
 			ELSE pa.StatusId END

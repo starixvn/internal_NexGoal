@@ -49,7 +49,7 @@
         public async Task<JsonResult> GetPARecords(GetPARecordParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<PARecordModel> paRecords = await paRecordService.GetPARecordByActorAsync(param).ConfigureAwait(false);
+            IEnumerable<PARecordModel> paRecords = await paRecordService.GetPARecordByReviewerAsync(param).ConfigureAwait(false);
             if (param.IsEdited != null)
             {
                 paRecords = paRecords.Where(r => r.IsEdited == param.IsEdited);

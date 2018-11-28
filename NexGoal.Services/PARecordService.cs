@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -183,6 +184,23 @@
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(GetPARecordParam param)
+        {
+            var criteria = new GetPARecordByReviewerCriteria
+            {
+                ActorId = param.ActorId,
+                PeriodId = param.PeriodId,
+                GroupIds = param.GroupIds
+            };
+            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
+            MappingData(tuple.Item1, tuple.Item2, tuple.Item3, employees, performanceGrades);
+
+            return tuple.Item1;
         }
     }
 }

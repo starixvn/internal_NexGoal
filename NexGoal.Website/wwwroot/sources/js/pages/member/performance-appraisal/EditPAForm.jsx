@@ -8,7 +8,7 @@ import TextareaFullscreenEditor from '../../../shared/components/textarea-fullsc
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { PerformanceProcess } from '../../../constants';
+import { PerformanceProcess, PAStatus } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 
 export default class EditMemberPA extends Component {
@@ -18,7 +18,8 @@ export default class EditMemberPA extends Component {
             paRecord: {
                 paRecordId: null,
                 grade: null,
-                comment: ''
+                comment: '',
+                paStatus: null
             },
             paProcesses: [],
             errors: {},
@@ -35,10 +36,11 @@ export default class EditMemberPA extends Component {
                     paRecord: {
                         paRecordId: pa.paRecordId,
                         grade: this.props.gradeOptions.find(o => o.value === grade.gradeId),
-                        comment: pa.comment
+                        comment: pa.comment,
+                        paStatus: pa.statusId
                     },
                     paProcesses: pa.processes
-                });
+                }, () => console.log(this.state.paRecord));
             }
         }).catch(axiosError);
     }
@@ -84,7 +86,7 @@ export default class EditMemberPA extends Component {
     handleSubmit = (event) => {
         event.preventDefault();
 
-        if (this.validateForm()) {
+        if (this.validateForm() && this.state.paRecord.paStatus === PAStatus.InProgress) {
             let record = this.state.paRecord;
 
             let paRecord = stringify({
@@ -171,11 +173,12 @@ export default class EditMemberPA extends Component {
                                         name="comment"
                                         value={paRecord.comment}
                                         onChange={this.handleCommentChange}
+                                        disabled={this.state.paRecord.paStatus === PAStatus.Closed}
                                     />
                                 </FormGroup>
                                 <FormGroup>
                                     <div className="grade">
-                                        <ControlLabel>{getResource('Grade')}</ControlLabel>
+                                        <ControlLabel className="required-label">{getResource('Grade')}</ControlLabel>
                                         <Select name="grade" classNamePrefix="react-select"
                                             className={`react-select-container grade-field ${!isEmpty(errors) && errors.grade ? 'input-validation-error' : ''}`}
                                             placeholder="Select Grade"
@@ -183,6 +186,7 @@ export default class EditMemberPA extends Component {
                                             options={this.props.gradeOptions}
                                             isSearchable={false}
                                             onChange={this.handleGradeChange}
+                                            isDisabled={this.state.paRecord.paStatus === PAStatus.Closed}
                                         />
                                     </div>
                                 </FormGroup>
@@ -208,7 +212,12 @@ export default class EditMemberPA extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
-                    <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Submit')}</Button>
+                    <Button type="submit" bsStyle="primary" name="save"
+                        onClick={this.handleSubmit}
+                        disabled={this.state.paRecord.paStatus === PAStatus.Closed}
+                    >
+                        {getResource('Submit')}
+                    </Button>
                 </Modal.Footer>
             </Modal>
         );

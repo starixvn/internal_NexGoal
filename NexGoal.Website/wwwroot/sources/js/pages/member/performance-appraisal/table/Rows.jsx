@@ -1,5 +1,5 @@
 ﻿import React, { Component, Fragment } from 'react';
-import { PerformanceProcess } from '../../../../constants';
+import { PerformanceProcess, PAStatus } from '../../../../constants';
 import { Tooltip, OverlayTrigger } from 'react-bootstrap';
 import getResource from '../../../../resourceHelper';
 
@@ -34,14 +34,16 @@ class Rows extends Component {
         }
         if (parseInt(record.gradeId) > parseInt(record.originalGradeId)) gradeChangeClass = 'icon-increase-arrow';
         if (parseInt(record.gradeId) < parseInt(record.originalGradeId)) gradeChangeClass = 'icon-descrease-arrow';
-
+        let displayPAGrade = record.statusId === PAStatus.Closed ?
+            <span>{paGrade}</span> :
+            <a onClick={() => this.handleClick(record.paRecordId)}>{paGrade}</a>;
         return (
             <Fragment>
                 {
                     reviewerProcess.length > 0 &&
                     <span className="icon-note" />
                 }
-                <a onClick={() => this.handleClick(record.paRecordId)}>{paGrade}</a>
+                {displayPAGrade}
                 <span className={gradeChangeClass} />
             </Fragment>
         );
@@ -88,6 +90,13 @@ class Rows extends Component {
         }
     }
 
+    renderNickName = (record) => {
+        let displayNickname = <span>{record.employee.nickName}</span>;
+        if (record.statusId !== PAStatus.InProgress) {
+            displayNickname = <a onClick={() => this.handleClick(record.paRecordId)}>{record.employee.nickName}</a>;
+        }
+        return displayNickname;
+    }
     handleClick = (paRecordId) => {
         this.props.onClickEditPA(paRecordId);
     }
@@ -104,10 +113,11 @@ class Rows extends Component {
                     performanceRecords.map(record => {
                         return (
                             <tr>
-                                <td>{record.employee.nickName}</td>
+                                <td>{this.renderNickName(record)}</td>
                                 <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
                                 <td className="text-center">{this.renderPAByProcess(record.processes, PerformanceProcess.Self)}</td>
-                                <td className="text-center">{this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
+                                <td className="text-center">
+                                    {this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
                                 <td className="text-center">{this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
                                 <td className="text-center">{this.renderPAForReviewer(record)}</td>
                                 <td className="text-center">{this.renderStatus(record.isEdited, record.paRecordId)}</td>

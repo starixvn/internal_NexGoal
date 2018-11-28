@@ -117,6 +117,7 @@
     <Setting Key="PARecord_GetPeriodByActor" SpName="PARecord_GetPeriodByActor" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_GetGroupByActor" SpName="PARecord_GetGroupByActor" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_GetByActor" SpName="PARecord_GetByActor" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PARecord_GetByReviewer" SpName="PARecord_GetByReviewer" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_GetById" SpName="PARecord_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_UpdateByReviewer" SpName="PARecord_UpdateByReviewer" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="PARecord_QuickUpdateByReviewer" SpName="PARecord_QuickUpdateByReviewer" DbName="bodb_NexGoal" Plain="0"></Setting>

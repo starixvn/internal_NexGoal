@@ -63,12 +63,13 @@ export default class TextareaFullscreenEditor extends Component {
                             className={this.props.className}
                             name={this.props.name}
                             value={this.props.value}
+                            disabled={this.props.disabled}
                             onChange={this.handleOnChange}
                         />
                     </div>
-                    
+
                 </div>
-                <span className="icon-fullmode" onClick={this.handleChangeMode} title={isFullscreen ? 'Minimize' : 'Maximize'} />
+                < span className="icon-fullmode" onClick={this.handleChangeMode} title={isFullscreen ? 'Minimize' : 'Maximize'} />
             </div>
         );
     }
