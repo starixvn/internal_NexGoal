@@ -70,13 +70,17 @@
             var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
 
             var performanceRecord = result.Item1.FirstOrDefault();
-            var nominationPeriod = result.Item2.FirstOrDefault();
 
-            performanceRecord.Creator = await commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).ConfigureAwait(false);
-            performanceRecord.NominationPeriod = nominationPeriod;
+            if (performanceRecord != null)
+            {
+                var nominationPeriod = result.Item2.FirstOrDefault();
 
-            var nominee = await commonService.GetEmployeeByIdAsync(int.Parse(performanceRecord.EmployeeIds)).ConfigureAwait(false);
-            performanceRecord.Employees = new List<EmployeeBaseModel> { nominee };
+                performanceRecord.Creator = await commonService.GetEmployeeByIdAsync(performanceRecord.CreatorId).ConfigureAwait(false);
+                performanceRecord.NominationPeriod = nominationPeriod;
+
+                var nominee = await commonService.GetEmployeeByIdAsync(int.Parse(performanceRecord.EmployeeIds)).ConfigureAwait(false);
+                performanceRecord.Employees = new List<EmployeeBaseModel> { nominee };
+            }
 
             return performanceRecord;
         }
