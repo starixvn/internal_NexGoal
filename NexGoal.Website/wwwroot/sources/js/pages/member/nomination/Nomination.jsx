@@ -68,7 +68,6 @@ export default class Nomination extends Component {
                 let nominations = prevState.nominations.slice();
                 let index = nominations.findIndex(x => x.performanceRecordId === performanceRecordId);
                 nominations[index] = response.data;
-                nominations.sort(this.sortNominationsDesc);
 
                 return {
                     nominations: nominations,

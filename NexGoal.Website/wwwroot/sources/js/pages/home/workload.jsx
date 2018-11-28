@@ -124,6 +124,7 @@ export default class WorkLoad extends PureComponent {
                 }
             }
         },
+        maintainAspectRatio: false,
     }
 
     render() {
@@ -139,7 +140,9 @@ export default class WorkLoad extends PureComponent {
                         <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
                     </div>
                 </div>
-                {chartData && <Doughnut data={chartData} options={this.chartOptions} />}
+                <div style={{ position: 'relative' }}>
+                    {chartData && <Doughnut data={chartData} height={220} options={this.chartOptions} />}
+                </div>
             </div>
         );
     }
