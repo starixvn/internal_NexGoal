@@ -52,7 +52,7 @@ class Rows extends Component {
     renderPAByProcess = (paProcesses, processId) => {
         let processes = paProcesses.filter(process => process.processId === processId);
         let grade = processes.map(process => {
-            return process.performanceRecord ? process.performanceRecord.grade.name : '';
+            return process.performanceRecord && process.performanceRecord.grade ? process.performanceRecord.grade.name : 'N/A';
         }).join(', ');
         let tooltip;
 
@@ -63,7 +63,7 @@ class Rows extends Component {
                         processes.map(process => {
                             return (
                                 <p>
-                                    {`${process.evaluator.nickName}: ${process.performanceRecord
+                                    {`${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
                                         ? process.performanceRecord.grade.name : "N/A"} `}
                                 </p>
                             );
