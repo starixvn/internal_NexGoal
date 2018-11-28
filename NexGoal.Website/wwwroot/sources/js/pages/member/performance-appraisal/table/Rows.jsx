@@ -72,7 +72,7 @@ class Rows extends Component {
 
             return (
                 <OverlayTrigger placement="bottom" overlay={tooltip}>
-                    <span>{grade}</span>
+                    <span className="pointer">{grade}</span>
                 </OverlayTrigger>
             );
         } else {
@@ -82,7 +82,7 @@ class Rows extends Component {
 
     renderStatus = (isEdited, paRecordId) => {
         if (isEdited) {
-            return (<span className="checked-stick" />);
+            return (<div><input type="checkbox" className="checkbox-custom" id={`chb-${paRecordId}`} checked/><label for={`chb-${paRecordId}`}></label></div>);
         } else {
             return <span onClick={() => this.props.onQuickEditPA(paRecordId)} >Click</span>;
         }

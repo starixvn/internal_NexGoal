@@ -2,6 +2,7 @@
 @import "../../abstracts/mixins";
 @import "../../components/form-filter";
 @import "../../components/form-inline";
+@import "../../components/checkbox";
 
 .pa-content {
     padding: 0 16px;
@@ -32,7 +33,6 @@
     .icon-increase-arrow, .icon-descrease-arrow {
         display: inline-block;
         margin-left: 6px;
-        cursor: pointer;
         &:before {
             font-size: 9px;
         }
@@ -41,10 +41,12 @@
         position: absolute;
         left: 5px;
         top: 3px;
-        cursor: pointer;
         &:before {
             font-size: 12px;
         }
+    }
+    .pointer {
+        cursor: pointer;
     }
 }
    

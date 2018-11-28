@@ -52,7 +52,9 @@
     display: grid;
     grid-template-columns: 90px 1fr;
     align-content: center;
-
+    @media screen and (min-width: 1280px) { 
+        grid-template-columns: 78px 1fr;
+    }
     .employee-info {
         align-self: center;
 
@@ -74,7 +76,7 @@
         top: 102px;
         z-index: 55;
         background-color: #fff;
-        width: calc(100% - 804px - 24px);
+        width: calc(100% - 504px - 24px);
         margin: 0 12px;
     }
     .tab-content {
@@ -277,5 +279,21 @@
         width: 10px;
         height: 10px;
         margin-right: 10px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .main-content #tabs {
+        .nav-tabs {
+            width: calc(100% - 804px - 24px);
+        }
+    }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1600px){
+    .main-content #tabs {
+        .nav-tabs {
+            width: calc(100% - 604px - 24px);
+        }
     }
 }

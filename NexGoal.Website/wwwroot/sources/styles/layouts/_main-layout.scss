@@ -5,7 +5,7 @@
     .general-info {
         box-shadow: 0 0 3px #dedede;
         position: fixed;
-        width: 300px;
+        width: 250px;
         top: 50px;
         bottom: 0;
         background-color: #fff;
@@ -33,6 +33,7 @@
         top: 50px;
         z-index: 10;
         background: #fff;
+        width: calc(100% - 504px);
     }
 }
 
@@ -51,7 +52,7 @@
 
 @media screen and (min-width: 1280px) and (max-width: 1600px) {
     .main-layout {
-        .work-info {
+        .general-info, .work-info {
             width: 300px;
         }
 
