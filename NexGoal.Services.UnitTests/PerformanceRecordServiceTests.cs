@@ -1,9 +1,13 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceRecord;
+    using NexGoal.Models;
+    using NexGoal.Models.Common;
     using NexGoal.Models.PerformanceRecord;
     using NSubstitute;
     using Xunit;
@@ -13,6 +17,80 @@
         private IBaseService baseService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
+
+        #region GetPerformanceRecordByIdAsync
+
+        [Fact]
+        public async Task GetPerformanceRecordByIdAsync_PerformanceRecordIsNotExist_ReturnNull()
+        {
+            // Arrange
+            PerformanceRecordModel performanceRecord = null;
+            var service = GetPerformanceRecordService();
+            baseService.GetDataEntityAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(performanceRecord);
+
+            // Act
+            var actual = await service.GetPerformanceRecordByIdAsync(1, 1);
+
+            // Assert
+            Assert.Null(actual);
+        }
+
+        [Fact]
+        public async Task GetPerformanceRecordByIdAsync_PerformanceRecordIsExist_ReturnAsExpectedPerformanceRecord()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecord = new PerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                ProjectIds = "1",
+                GradeId = "cipher text"
+            };
+            IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
+            IEnumerable<ProjectModel> projects = GetProjectForTest();
+            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var expectedEmployees = employees.Where(x => performanceRecord.EmployeeIds.Contains(x.EmployeeId.ToString()));
+            var expectedProjects = projects.Where(x => performanceRecord.ProjectIds.Contains(x.ProjectId.ToString()));
+            var service = GetPerformanceRecordService();
+            baseService.GetDataEntityAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(performanceRecord);
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
+            commonService.GetProjectsAsync().Returns(projects);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
+
+            // Act
+            var actual = await service.GetPerformanceRecordByIdAsync(1, 1);
+
+            // Assert
+            Assert.NotNull(actual);
+            Assert.Equal(performanceRecord.PerformanceRecordId, actual.PerformanceRecordId);
+            Assert.Equal(performanceRecord.EmployeeIds, actual.EmployeeIds);
+            Assert.Equal(performanceRecord.ProjectIds, actual.ProjectIds);
+            Assert.Equal(performanceRecord.GradeId, gradeId);
+            Assert.Equal(performanceRecord.Comment, actual.Comment);
+            Assert.Equal(performanceRecord.StatusId, actual.StatusId);
+            Assert.Equal(performanceRecord.CreatedDate, actual.CreatedDate);
+            Assert.Equal(performanceRecord.ModifiedDate, actual.ModifiedDate);
+            Assert.Equal(performanceRecord.RoleId, actual.RoleId);
+            Assert.Equal(performanceRecord.TypeId, actual.TypeId);
+            Assert.Equal(performanceRecord.NominationStatusId, actual.NominationStatusId);
+
+            Assert.Equal(performanceRecord.PeriodId, actual.PeriodId);
+            Assert.Equal(performanceRecord.Period, actual.Period);
+
+            Assert.Equal(performanceRecord.CreatorId, actual.CreatorId);
+            Assert.Equal(performanceRecord.Creator, actual.Creator);
+
+            Assert.Equal(performanceRecord.NominationPeriodId, actual.NominationPeriodId);
+            Assert.Equal(performanceRecord.NominationPeriod, actual.NominationPeriod);
+
+            Assert.True(expectedEmployees.All(x => performanceRecord.Employees.Any(y => y == x)));
+            Assert.True(expectedProjects.All(x => performanceRecord.Projects.Any(y => y == x)));
+            Assert.True(performanceRecord.Grade == performanceGrades.First());
+        }
+
+        #endregion GetPerformanceRecordByIdAsync
 
         [Fact]
         public async Task CreatePerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
@@ -80,6 +158,39 @@
         }
 
         #region Helpers
+
+        private IEnumerable<EmployeeBaseModel> GetEmployeeForTest()
+        {
+            var employees = new List<EmployeeBaseModel>
+            {
+                new EmployeeBaseModel { EmployeeId = 1, NickName = "Tim" },
+                new EmployeeBaseModel { EmployeeId = 2, NickName = "Quinn" }
+            };
+
+            return employees;
+        }
+
+        private IEnumerable<ProjectModel> GetProjectForTest()
+        {
+            var projects = new List<ProjectModel>
+            {
+                new ProjectModel { ProjectId = 1, Name = "NexGoal" },
+                new ProjectModel { ProjectId = 2, Name = "HRM" }
+            };
+
+            return projects;
+        }
+
+        private IEnumerable<PerformanceGradeModel> GetPerformanceGradeForTest()
+        {
+            var performanceGrades = new List<PerformanceGradeModel>
+            {
+                new PerformanceGradeModel { GradeId = 1, Name = "EE" },
+                new PerformanceGradeModel { GradeId = 2, Name = "EE+" }
+            };
+
+            return performanceGrades;
+        }
 
         private PerformanceRecordService GetPerformanceRecordService()
         {
