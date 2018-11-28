@@ -86,7 +86,7 @@ class Rows extends Component {
         if (isEdited) {
             return (<div><input type="checkbox" className="checkbox-custom" id={`chb-${paRecordId}`} checked/><label for={`chb-${paRecordId}`}></label></div>);
         } else {
-            return <span onClick={() => this.props.onQuickEditPA(paRecordId)} >Click</span>;
+            return (<div><input type="checkbox" className="checkbox-custom" id={`chb-${paRecordId}`}/><label for={`chb-${paRecordId}`}></label></div>);
         }
     }
 
