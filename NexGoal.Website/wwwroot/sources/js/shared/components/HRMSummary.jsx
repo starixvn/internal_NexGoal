@@ -1,9 +1,11 @@
-﻿import React from "react";
+﻿import React from 'react';
 import moment from 'moment';
+
 import getResource from '../../resourceHelper';
 
 export default function HrmDetail(props) {
     const toeicClass = props.hrmDetail.isPassedToeic ? '' : 'red';
+
     const renderToeicScore = () => {
         if (props.hrmDetail.toeicScore > 0) {
             return (
