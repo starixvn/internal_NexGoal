@@ -19,6 +19,8 @@ export default class CreateMemberPerformance extends Component {
         memberOptions: PropTypes.arrayOf(PropTypes.object),
         performanceGradeOptions: PropTypes.arrayOf(PropTypes.object),
         projectOptions: PropTypes.arrayOf(PropTypes.object),
+        selectedMemberId: PropTypes.number,
+        isMultiple: PropTypes.bool,
         onSubmitSuccess: PropTypes.func
     };
 
@@ -27,6 +29,8 @@ export default class CreateMemberPerformance extends Component {
         memberOptions: [],
         performanceGradeOptions: [],
         projectOptions: [],
+        selectedMemberId: 0,
+        isMultiple: true,
         onSubmitSuccess: function () { }
     };
 
@@ -52,6 +56,8 @@ export default class CreateMemberPerformance extends Component {
             || JSON.stringify(this.props.memberOptions) !== JSON.stringify(nextProps.memberOptions)
             || JSON.stringify(this.props.performanceGradeOptions) !== JSON.stringify(nextProps.performanceGradeOptions)
             || JSON.stringify(this.props.projectOptions) !== JSON.stringify(nextProps.projectOptions)
+            || this.props.selectedMemberId !== nextProps.selectedMemberId
+            || this.props.isMultiple !== nextProps.isMultiple
             || JSON.stringify(this.state.performanceRecord) !== JSON.stringify(nextState.performanceRecord)
             || JSON.stringify(this.state.errors) !== JSON.stringify(nextState.errors)
             || this.state.isOpenForm !== nextState.isOpenForm) {

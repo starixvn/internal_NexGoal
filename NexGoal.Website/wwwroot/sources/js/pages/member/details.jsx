@@ -6,7 +6,9 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { Scrollbars } from 'react-custom-scrollbars';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
+
 import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
+import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
@@ -27,7 +29,7 @@ export default class App extends Component {
 
         this.state = {
             memberInfo: {
-                id: document.getElementById('MemberId').value,
+                id: parseInt(document.getElementById('MemberId').value),
                 nickName: document.getElementById('member-nickName').value,
                 fullName: document.getElementById('member-fullName').value,
                 jobTitle: document.getElementById('member-jobTitle').value,
@@ -69,7 +71,7 @@ export default class App extends Component {
         };
 
         this.timelineItemPerPage = calculateTimelineNode();
-        this.itemPerPage = 5;
+        this.itemPerPage = 10;
     }
 
     componentDidMount() {
@@ -201,18 +203,31 @@ export default class App extends Component {
         }
     }
 
-    handleCreatePerformanceRecordSuccess = () => {
-        axios(resolveClientUrl('member/Performance'), { params: { memberId: this.state.memberInfo.id } })
+    handleCreatePerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+        axios(resolveClientUrl(`Member/Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
-                let memberPerformances = response.data;
-                if (this.state.personalTimeline.pageIndex === 0) {
-                    this.onTimelinePageChange(0);
+                let performanceRecords = this.state.performanceRecords.slice();
+
+                if (statusId === PerformanceRecordStatus.Draft) {
+                    performanceRecords.splice(0, 0, ...response.data);
+                } else {
+                    if (this.state.personalTimeline.pageIndex === 0) {
+                        this.onTimelinePageChange(0);
+                    }
+
+                    let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                    lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+
+                    performanceRecords.splice(lastIndex, 0, ...response.data);
                 }
-                this.refs.infiniteScrollRef.pageLoaded = 1;
+
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
-                    performanceRecords: memberPerformances,
-                    displayedPerformanceRecords: memberPerformances.slice(0, this.itemPerPage)
+                    performanceRecords: performanceRecords,
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
     }
@@ -235,17 +250,38 @@ export default class App extends Component {
         });
     }
 
-    handleEditPerformanceRecordSuccess = () => {
-        axios(resolveClientUrl('member/Performance'), { params: { memberId: this.state.memberInfo.id } })
+    handleEditPerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+        axios(resolveClientUrl(`Member/Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
-                let performanceRecords = response.data;
+                let performanceRecords = this.state.performanceRecords.slice();
+                let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
+                let currentRecord = performanceRecords[currentRecordIndex];
 
-                this.onTimelinePageChange(0);
-                this.refs.infiniteScrollRef.pageLoaded = 1;
+                if (currentRecord.statusId === PerformanceRecordStatus.Draft) {
+                    if (statusId === PerformanceRecordStatus.Draft) {
+                        performanceRecords.splice(currentRecordIndex, 1, ...response.data);
+                    } else {
+                        performanceRecords.splice(currentRecordIndex, 1);
+
+                        let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                        lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+
+                        let records = response.data.filter(record => record.employees[0].employeeId === this.state.memberInfo.id);
+                        performanceRecords.splice(lastIndex, 0, ...records);
+
+                        this.onTimelinePageChange(this.state.personalTimeline.pageIndex);
+                    }
+                } else {
+                    performanceRecords.splice(currentRecordIndex, 1, ...response.data);
+                }
+
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: performanceRecords.slice(0, this.itemPerPage)
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
 
                 this.handleCancelEditPerformanceRecord();
@@ -285,15 +321,13 @@ export default class App extends Component {
                     performanceRecords.splice(index, 1);
                 }
 
-                let displayedPerformanceRecords = this.state.displayedPerformanceRecords.slice();
-                index = displayedPerformanceRecords.findIndex(item => item.performanceRecordId === performanceRecordId);
-                if (index >= 0) {
-                    displayedPerformanceRecords.splice(index, 1);
-                }
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: displayedPerformanceRecords
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
 
                 this.handleCancelDeletePerformanceRecord();

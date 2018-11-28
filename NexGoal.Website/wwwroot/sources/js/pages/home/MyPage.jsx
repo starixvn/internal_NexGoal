@@ -57,7 +57,7 @@ export default class MyPage extends Component {
         };
 
         this.timelineItemPerPage = calculateTimelineNode();
-        this.itemPerPage = 5;
+        this.itemPerPage = 10;
     }
 
     componentDidMount() {
@@ -157,7 +157,8 @@ export default class MyPage extends Component {
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: displayedPerformanceRecords
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
             }).catch(axiosError);
     }
@@ -255,7 +256,8 @@ export default class MyPage extends Component {
 
                 this.setState({
                     performanceRecords: performanceRecords,
-                    displayedPerformanceRecords: displayedPerformanceRecords
+                    displayedPerformanceRecords: displayedPerformanceRecords,
+                    hasMore: displayedPerformanceRecords.length < performanceRecords.length
                 });
 
                 this.handleCancelDeletePerformanceRecord();
