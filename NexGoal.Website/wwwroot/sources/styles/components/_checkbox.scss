@@ -60,6 +60,7 @@
       width: 16px;
       height: 16px;
       background: white;
+      border: 1px solid #CCC;
     }
   
     // Box hover
@@ -68,13 +69,13 @@
     }
     
     // Box focus
-    &:focus + label:before {
-      box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
-    }
+    // &:focus + label:before {
+    //   box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+    // }
   
     // Box checked
     &:checked + label:before {
-      background: #f35429;
+      background: #fff;
     }
     
     // Disabled state label.
@@ -95,16 +96,16 @@
       position: absolute;
       left: 3px;
       top: 7px;
-      background: white;
+      background: #1c1c1c;
       width: 2px;
       height: 2px;
       box-shadow: 
-        2px 0 0 white,
-        4px 0 0 white,
-        4px -2px 0 white,
-        4px -4px 0 white,
-        4px -6px 0 white,
-        4px -8px 0 white;
+        2px 0 0 #1c1c1c,
+        4px 0 0 #1c1c1c,
+        4px -2px 0 #1c1c1c,
+        4px -4px 0 #1c1c1c,
+        4px -6px 0 #1c1c1c,
+        4px -8px 0 #1c1c1c;
       transform: rotate(45deg);
     }
   }
