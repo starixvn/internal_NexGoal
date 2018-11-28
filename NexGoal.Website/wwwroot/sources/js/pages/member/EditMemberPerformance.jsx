@@ -163,7 +163,7 @@ export default class EditMemberPerformance extends Component {
                 if (data.isSuccessful) {
                     toast.success(getResource('CreatedSuccessfully'));
 
-                    this.props.onSubmitSuccess();
+                    this.props.onSubmitSuccess(data.objectIds, statusId);
                 } else {
                     if (data.errors) {
                         let errors = {};

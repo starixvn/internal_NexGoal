@@ -204,14 +204,34 @@ export default class App extends Component {
         });
     }
 
-    handleEditPerformanceRecordSuccess = () => {
-        axios(resolveClientUrl('member/Performance'))
+    handleEditPerformanceRecordSuccess = (performanceRecordIds, statusId) => {
+        axios(resolveClientUrl(`Member/Performance/GetByIds/${performanceRecordIds}`))
             .then((response) => {
-                let performanceRecords = response.data;
+                let performanceRecords = this.state.performanceRecords.slice();
+                let currentRecordIndex = performanceRecords.findIndex(record => record.performanceRecordId === this.state.editPerformanceRecord.performanceRecordId);
+                let currentRecord = performanceRecords[currentRecordIndex];
 
-                this.refs.memberTimelineRef.getMemberPerformanceTimeline();
+                if (currentRecord.statusId === PerformanceRecordStatus.Draft) {
+                    if (statusId === PerformanceRecordStatus.Draft) {
+                        performanceRecords.splice(currentRecordIndex, 1, ...response.data);
+                    } else {
+                        performanceRecords.splice(currentRecordIndex, 1);
 
-                let displayedPerformanceRecords = performanceRecords.slice(0, this.refs.infiniteScrollRef.pageLoaded * this.itemPerPage);
+                        let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                        lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+
+                        performanceRecords.splice(lastIndex, 0, ...response.data);
+
+                        this.refs.memberTimelineRef.getMemberPerformanceTimeline(this.refs.memberTimelineRef.state.pageSize);
+                    }
+                } else {
+                    performanceRecords.splice(currentRecordIndex, 1, ...response.data);
+
+                    this.refs.memberTimelineRef.getMemberPerformanceTimeline(this.refs.memberTimelineRef.state.pageSize);
+                }
+
+                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
                     performanceRecords: performanceRecords,
