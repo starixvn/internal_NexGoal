@@ -1,11 +1,9 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
-import moment from 'moment';
 import { stringify } from 'qs';
 import { Scrollbars } from 'react-custom-scrollbars';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { PerformanceRecordStatus } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import CreateNomination from './CreateNomination';
@@ -19,7 +17,7 @@ export default class Nomination extends Component {
             nominations: [],
             nominationPeriods: [],
             showEditModal: false,
-            showDeleteModal: false,
+            showDeleteModal: false
         };
     }
 
@@ -33,13 +31,12 @@ export default class Nomination extends Component {
             axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
         ];
 
-        Promise.all(promises)
-            .then(([nominationResponse, nominationPeriodResponse]) => {
-                this.setState({
-                    nominations: nominationResponse.data,
-                    nominationPeriods: nominationPeriodResponse.data
-                });
-            }).catch(axiosError);
+        Promise.all(promises).then(([nominationResponse, nominationPeriodResponse]) => {
+            this.setState({
+                nominations: nominationResponse.data,
+                nominationPeriods: nominationPeriodResponse.data
+            });
+        }).catch(axiosError);
     }
 
     handleCreateNominationSuccess = performanceRecordId => {
@@ -85,10 +82,10 @@ export default class Nomination extends Component {
     }
 
     handleDelete = performanceRecordId => {
-        this.setState(prevState => ({
+        this.setState({
             showDeleteModal: true,
             deletedRecordId: performanceRecordId
-        }));
+        });
     }
 
     deleteNomination = () => {
@@ -97,7 +94,7 @@ export default class Nomination extends Component {
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                performanceRecordId: this.state.deletedRecordId,
+                performanceRecordId: this.state.deletedRecordId
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -113,9 +110,9 @@ export default class Nomination extends Component {
 
                     return {
                         nominations: nominations,
-                        deletedRecordId: nulll,
+                        deletedRecordId: null,
                         showDeleteModal: false
-                    }
+                    };
                 });
                 toast.success(getResource('DeletedSuccessfully'));
             } else {
@@ -141,7 +138,7 @@ export default class Nomination extends Component {
     render() {
         return (
             <div className="record-list">
-                <Scrollbars style={{ height: '100%' }} autoHide={true}>
+                <Scrollbars style={{ height: '100%' }} autoHide>
                     {
                         this.state.nominationPeriods.length > 0 &&
                         <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions}
@@ -149,11 +146,11 @@ export default class Nomination extends Component {
                             nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess}
                         />
                     }
-
                     {this.state.nominations.map(this.renderPerformanceRecord)}
                 </Scrollbars>
 
-                {this.state.showEditModal &&
+                {
+                    this.state.showEditModal &&
                     <EditNomination showModal={this.state.showEditModal}
                         currentUser={this.props.currentUser}
                         performanceRecord={this.state.editedNomination}
@@ -164,13 +161,15 @@ export default class Nomination extends Component {
                         isEmployeeSelectable={!this.props.isMemberDetail}
                     />
                 }
-
-                <ConfirmationModal showModal={this.state.showDeleteModal}
-                    onCloseModal={this.closeDeleteModal}
-                    action="delete"
-                    name="this nomination"
-                    onSubmit={this.deleteNomination}
-                />
+                {
+                    this.state.showDeleteModal &&
+                    <ConfirmationModal showModal={this.state.showDeleteModal}
+                        onCloseModal={this.closeDeleteModal}
+                        action="delete"
+                        name="this nomination"
+                        onSubmit={this.deleteNomination}
+                    />
+                }
             </div>
         );
     }

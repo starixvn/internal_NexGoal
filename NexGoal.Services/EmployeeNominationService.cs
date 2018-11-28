@@ -51,7 +51,7 @@
                 NominationPeriodId = model.NominationPeriodId,
                 NominatorId = model.NominatorId,
                 NomineeId = model.NomineeId,
-                Comment = model.Comment,
+                Comment = model.Comment
             };
 
             var commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
@@ -164,7 +164,20 @@
             return commandResult;
         }
 
-        private static void MappingData(IEnumerable<PerformanceRecordModel> performanceRecords, IEnumerable<EmployeeBaseModel> employees, IEnumerable<NominationModel> nominations)
+        public async Task<bool> IsNominator(int actorId)
+        {
+            var criteria = new CheckIsNominatorCriteria
+            {
+                ActorId = actorId
+            };
+
+            return await baseService.GetDataEntityAsync<bool>(criteria).ConfigureAwait(false);
+        }
+
+        private static void MappingData(
+            IEnumerable<PerformanceRecordModel> performanceRecords,
+            IEnumerable<EmployeeBaseModel> employees,
+            IEnumerable<NominationModel> nominations)
         {
             foreach (var record in performanceRecords)
             {
@@ -190,16 +203,6 @@
                 record.Creator = employees.FirstOrDefault(x => x.EmployeeId == record.CreatorId);
                 record.NominationPeriod = nominationPeriods.FirstOrDefault(x => x.NominationPeriodId == record.NominationPeriodId);
             }
-        }
-
-        public async Task<bool> IsNominator(int actorId)
-        {
-            var criteria = new CheckIsNominatorCriteria
-            {
-                ActorId = actorId
-            };
-
-            return await baseService.GetDataEntityAsync<bool>(criteria).ConfigureAwait(false);
         }
     }
 }

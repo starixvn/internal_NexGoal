@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../../constants';
+import { DateFormat } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 
@@ -33,7 +33,7 @@ export default class EditNomination extends Component {
                     label: `${props.performanceRecord.employees[0].fullName} (${props.performanceRecord.employees[0].nickName})`,
                     value: props.performanceRecord.employees[0].employeeId
                 },
-                comment: props.performanceRecord.comment,
+                comment: props.performanceRecord.comment
             }
         };
     }
@@ -63,7 +63,7 @@ export default class EditNomination extends Component {
         return errors;
     }
 
-    handleSubmit = (values, { setSubmitting, setErrors }) => {
+    handleSubmit = (values, { setErrors }) => {
         axios({
             url: resolveClientUrl(`MemberNomination/Edit`),
             method: 'post',
@@ -95,8 +95,6 @@ export default class EditNomination extends Component {
                     toast.error(data.message);
                 }
             }
-
-            setSubmitting(false);
         }).catch(axiosError);
     }
 
@@ -110,8 +108,7 @@ export default class EditNomination extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        isSubmitting }) => {
+        setFieldValue }) => {
         let onPeriodChange = (value) => {
             var period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
             let questions = '';
@@ -137,7 +134,8 @@ export default class EditNomination extends Component {
                     </div>
                     <div className="employee">
                         <ControlLabel>{getResource('Employee')}</ControlLabel>
-                        {this.props.isEmployeeSelectable ?
+                        {
+                            this.props.isEmployeeSelectable ?
                             <Select name="employee" className={`react-select-container ${touched.employee && errors.employee && 'input-validation-error'}`} classNamePrefix="react-select"
                                 value={values.employee} onChange={value => setFieldValue('employee', value)}
                                 options={this.props.employeeOptions}
@@ -181,7 +179,13 @@ export default class EditNomination extends Component {
                             </div>
                         </div>
                         <div className="comment">
-                            <Formik enableReinitialize={true} initialValues={this.state.initialObj} validate={this.validateForm} onSubmit={this.handleSubmit} render={this.renderForm} ref="form" />
+                            <Formik enableReinitialize={true}
+                                initialValues={this.state.initialObj}
+                                validate={this.validateForm}
+                                onSubmit={this.handleSubmit}
+                                render={this.renderForm}
+                                ref="form"
+                            />
                         </div>
                     </div>
                 </Modal.Body>
@@ -190,7 +194,6 @@ export default class EditNomination extends Component {
                     <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmitForm}>{getResource('Publish')}</Button>
                 </Modal.Footer>
             </Modal>
-
         );
     }
 }

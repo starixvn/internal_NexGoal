@@ -45,7 +45,7 @@
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
                     NominatorId = sessionService.EmployeeId,
-                    Comment = model.Comment,
+                    Comment = model.Comment
                 }).ConfigureAwait(false);
 
                 return Json(commandResult);

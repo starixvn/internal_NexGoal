@@ -9,7 +9,7 @@ import { Formik } from 'formik';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { DateFormat, PerformanceRecordStatus } from '../../../constants';
+import { DateFormat } from '../../../constants';
 import getResource from '../../../resourceHelper';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 
@@ -39,13 +39,12 @@ export default class CreateNomination extends Component {
             axios(resolveClientUrl('Common/GetEOYQuestions'))
         ];
 
-        Promise.all(promises)
-            .then(([eoqResponse, eoyResponse]) => {
-                this.setState({
-                    eoqQuestions: eoqResponse.data,
-                    eoyQuestions: eoyResponse.data
-                });
-            }).catch(axiosError);
+        Promise.all(promises).then(([eoqResponse, eoyResponse]) => {
+            this.setState({
+                eoqQuestions: eoqResponse.data,
+                eoyQuestions: eoyResponse.data
+            });
+        }).catch(axiosError);
     }
 
     handleOpenForm = () => {
@@ -74,7 +73,7 @@ export default class CreateNomination extends Component {
         return errors;
     }
 
-    handleSubmit = (values, { setSubmitting, setErrors }) => {
+    handleSubmit = (values, { setErrors }) => {
         axios({
             url: resolveClientUrl(`MemberNomination/Create`),
             method: 'post',
@@ -106,8 +105,6 @@ export default class CreateNomination extends Component {
                     toast.error(data.message);
                 }
             }
-
-            setSubmitting(false);
         }).catch(axiosError);
     }
 
@@ -118,7 +115,6 @@ export default class CreateNomination extends Component {
         handleChange,
         handleSubmit,
         setFieldValue,
-        submitForm,
         isSubmitting }) => {
         let onPeriodChange = (value) => {
             var period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);

@@ -338,7 +338,6 @@ export default class App extends Component {
 
                                     <div className="record-list">
                                         <Scrollbars style={{ height: '100%' }} autoHide>
-
                                             <CreateMemberPerformance
                                                 currentUser={currentUser}
                                                 memberOptions={employeeOptions}
