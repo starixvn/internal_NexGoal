@@ -46,7 +46,7 @@ export default class EmployeeManagement extends Component {
         });
     }
 
-    handleFilterSubmit() {
+    handleFilterSubmit = () => {
         this.getEmployees();
     }
 

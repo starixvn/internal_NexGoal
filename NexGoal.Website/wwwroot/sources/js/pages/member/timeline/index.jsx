@@ -168,19 +168,27 @@ export default class Timeline extends Component {
                         groupPerformances.map((groupPerformance, index) => {
                             return (
                                 <Fragment key={`groupPerformance${index}`}>
-                                    <div className="group-name">{groupPerformance.groupName}</div>
-                                    {
-                                        groupPerformance.records.map((memberPerformance) => {
-                                            return (
-                                                <Line key={`memberTimeline${memberPerformance.employeeId}`}
-                                                    data={memberPerformance}
-                                                    timelineWidth={timelineWidth}
-                                                    onPageChange={this.handlePageChange}
-                                                    onNodeClick={this.props.onNodeClick}
-                                                />
-                                            );
-                                        })
-                                    }
+                                    <div className="group-name"
+                                        data-toggle="collapse"
+                                        data-target={`#groupTimeline${index}`}
+                                        aria-expanded="true"
+                                    >
+                                        {groupPerformance.groupName} <span className="icon-chevron-down" />
+                                    </div>
+                                    <div id={`groupTimeline${index}`} className="collapse in" aria-expanded="true">
+                                        {
+                                            groupPerformance.records.map((memberPerformance) => {
+                                                return (
+                                                    <Line key={`memberTimeline${memberPerformance.employeeId}`}
+                                                        data={memberPerformance}
+                                                        timelineWidth={timelineWidth}
+                                                        onPageChange={this.handlePageChange}
+                                                        onNodeClick={this.props.onNodeClick}
+                                                    />
+                                                );
+                                            })
+                                        }
+                                    </div>
                                 </Fragment>
                             );
                         })
