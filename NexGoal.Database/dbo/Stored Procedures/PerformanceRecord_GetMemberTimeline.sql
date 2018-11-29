@@ -128,13 +128,23 @@ BEGIN
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		AND creator.[Enabled] = 1
 		AND creator.IsDeleted = 0
+		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+		AND emp.EmployeeId = pa.EmployeeId
 		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		AND nomination.NomineeId = @EmployeeId
-		AND nomination.StatusId <> 4 -- draft
 	WHERE (
 			record.TypeId = @Checkin
 			OR (
-				record.TypeId IN (@SystemPA, @SystemNomination)
+				(
+					(
+						record.TypeId = @SystemPA
+						AND pa.PARecordId IS NOT NULL
+						)
+					OR (
+						record.TypeId = @SystemNomination
+						AND nomination.NominationId IS NOT NULL
+						)
+					)
 				AND @EmployeeId IS NOT NULL
 				)
 			)

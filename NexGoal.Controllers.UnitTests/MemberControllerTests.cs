@@ -141,30 +141,6 @@
         }
 
         [Fact]
-        public async Task GetMemberNominationDetails_WhenCalled_ReturnExpectedResult()
-        {
-            // Arrange
-            var controller = GetMemberController();
-            var expected = new List<EmployeeNominationModel>
-            {
-                new EmployeeNominationModel
-                {
-                    NominationPeriodId = 1, StatusId = NominationStatus.Nominated
-                }
-            };
-
-            // Act
-            employeeService.GetMemberNominationDetailsAsync(sessionService.EmployeeId, 2, 363)
-                .Returns(expected);
-            var result = await controller.GetMemberNominationDetails(2, 363);
-
-            // Assert
-            var jsonResult = Assert.IsType<JsonResult>(result);
-            var actual = Assert.IsAssignableFrom<IEnumerable<EmployeeNominationModel>>(jsonResult.Value);
-            Assert.Equal(expected, actual);
-        }
-
-        [Fact]
         public async Task GetMembersWorkload_WhenCalled_ReturnAsExpectedWorkloads()
         {
             // Arrange

@@ -66,23 +66,28 @@
     background-color: #F1F4F8;
     line-height: 18px;
     cursor: pointer;
+
     &.role-system {
         border-color: $role-system-color;
         color: $role-system-color;
     }
+
     &[class*="status"] {
         width: 74px;
     }
+
     &.status-nomination {
         border-color: $status-nomination-color;
         background-color: rgba($status-nomination-color, 0.1);
         color: $status-nomination-color;
     }
+
     &.status-winner {
         border-color: $status-winner-color;
         background-color: #EBF4FF;
         color: 1px solid $status-winner-color;
     }
+
     &.status-shortlisted {
         border-color: $status-shortlisted-color;
         background-color: rgba($status-shortlisted-color, 0.05);
@@ -119,6 +124,11 @@
         margin: 0;
         width: 74px;
         margin-left: -1px;
+
+        &.role-default {
+            background-color: $role-default-color;
+        }
+
         &.role-member {
             background-color: $role-member-color;
         }
@@ -134,15 +144,19 @@
         &.role-reviewer {
             background-color: $role-reviewer-color;
         }
+
         &.role-system {
             background-color: $role-system-color;
         }
+
         &.status-nomination {
             background-color: $status-nomination-color;
         }
+
         &.status-winner {
             background-color: $status-winner-color;
         }
+
         &.status-shortlisted {
             background-color: $status-shortlisted-color;
         }
@@ -165,8 +179,10 @@
     color: #8F8F8F;
     cursor: pointer;
     padding: 0;
+
     &.disabled {
         opacity: 0.4;
+
         &:hover {
             color: #8F8F8F !important;
             opacity: 0.4;

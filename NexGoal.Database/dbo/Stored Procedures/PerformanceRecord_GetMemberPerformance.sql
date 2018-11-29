@@ -165,12 +165,12 @@ BEGIN
 			AND emp.EmployeeId = pa.EmployeeId
 			LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
 			AND record.PerformanceRecordId = nomination.PerformanceRecordId
-			AND nomination.StatusId <> 4 -- draft
 		WHERE (
 				record.TypeId = @Checkin
 				OR (
 					record.TypeId = @SystemPA
 					AND @EmployeeId IS NOT NULL
+					AND pa.PARecordId IS NOT NULL
 					)
 				)
 			AND record.StatusId IN (@Submitted, @Closed)

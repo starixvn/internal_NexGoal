@@ -5,7 +5,7 @@ import axios from 'axios';
 
 import { axiosError, resolveClientUrl } from './common-functions';
 
-export default class App extends Component {
+export default class SearchMember extends Component {
     constructor(props) {
         super(props);
 
@@ -84,4 +84,4 @@ export default class App extends Component {
     }
 }
 
-ReactDOM.render(<App />, document.getElementById('search-member-wrapper'));
+ReactDOM.render(<SearchMember />, document.getElementById('search-member-wrapper'));

@@ -21,29 +21,36 @@
 
 .general-info {
     padding: 0;
+
     .member-timeline {
         padding: 0 20px 12px 12px;
     }
+
     .title {
         padding: 12px;
         margin-bottom: 0;
     }
+
     .ddl-team {
         padding: 0 12px 12px;
+
         .team {
             padding-bottom: 4px;
         }
     }
-    .group-name { 
+
+    .group-name {
         font-weight: bold;
         font-size: 14px;
         margin-top: 16px;
     }
 }
+
 .record-list {
     height: calc(100vh - 50px - 52px - 36px);
     overflow: auto;
 }
+
 .member-detail .record-list {
     height: calc(100vh - 50px - 52px - 36px - 112px);
 }
@@ -52,9 +59,11 @@
     display: grid;
     grid-template-columns: 90px 1fr;
     align-content: center;
-    @media screen and (min-width: 1280px) { 
+
+    @media screen and (min-width: 1280px) {
         grid-template-columns: 78px 1fr;
     }
+
     .employee-info {
         align-self: center;
 
@@ -68,9 +77,11 @@
 
 .main-content #tabs {
     padding: 52px 0px 0;
+
     .record {
         margin: 12px;
     }
+
     .nav-tabs {
         position: fixed;
         top: 102px;
@@ -79,6 +90,7 @@
         width: calc(100% - 504px - 24px);
         margin: 0 12px;
     }
+
     .tab-content {
         padding-top: 36px;
     }
@@ -87,6 +99,7 @@
 .member-detail .timeline {
     margin-top: 12px;
 }
+
 .member-timeline .timeline {
     margin: 0;
     box-shadow: none;
@@ -100,6 +113,7 @@
         height: 17px;
         line-height: 15px;
         border-width: 1px;
+
         .role-system {
             border-color: $role-system-color;
             color: $role-system-color;
@@ -123,7 +137,7 @@
     }
 }
 
-.member-timeline  .timeline-info {
+.member-timeline .timeline-info {
     border: none;
     top: 29px;
     width: 50px;
@@ -135,6 +149,12 @@
 
     .name {
         width: 50px;
+
+        &.role-default {
+            border: 1px solid $role-default-color;
+            background-color: rgba($role-default-color, 0.2);
+            color: $role-default-color;
+        }
 
         &.role-member {
             border: 1px solid $role-member-color;
@@ -159,6 +179,7 @@
             background-color: rgba($role-reviewer-color, 0.2);
             color: #9A308C;
         }
+
         &.role-system {
             border: 1px solid $role-system-color;
             background-color: rgba($role-system-color, 0.2);
@@ -174,19 +195,24 @@
     .comment {
         padding-bottom: 0;
     }
+
     .comment .form-control {
         font-size: 14px;
     }
+
     .nomination-period, .employee {
         display: inline-block;
     }
+
     .nomination-period {
         width: 300px;
         margin-right: 16px;
     }
+
     .employee {
         width: calc(100% - 300px - 16px);
     }
+
     .grade {
         width: 230px;
         display: inline-block;
@@ -210,6 +236,7 @@
         }
     }
 }
+
 .workload {
     padding: 8px 12px;
 
@@ -258,6 +285,7 @@
     .nick-name {
         font-weight: bold;
     }
+
     .nomination-period-title {
         font-weight: bold;
         font-size: 15px;
@@ -290,7 +318,7 @@
     }
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1600px){
+@media screen and (min-width: 1280px) and (max-width: 1600px) {
     .main-content #tabs {
         .nav-tabs {
             width: calc(100% - 604px - 24px);

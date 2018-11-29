@@ -84,18 +84,6 @@
             return Json(nominations);
         }
 
-        public async Task<JsonResult> GetMemberNominationDetails(
-            int? nominationPeriodId = null,
-            int? employeeId = null)
-        {
-            IEnumerable<EmployeeNominationModel> nominationDetails = await employeeService.GetMemberNominationDetailsAsync(
-                sessionService.EmployeeId,
-                nominationPeriodId,
-                employeeId).ConfigureAwait(false);
-
-            return Json(nominationDetails);
-        }
-
         [HttpGet]
         public async Task<JsonResult> GetMembersWorkload(int periodId)
         {

@@ -165,26 +165,6 @@
             return tuple.Item1;
         }
 
-        public async Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationDetailsAsync(
-            int actorId,
-            int? nominationPeriodId = null,
-            int? employeeId = null)
-        {
-            var criteria = new GetMemberNominationDetailsCriteria
-            {
-                ActorId = actorId,
-                NominationPeriodId = nominationPeriodId,
-                EmployeeId = employeeId
-            };
-
-            var tuple = await baseService.FetchMultipleAsync<NominationPeriodModel, EmployeeNominationModel, EmployeeNominationDetailModel>(criteria).ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> nominators = await commonService.GetEmployeesAsync().ConfigureAwait(false);
-
-            MappingData(tuple.Item2, tuple.Item3, tuple.Item1, nominators);
-
-            return tuple.Item2;
-        }
-
         public async Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null)
         {
             var criteria = new GetMemberByActorIdCriteria
@@ -216,24 +196,6 @@
             };
 
             return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
-        }
-
-        private static void MappingData(
-            IEnumerable<EmployeeNominationModel> nominations,
-            IEnumerable<EmployeeNominationDetailModel> nominationDetails,
-            IEnumerable<NominationPeriodModel> nominationPeriods,
-            IEnumerable<EmployeeBaseModel> nominators)
-        {
-            foreach (EmployeeNominationDetailModel nominationDetail in nominationDetails)
-            {
-                nominationDetail.Nominator = nominators.FirstOrDefault(x => x.EmployeeId == nominationDetail.NominatorId);
-            }
-
-            foreach (EmployeeNominationModel nomination in nominations)
-            {
-                nomination.Period = nominationPeriods.FirstOrDefault(x => x.NominationPeriodId == nomination.NominationPeriodId);
-                nomination.NominationDetails = nominationDetails.Where(x => x.NominationPeriodId == nomination.NominationPeriodId);
-            }
         }
     }
 }
