@@ -29,18 +29,11 @@
 
         public DateTime? ModifiedDate { get; set; }
 
-        public bool IsEdited
-        {
-            get
-            {
-                return ModifiedDate != null;
-            }
-        }
+        public bool IsEdited => ModifiedDate != null;
 
         public int? Toeic { get; set; }
 
         public int ToeicBonus { get; set; }
         public IEnumerable<PAProcessModel> Processes { get; set; }
-
     }
 }

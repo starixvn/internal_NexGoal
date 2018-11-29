@@ -8,7 +8,7 @@ import TextareaFullscreenEditor from '../../../shared/components/textarea-fullsc
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { PerformanceProcess, PAStatus } from '../../../constants';
+import { PerformanceProcess, PAStatus, PAEditOptions } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 
 export default class EditMemberPA extends Component {
@@ -40,7 +40,7 @@ export default class EditMemberPA extends Component {
                         paStatus: pa.statusId
                     },
                     paProcesses: pa.processes
-                }, () => console.log(this.state.paRecord));
+                });
             }
         }).catch(axiosError);
     }
@@ -131,20 +131,23 @@ export default class EditMemberPA extends Component {
 
     renderRecordByProcess = (processId) => {
         let paProcesses = this.state.paProcesses.filter(p => p.processId === processId);
-        return paProcesses.map(process => {
-            if (process.performanceRecord) {
-                const paRecord = {
-                    typeId: 1,
-                    roleId: process.processId,
-                    creator: process.evaluator,
-                    comment: process.performanceRecord.comment,
-                    grade: process.performanceRecord.grade
-                };
-                return <PerformanceRecord data={paRecord} />;
-            } else {
-                return <span>No information</span>;
-            }
-        });
+        if (paProcesses.length > 0) {
+            return paProcesses.map(process => {
+                if (process.performanceRecord) {
+                    const paRecord = {
+                        typeId: 1,
+                        roleId: process.processId,
+                        creator: process.evaluator,
+                        comment: process.performanceRecord.comment,
+                        grade: process.performanceRecord.grade
+                    };
+                    return <PerformanceRecord data={paRecord} />;
+                } else {
+                    return <span>No information</span>;
+                }
+            });
+        }
+        return <span>No information</span>;
     };
 
     render() {
@@ -195,16 +198,16 @@ export default class EditMemberPA extends Component {
                     </div>
                     <div>
                         <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
-                            <Tab eventKey={1} title="Self">
+                            <Tab eventKey={1} title={getResource("Self")}>
                                 {selfRecord}
                             </Tab>
-                            <Tab eventKey={2} title="PM">
+                            <Tab eventKey={2} title={getResource("ProjectManager")}>
                                 {pmRecords}
                             </Tab>
-                            <Tab eventKey={3} title="Evaluator">
+                            <Tab eventKey={3} title={getResource("Evaluator")}>
                                 {evaluatorRecord}
                             </Tab>
-                            <Tab eventKey={4} title="Reviewer">
+                            <Tab eventKey={4} title={getResource("Reviewer")}>
                                 {reviewerRecord}
                             </Tab>
                         </Tabs>
@@ -212,12 +215,14 @@ export default class EditMemberPA extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
-                    <Button type="submit" bsStyle="primary" name="save"
-                        onClick={this.handleSubmit}
-                        disabled={this.state.paRecord.paStatus === PAStatus.Closed}
-                    >
-                        {getResource('Submit')}
-                    </Button>
+                    {
+                        parseInt(paRecord.paStatus) !== PAStatus.Closed &&
+                        <Button type="submit" bsStyle="primary" name="save"
+                            onClick={this.handleSubmit}
+                        >
+                            {getResource('Submit')}
+                        </Button>
+                    }
                 </Modal.Footer>
             </Modal>
         );

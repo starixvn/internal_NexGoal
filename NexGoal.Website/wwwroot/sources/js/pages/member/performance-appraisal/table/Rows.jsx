@@ -40,7 +40,7 @@ class Rows extends Component {
         return (
             <Fragment>
                 {
-                    reviewerProcess.length > 0 &&
+                    reviewerProcess.performanceRecord &&
                     <span className="icon-note" />
                 }
                 {displayPAGrade}
@@ -48,6 +48,12 @@ class Rows extends Component {
             </Fragment>
         );
     };
+
+    quickEditPA = (paRecordId, isDisabled) => {
+        if (!isDisabled) {
+            this.props.onQuickEditPA(paRecordId);
+        }
+    }
 
     renderPAByProcess = (paProcesses, processId) => {
         let processes = paProcesses.filter(process => process.processId === processId);
@@ -58,13 +64,15 @@ class Rows extends Component {
 
         if (processId === PerformanceProcess.ProjectManager) {
             tooltip = (
-                <Tooltip>
+                <Tooltip className="focus-note">
                     {
                         processes.map(process => {
                             return (
                                 <p>
-                                    {`${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
-                                        ? process.performanceRecord.grade.name : "N/A"} `}
+                                    {
+                                        `${process.evaluator.nickName}: ${process.performanceRecord && process.performanceRecord.grade
+                                            ? process.performanceRecord.grade.name : "N/A"} `
+                                    }
                                 </p>
                             );
                         })
@@ -73,7 +81,7 @@ class Rows extends Component {
             );
 
             return (
-                <OverlayTrigger placement="bottom" overlay={tooltip}>
+                <OverlayTrigger placement="top" overlay={tooltip}>
                     <span className="pointer">{grade}</span>
                 </OverlayTrigger>
             );
@@ -82,20 +90,19 @@ class Rows extends Component {
         }
     }
 
-    renderStatus = (isEdited, paRecordId) => {
-        if (isEdited) {
-            return (<div>
-                <input type="checkbox" className="checkbox-custom" id={`chb-${paRecordId}`} checked />
-                <label htmlFor={`chb-${paRecordId}`} />
-            </div>);
-        } else {
-            return (<div>
+    renderStatus = (isEdited, paRecordId, paStatusId) => {
+        const isDisabled = isEdited || paStatusId === PAStatus.Closed;
+        const disabledClass = isDisabled ? "disabled" : "";
+        return (
+            <div>
                 <input type="checkbox" className="checkbox-custom"
                     id={`chb-${paRecordId}`}
-                    onClick={() => this.props.onQuickEditPA(paRecordId)} />
-                <label htmlFor={`chb-${paRecordId}`} />
-            </div>);
-        }
+                    checked={isEdited}
+                    onClick={() => this.quickEditPA(paRecordId, isDisabled)}
+                    disabled={isDisabled} />
+                <label className={disabledClass} htmlFor={`chb-${paRecordId}`} />
+            </div>
+        );
     }
 
     renderNickName = (record) => {
@@ -105,6 +112,7 @@ class Rows extends Component {
         }
         return displayNickname;
     }
+
     handleClick = (paRecordId) => {
         this.props.onClickEditPA(paRecordId);
     }
@@ -125,10 +133,15 @@ class Rows extends Component {
                                 <td className="text-center">{this.renderToeic(record.toeicPolicy, record.toeic)}</td>
                                 <td className="text-center">{this.renderPAByProcess(record.processes, PerformanceProcess.Self)}</td>
                                 <td className="text-center">
-                                    {this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}</td>
-                                <td className="text-center">{this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
+                                    {this.renderPAByProcess(record.processes, PerformanceProcess.ProjectManager)}
+                                </td>
+                                <td className="text-center">
+                                    {this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}
+                                </td>
                                 <td className="text-center">{this.renderPAForReviewer(record)}</td>
-                                <td className="text-center">{this.renderStatus(record.isEdited, record.paRecordId)}</td>
+                                <td className="text-center">
+                                    {this.renderStatus(record.isEdited, record.paRecordId, record.statusId)}
+                                </td>
                             </tr>
                         );
                     })

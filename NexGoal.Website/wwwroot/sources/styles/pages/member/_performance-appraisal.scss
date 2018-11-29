@@ -3,6 +3,7 @@
 @import "../../components/form-filter";
 @import "../../components/form-inline";
 @import "../../components/checkbox";
+@import "../../components/_tooltip.scss";
 
 .pa-content {
     padding: 0 16px;
@@ -10,7 +11,27 @@
 
 .form-filter {
     .team {
-        width: 280px;
+        width: 250px;
+    }
+}
+
+.tooltip.focus-note {
+    .tooltip-inner {
+        background: #eaeaea;
+        max-width: 500px;
+        text-align: left;
+        padding: 10px;
+
+        p {
+            color: #324373;
+            font-weight: bold;
+            margin: 0;
+            white-space: pre-wrap;
+        }
+    }
+
+    &.in {
+        opacity: 1;
     }
 }
 
@@ -18,36 +39,49 @@
     .record-your-mind {
         grid-template-rows: 1fr;
     }
+
     .modal-body .tab-content .record {
         box-shadow: 0 0 6px #dedede;
         padding: 16px;
         margin: 0 0 12px;
     }
+
     .tab-content {
         padding-top: 12px;
     }
 }
+
+.disabled {
+    opacity: .5;
+    pointer-events: none;
+}
+
 .table {
     > tbody > tr > td {
         position: relative;
+        font-weight: bold;
     }
+
     .icon-increase-arrow, .icon-descrease-arrow {
         display: inline-block;
         margin-left: 6px;
+
         &:before {
             font-size: 9px;
         }
     }
+
     .icon-note {
         position: absolute;
         left: 5px;
         top: 3px;
+
         &:before {
             font-size: 12px;
         }
     }
+
     .pointer {
         cursor: pointer;
     }
 }
-   
