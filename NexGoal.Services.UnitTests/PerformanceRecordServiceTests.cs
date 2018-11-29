@@ -61,8 +61,6 @@
             IEnumerable<PeriodBaseModel> periods = GetPeriodForTest();
             IEnumerable<ProjectModel> projects = GetProjectForTest();
             IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
-            var expectedEmployees = employees.Where(x => performanceRecords[0].EmployeeIds.Contains(x.EmployeeId.ToString()));
-            var expectedProjects = projects.Where(x => performanceRecords[0].ProjectIds.Contains(x.ProjectId.ToString()));
             var tuple = new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
             var service = GetPerformanceRecordService();
             baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetPerformanceRecordByEmployeeCriteria>()).Returns(tuple);
@@ -77,32 +75,7 @@
 
             // Assert
             Assert.Single(actual);
-            Assert.Equal(performanceRecords[0].PerformanceRecordId, actual.First().PerformanceRecordId);
-            Assert.Equal(performanceRecords[0].EmployeeIds, actual.First().EmployeeIds);
-            Assert.Equal(performanceRecords[0].ProjectIds, actual.First().ProjectIds);
-            Assert.Equal(performanceRecords[0].GradeId, gradeId);
-            Assert.Equal(performanceRecords[0].Comment, actual.First().Comment);
-            Assert.Equal(performanceRecords[0].StatusId, actual.First().StatusId);
-            Assert.Equal(performanceRecords[0].CreatedDate, actual.First().CreatedDate);
-            Assert.Equal(performanceRecords[0].ModifiedDate, actual.First().ModifiedDate);
-            Assert.Equal(performanceRecords[0].RoleId, actual.First().RoleId);
-            Assert.Equal(performanceRecords[0].TypeId, actual.First().TypeId);
-            Assert.Equal(performanceRecords[0].NominationStatusId, actual.First().NominationStatusId);
-
-            Assert.Equal(performanceRecords[0].PeriodId, actual.First().PeriodId);
-            Assert.Equal(performanceRecords[0].Period, actual.First().Period);
-
-            Assert.Equal(performanceRecords[0].CreatorId, actual.First().CreatorId);
-            Assert.Equal(performanceRecords[0].Creator, actual.First().Creator);
-
-            Assert.Equal(performanceRecords[0].NominationPeriodId, actual.First().NominationPeriodId);
-            Assert.Equal(performanceRecords[0].NominationPeriod, actual.First().NominationPeriod);
-
-            Assert.True(expectedEmployees.All(x => performanceRecords[0].Employees.Any(y => y == x)));
-            Assert.True(expectedProjects.All(x => performanceRecords[0].Projects.Any(y => y == x)));
-            Assert.True(performanceRecords[0].Grade == performanceGrades.First());
-            Assert.True(performanceRecords[0].Period == periods.First());
-            Assert.True(performanceRecords[0].NominationPeriod == nominationPeriods.First());
+            Assert.Equal(performanceRecords, actual);
         }
 
         #endregion GetPerformanceRecordByEmployeeAsync
@@ -139,8 +112,6 @@
             IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
             IEnumerable<ProjectModel> projects = GetProjectForTest();
             IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
-            var expectedEmployees = employees.Where(x => performanceRecord.EmployeeIds.Contains(x.EmployeeId.ToString()));
-            var expectedProjects = projects.Where(x => performanceRecord.ProjectIds.Contains(x.ProjectId.ToString()));
             var service = GetPerformanceRecordService();
             baseService.GetDataEntityAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(performanceRecord);
             commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
@@ -152,34 +123,63 @@
             var actual = await service.GetPerformanceRecordByIdAsync(1, 1);
 
             // Assert
-            Assert.NotNull(actual);
-            Assert.Equal(performanceRecord.PerformanceRecordId, actual.PerformanceRecordId);
-            Assert.Equal(performanceRecord.EmployeeIds, actual.EmployeeIds);
-            Assert.Equal(performanceRecord.ProjectIds, actual.ProjectIds);
-            Assert.Equal(performanceRecord.GradeId, gradeId);
-            Assert.Equal(performanceRecord.Comment, actual.Comment);
-            Assert.Equal(performanceRecord.StatusId, actual.StatusId);
-            Assert.Equal(performanceRecord.CreatedDate, actual.CreatedDate);
-            Assert.Equal(performanceRecord.ModifiedDate, actual.ModifiedDate);
-            Assert.Equal(performanceRecord.RoleId, actual.RoleId);
-            Assert.Equal(performanceRecord.TypeId, actual.TypeId);
-            Assert.Equal(performanceRecord.NominationStatusId, actual.NominationStatusId);
-
-            Assert.Equal(performanceRecord.PeriodId, actual.PeriodId);
-            Assert.Equal(performanceRecord.Period, actual.Period);
-
-            Assert.Equal(performanceRecord.CreatorId, actual.CreatorId);
-            Assert.Equal(performanceRecord.Creator, actual.Creator);
-
-            Assert.Equal(performanceRecord.NominationPeriodId, actual.NominationPeriodId);
-            Assert.Equal(performanceRecord.NominationPeriod, actual.NominationPeriod);
-
-            Assert.True(expectedEmployees.All(x => performanceRecord.Employees.Any(y => y == x)));
-            Assert.True(expectedProjects.All(x => performanceRecord.Projects.Any(y => y == x)));
-            Assert.True(performanceRecord.Grade == performanceGrades.First());
+            Assert.Equal(performanceRecord, actual);
         }
 
         #endregion GetPerformanceRecordByIdAsync
+
+        #region GetPerformanceRecordByIdsAsync
+
+        [Fact]
+        public async Task GetPerformanceRecordByIdsAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
+        {
+            // Arrange
+            var performanceRecords = new List<PerformanceRecordModel>();
+            var service = GetPerformanceRecordService();
+            baseService.GetDataAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdsCriteria>()).Returns(performanceRecords);
+
+            // Act
+            var actual = await service.GetPerformanceRecordByIdsAsync("1", 1);
+
+            // Assert
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public async Task GetPerformanceRecordByIdsAsync_MappingData_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecords = new List<PerformanceRecordModel>
+            {
+                new PerformanceRecordModel
+                {
+                    PerformanceRecordId = 1,
+                    EmployeeIds = "1",
+                    ProjectIds = "1",
+                    GradeId = "cipher text",
+                    PeriodId = 1,
+                    NominationPeriodId = 1
+                }
+            };
+            IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
+            IEnumerable<ProjectModel> projects = GetProjectForTest();
+            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var service = GetPerformanceRecordService();
+            baseService.GetDataAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdsCriteria>()).Returns(performanceRecords);
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
+            commonService.GetProjectsAsync().Returns(projects);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
+
+            // Act
+            var actual = await service.GetPerformanceRecordByIdsAsync("1", 1);
+
+            // Assert
+            Assert.Equal(performanceRecords, actual);
+        }
+
+        #endregion GetPerformanceRecordByIdsAsync
 
         [Fact]
         public async Task CreatePerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
