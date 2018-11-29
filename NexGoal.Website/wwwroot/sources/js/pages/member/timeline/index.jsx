@@ -168,14 +168,14 @@ export default class Timeline extends Component {
                         groupPerformances.map((groupPerformance, index) => {
                             return (
                                 <Fragment key={`groupPerformance${index}`}>
-                                    <div className="group-name"
+                                    <div className="group-name collapsed"
                                         data-toggle="collapse"
                                         data-target={`#groupTimeline${index}`}
-                                        aria-expanded="true"
+                                        aria-expanded="false"
                                     >
-                                        {groupPerformance.groupName} <span className="icon-chevron-down" />
+                                        <span className="icon-chevron-down" /> {groupPerformance.groupName}
                                     </div>
-                                    <div id={`groupTimeline${index}`} className="collapse in" aria-expanded="true">
+                                    <div id={`groupTimeline${index}`} className="collapse" aria-expanded="false">
                                         {
                                             groupPerformance.records.map((memberPerformance) => {
                                                 return (

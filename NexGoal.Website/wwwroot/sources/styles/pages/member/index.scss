@@ -137,6 +137,21 @@
     }
 }
 
+.member-timeline {
+    .icon-chevron-down {
+        float: left;
+        font-weight: bold;
+        font-size: 18px;
+    }
+
+    .collapsed {
+        .icon-chevron-down {
+            transform: rotate(-90deg);
+            transition: 0.3s ease all;
+        }
+    }
+}
+
 .member-timeline .timeline-info {
     border: none;
     top: 29px;
