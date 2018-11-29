@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NexGoal.Controllers\NexGoal.Controllers.csproj" />
+    <ProjectReference Include="..\..\NexGoal.Core\NexGoal.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj" />
+    <ProjectReference Include="..\..\NexGoal.Services\NexGoal.Services.csproj" />
   </ItemGroup>
 
 </Project>
