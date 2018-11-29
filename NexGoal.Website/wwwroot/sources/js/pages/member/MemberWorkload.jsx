@@ -12,22 +12,11 @@ export default class MemberWorkload extends Component {
             workloads: [],
             selectedGroups: this.props.groupOptions,
             currentPeriodIndex: 0,
-            chartWrapperElement: null
         };
     }
 
     componentDidMount() {
         this.getMembersWorkloads();
-        window.addEventListener('resize', () => {
-            let children = this.state.chartWrapperElement.children;
-            for (let i = 0; i < children.length; i++) {
-                children[i].style.width = `${this.state.chartWrapperElement.clientWidth}px`;
-            }
-        })
-    }
-
-    componentWillUnmount() {
-        window.removeEventListener('resize');
     }
 
     getMembersWorkloads = () => {
@@ -41,7 +30,6 @@ export default class MemberWorkload extends Component {
             this.setState(
                 {
                     workloads: workloads,
-                    chartWrapperElement: document.getElementById('chart-wrapper')
                 });
         }).catch(axiosError);
     }
@@ -89,7 +77,7 @@ export default class MemberWorkload extends Component {
             let dataSet = {
                 label: projects[i],
                 data: workloads.map((member) => member.workloads[i].totalHours),
-                backgroundColor: "#2748A5"
+                backgroundColor: "#2748A5",
             };
 
             datasets.push(dataSet);
@@ -194,13 +182,13 @@ export default class MemberWorkload extends Component {
                     display: false
                 },
                 stacked: true,
-                barThickness: 20
+                barThickness: 20,
             }],
         },
         legend: {
             display: false
         },
-        responsive: false,
+        maintainAspectRatio: false,
     }
 
     renderChart = (group) => {
@@ -214,7 +202,9 @@ export default class MemberWorkload extends Component {
             }
 
             return (
-                <HorizontalBar height={basicHeight} width={this.state.chartWrapperElement.clientWidth} key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />
+                <div style={{ position: 'relative' }}>
+                    <HorizontalBar height={basicHeight} key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />
+                </div>
             );
         }
 
@@ -245,6 +235,7 @@ export default class MemberWorkload extends Component {
                 <div id="chart-wrapper" >
                     {this.state.selectedGroups.map(this.renderChart)}
                 </div>
+                <div id="123"></div>
             </div>
         );
     }

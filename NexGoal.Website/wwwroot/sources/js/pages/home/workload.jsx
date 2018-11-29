@@ -1,4 +1,4 @@
-﻿import React, { PureComponent } from 'react';
+﻿import React, { PureComponent, Fragment } from 'react';
 import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
 import memoize from "memoize-one";
@@ -18,6 +18,37 @@ export default class WorkLoad extends PureComponent {
 
     componentDidMount() {
         this.getWorkload();
+    }
+
+    componentDidUpdate() {
+        this.generateChartLegend();
+    }
+
+    generateChartLegend = () => {
+        document.getElementById('legend-container').innerHTML = this.refs.chart.chartInstance.generateLegend();
+
+        let items = document.getElementsByClassName('legend-item');
+        let chartInstance = this.refs.chart.chartInstance;
+
+        function legendClickCallback(event) {
+            event = event || window.event;
+            let target = event.target || event.srcElement;
+
+            let index = parseInt(target.dataset.index);
+
+            chartInstance.legend.options.onClick.call(chartInstance, event, chartInstance.legend.legendItems[index]);
+            let meta = chartInstance.getDatasetMeta(0);
+
+            if (meta.data[index].hidden) {
+                target.classList.add('strike-through');
+            } else {
+                target.classList.remove('strike-through');
+            }
+        }
+
+        for (let i = 0; i < items.length; i++) {
+            items[i].addEventListener("click", legendClickCallback, false);
+        }
     }
 
     getWorkload = () => {
@@ -122,9 +153,41 @@ export default class WorkLoad extends PureComponent {
 
                     return [];
                 }
-            }
+            },
+            display: false
         },
         maintainAspectRatio: false,
+        legendCallback: function (chart) {
+            let data = chart.data;
+            let legends = [];
+            if (data.labels.length && data.datasets.length) {
+                var meta = chart.getDatasetMeta(0);
+                var ds = data.datasets[0];
+                var total = ds.data.reduce((accumulator, currentValue) => accumulator + currentValue);
+
+                legends = data.labels.map(function (label, i) {
+                    var percentage = (ds.data[i] / total * 100).toFixed(1);
+                    var arc = meta.data[i];
+                    var custom = arc && arc.custom || {};
+                    var arcOpts = chart.options.elements.arc;
+                    var fill = custom.backgroundColor ? custom.backgroundColor : ds.backgroundColor[i] || arcOpts.backgroundColor;
+                    var stroke = arcOpts.borderColor;
+                    var bw = arcOpts.borderWidth;
+
+                    return `
+                        <li data-index="${i}" class="legend-item">
+                            <span class="color-box" style="background-color: ${fill};border-color: ${stroke};" ></span>
+                            ${label}: ${percentage}%
+                        </li>
+                    `;
+                });
+            }
+            return `
+                <ul class="legend-items">
+                    ${legends.join('')}
+                </ul>
+             `;
+        },
     }
 
     render() {
@@ -141,8 +204,14 @@ export default class WorkLoad extends PureComponent {
                     </div>
                 </div>
                 <div style={{ position: 'relative' }}>
-                    {chartData && <Doughnut data={chartData} height={220} options={this.chartOptions} />}
+                    {chartData &&
+                        <Fragment>
+                            <Doughnut ref='chart' data={chartData} height={200} options={this.chartOptions} />
+
+                        </Fragment>}
                 </div>
+                <div id="legend-container"></div>
+
             </div>
         );
     }
