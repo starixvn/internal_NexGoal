@@ -1,5 +1,6 @@
 ﻿namespace NexGoal.Services.UnitTests
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
@@ -8,6 +9,7 @@
     using NexGoal.Criteria.PerformanceRecord;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PerformanceRecord;
     using NSubstitute;
     using Xunit;
@@ -17,6 +19,93 @@
         private IBaseService baseService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
+
+        #region GetPerformanceRecordByEmployeeAsync
+
+        [Fact]
+        public async Task GetPerformanceRecordByEmployeeAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
+        {
+            // Arrange
+            var performanceRecords = new List<PerformanceRecordModel>();
+            var nominationPeriods = new List<NominationPeriodModel>();
+            var tuple = new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
+            var service = GetPerformanceRecordService();
+            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetPerformanceRecordByEmployeeCriteria>()).Returns(tuple);
+
+            // Act
+            var actual = await service.GetPerformanceRecordByEmployeeAsync(1);
+
+            // Assert
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public async Task GetPerformanceRecordByEmployeeAsync_MappingData_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecords = new List<PerformanceRecordModel>
+            {
+                new PerformanceRecordModel
+                {
+                    PerformanceRecordId = 1,
+                    EmployeeIds = "1",
+                    ProjectIds = "1",
+                    GradeId = "cipher text",
+                    PeriodId = 1,
+                    NominationPeriodId = 1
+                }
+            };
+            IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
+            IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
+            IEnumerable<PeriodBaseModel> periods = GetPeriodForTest();
+            IEnumerable<ProjectModel> projects = GetProjectForTest();
+            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var expectedEmployees = employees.Where(x => performanceRecords[0].EmployeeIds.Contains(x.EmployeeId.ToString()));
+            var expectedProjects = projects.Where(x => performanceRecords[0].ProjectIds.Contains(x.ProjectId.ToString()));
+            var tuple = new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
+            var service = GetPerformanceRecordService();
+            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetPerformanceRecordByEmployeeCriteria>()).Returns(tuple);
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
+            commonService.GetProjectsAsync().Returns(projects);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            commonService.GetAllPeriods().Returns(periods);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
+
+            // Act
+            var actual = await service.GetPerformanceRecordByEmployeeAsync(1);
+
+            // Assert
+            Assert.Single(actual);
+            Assert.Equal(performanceRecords[0].PerformanceRecordId, actual.First().PerformanceRecordId);
+            Assert.Equal(performanceRecords[0].EmployeeIds, actual.First().EmployeeIds);
+            Assert.Equal(performanceRecords[0].ProjectIds, actual.First().ProjectIds);
+            Assert.Equal(performanceRecords[0].GradeId, gradeId);
+            Assert.Equal(performanceRecords[0].Comment, actual.First().Comment);
+            Assert.Equal(performanceRecords[0].StatusId, actual.First().StatusId);
+            Assert.Equal(performanceRecords[0].CreatedDate, actual.First().CreatedDate);
+            Assert.Equal(performanceRecords[0].ModifiedDate, actual.First().ModifiedDate);
+            Assert.Equal(performanceRecords[0].RoleId, actual.First().RoleId);
+            Assert.Equal(performanceRecords[0].TypeId, actual.First().TypeId);
+            Assert.Equal(performanceRecords[0].NominationStatusId, actual.First().NominationStatusId);
+
+            Assert.Equal(performanceRecords[0].PeriodId, actual.First().PeriodId);
+            Assert.Equal(performanceRecords[0].Period, actual.First().Period);
+
+            Assert.Equal(performanceRecords[0].CreatorId, actual.First().CreatorId);
+            Assert.Equal(performanceRecords[0].Creator, actual.First().Creator);
+
+            Assert.Equal(performanceRecords[0].NominationPeriodId, actual.First().NominationPeriodId);
+            Assert.Equal(performanceRecords[0].NominationPeriod, actual.First().NominationPeriod);
+
+            Assert.True(expectedEmployees.All(x => performanceRecords[0].Employees.Any(y => y == x)));
+            Assert.True(expectedProjects.All(x => performanceRecords[0].Projects.Any(y => y == x)));
+            Assert.True(performanceRecords[0].Grade == performanceGrades.First());
+            Assert.True(performanceRecords[0].Period == periods.First());
+            Assert.True(performanceRecords[0].NominationPeriod == nominationPeriods.First());
+        }
+
+        #endregion GetPerformanceRecordByEmployeeAsync
 
         #region GetPerformanceRecordByIdAsync
 
@@ -36,7 +125,7 @@
         }
 
         [Fact]
-        public async Task GetPerformanceRecordByIdAsync_PerformanceRecordIsExist_ReturnAsExpectedPerformanceRecord()
+        public async Task GetPerformanceRecordByIdAsync_MappingData_ReturnAsExpectedPerformanceRecord()
         {
             // Arrange
             var gradeId = "1";
@@ -190,6 +279,28 @@
             };
 
             return performanceGrades;
+        }
+
+        private IEnumerable<PeriodBaseModel> GetPeriodForTest()
+        {
+            var periods = new List<PeriodBaseModel>
+            {
+                new PeriodBaseModel { PeriodId = 1, Name = "1h 2018" },
+                new PeriodBaseModel { PeriodId = 2, Name = "2h 2018" }
+            };
+
+            return periods;
+        }
+
+        private IEnumerable<NominationPeriodModel> GetNominationPeriodForTest()
+        {
+            var nominationPeriods = new List<NominationPeriodModel>
+            {
+                new NominationPeriodModel { NominationPeriodId = 1, Quarter = 1, Year = 2018 },
+                new NominationPeriodModel { NominationPeriodId = 2, Quarter = 2, Year = 2018 }
+            };
+
+            return nominationPeriods;
         }
 
         private PerformanceRecordService GetPerformanceRecordService()
