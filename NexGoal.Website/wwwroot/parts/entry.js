@@ -19,6 +19,7 @@ module.exports = {
         [`${styleDistPath}/editperiod`]: `${styleSourcePath}/pages/period/edit.scss`,
         [`${styleDistPath}/evaluation`]: `${styleSourcePath}/pages/evaluation.scss`,
         [`${styleDistPath}/member-index`]: `${styleSourcePath}/pages/member/index.scss`,
+        [`${styleDistPath}/member-details`]: `${styleSourcePath}/pages/member/details.scss`,
         [`${styleDistPath}/pafocus`]: `${styleSourcePath}/pages/pafocus/index.scss`,
         [`${styleDistPath}/nomination-assessment`]: `${styleSourcePath}/pages/nominationassessment/index.scss`,
         //

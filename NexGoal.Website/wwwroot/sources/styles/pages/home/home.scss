@@ -16,6 +16,7 @@
 @import "../../layouts/textarea-fullscreen";
 @import "personal-timeline";
 @import "nomination-system";
+@import "workload";
 
 .my-page {
     position: relative;
@@ -66,39 +67,6 @@
     height: calc(100% - 152px);
     box-sizing: content-box;
     overflow: auto;
-}
-
-.workload {
-    padding: 8px 12px;
-
-    h5 {
-        display: inline-block;
-    }
-
-    .milestone {
-        float: right;
-        background-color: #F1F4F8;
-        border: 1px solid #DAE1EA;
-        margin-top: 4px;
-
-        [class^="icon"] {
-            font-size: 14px;
-            position: relative;
-            top: 2px;
-        }
-
-        .arrow-left {
-            transform: rotate(90deg);
-            display: inline-block;
-            margin-right: 2px;
-        }
-
-        .arrow-right {
-            transform: rotate(-90deg);
-            display: inline-block;
-            margin-left: 2px;
-        }
-    }
 }
 
 .pa-container {

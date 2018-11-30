@@ -1,0 +1,185 @@
+@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../components/form";
+@import "../../components/marquee";
+@import "../../components/modal";
+@import "../../components/toast";
+@import "../../components/tabs";
+@import "../../components/tables";
+@import "../../layouts/record";
+@import "../../layouts/nomination";
+@import "../../layouts/role";
+@import "../../layouts/form-performance";
+@import "../../layouts/employee-info";
+@import "../../layouts/hrm-summary";
+@import "../../layouts/pa";
+@import "../../layouts/main-layout";
+@import "../../layouts/textarea-fullscreen";
+@import "../home/personal-timeline";
+@import "../home/nomination-system";
+@import "../home/workload";
+
+.general-info {
+    padding: 0;
+
+    .member-timeline {
+        padding: 0 20px 12px 12px;
+    }
+
+    .title {
+        padding: 12px;
+        margin-bottom: 0;
+    }
+}
+
+.record-list {
+    height: calc(100vh - 50px - 52px - 36px);
+    overflow: auto;
+}
+
+.member-detail .record-list {
+    height: calc(100vh - 50px - 52px - 36px - 112px);
+}
+
+.member-performance {
+    display: grid;
+    grid-template-columns: 80px 1fr;
+    align-content: center;
+
+    .employee-info {
+        align-self: center;
+
+        .nick-name {
+            color: #2475D7;
+            font-size: 12px;
+            font-weight: bold;
+        }
+    }
+}
+
+.main-content #tabs {
+    padding: 52px 0px 0;
+
+    .record {
+        margin: 12px;
+    }
+
+    .nav-tabs {
+        position: fixed;
+        top: 102px;
+        z-index: 55;
+        background-color: #fff;
+        width: calc(100% - 504px - 24px);
+        margin: 0 12px;
+    }
+
+    .tab-content {
+        padding-top: 36px;
+    }
+}
+
+.member-detail .timeline {
+    margin-top: 12px;
+}
+
+.member-timeline .timeline {
+    margin: 0;
+    box-shadow: none;
+    padding: 0;
+    height: 55px;
+
+    .timeline-grade {
+        color: #545454;
+        top: 3px;
+        font-size: 10px;
+        height: 17px;
+        line-height: 15px;
+        border-width: 1px;
+
+        .role-system {
+            border-color: $role-system-color;
+            color: $role-system-color;
+        }
+    }
+
+    .xaxes {
+        top: 24px;
+    }
+
+    .previous, .next {
+        top: 21px;
+    }
+
+    .previous {
+        left: -20px;
+    }
+
+    .next {
+        right: 17px;
+    }
+}
+
+.record-your-mind {
+    grid-template-columns: 1fr;
+    grid-template-rows: 50px 1fr;
+
+    .comment {
+        padding-bottom: 0;
+    }
+
+    .comment .form-control {
+        font-size: 14px;
+    }
+
+    .nomination-period, .employee {
+        display: inline-block;
+    }
+
+    .nomination-period {
+        width: 300px;
+        margin-right: 16px;
+    }
+
+    .employee {
+        width: calc(100% - 300px - 16px);
+    }
+
+    .grade {
+        width: 230px;
+        display: inline-block;
+        margin-right: 16px;
+    }
+
+    .project {
+        display: inline-block;
+        width: calc(100% - 230px - 16px);
+    }
+
+    .form-performance.edit .form-group .project {
+        margin-left: 0;
+    }
+
+    .comment .form-filter {
+        padding: 0;
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .main-content #tabs {
+        .nav-tabs {
+            width: calc(100% - 804px - 24px);
+        }
+    }
+}
+
+@media screen and (min-width: 1280px) and (max-width: 1600px) {
+    .main-content #tabs {
+        .nav-tabs {
+            width: calc(100% - 604px - 24px);
+        }
+    }
+}

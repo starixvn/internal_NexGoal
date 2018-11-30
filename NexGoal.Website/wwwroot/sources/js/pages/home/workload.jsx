@@ -26,29 +26,6 @@ export default class WorkLoad extends PureComponent {
 
     generateChartLegend = () => {
         document.getElementById('legend-container').innerHTML = this.refs.chart.chartInstance.generateLegend();
-
-        let items = document.getElementsByClassName('legend-item');
-        let chartInstance = this.refs.chart.chartInstance;
-
-        function legendClickCallback(event) {
-            event = event || window.event;
-            let target = event.target || event.srcElement;
-
-            let index = parseInt(target.dataset.index);
-
-            chartInstance.legend.options.onClick.call(chartInstance, event, chartInstance.legend.legendItems[index]);
-            let meta = chartInstance.getDatasetMeta(0);
-
-            if (meta.data[index].hidden) {
-                target.classList.add('strike-through');
-            } else {
-                target.classList.remove('strike-through');
-            }
-        }
-
-        for (let i = 0; i < items.length; i++) {
-            items[i].addEventListener("click", legendClickCallback, false);
-        }
     }
 
     getWorkload = () => {
@@ -172,22 +149,18 @@ export default class WorkLoad extends PureComponent {
                     var arcOpts = chart.options.elements.arc;
                     var fill = custom.backgroundColor ? custom.backgroundColor : ds.backgroundColor[i] || arcOpts.backgroundColor;
                     var stroke = arcOpts.borderColor;
-                    var bw = arcOpts.borderWidth;
 
                     return `
-                        <li data-index="${i}" class="legend-item">
-                            <span class="color-box" style="background-color: ${fill};border-color: ${stroke};" ></span>
+                        <div class="legend-item">
+                            <span style="background-color: ${fill};border-color: ${stroke};" ></span>
                             ${label}: ${percentage}%
-                        </li>
+                        </div>
                     `;
                 });
             }
-            return `
-                <ul class="legend-items">
-                    ${legends.join('')}
-                </ul>
-             `;
-        },
+
+            return legends.join('');
+        }
     }
 
     render() {
