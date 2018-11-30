@@ -12,7 +12,7 @@ export default class MemberWorkload extends Component {
         this.state = {
             workloads: [],
             selectedGroups: this.props.groupOptions,
-            currentPeriodIndex: 0,
+            currentPeriodIndex: 0
         };
     }
 
@@ -50,8 +50,8 @@ export default class MemberWorkload extends Component {
     generateWorkload = (groupWorkload) => {
         var totalHours = 0;
         groupWorkload.employeeWorkloads.forEach(e => {
-            totalHours += e.workloads.reduce((total, current) => total + current.totalHours, 0)
-        })
+            totalHours += e.workloads.reduce((total, current) => total + current.totalHours, 0);
+        });
 
         return {
             groupId: groupWorkload.groupId,
@@ -59,7 +59,7 @@ export default class MemberWorkload extends Component {
             title: `${groupWorkload.groupName} (${totalHours.toFixed(2)} hours)`,
             chartData: this.generateDataSets(groupWorkload.employeeWorkloads),
             chartOptions: this.chartOptions
-        }
+        };
     }
 
     generateDataSets = (workloads) => {
@@ -71,7 +71,7 @@ export default class MemberWorkload extends Component {
             let dataSet = {
                 label: projects[i],
                 data: workloads.map((member) => member.workloads[i].totalHours),
-                backgroundColor: "#2748A5",
+                backgroundColor: "#2748A5"
             };
 
             datasets.push(dataSet);
@@ -180,7 +180,7 @@ export default class MemberWorkload extends Component {
                 afterFit: function (scaleInstance) {
                     scaleInstance.width = 60;
                 }
-            }],
+            }]
         },
         legend: {
             display: false

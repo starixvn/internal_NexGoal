@@ -180,11 +180,9 @@ export default class WorkLoad extends PureComponent {
                     {chartData &&
                         <Fragment>
                             <Doughnut ref='chart' data={chartData} height={200} options={this.chartOptions} />
-
                         </Fragment>}
                 </div>
-                <div id="legend-container"></div>
-
+                <div id="legend-container" className="legend-container" />
             </div>
         );
     }

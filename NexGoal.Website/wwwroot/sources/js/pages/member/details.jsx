@@ -431,11 +431,11 @@ export default class App extends Component {
                                 nominations.length > 0 &&
                                 <NominationResult nominations={nominations} />
                             }
-                            <HrmSummary hrmDetail={this.state.hrmDetails} />
                             {
                                 this.state.periods.length > 0 &&
                                 <WorkLoad periods={this.state.periods} memberId={this.state.memberInfo.id} />
                             }
+                            <HrmSummary hrmDetail={this.state.hrmDetails} />
                         </div>
 
                     </div>

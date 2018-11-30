@@ -374,11 +374,11 @@ export default class MyPage extends Component {
                             this.state.nominations.length > 0 &&
                             <NominationResult nominations={this.state.nominations} />
                         }
-                        <HrmSummary hrmDetail={this.state.hrmDetail} />
                         {
                             this.state.periods.length > 0 &&
                             <WorkLoad periods={this.state.periods} />
                         }
+                        <HrmSummary hrmDetail={this.state.hrmDetail} />
                     </div>
                     <ReactTooltip id="tooltip" place="bottom" type="info" html className="tooltip" />
                 </div>
