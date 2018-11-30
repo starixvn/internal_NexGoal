@@ -8,8 +8,9 @@ import TextareaFullscreenEditor from '../../../shared/components/textarea-fullsc
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { PerformanceProcess, PAStatus, PAEditOptions } from '../../../constants';
+import { PerformanceProcess, PAStatus } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
+import Scrollbars from 'react-custom-scrollbars';
 
 export default class EditMemberPA extends Component {
     constructor(props) {
@@ -35,7 +36,7 @@ export default class EditMemberPA extends Component {
                 this.setState({
                     paRecord: {
                         paRecordId: pa.paRecordId,
-                        grade: this.props.gradeOptions.find(o => o.value === grade.gradeId),
+                        grade: grade ? this.props.gradeOptions.find(o => o.value === grade.gradeId) : grade,
                         comment: pa.comment,
                         paStatus: pa.statusId
                     },
@@ -141,7 +142,11 @@ export default class EditMemberPA extends Component {
                         comment: process.performanceRecord.comment,
                         grade: process.performanceRecord.grade
                     };
-                    return <PerformanceRecord data={paRecord} />;
+                    return (
+                        <Scrollbars style={{ height: 300 }} autoHide>
+                            <PerformanceRecord data={paRecord} />;
+                    </Scrollbars    >
+                    );
                 } else {
                     return <span>No information</span>;
                 }

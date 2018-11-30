@@ -28,9 +28,9 @@ class Rows extends Component {
         let paGrade;
         let gradeChangeClass = '';
         if (record.isEdited) {
-            paGrade = record.grade.name;
+            paGrade = record.grade ? record.grade.name : getResource('N/A');
         } else {
-            paGrade = record.originalGrade.name;
+            paGrade = record.originalGrade ? record.originalGrade.name : getResource('N/A');
         }
         if (parseInt(record.gradeId) > parseInt(record.originalGradeId)) gradeChangeClass = 'icon-increase-arrow';
         if (parseInt(record.gradeId) < parseInt(record.originalGradeId)) gradeChangeClass = 'icon-descrease-arrow';
