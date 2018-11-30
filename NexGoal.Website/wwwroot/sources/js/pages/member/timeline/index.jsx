@@ -132,8 +132,10 @@ export default class Timeline extends Component {
 
         memberPerformances = Object.keys(memberPerformances).map(key => {
             let index = this.state.filter.groups.findIndex(group => group.label === key);
+            let group = this.props.groupOptions.filter(x => x.label === key)[0];
 
             return {
+                groupId: group.value,
                 groupName: key,
                 isDisplay: index >= 0,
                 records: memberPerformances[key]
@@ -142,6 +144,22 @@ export default class Timeline extends Component {
 
         return memberPerformances.filter(group => group.isDisplay);
     };
+
+    renderGroupName = (groupId, groupName) => {
+        if (this.props.groupOptions && this.props.groupOptions.length > 1) {
+            return (
+                <div className="group-name collapsed"
+                    data-toggle="collapse"
+                    data-target={`#groupTimeline${groupId}`}
+                    aria-expanded="false"
+                >
+                    <span className="icon-chevron-down" /> {groupName}
+                </div>
+            );
+        }
+
+        return <div className="group-name">{groupName}</div>;
+    }
 
     render() {
         let groupOptions = this.props.groupOptions;
@@ -165,17 +183,14 @@ export default class Timeline extends Component {
                 }
                 <div className="member-timeline" ref={this.timelineEl}>
                     {
-                        groupPerformances.map((groupPerformance, index) => {
+                        groupPerformances.map((groupPerformance) => {
                             return (
-                                <Fragment key={`groupPerformance${index}`}>
-                                    <div className="group-name collapsed"
-                                        data-toggle="collapse"
-                                        data-target={`#groupTimeline${index}`}
+                                <Fragment key={`groupPerformance${groupPerformance.groupId}`}>
+                                    {this.renderGroupName(groupPerformance.groupId, groupPerformance.groupName)}
+                                    <div id={`groupTimeline${groupPerformance.groupId}`}
+                                        className={groupOptions && groupOptions.length > 1 ? 'collapse' : ''}
                                         aria-expanded="false"
                                     >
-                                        <span className="icon-chevron-down" /> {groupPerformance.groupName}
-                                    </div>
-                                    <div id={`groupTimeline${index}`} className="collapse" aria-expanded="false">
                                         {
                                             groupPerformance.records.map((memberPerformance) => {
                                                 return (
