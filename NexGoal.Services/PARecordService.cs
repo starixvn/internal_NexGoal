@@ -49,23 +49,6 @@
             return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PARecordModel>> GetPARecordByActorAsync(GetPARecordParam param)
-        {
-            var criteria = new GetPARecordByActorCriteria
-            {
-                ActorId = param.ActorId,
-                PeriodId = param.PeriodId,
-                GroupIds = param.GroupIds
-            };
-            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
-
-            MappingData(tuple.Item1, tuple.Item2, tuple.Item3, employees, performanceGrades);
-
-            return tuple.Item1;
-        }
-
         public async Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId)
         {
             var criteria = new GetPARecordByIdCriteria
@@ -87,6 +70,34 @@
             }
 
             return record;
+        }
+
+        public async Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId)
+        {
+            var criteria = new QuickEditPARecordByReviewerCriteria
+            {
+                PARecordId = paRecordId,
+                ActorId = actorId
+            };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
+        }
+
+        public async Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(GetPARecordParam param)
+        {
+            var criteria = new GetPARecordByReviewerCriteria
+            {
+                ActorId = param.ActorId,
+                PeriodId = param.PeriodId,
+                GroupIds = param.GroupIds
+            };
+            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
+            MappingData(tuple.Item1, tuple.Item2, tuple.Item3, employees, performanceGrades);
+
+            return tuple.Item1;
         }
 
         public async Task<CommandResult> EditPARecordByReviewerAsync(int actorId, EditPARecordByReviewerModel paRecord)
@@ -145,7 +156,6 @@
             IEnumerable<ProjectModel> projects)
         {
             int gradeId;
-            int originalGradeId;
             foreach (PerformanceRecordModel record in performanceRecords)
             {
                 string[] projectIds = !string.IsNullOrWhiteSpace(record.ProjectIds) ? record.ProjectIds.Split(",") : new string[] { };
@@ -168,39 +178,11 @@
             paRecord.GradeId = cryptoService.Decrypt(paRecord.GradeId);
             paRecord.OriginalGradeId = cryptoService.Decrypt(paRecord.OriginalGradeId);
             int.TryParse(paRecord.GradeId, out gradeId);
-            int.TryParse(paRecord.OriginalGradeId, out originalGradeId);
+            int.TryParse(paRecord.OriginalGradeId, out int originalGradeId);
             paRecord.Grade = performanceGrades.FirstOrDefault(x => x.GradeId == gradeId);
             paRecord.OriginalGrade = performanceGrades.FirstOrDefault(x => x.GradeId == originalGradeId);
 
             paRecord.Processes = processes.Where(x => x.PARecordId == paRecord.PARecordId);
-        }
-
-        public async Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId)
-        {
-            var criteria = new QuickEditPARecordByReviewerCriteria
-            {
-                PARecordId = paRecordId,
-                ActorId = actorId
-            };
-
-            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
-        }
-
-        public async Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(GetPARecordParam param)
-        {
-            var criteria = new GetPARecordByReviewerCriteria
-            {
-                ActorId = param.ActorId,
-                PeriodId = param.PeriodId,
-                GroupIds = param.GroupIds
-            };
-            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
-            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
-
-            MappingData(tuple.Item1, tuple.Item2, tuple.Item3, employees, performanceGrades);
-
-            return tuple.Item1;
         }
     }
 }

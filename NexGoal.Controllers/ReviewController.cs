@@ -13,7 +13,7 @@
     using NexGoal.Models.PARecord;
     using NexGoal.Services;
 
-    [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Read)]
+    [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
     public class ReviewController : Controller
     {
         private readonly ISessionService sessionService;
@@ -25,11 +25,6 @@
         {
             this.sessionService = sessionService;
             this.paRecordService = paRecordService;
-        }
-
-        public IActionResult Index()
-        {
-            return View();
         }
 
         public async Task<JsonResult> GetPeriods()
@@ -61,26 +56,11 @@
                     GroupName = x.Key,
                     PerformanceAppraisals = x
                 });
+
             return Json(paRecordsGroupByTeam);
         }
 
-        [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Host)]
-        public async Task<IActionResult> Edit(int id)
-        {
-            PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-            if (paRecord == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
-
-            bool isHost = sessionService.HasPermissionOnFunction(FunctionKey.Review, Policy.Host);
-            ViewData["IsHost"] = isHost && paRecord.StatusId == (int)PARecordStatus.InProgress;
-
-            return View(id);
-        }
-
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Host)]
         public async Task<IActionResult> Edit(EditPARecordByReviewerModel paRecord)
         {
             if (ModelState.IsValid)
@@ -95,23 +75,11 @@
         }
 
         [HttpPost]
-        [NexGoalPermission(FunctionKey = FunctionKey.Review, Policy = Policy.Host)]
         public async Task<IActionResult> QuickEdit(int paRecordId)
         {
             CommandResult commandResult = await paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
 
             return Json(commandResult);
-        }
-
-        public async Task<IActionResult> Details(int id)
-        {
-            PARecordModel paRecord = await paRecordService.GetPARecordByIdAsync(id, sessionService.EmployeeId).ConfigureAwait(false);
-            if (paRecord == null)
-            {
-                return RedirectToAction("PageNotFound", "Error");
-            }
-
-            return View(id);
         }
 
         public async Task<JsonResult> GetPARecordById(int id)

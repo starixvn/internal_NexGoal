@@ -4,7 +4,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Filters;
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
@@ -13,6 +15,7 @@
     using NexGoal.Models.Redmine;
     using NexGoal.Services;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
     public class MemberController : Controller
     {
         private readonly ICommonService commonService;

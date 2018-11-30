@@ -17,6 +17,7 @@ BEGIN
 		,[Name]
 		,FunctionKey
 		,ParentId
+		,OnlyPolicy
 		,DisplayOrder
 		,IsActive
 	FROM dbo.[Function] WITH (NOLOCK)

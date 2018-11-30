@@ -6,6 +6,7 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models;
@@ -14,6 +15,7 @@
     using NexGoal.Services;
     using NexGoal.ViewModels.PAFocus;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.PAFocus, Policy = Policy.Read)]
     public class PAFocusController : Controller
     {
         private readonly ISessionService sessionService;
@@ -88,6 +90,7 @@
         }
 
         [HttpPost]
+        [NexGoalPermission(FunctionKey = FunctionKey.PAFocus, Policy = Policy.Host)]
         public async Task<JsonResult> Edit(IEnumerable<EditPAFocusModel> paFocuses)
         {
             CommandResult commandResult = await focusService.EditPAFocusAsync(sessionService.EmployeeId, paFocuses).ConfigureAwait(false);

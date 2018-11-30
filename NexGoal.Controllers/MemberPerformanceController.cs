@@ -4,12 +4,15 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Services;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.MemberPage, Policy = Policy.Host)]
     public class MemberPerformanceController : Controller
     {
         private readonly ISessionService sessionService;

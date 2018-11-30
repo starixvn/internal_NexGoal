@@ -1,6 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[PerformanceRecord_GetMemberTimeline] @ActorId INT
 	,@PeriodId INT = NULL
+	,@GroupIds VARCHAR(MAX) = NULL
 	,@EmployeeId INT = NULL
 	,@PageIndex INT = 0
 	,@PageSize INT = 4
@@ -32,6 +33,8 @@ BEGIN
 	-- Performance Record Status
 	DECLARE @Submitted TINYINT = 3
 		,@Closed TINYINT = 4
+
+	CREATE TABLE #tblGroup (GroupId INT)
 
 	CREATE TABLE #tblMember (
 		EmployeeId INT
@@ -66,6 +69,11 @@ BEGIN
 		FROM dbo.Period WITH (NOLOCK)
 		WHERE PeriodId = @PeriodId
 	END
+
+	INSERT INTO #tblGroup (GroupId)
+	SELECT val
+	FROM dbo.func_SplitString(@GroupIds, ',')
+	WHERE ISNUMERIC(val) = 1
 
 	INSERT INTO #tblMember (
 		EmployeeId
@@ -125,6 +133,7 @@ BEGIN
 	FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
+		LEFT JOIN #tblGroup AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		AND creator.[Enabled] = 1
 		AND creator.IsDeleted = 0
@@ -152,6 +161,10 @@ BEGIN
 		AND (
 			record.CreatorId = - 1
 			OR creator.EmployeeId IS NOT NULL
+			)
+		AND (
+			@GroupIds IS NULL
+			OR gr.GroupId IS NOT NULL
 			)
 		AND (
 			member.IsHost = 1
@@ -248,6 +261,8 @@ BEGIN
 	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+
+	DROP TABLE #tblGroup
 
 	DROP TABLE #tblMember
 

@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
@@ -16,20 +15,6 @@
     {
         private ISessionService sessionService;
         private IPARecordService paRecordService;
-
-        [Fact]
-        public void Index_WhenCalled_ReturnsAsExpectedViewResult()
-        {
-            // Arrange
-            var controller = GetReviewController();
-
-            // Act
-            var actual = controller.Index();
-
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(actual);
-            Assert.Null(viewResult.ViewName);
-        }
 
         [Fact]
         public async Task GetPeriods_WhenCalled_ReturnAsExpectedPeriods()
@@ -93,46 +78,10 @@
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<PARecordGroupModel>>(jsonResult.Value);
+            Assert.IsAssignableFrom<IEnumerable<PARecordGroupModel>>(jsonResult.Value);
         }
 
         #region Edit
-
-        [Fact]
-        public async Task Edit_PARecordIsNotExist_ReturnRedirectToPageNotFound()
-        {
-            // Arrange
-            PARecordModel paRecord = null;
-            var controller = GetReviewController();
-            paRecordService.GetPARecordByIdAsync(1, sessionService.EmployeeId).Returns(paRecord);
-
-            // Act
-            var actual = await controller.Edit(1);
-
-            // Assert
-            var viewResult = Assert.IsType<RedirectToActionResult>(actual);
-            Assert.Equal("Error", viewResult.ControllerName);
-            Assert.Equal("PageNotFound", viewResult.ActionName);
-        }
-
-        [Fact]
-        public async Task Edit_PARecordIsExist_ReturnAsExpectedViewResult()
-        {
-            // Arrange
-            var paRecord = new PARecordModel { PARecordId = 1, EmployeeId = 1, StatusId = 3 };
-            var controller = GetReviewController();
-            paRecordService.GetPARecordByIdAsync(1, sessionService.EmployeeId).Returns(paRecord);
-            sessionService.HasPermissionOnFunction("Review", Policy.Host).Returns(true);
-
-            // Act
-            var actual = await controller.Edit(1);
-
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(actual);
-            Assert.Null(viewResult.ViewName);
-            Assert.Equal(1, viewResult.Model);
-            Assert.True((bool)viewResult.ViewData["IsHost"]);
-        }
 
         [Fact]
         public async Task EditPost_ModelStateIsInvalid_ReturnAsExpectedResult()
@@ -192,45 +141,6 @@
         }
 
         #endregion Edit
-
-        #region Details
-
-        [Fact]
-        public async Task Details_PARecordIsNotExist_ReturnRedirectToPageNotFound()
-        {
-            // Arrange
-            PARecordModel paRecord = null;
-            var controller = GetReviewController();
-            paRecordService.GetPARecordByIdAsync(1, sessionService.EmployeeId).Returns(paRecord);
-
-            // Act
-            var actual = await controller.Details(1);
-
-            // Assert
-            var viewResult = Assert.IsType<RedirectToActionResult>(actual);
-            Assert.Equal("Error", viewResult.ControllerName);
-            Assert.Equal("PageNotFound", viewResult.ActionName);
-        }
-
-        [Fact]
-        public async Task Details_PARecordIsExist_ReturnAsExpectedViewResult()
-        {
-            // Arrange
-            var paRecord = new PARecordModel { PARecordId = 1, EmployeeId = 1, StatusId = 3 };
-            var controller = GetReviewController();
-            paRecordService.GetPARecordByIdAsync(1, sessionService.EmployeeId).Returns(paRecord);
-            sessionService.HasPermissionOnFunction("Review", Policy.Host).Returns(true);
-
-            // Act
-            var actual = await controller.Details(1);
-
-            // Assert
-            var viewResult = Assert.IsType<ViewResult>(actual);
-            Assert.Null(viewResult.ViewName);
-            Assert.Equal(1, viewResult.Model);
-        }
-
-        #endregion Details
 
         [Fact]
         public async Task GetById_WhenCalled_ReturnAsExpectedJsonResult()

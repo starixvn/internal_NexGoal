@@ -2,16 +2,7 @@
 
 import { Policy } from '../../../constants';
 
-class Row extends Component {
-    shouldComponentUpdate(nextProps) {
-        if (this.props.isHost !== nextProps.isHost
-            || JSON.stringify(this.props.function) !== JSON.stringify(nextProps.function)) {
-            return true;
-        }
-
-        return false;
-    }
-
+export default class Row extends Component {
     renderCellFunctionName(func) {
         if (func.parentId) {
             return (
@@ -42,26 +33,30 @@ class Row extends Component {
                 {this.renderCellFunctionName(functionObj)}
 
                 <td className="text-center">
-                    <label>
-                        <input type="checkbox" name="funcRead"
-                            disabled={!this.props.isHost}
-                            checked={functionObj.policy > Policy.None}
-                            onChange={this.handleOnChange}
-                        />
-                    </label>
+                    {
+                        (functionObj.onlyPolicy === null || functionObj.onlyPolicy === Policy.Read) &&
+                        <label>
+                            <input type="checkbox" name="funcRead"
+                                disabled={!this.props.isHost}
+                                checked={functionObj.policy > Policy.None}
+                                onChange={this.handleOnChange}
+                            />
+                        </label>
+                    }
                 </td>
                 <td className="text-center">
-                    <label>
-                        <input type="checkbox" name="funcHost"
-                            disabled={!this.props.isHost}
-                            checked={functionObj.policy === Policy.Host}
-                            onChange={this.handleOnChange}
-                        />
-                    </label>
+                    {
+                        (functionObj.onlyPolicy === null || functionObj.onlyPolicy === Policy.Host) &&
+                        <label>
+                            <input type="checkbox" name="funcHost"
+                                disabled={!this.props.isHost}
+                                checked={functionObj.policy === Policy.Host}
+                                onChange={this.handleOnChange}
+                            />
+                        </label>
+                    }
                 </td>
             </tr>
         );
     }
 }
-
-export default Row;

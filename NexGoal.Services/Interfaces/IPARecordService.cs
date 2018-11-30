@@ -12,8 +12,6 @@
 
         Task<IEnumerable<GroupBaseModel>> GetGroupByActorAsync(int actorId, int periodId);
 
-        Task<IEnumerable<PARecordModel>> GetPARecordByActorAsync(GetPARecordParam param);
-
         Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(GetPARecordParam param);
 
         Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId);
