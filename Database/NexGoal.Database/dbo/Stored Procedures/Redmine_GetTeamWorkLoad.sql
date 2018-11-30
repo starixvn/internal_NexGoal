@@ -59,7 +59,7 @@ BEGIN
 		,p.ProjectId
 		,p.Name
 		,m.Priority
-	ORDER BY m.Priority, e.NickName
+	ORDER BY m.Priority, g.Name, e.NickName
 	
 	DROP TABLE #member
 END

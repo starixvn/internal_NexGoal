@@ -392,6 +392,63 @@ BEGIN
 			,0
 		FROM #performanceRecordTbl AS prt
 			INNER JOIN @generatedPARecordTbl AS gpar ON prt.EmployeeIds = gpar.EmployeeId
+
+		DELETE FROM #performanceRecordTbl
+
+		-- Capture for Self, Reviewer, Evaluator
+		INSERT INTO dbo.PerformanceRecord (
+			EmployeeIds
+			,CreatorId
+			,GradeId
+			,Comment
+			,StatusId
+			,CreatedDate
+			,TypeId
+			)
+		OUTPUT INSERTED.PerformanceRecordId
+			,INSERTED.EmployeeIds
+			,INSERTED.CreatorId
+		INTO #performanceRecordTbl(PerFormanceRecordId, EmployeeIds, EvaluatorId)
+		SELECT gpar.EmployeeId
+			,pap.EvaluatorId
+			,lg.GradeId
+			,STUFF((
+					SELECT CHAR(10) + prcmt.comment
+					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
+					WHERE prcmt.EmployeeIds = gpar.EmployeeId
+						AND prcmt.CreatorId = lg.CreatorId
+						AND prcmt.TypeId = 1
+						AND prcmt.CreatedDate BETWEEN @disciplineStartDate
+							AND @disciplineEndDate
+						AND prcmt.StatusId IN (@PRSubmitted, @PRClosed)
+					ORDER BY prcmt.CreatedDate DESC
+					FOR XML PATH('')
+					), 1, 1, '')
+			,@PRSubmitted
+			,GETDATE()
+			,2
+		FROM @generatedPARecordTbl AS gpar
+			INNER JOIN dbo.PAProcess AS pap WITH (NOLOCK) ON gpar.PARecordId = pap.PARecordId
+			AND pap.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId) AND pap.PerformanceRecordId IS NULL
+			CROSS APPLY (
+				SELECT TOP 1 pr.CreatorId
+					,pr.GradeId
+				FROM dbo.PerformanceRecord AS pr WITH (NOLOCK)
+				WHERE pr.EmployeeIds = gpar.EmployeeId
+					AND pr.CreatorId = pap.EvaluatorId
+					AND pr.TypeId = 1
+					AND pr.CreatedDate <= @disciplineEndDate
+					AND pr.StatusId IN (@PRSubmitted, @PRClosed)
+				ORDER BY pr.CreatedDate DESC
+			) lg
+
+		UPDATE pap
+		SET pap.PerformanceRecordId = pr.PerFormanceRecordId
+		FROM dbo.PAProcess pap WITH(ROWLOCK, UPDLOCK)
+			INNER JOIN @generatedPARecordTbl gpar ON pap.PARecordId = gpar.PARecordId
+			INNER JOIN #performanceRecordTbl pr ON pap.EvaluatorId = pr.EvaluatorId AND gpar.EmployeeId = pr.EmployeeIds
+		WHERE pap.PerformanceRecordId IS NULL
+			AND pap.ProcessId IN (@SelfProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 	END
 
 	SET @endRun = GETDATE()

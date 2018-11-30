@@ -38,7 +38,7 @@
     }
 }
 
-.general-info, .workload {
+.general-info, #chart-wrapper {
     .group-name {
         font-weight: bold;
         font-size: 14px;
@@ -133,7 +133,7 @@
     }
 }
 
-.member-timeline, .workload {
+.member-timeline, #chart-wrapper {
     .collapsed-expanded {
         cursor: pointer;
     }
