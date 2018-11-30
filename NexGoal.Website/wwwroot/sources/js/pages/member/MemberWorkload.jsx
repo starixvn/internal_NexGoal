@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
 
@@ -8,6 +8,7 @@ import Multiselect from '../../shared/components/multi-select/index';
 export default class MemberWorkload extends Component {
     constructor(props) {
         super(props);
+
         this.state = {
             workloads: [],
             selectedGroups: this.props.groupOptions,
@@ -55,16 +56,9 @@ export default class MemberWorkload extends Component {
         return {
             groupId: groupWorkload.groupId,
             groupName: groupWorkload.groupName,
+            title: `${groupWorkload.groupName} (${totalHours.toFixed(2)} hours)`,
             chartData: this.generateDataSets(groupWorkload.employeeWorkloads),
-            chartOptions: {
-                ... this.chartOptions,
-                ... {
-                    title: {
-                        display: true,
-                        text: `${groupWorkload.groupName} (${totalHours.toFixed(2)} hours)`
-                    }
-                }
-            }
+            chartOptions: this.chartOptions
         }
     }
 
@@ -191,13 +185,11 @@ export default class MemberWorkload extends Component {
         legend: {
             display: false
         },
-        maintainAspectRatio: false,
+        maintainAspectRatio: false
     }
 
-    renderChart = (group) => {
-        let workload = this.state.workloads.find(x => x.groupId === group.value);
-
-        if (workload) {
+    renderChart = (workload, i) => {
+        if (this.state.selectedGroups.some(x => x.value === workload.groupId)) {
             let basicHeight = 140;
 
             if (workload.chartData.labels.length > 2) {
@@ -205,9 +197,19 @@ export default class MemberWorkload extends Component {
             }
 
             return (
-                <div style={{ position: 'relative' }}>
-                    <HorizontalBar height={basicHeight} key={workload.groupId} data={workload.chartData} options={workload.chartOptions} />
-                </div>
+                <Fragment key={workload.groupId} >
+                    <div className="group-name collapsed"
+                        data-toggle="collapse"
+                        data-target={`#chart-${workload.groupId}`}
+                        aria-expanded="false">
+                        <span className="icon-chevron-down" /> {workload.title}
+                    </div>
+                    <div id={`chart-${workload.groupId}`} className="collapse" aria-expanded="false">
+                        <div style={{ position: 'relative', height: `${basicHeight}px`, width: '100%' }}>
+                            <HorizontalBar data={workload.chartData} options={workload.chartOptions} />
+                        </div>
+                    </div>
+                </Fragment >
             );
         }
 
@@ -236,9 +238,8 @@ export default class MemberWorkload extends Component {
                     </div>
                 }
                 <div id="chart-wrapper" >
-                    {this.state.selectedGroups.map(this.renderChart)}
+                    {this.state.workloads.map(this.renderChart)}
                 </div>
-                <div id="123"></div>
             </div>
         );
     }

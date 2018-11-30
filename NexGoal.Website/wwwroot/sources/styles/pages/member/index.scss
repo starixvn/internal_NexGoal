@@ -38,7 +38,9 @@
             padding-bottom: 4px;
         }
     }
+}
 
+.general-info, .workload {
     .group-name {
         font-weight: bold;
         font-size: 14px;
@@ -133,7 +135,7 @@
     }
 }
 
-.member-timeline {
+.member-timeline, .workload {
     .collapsed-expanded {
         cursor: pointer;
     }
