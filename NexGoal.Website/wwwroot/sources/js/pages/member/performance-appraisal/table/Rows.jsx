@@ -25,13 +25,8 @@ class Rows extends Component {
 
     renderPAForReviewer = (record) => {
         let reviewerProcess = record.processes.filter(process => process.processId === PerformanceProcess.Reviewer);
-        let paGrade;
+        let paGrade = record.grade ? record.grade.name : getResource('N/A');
         let gradeChangeClass = '';
-        if (record.isEdited) {
-            paGrade = record.grade ? record.grade.name : getResource('N/A');
-        } else {
-            paGrade = record.originalGrade ? record.originalGrade.name : getResource('N/A');
-        }
         if (parseInt(record.gradeId) > parseInt(record.originalGradeId)) gradeChangeClass = 'icon-increase-arrow';
         if (parseInt(record.gradeId) < parseInt(record.originalGradeId)) gradeChangeClass = 'icon-descrease-arrow';
         let displayPAGrade = record.statusId === PAStatus.Closed ?
@@ -55,11 +50,35 @@ class Rows extends Component {
         }
     }
 
+    countDuplicateGrades = (grades) => {
+        grades.sort();
+        let displayGrades = [];
+        let currentGrade = null;
+        var count = 0;
+        for (let i = 0; i < grades.length; i++) {
+            if (grades[i] !== currentGrade) {
+                if (count > 0) {
+                    displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+                }
+                currentGrade = grades[i];
+                count = 1;
+            } else {
+                count++;
+            }
+        }
+        if (count > 0) {
+            displayGrades.push(count > 1 ? count + currentGrade : currentGrade);
+        }
+
+        return displayGrades.join(', ');
+    }
+
     renderPAByProcess = (paProcesses, processId) => {
         let processes = paProcesses.filter(process => process.processId === processId);
-        let grade = processes.map(process => {
+        let grades = processes.map(process => {
             return process.performanceRecord && process.performanceRecord.grade ? process.performanceRecord.grade.name : 'N/A';
-        }).join(', ');
+        });
+
         let tooltip;
 
         if (processId === PerformanceProcess.ProjectManager) {
@@ -82,27 +101,34 @@ class Rows extends Component {
 
             return (
                 <OverlayTrigger placement="top" overlay={tooltip}>
-                    <span className="pointer">{grade}</span>
+                    <span className="pointer">{this.countDuplicateGrades(grades)}</span>
                 </OverlayTrigger>
             );
         } else {
-            return <span>{grade}</span>;
+            return <span>{grades.join(', ')}</span>;
         }
     }
 
     renderStatus = (isEdited, paRecordId, paStatusId) => {
-        const isDisabled = isEdited || paStatusId === PAStatus.Closed;
-        const disabledClass = isDisabled ? "disabled" : "";
-        return (
-            <div>
-                <input type="checkbox" className="checkbox-custom"
-                    id={`chb-${paRecordId}`}
-                    checked={isEdited}
-                    onClick={() => this.quickEditPA(paRecordId, isDisabled)}
-                    disabled={isDisabled} />
-                <label className={disabledClass} htmlFor={`chb-${paRecordId}`} />
-            </div>
-        );
+        const isClosed = paStatusId === PAStatus.Closed;
+        let status;
+        if (isClosed) {
+            const checked = isEdited ? 'icon-checked' : '';
+            status = <span className={checked} />;
+        } else {
+            status = (
+                <div>
+                    <input type="checkbox" className="checkbox-custom"
+                        id={`chb-${paRecordId}`}
+                        checked={isEdited}
+                        onClick={() => this.quickEditPA(paRecordId, isEdited)}
+                    />
+                    <label htmlFor={`chb-${paRecordId}`} />
+                </div>
+            );
+        }
+
+        return status;
     }
 
     renderNickName = (record) => {

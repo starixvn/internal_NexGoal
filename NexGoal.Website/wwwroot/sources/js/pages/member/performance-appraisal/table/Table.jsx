@@ -102,7 +102,7 @@ class Table extends Component {
                             <th>{getResource('ProjectManager')}</th>
                             <th>{getResource('Evaluator')}</th>
                             <th>{getResource('Reviewer')}</th>
-                            <th>{getResource('Edited')}</th>
+                            <th>{getResource('Revised')}</th>
                         </tr>
                     </thead>
                     <tbody>
