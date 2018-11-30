@@ -27,9 +27,11 @@ export default class Timeline extends Component {
         this.props.onPageChange(memberPerformance.employeeId, pageIndex);
     }
 
-    calculateNodePosition = (totalNode, index) => {
-        let distanceFromRoot = (this.props.timelineWidth - 80) / (totalNode + 1);
-        return Math.round((index + 1) * distanceFromRoot);
+    calculateNodePosition = (totalNodes, index) => {
+        let nodeWidth = (this.props.timelineWidth - 6) / totalNodes;
+        let startAt = (nodeWidth - 57) / 2;
+
+        return index * nodeWidth + startAt;
     }
 
     render() {
@@ -52,6 +54,7 @@ export default class Timeline extends Component {
                         totalNodes > 0 &&
                         performanceRecords.map((performanceRecord, index) => {
                             let position = this.calculateNodePosition(totalNodes, index);
+
                             return (
                                 <Node key={`timelineNode${performanceRecord.performanceRecordId}`}
                                     data={performanceRecord}

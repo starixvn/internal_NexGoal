@@ -15,7 +15,7 @@ export default class Timeline extends Component {
                 groups: []
             },
             memberPerformances: [],
-            pageSize: window.innerWidth >= 1600 ? 4 : 3
+            pageSize: this.calculatePageSize()
         };
 
         this.timelineEl = React.createRef();
@@ -51,8 +51,23 @@ export default class Timeline extends Component {
         window.removeEventListener('resize', this.updateDimensions);
     }
 
+    calculatePageSize = () => {
+        let windowWidth = window.innerWidth;
+        let pageSize;
+
+        if (windowWidth >= 1600) {
+            pageSize = 4;
+        } else if (windowWidth >= 1280 && windowWidth < 1600) {
+            pageSize = 3;
+        } else {
+            pageSize = 2;
+        }
+
+        return pageSize;
+    }
+
     updateDimensions = () => {
-        let pageSize = window.innerWidth >= 1600 ? 4 : 3;
+        let pageSize = this.calculatePageSize();
 
         this.setState((prevState, prevProps) => {
             if (prevState.pageSize !== pageSize) {
@@ -148,7 +163,7 @@ export default class Timeline extends Component {
     renderGroupName = (groupId, groupName) => {
         if (this.props.groupOptions && this.props.groupOptions.length > 1) {
             return (
-                <div className="group-name collapsed"
+                <div className="group-name collapsed-expanded collapsed"
                     data-toggle="collapse"
                     data-target={`#groupTimeline${groupId}`}
                     aria-expanded="false"
@@ -196,7 +211,7 @@ export default class Timeline extends Component {
                                                 return (
                                                     <Line key={`memberTimeline${memberPerformance.employeeId}`}
                                                         data={memberPerformance}
-                                                        timelineWidth={timelineWidth}
+                                                        timelineWidth={timelineWidth - 112}
                                                         onPageChange={this.handlePageChange}
                                                         onNodeClick={this.props.onNodeClick}
                                                     />

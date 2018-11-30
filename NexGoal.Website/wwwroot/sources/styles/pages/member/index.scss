@@ -57,12 +57,8 @@
 
 .member-performance {
     display: grid;
-    grid-template-columns: 90px 1fr;
+    grid-template-columns: 80px 1fr;
     align-content: center;
-
-    @media screen and (min-width: 1280px) {
-        grid-template-columns: 78px 1fr;
-    }
 
     .employee-info {
         align-self: center;
@@ -138,6 +134,10 @@
 }
 
 .member-timeline {
+    .collapsed-expanded {
+        cursor: pointer;
+    }
+
     .icon-chevron-down {
         float: left;
         font-weight: bold;
@@ -155,15 +155,15 @@
 .member-timeline .timeline-info {
     border: none;
     top: 29px;
-    width: 50px;
+    width: 60px;
     font-size: 11px;
 
     &:after {
-        left: 25px;
+        left: 30px;
     }
 
     .name {
-        width: 50px;
+        width: 60px;
 
         &.role-default {
             border: 1px solid $role-default-color;
