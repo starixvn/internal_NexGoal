@@ -4,13 +4,14 @@ import Select from 'react-select';
 import { camelCase, isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
+import Scrollbars from 'react-custom-scrollbars';
+import moment from 'moment';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
-import { PerformanceProcess, PAStatus } from '../../../constants';
+import { PerformanceProcess, PAStatus, DateFormat } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
-import Scrollbars from 'react-custom-scrollbars';
 
 export default class EditMemberPA extends Component {
     constructor(props) {
@@ -22,7 +23,13 @@ export default class EditMemberPA extends Component {
                 comment: '',
                 paStatus: null
             },
+            employee: {},
             paProcesses: [],
+            currentUser: {
+                nickName: document.getElementById('employeeInfo-nickName').innerText,
+                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
+            },
+            currentDate: moment(),
             errors: {},
             activeTabKey: 1
         };
@@ -40,6 +47,7 @@ export default class EditMemberPA extends Component {
                         comment: pa.comment,
                         paStatus: pa.statusId
                     },
+                    employee: pa.employee,
                     paProcesses: pa.processes
                 });
             }
@@ -162,6 +170,7 @@ export default class EditMemberPA extends Component {
         const pmRecords = this.renderRecordByProcess(PerformanceProcess.ProjectManager);
         const evaluatorRecord = this.renderRecordByProcess(PerformanceProcess.Evaluator);
         const reviewerRecord = this.renderRecordByProcess(PerformanceProcess.Reviewer);
+        const currentUser = this.state.currentUser;
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
@@ -172,6 +181,14 @@ export default class EditMemberPA extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <div className="record record-your-mind">
+                        <div className="avatar-user">
+                            <img src={currentUser.avatar} className="avatar" />
+                            <div className="person-info">
+                                <span className="role-reviewer">{currentUser.nickName}</span>
+                                <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                                <p>Member: {this.state.employee.nickName}</p>
+                            </div>
+                        </div>
                         <div className="comment">
                             <form className="form-filter form-performance edit">
                                 <FormGroup>
@@ -219,7 +236,11 @@ export default class EditMemberPA extends Component {
                     </div>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Cancel')}</Button>
+                    <Button className="btn-cancel" onClick={this.props.onCloseModal}>
+                        {
+                            parseInt(paRecord.paStatus) !== PAStatus.Closed ? getResource('Cancel') : getResource('Close')
+                        }
+                    </Button>
                     {
                         parseInt(paRecord.paStatus) !== PAStatus.Closed &&
                         <Button type="submit" bsStyle="primary" name="save"

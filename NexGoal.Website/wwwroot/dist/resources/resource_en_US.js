@@ -108,6 +108,7 @@ var resource_en_US = {
     'RemindDateForNominator': 'Remind Date For Nominator',
     'Reset': 'Reset',
     'Reviewer': 'Reviewer',
+    'Revised': 'Revised',
     'Role': 'Role',
     'RoleManagement': 'Role Management',
     'RolePermission': 'Role Permission',
