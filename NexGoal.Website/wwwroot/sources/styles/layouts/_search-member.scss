@@ -27,13 +27,17 @@
                     border-bottom: 1px solid #dfdfdf;
                 }
 
-                .react-select__input {
+                .react-select__input, .react-select__single-value {
                     color: #fff;
                 }
 
                 .react-select__indicators {
                     .react-select__indicator {
                         padding: 4px;
+                    }
+
+                    .react-select__loading-indicator {
+                        display: none;
                     }
                 }
             }

@@ -53,6 +53,10 @@ export default class SearchMember extends Component {
     handleClick = () => {
         this.setState((prevState, prevProps) => {
             return { showSearchbox: !prevState.showSearchbox };
+        }, () => {
+            if (this.state.showSearchbox) {
+                this.selectElement.select.focus();
+            }
         });
     }
 
@@ -65,7 +69,8 @@ export default class SearchMember extends Component {
                         <span className="icon-search" onClick={this.handleClick} />
                         {
                             this.state.showSearchbox &&
-                            <Async classNamePrefix="react-select" className="react-select-container"
+                            <Async ref={el => this.selectElement = el}
+                                classNamePrefix="react-select" className="react-select-container"
                                 cacheOptions
                                 loadOptions={this.loadOptions}
                                 defaultOptions
