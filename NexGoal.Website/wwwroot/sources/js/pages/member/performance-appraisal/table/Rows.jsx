@@ -113,8 +113,8 @@ class Rows extends Component {
         const isClosed = paStatusId === PAStatus.Closed;
         let status;
         if (isClosed) {
-            const checked = isEdited ? 'icon-checked' : '';
-            status = <span className={checked} />;
+            const checked = isEdited ? 'icon-check' : '';
+            status = <span className={checked}  />;
         } else {
             status = (
                 <div>

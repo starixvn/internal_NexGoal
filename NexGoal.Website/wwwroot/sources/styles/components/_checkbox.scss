@@ -54,19 +54,18 @@
     // Box.
     & + label:before {
       content: '';
-      margin-right: 10px;
       display: inline-block;
       vertical-align: text-top;
       width: 16px;
       height: 16px;
       background: white;
-      border: 1px solid #CCC;
+      border: 2px solid #C4C4C4;
     }
   
     // Box hover
-    &:hover + label:before {
-      background: #f35429;
-    }
+    // &:hover + label:before {
+    //   background: #f35429;
+    // }
     
     // Box focus
     // &:focus + label:before {
@@ -76,6 +75,7 @@
     // Box checked
     &:checked + label:before {
       background: #fff;
+      border: none;
     }
     
     // Disabled state label.
