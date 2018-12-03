@@ -9,6 +9,7 @@
     using NexGoal.Core.Filters;
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Employee;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
@@ -43,8 +44,8 @@
 
         public async Task<IActionResult> Index()
         {
-            IEnumerable<EmployeeBaseModel> members = await employeeService.GetMemberByProcessIdAsync(sessionService.EmployeeId, PerformanceProcess.Reviewer).ConfigureAwait(false);
-            bool isReviewer = members.Any();
+            IEnumerable<EmployeeRoleModel> employeeRoles = await employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            bool isReviewer = employeeRoles.Any(x => x.RoleId == (int)SystemRole.Reviewer && x.HasRole);
             bool isNominator = await nominationService.IsNominator(sessionService.EmployeeId).ConfigureAwait(false);
             ViewData["IsNominator"] = isNominator;
             ViewData["IsReviewer"] = isReviewer;
@@ -60,8 +61,10 @@
             {
                 return RedirectToAction("AccessDenied", "Error");
             }
+
             EmployeeBaseModel member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
             ViewData["IsNominator"] = await nominationService.IsNominator(sessionService.EmployeeId).ConfigureAwait(false);
+
             return View(member);
         }
 
@@ -87,7 +90,6 @@
             return Json(nominations);
         }
 
-        [HttpGet]
         public async Task<JsonResult> GetMembersWorkload(int periodId)
         {
             IEnumerable<TeamWorkloadModel> teamWorkloads = await redmineService.GetTeamWorkload(sessionService.EmployeeId, periodId).ConfigureAwait(false);

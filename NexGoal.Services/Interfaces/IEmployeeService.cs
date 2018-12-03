@@ -35,8 +35,6 @@
 
         Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string keyword = null);
 
-        Task<IEnumerable<EmployeeBaseModel>> GetMemberByProcessIdAsync(int actorId, PerformanceProcess performanceProcess);
-
         Task<IEnumerable<GroupBaseModel>> GetGroupAsync(int actorId);
     }
 }

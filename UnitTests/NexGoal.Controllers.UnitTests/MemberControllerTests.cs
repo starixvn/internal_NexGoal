@@ -6,6 +6,7 @@
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Services;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Employee;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
@@ -27,13 +28,14 @@
         public async Task Index_WhenCalled_ReturnsAsExpectedViewResult()
         {
             // Arrange
+            var employeeRoles = new List<EmployeeRoleModel>();
             var controller = GetMemberController();
-            // Act
+            employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId).Returns(employeeRoles);
             nominationService.IsNominator(sessionService.EmployeeId).Returns(true);
-            var actual = await controller.Index();
-            var employees = new List<EmployeeBaseModel>();
+
             // Act
-            employeeService.GetMemberByProcessIdAsync(sessionService.EmployeeId, PerformanceProcess.Reviewer).Returns(employees);
+            var actual = await controller.Index();
+
             // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
             Assert.True((bool)viewResult.ViewData["IsNominator"]);
@@ -46,13 +48,16 @@
             // Arrange
             var controller = GetMemberController();
             var employees = new List<EmployeeBaseModel>();
-            // Act
             employeeService.GetMemberAsync(sessionService.EmployeeId).Returns(employees);
             nominationService.IsNominator(sessionService.EmployeeId).Returns(true);
+
+            // Act
             var actual = await controller.Details(363);
 
             // Assert
-            Assert.IsType<RedirectToActionResult>(actual);
+            var viewResult = Assert.IsType<RedirectToActionResult>(actual);
+            Assert.Equal("Error", viewResult.ControllerName);
+            Assert.Equal("PageNotFound", viewResult.ActionName);
         }
 
         [Fact]
