@@ -57,7 +57,7 @@
             // Assert
             var viewResult = Assert.IsType<RedirectToActionResult>(actual);
             Assert.Equal("Error", viewResult.ControllerName);
-            Assert.Equal("PageNotFound", viewResult.ActionName);
+            Assert.Equal("AccessDenied", viewResult.ActionName);
         }
 
         [Fact]
