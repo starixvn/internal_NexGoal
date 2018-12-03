@@ -3,6 +3,7 @@ import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import getResource from '../../resourceHelper';
 import Multiselect from '../../shared/components/multi-select/index';
 
 export default class MemberWorkload extends Component {
@@ -30,7 +31,7 @@ export default class MemberWorkload extends Component {
 
             this.setState(
                 {
-                    workloads: workloads,
+                    workloads: workloads
                 });
         }).catch(axiosError);
     }
@@ -225,7 +226,7 @@ export default class MemberWorkload extends Component {
         return (
             <div className="workload box">
                 <div className="title">
-                    <h5>Workload</h5>
+                    <h5>{getResource('Workload')}</h5>
                     <div className="milestone">
                         <div className="icon-chevron-down arrow-left" onClick={this.onNextPeriod} />
                         {this.props.periods[this.state.currentPeriodIndex].name}
@@ -234,7 +235,7 @@ export default class MemberWorkload extends Component {
                 </div>
                 {this.props.groupOptions.length > 1 &&
                     <div>
-                        <div className="team">Team</div>
+                        <div className="team">{getResource('Team')}</div>
                         <Multiselect className="react-select-container" classNamePrefix="react-select"
                             value={this.state.selectedGroups}
                             options={this.props.groupOptions}

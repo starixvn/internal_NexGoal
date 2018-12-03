@@ -14,8 +14,7 @@ Param's Explanation:
 
 */
 BEGIN
-	DECLARE @PAInProgress TINYINT = 3
-		,@PAClosed TINYINT = 4
+	DECLARE @PAClosed TINYINT = 4
 		-- system role
 		,@ManagementRoleId TINYINT = 3
 		,@EvaluatorRoleId TINYINT = 4
@@ -62,7 +61,7 @@ BEGIN
 		AND period.IsActive = 1
 		AND ISNULL(@PeriodId, period.PeriodId) = period.PeriodId
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON pa.EmployeeId = member.EmployeeId
-	WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
+	WHERE pa.StatusId = @PAClosed
 
 	SELECT DISTINCT period.PeriodId
 		,period.[Name]
@@ -73,7 +72,7 @@ BEGIN
 		AND period.IsActive = 1
 		AND ISNULL(@PeriodId, period.PeriodId) = period.PeriodId
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON pa.EmployeeId = member.EmployeeId
-	WHERE pa.StatusId IN (@PAInProgress, @PAClosed)
+	WHERE pa.StatusId = @PAClosed
 
 	DROP TABLE #tblMember
 END

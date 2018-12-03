@@ -83,9 +83,10 @@
             return Json(nominationPeriods);
         }
 
-        public async Task<JsonResult> GetMemberNominationResult(int? memberId = null)
+        public async Task<JsonResult> GetMemberNominationResult(int? memberId = null, int? year = null)
         {
-            IEnumerable<EmployeeNominationModel> nominations = await employeeService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+            IEnumerable<EmployeeNominationModel> nominations =
+                await employeeService.GetMemberNominationResultAsync(sessionService.EmployeeId, memberId, year).ConfigureAwait(false);
 
             return Json(nominations);
         }

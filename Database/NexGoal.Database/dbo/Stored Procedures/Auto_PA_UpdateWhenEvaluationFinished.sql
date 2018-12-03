@@ -48,7 +48,13 @@ BEGIN
 		AND period.IsActive = 1
 		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
-	WHERE pa.StatusId IN (@PAOpened, @PAInProgress)
+	WHERE (
+			pa.StatusId IN (@PAOpened, @PAInProgress)
+			OR (
+				pa.StatusId = @PAClosed
+				AND pa.PerformanceRecordId IS NULL
+				)
+			)
 		AND (
 			(
 				period.EndDate > reviewer.EndDate
@@ -59,6 +65,13 @@ BEGIN
 				AND reviewer.EndDate < @Today
 				)
 			)
+
+	UPDATE record
+	SET record.GradeId = pa.GradeId
+	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+		AND pa.StatusId = @PAClosed
+	WHERE record.GradeId IS NULL
 
 	UPDATE record
 	SET record.GradeId = pa.GradeId

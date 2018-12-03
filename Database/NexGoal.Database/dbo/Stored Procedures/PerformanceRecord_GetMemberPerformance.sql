@@ -16,6 +16,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @EmployeeIdString VARCHAR(20)
+		,@PAClosed TINYINT = 4
 	-- process
 	DECLARE @PMProcessId TINYINT = 3
 		,@EvaluatorProcessId TINYINT = 4
@@ -171,6 +172,7 @@ BEGIN
 					record.TypeId = @SystemPA
 					AND @EmployeeId IS NOT NULL
 					AND pa.PARecordId IS NOT NULL
+					AND pa.StatusId = @PAClosed
 					)
 				)
 			AND record.StatusId IN (@Submitted, @Closed)

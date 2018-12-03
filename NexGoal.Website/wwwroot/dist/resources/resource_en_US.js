@@ -133,5 +133,6 @@ var resource_en_US = {
     'UpdatedSuccessfully': 'Updated successfully!',
     'UnpaidLeave': 'Unpaid Leave',
     'UnplanedLeave': 'Unplaned Annual Leave',
-    'Year': 'Year'
+    'Year': 'Year',
+    'Workload': 'Workload'
 };

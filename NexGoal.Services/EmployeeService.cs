@@ -146,11 +146,15 @@
             return tuple.Item1;
         }
 
-        public async Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(int actorId, int? employeeId = null)
+        public async Task<IEnumerable<EmployeeNominationModel>> GetMemberNominationResultAsync(
+            int actorId,
+            int? employeeId = null,
+            int? year = null)
         {
             var criteria = new GetMemberNominationResultCriteria
             {
                 ActorId = actorId,
+                Year = year,
                 EmployeeId = employeeId
             };
 

@@ -4,7 +4,6 @@ import axios from 'axios';
 import { axiosError, getNominationClassName, resolveClientUrl } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
 import getResource from '../../resourceHelper';
-import Multiselect from '../../shared/components/multi-select/index';
 
 export default class NominationResult extends Component {
     constructor(props) {
@@ -12,40 +11,36 @@ export default class NominationResult extends Component {
 
         this.state = {
             filter: {
-                periods: []
+                currentIndex: 0,
+                prevDisabled: false,
+                nextDisabled: false
             },
-            periodOptions: [],
+            yearOptions: [],
             memberNominations: []
         };
     }
 
     componentDidMount() {
-        const promises = [
-            axios(resolveClientUrl('member/GetNominationPeriod'), { params: { isCompleted: true } }),
-            axios(resolveClientUrl('member/GetMemberNominationResult'))
-        ];
-
-        Promise.all(promises)
-            .then(([periodResponse, nominationResponse]) => {
-                let periodOptions = periodResponse.data.map(period => {
-                    return {
-                        value: period.nominationPeriodId,
-                        label: period.shortTitle
-                    };
-                });
+        axios.get(resolveClientUrl('member/GetNominationPeriod'), { params: { isCompleted: true } })
+            .then(response => {
+                let yearOptions = response.data.map(period => period.year).filter((value, index, self) => self.indexOf(value) === index);
+                let year = yearOptions.length > 0 ? yearOptions[0] : null;
 
                 this.setState({
-                    periodOptions: periodOptions,
+                    yearOptions: yearOptions,
                     filter: {
-                        periods: periodOptions
-                    },
-                    memberNominations: nominationResponse.data
+                        currentIndex: 0,
+                        prevDisabled: true,
+                        nextDisabled: 1 >= yearOptions.length
+                    }
                 });
+
+                this.getMemberNominations(year);
             }).catch(axiosError);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
-        if (JSON.stringify(this.state.periodOptions) !== JSON.stringify(nextState.periodOptions)
+        if (JSON.stringify(this.state.yearOptions) !== JSON.stringify(nextState.yearOptions)
             || JSON.stringify(this.state.filter) !== JSON.stringify(nextState.filter)
             || JSON.stringify(this.state.memberNominations) !== JSON.stringify(nextState.memberNominations)) {
             return true;
@@ -54,13 +49,41 @@ export default class NominationResult extends Component {
         return false;
     }
 
-    handlePeriodChange = (selectedOptions) => {
-        this.setState({
-            filter: Object.assign({}, this.state.filter, { periods: selectedOptions })
-        });
+    getMemberNominations = (year) => {
+        axios.get(resolveClientUrl('member/GetMemberNominationResult'), { params: { year: year } })
+            .then(response => {
+                this.setState({
+                    memberNominations: response.data
+                });
+            }).catch(axiosError);
     }
 
-    groupNomination = () => {
+    handleClickNext = () => {
+        let currentIndex = this.state.filter.currentIndex + 1;
+        let filter = { ...this.state.filter };
+        filter.prevDisabled = currentIndex === 0;
+        filter.nextDisabled = currentIndex >= this.state.yearOptions.length;
+
+        this.setState({ filter });
+
+        if (this.state.yearOptions[currentIndex]) {
+            this.getMemberNominations(this.state.yearOptions[currentIndex]);
+        }
+    }
+
+    handleClickPrevious = () => {
+        let currentIndex = this.state.filter.currentIndex - 1;
+
+        if (this.state.yearOptions[currentIndex]) {
+            this.setState({
+                filter: Object.assign({}, this.state.filter, { currentIndex: currentIndex })
+            });
+
+            this.getMemberNominations(this.state.yearOptions[currentIndex]);
+        }
+    }
+
+    groupMemberNominations = () => {
         let memberNominations = this.state.memberNominations;
         let nominations = {};
 
@@ -92,14 +115,11 @@ export default class NominationResult extends Component {
         });
 
         nominations = Object.keys(nominations).map(key => {
-            let index = this.state.filter.periods.findIndex(period => period.value === nominations[key].period.nominationPeriodId);
-
             return {
                 period: nominations[key].period,
                 winners: nominations[key].winners,
                 shortlisteds: nominations[key].shortlisteds,
-                nominateds: nominations[key].nominateds,
-                isDisplay: index >= 0
+                nominateds: nominations[key].nominateds
             };
         });
 
@@ -113,60 +133,75 @@ export default class NominationResult extends Component {
             return 0;
         };
 
-        return nominations.filter(group => group.isDisplay).sort(sortDesc);
+        return nominations.sort(sortDesc);
+    }
+
+    renderMemberNominations = () => {
+        let memberNominations = this.groupMemberNominations();
+
+        if (memberNominations && memberNominations.length > 0) {
+            return (
+                <Fragment>
+                    {
+                        memberNominations.map((nomination, index) => {
+                            return (
+                                <Fragment key={`nominationResult${index}`}>
+                                    <div className="nomination-period-title">{nomination.period.shortTitle}</div>
+                                    {
+                                        nomination.winners.length > 0 &&
+                                        <div>
+                                            <span className={getNominationClassName(NominationStatuses[2].value)}>Winner</span>
+                                            <span>: {nomination.winners.join(', ')}</span>
+                                        </div>
+                                    }
+                                    {
+                                        nomination.shortlisteds.length > 0 &&
+                                        <div>
+                                            <span className={getNominationClassName(NominationStatuses[1].value)}>Shortlisted</span>
+                                            <span>: {nomination.shortlisteds.join(', ')}</span>
+                                        </div>
+                                    }
+                                    {
+                                        nomination.nominateds.length > 0 &&
+                                        <div>
+                                            <span className={getNominationClassName(NominationStatuses[0].value)}>Nominated</span>
+                                            <span>: {nomination.nominateds.join(', ')}</span>
+                                        </div>
+                                    }
+                                </Fragment>
+                            );
+                        })
+                    }
+                </Fragment>
+            );
+        }
+
+        return <div>{getResource('NoInformationAvailable')}</div>;
     }
 
     render() {
-        let nominations = this.groupNomination();
-        let periodOptions = this.state.periodOptions;
+        let filter = this.state.filter;
 
         return (
             <Fragment>
                 {
-                    this.state.memberNominations && this.state.memberNominations.length > 0 &&
+                    this.state.yearOptions && this.state.yearOptions.length > 0 &&
                     <div className="nomination box">
-                        <h5>{getResource('Nomination')}</h5>
-                        {
-                            periodOptions && periodOptions.length > 1 &&
-                            <div className="ddl-team">
-                                <div className="team">{getResource('Period')}</div>
-                                <Multiselect className="react-select-container" classNamePrefix="react-select"
-                                    value={this.state.filter.periods}
-                                    options={periodOptions}
-                                    onChange={this.handlePeriodChange}
+                        <div className="title">
+                            <h5>{getResource('Nomination')}</h5>
+                            <div className="milestone">
+                                <a className={`icon-chevron-left ${filter.nextDisabled ? 'disabled' : ''}`}
+                                    onClick={this.handleClickNext}
+                                    disabled={filter.nextDisabled}
+                                />
+                                {this.state.yearOptions[filter.currentIndex]}
+                                <a className={`icon-chevron-right ${filter.prevDisabled ? 'disabled' : ''}`}
+                                    onClick={this.handleClickPrevious}
+                                    disabled={filter.prevDisabled}
                                 />
                             </div>
-                        }
-                        {
-                            nominations && nominations.map((nomination, index) => {
-                                return (
-                                    <Fragment key={`nominationResult${index}`}>
-                                        <div className="nomination-period-title">{nomination.period.shortTitle}</div>
-                                        {
-                                            nomination.winners.length > 0 &&
-                                            <div>
-                                                <span className={getNominationClassName(NominationStatuses[2].value)}>Winner</span>
-                                                <span>: {nomination.winners.join(', ')}</span>
-                                            </div>
-                                        }
-                                        {
-                                            nomination.shortlisteds.length > 0 &&
-                                            <div>
-                                                <span className={getNominationClassName(NominationStatuses[1].value)}>Shortlisted</span>
-                                                <span>: {nomination.shortlisteds.join(', ')}</span>
-                                            </div>
-                                        }
-                                        {
-                                            nomination.nominateds.length > 0 &&
-                                            <div>
-                                                <span className={getNominationClassName(NominationStatuses[0].value)}>Nominated</span>
-                                                <span>: {nomination.nominateds.join(', ')}</span>
-                                            </div>
-                                        }
-                                    </Fragment>
-                                );
-                            })
-                        }
+                        </div>
+                        {this.renderMemberNominations()}
                     </div>
                 }
             </Fragment>

@@ -148,6 +148,7 @@ BEGIN
 					(
 						record.TypeId = @SystemPA
 						AND pa.PARecordId IS NOT NULL
+						AND pa.StatusId = @PAClosed
 						)
 					OR (
 						record.TypeId = @SystemNomination
@@ -220,6 +221,7 @@ BEGIN
 		GROUP BY EmployeeIds
 		) AS record ON emp.EmployeeId = record.EmployeeIds
 	ORDER BY member.[Priority]
+		,gr.[Name]
 		,emp.NickName
 
 	IF @EmployeeId IS NULL

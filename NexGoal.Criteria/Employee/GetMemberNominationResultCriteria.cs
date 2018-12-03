@@ -5,6 +5,7 @@
     public class GetMemberNominationResultCriteria : CriteriaBase
     {
         public int ActorId { get; set; }
+        public int? Year { get; set; }
         public int? EmployeeId { get; set; }
 
         public override string GetSettingKey() => "Employee_GetMemberNominationResult";

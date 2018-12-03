@@ -17,6 +17,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @PAClosed TINYINT = 4
 	-- Performance Record Type
 	DECLARE @Checkin TINYINT = 1
 		,@SystemPA TINYINT = 4
@@ -75,6 +76,7 @@ BEGIN
 			OR (
 				record.TypeId = @SystemPA
 				AND pa.PARecordId IS NOT NULL
+				AND pa.StatusId = @PAClosed
 				)
 			OR (
 				record.TypeId = @SystemNomination
