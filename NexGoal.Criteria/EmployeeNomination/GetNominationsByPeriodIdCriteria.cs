@@ -2,12 +2,12 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetNominationsByPeriodIdCriteria : CriteriaBase
+    public class GetNominationsByPeriodIdsCriteria : CriteriaBase
     {
-        public int NominationPeriodId { get; set; }
+        public string NominationPeriodIds { get; set; }
 
-        public override string GetSettingKey() => "Nomination_GetByPeriodId";
+        public override string GetSettingKey() => "Nomination_GetByPeriodIds";
 
-        public override bool IsValid() => NominationPeriodId > 0;
+        public override bool IsValid() => !string.IsNullOrWhiteSpace(NominationPeriodIds);
     }
 }

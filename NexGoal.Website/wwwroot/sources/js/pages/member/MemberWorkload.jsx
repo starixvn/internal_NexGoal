@@ -180,6 +180,11 @@ export default class MemberWorkload extends Component {
                 afterFit: function (scaleInstance) {
                     scaleInstance.width = 60;
                 }
+            }],
+            xAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
             }]
         },
         legend: {

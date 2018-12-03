@@ -244,7 +244,6 @@
     <Build Include="dbo\Stored Procedures\Auto_PA_GetDataToUpdateGrade.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetPeriodsForCommittee.sql" />
     <Build Include="dbo\Stored Procedures\PerformanceRecord_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\Nomination_GetByPeriodId.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\NominationPeriod_Get.sql" />
     <Build Include="dbo\Stored Procedures\NominationPeriod_Delete.sql" />
@@ -253,5 +252,6 @@
     <Build Include="dbo\Stored Procedures\PerformanceRecord_GetByIds.sql" />
     <Build Include="dbo\Stored Procedures\Period_GetPARecordsToUpdateGrade.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_QuickUpdateByReviewer.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_GetByPeriodIds.sql" />
   </ItemGroup>
 </Project>

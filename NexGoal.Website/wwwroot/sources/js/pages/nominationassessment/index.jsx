@@ -20,15 +20,14 @@ export default class NominationAssessment extends Component {
 
         this.state = {
             filter: {
-                nominationPeriod: null,
+                nominationPeriods: [],
             },
             currentDate: moment(),
             selectedNominationperiod: null,
-            nominations: [],
+            tableData: [],
             nominationPeriods: null,
             showModal: false,
             periodOptions: [],
-            canUpdateNominationStatus: false
         };
     }
 
@@ -55,16 +54,23 @@ export default class NominationAssessment extends Component {
     handleFilterSubmit = () => {
         axios.get(resolveClientUrl('NominationAssessment/GetNominationsByPeriodId'), {
             params: {
-                nominationPeriodId: this.state.filter.nominationPeriod.value
+                nominationPeriodIds: this.state.filter.nominationPeriods.map(n => n.value).toString()
             }
         }).then(response => {
             this.setState(prevState => {
-                let period = prevState.nominationPeriods.find(e => e.nominationPeriodId == prevState.filter.nominationPeriod.value);
+                let periods = prevState.nominationPeriods.filter(p => prevState.filter.nominationPeriods.some(e => e.value === p.nominationPeriodId));
+
+                let tableData = periods.map(p => {
+                    return {
+                        period: p,
+                        nominations: response.data.filter(n => n.nominationPeriodId === p.nominationPeriodId),
+                        canUpdateNominationStatus: prevState.currentDate > moment(p.endDateForNominator) && prevState.currentDate <= moment(p.endDateForCommittee)
+                    }
+                });
+
                 return {
-                    selectedNominationperiod: period,
-                    nominations: response.data,
-                    canUpdateNominationStatus: prevState.currentDate > moment(period.endDateForNominator) && prevState.currentDate <= moment(period.endDateForCommittee)
-                };
+                    tableData: tableData,
+                }
             });
         }).catch(axiosError);
     }
@@ -117,11 +123,8 @@ export default class NominationAssessment extends Component {
                         onFilterChange={this.handleFilterChange}
                         onFilterSubmit={this.handleFilterSubmit}
                     />
-                    {this.state.selectedNominationperiod &&
-                        <NominationProcess period={this.state.selectedNominationperiod} />
-                    }
-                    <Table canUpdate={this.state.canUpdateNominationStatus}
-                        nominations={this.state.nominations}
+
+                    <Table tableData={this.state.tableData}
                         onUpdateStatus={this.handleUpdateNominationStatus}
                         onShowNominatorComment={this.handleShowNominatorComment}
                     />

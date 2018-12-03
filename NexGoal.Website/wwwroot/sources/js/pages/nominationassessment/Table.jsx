@@ -42,10 +42,19 @@ export default class Table extends Component {
         </tr>
     )
 
-    renderNomination = (nomination, index) => {
-        let rowSpan = nomination.nominators.length === 1 ? 1 : nomination.nominators.length + 1;
+    renderTableData = (item) => {
+        return (
+            <Fragment key={item.period.nominationPeriodId}>
+                <tr>
+                    <td colSpan={6}>{item.period.title}</td>
+                </tr>
+                {item.nominations.map((n, index) => this.renderNomination(n, index, item.canUpdateNominationStatus))}
+            </Fragment>
+        );
+    }
 
-        let renderStatus = this.props.canUpdate ?
+    renderNomination = (nomination, index, canUpdate) => {
+        let renderStatus = canUpdate ?
             <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
                 value={this.state.nominationStatuses.find(x => x.value === nomination.statusId)} options={this.state.nominationStatuses}
                 isClearable={false} isSearchable={false} components={this.selectComponents}
@@ -57,25 +66,16 @@ export default class Table extends Component {
             </span>
 
         return (
-            <Fragment key={nomination.nominationId}>
-                <tr>
-                    <td rowSpan={rowSpan} className="text-center">{index + 1}</td>
-                    <td rowSpan={rowSpan}>{`${nomination.nominee.fullName} (${nomination.nominee.nickName})`}</td>
-                    <td rowSpan={rowSpan}>{nomination.nominee.groupName}</td>
-                    <td rowSpan={rowSpan}>
-                        {renderStatus}
-                    </td>
-                    {nomination.nominators.length === 1 &&
-                        <Fragment>
-                            <td>{`${nomination.nominators[0].creator.fullName} (${nomination.nominators[0].creator.nickName})`}</td>
-                            <td className="text-center">
-                                <a className="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nomination.nominators[0])}></a>
-                            </td>
-                        </Fragment>
-                    }
-                </tr>
-                {nomination.nominators.length > 1 && nomination.nominators.map(this.renderNominator)}
-            </Fragment>
+            <tr key={nomination.nominationPeriodId}>
+                <td className="text-center">{index + 1}</td>
+                <td>{`${nomination.nominee.fullName} (${nomination.nominee.nickName})`}</td>
+                <td>{nomination.nominee.groupName}</td>
+                <td>{renderStatus}</td>
+                <td>{nomination.nominators.map(n => `${n.creator.fullName} (${n.creator.nickName})`).join(', ')}</td>
+                <td className="text-center">
+                    <a className="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nomination.nominators[0])}></a>
+                </td>
+            </tr>
         )
     }
 
@@ -93,7 +93,7 @@ export default class Table extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.nominations.map(this.renderNomination)}
+                    {this.props.tableData.map(this.renderTableData)}
                 </tbody>
             </table>
         );

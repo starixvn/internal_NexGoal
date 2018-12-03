@@ -36,9 +36,9 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetNominationsByPeriodId(int nominationPeriodId)
+        public async Task<JsonResult> GetNominationsByPeriodId(string nominationPeriodIds)
         {
-            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodId(nominationPeriodId).ConfigureAwait(false);
+            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodId(nominationPeriodIds).ConfigureAwait(false);
 
             return Json(result);
         }

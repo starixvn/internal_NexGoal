@@ -1,6 +1,6 @@
 ﻿import React, { Component } from 'react';
 import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
-import Select from 'react-select';
+import MultiSelect from '../../shared/components/multi-select/index';
 
 import getResource from '../../resourceHelper';
 
@@ -10,7 +10,7 @@ export default class SearchForm extends Component {
     }
 
     handlePeriodChange = (selectedOption) => {
-        this.props.onFilterChange('nominationPeriod', selectedOption);
+        this.props.onFilterChange('nominationPeriods', selectedOption);
     }
 
     handleSubmit = (event) => {
@@ -26,10 +26,9 @@ export default class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Period')}</ControlLabel>
                     <div className="control-content">
-                        <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
-                            value={filter.nominationPeriod} options={this.props.periodOptions}
-                            isClearable={false}
-                            onChange={this.handlePeriodChange}
+                        <MultiSelect name="nominationPeriods" className="react-select-container" classNamePrefix="react-select"
+                            value={filter.nominationPeriods} options={this.props.periodOptions}
+                            isClearable={false} onChange={this.handlePeriodChange}
                         />
                     </div>
                 </FormGroup>

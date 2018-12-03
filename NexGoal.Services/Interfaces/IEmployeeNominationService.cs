@@ -23,7 +23,7 @@
 
         Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForForComittee(int committeeId);
 
-        Task<IEnumerable<NominationModel>> GetNominationsByPeriodId(int nominationPeriodId);
+        Task<IEnumerable<NominationModel>> GetNominationsByPeriodId(string nominationPeriodIds);
 
         Task<CommandResult> EditStatus(int nominationId, int statusId, int updatedById);
 

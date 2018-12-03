@@ -106,11 +106,11 @@
             return performanceRecords;
         }
 
-        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodId(int nominationPeriodId)
+        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodId(string nominationPeriodIds)
         {
-            var criteria = new GetNominationsByPeriodIdCriteria
+            var criteria = new GetNominationsByPeriodIdsCriteria
             {
-                NominationPeriodId = nominationPeriodId
+                NominationPeriodIds = nominationPeriodIds
             };
 
             var result = await baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);

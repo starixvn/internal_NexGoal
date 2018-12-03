@@ -17,7 +17,7 @@ export default class NominatorComment extends PureComponent {
                     <Modal.Title>{getResource('Comment')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <textarea readOnly value={this.props.nominator && this.props.nominator.comment} />
+                    <p>{this.props.nominator && this.props.nominator.comment} </p>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Close')}</Button>
