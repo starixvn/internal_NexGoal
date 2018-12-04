@@ -62,25 +62,30 @@ export default class NominationResult extends Component {
         let currentIndex = this.state.filter.currentIndex + 1;
         let filter = { ...this.state.filter };
         filter.prevDisabled = currentIndex === 0;
-        filter.nextDisabled = currentIndex >= this.state.yearOptions.length;
-
-        this.setState({ filter });
+        filter.nextDisabled = currentIndex + 1 >= this.state.yearOptions.length;
 
         if (this.state.yearOptions[currentIndex]) {
+            filter.currentIndex = currentIndex;
+
             this.getMemberNominations(this.state.yearOptions[currentIndex]);
         }
+
+        this.setState({ filter });
     }
 
     handleClickPrevious = () => {
         let currentIndex = this.state.filter.currentIndex - 1;
+        let filter = { ...this.state.filter };
+        filter.prevDisabled = currentIndex === 0;
+        filter.nextDisabled = currentIndex + 1 >= this.state.yearOptions.length;
 
         if (this.state.yearOptions[currentIndex]) {
-            this.setState({
-                filter: Object.assign({}, this.state.filter, { currentIndex: currentIndex })
-            });
+            filter.currentIndex = currentIndex;
 
             this.getMemberNominations(this.state.yearOptions[currentIndex]);
         }
+
+        this.setState({ filter });
     }
 
     groupMemberNominations = () => {
