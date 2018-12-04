@@ -139,9 +139,12 @@ export default class PerformanceRecord extends Component {
                 <div className="grade">
                     {`${getResource('Grade')}:`} <div className="grade-detail">{grade}</div>
                 </div>
-                <div className="project">
-                    <div className="lb-project">{`${getResource('ProjectTag')}:`}</div> <div className="project-detail">{projects}</div>
-                </div>
+                {
+                    !this.props.isHideProjectTag &&
+                    <div className="project">
+                        <div className="lb-project">{`${getResource('ProjectTag')}:`}</div> <div className="project-detail">{projects}</div>
+                    </div>
+                }
             </div>
         );
     }

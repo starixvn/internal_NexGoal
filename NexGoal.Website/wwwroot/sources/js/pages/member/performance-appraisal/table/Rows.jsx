@@ -24,7 +24,7 @@ class Rows extends Component {
     }
 
     renderPAForReviewer = (record) => {
-        let reviewerProcess = record.processes.filter(process => process.processId === PerformanceProcess.Reviewer);
+        let reviewerProcess = record.processes.filter(process => process.processId === PerformanceProcess.Reviewer)[0];
         let paGrade = record.grade ? record.grade.name : getResource('N/A');
         let gradeChangeClass = '';
         if (parseInt(record.gradeId) > parseInt(record.originalGradeId)) gradeChangeClass = 'icon-increase-arrow';
@@ -114,7 +114,7 @@ class Rows extends Component {
         let status;
         if (isClosed) {
             const checked = isEdited ? 'icon-check' : '';
-            status = <span className={checked}  />;
+            status = <span className={checked} />;
         } else {
             status = (
                 <div>

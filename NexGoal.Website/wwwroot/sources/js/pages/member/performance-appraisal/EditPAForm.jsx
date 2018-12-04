@@ -152,7 +152,7 @@ export default class EditMemberPA extends Component {
                     };
                     return (
                         <Scrollbars style={{ height: 300 }} autoHide>
-                            <PerformanceRecord data={paRecord} />
+                            <PerformanceRecord data={paRecord} isHideProjectTag />
                         </Scrollbars>
                     );
                 } else {
