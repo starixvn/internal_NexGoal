@@ -56,6 +56,8 @@ export default class App extends Component {
             loadPATab: false
         };
 
+        this.infiniteScrollRef = React.createRef();
+        this.memberTimelineRef = React.createRef();
         this.itemPerPage = 10;
     }
 
@@ -166,17 +168,21 @@ export default class App extends Component {
                 let performanceRecords = this.state.performanceRecords.slice();
 
                 if (statusId === PerformanceRecordStatus.Draft) {
-                    performanceRecords.splice(0, 0, ...response.data);
+                    performanceRecords.unshift(...response.data);
                 } else {
-                    let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
-                    lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+                    if (performanceRecords.length === 0) {
+                        performanceRecords.unshift(...response.data);
+                    } else {
+                        let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                        lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
-                    performanceRecords.splice(lastIndex, 0, ...response.data);
+                        performanceRecords.splice(lastIndex, 0, ...response.data);
+                    }
 
                     this.refs.memberTimelineRef.getMemberPerformanceTimeline(this.refs.memberTimelineRef.state.pageSize);
                 }
 
-                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
                 let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({

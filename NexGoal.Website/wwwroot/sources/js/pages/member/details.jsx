@@ -70,6 +70,7 @@ export default class App extends Component {
             loadNominationTab: false
         };
 
+        this.infiniteScrollRef = React.createRef();
         this.timelineItemPerPage = calculateTimelineNode();
         this.itemPerPage = 10;
     }
@@ -149,7 +150,7 @@ export default class App extends Component {
         });
     }
 
-    onTimelinePageChange = (pageIndex, pageSize) => {
+    handleTimelinePageChange = (pageIndex, pageSize) => {
         let size = pageSize ? pageSize : calculateTimelineNode();
         axios(resolveClientUrl('Member/Performance/Timeline'), {
             params: {
@@ -209,19 +210,23 @@ export default class App extends Component {
                 let performanceRecords = this.state.performanceRecords.slice();
 
                 if (statusId === PerformanceRecordStatus.Draft) {
-                    performanceRecords.splice(0, 0, ...response.data);
+                    performanceRecords.unshift(...response.data);
                 } else {
                     if (this.state.personalTimeline.pageIndex === 0) {
-                        this.onTimelinePageChange(0);
+                        this.handleTimelinePageChange(0);
                     }
 
-                    let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
-                    lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
+                    if (performanceRecords.length === 0) {
+                        performanceRecords.unshift(...response.data);
+                    } else {
+                        let lastIndex = performanceRecords.map(record => { return record.statusId; }).lastIndexOf(PerformanceRecordStatus.Draft);
+                        lastIndex = lastIndex >= 0 ? lastIndex + 1 : 0;
 
-                    performanceRecords.splice(lastIndex, 0, ...response.data);
+                        performanceRecords.splice(lastIndex, 0, ...response.data);
+                    }
                 }
 
-                let pageIndex = this.refs.infiniteScrollRef.pageLoaded;
+                let pageIndex = this.refs.infiniteScrollRef ? this.refs.infiniteScrollRef.pageLoaded : 1;
                 let displayedPerformanceRecords = performanceRecords.slice(0, pageIndex * this.itemPerPage);
 
                 this.setState({
@@ -269,7 +274,7 @@ export default class App extends Component {
                         let records = response.data.filter(record => record.employees[0].employeeId === this.state.memberInfo.id);
                         performanceRecords.splice(lastIndex, 0, ...records);
 
-                        this.onTimelinePageChange(this.state.personalTimeline.pageIndex);
+                        this.handleTimelinePageChange(this.state.personalTimeline.pageIndex);
                     }
                 } else {
                     performanceRecords.splice(currentRecordIndex, 1, ...response.data);
@@ -374,7 +379,7 @@ export default class App extends Component {
                                     <PersonalTimeline
                                         itemPerPage={this.timelineItemPerPage}
                                         data={this.state.personalTimeline}
-                                        onPageChange={this.onTimelinePageChange}
+                                        onPageChange={this.handleTimelinePageChange}
                                         onNodeClick={this.handleClickTimelineNode}
                                         selectedPCIId={this.state.selectedPCIId}
                                         ref="timelineRef"
