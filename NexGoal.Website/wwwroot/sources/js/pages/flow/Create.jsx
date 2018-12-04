@@ -149,7 +149,7 @@ class Create extends Component {
                 dialogClassName="custom-modal modal-md"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{getResource('CreateNominationPeriod')}</Modal.Title>
+                    <Modal.Title>{getResource('AddEvaluationFlow')}</Modal.Title>
                 </Modal.Header>
                 <Formik
                     initialValues={flowTemplate}
