@@ -33,7 +33,7 @@ export default class Timeline extends Component {
             || JSON.stringify(this.state.memberPerformances) !== JSON.stringify(nextState.memberPerformances)) {
             return true;
         }
-
+            
         return false;
     }
 
@@ -163,17 +163,17 @@ export default class Timeline extends Component {
     renderGroupName = (groupId, groupName) => {
         if (this.props.groupOptions && this.props.groupOptions.length > 1) {
             return (
-                <div className="groupname collapsedexpanded collapsed"
-                    datatoggle="collapse"
-                    datatarget={`#groupTimeline${groupId}`}
-                    ariaexpanded="false"
+                <div className="group-name collapsed-expanded collapsed"
+                    data-toggle="collapse"
+                    data-target={`#groupTimeline${groupId}`}
+                    aria-expanded="false"
                 >
-                    <span className="iconchevrondown" /> {groupName}
+                    <span className="icon-minus" /> {groupName}
                 </div>
             );
         }
 
-        return <div className="groupname">{groupName}</div>;
+        return <div className="group-name">{groupName}</div>;
     }
 
     render() {
@@ -184,19 +184,19 @@ export default class Timeline extends Component {
 
         return (
             <Fragment>
-                <h5 className="title">Member Performance{currentPerformancePeriod ? `  ${currentPerformancePeriod.name}` : ''}</h5>
+                <h5 className="title">Member Performance{currentPerformancePeriod ? ` - ${currentPerformancePeriod.name}` : ''}</h5>
                 {
                     groupOptions && groupOptions.length > 1 &&
-                    <div className="ddlteam">
+                    <div className="ddl-team">
                         <div className="team">{getResource('Team')}</div>
-                        <Multiselect className="reactselectcontainer" classNamePrefix="reactselect"
+                        <Multiselect className="react-select-container" classNamePrefix="react-select"
                             value={this.state.filter.groups}
                             options={groupOptions}
                             onChange={this.handleGroupChange}
                         />
                     </div>
                 }
-                <div className="membertimeline" ref={this.timelineEl}>
+                <div className="member-timeline" ref={this.timelineEl}>
                     {
                         groupPerformances.map((groupPerformance) => {
                             return (
@@ -204,7 +204,7 @@ export default class Timeline extends Component {
                                     {this.renderGroupName(groupPerformance.groupId, groupPerformance.groupName)}
                                     <div id={`groupTimeline${groupPerformance.groupId}`}
                                         className={groupOptions && groupOptions.length > 1 ? 'collapse' : ''}
-                                        ariaexpanded="false"
+                                        aria-expanded="false"
                                     >
                                         {
                                             groupPerformance.records.map((memberPerformance) => {
