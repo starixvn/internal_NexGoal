@@ -76,8 +76,8 @@ export default class SearchMember extends Component {
                                 defaultOptions
                                 placeholder=""
                                 components={{ DropdownIndicator: null }}
-                                noOptionsMessage={() => "Type nick name or full name to search"}
-                                loadingMessage={() => "Type nick name or full name to search"}
+                                noOptionsMessage={() => "Type full name or nickname to search"}
+                                loadingMessage={() => "Type full name or nickname to search"}
                                 isLoading={false}
                                 onChange={this.handleChange}
                             />

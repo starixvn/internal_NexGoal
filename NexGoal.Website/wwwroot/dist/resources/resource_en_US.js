@@ -33,6 +33,7 @@ var resource_en_US = {
     'Duration': 'Duration',
     'Edit': 'Edit',
     'Edited': 'Edited',
+    'EditRole': 'Edit Role',
     'EditEmployeeSetting': 'Edit Employee Setting',
     'EditEvaluationFlow': 'Edit Evaluation Flow',
     'EditDiscipline': 'Edit Discipline',

@@ -150,7 +150,7 @@ class EmployeeFlowFilter extends Component {
                     onChange={this.handleOnGroupChange}
                 />
                 <div className="text-search">
-                    <input type="text" className="form-control" placeholder="full name or nick name"
+                    <input type="text" className="form-control" placeholder="Full name or nickname"
                         value={this.state.keyword} onChange={this.handleOnKeywordChange}
                     />
                     <span className="fa fa-search" />

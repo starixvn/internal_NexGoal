@@ -62,16 +62,12 @@ export default class EditEmployeeRole extends Component {
                 dialogClassName="custom-modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{getResource('AssignRolesToEmployee')}</Modal.Title>
+                    <Modal.Title>
+                        {`Edit ${this.props.employee.nickName}'s Role`}
+                    </Modal.Title>
                 </Modal.Header>
                 <Form id="edit-employee-role-form" horizontal onSubmit={this.handleEditEmployeeRoles}>
                     <Modal.Body>
-                        <FormGroup>
-                            <Col componentClass={ControlLabel} sm={2}>{getResource('NickName')}</Col>
-                            <div className="col-sm-10">
-                                <ControlLabel>{this.props.employee.nickName}</ControlLabel>
-                            </div>
-                        </FormGroup>
                         <FormGroup>
                             <Col componentClass={ControlLabel} sm={2}>{getResource('Roles')}</Col>
                             <Col sm={10}>

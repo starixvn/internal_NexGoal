@@ -140,10 +140,8 @@ export default class EmployeeManagement extends Component {
                 text: `${getResource('FullName')}`
             },
             {
-                dataField: 'groupCode',
-                text: `${getResource('Team')}`,
-                classes: 'text-center',
-                headerStyle: { width: '120px' }
+                dataField: 'groupName',
+                text: `${getResource('Team')}`
             },
             {
                 dataField: 'jobTitle',
@@ -155,14 +153,14 @@ export default class EmployeeManagement extends Component {
             },
             {
                 dataField: '',
-                text: `${getResource('Action')}`,
+                text: `${getResource('EditRole')}`,
                 classes: 'text-center',
                 headerStyle: { width: '80px' },
                 isDummyField: true,
                 formatter: (cell, row) => {
                     if (this.state.isHost) {
                         return (
-                            <a className="fa fa-pencil-square-o" title="Assign role to employee" onClick={this.editEmployee.bind(this, row)} />
+                            <a className="fa fa-pencil-square-o" onClick={this.editEmployee.bind(this, row)} />
                         );
                     }
 
@@ -205,7 +203,8 @@ export default class EmployeeManagement extends Component {
                         </ToolkitProvider>
                     </div>
                     <div>
-                        {this.state.showModal &&
+                        {
+                            this.state.showModal &&
                             <EditEmployeeRole showModal={this.state.showModal}
                                 closeModal={this.closeModal}
                                 employee={this.employeeSelected}

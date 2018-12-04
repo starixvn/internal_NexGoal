@@ -40,7 +40,7 @@ export default class SearchForm extends Component {
                     <ControlLabel>{getResource('Keyword')}</ControlLabel>
                     <FormControl name="keyword" type="text"
                         value={filter.keyword}
-                        placeholder="Full name or Nick name" autoComplete="off"
+                        placeholder="Full name or nickname" autoComplete="off"
                         onChange={this.handleKeywordChange}
                     />
                 </FormGroup>
