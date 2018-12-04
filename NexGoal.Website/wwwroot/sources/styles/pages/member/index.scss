@@ -136,18 +136,27 @@
 .member-timeline, #chart-wrapper {
     .collapsed-expanded {
         cursor: pointer;
+
     }
 
-    .icon-chevron-down {
+    .icon-minus {
+        @include border-radius(2px);
         float: left;
         font-weight: bold;
-        font-size: 18px;
+        font-size: 14px;
+        border: 1px solid #000;
+        height: 15px;
+        line-height: 15px;
+        margin-right: 6px;
+        position: relative;
+        top: 2px;
     }
 
     .collapsed {
-        .icon-chevron-down {
-            transform: rotate(-90deg);
+        .icon-minus:before  {
+            //transform: rotate(-90deg);
             transition: 0.3s ease all;
+            content: '\e914';
         }
     }
 }
