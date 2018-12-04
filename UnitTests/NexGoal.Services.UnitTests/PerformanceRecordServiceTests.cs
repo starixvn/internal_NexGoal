@@ -61,6 +61,8 @@
             IEnumerable<PeriodBaseModel> periods = GetPeriodForTest();
             IEnumerable<ProjectModel> projects = GetProjectForTest();
             IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var expectedEmployees = employees.Where(x => x.EmployeeId == 1);
+            var expectedProjects = projects.Where(x => x.ProjectId == 1);
             var tuple = new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
             var service = GetPerformanceRecordService();
             baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetPerformanceRecordByEmployeeCriteria>()).Returns(tuple);
@@ -76,9 +78,80 @@
             // Assert
             Assert.Single(actual);
             Assert.Equal(performanceRecords, actual);
+            Assert.True(expectedEmployees.All(x => actual.First().Employees.Any(y => y == x)));
+            Assert.True(expectedProjects.All(x => actual.First().Projects.Any(y => y == x)));
+            Assert.True(actual.First().Grade == performanceGrades.First());
+            Assert.True(actual.First().Period == periods.First());
+            Assert.True(actual.First().NominationPeriod == nominationPeriods.First());
         }
 
         #endregion GetPerformanceRecordByEmployeeAsync
+
+        #region GetMemberPerformanceTimelineAsync
+
+        [Fact]
+        public async Task GetMemberPerformanceTimelineAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
+        {
+            // Arrange
+            var memberTimelines = new List<MemberPerformanceTimelineModel>();
+            var performanceRecords = new List<PerformanceRecordModel>();
+            var nominationPeriods = new List<NominationPeriodModel>();
+            var tuple = new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>
+                (memberTimelines, performanceRecords, nominationPeriods);
+            var service = GetPerformanceRecordService();
+            baseService.FetchMultipleAsync<MemberPerformanceTimelineModel, PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetMemberPerformanceTimelineCriteria>()).Returns(tuple);
+
+            // Act
+            var actual = await service.GetMemberPerformanceTimelineAsync(new GetMemberPerformanceTimelineParam());
+
+            // Assert
+            Assert.Empty(actual);
+        }
+
+        [Fact]
+        public async Task GetMemberPerformanceTimelineAsync_MappingData_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var memberTimelines = new List<MemberPerformanceTimelineModel>
+            {
+                new MemberPerformanceTimelineModel { EmployeeId = 1, NickName = "Tim", GradeId = "cipher text" }
+            };
+            var performanceRecords = new List<PerformanceRecordModel>
+            {
+                new PerformanceRecordModel
+                {
+                    PerformanceRecordId = 1,
+                    EmployeeIds = "1",
+                    ProjectIds = "1",
+                    GradeId = "cipher text",
+                    NominationPeriodId = 1
+                }
+            };
+            IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
+            IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
+            IEnumerable<ProjectModel> projects = GetProjectForTest();
+            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var tuple = new Tuple<IEnumerable<MemberPerformanceTimelineModel>, IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>
+                (memberTimelines, performanceRecords, nominationPeriods);
+            var service = GetPerformanceRecordService();
+            baseService.FetchMultipleAsync<MemberPerformanceTimelineModel, PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetMemberPerformanceTimelineCriteria>()).Returns(tuple);
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
+            commonService.GetProjectsAsync().Returns(projects);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
+
+            // Act
+            var actual = await service.GetMemberPerformanceTimelineAsync(new GetMemberPerformanceTimelineParam());
+
+            // Assert
+            Assert.Equal(memberTimelines, actual);
+            Assert.True(actual.First().Grade == performanceGrades.First());
+            Assert.True(actual.First().PerformanceRecords.First().Grade == performanceGrades.First());
+            Assert.True(actual.First().PerformanceRecords.First().NominationPeriod == nominationPeriods.First());
+        }
+
+        #endregion GetMemberPerformanceTimelineAsync
 
         #region GetPerformanceRecordByIdAsync
 
@@ -112,6 +185,8 @@
             IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
             IEnumerable<ProjectModel> projects = GetProjectForTest();
             IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var expectedEmployees = employees.Where(x => x.EmployeeId == 1);
+            var expectedProjects = projects.Where(x => x.ProjectId == 1);
             var service = GetPerformanceRecordService();
             baseService.GetDataEntityAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(performanceRecord);
             commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
@@ -124,6 +199,9 @@
 
             // Assert
             Assert.Equal(performanceRecord, actual);
+            Assert.True(expectedEmployees.All(x => actual.Employees.Any(y => y == x)));
+            Assert.True(expectedProjects.All(x => actual.Projects.Any(y => y == x)));
+            Assert.True(actual.Grade == performanceGrades.First());
         }
 
         #endregion GetPerformanceRecordByIdAsync
@@ -157,14 +235,14 @@
                     PerformanceRecordId = 1,
                     EmployeeIds = "1",
                     ProjectIds = "1",
-                    GradeId = "cipher text",
-                    PeriodId = 1,
-                    NominationPeriodId = 1
+                    GradeId = "cipher text"
                 }
             };
             IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
             IEnumerable<ProjectModel> projects = GetProjectForTest();
             IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var expectedEmployees = employees.Where(x => x.EmployeeId == 1);
+            var expectedProjects = projects.Where(x => x.ProjectId == 1);
             var service = GetPerformanceRecordService();
             baseService.GetDataAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdsCriteria>()).Returns(performanceRecords);
             commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
@@ -177,6 +255,9 @@
 
             // Assert
             Assert.Equal(performanceRecords, actual);
+            Assert.True(expectedEmployees.All(x => actual.First().Employees.Any(y => y == x)));
+            Assert.True(expectedProjects.All(x => actual.First().Projects.Any(y => y == x)));
+            Assert.True(actual.First().Grade == performanceGrades.First());
         }
 
         #endregion GetPerformanceRecordByIdsAsync

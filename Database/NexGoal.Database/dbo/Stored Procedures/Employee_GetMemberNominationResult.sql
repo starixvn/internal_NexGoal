@@ -1,5 +1,6 @@
 ﻿
 CREATE PROCEDURE [dbo].[Employee_GetMemberNominationResult] @ActorId INT
+	,@Year INT = NULL
 	,@EmployeeId INT = NULL
 AS
 /*
@@ -38,6 +39,7 @@ BEGIN
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
 		INNER JOIN dbo.EOQY AS eoqy WITH (NOLOCK) ON nomination.EOQYId = eoqy.EOQYId
 		AND eoqy.EndDateForCommittee < @Today
+		AND ISNULL(@Year, eoqy.[Year]) = eoqy.[Year]
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
@@ -58,6 +60,7 @@ BEGIN
 		AND emp.IsDeleted = 0
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 	WHERE eoqy.EndDateForCommittee < @Today
+		AND ISNULL(@Year, eoqy.[Year]) = eoqy.[Year]
 
 	DROP TABLE #tblMember
 END

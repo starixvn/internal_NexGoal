@@ -98,7 +98,7 @@
         public async Task<JsonResult> GetMemberPerformanceTimeline(GetMemberPerformanceTimelineParam param)
         {
             param.ActorId = sessionService.EmployeeId;
-            IEnumerable<MemberPerformanceTimelineModel> memberPerformances = await performanceService.GetMemberPerformanceTimelineAsyn(param).ConfigureAwait(false);
+            IEnumerable<MemberPerformanceTimelineModel> memberPerformances = await performanceService.GetMemberPerformanceTimelineAsync(param).ConfigureAwait(false);
 
             return Json(memberPerformances);
         }

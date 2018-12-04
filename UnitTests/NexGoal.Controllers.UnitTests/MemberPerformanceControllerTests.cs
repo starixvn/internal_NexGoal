@@ -66,7 +66,7 @@
                 }
             };
             var controller = GetMemberPerformanceController();
-            performanceService.GetMemberPerformanceTimelineAsyn(Arg.Any<GetMemberPerformanceTimelineParam>()).Returns(expected);
+            performanceService.GetMemberPerformanceTimelineAsync(Arg.Any<GetMemberPerformanceTimelineParam>()).Returns(expected);
 
             // Act
             var result = await controller.GetMemberPerformanceTimeline(param);
