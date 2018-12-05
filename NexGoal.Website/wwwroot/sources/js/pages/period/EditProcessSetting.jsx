@@ -98,14 +98,10 @@ export default class EditProcessSetting extends Component {
                     data.errors.map(error => {
                         errors[camelCase(error.key)] = error.errorMessage;
                     });
-
-                    setErrors(errors);
                 } else {
                     toast.error(data.message);
                 }
             }
-
-            setSubmitting(false);
         }).catch(axiosError);
     }
 

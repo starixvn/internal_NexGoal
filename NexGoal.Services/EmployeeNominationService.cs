@@ -106,7 +106,7 @@
             return performanceRecords;
         }
 
-        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodId(string nominationPeriodIds)
+        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodIds(string nominationPeriodIds)
         {
             var criteria = new GetNominationsByPeriodIdsCriteria
             {
@@ -122,7 +122,7 @@
 
             MappingData(performanceRecords, employees, nominations);
 
-            return nominations;
+            return nominations.OrderBy(x => x.Nominee.NickName);
         }
 
         public async Task<CommandResult> Edit(EditEmployeeNominationModel model)

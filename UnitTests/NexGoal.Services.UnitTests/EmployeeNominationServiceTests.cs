@@ -77,7 +77,7 @@
         }
 
         [Fact]
-        public async Task GetNominationByRecordIdAsync_ValidData_ReturnNull()
+        public async Task GetNominationByRecordIdAsync_ValidData_ReturnExpectedResult()
         {
             var service = GetService();
 
@@ -99,6 +99,119 @@
             Assert.NotNull(result);
             Assert.Equal(result.CreatorId, result.Creator.EmployeeId);
             Assert.Equal(result.EmployeeIds, result.Employees.FirstOrDefault().EmployeeId.ToString());
+        }
+
+        [Fact]
+        public async Task GetMemberNominationsAsync_ValidData_ReturnExpectedResult()
+        {
+            var service = GetService();
+
+            var performanceRecord = new PerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "2",
+                CreatorId = 1,
+                NominationPeriodId = 1
+            };
+
+            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetMemberNominationCriteria>())
+                .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
+                    new List<PerformanceRecordModel> { performanceRecord },
+                    new List<NominationPeriodModel> { new NominationPeriodModel { NominationPeriodId = 1 } }
+                    ));
+
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>
+            {
+                new EmployeeBaseModel { EmployeeId = 1 },
+                new EmployeeBaseModel { EmployeeId = 2 }
+            });
+
+            var result = await service.GetMemberNominationsAsync(1, null);
+
+            Assert.NotEmpty(result);
+            Assert.Collection(result, record =>
+            {
+                Assert.Equal(record.CreatorId, record.Creator.EmployeeId);
+                Assert.Equal(record.EmployeeIds, record.Employees.FirstOrDefault().EmployeeId.ToString());
+                Assert.Equal(record.NominationPeriodId, record.NominationPeriod.NominationPeriodId);
+            });
+        }
+
+        [Fact]
+        public async Task GetNominationsByPeriodIdsAsync_ValidData_ReturnExpectedResult()
+        {
+            var service = GetService();
+
+            var performanceRecord = new PerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "2",
+                CreatorId = 1,
+                NominationPeriodId = 1
+            };
+
+            var nomination = new NominationModel
+            {
+                NominationId = 1,
+                NomineeId = 2
+            };
+
+            baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(Arg.Any<GetNominationsByPeriodIdsCriteria>())
+                .Returns(new Tuple<IEnumerable<NominationModel>, IEnumerable<PerformanceRecordModel>>(
+                        new List<NominationModel> { nomination },
+                        new List<PerformanceRecordModel> { performanceRecord }
+                    ));
+
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(new List<EmployeeBaseModel>
+            {
+                new EmployeeBaseModel { EmployeeId = 1 },
+                new EmployeeBaseModel { EmployeeId = 2 }
+            });
+
+            var result = await service.GetNominationsByPeriodIdsAsync("1");
+
+            Assert.NotEmpty(result);
+            Assert.Collection(result, item =>
+            {
+                Assert.Equal(item.NomineeId, item.Nominee.EmployeeId);
+                Assert.NotEmpty(item.Nominators);
+            });
+        }
+
+        [Fact]
+        public async Task Edit_ValidData_ReturnExpectedCommandResult()
+        {
+            var service = GetService();
+
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.Edit(new EditEmployeeNominationModel());
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task EditStatus_ValidData_ReturnExpectedCommandResult()
+        {
+            var service = GetService();
+
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditNominationStatusCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.EditStatus(1, 2, 367);
+
+            Assert.True(result.IsSuccessful);
+        }
+
+        [Fact]
+        public async Task Delete_ValidData_ReturnExpectedCommandResult()
+        {
+            var service = GetService();
+
+            baseService.ExecuteNonQueryAsync(Arg.Any<DeleteNominationCriteria>()).Returns(new CommandResult { Code = 0 });
+
+            var result = await service.Delete(1, 1);
+
+            Assert.True(result.IsSuccessful);
         }
 
         private EmployeeNominationService GetService()

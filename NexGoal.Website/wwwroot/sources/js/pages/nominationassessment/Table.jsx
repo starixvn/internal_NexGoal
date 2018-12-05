@@ -70,11 +70,9 @@ export default class Table extends Component {
                 <td className="text-center">{index + 1}</td>
                 <td>{`${nomination.nominee.fullName} (${nomination.nominee.nickName})`}</td>
                 <td>{nomination.nominee.groupName}</td>
+                <td className="text-center">{nomination.nominators.length}</td>
+                <td><a>{nomination.nominators.map(n => `${n.creator.fullName} (${n.creator.nickName})`).join(', ')}</a></td>
                 <td>{renderStatus}</td>
-                <td>{nomination.nominators.map(n => `${n.creator.fullName} (${n.creator.nickName})`).join(', ')}</td>
-                <td className="text-center">
-                    <a className="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nomination.nominators[0])}></a>
-                </td>
             </tr>
         )
     }
@@ -87,9 +85,9 @@ export default class Table extends Component {
                         <th>{getResource('SymbolCount')}</th>
                         <th>{getResource('Nominee')}</th>
                         <th>{getResource('Team')}</th>
-                        <th>{getResource('Status')}</th>
+                        <th>{getResource('Vote')}</th>
                         <th>{getResource('Nominator')}</th>
-                        <th>{getResource('Action')}</th>
+                        <th>{getResource('Status')}</th>
                     </tr>
                 </thead>
                 <tbody>
