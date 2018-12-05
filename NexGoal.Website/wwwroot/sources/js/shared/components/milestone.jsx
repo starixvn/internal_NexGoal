@@ -11,28 +11,44 @@ export default class Milestone extends Component {
         };
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        if (JSON.stringify(nextProps.options) !== JSON.stringify(this.props.options)
+            || nextState.currentIndex !== this.state.currentIndex
+            || nextState.maxIndex !== this.state.maxIndex
+            || nextState.nextDisabled !== this.state.nextDisabled
+            || nextState.prevDisabled !== this.state.prevDisabled) {
+            return true;
+        }
+
+        return false;
+    }
+
     onClickNext = () => {
-        this.setState({
-            currentIndex: this.state.currentIndex - 1
-        }, () => {
+        if (!this.state.nextDisabled) {
             this.setState({
-                nextDisabled: this.state.currentIndex === 0,
-                prevDisabled: this.state.currentIndex === this.state.maxIndex
+                currentIndex: this.state.currentIndex - 1
+            }, () => {
+                this.setState({
+                    nextDisabled: this.state.currentIndex === 0,
+                    prevDisabled: this.state.currentIndex === this.state.maxIndex
+                });
+                this.props.onSelectionChange(this.props.options[this.state.currentIndex].value);
             });
-            this.props.onSelectionChange(this.props.options[this.state.currentIndex].value);
-        });
+        }
     }
 
     onClickPrev = () => {
-        this.setState({
-            currentIndex: this.state.currentIndex + 1
-        }, () => {
+        if (!this.state.prevDisabled) {
             this.setState({
-                nextDisabled: this.state.currentIndex === 0,
-                prevDisabled: this.state.currentIndex === this.state.maxIndex
+                currentIndex: this.state.currentIndex + 1
+            }, () => {
+                this.setState({
+                    nextDisabled: this.state.currentIndex === 0,
+                    prevDisabled: this.state.currentIndex === this.state.maxIndex
+                });
+                this.props.onSelectionChange(this.props.options[this.state.currentIndex].value);
             });
-            this.props.onSelectionChange(this.props.options[this.state.currentIndex].value);
-        });
+        }
     }
 
     render() {
@@ -44,12 +60,12 @@ export default class Milestone extends Component {
                 <span className={`icon-chevron-left arrow-left ${prevDisabled}`}
                     disabled={this.state.prevDisabled}
                     onClick={this.onClickPrev}
-                ></span>
+                />
                 {options[this.state.currentIndex].name}
                 <span className={`icon-chevron-right arrow-right ${nextDisabled}`}
                     disabled={this.state.nextDisabled}
                     onClick={this.onClickNext}
-                ></span>
+                />
             </div>
         );
     }
