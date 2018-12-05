@@ -55,16 +55,14 @@ BEGIN
 				AND pa.PerformanceRecordId IS NULL
 				)
 			)
-		AND (
-			(
-				period.EndDate > reviewer.EndDate
-				AND period.EndDate < @Today
-				)
-			OR (
-				period.EndDate < reviewer.EndDate
-				AND reviewer.EndDate < @Today
-				)
-			)
+		AND period.EndDate < @Today
+		AND reviewer.EndDate < @Today
+
+	UPDATE pa
+	SET pa.StatusId = @PAClosed
+	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+	WHERE pa.StatusId IN (@PAOpened, @PAInProgress)
 
 	UPDATE record
 	SET record.GradeId = pa.GradeId
@@ -75,7 +73,7 @@ BEGIN
 
 	UPDATE record
 	SET record.GradeId = pa.GradeId
-		,record.StatusId = @PAClosed
+		,record.StatusId = @Closed
 		,record.CreatedDate = GETDATE()
 	FROM dbo.PerformanceRecord AS record WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #tblPARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId

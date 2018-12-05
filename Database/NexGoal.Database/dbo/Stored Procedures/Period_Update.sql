@@ -123,6 +123,8 @@ BEGIN
 	IF @EndDate < GETDATE()
 	BEGIN
 		EXEC dbo.Auto_PA_UpdateWhenEvaluationFinished @PeriodId
+			,@ErrCode OUTPUT
+			,@ErrMsg OUTPUT
 	END
 
 	SET @endRun = GETDATE()

@@ -165,16 +165,8 @@ BEGIN
 			WHEN @Today BETWEEN hr.StartDate
 					AND reviewer.EndDate
 				AND pa.StatusId <> @PAInProgress THEN @PAInProgress
-			WHEN (
-					(
-						period.EndDate > reviewer.EndDate
-						AND period.EndDate < @Today
-						)
-					OR (
-						period.EndDate < reviewer.EndDate
-						AND reviewer.EndDate < @Today
-						)
-					)
+			WHEN period.EndDate < @Today
+				AND reviewer.EndDate < @Today
 				AND pa.StatusId <> @PAClosed THEN @PAClosed
 			ELSE pa.StatusId END
 			)
