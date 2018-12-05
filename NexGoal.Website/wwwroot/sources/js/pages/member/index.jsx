@@ -397,11 +397,13 @@ export default class App extends Component {
                         </div>
                         <div className="work-info">
                             <Scrollbars style={{ maxHeight: '100%' }} autoHide>
-                                <NominationResult />
-                                {
-                                    this.state.periods.length > 0 &&
-                                    <MemberWorkload groupOptions={this.state.myGroupOptions} periods={this.state.periods} />
-                                }
+                                <div className="work-info-content">
+                                    <NominationResult />
+                                    {
+                                        this.state.periods.length > 0 &&
+                                        <MemberWorkload groupOptions={this.state.myGroupOptions} periods={this.state.periods} />
+                                    }
+                                </div>
                             </Scrollbars >
                         </div>
                     </div>

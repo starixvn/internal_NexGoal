@@ -169,9 +169,11 @@ export default class NominationResult extends Component {
                         <div className="title">
                             <h5>{getResource('Nomination')}</h5>
                             <Milestone
-                                options={yearOptions}
+                                <div className={`icon-chevron-left arrow-left ${filter.nextDisabled ? 'disabled' : ''}`}
                                 onSelectionChange={this.onYearChange}
-                            />
+                                ></div>
+                                <div className={`icon-chevron-right arrow-right ${filter.prevDisabled ? 'disabled' : ''}`}
+                                ></div>
                         </div>
                         {this.renderMemberNominations()}
                     </div>

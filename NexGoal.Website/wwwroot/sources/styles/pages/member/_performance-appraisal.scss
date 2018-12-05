@@ -17,7 +17,6 @@
 
 .tooltip.focus-note {
     .tooltip-inner {
-        background: #eaeaea;
         max-width: 500px;
         text-align: left;
         padding: 10px;
@@ -52,24 +51,19 @@
     .modal-content {        
         .modal-body {
             overflow: auto;
-            height: 500px;
+            height: 400px;
             position: relative;
             @media screen and (min-width: 1600px) { 
-                height: 780px;
+                height: 680px;
             }
             @media screen and (min-width: 1280px) and (max-width: 1600px) {
-                height: 600px;
+                height: 520px;
             }
         }
         .form-filter {
             margin-top: 16px;
         }
     }
-}
-
-.disabled {
-    opacity: .5;
-    pointer-events: none;
 }
 
 .table {

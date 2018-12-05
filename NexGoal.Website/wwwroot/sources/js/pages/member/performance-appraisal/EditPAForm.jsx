@@ -186,13 +186,14 @@ export default class EditMemberPA extends Component {
                             <div className="person-info">
                                 <span className="role-reviewer">{currentUser.nickName}</span>
                                 <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
-                                <p>Member: {this.state.employee.nickName}</p>
                             </div>
                         </div>
                         <div className="comment">
                             <form className="form-filter form-performance edit">
                                 <FormGroup>
-                                    <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
+                                    <div>Member: <strong>{this.state.employee.nickName}</strong></div>
+                                </FormGroup>
+                                <FormGroup>
                                     <TextareaFullscreenEditor
                                         className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                         name="comment"

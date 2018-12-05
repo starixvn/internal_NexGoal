@@ -225,7 +225,7 @@ export default class CreateSelfPerformance extends Component {
                                 </div>
                             </FormGroup>
 
-                            <FormGroup>
+                            <FormGroup className="text-right">
                                 <Button className="btn-cancel" onClick={this.handleCancel}>{getResource('Cancel')}</Button>
                                 <Button className="btn-cancel" type="submit" name="saveAsDraft" onClick={this.handleSubmit}>{getResource('SaveAsDraft')}</Button>
                                 <Button type="submit" bsStyle="primary" name="save" onClick={this.handleSubmit}>{getResource('Publish')}</Button>
