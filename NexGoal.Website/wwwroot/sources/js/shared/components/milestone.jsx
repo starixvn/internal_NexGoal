@@ -11,7 +11,7 @@ export default class Milestone extends Component {
         };
     }
 
-    onClickNext = () => {
+    onClickNextPrev = () => {
         this.setState({
             currentIndex: this.state.currentIndex - 1
         }, () => {
@@ -19,21 +19,8 @@ export default class Milestone extends Component {
                 nextDisabled: this.state.currentIndex === 0,
                 prevDisabled: this.state.currentIndex === this.state.maxIndex
             });
-            this.props.onClickNext(this.props.selections[this.state.currentIndex].value);
+            this.props.onSelectionChange(this.props.selections[this.state.currentIndex].value);
         });
-    }
-
-    onClickPrev = () => {
-        this.setState({
-            currentIndex: this.state.currentIndex + 1
-        }, () => {
-            this.setState({
-                nextDisabled: this.state.currentIndex === 0,
-                prevDisabled: this.state.currentIndex === this.state.maxIndex
-            });
-            this.props.onClickPrevious(this.props.selections[this.state.currentIndex].value);
-        }
-        );
     }
 
     render() {
@@ -45,13 +32,13 @@ export default class Milestone extends Component {
                 <button style={{ height: '15px', width: '15px', color: 'black', zIndex: 1000 }}
                     className={`arrow-left ${prevDisabled}`}
                     disabled={this.state.prevDisabled}
-                    onClick={this.onClickPrev}
+                    onClick={this.onClickNextPrev}
                 />
                 {selections[this.state.currentIndex].name}
                 <button style={{ height: '15px', width: '15px', color: 'black', zIndex: 1000 }}
                     className={`arrow-right ${nextDisabled}`}
                     disabled={this.state.nextDisabled}
-                    onClick={this.onClickNext}
+                    onClick={this.onClickNextPrev}
                 />
             </div>
         );
