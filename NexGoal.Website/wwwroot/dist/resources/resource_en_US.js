@@ -39,6 +39,7 @@ var resource_en_US = {
     'EditDiscipline': 'Edit Discipline',
     'EditNomination': 'Edit Nomination',
     'EditPerformance': 'Edit Performance',
+    'EditPerformanceAppraisal': 'Edit Performance Appraisal',
     'EmployeeManagement': 'Employee Management',
     'EndDate': 'End Date',
     'EndDateForCommittee': 'End Date For Committee',

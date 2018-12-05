@@ -33,7 +33,7 @@ export default class Timeline extends Component {
             || JSON.stringify(this.state.memberPerformances) !== JSON.stringify(nextState.memberPerformances)) {
             return true;
         }
-            
+
         return false;
     }
 

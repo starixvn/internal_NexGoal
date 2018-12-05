@@ -156,11 +156,11 @@ export default class EditMemberPA extends Component {
                         </Scrollbars>
                     );
                 } else {
-                    return <span>No information</span>;
+                    return <span>{getResource('NoInformationAvailable')}</span>;
                 }
             });
         }
-        return <span>No information</span>;
+        return <span>{getResource('NoInformationAvailable')}</span>;
     };
 
     render() {
@@ -177,7 +177,11 @@ export default class EditMemberPA extends Component {
                 dialogClassName="custom-modal modal-md form-performance edit performance-appraisal"
             >
                 <Modal.Header>
-                    <Modal.Title>{getResource('EditPerformance')}</Modal.Title>
+                    <Modal.Title>
+                        {this.state.paRecord.paStatus === PAStatus.Closed ?
+                            getResource('PerformanceAppraisal') :
+                            getResource('EditPerformanceAppraisal')}
+                    </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="record record-your-mind">
