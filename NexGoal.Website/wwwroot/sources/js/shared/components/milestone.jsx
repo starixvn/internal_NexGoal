@@ -5,9 +5,9 @@ export default class Milestone extends Component {
         super(props);
         this.state = {
             currentIndex: 0,
-            maxIndex: props.selections.length - 1,
+            maxIndex: props.options.length - 1,
             nextDisabled: true,
-            prevDisabled: false
+            prevDisabled: props.options.length <= 1
         };
     }
 
@@ -19,7 +19,7 @@ export default class Milestone extends Component {
                 nextDisabled: this.state.currentIndex === 0,
                 prevDisabled: this.state.currentIndex === this.state.maxIndex
             });
-            this.props.onSelectionChange(this.props.selections[this.state.currentIndex].value);
+            this.props.onSelectionChange(this.props.options[this.state.currentIndex].value);
         });
     }
 
@@ -31,12 +31,12 @@ export default class Milestone extends Component {
                 nextDisabled: this.state.currentIndex === 0,
                 prevDisabled: this.state.currentIndex === this.state.maxIndex
             });
-            this.props.onSelectionChange(this.props.selections[this.state.currentIndex].value);
+            this.props.onSelectionChange(this.props.options[this.state.currentIndex].value);
         });
     }
 
     render() {
-        const selections = this.props.selections;
+        const options = this.props.options;
         const nextDisabled = this.state.nextDisabled ? 'disabled' : '';
         const prevDisabled = this.state.prevDisabled ? 'disabled' : '';
         return (
@@ -46,7 +46,7 @@ export default class Milestone extends Component {
                     disabled={this.state.prevDisabled}
                     onClick={this.onClickPrev}
                 />
-                {selections[this.state.currentIndex].name}
+                {options[this.state.currentIndex].name}
                 <button style={{ height: '15px', width: '15px', color: 'black', zIndex: 1000 }}
                     className={`arrow-right ${nextDisabled}`}
                     disabled={this.state.nextDisabled}

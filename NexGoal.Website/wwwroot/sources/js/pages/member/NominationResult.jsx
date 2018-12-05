@@ -169,7 +169,7 @@ export default class NominationResult extends Component {
                         <div className="title">
                             <h5>{getResource('Nomination')}</h5>
                             <Milestone
-                                selections={yearOptions}
+                                options={yearOptions}
                                 onSelectionChange={this.onYearChange}
                             />
                         </div>

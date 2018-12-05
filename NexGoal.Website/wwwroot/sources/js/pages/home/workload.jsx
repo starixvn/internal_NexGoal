@@ -158,13 +158,13 @@ export default class WorkLoad extends PureComponent {
 
     render() {
         const chartData = this.state.chartData;
-        const selections = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
+        const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
         return (
             <div className="workload box">
                 <div className="title">
                     <h5>Workload</h5>
                     <Milestone
-                        selections={selections}
+                        options={periodOptions}
                         onSelectionChange={this.onPeriodChange}
                     />
                 </div>

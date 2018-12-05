@@ -217,14 +217,14 @@ export default class MemberWorkload extends Component {
     }
 
     render() {
-        const selections = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
+        const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
 
         return (
             <div className="workload box">
                 <div className="title">
                     <h5>{getResource('Workload')}</h5>
                     <Milestone
-                        selections={selections}
+                        options={periodOptions}
                         onSelectionChange={this.onPeriodChange}
                     />
                 </div>
