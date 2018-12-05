@@ -1,4 +1,4 @@
-﻿import React, { Component, Fragment } from 'react';
+﻿import React, { Component } from 'react';
 
 export default class Milestone extends Component {
     constructor(props) {
@@ -13,29 +13,46 @@ export default class Milestone extends Component {
 
     onClickNext = () => {
         this.setState({
-            currentIndex: this.state.currentIndex - 1,
-            nextDisabled: this.state.currentIndex === 1
-        }, () => this.props.onClickNext()
-        );
+            currentIndex: this.state.currentIndex - 1
+        }, () => {
+            this.setState({
+                nextDisabled: this.state.currentIndex === 0,
+                prevDisabled: this.state.currentIndex === this.state.maxIndex
+            });
+            this.props.onClickNext(this.props.selections[this.state.currentIndex].value);
+        });
     }
 
     onClickPrev = () => {
         this.setState({
-            currentIndex: this.state.currentIndex + 1,
-            nextDisabled: this.state.currentIndex === this.state.maxIndex
-        }, () => this.props.onClickPrevious()
+            currentIndex: this.state.currentIndex + 1
+        }, () => {
+            this.setState({
+                nextDisabled: this.state.currentIndex === 0,
+                prevDisabled: this.state.currentIndex === this.state.maxIndex
+            });
+            this.props.onClickPrevious(this.props.selections[this.state.currentIndex].value);
+        }
         );
     }
 
     render() {
         const selections = this.props.selections;
         const nextDisabled = this.state.nextDisabled ? 'disabled' : '';
-        const prevDisabled = this.state.nextDisabled ? 'disabled' : '';
+        const prevDisabled = this.state.prevDisabled ? 'disabled' : '';
         return (
             <div className="milestone">
-                <button className={`previous ${prevDisabled}`} onClick={this.onClickNext} />
+                <button style={{ height: '15px', width: '15px', color: 'black', zIndex: 1000 }}
+                    className={`arrow-left ${prevDisabled}`}
+                    disabled={this.state.prevDisabled}
+                    onClick={this.onClickPrev}
+                />
                 {selections[this.state.currentIndex].name}
-                <button className={`next ${nextDisabled}`} onClick={this.onClickPrev} />
+                <button style={{ height: '15px', width: '15px', color: 'black', zIndex: 1000 }}
+                    className={`arrow-right ${nextDisabled}`}
+                    disabled={this.state.nextDisabled}
+                    onClick={this.onClickNext}
+                />
             </div>
         );
     }

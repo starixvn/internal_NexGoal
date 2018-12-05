@@ -4,17 +4,14 @@ import axios from 'axios';
 import { axiosError, getNominationClassName, resolveClientUrl } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
 import getResource from '../../resourceHelper';
+import Milestone from '../../shared/components/milestone';
 
 export default class NominationResult extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            filter: {
-                currentIndex: 0,
-                prevDisabled: false,
-                nextDisabled: false
-            },
+            year: 0,
             yearOptions: [],
             memberNominations: []
         };
@@ -28,11 +25,7 @@ export default class NominationResult extends Component {
 
                 this.setState({
                     yearOptions: yearOptions,
-                    filter: {
-                        currentIndex: 0,
-                        prevDisabled: true,
-                        nextDisabled: 1 >= yearOptions.length
-                    }
+                    year: year
                 });
 
                 this.getMemberNominations(year);
@@ -58,29 +51,10 @@ export default class NominationResult extends Component {
             }).catch(axiosError);
     }
 
-    handleClickNext = () => {
-        let currentIndex = this.state.filter.currentIndex + 1;
-        let filter = { ...this.state.filter };
-        filter.prevDisabled = currentIndex === 0;
-        filter.nextDisabled = currentIndex >= this.state.yearOptions.length;
-
-        this.setState({ filter });
-
-        if (this.state.yearOptions[currentIndex]) {
-            this.getMemberNominations(this.state.yearOptions[currentIndex]);
-        }
-    }
-
-    handleClickPrevious = () => {
-        let currentIndex = this.state.filter.currentIndex - 1;
-
-        if (this.state.yearOptions[currentIndex]) {
-            this.setState({
-                filter: Object.assign({}, this.state.filter, { currentIndex: currentIndex })
-            });
-
-            this.getMemberNominations(this.state.yearOptions[currentIndex]);
-        }
+    onYearChange = (year) => {
+        this.setState({
+            year: year
+        }, () => this.getMemberNominations(this.state.year));
     }
 
     groupMemberNominations = () => {
@@ -180,7 +154,12 @@ export default class NominationResult extends Component {
     }
 
     render() {
-        let filter = this.state.filter;
+        const yearOptions = this.state.yearOptions.map(option => {
+            return {
+                value: option,
+                name: option
+            };
+        });
 
         return (
             <Fragment>
@@ -189,17 +168,11 @@ export default class NominationResult extends Component {
                     <div className="nomination box">
                         <div className="title">
                             <h5>{getResource('Nomination')}</h5>
-                            <div className="milestone">
-                                <a className={`icon-chevron-left ${filter.nextDisabled ? 'disabled' : ''}`}
-                                    onClick={this.handleClickNext}
-                                    disabled={filter.nextDisabled}
-                                />
-                                {this.state.yearOptions[filter.currentIndex]}
-                                <a className={`icon-chevron-right ${filter.prevDisabled ? 'disabled' : ''}`}
-                                    onClick={this.handleClickPrevious}
-                                    disabled={filter.prevDisabled}
-                                />
-                            </div>
+                            <Milestone
+                                selections={yearOptions}
+                                onClickNext={this.onYearChange}
+                                onClickPrevious={this.onYearChange}
+                            />
                         </div>
                         {this.renderMemberNominations()}
                     </div>

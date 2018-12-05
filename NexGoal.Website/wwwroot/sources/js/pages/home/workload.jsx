@@ -1,10 +1,9 @@
 ﻿import React, { PureComponent, Fragment } from 'react';
 import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
-import memoize from "memoize-one";
-
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { ChartColors } from '../../constants';
+import Milestone from '../../shared/components/milestone';
 
 export default class WorkLoad extends PureComponent {
     constructor(props) {
@@ -12,7 +11,7 @@ export default class WorkLoad extends PureComponent {
 
         this.state = {
             chartData: null,
-            currentPeriodIndex: 0
+            periodId: this.props.periods[0].periodId
         };
     }
 
@@ -31,7 +30,7 @@ export default class WorkLoad extends PureComponent {
     getWorkload = () => {
         axios.get(resolveClientUrl('Home/GetWorkload'), {
             params: {
-                periodId: this.props.periods[this.state.currentPeriodIndex].periodId,
+                periodId: this.state.periodId,
                 memberId: this.props.memberId ? this.props.memberId : null
             }
         }).then(response => this.setState({
@@ -69,16 +68,10 @@ export default class WorkLoad extends PureComponent {
         };
     }
 
-    onNextPeriod = () => {
-        if (this.props.periods[this.state.currentPeriodIndex + 1]) {
-            this.setState({ currentPeriodIndex: this.state.currentPeriodIndex + 1 }, this.getWorkload);
-        }
-    }
-
-    onPrevPeriod = () => {
-        if (this.props.periods[this.state.currentPeriodIndex - 1]) {
-            this.setState({ currentPeriodIndex: this.state.currentPeriodIndex - 1 }, this.getWorkload);
-        }
+    onPeriodChange = (periodId) => {
+        this.setState({
+            periodId: periodId
+        }, this.getWorkload);
     }
 
     chartOptions = {
@@ -165,16 +158,16 @@ export default class WorkLoad extends PureComponent {
 
     render() {
         const chartData = this.state.chartData;
-
+        const selections = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
         return (
             <div className="workload box">
                 <div className="title">
                     <h5>Workload</h5>
-                    <div className="milestone">
-                        <div className="icon-chevron-down arrow-left" onClick={this.onNextPeriod} />
-                        {this.props.periods[this.state.currentPeriodIndex].name}
-                        <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
-                    </div>
+                    <Milestone
+                        selections={selections}
+                        onClickPrevious={this.onPeriodChange}
+                        onClickNext={this.onPeriodChange}
+                    />
                 </div>
                 <div style={{ position: 'relative' }}>
                     {chartData &&

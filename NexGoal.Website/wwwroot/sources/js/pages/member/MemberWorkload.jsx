@@ -1,10 +1,10 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
-
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import Multiselect from '../../shared/components/multi-select/index';
+import Milestone from '../../shared/components/milestone';
 
 export default class MemberWorkload extends Component {
     constructor(props) {
@@ -13,7 +13,7 @@ export default class MemberWorkload extends Component {
         this.state = {
             workloads: [],
             selectedGroups: this.props.groupOptions,
-            currentPeriodIndex: 0
+            periodId: this.props.periods[0].periodId
         };
     }
 
@@ -24,7 +24,7 @@ export default class MemberWorkload extends Component {
     getMembersWorkloads = () => {
         axios.get(resolveClientUrl('Member/GetMembersWorkload'), {
             params: {
-                periodId: this.props.periods[this.state.currentPeriodIndex].periodId
+                periodId: this.state.periodId
             }
         }).then(response => {
             let workloads = response.data.map(this.generateWorkload);
@@ -36,16 +36,10 @@ export default class MemberWorkload extends Component {
         }).catch(axiosError);
     }
 
-    onNextPeriod = () => {
-        if (this.props.periods[this.state.currentPeriodIndex + 1]) {
-            this.setState({ currentPeriodIndex: this.state.currentPeriodIndex + 1 }, this.getMembersWorkloads);
-        }
-    }
-
-    onPrevPeriod = () => {
-        if (this.props.periods[this.state.currentPeriodIndex - 1]) {
-            this.setState({ currentPeriodIndex: this.state.currentPeriodIndex - 1 }, this.getMembersWorkloads);
-        }
+    onPeriodChange = (periodId) => {
+        this.setState({
+            periodId: periodId
+        }, this.getMembersWorkloads);
     }
 
     generateWorkload = (groupWorkload) => {
@@ -223,15 +217,17 @@ export default class MemberWorkload extends Component {
     }
 
     render() {
+        const selections = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
+
         return (
             <div className="workload box">
                 <div className="title">
                     <h5>{getResource('Workload')}</h5>
-                    <div className="milestone">
-                        <div className="icon-chevron-down arrow-left" onClick={this.onNextPeriod} />
-                        {this.props.periods[this.state.currentPeriodIndex].name}
-                        <div className="icon-chevron-down arrow-right" onClick={this.onPrevPeriod} />
-                    </div>
+                    <Milestone
+                        selections={selections}
+                        onClickPrevious={this.onPeriodChange}
+                        onClickNext={this.onPeriodChange}
+                    />
                 </div>
                 {this.props.groupOptions.length > 1 &&
                     <div>
