@@ -41,17 +41,15 @@ export default class Milestone extends Component {
         const prevDisabled = this.state.prevDisabled ? 'disabled' : '';
         return (
             <div className="milestone">
-                <button style={{ height: '15px', width: '15px', color: 'black', zIndex: 1000 }}
-                    className={`arrow-left ${prevDisabled}`}
+                <span className={`icon-chevron-left arrow-left ${prevDisabled}`}
                     disabled={this.state.prevDisabled}
                     onClick={this.onClickPrev}
-                />
+                ></span>
                 {options[this.state.currentIndex].name}
-                <button style={{ height: '15px', width: '15px', color: 'black', zIndex: 1000 }}
-                    className={`arrow-right ${nextDisabled}`}
+                <span className={`icon-chevron-right arrow-right ${nextDisabled}`}
                     disabled={this.state.nextDisabled}
                     onClick={this.onClickNext}
-                />
+                ></span>
             </div>
         );
     }

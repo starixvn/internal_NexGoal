@@ -73,39 +73,5 @@
         font-size: 16px;
         font-weight: 600;
         margin-top: 0;
-    }
-    .milestone {
-        float: right;
-        background-color: #F1F4F8;
-        border: 1px solid #DAE1EA;
-        min-width: 90px;
-        padding: 0 12px;
-        box-sizing: border-box;
-        position: relative;
-        text-align: center;
-
-        [class^="icon"] {
-            font-size: 14px;
-            position: relative;
-            top: 2px;
-        }
-
-        .arrow-left {
-            transform: rotate(90deg);
-            display: inline-block;
-            margin-right: 2px;
-            position: absolute;
-            left: 0;
-            cursor: pointer;
-        }
-
-        .arrow-right {
-            transform: rotate(-90deg);
-            display: inline-block;
-            margin-left: 2px;
-            position: absolute;
-            right: 0;
-            cursor: pointer;
-        }
-    }
+    }    
 }
