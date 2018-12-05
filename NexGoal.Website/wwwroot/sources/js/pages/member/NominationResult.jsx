@@ -170,8 +170,7 @@ export default class NominationResult extends Component {
                             <h5>{getResource('Nomination')}</h5>
                             <Milestone
                                 selections={yearOptions}
-                                onClickNext={this.onYearChange}
-                                onClickPrevious={this.onYearChange}
+                                onSelectionChange={this.onYearChange}
                             />
                         </div>
                         {this.renderMemberNominations()}

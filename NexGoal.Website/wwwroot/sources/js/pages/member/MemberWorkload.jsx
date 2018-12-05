@@ -225,8 +225,7 @@ export default class MemberWorkload extends Component {
                     <h5>{getResource('Workload')}</h5>
                     <Milestone
                         selections={selections}
-                        onClickPrevious={this.onPeriodChange}
-                        onClickNext={this.onPeriodChange}
+                        onSelectionChange={this.onPeriodChange}
                     />
                 </div>
                 {this.props.groupOptions.length > 1 &&

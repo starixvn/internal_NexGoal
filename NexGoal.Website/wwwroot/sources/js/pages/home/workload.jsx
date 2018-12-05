@@ -165,8 +165,7 @@ export default class WorkLoad extends PureComponent {
                     <h5>Workload</h5>
                     <Milestone
                         selections={selections}
-                        onClickPrevious={this.onPeriodChange}
-                        onClickNext={this.onPeriodChange}
+                        onSelectionChange={this.onPeriodChange}
                     />
                 </div>
                 <div style={{ position: 'relative' }}>
