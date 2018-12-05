@@ -2,12 +2,14 @@
 import { Form, FormGroup, ControlLabel, FormControl, Button } from 'react-bootstrap';
 import Select from 'react-select';
 
+import Multiselect from '../../shared/components/multi-select/index';
 import getResource from '../../resourceHelper';
 
 export default class SearchForm extends Component {
     shouldComponentUpdate(nextProps) {
         if (JSON.stringify(this.props.filter) !== JSON.stringify(nextProps.filter)
-            || JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)) {
+            || JSON.stringify(this.props.groupOptions) !== JSON.stringify(nextProps.groupOptions)
+            || JSON.stringify(this.props.roleOptions) !== JSON.stringify(nextProps.roleOptions)) {
             return true;
         }
 
@@ -15,20 +17,24 @@ export default class SearchForm extends Component {
     }
 
     handleKeywordChange = (event) => {
-        this.props.onFilterChange('keyword', event.target.value);
+        this.props.onChange('keyword', event.target.value);
     }
 
-    handleOnGroupChange = (selectedOption) => {
-        this.props.onFilterChange('group', selectedOption);
+    handleGroupChange = (selectedOption) => {
+        this.props.onChange('group', selectedOption);
+    }
+
+    handleRoleChange = (selectedOptions) => {
+        this.props.onChange('roles', selectedOptions);
     }
 
     handleCheckboxChange = (event) => {
-        this.props.onFilterChange('isDisabled', event.target.checked);
+        this.props.onChange('isDisabled', event.target.checked);
     }
 
     handleSubmit = (event) => {
         event.preventDefault();
-        this.props.onFilterSubmit();
+        this.props.onSubmit();
     }
 
     render() {
@@ -37,7 +43,7 @@ export default class SearchForm extends Component {
         return (
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
-                    <ControlLabel>{getResource('Keyword')}</ControlLabel>
+                    <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <FormControl name="keyword" type="text"
                         value={filter.keyword}
                         placeholder="Full name or nickname" autoComplete="off"
@@ -50,7 +56,16 @@ export default class SearchForm extends Component {
                         <Select name="groupId" className="react-select-container" classNamePrefix="react-select"
                             value={filter.group} options={this.props.groupOptions}
                             isClearable={false}
-                            onChange={this.handleOnGroupChange}
+                            onChange={this.handleGroupChange}
+                        />
+                    </div>
+                </FormGroup>
+                <FormGroup>
+                    <ControlLabel>{getResource('Role')}</ControlLabel>
+                    <div className="control-content">
+                        <Multiselect name="roles" className="react-select-container" classNamePrefix="react-select"
+                            value={filter.roles} options={this.props.roleOptions}
+                            onChange={this.handleRoleChange}
                         />
                     </div>
                 </FormGroup>
@@ -59,7 +74,7 @@ export default class SearchForm extends Component {
                         <input type="checkbox" name="isDisabled"
                             checked={filter.isDisabled}
                             onChange={this.handleCheckboxChange}
-                        /> Is Disabled
+                        /> Is Resigned
                     </label>
                 </FormGroup>
                 <FormGroup>

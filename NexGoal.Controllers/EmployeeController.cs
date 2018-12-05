@@ -33,9 +33,9 @@
             return View(isHost);
         }
 
-        public async Task<JsonResult> GetEmployees(string keyword, int? groupId, bool? isLocal, bool isDisabled)
+        public async Task<JsonResult> GetEmployees(GetEmployeeParam param)
         {
-            IEnumerable<EmployeeBaseModel> employees = await employeeService.GetEmployeesAsync(keyword, groupId, isLocal, isDisabled).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await employeeService.GetEmployeesAsync(param).ConfigureAwait(false);
 
             return Json(employees);
         }

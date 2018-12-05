@@ -24,9 +24,11 @@ export default class EmployeeManagement extends Component {
             filter: {
                 keyword: '',
                 group: { value: '', label: '-- All --' },
+                roles: [],
                 isDisabled: false
             },
             groupOptions: [],
+            roleOptions: [],
             data: [],
             showModal: false,
             isHost: document.getElementById('IsHost').checked
@@ -34,8 +36,35 @@ export default class EmployeeManagement extends Component {
     }
 
     componentDidMount() {
-        this.getGroups();
-        this.getEmployees();
+        const promises = [
+            axios(resolveClientUrl('common/GetGroups')),
+            axios(resolveClientUrl('common/GetSystemRoles'))
+        ];
+
+        Promise.all(promises)
+            .then(([groupResponse, roleResponse]) => {
+                let groupOptions = groupResponse.data.map((group) => {
+                    return {
+                        value: group.groupId,
+                        label: group.name
+                    };
+                });
+                groupOptions.unshift({ value: '', label: '-- All --' });
+
+                let roleOptions = roleResponse.data.map((option) => {
+                    return { value: option.resourceId, label: option.value };
+                });
+
+                let filter = Object.assign({}, this.state.filter, { roles: roleOptions });
+
+                this.setState({
+                    filter: filter,
+                    groupOptions: groupOptions,
+                    roleOptions: roleOptions
+                });
+
+                this.getEmployees(filter);
+            }).catch(axiosError);
     }
 
     employeeSelected = {};
@@ -47,27 +76,17 @@ export default class EmployeeManagement extends Component {
     }
 
     handleFilterSubmit = () => {
-        this.getEmployees();
+        this.getEmployees(this.state.filter);
     }
 
-    getGroups = () => {
-        axios.get(resolveClientUrl('Common/GetGroups'))
-            .then(response => {
-                let groupOptions = response.data.map((group) => {
-                    return { value: group.groupId, label: group.name };
-                });
-                groupOptions.unshift({ value: '', label: '-- All --' });
+    getEmployees = (filter) => {
+        let roleIds = filter.roles.map((role) => { return role.value; }).join(',');
 
-                this.setState({ groupOptions: groupOptions });
-            }).catch(axiosError);
-    }
-
-    getEmployees = () => {
-        const filter = this.state.filter;
         axios.get(resolveClientUrl('employee/GetEmployees'), {
             params: {
                 keyword: filter.keyword,
                 groupId: filter.group.value,
+                roleIds: roleIds,
                 isDisabled: filter.isDisabled
             }
         }).then(response => {
@@ -177,8 +196,9 @@ export default class EmployeeManagement extends Component {
                     <div className="col-sm-12">
                         <SearchForm filter={this.state.filter}
                             groupOptions={this.state.groupOptions}
-                            onFilterChange={this.handleFilterChange}
-                            onFilterSubmit={this.handleFilterSubmit}
+                            roleOptions={this.state.roleOptions}
+                            onChange={this.handleFilterChange}
+                            onSubmit={this.handleFilterSubmit}
                         />
 
                         <ToolkitProvider keyField="employeeId" data={this.state.data} columns={columns} search >

@@ -20,6 +20,7 @@
         [Fact]
         public async Task GetEmployeesAsync_WhenCalled_ReturnExpectedEmployees()
         {
+            // Arrange
             var employees = new List<EmployeeBaseModel>
             {
                 new EmployeeBaseModel
@@ -29,12 +30,14 @@
                     NickName ="Hea"
                 }
             };
-
+            var param = new GetEmployeeParam();
             var service = GetEmployeeService();
             baseService.GetDataAsync<EmployeeBaseModel>(Arg.Any<GetEmployeesCriteria>()).Returns(employees);
 
-            var result = await service.GetEmployeesAsync(null, null, null, false);
+            // Act
+            var result = await service.GetEmployeesAsync(param);
 
+            // Assert
             Assert.Equal(employees, result);
         }
 

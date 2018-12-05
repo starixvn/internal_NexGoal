@@ -152,5 +152,13 @@
 
             return Json(referenceResources.OrderBy(x => x.ResourceId));
         }
+
+        public async Task<JsonResult> GetSystemRoles()
+        {
+            string[] refNames = { ReferenceResource.SystemRole };
+            IEnumerable<ReferenceResourceModel> roles = await commonService.GetReferenceResourcesByNamesAsync(refNames).ConfigureAwait(false);
+
+            return Json(roles.OrderBy(x => x.ResourceId));
+        }
     }
 }

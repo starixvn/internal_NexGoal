@@ -6,7 +6,7 @@
     {
         public string Keyword { get; set; }
         public int? GroupId { get; set; }
-        public bool? IsLocal { get; set; }
+        public string RoleIds { get; set; }
         public bool? IsDisabled { get; set; }
         public override string GetSettingKey() => "Employee_GetAll";
 

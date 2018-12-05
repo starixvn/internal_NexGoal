@@ -29,18 +29,14 @@
             this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(
-            string keyword = null,
-            int? groupId = null,
-            bool? isLocal = null,
-            bool? isDisabled = null)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(GetEmployeeParam param)
         {
             var criteria = new GetEmployeesCriteria
             {
-                Keyword = keyword,
-                GroupId = groupId,
-                IsLocal = isLocal,
-                IsDisabled = isDisabled
+                Keyword = param.Keyword,
+                GroupId = param.GroupId,
+                RoleIds = param.RoleIds,
+                IsDisabled = param.IsDisabled
             };
 
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);

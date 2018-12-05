@@ -14,6 +14,15 @@ import getResource from '../../resourceHelper';
 const { SearchBar } = Search;
 
 export default class Table extends Component {
+    shouldComponentUpdate(nextProps) {
+        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)
+            || this.props.isHost !== nextProps.isHost) {
+            return true;
+        }
+
+        return false;
+    }
+
     handleEdit = (event, discipline) => {
         this.props.onEdit(discipline);
     }

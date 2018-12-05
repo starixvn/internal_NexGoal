@@ -34,7 +34,8 @@
         [Fact]
         public async Task GetEmployees_WhenCalled_ReturnExpectedData()
         {
-            var expectedResult = new List<EmployeeBaseModel>
+            // Arrange
+            var expected = new List<EmployeeBaseModel>
             {
                 new EmployeeBaseModel
                 {
@@ -42,14 +43,17 @@
                     Code = "123",
                 }
             };
-
+            var param = new GetEmployeeParam();
             var controller = GetEmployeeController();
-            employeeService.GetEmployeesAsync(string.Empty, null, null, false).Returns(expectedResult);
+            employeeService.GetEmployeesAsync(param).Returns(expected);
 
-            var result = await controller.GetEmployees(string.Empty, null, null, false);
+            // Act
+            var result = await controller.GetEmployees(param);
 
+            // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);
-            Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            var actual = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
+            Assert.Equal(expected, actual);
         }
 
         [Fact]

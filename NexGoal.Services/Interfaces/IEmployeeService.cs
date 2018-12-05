@@ -2,7 +2,6 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
@@ -11,10 +10,7 @@
 
     public interface IEmployeeService
     {
-        Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(string keyword = null,
-            int? groupId = null,
-            bool? isLocal = null,
-            bool? isDisabled = null);
+        Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(GetEmployeeParam param);
 
         Task<EmployeeBaseModel> GetEmployeeByIdAsync(int employeeId);
 
