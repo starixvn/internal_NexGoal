@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
+﻿
+CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
 	,@PARecordIds VARCHAR(MAX) = NULL
 	,@CreatedBy INT
 	,@Override BIT = 0
@@ -17,7 +18,9 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @disciplineStartDate DATE
+	DECLARE @periodStartDate DATE
+		,@periodEndDate DATE
+		,@disciplineStartDate DATE
 		,@disciplineEndDate DATE
 		,@PMGroupId TINYINT = 13
 	-- process
@@ -46,7 +49,8 @@ BEGIN
 		,EvaluatorId INT
 		)
 
-	DECLARE @startRun DATETIME = GETDATE()
+	DECLARE @today DATETIME = GETDATE()
+		,@startRun DATETIME = GETDATE()
 		,@endRun DATETIME
 		,@duration INT
 		,@logData NVARCHAR(MAX)
@@ -74,7 +78,9 @@ BEGIN
 				AND pap.PARecordId = par.PARecordId
 			)
 
-	SELECT @disciplineStartDate = p.DisciplineStartDate
+	SELECT @periodStartDate = p.StartDate
+		,@periodEndDate = p.EndDate 
+		,@disciplineStartDate = p.DisciplineStartDate
 		,@disciplineEndDate = p.DisciplineEndDate
 	FROM dbo.Period AS p WITH (NOLOCK)
 	WHERE p.PeriodId = @PeriodId
@@ -241,8 +247,26 @@ BEGIN
 				)
 
 		UPDATE par
-		SET StatusId = @PAOpened
+		SET StatusId = (
+			CASE 
+			WHEN @today BETWEEN hr.StartDate
+					AND reviewer.EndDate
+				THEN @PAInProgress
+			WHEN @periodEndDate < @today AND reviewer.EndDate < @today THEN @PAClosed
+			WHEN @today < hr.StartDate THEN @PAOpened
+			ELSE par.StatusId END
+		)
 		FROM dbo.PARecord AS par WITH (ROWLOCK, UPDLOCK)
+			CROSS APPLY (
+				SELECT pap.StartDate
+				FROM dbo.PAProcess pap WITH (NOLOCK)
+				WHERE par.PARecordId = pap.PARecordId AND pap.ProcessId = @HRProcessId
+			) hr
+			CROSS APPLY (
+				SELECT pap.EndDate
+				FROM dbo.PAProcess pap WITH (NOLOCK)
+				WHERE par.PARecordId = pap.PARecordId AND pap.ProcessId = @ReviewerProcessId
+			) reviewer
 		WHERE EXISTS (
 				SELECT 1
 				FROM @paRecordTbl part

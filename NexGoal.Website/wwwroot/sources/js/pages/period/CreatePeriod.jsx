@@ -250,7 +250,7 @@ export default class CreatePeriod extends Component {
                 dialogClassName="custom-modal modal-md"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{getResource('CreateEvaluationPeriod')}</Modal.Title>
+                    <Modal.Title>{getResource('AddEvaluationPeriod')}</Modal.Title>
                 </Modal.Header>
                 <Formik initialValues={this.initialObj} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
             </Modal>

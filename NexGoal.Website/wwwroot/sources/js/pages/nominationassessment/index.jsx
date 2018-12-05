@@ -91,11 +91,12 @@ export default class NominationAssessment extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                var nominations = this.state.nominations.slice();
-                var nomination = nominations.find(x => x.nominationId === nominationId);
+                let tableData = this.state.tableData;
+                let nominations = [].concat(...tableData.map(x => x.nominations));
+                let nomination = nominations.find(x => x.nominationId === nominationId);
                 nomination.statusId = statusId;
 
-                this.setState({ nominations });
+                this.setState({ tableData });
                 toast.success(getResource('UpdatedSuccessfully'));
             } else {
                 toast.error(data.message);

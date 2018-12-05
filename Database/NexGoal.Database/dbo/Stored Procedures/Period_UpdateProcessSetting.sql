@@ -74,7 +74,7 @@ BEGIN
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
 	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
-		,@SPName = 'Period_Update'
+		,@SPName = 'Period_UpdateProcessSetting'
 		,@ObjectId = @PeriodId
 		,@Data = @logData
 		,@OldData = @logOldData

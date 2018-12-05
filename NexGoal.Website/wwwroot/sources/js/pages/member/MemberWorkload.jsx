@@ -202,7 +202,7 @@ export default class MemberWorkload extends Component {
                         data-toggle="collapse"
                         data-target={`#chart-${workload.groupId}`}
                         aria-expanded="false">
-                        <span className="icon-chevron-down" /> {workload.title}
+                        <span className="icon-minus" /> {workload.title}
                     </div>
                     <div id={`chart-${workload.groupId}`} className="collapse" aria-expanded="false">
                         <div style={{ position: 'relative', height: `${basicHeight}px`, width: '100%' }}>

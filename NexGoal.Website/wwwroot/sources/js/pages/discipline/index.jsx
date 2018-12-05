@@ -30,12 +30,9 @@ export default class DisciplineManagement extends Component {
             isHost: document.getElementById('IsHost').checked,
             showModal: false
         };
-
-        this.handleFilterChange = this.handleFilterChange.bind(this);
-        this.handleFilterSubmit = this.handleFilterSubmit.bind(this);
     }
 
-    componentDidMount = function () {
+    componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetGroups')),
             axios(resolveClientUrl('common/GetEmployees'))
@@ -67,13 +64,13 @@ export default class DisciplineManagement extends Component {
             }).catch(axiosError);
     }
 
-    handleFilterChange(name, value) {
+    handleFilterChange = (name, value) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
         });
     }
 
-    handleFilterSubmit() {
+    handleFilterSubmit = () => {
         this.getDisciplines(this.state.filter);
     }
 

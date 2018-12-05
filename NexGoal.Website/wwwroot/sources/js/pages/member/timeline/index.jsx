@@ -33,7 +33,7 @@ export default class Timeline extends Component {
             || JSON.stringify(this.state.memberPerformances) !== JSON.stringify(nextState.memberPerformances)) {
             return true;
         }
-
+            
         return false;
     }
 
@@ -168,7 +168,7 @@ export default class Timeline extends Component {
                     data-target={`#groupTimeline${groupId}`}
                     aria-expanded="false"
                 >
-                    <span className="icon-chevron-down" /> {groupName}
+                    <span className="icon-minus" /> {groupName}
                 </div>
             );
         }

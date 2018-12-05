@@ -19,6 +19,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
+
+.icon-minus:before {
+content: "\e92e";
+}
+.icon-add:before {
+    content: "\e92d";
+    color: #545454;
+}
 .icon-descrease-arrow:before {
     content: "\e92a";
     color: #d10000;

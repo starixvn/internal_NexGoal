@@ -186,7 +186,7 @@ class CreateEOQ extends Component {
                 dialogClassName="custom-modal modal-md"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{getResource('CreateNominationPeriod')}</Modal.Title>
+                    <Modal.Title>{getResource('AddNominationPeriod')}</Modal.Title>
                 </Modal.Header>
                 <Formik
                     initialValues={eoq}

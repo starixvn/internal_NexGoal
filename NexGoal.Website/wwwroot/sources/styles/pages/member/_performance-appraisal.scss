@@ -49,6 +49,22 @@
     .tab-content {
         padding-top: 12px;
     }
+    .modal-content {        
+        .modal-body {
+            overflow: auto;
+            height: 500px;
+            position: relative;
+            @media screen and (min-width: 1600px) { 
+                height: 780px;
+            }
+            @media screen and (min-width: 1280px) and (max-width: 1600px) {
+                height: 600px;
+            }
+        }
+        .form-filter {
+            margin-top: 16px;
+        }
+    }
 }
 
 .disabled {

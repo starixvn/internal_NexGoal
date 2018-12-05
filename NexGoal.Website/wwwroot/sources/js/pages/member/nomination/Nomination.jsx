@@ -2,8 +2,10 @@
 import axios from 'axios';
 import { stringify } from 'qs';
 import { Scrollbars } from 'react-custom-scrollbars';
+import { toast } from 'react-toastify';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
 import CreateNomination from './CreateNomination';
@@ -103,18 +105,19 @@ export default class Nomination extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
+                toast.success(getResource('DeletedSuccessfully'));
+
                 this.setState(prevState => {
                     let nominations = prevState.nominations.slice();
                     let index = nominations.findIndex(x => x.performanceRecordId === this.state.deletedRecordId);
                     nominations.splice(index, 1);
-
+                    debugger;
                     return {
                         nominations: nominations,
                         deletedRecordId: null,
                         showDeleteModal: false
                     };
                 });
-                toast.success(getResource('DeletedSuccessfully'));
             } else {
                 toast.error(data.message);
             }

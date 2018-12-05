@@ -77,13 +77,13 @@ export default class Table extends Component {
         },
         {
             dataField: '',
-            text: `${getResource('Action')}`,
+            text: `${getResource('Edit')}`,
             classes: 'text-center',
             headerStyle: { width: '80px' },
             isDummyField: true,
             formatter: (cell, row) => {
                 if (this.props.isHost) {
-                    return <a className="fa fa-pencil-square-o" title="Edit" onClick={this.editDiscipline.bind(this, row)} />;
+                    return <a className="fa fa-pencil-square-o" onClick={this.editDiscipline.bind(this, row)} />;
                 }
 
                 return '';

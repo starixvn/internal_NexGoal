@@ -112,11 +112,12 @@ class Table extends Component {
             <Fragment>
                 <table className="table table-bordered">
                     <thead>
-                        {isHost &&
+                        {
+                            isHost &&
                             <tr className="header-control">
                                 <th colSpan="9">
                                     <a className="pull-left btn btn-primary" onClick={this.handleOnCreateClick}>
-                                        <i className="fa fa-plus" />{getResource('CreateEvaluationFlow')}
+                                        <i className="fa fa-plus" />{getResource('AddEvaluationFlow')}
                                     </a>
                                 </th>
                             </tr>

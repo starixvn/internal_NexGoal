@@ -82,7 +82,8 @@ export default class AddEditDiscipline extends Component {
         return (
             <Form id="edit-form" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
-                    {!isEmpty(errors) && !isEmpty(touched) &&
+                    {
+                        !isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
                             {touched.employee && errors.employee && <li>{errors.employee}</li>}
                             {touched.effectiveDate && errors.effectiveDate && <li>{errors.effectiveDate}</li>}

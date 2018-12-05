@@ -168,9 +168,10 @@ export default class Table extends Component {
                                 <Fragment>
                                     <div className="search-wrapper clearfix">
                                         <div className="pull-left">
-                                            {this.props.isHost &&
+                                            {
+                                                this.props.isHost &&
                                                 <button className="btn btn-primary" onClick={this.handleShowCreateModal}>
-                                                    <i className="fa fa-plus" />{getResource('CreateEvaluationPeriod')}
+                                                    <i className="fa fa-plus" />{getResource('AddEvaluationPeriod')}
                                                 </button>
                                             }
                                         </div>
