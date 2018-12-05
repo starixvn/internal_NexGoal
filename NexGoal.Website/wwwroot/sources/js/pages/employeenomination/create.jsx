@@ -63,7 +63,7 @@ export default class Create extends Component {
         return errors;
     }
 
-    handleSubmit = (values, { setSubmitting, setErrors }) => {
+    handleSubmit = (values, { setErrors }) => {
         axios({
             url: resolveClientUrl(`EmployeeNomination/Create`),
             method: 'post',
@@ -93,8 +93,6 @@ export default class Create extends Component {
                     toast.error(data.message);
                 }
             }
-
-            setSubmitting(false);
         }).catch(axiosError);
     }
 
@@ -104,8 +102,7 @@ export default class Create extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        isSubmitting }) => {
+        setFieldValue }) => {
         return (
             <form onSubmit={handleSubmit}>
                 {!isEmpty(errors) && !isEmpty(touched) &&
@@ -134,7 +131,7 @@ export default class Create extends Component {
                     <textarea className="form-control" name="comment" value={values.comment} onChange={handleChange} />
                 </FormGroup>
 
-                <button disabled={isSubmitting} type="submit" className="btn btn-primary">{getResource('Submit')}</button>
+                <button type="submit" className="btn btn-primary">{getResource('Submit')}</button>
             </form>
         );
     }

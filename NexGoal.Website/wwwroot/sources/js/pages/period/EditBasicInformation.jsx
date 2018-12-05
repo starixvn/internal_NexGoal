@@ -75,7 +75,7 @@ export default class EditBasicInformation extends Component {
         return errors;
     }
 
-    onSubmit = (values, { setSubmitting, setErrors }) => {
+    onSubmit = (values, { setErrors }) => {
         axios({
             url: resolveClientUrl('period/edit'),
             method: 'post',
@@ -113,8 +113,6 @@ export default class EditBasicInformation extends Component {
                     toast.error(data.message);
                 }
             }
-
-            setSubmitting(false);
         }).catch(axiosError);
     }
 
@@ -124,8 +122,7 @@ export default class EditBasicInformation extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        isSubmitting }) => {
+        setFieldValue }) => {
         var onChangeRaw = e => {
             let date = moment(Date(e.target.value));
             if (date.isValid()) {
@@ -240,7 +237,7 @@ export default class EditBasicInformation extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Col smOffset={2} sm={6}>
-                        <Button type="submit" disabled={isSubmitting} className="btn btn-primary">{getResource('Submit')}</Button>
+                        <Button type="submit" className="btn btn-primary">{getResource('Submit')}</Button>
                     </Col>
                 </FormGroup>
             </Form>

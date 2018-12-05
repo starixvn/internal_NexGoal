@@ -14,83 +14,12 @@ import getResource from '../../resourceHelper';
 const { SearchBar } = Search;
 
 export default class Table extends Component {
-    columns = [
-        {
-            dataField: 'rowNum',
-            isDummyField: true,
-            text: `${getResource('SymbolCount')}`,
-            classes: 'text-center',
-            headerStyle: { width: '50px' },
-            formatter: (cell, row, rowIndex) => {
-                return rowIndex + 1;
-            }
-        },
-        {
-            dataField: 'nickName',
-            text: `${getResource('NickName')}`,
-            headerStyle: { width: '120px' }
-        },
-        {
-            dataField: 'fullName',
-            text: `${getResource('FullName')}`
-        },
-        {
-            dataField: 'groupName',
-            text: `${getResource('Team')}`
-        },
-        {
-            dataField: 'description',
-            text: `${getResource('Content')}`
-        },
-        {
-            dataField: 'effectiveDate',
-            text: `${getResource('IssueDate')}`,
-            classes: 'text-center',
-            headerStyle: { width: '120px' },
-            formatter: (cell, row) => {
-                return `${moment(row.effectiveDate).format('DD MMM, YYYY')}`;
-            }
-        },
-        {
-            dataField: 'creatorFullName',
-            text: `${getResource('Creator')}`,
-            formatter: (cell, row, rowIndex, colIndex) => {
-                return `${row.creatorFullName} (${row.creatorNickName})`;
-            }
-        },
-        {
-            dataField: 'isActive',
-            text: `${getResource('Active')}`,
-            classes: 'text-center',
-            headerStyle: { width: '80px' },
-            formatter: (cell, row) => {
-                if (this.props.isHost) {
-                    return <input type='checkbox' checked={row.isActive} onChange={this.editDisciplineStatus.bind(this, row)} />;
-                }
+    handleEdit = (event, discipline) => {
+        this.props.onEdit(discipline);
+    }
 
-                return <input type='checkbox' checked={row.isActive} readOnly />;
-            }
-        },
-        {
-            dataField: '',
-            text: `${getResource('Edit')}`,
-            classes: 'text-center',
-            headerStyle: { width: '80px' },
-            isDummyField: true,
-            formatter: (cell, row) => {
-                if (this.props.isHost) {
-                    return <a className="fa fa-pencil-square-o" onClick={this.editDiscipline.bind(this, row)} />;
-                }
-
-                return '';
-            }
-        }
-    ]
-
-    editDiscipline = discipline => this.props.editDiscipline(discipline)
-
-    editDisciplineStatus = (discipline, e) => {
-        var isActive = e.target.checked;
+    handleEditStatus = (event, discipline) => {
+        let isActive = event.target.checked;
 
         axios({
             url: resolveClientUrl('discipline/editstatus'),
@@ -108,7 +37,7 @@ export default class Table extends Component {
 
             if (data.isSuccessful) {
                 toast.success(getResource('UpdatedSuccessfully'));
-                this.props.onUpdateStatus(discipline.disciplineId, isActive);
+                this.props.onEditStatus(discipline.disciplineId, isActive);
             } else {
                 toast.error(data.message);
             }
@@ -116,8 +45,82 @@ export default class Table extends Component {
     }
 
     render() {
+        let isHost = this.props.isHost;
+        let columns = [
+            {
+                dataField: 'rowNum',
+                isDummyField: true,
+                text: `${getResource('SymbolCount')}`,
+                classes: 'text-center',
+                headerStyle: { width: '50px' },
+                formatter: (cell, row, rowIndex) => {
+                    return rowIndex + 1;
+                }
+            },
+            {
+                dataField: 'nickName',
+                text: `${getResource('NickName')}`,
+                headerStyle: { width: '120px' }
+            },
+            {
+                dataField: 'fullName',
+                text: `${getResource('FullName')}`
+            },
+            {
+                dataField: 'groupName',
+                text: `${getResource('Team')}`
+            },
+            {
+                dataField: 'description',
+                text: `${getResource('Content')}`
+            },
+            {
+                dataField: 'effectiveDate',
+                text: `${getResource('IssueDate')}`,
+                classes: 'text-center',
+                headerStyle: { width: '120px' },
+                formatter: (cell, row) => {
+                    return `${moment(row.effectiveDate).format('DD MMM, YYYY')}`;
+                }
+            },
+            {
+                dataField: 'creatorFullName',
+                text: `${getResource('Creator')}`,
+                formatter: (cell, row) => {
+                    return `${row.creatorFullName} (${row.creatorNickName})`;
+                }
+            },
+            {
+                dataField: 'isActive',
+                text: `${getResource('Active')}`,
+                classes: 'text-center',
+                headerStyle: { width: '80px' },
+                formatter: (cell, row) => {
+                    if (isHost) {
+                        return <input type='checkbox' defaultChecked={row.isActive} onChange={event => this.handleEditStatus(event, row)} />;
+                    }
+
+                    return <input type='checkbox' checked={row.isActive} readOnly />;
+                }
+            },
+            {
+                dataField: '',
+                text: `${getResource('Edit')}`,
+                classes: 'text-center',
+                headerStyle: { width: '80px' },
+                isDummyField: true,
+                formatter: (cell, row) => {
+                    if (isHost) {
+                        return <a className="fa fa-pencil-square-o" onClick={event => this.handleEdit(event, row)} />;
+                    }
+
+                    return '';
+                }
+            }
+        ];
+
         return (
-            <ToolkitProvider keyField="disciplineId" data={this.props.data} columns={this.columns} search={{ searchFormatted: true }} >
+            <ToolkitProvider keyField="disciplineId" data={this.props.data} columns={columns} search={{ searchFormatted: true }} >
                 {
                     props => {
                         return (
@@ -125,7 +128,7 @@ export default class Table extends Component {
                                 <div className="search-wrapper clearfix">
                                     <div className="pull-left">
                                         {this.props.isHost &&
-                                            <button className="btn btn-primary" onClick={this.props.addDiscipline}>
+                                            <button className="btn btn-primary" onClick={this.props.onCreate}>
                                                 <i className="fa fa-plus" /> {getResource('AddDiscipline')}
                                             </button>
                                         }

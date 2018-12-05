@@ -23,7 +23,7 @@ export default class Edit extends Component {
         return errors;
     }
 
-    onSubmit = (values, { setSubmitting, setErrors }) => {
+    onSubmit = (values, { setErrors }) => {
         let processes = [];
         let adminProcess = values.processes.find(p => p.processId === PerformanceProcess.HumanResource && p.isSelected);
 
@@ -84,8 +84,6 @@ export default class Edit extends Component {
                 } else {
                     toast.error(data.message);
                 }
-
-                setSubmitting(false);
             }
         }).catch(axiosError);
     }
@@ -96,8 +94,7 @@ export default class Edit extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        isSubmitting }) => {
+        setFieldValue }) => {
         var onChangeRaw = (e) => {
             let date = moment(e.target.value);
             if (date.isValid()) {
@@ -175,7 +172,7 @@ export default class Edit extends Component {
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
-                    <Button type="submit" disabled={isSubmitting} className="btn btn-primary">{getResource('Submit')}</Button>
+                    <Button type="submit" className="btn btn-primary">{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Form>
         );

@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Modal, Button, FormGroup, ControlLabel, Col, Form } from 'react-bootstrap';
 import axios from 'axios';
+import moment from 'moment';
 import { stringify } from 'qs';
 import DatePicker from 'react-datepicker';
 import Select from 'react-select';
@@ -12,11 +13,7 @@ import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import { DateFormat } from '../../constants';
 
-export default class AddEditDiscipline extends Component {
-    constructor(props) {
-        super(props);
-    }
-
+export default class Create extends Component {
     validateForm = values => {
         let errors = {};
 
@@ -28,23 +25,23 @@ export default class AddEditDiscipline extends Component {
             errors.effectiveDate = getResource('IssueDateRequired');
         }
 
-        if (!values.content) {
-            errors.content = getResource('ContentRequired');
+        if (!values.description) {
+            errors.description = getResource('ContentRequired');
         }
 
         return errors;
     }
 
-    onSubmit = (values, { setSubmitting, setErrors }) => {
+    handleSubmit = (values, { setErrors }) => {
         axios({
-            url: resolveClientUrl(`discipline/${values.disciplineId === 0 ? 'create' : 'edit'}`),
+            url: resolveClientUrl('discipline/create'),
             method: 'post',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 disciplineId: values.disciplineId,
-                employeeId: values.employee.employeeId,
+                employeeId: values.employee.value,
                 effectiveDate: values.effectiveDate.format('YYYY-MM-DD'),
-                content: values.content
+                content: values.description
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'
@@ -53,8 +50,9 @@ export default class AddEditDiscipline extends Component {
             let data = response.data;
 
             if (data.isSuccessful) {
-                toast.success(getResource('UpdatedSuccessfully'));
-                this.props.onEditDiscipline();
+                toast.success(getResource('CreatedSuccessfully'));
+
+                this.props.onCreateSuccess();
             } else {
                 if (data.errors) {
                     let errors = {};
@@ -66,7 +64,6 @@ export default class AddEditDiscipline extends Component {
                 } else {
                     toast.error(data.message);
                 }
-                setSubmitting(false);
             }
         }).catch(axiosError);
     }
@@ -77,17 +74,16 @@ export default class AddEditDiscipline extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        isSubmitting }) => {
+        setFieldValue }) => {
         return (
-            <Form id="edit-form" horizontal onSubmit={handleSubmit}>
+            <Form id="create-form" horizontal onSubmit={handleSubmit}>
                 <Modal.Body>
                     {
                         !isEmpty(errors) && !isEmpty(touched) &&
                         <ul className="list-message-error">
                             {touched.employee && errors.employee && <li>{errors.employee}</li>}
                             {touched.effectiveDate && errors.effectiveDate && <li>{errors.effectiveDate}</li>}
-                            {touched.content && errors.content && <li>{errors.content}</li>}
+                            {touched.description && errors.description && <li>{errors.description}</li>}
                         </ul>
                     }
                     <FormGroup>
@@ -117,35 +113,43 @@ export default class AddEditDiscipline extends Component {
                     <FormGroup>
                         <Col componentClass={ControlLabel} className="required-label" sm={3}>{getResource('Content')}</Col>
                         <Col sm={9}>
-                            <textarea className={`form-control none-resize ${touched.content && errors.content && 'input-validation-error'}`}
-                                name="content" rows="10"
+                            <textarea className={`form-control none-resize ${touched.description && errors.description && 'input-validation-error'}`}
+                                name="description" rows="10"
                                 onChange={handleChange}
-                                value={values.content}
+                                value={values.description}
                             />
                         </Col>
                     </FormGroup>
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button className="btn btn-cancel" onClick={this.props.closeModal}>{getResource('Cancel')}</Button>
-                    <Button type="submit" disabled={isSubmitting} className="btn btn-primary">{getResource('Submit')}</Button>
+                    <Button className="btn btn-cancel" onClick={this.props.onClose}>{getResource('Cancel')}</Button>
+                    <Button type="submit" className="btn btn-primary">{getResource('Submit')}</Button>
                 </Modal.Footer>
             </Form>
         );
     }
 
     render() {
-        var title = this.props.discipline && this.props.discipline.disciplineId === 0 ? getResource('AddDiscipline') : getResource('EditDiscipline');
+        let discipline = {
+            employee: null,
+            effectiveDate: moment(),
+            description: ''
+        };
 
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.showModal}
-                onHide={this.props.closeModal}
+                onHide={this.props.onClose}
                 dialogClassName="custom-modal"
             >
                 <Modal.Header closeButton>
-                    <Modal.Title>{title}</Modal.Title>
+                    <Modal.Title>{getResource('AddDiscipline')}</Modal.Title>
                 </Modal.Header>
-                <Formik initialValues={{ ...this.props.discipline }} validate={this.validateForm} onSubmit={this.onSubmit} render={this.renderForm} />
+                <Formik initialValues={discipline}
+                    validate={this.validateForm}
+                    onSubmit={this.handleSubmit}
+                    render={this.renderForm}
+                />
             </Modal>
         );
     }

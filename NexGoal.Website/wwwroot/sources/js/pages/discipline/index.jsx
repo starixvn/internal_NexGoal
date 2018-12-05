@@ -11,7 +11,8 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 
 import SearchForm from './SearchForm';
 import Table from './Table';
-import AddEditDiscipline from './EditDiscipline';
+import Create from './Create';
+import Edit from './Edit';
 
 export default class DisciplineManagement extends Component {
     constructor(props) {
@@ -25,11 +26,15 @@ export default class DisciplineManagement extends Component {
                 group: { value: '', label: '-- All --' },
                 employee: null
             },
-            data: [],
+            disciplines: [],
             groupOptions: [],
             employeeOptions: [],
             isHost: document.getElementById('IsHost').checked,
-            showModal: false
+            showCreateModal: false,
+            editDiscipline: {
+                showModal: false,
+                discipline: null
+            }
         };
     }
 
@@ -111,84 +116,109 @@ export default class DisciplineManagement extends Component {
                 employeeId: filter.employee ? filter.employee.value : null
             }
         }).then(response => {
-            this.setState({ data: response.data });
+            this.setState({ disciplines: response.data });
         }).catch(axiosError);
     }
 
-    onUpdateStatus = (disciplineId, isActive) => {
-        let data = this.state.data.slice();
-        let index = data.findIndex(e => e.disciplineId === disciplineId);
-        if (index >= 0) {
-            data[index].isActive = isActive;
-        }
-
-        this.setState({ data: data });
+    handleClickCreate = () => {
+        this.setState({ showCreateModal: true });
     }
 
-    onEditDiscipline = () => {
-        this.closeModal();
-        this.getDisciplines();
+    handleCancelCreate = () => {
+        this.setState({ showCreateModal: false });
     }
 
-    editDiscipline = (discipline) => {
+    handleCreateSuccess = () => {
+        this.handleCancelCreate();
+
+        this.getDisciplines(this.state.filter);
+    }
+
+    handleClickEdit = (discipline) => {
+        discipline.effectiveDate = moment(discipline.effectiveDate);
+
         this.setState({
-            showModal: true,
-            selectedDiscipline: {
-                disciplineId: discipline.disciplineId,
-                employee: {
-                    value: discipline.employeeId,
-                    label: `${discipline.fullName} (${discipline.nickName})`
-                },
-                effectiveDate: moment(discipline.effectiveDate),
-                content: discipline.description
+            editDiscipline: {
+                showModal: true,
+                discipline: discipline
             }
         });
     }
 
-    addDiscipline = () => {
+    handleCancelEdit = () => {
         this.setState({
-            showModal: true,
-            selectedDiscipline: { disciplineId: 0, employee: null, effectiveDate: moment(), content: '' }
+            editDiscipline: {
+                showModal: false,
+                discipline: null
+            }
         });
     }
 
-    closeModal = () => {
-        this.setState({ showModal: false });
+    handleEditSuccess = (discipline) => {
+        let disciplines = this.state.disciplines.slice();
+        let index = disciplines.findIndex(e => e.disciplineId === discipline.disciplineId);
+        if (index >= 0) {
+            disciplines[index] = discipline;
+            this.setState({ disciplines: disciplines });
+        }
+
+        this.handleCancelEdit();
     }
 
-    showModal = () => {
-        this.setState({ showModal: true });
+    handleEditStatus = (disciplineId, isActive) => {
+        let disciplines = this.state.disciplines.slice();
+        let index = disciplines.findIndex(e => e.disciplineId === disciplineId);
+        if (index >= 0) {
+            disciplines[index].isActive = isActive;
+        }
+
+        this.setState({ disciplines: disciplines });
     }
 
     render() {
+        let employeeOptions = this.state.employeeOptions;
+
         return (
             <div className="row">
+                <ToastLayout />
                 <Breadcrumb>
                     <li className="current">{getResource('DisciplineManagement')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
-                    <SearchForm filter={this.state.filter}
+                    <SearchForm
+                        filter={this.state.filter}
                         groupOptions={this.state.groupOptions}
-                        employeeOptions={this.state.employeeOptions}
+                        employeeOptions={employeeOptions}
                         onChange={this.handleFilterChange}
                         onSubmit={this.handleFilterSubmit}
                     />
 
-                    <Table data={this.state.data}
-                        onUpdateStatus={this.onUpdateStatus}
+                    <Table
+                        data={this.state.disciplines}
                         isHost={this.state.isHost}
-                        addDiscipline={this.addDiscipline}
-                        editDiscipline={this.editDiscipline}
+                        onCreate={this.handleClickCreate}
+                        onEdit={this.handleClickEdit}
+                        onEditStatus={this.handleEditStatus}
                     />
                 </div>
-                <AddEditDiscipline
-                    employeeOptions={this.state.employeeOptions}
-                    showModal={this.state.showModal}
-                    closeModal={this.closeModal}
-                    discipline={this.state.selectedDiscipline}
-                    onEditDiscipline={this.onEditDiscipline}
-                />
-                <ToastLayout />
+                {
+                    this.state.showCreateModal &&
+                    <Create
+                        employeeOptions={employeeOptions}
+                        showModal={this.state.showCreateModal}
+                        onClose={this.handleCancelCreate}
+                        onCreateSuccess={this.handleCreateSuccess}
+                    />
+                }
+                {
+                    this.state.editDiscipline.showModal &&
+                    <Edit
+                        discipline={this.state.editDiscipline.discipline}
+                        showModal={this.state.editDiscipline.showModal}
+                        onClose={this.handleCancelEdit}
+                        onEditSuccess={this.handleEditSuccess}
+                    />
+                }
             </div>
         );
     }

@@ -114,8 +114,7 @@ export default class CreateNomination extends Component {
         touched,
         handleChange,
         handleSubmit,
-        setFieldValue,
-        isSubmitting }) => {
+        setFieldValue }) => {
         let onPeriodChange = (value) => {
             var period = this.props.nominationPeriods.find(x => x.nominationPeriodId === value.value);
             let questions = '';
@@ -159,7 +158,7 @@ export default class CreateNomination extends Component {
                 </FormGroup>
                 <FormGroup>
                     <Button className="btn-cancel" onClick={this.handleCloseForm}>{getResource('Cancel')}</Button>
-                    <Button className="btn-primary" disabled={isSubmitting} type="submit">{getResource('Publish')}</Button>
+                    <Button className="btn-primary" type="submit">{getResource('Publish')}</Button>
                 </FormGroup>
             </form>
         );
