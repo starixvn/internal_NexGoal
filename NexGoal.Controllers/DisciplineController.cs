@@ -20,7 +20,9 @@
         private readonly IDisciplineService disciplineService;
         private readonly ISessionService sessionService;
 
-        public DisciplineController(IDisciplineService disciplineService, ISessionService sessionService)
+        public DisciplineController(
+            IDisciplineService disciplineService,
+            ISessionService sessionService)
         {
             this.disciplineService = disciplineService;
             this.sessionService = sessionService;

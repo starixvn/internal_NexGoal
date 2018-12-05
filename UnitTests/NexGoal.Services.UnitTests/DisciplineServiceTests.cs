@@ -26,7 +26,7 @@
                 }
             };
             var service = GetDisciplineService();
-            baseService.GetDataAsync<DisciplineModel>(Arg.Any<GetDisciplinesCriteria>()).Returns(expected);
+            baseService.GetDataAsync<DisciplineModel>(Arg.Any<GetDisciplineCriteria>()).Returns(expected);
 
             // Act
             var actual = await service.GetDisciplineAsync(param);

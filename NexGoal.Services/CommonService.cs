@@ -50,13 +50,13 @@
 
         public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeesAsync(
             string keyword = null,
-            int? groupId = null,
+            string groupIds = null,
             bool? isEnabled = true)
         {
             var criteria = new SearchEmployeeCriteria
             {
                 Keyword = keyword,
-                GroupId = groupId,
+                GroupIds = groupIds,
                 IsEnabled = isEnabled
             };
 

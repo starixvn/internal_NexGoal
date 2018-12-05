@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 
 import { axiosError, resolveClientUrl } from '../../common-functions';
+import { StatusOptions } from '../../constants';
 import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -20,8 +21,8 @@ export default class DisciplineManagement extends Component {
             filter: {
                 from: moment().startOf('year'),
                 to: moment(),
-                isActive: { value: '', label: '-- All --' },
-                groups: [],
+                isActive: StatusOptions[1],
+                group: { value: '', label: '-- All --' },
                 employee: null
             },
             data: [],
@@ -40,33 +41,37 @@ export default class DisciplineManagement extends Component {
 
         Promise.all(promises)
             .then(([groupResponse, employeeResponse]) => {
-                let employeeOptions = [];
-                const groupOptions = groupResponse.data.map((group) => {
-                    return { value: group.groupId, label: group.name };
+                let groupOptions = groupResponse.data.map((group) => {
+                    return {
+                        value: group.groupId,
+                        label: group.name
+                    };
                 });
+                groupOptions.unshift({ value: '', label: '-- All --' });
 
-                employeeResponse.data.map(item => {
-                    employeeOptions.push({
+                let employeeOptions = employeeResponse.data.map(item => {
+                    return {
                         value: item.employeeId,
                         label: `${item.fullName} (${item.nickName})`
-                    });
+                    };
                 });
-
-                const nextState = Object.assign({}, this.state.filter, { groups: groupOptions });
 
                 this.setState({
                     groupOptions: groupOptions,
-                    employeeOptions: employeeOptions,
-                    filter: nextState
+                    employeeOptions: employeeOptions
                 });
 
-                this.getDisciplines(nextState);
+                this.getDisciplines(this.state.filter);
             }).catch(axiosError);
     }
 
     handleFilterChange = (name, value) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
+        }, () => {
+            if (name === 'group') {
+                this.getEmployees(value ? value.value : null);
+            }
         });
     }
 
@@ -74,28 +79,49 @@ export default class DisciplineManagement extends Component {
         this.getDisciplines(this.state.filter);
     }
 
-    getDisciplines = (filter) => {
-        const employeeId = filter.employee ? filter.employee.value : '';
-        const groupIds = filter.groups.map((group) => { return group.value; }).join(',');
+    getEmployees = (groupIds) => {
+        axios(resolveClientUrl('common/GetEmployees'), { params: { groupIds: groupIds } })
+            .then(response => {
+                let employeeOptions = response.data.map(item => {
+                    return {
+                        value: item.employeeId,
+                        label: `${item.fullName} (${item.nickName})`
+                    };
+                });
+                let filter = this.state.filter;
 
+                if (employeeOptions.indexOf(filter.employee) < 0) {
+                    filter = Object.assign({}, this.state.filter, { employee: null });
+                }
+
+                this.setState({
+                    filter: filter,
+                    employeeOptions: employeeOptions
+                });
+            }).catch(axiosError);
+    }
+
+    getDisciplines = (filter) => {
         axios(resolveClientUrl('Discipline/GetDisciplines'), {
             params: {
                 fromDate: filter.from.format('YYYY-MM-DD'),
                 toDate: filter.to.format('YYYY-MM-DD'),
                 isActive: filter.isActive ? filter.isActive.value : null,
-                employeeId: employeeId,
-                groupIds: groupIds
+                groupId: filter.group ? filter.group.value : null,
+                employeeId: filter.employee ? filter.employee.value : null
             }
-        }
-        ).then(response => {
+        }).then(response => {
             this.setState({ data: response.data });
-        });
+        }).catch(axiosError);
     }
 
     onUpdateStatus = (disciplineId, isActive) => {
-        var data = this.state.data.slice();
-        var discipline = data.find(e => e.disciplineId === disciplineId);
-        discipline.isActive = isActive;
+        let data = this.state.data.slice();
+        let index = data.findIndex(e => e.disciplineId === disciplineId);
+        if (index >= 0) {
+            data[index].isActive = isActive;
+        }
+
         this.setState({ data: data });
     }
 
@@ -144,11 +170,12 @@ export default class DisciplineManagement extends Component {
                     <SearchForm filter={this.state.filter}
                         groupOptions={this.state.groupOptions}
                         employeeOptions={this.state.employeeOptions}
-                        onFilterChange={this.handleFilterChange}
-                        onFilterSubmit={this.handleFilterSubmit}
+                        onChange={this.handleFilterChange}
+                        onSubmit={this.handleFilterSubmit}
                     />
 
-                    <Table data={this.state.data} onUpdateStatus={this.onUpdateStatus}
+                    <Table data={this.state.data}
+                        onUpdateStatus={this.onUpdateStatus}
                         isHost={this.state.isHost}
                         addDiscipline={this.addDiscipline}
                         editDiscipline={this.editDiscipline}

@@ -6,8 +6,8 @@
     {
         public DateTime FromDate { get; set; }
         public DateTime ToDate { get; set; }
+        public int? GroupId { get; set; }
         public int? EmployeeId { get; set; }
-        public string GroupIds { get; set; }
         public bool? IsActive { get; set; }
     }
 }

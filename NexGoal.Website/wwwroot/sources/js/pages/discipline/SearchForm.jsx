@@ -5,53 +5,40 @@ import moment from 'moment';
 import Select from 'react-select';
 
 import { StatusOptions } from '../../constants';
-import Multiselect from '../../shared/components/multi-select/index';
 import getResource from '../../resourceHelper';
 import { DateFormat } from '../../constants';
 
 class SearchForm extends Component {
-    constructor(props) {
-        super(props);
-
-        this.onFromDateChange = this.onFromDateChange.bind(this);
-        this.onToDateChange = this.onToDateChange.bind(this);
-        this.onChangeRaw = this.onChangeRaw.bind(this);
-        this.handleStatusChange = this.handleStatusChange.bind(this);
-        this.handleGroupChange = this.handleGroupChange.bind(this);
-        this.handleEmployeeChange = this.handleEmployeeChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+    onFromDateChange = (date) => {
+        this.props.onChange('from', date);
     }
 
-    onFromDateChange(date) {
-        this.props.onFilterChange('from', date);
+    onToDateChange = (date) => {
+        this.props.onChange('to', date);
     }
 
-    onToDateChange(date) {
-        this.props.onFilterChange('to', date);
-    }
-
-    onChangeRaw(event) {
+    onChangeRaw = (event) => {
         let date = moment(event.target.value);
         if (date.isValid()) {
-            this.props.onFilterChange(event.target.name, date);
+            this.props.onChange(event.target.name, date);
         }
     }
 
-    handleStatusChange(selectedOption) {
-        this.props.onFilterChange('isActive', selectedOption);
+    handleStatusChange = (selectedOption) => {
+        this.props.onChange('isActive', selectedOption);
     }
 
-    handleGroupChange(selectedOptions) {
-        this.props.onFilterChange('groups', selectedOptions);
+    handleGroupChange = (selectedOptions) => {
+        this.props.onChange('group', selectedOptions);
     }
 
     handleEmployeeChange = (selectedOption) => {
-        this.props.onFilterChange('employee', selectedOption);
+        this.props.onChange('employee', selectedOption);
     }
 
-    handleSubmit(event) {
+    handleSubmit = (event) => {
         event.preventDefault();
-        this.props.onFilterSubmit();
+        this.props.onSubmit();
     }
 
     render() {
@@ -81,8 +68,10 @@ class SearchForm extends Component {
                     <ControlLabel>{getResource('Status')}</ControlLabel>
                     <div className="control-content">
                         <div className="control-content">
-                            <Select name="isActive" className="react-select-container" classNamePrefix="react-select"
-                                value={filter.isActive} options={StatusOptions}
+                            <Select name="isActive"
+                                className="react-select-container" classNamePrefix="react-select"
+                                value={filter.isActive}
+                                options={StatusOptions}
                                 isSearchable={false} isClearable={false}
                                 onChange={this.handleStatusChange}
                             />
@@ -92,8 +81,9 @@ class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
                     <div className="control-content">
-                        <Multiselect className="react-select-container" classNamePrefix="react-select"
-                            value={filter.groups}
+                        <Select name="group"
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={filter.group}
                             options={this.props.groupOptions}
                             onChange={this.handleGroupChange}
                         />
@@ -102,9 +92,11 @@ class SearchForm extends Component {
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
                     <div className="control-content">
-                        <Select className="react-select-container" classNamePrefix="react-select"
-                            value={filter.employee} options={this.props.employeeOptions}
-                            name="employee" onChange={this.handleEmployeeChange} isClearable
+                        <Select name="employee"
+                            className="react-select-container" classNamePrefix="react-select"
+                            value={filter.employee}
+                            options={this.props.employeeOptions}
+                            onChange={this.handleEmployeeChange} isClearable
                         />
                     </div>
                 </FormGroup>

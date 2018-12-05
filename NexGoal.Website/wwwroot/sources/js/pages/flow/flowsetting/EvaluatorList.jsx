@@ -25,7 +25,7 @@ class EvaluatorList extends Component {
     }
 
     getEmployees(groupId) {
-        axios(resolveClientUrl(`Common/GetEmployees?groupId=${groupId}`))
+        axios(resolveClientUrl(`Common/GetEmployees?groupIds=${groupId}`))
             .then(response => {
                 const data = response.data;
 

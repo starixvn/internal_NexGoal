@@ -12,7 +12,7 @@
 
         public DateTime EffectiveDate { get; set; }
 
-        public string Group { get; set; }
+        public string GroupName { get; set; }
 
         public int EmployeeId { get; set; }
 

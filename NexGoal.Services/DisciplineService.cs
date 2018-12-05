@@ -18,12 +18,12 @@
 
         public async Task<IEnumerable<DisciplineModel>> GetDisciplineAsync(GetDisciplineParam param)
         {
-            var criteria = new GetDisciplinesCriteria
+            var criteria = new GetDisciplineCriteria
             {
                 FromDate = param.FromDate,
                 ToDate = param.ToDate,
                 IsActive = param.IsActive,
-                GroupIds = param.GroupIds,
+                GroupId = param.GroupId,
                 EmployeeId = param.EmployeeId
             };
 

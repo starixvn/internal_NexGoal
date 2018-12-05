@@ -14,10 +14,6 @@ import getResource from '../../resourceHelper';
 const { SearchBar } = Search;
 
 export default class Table extends Component {
-    constructor(props) {
-        super(props);
-    }
-
     columns = [
         {
             dataField: 'rowNum',
@@ -39,7 +35,7 @@ export default class Table extends Component {
             text: `${getResource('FullName')}`
         },
         {
-            dataField: 'group',
+            dataField: 'groupName',
             text: `${getResource('Team')}`
         },
         {

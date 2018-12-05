@@ -30,10 +30,10 @@
         [HttpGet]
         public async Task<JsonResult> GetEmployees(
             string keyword = null,
-            int? groupId = null,
+            string groupIds = null,
             bool? isEnabled = true)
         {
-            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(keyword, groupId, isEnabled).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(keyword, groupIds, isEnabled).ConfigureAwait(false);
 
             return Json(employees);
         }
