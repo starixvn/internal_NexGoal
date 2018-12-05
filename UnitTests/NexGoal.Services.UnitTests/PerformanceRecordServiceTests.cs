@@ -87,6 +87,67 @@
 
         #endregion GetPerformanceRecordByEmployeeAsync
 
+        #region GetPerformanceTimelineAsync
+
+        [Fact]
+        public async Task GetPerformanceTimelineAsync_PerformanceRecordsAreNotExist_ReturnEmpty()
+        {
+            // Arrange
+            var performanceRecords = new List<PerformanceRecordModel>();
+            var nominationPeriods = new List<NominationPeriodModel>();
+            var tuple = new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
+            var service = GetPerformanceRecordService();
+            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetPerformanceTimelineCriteria>()).Returns(tuple);
+
+            // Act
+            var actual = await service.GetPerformanceTimelineAsync(new GetPerformanceTimelineParam());
+
+            // Assert
+            Assert.Empty(actual.Item1);
+            Assert.Equal(0, actual.Item2);
+        }
+
+        [Fact]
+        public async Task GetPerformanceTimelineAsync_MappingData_ReturnAsExpectedPerformanceRecords()
+        {
+            // Arrange
+            var gradeId = "1";
+            var performanceRecords = new List<PerformanceRecordModel>
+            {
+                new PerformanceRecordModel
+                {
+                    PerformanceRecordId = 1,
+                    EmployeeIds = "1",
+                    ProjectIds = "1",
+                    GradeId = "cipher text",
+                    PeriodId = 1,
+                    NominationPeriodId = 1
+                }
+            };
+            IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
+            IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
+            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
+            var tuple = new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
+            var service = GetPerformanceRecordService();
+            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetPerformanceTimelineCriteria>()).Returns(tuple);
+            commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
+            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
+            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
+
+            // Act
+            var actual = await service.GetPerformanceTimelineAsync(new GetPerformanceTimelineParam());
+
+            // Assert
+            Assert.Single(actual.Item1);
+            Assert.Equal(performanceRecords, actual.Item1);
+            Assert.True(actual.Item1.First().Grade == performanceGrades.First());
+            Assert.True(actual.Item1.First().NominationPeriod == nominationPeriods.First());
+
+            Assert.Equal(0, actual.Item2);
+        }
+
+        #endregion GetPerformanceTimelineAsync
+
         #region GetMemberPerformanceTimelineAsync
 
         [Fact]
