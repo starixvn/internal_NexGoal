@@ -236,51 +236,56 @@
 
             if (result.IsSuccessful)
             {
-                var records = await GetDataToEditGrade(paRecordIds).ConfigureAwait(false);
-
-                var xmlTemplate = "<Row PARecordId='{0}' GradeId='{1}' ToeicPolicy='{2}' />";
-                var xml = new StringBuilder();
-                xml.Append("<Root>");
-
-                foreach (var record in records)
-                {
-                    xml.AppendFormat(xmlTemplate, record.PARecordId, record.GradeId, record.ToeicBonus);
-                }
-
-                xml.Append("</Root>");
-
-                var editPARecordGradeCriteria = new EditPARecordGradeCriteria { Value = xml.ToString() };
-
-                result = await baseService.ExecuteNonQueryAsync(editPARecordGradeCriteria).ConfigureAwait(false);
-
-                return result;
+                result = await EditPAGradeAsync(paRecordIds).ConfigureAwait(false);
             }
+
             return result;
         }
 
-        private async Task<IEnumerable<PARecordModel>> GetDataToEditGrade(string paRecordIds)
+        private async Task<IEnumerable<PARecordModel>> GetDataToEditPAGradeAsync(string paRecordIds)
         {
-            var records = await baseService.GetDataAsync<PARecordModel>(new GetPARecordsToUpdateGradeCriteria
+            var criteria = new GetPARecordsToUpdateGradeCriteria
             {
                 PARecordIds = paRecordIds
-            }).ConfigureAwait(false);
+            };
+            var records = await baseService.GetDataAsync<PARecordModel>(criteria).ConfigureAwait(false);
+            IEnumerable<PerformanceGradeModel> grades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
 
-            var grades = await commonService.GetReferenceResourcesByNamesAsync(new[] { "PerformanceGrade" }).ConfigureAwait(false);
             foreach (PARecordModel record in records)
             {
                 record.GradeId = cryptoService.Decrypt(record.GradeId);
                 int.TryParse(record.GradeId, out int gradeId);
                 gradeId += record.ToeicBonus;
 
-                if (!grades.Any(x => x.ResourceId == gradeId))
+                if (!grades.Any(x => x.GradeId == gradeId))
                 {
-                    gradeId = gradeId > grades.Max(x => x.ResourceId) ? grades.Max(x => x.ResourceId) : 0;
+                    gradeId = gradeId > grades.Max(x => x.GradeId) ? grades.Max(x => x.GradeId) : 0;
                 }
 
                 record.GradeId = gradeId == 0 ? null : cryptoService.Encrypt(gradeId.ToString());
             }
 
             return records;
+        }
+
+        private async Task<CommandResult> EditPAGradeAsync(string paRecordIds)
+        {
+            IEnumerable<PARecordModel> records = await GetDataToEditPAGradeAsync(paRecordIds).ConfigureAwait(false);
+
+            var xmlTemplate = "<Row PARecordId='{0}' GradeId='{1}' ToeicPolicy='{2}' />";
+            var xml = new StringBuilder();
+            xml.Append("<Root>");
+
+            foreach (var record in records)
+            {
+                xml.AppendFormat(xmlTemplate, record.PARecordId, record.GradeId, record.ToeicBonus);
+            }
+
+            xml.Append("</Root>");
+
+            var criteria = new EditPARecordGradeCriteria { Value = xml.ToString() };
+
+            return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
     }
 }
