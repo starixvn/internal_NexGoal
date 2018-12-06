@@ -30,7 +30,7 @@
         [HttpGet]
         public async Task<JsonResult> GetNominationPeriodsForNominator()
         {
-            IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForNominator(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForNominatorAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }
@@ -40,7 +40,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await employeeNominationService.Create(new CreateEmployeeNominationModel
+                CommandResult commandResult = await employeeNominationService.CreateAsync(new CreateEmployeeNominationModel
                 {
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
@@ -61,7 +61,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await employeeNominationService.Edit(new EditEmployeeNominationModel
+                CommandResult commandResult = await employeeNominationService.EditAsync(new EditEmployeeNominationModel
                 {
                     NominationPeriodId = model.NominationPeriodId,
                     NomineeId = model.NomineeId,
@@ -81,7 +81,7 @@
         [HttpPost]
         public async Task<JsonResult> Delete(int performanceRecordId)
         {
-            CommandResult commandResult = await employeeNominationService.Delete(performanceRecordId, sessionService.EmployeeId).ConfigureAwait(false);
+            CommandResult commandResult = await employeeNominationService.DeleteAsync(performanceRecordId, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(commandResult);
         }

@@ -30,7 +30,7 @@
             };
 
             var controller = GetController();
-            employeeNominationService.GetNominationPeriodsForNominator(sessionService.EmployeeId).Returns(periods);
+            employeeNominationService.GetNominationPeriodsForNominatorAsync(sessionService.EmployeeId).Returns(periods);
 
             var result = await controller.GetNominationPeriodsForNominator();
 
@@ -41,7 +41,7 @@
         public async Task Create_ValidData_ReturnCommandResult()
         {
             var controller = GetController();
-            employeeNominationService.Create(Arg.Any<CreateEmployeeNominationModel>()).Returns(new CommandResult { Code = 0 });
+            employeeNominationService.CreateAsync(Arg.Any<CreateEmployeeNominationModel>()).Returns(new CommandResult { Code = 0 });
 
             var result = await controller.Create(new CreateEmployeeNominationViewModel());
 

@@ -35,7 +35,7 @@
             var service = GetService();
             baseService.GetDataAsync<NominationPeriodModel>(Arg.Any<GetNominationPeriodsForNominatorCriteria>()).Returns(expectedPeriods);
 
-            var result = await service.GetNominationPeriodsForNominator(1);
+            var result = await service.GetNominationPeriodsForNominatorAsync(1);
 
             Assert.Equal(expectedPeriods.Count, result.Count());
         }
@@ -46,7 +46,7 @@
             var service = GetService();
             baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
 
-            var result = await service.Create(new CreateEmployeeNominationModel());
+            var result = await service.CreateAsync(new CreateEmployeeNominationModel());
 
             Assert.True(result.IsSuccessful);
         }
@@ -185,7 +185,7 @@
 
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeNominationCriteria>()).Returns(new CommandResult { Code = 0 });
 
-            var result = await service.Edit(new EditEmployeeNominationModel());
+            var result = await service.EditAsync(new EditEmployeeNominationModel());
 
             Assert.True(result.IsSuccessful);
         }
@@ -197,7 +197,7 @@
 
             baseService.ExecuteNonQueryAsync(Arg.Any<EditNominationStatusCriteria>()).Returns(new CommandResult { Code = 0 });
 
-            var result = await service.EditStatus(1, 2, 367);
+            var result = await service.EditStatusAsync(1, 2, 367);
 
             Assert.True(result.IsSuccessful);
         }
@@ -209,7 +209,7 @@
 
             baseService.ExecuteNonQueryAsync(Arg.Any<DeleteNominationCriteria>()).Returns(new CommandResult { Code = 0 });
 
-            var result = await service.Delete(1, 1);
+            var result = await service.DeleteAsync(1, 1);
 
             Assert.True(result.IsSuccessful);
         }

@@ -24,7 +24,7 @@
             this.commonService = commonService;
         }
 
-        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominator(int nominatorId)
+        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominatorAsync(int nominatorId)
         {
             var criteria = new GetNominationPeriodsForNominatorCriteria
             {
@@ -34,7 +34,7 @@
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForForComittee(int committeeId)
+        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForComitteeAsync(int committeeId)
         {
             var criteria = new GetNominationPeriodsForComitteeCriteria
             {
@@ -44,7 +44,7 @@
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> Create(CreateEmployeeNominationModel model)
+        public async Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model)
         {
             var criteria = new CreateEmployeeNominationCriteria
             {
@@ -106,7 +106,7 @@
             return performanceRecords;
         }
 
-        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodIds(string nominationPeriodIds)
+        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds)
         {
             var criteria = new GetNominationsByPeriodIdsCriteria
             {
@@ -125,7 +125,7 @@
             return nominations.OrderBy(x => x.Nominee.NickName);
         }
 
-        public async Task<CommandResult> Edit(EditEmployeeNominationModel model)
+        public async Task<CommandResult> EditAsync(EditEmployeeNominationModel model)
         {
             var criteria = new EditEmployeeNominationCriteria
             {
@@ -141,7 +141,7 @@
             return commandResult;
         }
 
-        public async Task<CommandResult> EditStatus(int nominationId, int statusId, int updatedById)
+        public async Task<CommandResult> EditStatusAsync(int nominationId, int statusId, int updatedById)
         {
             var criteria = new EditNominationStatusCriteria
             {
@@ -155,7 +155,7 @@
             return commandResult;
         }
 
-        public async Task<CommandResult> Delete(int performanceRecordId, int deletedById)
+        public async Task<CommandResult> DeleteAsync(int performanceRecordId, int deletedById)
         {
             var criteria = new DeleteNominationCriteria
             {

@@ -28,17 +28,17 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetNominationPeriodsForNominator()
+        public async Task<JsonResult> GetNominationPeriodsForComittee()
         {
-            IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForForComittee(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForComitteeAsync(sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetNominationsByPeriodId(string nominationPeriodIds)
+        public async Task<JsonResult> GetNominationsByPeriodIds(string nominationPeriodIds)
         {
-            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodIds(nominationPeriodIds).ConfigureAwait(false);
+            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodIdsAsync(nominationPeriodIds).ConfigureAwait(false);
 
             return Json(result);
         }
@@ -46,7 +46,7 @@
         [HttpPost]
         public async Task<JsonResult> EditStatus(int nominationId, int statusId)
         {
-            var result = await employeeNominationService.EditStatus(nominationId, statusId, sessionService.EmployeeId).ConfigureAwait(false);
+            var result = await employeeNominationService.EditStatusAsync(nominationId, statusId, sessionService.EmployeeId).ConfigureAwait(false);
 
             return Json(result);
         }

@@ -9,9 +9,9 @@
 
     public interface IEmployeeNominationService
     {
-        Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominator(int nominatorId);
+        Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForNominatorAsync(int nominatorId);
 
-        Task<CommandResult> Create(CreateEmployeeNominationModel model);
+        Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model);
 
         Task<IEnumerable<PerformanceRecordModel>> GetMemberNominationsAsync(int nominatorId, int? memberId);
 
@@ -19,14 +19,14 @@
 
         Task<bool> IsNominator(int actorId);
 
-        Task<CommandResult> Edit(EditEmployeeNominationModel model);
+        Task<CommandResult> EditAsync(EditEmployeeNominationModel model);
 
-        Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForForComittee(int committeeId);
+        Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForComitteeAsync(int committeeId);
 
-        Task<IEnumerable<NominationModel>> GetNominationsByPeriodIds(string nominationPeriodIds);
+        Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds);
 
-        Task<CommandResult> EditStatus(int nominationId, int statusId, int updatedById);
+        Task<CommandResult> EditStatusAsync(int nominationId, int statusId, int updatedById);
 
-        Task<CommandResult> Delete(int performanceRecordId, int deletedById);
+        Task<CommandResult> DeleteAsync(int performanceRecordId, int deletedById);
     }
 }

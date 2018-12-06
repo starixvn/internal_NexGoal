@@ -32,7 +32,7 @@ export default class NominationAssessment extends Component {
     }
 
     componentDidMount() {
-        axios.get(resolveClientUrl('NominationAssessment/GetNominationPeriodsForNominator'))
+        axios.get(resolveClientUrl('NominationAssessment/GetNominationPeriodsForComittee'))
             .then(response => {
                 this.setState(
                     {
@@ -52,7 +52,7 @@ export default class NominationAssessment extends Component {
     }
 
     handleFilterSubmit = () => {
-        axios.get(resolveClientUrl('NominationAssessment/GetNominationsByPeriodId'), {
+        axios.get(resolveClientUrl('NominationAssessment/GetNominationsByPeriodIds'), {
             params: {
                 nominationPeriodIds: this.state.filter.nominationPeriods.map(n => n.value).toString()
             }
