@@ -4,9 +4,9 @@ import Select from 'react-select';
 import { camelCase, isEmpty } from 'lodash';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
-import Scrollbars from 'react-custom-scrollbars';
 import moment from 'moment';
 import TextareaFullscreenEditor from '../../../shared/components/textarea-fullscreen/index';
+import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
 import { axiosError, resolveClientUrl } from '../../../common-functions';
@@ -151,7 +151,7 @@ export default class EditMemberPA extends Component {
                         grade: process.performanceRecord.grade
                     };
                     return (
-                            <PerformanceRecord data={paRecord} isHideProjectTag />
+                        <PerformanceRecord data={paRecord} isHideProjectTag />
                     );
                 } else {
                     return <span>{getResource('NoInformationAvailable')}</span>;
@@ -182,61 +182,64 @@ export default class EditMemberPA extends Component {
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <div className="record record-your-mind">
-                        <div className="avatar-user">
-                            <img src={currentUser.avatar} className="avatar" />
-                            <div className="person-info">
-                                <span className="role-reviewer">{currentUser.nickName}</span>
-                                <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                    <CustomScrollbars>
+                        <div className="record record-your-mind">
+                            <div className="avatar-user">
+                                <img src={currentUser.avatar} className="avatar" />
+                                <div className="person-info">
+                                    <span className="role-reviewer">{currentUser.nickName}</span>
+                                    <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
+                                </div>
+                            </div>
+                            <div className="comment">
+                                <form className="form-filter form-performance edit">
+                                    <FormGroup>
+                                        <div>Member: <strong>{this.state.employee.nickName}</strong></div>
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <TextareaFullscreenEditor
+                                            className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
+                                            name="comment"
+                                            value={paRecord.comment}
+                                            onChange={this.handleCommentChange}
+                                            disabled={this.state.paRecord.paStatus === PAStatus.Closed}
+                                        />
+                                    </FormGroup>
+                                    <FormGroup>
+                                        <div className="grade">
+                                            <ControlLabel className="required-label">{getResource('Grade')}</ControlLabel>
+                                            <Select name="grade" classNamePrefix="react-select"
+                                                className={`react-select-container grade-field ${!isEmpty(errors) && errors.grade ? 'input-validation-error' : ''}`}
+                                                placeholder="Select Grade"
+                                                value={paRecord.grade}
+                                                options={this.props.gradeOptions}
+                                                isSearchable={false}
+                                                onChange={this.handleGradeChange}
+                                                isDisabled={this.state.paRecord.paStatus === PAStatus.Closed}
+                                            />
+                                        </div>
+                                    </FormGroup>
+                                </form>
                             </div>
                         </div>
-                        <div className="comment">
-                            <form className="form-filter form-performance edit">
-                                <FormGroup>
-                                    <div>Member: <strong>{this.state.employee.nickName}</strong></div>
-                                </FormGroup>
-                                <FormGroup>
-                                    <TextareaFullscreenEditor
-                                        className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
-                                        name="comment"
-                                        value={paRecord.comment}
-                                        onChange={this.handleCommentChange}
-                                        disabled={this.state.paRecord.paStatus === PAStatus.Closed}
-                                    />
-                                </FormGroup>
-                                <FormGroup>
-                                    <div className="grade">
-                                        <ControlLabel className="required-label">{getResource('Grade')}</ControlLabel>
-                                        <Select name="grade" classNamePrefix="react-select"
-                                            className={`react-select-container grade-field ${!isEmpty(errors) && errors.grade ? 'input-validation-error' : ''}`}
-                                            placeholder="Select Grade"
-                                            value={paRecord.grade}
-                                            options={this.props.gradeOptions}
-                                            isSearchable={false}
-                                            onChange={this.handleGradeChange}
-                                            isDisabled={this.state.paRecord.paStatus === PAStatus.Closed}
-                                        />
-                                    </div>
-                                </FormGroup>
-                            </form>
+                        <div>
+                            <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
+                                <Tab eventKey={1} title={getResource("Self")}>
+                                    {selfRecord}
+                                </Tab>
+                                <Tab eventKey={2} title={getResource("ProjectManager")}>
+                                    {pmRecords}
+                                </Tab>
+                                <Tab eventKey={3} title={getResource("Evaluator")}>
+                                    {evaluatorRecord}
+                                </Tab>
+                                <Tab eventKey={4} title={getResource("Reviewer")}>
+                                    {reviewerRecord}
+                                </Tab>
+                            </Tabs>
                         </div>
-                    </div>
-                    <div>
-                        <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
-                            <Tab eventKey={1} title={getResource("Self")}>
-                                {selfRecord}
-                            </Tab>
-                            <Tab eventKey={2} title={getResource("ProjectManager")}>
-                                {pmRecords}
-                            </Tab>
-                            <Tab eventKey={3} title={getResource("Evaluator")}>
-                                {evaluatorRecord}
-                            </Tab>
-                            <Tab eventKey={4} title={getResource("Reviewer")}>
-                                {reviewerRecord}
-                            </Tab>
-                        </Tabs>
-                    </div>
+                    </CustomScrollbars>
+
                 </Modal.Body>
                 <Modal.Footer>
                     <Button className="btn-cancel" onClick={this.props.onCloseModal}>
