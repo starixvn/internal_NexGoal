@@ -43,6 +43,8 @@ Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NexHR.Database", "Database\
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Redmine.Database", "Database\Redmine.Database\Redmine.Database.sqlproj", "{624D83F2-17CD-4CB2-BC14-C849D1762006}"
 EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "NexGoal.Database.UnitTests", "Database\NexGoal.Database.UnitTests\NexGoal.Database.UnitTests.sqlproj", "{1E865BDE-492C-45BC-A1F6-899665F8DD56}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -113,6 +115,12 @@ Global
 		{624D83F2-17CD-4CB2-BC14-C849D1762006}.Release|Any CPU.ActiveCfg = Debug|Any CPU
 		{624D83F2-17CD-4CB2-BC14-C849D1762006}.Release|Any CPU.Build.0 = Debug|Any CPU
 		{624D83F2-17CD-4CB2-BC14-C849D1762006}.Release|Any CPU.Deploy.0 = Debug|Any CPU
+		{1E865BDE-492C-45BC-A1F6-899665F8DD56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E865BDE-492C-45BC-A1F6-899665F8DD56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E865BDE-492C-45BC-A1F6-899665F8DD56}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{1E865BDE-492C-45BC-A1F6-899665F8DD56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E865BDE-492C-45BC-A1F6-899665F8DD56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E865BDE-492C-45BC-A1F6-899665F8DD56}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,6 +132,7 @@ Global
 		{C3CFD4D0-261F-4A80-ACA5-C578F4CB6FCB} = {A53ECFF7-049B-426B-8C23-8DF851D72FF4}
 		{F21D8EC2-79E6-46DA-93D2-FD0602E37CD1} = {A53ECFF7-049B-426B-8C23-8DF851D72FF4}
 		{624D83F2-17CD-4CB2-BC14-C849D1762006} = {A53ECFF7-049B-426B-8C23-8DF851D72FF4}
+		{1E865BDE-492C-45BC-A1F6-899665F8DD56} = {A53ECFF7-049B-426B-8C23-8DF851D72FF4}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F7747DB7-1991-4026-8BFF-407698672992}
