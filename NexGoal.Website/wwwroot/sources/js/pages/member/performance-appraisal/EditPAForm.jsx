@@ -151,9 +151,7 @@ export default class EditMemberPA extends Component {
                         grade: process.performanceRecord.grade
                     };
                     return (
-                        <Scrollbars style={{ height: 300 }} autoHide>
                             <PerformanceRecord data={paRecord} isHideProjectTag />
-                        </Scrollbars>
                     );
                 } else {
                     return <span>{getResource('NoInformationAvailable')}</span>;
