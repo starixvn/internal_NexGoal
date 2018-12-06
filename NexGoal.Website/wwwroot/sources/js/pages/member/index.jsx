@@ -2,7 +2,6 @@
 import ReactDOM from 'react-dom';
 import axios from 'axios';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { Tabs, Tab } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
@@ -13,6 +12,7 @@ import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
+import CustomScrollbars from '../../shared/components/CustomScrollbars';
 import NominationResult from './NominationResult';
 import CreateMemberPerformance from './CreateMemberPerformance';
 import EditMemberPerformance from './EditMemberPerformance';
@@ -325,13 +325,13 @@ export default class App extends Component {
                 <div className="row">
                     <div className="main-layout member-page">
                         <div className="general-info box">
-                            <Scrollbars style={{ maxHeight: '100%' }} autoHide>
+                            <CustomScrollbars>
                                 <Timeline ref="memberTimelineRef"
                                     currentPerformancePeriod={this.state.currentPerformancePeriod}
                                     groupOptions={this.state.myGroupOptions}
                                     onNodeClick={this.handleClickTimelineNode}
                                 />
-                            </Scrollbars >
+                            </CustomScrollbars >
                         </div>
                         <div className="main-content">
                             <div className="fixed-section">
@@ -343,7 +343,7 @@ export default class App extends Component {
                                 <Tab eventKey={1} title={getResource('MemberPerformance')}>
 
                                     <div className="record-list">
-                                        <Scrollbars style={{ height: '100%' }} autoHide>
+                                        <CustomScrollbars style={{ height: '100%' }} autoHide>
                                             <CreateMemberPerformance
                                                 currentUser={currentUser}
                                                 memberOptions={employeeOptions}
@@ -365,7 +365,7 @@ export default class App extends Component {
                                                     this.state.displayedPerformanceRecords.map(this.renderPerformanceRecord)
                                                 }
                                             </InfiniteScroll>
-                                        </Scrollbars>
+                                        </CustomScrollbars>
                                     </div>
                                 </Tab>
                                 {
@@ -396,7 +396,7 @@ export default class App extends Component {
                             </Tabs>
                         </div>
                         <div className="work-info">
-                            <Scrollbars style={{ maxHeight: '100%' }} autoHide>
+                            <CustomScrollbars style={{ maxHeight: '100%' }} autoHide>
                                 <div className="work-info-content">
                                     <NominationResult />
                                     {
@@ -404,7 +404,7 @@ export default class App extends Component {
                                         <MemberWorkload groupOptions={this.state.myGroupOptions} periods={this.state.periods} />
                                     }
                                 </div>
-                            </Scrollbars >
+                            </CustomScrollbars >
                         </div>
                     </div>
                 </div>

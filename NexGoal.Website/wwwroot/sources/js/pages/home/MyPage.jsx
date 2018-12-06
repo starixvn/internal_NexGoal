@@ -2,7 +2,6 @@
 import axios from 'axios';
 import ReactTooltip from 'react-tooltip';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
@@ -12,6 +11,7 @@ import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
+import CustomScrollbars from '../../shared/components/CustomScrollbars';
 import HrmSummary from '../../shared/components/HRMSummary';
 import NominationResult from './NominationResult';
 import CreateSelfPerformance from './CreateSelfPerformance';
@@ -346,7 +346,7 @@ export default class MyPage extends Component {
                             />
                         </div>
                         <div className="record-list">
-                            <Scrollbars style={{ height: '100%' }} autoHide>
+                            <CustomScrollbars>
                                 <CreateSelfPerformance
                                     currentUser={currentUser}
                                     performanceGradeOptions={this.state.performanceGradeOptions}
@@ -370,12 +370,12 @@ export default class MyPage extends Component {
 
                                     </InfiniteScroll>
                                 }
-                            </Scrollbars>
+                            </CustomScrollbars>
                         </div>
 
                     </div>
                     <div className="work-info">
-                        <div classname="work-info-content">
+                        <div className="work-info-content">
                             {
                                 this.state.nominations.length > 0 &&
                                 <NominationResult nominations={this.state.nominations} />

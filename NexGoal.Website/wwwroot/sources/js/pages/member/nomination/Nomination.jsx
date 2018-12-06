@@ -1,13 +1,13 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
 import { stringify } from 'qs';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { toast } from 'react-toastify';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 import ConfirmationModal from '../../../shared/components/ConfirmationModal';
+import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import CreateNomination from './CreateNomination';
 import EditNomination from './EditNomination';
 
@@ -141,7 +141,7 @@ export default class Nomination extends Component {
     render() {
         return (
             <div className="record-list">
-                <Scrollbars style={{ height: '100%' }} autoHide>
+                <CustomScrollbars>
                     {
                         this.state.nominationPeriods.length > 0 &&
                         <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions}
@@ -150,7 +150,7 @@ export default class Nomination extends Component {
                         />
                     }
                     {this.state.nominations.map(this.renderPerformanceRecord)}
-                </Scrollbars>
+                </CustomScrollbars>
 
                 {
                     this.state.showEditModal &&

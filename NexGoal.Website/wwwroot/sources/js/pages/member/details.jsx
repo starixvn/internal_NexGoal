@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 import { Tabs, Tab } from 'react-bootstrap';
 import InfiniteScroll from 'react-infinite-scroller';
-import { Scrollbars } from 'react-custom-scrollbars';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
@@ -13,6 +12,7 @@ import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
+import CustomScrollbars from '../../shared/components/CustomScrollbars';
 import HrmSummary from '../../shared/components/HRMSummary';
 import EmployeeInfo from '../home/EmployeeInfo';
 import PersonalTimeline from '../home/timeline/PersonalTimeline';
@@ -385,7 +385,7 @@ export default class App extends Component {
                                         ref="timelineRef"
                                     />
                                     <div className="record-list">
-                                        <Scrollbars style={{ height: '100%' }} autoHide>
+                                        <CustomScrollbars>
                                             <CreateMemberPerformance
                                                 currentUser={this.state.currentUser}
                                                 performanceGradeOptions={this.state.performanceGradeOptions}
@@ -412,7 +412,7 @@ export default class App extends Component {
                                                     </div>
                                                 </InfiniteScroll>
                                             }
-                                        </Scrollbars>
+                                        </CustomScrollbars>
                                     </div>
                                 </Tab>
                                 {
