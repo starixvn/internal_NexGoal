@@ -61,6 +61,7 @@ var resource_en_US = {
     'From': 'From',
     'FromDate': 'From Date',
     'FullName': 'Full Name',
+    'FullNameOrNickname': 'Full name or nickname',
     'Function': 'Function',
     'GeneralInformation': 'General Information',
     'GeneratePA': 'Generate PA',
