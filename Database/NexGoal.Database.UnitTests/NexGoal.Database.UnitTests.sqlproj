@@ -8,7 +8,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectVersion>4.1</ProjectVersion>
     <ProjectGuid>{1e865bde-492c-45bc-a1f6-899665f8dd56}</ProjectGuid>
-    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql130DatabaseSchemaProvider</DSP>
+    <DSP>Microsoft.Data.Tools.Schema.Sql.Sql110DatabaseSchemaProvider</DSP>
     <OutputType>Database</OutputType>
     <RootPath>
     </RootPath>
@@ -17,12 +17,13 @@
     <ModelCollation>1033, CI</ModelCollation>
     <DefaultFileStructure>BySchemaAndSchemaType</DefaultFileStructure>
     <DeployToDatabase>True</DeployToDatabase>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <TargetLanguage>CS</TargetLanguage>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <SqlServerVerification>False</SqlServerVerification>
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseSet>True</TargetDatabaseSet>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <OutputPath>bin\Release\</OutputPath>
@@ -69,14 +70,6 @@
     <Folder Include="DisciplineTests\Discipline_Insert" />
     <Folder Include="DisciplineTests\Discipline_Update" />
     <Folder Include="DisciplineTests\Discipline_UpdateStatus" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\NexGoal.Database\NexGoal.Database.sqlproj">
-      <Name>NexGoal.Database</Name>
-      <Project>{c3cfd4d0-261f-4a80-aca5-c578f4cb6fcb}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>True</SuppressMissingDependenciesErrors>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Build Include="tSQLt\Tables\Private_RenamedObjectLog.sql" />
@@ -239,6 +232,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assemblies\tSQLtCLR.dll" />
+    <None Include="NexGoal.Database.UnitTests.publish.xml" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="tSQLtCLR">
@@ -251,10 +245,36 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\130\SqlSchemas\master.dacpac">
-      <HintPath>$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\130\SqlSchemas\master.dacpac</HintPath>
+    <SqlCmdVariable Include="bodb_NexGoal">
+      <DefaultValue>NexGoal.Database</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+  </ItemGroup>
+  <ItemGroup>
+    <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac">
+      <HintPath>$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac</HintPath>
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
       <DatabaseVariableLiteralValue>master</DatabaseVariableLiteralValue>
     </ArtifactReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NexGoal.Database\NexGoal.Database.sqlproj">
+      <Name>NexGoal.Database</Name>
+      <Project>{c3cfd4d0-261f-4a80-aca5-c578f4cb6fcb}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+    </ProjectReference>
+    <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
+      <Name>NexHR.Database</Name>
+      <Project>{f21d8ec2-79e6-46da-93d2-fd0602e37cd1}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+    </ProjectReference>
+    <ProjectReference Include="..\Redmine.Database\Redmine.Database.sqlproj">
+      <Name>Redmine.Database</Name>
+      <Project>{624d83f2-17cd-4cb2-bc14-c849d1762006}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+    </ProjectReference>
   </ItemGroup>
 </Project>
