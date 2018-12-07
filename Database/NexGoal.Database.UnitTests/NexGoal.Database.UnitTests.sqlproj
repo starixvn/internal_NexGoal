@@ -65,8 +65,10 @@
     <Folder Include="tSQLt\User Defined Types\" />
     <Folder Include="Assemblies\" />
     <Folder Include="Security\" />
-    <Folder Include="DisciplineTests\" />
-    <Folder Include="DisciplineTests\Stored Procedures\" />
+    <Folder Include="DisciplineTests" />
+    <Folder Include="DisciplineTests\Discipline_Insert" />
+    <Folder Include="DisciplineTests\Discipline_Update" />
+    <Folder Include="DisciplineTests\Discipline_UpdateStatus" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Database\NexGoal.Database.sqlproj">
@@ -225,9 +227,15 @@
     <Build Include="tSQLt\User Defined Types\Private.sql" />
     <Build Include="tSQLt\User Defined Types\AssertStringTable.sql" />
     <Build Include="Security\tSQLt.sql" />
-    <Build Include="DisciplineTests\Stored Procedures\test if Discipline table exsits.sql" />
-    <Build Include="Security\DisciplineTests.sql" />
-    <Build Include="DisciplineTests\Stored Procedures\test if Discipline_Get stored procedure exsits.sql" />
+    <Build Include="DisciplineTests\Discipline_Insert\test inserts a new discipline.sql" />
+    <Build Include="DisciplineTests\Discipline_Insert\test inserts entry to LogDetail table.sql" />
+    <Build Include="DisciplineTests\Discipline_Update\test inserts entry to LogDetail table.sql" />
+    <Build Include="DisciplineTests\Discipline_Update\test updates an existing discipline.sql" />
+    <Build Include="DisciplineTests\Discipline_UpdateStatus\test inserts entry to LogDetail table.sql" />
+    <Build Include="DisciplineTests\Discipline_UpdateStatus\test updates status an existing discipline.sql" />
+    <Build Include="DisciplineTests\InsertDisciplineTests.sql" />
+    <Build Include="DisciplineTests\UpdateDisciplineTests.sql" />
+    <Build Include="DisciplineTests\UpdateStatusDisciplineTests.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assemblies\tSQLtCLR.dll" />
