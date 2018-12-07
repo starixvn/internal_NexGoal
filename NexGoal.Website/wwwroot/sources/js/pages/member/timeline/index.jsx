@@ -163,7 +163,7 @@ export default class Timeline extends Component {
     renderGroupName = (groupId, groupName) => {
         if (this.props.groupOptions && this.props.groupOptions.length > 1) {
             return (
-                <div className="group-name collapsed-expanded collapsed"
+                <div className="group-name collapsed"
                     data-toggle="collapse"
                     data-target={`#groupTimeline${groupId}`}
                     aria-expanded="false"

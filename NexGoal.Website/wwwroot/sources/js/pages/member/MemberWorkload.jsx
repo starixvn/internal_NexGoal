@@ -1,6 +1,7 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
+
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import Multiselect from '../../shared/components/multi-select/index';
@@ -188,6 +189,22 @@ export default class MemberWorkload extends Component {
         maintainAspectRatio: false
     }
 
+    renderGroupName = (groupId, groupName) => {
+        if (this.props.groupOptions.length > 1) {
+            return (
+                <div className="group-name collapsed"
+                    data-toggle="collapse"
+                    data-target={`#chart-${groupId}`}
+                    aria-expanded="false"
+                >
+                    <span className="icon-minus" /> {groupName}
+                </div>
+            );
+        }
+
+        return <div className="group-name">{groupName}</div>;
+    }
+
     renderChart = (workload, i) => {
         if (this.state.selectedGroups.some(x => x.value === workload.groupId)) {
             let basicHeight = 140;
@@ -198,13 +215,11 @@ export default class MemberWorkload extends Component {
 
             return (
                 <Fragment key={workload.groupId} >
-                    <div className="group-name collapsed"
-                        data-toggle="collapse"
-                        data-target={`#chart-${workload.groupId}`}
-                        aria-expanded="false">
-                        <span className="icon-minus" /> {workload.title}
-                    </div>
-                    <div id={`chart-${workload.groupId}`} className="collapse" aria-expanded="false">
+                    {this.renderGroupName(workload.groupId, workload.title)}
+                    <div id={`chart-${workload.groupId}`}
+                        className={this.props.groupOptions.length > 1 ? 'collapse' : ''}
+                        aria-expanded="false"
+                    >
                         <div style={{ position: 'relative', height: `${basicHeight}px`, width: '100%' }}>
                             <HorizontalBar data={workload.chartData} options={workload.chartOptions} />
                         </div>
@@ -228,7 +243,8 @@ export default class MemberWorkload extends Component {
                         onSelectionChange={this.onPeriodChange}
                     />
                 </div>
-                {this.props.groupOptions.length > 1 &&
+                {
+                    this.props.groupOptions.length > 1 &&
                     <div>
                         <div className="team">{getResource('Team')}</div>
                         <Multiselect className="react-select-container" classNamePrefix="react-select"
