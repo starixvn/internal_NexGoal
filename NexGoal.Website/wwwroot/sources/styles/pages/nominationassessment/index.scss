@@ -11,8 +11,19 @@
 @import "../../components/tables";
 @import "../../components/toast";
 @import "../../components/tooltip";
+@import "../../components/tabs";
 @import "./evaluation-process";
 
 .form-filter .control-content {
     width: 300px;
+}
+
+.nav-tabs {
+    overflow: hidden;
+    white-space: nowrap;
+
+    li {
+        display: inline-block;
+        float: none;
+    }
 }

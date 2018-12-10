@@ -104,8 +104,8 @@ export default class NominationAssessment extends Component {
         }).catch(axiosError);
     }
 
-    handleShowNominatorComment = nominator => {
-        this.setState({ showModal: true, nominator: nominator });
+    handleShowNominatorComment = nomination => {
+        this.setState({ showModal: true, nomination: nomination });
     }
 
     closeModal = () => {
@@ -130,7 +130,7 @@ export default class NominationAssessment extends Component {
                         onShowNominatorComment={this.handleShowNominatorComment}
                     />
                 </div>
-                <NominatorComment nominator={this.state.nominator} showModal={this.state.showModal} onCloseModal={this.closeModal} />
+                <NominatorComment nomination={this.state.nomination} showModal={this.state.showModal} onCloseModal={this.closeModal} />
                 <ToastLayout />
             </div>
         );
