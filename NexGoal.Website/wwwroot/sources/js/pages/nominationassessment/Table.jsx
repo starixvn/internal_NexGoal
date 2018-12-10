@@ -25,8 +25,8 @@ export default class Table extends Component {
         this.selectComponents = { SingleValue };
     }
 
-    handleShowNominatorComment = nomination => {
-        this.props.onShowNominatorComment(nomination);
+    handleShowNominatorComment = (nomination, performanceRecordId) => {
+        this.props.onShowNominatorComment(nomination, performanceRecordId);
     }
 
     handleChangeStatus = (nominationId, status) => {
@@ -74,7 +74,7 @@ export default class Table extends Component {
                 <td>
                     {nomination.nominators.map((n, i, arr) =>
                         <Fragment key={n.performanceRecordId}>
-                            <a onClick={this.handleShowNominatorComment.bind(this, nomination)}>{`${n.creator.fullName} (${n.creator.nickName})`}</a>
+                            <a onClick={this.handleShowNominatorComment.bind(this, nomination, n.performanceRecordId)}>{`${n.creator.fullName} (${n.creator.nickName})`}</a>
                             {i < arr.length - 1 && ', '}
                         </Fragment>)
                     }

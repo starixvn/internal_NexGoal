@@ -104,8 +104,15 @@ export default class NominationAssessment extends Component {
         }).catch(axiosError);
     }
 
-    handleShowNominatorComment = nomination => {
-        this.setState({ showModal: true, nomination: nomination });
+    handleShowNominatorComment = (nomination, performanceRecordId) => {
+        this.setState(prevState => {
+            return {
+                showModal: true,
+                nomination: nomination,
+                activeKey: performanceRecordId,
+                period: prevState.nominationPeriods.find(p => p.nominationPeriodId === nomination.nominationPeriodId)
+            };
+        });
     }
 
     closeModal = () => {
@@ -130,7 +137,7 @@ export default class NominationAssessment extends Component {
                         onShowNominatorComment={this.handleShowNominatorComment}
                     />
                 </div>
-                <NominatorComment nomination={this.state.nomination} showModal={this.state.showModal} onCloseModal={this.closeModal} />
+                <NominatorComment activeKey={this.state.activeKey} nomination={this.state.nomination} period={this.state.period} showModal={this.state.showModal} onCloseModal={this.closeModal} />
                 <ToastLayout />
             </div>
         );

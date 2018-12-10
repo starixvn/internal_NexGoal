@@ -191,7 +191,7 @@
             foreach (var nomination in nominations)
             {
                 nomination.Nominee = employees.FirstOrDefault(x => x.EmployeeId == nomination.NomineeId);
-                nomination.Nominators = performanceRecords.Where(x => x.EmployeeIds == nomination.NomineeId.ToString());
+                nomination.Nominators = performanceRecords.Where(x => x.EmployeeIds == nomination.NomineeId.ToString() && x.NominationPeriodId == nomination.NominationPeriodId);
             }
         }
 

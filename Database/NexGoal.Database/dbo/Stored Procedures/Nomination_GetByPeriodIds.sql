@@ -33,15 +33,11 @@ BEGIN
 		,pr.EmployeeIds
 		,pr.StatusId
 	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
+		INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) ON pr.PerformanceRecordId = nd.PerformanceRecordId
+		INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId
 	WHERE EXISTS (
-			SELECT 1
-			FROM dbo.NominationDetail nd WITH (NOLOCK)
-				INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId
-			WHERE nd.PerformanceRecordId = pr.PerformanceRecordId 
-				AND EXISTS (
-					SELECT 1
-					FROM #temp t WHERE t.val = n.EOQYId
-				)
+		SELECT 1
+		FROM #temp t WHERE t.val = n.EOQYId
 	)
 
 	DROP TABLE #temp
