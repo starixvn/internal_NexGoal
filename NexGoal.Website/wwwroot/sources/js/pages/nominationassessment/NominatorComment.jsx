@@ -11,7 +11,7 @@ export default class NominatorComment extends PureComponent {
     render() {
         return (
             <Modal backdrop="static" show={this.props.showModal} onHide={this.props.onCloseModal}
-                dialogClassName="custom-modal modal-md"
+                dialogClassName="custom-modal modal-lg"
             >
                 <Modal.Header>
                     <Modal.Title>{getResource('Comment')}</Modal.Title>

@@ -71,7 +71,14 @@ export default class Table extends Component {
                 <td>{`${nomination.nominee.fullName} (${nomination.nominee.nickName})`}</td>
                 <td>{nomination.nominee.groupName}</td>
                 <td className="text-center">{nomination.nominators.length}</td>
-                <td><a>{nomination.nominators.map(n => `${n.creator.fullName} (${n.creator.nickName})`).join(', ')}</a></td>
+                <td>
+                    {nomination.nominators.map((n, i, arr) =>
+                        <Fragment>
+                            <a>{`${n.creator.fullName} (${n.creator.nickName})`}</a>
+                            {i < arr.length - 1 && ', '}
+                        </Fragment>)
+                    }
+                </td>
                 <td>{renderStatus}</td>
             </tr>
         )
