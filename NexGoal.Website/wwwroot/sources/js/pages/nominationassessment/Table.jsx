@@ -46,7 +46,7 @@ export default class Table extends Component {
         return (
             <Fragment key={item.period.nominationPeriodId}>
                 <tr>
-                    <td colSpan={6}>{item.period.title}</td>
+                    <td className="title" colSpan={6}>{item.period.title}</td>
                 </tr>
                 {item.nominations.map((n, index) => this.renderNomination(n, index, item.canUpdateNominationStatus))}
             </Fragment>
@@ -86,7 +86,7 @@ export default class Table extends Component {
 
     render() {
         return (
-            <table className="table table-bordered table-striped">
+            <table className="table table-bordered table-striped tbl-nomination-assessment">
                 <thead>
                     <tr>
                         <th>{getResource('SymbolCount')}</th>

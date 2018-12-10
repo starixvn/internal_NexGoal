@@ -17,7 +17,13 @@
 .form-filter .control-content {
     width: 300px;
 }
-
+.tbl-nomination-assessment {
+    .title {
+        height: 50px;
+        box-sizing: border-box;
+        background-color: #cddfeb !important;
+    }
+}
 .nav-tabs {
     overflow: hidden;
     white-space: nowrap;
