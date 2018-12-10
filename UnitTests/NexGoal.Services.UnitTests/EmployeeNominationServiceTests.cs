@@ -153,7 +153,8 @@
             var nomination = new NominationModel
             {
                 NominationId = 1,
-                NomineeId = 2
+                NomineeId = 2,
+                NominationPeriodId = 1
             };
 
             baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(Arg.Any<GetNominationsByPeriodIdsCriteria>())
