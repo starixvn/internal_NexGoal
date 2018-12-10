@@ -68,32 +68,6 @@
     <Folder Include="dbo\Stored Procedures\" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
-      <Name>NexHR.Database</Name>
-      <Project>{f21d8ec2-79e6-46da-93d2-fd0602e37cd1}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>NexHRM</DatabaseSqlCmdVariable>
-    </ProjectReference>
-    <ProjectReference Include="..\Redmine.Database\Redmine.Database.sqlproj">
-      <Name>Redmine.Database</Name>
-      <Project>{624d83f2-17cd-4cb2-bc14-c849d1762006}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-      <DatabaseSqlCmdVariable>RedmineNexcel</DatabaseSqlCmdVariable>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <SqlCmdVariable Include="NexHRM">
-      <DefaultValue>NexHR.Database</DefaultValue>
-      <Value>$(SqlCmdVar__1)</Value>
-    </SqlCmdVariable>
-    <SqlCmdVariable Include="RedmineNexcel">
-      <DefaultValue>Redmine.Database</DefaultValue>
-      <Value>$(SqlCmdVar__2)</Value>
-    </SqlCmdVariable>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="NexGoal.Database.publish.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -253,5 +227,31 @@
     <Build Include="dbo\Stored Procedures\Period_GetPARecordsToUpdateGrade.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_QuickUpdateByReviewer.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByPeriodIds.sql" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
+      <Name>NexHR.Database</Name>
+      <Project>{f21d8ec2-79e6-46da-93d2-fd0602e37cd1}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>NexHRM</DatabaseSqlCmdVariable>
+    </ProjectReference>
+    <ProjectReference Include="..\Redmine.Database\Redmine.Database.sqlproj">
+      <Name>Redmine.Database</Name>
+      <Project>{624d83f2-17cd-4cb2-bc14-c849d1762006}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>Redmine</DatabaseSqlCmdVariable>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <SqlCmdVariable Include="NexHRM">
+      <DefaultValue>NexHRM</DefaultValue>
+      <Value>$(SqlCmdVar__1)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="Redmine">
+      <DefaultValue>Redmine</DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
 </Project>

@@ -5,4 +5,4 @@ SELECT Id AS ProjectId
 	,[Name]
 	,[Description]
 	,ParentId
-FROM [$(RedmineNexcel)].dbo.Projects WITH (NOLOCK)
+FROM [$(Redmine)].dbo.Projects WITH (NOLOCK)

@@ -70,6 +70,7 @@
     <Folder Include="DisciplineTests\Discipline_Insert" />
     <Folder Include="DisciplineTests\Discipline_Update" />
     <Folder Include="DisciplineTests\Discipline_UpdateStatus" />
+    <Folder Include="DisciplineTests\Discipline_Get" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="tSQLt\Tables\Private_RenamedObjectLog.sql" />
@@ -229,6 +230,11 @@
     <Build Include="DisciplineTests\InsertDisciplineTests.sql" />
     <Build Include="DisciplineTests\UpdateDisciplineTests.sql" />
     <Build Include="DisciplineTests\UpdateStatusDisciplineTests.sql" />
+    <Build Include="DisciplineTests\GetDisciplineTests.sql" />
+    <Build Include="DisciplineTests\Discipline_Get\test returns active disciplines of employees.sql" />
+    <Build Include="DisciplineTests\Discipline_Get\test returns disciplines of employees that belong to group.sql" />
+    <Build Include="DisciplineTests\Discipline_Get\test returns disciplines of specific employee.sql" />
+    <Build Include="DisciplineTests\Discipline_Get\test returns inactive disciplines of employees.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assemblies\tSQLtCLR.dll" />
@@ -249,6 +255,14 @@
       <DefaultValue>NexGoal.Database</DefaultValue>
       <Value>$(SqlCmdVar__1)</Value>
     </SqlCmdVariable>
+    <SqlCmdVariable Include="NexHRM">
+      <DefaultValue>NexHRM</DefaultValue>
+      <Value>$(SqlCmdVar__2)</Value>
+    </SqlCmdVariable>
+    <SqlCmdVariable Include="Redmine">
+      <DefaultValue>Redmine</DefaultValue>
+      <Value>$(SqlCmdVar__3)</Value>
+    </SqlCmdVariable>
   </ItemGroup>
   <ItemGroup>
     <ArtifactReference Include="$(DacPacRootPath)\Extensions\Microsoft\SQLDB\Extensions\SqlServer\110\SqlSchemas\master.dacpac">
@@ -264,17 +278,19 @@
       <Private>True</Private>
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
     </ProjectReference>
-    <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
-      <Name>NexHR.Database</Name>
-      <Project>{f21d8ec2-79e6-46da-93d2-fd0602e37cd1}</Project>
-      <Private>True</Private>
-      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
-    </ProjectReference>
     <ProjectReference Include="..\Redmine.Database\Redmine.Database.sqlproj">
       <Name>Redmine.Database</Name>
       <Project>{624d83f2-17cd-4cb2-bc14-c849d1762006}</Project>
       <Private>True</Private>
       <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>Redmine</DatabaseSqlCmdVariable>
+    </ProjectReference>
+    <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
+      <Name>NexHR.Database</Name>
+      <Project>{f21d8ec2-79e6-46da-93d2-fd0602e37cd1}</Project>
+      <Private>True</Private>
+      <SuppressMissingDependenciesErrors>False</SuppressMissingDependenciesErrors>
+      <DatabaseSqlCmdVariable>NexHRM</DatabaseSqlCmdVariable>
     </ProjectReference>
   </ItemGroup>
 </Project>

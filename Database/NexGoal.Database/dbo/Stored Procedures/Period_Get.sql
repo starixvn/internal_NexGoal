@@ -15,7 +15,7 @@ BEGIN
 	SELECT p.PeriodId
 		,p.[Name]
 		,p.TargetTypeId
-		,rr.value AS TargetType
+		,rr.[Value] AS TargetType
 		,p.[Description]
 		,p.StartDate
 		,p.EndDate

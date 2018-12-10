@@ -4,15 +4,18 @@
     <IncludeCompositeObjects>True</IncludeCompositeObjects>
     <TargetDatabaseName>bodb_NexGoal_Tests</TargetDatabaseName>
     <DeployScriptFileName>NexGoal.Database.UnitTests.sql</DeployScriptFileName>
-    <TargetConnectionString>Data Source=10.18.200.114;User ID=internalteam;Integrated Security=True;Persist Security Info=False;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</TargetConnectionString>
+    <TargetConnectionString>Data Source=10.18.200.114;Persist Security Info=False;User ID=internalteam;Pooling=False;MultipleActiveResultSets=False;Connect Timeout=60;Encrypt=False;TrustServerCertificate=True</TargetConnectionString>
     <ProfileVersionNumber>1</ProfileVersionNumber>
   </PropertyGroup>
   <ItemGroup>
+    <SqlCmdVariable Include="bodb_NexGoal">
+      <Value>NexGoal.Database</Value>
+    </SqlCmdVariable>
     <SqlCmdVariable Include="NexHRM">
       <Value>NexHRM</Value>
     </SqlCmdVariable>
-    <SqlCmdVariable Include="RedmineNexcel">
-      <Value>RedmineNexcel</Value>
+    <SqlCmdVariable Include="Redmine">
+      <Value>Redmine</Value>
     </SqlCmdVariable>
   </ItemGroup>
 </Project>

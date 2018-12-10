@@ -188,7 +188,7 @@ BEGIN
 			,pap.EvaluatorId
 			,lg.GradeId
 			,STUFF((
-					SELECT CHAR(10) + prcmt.comment
+					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 					WHERE prcmt.EmployeeIds = par.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
@@ -358,7 +358,7 @@ BEGIN
 			,lg.CreatorId
 			,lg.GradeId
 			,STUFF((
-					SELECT CHAR(10) + prcmt.comment
+					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 					WHERE prcmt.EmployeeIds = gpar.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId
@@ -437,7 +437,7 @@ BEGIN
 			,pap.EvaluatorId
 			,lg.GradeId
 			,STUFF((
-					SELECT CHAR(10) + prcmt.comment
+					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 					WHERE prcmt.EmployeeIds = gpar.EmployeeId
 						AND prcmt.CreatorId = lg.CreatorId

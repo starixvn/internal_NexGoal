@@ -39,13 +39,13 @@ BEGIN
 		,AttendanceDate
 		,1
 	FROM [dbo].EmployeeAttendance a WITH (NOLOCK)
-	INNER JOIN [dbo].EmployeeCalendar C WITH (NOLOCK) ON c.empID = a.EmpID
+	INNER JOIN [dbo].EmployeeCalendar C WITH (NOLOCK) ON c.EmpId = a.EmpId
 		AND c.WorkDate = AttendanceDate
-	WHERE attendancedate BETWEEN @FromDate
+	WHERE AttendanceDate BETWEEN @FromDate
 			AND @ToDate
 		AND a.EmpId = @EmployeeId
 		AND InFixed IS NULL
-		AND isOffday = 0
+		AND IsOffDay = 0
 		AND IsHoliday = 0
 		AND (
 			IsLeaveDay = 0
@@ -57,17 +57,17 @@ BEGIN
 		AND NOT EXISTS (
 			SELECT 1
 			FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
-			WHERE r.empid = a.empid
+			WHERE r.EmpId = a.EmpId
 				AND r.EmpId = @EmployeeId
-				AND requesttype = 1
+				AND RequestType = 1
 				AND DATEDIFF(d, r.FromDate, AttendanceDate) = 0
 			)
 		AND NOT EXISTS (
 			SELECT 1
 			FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
-			WHERE r.empid = a.empid
+			WHERE r.EmpId = a.EmpId
 				AND r.EmpId = @EmployeeId
-				AND requesttype = 6
+				AND RequestType = 6
 				AND r.TotalDays >= 1
 				AND AttendanceDate BETWEEN r.FromDate
 					AND r.ToDate
@@ -83,13 +83,13 @@ BEGIN
 		,AttendanceDate
 		,2
 	FROM [dbo].EmployeeAttendance a WITH (NOLOCK)
-	INNER JOIN [dbo].EmployeeCalendar C WITH (NOLOCK) ON c.empID = a.EmpID
+	INNER JOIN [dbo].EmployeeCalendar C WITH (NOLOCK) ON c.EmpId = a.EmpId
 		AND c.WorkDate = AttendanceDate
-	WHERE attendancedate BETWEEN @FromDate
+	WHERE AttendanceDate BETWEEN @FromDate
 			AND @ToDate
 		AND a.EmpId = @EmployeeId
 		AND OutFixed IS NULL
-		AND isOffday = 0
+		AND IsOffDay = 0
 		AND IsHoliday = 0
 		AND (
 			IsLeaveDay = 0
@@ -101,17 +101,17 @@ BEGIN
 		AND NOT EXISTS (
 			SELECT 1
 			FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
-			WHERE r.empid = a.empid
+			WHERE r.EmpId = a.EmpId
 				AND r.EmpId = @EmployeeId
-				AND requesttype = 2
+				AND RequestType = 2
 				AND DATEDIFF(d, r.FromDate, AttendanceDate) = 0
 			)
 		AND NOT EXISTS (
 			SELECT 1
 			FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
-			WHERE r.empid = a.empid
+			WHERE r.EmpId = a.EmpId
 				AND r.EmpId = @EmployeeId
-				AND requesttype = 6
+				AND RequestType = 6
 				AND r.TotalDays >= 1
 				AND AttendanceDate BETWEEN r.FromDate
 					AND r.ToDate
