@@ -71,6 +71,10 @@
     <Folder Include="DisciplineTests\Discipline_Update" />
     <Folder Include="DisciplineTests\Discipline_UpdateStatus" />
     <Folder Include="DisciplineTests\Discipline_Get" />
+    <Folder Include="NominationPeriodTests" />
+    <Folder Include="NominationPeriodTests\EOQ_Get" />
+    <Folder Include="NominationPeriodTests\EOQ_GetById" />
+    <Folder Include="NominationPeriodTests\EOQ_Insert" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="tSQLt\Tables\Private_RenamedObjectLog.sql" />
@@ -227,14 +231,22 @@
     <Build Include="DisciplineTests\Discipline_Update\test updates an existing discipline.sql" />
     <Build Include="DisciplineTests\Discipline_UpdateStatus\test inserts entry to LogDetail table.sql" />
     <Build Include="DisciplineTests\Discipline_UpdateStatus\test updates status an existing discipline.sql" />
-    <Build Include="DisciplineTests\InsertDisciplineTests.sql" />
-    <Build Include="DisciplineTests\UpdateDisciplineTests.sql" />
-    <Build Include="DisciplineTests\UpdateStatusDisciplineTests.sql" />
-    <Build Include="DisciplineTests\GetDisciplineTests.sql" />
     <Build Include="DisciplineTests\Discipline_Get\test returns active disciplines of employees.sql" />
     <Build Include="DisciplineTests\Discipline_Get\test returns disciplines of employees that belong to group.sql" />
     <Build Include="DisciplineTests\Discipline_Get\test returns disciplines of specific employee.sql" />
     <Build Include="DisciplineTests\Discipline_Get\test returns inactive disciplines of employees.sql" />
+    <Build Include="DisciplineTests\Discipline_Get\GetDisciplineTests.sql" />
+    <Build Include="DisciplineTests\Discipline_Insert\InsertDisciplineTests.sql" />
+    <Build Include="DisciplineTests\Discipline_Update\UpdateDisciplineTests.sql" />
+    <Build Include="DisciplineTests\Discipline_UpdateStatus\UpdateStatusDisciplineTests.sql" />
+    <Build Include="NominationPeriodTests\EOQ_Get\GetEOQTests.sql" />
+    <Build Include="NominationPeriodTests\EOQ_Get\test returns all quarter periods.sql" />
+    <Build Include="NominationPeriodTests\EOQ_Get\test returns all quarter periods of specific year.sql" />
+    <Build Include="NominationPeriodTests\EOQ_GetById\GetEOQByIdTests.sql" />
+    <Build Include="NominationPeriodTests\EOQ_GetById\test returns as expected quarter period.sql" />
+    <Build Include="NominationPeriodTests\EOQ_Insert\test returns error when period is exists.sql" />
+    <Build Include="NominationPeriodTests\EOQ_Insert\GetEOQByIdTests.sql" />
+    <Build Include="NominationPeriodTests\EOQ_Insert\test returns error when start date or end date is overlaps on another period.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assemblies\tSQLtCLR.dll" />
