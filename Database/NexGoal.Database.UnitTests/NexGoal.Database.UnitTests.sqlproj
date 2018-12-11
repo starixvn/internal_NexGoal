@@ -260,7 +260,7 @@
       <Value>$(SqlCmdVar__2)</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="Redmine">
-      <DefaultValue>Redmine</DefaultValue>
+      <DefaultValue>RedmineNexcel</DefaultValue>
       <Value>$(SqlCmdVar__3)</Value>
     </SqlCmdVariable>
   </ItemGroup>

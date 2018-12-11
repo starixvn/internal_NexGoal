@@ -12,7 +12,7 @@
       <Value>NexHRM</Value>
     </SqlCmdVariable>
     <SqlCmdVariable Include="Redmine">
-      <Value>Redmine</Value>
+      <Value>RedmineNexcel</Value>
     </SqlCmdVariable>
   </ItemGroup>
 </Project>
