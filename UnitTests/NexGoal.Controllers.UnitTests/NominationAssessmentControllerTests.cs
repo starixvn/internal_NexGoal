@@ -1,8 +1,7 @@
 ﻿namespace NexGoal.Controllers.UnitTests
 {
-    using System;
     using System.Collections.Generic;
-    using System.Text;
+    using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Services;
     using NexGoal.Models.NominationPeriod;
@@ -27,7 +26,7 @@
         }
 
         [Fact]
-        public void GetNominationPeriodsForComittee_WhenCalled_ReturnExpecetedJsonResult()
+        public async Task GetNominationPeriodsForComittee_WhenCalled_ReturnExpecetedJsonResult()
         {
             var controller = GetNominationAssessmentController();
             employeeNominationService.GetNominationPeriodsForComitteeAsync(sessionService.EmployeeId).Returns(new List<NominationPeriodModel>
@@ -35,9 +34,9 @@
                 new NominationPeriodModel { NominationPeriodId = 1, Year = 2019, Quarter =1 }
             });
 
-            var actual = controller.GetNominationPeriodsForComittee();
+            var actual = await controller.GetNominationPeriodsForComittee();
 
-            var jsonResult = Assert.IsType<JsonResult>(actual);
+            Assert.IsType<JsonResult>(actual);
         }
 
         private ISessionService FakeSessionService()
