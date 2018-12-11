@@ -22,7 +22,7 @@
     .title {
         height: 50px;
         box-sizing: border-box;
-        background-color: #cddfeb !important;
+        background-color: #E5E8EA !important;
         padding: 0;
 
         .period, .evaluation-process {
@@ -42,6 +42,9 @@
             padding-left: 16px;
             border-right: 2px solid #fff;
         }
+    }
+    .react-select-container .react-select__control {
+        height: 27px;
     }
 }
 

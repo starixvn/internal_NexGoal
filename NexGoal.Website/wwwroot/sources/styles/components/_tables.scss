@@ -28,24 +28,27 @@
         }
     }
 
-    tbody {
-        td {
+    > tbody > tr {
+        > td {
             color: $table-body-color;
             border-color: $table-border !important;
             vertical-align: middle !important;
             word-break: break-word;
+            padding: 4px;
+            height: 36px;
+            box-sizing: border-box;
             &.title {
                 background-color: #525e86;
                 color: #fff;
             }
         }
 
-        tr.group-row td {
+        &.group-row td {
             background-color: #525e86;
             color: #fff;
             font-weight: 600;
         }
-        tr:not(.group-row):hover td:not(.title) {
+        &:not(.group-row):hover td:not(.title) {
             background: $table-td-bg-hover;
         }
     }
