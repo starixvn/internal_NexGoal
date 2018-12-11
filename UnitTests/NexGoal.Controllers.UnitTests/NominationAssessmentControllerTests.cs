@@ -3,7 +3,9 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Models;
     using NexGoal.Core.Services;
+    using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
     using NSubstitute;
@@ -37,6 +39,34 @@
             var actual = await controller.GetNominationPeriodsForComittee();
 
             Assert.IsType<JsonResult>(actual);
+        }
+
+        [Fact]
+        public async Task GetNominationsByPeriodIds_WhenCalled_ReturnExpecetedJsonResult()
+        {
+            var controller = GetNominationAssessmentController();
+            var nominationPeriodIds = "1";
+            employeeNominationService.GetNominationsByPeriodIdsAsync(nominationPeriodIds).Returns(new List<NominationModel>
+            {
+                new NominationModel { NominationPeriodId = 1}
+            });
+
+            var actual = await controller.GetNominationsByPeriodIds(nominationPeriodIds);
+
+            Assert.IsType<JsonResult>(actual);
+        }
+
+        [Fact]
+        public async Task EditStatus_ValidData_ReturnExpectedCommandResult()
+        {
+            var controller = GetNominationAssessmentController();
+            employeeNominationService.EditStatusAsync(1, 1, sessionService.EmployeeId).Returns(new CommandResult { Code = 0 });
+
+            var actual = await controller.EditStatus(1, 1).ConfigureAwait(false);
+
+            var json = Assert.IsType<JsonResult>(actual);
+            var commandResult = Assert.IsType<CommandResult>(json.Value);
+            Assert.True(commandResult.IsSuccessful);
         }
 
         private ISessionService FakeSessionService()
