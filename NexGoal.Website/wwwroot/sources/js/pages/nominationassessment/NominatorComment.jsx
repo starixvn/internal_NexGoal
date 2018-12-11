@@ -31,7 +31,7 @@ export default class NominatorComment extends PureComponent {
 
             return (
                 <Modal backdrop="static" show={this.props.showModal} onHide={this.props.onCloseModal}
-                    dialogClassName="custom-modal modal-lg"
+                dialogClassName="custom-modal modal-lg nomination-comment-modal"
                 >
                     <Modal.Header>
                         <Modal.Title>Votes for {`${this.props.nomination.nominee.fullName} (${this.props.nomination.nominee.nickName})`} - {this.props.period.title}</Modal.Title>
@@ -39,6 +39,8 @@ export default class NominatorComment extends PureComponent {
                     <Modal.Body>
                         <Tab.Container id="tab-container" defaultActiveKey={this.props.activeKey}>
                             <Fragment>
+                            <div className="nav-tabs-wrapper">
+                                <span className="icon-chevron-left" onMouseDown={this.handleScrollLeft} onMouseUp={this.handleMouseUp}></span>
                                 <Nav id="tabs" bsStyle="tabs">
                                     {nominators.map(n =>
                                         <NavItem key={n.performanceRecordId} eventKey={n.performanceRecordId} >
@@ -46,6 +48,8 @@ export default class NominatorComment extends PureComponent {
                                         </NavItem>
                                     )}
                                 </Nav>
+                                <span className="icon-chevron-right" onMouseDown={this.handleScrollRight} onMouseUp={this.handleMouseUp}></span>
+                            </div>
                                 <Tab.Content>
                                     {nominators.map(n =>
                                         <Tab.Pane key={n.performanceRecordId} eventKey={n.performanceRecordId}>
@@ -57,8 +61,6 @@ export default class NominatorComment extends PureComponent {
                         </Tab.Container>
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className="btn-cancel" onMouseDown={this.handleScrollLeft} onMouseUp={this.handleMouseUp}>left</Button>
-                        <Button className="btn-cancel" onMouseDown={this.handleScrollRight} onMouseUp={this.handleMouseUp}>right</Button>
                         <Button className="btn-cancel" onClick={this.props.onCloseModal}>{getResource('Close')}</Button>
                     </Modal.Footer>
                 </Modal>

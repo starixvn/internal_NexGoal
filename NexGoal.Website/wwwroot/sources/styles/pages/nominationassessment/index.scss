@@ -22,14 +22,49 @@
         height: 50px;
         box-sizing: border-box;
         background-color: #cddfeb !important;
+        padding: 0;
+        .period, .evaluation-process {
+            display: inline-block;
+            height: 50px;
+            vertical-align: top;
+        }
+        .evaluation-process li {
+            display: inline-block;
+        }
+        .period {
+            background-color: #525E86;
+            line-height: 50px;
+            width: 325px;
+            padding-left: 16px;
+            border-right: 2px solid #fff;
+        }
     }
 }
-.nav-tabs {
-    overflow: hidden;
-    white-space: nowrap;
-
-    li {
-        display: inline-block;
-        float: none;
+.nomination-comment-modal {
+    .nav-tabs-wrapper {
+        padding: 0 36px;
+        border-bottom: 1px solid #c4c4c4;
+        position: relative;
+        [class*="icon"] {
+            position: absolute;
+            top: 8px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .icon-chevron-left {
+            left: 0;
+        }
+        .icon-chevron-right {
+            right: 0;
+        }
+    }
+    .nav-tabs {
+        overflow: hidden;
+        white-space: nowrap;
+        border-bottom: none;
+        li {
+            display: inline-block;
+            float: none;
+        }
     }
 }

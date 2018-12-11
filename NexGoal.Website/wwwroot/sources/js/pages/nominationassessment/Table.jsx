@@ -4,6 +4,7 @@ import Select, { components } from 'react-select';
 import getResource from '../../resourceHelper';
 import { NominationStatuses } from '../../constants';
 import { getNominationClassName } from '../../common-functions';
+import NominationProcess from './NominationProcess';
 
 const SingleValue = ({ children, ...props }) => (
     <components.SingleValue {...props}>
@@ -46,7 +47,10 @@ export default class Table extends Component {
         return (
             <Fragment key={item.period.nominationPeriodId}>
                 <tr>
-                    <td className="title" colSpan={6}>{item.period.title}</td>
+                    <td className="title" colSpan={6}>
+                    <div className="period">{item.period.title}</div>
+                    <NominationProcess period={item.period} />
+                    </td>
                 </tr>
                 {item.nominations.map((n, index) => this.renderNomination(n, index, item.canUpdateNominationStatus))}
             </Fragment>

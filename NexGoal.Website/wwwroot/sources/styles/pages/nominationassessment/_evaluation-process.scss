@@ -1,6 +1,6 @@
-﻿$c-end-process: #536cb8;
+﻿$c-end-process: #525E86;
 $c-in-progress: #f4783d;
-$c-in-open: #5ba277;
+$c-in-open: #CDDFEB;
 
 ul.evaluation-process {
     list-style: none;
@@ -23,7 +23,7 @@ ul.evaluation-process {
         height: 50px;
         padding: 8px 50px 0 20px;
         position: relative;
-        margin: 0 50px 5px 0;
+        margin: 0 31px 5px 0;
 
         .fa {
             font-size: 14px;
@@ -37,7 +37,7 @@ ul.evaluation-process {
             border-top: 25px solid transparent;
             border-bottom: 25px solid transparent;
             position: absolute;
-            right: -40px;
+            right: -25px;
             top: 0;
         }
 
@@ -45,9 +45,9 @@ ul.evaluation-process {
             content: "";
             position: absolute;
             top: 0px;
-            border-width: 24px 1px 26px 39px;
+            border-width: 25px 3px 25px 25px;
             border-style: solid;
-            left: -40px;
+            left: -28px;
         }
 
         &:last-child {
@@ -65,7 +65,7 @@ ul.evaluation-process {
             color: #fff;
 
             &:after {
-                border-left: 40px solid $c-end-process;
+                border-left: 25px solid $c-end-process;
             }
 
             &:before {
@@ -78,7 +78,7 @@ ul.evaluation-process {
             color: #fff;
 
             &:after {
-                border-left: 40px solid $c-in-progress;
+                border-left: 25px solid $c-in-progress;
             }
 
             &:before {
@@ -91,7 +91,7 @@ ul.evaluation-process {
             color: #fff;
 
             &:after {
-                border-left: 40px solid $c-in-open;
+                border-left: 25px solid $c-in-open;
             }
 
             &:before {
