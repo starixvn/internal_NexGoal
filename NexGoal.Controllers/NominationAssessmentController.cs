@@ -3,11 +3,15 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
+    using NexGoal.Core.Filters;
     using NexGoal.Core.Services;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
 
+    [NexGoalPermission(FunctionKey = FunctionKey.EmployeeNomination, Policy = Policy.Read)]
     public class NominationAssessmentController : Controller
     {
         private readonly ISessionService sessionService;
