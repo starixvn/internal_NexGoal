@@ -11,6 +11,7 @@
     using NexGoal.Core.Services;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
+    using NexGoal.Models.PerformanceRecord;
     using NexGoal.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EmployeeNomination, Policy = Policy.Host)]
@@ -89,7 +90,7 @@
         [HttpGet]
         public async Task<IActionResult> GetMemberNominations(int? memberId)
         {
-            var result = await employeeNominationService.GetMemberNominationsAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+            IEnumerable<PerformanceRecordModel> result = await employeeNominationService.GetMemberNominationsAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
 
             return Json(result);
         }
@@ -97,7 +98,7 @@
         [HttpGet]
         public async Task<IActionResult> GetByRecordId(int performanceRecordId)
         {
-            var result = await employeeNominationService.GetNominationByRecordIdAsync(performanceRecordId).ConfigureAwait(false);
+            PerformanceRecordModel result = await employeeNominationService.GetNominationByRecordIdAsync(performanceRecordId).ConfigureAwait(false);
 
             return Json(result);
         }

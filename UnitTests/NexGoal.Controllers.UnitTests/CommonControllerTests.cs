@@ -254,6 +254,67 @@
             Assert.Equal(groups, result);
         }
 
+        [Fact]
+        public async Task GetEOQQuestions_WhenCalled_ReturnAsExpectedQuestions()
+        {
+            // Arrange
+            var referenceResources = new List<ReferenceResourceModel>
+            {
+                new ReferenceResourceModel { ResourceId = 1, Value = "How long have you been working with this nominee?" }
+            };
+            var controller = GetCommonController();
+            commonService.GetReferenceResourcesByNamesAsync(Arg.Any<string[]>()).Returns(referenceResources);
+
+            // Act
+            var actual = await controller.GetEOQQuestions();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<ReferenceResourceModel>>(jsonResult.Value);
+            Assert.Equal(referenceResources, result);
+        }
+
+        [Fact]
+        public async Task GetEOYQuestions_WhenCalled_ReturnAsExpectedQuestions()
+        {
+            // Arrange
+            var referenceResources = new List<ReferenceResourceModel>
+            {
+                new ReferenceResourceModel { ResourceId = 1, Value = "How long have you been working with this nominee?" }
+            };
+            var controller = GetCommonController();
+            commonService.GetReferenceResourcesByNamesAsync(Arg.Any<string[]>()).Returns(referenceResources);
+
+            // Act
+            var actual = await controller.GetEOYQuestions();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<ReferenceResourceModel>>(jsonResult.Value);
+            Assert.Equal(referenceResources, result);
+        }
+
+        [Fact]
+        public async Task GetSystemRoles_WhenCalled_ReturnAsExpectedRoles()
+        {
+            // Arrange
+            var referenceResources = new List<ReferenceResourceModel>
+            {
+                new ReferenceResourceModel { ResourceId = 1, Value = "SA" },
+                new ReferenceResourceModel { ResourceId = 2, Value = "HR" }
+            };
+            var controller = GetCommonController();
+            commonService.GetReferenceResourcesByNamesAsync(Arg.Any<string[]>()).Returns(referenceResources);
+
+            // Act
+            var actual = await controller.GetSystemRoles();
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(actual);
+            var result = Assert.IsAssignableFrom<IEnumerable<ReferenceResourceModel>>(jsonResult.Value);
+            Assert.Equal(referenceResources, result);
+        }
+
         #region Helpers
 
         private ISessionService FakeSessionService()
