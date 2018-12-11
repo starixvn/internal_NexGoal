@@ -32,6 +32,7 @@ BEGIN
 		,pr.CreatorId
 		,pr.EmployeeIds
 		,pr.StatusId
+		,n.EOQYId AS 'NominationPeriodId'
 	FROM dbo.PerformanceRecord pr WITH (NOLOCK)
 		INNER JOIN dbo.NominationDetail nd WITH (NOLOCK) ON pr.PerformanceRecordId = nd.PerformanceRecordId
 		INNER JOIN dbo.Nomination n WITH (NOLOCK) ON nd.NominationId = n.NominationId

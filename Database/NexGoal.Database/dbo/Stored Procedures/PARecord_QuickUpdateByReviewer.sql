@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[PARecord_QuickUpdateByReviewer] @ActorId INT
+﻿
+CREATE PROCEDURE [dbo].[PARecord_QuickUpdateByReviewer] @ActorId INT
 	,@PARecordId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
@@ -39,8 +40,7 @@ BEGIN
 	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
 	UPDATE dbo.PARecord WITH (ROWLOCK, UPDLOCK)
-	SET GradeId = OriginalGradeId
-		,ModifiedBy = @ActorId
+	SET ModifiedBy = @ActorId
 		,ModifiedDate = GETDATE()
 	WHERE PARecordId = @PARecordId
 

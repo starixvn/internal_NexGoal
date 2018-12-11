@@ -113,8 +113,6 @@
     <Build Include="dbo\Stored Procedures\Employee_GetMemberNominationResult.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetMember.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetMemberPerformanceAppraisalResult.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetMemberNominationDetails.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetPerformanceAppraisalDetails.sql" />
     <Build Include="dbo\Stored Procedures\EmployeeFlowSetting_Get.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_Get.sql" />
     <Build Include="dbo\Stored Procedures\Discipline_UpdateStatus.sql" />
@@ -167,7 +165,6 @@
     <Build Include="dbo\Stored Procedures\PAFocus_GetMember.sql" />
     <Build Include="dbo\Stored Procedures\PAFocus_GetPeriod.sql" />
     <Build Include="dbo\Stored Procedures\PAFocus_Update.sql" />
-    <Build Include="dbo\Stored Procedures\PARecord_GetByActor.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetById.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetGroupByActor.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetPeriodByActor.sql" />
@@ -208,7 +205,6 @@
     <Build Include="dbo\Stored Procedures\Auto_PA_UpdateWhenEvaluationFinished.sql" />
     <Build Include="dbo\Stored Procedures\Auto_Nomination_UpdateWhenFinished.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_Update.sql" />
-    <Build Include="dbo\Stored Procedures\Employee_GetMemberByProcessId.sql" />
     <Build Include="dbo\Views\WorkingTimeRequest.sql" />
     <Build Include="dbo\Views\ToeicPolicy.sql" />
     <Build Include="dbo\Views\TOEIC.sql" />
@@ -227,6 +223,8 @@
     <Build Include="dbo\Stored Procedures\Period_GetPARecordsToUpdateGrade.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_QuickUpdateByReviewer.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_GetByPeriodIds.sql" />
+    <Build Include="dbo\Stored Procedures\PARecord_GetByReviewer.sql" />
+    <Build Include="dbo\Stored Procedures\Nomination_Delete.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

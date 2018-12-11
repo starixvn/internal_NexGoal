@@ -32,6 +32,8 @@ BEGIN
 			SELECT PARecordId AS '@id'
 				,GradeId AS '@gid'
 				,Comment AS '@comment'
+				,ModifiedBy AS '@modifiedby'
+				,ModifiedDate AS '@modifiedDate'
 			FROM dbo.PARecord WITH (NOLOCK)
 			WHERE PARecordId = @PARecordId
 			FOR XML PATH('r')
@@ -42,6 +44,8 @@ BEGIN
 	UPDATE dbo.PARecord WITH (ROWLOCK, UPDLOCK)
 	SET GradeId = @GradeId
 		,Comment = @Comment
+		,ModifiedBy = @ActorId
+		,ModifiedDate = GETDATE()
 	WHERE PARecordId = @PARecordId
 
 	IF @@ERROR > 0
@@ -57,6 +61,8 @@ BEGIN
 			SELECT PARecordId AS '@id'
 				,GradeId AS '@gid'
 				,Comment AS '@comment'
+				,ModifiedBy AS '@modifiedby'
+				,ModifiedDate AS '@modifiedDate'
 			FROM dbo.PARecord WITH (NOLOCK)
 			WHERE PARecordId = @PARecordId
 			FOR XML PATH('r')

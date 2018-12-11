@@ -36,6 +36,14 @@ BEGIN
 		,@CreatedBy
 		,GETDATE()
 		)
+	
+	IF @@ERROR > 0
+	BEGIN
+		SELECT @ErrCode = 1
+			,@ErrMsg = 'Failed to insert discipline.'
+
+		RETURN
+	END
 
 	DECLARE @DisciplineId INT = SCOPE_IDENTITY()
 

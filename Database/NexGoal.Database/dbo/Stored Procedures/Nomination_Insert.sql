@@ -3,7 +3,6 @@ CREATE PROCEDURE [dbo].[Nomination_Insert] @NominationPeriodId INT
 	,@NomineeId INT
 	,@NominatorId INT
 	,@Comment NVARCHAR(MAX) = NULL
-	,@PerformanceRecordStatusId TINYINT
 	,@PerformanceRecordId INT OUTPUT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
@@ -18,9 +17,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @Nominated TINYINT = 1
-		,@Draft TINYINT = 4
 		-- performance record status
-		,@PR_Draft TINYINT = 2
 		,@PR_Submitted TINYINT = 3
 
 	IF EXISTS (
@@ -59,23 +56,14 @@ BEGIN
 		,@logData NVARCHAR(MAX)
 		,@xml XML
 	DECLARE @NominationId INT
-		,@NominationStatusId TINYINT
 
 	SELECT @NominationId = n.NominationId
-		,@NominationStatusId = n.StatusId
 	FROM dbo.Nomination AS n WITH (NOLOCK)
 	WHERE n.NomineeId = @NomineeId
 		AND n.EOQYId = @NominationPeriodId
 
 	IF @NominationId IS NULL
 	BEGIN
-		SET @NominationStatusId = @Nominated
-
-		IF @PerformanceRecordStatusId = @PR_Draft
-		BEGIN
-			SET @NominationStatusId = @Draft
-		END
-
 		INSERT INTO dbo.Nomination (
 			EOQYId
 			,NomineeId
@@ -84,20 +72,10 @@ BEGIN
 		VALUES (
 			@NominationPeriodId
 			,@NomineeId
-			,@NominationStatusId
+			,@Nominated
 			)
 
 		SELECT @NominationId = SCOPE_IDENTITY()
-	END
-	ELSE
-	BEGIN
-		IF @NominationStatusId = @Draft
-			AND @PerformanceRecordStatusId = @PR_Submitted
-		BEGIN
-			UPDATE dbo.Nomination WITH (ROWLOCK, UPDLOCK)
-			SET StatusId = @Nominated
-			WHERE NominationId = @NominationId
-		END
 	END
 
 	INSERT INTO dbo.PerformanceRecord (
@@ -112,7 +90,7 @@ BEGIN
 		@NomineeId
 		,@NominatorId
 		,@Comment
-		,@PerformanceRecordStatusId
+		,@PR_Submitted
 		,GETDATE()
 		,3
 		)

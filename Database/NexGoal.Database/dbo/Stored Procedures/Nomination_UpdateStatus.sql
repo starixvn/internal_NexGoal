@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Nomination_UpdateStatus] 
+﻿
+CREATE PROCEDURE [dbo].[Nomination_UpdateStatus] 
 	@NominationId INT
 	,@StatusId TINYINT
 	,@UpdatedById INT
@@ -7,7 +8,7 @@
 AS
 /*
 Created: 20181120@Elton.Ton
-Task:  change nomination status
+Task: change nomination status
 DB: bodb_NexGoal
 Original: 
 */

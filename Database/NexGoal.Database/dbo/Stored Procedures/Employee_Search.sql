@@ -40,6 +40,6 @@ BEGIN
 			OR grid.val IS NOT NULL
 			)
 		AND ISNULL(@IsEnabled, emp.[Enabled]) = emp.[Enabled]
-		AND emp.IsDeleted = 0
+		--AND emp.IsDeleted = 0
 	ORDER BY emp.NickName
 END
