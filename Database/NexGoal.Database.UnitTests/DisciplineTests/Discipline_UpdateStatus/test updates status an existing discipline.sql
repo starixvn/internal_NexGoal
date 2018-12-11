@@ -19,7 +19,7 @@ BEGIN
 		,IsActive BIT
 		,EffectiveDate DATE
 		,CreatedBy INT
-		,CreateDate DATETIME
+		,CreatedDate DATETIME
 		,ModifiedBy INT
 		)
 
@@ -63,7 +63,7 @@ BEGIN
 		,IsActive
 		,EffectiveDate
 		,CreatedBy
-		,CreateDate
+		,CreatedDate
 		,ModifiedBy
 	INTO [UpdateStatusDisciplineTests].[actual]
 	FROM dbo.Discipline

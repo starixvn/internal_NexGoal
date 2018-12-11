@@ -1,4 +1,5 @@
-﻿CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] @EmployeeId INT
+﻿
+CREATE PROCEDURE [dbo].[Employee_GetHRMSummary] @EmployeeId INT
 AS
 /*
 Created: 20180926@Oliver.Dang
@@ -38,8 +39,8 @@ BEGIN
 	SELECT a.EmpId
 		,AttendanceDate
 		,1
-	FROM [dbo].EmployeeAttendance a WITH (NOLOCK)
-	INNER JOIN [dbo].EmployeeCalendar C WITH (NOLOCK) ON c.EmpId = a.EmpId
+	FROM [dbo].EmployeeAttendance AS a WITH (NOLOCK)
+		INNER JOIN [dbo].EmployeeCalendar AS C WITH (NOLOCK) ON c.EmpId = a.EmpId
 		AND c.WorkDate = AttendanceDate
 	WHERE AttendanceDate BETWEEN @FromDate
 			AND @ToDate
@@ -56,7 +57,7 @@ BEGIN
 			)
 		AND NOT EXISTS (
 			SELECT 1
-			FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
+			FROM [dbo].WorkingTimeRequest AS r WITH (NOLOCK)
 			WHERE r.EmpId = a.EmpId
 				AND r.EmpId = @EmployeeId
 				AND RequestType = 1
@@ -64,7 +65,7 @@ BEGIN
 			)
 		AND NOT EXISTS (
 			SELECT 1
-			FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
+			FROM [dbo].WorkingTimeRequest AS r WITH (NOLOCK)
 			WHERE r.EmpId = a.EmpId
 				AND r.EmpId = @EmployeeId
 				AND RequestType = 6
@@ -82,8 +83,8 @@ BEGIN
 	SELECT a.EmpId
 		,AttendanceDate
 		,2
-	FROM [dbo].EmployeeAttendance a WITH (NOLOCK)
-	INNER JOIN [dbo].EmployeeCalendar C WITH (NOLOCK) ON c.EmpId = a.EmpId
+	FROM [dbo].EmployeeAttendance AS a WITH (NOLOCK)
+		INNER JOIN [dbo].EmployeeCalendar AS C WITH (NOLOCK) ON c.EmpId = a.EmpId
 		AND c.WorkDate = AttendanceDate
 	WHERE AttendanceDate BETWEEN @FromDate
 			AND @ToDate
@@ -100,7 +101,7 @@ BEGIN
 			)
 		AND NOT EXISTS (
 			SELECT 1
-			FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
+			FROM [dbo].WorkingTimeRequest AS r WITH (NOLOCK)
 			WHERE r.EmpId = a.EmpId
 				AND r.EmpId = @EmployeeId
 				AND RequestType = 2
@@ -108,7 +109,7 @@ BEGIN
 			)
 		AND NOT EXISTS (
 			SELECT 1
-			FROM [dbo].WorkingTimeRequest r WITH (NOLOCK)
+			FROM [dbo].WorkingTimeRequest AS r WITH (NOLOCK)
 			WHERE r.EmpId = a.EmpId
 				AND r.EmpId = @EmployeeId
 				AND RequestType = 6
@@ -121,16 +122,13 @@ BEGIN
 	/* End Get have not request missing check in check out*/
 	SELECT @toeic = (Listening + Reading)
 		,@examDate = LRExamDate
-		,@isPassedToeic = (
-			CASE 
-				WHEN (
-						(ISNULL(Listening, 0) + ISNULL(Reading, 0)) >= ISNULL(MinimumScore, 0)
-						AND DATEADD(YEAR, 3, LRExamDate) >= convert(DATE, getdate())
-						)
-					OR (ISNULL(Listening, 0) + ISNULL(Reading, 0)) >= 900
-					THEN 1
-				ELSE 0
-				END
+		,@isPassedToeic = (CASE 
+			WHEN (
+					(ISNULL(Listening, 0) + ISNULL(Reading, 0)) >= ISNULL(MinimumScore, 0)
+					AND DATEADD(YEAR, 3, LRExamDate) >= convert(DATE, getdate())
+					)
+				OR (ISNULL(Listening, 0) + ISNULL(Reading, 0)) >= 900 THEN 1
+			ELSE 0 END
 			)
 	FROM [dbo].[TOEIC] WITH (NOLOCK)
 	WHERE EmpId = @EmployeeId
@@ -139,7 +137,7 @@ BEGIN
 			SELECT COUNT(1)
 			FROM dbo.Discipline WITH (NOLOCK)
 			WHERE EmployeeId = @EmployeeId
-				AND CreateDate BETWEEN @FromDate
+				AND CreatedDate BETWEEN @FromDate
 					AND @ToDate
 			)
 	SET @missingCheckInCheckOut = (
@@ -172,13 +170,11 @@ BEGIN
 					OR (
 						LateIn = 0
 						AND EarlyOut > 0
-						)
-					THEN 1
+						) THEN 1
 				WHEN (
 						LateIn > 0
 						AND EarlyOut > 0
-						)
-					THEN 2
+						) THEN 2
 				ELSE 0
 				END) AS TotalLateInEarlyOut
 		,SUM(CASE 
@@ -189,13 +185,11 @@ BEGIN
 					OR (
 						LeaveTypeId2 = 26
 						AND ISNULL(LeaveTypeId, 0) <> 26
-						)
-					THEN 1
+						) THEN 1
 				WHEN (
 						LeaveTypeId = 26
 						AND LeaveTypeId2 = 26
-						)
-					THEN 2
+						) THEN 2
 				ELSE 0
 				END) AS UnpaidLeave
 		,SUM(CASE 
@@ -206,26 +200,22 @@ BEGIN
 					OR (
 						LeaveTypeId2 = 30
 						AND ISNULL(LeaveTypeId, 0) <> 30
-						)
-					THEN 1
+						) THEN 1
 				WHEN (
 						LeaveTypeId = 30
 						AND LeaveTypeId2 = 30
-						)
-					THEN 2
+						) THEN 2
 				ELSE 0
 				END) AS UnplanAnnualLeave
 		,(
 			SUM(CASE 
 					WHEN et.Absence IS NOT NULL
 						AND et.Absence = 0
-						AND c.IsLeaveDay = 0
-						THEN 1
+						AND c.IsLeaveDay = 0 THEN 1
 					WHEN et.Absence IS NOT NULL
 						AND et.Absence = 0
 						AND c.IsLeaveDay = 1
-						AND c.LeaveDay < 1
-						THEN 0.5
+						AND c.LeaveDay < 1 THEN 0.5
 					ELSE 0
 					END) / (DATEDIFF(month, @FromDate, @ToDate) + 1)
 			) AS AverageWorkingDays
@@ -238,7 +228,7 @@ BEGIN
 			) AS TotalSpentTime
 		,SUM(et.TotalWorkHours) AS TotalWorkHours
 	FROM [dbo].[EmployeeAttendance] AS et WITH (NOLOCK)
-	INNER JOIN [dbo].[EmployeeCalendar] AS c WITH (NOLOCK) ON et.AttendanceDate = c.WorkDate
+		INNER JOIN [dbo].[EmployeeCalendar] AS c WITH (NOLOCK) ON et.AttendanceDate = c.WorkDate
 		AND et.EmpId = c.EmpId
 	WHERE AttendanceDate BETWEEN @FromDate
 			AND @ToDate

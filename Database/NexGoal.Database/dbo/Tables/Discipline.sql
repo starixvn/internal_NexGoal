@@ -5,7 +5,7 @@
     [IsActive]      BIT            NOT NULL,
     [EffectiveDate] DATE           NOT NULL,
     [CreatedBy]     INT            NOT NULL,
-    [CreateDate]    DATETIME       NOT NULL,
+    [CreatedDate]    DATETIME       NOT NULL,
     [ModifiedBy]    INT            NULL,
     [ModifiedDate]  DATETIME       NULL,
     CONSTRAINT [PK_DisciplineId] PRIMARY KEY CLUSTERED ([DisciplineId] ASC) ON [PRIMARY]

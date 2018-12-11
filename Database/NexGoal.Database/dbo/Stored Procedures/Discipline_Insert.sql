@@ -26,7 +26,7 @@ BEGIN
 		,[IsActive]
 		,[EffectiveDate]
 		,[CreatedBy]
-		,[CreateDate]
+		,[CreatedDate]
 		)
 	VALUES (
 		@EmployeeId
@@ -53,7 +53,7 @@ BEGIN
 				,d.[Description] AS '@des'
 				,d.EffectiveDate AS '@ed'
 				,d.CreatedBy AS '@cb'
-				,d.CreateDate AS '@cd'
+				,d.CreatedDate AS '@cd'
 			FROM dbo.Discipline d WITH (NOLOCK)
 			WHERE d.DisciplineId = @DisciplineId
 			FOR XML PATH('r')

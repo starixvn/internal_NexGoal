@@ -59,7 +59,7 @@ BEGIN
 	VALUES (1, '00329', 'trinh dang thang', 'tim', 1, 1, 0)
 		,(2, '00320', 'vo kim quang', 'quinn', 2, 1, 0)
 	
-	INSERT INTO dbo.Discipline(EmployeeId, [Description], IsActive, EffectiveDate, CreatedBy, CreateDate)
+	INSERT INTO dbo.Discipline(EmployeeId, [Description], IsActive, EffectiveDate, CreatedBy, CreatedDate)
 	VALUES (1, 'test', 1, '2018-12-07', 2, '2018-12-07')
 		,(2, 'test', 1, '2018-12-07', 2, '2018-12-07')
 
