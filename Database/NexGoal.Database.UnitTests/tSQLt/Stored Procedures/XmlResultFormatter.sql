@@ -208,5 +208,7 @@ BEGIN
        FOR XML EXPLICIT
        );
 
-    EXEC tSQLt.Private_PrintXML @XmlOutput;
+    --EXEC tSQLt.Private_PrintXML @XmlOutput;
+    
+    SELECT @XmlOutput
 END;
