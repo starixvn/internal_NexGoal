@@ -247,6 +247,7 @@
     <Build Include="NominationPeriodTests\EOQ_Insert\test returns error when period is exists.sql" />
     <Build Include="NominationPeriodTests\EOQ_Insert\GetEOQByIdTests.sql" />
     <Build Include="NominationPeriodTests\EOQ_Insert\test returns error when start date or end date is overlaps on another period.sql" />
+    <Build Include="NominationPeriodTests\EOQ_Insert\test inserts a new quarter period.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assemblies\tSQLtCLR.dll" />
