@@ -64,7 +64,7 @@ export default class NominationAssessment extends Component {
                     return {
                         period: p,
                         nominations: response.data.filter(n => n.nominationPeriodId === p.nominationPeriodId),
-                        canUpdateNominationStatus: prevState.currentDate > moment(p.endDateForNominator) && prevState.currentDate <= moment(p.endDateForCommittee)
+                        canUpdateNominationStatus: prevState.currentDate.isAfter(moment(p.endDateForNominator), 'day') && prevState.currentDate.isSameOrBefore(moment(p.endDateForCommittee), 'day')
                     }
                 });
 
