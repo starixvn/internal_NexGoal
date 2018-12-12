@@ -322,10 +322,10 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetPeriodController();
-            periodService.EditEmployeeSettingStatusAsync(1, 1).Returns(expected);
+            periodService.EditEmployeeSettingStatusAsync(1, true).Returns(expected);
 
             // Act
-            var result = await controller.EditEmployeeSettingStatus(1, 1);
+            var result = await controller.EditEmployeeSettingStatus(1, true);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(result);

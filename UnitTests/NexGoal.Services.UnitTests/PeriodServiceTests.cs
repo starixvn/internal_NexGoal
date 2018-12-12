@@ -253,7 +253,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingStatusCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditEmployeeSettingStatusAsync(1, 1);
+            var actual = await service.EditEmployeeSettingStatusAsync(1, true);
 
             // Assert
             Assert.Equal(expected, actual);
