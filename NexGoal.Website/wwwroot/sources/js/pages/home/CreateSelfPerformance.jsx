@@ -42,6 +42,8 @@ export default class CreateSelfPerformance extends Component {
             currentDate: moment(),
             errors: {}
         };
+
+        this.textareaEditor = React.createRef();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -58,7 +60,9 @@ export default class CreateSelfPerformance extends Component {
     }
 
     handleOpenForm = () => {
-        this.setState({ isOpenForm: true });
+        this.setState({ isOpenForm: true }, () => {
+            this.textareaEditor.current.textareaEditor.current.focus();
+        });
     }
 
     handleGradeChange = (selectedOption) => {
@@ -195,7 +199,7 @@ export default class CreateSelfPerformance extends Component {
                         isOpenForm &&
                         <form className="form-filter form-performance create">
                             <FormGroup>
-                                <TextareaFullscreenEditor
+                                <TextareaFullscreenEditor ref={this.textareaEditor}
                                     className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                     name="comment"
                                     value={performanceRecord.comment}

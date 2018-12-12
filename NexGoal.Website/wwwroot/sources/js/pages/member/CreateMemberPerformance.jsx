@@ -49,6 +49,8 @@ export default class CreateMemberPerformance extends Component {
             currentDate: moment(),
             errors: {}
         };
+
+        this.textareaEditor = React.createRef();
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -68,7 +70,11 @@ export default class CreateMemberPerformance extends Component {
     }
 
     handleOpenForm = () => {
-        this.setState({ isOpenForm: true });
+        this.setState({ isOpenForm: true }, () => {
+            if (!this.props.isMultiple) {
+                this.textareaEditor.current.textareaEditor.current.focus();
+            }
+        });
     }
 
     handleEmployeeChange = (selectedOptions) => {
@@ -229,7 +235,8 @@ export default class CreateMemberPerformance extends Component {
                     {
                         isOpenForm &&
                         <form className="form-filter form-performance create">
-                            {this.props.isMultiple &&
+                            {
+                                this.props.isMultiple &&
                                 <FormGroup>
                                     <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
                                     <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
@@ -242,7 +249,7 @@ export default class CreateMemberPerformance extends Component {
                             }
                             <FormGroup>
                                 <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
-                                <TextareaFullscreenEditor
+                                <TextareaFullscreenEditor ref={this.textareaEditor}
                                     className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                     name="comment"
                                     value={performanceRecord.comment}

@@ -3,6 +3,7 @@ import axios from 'axios';
 import Select from 'react-select';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 
 class EmployeeFlowFilter extends Component {
     constructor(props) {
