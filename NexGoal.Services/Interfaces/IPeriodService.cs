@@ -30,7 +30,7 @@
 
         Task<CommandResult> EditEmployeeSettingAsync(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes);
 
-        Task<CommandResult> EditEmployeeSettingStatusAsync(int paRecordId, int statusId);
+        Task<CommandResult> EditEmployeeSettingStatusAsync(int paRecordId, bool isExcluded);
 
         Task<PARecordModel> GetEmployeeSettingByIdAsync(int paRecordId);
 

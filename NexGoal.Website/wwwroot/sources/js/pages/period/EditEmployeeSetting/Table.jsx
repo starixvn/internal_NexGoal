@@ -226,7 +226,7 @@ export default class Table extends Component {
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
                 paRecordId: this.state.selectedSettingToUpdateStatus.paRecordId,
-                statusId: this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected ? this.state.selectedSettingToUpdateStatus.processes.some(p => p.statusId) ? PAStatus.Opened : PAStatus.NotGenerated : PAStatus.Rejected
+                isExcluded: !(this.state.selectedSettingToUpdateStatus.statusId === PAStatus.Rejected)
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

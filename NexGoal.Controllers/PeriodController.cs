@@ -177,9 +177,9 @@
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationPeriod, Policy = Policy.Host)]
-        public async Task<JsonResult> EditEmployeeSettingStatus(int paRecordId, int statusId)
+        public async Task<JsonResult> EditEmployeeSettingStatus(int paRecordId, bool isExcluded)
         {
-            CommandResult commandResult = await periodService.EditEmployeeSettingStatusAsync(paRecordId, statusId).ConfigureAwait(false);
+            CommandResult commandResult = await periodService.EditEmployeeSettingStatusAsync(paRecordId, isExcluded).ConfigureAwait(false);
 
             return Json(commandResult);
         }

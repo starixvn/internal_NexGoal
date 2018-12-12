@@ -7,7 +7,7 @@ CREATE PROCEDURE [dbo].[Period_Update] @PeriodId INT
 	,@DisciplineEndDate DATE = NULL
 	,@FocusStartDate DATE = NULL
 	,@FocusEndDate DATE = NULL
-	,@Description NVARCHAR(MAX)
+	,@Description NVARCHAR(MAX) = NULL
 	,@IsActive BIT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT

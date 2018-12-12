@@ -184,12 +184,12 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEmployeeSettingStatusAsync(int paRecordId, int statusId)
+        public async Task<CommandResult> EditEmployeeSettingStatusAsync(int paRecordId, bool isExcluded)
         {
             var criteria = new EditEmployeeSettingStatusCriteria
             {
                 PARecordId = paRecordId,
-                StatusId = statusId,
+                IsExcluded = isExcluded,
                 ModifiedBy = sessionService.EmployeeId
             };
 

@@ -152,7 +152,7 @@ export default class Edit extends Component {
                                             (p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.startDate}
                                                 onChange={value => setFieldValue(`processes.${i}.startDate`, value)} onChangeRaw={onChangeRaw}
-                                                name={`processes.${i}.startDate`}
+                                                name={`processes.${i}.startDate`} maxDate={p.endDate}
                                             />
                                         }
                                     </td>
@@ -161,7 +161,7 @@ export default class Edit extends Component {
                                             (p.processId === PerformanceProcess.HumanResource || p.processId === PerformanceProcess.Reviewer) &&
                                             <DatePicker autoComplete="off" className="form-control" dateFormat={DateFormat} selected={p.endDate}
                                                 onChange={value => setFieldValue(`processes.${i}.endDate`, value)} onChangeRaw={onChangeRaw}
-                                                name={`processes.${i}.endDate`}
+                                                name={`processes.${i}.endDate`} minDate={p.startDate}
                                             />
                                         }
                                     </td>
