@@ -21,9 +21,9 @@ BEGIN
 		,menu.ParentId
 		,menu.DisplayOrder
 	FROM dbo.Menu AS menu WITH (NOLOCK)
-	WHERE menu.ParentId IS NULL
+	WHERE menu.MenuId = 1
+		AND menu.ParentId IS NULL
 		AND menu.IsActive = 1
-		AND menu.[Name] = 'Dashboard'
 	
 	UNION
 	SELECT menu.MenuId
