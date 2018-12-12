@@ -21,9 +21,10 @@ ul.evaluation-process {
     li {
         width: auto;
         height: 50px;
-        padding: 8px 50px 0 20px;
+        padding: 6px 50px 0 20px;
         position: relative;
-        margin: 0 31px 5px 0;
+        margin-right: 31px;
+        vertical-align: top;
 
         .fa {
             font-size: 14px;
