@@ -187,7 +187,7 @@ export default class CreateSelfPerformance extends Component {
                         !isOpenForm &&
                         <input className="form-control"
                             style={{ height: 50, marginBottom: 15 }}
-                            placeholder="What's on your mind?"
+                            placeholder="Any achievement you proud of?"
                             onClick={this.handleOpenForm}
                         />
                     }

@@ -65,7 +65,7 @@ export default class Table extends Component {
                     {
                         pafocuses.length === 0 &&
                         <tr>
-                            <td className="empty-result" colSpan="13">{getResource('NoInformationAvailable')}</td>
+                            <td className="empty-result" colSpan="13">{getResource('NoRecordFound')}</td>
                         </tr>
                     }
                     {

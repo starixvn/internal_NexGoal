@@ -132,12 +132,14 @@ class Table extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {flowTemplates.length === 0 &&
+                        {
+                            flowTemplates.length === 0 &&
                             <tr>
-                                <td className="empty-result" colSpan="6">{getResource('NoInformationAvailable')}</td>
+                                <td className="empty-result" colSpan="6">{getResource('NoRecordFound')}</td>
                             </tr>
                         }
-                        {flowTemplates.length > 0 &&
+                        {
+                            flowTemplates.length > 0 &&
                             flowTemplates.map((flowTemplate, index) => {
                                 return (
                                     <Row key={'flowTemplate-' + flowTemplate.flowTemplateId}

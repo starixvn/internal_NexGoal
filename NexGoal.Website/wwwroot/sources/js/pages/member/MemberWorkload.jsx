@@ -240,7 +240,7 @@ export default class MemberWorkload extends Component {
                     <h5>{getResource('Workload')}</h5>
                     <Milestone
                         options={periodOptions}
-                        onSelectionChange={this.onPeriodChange}
+                        onChange={this.onPeriodChange}
                     />
                 </div>
                 {

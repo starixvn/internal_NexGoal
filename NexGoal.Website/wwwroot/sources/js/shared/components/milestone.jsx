@@ -32,7 +32,7 @@ export default class Milestone extends Component {
                     nextDisabled: this.state.currentIndex === 0,
                     prevDisabled: this.state.currentIndex === this.state.maxIndex
                 });
-                this.props.onSelectionChange(this.props.options[this.state.currentIndex].value);
+                this.props.onChange(this.props.options[this.state.currentIndex].value);
             });
         }
     }
@@ -46,7 +46,7 @@ export default class Milestone extends Component {
                     nextDisabled: this.state.currentIndex === 0,
                     prevDisabled: this.state.currentIndex === this.state.maxIndex
                 });
-                this.props.onSelectionChange(this.props.options[this.state.currentIndex].value);
+                this.props.onChange(this.props.options[this.state.currentIndex].value);
             });
         }
     }

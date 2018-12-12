@@ -1,16 +1,18 @@
-﻿@model object
+﻿@using NexGoal.Resources
+@model object
+
 @section Styles {
     <link rel="stylesheet" href="~/dist/styles/member-index.css" />
 }
 
 @{
-    ViewData["Title"] = "Members Page";
+    ViewData["Title"] = ViewLang.MemberPage;
     bool isNominator = (bool)ViewData["IsNominator"];
     bool isReviewer = (bool)ViewData["IsReviewer"];
-
 }
-<input type="radio" hidden id="isNominator" checked=@isNominator readonly />
-<input type="radio" hidden id="isReviewer" checked=@isReviewer readonly />
+
+<input type="radio" hidden id="isNominator" @(isNominator ? "checked" : string.Empty) readonly />
+<input type="radio" hidden id="isReviewer" @(isReviewer ? "checked" : string.Empty) readonly />
 
 <div id="member-wrapper"></div>
 

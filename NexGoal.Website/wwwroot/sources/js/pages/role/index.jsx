@@ -120,7 +120,7 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">{getResource('RoleManagement')}</li>
+                        <li className="current">{getResource('RolePermission')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <SearchForm roleOptions={this.state.options}

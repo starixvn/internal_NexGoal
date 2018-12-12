@@ -405,7 +405,7 @@ export default class MyPage extends Component {
                     this.state.deletePerformanceRecord.isShowModal &&
                     <ConfirmationModal
                         action="delete"
-                        name="this performance"
+                        name="this record"
                         showModal={this.state.deletePerformanceRecord.isShowModal}
                         onCloseModal={this.handleCancelDeletePerformanceRecord}
                         onSubmit={this.handleDeletePerformanceRecord}

@@ -21,7 +21,7 @@ class GroupFlowSetting extends Component {
                     {
                         groupFlowSettings.length === 0 &&
                         <tr>
-                            <td className="empty-result" colSpan="5">{getResource('NoInformationAvailable')}</td>
+                            <td className="empty-result" colSpan="5">{getResource('NoRecordFound')}</td>
                         </tr>
                     }
                     {

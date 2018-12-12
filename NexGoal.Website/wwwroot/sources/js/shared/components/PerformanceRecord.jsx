@@ -250,26 +250,26 @@ export default class PerformanceRecord extends Component {
         switch (nominationStatusId) {
             case NominationStatuses[0].value:
                 content = this.props.pageType === PageType.MyPage ?
-                    `You were in the nomination list of ${nominationPeriod}`
+                    `Congratulations! You were nominated for the ${nominationPeriod} award.`
                     : this.props.pageType === PageType.MemberProfile ?
-                        `${employees} was in the nomination list of ${nominationPeriod}`
-                        : <Fragment>Here is the list of nominated nominee(s): <span className="bold">{employees}</span></Fragment>;
+                        `${employees} was nominated for the ${nominationPeriod} award.`
+                        : <Fragment>The Nominated list of the Award: <span className="bold">{employees}</span></Fragment>;
                 break;
 
             case NominationStatuses[1].value:
                 content = this.props.pageType === PageType.MyPage ?
-                    `You were in the shortlist of ${nominationPeriod}`
+                    `Congratulations! You were shortlisted for the ${nominationPeriod} award.`
                     : this.props.pageType === PageType.MemberProfile ?
-                        `${employees} was in the shortlist of ${nominationPeriod}`
-                        : <Fragment>Here is the list of shortlisted nominee(s): <span className="bold">{employees}</span></Fragment>;
+                        `${employees} was shortlisted for the ${nominationPeriod} award.`
+                        : <Fragment>The Shortlisted list of the Award: <span className="bold">{employees}</span></Fragment>;
                 break;
 
             case NominationStatuses[2].value:
                 content = this.props.pageType === PageType.MyPage ?
-                    `Congratulations! You were the Winner of ${nominationPeriod}`
+                    `Congratulations! You were the Winner of ${nominationPeriod} award.`
                     : this.props.pageType === PageType.MemberProfile ?
-                        `Congratulations! ${employees} was the Winner of ${nominationPeriod}`
-                        : <Fragment>Congratulations to the Winner(s): <span className="bold">{employees}</span></Fragment>;
+                        `Congratulations! ${employees} was the Winner of ${nominationPeriod} award.`
+                        : <Fragment>The Winner list of the Award: <span className="bold">{employees}</span></Fragment>;
 
                 break;
         }

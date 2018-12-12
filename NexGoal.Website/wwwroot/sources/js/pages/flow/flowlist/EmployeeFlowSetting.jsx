@@ -24,7 +24,7 @@ class EmployeeFlowSetting extends Component {
                     {
                         employeeFlowSettings.length === 0 &&
                         <tr>
-                            <td className="empty-result" colSpan="8">{getResource('NoInformationAvailable')}</td>
+                            <td className="empty-result" colSpan="8">{getResource('NoRecordFound')}</td>
                         </tr>
                     }
                     {

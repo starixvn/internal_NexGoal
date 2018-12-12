@@ -194,7 +194,7 @@ export default class EditMemberPerformance extends Component {
                 dialogClassName="custom-modal modal-md form-performance edit "
             >
                 <Modal.Header>
-                    <Modal.Title>{getResource('EditPerformance')}</Modal.Title>
+                    <Modal.Title>{getResource('EditPerformanceCheckin')}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <div className="record record-your-mind">
@@ -214,7 +214,7 @@ export default class EditMemberPerformance extends Component {
                                         placeholder="Select Employees"
                                         value={performanceRecord.employees} options={memberOptions}
                                         onChange={this.handleEmployeeChange} isClearable
-                                        isDisabled={this.props.isDisabledAddMember}
+                                        isDisabled={this.props.isDisabledAddMember || performanceRecord.statusId !== PerformanceRecordStatus.Draft}
                                     />
                                 </FormGroup>
                                 <FormGroup>

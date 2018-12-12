@@ -191,7 +191,7 @@ export default class EmployeeManagement extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">{getResource('EmployeeManagement')}</li>
+                        <li className="current">{getResource('RoleAssignment')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
                         <SearchForm filter={this.state.filter}

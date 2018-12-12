@@ -1,8 +1,10 @@
-﻿import React, { PureComponent, Fragment } from 'react';
+﻿import React, { PureComponent } from 'react';
 import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
+
 import { axiosError, resolveClientUrl } from '../../common-functions';
 import { ChartColors } from '../../constants';
+import getResource from '../../resourceHelper';
 import Milestone from '../../shared/components/milestone';
 
 export default class WorkLoad extends PureComponent {
@@ -159,20 +161,21 @@ export default class WorkLoad extends PureComponent {
     render() {
         const chartData = this.state.chartData;
         const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
+
         return (
             <div className="workload box">
                 <div className="title">
-                    <h5>Workload</h5>
+                    <h5>{getResource('Workload')}</h5>
                     <Milestone
                         options={periodOptions}
-                        onSelectionChange={this.onPeriodChange}
+                        onChange={this.onPeriodChange}
                     />
                 </div>
                 <div style={{ position: 'relative' }}>
-                    {chartData &&
-                        <Fragment>
-                            <Doughnut ref='chart' data={chartData} height={200} options={this.chartOptions} />
-                        </Fragment>}
+                    {
+                        chartData &&
+                        <Doughnut ref='chart' data={chartData} height={200} options={this.chartOptions} />
+                    }
                 </div>
                 <div id="legend-container" className="legend-container" />
             </div>

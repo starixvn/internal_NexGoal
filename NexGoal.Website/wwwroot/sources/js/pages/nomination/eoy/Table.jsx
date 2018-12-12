@@ -94,12 +94,14 @@ class Table extends Component {
                         </tr>
                     </thead>
                     <tbody>
-                        {eoys.length === 0 &&
+                        {
+                            eoys.length === 0 &&
                             <tr>
-                                <td className="empty-result" colSpan="9">{getResource('NoInformationAvailable')}</td>
+                                <td className="empty-result" colSpan="9">{getResource('NoRecordFound')}</td>
                             </tr>
                         }
-                        {eoys.length > 0 &&
+                        {
+                            eoys.length > 0 &&
                             eoys.map((eoy, index) => {
                                 return (
                                     <Row key={'eoy-' + eoy.eoqyId}

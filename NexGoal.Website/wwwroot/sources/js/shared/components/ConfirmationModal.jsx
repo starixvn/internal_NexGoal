@@ -35,11 +35,11 @@ class ConfirmationModal extends Component {
                 </Modal.Header>
                 <Form id="confirmation-form" horizontal onSubmit={this.handleSubmit}>
                     <Modal.Body>
-                        Do you want to {this.props.action} <strong>{this.props.name}</strong>?
+                        Are you sure you want to {this.props.action} <strong>{this.props.name}</strong>?
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button onClick={this.props.onCloseModal} className="btn-cancel">Cancel</Button>
-                        <Button type="submit" className="btn btn-primary">Submit</Button>
+                        <Button onClick={this.props.onCloseModal} className="btn-cancel">No</Button>
+                        <Button type="submit" className="btn btn-primary">Yes</Button>
                     </Modal.Footer>
                 </Form>
             </Modal>

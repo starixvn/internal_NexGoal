@@ -93,4 +93,4 @@ export const calculateTimelineNode = () => {
     return 3;
 };
 
-export const noDataIndication = () => <span className="text-danger">No information available!</span>;
+export const noDataIndication = () => <span className="text-danger">No record found</span>;

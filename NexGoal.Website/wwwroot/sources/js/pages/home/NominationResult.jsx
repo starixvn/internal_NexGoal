@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 
 import { getNominationClassName } from '../../common-functions';
 import { NominationStatuses } from '../../constants';
+import getResource from '../../resourceHelper';
 
 export default class NominationResult extends Component {
     static propTypes = {
@@ -48,7 +49,7 @@ export default class NominationResult extends Component {
 
         return (
             <div className="nomination box">
-                <h5>Nomination</h5>
+                <h5>{getResource('Achievements')}</h5>
                 {
                     nominations && nominations.map((nomination, index) => {
                         return (

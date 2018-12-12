@@ -40,7 +40,7 @@ export default class PerformanceAppraisalResult extends Component {
                 <h5>{title}</h5>
                 {
                     performanceAppraisals.length === 0 &&
-                    <div>{getResource('NoInformationAvailable')}</div>
+                    <div>{getResource('NoRecordFound')}</div>
                 }
                 {
                     performanceAppraisals.length > 0 &&

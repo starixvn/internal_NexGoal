@@ -1,7 +1,8 @@
 ﻿import React, { Component, Fragment } from 'react';
 import axios from 'axios';
-import { axiosError, resolveClientUrl } from '../../../../common-functions';
 import { stringify } from 'qs';
+
+import { axiosError, resolveClientUrl } from '../../../../common-functions';
 import getResource from '../../../../resourceHelper';
 import Rows from './Rows';
 import EditMemberPA from '../EditPAForm';
@@ -23,6 +24,7 @@ class Table extends Component {
             || nextState.paRecordId !== this.state.paRecordId) {
             return true;
         }
+
         return false;
     }
 
@@ -71,7 +73,7 @@ class Table extends Component {
         if (isNoData) {
             return (
                 <tr>
-                    <td className="empty-result" colSpan={7}>No information available!</td>
+                    <td className="empty-result" colSpan={7}>{getResource('NoRecordFound')}</td>
                 </tr>
             );
         } else {

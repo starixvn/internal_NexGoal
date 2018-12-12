@@ -150,7 +150,7 @@ export default class NominationResult extends Component {
             );
         }
 
-        return <div>{getResource('NoInformationAvailable')}</div>;
+        return <div>{getResource('NoRecordFound')}</div>;
     }
 
     render() {
@@ -167,13 +167,13 @@ export default class NominationResult extends Component {
                     this.state.yearOptions && this.state.yearOptions.length > 0 &&
                     <div className="nomination box">
                         <div className="title">
-                            <h5>{getResource('Nomination')}</h5>
+                            <h5>{getResource('Achievements')}</h5>
                             <Milestone
                                 options={yearOptions}
-                                onSelectionChange={this.onYearChange}
-                                />
-                        {this.renderMemberNominations()}
-                    </div>
+                                onChange={this.onYearChange}
+                            />
+                            {this.renderMemberNominations()}
+                        </div>
                     </div>
                 }
             </Fragment>

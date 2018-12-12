@@ -26,21 +26,13 @@ class EmployeeFlowSetting extends Component {
             showDeleteButton: false,
             showDeleteModal: false
         };
-
-        this.handleOnEmployeeSelected = this.handleOnEmployeeSelected.bind(this);
-        this.handleOnReceive = this.handleOnReceive.bind(this);
-        this.handleOnDeactivate = this.handleOnDeactivate.bind(this);
-        this.handleOnRemoveItem = this.handleOnRemoveItem.bind(this);
-        this.handleOnDeleteClick = this.handleOnDeleteClick.bind(this);
-        this.handleSaveFlowSetting = this.handleSaveFlowSetting.bind(this);
-        this.handleDeleteFlowSetting = this.handleDeleteFlowSetting.bind(this);
     }
 
     componentDidMount() {
         this.getGroups();
     }
 
-    getGroups() {
+    getGroups = () => {
         axios(resolveClientUrl('Common/GetGroups'))
             .then(response => {
                 const data = response.data;
@@ -51,7 +43,7 @@ class EmployeeFlowSetting extends Component {
             }).catch(axiosError);
     }
 
-    getFlowSetting(employeeId) {
+    getFlowSetting = (employeeId) => {
         axios(resolveClientUrl(`EmployeeFlowSetting/GetById?employeeId=${employeeId}&flowTemplateId=${this.props.flowTemplateId}`))
             .then(response => {
                 const data = response.data;
@@ -72,11 +64,11 @@ class EmployeeFlowSetting extends Component {
             }).catch(axiosError);
     }
 
-    handleOnEmployeeSelected(employeeId) {
+    handleOnEmployeeSelected = (employeeId) => {
         this.getFlowSetting(employeeId);
     }
 
-    handleAddItem(toIndex, employeeId, sender) {
+    handleAddItem = (toIndex, employeeId, sender) => {
         let items = this.state[sender].slice();
         let processId;
 
@@ -120,17 +112,17 @@ class EmployeeFlowSetting extends Component {
         }
     }
 
-    handleSortItems(fromIndex, toIndex, sender) {
+    handleSortItems = (fromIndex, toIndex, sender) => {
         let items = this.state[sender].slice();
         items.splice(toIndex, 0, items.splice(fromIndex, 1)[0]);
         this.setState({ [sender]: items });
     }
 
-    handleOnReceive(event, ui) {
+    handleOnReceive = (event, ui) => {
         this.setState({ evaluatorSelected: parseInt(ui.sender.attr('id'), 10) });
     }
 
-    handleOnDeactivate(event, ui) {
+    handleOnDeactivate = (event, ui) => {
         let fromIndex = this.state.evaluatorSelected ? -1 : ui.item.startPos;
         let toIndex = ui.item.parent('ul.sortable').children().index(ui.item);
 
@@ -145,14 +137,14 @@ class EmployeeFlowSetting extends Component {
         }
     }
 
-    handleOnRemoveItem(sender, evaluatorId) {
+    handleOnRemoveItem = (sender, evaluatorId) => {
         let items = this.state[sender].slice();
         let index = items.findIndex(item => item.evaluatorId === evaluatorId);
         items.splice(index, 1);
         this.setState({ [sender]: items });
     }
 
-    handleSaveFlowSetting() {
+    handleSaveFlowSetting = () => {
         if (this.state.humanResources.length === 0
             || this.state.evaluators.length === 0
             || this.state.reviewers.length === 0) {
@@ -209,7 +201,7 @@ class EmployeeFlowSetting extends Component {
         }
     }
 
-    handleOnDeleteClick() {
+    handleOnDeleteClick = () => {
         this.setState({
             showDeleteModal: true
         });
@@ -221,7 +213,7 @@ class EmployeeFlowSetting extends Component {
         });
     }
 
-    handleDeleteFlowSetting() {
+    handleDeleteFlowSetting = () => {
         axios({
             url: resolveClientUrl('EmployeeFlowSetting/Delete'),
             method: 'DELETE',
@@ -323,7 +315,8 @@ class EmployeeFlowSetting extends Component {
                                 </tr>
                             </tbody>
                         </table>
-                        {isHost && employeeSelected &&
+                        {
+                            isHost && employeeSelected &&
                             <Form inline>
                                 <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
                                 {this.state.showDeleteButton &&

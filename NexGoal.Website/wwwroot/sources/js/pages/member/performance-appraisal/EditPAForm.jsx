@@ -154,11 +154,11 @@ export default class EditMemberPA extends Component {
                         <PerformanceRecord data={paRecord} isHideProjectTag />
                     );
                 } else {
-                    return <span>{getResource('NoInformationAvailable')}</span>;
+                    return <span>{getResource('NoRecordFound')}</span>;
                 }
             });
         }
-        return <span>{getResource('NoInformationAvailable')}</span>;
+        return <span>{getResource('NoRecordFound')}</span>;
     };
 
     render() {

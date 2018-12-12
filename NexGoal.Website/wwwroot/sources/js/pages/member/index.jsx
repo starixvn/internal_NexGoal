@@ -340,7 +340,7 @@ export default class App extends Component {
                                 </div>
                             </div>
                             <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>
-                                <Tab eventKey={1} title={getResource('MemberPerformance')}>
+                                <Tab eventKey={1} title={getResource('Performance')}>
 
                                     <div className="record-list">
                                         <CustomScrollbars style={{ height: '100%' }} autoHide>
@@ -425,7 +425,7 @@ export default class App extends Component {
                     this.state.deletePerformanceRecord.isShowModal &&
                     <ConfirmationModal
                         action="delete"
-                        name="this performance"
+                        name="this record"
                         showModal={this.state.deletePerformanceRecord.isShowModal}
                         onCloseModal={this.handleCancelDeletePerformanceRecord}
                         onSubmit={this.handleDeletePerformanceRecord}

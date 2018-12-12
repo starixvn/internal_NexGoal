@@ -61,15 +61,6 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Dashboard.
-        /// </summary>
-        public static string Dashboard {
-            get {
-                return ResourceManager.GetString("Dashboard", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Discipline Management.
         /// </summary>
         public static string DisciplineManagement {
@@ -84,15 +75,6 @@ namespace NexGoal.Resources {
         public static string EffectiveDate {
             get {
                 return ResourceManager.GetString("EffectiveDate", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Employee Management.
-        /// </summary>
-        public static string EmployeeManagement {
-            get {
-                return ResourceManager.GetString("EmployeeManagement", resourceCulture);
             }
         }
         
@@ -151,11 +133,20 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to New Performance Check-in.
+        ///   Looks up a localized string similar to Member Page.
         /// </summary>
-        public static string NewPerformanceCheckIn {
+        public static string MemberPage {
             get {
-                return ResourceManager.GetString("NewPerformanceCheckIn", resourceCulture);
+                return ResourceManager.GetString("MemberPage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to My Page.
+        /// </summary>
+        public static string MyPage {
+            get {
+                return ResourceManager.GetString("MyPage", resourceCulture);
             }
         }
         
@@ -196,11 +187,20 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Role Management.
+        ///   Looks up a localized string similar to Role Assignment.
         /// </summary>
-        public static string RoleManagement {
+        public static string RoleAssignment {
             get {
-                return ResourceManager.GetString("RoleManagement", resourceCulture);
+                return ResourceManager.GetString("RoleAssignment", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Role Permission.
+        /// </summary>
+        public static string RolePermission {
+            get {
+                return ResourceManager.GetString("RolePermission", resourceCulture);
             }
         }
         

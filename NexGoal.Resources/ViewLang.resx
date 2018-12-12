@@ -117,8 +117,8 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Dashboard" xml:space="preserve">
-    <value>Dashboard</value>
+  <data name="MyPage" xml:space="preserve">
+    <value>My Page</value>
   </data>
   <data name="DisciplineManagement" xml:space="preserve">
     <value>Discipline Management</value>
@@ -138,14 +138,14 @@
   <data name="RemindDateForNominator" xml:space="preserve">
     <value>Remind Date For Nominator</value>
   </data>
-  <data name="RoleManagement" xml:space="preserve">
-    <value>Role Management</value>
+  <data name="RolePermission" xml:space="preserve">
+    <value>Role Permission</value>
   </data>
   <data name="StartDateForNominator" xml:space="preserve">
     <value>Start Date For Nominator</value>
   </data>
-  <data name="EmployeeManagement" xml:space="preserve">
-    <value>Employee Management</value>
+  <data name="RoleAssignment" xml:space="preserve">
+    <value>Role Assignment</value>
   </data>
   <data name="EvaluationFlow" xml:space="preserve">
     <value>Evaluation Flow</value>
@@ -159,9 +159,6 @@
   <data name="SelfEvaluation" xml:space="preserve">
     <value>Self-Evaluation</value>
   </data>
-  <data name="NewPerformanceCheckIn" xml:space="preserve">
-    <value>New Performance Check-in</value>
-  </data>
   <data name="Review" xml:space="preserve">
     <value>Review</value>
   </data>
@@ -173,5 +170,8 @@
   </data>
   <data name="PAFocus" xml:space="preserve">
     <value>PA Focus</value>
+  </data>
+  <data name="MemberPage" xml:space="preserve">
+    <value>Member Page</value>
   </data>
 </root>
