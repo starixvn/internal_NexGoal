@@ -3,18 +3,11 @@
 import { resolveClientUrl } from '../../common-functions';
 
 class Row extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleOnCheckboxChange = this.handleOnCheckboxChange.bind(this);
-        this.handleOnDeleteClick = this.handleOnDeleteClick.bind(this);
-    }
-
-    handleOnDeleteClick() {
+    handleOnDeleteClick = () => {
         this.props.onDelete(this.props.flowTemplate);
     }
 
-    renderCellAction() {
+    renderCellAction = () => {
         const flowTemplate = this.props.flowTemplate;
 
         if (this.props.isHost) {
@@ -35,7 +28,7 @@ class Row extends Component {
         );
     }
 
-    handleOnCheckboxChange(event) {
+    handleOnCheckboxChange = (event) => {
         let flowTemplate = JSON.parse(JSON.stringify(this.props.flowTemplate));
         flowTemplate.isActive = event.target.checked;
         this.props.onCheckboxChange(flowTemplate);

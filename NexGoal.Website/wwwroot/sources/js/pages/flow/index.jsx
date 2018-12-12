@@ -22,9 +22,6 @@ export default class App extends Component {
             targetTypes: [],
             flowTemplates: []
         };
-
-        this.handleOnFilterChange = this.handleOnFilterChange.bind(this);
-        this.handleOnSubmit = this.handleOnSubmit.bind(this);
     }
 
     componentDidMount() {
@@ -32,14 +29,14 @@ export default class App extends Component {
         this.getFlowTemplates();
     }
 
-    getTargetTypes() {
+    getTargetTypes = () => {
         axios.get(resolveClientUrl('Common/GetTargetTypes'))
             .then(response => {
                 this.setState({ targetTypes: response.data });
             }).catch(axiosError);
     }
 
-    getFlowTemplates() {
+    getFlowTemplates = () => {
         const filter = this.state.filter;
         axios.get(resolveClientUrl('Flow/GetAll'), {
             params: {
@@ -51,11 +48,11 @@ export default class App extends Component {
         }).catch(axiosError);
     }
 
-    handleOnFilterChange(filter) {
+    handleOnFilterChange = (filter) => {
         this.setState({ filter: filter });
     }
 
-    handleOnSubmit() {
+    handleOnSubmit = () => {
         this.getFlowTemplates();
     }
 

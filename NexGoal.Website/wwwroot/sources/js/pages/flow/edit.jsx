@@ -23,11 +23,9 @@ export default class App extends Component {
             isFirstLoadPersonalTab: false,
             isFirstLoadFlowListTab: false
         };
-
-        this.handleOnSelect = this.handleOnSelect.bind(this);
     }
 
-    handleOnSelect(key) {
+    handleOnSelect = (key) => {
         this.setState({ activeKey: key });
 
         switch (key) {

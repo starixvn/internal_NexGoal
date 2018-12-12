@@ -17,15 +17,13 @@ class FlowList extends Component {
             groupFlowSettings: [],
             employeeFlowSettings: []
         };
-
-        this.handleOnSelect = this.handleOnSelect.bind(this);
     }
 
     componentDidMount() {
         this.getGroupFlowSetting();
     }
 
-    handleOnSelect(key) {
+    handleOnSelect = (key) => {
         this.setState({ activeKey: key });
 
         switch (key) {
@@ -42,14 +40,14 @@ class FlowList extends Component {
         }
     }
 
-    getGroupFlowSetting() {
+    getGroupFlowSetting = () => {
         axios.get(resolveClientUrl(`GroupFlowSetting/GetGroupFlowSetting?flowTemplateId=${this.props.flowTemplateId}`))
             .then(response => {
                 this.setState({ groupFlowSettings: response.data });
             }).catch(axiosError);
     }
 
-    getEmployeeFlowSetting() {
+    getEmployeeFlowSetting = () => {
         axios.get(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeFlowSetting?flowTemplateId=${this.props.flowTemplateId}`))
             .then(response => {
                 this.setState({ employeeFlowSettings: response.data });

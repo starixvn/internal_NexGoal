@@ -6,25 +6,17 @@ import getResource from '../../resourceHelper';
 import { StatusOptions } from '../../constants';
 
 class Filter extends Component {
-    constructor(props) {
-        super(props);
-
-        this.handleTargetTypeChange = this.handleTargetTypeChange.bind(this);
-        this.handleStatusChange = this.handleStatusChange.bind(this);
-        this.handleOnSubmit = this.handleOnSubmit.bind(this);
-    }
-
-    handleTargetTypeChange(selectedOption) {
+    handleTargetTypeChange = (selectedOption) => {
         this.props.filter.targetTypeId = selectedOption.value.toString();
         this.props.onFilterChange(this.props.filter);
     }
 
-    handleStatusChange(selectedOption) {
+    handleStatusChange = (selectedOption) => {
         this.props.filter.isActive = selectedOption.value;
         this.props.onFilterChange(this.props.filter);
     }
 
-    handleOnSubmit(event) {
+    handleOnSubmit = (event) => {
         event.preventDefault();
         this.props.onSubmit();
     }

@@ -31,14 +31,14 @@ class EditInfo extends Component {
         this.getFlowTemplateById();
     }
 
-    getTargetTypes() {
+    getTargetTypes = () => {
         axios.get(resolveClientUrl('Common/GetTargetTypes'))
             .then(response => {
                 this.setState({ targetTypes: response.data });
             }).catch(axiosError);
     }
 
-    getFlowTemplateById() {
+    getFlowTemplateById = () => {
         axios.get(resolveClientUrl(`Flow/GetById/${this.props.flowTemplateId}`))
             .then(response => {
                 let data = response.data;

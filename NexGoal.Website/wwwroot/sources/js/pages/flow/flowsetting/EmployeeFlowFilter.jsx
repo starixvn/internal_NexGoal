@@ -17,13 +17,6 @@ class EmployeeFlowFilter extends Component {
             employeeUnsettingSelected: null,
             employeeSettingSelected: null
         };
-
-        this.handleOnGroupChange = this.handleOnGroupChange.bind(this);
-        this.handleOnKeywordChange = this.handleOnKeywordChange.bind(this);
-        this.handleOnEmployeeUnsettingChange = this.handleOnEmployeeUnsettingChange.bind(this);
-        this.handleOnEmployeeSettingChange = this.handleOnEmployeeSettingChange.bind(this);
-        this.handleOnMoveRightClick = this.handleOnMoveRightClick.bind(this);
-        this.handleOnMoveLeftClick = this.handleOnMoveLeftClick.bind(this);
     }
 
     componentDidMount() {
@@ -32,7 +25,7 @@ class EmployeeFlowFilter extends Component {
         this.getEmployeeSetting(groupId);
     }
 
-    getEmployeeUnsetting(groupId) {
+    getEmployeeUnsetting = (groupId) => {
         axios(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeUnsetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
@@ -44,7 +37,7 @@ class EmployeeFlowFilter extends Component {
             }).catch(axiosError);
     }
 
-    getEmployeeSetting(groupId) {
+    getEmployeeSetting = (groupId) => {
         axios(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeHaveSetting?flowTemplateId=${this.props.flowTemplateId}&groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
@@ -55,7 +48,7 @@ class EmployeeFlowFilter extends Component {
             }).catch(axiosError);
     }
 
-    handleOnGroupChange(selectedOption) {
+    handleOnGroupChange = (selectedOption) => {
         this.setState({
             groupSelected: selectedOption,
             keyword: ''
@@ -65,7 +58,7 @@ class EmployeeFlowFilter extends Component {
         this.getEmployeeSetting(selectedOption.value);
     }
 
-    handleOnKeywordChange(event) {
+    handleOnKeywordChange = (event) => {
         let employees;
         if (event.target.value && event.target.value.trim().length > 1) {
             const value = event.target.value.trim().toLowerCase();
@@ -84,17 +77,17 @@ class EmployeeFlowFilter extends Component {
         });
     }
 
-    handleOnEmployeeUnsettingChange(event) {
+    handleOnEmployeeUnsettingChange = (event) => {
         this.setState({ employeeUnsettingSelected: event.target.value });
     }
 
-    handleOnEmployeeSettingChange(event) {
+    handleOnEmployeeSettingChange = (event) => {
         this.setState({ employeeSettingSelected: event.target.value });
 
         this.props.onEmployeeSelected(event.target.value);
     }
 
-    handleOnMoveRightClick() {
+    handleOnMoveRightClick = () => {
         let employeeUnsettings = this.state.employeeUnsettings.slice();
         let employeeSettings = this.state.employeeSettings.slice();
         let filteredEmployees = this.state.filteredEmployees.slice();
@@ -114,7 +107,7 @@ class EmployeeFlowFilter extends Component {
         });
     }
 
-    handleOnMoveLeftClick() {
+    handleOnMoveLeftClick = () => {
         let employeeUnsettings = this.state.employeeUnsettings.slice();
         let employeeSettings = this.state.employeeSettings.slice();
 

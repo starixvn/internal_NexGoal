@@ -3,6 +3,7 @@ import axios from 'axios';
 import Select from 'react-select';
 
 import { axiosError, resolveClientUrl } from '../../../common-functions';
+import getResource from '../../../resourceHelper';
 import Draggable from './Draggable';
 
 class EvaluatorList extends Component {
@@ -15,16 +16,13 @@ class EvaluatorList extends Component {
             employees: [],
             filteredEmployees: []
         };
-
-        this.handleOnGroupChange = this.handleOnGroupChange.bind(this);
-        this.handleOnKeywordChange = this.handleOnKeywordChange.bind(this);
     }
 
     componentDidMount() {
         this.getEmployees(this.state.groupSelected.value);
     }
 
-    getEmployees(groupId) {
+    getEmployees = (groupId) => {
         axios(resolveClientUrl(`Common/GetEmployees?groupIds=${groupId}`))
             .then(response => {
                 const data = response.data;
@@ -36,7 +34,7 @@ class EvaluatorList extends Component {
             }).catch(axiosError);
     }
 
-    handleOnGroupChange(selectedOption) {
+    handleOnGroupChange = (selectedOption) => {
         this.setState({
             groupSelected: selectedOption,
             keyword: ''
@@ -45,7 +43,7 @@ class EvaluatorList extends Component {
         this.getEmployees(selectedOption.value);
     }
 
-    handleOnKeywordChange(event) {
+    handleOnKeywordChange = (event) => {
         let employees;
         if (event.target.value && event.target.value.trim().length > 1) {
             const value = event.target.value.trim().toLowerCase();
