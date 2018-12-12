@@ -119,51 +119,57 @@ BEGIN
 			SELECT @StartDate = '2018-06-01'
 				,@EndDate = GETDATE()
 		END
-
-		INSERT INTO @result
-		SELECT emp.EmployeeId
-			,efs.ProcessId
-			,CASE 
-				WHEN efs.ProcessId = @EvaluatorProcessId THEN @EvaluatorRoleId
-				ELSE @ReviewerRoleId
-				END
-		FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
-			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON efs.EmployeeId = emp.EmployeeId
-			AND emp.EmployeeId <> @ActorId
-			AND emp.[Enabled] = 1
-			AND emp.IsDeleted = 0
-			INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON efs.FlowTemplateId = ft.FlowTemplateId
-			AND ft.TargetTypeId = @SemiTargetId
-			AND ft.IsActive = 1
-		WHERE efs.EvaluatorId = @ActorId
-			AND efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
-
-		INSERT INTO @result
-		SELECT emp.EmployeeId
-			,gfs.ProcessId
-			,CASE 
-				WHEN gfs.ProcessId = @EvaluatorProcessId THEN @EvaluatorRoleId
-				ELSE @ReviewerRoleId
-				END
-		FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
-			INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
-			AND gr.IsDeleted = 0
-			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
-			AND emp.EmployeeId <> @ActorId
-			AND emp.[Enabled] = 1
-			AND emp.IsDeleted = 0
-			INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON gfs.FlowTemplateId = ft.FlowTemplateId
-			AND ft.TargetTypeId = @SemiTargetId
-			AND ft.IsActive = 1
-		WHERE gfs.EvaluatorId = @ActorId
-			AND gfs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
-			AND NOT EXISTS (
-				SELECT 1
-				FROM @result AS result
-				WHERE emp.EmployeeId = result.EmployeeId
-					AND result.ProcessId = gfs.ProcessId
-				)
 	END
+
+	INSERT INTO @result
+	SELECT emp.EmployeeId
+		,efs.ProcessId
+		,CASE 
+			WHEN efs.ProcessId = @EvaluatorProcessId THEN @EvaluatorRoleId
+			ELSE @ReviewerRoleId
+			END
+	FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON efs.EmployeeId = emp.EmployeeId
+		AND emp.EmployeeId <> @ActorId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
+		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON efs.FlowTemplateId = ft.FlowTemplateId
+		AND ft.TargetTypeId = @SemiTargetId
+		AND ft.IsActive = 1
+	WHERE efs.EvaluatorId = @ActorId
+		AND efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
+		AND NOT EXISTS (
+			SELECT 1
+			FROM @result AS result
+			WHERE emp.EmployeeId = result.EmployeeId
+				AND result.ProcessId = efs.ProcessId
+			)
+
+	INSERT INTO @result
+	SELECT emp.EmployeeId
+		,gfs.ProcessId
+		,CASE 
+			WHEN gfs.ProcessId = @EvaluatorProcessId THEN @EvaluatorRoleId
+			ELSE @ReviewerRoleId
+			END
+	FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
+		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gr.GroupId = emp.GroupId
+		AND emp.EmployeeId <> @ActorId
+		AND emp.[Enabled] = 1
+		AND emp.IsDeleted = 0
+		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON gfs.FlowTemplateId = ft.FlowTemplateId
+		AND ft.TargetTypeId = @SemiTargetId
+		AND ft.IsActive = 1
+	WHERE gfs.EvaluatorId = @ActorId
+		AND gfs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
+		AND NOT EXISTS (
+			SELECT 1
+			FROM @result AS result
+			WHERE emp.EmployeeId = result.EmployeeId
+				AND result.ProcessId = gfs.ProcessId
+			)
 
 	IF EXISTS (
 			SELECT 1
