@@ -19,14 +19,6 @@ BEGIN
 		,ObjectId INT
 		)
 
-	INSERT INTO [UpdateStatusDisciplineTests].[expected]
-	VALUES (
-		1
-		,1
-		,2
-		,1
-		)
-
 	-- Fake table
 	EXEC tSQLt.FakeTable @TableName = 'dbo.Discipline'
 		,@Identity = 1
@@ -38,14 +30,8 @@ BEGIN
 		,@Identity = 1
 
 	-- Act
-	INSERT INTO dbo.LogAction
-	VALUES (
-		'Update Status Discipline'
-		,3
-		,'Discipline_UpdateStatus'
-		,''
-		,''
-		)
+	INSERT INTO dbo.LogAction([Name], ActionTypeId, SPName, Items, SubItems)
+	VALUES ('Update Status Discipline', 3, 'Discipline_UpdateStatus', '', '')
 
 	EXEC dbo.Discipline_UpdateStatus @DisciplineId = 1
 		,@IsActive = 0
@@ -58,6 +44,9 @@ BEGIN
 		,ObjectId
 	INTO [UpdateStatusDisciplineTests].[actual]
 	FROM dbo.LogDetail
+
+	INSERT INTO [UpdateStatusDisciplineTests].[expected]
+	VALUES (1, 1, 2, 1)
 
 	EXEC tSQLt.AssertEqualsTable '[UpdateStatusDisciplineTests].[expected]'
 		,'[UpdateStatusDisciplineTests].[actual]'

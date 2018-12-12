@@ -33,9 +33,6 @@ BEGIN
 		,[Description] NVARCHAR(200)
 		)
 
-	INSERT INTO [GetEOQByIdTests].[expected]
-	VALUES (1, 1, 2018, '2018-11-01', '2018-11-07', '2018-11-04', '2018-12-07', 'test')
-
 	-- Fake table
 	EXEC tSQLt.FakeTable @TableName = 'dbo.EOQY'
 
@@ -48,6 +45,9 @@ BEGIN
 	EXEC dbo.EOQ_GetById @EOQId = 1
 
 	-- Assert
+	INSERT INTO [GetEOQByIdTests].[expected]
+	VALUES (1, 1, 2018, '2018-11-01', '2018-11-07', '2018-11-04', '2018-12-07', 'test')
+
 	EXEC tSQLt.AssertEqualsTable '[GetEOQByIdTests].[expected]'
 		,'[GetEOQByIdTests].[actual]'
 END

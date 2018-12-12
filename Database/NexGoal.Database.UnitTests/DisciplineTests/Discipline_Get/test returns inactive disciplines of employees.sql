@@ -39,9 +39,6 @@ BEGIN
 		,CreatorFullName NVARCHAR(50)
 		)
 
-	INSERT INTO [GetDisciplineTests].[expected]
-	VALUES (1, 'test', 0, '2018-12-07', 1, 'tim', 'trinh dang thang', 'nexus', 2, 'quinn', 'vo kim quang')
-
 	-- Fake table
 	EXEC tSQLt.FakeTable @TableName = 'dbo.Discipline'
 		,@Identity = 1
@@ -69,6 +66,8 @@ BEGIN
 		,@IsActive = 0
 
 	-- Assert
+	INSERT INTO [GetDisciplineTests].[expected]
+	VALUES (1, 'test', 0, '2018-12-07', 1, 'tim', 'trinh dang thang', 'nexus', 2, 'quinn', 'vo kim quang')
 
 	EXEC tSQLt.AssertEqualsTable '[GetDisciplineTests].[expected]'
 		,'[GetDisciplineTests].[actual]'

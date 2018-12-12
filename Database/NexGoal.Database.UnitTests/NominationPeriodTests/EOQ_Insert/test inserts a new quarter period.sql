@@ -27,10 +27,7 @@ BEGIN
 	EXEC tSQLt.FakeTable @TableName = 'dbo.EOQY'
 		,@Identity = 1
 
-	-- Act
-	INSERT INTO [InsertEOQTests].[expected]
-	VALUES (1, 1, 2018, '2018-11-01', '2018-11-07', '2018-11-04', '2018-12-07', 'test', 1)
-	
+	-- Act	
 	EXEC dbo.EOQ_Insert @Quarter = 1
 		,@Year = 2018
 		,@StartDateForNominator = '2018-11-01'
@@ -52,6 +49,9 @@ BEGIN
 		,IsQuarter
 	INTO [InsertEOQTests].[actual]
 	FROM dbo.EOQY
+
+	INSERT INTO [InsertEOQTests].[expected]
+	VALUES (1, 1, 2018, '2018-11-01', '2018-11-07', '2018-11-04', '2018-12-07', 'test', 1)
 
 	EXEC tSQLt.AssertEqualsTable '[InsertEOQTests].[expected]'
 		,'[InsertEOQTests].[actual]'

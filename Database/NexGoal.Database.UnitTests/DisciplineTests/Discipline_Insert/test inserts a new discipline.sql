@@ -22,18 +22,6 @@ BEGIN
 		,ModifiedDate DATETIME
 		)
 
-	INSERT INTO [InsertDisciplineTests].[expected]
-	VALUES (
-		1
-		,1
-		,'test'
-		,1
-		,'2018-12-07'
-		,1
-		,NULL
-		,NULL
-		)
-
 	-- Fake table
 	EXEC tSQLt.FakeTable @TableName = 'dbo.Discipline'
 		,@Identity = 1
@@ -55,6 +43,9 @@ BEGIN
 		,ModifiedDate
 	INTO [InsertDisciplineTests].[actual]
 	FROM dbo.Discipline
+
+	INSERT INTO [InsertDisciplineTests].[expected]
+	VALUES (1, 1, 'test', 1, '2018-12-07', 1, NULL, NULL)
 
 	EXEC tSQLt.AssertEqualsTable '[InsertDisciplineTests].[expected]'
 		,'[InsertDisciplineTests].[actual]'

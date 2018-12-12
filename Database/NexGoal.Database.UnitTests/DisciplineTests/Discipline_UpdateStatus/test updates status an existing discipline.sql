@@ -23,34 +23,13 @@ BEGIN
 		,ModifiedBy INT
 		)
 
-	INSERT INTO [UpdateStatusDisciplineTests].[expected]
-	VALUES (
-		1
-		,1
-		,'insert'
-		,0
-		,'2018-12-07'
-		,1
-		,'2018-12-07'
-		,2
-		)
-
 	-- Fake table
 	EXEC tSQLt.FakeTable @TableName = 'dbo.Discipline'
 		,@Identity = 1
 
 	-- Act
 	INSERT INTO dbo.Discipline
-	VALUES (
-		1
-		,'insert'
-		,1
-		,'2018-12-07'
-		,1
-		,'2018-12-07'
-		,1
-		,NULL
-		)
+	VALUES (1, 'insert', 1, '2018-12-07', 1, '2018-12-07', 1, NULL)
 
 	EXEC dbo.Discipline_UpdateStatus @DisciplineId = 1
 		,@IsActive = 0
@@ -67,6 +46,9 @@ BEGIN
 		,ModifiedBy
 	INTO [UpdateStatusDisciplineTests].[actual]
 	FROM dbo.Discipline
+
+	INSERT INTO [UpdateStatusDisciplineTests].[expected]
+	VALUES (1, 1, 'insert', 0, '2018-12-07', 1, '2018-12-07', 2)
 
 	EXEC tSQLt.AssertEqualsTable '[UpdateStatusDisciplineTests].[expected]'
 		,'[UpdateStatusDisciplineTests].[actual]'
