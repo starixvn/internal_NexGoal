@@ -159,8 +159,6 @@ BEGIN
 			AND emp.[Enabled] = 1
 			AND emp.IsDeleted = 0
 			LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
-			AND creator.[Enabled] = 1
-			AND creator.IsDeleted = 0
 			LEFT JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 			LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
 			AND emp.EmployeeId = pa.EmployeeId
@@ -222,7 +220,6 @@ BEGIN
 			INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 			INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
 			AND record.PerformanceRecordId = nomination.PerformanceRecordId
-			AND nomination.StatusId <> 4 -- draft
 		WHERE record.TypeId = @SystemNomination
 			AND record.CreatorId = - 1
 		) AS data

@@ -135,27 +135,35 @@ BEGIN
 		INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 		LEFT JOIN #tblGroup AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
-		AND creator.[Enabled] = 1
-		AND creator.IsDeleted = 0
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
 		AND emp.EmployeeId = pa.EmployeeId
 		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		AND nomination.NomineeId = @EmployeeId
 	WHERE (
-			record.TypeId = @Checkin
+			(
+				record.TypeId = @Checkin
+				AND (
+					member.IsHost = 1
+					OR (
+						member.IsHost = 0
+						AND record.CreatorId = @ActorId
+						)
+					)
+				)
 			OR (
-				(
+				@EmployeeId IS NOT NULL
+				AND (
 					(
 						record.TypeId = @SystemPA
 						AND pa.PARecordId IS NOT NULL
 						AND pa.StatusId = @PAClosed
+						AND member.IsHost = 1
 						)
 					OR (
 						record.TypeId = @SystemNomination
 						AND nomination.NominationId IS NOT NULL
 						)
 					)
-				AND @EmployeeId IS NOT NULL
 				)
 			)
 		AND record.StatusId IN (@Submitted, @Closed)
@@ -166,13 +174,6 @@ BEGIN
 		AND (
 			@GroupIds IS NULL
 			OR gr.GroupId IS NOT NULL
-			)
-		AND (
-			member.IsHost = 1
-			OR (
-				member.IsHost = 0
-				AND record.CreatorId = @ActorId
-				)
 			)
 		AND (
 			@PeriodId IS NULL
