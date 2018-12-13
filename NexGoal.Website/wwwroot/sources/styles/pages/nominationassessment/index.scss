@@ -17,9 +17,11 @@
 .form-filter .control-content {
     width: 300px;
 }
+
 #nomination-assessment-wrapper {
     margin-bottom: 24px;
 }
+
 .tbl-nomination-assessment {
     .title {
         height: 50px;
@@ -48,6 +50,42 @@
 
     .react-select-container .react-select__control {
         height: 27px;
+    }
+
+    .order {
+        width: 5%;
+    }
+
+    .nominee {
+        width: 30%;
+    }
+
+    .team {
+        width: 20%;
+    }
+
+    .vote {
+        width: 5%;
+    }
+
+    .nominator {
+        width: 30%;
+    }
+
+    .status {
+        width: 10%;
+    }
+
+    .sticky {
+        position: fixed;
+        top: 50px;
+        left: 15px;
+        right: 15px;
+        z-index: 1;
+
+        th {
+            display: inline-block;
+        }
     }
 }
 

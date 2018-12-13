@@ -26,6 +26,22 @@ export default class Table extends Component {
         this.selectComponents = { SingleValue };
     }
 
+    componentDidMount() {
+        let header = this.refs.stickyHeader;
+
+        window.addEventListener('scroll', function (e) {
+            if (window.scrollY > 168) {
+                header.classList.add('sticky');
+            } else {
+                header.classList.remove('sticky');
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener('scroll');
+    }
+
     handleShowNominatorComment = (nomination, performanceRecordId) => {
         this.props.onShowNominatorComment(nomination, performanceRecordId);
     }
@@ -48,8 +64,8 @@ export default class Table extends Component {
             <Fragment key={item.period.nominationPeriodId}>
                 <tr>
                     <td className="title" colSpan={6}>
-                    <div className="period">{item.period.title}</div>
-                    <NominationProcess period={item.period} />
+                        <div className="period">{item.period.title}</div>
+                        <NominationProcess period={item.period} />
                     </td>
                 </tr>
                 {item.nominations.map((n, index) => this.renderNomination(n, index, item.canUpdateNominationStatus))}
@@ -91,14 +107,22 @@ export default class Table extends Component {
     render() {
         return (
             <table className="table table-bordered table-striped tbl-nomination-assessment">
+                <colgroup>
+                    <col className="order"></col>
+                    <col className="nominee"></col>
+                    <col className="team"></col>
+                    <col className="vote"></col>
+                    <col className="nominator"></col>
+                    <col className="status"></col>
+                </colgroup>
                 <thead>
-                    <tr>
-                        <th>{getResource('SymbolCount')}</th>
-                        <th>{getResource('Nominee')}</th>
-                        <th>{getResource('Team')}</th>
-                        <th>{getResource('Vote')}</th>
-                        <th>{getResource('Nominator')}</th>
-                        <th>{getResource('Status')}</th>
+                    <tr ref='stickyHeader'>
+                        <th className="order">{getResource('SymbolCount')}</th>
+                        <th className="nominee">{getResource('Nominee')}</th>
+                        <th className="team">{getResource('Team')}</th>
+                        <th className="vote">{getResource('Vote')}</th>
+                        <th className="nominator">{getResource('Nominator')}</th>
+                        <th className="status">{getResource('Status')}</th>
                     </tr>
                 </thead>
                 <tbody>
