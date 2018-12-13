@@ -1,21 +1,21 @@
 ﻿import React from 'react';
 import moment from 'moment';
-
+import { DateFormat } from '../../constants';
 import getResource from '../../resourceHelper';
 
 export default function HrmDetail(props) {
     const toeicClass = props.hrmDetail.isPassedToeic ? '' : 'red';
-
+    const expireDate = moment(props.hrmDetail.toeicExamDate).add(3, 'years').format(DateFormat);
     const renderToeicScore = () => {
         if (props.hrmDetail.toeicScore > 0) {
             return (
-                <li>{getResource('ToeicScore')}<span className="bold">: <span className={toeicClass}>{props.hrmDetail.toeicScore} </span>
-                    ({moment(props.hrmDetail.toeicExamDate).format("DD MMM, YYYY")})</span>
+                <li>{getResource('Toeic')}<span className="bold">: <span className={toeicClass}>{props.hrmDetail.toeicScore} </span>
+                    (exp {expireDate})</span>
                 </li>
             );
         } else {
             return (
-                <li>{getResource('ToeicScore')}<span className="bold">: <span className={toeicClass}>{getResource('N/A')}</span></span>
+                <li>{getResource('Toeic')}<span className="bold">: <span className={toeicClass}>{getResource('N/A')}</span></span>
                 </li>
             );
         }

@@ -134,7 +134,7 @@ var resource_en_US = {
     'Team': 'Team',
     'To': 'To',
     'ToDate': 'To Date',
-    'ToeicScore': 'TOEIC Score',
+    'Toeic': 'Toeic',
     'UpdatePermissionSuccessfully': 'Permission has been successfully updated!',
     'UpdatedSuccessfully': 'Updated successfully!',
     'UnpaidLeave': 'Unpaid Leave',
