@@ -45,6 +45,7 @@
             border-right: 2px solid #fff;
         }
     }
+
     .react-select-container .react-select__control {
         height: 27px;
     }
@@ -85,5 +86,9 @@
 
     .comment {
         white-space: pre-wrap;
+    }
+
+    .tab-pane {
+        height: 500px;
     }
 }

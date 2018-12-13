@@ -2,6 +2,7 @@
 import { Button, Modal, Tab, Nav, NavItem } from 'react-bootstrap';
 
 import getResource from '../../resourceHelper';
+import CustomScrollbars from '../../shared/components/CustomScrollbars';
 
 export default class NominatorComment extends PureComponent {
     constructor(props) {
@@ -52,7 +53,11 @@ export default class NominatorComment extends PureComponent {
                                 <Tab.Content>
                                     {nominators.map(n =>
                                         <Tab.Pane key={n.performanceRecordId} eventKey={n.performanceRecordId}>
-                                            <p className="comment">{n.comment}</p>
+                                            <CustomScrollbars>
+                                                <p className="comment">
+                                                    {n.comment}
+                                                </p>
+                                            </CustomScrollbars>
                                         </Tab.Pane>
                                     )}
                                 </Tab.Content>

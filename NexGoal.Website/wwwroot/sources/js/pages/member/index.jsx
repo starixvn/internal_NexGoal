@@ -143,22 +143,26 @@ export default class App extends Component {
     }
 
     handleClickTimelineNode = (performanceRecordId) => {
-        if (this.state.activeTabKey === 1) {
-            if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
-                let index = this.state.performanceRecords.findIndex(function (element) {
-                    return element.performanceRecordId === performanceRecordId;
-                });
+        if (!this.state.displayedPerformanceRecords.some(r => r.performanceRecordId === performanceRecordId)) {
+            let index = this.state.performanceRecords.findIndex(function (element) {
+                return element.performanceRecordId === performanceRecordId;
+            });
 
-                let page = Math.ceil((index + 1) / this.itemPerPage);
+            let page = Math.ceil((index + 1) / this.itemPerPage);
 
-                this.refs.infiniteScrollRef.pageLoaded = page;
+            this.refs.infiniteScrollRef.pageLoaded = page;
 
-                this.loadMorePerformanceRecord(page, () => {
-                    this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
-                });
-            } else {
-                this.setState({ performanceRecordIdHighlighted: performanceRecordId }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
-            }
+            this.loadMorePerformanceRecord(page, () => {
+                this.setState({
+                    performanceRecordIdHighlighted: performanceRecordId,
+                    activeTabKey: 1
+                }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
+            });
+        } else {
+            this.setState({
+                performanceRecordIdHighlighted: performanceRecordId,
+                activeTabKey: 1
+            }, () => document.getElementById(`record-${performanceRecordId}`).scrollIntoView({ block: 'center', behavior: 'smooth' }));
         }
     }
 
