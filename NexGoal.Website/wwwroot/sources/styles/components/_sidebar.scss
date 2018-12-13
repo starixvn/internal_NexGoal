@@ -40,24 +40,13 @@ $c-sidebar-menu-item-link-active-text: #324373;
     transition: width 0.25s;
 }
 
-.main {
-    &.full-size {
-        padding-left: 0;
-    }
-    transition: width 0.25s;
-
-    .page-header {
-        margin-top: 0;
-    }
-}
-
-@media screen and (min-device-width: 1920px) {
+@media screen and (min-width: 1600px) {
     .left-bar {
         width: 400px;
     }
 }
 
-@media screen and (min-device-width: 1280px) and (max-device-width: 1919px) {
+@media screen and (min-width: 1280px) and (max-width: 1600px) {
     .left-bar {
         width: 300px;
     }

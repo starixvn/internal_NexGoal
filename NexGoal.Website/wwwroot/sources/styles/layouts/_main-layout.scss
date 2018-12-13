@@ -10,15 +10,18 @@
         bottom: 0;
         background-color: #fff;
         overflow: auto;
+
         .box:last-child {
             border-bottom: none;
         }
     }
+
     .main-content {
         margin: 0 auto;
         width: calc(100% - 504px);
         height: calc(100vh - 50px);
     }
+
     .work-info {
         position: fixed;
         width: 250px;
@@ -27,10 +30,12 @@
         right: 0;
         background-color: #fff;
         padding: 12px 12px 12px 0;
+
         &-content {
             border: 1px solid #e5e5e5;
         }
     }
+
     .fixed-section {
         position: fixed;
         top: 50px;
@@ -39,7 +44,6 @@
         width: calc(100% - 504px);
     }
 }
-
 
 @media screen and (min-width: 1600px) {
     .main-layout {
@@ -68,10 +72,11 @@
 .box {
     border-bottom: 1px solid #ccc;
     padding: 16px;
+
     h5 {
         color: #05517E;
         font-size: 16px;
         font-weight: 600;
         margin-top: 0;
-    }    
+    }
 }

@@ -37,7 +37,7 @@ BEGIN
 		,ToeicPolicy
 	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (PARecordId INT, GradeId VARCHAR(MAX), ToeicPolicy SMALLINT) AS data
 
-	UPDATE record
+	UPDATE pa
 	SET pa.OriginalGradeId = tbl.GradeId
 		,pa.GradeId = tbl.GradeId
 		,pa.Toeic = toeic.Listening + toeic.Reading

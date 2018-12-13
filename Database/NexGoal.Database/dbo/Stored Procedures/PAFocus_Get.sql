@@ -64,6 +64,24 @@ BEGIN
 		AND f.FunctionKey = @FunctionKey
 	WHERE emp.EmployeeId = @ActorId
 
+	INSERT INTO #tblPAFocusIds (
+		PAFocusId
+		,IsEvaluator
+		)
+	SELECT focus.PAFocusId
+		,1
+	FROM dbo.PAFocus AS focus WITH (NOLOCK)
+		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON period.PeriodId = focus.PeriodId
+		AND period.IsActive = 1
+		AND period.FocusStartDate <= @Today
+		AND period.PeriodId = @PeriodId
+	WHERE EXISTS (
+			SELECT 1
+			FROM #tblMembers AS member WITH (NOLOCK)
+			WHERE member.EmployeeId = focus.EmployeeId
+				AND member.RoleId = @EvaluatorRoleId
+			)
+
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.Employee AS emp WITH (NOLOCK)
@@ -94,35 +112,17 @@ BEGIN
 			AND period.IsActive = 1
 			AND period.FocusStartDate <= @Today
 			AND period.PeriodId = @PeriodId
-		WHERE EXISTS (
+		WHERE focus.PAFocusId NOT IN (
+				SELECT PAFocusId
+				FROM #tblPAFocusIds WITH (NOLOCK)
+				)
+			AND EXISTS (
 				SELECT 1
 				FROM #tblMembers AS member WITH (NOLOCK)
 				WHERE member.EmployeeId = focus.EmployeeId
 					AND member.RoleId IN (@SARoleId, @ManagementRoleId)
 				)
 	END
-
-	INSERT INTO #tblPAFocusIds (
-		PAFocusId
-		,IsEvaluator
-		)
-	SELECT focus.PAFocusId
-		,1
-	FROM dbo.PAFocus AS focus WITH (NOLOCK)
-		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON period.PeriodId = focus.PeriodId
-		AND period.IsActive = 1
-		AND period.FocusStartDate <= @Today
-		AND period.PeriodId = @PeriodId
-	WHERE focus.PAFocusId NOT IN (
-			SELECT PAFocusId
-			FROM #tblPAFocusIds
-			)
-		AND EXISTS (
-			SELECT 1
-			FROM #tblMembers AS member WITH (NOLOCK)
-			WHERE member.EmployeeId = focus.EmployeeId
-				AND member.RoleId = @EvaluatorRoleId
-			)
 
 	SELECT focus.PAFocusId
 		,focus.PeriodId
@@ -140,7 +140,7 @@ BEGIN
 			) AS IsHost
 		,emp.EmployeeId
 		,parecord.GradeId
-	FROM #tblPAFocusIds AS focusid
+	FROM #tblPAFocusIds AS focusid WITH (NOLOCK)
 		INNER JOIN dbo.PAFocus AS focus WITH (NOLOCK) ON focus.PAFocusId = focusid.PAFocusId
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON emp.EmployeeId = focus.EmployeeId
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gr.GroupId = emp.GroupId
