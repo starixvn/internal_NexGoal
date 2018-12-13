@@ -2,12 +2,14 @@
     overflow: hidden;
     padding-bottom: 12px;
     border-bottom: 1px solid #ccc;
+    display: flex;
 
     .avatar {
         @include border-radius(3px);
         float: left;
         border: 2px solid #dedede;
         margin-right: 12px;
+        align-self: center;
     }
 
     .nick-name {

@@ -35,18 +35,21 @@ $c-sidebar-menu-item-link-active-text: #324373;
 
 .left-bar {
     width: 250px;
-    padding-right: 15px;
     background: #2C3B66;
     transition: width 0.25s;
+    img {
+        width: 100%;
+    }
 }
 
-@media screen and (min-width: 1600px) {
+
+@media screen and (min-width: 1920px) {
     .left-bar {
         width: 400px;
     }
 }
 
-@media screen and (min-width: 1280px) and (max-width: 1600px) {
+@media screen and (min-width: 1280px) and (max-width: 1919px) {
     .left-bar {
         width: 300px;
     }
