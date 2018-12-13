@@ -29,4 +29,5 @@ BEGIN
 		AND member.ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
+	ORDER BY gr.[Name]
 END

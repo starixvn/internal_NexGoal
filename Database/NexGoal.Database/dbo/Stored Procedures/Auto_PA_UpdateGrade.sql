@@ -38,11 +38,13 @@ BEGIN
 	FROM OPENXML(@idoc, '/Root/Row', 1) WITH (PARecordId INT, GradeId VARCHAR(MAX), ToeicPolicy SMALLINT) AS data
 
 	UPDATE record
-	SET record.OriginalGradeId = tbl.GradeId
-		,record.GradeId = tbl.GradeId
-		,record.ToeicPolicy = tbl.ToeicPolicy
-	FROM dbo.PARecord AS record WITH (ROWLOCK, UPDLOCK)
-		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON record.PARecordId = tbl.PARecordId
+	SET pa.OriginalGradeId = tbl.GradeId
+		,pa.GradeId = tbl.GradeId
+		,pa.Toeic = toeic.Listening + toeic.Reading
+		,pa.ToeicPolicy = tbl.ToeicPolicy
+	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
+		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+		LEFT JOIN dbo.TOEIC AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmpId
 
 	DROP TABLE #tblPARecord
 END

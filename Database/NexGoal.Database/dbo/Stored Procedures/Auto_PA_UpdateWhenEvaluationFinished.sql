@@ -30,6 +30,7 @@ BEGIN
 		,EmployeeId INT
 		,GradeId VARCHAR(MAX)
 		,PerformanceRecordId INT
+		,ToeicPolicy SMALLINT
 		)
 
 	INSERT INTO #tblPARecord (
@@ -37,17 +38,20 @@ BEGIN
 		,EmployeeId
 		,GradeId
 		,PerformanceRecordId
+		,ToeicPolicy
 		)
 	SELECT pa.PARecordId
 		,pa.EmployeeId
 		,pa.GradeId
 		,pa.PerformanceRecordId
+		,toeic.Score
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON pa.PeriodId = period.PeriodId
 		AND ISNULL(@PeriodId, period.PeriodId) = period.PeriodId
 		AND period.IsActive = 1
 		INNER JOIN dbo.PAProcess AS reviewer WITH (NOLOCK) ON pa.PARecordId = reviewer.PARecordId
 		AND reviewer.ProcessId = @ReviewerProcessId
+		LEFT JOIN dbo.ToeicPolicy AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmployeeId
 	WHERE (
 			pa.StatusId IN (@PAOpened, @PAInProgress)
 			OR (
@@ -60,8 +64,11 @@ BEGIN
 
 	UPDATE pa
 	SET pa.StatusId = @PAClosed
+		,pa.Toeic = toeic.Listening + toeic.Reading
+		,pa.ToeicPolicy = tbl.ToeicPolicy
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
 		INNER JOIN #tblPARecord AS tbl WITH (NOLOCK) ON pa.PARecordId = tbl.PARecordId
+		LEFT JOIN dbo.TOEIC AS toeic WITH (NOLOCK) ON pa.EmployeeId = toeic.EmpId
 	WHERE pa.StatusId IN (@PAOpened, @PAInProgress)
 
 	UPDATE record
