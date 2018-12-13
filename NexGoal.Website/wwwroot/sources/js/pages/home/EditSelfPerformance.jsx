@@ -165,7 +165,13 @@ export default class EditSelfPerformance extends Component {
                             <img src={currentUser.avatar} className="avatar" />
                             <div className="person-info">
                                 <span className="role-member">{currentUser.nickName}</span>
-                                <div className="submit-date">{moment().format(DateFormat)}</div>
+                                <div>
+                                    <span className="submit-date">{moment().format(DateFormat)}</span>
+                                    {
+                                        performanceRecord.statusId === PerformanceRecordStatus.Draft &&
+                                        <span className="draft">draft</span>
+                                    }
+                                </div>
                             </div>
                         </div>
                         <div className="comment">

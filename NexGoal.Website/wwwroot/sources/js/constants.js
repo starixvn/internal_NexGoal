@@ -1,4 +1,4 @@
-﻿export const DateFormat = 'DD MMM, YYYY';
+﻿export const DateFormat = 'DD MMM YYYY';
 
 export const StatusOptions = [
     { value: '', label: '-- All --' },
