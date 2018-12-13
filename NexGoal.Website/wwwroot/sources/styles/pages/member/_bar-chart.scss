@@ -1,0 +1,18 @@
+@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+
+#chartjs-tooltip {
+    background-color: #fff;
+    @include border-radius(2px);
+    @include box-shadow(0, 1px, 4px, #666);
+    @include transition("all .1s ease");
+    @include transform(translate(-50%, 0));
+
+    p {
+        margin: 0 0 5px;
+
+        &:last-child {
+            margin: 0;
+        }
+    }
+}

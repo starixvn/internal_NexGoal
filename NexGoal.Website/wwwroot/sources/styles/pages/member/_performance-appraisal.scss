@@ -3,7 +3,7 @@
 @import "../../components/form-filter";
 @import "../../components/form-inline";
 @import "../../components/checkbox";
-@import "../../components/_tooltip.scss";
+@import "../../components/tooltip";
 
 .pa-content {
     padding: 0 16px;
@@ -48,18 +48,22 @@
     .tab-content {
         padding-top: 12px;
     }
-    .modal-content {        
+
+    .modal-content {
         .modal-body {
             overflow: auto;
             height: 400px;
             position: relative;
-            @media screen and (min-width: 1600px) { 
+
+            @media screen and (min-width: 1600px) {
                 height: 680px;
             }
+
             @media screen and (min-width: 1280px) and (max-width: 1600px) {
                 height: 520px;
             }
         }
+
         .form-filter {
             margin-top: 16px;
         }
@@ -94,22 +98,19 @@
     .pointer {
         cursor: pointer;
     }
+
     .icon-check:before {
         font-size: 15px;
         font-weight: bold;
         color: #458A00;
     }
+
     .checkbox-custom:checked + label:before {
         background-color: #458A00;
     }
+
     .checkbox-custom:checked + label:after {
         background-color: #fff;
-        box-shadow: 
-        2px 0 0 #fff,
-        4px 0 0 #fff,
-        4px -2px 0 #fff,
-        4px -4px 0 #fff,
-        4px -6px 0 #fff,
-        4px -8px 0 #fff;
+        box-shadow: 2px 0 0 #fff, 4px 0 0 #fff, 4px -2px 0 #fff, 4px -4px 0 #fff, 4px -6px 0 #fff, 4px -8px 0 #fff;
     }
 }

@@ -104,7 +104,6 @@ export default class MemberWorkload extends Component {
                 if (!tooltipEl) {
                     tooltipEl = document.createElement('div');
                     tooltipEl.id = 'chartjs-tooltip';
-                    tooltipEl.innerHTML = "<table></table>";
                     document.body.appendChild(tooltipEl);
                 }
 
@@ -128,28 +127,16 @@ export default class MemberWorkload extends Component {
 
                 // Set Text
                 if (tooltipModel.body) {
-                    var titleLines = tooltipModel.title || [];
                     var bodyLines = tooltipModel.body.map(getBody);
 
-                    var innerHtml = '<thead>';
-
-                    titleLines.forEach(function (title) {
-                        innerHtml += '<tr><th>' + title + '</th></tr>';
-                    });
-                    innerHtml += '</thead><tbody>';
+                    var innerHtml = '';
                     bodyLines.forEach(function (body, i) {
                         if (body.length > 0) {
-                            var colors = tooltipModel.labelColors[i];
-                            var style = 'background:' + colors.backgroundColor;
-                            style += '; border: 2px solid ' + colors.borderColor;
-                            var span = '<span class="chartjs-tooltip-key" style="' + style + '"></span>';
-                            innerHtml += '<tr><td>' + body + '</td></tr>';
+                            innerHtml += '<p>' + body + '</p>';
                         }
                     });
-                    innerHtml += '</tbody>';
 
-                    var tableRoot = tooltipEl.querySelector('table');
-                    tableRoot.innerHTML = innerHtml;
+                    tooltipEl.innerHTML = innerHtml;
                 }
 
                 var position = this._chart.canvas.getBoundingClientRect();
