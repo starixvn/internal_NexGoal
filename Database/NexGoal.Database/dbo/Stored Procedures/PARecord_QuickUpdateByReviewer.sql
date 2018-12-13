@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PARecord_QuickUpdateByReviewer] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_QuickUpdateByReviewer] @ActorId INT
 	,@PARecordId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
@@ -28,8 +27,6 @@ BEGIN
 	-- Write log before update	
 	SET @xml = (
 			SELECT PARecordId AS '@id'
-				,GradeId AS '@gid'
-				,Comment AS '@comment'
 				,ModifiedBy AS '@modifiedby'
 				,ModifiedDate AS '@modifiedDate'
 			FROM dbo.PARecord WITH (NOLOCK)
@@ -39,7 +36,12 @@ BEGIN
 			)
 	SET @logDataOld = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 
-	UPDATE dbo.PARecord WITH (ROWLOCK, UPDLOCK)
+	UPDATE dbo.PARecord
+	WITH (
+			ROWLOCK
+			,UPDLOCK
+			)
+
 	SET ModifiedBy = @ActorId
 		,ModifiedDate = GETDATE()
 	WHERE PARecordId = @PARecordId
@@ -55,8 +57,6 @@ BEGIN
 	-- write log after insert
 	SET @xml = (
 			SELECT PARecordId AS '@id'
-				,GradeId AS '@gid'
-				,Comment AS '@comment'
 				,ModifiedBy AS '@modifiedby'
 				,ModifiedDate AS '@modifiedDate'
 			FROM dbo.PARecord WITH (NOLOCK)
@@ -67,10 +67,11 @@ BEGIN
 	SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
-		--EXEC dbo.LogDetail_Insert @ActorId = @ActorId
-		--	,@SPName = 'PARecord_UpdateByReviewer'
-		--	,@ObjectId = @PerformanceRecordId
-		--	,@Data = @logData
-		--	,@OldData = @logDataOld
-		--	,@Duration = @Duration
+
+	EXEC dbo.LogDetail_Insert @ActorId = @ActorId
+		,@SPName = 'PARecord_QuickUpdateByReviewer'
+		,@ObjectId = @PARecordId
+		,@Data = @logData
+		,@OldData = @logDataOld
+		,@Duration = @Duration
 END

@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[PARecord_UpdateByReviewer] @ActorId INT
+﻿CREATE PROCEDURE [dbo].[PARecord_UpdateByReviewer] @ActorId INT
 	,@PARecordId INT
 	,@GradeId VARCHAR(MAX) = ''
 	,@Comment NVARCHAR(MAX)
@@ -71,10 +70,10 @@ BEGIN
 	SET @logData = REPLACE(CONVERT(NVARCHAR(max), @xml), '" />', '"/"')
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
-		--EXEC dbo.LogDetail_Insert @ActorId = @ActorId
-		--	,@SPName = 'PARecord_UpdateByReviewer'
-		--	,@ObjectId = @PerformanceRecordId
-		--	,@Data = @logData
-		--	,@OldData = @logDataOld
-		--	,@Duration = @Duration
+		EXEC dbo.LogDetail_Insert @ActorId = @ActorId
+			,@SPName = 'PARecord_UpdateByReviewer'
+			,@ObjectId = @PARecordId
+			,@Data = @logData
+			,@OldData = @logDataOld
+			,@Duration = @Duration
 END

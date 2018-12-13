@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl, noDataIndication } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import Multiselect from '../../shared/components/multi-select/index';
 import Milestone from '../../shared/components/milestone';
@@ -231,6 +231,14 @@ export default class MemberWorkload extends Component {
         return '';
     }
 
+    renderTeamWorkload = () => {
+        if (this.state.workloads.length > 0) {
+            return this.state.workloads.map(this.renderChart);
+        } else {
+            return <span>{getResource('NoRecordFound')}</span>;
+        }
+    }
+
     render() {
         const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
 
@@ -255,7 +263,9 @@ export default class MemberWorkload extends Component {
                     </div>
                 }
                 <div id="chart-wrapper" >
-                    {this.state.workloads.map(this.renderChart)}
+                    {
+                        this.renderTeamWorkload()
+                    }
                 </div>
             </div>
         );
