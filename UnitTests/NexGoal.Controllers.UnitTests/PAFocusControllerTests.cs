@@ -12,6 +12,7 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.PAFocus;
     using NexGoal.Services;
+    using NexGoal.ViewModels.PAFocus;
     using NSubstitute;
     using Xunit;
 
@@ -114,6 +115,31 @@
             var jsonResult = Assert.IsType<JsonResult>(actual);
             var result = Assert.IsAssignableFrom<IEnumerable<EmployeeBaseModel>>(jsonResult.Value);
             Assert.Equal(employees, result);
+        }
+
+        [Fact]
+        public async Task GetPAFocus_WhenCalled_ReturnAsExpectedPAFocuses()
+        {
+            // Arrange
+            var pafocuses = new List<PAFocusModel>
+            {
+                new PAFocusModel
+                {
+                    PAFocusId = 1,
+                    Employee = new EmployeeBaseModel { EmployeeId = 1, NickName = "tim", GroupCode = "NEX", GroupName = "Nexus" }
+                }
+            };
+            var controller = GetPAFocusController();
+            focusService.GetPAFocusAsync(Arg.Any<GetPAFocusParam>()).Returns(pafocuses);
+
+            // Act
+            var result = await controller.GetPAFocus(new GetPAFocusParam());
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = (IEnumerable<PAFocusViewModel>)jsonResult.Value.GetType().GetProperty("paFocuses").GetValue(jsonResult.Value);
+            Assert.False((bool)jsonResult.Value.GetType().GetProperty("isHost").GetValue(jsonResult.Value));
+            Assert.Single(actual);
         }
 
         [Fact]
