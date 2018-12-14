@@ -15,7 +15,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @EmployeeIdString VARCHAR(20)
+	DECLARE @Today DATE = GETDATE()
+		,@EmployeeIdString VARCHAR(20)
 		,@PAClosed TINYINT = 4
 	-- process
 	DECLARE @PMProcessId TINYINT = 3
@@ -152,8 +153,8 @@ BEGIN
 			,record.EmployeeIds
 			,record.CreatorId
 			,record.TypeId
-			,nomination.StatusId AS NominationStatusId
-			,nomination.EOQYId AS NominationPeriodId
+			,NULL AS NominationStatusId
+			,NULL AS NominationPeriodId
 		FROM dbo.PerformanceRecord AS record WITH (NOLOCK)
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
 			AND emp.[Enabled] = 1
@@ -162,15 +163,13 @@ BEGIN
 			LEFT JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 			LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
 			AND emp.EmployeeId = pa.EmployeeId
-			LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
-			AND record.PerformanceRecordId = nomination.PerformanceRecordId
+			AND pa.StatusId = @PAClosed
 		WHERE (
 				record.TypeId = @Checkin
 				OR (
 					record.TypeId = @SystemPA
 					AND @EmployeeId IS NOT NULL
 					AND pa.PARecordId IS NOT NULL
-					AND pa.StatusId = @PAClosed
 					)
 				)
 			AND record.StatusId IN (@Submitted, @Closed)
@@ -220,6 +219,8 @@ BEGIN
 			INNER JOIN #tblMember AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
 			INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
 			AND record.PerformanceRecordId = nomination.PerformanceRecordId
+			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+			AND period.EndDateForCommittee < @Today
 		WHERE record.TypeId = @SystemNomination
 			AND record.CreatorId = - 1
 		) AS data
@@ -251,6 +252,7 @@ BEGIN
 	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EndDateForCommittee < @Today
 
 	DROP TABLE #tblMember
 

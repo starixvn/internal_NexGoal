@@ -19,7 +19,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @FromDate DATE
+	DECLARE @Today DATE = GETDATE()
+		,@FromDate DATE
 		,@ToDate DATE
 		,@PAClosed TINYINT = 4
 	-- process
@@ -136,9 +137,12 @@ BEGIN
 		LEFT JOIN #tblGroup AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
 		LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+		AND pa.StatusId = @PAClosed
 		AND emp.EmployeeId = pa.EmployeeId
 		LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		AND nomination.NomineeId = @EmployeeId
+		LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EndDateForCommittee < @Today
 	WHERE (
 			(
 				record.TypeId = @Checkin
@@ -156,12 +160,12 @@ BEGIN
 					(
 						record.TypeId = @SystemPA
 						AND pa.PARecordId IS NOT NULL
-						AND pa.StatusId = @PAClosed
 						AND member.IsHost = 1
 						)
 					OR (
 						record.TypeId = @SystemNomination
 						AND nomination.NominationId IS NOT NULL
+						AND period.EOQYId IS NOT NULL
 						)
 					)
 				)
@@ -264,6 +268,7 @@ BEGIN
 	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EndDateForCommittee < @Today
 
 	DROP TABLE #tblGroup
 

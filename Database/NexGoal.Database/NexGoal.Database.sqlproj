@@ -225,6 +225,7 @@
     <Build Include="dbo\Stored Procedures\Nomination_GetByPeriodIds.sql" />
     <Build Include="dbo\Stored Procedures\PARecord_GetByReviewer.sql" />
     <Build Include="dbo\Stored Procedures\Nomination_Delete.sql" />
+    <Build Include="dbo\Stored Procedures\Employee_GetRoleAccordingToMember.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

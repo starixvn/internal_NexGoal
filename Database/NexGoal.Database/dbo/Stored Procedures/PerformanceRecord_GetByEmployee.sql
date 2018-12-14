@@ -14,7 +14,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @PAClosed TINYINT = 4
+	DECLARE @Today DATE = GETDATE()
+		,@PAClosed TINYINT = 4
 	-- Performance Record Type
 	DECLARE @Checkin TINYINT = 1
 		,@SystemPA TINYINT = 4
@@ -114,22 +115,23 @@ BEGIN
 			INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON record.EmployeeIds = emp.EmployeeId
 			AND emp.EmployeeId = @EmployeeId
 			LEFT JOIN dbo.Employee AS creator WITH (NOLOCK) ON record.CreatorId = creator.EmployeeId
-			AND creator.[Enabled] = 1
-			AND creator.IsDeleted = 0
 			LEFT JOIN dbo.PARecord AS pa WITH (NOLOCK) ON record.PerformanceRecordId = pa.PerformanceRecordId
+			AND pa.StatusId = @PAClosed
 			AND emp.EmployeeId = pa.EmployeeId
 			LEFT JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON emp.EmployeeId = nomination.NomineeId
 			AND record.PerformanceRecordId = nomination.PerformanceRecordId
+			LEFT JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+			AND period.EndDateForCommittee < @Today
 		WHERE (
 				record.TypeId = @Checkin
 				OR (
 					record.TypeId = @SystemPA
 					AND pa.PARecordId IS NOT NULL
-					AND pa.StatusId = @PAClosed
 					)
 				OR (
 					record.TypeId = @SystemNomination
 					AND nomination.NominationId IS NOT NULL
+					AND period.EOQYId IS NOT NULL
 					)
 				)
 			AND record.StatusId IN (@Submitted, @Closed)
@@ -166,6 +168,7 @@ BEGIN
 	FROM #tblPerformanceRecord AS record WITH (NOLOCK)
 		INNER JOIN dbo.Nomination AS nomination WITH (NOLOCK) ON record.PerformanceRecordId = nomination.PerformanceRecordId
 		INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
+		AND period.EndDateForCommittee < @Today
 
 	DROP TABLE #tblPerformanceRecord
 END
