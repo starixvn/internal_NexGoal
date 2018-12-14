@@ -49,6 +49,7 @@ export default class App extends Component {
             },
             currentUserInfo: {
                 ...getCurrentUserInfo(),
+                roleId: 0,
                 isNominator: document.getElementById('isNominator').checked
             },
             editPerformanceRecord: {
@@ -78,6 +79,7 @@ export default class App extends Component {
             axios(resolveClientUrl('common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
+            axios(resolveClientUrl('member/GetRoleAccordingToMember'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberNominationResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/GetMemberPerformanceAppraisalResult'), { params: { memberId: memberId } }),
             axios(resolveClientUrl('member/Performance'), { params: { memberId: memberId } }),
@@ -92,7 +94,8 @@ export default class App extends Component {
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, nominationResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse, timelineResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, roleResponse,
+                nominationResponse, performanceAppraisalResponse, performanceRecordResponse, hrmResponse, timelineResponse]) => {
                 let displayedPerformanceRecords = performanceRecordResponse.data.slice(0, this.itemPerPage);
 
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
@@ -107,6 +110,8 @@ export default class App extends Component {
                 });
 
                 let timelineInfo = timelineResponse.data[0];
+                let currentUserInfo = Object.assign({}, this.state.currentUserInfo, { roleId: roleResponse.data });
+
                 this.setState({
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
@@ -118,6 +123,7 @@ export default class App extends Component {
                         nextDisabled: true,
                         prevDisabled: this.timelineItemPerPage >= timelineInfo.totalItems
                     },
+                    currentUserInfo: currentUserInfo,
                     performanceAppraisals: performanceAppraisalResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
                     performanceRecords: performanceRecordResponse.data,

@@ -97,5 +97,12 @@
 
             return Json(teamWorkloads);
         }
+
+        public async Task<JsonResult> GetRoleAccordingToMember(int memberId)
+        {
+            int roleId = await employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, memberId).ConfigureAwait(false);
+
+            return Json(roleId);
+        }
     }
 }

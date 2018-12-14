@@ -8,7 +8,7 @@ import { camelCase, isEmpty } from 'lodash';
 import { stringify } from 'qs';
 import moment from 'moment';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, getRoleClassName, resolveClientUrl } from '../../common-functions';
 import { DateFormat, PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import TextareaFullscreenEditor from '../../shared/components/textarea-fullscreen/index';
@@ -201,7 +201,7 @@ export default class EditMemberPerformance extends Component {
                         <div className="avatar-user">
                             <img src={currentUser.avatar} className="avatar" />
                             <div className="person-info">
-                                <span className="role-member">{currentUser.nickName}</span>
+                                <span className={getRoleClassName(performanceRecord.roleId)}>{currentUser.nickName}</span>
                                 <div>
                                     <span className="submit-date">{moment().format(DateFormat)}</span>
                                     {

@@ -74,6 +74,17 @@
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
+        public async Task<int> GetRoleAccordingToMemberAsync(int actorId, int memberId)
+        {
+            var criteria = new GetRoleAccordingToMemberCriteria
+            {
+                ActorId = actorId,
+                MemberId = memberId
+            };
+
+            return await baseService.GetDataEntityAsync<int>(criteria).ConfigureAwait(false);
+        }
+
         public async Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId)
         {
             var criteria = new GetPerformanceAppraisalResult

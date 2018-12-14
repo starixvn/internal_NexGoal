@@ -165,6 +165,23 @@
             Assert.Equal(expected, actual);
         }
 
+        [Fact]
+        public async Task GetRoleAccordingToMember_WhenCalled_ReturnAsExpectedRole()
+        {
+            // Arrange
+            var expected = 1;
+            var controller = GetMemberController();
+            employeeService.GetRoleAccordingToMemberAsync(sessionService.EmployeeId, 1).Returns(expected);
+
+            // Act
+            var result = await controller.GetRoleAccordingToMember(1);
+
+            // Assert
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<int>(jsonResult.Value);
+            Assert.Equal(expected, actual);
+        }
+
         #region Helpers
 
         private ISessionService FakeSessionService()

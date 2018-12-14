@@ -45,6 +45,7 @@ export default class App extends Component {
             },
             currentUser: {
                 ...getCurrentUserInfo(),
+                roleId: 2,
                 isNominator: document.getElementById('isNominator').checked,
                 isReviewer: document.getElementById('isReviewer').checked
             },

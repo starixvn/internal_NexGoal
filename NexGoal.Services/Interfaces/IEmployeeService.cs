@@ -18,6 +18,8 @@
 
         Task<CommandResult> EditEmployeeRolesAsync(EditEmployeeRolesModel model);
 
+        Task<int> GetRoleAccordingToMemberAsync(int actorId, int memberId);
+
         Task<IEnumerable<PARecordModel>> GetPerformanceAppraisalResultAsync(int employeeId);
 
         Task<IEnumerable<PARecordModel>> GetMemberPerformanceAppraisalResultAsync(

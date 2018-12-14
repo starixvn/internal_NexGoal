@@ -144,6 +144,21 @@
             Assert.Equal(groups, actual);
         }
 
+        [Fact]
+        public async Task GetRoleAccordingToMemberAsync_WhenCalled_ReturnAsExpectedRole()
+        {
+            // Arrange
+            var expected = 1;
+            var service = GetEmployeeService();
+            baseService.GetDataEntityAsync<int>(Arg.Any<GetRoleAccordingToMemberCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.GetRoleAccordingToMemberAsync(1, 1);
+
+            // Assert
+            Assert.Equal(expected, actual);
+        }
+
         #region GetPerformanceAppraisalResultAsync
 
         [Fact]
