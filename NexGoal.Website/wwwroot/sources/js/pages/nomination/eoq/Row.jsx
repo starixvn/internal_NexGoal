@@ -2,30 +2,12 @@
 import moment from 'moment';
 
 import { resolveClientUrl } from '../../../common-functions';
+import { DateFormat } from '../../../constants';
+import { getCssClassNominationStatus, nominationSettingStatuses } from '../common';
 
 class Row extends Component {
     formatDate(value) {
-        return moment(value).format('DD MMM, YYYY');
-    }
-
-    getCssClassNominationStatus(statusId) {
-        let className = '';
-
-        switch (statusId) {
-            case 1:
-                className = 'in-progress';
-                break;
-
-            case 2:
-                className = 'closed';
-                break;
-
-            default:
-                className = 'not-started';
-                break;
-        }
-
-        return 'nomination-period-status ' + className;
+        return moment(value).format(DateFormat);
     }
 
     handleDeleteClick = () => {
@@ -57,18 +39,19 @@ class Row extends Component {
     }
 
     render() {
-        const eoq = this.props.eoq;
+        let eoq = this.props.eoq;
+        let statusIndex = nominationSettingStatuses.findIndex(x => x.value === eoq.statusId);
 
         return (
             <tr>
                 <td className="text-center">{this.props.rowIndex}</td>
-                <td>{eoq.quarterToString}</td>
+                <td className="text-center">{eoq.quarter}</td>
                 <td className="text-center">{eoq.year}</td>
                 <td className="text-center">{this.formatDate(eoq.startDateForNominator)}</td>
                 <td className="text-center">{this.formatDate(eoq.endDateForNominator)}</td>
                 <td className="text-center">{this.formatDate(eoq.remindDateForNominator)}</td>
                 <td className="text-center">{this.formatDate(eoq.endDateForCommittee)}</td>
-                <td className={"text-center " + this.getCssClassNominationStatus(eoq.statusId)}>{eoq.statusToString}</td>
+                <td className={"text-center " + getCssClassNominationStatus(eoq.statusId)}>{nominationSettingStatuses[statusIndex].text}</td>
                 <td className="text-center">{this.renderCellAction()}</td>
             </tr>
         );

@@ -18,6 +18,12 @@ export const nominationRoleOptions = [
     { value: 2, label: 'Committee' }
 ];
 
+export const nominationSettingStatuses = [
+    { value: 0, text: 'Not Ready' },
+    { value: 1, text: 'In Progress' },
+    { value: 2, text: 'Closed' }
+];
+
 export function validateEOYForm(values) {
     let errors = {};
 
@@ -104,4 +110,24 @@ export function validateEOQForm(values) {
     }
 
     return errors;
+}
+
+export function getCssClassNominationStatus(statusId) {
+    let className = '';
+
+    switch (statusId) {
+        case 1:
+            className = 'in-progress';
+            break;
+
+        case 2:
+            className = 'closed';
+            break;
+
+        default:
+            className = 'not-started';
+            break;
+    }
+
+    return 'nomination-period-status ' + className;
 }

@@ -22,26 +22,26 @@
         {
             get
             {
-                var title = $"Employee of the Year, {Year}";
+                var title = $"Employee of Year, {Year}";
 
                 if (Quarter.HasValue)
                 {
                     switch (Quarter)
                     {
                         case 1:
-                            title = $"Employee of 1st Quarter, {Year}";
+                            title = $"Employee of Quarter, I {Year}";
                             break;
 
                         case 2:
-                            title = $"Employee of 2nd Quarter, {Year}";
+                            title = $"Employee of Quarter, II {Year}";
                             break;
 
                         case 3:
-                            title = $"Employee of 3rd Quarter, {Year}";
+                            title = $"Employee of Quarter, III {Year}";
                             break;
 
                         default:
-                            title = $"Employee of 4th Quarter, {Year}";
+                            title = $"Employee of Quarter, IV {Year}";
                             break;
                     }
                 }
@@ -61,19 +61,19 @@
                     switch (Quarter)
                     {
                         case 1:
-                            title = $"EOQ - 1st {Year}";
+                            title = $"EOQ - I {Year}";
                             break;
 
                         case 2:
-                            title = $"EOQ - 2nd {Year}";
+                            title = $"EOQ - II {Year}";
                             break;
 
                         case 3:
-                            title = $"EOQ - 3rd {Year}";
+                            title = $"EOQ - II {Year}";
                             break;
 
                         default:
-                            title = $"EOQ - 4th {Year}";
+                            title = $"EOQ - II {Year}";
                             break;
                     }
                 }

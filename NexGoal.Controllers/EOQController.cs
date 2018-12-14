@@ -12,7 +12,6 @@
     using NexGoal.Core.Services;
     using NexGoal.Models.EOQY;
     using NexGoal.Services;
-    using NexGoal.ViewModels.EOQY;
 
     public class EOQController : Controller
     {
@@ -31,19 +30,8 @@
         public async Task<JsonResult> GetAll(int? year = null, int? statusId = null)
         {
             IEnumerable<EOQYModel> eoqs = await eoqService.GetAllAsync(year, statusId).ConfigureAwait(false);
-            IEnumerable<EOQYViewModel> viewModels = eoqs != null ? eoqs.Select(x => new EOQYViewModel
-            {
-                EOQYId = x.EOQYId,
-                Year = x.Year,
-                Quarter = x.Quarter,
-                Description = x.Description,
-                StartDateForNominator = x.StartDateForNominator,
-                EndDateForNominator = x.EndDateForNominator,
-                RemindDateForNominator = x.RemindDateForNominator,
-                EndDateForCommittee = x.EndDateForCommittee
-            }) : new List<EOQYViewModel>();
 
-            return Json(viewModels);
+            return Json(eoqs);
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.NominationManagement, Policy = Policy.Read)]

@@ -7,7 +7,6 @@
     using NexGoal.Core.Services;
     using NexGoal.Models.EOQY;
     using NexGoal.Services;
-    using NexGoal.ViewModels.EOQY;
     using NSubstitute;
     using Xunit;
 
@@ -28,12 +27,12 @@
             eoyService.GetAllAsync(2018).Returns(eoys);
 
             // Act
-            var actual = await controller.GetAll(2018);
+            var result = await controller.GetAll(2018);
 
             // Assert
-            var jsonResult = Assert.IsType<JsonResult>(actual);
-            var result = Assert.IsAssignableFrom<IEnumerable<EOQYViewModel>>(jsonResult.Value);
-            Assert.Single(result);
+            var jsonResult = Assert.IsType<JsonResult>(result);
+            var actual = Assert.IsAssignableFrom<IEnumerable<EOQYModel>>(jsonResult.Value);
+            Assert.Equal(eoys, actual);
         }
 
         #region Create

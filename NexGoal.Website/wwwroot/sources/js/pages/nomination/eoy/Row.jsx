@@ -2,30 +2,12 @@
 import moment from 'moment';
 
 import { resolveClientUrl } from '../../../common-functions';
+import { DateFormat } from '../../../constants';
+import { getCssClassNominationStatus, nominationSettingStatuses, validateEOQForm } from '../common';
 
 class Row extends Component {
     formatDate(value) {
-        return moment(value).format('DD MMM, YYYY');
-    }
-
-    getCssClassNominationStatus(statusId) {
-        let className = '';
-
-        switch (statusId) {
-            case 1:
-                className = 'in-progress';
-                break;
-
-            case 2:
-                className = 'closed';
-                break;
-
-            default:
-                className = 'not-started';
-                break;
-        }
-
-        return 'nomination-period-status ' + className;
+        return moment(value).format(DateFormat);
     }
 
     handleDeleteClick = () => {
@@ -57,7 +39,8 @@ class Row extends Component {
     }
 
     render() {
-        const eoy = this.props.eoy;
+        let eoy = this.props.eoy;
+        let statusIndex = nominationSettingStatuses.findIndex(x => x.value === eoy.statusId);
 
         return (
             <tr>
@@ -67,7 +50,7 @@ class Row extends Component {
                 <td className="text-center">{this.formatDate(eoy.endDateForNominator)}</td>
                 <td className="text-center">{this.formatDate(eoy.remindDateForNominator)}</td>
                 <td className="text-center">{this.formatDate(eoy.endDateForCommittee)}</td>
-                <td className={"text-center " + this.getCssClassNominationStatus(eoy.statusId)}>{eoy.statusToString}</td>
+                <td className={"text-center " + getCssClassNominationStatus(eoy.statusId)}>{nominationSettingStatuses[statusIndex].text}</td>
                 <td className="text-center">{this.renderCellAction()}</td>
             </tr>
         );
