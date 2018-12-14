@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettingStatus] @PARecordId INT
+﻿CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettingStatus] @PARecordId INT
 	,@IsExcluded BIT
 	,@ModifiedBy INT
 	,@ErrCode INT = 0 OUTPUT
@@ -59,8 +58,7 @@ BEGIN
 				WHERE pap.PARecordId = par.PARecordId AND pap.ProcessId <> @HRProcessId
 					AND pap.PerformanceRecordId IS NOT NULL
 			) THEN @PANotGenerated
-			WHEN @today BETWEEN hr.StartDate
-					AND reviewer.EndDate
+			WHEN @today >= hr.StartDate AND (@today <= reviewer.EndDate OR @today <= @periodEndDate)
 				THEN @PAInProgress
 			WHEN @periodEndDate < @today AND reviewer.EndDate < @today THEN @PAClosed
 			WHEN @today < hr.StartDate THEN @PAOpened 

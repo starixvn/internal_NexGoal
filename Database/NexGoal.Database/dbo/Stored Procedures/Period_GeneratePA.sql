@@ -1,5 +1,4 @@
-﻿
-CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[Period_GeneratePA] @PeriodId INT
 	,@PARecordIds VARCHAR(MAX) = NULL
 	,@CreatedBy INT
 	,@Override BIT = 0
@@ -249,8 +248,8 @@ BEGIN
 		UPDATE par
 		SET StatusId = (
 			CASE 
-			WHEN @today BETWEEN hr.StartDate
-					AND reviewer.EndDate
+			WHEN @today >= hr.StartDate
+					AND (@today <= reviewer.EndDate OR @today <= @periodEndDate)
 				THEN @PAInProgress
 			WHEN @periodEndDate < @today AND reviewer.EndDate < @today THEN @PAClosed
 			WHEN @today < hr.StartDate THEN @PAOpened

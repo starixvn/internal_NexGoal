@@ -1,6 +1,4 @@
-﻿
-/****** Object:  Stored Procedure dbo.EpaPeriod_UpdateProcessSetting    Script Date: 7/21/2016 2:45:54 PM ******/
-CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettings] @PeriodId INT
+﻿CREATE PROCEDURE [dbo].[Period_UpdateEmployeeSettings] @PeriodId INT
 	,@Settings VARCHAR(MAX)
 	,@PARecordIds VARCHAR(MAX)
 	,@ModifiedBy INT = NULL
@@ -162,12 +160,12 @@ BEGIN
 	-- update PA status
 	UPDATE pa
 	SET pa.StatusId = (CASE 
-			WHEN @Today BETWEEN hr.StartDate
-					AND reviewer.EndDate
+			WHEN  @Today >= hr.StartDate AND (@Today <= reviewer.EndDate OR @Today <= period.EndDate)
 				AND pa.StatusId <> @PAInProgress THEN @PAInProgress
 			WHEN period.EndDate < @Today
 				AND reviewer.EndDate < @Today
 				AND pa.StatusId <> @PAClosed THEN @PAClosed
+			WHEN @Today < hr.StartDate THEN @PAOpened 
 			ELSE pa.StatusId END
 			)
 	FROM dbo.PARecord AS pa WITH (ROWLOCK, UPDLOCK)
@@ -207,7 +205,7 @@ BEGIN
 		SET pr.CreatorId = pap.EvaluatorId
 			,pr.GradeId = lg.GradeId
 			,pr.Comment = STUFF((
-					SELECT CHAR(10) + prcmt.Comment
+					SELECT CHAR(10) + prcmt.comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 					WHERE prcmt.EmployeeIds = pr.EmployeeIds
 						AND prcmt.CreatorId = lg.CreatorId
