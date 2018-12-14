@@ -53,7 +53,7 @@ export default class RoleManagement extends Component {
                 nominationPeriodId: this.state.eoqId,
                 keyword: filter.keyword,
                 groupIds: groupIds,
-                roleId: filter.role.roleId,
+                roleId: filter.role.value,
                 isShowAll: filter.isShowAll
             }
         }).then(response => {
