@@ -59,16 +59,25 @@
 
 .member-performance {
     display: grid;
-    grid-template-columns: 80px 1fr;
+    grid-template-columns: 70px 1fr;
     align-content: center;
+    @media screen and (min-width: 1601px) { 
+        grid-template-columns: 80px 1fr;
+    }
 
     .employee-info {
         align-self: center;
-
+        font-size: 12px;
+        @media screen and (min-width: 1601px){
+            font-size: 13px;
+        }
         .nick-name {
             color: #2475D7;
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
+            @media screen and (min-width: 1601px) {
+                font-size: 12px;
+            }
         }
     }
 }
@@ -167,16 +176,21 @@
 .member-timeline .timeline-info {
     border: none;
     top: 29px;
-    width: 60px;
-    font-size: 11px;
-
+    width: 58px;
+    font-size: 10px;
+    @media screen and (min-width: 1601px) {
+        font-size: 11px;
+        width: 60px;
+    }
     &:after {
         left: 30px;
     }
 
     .name {
-        width: 60px;
-
+        width: 58px;
+        @media screen and (min-width: 1601px) {
+            width: 60px;
+        }
         &.role-default {
             border: 1px solid $role-default-color;
             background-color: rgba($role-default-color, 0.2);
