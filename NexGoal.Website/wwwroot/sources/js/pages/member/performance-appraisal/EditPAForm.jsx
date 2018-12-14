@@ -9,7 +9,7 @@ import TextareaFullscreenEditor from '../../../shared/components/textarea-fullsc
 import CustomScrollbars from '../../../shared/components/CustomScrollbars';
 import getResource from '../../../resourceHelper';
 import axios from 'axios';
-import { axiosError, resolveClientUrl } from '../../../common-functions';
+import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../../common-functions';
 import { PerformanceProcess, PAStatus, DateFormat } from '../../../constants';
 import PerformanceRecord from '../../../shared/components/PerformanceRecord';
 
@@ -25,10 +25,7 @@ export default class EditMemberPA extends Component {
             },
             employee: {},
             paProcesses: [],
-            currentUser: {
-                nickName: document.getElementById('employeeInfo-nickName').innerText,
-                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
-            },
+            currentUserInfo: getCurrentUserInfo(),
             currentDate: moment(),
             errors: {},
             activeTabKey: 1
@@ -168,7 +165,8 @@ export default class EditMemberPA extends Component {
         const pmRecords = this.renderRecordByProcess(PerformanceProcess.ProjectManager);
         const evaluatorRecord = this.renderRecordByProcess(PerformanceProcess.Evaluator);
         const reviewerRecord = this.renderRecordByProcess(PerformanceProcess.Reviewer);
-        const currentUser = this.state.currentUser;
+        const currentUserInfo = this.state.currentUserInfo;
+
         return (
             <Modal keyboard={false} backdrop="static"
                 show={this.props.isShowModal} onHide={this.props.onCloseModal}
@@ -185,9 +183,9 @@ export default class EditMemberPA extends Component {
                     <CustomScrollbars>
                         <div className="record record-your-mind">
                             <div className="avatar-user">
-                                <img src={currentUser.avatar} className="avatar" />
+                                <img src={currentUserInfo.avatar} className="avatar" />
                                 <div className="person-info">
-                                    <span className="role-reviewer">{currentUser.nickName}</span>
+                                    <span className="role-reviewer">{currentUserInfo.nickName}</span>
                                     <div className="submit-date">{this.state.currentDate.format(DateFormat)}</div>
                                 </div>
                             </div>

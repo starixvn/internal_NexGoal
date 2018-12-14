@@ -32,6 +32,15 @@ export const axiosError = (error) => {
     }
 };
 
+export const getCurrentUserInfo = () => {
+    return {
+        nickName: document.getElementById('employeeInfo-nickName').innerText,
+        fullName: document.getElementById('employeeInfo-fullName').innerText,
+        jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
+        avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
+    };
+};
+
 export const getRoleClassName = (roleId) => {
     let className = '';
 

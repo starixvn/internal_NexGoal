@@ -55,9 +55,9 @@ export default class Timeline extends Component {
         let windowWidth = window.innerWidth;
         let pageSize;
 
-        if (windowWidth >= 1600) {
+        if (windowWidth > 1600) {
             pageSize = 4;
-        } else if (windowWidth >= 1280 && windowWidth < 1600) {
+        } else if (windowWidth >= 1280 && windowWidth <= 1600) {
             pageSize = 3;
         } else {
             pageSize = 2;

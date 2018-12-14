@@ -5,7 +5,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
+import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -48,12 +48,7 @@ export default class MyPage extends Component {
                 prevDisabled: false
             },
             hrmDetail: {},
-            currentUser: {
-                nickName: document.getElementById('employeeInfo-nickName').innerText,
-                fullName: document.getElementById('employeeInfo-fullName').innerText,
-                jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
-                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src')
-            }
+            currentUserInfo: getCurrentUserInfo()
         };
 
         this.infiniteScrollRef = React.createRef();
@@ -324,14 +319,14 @@ export default class MyPage extends Component {
 
     render() {
         let performanceRecords = this.state.displayedPerformanceRecords;
-        let currentUser = this.state.currentUser;
+        let currentUserInfo = this.state.currentUserInfo;
 
         return (
             <div className="row">
                 <ToastLayout />
                 <div className="my-page main-layout">
                     <div className="general-info">
-                        <EmployeeInfo employee={currentUser} />
+                        <EmployeeInfo employee={currentUserInfo} />
                         <PerformanceAppraisalResult performanceAppraisals={this.state.performanceAppraisals} />
                     </div>
                     <div className="main-content">
@@ -348,7 +343,7 @@ export default class MyPage extends Component {
                         <div className="record-list">
                             <CustomScrollbars>
                                 <CreateSelfPerformance
-                                    currentUser={currentUser}
+                                    currentUser={currentUserInfo}
                                     performanceGradeOptions={this.state.performanceGradeOptions}
                                     projectOptions={this.state.projectOptions}
                                     onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
@@ -392,7 +387,7 @@ export default class MyPage extends Component {
                 {
                     this.state.editPerformanceRecord.isShowModal &&
                     <EditSelfPerformance
-                        currentUser={currentUser}
+                        currentUser={currentUserInfo}
                         performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}

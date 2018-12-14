@@ -6,7 +6,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -44,10 +44,7 @@ export default class App extends Component {
                 performanceRecordId: 0
             },
             currentUser: {
-                nickName: document.getElementById('employeeInfo-nickName').innerText,
-                fullName: document.getElementById('employeeInfo-fullName').innerText,
-                jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
-                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src'),
+                ...getCurrentUserInfo(),
                 isNominator: document.getElementById('isNominator').checked,
                 isReviewer: document.getElementById('isReviewer').checked
             },

@@ -6,7 +6,7 @@ import InfiniteScroll from 'react-infinite-scroller';
 import { toast } from 'react-toastify';
 import { stringify } from 'qs';
 
-import { axiosError, resolveClientUrl, calculateTimelineNode } from '../../common-functions';
+import { axiosError, calculateTimelineNode, getCurrentUserInfo, resolveClientUrl } from '../../common-functions';
 import { PerformanceRecordStatus } from '../../constants';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
@@ -47,11 +47,8 @@ export default class App extends Component {
                 nextDisabled: true,
                 prevDisabled: false
             },
-            currentUser: {
-                nickName: document.getElementById('employeeInfo-nickName').innerText,
-                fullName: document.getElementById('employeeInfo-fullName').innerText,
-                jobTitle: document.getElementById('employeeInfo-jobTitle').innerText,
-                avatar: document.getElementById('employeeInfo-avatar').getAttribute('src'),
+            currentUserInfo: {
+                ...getCurrentUserInfo(),
                 isNominator: document.getElementById('isNominator').checked
             },
             editPerformanceRecord: {
@@ -387,7 +384,7 @@ export default class App extends Component {
                                     <div className="record-list">
                                         <CustomScrollbars>
                                             <CreateMemberPerformance
-                                                currentUser={this.state.currentUser}
+                                                currentUser={this.state.currentUserInfo}
                                                 performanceGradeOptions={this.state.performanceGradeOptions}
                                                 projectOptions={this.state.projectOptions}
                                                 selectedMemberId={this.state.memberInfo.id}
@@ -416,12 +413,12 @@ export default class App extends Component {
                                     </div>
                                 </Tab>
                                 {
-                                    this.state.currentUser.isNominator &&
+                                    this.state.currentUserInfo.isNominator &&
                                     <Tab eventKey={2} title="Nomination">
                                         {
                                             this.state.loadNominationTab &&
                                             <Nomination
-                                                currentUser={this.state.currentUser}
+                                                currentUser={this.state.currentUserInfo}
                                                 isMemberDetail
                                                 nomineeId={this.state.memberInfo.id}
                                             />
@@ -448,7 +445,7 @@ export default class App extends Component {
                 {
                     this.state.editPerformanceRecord.isShowModal &&
                     <EditMemberPerformance
-                        currentUser={this.state.currentUser}
+                        currentUser={this.state.currentUserInfo}
                         performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
                         performanceGradeOptions={this.state.performanceGradeOptions}
                         projectOptions={this.state.projectOptions}
