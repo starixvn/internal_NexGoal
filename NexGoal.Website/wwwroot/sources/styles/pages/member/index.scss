@@ -161,7 +161,7 @@
         line-height: 13px;
         margin-right: 6px;
         position: relative;
-        top: 2px;
+        top: 3px;
     }
 
     .collapsed {
@@ -271,7 +271,7 @@
 
     .comment .form-filter {
         padding: 0;
-
+        min-width: initial;
         .form-group:last-child {
             margin-bottom: 0;
         }
@@ -294,6 +294,10 @@
     .react-select-container {
         display: inline-block;
         width: calc(100% - 40px);
+        .react-select__value-container {
+            padding: 2px 0 2px 4px;
+            font-size: 12px;
+        }
     }
 }
 
