@@ -23,12 +23,21 @@ class Rows extends Component {
         return <span className={`bold ${toeicClass}`}>{toeic ? toeic : getResource('N/A')}</span>;
     }
 
+    parseIntGradeId = (gradeId) => {
+        return gradeId !== null ? gradeId : 0;
+    }
+
     renderPAForReviewer = (record) => {
         let reviewerProcess = record.processes.filter(process => process.processId === PerformanceProcess.Reviewer)[0];
         let paGrade = record.grade ? record.grade.name : getResource('N/A');
         let gradeChangeClass = '';
-        if (parseInt(record.gradeId) > parseInt(record.originalGradeId)) gradeChangeClass = 'icon-increase-arrow';
-        if (parseInt(record.gradeId) < parseInt(record.originalGradeId)) gradeChangeClass = 'icon-descrease-arrow';
+        if (this.parseIntGradeId(record.gradeId) > this.parseIntGradeId(record.originalGradeId)) {
+            gradeChangeClass = 'icon-increase-arrow';
+        }
+
+        if (this.parseIntGradeId(record.gradeId) < this.parseIntGradeId(record.originalGradeId)) {
+            gradeChangeClass = 'icon-descrease-arrow';
+        }
         let displayPAGrade = record.statusId === PAStatus.Closed ?
             <span>{paGrade}</span> :
             <a onClick={() => this.handleClick(record.paRecordId)}>{paGrade}</a>;
