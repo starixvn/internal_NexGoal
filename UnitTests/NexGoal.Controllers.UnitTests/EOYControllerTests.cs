@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Models.EOQY;
@@ -101,7 +102,7 @@
             var eoy = new EOQYModel { Year = 2017 };
             var controller = GetEOYController();
             eoyService.GetByIdAsync(1).Returns(eoy);
-            sessionService.HasPermissionOnFunction("NominationManagement", Core.Enumerations.Policy.Host).Returns(true);
+            sessionService.HasPermissionOnFunction("NominationManagement", Policy.Host).Returns(true);
 
             // Act
             var actual = await controller.Edit(1);
@@ -177,7 +178,7 @@
             var eoy = new EOQYModel { Year = 2017 };
             var controller = GetEOYController();
             eoyService.GetByIdAsync(1).Returns(eoy);
-            sessionService.HasPermissionOnFunction("NominationManagement", Core.Enumerations.Policy.Host).Returns(true);
+            sessionService.HasPermissionOnFunction("NominationManagement", Policy.Host).Returns(true);
 
             // Act
             var actual = await controller.Details(1);

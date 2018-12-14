@@ -89,7 +89,7 @@ var resource_en_US = {
     'NextObjectives': 'Next Objectives',
     'NickName': 'Nickname',
     'Nomination': 'Nomination',
-    'NominationManagement': 'Nomination Management',
+    'NominationPeriods': 'Nomination Periods',
     'NominationPeriod': 'Nomination Period',
     'Nominator': 'Nominator',
     'Nominee': 'Nominee',

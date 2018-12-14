@@ -132,8 +132,8 @@
   <data name="EndDateForNominator" xml:space="preserve">
     <value>End Date For Nominator</value>
   </data>
-  <data name="NominationManagement" xml:space="preserve">
-    <value>Nomination Management</value>
+  <data name="NominationPeriods" xml:space="preserve">
+    <value>Nomination Periods</value>
   </data>
   <data name="RemindDateForNominator" xml:space="preserve">
     <value>Remind Date For Nominator</value>

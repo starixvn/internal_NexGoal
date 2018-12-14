@@ -151,11 +151,11 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Nomination Management.
+        ///   Looks up a localized string similar to Nomination Periods.
         /// </summary>
-        public static string NominationManagement {
+        public static string NominationPeriods {
             get {
-                return ResourceManager.GetString("NominationManagement", resourceCulture);
+                return ResourceManager.GetString("NominationPeriods", resourceCulture);
             }
         }
         
