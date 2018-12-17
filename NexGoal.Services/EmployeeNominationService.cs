@@ -224,7 +224,7 @@
                 }
             }
 
-            return records.OrderBy(x => x.StatusId == PerformanceRecordStatus.Draft ? 1 : 2).ThenByDescending(x => x.CreatedDate).ThenByDescending(x => x.NominationStatusId);
+            return records.OrderBy(x => x.StatusId == PerformanceRecordStatus.Draft ? 1 : 2).ThenByDescending(x => x.CreatedDate);
         }
     }
 }
