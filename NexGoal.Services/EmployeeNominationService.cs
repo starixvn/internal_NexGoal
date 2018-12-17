@@ -211,13 +211,15 @@
 
             foreach (PerformanceRecordModel nomination in systemNominations)
             {
-                if (!records.Any(x => x.NominationPeriodId == nomination.NominationPeriodId && x.NominationStatusId == nomination.NominationStatusId))
+                if (!records.Any(x => x.NominationPeriodId == nomination.NominationPeriodId && x.NominationStatusId == nomination.NominationStatusId
+                    && x.TypeId == (int)PerformanceRecordType.SystemNomination))
                 {
                     records.Add(nomination);
                 }
                 else
                 {
-                    int index = records.FindIndex(x => x.NominationPeriodId == nomination.NominationPeriodId && x.NominationStatusId == nomination.NominationStatusId);
+                    int index = records.FindIndex(x => x.NominationPeriodId == nomination.NominationPeriodId && x.NominationStatusId == nomination.NominationStatusId
+                        && x.TypeId == (int)PerformanceRecordType.SystemNomination);
                     records[index].EmployeeIds = $"{records[index].EmployeeIds},{nomination.EmployeeIds}";
                 }
             }
