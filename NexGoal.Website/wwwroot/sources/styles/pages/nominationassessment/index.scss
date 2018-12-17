@@ -42,14 +42,21 @@
         .period {
             background-color: #525E86;
             line-height: 50px;
-            width: 325px;
+            width: 230px;
             padding-left: 16px;
             border-right: 2px solid #fff;
+            @media screen and (min-width: 1280px) {
+                width: 325px;
+            }
         }
     }
 
-    .react-select-container .react-select__control {
-        height: 27px;
+    .react-select-container {
+        min-width: 125px;
+        .react-select__control {
+            height: 27px;
+        }
+
     }
 
     .order {

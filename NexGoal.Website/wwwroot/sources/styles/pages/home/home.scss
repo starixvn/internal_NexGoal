@@ -39,11 +39,15 @@
         width: 230px;
         display: inline-block;
         margin-right: 16px;
+        line-height: initial;
     }
 
     .project {
         display: inline-block;
         width: calc(100% - 230px - 16px);
+        .react-select__value-container {
+            padding: 1px 6px;
+        }
     }
 
     .comment .form-filter {
