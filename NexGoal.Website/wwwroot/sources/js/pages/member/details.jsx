@@ -367,7 +367,7 @@ export default class App extends Component {
                             <EmployeeInfo employee={this.state.memberInfo} />
                             <PerformanceAppraisalResult
                                 performanceAppraisals={performanceAppraisals}
-                                title={`${this.state.memberInfo.nickName}'s PAs`}
+                                title={`${this.state.memberInfo.nickName}'s Performance Appraisal`}
                             />
                         </div>
                         <div className="main-content">
