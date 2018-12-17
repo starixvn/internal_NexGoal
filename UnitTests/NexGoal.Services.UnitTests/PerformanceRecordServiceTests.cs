@@ -169,7 +169,7 @@
         }
 
         [Fact]
-        public async Task GetMemberPerformanceAsync_DataAreNotContainSystemNomination_ReturnAsExpectedPerformanceRecords()
+        public async Task GetMemberPerformanceAsync_MappingData_ReturnAsExpectedPerformanceRecords()
         {
             // Arrange
             var gradeId = "1";
@@ -213,69 +213,6 @@
             Assert.True(actual.First().Grade == performanceGrades.First());
             Assert.True(actual.First().Period == periods.First());
             Assert.True(actual.First().NominationPeriod == nominationPeriods.First());
-        }
-
-        [Fact]
-        public async Task GetMemberPerformanceAsync_DataAreContainSystemNomination_ReturnAsExpectedPerformanceRecords()
-        {
-            // Arrange
-            var gradeId = "1";
-            var performanceRecords = new List<PerformanceRecordModel>
-            {
-                new PerformanceRecordModel
-                {
-                    PerformanceRecordId = 1,
-                    EmployeeIds = "1",
-                    ProjectIds = "1",
-                    GradeId = "cipher text",
-                    PeriodId = 1,
-                    TypeId = (int)PerformanceRecordType.PerformanceCheckin
-                },
-                new PerformanceRecordModel
-                {
-                    PerformanceRecordId = 2,
-                    EmployeeIds = "1",
-                    NominationPeriodId = 1,
-                    NominationStatusId = (int)NominationStatus.Nominated,
-                    TypeId = (int)PerformanceRecordType.SystemNomination
-                },
-                new PerformanceRecordModel
-                {
-                    PerformanceRecordId = 3,
-                    EmployeeIds = "2",
-                    NominationPeriodId = 1,
-                    NominationStatusId = (int)NominationStatus.Nominated,
-                    TypeId = (int)PerformanceRecordType.SystemNomination
-                }
-            };
-            IEnumerable<NominationPeriodModel> nominationPeriods = GetNominationPeriodForTest();
-            IEnumerable<EmployeeBaseModel> employees = GetEmployeeForTest();
-            IEnumerable<PeriodBaseModel> periods = GetPeriodForTest();
-            IEnumerable<ProjectModel> projects = GetProjectForTest();
-            IEnumerable<PerformanceGradeModel> performanceGrades = GetPerformanceGradeForTest();
-            var expectedEmployees = employees.Where(x => x.EmployeeId == 1);
-            var expectedProjects = projects.Where(x => x.ProjectId == 1);
-            var tuple = new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(performanceRecords, nominationPeriods);
-            var service = GetPerformanceRecordService();
-            baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetMemberPerformanceCriteria>()).Returns(tuple);
-            commonService.GetEmployeesAsync(isEnabled: null).Returns(employees);
-            commonService.GetProjectsAsync().Returns(projects);
-            commonService.GetPerformanceGradeAsync().Returns(performanceGrades);
-            commonService.GetAllPeriods().Returns(periods);
-            cryptoService.Decrypt(Arg.Any<string>()).Returns(gradeId);
-
-            // Act
-            var actual = await service.GetMemberPerformanceAsync(1);
-
-            // Assert
-            Assert.Equal(2, actual.Count());
-            Assert.True(expectedEmployees.All(x => actual.First().Employees.Any(y => y == x)));
-            Assert.True(expectedProjects.All(x => actual.First().Projects.Any(y => y == x)));
-            Assert.True(actual.First().Grade == performanceGrades.First());
-            Assert.True(actual.First().Period == periods.First());
-
-            Assert.True(actual.ElementAt(1).NominationPeriod == nominationPeriods.First());
-            Assert.True(employees.All(x => actual.ElementAt(1).Employees.Any(y => y == x)));
         }
 
         #endregion GetMemberPerformanceAsync

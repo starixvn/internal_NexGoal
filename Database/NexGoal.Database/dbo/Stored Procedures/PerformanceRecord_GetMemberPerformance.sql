@@ -221,7 +221,8 @@ BEGIN
 			AND record.PerformanceRecordId = nomination.PerformanceRecordId
 			INNER JOIN dbo.EOQY AS period WITH (NOLOCK) ON nomination.EOQYId = period.EOQYId
 			AND period.EndDateForCommittee < @Today
-		WHERE record.TypeId = @SystemNomination
+		WHERE emp.EmployeeId = @EmployeeId
+			AND record.TypeId = @SystemNomination
 			AND record.CreatorId = - 1
 		) AS data
 

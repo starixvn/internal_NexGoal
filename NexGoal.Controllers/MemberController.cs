@@ -61,7 +61,6 @@
             }
 
             EmployeeBaseModel member = await commonService.GetEmployeeByIdAsync(id).ConfigureAwait(false);
-            ViewData["IsNominator"] = await nominationService.IsNominator(sessionService.EmployeeId).ConfigureAwait(false);
 
             return View(member);
         }

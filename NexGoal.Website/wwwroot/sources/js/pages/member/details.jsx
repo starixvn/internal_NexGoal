@@ -49,8 +49,7 @@ export default class App extends Component {
             },
             currentUserInfo: {
                 ...getCurrentUserInfo(),
-                roleId: 0,
-                isNominator: document.getElementById('isNominator').checked
+                roleId: 0
             },
             editPerformanceRecord: {
                 isShowModal: false,
@@ -418,21 +417,17 @@ export default class App extends Component {
                                         </CustomScrollbars>
                                     </div>
                                 </Tab>
-                                {
-                                    this.state.currentUserInfo.isNominator &&
-                                    <Tab eventKey={2} title="Nomination">
-                                        {
-                                            this.state.loadNominationTab &&
-                                            <Nomination
-                                                currentUser={this.state.currentUserInfo}
-                                                isMemberDetail
-                                                nomineeId={this.state.memberInfo.id}
-                                            />
-                                        }
-                                    </Tab>
-                                }
+                                <Tab eventKey={2} title="Nomination">
+                                    {
+                                        this.state.loadNominationTab &&
+                                        <Nomination
+                                            currentUser={this.state.currentUserInfo}
+                                            isMemberDetail
+                                            nomineeId={this.state.memberInfo.id}
+                                        />
+                                    }
+                                </Tab>
                             </Tabs>
-
                         </div>
                         <div className="work-info">
                             {

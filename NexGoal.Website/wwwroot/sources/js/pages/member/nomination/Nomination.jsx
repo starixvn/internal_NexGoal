@@ -111,7 +111,7 @@ export default class Nomination extends Component {
                     let nominations = prevState.nominations.slice();
                     let index = nominations.findIndex(x => x.performanceRecordId === this.state.deletedRecordId);
                     nominations.splice(index, 1);
-                    debugger;
+
                     return {
                         nominations: nominations,
                         deletedRecordId: null,

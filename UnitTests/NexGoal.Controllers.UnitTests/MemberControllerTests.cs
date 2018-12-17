@@ -47,7 +47,6 @@
             var controller = GetMemberController();
             var employees = new List<EmployeeBaseModel>();
             employeeService.GetMemberAsync(sessionService.EmployeeId).Returns(employees);
-            nominationService.IsNominator(sessionService.EmployeeId).Returns(true);
 
             // Act
             var actual = await controller.Details(363);
@@ -69,14 +68,12 @@
 
             // Act
             employeeService.GetMemberAsync(sessionService.EmployeeId).Returns(employees);
-            nominationService.IsNominator(sessionService.EmployeeId).Returns(true);
             commonService.GetEmployeeByIdAsync(363).Returns(employee);
             var actual = await controller.Details(363);
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
             Assert.IsType<EmployeeBaseModel>(viewResult.Model);
-            Assert.True((bool)viewResult.ViewData["IsNominator"]);
         }
 
         [Fact]

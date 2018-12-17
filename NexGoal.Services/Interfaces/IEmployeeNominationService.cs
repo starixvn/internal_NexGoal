@@ -17,8 +17,6 @@
 
         Task<PerformanceRecordModel> GetNominationByRecordIdAsync(int performanceRecordId);
 
-        Task<bool> IsNominator(int actorId);
-
         Task<CommandResult> EditAsync(EditEmployeeNominationModel model);
 
         Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForComitteeAsync(int committeeId);

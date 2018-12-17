@@ -71,6 +71,7 @@
             }
             else
             {
+                app.UseMiddleware<ErrorHandlingMiddleware>();
                 app.UseHsts();
             }
 

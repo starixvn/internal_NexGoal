@@ -53,17 +53,6 @@
         }
 
         [Fact]
-        public async Task IsNominator_ValidData_WhenCalledReturnExpectedResult()
-        {
-            var service = GetService();
-            baseService.GetDataEntityAsync<bool>(Arg.Any<CheckIsNominatorCriteria>()).Returns(true);
-
-            var result = await service.IsNominator(125);
-
-            Assert.True(result);
-        }
-
-        [Fact]
         public async Task GetNominationByRecordIdAsync_InvalidData_ReturnNull()
         {
             var service = GetService();

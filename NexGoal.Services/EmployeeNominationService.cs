@@ -171,16 +171,6 @@
             return commandResult;
         }
 
-        public async Task<bool> IsNominator(int actorId)
-        {
-            var criteria = new CheckIsNominatorCriteria
-            {
-                ActorId = actorId
-            };
-
-            return await baseService.GetDataEntityAsync<bool>(criteria).ConfigureAwait(false);
-        }
-
         private static void MappingData(
             IEnumerable<PerformanceRecordModel> performanceRecords,
             IEnumerable<EmployeeBaseModel> employees,

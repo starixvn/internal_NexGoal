@@ -369,18 +369,16 @@ export default class App extends Component {
                                         </CustomScrollbars>
                                     </div>
                                 </Tab>
-                                {
-                                    <Tab eventKey={2} title={getResource('Nomination')}>
-                                        {
-                                            this.state.loadNominationTab &&
-                                            <Nomination
+                                <Tab eventKey={2} title={getResource('Nomination')}>
+                                    {
+                                        this.state.loadNominationTab &&
+                                        <Nomination
                                                 pageType={2}
-                                                currentUser={currentUser}
-                                                employeeOptions={employeeOptions}
-                                                isEmployeeSelectable
-                                            />}
-                                    </Tab>
-                                }
+                                            currentUser={currentUser}
+                                            employeeOptions={employeeOptions}
+                                            isEmployeeSelectable
+                                        />}
+                                </Tab>
                                 {
                                     this.state.currentUser.isReviewer &&
                                     <Tab eventKey={3} title={getResource('PerformanceAppraisal')}>
