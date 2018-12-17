@@ -28,6 +28,7 @@ BEGIN
 		,pr.EmployeeIds
 		,pr.StatusId
 		,pr.TypeId
+		,pr.RoleId
 		,ISNULL(n.StatusId, sysn.StatusId) AS NominationStatusId
 		,ISNULL(n.EOQYId, sysn.EOQYId) AS NominationPeriodId
 	INTO #nominationTbl
@@ -52,6 +53,7 @@ BEGIN
 		,EmployeeIds
 		,StatusId
 		,TypeId
+		,RoleId
 		,NominationPeriodId
 		,NominationStatusId
 	FROM #nominationTbl
