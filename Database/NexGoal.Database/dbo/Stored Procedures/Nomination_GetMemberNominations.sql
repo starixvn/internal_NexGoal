@@ -15,6 +15,8 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @today DATE = GETDATE()
+
 	SELECT EmployeeId
 	INTO #member
 	FROM dbo.func_GetMember(@ActorId) 
@@ -42,7 +44,7 @@ BEGIN
 		) 
 		OR (pr.TypeId = 5 AND @MemberId IS NULL
 			AND EXISTS (SELECT 1 FROM #member m WHERE sysn.NomineeId = m.EmployeeId)
-			AND EXISTS (SELECT 1 FROM EOQY e WITH (NOLOCK) WHERE e.EOQYId = sysn.EOQYId AND e.EndDateForCommittee < GETDATE())
+			AND EXISTS (SELECT 1 FROM EOQY e WITH (NOLOCK) WHERE e.EOQYId = sysn.EOQYId AND e.EndDateForCommittee < @today)
 		)
 
 	SELECT PerformanceRecordId
