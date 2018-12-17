@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { Doughnut } from 'react-chartjs-2';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
+import { axiosError, resolveClientUrl, noDataIndication } from '../../common-functions';
 import { ChartColors } from '../../constants';
 import getResource from '../../resourceHelper';
 import Milestone from '../../shared/components/milestone';
@@ -26,7 +26,9 @@ export default class WorkLoad extends PureComponent {
     }
 
     generateChartLegend = () => {
-        document.getElementById('legend-container').innerHTML = this.refs.chart.chartInstance.generateLegend();
+        if (this.refs.chart) {
+            document.getElementById('legend-container').innerHTML = this.refs.chart.chartInstance.generateLegend();
+        }
     }
 
     getWorkload = () => {
@@ -158,10 +160,18 @@ export default class WorkLoad extends PureComponent {
         }
     }
 
+    renderWorkloadChart = () => {
+        const chartData = this.state.chartData;
+        if (chartData !== null && chartData.labels.length > 0) {
+            return <Doughnut ref='chart' data={chartData} height={200} options={this.chartOptions} />;
+        }
+
+        return <span>{getResource('NoRecordFound')}</span>;
+    }
+
     render() {
         const chartData = this.state.chartData;
         const periodOptions = this.props.periods.map(period => { return { name: period.name, value: period.periodId }; });
-
         return (
             <div className="workload box">
                 <div className="title">
@@ -173,8 +183,7 @@ export default class WorkLoad extends PureComponent {
                 </div>
                 <div style={{ position: 'relative' }}>
                     {
-                        chartData &&
-                        <Doughnut ref='chart' data={chartData} height={200} options={this.chartOptions} />
+                        this.renderWorkloadChart()
                     }
                 </div>
                 <div id="legend-container" className="legend-container" />
