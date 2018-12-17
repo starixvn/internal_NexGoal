@@ -222,7 +222,7 @@
     .grade {
         grid-column: 1;
         grid-row: 3;
-        line-height: 26px;
+        //line-height: 26px;
     }
 
     .project {
@@ -261,7 +261,7 @@
         }
         .lb-project, .project-detail {
             display: table-cell;
-            vertical-align: middle;
+            vertical-align: top;
         }
         .lb-project {
             width: 72px;
