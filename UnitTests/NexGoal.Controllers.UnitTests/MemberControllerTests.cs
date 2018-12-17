@@ -31,14 +31,12 @@
             var employeeRoles = new List<EmployeeRoleModel>();
             var controller = GetMemberController();
             employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId).Returns(employeeRoles);
-            nominationService.IsNominator(sessionService.EmployeeId).Returns(true);
 
             // Act
             var actual = await controller.Index();
 
             // Assert
             var viewResult = Assert.IsType<ViewResult>(actual);
-            Assert.True((bool)viewResult.ViewData["IsNominator"]);
             Assert.False((bool)viewResult.ViewData["IsReviewer"]);
         }
 

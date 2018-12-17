@@ -50,8 +50,7 @@ export default class PerformanceAppraisalResult extends Component {
                                 <div className="year">{performanceAppraisal.year}</div>
                                 {
                                     performanceAppraisal.records.map(record => {
-                                        let grade = record.grade ? record.grade.name : '';
-
+                                        let grade = record.grade ? record.grade.description : '';
                                         return (
                                             <div key={`performanceAppraisal${record.paRecordId}`} className="term">
                                                 <div>{record.period.name}</div>

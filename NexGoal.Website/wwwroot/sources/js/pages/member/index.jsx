@@ -46,7 +46,6 @@ export default class App extends Component {
             currentUser: {
                 ...getCurrentUserInfo(),
                 roleId: 2,
-                isNominator: document.getElementById('isNominator').checked,
                 isReviewer: document.getElementById('isReviewer').checked
             },
             activeTabKey: 1,
@@ -371,7 +370,6 @@ export default class App extends Component {
                                     </div>
                                 </Tab>
                                 {
-                                    this.state.currentUser.isNominator &&
                                     <Tab eventKey={2} title={getResource('Nomination')}>
                                         {
                                             this.state.loadNominationTab &&

@@ -46,8 +46,6 @@
         {
             IEnumerable<EmployeeRoleModel> employeeRoles = await employeeService.GetRolesByEmployeeIdAsync(sessionService.EmployeeId).ConfigureAwait(false);
             bool isReviewer = employeeRoles.Any(x => x.RoleId == (int)SystemRole.Reviewer && x.HasRole);
-            bool isNominator = await nominationService.IsNominator(sessionService.EmployeeId).ConfigureAwait(false);
-            ViewData["IsNominator"] = isNominator;
             ViewData["IsReviewer"] = isReviewer;
 
             return View();

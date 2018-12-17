@@ -7,11 +7,9 @@
 
 @{
     ViewData["Title"] = ViewLang.MemberPage;
-    bool isNominator = (bool)ViewData["IsNominator"];
     bool isReviewer = (bool)ViewData["IsReviewer"];
 }
 
-<input type="radio" hidden id="isNominator" @(isNominator ? "checked" : string.Empty) readonly />
 <input type="radio" hidden id="isReviewer" @(isReviewer ? "checked" : string.Empty) readonly />
 
 <div id="member-wrapper"></div>
