@@ -15,13 +15,13 @@ export default class Timeline extends Component {
                 groups: []
             },
             memberPerformances: [],
-            pageSize: 0
+            pageSize: this.calculatePageSize()
         };
+
+        this.timelineEl = React.createRef();
     }
 
     componentDidMount() {
-        this.getMemberPerformanceTimeline(0);
-
         window.addEventListener('resize', this.updateDimensions);
     }
 
@@ -43,8 +43,7 @@ export default class Timeline extends Component {
         }
 
         if (JSON.stringify(this.props.currentPerformancePeriod) !== JSON.stringify(prevProps.currentPerformancePeriod)) {
-            let pageSize = this.calculatePageSize();
-            this.getMemberPerformanceTimeline(pageSize);
+            this.getMemberPerformanceTimeline(this.state.pageSize);
         }
     }
 
@@ -177,10 +176,24 @@ export default class Timeline extends Component {
         return <div className="group-name">{groupName}</div>;
     }
 
+    canculateTimelineWidth = () => {
+        let windowWidth = window.innerWidth;
+        let timelineWidth = this.timelineEl.current ? this.timelineEl.current.offsetWidth : 0;
+
+        if (windowWidth > 1600) {
+            timelineWidth -= 112;
+        } else {
+            timelineWidth -= 102;
+        }
+
+        return timelineWidth;
+    }
+
     render() {
         let groupOptions = this.props.groupOptions;
         let currentPerformancePeriod = this.props.currentPerformancePeriod;
         let groupPerformances = this.groupMemberPerformances(this.state.memberPerformances);
+        let timelineWidth = this.canculateTimelineWidth();
 
         return (
             <Fragment>
@@ -196,7 +209,7 @@ export default class Timeline extends Component {
                         />
                     </div>
                 }
-                <div className="member-timeline">
+                <div className="member-timeline" ref={this.timelineEl}>
                     {
                         groupPerformances.map((groupPerformance) => {
                             return (
@@ -211,6 +224,7 @@ export default class Timeline extends Component {
                                                 return (
                                                     <Line key={`memberTimeline${memberPerformance.employeeId}`}
                                                         data={memberPerformance}
+                                                        timelineWidth={timelineWidth}
                                                         onPageChange={this.handlePageChange}
                                                         onNodeClick={this.props.onNodeClick}
                                                     />

@@ -4,14 +4,9 @@ import Node from './Node';
 import { resolveClientUrl } from '../../../common-functions';
 
 export default class Timeline extends Component {
-    constructor(props) {
-        super(props);
-
-        this.timelineEl = React.createRef();
-    }
-
     shouldComponentUpdate(nextProps) {
-        if (JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
+        if (this.props.timelineWidth !== nextProps.timelineWidth
+            || JSON.stringify(this.props.data) !== JSON.stringify(nextProps.data)) {
             return true;
         }
 
@@ -33,8 +28,7 @@ export default class Timeline extends Component {
     }
 
     calculateNodePosition = (totalNodes, index) => {
-        let timelineWidth = this.timelineEl.current ? this.timelineEl.current.offsetWidth : 0;
-        let nodeWidth = (timelineWidth - 6) / totalNodes;
+        let nodeWidth = (this.props.timelineWidth - 6) / totalNodes;
         let startAt = (nodeWidth - 57) / 2;
 
         return index * nodeWidth + startAt;
@@ -54,7 +48,7 @@ export default class Timeline extends Component {
                         <div>PA: {memberPerformance.grade.name}</div>
                     }
                 </div>
-                <div className="timeline" ref={this.timelineEl}>
+                <div className="timeline">
                     <div className="xaxes" />
                     {
                         totalNodes > 0 &&
