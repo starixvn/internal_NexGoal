@@ -8,8 +8,8 @@ export const StatusOptions = [
 
 export const PAEditOptions = [
     { value: null, label: '-- All --' },
-    { value: true, label: 'Edited' },
-    { value: false, label: 'Not Edited' }
+    { value: true, label: 'Yes' },
+    { value: false, label: 'No' }
 ];
 
 export const TargetType = {

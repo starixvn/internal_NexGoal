@@ -51,7 +51,7 @@ export default class Filter extends Component {
                     </div>
                 </FormGroup>
                 <FormGroup>
-                    <ControlLabel>{getResource('Status')}</ControlLabel>
+                    <ControlLabel>{getResource('IsRevised')}</ControlLabel>
                     <div className="control-content">
                         <Select className="react-select-container" classNamePrefix="react-select"
                             name="status"

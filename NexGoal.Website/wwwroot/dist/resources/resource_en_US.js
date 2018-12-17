@@ -75,6 +75,7 @@ var resource_en_US = {
     'InProgress': 'In Progress',
     'IssueDate': 'Issue Date',
     'IssueDateRequired': 'Issue Date is required.',
+    'IsRevised': 'Is Revised',
     'JobTitle': 'Job Title',
     'Keyword': 'Keyword',
     'LateInEarlyOut': 'Late In/Early Out',
