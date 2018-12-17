@@ -131,6 +131,7 @@ export default class Nomination extends Component {
     renderPerformanceRecord = (performanceRecord) => {
         return (
             <PerformanceRecord key={`performanceRecord${performanceRecord.performanceRecordId}`}
+                pageType={this.props.pageType}
                 data={performanceRecord}
                 onEdit={this.handleEdit}
                 onDelete={this.handleDelete}

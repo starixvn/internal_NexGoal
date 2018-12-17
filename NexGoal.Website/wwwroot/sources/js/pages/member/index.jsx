@@ -374,6 +374,7 @@ export default class App extends Component {
                                         {
                                             this.state.loadNominationTab &&
                                             <Nomination
+                                                pageType={2}
                                                 currentUser={currentUser}
                                                 employeeOptions={employeeOptions}
                                                 isEmployeeSelectable

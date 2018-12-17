@@ -3,9 +3,12 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EmployeeNomination;
+    using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
@@ -95,7 +98,7 @@
 
             var result = await baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(criteria).ConfigureAwait(false);
 
-            var performanceRecords = result.Item1;
+            var performanceRecords = GroupDataMemberPerformance(result.Item1);
             var nominationPeriods = result.Item2;
 
             IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
@@ -204,9 +207,32 @@
             {
                 var employeeIds = record.EmployeeIds.Split(',').Select(int.Parse);
                 record.Employees = employees.Where(x => employeeIds.Any(e => e == x.EmployeeId));
-                record.Creator = employees.FirstOrDefault(x => x.EmployeeId == record.CreatorId);
+                record.Creator = record.CreatorId == Constants.NexGoalSystemId ?
+                    NexGoalSystemInfo.NexGoal : employees.FirstOrDefault(x => x.EmployeeId == record.CreatorId);
+
                 record.NominationPeriod = nominationPeriods.FirstOrDefault(x => x.NominationPeriodId == record.NominationPeriodId);
             }
+        }
+
+        private static IEnumerable<PerformanceRecordModel> GroupDataMemberPerformance(IEnumerable<PerformanceRecordModel> performanceRecords)
+        {
+            var records = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.Nomination).ToList();
+            var systemNominations = performanceRecords.Where(x => x.TypeId == (int)PerformanceRecordType.SystemNomination);
+
+            foreach (PerformanceRecordModel nomination in systemNominations)
+            {
+                if (!records.Any(x => x.NominationPeriodId == nomination.NominationPeriodId && x.NominationStatusId == nomination.NominationStatusId))
+                {
+                    records.Add(nomination);
+                }
+                else
+                {
+                    int index = records.FindIndex(x => x.NominationPeriodId == nomination.NominationPeriodId && x.NominationStatusId == nomination.NominationStatusId);
+                    records[index].EmployeeIds = $"{records[index].EmployeeIds},{nomination.EmployeeIds}";
+                }
+            }
+
+            return records.OrderBy(x => x.StatusId == PerformanceRecordStatus.Draft ? 1 : 2).ThenByDescending(x => x.CreatedDate);
         }
     }
 }

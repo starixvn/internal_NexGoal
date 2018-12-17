@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.EmployeeNomination;
@@ -111,12 +112,34 @@
                 PerformanceRecordId = 1,
                 EmployeeIds = "2",
                 CreatorId = 1,
-                NominationPeriodId = 1
+                NominationPeriodId = 1,
+                TypeId = (int)PerformanceRecordType.Nomination,
+            };
+
+            var systemNominations = new List<PerformanceRecordModel> {
+                new PerformanceRecordModel
+                {
+                    PerformanceRecordId = 2,
+                    EmployeeIds = "2",
+                    CreatorId = -1,
+                    NominationPeriodId = 1,
+                    NominationStatusId = 2,
+                    TypeId = (int)PerformanceRecordType.SystemNomination,
+                },
+                new PerformanceRecordModel
+                {
+                    PerformanceRecordId = 2,
+                    EmployeeIds = "3",
+                    CreatorId = -1,
+                    NominationPeriodId = 1,
+                    NominationStatusId = 2,
+                    TypeId = (int)PerformanceRecordType.SystemNomination,
+                }
             };
 
             baseService.FetchMultipleAsync<PerformanceRecordModel, NominationPeriodModel>(Arg.Any<GetMemberNominationCriteria>())
                 .Returns(new Tuple<IEnumerable<PerformanceRecordModel>, IEnumerable<NominationPeriodModel>>(
-                    new List<PerformanceRecordModel> { performanceRecord },
+                    new List<PerformanceRecordModel>(systemNominations) { performanceRecord },
                     new List<NominationPeriodModel> { new NominationPeriodModel { NominationPeriodId = 1 } }
                     ));
 
@@ -129,10 +152,9 @@
             var result = await service.GetMemberNominationsAsync(1, null);
 
             Assert.NotEmpty(result);
-            Assert.Collection(result, record =>
+            Assert.All(result, record =>
             {
                 Assert.Equal(record.CreatorId, record.Creator.EmployeeId);
-                Assert.Equal(record.EmployeeIds, record.Employees.FirstOrDefault().EmployeeId.ToString());
                 Assert.Equal(record.NominationPeriodId, record.NominationPeriod.NominationPeriodId);
             });
         }
