@@ -16,9 +16,15 @@ Original:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @Nominated TINYINT = 1
+	DECLARE @RoleId TINYINT = 0
+		,@Nominated TINYINT = 1
 		-- performance record status
 		,@PR_Submitted TINYINT = 3
+		-- process
+		,@SelfProcessId TINYINT = 2
+		,@PMProcessId TINYINT = 3
+		,@EvaluatorProcessId TINYINT = 4
+		,@ReviewerProcessId TINYINT = 5
 
 	IF EXISTS (
 			SELECT 1
@@ -35,21 +41,6 @@ BEGIN
 		RETURN
 	END
 
-	IF @NominatorId = @NomineeId
-		AND EXISTS (
-			SELECT 1
-			FROM dbo.EOQY AS e WITH (NOLOCK)
-			WHERE e.EOQYId = @NominationPeriodId
-				AND e.IsQuarter = 1
-				AND e.[Quarter] IS NOT NULL
-			)
-	BEGIN
-		SET @ErrCode = 1
-		SET @ErrMsg = N'You can''t nominate yourself.'
-
-		RETURN
-	END
-
 	DECLARE @startRun DATETIME = GETDATE()
 		,@endRun DATETIME
 		,@duration INT
@@ -61,6 +52,24 @@ BEGIN
 	FROM dbo.Nomination AS n WITH (NOLOCK)
 	WHERE n.NomineeId = @NomineeId
 		AND n.EOQYId = @NominationPeriodId
+
+	IF @NomineeId = @NominatorId
+	BEGIN
+		SET @RoleId = @SelfProcessId
+	END
+	ELSE
+	BEGIN
+		SELECT @RoleId = (CASE ProcessId
+				WHEN @EvaluatorProcessId THEN @EvaluatorProcessId
+				WHEN @ReviewerProcessId THEN @ReviewerProcessId
+				ELSE @PMProcessId END
+				)
+		FROM dbo.func_GetMember(@NominatorId)
+		WHERE EmployeeId = @NomineeId
+			AND ProcessId IN (@PMProcessId, @EvaluatorProcessId, @ReviewerProcessId)
+
+		SET @RoleId = ISNULL(@RoleId, 0)
+	END
 
 	IF @NominationId IS NULL
 	BEGIN
@@ -85,6 +94,7 @@ BEGIN
 		,StatusId
 		,CreatedDate
 		,TypeId
+		,RoleId
 		)
 	VALUES (
 		@NomineeId
@@ -93,6 +103,7 @@ BEGIN
 		,@PR_Submitted
 		,GETDATE()
 		,3
+		,@RoleId
 		)
 
 	SET @PerformanceRecordId = SCOPE_IDENTITY()

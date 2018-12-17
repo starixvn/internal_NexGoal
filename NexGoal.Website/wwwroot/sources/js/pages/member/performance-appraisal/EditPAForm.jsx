@@ -195,6 +195,7 @@ export default class EditMemberPA extends Component {
                                         <div>Member: <strong>{this.state.employee.nickName}</strong></div>
                                     </FormGroup>
                                     <FormGroup>
+                                        <ControlLabel className="required-label">{getResource('Comment')}</ControlLabel>
                                         <TextareaFullscreenEditor
                                             className={`form-control comment-field ${!isEmpty(errors) && errors.comment ? 'input-validation-error' : ''}`}
                                             name="comment"

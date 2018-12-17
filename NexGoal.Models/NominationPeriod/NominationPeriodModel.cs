@@ -69,11 +69,11 @@
                             break;
 
                         case 3:
-                            title = $"EOQ - II {Year}";
+                            title = $"EOQ - III {Year}";
                             break;
 
                         default:
-                            title = $"EOQ - II {Year}";
+                            title = $"EOQ - IV {Year}";
                             break;
                     }
                 }
