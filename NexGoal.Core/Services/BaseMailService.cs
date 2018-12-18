@@ -1,11 +1,12 @@
 namespace NexGoal.Core.Services
 {
     using System.IO;
-    using System.Net;
-    using System.Net.Mail;
     using System.Text.RegularExpressions;
+    using System.Threading.Tasks;
+    using MailKit.Net.Smtp;
     using Microsoft.Extensions.Options;
-    using Models;
+    using MimeKit;
+    using NexGoal.Core.Models;
 
     public class BaseMailService : IBaseMailService
     {
@@ -16,42 +17,42 @@ namespace NexGoal.Core.Services
             this.configuration = configuration;
         }
 
-        public void SendEmail(MailModel email)
+        public async Task SendMailAsync(MailModel email)
         {
             if (email == null || !IsValidEmail(email.ReceiverEmail))
             {
                 return;
             }
 
-            using (var message = new MailMessage())
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(configuration.Value.Username));
+            message.To.Add(new MailboxAddress(email.ReceiverEmail));
+            message.Subject = email.Subject;
+            message.Priority = configuration.Value.MailPriority;
+
+            var builder = new BodyBuilder
             {
-                message.From = new MailAddress(configuration.Value.Username);
-                message.To.Add(new MailAddress(email.ReceiverEmail));
-                message.Subject = email.Subject;
-                message.Body = email.Body;
-                message.IsBodyHtml = true;
-                message.Priority = configuration.Value.MailPriority;
+                HtmlBody = email.Body
+            };
+            foreach (MimeEntity attachment in email.Attachments)
+            {
+                builder.Attachments.Add(attachment);
+            }
 
-                foreach (Attachment attachment in email.Attachments)
+            message.Body = builder.ToMessageBody();
+
+            using (var mailclient = new SmtpClient())
+            {
+                await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPortNumber, configuration.Value.EnableSsl).ConfigureAwait(false);
+
+                if (configuration.Value.EnableSsl)
                 {
-                    message.Attachments.Add(attachment);
+                    await mailclient.AuthenticateAsync(configuration.Value.Username, configuration.Value.Password).ConfigureAwait(false);
                 }
 
-                using (var mailclient = new SmtpClient())
-                {
-                    var credential = new NetworkCredential
-                    {
-                        UserName = configuration.Value.Username,
-                        Password = configuration.Value.Password
-                    };
-                    mailclient.UseDefaultCredentials = true;
-                    mailclient.Credentials = credential;
-                    mailclient.Host = configuration.Value.SmtpServer;
-                    mailclient.Port = configuration.Value.SmtpPortNumber;
-                    mailclient.EnableSsl = configuration.Value.EnableSsl;
+                await mailclient.SendAsync(message).ConfigureAwait(false);
 
-                    mailclient.Send(message);
-                }
+                await mailclient.DisconnectAsync(true).ConfigureAwait(false);
             }
         }
 
