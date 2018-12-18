@@ -48,14 +48,18 @@ export default class PersonalTimeline extends Component {
 
     onClickPrevious = () => {
         const memberPerformance = this.props.data;
-        const pageIndex = memberPerformance.pageIndex + 1;
-        this.props.onPageChange(pageIndex, this.state.totalNodes);
+        if (!memberPerformance.prevDisabled) {
+            const pageIndex = memberPerformance.pageIndex + 1;
+            this.props.onPageChange(pageIndex, this.state.totalNodes);
+        }
     }
 
     onClickNext = () => {
         const memberPerformance = this.props.data;
-        const pageIndex = memberPerformance.pageIndex - 1;
-        this.props.onPageChange(pageIndex, this.state.totalNodes);
+        if (!memberPerformance.nextDisabled) {
+            const pageIndex = memberPerformance.pageIndex - 1;
+            this.props.onPageChange(pageIndex, this.state.totalNodes);
+        }
     }
 
     calculateNodePosition = (totalNodes, index) => {
@@ -87,18 +91,12 @@ export default class PersonalTimeline extends Component {
                     })
                 }
 
-                <button className={memberPerformance.prevDisabled ? "previous disabled" : "previous"}
+                <span className={`button-icon icon-chevron-left previous ${memberPerformance.prevDisabled ? 'disabled' : ''}`}
                     onClick={this.onClickPrevious}
-                    disabled={memberPerformance.prevDisabled}
-                >
-                    <span className="button-icon icon-chevron-left" />
-                </button>
-                <button className={memberPerformance.nextDisabled ? "next disabled" : "next"}
+                />
+                <span className={`button-icon icon-chevron-right next ${memberPerformance.nextDisabled ? 'disabled' : ''}`}
                     onClick={this.onClickNext}
-                    disabled={memberPerformance.nextDisabled}
-                >
-                    <span className="button-icon icon-chevron-right" />
-                </button>
+                />
             </div>
         );
     }

@@ -15,16 +15,18 @@ export default class Timeline extends Component {
 
     onClickPrevious = () => {
         const memberPerformance = this.props.data;
-        const pageIndex = memberPerformance.pageIndex + 1;
-
-        this.props.onPageChange(memberPerformance.employeeId, pageIndex);
+        if (!memberPerformance.prevDisabled) {
+            const pageIndex = memberPerformance.pageIndex + 1;
+            this.props.onPageChange(memberPerformance.employeeId, pageIndex);
+        }
     }
 
     onClickNext = () => {
         const memberPerformance = this.props.data;
-        const pageIndex = memberPerformance.pageIndex - 1;
-
-        this.props.onPageChange(memberPerformance.employeeId, pageIndex);
+        if (!memberPerformance.nextDisabled) {
+            const pageIndex = memberPerformance.pageIndex - 1;
+            this.props.onPageChange(memberPerformance.employeeId, pageIndex);
+        }
     }
 
     calculateNodePosition = (totalNodes, index) => {
@@ -65,18 +67,12 @@ export default class Timeline extends Component {
                         })
                     }
 
-                    <button className={memberPerformance.prevDisabled ? "previous disabled" : "previous"}
+                    <span className={`button-icon icon-chevron-left previous ${memberPerformance.prevDisabled ? 'disabled' : ''}`}
                         onClick={this.onClickPrevious}
-                        disabled={memberPerformance.prevDisabled}
-                    >
-                        <span className="button-icon icon-chevron-left" />
-                    </button>
-                    <button className={memberPerformance.nextDisabled ? "next disabled" : "next"}
+                    />
+                    <span className={`button-icon icon-chevron-right next ${memberPerformance.nextDisabled ? 'disabled' : ''}`}
                         onClick={this.onClickNext}
-                        disabled={memberPerformance.nextDisabled}
-                    >
-                        <span className="button-icon icon-chevron-right" />
-                    </button>
+                    />
                 </div>
             </div>
         );

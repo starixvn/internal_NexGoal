@@ -61,20 +61,24 @@
     display: grid;
     grid-template-columns: 70px 1fr;
     align-content: center;
-    @media screen and (min-width: 1601px) { 
+
+    @media screen and (min-width: 1601px) {
         grid-template-columns: 80px 1fr;
     }
 
     .employee-info {
         align-self: center;
         font-size: 12px;
-        @media screen and (min-width: 1601px){
+
+        @media screen and (min-width: 1601px) {
             font-size: 13px;
         }
+
         .nick-name {
             color: #2475D7;
             font-size: 11px;
             font-weight: bold;
+
             @media screen and (min-width: 1601px) {
                 font-size: 12px;
             }
@@ -132,22 +136,21 @@
     }
 
     .previous, .next {
-        top: 21px;
+        top: 27px;
     }
 
     .previous {
-        left: -20px;
+        left: -15px;
     }
 
     .next {
-        right: 17px;
+        right: -15px;
     }
 }
 
 .member-timeline, #chart-wrapper {
     .group-name {
         cursor: pointer;
-
     }
 
     .icon-minus {
@@ -165,7 +168,7 @@
     }
 
     .collapsed {
-        .icon-minus:before  {
+        .icon-minus:before {
             //transform: rotate(-90deg);
             transition: 0.3s ease all;
             content: '\e914';
@@ -178,19 +181,23 @@
     top: 29px;
     width: 58px;
     font-size: 10px;
+
     @media screen and (min-width: 1601px) {
         font-size: 11px;
         width: 60px;
     }
+
     &:after {
         left: 30px;
     }
 
     .name {
         width: 58px;
+
         @media screen and (min-width: 1601px) {
             width: 60px;
         }
+
         &.role-default {
             border: 1px solid $role-default-color;
             background-color: rgba($role-default-color, 0.2);
@@ -272,6 +279,7 @@
     .comment .form-filter {
         padding: 0;
         min-width: initial;
+
         .form-group:last-child {
             margin-bottom: 0;
         }
@@ -285,7 +293,8 @@
         display: inline-block;
     }
 
-        position: relative;
+    position: relative;
+
     .team {
         display: inline-block;
         width: 40px;
@@ -294,6 +303,7 @@
     .react-select-container {
         display: inline-block;
         width: calc(100% - 40px);
+
         .react-select__value-container {
             padding: 2px 0 2px 4px;
             font-size: 12px;
@@ -313,9 +323,11 @@
         font-size: 15px;
         padding: 12px 0 8px;
     }
+
     h5 {
         display: inline-block;
     }
+
     .milestone {
         font-size: 13px;
     }
