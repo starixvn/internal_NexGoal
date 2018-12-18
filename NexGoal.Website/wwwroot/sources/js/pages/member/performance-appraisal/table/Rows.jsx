@@ -53,10 +53,8 @@ class Rows extends Component {
         );
     };
 
-    quickEditPA = (paRecordId, isDisabled) => {
-        if (!isDisabled) {
-            this.props.onQuickEditPA(paRecordId);
-        }
+    quickEditPA = (paRecordId, isRevised) => {
+        this.props.onQuickEditPA(paRecordId, isRevised);
     }
 
     countDuplicateGrades = (grades) => {

@@ -75,9 +75,9 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> QuickEdit(int paRecordId)
+        public async Task<IActionResult> QuickEdit(int paRecordId, bool isRevised)
         {
-            CommandResult commandResult = await paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId).ConfigureAwait(false);
+            CommandResult commandResult = await paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId, isRevised).ConfigureAwait(false);
 
             return Json(commandResult);
         }

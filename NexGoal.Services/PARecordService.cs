@@ -72,12 +72,13 @@
             return record;
         }
 
-        public async Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId)
+        public async Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId, bool isRevised)
         {
             var criteria = new QuickEditPARecordByReviewerCriteria
             {
                 PARecordId = paRecordId,
-                ActorId = actorId
+                ActorId = actorId,
+                IsRevised = isRevised
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

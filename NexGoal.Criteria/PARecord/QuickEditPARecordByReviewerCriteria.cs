@@ -8,6 +8,8 @@
 
         public int ActorId { get; set; }
 
+        public bool IsRevised { get; set; }
+
         public override string GetSettingKey() => "PARecord_QuickUpdateByReviewer";
 
         public override bool IsValid() => PARecordId > 0 && ActorId > 0;

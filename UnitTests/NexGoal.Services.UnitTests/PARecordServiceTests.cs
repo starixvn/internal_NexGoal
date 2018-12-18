@@ -88,7 +88,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<QuickEditPARecordByReviewerCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.QuickEditPARecordByReviewerAsync(165, 1);
+            var actual = await service.QuickEditPARecordByReviewerAsync(165, 1, true);
 
             // Assert
             Assert.Equal(expected, actual);

@@ -28,13 +28,14 @@ class Table extends Component {
         return false;
     }
 
-    onQuickEditPA = (paRecordId) => {
+    onQuickEditPA = (paRecordId, isRevised) => {
         axios({
             url: resolveClientUrl('Review/QuickEdit'),
             method: 'POST',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                paRecordId: paRecordId
+                paRecordId: paRecordId,
+                isRevised: isRevised
             }),
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded'

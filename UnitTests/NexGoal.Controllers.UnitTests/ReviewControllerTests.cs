@@ -129,10 +129,10 @@
                 Code = 0
             };
             var controller = GetReviewController();
-            paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId).Returns(expected);
+            paRecordService.QuickEditPARecordByReviewerAsync(sessionService.EmployeeId, paRecordId, true).Returns(expected);
 
             // Act
-            var actual = await controller.QuickEdit(paRecordId);
+            var actual = await controller.QuickEdit(paRecordId, true);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);

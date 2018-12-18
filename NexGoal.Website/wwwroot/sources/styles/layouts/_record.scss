@@ -10,23 +10,28 @@
     margin-bottom: 16px;
     padding: 16px;
     margin: 12px;
+
     &.record-system {
         grid-template-rows: 50px 0 20px;
         background-color: #EBF4FF;
         border: 1px solid #5191DF;
     }
+
     &.status-nomination {
         border: 1px solid $status-nomination-color;
         background-color: rgba($status-nomination-color, 0.1);
     }
+
     &.status-winner {
         border: 1px solid $status-winner-color;
         background-color: #EBF4FF;
     }
+
     &.status-shortlisted {
         border: 1px solid $status-shortlisted-color;
         background-color: rgba($status-shortlisted-color, 0.05);
     }
+
     &.highlighted {
         border: 2px solid #2475D7;
     }
@@ -52,15 +57,18 @@
             object-fit: cover;
             float: left;
             margin-right: 8px;
+
             &.icon-nomination {
                 background-color: #324476;
                 text-align: center;
                 padding-top: 10px;
+
                 &:before {
                     color: #fff;
                     font-size: 18px;
                 }
             }
+
             &.nexgoal-system {
                 background-color: #324476;
                 text-align: center;
@@ -85,16 +93,18 @@
                 margin-left: 8px;
             }
 
-            .icon-checkin,  {
+            .icon-checkin, {
                 margin: 0 4px 0 8px;
             }
-            .icon-nomination{
-                margin: 0  8px;
+
+            .icon-nomination {
+                margin: 0 8px;
+
                 &:before {
                     color: #2270CE;
                     font-size: 16px;
                 }
-            }                
+            }
         }
 
         .submit-date {
@@ -133,15 +143,18 @@
             .icon-edit, .icon-delete {
                 margin-left: 8px;
             }
+
             .icon-delete {
                 font-size: 13px;
             }
+
             .nomination-info {
                 display: inline-block;
                 vertical-align: top;
                 position: relative;
                 top: -3px;
             }
+
             .nomination-period {
                 font-size: 13px;
                 font-weight: bold;
@@ -170,7 +183,7 @@
             margin: 0;
 
             &.collapsed {
-                max-height: 55px;
+                max-height: 60px;
 
                 &:after {
                     content: '...see more';
@@ -229,40 +242,49 @@
         grid-column: 2;
         grid-row: 3;
         display: table;
+
         .react-select__value-container {
             padding: 2px 6px;
         }
+
         .tag, .react-select__multi-value {
-            @include border-radius(2px);            
+            @include border-radius(2px);
             border: 1px solid #B0CBDD;
             background-color: #E1EEF7;
             margin: 2px 4px;
             padding: 0px 4px 2px;
             font-size: 11px;
         }
+
         .tag {
             display: inline-block;
             padding: 2px 4px 3px;
         }
+
         .react-select__multi-value {
             display: inherit;
+
             .react-select__multi-value__label {
                 font-size: 100%;
                 padding: 2px 0 1px;
             }
+
             .react-select__multi-value__remove {
                 position: relative;
                 top: 1px;
+
                 &:hover {
                     background-color: transparent;
                     cursor: pointer;
                 }
             }
         }
+
         .lb-project, .project-detail {
             display: table-cell;
             vertical-align: top;
         }
+
         .lb-project {
             width: 72px;
         }

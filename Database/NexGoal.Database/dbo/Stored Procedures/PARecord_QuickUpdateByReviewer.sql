@@ -1,5 +1,6 @@
 ﻿CREATE PROCEDURE [dbo].[PARecord_QuickUpdateByReviewer] @ActorId INT
 	,@PARecordId INT
+    ,@IsRevised BIT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -43,7 +44,13 @@ BEGIN
 			)
 
 	SET ModifiedBy = @ActorId
-		,ModifiedDate = GETDATE()
+		,ModifiedDate = (
+			CASE 
+				WHEN @IsRevised = 0
+					THEN GETDATE()
+				ELSE NULL
+				END
+			)
 	WHERE PARecordId = @PARecordId
 
 	IF @@ERROR > 0

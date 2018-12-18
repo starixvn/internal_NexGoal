@@ -18,6 +18,6 @@
 
         Task<CommandResult> EditPARecordByReviewerAsync(int actorId, EditPARecordByReviewerModel paRecord);
 
-        Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId);
+        Task<CommandResult> QuickEditPARecordByReviewerAsync(int actorId, int paRecordId, bool isRevised);
     }
 }
