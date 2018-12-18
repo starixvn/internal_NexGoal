@@ -1,6 +1,7 @@
 ﻿namespace NexGoal.Controllers
 {
     using System.Collections.Generic;
+    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
@@ -32,17 +33,17 @@
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetNominationPeriodsForComittee()
+        public async Task<JsonResult> GetCurrentNominationPeriodForComittee(bool isQuarter)
         {
-            IEnumerable<NominationPeriodModel> result = await employeeNominationService.GetNominationPeriodsForComitteeAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            NominationPeriodModel result = await employeeNominationService.GetCurrentNominationPeriodForComittee(sessionService.EmployeeId, isQuarter).ConfigureAwait(false);
 
             return Json(result);
         }
 
         [HttpGet]
-        public async Task<JsonResult> GetNominationsByPeriodIds(string nominationPeriodIds)
+        public async Task<JsonResult> GetNominationsByPeriodIds(string nominationPeriodIds, int? statusId)
         {
-            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodIdsAsync(nominationPeriodIds).ConfigureAwait(false);
+            IEnumerable<NominationModel> result = await employeeNominationService.GetNominationsByPeriodIdsAsync(nominationPeriodIds, statusId).ConfigureAwait(false);
 
             return Json(result);
         }

@@ -180,7 +180,7 @@
                 new EmployeeBaseModel { EmployeeId = 2 }
             });
 
-            var result = await service.GetNominationsByPeriodIdsAsync("1");
+            var result = await service.GetNominationsByPeriodIdsAsync("1", null);
 
             Assert.NotEmpty(result);
             Assert.Collection(result, item =>

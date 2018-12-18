@@ -28,15 +28,14 @@
         }
 
         [Fact]
-        public async Task GetNominationPeriodsForComittee_WhenCalled_ReturnExpecetedJsonResult()
+        public async Task GetCurrentNominationPeriodForComittee_WhenCalled_ReturnExpecetedJsonResult()
         {
             var controller = GetNominationAssessmentController();
-            employeeNominationService.GetNominationPeriodsForComitteeAsync(sessionService.EmployeeId).Returns(new List<NominationPeriodModel>
-            {
-                new NominationPeriodModel { NominationPeriodId = 1, Year = 2019, Quarter =1 }
-            });
+            employeeNominationService.GetCurrentNominationPeriodForComittee(sessionService.EmployeeId, true).Returns(
+                new NominationPeriodModel { NominationPeriodId = 1, Year = 2019, Quarter = 1 }
+            );
 
-            var actual = await controller.GetNominationPeriodsForComittee();
+            var actual = await controller.GetCurrentNominationPeriodForComittee(true);
 
             Assert.IsType<JsonResult>(actual);
         }
@@ -46,12 +45,12 @@
         {
             var controller = GetNominationAssessmentController();
             var nominationPeriodIds = "1";
-            employeeNominationService.GetNominationsByPeriodIdsAsync(nominationPeriodIds).Returns(new List<NominationModel>
+            employeeNominationService.GetNominationsByPeriodIdsAsync(nominationPeriodIds, null).Returns(new List<NominationModel>
             {
                 new NominationModel { NominationPeriodId = 1}
             });
 
-            var actual = await controller.GetNominationsByPeriodIds(nominationPeriodIds);
+            var actual = await controller.GetNominationsByPeriodIds(nominationPeriodIds, null);
 
             Assert.IsType<JsonResult>(actual);
         }

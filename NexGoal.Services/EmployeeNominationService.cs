@@ -37,14 +37,15 @@
             return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForComitteeAsync(int committeeId)
+        public async Task<NominationPeriodModel> GetCurrentNominationPeriodForComittee(int committeeId, bool isQuarter)
         {
             var criteria = new GetNominationPeriodsForComitteeCriteria
             {
-                CommitteeId = committeeId
+                CommitteeId = committeeId,
+                IsQuarter = isQuarter
             };
 
-            return await baseService.GetDataAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
+            return await baseService.GetDataEntityAsync<NominationPeriodModel>(criteria).ConfigureAwait(false);
         }
 
         public async Task<CommandResult> CreateAsync(CreateEmployeeNominationModel model)
@@ -109,11 +110,12 @@
             return performanceRecords;
         }
 
-        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds)
+        public async Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds, int? statusId)
         {
             var criteria = new GetNominationsByPeriodIdsCriteria
             {
-                NominationPeriodIds = nominationPeriodIds
+                NominationPeriodIds = nominationPeriodIds,
+                StatusId = statusId
             };
 
             var result = await baseService.FetchMultipleAsync<NominationModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);

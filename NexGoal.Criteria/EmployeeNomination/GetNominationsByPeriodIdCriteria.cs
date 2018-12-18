@@ -6,6 +6,8 @@
     {
         public string NominationPeriodIds { get; set; }
 
+        public int? StatusId { get; set; }
+
         public override string GetSettingKey() => "Nomination_GetByPeriodIds";
 
         public override bool IsValid() => !string.IsNullOrWhiteSpace(NominationPeriodIds);

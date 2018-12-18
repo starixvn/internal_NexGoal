@@ -1,6 +1,6 @@
-﻿
-CREATE PROCEDURE [dbo].[Nomination_GetByPeriodIds] 
-	@NominationPeriodIds VARCHAR(MAX)
+﻿CREATE PROCEDURE [dbo].[Nomination_GetByPeriodIds] 
+	@NominationPeriodIds VARCHAR(MAX),
+	@StatusId TINYINT = NULL
 AS
 /*
 Created: 20181121@Elton.Ton
@@ -24,6 +24,7 @@ BEGIN
 			SELECT 1
 			FROM #temp t WHERE t.val = n.EOQYId
 		)
+		AND (@StatusId IS NULL OR n.StatusId = @StatusId)
 
 	SELECT pr.PerformanceRecordId
 		,pr.Comment

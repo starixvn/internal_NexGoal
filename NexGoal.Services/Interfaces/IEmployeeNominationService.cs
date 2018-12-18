@@ -19,9 +19,9 @@
 
         Task<CommandResult> EditAsync(EditEmployeeNominationModel model);
 
-        Task<IEnumerable<NominationPeriodModel>> GetNominationPeriodsForComitteeAsync(int committeeId);
+        Task<NominationPeriodModel> GetCurrentNominationPeriodForComittee(int committeeId, bool isQuarter);
 
-        Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds);
+        Task<IEnumerable<NominationModel>> GetNominationsByPeriodIdsAsync(string nominationPeriodIds, int? statusId);
 
         Task<CommandResult> EditStatusAsync(int nominationId, int statusId, int updatedById);
 

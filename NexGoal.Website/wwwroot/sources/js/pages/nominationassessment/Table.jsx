@@ -3,7 +3,7 @@ import Select, { components } from 'react-select';
 
 import getResource from '../../resourceHelper';
 import { NominationStatuses } from '../../constants';
-import { getNominationClassName } from '../../common-functions';
+import { getNominationClassName, noDataIndication } from '../../common-functions';
 import NominationProcess from './NominationProcess';
 
 const SingleValue = ({ children, ...props }) => (
@@ -38,10 +38,6 @@ export default class Table extends Component {
         });
     }
 
-    componentWillUnmount() {
-        window.removeEventListener('scroll');
-    }
-
     handleShowNominatorComment = (nomination, performanceRecordId) => {
         this.props.onShowNominatorComment(nomination, performanceRecordId);
     }
@@ -50,31 +46,8 @@ export default class Table extends Component {
         this.props.onUpdateStatus(nominationId, status.value);
     }
 
-    renderNominator = nominator => (
-        <tr key={nominator.performanceRecordId}>
-            <td>{`${nominator.creator.fullName} (${nominator.creator.nickName})`}</td>
-            <td className="text-center">
-                <a className="fa fa-search" onClick={this.handleShowNominatorComment.bind(this, nominator)}></a>
-            </td>
-        </tr>
-    )
-
-    renderTableData = (item) => {
-        return (
-            <Fragment key={item.period.nominationPeriodId}>
-                <tr>
-                    <td className="title" colSpan={6}>
-                        <div className="period">{item.period.title}</div>
-                        <NominationProcess period={item.period} />
-                    </td>
-                </tr>
-                {item.nominations.map((n, index) => this.renderNomination(n, index, item.canUpdateNominationStatus))}
-            </Fragment>
-        );
-    }
-
-    renderNomination = (nomination, index, canUpdate) => {
-        let renderStatus = canUpdate ?
+    renderNomination = (nomination, index) => {
+        let renderStatus = this.props.canUpdateNominationStatus ?
             <Select name="nominationPeriod" className="react-select-container" classNamePrefix="react-select"
                 value={this.state.nominationStatuses.find(x => x.value === nomination.statusId)} options={this.state.nominationStatuses}
                 isClearable={false} isSearchable={false} components={this.selectComponents}
@@ -105,6 +78,9 @@ export default class Table extends Component {
     }
 
     render() {
+        let content = this.props.tableData.length > 0 ? this.props.tableData.map(this.renderNomination)
+            : <tr><td className="text-center" colSpan={6}>{noDataIndication()}</td></tr>
+
         return (
             <table className="table table-bordered table-striped tbl-nomination-assessment">
                 <colgroup>
@@ -126,7 +102,7 @@ export default class Table extends Component {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.tableData.map(this.renderTableData)}
+                    {content}
                 </tbody>
             </table>
         );
