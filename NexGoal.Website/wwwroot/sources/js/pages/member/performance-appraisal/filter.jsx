@@ -1,6 +1,7 @@
 ﻿import React, { Component } from 'react';
 import { Button, ControlLabel, Form, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
+
 import MultiSelect from '../../../shared/components/multi-select/index';
 import getResource from '../../../resourceHelper';
 import { PAEditOptions } from '../../../constants';

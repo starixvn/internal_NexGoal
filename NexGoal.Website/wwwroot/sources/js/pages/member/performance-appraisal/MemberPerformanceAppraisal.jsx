@@ -1,5 +1,6 @@
 ﻿import React, { Component } from 'react';
 import axios from 'axios';
+
 import { axiosError, resolveClientUrl } from '../../../common-functions';
 import Filter from './filter';
 import Table from './table/Table';
@@ -15,7 +16,6 @@ export default class MemberPerformanceAppraisal extends Component {
                 groups: props.groupOptions,
                 status: PAEditOptions.find(option => option.value === null)
             },
-            isShowEditPAModal: false,
             performanceAppraisals: []
         };
     }
@@ -32,6 +32,7 @@ export default class MemberPerformanceAppraisal extends Component {
             || JSON.stringify(nextState.filter) !== JSON.stringify(this.state.filter)) {
             return true;
         }
+
         return false;
     }
 
