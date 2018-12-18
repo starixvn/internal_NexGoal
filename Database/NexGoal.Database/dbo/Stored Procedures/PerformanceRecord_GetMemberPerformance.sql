@@ -191,7 +191,10 @@ BEGIN
 						member.IsHost = 1
 						OR (
 							member.IsHost = 0
-							AND record.CreatorId = @ActorId
+							AND (
+								record.CreatorId = member.EmployeeId
+								OR record.CreatorId = @ActorId
+								)
 							)
 						)
 					)
