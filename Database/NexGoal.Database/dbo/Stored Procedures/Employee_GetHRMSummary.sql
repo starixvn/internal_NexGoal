@@ -207,17 +207,19 @@ BEGIN
 						) THEN 2
 				ELSE 0
 				END) AS UnplanAnnualLeave
-		,(
+		,(CAST(ROUND(
 			SUM(CASE 
 					WHEN et.Absence IS NOT NULL
 						AND et.Absence = 0
-						AND c.IsLeaveDay = 0 THEN 1
+						AND c.IsLeaveDay = 0
+						THEN 1
 					WHEN et.Absence IS NOT NULL
 						AND et.Absence = 0
 						AND c.IsLeaveDay = 1
-						AND c.LeaveDay < 1 THEN 0.5
+						AND c.LeaveDay < 1
+						THEN 0.5
 					ELSE 0
-					END) / (DATEDIFF(month, @FromDate, @ToDate) + 1)
+					END) / (DATEDIFF(month, @FromDate, @ToDate) + 1), 2) AS numeric(36, 2))
 			) AS AverageWorkingDays
 		,(
 			SELECT SUM(st.[Hours])
