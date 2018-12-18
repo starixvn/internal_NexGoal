@@ -21,7 +21,6 @@
         private ISessionService sessionService;
         private IEmployeeService employeeService;
         private INominationPeriodService nominationPeriodService;
-        private IEmployeeNominationService nominationService;
         private IRedmineService redmineService;
 
         [Fact]
@@ -193,9 +192,8 @@
             employeeService = Substitute.For<IEmployeeService>();
             commonService = Substitute.For<ICommonService>();
             nominationPeriodService = Substitute.For<INominationPeriodService>();
-            nominationService = Substitute.For<IEmployeeNominationService>();
             redmineService = Substitute.For<IRedmineService>();
-            var controller = new MemberController(sessionService, commonService, employeeService, nominationPeriodService, nominationService, redmineService);
+            var controller = new MemberController(sessionService, commonService, employeeService, nominationPeriodService, redmineService);
 
             return controller;
         }

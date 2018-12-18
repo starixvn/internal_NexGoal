@@ -205,7 +205,7 @@ BEGIN
 		SET pr.CreatorId = pap.EvaluatorId
 			,pr.GradeId = lg.GradeId
 			,pr.Comment = STUFF((
-					SELECT CHAR(10) + prcmt.comment
+					SELECT CHAR(10) + prcmt.Comment
 					FROM dbo.PerformanceRecord AS prcmt WITH (NOLOCK)
 					WHERE prcmt.EmployeeIds = pr.EmployeeIds
 						AND prcmt.CreatorId = lg.CreatorId

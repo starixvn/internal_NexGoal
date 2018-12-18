@@ -23,7 +23,6 @@
         private readonly ISessionService sessionService;
         private readonly IEmployeeService employeeService;
         private readonly INominationPeriodService nominationPeriodService;
-        private readonly IEmployeeNominationService nominationService;
         private readonly IRedmineService redmineService;
 
         public MemberController(
@@ -31,14 +30,12 @@
             ICommonService commonService,
             IEmployeeService employeeService,
             INominationPeriodService nominationPeriodService,
-            IEmployeeNominationService nominationService,
             IRedmineService redmineService)
         {
             this.sessionService = sessionService;
             this.commonService = commonService;
             this.employeeService = employeeService;
             this.nominationPeriodService = nominationPeriodService;
-            this.nominationService = nominationService;
             this.redmineService = redmineService;
         }
 
