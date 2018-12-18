@@ -241,7 +241,7 @@ export default class CreateMemberPerformance extends Component {
                                     <ControlLabel className="required-label">{getResource('Member')}</ControlLabel>
                                     <Select name="employees" isMulti closeMenuOnSelect={false} classNamePrefix="react-select"
                                         className={`react-select-container employee-field ${!isEmpty(errors) && errors.employee ? 'input-validation-error' : ''}`}
-                                        placeholder="Select Employees"
+                                        placeholder="Select Members"
                                         value={performanceRecord.employees} options={memberOptions}
                                         onChange={this.handleEmployeeChange} isClearable
                                     />

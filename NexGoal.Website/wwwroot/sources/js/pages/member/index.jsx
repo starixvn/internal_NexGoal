@@ -26,7 +26,7 @@ export default class App extends Component {
         super(props);
 
         this.state = {
-            employeeOptions: [],
+            memberOptions: [],
             myGroupOptions: [],
             performanceGradeOptions: [],
             projectOptions: [],
@@ -63,14 +63,14 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetAllPeriods')),
             axios(resolveClientUrl('Common/GetPerformanceGrades')),
             axios(resolveClientUrl('Common/GetProjects')),
-            axios(resolveClientUrl('Common/GetEmployees')),
+            axios(resolveClientUrl('Common/GetMyMember')),
             axios(resolveClientUrl('Common/GetMyGroup')),
             axios(resolveClientUrl('Common/GetCurrentPerformancePeriod')),
             axios(resolveClientUrl('member/Performance'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, employeeResponse, myGroupResponse, currentPerformancePeriodResponse, memberPerformanceResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, myGroupResponse, currentPerformancePeriodResponse, memberPerformanceResponse]) => {
                 let performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
@@ -81,7 +81,7 @@ export default class App extends Component {
                     return { value: project.projectId, label: project.name };
                 });
 
-                let employeeOptions = employeeResponse.data.map(member => {
+                let memberOptions = memberResponse.data.map(member => {
                     return { value: member.employeeId, label: `${member.fullName} (${member.nickName})` };
                 });
 
@@ -95,7 +95,7 @@ export default class App extends Component {
                     periods: periodResponse.data,
                     performanceGradeOptions: performanceGradeOptions,
                     projectOptions: projectOptions,
-                    employeeOptions: employeeOptions,
+                    memberOptions: memberOptions,
                     myGroupOptions: myGroupOptions,
                     currentPerformancePeriod: currentPerformancePeriodResponse.data,
                     performanceRecords: memberPerformanceResponse.data,
@@ -310,7 +310,7 @@ export default class App extends Component {
     }
 
     render() {
-        let employeeOptions = this.state.employeeOptions;
+        let memberOptions = this.state.memberOptions;
         let performanceGradeOptions = this.state.performanceGradeOptions;
         let projectOptions = this.state.projectOptions;
         let currentUser = this.state.currentUser;
@@ -347,7 +347,7 @@ export default class App extends Component {
                                         <CustomScrollbars style={{ height: '100%' }} autoHide>
                                             <CreateMemberPerformance
                                                 currentUser={currentUser}
-                                                memberOptions={employeeOptions}
+                                                memberOptions={memberOptions}
                                                 performanceGradeOptions={performanceGradeOptions}
                                                 projectOptions={projectOptions}
                                                 onSubmitSuccess={this.handleCreatePerformanceRecordSuccess}
@@ -373,9 +373,8 @@ export default class App extends Component {
                                     {
                                         this.state.loadNominationTab &&
                                         <Nomination
-                                                pageType={2}
+                                            pageType={2}
                                             currentUser={currentUser}
-                                            employeeOptions={employeeOptions}
                                             isEmployeeSelectable
                                         />}
                                 </Tab>
@@ -412,7 +411,7 @@ export default class App extends Component {
                     <EditMemberPerformance
                         currentUser={currentUser}
                         performanceRecordId={this.state.editPerformanceRecord.performanceRecordId}
-                        memberOptions={employeeOptions}
+                        memberOptions={memberOptions}
                         performanceGradeOptions={performanceGradeOptions}
                         projectOptions={projectOptions}
                         isShowModal={this.state.editPerformanceRecord.isShowModal}

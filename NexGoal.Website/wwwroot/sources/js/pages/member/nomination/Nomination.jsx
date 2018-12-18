@@ -16,6 +16,7 @@ export default class Nomination extends Component {
         super(props);
 
         this.state = {
+            employeeOptions: [],
             nominations: [],
             nominationPeriods: [],
             showEditModal: false,
@@ -25,6 +26,7 @@ export default class Nomination extends Component {
 
     componentDidMount() {
         const promises = [
+            axios(resolveClientUrl('Common/GetEmployees')),
             axios(resolveClientUrl('MemberNomination/GetMemberNominations'), {
                 params: {
                     memberId: this.props.isMemberDetail ? this.props.nomineeId : null
@@ -33,8 +35,13 @@ export default class Nomination extends Component {
             axios(resolveClientUrl('MemberNomination/GetNominationPeriodsForNominator'))
         ];
 
-        Promise.all(promises).then(([nominationResponse, nominationPeriodResponse]) => {
+        Promise.all(promises).then(([employeeResponse, nominationResponse, nominationPeriodResponse]) => {
+            let employeeOptions = employeeResponse.data.map(member => {
+                return { value: member.employeeId, label: `${member.fullName} (${member.nickName})` };
+            });
+
             this.setState({
+                employeeOptions: employeeOptions,
                 nominations: nominationResponse.data,
                 nominationPeriods: nominationPeriodResponse.data
             });
@@ -140,12 +147,14 @@ export default class Nomination extends Component {
     }
 
     render() {
+        let employeeOptions = this.state.employeeOptions;
+
         return (
             <div className="record-list">
                 <CustomScrollbars>
                     {
                         this.state.nominationPeriods.length > 0 &&
-                        <CreateNomination currentUser={this.props.currentUser} employeeOptions={this.props.employeeOptions}
+                        <CreateNomination currentUser={this.props.currentUser} employeeOptions={employeeOptions}
                             nominationPeriods={this.state.nominationPeriods} isEmployeeSelectable={!this.props.isMemberDetail}
                             nomineeId={this.props.nomineeId} onCreateSuccess={this.handleCreateNominationSuccess}
                         />
@@ -159,7 +168,7 @@ export default class Nomination extends Component {
                         currentUser={this.props.currentUser}
                         performanceRecord={this.state.editedNomination}
                         nominationPeriods={this.state.nominationPeriods}
-                        employeeOptions={this.props.employeeOptions}
+                        employeeOptions={employeeOptions}
                         onCloseModal={this.closeEditModal}
                         onEditSuccess={this.handleEditNominationSuccess}
                         isEmployeeSelectable={!this.props.isMemberDetail}
