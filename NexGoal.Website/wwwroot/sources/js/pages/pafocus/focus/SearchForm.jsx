@@ -1,4 +1,4 @@
-﻿import React, { Component } from 'react';
+﻿import React, { Component, Fragment } from 'react';
 import { Form, ControlLabel, FormGroup } from 'react-bootstrap';
 import Select from 'react-select';
 
@@ -58,25 +58,30 @@ export default class SearchForm extends Component {
                         />
                     </div>
                 </FormGroup>
-                <FormGroup>
-                    <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <div className="control-content">
-                        <Multiselect className="react-select-container" classNamePrefix="react-select"
-                            value={filter.groups}
-                            options={groupOptions}
-                            onChange={this.handleGroupChange}
-                        />
-                    </div>
-                </FormGroup>
-                <FormGroup>
-                    <ControlLabel>{getResource('Employee')}</ControlLabel>
-                    <div className="control-content">
-                        <Select className="react-select-container" classNamePrefix="react-select"
-                            value={filter.employee} options={memberOptions}
-                            name="employee" onChange={this.handleEmployeeChange} isClearable
-                        />
-                    </div>
-                </FormGroup>
+                {
+                    groupOptions && groupOptions.length > 1 &&
+                    <Fragment>
+                        <FormGroup>
+                            <ControlLabel>{getResource('Team')}</ControlLabel>
+                            <div className="control-content">
+                                <Multiselect className="react-select-container" classNamePrefix="react-select"
+                                    value={filter.groups}
+                                    options={groupOptions}
+                                    onChange={this.handleGroupChange}
+                                />
+                            </div>
+                        </FormGroup>
+                        <FormGroup>
+                            <ControlLabel>{getResource('Employee')}</ControlLabel>
+                            <div className="control-content">
+                                <Select className="react-select-container" classNamePrefix="react-select"
+                                    value={filter.employee} options={memberOptions}
+                                    name="employee" onChange={this.handleEmployeeChange} isClearable
+                                />
+                            </div>
+                        </FormGroup>
+                    </Fragment>
+                }
                 <FormGroup className="button-block">
                     <button className="btn btn-primary" onClick={this.handleSubmit}>{getResource('Search')}</button>
                     <button className="btn btn-excel" onClick={this.handleExportToExcel}>{getResource('Excel')}</button>

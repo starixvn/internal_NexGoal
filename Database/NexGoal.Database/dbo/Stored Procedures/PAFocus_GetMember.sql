@@ -1,5 +1,6 @@
 ﻿
 CREATE PROCEDURE [dbo].[PAFocus_GetMember] @ActorId INT
+	,@GroupIds VARCHAR(MAX) = NULL
 AS
 /*
 Created: 20181008@Tim.Trinh
@@ -31,6 +32,10 @@ BEGIN
 		,emp.NickName
 	FROM dbo.Employee AS emp WITH (NOLOCK)
 		INNER JOIN #tblMembers AS member WITH (NOLOCK) ON emp.EmployeeId = member.EmployeeId
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
+		INNER JOIN dbo.func_SplitString(@GroupIds, ',') AS grid ON ISNUMERIC(grid.val) = 1
+		AND grid.val = gr.GroupId
+	ORDER BY emp.FullName
 
 	DROP TABLE #tblMembers
 END

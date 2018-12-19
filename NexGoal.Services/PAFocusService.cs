@@ -44,11 +44,12 @@
             return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetMemberAsync(int actorId, string groupIds = null)
         {
             var criteria = new GetMemberCriteria
             {
-                ActorId = actorId
+                ActorId = actorId,
+                GroupIds = groupIds
             };
 
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);

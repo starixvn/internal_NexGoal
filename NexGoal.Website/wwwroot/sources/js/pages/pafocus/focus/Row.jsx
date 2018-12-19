@@ -62,7 +62,10 @@ export default class Row extends Component {
                     <select className="form-control" value={pafocus.contribution} name="contribution"
                         onChange={this.handleOnChange}
                     >
-                        <option />
+                        {
+                            !pafocus.contribution &&
+                            <option />
+                        }
                         {
                             this.props.focusEvaluationLevelOptions.map(option => {
                                 return (
@@ -90,7 +93,10 @@ export default class Row extends Component {
                     <select className="form-control" value={pafocus.bonusGiven} name="bonusGiven"
                         onChange={this.handleOnChange}
                     >
-                        <option />
+                        {
+                            !pafocus.bonusGiven &&
+                            <option />
+                        }
                         {
                             this.props.focusEvaluationLevelOptions.map(option => {
                                 return (
@@ -120,7 +126,10 @@ export default class Row extends Component {
                     <select className="form-control" value={pafocus.isReadyPromotion} name="isReadyPromotion"
                         onChange={this.handleOnChange}
                     >
-                        <option />
+                        {
+                            !pafocus.isReadyPromotion &&
+                            <option />
+                        }
                         <option value="true">Yes</option>
                         <option value="false">No</option>
                     </select>

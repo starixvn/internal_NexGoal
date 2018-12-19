@@ -147,11 +147,9 @@ BEGIN
 		INNER JOIN dbo.Period AS period WITH (NOLOCK) ON period.PeriodId = focus.PeriodId
 		INNER JOIN dbo.PARecord AS parecord WITH (NOLOCK) ON parecord.EmployeeId = emp.EmployeeId
 		AND parecord.PeriodId = period.PeriodId
-		LEFT JOIN #tblGroupIds AS grid WITH (NOLOCK) ON gr.GroupId = grid.GroupId
+		INNER JOIN #tblGroupIds AS grid WITH (NOLOCK) ON gr.GroupId = grid.GroupId
 		LEFT JOIN dbo.EmployeeObjective AS l WITH (NOLOCK) ON l.ObjectiveId = focus.LastObjectiveId
 		LEFT JOIN dbo.EmployeeObjective AS n WITH (NOLOCK) ON n.ObjectiveId = focus.NextObjectiveId
-	WHERE @GroupIds IS NULL
-		OR grid.GroupId IS NOT NULL
 	ORDER BY gr.[Name]
 		,emp.EmployeeId
 

@@ -65,9 +65,9 @@
             return Json(groups);
         }
 
-        public async Task<JsonResult> GetMember()
+        public async Task<JsonResult> GetMember(string groupIds = null)
         {
-            IEnumerable<EmployeeBaseModel> members = await focusService.GetMemberAsync(sessionService.EmployeeId).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> members = await focusService.GetMemberAsync(sessionService.EmployeeId, groupIds).ConfigureAwait(false);
 
             return Json(members);
         }

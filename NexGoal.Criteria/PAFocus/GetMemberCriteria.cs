@@ -5,6 +5,7 @@
     public class GetMemberCriteria : CriteriaBase
     {
         public int ActorId { get; set; }
+        public string GroupIds { get; set; }
 
         public override bool IsValid() => ActorId > 0;
 

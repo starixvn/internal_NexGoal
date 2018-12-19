@@ -34,12 +34,11 @@ export default class PAFocus extends Component {
         const promises = [
             axios(resolveClientUrl('pafocus/getPeriod')),
             axios(resolveClientUrl('pafocus/getGroup')),
-            axios(resolveClientUrl('pafocus/getMember')),
             axios(resolveClientUrl('pafocus/getFocusEvaluationLevel'))
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, groupResponse, memberResponse, levelResponse]) => {
+            .then(([periodResponse, groupResponse, levelResponse]) => {
                 const periodOptions = periodResponse.data.map((period) => {
                     return {
                         value: period.periodId,
@@ -53,34 +52,57 @@ export default class PAFocus extends Component {
                     return { value: group.groupId, label: group.name };
                 });
 
-                let memberOptions = [];
-                memberResponse.data.map(item => {
-                    memberOptions.push({
-                        value: item.employeeId,
-                        label: `${item.fullName} (${item.nickName})`
-                    });
-                });
-
                 const filter = Object.assign({}, this.state.filter, {
                     period: periodOptions[0],
                     groups: groupOptions
                 });
 
+                const groupIds = groupOptions && groupOptions.length > 0 ? groupOptions.map(group => { return group.value; }).join(',') : null;
+                this.getMembers(groupIds);
                 this.getPAFocus(filter);
 
                 this.setState({
                     filter: filter,
                     focusEvaluationLevelOptions: levelResponse.data,
                     periodOptions: periodOptions,
-                    groupOptions: groupOptions,
-                    memberOptions: memberOptions
+                    groupOptions: groupOptions
                 });
             }).catch(axiosError);
+    }
+
+    getMembers = (groupIds) => {
+        axios(resolveClientUrl('pafocus/getMember'), {
+            params: {
+                groupIds: groupIds
+            }
+        }).then(response => {
+            let memberOptions = response.data.map(item => {
+                return {
+                    value: item.employeeId,
+                    label: `${item.fullName} (${item.nickName})`
+                };
+            }); let filter = this.state.filter;
+
+            if (memberOptions.indexOf(filter.employee) < 0) {
+                filter = Object.assign({}, this.state.filter, { employee: null });
+            }
+
+            this.setState({
+                filter: filter,
+                memberOptions: memberOptions
+            });
+        }).catch(axiosError);
     }
 
     handleFilterChange = (name, value) => {
         this.setState({
             filter: Object.assign({}, this.state.filter, { [name]: value })
+        }, () => {
+            if (name === 'groups') {
+                const groupIds = value && value.length > 0 ? value.map(group => { return group.value; }).join(',') : null;
+
+                this.getMembers(groupIds);
+            }
         });
     }
 
