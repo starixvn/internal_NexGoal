@@ -9,7 +9,7 @@ export default class SearchForm extends Component {
         super(props);
     }
 
-    handlePeriodChange = (selectedOption) => {
+    handleStatusChange = (selectedOption) => {
         this.props.onFilterChange('status', selectedOption);
     }
 
@@ -27,7 +27,7 @@ export default class SearchForm extends Component {
                     <ControlLabel>{getResource('Status')}</ControlLabel>
                     <div className="control-content">
                         <Select name="status" className="react-select-container" classNamePrefix="react-select"
-                            value={filter.status} options={this.props.statusOptions} onChange={this.handlePeriodChange}
+                            value={filter.status} options={this.props.statusOptions} onChange={this.handleStatusChange}
                         />
                     </div>
                 </FormGroup>

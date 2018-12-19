@@ -160,6 +160,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Nomination Report.
+        /// </summary>
+        public static string NominationReport {
+            get {
+                return ResourceManager.GetString("NominationReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to PA Focus.
         /// </summary>
         public static string PAFocus {

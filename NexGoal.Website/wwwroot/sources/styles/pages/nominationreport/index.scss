@@ -1,0 +1,18 @@
+﻿@import "../../abstracts/variables";
+@import "../../abstracts/mixins";
+@import "../../layouts/nomination";
+@import "../../components/buttons";
+@import "../../components/form";
+@import "../../components/form-filter";
+@import "../../components/form-inline";
+@import "../../components/messages";
+@import "../../components/modal";
+@import "../../components/react-select";
+@import "../../components/tables";
+@import "../../components/toast";
+@import "../../components/tooltip";
+@import "../../components/tabs";
+
+#nomination-report-wrapper {
+    margin-bottom: 24px;
+}

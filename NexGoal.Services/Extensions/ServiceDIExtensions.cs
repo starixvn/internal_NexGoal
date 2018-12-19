@@ -24,6 +24,7 @@
             services.AddScoped<IRedmineService, RedmineService>();
             services.AddScoped<IPAFocusService, PAFocusService>();
             services.AddScoped<IExportPAFocusService, ExportPAFocusService>();
+            services.AddScoped<INominationReportService, NominationReportService>();
         }
     }
 }

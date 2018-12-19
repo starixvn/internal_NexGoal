@@ -11,7 +11,6 @@ import { NominationStatuses } from '../../constants';
 import SearchForm from './SearchForm';
 import NominationProcess from './NominationProcess';
 import Table from './Table';
-import NominatorComment from './NominatorComment';
 
 export default class EOQAssessment extends Component {
     constructor(props) {
@@ -106,7 +105,6 @@ export default class EOQAssessment extends Component {
     }
 
     handleShowNominatorComment = (nomination, performanceRecordId) => {
-        debugger;
         this.props.onShowNominatorComment(nomination, performanceRecordId, this.state.nominationPeriod);
     }
 

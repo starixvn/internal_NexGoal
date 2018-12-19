@@ -90,6 +90,7 @@ var resource_en_US = {
     'Nomination': 'Nomination',
     'NominationPeriods': 'Nomination Periods',
     'NominationPeriod': 'Nomination Period',
+    'NominationReport': 'Nomination Report',
     'Nominator': 'Nominator',
     'Nominee': 'Nominee',
     'NoticeAtBegin': 'Notice At Begin',

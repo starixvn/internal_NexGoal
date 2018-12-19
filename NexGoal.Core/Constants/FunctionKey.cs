@@ -11,5 +11,6 @@
         public const string MemberPage = "MemberPage";
         public const string EmployeeNomination = "EmployeeNomination";
         public const string PAFocus = "PAFocus";
+        public const string NominationReport = "NominationReport";
     }
 }

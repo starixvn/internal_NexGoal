@@ -4,7 +4,6 @@ import Select, { components } from 'react-select';
 import getResource from '../../resourceHelper';
 import { NominationStatuses } from '../../constants';
 import { getNominationClassName, noDataIndication } from '../../common-functions';
-import NominationProcess from './NominationProcess';
 
 const SingleValue = ({ children, ...props }) => (
     <components.SingleValue {...props}>

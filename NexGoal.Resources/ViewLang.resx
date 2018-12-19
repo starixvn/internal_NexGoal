@@ -174,4 +174,7 @@
   <data name="MemberPage" xml:space="preserve">
     <value>Member Page</value>
   </data>
+  <data name="NominationReport" xml:space="preserve">
+    <value>Nomination Report</value>
+  </data>
 </root>
