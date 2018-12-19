@@ -42,7 +42,7 @@ export default class NominationAssessment extends Component {
     }
 
     render() {
-        debugger;
+        //debugger;
         return (
             <div className="row">
                 <Breadcrumb>
