@@ -1,13 +1,13 @@
 ﻿import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import axios from 'axios';
+import { Tabs, Tab } from 'react-bootstrap';
 
-import { axiosError, resolveClientUrl } from '../../common-functions';
-import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
+import getResource from '../../resourceHelper';
 import Breadcrumb from '../../shared/components/Breadcrumb';
-import Filter from './Filter';
-import Table from './Table';
+import GroupFlowSetting from './flowsetting/GroupFlowSetting';
+import EmployeeFlowSetting from './flowsetting/EmployeeFlowSetting';
+import FlowList from './flowlist/index';
 
 export default class App extends Component {
     constructor(props) {
@@ -15,45 +15,29 @@ export default class App extends Component {
 
         this.state = {
             isHost: document.getElementById('IsHost').checked,
-            filter: {
-                targetTypeId: document.getElementById('TargetTypeId').value,
-                isActive: document.getElementById('IsActive').value.toLowerCase()
-            },
-            targetTypes: [],
-            flowTemplates: []
+            activeKey: 1,
+            isFirstLoadPersonalTab: false,
+            isFirstLoadFlowListTab: false
         };
     }
 
-    componentDidMount() {
-        this.getTargetTypes();
-        this.getFlowTemplates();
-    }
+    handleOnSelect = (key) => {
+        this.setState({ activeKey: key });
 
-    getTargetTypes = () => {
-        axios.get(resolveClientUrl('Common/GetTargetTypes'))
-            .then(response => {
-                this.setState({ targetTypes: response.data });
-            }).catch(axiosError);
-    }
+        switch (key) {
+            case 2:
+                if (!this.state.isFirstLoadPersonalTab) {
+                    this.setState({ isFirstLoadPersonalTab: true });
+                }
 
-    getFlowTemplates = () => {
-        const filter = this.state.filter;
-        axios.get(resolveClientUrl('Flow/GetAll'), {
-            params: {
-                targetTypeId: filter.targetTypeId,
-                isActive: filter.isActive
-            }
-        }).then(response => {
-            this.setState({ flowTemplates: response.data });
-        }).catch(axiosError);
-    }
+                break;
+            case 3:
+                if (!this.state.isFirstLoadFlowListTab) {
+                    this.setState({ isFirstLoadFlowListTab: true });
+                }
 
-    handleOnFilterChange = (filter) => {
-        this.setState({ filter: filter });
-    }
-
-    handleOnSubmit = () => {
-        this.getFlowTemplates();
+                break;
+        }
     }
 
     render() {
@@ -61,20 +45,33 @@ export default class App extends Component {
             <ToastLayout>
                 <div className="row">
                     <Breadcrumb>
-                        <li className="current">{getResource('EvaluationFlowManagement')}</li>
+                        <li className="current">{getResource('EvaluationFlow')}</li>
                     </Breadcrumb>
                     <div className="col-sm-12">
-                        <Filter filter={this.state.filter}
-                            targetTypes={this.state.targetTypes}
-                            onFilterChange={this.handleOnFilterChange}
-                            onSubmit={this.handleOnSubmit}
-                        />
-
-                        <Table isHost={this.state.isHost}
-                            targetTypes={this.state.targetTypes}
-                            flowTemplates={this.state.flowTemplates}
-                            onFilterSubmit={this.handleOnSubmit}
-                        />
+                        <Tabs id="tabs-flow"
+                            activeKey={this.state.activeKey}
+                            onSelect={this.handleOnSelect}
+                        >
+                            <Tab eventKey={1} title={getResource('Team')}>
+                                <GroupFlowSetting
+                                    isHost={this.state.isHost}
+                                />
+                            </Tab>
+                            <Tab eventKey={2} title={getResource('Personal')}>
+                                {
+                                    this.state.isFirstLoadPersonalTab &&
+                                    <EmployeeFlowSetting
+                                        isHost={this.state.isHost}
+                                    />
+                                }
+                            </Tab>
+                            <Tab eventKey={3} title={getResource('FlowList')}>
+                                {
+                                    this.state.isFirstLoadFlowListTab &&
+                                    <FlowList />
+                                }
+                            </Tab>
+                        </Tabs>
                     </div>
                 </div>
             </ToastLayout>

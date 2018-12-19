@@ -68,10 +68,10 @@
                 }
             };
             var controller = GetEmployeeFlowSettingController();
-            flowSettingService.GetEmployeeFlowSettingAsync(1).Returns(flowSettings);
+            flowSettingService.GetEmployeeFlowSettingAsync().Returns(flowSettings);
 
             // Act
-            var actual = await controller.GetEmployeeFlowSetting(1);
+            var actual = await controller.GetEmployeeFlowSetting();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -90,10 +90,10 @@
                 Evaluator = new FlowSettingModel { EmployeeId = 2, NickName = "Quinn" }
             };
             var controller = GetEmployeeFlowSettingController();
-            flowSettingService.GetByIdAsync(1, 1).Returns(flowSetting);
+            flowSettingService.GetByIdAsync(1).Returns(flowSetting);
 
             // Act
-            var actual = await controller.GetById(1, 1);
+            var actual = await controller.GetById(1);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -108,10 +108,10 @@
             var flowSettings = new List<FlowSettingModel>();
             var expected = new CommandResult();
             var controller = GetEmployeeFlowSettingController();
-            flowSettingService.EditAsync(1, 1, flowSettings).Returns(expected);
+            flowSettingService.EditAsync(1, flowSettings).Returns(expected);
 
             // Act
-            var actual = await controller.Edit(1, 1, flowSettings);
+            var actual = await controller.Edit(1, flowSettings);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -125,10 +125,10 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetEmployeeFlowSettingController();
-            flowSettingService.DeleteAsync(1, 1).Returns(expected);
+            flowSettingService.DeleteAsync(1).Returns(expected);
 
             // Act
-            var actual = await controller.Delete(1, 1);
+            var actual = await controller.Delete(1);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);

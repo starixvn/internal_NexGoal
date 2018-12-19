@@ -8,16 +8,16 @@
 
     public interface IEmployeeFlowSettingService
     {
-        Task<IEnumerable<EmployeeBaseModel>> GetEmployeeHaveSettingAsync(int flowTempalteId, int? groupId = null);
+        Task<IEnumerable<EmployeeBaseModel>> GetEmployeeHaveSettingAsync(int? groupId = null);
 
-        Task<IEnumerable<EmployeeBaseModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null);
+        Task<IEnumerable<EmployeeBaseModel>> GetEmployeeUnsettingAsync(int? groupId = null);
 
-        Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync(int flowTempalteId);
+        Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync();
 
-        Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId, int flowTempalteId);
+        Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId);
 
-        Task<CommandResult> EditAsync(int employeeId, int flowTemplateId, IEnumerable<FlowSettingModel> settings);
+        Task<CommandResult> EditAsync(int employeeId, IEnumerable<FlowSettingModel> settings);
 
-        Task<CommandResult> DeleteAsync(int employeeId, int flowTemplateId);
+        Task<CommandResult> DeleteAsync(int employeeId);
     }
 }

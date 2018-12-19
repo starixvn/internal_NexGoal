@@ -15,7 +15,6 @@
             services.AddScoped<IEOYService, EOYService>();
             services.AddScoped<IEmployeeService, EmployeeService>();
             services.AddScoped<IDisciplineService, DisciplineService>();
-            services.AddScoped<IFlowTemplateService, FlowTemplateService>();
             services.AddScoped<IPeriodService, PeriodService>();
             services.AddScoped<IGroupFlowSettingService, GroupFlowSettingService>();
             services.AddScoped<IEmployeeFlowSettingService, EmployeeFlowSettingService>();

@@ -1,18 +1,15 @@
 ﻿@using NexGoal.Resources
-@using NexGoal.ViewModels.FlowTemplate
-@model FlowTemplateViewModel
 
 @{
     ViewData["Title"] = ViewLang.EvaluationFlow;
+    bool isHost = (bool)ViewData["IsHost"];
 }
 
 @section Styles {
     <link rel="stylesheet" href="~/dist/styles/evaluationflow.css" />
 }
 
-<input type="hidden" asp-for="TargetTypeId" />
-<input type="hidden" asp-for="IsActive" />
-<input type="checkbox" hidden id="IsHost" @(Model.IsHost ? "checked" : string.Empty) />
+<input type="checkbox" hidden id="IsHost" @(isHost ? "checked" : string.Empty) />
 
 <div id="evaluationflow-wrapper"></div>
 

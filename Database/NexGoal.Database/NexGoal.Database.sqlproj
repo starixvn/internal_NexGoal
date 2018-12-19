@@ -140,12 +140,6 @@
     <Build Include="dbo\Stored Procedures\EOY_GetById.sql" />
     <Build Include="dbo\Stored Procedures\EOY_Insert.sql" />
     <Build Include="dbo\Stored Procedures\EOY_Update.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_Delete.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_Get.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_GetById.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_Insert.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_Update.sql" />
-    <Build Include="dbo\Stored Procedures\FlowTemplate_UpdateStatus.sql" />
     <Build Include="dbo\Stored Procedures\Function_GetAll.sql" />
     <Build Include="dbo\Stored Procedures\Function_GetByEmployeeId.sql" />
     <Build Include="dbo\Stored Procedures\Function_GetByRoleId.sql" />

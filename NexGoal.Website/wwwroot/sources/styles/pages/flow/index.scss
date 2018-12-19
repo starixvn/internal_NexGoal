@@ -2,10 +2,168 @@
 @import "../../abstracts/mixins";
 @import "../../components/buttons";
 @import "../../components/form";
-@import "../../components/form-filter";
-@import "../../components/form-inline";
 @import "../../components/messages";
-@import "../../components/modal";
 @import "../../components/react-select";
 @import "../../components/tables";
+@import "../../components/tabs";
 @import "../../components/toast";
+
+.boxtitle {
+    height: 30px;
+    background: #324273;
+    font-size: 13px;
+    color: #fff;
+    padding: 5px 12px;
+    margin-bottom: 10px;
+}
+
+.group-flow, .employee-flow {
+    .text-search {
+        position: relative;
+
+        input {
+            margin: 10px 0;
+        }
+
+        span {
+            color: #ccc;
+            position: absolute;
+            right: 8px;
+            top: 8px;
+        }
+    }
+}
+
+.employee-flow {
+    .filter {
+        .react-select-container, .text-search {
+            width: 300px;
+        }
+
+        .employee-setting {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+
+            select {
+                flex-basis: 300px;
+                height: 238px;
+
+                option {
+                    padding: 4px 10px;
+                }
+            }
+
+            .control {
+                flex-basis: 60px;
+                text-align: center;
+
+                button {
+                    width: 40px;
+                    margin-bottom: 10px;
+                }
+            }
+        }
+    }
+}
+
+.evaluator-list, .flow-settings {
+    ul {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+}
+
+.evaluator-list {
+    border: 1px solid #c8c8c8;
+    @include border-radius(2px);
+
+    .header {
+        background-color: #acacac;
+        font-size: 16px;
+        text-transform: uppercase;
+        text-align: center;
+        color: #fff;
+        padding: 7px 10px;
+    }
+
+    .content {
+        padding: 10px;
+
+        ul {
+            max-height: 300px;
+            overflow: auto;
+
+            li {
+                background: #e1e1e1;
+                margin-bottom: 1px;
+                padding: 3px 5px;
+                cursor: pointer;
+            }
+        }
+    }
+}
+
+.flow-settings {
+    ul {
+        min-height: 300px;
+    }
+
+    .group-has-setting {
+        padding-top: 7px;
+    }
+
+    table.table {
+        tbody {
+            tr {
+                td {
+                    width: 25%;
+
+                    &.col-hr {
+                        background: #fcd5b4;
+                    }
+
+                    &.col-self {
+                        background: #d8e4bc;
+                    }
+
+                    &.col-evaluator {
+                        background: #e8b8b7;
+                    }
+
+                    &.col-reviewer {
+                        background: #b1a0c7;
+                    }
+                }
+            }
+        }
+    }
+
+    ul {
+        li {
+            position: relative;
+            text-align: center;
+
+            a {
+                position: absolute;
+                right: 6px;
+                top: 6px;
+            }
+
+            img {
+                width: 60px;
+                height: 60px;
+                margin-bottom: 10px;
+            }
+        }
+    }
+
+    form {
+        margin-top: 15px;
+
+        .btn + .btn {
+            margin-left: 16px;
+        }
+    }
+}

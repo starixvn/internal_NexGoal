@@ -4,9 +4,7 @@
 
     public class GetGroupFlowSettingCriteria : CriteriaBase
     {
-        public int FlowTemplateId { get; set; }
-
-        public override bool IsValid() => FlowTemplateId > 0;
+        public override bool IsValid() => true;
 
         public override string GetSettingKey() => "GroupFlowSetting_Get";
     }

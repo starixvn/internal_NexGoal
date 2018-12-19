@@ -23,10 +23,10 @@
                 new GroupBaseModel { GroupId = 1, Code = "NEX", Name = "Nexus" }
             };
             var controller = GetGroupFlowSettingController();
-            flowSettingService.GetGroupHaveSettingAsync(1).Returns(groups);
+            flowSettingService.GetGroupHaveSettingAsync().Returns(groups);
 
             // Act
-            var actual = await controller.GetGroupHaveSetting(1);
+            var actual = await controller.GetGroupHaveSetting();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -49,10 +49,10 @@
                 }
             };
             var controller = GetGroupFlowSettingController();
-            flowSettingService.GetGroupFlowSettingAsync(1).Returns(flowSettings);
+            flowSettingService.GetGroupFlowSettingAsync().Returns(flowSettings);
 
             // Act
-            var actual = await controller.GetGroupFlowSetting(1);
+            var actual = await controller.GetGroupFlowSetting();
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -72,10 +72,10 @@
                 Evaluator = new FlowSettingModel { EmployeeId = 2, NickName = "Quinn" }
             };
             var controller = GetGroupFlowSettingController();
-            flowSettingService.GetByIdAsync(1, 1).Returns(flowSetting);
+            flowSettingService.GetByIdAsync(1).Returns(flowSetting);
 
             // Act
-            var actual = await controller.GetById(1, 1);
+            var actual = await controller.GetById(1);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -90,10 +90,10 @@
             var flowSettings = new List<FlowSettingModel>();
             var expected = new CommandResult();
             var controller = GetGroupFlowSettingController();
-            flowSettingService.EditAsync(1, 1, flowSettings).Returns(expected);
+            flowSettingService.EditAsync(1, flowSettings).Returns(expected);
 
             // Act
-            var actual = await controller.Edit(1, 1, flowSettings);
+            var actual = await controller.Edit(1, flowSettings);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);
@@ -107,10 +107,10 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetGroupFlowSettingController();
-            flowSettingService.DeleteAsync(1, 1).Returns(expected);
+            flowSettingService.DeleteAsync(1).Returns(expected);
 
             // Act
-            var actual = await controller.Delete(1, 1);
+            var actual = await controller.Delete(1);
 
             // Assert
             var jsonResult = Assert.IsType<JsonResult>(actual);

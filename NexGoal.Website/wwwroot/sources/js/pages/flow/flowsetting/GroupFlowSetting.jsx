@@ -32,7 +32,7 @@ class GroupFlowSetting extends Component {
     componentDidMount() {
         const promises = [
             axios(resolveClientUrl('Common/GetGroups')),
-            axios(resolveClientUrl(`GroupFlowSetting/GetGroupHaveSetting?flowTemplateId=${this.props.flowTemplateId}`))
+            axios(resolveClientUrl('GroupFlowSetting/GetGroupHaveSetting'))
         ];
 
         Promise.all(promises)
@@ -45,7 +45,7 @@ class GroupFlowSetting extends Component {
     }
 
     getFlowSetting = (groupId) => {
-        axios(resolveClientUrl(`GroupFlowSetting/GetById?groupId=${groupId}&flowTemplateId=${this.props.flowTemplateId}`))
+        axios(resolveClientUrl(`GroupFlowSetting/GetById?groupId=${groupId}`))
             .then(response => {
                 const data = response.data;
 
@@ -178,7 +178,6 @@ class GroupFlowSetting extends Component {
                 method: 'POST',
                 data: stringify({
                     __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                    flowTemplateId: this.props.flowTemplateId,
                     groupId: this.state.groupSelected.value,
                     settings: settings
                 }),
@@ -226,7 +225,6 @@ class GroupFlowSetting extends Component {
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                flowTemplateId: this.props.flowTemplateId,
                 groupId: this.state.groupSelected.value
             }),
             headers: {

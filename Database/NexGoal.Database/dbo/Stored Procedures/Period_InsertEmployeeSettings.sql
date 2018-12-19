@@ -18,8 +18,7 @@ Param's Explanation:
 BEGIN
 	SET NOCOUNT ON;
 
-	DECLARE @TargetTypeId TINYINT
-		,@periodStartDate DATE
+	DECLARE @periodStartDate DATE
 		,@hrProcessDuration INT
 		,@reviewerProcessDuration INT
 	DECLARE @paRecordTbl TABLE (
@@ -32,18 +31,17 @@ BEGIN
 		,@logData NVARCHAR(MAX)
 		,@xml XML
 
-	SELECT @TargetTypeId = p.TargetTypeId
-		,@periodStartDate = p.StartDate
-	FROM dbo.Period p WITH (NOLOCK)
+	SELECT @periodStartDate = p.StartDate
+	FROM dbo.Period AS p WITH (NOLOCK)
 	WHERE p.PeriodId = @PeriodId
 
 	SELECT @hrProcessDuration = pps.Duration
-	FROM dbo.PeriodProcessSetting pps WITH (NOLOCK)
+	FROM dbo.PeriodProcessSetting AS pps WITH (NOLOCK)
 	WHERE pps.PeriodId = @PeriodId
 		AND pps.ProcessId = 1
 
 	SELECT @reviewerProcessDuration = pps.Duration
-	FROM dbo.PeriodProcessSetting pps WITH (NOLOCK)
+	FROM dbo.PeriodProcessSetting AS pps WITH (NOLOCK)
 	WHERE pps.PeriodId = @PeriodId
 		AND pps.ProcessId = 5
 
@@ -58,7 +56,7 @@ BEGIN
 	SELECT e.EmployeeId
 		,@PeriodId
 		,1
-	FROM dbo.Employee e WITH (NOLOCK)
+	FROM dbo.Employee AS e WITH (NOLOCK)
 	WHERE (
 			e.EmployeeId = @EmployeeId
 			OR EXISTS (
@@ -69,7 +67,7 @@ BEGIN
 			)
 		AND NOT EXISTS (
 			SELECT 1
-			FROM dbo.PARecord par WITH (NOLOCK)
+			FROM dbo.PARecord AS par WITH (NOLOCK)
 			WHERE par.EmployeeId = e.EmployeeId
 				AND par.PeriodId = @PeriodId
 			)
@@ -77,16 +75,12 @@ BEGIN
 		AND (
 			EXISTS (
 				SELECT 1
-				FROM dbo.EmployeeFlowSetting efs WITH (NOLOCK)
-					INNER JOIN dbo.FlowTemplate ft WITH (NOLOCK) ON efs.FlowTemplateId = ft.FlowTemplateId
-					AND ft.TargetTypeId = @TargetTypeId
+				FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
 				WHERE efs.EmployeeId = e.EmployeeId
 				)
 			OR EXISTS (
 				SELECT 1
-				FROM dbo.GroupFlowSetting gfs WITH (NOLOCK)
-					INNER JOIN dbo.FlowTemplate ft WITH (NOLOCK) ON gfs.FlowTemplateId = ft.FlowTemplateId
-					AND ft.TargetTypeId = @TargetTypeId
+				FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
 				WHERE gfs.GroupId = e.GroupId
 				)
 			)
@@ -114,11 +108,9 @@ BEGIN
 			WHEN efs.ProcessId = 5 THEN DATEADD(DAY, @reviewerProcessDuration, @periodStartDate)
 			ELSE NULL
 			END
-		,efs.Priority
-	FROM @paRecordTbl par
-		INNER JOIN dbo.EmployeeFlowSetting efs WITH (NOLOCK) ON par.EmployeeId = efs.EmployeeId
-		INNER JOIN dbo.FlowTemplate ft WITH (NOLOCK) ON efs.FlowTemplateId = ft.FlowTemplateId
-		AND ft.TargetTypeId = @TargetTypeId
+		,efs.[Priority]
+	FROM @paRecordTbl AS par
+		INNER JOIN dbo.EmployeeFlowSetting AS efs WITH (NOLOCK) ON par.EmployeeId = efs.EmployeeId
 	
 	UNION
 	SELECT par.PARecordId
@@ -127,7 +119,7 @@ BEGIN
 		,NULL
 		,NULL
 		,0
-	FROM @paRecordTbl par
+	FROM @paRecordTbl AS par
 
 	INSERT INTO [dbo].[PAProcess] (
 		[PARecordId]
@@ -151,16 +143,12 @@ BEGIN
 			ELSE NULL
 			END
 		,gfs.[Priority]
-	FROM @paRecordTbl par
-		INNER JOIN dbo.Employee e WITH (NOLOCK) ON e.EmployeeId = par.EmployeeId
-		INNER JOIN dbo.GroupFlowSetting gfs WITH (NOLOCK) ON e.GroupId = gfs.GroupId
-		INNER JOIN dbo.FlowTemplate ft WITH (NOLOCK) ON gfs.FlowTemplateId = ft.FlowTemplateId
-		AND ft.TargetTypeId = @TargetTypeId
+	FROM @paRecordTbl AS par
+		INNER JOIN dbo.Employee AS e WITH (NOLOCK) ON e.EmployeeId = par.EmployeeId
+		INNER JOIN dbo.GroupFlowSetting AS gfs WITH (NOLOCK) ON e.GroupId = gfs.GroupId
 	WHERE NOT EXISTS (
 			SELECT 1
-			FROM dbo.EmployeeFlowSetting efs WITH (NOLOCK)
-				INNER JOIN dbo.FlowTemplate ft WITH (NOLOCK) ON efs.FlowTemplateId = ft.FlowTemplateId
-				AND ft.TargetTypeId = @TargetTypeId
+			FROM dbo.EmployeeFlowSetting AS efs WITH (NOLOCK)
 			WHERE efs.EmployeeId = par.EmployeeId
 			)
 

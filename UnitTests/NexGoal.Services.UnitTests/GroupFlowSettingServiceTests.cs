@@ -30,7 +30,7 @@
             baseService.GetDataAsync<GroupBaseModel>(Arg.Any<GetGroupHaveSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.GetGroupHaveSettingAsync(1);
+            var actual = await service.GetGroupHaveSettingAsync();
 
             // Assert
             Assert.Equal(expected, actual);
@@ -55,7 +55,7 @@
             baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(Arg.Any<GetGroupFlowSettingCriteria>()).Returns(tuple);
 
             // Act
-            var actual = await service.GetGroupFlowSettingAsync(1);
+            var actual = await service.GetGroupFlowSettingAsync();
 
             // Assert
             Assert.Single(actual);
@@ -82,7 +82,7 @@
             baseService.GetDataAsync<FlowSettingModel>(Arg.Any<GetGroupFlowSettingByIdCriteria>()).Returns(flowSettings);
 
             // Act
-            var actual = await service.GetByIdAsync(1, 1);
+            var actual = await service.GetByIdAsync(1);
 
             // Assert
             Assert.Equal(1, actual.GroupId);
@@ -107,7 +107,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditGroupFlowSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditAsync(1, 1, settings);
+            var actual = await service.EditAsync(1, settings);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -125,7 +125,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<DeleteGroupFlowSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.DeleteAsync(1, 1);
+            var actual = await service.DeleteAsync(1);
 
             // Assert
             Assert.Equal(expected, actual);

@@ -27,22 +27,16 @@
             this.avatarService = avatarService;
         }
 
-        public async Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync(int flowTempalteId)
+        public async Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync()
         {
-            var criteria = new GetGroupHaveSettingCriteria
-            {
-                FlowTemplateId = flowTempalteId
-            };
+            var criteria = new GetGroupHaveSettingCriteria();
 
             return await baseService.GetDataAsync<GroupBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync(int flowTempalteId)
+        public async Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync()
         {
-            var criteria = new GetGroupFlowSettingCriteria
-            {
-                FlowTemplateId = flowTempalteId
-            };
+            var criteria = new GetGroupFlowSettingCriteria();
             var tuple = await baseService.FetchMultipleAsync<GroupFlowSettingModel, FlowSettingModel>(criteria).ConfigureAwait(false);
 
             foreach (GroupFlowSettingModel groupFlowSetting in tuple.Item1)
@@ -74,12 +68,11 @@
             return tuple.Item1;
         }
 
-        public async Task<GroupFlowSettingModel> GetByIdAsync(int groupId, int flowTempalteId)
+        public async Task<GroupFlowSettingModel> GetByIdAsync(int groupId)
         {
             var criteria = new GetGroupFlowSettingByIdCriteria
             {
-                GroupId = groupId,
-                FlowTemplateId = flowTempalteId
+                GroupId = groupId
             };
 
             var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
@@ -115,26 +108,24 @@
             return groupFlowSetting;
         }
 
-        public async Task<CommandResult> EditAsync(int groupId, int flowTemplateId, IEnumerable<FlowSettingModel> settings)
+        public async Task<CommandResult> EditAsync(int groupId, IEnumerable<FlowSettingModel> settings)
         {
             var criteria = new EditGroupFlowSettingCriteria
             {
                 GroupId = groupId,
-                FlowTemplateId = flowTemplateId,
                 FlowDetails = settings.ToXML().ToString(),
-                ModifiedBy = sessionService.EmployeeId
+                ActorId = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> DeleteAsync(int groupId, int flowTemplateId)
+        public async Task<CommandResult> DeleteAsync(int groupId)
         {
             var criteria = new DeleteGroupFlowSettingCriteria
             {
                 GroupId = groupId,
-                FlowTemplateId = flowTemplateId,
-                ModifiedBy = sessionService.EmployeeId
+                ActorId = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

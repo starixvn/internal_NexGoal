@@ -1,6 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[EmployeeFlowSetting_GetEmployeeHaveSetting] @FlowTemplateId SMALLINT
-	,@GroupId INT = NULL
+CREATE PROCEDURE [dbo].[EmployeeFlowSetting_GetEmployeeHaveSetting] @GroupId INT = NULL
 AS
 /*
 Created: 20150807@Tim.Trinh
@@ -22,8 +21,6 @@ BEGIN
 		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON emp.GroupId = gr.GroupId
 		AND gr.IsDeleted = 0
 		INNER JOIN dbo.EmployeeFlowSetting AS efs WITH (NOLOCK) ON emp.EmployeeId = efs.EmployeeId
-		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON efs.FlowTemplateId = ft.FlowTemplateId
-		AND ft.FlowTemplateId = @FlowTemplateId
 	WHERE emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
 		AND ISNULL(@GroupId, emp.GroupId) = emp.GroupId

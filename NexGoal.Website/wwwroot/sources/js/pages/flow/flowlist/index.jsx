@@ -41,14 +41,14 @@ class FlowList extends Component {
     }
 
     getGroupFlowSetting = () => {
-        axios.get(resolveClientUrl(`GroupFlowSetting/GetGroupFlowSetting?flowTemplateId=${this.props.flowTemplateId}`))
+        axios.get(resolveClientUrl('GroupFlowSetting/GetGroupFlowSetting'))
             .then(response => {
                 this.setState({ groupFlowSettings: response.data });
             }).catch(axiosError);
     }
 
     getEmployeeFlowSetting = () => {
-        axios.get(resolveClientUrl(`EmployeeFlowSetting/GetEmployeeFlowSetting?flowTemplateId=${this.props.flowTemplateId}`))
+        axios.get(resolveClientUrl('EmployeeFlowSetting/GetEmployeeFlowSetting'))
             .then(response => {
                 this.setState({ employeeFlowSettings: response.data });
             }).catch(axiosError);

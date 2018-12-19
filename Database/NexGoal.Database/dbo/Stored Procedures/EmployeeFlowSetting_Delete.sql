@@ -1,7 +1,6 @@
 ﻿
 CREATE PROCEDURE [dbo].[EmployeeFlowSetting_Delete] @EmployeeId INT
-	,@FlowTemplateId SMALLINT
-	,@ModifiedBy INT
+	,@ActorId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -25,15 +24,13 @@ BEGIN
 		,@xml XML
 
 	SET @xml = (
-			SELECT @FlowTemplateId AS '@fid'
-				,@EmployeeId AS '@empid'
+			SELECT @EmployeeId AS '@empid'
 				,(
 					SELECT ProcessId AS '@pid'
 						,EvaluatorId AS '@evaid'
 						,[Priority] AS '@p'
 					FROM dbo.EmployeeFlowSetting WITH (NOLOCK)
 					WHERE EmployeeId = @EmployeeId
-						AND FlowTemplateId = @FlowTemplateId
 					FOR XML PATH('z')
 						,TYPE
 					)
@@ -45,13 +42,12 @@ BEGIN
 	DELETE
 	FROM dbo.EmployeeFlowSetting
 	WHERE EmployeeId = @EmployeeId
-		AND FlowTemplateId = @FlowTemplateId
 
 	-- write log after delete
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
-	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+	EXEC dbo.LogDetail_Insert @ActorId = @ActorId
 		,@SPName = 'EmployeeFlowSetting_Delete'
 		,@ObjectId = @EmployeeId
 		,@OldData = @logDataOld

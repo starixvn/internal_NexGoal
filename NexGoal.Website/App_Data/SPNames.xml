@@ -54,14 +54,6 @@
     <Setting Key="Discipline_Insert" SpName="Discipline_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="Discipline_Update" SpName="Discipline_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
-  <Function Name="Flow Template">
-    <Setting Key="FlowTemplate_Get" SpName="FlowTemplate_Get" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="FlowTemplate_GetById" SpName="FlowTemplate_GetById" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="FlowTemplate_Insert" SpName="FlowTemplate_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="FlowTemplate_Update" SpName="FlowTemplate_Update" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="FlowTemplate_UpdateStatus" SpName="FlowTemplate_UpdateStatus" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="FlowTemplate_Delete" SpName="FlowTemplate_Delete" DbName="bodb_NexGoal" Plain="0"></Setting>
-  </Function>
   <Function Name="Group Flow Setting">
     <Setting Key="GroupFlowSetting_GetGroupHaveSetting" SpName="GroupFlowSetting_GetGroupHaveSetting" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GroupFlowSetting_Get" SpName="GroupFlowSetting_Get" DbName="bodb_NexGoal" Plain="0"></Setting>

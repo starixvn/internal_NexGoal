@@ -1,5 +1,5 @@
 ﻿
-CREATE PROCEDURE [dbo].[GroupFlowSetting_Get] @FlowTemplateId SMALLINT
+CREATE PROCEDURE [dbo].[GroupFlowSetting_Get]
 AS
 /*
 Created: 20180830@Tim.Trinh
@@ -13,7 +13,7 @@ Param's Explanation:
 */
 BEGIN
 	SET NOCOUNT ON;
-	
+
 	SELECT gr.GroupId
 		,gr.Code
 		,gr.[Name]
@@ -29,9 +29,9 @@ BEGIN
 		,emp.NickName
 		,emp.FullName
 	FROM dbo.GroupFlowSetting AS gfs WITH (NOLOCK)
+		INNER JOIN dbo.[Group] AS gr WITH (NOLOCK) ON gfs.GroupId = gr.GroupId
+		AND gr.IsDeleted = 0
 		INNER JOIN dbo.Employee AS emp WITH (NOLOCK) ON gfs.EvaluatorId = emp.EmployeeId
-		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON gfs.FlowTemplateId = ft.FlowTemplateId
-	WHERE gfs.FlowTemplateId = @FlowTemplateId
 	ORDER BY gfs.GroupId DESC
 		,gfs.ProcessId
 		,gfs.[Priority]

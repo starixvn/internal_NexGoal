@@ -30,34 +30,29 @@
             this.avatarService = avatarService;
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeeHaveSettingAsync(int flowTempalteId, int? groupId = null)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeeHaveSettingAsync(int? groupId = null)
         {
             var criteria = new GetEmployeeHaveSettingCriteria
             {
-                GroupId = groupId,
-                FlowTemplateId = flowTempalteId
+                GroupId = groupId
             };
 
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeeUnsettingAsync(int flowTempalteId, int? groupId = null)
+        public async Task<IEnumerable<EmployeeBaseModel>> GetEmployeeUnsettingAsync(int? groupId = null)
         {
             var criteria = new GetEmployeeUnsettingCriteria
             {
-                GroupId = groupId,
-                FlowTemplateId = flowTempalteId
+                GroupId = groupId
             };
 
             return await baseService.GetDataAsync<EmployeeBaseModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync(int flowTempalteId)
+        public async Task<IEnumerable<EmployeeFlowSettingModel>> GetEmployeeFlowSettingAsync()
         {
-            var criteria = new GetEmployeeFlowSettingCriteria
-            {
-                FlowTemplateId = flowTempalteId
-            };
+            var criteria = new GetEmployeeFlowSettingCriteria();
             var tuple = await baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(criteria).ConfigureAwait(false);
 
             foreach (EmployeeFlowSettingModel employeeFlowSetting in tuple.Item1)
@@ -89,12 +84,11 @@
             return tuple.Item1;
         }
 
-        public async Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId, int flowTempalteId)
+        public async Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId)
         {
             var criteria = new GetEmployeeFlowSettingByIdCriteria
             {
-                EmployeeId = employeeId,
-                FlowTemplateId = flowTempalteId
+                EmployeeId = employeeId
             };
 
             var flowSettings = await baseService.GetDataAsync<FlowSettingModel>(criteria).ConfigureAwait(false);
@@ -134,26 +128,24 @@
             return employeeFlowSetting;
         }
 
-        public async Task<CommandResult> EditAsync(int employeeId, int flowTemplateId, IEnumerable<FlowSettingModel> settings)
+        public async Task<CommandResult> EditAsync(int employeeId, IEnumerable<FlowSettingModel> settings)
         {
             var criteria = new EditEmployeeFlowSettingCriteria
             {
                 EmployeeId = employeeId,
-                FlowTemplateId = flowTemplateId,
                 FlowDetails = settings.ToXML().ToString(),
-                ModifiedBy = sessionService.EmployeeId
+                ActorId = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> DeleteAsync(int employeeId, int flowTemplateId)
+        public async Task<CommandResult> DeleteAsync(int employeeId)
         {
             var criteria = new DeleteEmployeeFlowSettingCriteria
             {
                 EmployeeId = employeeId,
-                FlowTemplateId = flowTemplateId,
-                ModifiedBy = sessionService.EmployeeId
+                ActorId = sessionService.EmployeeId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

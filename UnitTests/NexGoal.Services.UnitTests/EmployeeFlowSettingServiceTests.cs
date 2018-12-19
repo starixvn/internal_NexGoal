@@ -74,7 +74,7 @@
             baseService.FetchMultipleAsync<EmployeeFlowSettingModel, FlowSettingModel>(Arg.Any<GetEmployeeFlowSettingCriteria>()).Returns(tuple);
 
             // Act
-            var actual = await service.GetEmployeeFlowSettingAsync(1);
+            var actual = await service.GetEmployeeFlowSettingAsync();
 
             // Assert
             Assert.Single(actual);
@@ -103,7 +103,7 @@
             commonService.GetEmployeeByIdAsync(1).Returns(employee);
 
             // Act
-            var actual = await service.GetByIdAsync(1, 1);
+            var actual = await service.GetByIdAsync(1);
 
             // Assert
             Assert.Equal(employee.EmployeeId, actual.EmployeeId);
@@ -129,7 +129,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeFlowSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditAsync(1, 1, settings);
+            var actual = await service.EditAsync(1, settings);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -147,7 +147,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<DeleteEmployeeFlowSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.DeleteAsync(1, 1);
+            var actual = await service.DeleteAsync(1);
 
             // Assert
             Assert.Equal(expected, actual);

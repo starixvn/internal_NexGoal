@@ -8,14 +8,14 @@
 
     public interface IGroupFlowSettingService
     {
-        Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync(int flowTempalteId);
+        Task<IEnumerable<GroupBaseModel>> GetGroupHaveSettingAsync();
 
-        Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync(int flowTempalteId);
+        Task<IEnumerable<GroupFlowSettingModel>> GetGroupFlowSettingAsync();
 
-        Task<GroupFlowSettingModel> GetByIdAsync(int groupId, int flowTempalteId);
+        Task<GroupFlowSettingModel> GetByIdAsync(int groupId);
 
-        Task<CommandResult> EditAsync(int groupId, int flowTemplateId, IEnumerable<FlowSettingModel> settings);
+        Task<CommandResult> EditAsync(int groupId, IEnumerable<FlowSettingModel> settings);
 
-        Task<CommandResult> DeleteAsync(int groupId, int flowTemplateId);
+        Task<CommandResult> DeleteAsync(int groupId);
     }
 }

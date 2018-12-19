@@ -21,55 +21,51 @@
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<JsonResult> GetEmployeeHaveSetting(
-            int flowTemplateId,
-            int? groupId = null)
+        public async Task<JsonResult> GetEmployeeHaveSetting(int? groupId = null)
         {
-            IEnumerable<EmployeeBaseModel> employees = await flowSettingService.GetEmployeeHaveSettingAsync(flowTemplateId, groupId).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await flowSettingService.GetEmployeeHaveSettingAsync(groupId).ConfigureAwait(false);
 
             return Json(employees);
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<JsonResult> GetEmployeeUnsetting(
-            int flowTemplateId,
-            int? groupId = null)
+        public async Task<JsonResult> GetEmployeeUnsetting(int? groupId = null)
         {
-            IEnumerable<EmployeeBaseModel> employees = await flowSettingService.GetEmployeeUnsettingAsync(flowTemplateId, groupId).ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await flowSettingService.GetEmployeeUnsettingAsync(groupId).ConfigureAwait(false);
 
             return Json(employees);
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<JsonResult> GetEmployeeFlowSetting(int flowTemplateId)
+        public async Task<JsonResult> GetEmployeeFlowSetting()
         {
-            IEnumerable<EmployeeFlowSettingModel> flowSettings = await flowSettingService.GetEmployeeFlowSettingAsync(flowTemplateId).ConfigureAwait(false);
+            IEnumerable<EmployeeFlowSettingModel> flowSettings = await flowSettingService.GetEmployeeFlowSettingAsync().ConfigureAwait(false);
 
             return Json(flowSettings);
         }
 
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Read)]
-        public async Task<JsonResult> GetById(int employeeId, int flowTemplateId)
+        public async Task<JsonResult> GetById(int employeeId)
         {
-            EmployeeFlowSettingModel flowSetting = await flowSettingService.GetByIdAsync(employeeId, flowTemplateId).ConfigureAwait(false);
+            EmployeeFlowSettingModel flowSetting = await flowSettingService.GetByIdAsync(employeeId).ConfigureAwait(false);
 
             return Json(flowSetting);
         }
 
         [HttpPost]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<JsonResult> Edit(int employeeId, int flowTemplateId, IEnumerable<FlowSettingModel> settings)
+        public async Task<JsonResult> Edit(int employeeId, IEnumerable<FlowSettingModel> settings)
         {
-            CommandResult commandResult = await flowSettingService.EditAsync(employeeId, flowTemplateId, settings).ConfigureAwait(false);
+            CommandResult commandResult = await flowSettingService.EditAsync(employeeId, settings).ConfigureAwait(false);
 
             return Json(commandResult);
         }
 
         [HttpDelete]
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
-        public async Task<JsonResult> Delete(int employeeId, int flowTemplateId)
+        public async Task<JsonResult> Delete(int employeeId)
         {
-            CommandResult commandResult = await flowSettingService.DeleteAsync(employeeId, flowTemplateId).ConfigureAwait(false);
+            CommandResult commandResult = await flowSettingService.DeleteAsync(employeeId).ConfigureAwait(false);
 
             return Json(commandResult);
         }

@@ -44,7 +44,7 @@ class EmployeeFlowSetting extends Component {
     }
 
     getFlowSetting = (employeeId) => {
-        axios(resolveClientUrl(`EmployeeFlowSetting/GetById?employeeId=${employeeId}&flowTemplateId=${this.props.flowTemplateId}`))
+        axios(resolveClientUrl(`EmployeeFlowSetting/GetById?employeeId=${employeeId}`))
             .then(response => {
                 const data = response.data;
 
@@ -180,7 +180,6 @@ class EmployeeFlowSetting extends Component {
                 method: 'POST',
                 data: stringify({
                     __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                    flowTemplateId: this.props.flowTemplateId,
                     employeeId: this.state.employeeSelected.employeeId,
                     settings: settings
                 }),
@@ -219,7 +218,6 @@ class EmployeeFlowSetting extends Component {
             method: 'DELETE',
             data: stringify({
                 __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                flowTemplateId: this.props.flowTemplateId,
                 employeeId: this.state.employeeSelected.employeeId
             }),
             headers: {
@@ -256,7 +254,8 @@ class EmployeeFlowSetting extends Component {
 
         return (
             <div className="employee-flow">
-                <EmployeeFlowFilter flowTemplateId={this.props.flowTemplateId} isHost={isHost}
+                <EmployeeFlowFilter
+                    isHost={isHost}
                     hasSetting={this.state.showDeleteButton}
                     groupOptions={this.state.groupOptions}
                     onEmployeeSelected={this.handleOnEmployeeSelected}
@@ -287,7 +286,8 @@ class EmployeeFlowSetting extends Component {
                                         />
                                     </td>
                                     <td className="col-self">
-                                        {employeeSelected &&
+                                        {
+                                            employeeSelected &&
                                             <ul>
                                                 <li className="alert alert-info">
                                                     <img src={employeeSelected.avatar} />
@@ -319,8 +319,10 @@ class EmployeeFlowSetting extends Component {
                             isHost && employeeSelected &&
                             <Form inline>
                                 <Button type="button" bsStyle="primary" onClick={this.handleSaveFlowSetting}>{getResource('Submit')}</Button>
-                                {this.state.showDeleteButton &&
-                                    <Button type="button" bsStyle="primary" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>}
+                                {
+                                    this.state.showDeleteButton &&
+                                    <Button type="button" bsStyle="primary" onClick={this.handleOnDeleteClick}>{getResource('Delete')}</Button>
+                                }
                             </Form>
                         }
                     </div>

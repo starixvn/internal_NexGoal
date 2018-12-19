@@ -1,8 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[GroupFlowSetting_Update] @GroupId INT
-	,@FlowTemplateId SMALLINT
 	,@FlowDetails NVARCHAR(MAX)
-	,@ModifiedBy INT
+	,@ActorId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -54,20 +53,17 @@ BEGIN
 			SELECT 1
 			FROM dbo.GroupFlowSetting WITH (NOLOCK)
 			WHERE GroupId = @GroupId
-				AND FlowTemplateId = @FlowTemplateId
 			)
 	BEGIN
 		-- Write log before update	
 		SET @xml = (
-				SELECT @FlowTemplateId AS '@fid'
-					,@GroupId AS '@gid'
+				SELECT @GroupId AS '@gid'
 					,(
 						SELECT ProcessId AS '@pid'
 							,EvaluatorId AS '@evaid'
 							,[Priority] AS '@p'
 						FROM dbo.GroupFlowSetting WITH (NOLOCK)
 						WHERE GroupId = @GroupId
-							AND FlowTemplateId = @FlowTemplateId
 						FOR XML PATH('z')
 							,TYPE
 						)
@@ -79,34 +75,29 @@ BEGIN
 		DELETE
 		FROM dbo.GroupFlowSetting
 		WHERE GroupId = @GroupId
-			AND FlowTemplateId = @FlowTemplateId
 	END
 
 	INSERT INTO dbo.GroupFlowSetting (
 		GroupId
 		,ProcessId
 		,EvaluatorId
-		,FlowTemplateId
 		,[Priority]
 		)
 	SELECT @GroupId
 		,ProcessId
 		,EvaluatorId
-		,@FlowTemplateId
 		,[Priority]
 	FROM #tblGroupFlowSetting WITH (NOLOCK)
 
 	-- write log after update
 	SET @xml = (
-			SELECT @FlowTemplateId AS '@fid'
-				,@GroupId AS '@gid'
+			SELECT @GroupId AS '@gid'
 				,(
 					SELECT ProcessId AS '@pid'
 						,EvaluatorId AS '@evaid'
 						,[Priority] AS '@p'
 					FROM dbo.GroupFlowSetting WITH (NOLOCK)
 					WHERE GroupId = @GroupId
-						AND FlowTemplateId = @FlowTemplateId
 					FOR XML PATH('z')
 						,TYPE
 					)
@@ -117,7 +108,7 @@ BEGIN
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
-	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+	EXEC dbo.LogDetail_Insert @ActorId = @ActorId
 		,@SPName = 'GroupFlowSetting_Update'
 		,@ObjectId = @GroupId
 		,@Data = @logData

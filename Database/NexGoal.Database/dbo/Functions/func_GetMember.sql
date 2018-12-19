@@ -133,9 +133,6 @@ BEGIN
 		AND emp.EmployeeId <> @ActorId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON efs.FlowTemplateId = ft.FlowTemplateId
-		AND ft.TargetTypeId = @SemiTargetId
-		AND ft.IsActive = 1
 	WHERE efs.EvaluatorId = @ActorId
 		AND efs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND NOT EXISTS (
@@ -159,9 +156,6 @@ BEGIN
 		AND emp.EmployeeId <> @ActorId
 		AND emp.[Enabled] = 1
 		AND emp.IsDeleted = 0
-		INNER JOIN dbo.FlowTemplate AS ft WITH (NOLOCK) ON gfs.FlowTemplateId = ft.FlowTemplateId
-		AND ft.TargetTypeId = @SemiTargetId
-		AND ft.IsActive = 1
 	WHERE gfs.EvaluatorId = @ActorId
 		AND gfs.ProcessId IN (@EvaluatorProcessId, @ReviewerProcessId)
 		AND NOT EXISTS (

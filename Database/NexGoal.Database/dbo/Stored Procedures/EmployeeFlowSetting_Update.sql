@@ -1,8 +1,7 @@
 ﻿
 CREATE PROCEDURE [dbo].[EmployeeFlowSetting_Update] @EmployeeId INT
-	,@FlowTemplateId SMALLINT
 	,@FlowDetails NVARCHAR(MAX)
-	,@ModifiedBy INT
+	,@ActorId INT
 	,@ErrCode INT = 0 OUTPUT
 	,@ErrMsg NVARCHAR(200) = '' OUTPUT
 AS
@@ -54,20 +53,17 @@ BEGIN
 			SELECT 1
 			FROM dbo.EmployeeFlowSetting WITH (NOLOCK)
 			WHERE EmployeeId = @EmployeeId
-				AND FlowTemplateId = @FlowTemplateId
 			)
 	BEGIN
 		-- Write log before update	
 		SET @xml = (
-				SELECT @FlowTemplateId AS '@fid'
-					,@EmployeeId AS '@empid'
+				SELECT @EmployeeId AS '@empid'
 					,(
 						SELECT ProcessId AS '@pid'
 							,EvaluatorId AS '@evaid'
 							,[Priority] AS '@p'
 						FROM dbo.EmployeeFlowSetting WITH (NOLOCK)
 						WHERE EmployeeId = @EmployeeId
-							AND FlowTemplateId = @FlowTemplateId
 						FOR XML PATH('z')
 							,TYPE
 						)
@@ -79,34 +75,29 @@ BEGIN
 		DELETE
 		FROM dbo.EmployeeFlowSetting
 		WHERE EmployeeId = @EmployeeId
-			AND FlowTemplateId = @FlowTemplateId
 	END
 
 	INSERT INTO dbo.EmployeeFlowSetting (
 		EmployeeId
 		,ProcessId
 		,EvaluatorId
-		,FlowTemplateId
 		,[Priority]
 		)
 	SELECT @EmployeeId
 		,ProcessId
 		,EvaluatorId
-		,@FlowTemplateId
 		,[Priority]
 	FROM #tblEmployeeFlowSetting WITH (NOLOCK)
 
 	-- write log after update
 	SET @xml = (
-			SELECT @FlowTemplateId AS '@fid'
-				,@EmployeeId AS '@empid'
+			SELECT @EmployeeId AS '@empid'
 				,(
 					SELECT ProcessId AS '@pid'
 						,EvaluatorId AS '@evaid'
 						,[Priority] AS '@p'
 					FROM dbo.EmployeeFlowSetting WITH (NOLOCK)
 					WHERE EmployeeId = @EmployeeId
-						AND FlowTemplateId = @FlowTemplateId
 					FOR XML PATH('z')
 						,TYPE
 					)
@@ -117,7 +108,7 @@ BEGIN
 	SET @endRun = GETDATE()
 	SET @duration = DATEDIFF(millisecond, @startRun, @endRun)
 
-	EXEC dbo.LogDetail_Insert @ActorId = @ModifiedBy
+	EXEC dbo.LogDetail_Insert @ActorId = @ActorId
 		,@SPName = 'EmployeeFlowSetting_Update'
 		,@ObjectId = @EmployeeId
 		,@Data = @logData
