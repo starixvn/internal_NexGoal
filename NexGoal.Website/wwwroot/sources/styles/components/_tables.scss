@@ -48,6 +48,7 @@
             color: #fff;
             font-weight: 600;
         }
+
         &:not(.group-row):hover td:not(.title) {
             background: $table-td-bg-hover;
         }

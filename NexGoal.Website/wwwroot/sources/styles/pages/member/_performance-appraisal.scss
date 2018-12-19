@@ -34,10 +34,7 @@
     }
 }
 
-.performance-appraisal {
-    .record-your-mind {
-        grid-template-rows: 1fr;
-    }
+.modal-dialog.performance-appraisal {    
 
     .modal-body .tab-content .record {
         box-shadow: 0 0 6px #dedede;
@@ -49,11 +46,12 @@
         padding-top: 12px;
     }
 
-    .modal-content {
+    
         .modal-body {
             overflow: auto;
             height: 400px;
             position: relative;
+            padding: 13px 0;
 
             @media screen and (min-width: 1600px) {
                 height: 680px;
@@ -62,7 +60,13 @@
             @media screen and (min-width: 1280px) and (max-width: 1600px) {
                 height: 520px;
             }
-        }
+            .record-your-mind {
+                grid-template-rows: 1fr;
+                padding: 0 20px;
+            }
+            #tabs {
+                padding: 0 20px;
+            }
 
         .form-filter {
             margin-top: 16px;
@@ -72,7 +76,6 @@
 
 .table {
     > tbody > tr > td {
-        position: relative;
         font-weight: bold;
     }
 
@@ -84,14 +87,28 @@
             font-size: 9px;
         }
     }
-
-    .icon-note {
-        position: absolute;
-        left: 5px;
-        top: 3px;
-
-        &:before {
-            font-size: 12px;
+    .pa-grade {
+        &[class*="reviewer"] {
+            display: inline-block;
+            width: 100%;
+            position: relative;
+            &:before {
+                width: 18px;           
+                font-family: 'NexGoalIcon' !important;
+                color: #6d829b;
+                display: inline-block;
+                position: absolute;
+                left: 0;
+                font-size: 12px;
+                font-weight: normal;
+            }
+        }
+        
+        &.reviewer-notyetseen:before {
+            content: '';
+        }
+        &.reviewer-seen:before {
+            content: '\E92C';
         }
     }
 

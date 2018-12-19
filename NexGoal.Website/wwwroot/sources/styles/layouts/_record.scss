@@ -45,7 +45,7 @@
         grid-row: 1;
         text-align: left;
         display: grid;
-        grid-template-columns: 40px 1fr 1fr;
+        grid-template-columns: 40px minmax(220px,1fr) 1fr;
         grid-gap: 8px;
 
         .avatar {
@@ -79,7 +79,10 @@
         .person-info {
             [class^="role-"] {
                 font-weight: 700;
-                font-size: 16px;
+                font-size: 15px;
+                @media screen and (min-width: 1280px) {
+                    font-size: 16px;
+                }
             }
 
             .draft {

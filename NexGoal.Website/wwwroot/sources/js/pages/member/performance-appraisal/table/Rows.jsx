@@ -41,14 +41,12 @@ class Rows extends Component {
         let displayPAGrade = record.statusId === PAStatus.Closed ?
             <span>{paGrade}</span> :
             <a onClick={() => this.handleClick(record.paRecordId)}>{paGrade}</a>;
+            
+        const noteClass = reviewerProcess.performanceRecord ? 'reviewer-seen' : 'reviewer-notyetseen';
         return (
             <Fragment>
-                {
-                    reviewerProcess.performanceRecord &&
-                    <span className="icon-note" />
-                }
-                {displayPAGrade}
-                <span className={gradeChangeClass} />
+                <span className={`pa-grade text-center ${noteClass}`}>{displayPAGrade}
+                <span className={gradeChangeClass} /></span>
             </Fragment>
         );
     };
@@ -171,7 +169,7 @@ class Rows extends Component {
                                 <td className="text-center">
                                     {this.renderPAByProcess(record.processes, PerformanceProcess.Evaluator)}
                                 </td>
-                                <td className="text-center">{this.renderPAForReviewer(record)}</td>
+                                <td className="">{this.renderPAForReviewer(record)}</td>
                                 <td className="text-center">
                                     {this.renderStatus(record.isEdited, record.paRecordId, record.statusId)}
                                 </td>
