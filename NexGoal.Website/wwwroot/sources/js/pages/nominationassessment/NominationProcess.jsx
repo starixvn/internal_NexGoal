@@ -14,46 +14,49 @@ export default class NominationProcess extends PureComponent {
             startDateForComittee = moment(period.endDateForNominator).add(1, 'day');
 
         return (
-            <ul className="evaluation-process">
-                <li className={`process-item ${today.isSameOrAfter(startDateForNominator, 'day') && today.isSameOrBefore(endDateForNominator, 'day') ? 'in-process' : today.isAfter(endDateForNominator, 'day') ? 'end-process' : 'open'}`}>
-                    {`${getResource('Nominator')}: ${startDateForNominator.format(DateFormat)} - ${endDateForNominator.format(DateFormat)}`}
-                    {
-                        today.isAfter(endDateForNominator, 'day') &&
-                        <div>
-                            <span>{getResource('Completed')}</span> <i className="fa fa-check-square-o" />
-                        </div>
-                    }
-                    {
-                        today.isSameOrBefore(endDateForNominator, 'day') &&
-                        <div>
-                            <span>{getResource('InProgress')}</span> <i className="fa fa-spinner" />
-                        </div>
-                    }
-                </li>
-                <li className={`process-item ${endDateForNominator.isBefore(today, 'day') && endDateForCommittee.isSameOrAfter(today, 'day') ? 'in-process' : today.isAfter(endDateForCommittee, 'day') ? 'end-process' : 'open'}`}>
-                    {`${getResource('Committee')}: ${startDateForComittee.format(DateFormat)} - ${endDateForCommittee.format(DateFormat)}`}
-                    <div>
+            <div class="process-title">
+                <div class="period">Employee of the quarter - IV 2018</div>
+                <ul className="evaluation-process">
+                    <li className={`process-item ${today.isSameOrAfter(startDateForNominator, 'day') && today.isSameOrBefore(endDateForNominator, 'day') ? 'in-process' : today.isAfter(endDateForNominator, 'day') ? 'end-process' : 'open'}`}>
+                        {`${getResource('Nominator')}: ${startDateForNominator.format(DateFormat)} - ${endDateForNominator.format(DateFormat)}`}
                         {
-                            today.isAfter(endDateForCommittee, 'day') &&
+                            today.isAfter(endDateForNominator, 'day') &&
                             <div>
                                 <span>{getResource('Completed')}</span> <i className="fa fa-check-square-o" />
                             </div>
                         }
                         {
-                            today.isSameOrBefore(endDateForCommittee, 'day') && today.isSameOrAfter(startDateForComittee, 'day') &&
+                            today.isSameOrBefore(endDateForNominator, 'day') &&
                             <div>
                                 <span>{getResource('InProgress')}</span> <i className="fa fa-spinner" />
                             </div>
                         }
-                        {
-                            today.isSameOrBefore(endDateForNominator, 'day') &&
-                            <div>
-                                <span>{getResource('NotReady')}</span> <i className="fa fa-hourglass-start" />
-                            </div>
-                        }
-                    </div>
-                </li>
-            </ul>
+                    </li>
+                    <li className={`process-item ${endDateForNominator.isBefore(today, 'day') && endDateForCommittee.isSameOrAfter(today, 'day') ? 'in-process' : today.isAfter(endDateForCommittee, 'day') ? 'end-process' : 'open'}`}>
+                        {`${getResource('Committee')}: ${startDateForComittee.format(DateFormat)} - ${endDateForCommittee.format(DateFormat)}`}
+                        <div>
+                            {
+                                today.isAfter(endDateForCommittee, 'day') &&
+                                <div>
+                                    <span>{getResource('Completed')}</span> <i className="fa fa-check-square-o" />
+                                </div>
+                            }
+                            {
+                                today.isSameOrBefore(endDateForCommittee, 'day') && today.isSameOrAfter(startDateForComittee, 'day') &&
+                                <div>
+                                    <span>{getResource('InProgress')}</span> <i className="fa fa-spinner" />
+                                </div>
+                            }
+                            {
+                                today.isSameOrBefore(endDateForNominator, 'day') &&
+                                <div>
+                                    <span>{getResource('NotReady')}</span> <i className="fa fa-hourglass-start" />
+                                </div>
+                            }
+                        </div>
+                    </li>
+                </ul>
+            </div>
         );
     }
 }
