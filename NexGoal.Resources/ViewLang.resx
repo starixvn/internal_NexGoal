@@ -176,5 +176,8 @@
   </data>
   <data name="NominationReport" xml:space="preserve">
     <value>Nomination Report</value>
+   </data>
+  <data name="PAReport" xml:space="preserve">
+    <value>PA Report</value>
   </data>
 </root>

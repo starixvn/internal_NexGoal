@@ -22,6 +22,7 @@ module.exports = {
         [`${styleDistPath}/pafocus`]: `${styleSourcePath}/pages/pafocus/index.scss`,
         [`${styleDistPath}/nomination-assessment`]: `${styleSourcePath}/pages/nominationassessment/index.scss`,
         [`${styleDistPath}/nomination-report`]: `${styleSourcePath}/pages/nominationreport/index.scss`,
+        [`${styleDistPath}/pa-report`]: `${styleSourcePath}/pages/report/pa-report.scss`,
         //
         [`${jsDistPath}/main`]: "./sources/js/main.js",
         [`${jsDistPath}/search-member`]: "./sources/js/SearchMember.jsx",
@@ -40,5 +41,6 @@ module.exports = {
         [`${jsDistPath}/pafocus`]: `${jsSourcePath}/pafocus/index.jsx`,
         [`${jsDistPath}/nomination-assessment`]: `${jsSourcePath}/nominationassessment/index.jsx`,
         [`${jsDistPath}/nomination-report`]: `${jsSourcePath}/nominationreport/index.jsx`,
+        [`${jsDistPath}/pa-report`]: `${jsSourcePath}/report/pa-report/index.jsx`
     }
 };

@@ -185,5 +185,10 @@
 
             paRecord.Processes = processes.Where(x => x.PARecordId == paRecord.PARecordId);
         }
+
+        public Task<IEnumerable<PARecordModel>> GetPAReportAsync(GetPARecordMultiPeriodParam param)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

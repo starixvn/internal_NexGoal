@@ -178,6 +178,15 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to PA Report.
+        /// </summary>
+        public static string PAReport {
+            get {
+                return ResourceManager.GetString("PAReport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Remind Date For Nominator.
         /// </summary>
         public static string RemindDateForNominator {
