@@ -47,7 +47,7 @@ namespace NexGoal.AutoService.Services
                     mailclient.UseDefaultCredentials = true;
                     mailclient.Credentials = credential;
                     mailclient.Host = configuration.Value.SmtpServer;
-                    mailclient.Port = configuration.Value.SmtpPortNumber;
+                    mailclient.Port = configuration.Value.SmtpPort;
                     mailclient.EnableSsl = configuration.Value.EnableSsl;
 
                     mailclient.Send(message);

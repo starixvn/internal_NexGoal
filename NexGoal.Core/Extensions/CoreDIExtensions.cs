@@ -14,6 +14,7 @@
             services.AddTransient<IBaseService, BaseService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<ISessionService, SessionService>();
+            services.AddTransient<IBaseMailService, BaseMailService>();
         }
     }
 }

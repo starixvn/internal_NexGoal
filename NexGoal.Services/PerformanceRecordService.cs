@@ -5,6 +5,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using NexGoal.Core.Constants;
+    using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PerformanceRecord;
@@ -18,15 +19,18 @@
         private readonly IBaseService baseService;
         private readonly ICryptoService cryptoService;
         private readonly ICommonService commonService;
+        private readonly IPerformanceRecordMailService recordMailService;
 
         public PerformanceRecordService(
             IBaseService baseService,
             ICryptoService cryptoService,
-            ICommonService commonService)
+            ICommonService commonService,
+            IPerformanceRecordMailService recordMailService)
         {
             this.baseService = baseService;
             this.cryptoService = cryptoService;
             this.commonService = commonService;
+            this.recordMailService = recordMailService;
         }
 
         public async Task<IEnumerable<PerformanceRecordModel>> GetPerformanceRecordByEmployeeAsync(int employeeId)
@@ -167,6 +171,11 @@
 
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
             commandResult.ObjectIds = criteria.PerformanceRecordIds;
+
+            if (commandResult.IsSuccessful && performanceRecord.StatusId == (int)PerformanceRecordStatus.Submitted)
+            {
+                await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, PerformanceRecordMailMode.Create).ConfigureAwait(false);
+            }
 
             return commandResult;
         }

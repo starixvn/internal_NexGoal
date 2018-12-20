@@ -21,6 +21,8 @@ DB: bodb_NexGoal
 BEGIN
 	SET NOCOUNT ON;
 
+	DECLARE @Today DATE = GETDATE()
+
 	IF EXISTS (
 			SELECT 1
 			FROM dbo.Period p WITH (NOLOCK)
@@ -115,6 +117,13 @@ BEGIN
 		,FocusDay
 	FROM [dbo].[PeriodDefaultProcessSetting] WITH (NOLOCK)
 	WHERE TargetTypeId = @TargetTypeId
+
+	IF @FocusStartDate < @Today
+	BEGIN
+		EXEC dbo.PAFocus_Generate @PeriodId
+			,@ErrCode = @ErrCode OUTPUT
+			,@ErrMsg = @ErrMsg OUTPUT
+	END
 
 	SET @xml = (
 			SELECT p.PeriodId AS '@pi'
