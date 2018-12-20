@@ -102,6 +102,7 @@ var resource_en_US = {
     'PAFinalGrade': 'PA Final Grade',
     'Performance': 'Performance',
     'PerformanceAppraisal': 'Performance Appraisal',
+    'PerformanceAppraisalReport': 'Performance Appraisal Report',
     'Period': 'Period',
     'Personal': 'Personal',
     'ProjectManager': 'Project Manager',

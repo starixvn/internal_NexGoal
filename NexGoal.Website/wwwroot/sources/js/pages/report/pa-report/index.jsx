@@ -95,7 +95,7 @@ export default class App extends Component {
         return (
             <div className="row">
                 <Breadcrumb>
-                    <li className="current">{getResource('EvaluationPeriodManagement')}</li>
+                    <li className="current">{getResource('PerformanceAppraisalReport')}</li>
                 </Breadcrumb>
                 <div className="col-sm-12">
                     <Filter periodOptions={this.state.periodOptions}

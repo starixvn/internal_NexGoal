@@ -39,13 +39,17 @@ export default class Table extends Component {
         }
     }
 
+    showPADetails = (paRecordId) => {
+        console.log(paRecordId);
+    }
+
     renderPARecordInfo = (paRecords) => {
         return (
             paRecords.map(record => {
                 return (
                     <tr>
-                        <td>{record.employee.nickName}</td>
                         <td>{record.employee.fullName}</td>
+                        <td className="text-center">{record.employee.nickName}</td>
                         <td>{record.employee.jobTitle}</td>
                         <td>{record.employee.groupName}</td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Self)}</td>
@@ -53,7 +57,7 @@ export default class Table extends Component {
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Evaluator)}</td>
                         <td className="text-center">{this.renderGradeByProcess(record.processes, PerformanceProcess.Reviewer)}</td>
                         <td className="text-center">{record.grade ? record.grade.name : getResource('N/A')}</td>
-                        <td><span className="icon-search" /></td>
+                        <td><span className="icon-search" onClick={() => this.showPADetails(record.paRecordId)} /></td>
                     </tr>
                 );
             })
@@ -91,8 +95,8 @@ export default class Table extends Component {
             <table className="table table-bordered">
                 <thead>
                     <tr>
-                        <th>{getResource('NickName')}</th>
                         <th>{getResource('FullName')}</th>
+                        <th>{getResource('NickName')}</th>
                         <th>{getResource('JobTitle')}</th>
                         <th>{getResource('Team')}</th>
                         <th>{getResource('Self')}</th>

@@ -2,6 +2,8 @@
 @import "../../abstracts/variables";
 @import "../../components/buttons";
 @import "../../components/form-filter";
+@import "../../components/dropdown";
+@import "../../components/_react-select.scss";
 @import "../../components/form-inline";
 @import "../../components/form";
 @import "../../components/modal";
@@ -10,3 +12,18 @@
 @import "../../components/table-search";
 @import '~react-bootstrap-table-next/dist/react-bootstrap-table2.min.css';
 @import "../../components/toast";
+@import "../../pages/member/_performance-appraisal.scss";
+
+table {
+    tbody {
+        p {
+            margin: 0 !important;
+        }
+
+        .icon-search:before {
+            padding-left: 15px;
+            color: #324373;
+            cursor: pointer;
+        }
+    }
+}
