@@ -2,7 +2,7 @@
 {
     using Fanex.Data.Repository;
 
-    public class GetNominationPeriods : CriteriaBase
+    public class GetNominationPeriodsCriteria : CriteriaBase
     {
         public bool IsQuarter { get; set; }
 

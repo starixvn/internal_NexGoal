@@ -32,6 +32,7 @@ export default class EOQAssessment extends Component {
             periodOptions: [],
             groupOptions: [],
             employeeOptions: [],
+            nominationPeriods: [],
             activeTabKey: 1
         };
     }
@@ -80,7 +81,7 @@ export default class EOQAssessment extends Component {
                     }
                 }, () => {
                     if (this.state.filter.period) {
-                        // this.getNominations();
+                        this.getNominations();
                     }
                 });
             }).catch(axiosError);
@@ -89,7 +90,9 @@ export default class EOQAssessment extends Component {
     getNominations = () => {
         axios.get(resolveClientUrl('NominationReport/GetNominations'), {
             params: {
-                nominationPeriodIds: this.state.nominationPeriod.nominationPeriodId,
+                nominationPeriodId: this.state.filter.period ? this.state.filter.period.value : null,
+                groupIds: this.state.filter.groups.map(x => x.value).toString(),
+                employeeId: this.state.filter.employee ? this.state.filter.employee.value : null,
                 statusId: this.state.filter.status.value
             }
         }).then(response => {
@@ -107,36 +110,8 @@ export default class EOQAssessment extends Component {
         this.getNominations();
     }
 
-    handleUpdateNominationStatus = (nominationId, statusId) => {
-        axios({
-            url: resolveClientUrl(`NominationAssessment/EditStatus`),
-            method: 'post',
-            data: stringify({
-                __RequestVerificationToken: document.getElementsByName('__RequestVerificationToken')[0].value,
-                nominationId: nominationId,
-                statusId: statusId
-            }),
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        }).then(response => {
-            let data = response.data;
-
-            if (data.isSuccessful) {
-                let tableData = this.state.tableData;
-                let nomination = tableData.find(x => x.nominationId === nominationId);
-                nomination.statusId = statusId;
-
-                this.setState({ tableData });
-                toast.success(getResource('UpdatedSuccessfully'));
-            } else {
-                toast.error(data.message);
-            }
-        }).catch(axiosError);
-    }
-
     handleShowNominatorComment = (nomination, performanceRecordId) => {
-        this.props.onShowNominatorComment(nomination, performanceRecordId, this.state.nominationPeriod);
+        this.props.onShowNominatorComment(nomination, performanceRecordId, this.state.nominationPeriods.find(x => x.nominationPeriodId === nomination.nominationPeriodId));
     }
 
     closeModal = () => {

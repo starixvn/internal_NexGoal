@@ -220,6 +220,7 @@
     <Build Include="dbo\Stored Procedures\Nomination_Delete.sql" />
     <Build Include="dbo\Stored Procedures\Employee_GetRoleAccordingToMember.sql" />
     <Build Include="dbo\Stored Procedures\NominationReport_GetPeriods.sql" />
+    <Build Include="dbo\Stored Procedures\NominationReport_GetNominations.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">

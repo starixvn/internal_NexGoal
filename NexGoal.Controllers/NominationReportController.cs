@@ -27,5 +27,11 @@
         {
             return Json(await nominationReportService.GetNominationPeriodsForNominatorAsync(isQuarter).ConfigureAwait(false));
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetNominations(int? nominationPeriodId, string groupIds, int? employeeId, int? statusId)
+        {
+            return Json(await nominationReportService.GetNominations(nominationPeriodId, groupIds, employeeId, statusId).ConfigureAwait(false));
+        }
     }
 }

@@ -5,7 +5,7 @@ import { Tabs, Tab } from 'react-bootstrap';
 import getResource from '../../resourceHelper';
 import ToastLayout from '../../shared/layouts/ToastLayout';
 import Breadcrumb from '../../shared/components/Breadcrumb';
-//import NominatorComment from './NominatorComment';
+import NominatorComment from './NominatorComment';
 import EOQReport from './EOQReport';
 
 export default class NominationReport extends Component {
@@ -42,7 +42,6 @@ export default class NominationReport extends Component {
     }
 
     render() {
-        debugger;
         return (
             <div className="row">
                 <Breadcrumb>
@@ -58,6 +57,7 @@ export default class NominationReport extends Component {
                         </Tab>
                     </Tabs>
                 </div>
+                <NominatorComment activeKey={this.state.activeKey} nomination={this.state.nomination} period={this.state.period} showModal={this.state.showModal} onCloseModal={this.closeModal} />
                 <ToastLayout />
             </div>
         );
