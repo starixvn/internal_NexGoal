@@ -140,4 +140,7 @@
     <Setting Key="NominationReport_GetPeriods" SpName="NominationReport_GetPeriods" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="NominationReport_GetNominations" SpName="NominationReport_GetNominations" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
+  <Function name="Report">
+    <Setting Key="Report_GetPARecord" SpName="Report_GetPARecord" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
 </Functions>

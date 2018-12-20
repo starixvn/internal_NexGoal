@@ -192,6 +192,23 @@ BEGIN
 						) THEN 2
 				ELSE 0
 				END) AS UnpaidLeave
+        ,SUM(CASE 
+				WHEN (
+						LeaveTypeId = 28
+						AND ISNULL(LeaveTypeId2, 0) <> 28
+						)
+					OR (
+						LeaveTypeId2 = 28
+						AND ISNULL(LeaveTypeId, 0) <> 28
+						)
+					THEN 1
+				WHEN (
+						LeaveTypeId = 28
+						AND LeaveTypeId2 = 28
+						)
+					THEN 2
+				ELSE 0
+				END) AS SickLeave
 		,SUM(CASE 
 				WHEN (
 						LeaveTypeId = 30

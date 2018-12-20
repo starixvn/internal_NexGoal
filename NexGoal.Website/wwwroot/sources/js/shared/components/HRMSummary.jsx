@@ -38,6 +38,7 @@ export default function HrmDetail(props) {
                 <li>{getResource('AverageWorkDays')}<span className="bold">: {props.hrmDetail.averageWorkingDays}</span></li>
                 <li>{getResource('AverageSpentTime')}<span className="bold">: {props.hrmDetail.averageSpentTime}</span></li>
                 <li>{getResource('LateInEarlyOut')}<span className="bold">: {props.hrmDetail.totalLateInEarlyOut}</span></li>
+                <li>{getResource('SickLeave')}<span className="bold">: {props.hrmDetail.sickLeave}</span></li>
                 <li>{getResource('UnpaidLeave')}<span className="bold">: {props.hrmDetail.unpaidLeave}</span></li>
                 <li>{getResource('UnplanedLeave')}<span className="bold">: {props.hrmDetail.unplanedAnnualLeave}</span></li>
                 <li>{getResource('Discipline')}<span className="bold">: {props.hrmDetail.incident}</span></li>

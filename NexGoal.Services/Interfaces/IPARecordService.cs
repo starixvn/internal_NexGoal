@@ -5,6 +5,7 @@
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
+    using NexGoal.Models.Report;
 
     public interface IPARecordService
     {
@@ -14,7 +15,7 @@
 
         Task<IEnumerable<PARecordModel>> GetPARecordByReviewerAsync(GetPARecordParam param);
 
-        Task<IEnumerable<PARecordModel>> GetPAReportAsync(GetPARecordMultiPeriodParam param);
+        Task<IEnumerable<PARecordGroupByPeriod>> GetPAReportAsync(GetPARecordMultiPeriodParam param);
 
         Task<PARecordModel> GetPARecordByIdAsync(int paRecordId, int actorId);
 

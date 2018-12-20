@@ -7,10 +7,12 @@
     using NexGoal.Core.Models;
     using NexGoal.Core.Services;
     using NexGoal.Criteria.PARecord;
+    using NexGoal.Criteria.Report;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.PerformanceRecord;
+    using NexGoal.Models.Report;
 
     public class PARecordService : IPARecordService
     {
@@ -186,9 +188,34 @@
             paRecord.Processes = processes.Where(x => x.PARecordId == paRecord.PARecordId);
         }
 
-        public Task<IEnumerable<PARecordModel>> GetPAReportAsync(GetPARecordMultiPeriodParam param)
+        public async Task<IEnumerable<PARecordGroupByPeriod>> GetPAReportAsync(GetPARecordMultiPeriodParam param)
         {
-            throw new NotImplementedException();
+            var criteria = new GetPARecordForReportCriteria
+            {
+                ActorId = param.ActorId,
+                PeriodIds = param.PeriodIds,
+                GroupIds = param.GroupIds,
+                EmployeeId = param.EmployeeId
+            };
+
+            var tuple = await baseService.FetchMultipleAsync<PARecordModel, PAProcessModel, PerformanceRecordModel>(criteria).ConfigureAwait(false);
+
+            IEnumerable<PerformanceGradeModel> performanceGrades = await commonService.GetPerformanceGradeAsync().ConfigureAwait(false);
+            IEnumerable<EmployeeBaseModel> employees = await commonService.GetEmployeesAsync(isEnabled: null).ConfigureAwait(false);
+
+            IEnumerable<PeriodBaseModel> periods = await commonService.GetAllPeriods().ConfigureAwait(false);
+
+            MappingData(tuple.Item1, tuple.Item2, tuple.Item3, employees, performanceGrades);
+
+            var groupRecords = tuple.Item1.GroupBy(r => r.PeriodId)
+                .Select(item => new PARecordGroupByPeriod
+                {
+                    PeriodId = item.Key,
+                    Period = periods.FirstOrDefault(p => p.PeriodId == item.Key),
+                    PARecords = item
+                });
+
+            return groupRecords.OrderByDescending(g => g.PeriodId);
         }
     }
 }

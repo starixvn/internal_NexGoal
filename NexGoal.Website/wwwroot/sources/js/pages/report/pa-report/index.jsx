@@ -5,6 +5,7 @@ import { axiosError, resolveClientUrl } from '../../../common-functions';
 import getResource from '../../../resourceHelper';
 import Breadcrumb from '../../../shared/components/Breadcrumb';
 import Filter from './filter';
+import Table from './table';
 
 export default class App extends Component {
     constructor(props) {
@@ -18,7 +19,7 @@ export default class App extends Component {
                 groups: [],
                 employee: null
             },
-            peRecords: []
+            paPeriodRecords: []
         };
     }
 
@@ -61,7 +62,7 @@ export default class App extends Component {
                         periods: [periodOptions[0]],
                         groups: groupOptions
                     }
-                }, () => console.log(this.state));
+                }, () => this.getPARecords());
             }).catch(axiosError);
     }
 
@@ -72,7 +73,7 @@ export default class App extends Component {
     }
 
     handleFilterSubmit = () => {
-        //this.getPARecords();
+        this.getPARecords();
     }
 
     getPARecords = () => {
@@ -81,11 +82,11 @@ export default class App extends Component {
             params: {
                 periodIds: filter.periods.map((period) => { return period.value; }).join(','),
                 groupIds: filter.groups.map(group => { return group.value; }).join(','),
-                employeeId: filter.employee.value
+                employeeId: filter.employee ? filter.employee.value : null
             }
         }).then(response => {
             this.setState({
-                paRecords: response.data
+                paPeriodRecords: response.data
             });
         }).catch(axiosError);
     }
@@ -104,6 +105,7 @@ export default class App extends Component {
                         onFilterChange={this.handleFilterChange}
                         onSubmit={this.handleFilterSubmit}
                     />
+                    <Table periodRecords={this.state.paPeriodRecords} />
                 </div>
             </div>
         );

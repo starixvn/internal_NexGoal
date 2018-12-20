@@ -18,6 +18,8 @@
 
         public int TotalLateInEarlyOut { get; set; }
 
+        public int SickLeave { get; set; }
+
         public int UnpaidLeave { get; set; }
 
         public int UnplanedAnnualLeave { get; set; }
