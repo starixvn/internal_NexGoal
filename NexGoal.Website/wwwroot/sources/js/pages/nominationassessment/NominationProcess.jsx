@@ -15,7 +15,7 @@ export default class NominationProcess extends PureComponent {
 
         return (
             <div class="process-title">
-                <div class="period">Employee of the quarter - IV 2018</div>
+                <div class="period">{period.title}</div>
                 <ul className="evaluation-process">
                     <li className={`process-item ${today.isSameOrAfter(startDateForNominator, 'day') && today.isSameOrBefore(endDateForNominator, 'day') ? 'in-process' : today.isAfter(endDateForNominator, 'day') ? 'end-process' : 'open'}`}>
                         {`${getResource('Nominator')}: ${startDateForNominator.format(DateFormat)} - ${endDateForNominator.format(DateFormat)}`}
