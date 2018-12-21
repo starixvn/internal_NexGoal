@@ -16,6 +16,8 @@
 
         public float AverageWorkingDays { get; set; }
 
+        public int Incident { get; set; }
+
         public IEnumerable<DisciplineModel> Disciplines { get; set; }
 
         public int TotalLateInEarlyOut { get; set; }
