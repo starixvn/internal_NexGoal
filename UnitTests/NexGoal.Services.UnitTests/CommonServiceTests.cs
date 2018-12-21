@@ -10,6 +10,7 @@ namespace NexGoal.Services.UnitTests
     using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Discipline;
     using NSubstitute;
     using Xunit;
 
@@ -112,20 +113,16 @@ namespace NexGoal.Services.UnitTests
         [Fact]
         public async Task GetHRMSummary_WhenCalled_ReturnExpectedResult()
         {
-            var expectResult = new HRMSummaryModel
-            {
-                UnpaidLeave = 1
-            };
+            var item1 = new List<HRMSummaryModel> { new HRMSummaryModel { UnpaidLeave = 1 } };
 
+            var item2 = new List<DisciplineModel>();
+            Tuple<IEnumerable<HRMSummaryModel>, IEnumerable<DisciplineModel>> tuple = new Tuple<IEnumerable<HRMSummaryModel>, IEnumerable<DisciplineModel>>(item1, item2);
+
+            item1.FirstOrDefault().Disciplines = item2;
+            var expectResult = item1.FirstOrDefault();
             var service = GetCommonService();
-            var currentPeriod = new PeriodBaseModel
-            {
-                PeriodId = 1,
-                StartDate = DateTime.Now.AddMonths(-6),
-                EndDate = DateTime.Now
-            };
-            baseService.GetDataEntityAsync<PeriodBaseModel>(Arg.Any<GetCurrentPerformancePeriodCriteria>()).Returns(currentPeriod);
-            baseService.GetDataEntityAsync<HRMSummaryModel>(Arg.Any<GetHRMSummaryCriteria>()).Returns(expectResult);
+
+            baseService.FetchMultipleAsync<HRMSummaryModel, DisciplineModel>(Arg.Any<GetHRMSummaryCriteria>()).Returns(tuple);
 
             var actual = await service.GetHRMSummary(363);
 
