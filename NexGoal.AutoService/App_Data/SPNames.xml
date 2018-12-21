@@ -8,7 +8,7 @@
   </Function>
   <Function Name="Period">
     <Setting Key="InsertPeriod" SpName="Auto_Period_Insert" DbName="bodb_NexGoal" Plain="0"></Setting>
-    <Setting Key="GetPeriodStarted" SpName="Auto_Period_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="Period_GetPeriodStarted" SpName="Auto_Period_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="InsertEmployeeSettings" SpName="Auto_Period_InsertEmployeeSettings" DbName="bodb_NexGoal" Plain="0"></Setting>
     <Setting Key="GeneratePA" SpName="Auto_Period_GeneratePA" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
@@ -20,5 +20,9 @@
   </Function>
   <Function Name="Nomination">
     <Setting Key="EditWhenNominationFinished" SpName="Auto_Nomination_UpdateWhenFinished" DbName="bodb_NexGoal" Plain="0"></Setting>
+  </Function>
+  <Function Name="PA">
+    <Setting Key="PAFocus_GetPeriodStarted" SpName="Auto_PAFocus_GetPeriodStarted" DbName="bodb_NexGoal" Plain="0"></Setting>
+    <Setting Key="PAFocus_Generate" SpName="Auto_PAFocus_Generate" DbName="bodb_NexGoal" Plain="0"></Setting>
   </Function>
 </Functions>

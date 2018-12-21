@@ -9,6 +9,7 @@
         private readonly IPeriodService periodService;
         private readonly IPerformanceRecordService performanceRecordService;
         private readonly IPAService paService;
+        private readonly IPAFocusService focusService;
         private readonly INominationService nominationService;
 
         public AppService(
@@ -16,12 +17,14 @@
             IPeriodService periodService,
             IPerformanceRecordService performanceRecordService,
             IPAService paService,
+            IPAFocusService focusService,
             INominationService nominationService)
         {
             this.avatarService = avatarService;
             this.periodService = periodService;
             this.performanceRecordService = performanceRecordService;
             this.paService = paService;
+            this.focusService = focusService;
             this.nominationService = nominationService;
         }
 
@@ -31,6 +34,8 @@
             {
                 avatarService.Update();
 
+                performanceRecordService.EditStatus();
+
                 periodService.CreatePeriod();
                 periodService.CreateEmployeeSettings();
                 periodService.GeneratePA();
@@ -39,9 +44,9 @@
                 paService.EditWhenEvaluationFinished();
                 paService.EditStatus();
 
-                nominationService.EditWhenFinished();
+                focusService.Generate();
 
-                performanceRecordService.EditStatus();
+                nominationService.EditWhenFinished();
             }
             catch (Exception ex)
             {
