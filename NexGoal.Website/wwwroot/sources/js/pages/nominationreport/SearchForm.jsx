@@ -38,7 +38,7 @@ export default class SearchForm extends Component {
             <Form inline className="form-filter" onSubmit={this.handleSubmit}>
                 <FormGroup>
                     <ControlLabel>{getResource('Period')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content period-width">
                         <Select name="period"
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.period}
@@ -49,7 +49,7 @@ export default class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Team')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content team-width">
                         <MultiSelect name="groups"
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.groups}
@@ -60,7 +60,7 @@ export default class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Employee')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content employee-width">
                         <Select name="employee"
                             className="react-select-container" classNamePrefix="react-select"
                             value={filter.employee}
@@ -71,7 +71,7 @@ export default class SearchForm extends Component {
                 </FormGroup>
                 <FormGroup>
                     <ControlLabel>{getResource('Status')}</ControlLabel>
-                    <div className="control-content">
+                    <div className="control-content status-width">
                         <Select name="status" className="react-select-container" classNamePrefix="react-select"
                             value={filter.status} options={this.props.statusOptions} onChange={this.handleStatusChange}
                         />
