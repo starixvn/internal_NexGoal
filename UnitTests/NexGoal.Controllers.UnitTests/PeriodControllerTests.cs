@@ -10,6 +10,7 @@
     using NexGoal.Models.Period;
     using NexGoal.Services;
     using NexGoal.ViewModels.Period;
+    using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
 
@@ -129,7 +130,7 @@
                 Code = 0
             };
             var controller = GetPeriodController();
-            periodService.CreateAsync(Arg.Any<CreatePeriodModel>()).Returns(expected);
+            periodService.CreateAsync(sessionService.EmployeeId, Arg.Any<CreatePeriodModel>()).Returns(expected);
 
             // Act
             var result = await controller.Create(new CreatePeriodViewModel());
@@ -203,7 +204,7 @@
                 Code = 0
             };
             var controller = GetPeriodController();
-            periodService.EditAsync(Arg.Any<EditPeriodModel>()).Returns(expected);
+            periodService.EditAsync(sessionService.EmployeeId, Arg.Any<EditPeriodModel>()).Returns(expected);
 
             // Act
             var result = await controller.Edit(viewModel);
@@ -222,7 +223,7 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetPeriodController();
-            periodService.EditStatusAsync(1, true).Returns(expected);
+            periodService.EditStatusAsync(sessionService.EmployeeId, 1, true).Returns(expected);
 
             // Act
             var result = await controller.EditStatus(1, true);
@@ -243,7 +244,7 @@
             };
             var expected = new CommandResult();
             var controller = GetPeriodController();
-            periodService.EditProcessSettingAsync(1, settings).Returns(expected);
+            periodService.EditProcessSettingAsync(sessionService.EmployeeId, 1, settings).Returns(expected);
 
             // Act
             var result = await controller.EditProcessSetting(1, settings);
@@ -286,7 +287,7 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetPeriodController();
-            periodService.CreateEmployeeSettingAsync(1, "1,2").Returns(expected);
+            periodService.CreateEmployeeSettingAsync(sessionService.EmployeeId, 1, "1,2").Returns(expected);
 
             // Act
             var result = await controller.CreateEmployeeSettings(1, "1,2");
@@ -305,7 +306,7 @@
             var processes = new List<EditEmployeeSettingModel>();
             var expected = new CommandResult();
             var controller = GetPeriodController();
-            periodService.EditEmployeeSettingAsync(1, recordIds, processes).Returns(expected);
+            periodService.EditEmployeeSettingAsync(sessionService.EmployeeId, 1, recordIds, processes).Returns(expected);
 
             // Act
             var result = await controller.EditEmployeeSetting(1, recordIds, processes);
@@ -322,7 +323,7 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetPeriodController();
-            periodService.EditEmployeeSettingStatusAsync(1, true).Returns(expected);
+            periodService.EditEmployeeSettingStatusAsync(sessionService.EmployeeId, 1, true).Returns(expected);
 
             // Act
             var result = await controller.EditEmployeeSettingStatus(1, true);
@@ -379,7 +380,7 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetPeriodController();
-            periodService.DeleteAsync(1).Returns(expected);
+            periodService.DeleteAsync(sessionService.EmployeeId, 1).Returns(expected);
 
             // Act
             var actual = await controller.Delete(1);

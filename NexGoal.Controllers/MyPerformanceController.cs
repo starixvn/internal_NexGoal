@@ -7,9 +7,9 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models.PerformanceRecord;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
 
     public class MyPerformanceController : Controller
     {

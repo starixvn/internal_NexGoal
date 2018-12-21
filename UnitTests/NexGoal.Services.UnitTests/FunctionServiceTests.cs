@@ -12,7 +12,6 @@
 
     public class FunctionServiceTests
     {
-        private ISessionService sessionService;
         private IBaseService baseService;
 
         [Fact]
@@ -62,7 +61,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<AssignFunctionToRoleCriteria>()).Returns(expected);
 
             // Act
-            var actual = await functionService.AssignFunctionToRoleAsync(roleId, permissions);
+            var actual = await functionService.AssignFunctionToRoleAsync(1, roleId, permissions);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -79,19 +78,10 @@
             };
         }
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private FunctionService GetFunctionService()
         {
-            sessionService = FakeSessionService();
             baseService = Substitute.For<IBaseService>();
-            var service = new FunctionService(baseService, sessionService);
+            var service = new FunctionService(baseService);
 
             return service;
         }

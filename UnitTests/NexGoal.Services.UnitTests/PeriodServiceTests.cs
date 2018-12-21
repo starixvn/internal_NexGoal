@@ -17,7 +17,6 @@
     public class PeriodServiceTests
     {
         private IBaseService baseService;
-        private ISessionService sessionService;
         private ICommonService commonService;
         private ICryptoService cryptoService;
 
@@ -95,7 +94,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<CreatePeriodCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.CreateAsync(model);
+            var actual = await service.CreateAsync(1, model);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -110,7 +109,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<UpdatePeriodStatusCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditStatusAsync(1, true);
+            var actual = await service.EditStatusAsync(1, 1, true);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -130,7 +129,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditPeriodCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditAsync(model);
+            var actual = await service.EditAsync(1, model);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -145,7 +144,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<DeletePeriodCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.DeleteAsync(1);
+            var actual = await service.DeleteAsync(1, 1);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -170,7 +169,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditProcessSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditProcessSettingAsync(1, settings);
+            var actual = await service.EditProcessSettingAsync(1, 1, settings);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -223,7 +222,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<CreateEmployeeSettingsCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.CreateEmployeeSettingAsync(1, "1", null);
+            var actual = await service.CreateEmployeeSettingAsync(1, 1, "1", null);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -238,7 +237,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingsCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditEmployeeSettingAsync(1, new[] { 1, 2 }, new List<EditEmployeeSettingModel>());
+            var actual = await service.EditEmployeeSettingAsync(1, 1, new[] { 1, 2 }, new List<EditEmployeeSettingModel>());
 
             // Assert
             Assert.Equal(expected, actual);
@@ -253,7 +252,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeSettingStatusCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditEmployeeSettingStatusAsync(1, true);
+            var actual = await service.EditEmployeeSettingStatusAsync(1, 1, true);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -332,21 +331,12 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private PeriodService GetPeriodService()
         {
             baseService = Substitute.For<IBaseService>();
-            sessionService = FakeSessionService();
             commonService = Substitute.For<ICommonService>();
             cryptoService = Substitute.For<ICryptoService>();
-            var service = new PeriodService(baseService, sessionService, commonService, cryptoService);
+            var service = new PeriodService(baseService, commonService, cryptoService);
 
             return service;
         }

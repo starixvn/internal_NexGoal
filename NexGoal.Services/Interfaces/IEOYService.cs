@@ -11,8 +11,8 @@
 
         Task<EOQYModel> GetByIdAsync(int eoyId);
 
-        Task<CommandResult> CreateAsync(CreateEOYModel eoy);
+        Task<CommandResult> CreateAsync(int actorId, CreateEOYModel eoy);
 
-        Task<CommandResult> EditAsync(EditEOYModel eoy);
+        Task<CommandResult> EditAsync(int actorId, EditEOYModel eoy);
     }
 }

@@ -10,14 +10,10 @@
     public class EOYService : IEOYService
     {
         private readonly IBaseService baseService;
-        private readonly ISessionService sessionService;
 
-        public EOYService(
-            IBaseService baseService,
-            ISessionService sessionService)
+        public EOYService(IBaseService baseService)
         {
             this.baseService = baseService;
-            this.sessionService = sessionService;
         }
 
         public async Task<IEnumerable<EOQYModel>> GetAllAsync(int? statusId = null)
@@ -40,7 +36,7 @@
             return await baseService.GetDataEntityAsync<EOQYModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> CreateAsync(CreateEOYModel eoy)
+        public async Task<CommandResult> CreateAsync(int actorId, CreateEOYModel eoy)
         {
             var criteria = new CreateEOYCriteria
             {
@@ -50,13 +46,13 @@
                 RemindDateForNominator = eoy.RemindDateForNominator,
                 EndDateForCommittee = eoy.EndDateForCommittee,
                 Description = eoy.Description,
-                CreatedBy = sessionService.EmployeeId
+                CreatedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditAsync(EditEOYModel eoy)
+        public async Task<CommandResult> EditAsync(int actorId, EditEOYModel eoy)
         {
             var criteria = new EditEOYCriteria
             {
@@ -67,7 +63,7 @@
                 RemindDateForNominator = eoy.RemindDateForNominator,
                 EndDateForCommittee = eoy.EndDateForCommittee,
                 Description = eoy.Description,
-                ModifiedBy = sessionService.EmployeeId
+                ModifiedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

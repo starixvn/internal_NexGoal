@@ -5,18 +5,23 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     public class GroupFlowSettingController : Controller
     {
+        private readonly ISessionService sessionService;
         private readonly IGroupFlowSettingService flowSettingService;
 
-        public GroupFlowSettingController(IGroupFlowSettingService flowSettingService)
+        public GroupFlowSettingController(
+            ISessionService sessionService,
+            IGroupFlowSettingService flowSettingService)
         {
+            this.sessionService = sessionService;
             this.flowSettingService = flowSettingService;
         }
 
@@ -48,7 +53,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
         public async Task<JsonResult> Edit(int groupId, IEnumerable<FlowSettingModel> settings)
         {
-            CommandResult commandResult = await flowSettingService.EditAsync(groupId, settings).ConfigureAwait(false);
+            CommandResult commandResult = await flowSettingService.EditAsync(sessionService.EmployeeId, groupId, settings).ConfigureAwait(false);
 
             return Json(commandResult);
         }
@@ -57,7 +62,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.EvaluationFlow, Policy = Policy.Host)]
         public async Task<JsonResult> Delete(int groupId)
         {
-            CommandResult commandResult = await flowSettingService.DeleteAsync(groupId).ConfigureAwait(false);
+            CommandResult commandResult = await flowSettingService.DeleteAsync(sessionService.EmployeeId, groupId).ConfigureAwait(false);
 
             return Json(commandResult);
         }

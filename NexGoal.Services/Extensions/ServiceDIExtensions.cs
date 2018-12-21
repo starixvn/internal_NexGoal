@@ -6,7 +6,7 @@
     {
         public static void ResolveServiceDI(this IServiceCollection services)
         {
-            services.AddScoped<ICryptoService, CryptoService>();
+            services.AddTransient<IAuthService, AuthService>();
             services.AddScoped<ICommonService, CommonService>();
             services.AddScoped<IAvatarService, AvatarService>();
             services.AddScoped<IFunctionService, FunctionService>();

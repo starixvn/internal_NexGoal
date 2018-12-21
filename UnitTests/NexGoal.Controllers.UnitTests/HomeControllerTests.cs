@@ -3,13 +3,13 @@
     using System.Collections.Generic;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Models.PARecord;
     using NexGoal.Models.Redmine;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
 

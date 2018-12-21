@@ -6,11 +6,11 @@
     using Microsoft.AspNetCore.Mvc.Rendering;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models;
     using NexGoal.Models.Function;
     using NexGoal.Services;
     using NexGoal.ViewModels.Function;
+    using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
 
@@ -82,7 +82,7 @@
                 new RolePermissionModel { FunctionId = 1, Policy = Policy.Host }
             };
             var controller = GetRoleController();
-            functionService.AssignFunctionToRoleAsync(roleId, Arg.Any<IEnumerable<RolePermissionModel>>()).Returns(expected);
+            functionService.AssignFunctionToRoleAsync(sessionService.EmployeeId, roleId, Arg.Any<IEnumerable<RolePermissionModel>>()).Returns(expected);
 
             // Act
             var actual = await controller.AssignPermission(roleId, permissions);

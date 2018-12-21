@@ -13,18 +13,15 @@
 
     public class EmployeeFlowSettingService : IEmployeeFlowSettingService
     {
-        private readonly ISessionService sessionService;
         private readonly IBaseService baseService;
         private readonly ICommonService commonService;
         private readonly IAvatarService avatarService;
 
         public EmployeeFlowSettingService(
-            ISessionService sessionService,
             IBaseService baseService,
             ICommonService commonService,
             IAvatarService avatarService)
         {
-            this.sessionService = sessionService;
             this.baseService = baseService;
             this.commonService = commonService;
             this.avatarService = avatarService;
@@ -128,24 +125,24 @@
             return employeeFlowSetting;
         }
 
-        public async Task<CommandResult> EditAsync(int employeeId, IEnumerable<FlowSettingModel> settings)
+        public async Task<CommandResult> EditAsync(int actorId, int employeeId, IEnumerable<FlowSettingModel> settings)
         {
             var criteria = new EditEmployeeFlowSettingCriteria
             {
                 EmployeeId = employeeId,
                 FlowDetails = settings.ToXML().ToString(),
-                ActorId = sessionService.EmployeeId
+                ActorId = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> DeleteAsync(int employeeId)
+        public async Task<CommandResult> DeleteAsync(int actorId, int employeeId)
         {
             var criteria = new DeleteEmployeeFlowSettingCriteria
             {
                 EmployeeId = employeeId,
-                ActorId = sessionService.EmployeeId
+                ActorId = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

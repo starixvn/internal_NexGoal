@@ -10,14 +10,10 @@
     public class EOQService : IEOQService
     {
         private readonly IBaseService baseService;
-        private readonly ISessionService sessionService;
 
-        public EOQService(
-            IBaseService baseService,
-            ISessionService sessionService)
+        public EOQService(IBaseService baseService)
         {
             this.baseService = baseService;
-            this.sessionService = sessionService;
         }
 
         public async Task<IEnumerable<EOQYModel>> GetAllAsync(int? year = null, int? statusId = null)
@@ -48,7 +44,7 @@
             return await baseService.GetDataAsync<int>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> CreateAsync(CreateEOQModel eoq)
+        public async Task<CommandResult> CreateAsync(int actorId, CreateEOQModel eoq)
         {
             var criteria = new CreateEOQCriteria
             {
@@ -59,13 +55,13 @@
                 RemindDateForNominator = eoq.RemindDateForNominator,
                 EndDateForCommittee = eoq.EndDateForCommittee,
                 Description = eoq.Description,
-                CreatedBy = sessionService.EmployeeId
+                CreatedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditAsync(EditEOQModel eoq)
+        public async Task<CommandResult> EditAsync(int actorId, EditEOQModel eoq)
         {
             var criteria = new EditEOQCriteria
             {
@@ -77,7 +73,7 @@
                 RemindDateForNominator = eoq.RemindDateForNominator,
                 EndDateForCommittee = eoq.EndDateForCommittee,
                 Description = eoq.Description,
-                ModifiedBy = sessionService.EmployeeId
+                ModifiedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

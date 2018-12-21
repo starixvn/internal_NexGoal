@@ -12,9 +12,8 @@
             services.AddTransient<IDynamicRepository, DynamicRepository>();
             services.AddTransient<IBaseRepository, BaseRepository>();
             services.AddTransient<IBaseService, BaseService>();
-            services.AddTransient<IAuthenticationService, AuthenticationService>();
-            services.AddTransient<ISessionService, SessionService>();
             services.AddTransient<IBaseMailService, BaseMailService>();
+            services.AddScoped<ICryptoService, CryptoService>();
         }
     }
 }

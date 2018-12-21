@@ -5,9 +5,9 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models.EOQY;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
 
@@ -63,7 +63,7 @@
                 Code = 0
             };
             var controller = GetEOYController();
-            eoyService.CreateAsync(eoy).Returns(expected);
+            eoyService.CreateAsync(sessionService.EmployeeId, eoy).Returns(expected);
 
             // Act
             var actual = await controller.Create(eoy);
@@ -139,7 +139,7 @@
                 Code = 0
             };
             var controller = GetEOYController();
-            eoyService.EditAsync(eoy).Returns(expected);
+            eoyService.EditAsync(sessionService.EmployeeId, eoy).Returns(expected);
 
             // Act
             var actual = await controller.Edit(eoy);

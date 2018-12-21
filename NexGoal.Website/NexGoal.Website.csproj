@@ -52,11 +52,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NexGoal.Controllers\NexGoal.Controllers.csproj" />
-    <ProjectReference Include="..\NexGoal.Core\NexGoal.Core.csproj" />
-    <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
-    <ProjectReference Include="..\NexGoal.Resources\NexGoal.Resources.csproj" />
-    <ProjectReference Include="..\NexGoal.Services\NexGoal.Services.csproj" />
-    <ProjectReference Include="..\NexGoal.ViewModels\NexGoal.ViewModels.csproj" />
   </ItemGroup>
 
   <ItemGroup>

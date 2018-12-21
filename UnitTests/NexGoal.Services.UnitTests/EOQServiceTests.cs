@@ -11,7 +11,6 @@
 
     public class EOQServiceTests
     {
-        private ISessionService sessionService;
         private IBaseService baseService;
 
         [Fact]
@@ -79,7 +78,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<CreateEOQCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.CreateAsync(eoq);
+            var actual = await service.CreateAsync(1, eoq);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -103,7 +102,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEOQCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditAsync(eoq);
+            var actual = await service.EditAsync(1, eoq);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -111,19 +110,10 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private EOQService GetEOQService()
         {
-            sessionService = FakeSessionService();
             baseService = Substitute.For<IBaseService>();
-            var service = new EOQService(baseService, sessionService);
+            var service = new EOQService(baseService);
 
             return service;
         }

@@ -5,7 +5,7 @@
     using System.IO;
     using System.Linq;
     using Microsoft.Extensions.Options;
-    using NexGoal.AutoService.Models;
+    using NexGoal.Core.Models;
 
     public class AvatarService : IAvatarService
     {

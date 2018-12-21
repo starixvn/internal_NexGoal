@@ -6,10 +6,10 @@
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
 

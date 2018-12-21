@@ -2,20 +2,21 @@
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
+    using NexGoal.Models.Auth;
+    using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
 
     public class AuthController : Controller
     {
         private readonly ISessionService sessionService;
-        private readonly IAuthenticationService authenticationService;
+        private readonly IAuthService authService;
 
         public AuthController(
             ISessionService sessionService,
-            IAuthenticationService authenticationService)
+            IAuthService authService)
         {
             this.sessionService = sessionService;
-            this.authenticationService = authenticationService;
+            this.authService = authService;
         }
 
         // [NonAction]
@@ -32,15 +33,15 @@
             var domainUsername = "spvn\\" + username;
             if (!string.IsNullOrEmpty(username))
             {
-                EmployeeSession employee = await authenticationService.GetEmployeeByDomainUsernameAsync(domainUsername).ConfigureAwait(false);
+                EmployeeSession employee = await authService.GetEmployeeByDomainUsernameAsync(domainUsername).ConfigureAwait(false);
 
                 if (employee != null)
                 {
                     sessionService.EmployeeId = employee.EmployeeId;
                     sessionService.NickName = employee.NickName;
                     sessionService.FullName = employee.FullName;
-                    sessionService.Functions = await authenticationService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
-                    sessionService.MenuItems = await authenticationService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
+                    sessionService.Functions = await authService.GetFunctionByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
+                    sessionService.MenuItems = await authService.GetMenuByEmployeeIdAsync(employee.EmployeeId).ConfigureAwait(false);
 
                     return RedirectToAction("Index", "Home");
                 }

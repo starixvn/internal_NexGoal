@@ -16,18 +16,15 @@
     public class PeriodService : IPeriodService
     {
         private readonly IBaseService baseService;
-        private readonly ISessionService sessionService;
         private readonly ICommonService commonService;
         private readonly ICryptoService cryptoService;
 
         public PeriodService(
             IBaseService baseService,
-            ISessionService sessionService,
             ICommonService commonService,
             ICryptoService cryptoService)
         {
             this.baseService = baseService;
-            this.sessionService = sessionService;
             this.commonService = commonService;
             this.cryptoService = cryptoService;
         }
@@ -53,7 +50,7 @@
             return await baseService.GetDataAsync<PeriodProcessSettingModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> CreateAsync(CreatePeriodModel model)
+        public async Task<CommandResult> CreateAsync(int actorId, CreatePeriodModel model)
         {
             var criteria = new CreatePeriodCriteria
             {
@@ -67,36 +64,36 @@
                 FocusEndDate = model.FocusEndDate,
                 Description = model.Description,
                 IsActive = model.IsActive,
-                CreatedBy = sessionService.EmployeeId
+                CreatedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditStatusAsync(int periodId, bool isActive)
+        public async Task<CommandResult> EditStatusAsync(int actorId, int periodId, bool isActive)
         {
             var criteria = new UpdatePeriodStatusCriteria
             {
                 PeriodId = periodId,
                 IsActive = isActive,
-                ModifiedBy = sessionService.EmployeeId
+                ModifiedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> DeleteAsync(int periodId)
+        public async Task<CommandResult> DeleteAsync(int actorId, int periodId)
         {
             var criteria = new DeletePeriodCriteria
             {
                 PeriodId = periodId,
-                ModifiedBy = sessionService.EmployeeId
+                ModifiedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditAsync(EditPeriodModel model)
+        public async Task<CommandResult> EditAsync(int actorId, EditPeriodModel model)
         {
             var criteria = new EditPeriodCriteria
             {
@@ -110,25 +107,29 @@
                 FocusEndDate = model.FocusEndDate,
                 Description = model.Description,
                 IsActive = model.IsActive,
-                ModifiedBy = sessionService.EmployeeId
+                ModifiedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditProcessSettingAsync(int periodId, IEnumerable<EditProcessSettingModel> settings)
+        public async Task<CommandResult> EditProcessSettingAsync(int actorId, int periodId, IEnumerable<EditProcessSettingModel> settings)
         {
             var criteria = new EditProcessSettingCriteria
             {
                 PeriodId = periodId,
                 Settings = settings.ToXML().ToString(),
-                ModifiedBy = sessionService.EmployeeId
+                ModifiedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<IEnumerable<PARecordModel>> GetEmployeeSettingAsync(int periodId, int? groupId = null, bool? isEvaluated = null, int? statusId = null)
+        public async Task<IEnumerable<PARecordModel>> GetEmployeeSettingAsync(
+            int periodId,
+            int? groupId = null,
+            bool? isEvaluated = null,
+            int? statusId = null)
         {
             var criteria = new GetEmployeeSettingsCriteria
             {
@@ -158,39 +159,43 @@
             return paRecords;
         }
 
-        public async Task<CommandResult> CreateEmployeeSettingAsync(int periodId, string groupIds, int? employeeId = null)
+        public async Task<CommandResult> CreateEmployeeSettingAsync(int actorId, int periodId, string groupIds, int? employeeId = null)
         {
             var criteria = new CreateEmployeeSettingsCriteria
             {
                 PeriodId = periodId,
                 GroupIds = groupIds,
                 EmployeeId = employeeId,
-                CreatedBy = sessionService.EmployeeId
+                CreatedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEmployeeSettingAsync(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes)
+        public async Task<CommandResult> EditEmployeeSettingAsync(
+            int actorId,
+            int periodId,
+            int[] paRecordIds,
+            IEnumerable<EditEmployeeSettingModel> processes)
         {
             var criteria = new EditEmployeeSettingsCriteria
             {
                 PeriodId = periodId,
                 PARecordIds = string.Join(',', paRecordIds),
                 Settings = processes.ToXML().ToString(),
-                ModifiedBy = sessionService.EmployeeId
+                ModifiedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> EditEmployeeSettingStatusAsync(int paRecordId, bool isExcluded)
+        public async Task<CommandResult> EditEmployeeSettingStatusAsync(int actorId, int paRecordId, bool isExcluded)
         {
             var criteria = new EditEmployeeSettingStatusCriteria
             {
                 PARecordId = paRecordId,
                 IsExcluded = isExcluded,
-                ModifiedBy = sessionService.EmployeeId
+                ModifiedBy = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

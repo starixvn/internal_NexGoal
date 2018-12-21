@@ -5,11 +5,11 @@
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Core.Services;
     using NexGoal.Models;
     using NexGoal.Models.Common;
     using NexGoal.Models.Period;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
 

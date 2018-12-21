@@ -7,6 +7,8 @@
     using NexGoal.AutoService.Criterias.PA;
     using NexGoal.AutoService.Models;
     using NexGoal.AutoService.Models.PA;
+    using NexGoal.Core.Models;
+    using NexGoal.Core.Services;
 
     public class PAService : IPAService
     {
@@ -41,7 +43,7 @@
 
                 var criteria = new EditGradeCriteria { Value = xml.ToString() };
 
-                commandResult = baseService.ExecuteNonQuery(criteria);
+                commandResult = baseService.ExecuteNonQueryAsync(criteria).Result;
             }
 
             return commandResult;
@@ -51,21 +53,21 @@
         {
             var criteria = new EditWhenEvaluationFinishedCriteria();
 
-            return baseService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQueryAsync(criteria).Result;
         }
 
         public CommandResult EditStatus()
         {
             var criteria = new EditStatusCriteria();
 
-            return baseService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQueryAsync(criteria).Result;
         }
 
         private IEnumerable<PARecordModel> GetDataToEditGrade()
         {
             var criteria = new GetDataToEditGradeCriteria();
-            var records = baseService.GetData<PARecordModel>(criteria);
-            var grades = baseService.GetData<ReferenceResourceModel>(new GetRefResourceByNameCriteria { RefNames = "PerformanceGrade" });
+            var records = baseService.GetDataAsync<PARecordModel>(criteria).Result;
+            var grades = baseService.GetDataAsync<ReferenceResourceModel>(new GetRefResourceByNameCriteria { RefNames = "PerformanceGrade" }).Result;
             foreach (PARecordModel record in records)
             {
                 record.GradeId = cryptoService.Decrypt(record.GradeId);

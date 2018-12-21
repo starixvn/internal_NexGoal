@@ -14,8 +14,8 @@
 
         Task<GroupFlowSettingModel> GetByIdAsync(int groupId);
 
-        Task<CommandResult> EditAsync(int groupId, IEnumerable<FlowSettingModel> settings);
+        Task<CommandResult> EditAsync(int actorId, int groupId, IEnumerable<FlowSettingModel> settings);
 
-        Task<CommandResult> DeleteAsync(int groupId);
+        Task<CommandResult> DeleteAsync(int actorId, int groupId);
     }
 }

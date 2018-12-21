@@ -12,25 +12,25 @@
 
         Task<PeriodModel> GetByIdAsync(int periodId);
 
-        Task<CommandResult> CreateAsync(CreatePeriodModel model);
+        Task<CommandResult> CreateAsync(int actorId, CreatePeriodModel model);
 
-        Task<CommandResult> EditStatusAsync(int periodId, bool isActive);
+        Task<CommandResult> EditStatusAsync(int actorId, int periodId, bool isActive);
 
-        Task<CommandResult> DeleteAsync(int periodId);
+        Task<CommandResult> DeleteAsync(int actorId, int periodId);
 
-        Task<CommandResult> EditAsync(EditPeriodModel model);
+        Task<CommandResult> EditAsync(int actorId, EditPeriodModel model);
 
         Task<IEnumerable<PeriodProcessSettingModel>> GetPeriodProcessSettingAsync(int periodId);
 
-        Task<CommandResult> EditProcessSettingAsync(int periodId, IEnumerable<EditProcessSettingModel> settings);
+        Task<CommandResult> EditProcessSettingAsync(int actorId, int periodId, IEnumerable<EditProcessSettingModel> settings);
 
         Task<IEnumerable<PARecordModel>> GetEmployeeSettingAsync(int periodId, int? groupId = null, bool? isEvaluated = null, int? statusId = null);
 
-        Task<CommandResult> CreateEmployeeSettingAsync(int periodId, string groupIds, int? employeeId = null);
+        Task<CommandResult> CreateEmployeeSettingAsync(int actorId, int periodId, string groupIds, int? employeeId = null);
 
-        Task<CommandResult> EditEmployeeSettingAsync(int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes);
+        Task<CommandResult> EditEmployeeSettingAsync(int actorId, int periodId, int[] paRecordIds, IEnumerable<EditEmployeeSettingModel> processes);
 
-        Task<CommandResult> EditEmployeeSettingStatusAsync(int paRecordId, bool isExcluded);
+        Task<CommandResult> EditEmployeeSettingStatusAsync(int actorId, int paRecordId, bool isExcluded);
 
         Task<PARecordModel> GetEmployeeSettingByIdAsync(int paRecordId);
 

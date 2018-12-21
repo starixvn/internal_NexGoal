@@ -7,11 +7,13 @@
     using NexGoal.Models.Common;
     using NexGoal.Models.FlowSetting;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
     using NSubstitute;
     using Xunit;
 
     public class GroupFlowSettingControllerTests
     {
+        private ISessionService sessionService;
         private IGroupFlowSettingService flowSettingService;
 
         [Fact]
@@ -90,7 +92,7 @@
             var flowSettings = new List<FlowSettingModel>();
             var expected = new CommandResult();
             var controller = GetGroupFlowSettingController();
-            flowSettingService.EditAsync(1, flowSettings).Returns(expected);
+            flowSettingService.EditAsync(sessionService.EmployeeId, 1, flowSettings).Returns(expected);
 
             // Act
             var actual = await controller.Edit(1, flowSettings);
@@ -107,7 +109,7 @@
             // Arrange
             var expected = new CommandResult();
             var controller = GetGroupFlowSettingController();
-            flowSettingService.DeleteAsync(1).Returns(expected);
+            flowSettingService.DeleteAsync(sessionService.EmployeeId, 1).Returns(expected);
 
             // Act
             var actual = await controller.Delete(1);
@@ -120,10 +122,19 @@
 
         #region Helpers
 
+        private ISessionService FakeSessionService()
+        {
+            var service = Substitute.For<ISessionService>();
+            service.EmployeeId = 1;
+
+            return service;
+        }
+
         private GroupFlowSettingController GetGroupFlowSettingController()
         {
+            sessionService = FakeSessionService();
             flowSettingService = Substitute.For<IGroupFlowSettingService>();
-            var controller = new GroupFlowSettingController(flowSettingService);
+            var controller = new GroupFlowSettingController(sessionService, flowSettingService);
 
             return controller;
         }

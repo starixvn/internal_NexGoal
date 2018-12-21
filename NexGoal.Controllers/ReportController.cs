@@ -2,9 +2,9 @@
 {
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Core.Services;
     using NexGoal.Models.PARecord;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
 
     public class ReportController : Controller
     {

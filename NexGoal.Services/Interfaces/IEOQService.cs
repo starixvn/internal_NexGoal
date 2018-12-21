@@ -13,8 +13,8 @@
 
         Task<IEnumerable<int>> GetYearsAsync();
 
-        Task<CommandResult> CreateAsync(CreateEOQModel eoq);
+        Task<CommandResult> CreateAsync(int actorId, CreateEOQModel eoq);
 
-        Task<CommandResult> EditAsync(EditEOQModel eoq);
+        Task<CommandResult> EditAsync(int actorId, EditEOQModel eoq);
     }
 }

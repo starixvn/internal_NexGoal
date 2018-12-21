@@ -11,6 +11,6 @@
 
         Task<IEnumerable<FunctionModel>> GetFunctionsAsync(bool? isActive = true);
 
-        Task<CommandResult> AssignFunctionToRoleAsync(int roleId, IEnumerable<RolePermissionModel> permissions);
+        Task<CommandResult> AssignFunctionToRoleAsync(int actorId, int roleId, IEnumerable<RolePermissionModel> permissions);
     }
 }

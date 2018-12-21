@@ -13,16 +13,13 @@
 
     public class GroupFlowSettingService : IGroupFlowSettingService
     {
-        private readonly ISessionService sessionService;
         private readonly IBaseService baseService;
         private readonly IAvatarService avatarService;
 
         public GroupFlowSettingService(
-            ISessionService sessionService,
             IBaseService baseService,
             IAvatarService avatarService)
         {
-            this.sessionService = sessionService;
             this.baseService = baseService;
             this.avatarService = avatarService;
         }
@@ -108,24 +105,24 @@
             return groupFlowSetting;
         }
 
-        public async Task<CommandResult> EditAsync(int groupId, IEnumerable<FlowSettingModel> settings)
+        public async Task<CommandResult> EditAsync(int actorId, int groupId, IEnumerable<FlowSettingModel> settings)
         {
             var criteria = new EditGroupFlowSettingCriteria
             {
                 GroupId = groupId,
                 FlowDetails = settings.ToXML().ToString(),
-                ActorId = sessionService.EmployeeId
+                ActorId = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> DeleteAsync(int groupId)
+        public async Task<CommandResult> DeleteAsync(int actorId, int groupId)
         {
             var criteria = new DeleteGroupFlowSettingCriteria
             {
                 GroupId = groupId,
-                ActorId = sessionService.EmployeeId
+                ActorId = actorId
             };
 
             return await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);

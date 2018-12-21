@@ -11,14 +11,10 @@
     public class FunctionService : IFunctionService
     {
         private readonly IBaseService baseService;
-        private readonly ISessionService sessionService;
 
-        public FunctionService(
-            IBaseService baseService,
-            ISessionService sessionService)
+        public FunctionService(IBaseService baseService)
         {
             this.baseService = baseService;
-            this.sessionService = sessionService;
         }
 
         public async Task<IEnumerable<FunctionModel>> GetFunctionByRoleIdAsync(int roleId)
@@ -41,11 +37,11 @@
             return await baseService.GetDataAsync<FunctionModel>(criteria).ConfigureAwait(false);
         }
 
-        public async Task<CommandResult> AssignFunctionToRoleAsync(int roleId, IEnumerable<RolePermissionModel> permissions)
+        public async Task<CommandResult> AssignFunctionToRoleAsync(int actorId, int roleId, IEnumerable<RolePermissionModel> permissions)
         {
             var criteria = new AssignFunctionToRoleCriteria
             {
-                ModifiedBy = sessionService.EmployeeId,
+                ModifiedBy = actorId,
                 RoleId = roleId,
                 Value = permissions.ToXML().ToString()
             };

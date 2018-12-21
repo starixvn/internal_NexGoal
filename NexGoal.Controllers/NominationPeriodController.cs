@@ -6,13 +6,13 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
     using NexGoal.ViewModels.EOQY;
     using NexGoal.ViewModels.NominationPeriod;
+    using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     public class NominationPeriodController : Controller
     {

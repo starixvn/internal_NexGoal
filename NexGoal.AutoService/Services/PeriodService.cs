@@ -2,7 +2,8 @@
 {
     using System.Collections.Generic;
     using NexGoal.AutoService.Criterias.Period;
-    using NexGoal.AutoService.Models;
+    using NexGoal.Core.Models;
+    using NexGoal.Core.Services;
 
     public class PeriodService : IPeriodService
     {
@@ -17,7 +18,7 @@
         {
             var criteria = new CreatePeriodCriteria();
 
-            return baseService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQueryAsync(criteria).Result;
         }
 
         public CommandResult CreateEmployeeSettings()
@@ -28,7 +29,7 @@
                 PeriodIds = string.Join(',', periodIds)
             };
 
-            return baseService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQueryAsync(criteria).Result;
         }
 
         public CommandResult GeneratePA()
@@ -39,14 +40,14 @@
                 PeriodIds = string.Join(',', periodIds)
             };
 
-            return baseService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQueryAsync(criteria).Result;
         }
 
         private IEnumerable<int> GetPeriodStarted()
         {
             var criteria = new GetPeriodStartedCriteria();
 
-            return baseService.GetData<int>(criteria);
+            return baseService.GetDataAsync<int>(criteria).Result;
         }
     }
 }

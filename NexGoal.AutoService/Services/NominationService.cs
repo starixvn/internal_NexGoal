@@ -1,7 +1,8 @@
 ﻿namespace NexGoal.AutoService.Services
 {
     using NexGoal.AutoService.Criterias.Nomination;
-    using NexGoal.AutoService.Models;
+    using NexGoal.Core.Models;
+    using NexGoal.Core.Services;
 
     public class NominationService : INominationService
     {
@@ -16,7 +17,7 @@
         {
             var criteria = new EditWhenFinishedCriteria();
 
-            return baseService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQueryAsync(criteria).Result;
         }
     }
 }

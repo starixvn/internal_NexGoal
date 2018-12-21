@@ -5,12 +5,11 @@
     using System.IO;
     using System.Linq;
     using Fanex.Data;
-    using Fanex.Data.Repository;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
-    using NexGoal.AutoService.Models;
-    using NexGoal.AutoService.Repositories;
     using NexGoal.AutoService.Services;
+    using NexGoal.Core.Extensions;
+    using NexGoal.Core.Models;
     using Serilog;
 
     public static class Program
@@ -53,13 +52,10 @@
 
             services.AddOptions();
             services.Configure<AppSettings>(options => Configuration.GetSection("AppSettings").Bind(options));
+            services.Configure<MailConfigs>(options => Configuration.GetSection("MailConfigs").Bind(options));
 
-            services.AddTransient<IDynamicRepository, DynamicRepository>();
-            services.AddTransient<IBaseRepository, BaseRepository>();
-            services.AddTransient<IBaseMailService, BaseMailService>();
-            services.AddTransient<IBaseService, BaseService>();
+            services.ResolveCoreDI();
             services.AddTransient<IAvatarService, AvatarService>();
-            services.AddTransient<ICryptoService, CryptoService>();
             services.AddTransient<IPeriodService, PeriodService>();
             services.AddTransient<IPerformanceRecordService, PerformanceRecordService>();
             services.AddTransient<IPAService, PAService>();

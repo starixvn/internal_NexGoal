@@ -5,12 +5,12 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models.Common;
     using NexGoal.Models.Employee;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EmployeeManagement, Policy = Policy.Read)]
     public class EmployeeController : Controller

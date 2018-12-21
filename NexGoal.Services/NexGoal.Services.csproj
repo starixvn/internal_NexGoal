@@ -30,5 +30,4 @@
     <ProjectReference Include="..\NexGoal.Criteria\NexGoal.Criteria.csproj" />
     <ProjectReference Include="..\NexGoal.Models\NexGoal.Models.csproj" />
   </ItemGroup>
-
 </Project>

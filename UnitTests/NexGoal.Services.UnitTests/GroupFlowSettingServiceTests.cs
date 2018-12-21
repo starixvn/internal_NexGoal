@@ -14,7 +14,6 @@
 
     public class GroupFlowSettingServiceTests
     {
-        private ISessionService sessionService;
         private IBaseService baseService;
         private IAvatarService avatarService;
 
@@ -107,7 +106,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditGroupFlowSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditAsync(1, settings);
+            var actual = await service.EditAsync(1, 1, settings);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -125,7 +124,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<DeleteGroupFlowSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.DeleteAsync(1);
+            var actual = await service.DeleteAsync(1, 1);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -133,20 +132,11 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private GroupFlowSettingService GetGroupFlowSettingService()
         {
-            sessionService = FakeSessionService();
             baseService = Substitute.For<IBaseService>();
             avatarService = Substitute.For<IAvatarService>();
-            var service = new GroupFlowSettingService(sessionService, baseService, avatarService);
+            var service = new GroupFlowSettingService(baseService, avatarService);
 
             return service;
         }

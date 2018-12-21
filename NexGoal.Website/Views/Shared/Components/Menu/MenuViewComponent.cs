@@ -2,10 +2,10 @@
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
-    using Core.Services;
     using Microsoft.AspNetCore.Mvc;
-    using NexGoal.Core.Models;
+    using NexGoal.Models.Auth;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Services;
 
     public class MenuViewComponent : ViewComponent
     {

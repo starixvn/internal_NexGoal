@@ -13,9 +13,10 @@
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using NexGoal.Core.Extensions;
-    using NexGoal.Core.Middlewares;
     using NexGoal.Core.Models;
     using NexGoal.Services.Extensions;
+    using NexGoal.Web.Core.Extensions;
+    using NexGoal.Web.Core.Middlewares;
 
     public class Startup
     {
@@ -61,6 +62,7 @@
             services.AddTransient<IActionContextAccessor, ActionContextAccessor>();
             services.ResolveCoreDI();
             services.ResolveServiceDI();
+            services.ResolveWebCoreDI();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

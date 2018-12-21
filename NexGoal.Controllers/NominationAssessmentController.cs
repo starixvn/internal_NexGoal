@@ -1,16 +1,15 @@
 ﻿namespace NexGoal.Controllers
 {
     using System.Collections.Generic;
-    using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Filters;
-    using NexGoal.Core.Services;
     using NexGoal.Models.EmployeeNomination;
     using NexGoal.Models.NominationPeriod;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.EmployeeNomination, Policy = Policy.Read)]
     public class NominationAssessmentController : Controller

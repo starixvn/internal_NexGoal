@@ -7,11 +7,11 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models.EOQY;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     public class EOQController : Controller
     {
@@ -48,7 +48,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await eoqService.CreateAsync(eoq).ConfigureAwait(false);
+                CommandResult commandResult = await eoqService.CreateAsync(sessionService.EmployeeId, eoq).ConfigureAwait(false);
 
                 return Json(commandResult);
             }
@@ -79,7 +79,7 @@
         {
             if (ModelState.IsValid)
             {
-                CommandResult commandResult = await eoqService.EditAsync(eoq).ConfigureAwait(false);
+                CommandResult commandResult = await eoqService.EditAsync(sessionService.EmployeeId, eoq).ConfigureAwait(false);
 
                 return Json(commandResult);
             }

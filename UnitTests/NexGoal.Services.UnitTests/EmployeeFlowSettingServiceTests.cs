@@ -14,7 +14,6 @@
 
     public class EmployeeFlowSettingServiceTests
     {
-        private ISessionService sessionService;
         private IBaseService baseService;
         private ICommonService commonService;
         private IAvatarService avatarService;
@@ -129,7 +128,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEmployeeFlowSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditAsync(1, settings);
+            var actual = await service.EditAsync(1, 1, settings);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -147,7 +146,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<DeleteEmployeeFlowSettingCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.DeleteAsync(1);
+            var actual = await service.DeleteAsync(1, 1);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -155,21 +154,12 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private EmployeeFlowSettingService GetEmployeeFlowSettingService()
         {
-            sessionService = FakeSessionService();
             baseService = Substitute.For<IBaseService>();
             commonService = Substitute.For<ICommonService>();
             avatarService = Substitute.For<IAvatarService>();
-            var service = new EmployeeFlowSettingService(sessionService, baseService, commonService, avatarService);
+            var service = new EmployeeFlowSettingService(baseService, commonService, avatarService);
 
             return service;
         }

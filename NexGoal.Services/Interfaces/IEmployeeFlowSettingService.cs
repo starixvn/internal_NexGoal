@@ -16,8 +16,8 @@
 
         Task<EmployeeFlowSettingModel> GetByIdAsync(int employeeId);
 
-        Task<CommandResult> EditAsync(int employeeId, IEnumerable<FlowSettingModel> settings);
+        Task<CommandResult> EditAsync(int actorId, int employeeId, IEnumerable<FlowSettingModel> settings);
 
-        Task<CommandResult> DeleteAsync(int employeeId);
+        Task<CommandResult> DeleteAsync(int actorId, int employeeId);
     }
 }

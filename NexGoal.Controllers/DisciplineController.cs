@@ -1,18 +1,17 @@
 ﻿namespace NexGoal.Controllers
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models.Discipline;
     using NexGoal.Services;
     using NexGoal.ViewModels.Discipline;
+    using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     [NexGoalPermission(FunctionKey = FunctionKey.DisciplineManagement, Policy = Policy.Read)]
     public class DisciplineController : Controller

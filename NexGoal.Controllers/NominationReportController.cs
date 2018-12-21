@@ -4,8 +4,8 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Filters;
     using NexGoal.Services;
+    using NexGoal.Web.Core.Filters;
 
     [NexGoalPermission(FunctionKey = FunctionKey.NominationReport, Policy = Policy.Read)]
     public class NominationReportController : Controller

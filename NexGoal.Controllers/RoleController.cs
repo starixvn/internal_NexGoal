@@ -6,13 +6,13 @@
     using Microsoft.AspNetCore.Mvc;
     using NexGoal.Core.Constants;
     using NexGoal.Core.Enumerations;
-    using NexGoal.Core.Filters;
     using NexGoal.Core.Models;
-    using NexGoal.Core.Services;
     using NexGoal.Models;
     using NexGoal.Models.Function;
     using NexGoal.Services;
     using NexGoal.ViewModels.Function;
+    using NexGoal.Web.Core.Filters;
+    using NexGoal.Web.Core.Services;
 
     public class RoleController : Controller
     {
@@ -60,7 +60,7 @@
         [NexGoalPermission(FunctionKey = FunctionKey.RoleManagement, Policy = Policy.Host)]
         public async Task<JsonResult> AssignPermission(int roleId, IEnumerable<RolePermissionModel> permissions)
         {
-            CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(roleId, permissions).ConfigureAwait(false);
+            CommandResult commandResult = await functionService.AssignFunctionToRoleAsync(sessionService.EmployeeId, roleId, permissions).ConfigureAwait(false);
 
             return Json(commandResult);
         }

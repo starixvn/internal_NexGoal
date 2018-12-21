@@ -1,7 +1,8 @@
 ﻿namespace NexGoal.AutoService.Services
 {
     using NexGoal.AutoService.Criterias.PerformanceRecord;
-    using NexGoal.AutoService.Models;
+    using NexGoal.Core.Models;
+    using NexGoal.Core.Services;
 
     public class PerformanceRecordService : IPerformanceRecordService
     {
@@ -16,7 +17,7 @@
         {
             var criteria = new EditStatusCriteria();
 
-            return baseService.ExecuteNonQuery(criteria);
+            return baseService.ExecuteNonQueryAsync(criteria).Result;
         }
     }
 }

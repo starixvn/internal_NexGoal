@@ -1,6 +1,6 @@
 ﻿namespace NexGoal.AutoService.Services
 {
-    using NexGoal.AutoService.Models;
+    using NexGoal.Core.Models;
 
     public interface IPerformanceRecordService
     {

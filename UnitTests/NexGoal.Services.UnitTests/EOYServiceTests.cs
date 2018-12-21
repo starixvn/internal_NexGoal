@@ -11,7 +11,6 @@
 
     public class EOYServiceTests
     {
-        private ISessionService sessionService;
         private IBaseService baseService;
 
         [Fact]
@@ -63,7 +62,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<CreateEOYCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.CreateAsync(eoy);
+            var actual = await service.CreateAsync(1, eoy);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -86,7 +85,7 @@
             baseService.ExecuteNonQueryAsync(Arg.Any<EditEOYCriteria>()).Returns(expected);
 
             // Act
-            var actual = await service.EditAsync(eoq);
+            var actual = await service.EditAsync(1, eoq);
 
             // Assert
             Assert.Equal(expected, actual);
@@ -94,19 +93,10 @@
 
         #region Helpers
 
-        private ISessionService FakeSessionService()
-        {
-            var service = Substitute.For<ISessionService>();
-            service.EmployeeId = 1;
-
-            return service;
-        }
-
         private EOYService GetEOYService()
         {
-            sessionService = FakeSessionService();
             baseService = Substitute.For<IBaseService>();
-            var service = new EOYService(baseService, sessionService);
+            var service = new EOYService(baseService);
 
             return service;
         }
