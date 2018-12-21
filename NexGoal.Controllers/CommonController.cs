@@ -160,5 +160,13 @@
 
             return Json(roles.OrderBy(x => x.ResourceId));
         }
+
+        [HttpGet]
+        public async Task<JsonResult> GetAnnouncements()
+        {
+            var result = await commonService.GetAnnouncements(sessionService.EmployeeId).ConfigureAwait(false);
+
+            return Json(result);
+        }
     }
 }

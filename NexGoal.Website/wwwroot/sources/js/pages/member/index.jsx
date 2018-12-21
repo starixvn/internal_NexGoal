@@ -34,6 +34,7 @@ export default class App extends Component {
             displayedPerformanceRecords: [],
             memberPerformanceAppraisals: [],
             periods: [],
+            announcements: [],
             currentPerformancePeriod: null,
             editPerformanceRecord: {
                 isShowModal: false,
@@ -66,11 +67,12 @@ export default class App extends Component {
             axios(resolveClientUrl('Common/GetMyMember')),
             axios(resolveClientUrl('Common/GetMyGroup')),
             axios(resolveClientUrl('Common/GetCurrentPerformancePeriod')),
-            axios(resolveClientUrl('member/Performance'))
+            axios(resolveClientUrl('member/Performance')),
+            axios(resolveClientUrl('common/GetAnnouncements')),
         ];
 
         Promise.all(promises)
-            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, myGroupResponse, currentPerformancePeriodResponse, memberPerformanceResponse]) => {
+            .then(([periodResponse, gradeResponse, projectResponse, memberResponse, myGroupResponse, currentPerformancePeriodResponse, memberPerformanceResponse, announcementsResponse]) => {
                 let performanceGradeOptions = gradeResponse.data.map(performanceGrade => {
                     return {
                         value: performanceGrade.gradeId,
@@ -100,7 +102,8 @@ export default class App extends Component {
                     currentPerformancePeriod: currentPerformancePeriodResponse.data,
                     performanceRecords: memberPerformanceResponse.data,
                     displayedPerformanceRecords: displayedPerformanceRecords,
-                    hasMore: displayedPerformanceRecords.length < memberPerformanceResponse.data.length
+                    hasMore: displayedPerformanceRecords.length < memberPerformanceResponse.data.length,
+                    announcements: announcementsResponse.data
                 });
             }).catch(axiosError);
     }
@@ -337,7 +340,9 @@ export default class App extends Component {
                         <div className="main-content">
                             <div className="fixed-section">
                                 <div className="warning marquee">
-                                    <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
+                                    <span>
+                                        {this.state.announcements.join(' ')}
+                                    </span>
                                 </div>
                             </div>
                             <Tabs id="tabs" activeKey={this.state.activeTabKey} onSelect={this.handleSelectTab} animation={false}>

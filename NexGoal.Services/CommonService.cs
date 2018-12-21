@@ -136,5 +136,15 @@
             tuple.Item1.FirstOrDefault().Disciplines = tuple.Item2;
             return tuple.Item1.FirstOrDefault();
         }
+
+        public async Task<IEnumerable<string>> GetAnnouncements(int employeeId)
+        {
+            var criteria = new GetAnnouncementsCriteria
+            {
+                EmployeeId = employeeId
+            };
+
+            return await baseService.GetDataAsync<string>(criteria).ConfigureAwait(false);
+        }
     }
 }

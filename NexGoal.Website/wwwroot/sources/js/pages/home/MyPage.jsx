@@ -32,6 +32,7 @@ export default class MyPage extends Component {
             performanceGradeOptions: [],
             projectOptions: [],
             performanceAppraisals: [],
+            announcements: [],
             editPerformanceRecord: {
                 isShowModal: false,
                 performanceRecordId: 0
@@ -70,11 +71,12 @@ export default class MyPage extends Component {
                     pageIndex: this.state.personalTimeline.pageIndex,
                     pageSize: this.timelineItemPerPage
                 }
-            })
+            }),
+            axios(resolveClientUrl('common/GetAnnouncements')),
         ];
 
         Promise.all(promises)
-            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse, nominationResponse, performanceAppraisalsResponse, personalTimelineResponse]) => {
+            .then(([gradeResponse, projectResponse, performanceRecordResponse, periodResponse, hrmDetailResponse, nominationResponse, performanceAppraisalsResponse, personalTimelineResponse, announcementsResponse]) => {
                 const performanceGradeOptions = gradeResponse.data.map((performanceGrade) => {
                     return {
                         value: performanceGrade.gradeId,
@@ -92,6 +94,7 @@ export default class MyPage extends Component {
                     projectOptions: projectOptions,
                     performanceRecords: performanceRecordResponse.data,
                     periods: periodResponse.data,
+                    announcements: announcementsResponse.data,
                     personalTimeline: {
                         records: personalTimelineResponse.data.performanceRecords,
                         pageIndex: 0,
@@ -332,7 +335,9 @@ export default class MyPage extends Component {
                     <div className="main-content">
                         <div className="fixed-section">
                             <div className="warning marquee">
-                                <div>News: PA process will be available from May 02, 2018 00:00 and any change after May 08, 2018 23:59 are not allowed</div>
+                                <span>
+                                    {this.state.announcements.join(' ')}
+                                </span>
                             </div>
                             <PersonalTimeline
                                 data={this.state.personalTimeline}
