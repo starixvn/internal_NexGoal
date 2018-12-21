@@ -5,7 +5,7 @@ namespace NexGoal.Core.Models
     public class MailConfigs
     {
         public string SmtpServer { get; set; }
-        public int SmtpPortNumber { get; set; }
+        public int SmtpPort { get; set; }
         public bool EnableSsl { get; set; }
         public MessagePriority MailPriority { get; set; }
         public string Username { get; set; }

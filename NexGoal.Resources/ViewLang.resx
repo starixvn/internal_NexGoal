@@ -176,8 +176,14 @@
   </data>
   <data name="NominationReport" xml:space="preserve">
     <value>Nomination Report</value>
-   </data>
+  </data>
   <data name="PAReport" xml:space="preserve">
     <value>PA Report</value>
+  </data>
+  <data name="CreatePerformanceCheckin" xml:space="preserve">
+    <value>Create Performance Check-in</value>
+  </data>
+  <data name="EditPerformanceCheckin" xml:space="preserve">
+    <value>Edit Performance Check-in</value>
   </data>
 </root>

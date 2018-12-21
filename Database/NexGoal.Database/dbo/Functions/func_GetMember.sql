@@ -77,7 +77,8 @@ BEGIN
 			,@StartDate = DisciplineStartDate
 			,@EndDate = DisciplineEndDate
 		FROM dbo.Period WITH (NOLOCK)
-		WHERE @Today BETWEEN DisciplineStartDate
+		WHERE IsActive = 1
+			AND @Today BETWEEN DisciplineStartDate
 				AND DisciplineEndDate
 		ORDER BY DisciplineStartDate DESC
 

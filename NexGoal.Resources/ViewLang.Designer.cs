@@ -61,11 +61,29 @@ namespace NexGoal.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Create Performance Check-in.
+        /// </summary>
+        public static string CreatePerformanceCheckin {
+            get {
+                return ResourceManager.GetString("CreatePerformanceCheckin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Discipline Management.
         /// </summary>
         public static string DisciplineManagement {
             get {
                 return ResourceManager.GetString("DisciplineManagement", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Edit Performance Check-in.
+        /// </summary>
+        public static string EditPerformanceCheckin {
+            get {
+                return ResourceManager.GetString("EditPerformanceCheckin", resourceCulture);
             }
         }
         

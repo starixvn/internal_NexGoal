@@ -1,6 +1,7 @@
 namespace NexGoal.Core.Services
 {
     using System.IO;
+    using System.Linq;
     using System.Text.RegularExpressions;
     using System.Threading.Tasks;
     using MailKit.Net.Smtp;
@@ -30,6 +31,11 @@ namespace NexGoal.Core.Services
             message.Subject = email.Subject;
             message.Priority = configuration.Value.MailPriority;
 
+            if (email.Cc.Any())
+            {
+                message.Cc.AddRange(email.Cc.Select(x => new MailboxAddress(x)));
+            }
+
             var builder = new BodyBuilder
             {
                 HtmlBody = email.Body
@@ -43,7 +49,7 @@ namespace NexGoal.Core.Services
 
             using (var mailclient = new SmtpClient())
             {
-                await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPortNumber, configuration.Value.EnableSsl).ConfigureAwait(false);
+                await mailclient.ConnectAsync(configuration.Value.SmtpServer, configuration.Value.SmtpPort, configuration.Value.EnableSsl).ConfigureAwait(false);
 
                 if (configuration.Value.EnableSsl)
                 {

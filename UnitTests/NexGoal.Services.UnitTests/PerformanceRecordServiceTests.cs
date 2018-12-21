@@ -20,6 +20,7 @@
         private IBaseService baseService;
         private ICryptoService cryptoService;
         private ICommonService commonService;
+        private IPerformanceRecordMailService recordMailService;
 
         #region GetPerformanceRecordByEmployeeAsync
 
@@ -392,18 +393,23 @@
 
         #endregion GetPerformanceRecordByIdsAsync
 
-        [Fact]
-        public async Task CreatePerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        #region CreatePerformanceRecordAsync
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public async Task CreatePerformanceRecordAsync_StatusIsDraft_ReturnAsExpectedCommandResult(int resultCode)
         {
             // Arrange
             var expected = new CommandResult
             {
-                Code = 0
+                Code = resultCode
             };
             var performanceRecord = new CreatePerformanceRecordModel
             {
                 EmployeeIds = "1",
-                CreatorId = 2
+                CreatorId = 2,
+                StatusId = (int)PerformanceRecordStatus.Draft
             };
             var service = GetPerformanceRecordService();
             baseService.ExecuteNonQueryAsync(Arg.Any<CreatePerformanceRecordCriteria>()).Returns(expected);
@@ -416,12 +422,43 @@
         }
 
         [Fact]
-        public async Task EditPerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        public async Task CreatePerformanceRecordAsync_IsSuccessfulAndStatusIsSubmited_ExpectedSendMail()
         {
             // Arrange
             var expected = new CommandResult
             {
                 Code = 0
+            };
+            var performanceRecord = new CreatePerformanceRecordModel
+            {
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = (int)PerformanceRecordStatus.Submitted
+            };
+            var service = GetPerformanceRecordService();
+            baseService.ExecuteNonQueryAsync(Arg.Any<CreatePerformanceRecordCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.CreatePerformanceRecordAsync(performanceRecord);
+
+            // Assert
+            Assert.Equal(expected, actual);
+            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, PerformanceRecordMailMode.Create);
+        }
+
+        #endregion CreatePerformanceRecordAsync
+
+        #region EditPerformanceRecordAsync
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public async Task EditPerformanceRecordAsync_StatusIsDraft_ReturnAsExpectedCommandResult(int resultCode)
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = resultCode
             };
             var performanceRecord = new EditPerformanceRecordModel
             {
@@ -438,6 +475,76 @@
             // Assert
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsDraftAndStatusIsSubmited_ExpectedSendMailCreate()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var originalPerformanceRecord = new PerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = PerformanceRecordStatus.Draft
+            };
+            var performanceRecord = new EditPerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = (int)PerformanceRecordStatus.Submitted
+            };
+            var service = GetPerformanceRecordService();
+            baseService.GetDataEntityAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(originalPerformanceRecord);
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditPerformanceRecordCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.EditPerformanceRecordAsync(performanceRecord);
+
+            // Assert
+            Assert.Equal(expected, actual);
+            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, PerformanceRecordMailMode.Create);
+        }
+
+        [Fact]
+        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsSubmitedAndStatusIsSubmited_ExpectedSendMailEdit()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var originalPerformanceRecord = new PerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = PerformanceRecordStatus.Submitted
+            };
+            var performanceRecord = new EditPerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = (int)PerformanceRecordStatus.Submitted
+            };
+            var service = GetPerformanceRecordService();
+            baseService.GetDataEntityAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(originalPerformanceRecord);
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditPerformanceRecordCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.EditPerformanceRecordAsync(performanceRecord);
+
+            // Assert
+            Assert.Equal(expected, actual);
+            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, PerformanceRecordMailMode.Edit);
+        }
+
+        #endregion EditPerformanceRecordAsync
 
         [Fact]
         public async Task DeletePerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
@@ -519,8 +626,9 @@
             baseService = Substitute.For<IBaseService>();
             cryptoService = Substitute.For<ICryptoService>();
             commonService = Substitute.For<ICommonService>();
+            recordMailService = Substitute.For<IPerformanceRecordMailService>();
 
-            var service = new PerformanceRecordService(baseService, cryptoService, commonService);
+            var service = new PerformanceRecordService(baseService, cryptoService, commonService, recordMailService);
 
             return service;
         }

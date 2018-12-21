@@ -22,6 +22,7 @@ BEGIN
 	SET NOCOUNT ON;
 
 	DECLARE @TargetTypeId INT
+		,@Today DATE = GETDATE()
 
 	SELECT @TargetTypeId = p.TargetTypeId
 	FROM dbo.Period p WITH (NOLOCK)
@@ -98,6 +99,13 @@ BEGIN
 		,[ModifiedBy] = @ModifiedBy
 		,[ModifiedDate] = GETDATE()
 	WHERE PeriodId = @PeriodId
+
+	IF @FocusStartDate < @Today
+	BEGIN
+		EXEC dbo.PAFocus_Generate @PeriodId
+			,@ErrCode = @ErrCode OUTPUT
+			,@ErrMsg = @ErrMsg OUTPUT
+	END
 
 	SET @xml = (
 			SELECT p.PeriodId AS '@pi'

@@ -222,6 +222,8 @@
     <Build Include="dbo\Stored Procedures\NominationReport_GetPeriods.sql" />
     <Build Include="dbo\Stored Procedures\NominationReport_GetNominations.sql" />
     <Build Include="dbo\Stored Procedures\Report_GetPARecord.sql" />
+    <Build Include="dbo\Tables\MailConfig.sql" />
+    <Build Include="dbo\Stored Procedures\PerformanceRecord_GetSettingToSendMail.sql" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\NexHR.Database\NexHR.Database.sqlproj">
