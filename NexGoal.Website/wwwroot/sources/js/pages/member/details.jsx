@@ -13,7 +13,7 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import CustomScrollbars from '../../shared/components/CustomScrollbars';
-import HrmSummary from '../../shared/components/HRMSummary';
+import HrmSummary from '../home/hrm/HRMSummary';
 import EmployeeInfo from '../home/EmployeeInfo';
 import PersonalTimeline from '../home/timeline/PersonalTimeline';
 import PerformanceAppraisalResult from '../home/PerformanceAppraisalResult';

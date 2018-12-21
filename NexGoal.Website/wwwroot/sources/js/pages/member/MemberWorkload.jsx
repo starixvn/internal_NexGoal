@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { HorizontalBar } from 'react-chartjs-2';
 
-import { axiosError, resolveClientUrl, noDataIndication } from '../../common-functions';
+import { axiosError, resolveClientUrl } from '../../common-functions';
 import getResource from '../../resourceHelper';
 import Multiselect from '../../shared/components/multi-select/index';
 import Milestone from '../../shared/components/milestone';

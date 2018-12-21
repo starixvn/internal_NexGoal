@@ -252,4 +252,16 @@ BEGIN
 	WHERE AttendanceDate BETWEEN @FromDate
 			AND @ToDate
 		AND et.EmpId = @EmployeeId
+
+    SELECT d.DisciplineId
+		,d.EffectiveDate
+		,d.[Description]
+		,d.CreatedDate
+	FROM dbo.Discipline AS d WITH (NOLOCK)
+	WHERE d.EmployeeId = @EmployeeId
+		AND (
+			d.CreatedDate BETWEEN @FromDate
+				AND @ToDate
+			)
+		AND d.IsActive <> 0
 END

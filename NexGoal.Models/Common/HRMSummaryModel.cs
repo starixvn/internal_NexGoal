@@ -1,6 +1,8 @@
 ﻿namespace NexGoal.Models.Common
 {
     using System;
+    using System.Collections.Generic;
+    using NexGoal.Models.Discipline;
 
     public class HRMSummaryModel
     {
@@ -14,7 +16,7 @@
 
         public float AverageWorkingDays { get; set; }
 
-        public int Incident { get; set; }
+        public IEnumerable<DisciplineModel> Disciplines { get; set; }
 
         public int TotalLateInEarlyOut { get; set; }
 
@@ -37,6 +39,7 @@
                     var avarage = Math.Round((TotalSpentTime / TotalWorkHours) * 100, 2);
                     return string.Format("{0}{1}", avarage, "%");
                 }
+
                 return "N/A";
             }
         }

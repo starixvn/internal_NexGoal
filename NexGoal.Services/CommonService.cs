@@ -11,6 +11,7 @@
     using NexGoal.Criteria.Periods;
     using NexGoal.Models;
     using NexGoal.Models.Common;
+    using NexGoal.Models.Discipline;
 
     public class CommonService : ICommonService
     {
@@ -130,7 +131,10 @@
                 EmployeeId = employeeId
             };
 
-            return await baseService.GetDataEntityAsync<HRMSummaryModel>(criteria).ConfigureAwait(false);
+            var tuple = await baseService.FetchMultipleAsync<HRMSummaryModel, DisciplineModel>(criteria).ConfigureAwait(false);
+
+            tuple.Item1.FirstOrDefault().Disciplines = tuple.Item2;
+            return tuple.Item1.FirstOrDefault();
         }
     }
 }

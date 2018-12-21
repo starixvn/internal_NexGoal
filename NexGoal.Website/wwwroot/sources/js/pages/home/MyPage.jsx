@@ -12,7 +12,7 @@ import ToastLayout from '../../shared/layouts/ToastLayout';
 import ConfirmationModal from '../../shared/components/ConfirmationModal';
 import PerformanceRecord from '../../shared/components/PerformanceRecord';
 import CustomScrollbars from '../../shared/components/CustomScrollbars';
-import HrmSummary from '../../shared/components/HRMSummary';
+import HrmSummary from './hrm/HRMSummary';
 import NominationResult from './NominationResult';
 import CreateSelfPerformance from './CreateSelfPerformance';
 import EditSelfPerformance from './EditSelfPerformance';
