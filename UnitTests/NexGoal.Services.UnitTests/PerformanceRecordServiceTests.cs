@@ -448,13 +448,17 @@
 
         #endregion CreatePerformanceRecordAsync
 
-        [Fact]
-        public async Task EditPerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()
+        #region EditPerformanceRecordAsync
+
+        [Theory]
+        [InlineData(0)]
+        [InlineData(1)]
+        public async Task EditPerformanceRecordAsync_StatusIsDraft_ReturnAsExpectedCommandResult(int resultCode)
         {
             // Arrange
             var expected = new CommandResult
             {
-                Code = 0
+                Code = resultCode
             };
             var performanceRecord = new EditPerformanceRecordModel
             {
@@ -471,6 +475,76 @@
             // Assert
             Assert.Equal(expected, actual);
         }
+
+        [Fact]
+        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsDraftAndStatusIsSubmited_ExpectedSendMailCreate()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var originalPerformanceRecord = new PerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = PerformanceRecordStatus.Draft
+            };
+            var performanceRecord = new EditPerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = (int)PerformanceRecordStatus.Submitted
+            };
+            var service = GetPerformanceRecordService();
+            baseService.GetDataEntityAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(originalPerformanceRecord);
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditPerformanceRecordCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.EditPerformanceRecordAsync(performanceRecord);
+
+            // Assert
+            Assert.Equal(expected, actual);
+            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, PerformanceRecordMailMode.Create);
+        }
+
+        [Fact]
+        public async Task EditPerformanceRecordAsync_IsSuccessfulAndOriginalStatusIsSubmitedAndStatusIsSubmited_ExpectedSendMailEdit()
+        {
+            // Arrange
+            var expected = new CommandResult
+            {
+                Code = 0
+            };
+            var originalPerformanceRecord = new PerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = PerformanceRecordStatus.Submitted
+            };
+            var performanceRecord = new EditPerformanceRecordModel
+            {
+                PerformanceRecordId = 1,
+                EmployeeIds = "1",
+                CreatorId = 2,
+                StatusId = (int)PerformanceRecordStatus.Submitted
+            };
+            var service = GetPerformanceRecordService();
+            baseService.GetDataEntityAsync<PerformanceRecordModel>(Arg.Any<GetPerformanceRecordByIdCriteria>()).Returns(originalPerformanceRecord);
+            baseService.ExecuteNonQueryAsync(Arg.Any<EditPerformanceRecordCriteria>()).Returns(expected);
+
+            // Act
+            var actual = await service.EditPerformanceRecordAsync(performanceRecord);
+
+            // Assert
+            Assert.Equal(expected, actual);
+            await recordMailService.Received(1).SendMailAsync(Arg.Any<string>(), performanceRecord.CreatorId, PerformanceRecordMailMode.Edit);
+        }
+
+        #endregion EditPerformanceRecordAsync
 
         [Fact]
         public async Task DeletePerformanceRecordAsync_WhenCalled_ReturnAsExpectedCommandResult()

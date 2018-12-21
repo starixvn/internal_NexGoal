@@ -182,6 +182,8 @@
 
         public async Task<CommandResult> EditPerformanceRecordAsync(EditPerformanceRecordModel performanceRecord)
         {
+            PerformanceRecordModel record = await GetPerformanceRecordByIdAsync(performanceRecord.PerformanceRecordId, performanceRecord.CreatorId).ConfigureAwait(false);
+
             var criteria = new EditPerformanceRecordCriteria
             {
                 PerformanceRecordId = performanceRecord.PerformanceRecordId,
@@ -196,6 +198,18 @@
 
             CommandResult commandResult = await baseService.ExecuteNonQueryAsync(criteria).ConfigureAwait(false);
             commandResult.ObjectIds = criteria.PerformanceRecordIds;
+
+            if (commandResult.IsSuccessful && performanceRecord.StatusId == (int)PerformanceRecordStatus.Submitted)
+            {
+                if (record.StatusId == PerformanceRecordStatus.Draft)
+                {
+                    await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, PerformanceRecordMailMode.Create).ConfigureAwait(false);
+                }
+                else
+                {
+                    await recordMailService.SendMailAsync(criteria.PerformanceRecordIds, performanceRecord.CreatorId, PerformanceRecordMailMode.Edit).ConfigureAwait(false);
+                }
+            }
 
             return commandResult;
         }
